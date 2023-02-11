@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.pokemon
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
@@ -26,48 +27,62 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
-import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
-class Species : ClientDataSynchronizer<Species> {
-    var name: String = "bulbasaur"
+class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
+    var name: String = "Bulbasaur"
     val translatedName: MutableText
-        get() = lang("species.$name.name")
+        get() = Text.translatable("${this.resourceIdentifier.namespace}.species.${this.unformattedShowdownId()}.name")
     var nationalPokedexNumber = 1
 
-    val baseStats = hashMapOf<Stat, Int>()
+    var baseStats = hashMapOf<Stat, Int>()
+        private set
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
-    val maleRatio: Float = 0.5F
-    val catchRate = 45
+    var maleRatio: Float = 0.5F
+        private set
+    var catchRate = 45
+        private set
     // Only modifiable for debugging sizes
     var baseScale = 1F
     var baseExperienceYield = 10
     var baseFriendship = 0
-    val evYield = hashMapOf<Stat, Int>()
+    var evYield = hashMapOf<Stat, Int>()
+        private set
     var experienceGroup = ExperienceGroups.first()
     var hitbox = EntityDimensions(1F, 1F, false)
     var primaryType = ElementalTypes.GRASS
         internal set
     var secondaryType: ElementalType? = null
         internal set
-    val abilities = AbilityPool()
-    val shoulderMountable: Boolean = false
-    val shoulderEffects = mutableListOf<ShoulderEffect>()
-    val moves = Learnset()
-    val features = mutableSetOf<String>()
+    var abilities = AbilityPool()
+        private set
+    var shoulderMountable: Boolean = false
+        private set
+    var shoulderEffects = mutableListOf<ShoulderEffect>()
+        private set
+    var moves = Learnset()
+        private set
+    var features = mutableSetOf<String>()
+        private set
     private var standingEyeHeight: Float? = null
     private var swimmingEyeHeight: Float? = null
     private var flyingEyeHeight: Float? = null
-    val behaviour = PokemonBehaviour()
-    val pokedex = mutableListOf<String>()
-    val drops = DropTable()
-    val eggCycles = 120
-    val eggGroups = setOf<EggGroup>()
+    var behaviour = PokemonBehaviour()
+        private set
+    var pokedex = mutableListOf<String>()
+        private set
+    var drops = DropTable()
+        private set
+    var eggCycles = 120
+        private set
+    var eggGroups = hashSetOf<EggGroup>()
+        private set
     var dynamaxBlocked = false
     var implemented = false
 
@@ -84,36 +99,33 @@ class Species : ClientDataSynchronizer<Species> {
         private set
 
     var forms = mutableListOf<FormData>()
+        private set
 
     val standardForm by lazy { FormData().initialize(this) }
 
-    internal val labels = emptySet<String>()
+    internal var labels = hashSetOf<String>()
+        private set
 
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
-    internal val evolutions: MutableSet<Evolution> = hashSetOf()
+    internal var evolutions: MutableSet<Evolution> = hashSetOf()
+        private set
 
-    internal val preEvolution: PreEvolution? = null
+    internal var preEvolution: PreEvolution? = null
+        private set
 
     @Transient
     lateinit var resourceIdentifier: Identifier
 
     fun initialize() {
         Cobblemon.statProvider.provide(this)
-        for (form in forms) {
-            form.initialize(this)
+        this.forms.forEach { it.initialize(this) }
+        if (this.forms.isNotEmpty() && this.forms.none { it == this.standardForm }) {
+            this.forms.add(0, this.standardForm)
         }
-    }
-
-    /**
-     * Initialize properties that relied on all species and forms to be loaded.
-     *
-     */
-    internal fun initializePostLoads() {
-        // These properties are lazy
+        // These properties are lazy, these need all species to be reloaded but SpeciesAdditions is what will eventually trigger this after all species have been loaded
         this.preEvolution?.species
         this.preEvolution?.form
         this.evolutions.size
-        this.forms.forEach(FormData::initializePostLoads)
     }
 
     fun create(level: Int = 10) = Pokemon().apply {
@@ -122,7 +134,7 @@ class Species : ClientDataSynchronizer<Species> {
         initialize()
     }
 
-    fun getForm(aspects: Set<String>) = forms.firstOrNull { it.aspects.all { it in aspects } } ?: standardForm
+    fun getForm(aspects: Set<String>) = forms.lastOrNull { it.aspects.all { it in aspects } } ?: standardForm
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: VANILLA_DEFAULT_EYE_HEIGHT
@@ -136,7 +148,6 @@ class Species : ClientDataSynchronizer<Species> {
     }
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeIdentifier(this.resourceIdentifier)
         buffer.writeBoolean(this.implemented)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
@@ -147,21 +158,22 @@ class Species : ClientDataSynchronizer<Species> {
         // ToDo remake once we have custom typing support
         buffer.writeString(this.primaryType.name)
         buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeString(this.experienceGroup.name)
+        buffer.writeFloat(this.height)
+        buffer.writeFloat(this.weight)
+        buffer.writeFloat(this.baseScale)
+        // Hitbox start
+        buffer.writeFloat(this.hitbox.width)
+        buffer.writeFloat(this.hitbox.height)
+        buffer.writeBoolean(this.hitbox.fixed)
+        // Hitbox end
+        this.moves.encode(buffer)
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
-        buffer.writeString(this.experienceGroup.name)
-        this.moves.encode(buffer)
-        buffer.writeFloat(baseScale)
-        // Hitbox start
-        buffer.writeFloat(hitbox.width)
-        buffer.writeFloat(hitbox.height)
-        buffer.writeBoolean(hitbox.fixed)
-        // Hitbox end
     }
 
     override fun decode(buffer: PacketByteBuf) {
         this.implemented = buffer.readBoolean()
-        // identifier is decoded in the sync packet for easier debug log
         this.name = buffer.readString()
         this.nationalPokedexNumber = buffer.readInt()
         this.baseStats.putAll(buffer.readMap(
@@ -170,20 +182,23 @@ class Species : ClientDataSynchronizer<Species> {
         )
         this.primaryType = ElementalTypes.getOrException(buffer.readString())
         this.secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }
+        this.experienceGroup = ExperienceGroups.findByName(buffer.readString())!!
+        this.height = buffer.readFloat()
+        this.weight = buffer.readFloat()
+        this.baseScale = buffer.readFloat()
+        this.hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
+        this.moves.decode(buffer)
         this.pokedex.clear()
         this.pokedex += buffer.readList { pb -> pb.readString() }
         this.forms.clear()
         this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
-        this.experienceGroup = ExperienceGroups.findByName(buffer.readString())!!
-        this.moves.decode(buffer)
-        this.baseScale = buffer.readFloat()
-        this.hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
+        this.initialize()
     }
 
     override fun shouldSynchronize(other: Species): Boolean {
         if (other.resourceIdentifier.toString() != other.resourceIdentifier.toString())
             return false
-        return other.name != this.name
+        return other.showdownId() != this.showdownId()
                 || other.nationalPokedexNumber != this.nationalPokedexNumber
                 || other.baseStats != this.baseStats
                 || other.hitbox != this.hitbox
@@ -199,7 +214,32 @@ class Species : ClientDataSynchronizer<Species> {
                 || this.moves.shouldSynchronize(other.moves)
     }
 
-    override fun toString() = name
+    /**
+     * The literal Showdown ID of this species.
+     * This will be a lowercase version of the [name] with all the non-alphanumeric characters removed. For example, "Mr. Mime" becomes "mrmime".
+     * If a Species is not a part of the Cobblemon mon the [resourceIdentifier] will have the namespace appended at the start of the ID resulting in something such as 'somemodaspecies'
+     *
+     * @return The literal Showdown ID of this species.
+     */
+    override fun showdownId(): String {
+        val id = this.unformattedShowdownId()
+        if (this.resourceIdentifier.namespace == Cobblemon.MODID) {
+            return id
+        }
+        return this.resourceIdentifier.namespace + id
+    }
+
+    /**
+     * The unformatted literal Showdown ID of this species.
+     * This will be a lowercase version of the [name] with all the non-alphanumeric characters removed. For example, "Mr. Mime" becomes "mrmime".
+     * Unlike [showdownId] the [resourceIdentifier] namespace will not be appended at the start regardless if the species is from Cobblemon or a 3rd party addon.
+     * The primary purpose of this is for lang keys.
+     *
+     * @return The unformatted literal Showdown ID of this species.
+     */
+    private fun unformattedShowdownId(): String = ShowdownIdentifiable.REGEX.replace(this.name.lowercase(), "")
+
+    override fun toString() = this.showdownId()
 
     companion object {
         private const val VANILLA_DEFAULT_EYE_HEIGHT = .85F

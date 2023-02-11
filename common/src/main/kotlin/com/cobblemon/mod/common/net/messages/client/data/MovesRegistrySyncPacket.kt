@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,8 +34,8 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate> {
         buffer.writeInt(entry.pp)
         buffer.writeInt(entry.priority)
         buffer.writeDouble(entry.critRatio)
-        buffer.writeNullable(entry.effectChance) { pb, value -> pb.writeDouble(value) }
-        buffer.writeNullable(entry.effectStatus) { pb, value -> pb.writeString(value) }
+        buffer.writeVarInt(entry.effectChances.size)
+        entry.effectChances.forEach { chance -> buffer.writeDouble(chance) }
     }
 
     override fun decodeEntry(buffer: PacketByteBuf): MoveTemplate {
@@ -49,12 +49,14 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate> {
         val pp = buffer.readInt()
         val priority = buffer.readInt()
         val critRatio = buffer.readDouble()
-        val effectChance = buffer.readNullable { pb -> pb.readDouble() } ?: .0
-        val effectStatus = buffer.readNullable { pb -> pb.readString() } ?: ""
-        return MoveTemplate(name, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChance, effectStatus).apply { this.id = id }
+        val effectChances = arrayListOf<Double>()
+        repeat(buffer.readVarInt()) {
+            effectChances += buffer.readDouble()
+        }
+        return MoveTemplate(name, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances.toTypedArray()).apply { this.id = id }
     }
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {
-        Moves.reload(entries.associateBy { cobblemonResource(it.name) })
+        Moves.receiveSyncPacket(entries)
     }
 }

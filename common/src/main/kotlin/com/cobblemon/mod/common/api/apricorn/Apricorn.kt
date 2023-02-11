@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.api.apricorn
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.item.ApricornItem
-import com.cobblemon.mod.common.world.block.ApricornBlock
-import com.cobblemon.mod.common.world.block.ApricornSaplingBlock
+import com.cobblemon.mod.common.block.ApricornBlock
+import com.cobblemon.mod.common.block.ApricornSaplingBlock
 import net.minecraft.item.BlockItem
 
 /**

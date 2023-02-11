@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,10 @@ import net.minecraft.entity.ai.goal.LookAtEntityGoal
  * @since July 30th, 2022
  */
 class PokemonLookAtEntityGoal(entity: PokemonEntity, targetType: Class<out LivingEntity>, range: Float) : LookAtEntityGoal(entity, targetType, range) {
-    fun canLook() = (mob as PokemonEntity).behaviour.moving.canLook && (mob as PokemonEntity).pokemon.status?.status != Statuses.SLEEP
+    fun canLook() = (mob as PokemonEntity).let { pokemon ->
+        val behaviour = pokemon.behaviour
+        behaviour.moving.canLook && pokemon.pokemon.status?.status != Statuses.SLEEP && !pokemon.isBattling && behaviour.moving.looksAtEntities
+    }
     override fun canStart() = super.canStart() && canLook()
     override fun shouldContinue() = super.shouldContinue() && canLook()
 

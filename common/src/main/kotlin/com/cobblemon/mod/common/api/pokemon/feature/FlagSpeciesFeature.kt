@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -99,6 +99,18 @@ class FlagSpeciesFeatureProvider : SpeciesFeatureProvider<FlagSpeciesFeature>, C
             }
     }
 
+    override fun invoke(nbt: NbtCompound): FlagSpeciesFeature? {
+        return if (nbt.contains(keys.first())) {
+            FlagSpeciesFeature(keys.first(), false).also { it.loadFromNBT(nbt) }
+        } else null
+    }
+
+    override fun invoke(json: JsonObject): FlagSpeciesFeature? {
+        return if (json.has(keys.first())) {
+            FlagSpeciesFeature(keys.first(), false).also { it.loadFromJSON(json) }
+        } else null
+    }
+
     override fun fromString(value: String?): FlagSpeciesFeature? {
         val isWeirdValue = value != null && value !in examples()
 
@@ -122,7 +134,7 @@ class FlagSpeciesFeatureProvider : SpeciesFeatureProvider<FlagSpeciesFeature>, C
     }
 
     override fun provide(properties: PokemonProperties): Set<String> {
-        return if (isAspect &&  properties.customProperties.filterIsInstance<FlagSpeciesFeature>().find { it.name == keys.first() }?.enabled == true) {
+        return if (isAspect && properties.customProperties.filterIsInstance<FlagSpeciesFeature>().find { it.name == keys.first() }?.enabled == true) {
             setOf(keys.first())
         } else {
             emptySet()

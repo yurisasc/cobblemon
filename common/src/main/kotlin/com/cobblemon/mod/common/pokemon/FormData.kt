@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.AbilityPool
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.net.Decodable
@@ -35,7 +36,7 @@ import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
 
 class FormData(
-    name: String = "normal",
+    name: String = "Normal",
     // Internal for the sake of the base stat provider
     @SerializedName("baseStats")
     internal var _baseStats: MutableMap<Stat, Int>? = null,
@@ -93,7 +94,7 @@ class FormData(
      * This is always null on any form aside G-Max.
      */
     val gigantamaxMove: MoveTemplate? = null
-) : Decodable, Encodable {
+) : Decodable, Encodable, ShowdownIdentifiable {
     @SerializedName("name")
     var name: String = name
         private set
@@ -120,8 +121,9 @@ class FormData(
     val primaryType: ElementalType
         get() = _primaryType ?: species.primaryType
 
+    // Don't fall back to the species unless both types in the form are null
     val secondaryType: ElementalType?
-        get() = _secondaryType ?: species.secondaryType
+        get() = if (_secondaryType == null && _primaryType == null) species.secondaryType else _secondaryType
 
     val shoulderMountable: Boolean
         get() = _shoulderMountable ?: species.shoulderMountable
@@ -193,32 +195,20 @@ class FormData(
         this.species = species
         this.behaviour.parent = species.behaviour
         Cobblemon.statProvider.provide(this)
-        return this
-    }
-
-    /**
-     * Initialize properties that relied on all species and forms to be loaded.
-     *
-     */
-    internal fun initializePostLoads() {
-        // These properties are lazy
+        // These properties are lazy, these need all species to be reloaded but SpeciesAdditions is what will eventually trigger this after all species have been loaded
         this.preEvolution?.species
         this.preEvolution?.form
         this.evolutions.size
+        return this
     }
 
-    override fun equals(other: Any?): Boolean {
-        return other is FormData
-                && other.species.name.equals(this.species.name, true)
-                && other.name.equals(this.name, true)
-    }
+    override fun equals(other: Any?): Boolean = other is FormData && other.showdownId() == this.showdownId()
 
-    override fun hashCode(): Int {
-        return this.species.name.hashCode() and this.name.hashCode()
-    }
+    override fun hashCode(): Int = this.showdownId().hashCode()
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(this.name)
+        buffer.writeCollection(this.aspects) { pb, aspect -> pb.writeString(aspect) }
         buffer.writeNullable(this._baseStats) { statsBuffer, map ->
             statsBuffer.writeMap(map,
                 { keyBuffer, stat -> Cobblemon.statProvider.encode(keyBuffer, stat)},
@@ -227,21 +217,22 @@ class FormData(
         }
         buffer.writeNullable(this._primaryType) { pb, type -> pb.writeString(type.name) }
         buffer.writeNullable(this._secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeNullable(this._experienceGroup) { pb, value -> pb.writeString(value.name) }
         buffer.writeNullable(this._height) { pb, height -> pb.writeFloat(height) }
         buffer.writeNullable(this._weight) { pb, weight -> pb.writeFloat(weight) }
-        buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
-        buffer.writeNullable(this._moves) { buf, moves -> moves.encode(buf)}
         buffer.writeNullable(this._baseScale) { buf, fl -> buf.writeFloat(fl)}
         buffer.writeNullable(this._hitbox) { pb, hitbox ->
             pb.writeFloat(hitbox.width)
             pb.writeFloat(hitbox.height)
             pb.writeBoolean(hitbox.fixed)
         }
-        buffer.writeNullable(this._experienceGroup) { pb, value -> pb.writeString(value.name) }
+        buffer.writeNullable(this._moves) { buf, moves -> moves.encode(buf)}
+        buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
     }
 
     override fun decode(buffer: PacketByteBuf) {
         this.name = buffer.readString()
+        this.aspects = buffer.readList { buffer.readString() }.toMutableList()
         buffer.readNullable { mapBuffer ->
             this._baseStats = mapBuffer.readMap(
                 { keyBuffer -> Cobblemon.statProvider.decode(keyBuffer) },
@@ -250,14 +241,32 @@ class FormData(
         }
         this._primaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
         this._secondaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
+        this._experienceGroup = buffer.readNullable { pb -> ExperienceGroups.findByName(pb.readString()) }
         this._height = buffer.readNullable { pb -> pb.readFloat() }
         this._weight = buffer.readNullable { pb -> pb.readFloat() }
-        this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
-        this._moves = buffer.readNullable { pb -> Learnset().also { it.decode(pb) }}
         this._baseScale = buffer.readNullable { pb -> pb.readFloat() }
         this._hitbox = buffer.readNullable { pb ->
             EntityDimensions(pb.readFloat(), pb.readFloat(), pb.readBoolean())
         }
-        this._experienceGroup = ExperienceGroups.findByName(buffer.readString())
+        this._moves = buffer.readNullable { pb -> Learnset().apply { decode(pb) }}
+        this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
     }
+
+    /**
+     * The literal Showdown ID of this [formOnlyShowdownId] appended to [Species.showdownId].
+     * For example Alolan Vulpix becomes 'vulpixalola'
+     *
+     * @return The literal Showdown ID of this species and form.
+     */
+    override fun showdownId(): String = this.species.showdownId() + this.formOnlyShowdownId()
+
+    /**
+     * The literal Showdown ID of this form [name].
+     * This will be a lowercase version of the [name] with all the non-alphanumeric characters removed.
+     * For example Alolan Vulpix becomes 'alola'
+     *
+     * @return The literal Showdown ID of this form only.
+     */
+    fun formOnlyShowdownId(): String = ShowdownIdentifiable.REGEX.replace(this.name.lowercase(), "")
+
 }

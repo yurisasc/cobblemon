@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,22 +19,27 @@ import net.minecraft.util.math.Vec3d
 class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart: ModelPart = root.registerChildWithAllChildren("dugtrio")
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(-0.2, -0.7, 0.0)
+    override val portraitScale = 1.3F
+    override val portraitTranslation = Vec3d(0.0, -0.4, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileScale = 0.9F
+    override val profileTranslation = Vec3d(0.0, 0.15, 0.0)
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("dugtrio", "blink1").setPreventsIdle(false)}
+        val blink2 = quirk("blink2") { bedrockStateful("dugtrio", "blink2").setPreventsIdle(false)}
+        val blink3 = quirk("blink3") { bedrockStateful("dugtrio", "blink3").setPreventsIdle(false)}
         registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink, blink2, blink3),
             idleAnimations = arrayOf(bedrock("dugtrio", "ground_idle"))
         )
 
         registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink, blink2, blink3),
             idleAnimations = arrayOf(bedrock("dugtrio", "ground_walk"))
         )
     }

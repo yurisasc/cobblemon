@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -99,7 +99,7 @@ data class MoveActionResponse(var moveName: String, var targetPnx: String? = nul
             // No PP or disabled or something
             return false
         }
-        val availableTargets = move.target.targetList(activeBattlePokemon) ?: return true
+        val availableTargets = move.target.targetList(activeBattlePokemon)?.takeIf { it.isNotEmpty() } ?: return true
 
         val pnx = targetPnx ?: return false // If the targets list is non-null then they need to have specified a target
         val (_, targetPokemon) = activeBattlePokemon.actor.battle.getActorAndActiveSlotFromPNX(pnx)

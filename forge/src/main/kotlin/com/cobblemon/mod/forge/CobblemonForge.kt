@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,6 +17,7 @@ import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
 import java.util.*
+import net.minecraft.server.world.ServerWorld
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.OnDatapackSyncEvent
@@ -29,6 +30,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
+    override val modAPI = ModAPI.FABRIC
+
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
@@ -45,7 +48,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::serverInit)
             CobblemonNetwork.networkDelegate = CobblemonForgeNetworkDelegate
 
-            Cobblemon.preinitialize(this@CobblemonForge)
+            Cobblemon.preInitialize(this@CobblemonForge)
 
             LifecycleEvent.SETUP.register {
                 CobblemonConfiguredFeatures.register()
@@ -68,6 +71,7 @@ class CobblemonForge : CobblemonImplementation {
     fun initialize(event: FMLCommonSetupEvent) {
         Cobblemon.LOGGER.info("Initializing...")
         Cobblemon.initialize()
+        val world: ServerWorld? = null
         //if (ModList.get().isLoaded("luckperms")) { PokemonCobblemon.permissionValidator = LuckPermsPermissionValidator() }
         //else {
         //}

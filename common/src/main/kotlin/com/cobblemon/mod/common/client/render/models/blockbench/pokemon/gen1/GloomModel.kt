@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class GloomModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("gloom")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(0.1, -0.3, 0.0)
+    override val portraitScale = 1.8F
+    override val portraitTranslation = Vec3d(-0.2, -1.2, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override val profileScale = 1.05F
+    override val profileTranslation = Vec3d(0.0, 0.19, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

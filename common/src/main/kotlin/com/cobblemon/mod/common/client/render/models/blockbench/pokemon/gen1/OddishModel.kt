@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,20 +20,22 @@ import net.minecraft.util.math.Vec3d
 class OddishModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("oddish")
 
-    override val portraitScale = 1.3F
-    override val portraitTranslation = Vec3d(0.1, -0.1, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.78, 0.0)
+    override val profileScale = 0.85F
+    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("oddish", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("oddish", "ground_idle")
             )
@@ -43,6 +45,7 @@ class OddishModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("oddish", "ground_walk")
             )

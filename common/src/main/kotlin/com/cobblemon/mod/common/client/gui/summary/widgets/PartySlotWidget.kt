@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.common.client.gui.summary.widgets
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.getDepletableRedGreen
+import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -146,7 +148,7 @@ class PartySlotWidget(
 
             // Render Pokémon
             matrices.push()
-            matrices.translate(x + (PORTRAIT_DIAMETER / 2.0), y - 1.0, 0.0)
+            matrices.translate(x + (PORTRAIT_DIAMETER / 2.0), y - 3.0, 0.0)
             matrices.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
                 species = slotPokemon.species,
@@ -187,6 +189,18 @@ class PartySlotWidget(
                 shadow = true,
                 scale = halfScale
             )
+
+            // Held Item
+            val heldItem = slotPokemon.heldItemNoCopy()
+            if (!heldItem.isEmpty) {
+                renderScaledGuiItemIcon(
+                    itemStack = heldItem,
+                    x = x + 14.0,
+                    y = y + 9.5,
+                    scale = 0.5,
+                    matrixStack = matrices
+                )
+            }
         }
     }
 
@@ -197,6 +211,7 @@ class PartySlotWidget(
             } else {
                 if ((index > -1) && (summary.selectedPokemon.uuid != pokemon?.uuid)) {
                     summary.switchSelection(index)
+                    if (pokemon != null) partyWidget.playSound(CobblemonSounds.GUI_CLICK.get())
                     return true
                 }
             }
@@ -213,6 +228,7 @@ class PartySlotWidget(
         if (partyWidget.swapEnabled && partyWidget.isWithinScreen(mouseX, mouseY) && index < 0) {
             repositionSlot(mouseX, mouseY)
         } else {
+            if (partyWidget.swapSource != null) partyWidget.playSound(CobblemonSounds.PC_DROP.get())
             toggleDrag(false)
             partyWidget.swapSource = null
             partyWidget.draggedSlot = null

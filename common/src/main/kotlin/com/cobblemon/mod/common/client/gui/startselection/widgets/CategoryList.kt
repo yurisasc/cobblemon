@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,11 +13,12 @@ import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.config.starter.RenderableStarterCategory
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
+
 class CategoryList(
     private val paneWidth: Int,
     private val paneHeight: Int,
@@ -63,14 +64,14 @@ class CategoryList(
             createEntries().forEach { addEntry(it) }
             entriesCreated = true
         }
-        RenderSystem.enableScissor(
-            (x * minecraft.window.scaleFactor).toInt(),
-            (minecraft.window.height - (y * minecraft.window.scaleFactor) - (height * minecraft.window.scaleFactor)).toInt(),
-            (width * minecraft.window.scaleFactor).toInt(),
-            (height * minecraft.window.scaleFactor).toInt()
+        DrawableHelper.enableScissor(
+            x,
+            y,
+            x + width,
+            y + height
         )
         super.render(matrices, mouseX, mouseY, delta)
-        RenderSystem.disableScissor()
+        DrawableHelper.disableScissor()
     }
 
     private fun correctSize() {

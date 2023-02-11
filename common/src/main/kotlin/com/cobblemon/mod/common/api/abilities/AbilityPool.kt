@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,6 +31,8 @@ open class AbilityPool : PrioritizedList<PotentialAbility>() {
         }
 
         LOGGER.error("Unable to select an ability from the pool for $species and aspects: ${aspects.joinToString()}")
+        LOGGER.error("Usually this happens when a client is doing logic it shouldn't. Please show this to the Cobblemon developers!")
+        Exception().printStackTrace()
         return Abilities.first().create()
     }
 }

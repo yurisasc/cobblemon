@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,12 +10,15 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.EarJoint
 import com.cobblemon.mod.common.client.render.models.blockbench.RangeOfMotion
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -34,19 +37,26 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     override val leftEarJoint = EarJoint(getPart("ear_left"), Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
     override val rightEarJoint = EarJoint(getPart("ear_right"), Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
-    override val portraitScale = 1.55F
-    override val portraitTranslation = Vec3d(-0.15, 0.1, 0.0)
+    override val portraitScale = 2.2F
+    override val portraitTranslation = Vec3d(-0.4, -0.54, 0.0)
 
     override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var shoulderLeft: PokemonPose
+    lateinit var shoulderRight: PokemonPose
+
+    val shoulderOffset = 4
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("eevee", "blink").setPreventsIdle(false) }
         stand = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("eevee", "ground_idle")
@@ -56,12 +66,38 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("eevee", "ground_walk")
             )
         )
 
-        registerShoulderPoses(idleAnimations = arrayOf(singleBoneLook()))
+
+        shoulderLeft = registerPose(
+            poseType = PoseType.SHOULDER_LEFT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("eevee", "ground_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(X_AXIS, shoulderOffset)
+            )
+        )
+
+        shoulderRight = registerPose(
+            poseType = PoseType.SHOULDER_RIGHT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("eevee", "ground_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(X_AXIS, -shoulderOffset)
+            )
+        )
+
     }
 }

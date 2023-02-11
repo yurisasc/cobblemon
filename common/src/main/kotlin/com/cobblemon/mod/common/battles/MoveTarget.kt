@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -96,5 +96,22 @@ enum class MoveTarget(val targetList: (Targetable) -> List<Targetable>? = { null
     adjacentAllyOrSelf({ pokemon -> pokemon.getAdjacentAllies() + pokemon }),
     adjacentFoe({ pokemon -> pokemon.getAdjacentOpponents() }),
     foeSide,
-    scripted
+    scripted;
+
+
+    companion object {
+
+        private val VALUES = values()
+
+        /**
+         * Attempts to parse a [MoveTarget] from the given [showdownId].
+         *
+         * @param showdownId The showdown ID fo the move target.
+         *
+         * @throws NoSuchElementException if the value cannot be found.
+         */
+        fun fromShowdownId(showdownId: String): MoveTarget = VALUES.first { target -> target.name.equals(showdownId, true) }
+
+    }
+
 }

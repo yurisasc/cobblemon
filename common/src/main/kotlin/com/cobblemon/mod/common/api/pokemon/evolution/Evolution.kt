@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
+import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
 
 /**
@@ -42,7 +43,6 @@ interface Evolution : EvolutionLike {
      */
     var optional: Boolean
 
-    // ToDo pending held items.
     /**
      * If this [Evolution] will consume the [Pokemon.heldItem]
      */
@@ -73,6 +73,9 @@ interface Evolution : EvolutionLike {
      * @param pokemon The [Pokemon] being evolved.
      */
     fun evolve(pokemon: Pokemon): Boolean {
+        if (this.consumeHeldItem) {
+            pokemon.swapHeldItem(ItemStack.EMPTY)
+        }
         if (this.optional) {
             // All the networking is handled under the hood, see EvolutionController.
             return pokemon.evolutionProxy.server().add(this)
@@ -117,6 +120,5 @@ interface Evolution : EvolutionLike {
 
     fun applyTo(pokemon: Pokemon) {
         result.apply(pokemon)
-
     }
 }

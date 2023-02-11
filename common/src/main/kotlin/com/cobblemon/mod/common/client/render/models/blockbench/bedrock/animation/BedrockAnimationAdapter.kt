@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,8 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation
 
+import com.bedrockk.molang.MoLang
+import com.bedrockk.molang.parser.MoLangParser
+import com.bedrockk.molang.parser.tokenizer.TokenIterator
+import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.eliotlash.molang.MolangParser
 import com.google.gson.JsonArray
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -24,7 +27,9 @@ import java.lang.reflect.Type
  * @since  January 5, 2022
  */
 object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
-    val molangParser = MolangParser()
+    val molangRuntime = MoLangRuntime().also {
+        it.environment.structs["query"] = it.environment.structs["variable"]
+    }
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): BedrockAnimation {
         if (json is JsonObject) {
@@ -66,14 +71,15 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
     fun cleanExpression(value: String) =
         (if (value.startsWith("+")) value.substring(1) else value).let {
             if (it.startsWith("-(")) it.replaceFirst("-(", "-1*(") else it
-        }.replace("*+", "*")
+        }.replace("*+", "*").replace("q.", "query.")
+            .replace("camera_rotation(0)", "camera_rotation_x").replace("camera_rotation(1)", "camera_rotation_y")
 
     fun deserializeMolangBoneValue(array: JsonArray, transformation: Transformation): MolangBoneValue {
         try {
             return MolangBoneValue(
-                x = molangParser.parseExpression(cleanExpression(array[0].asString)),
-                y = molangParser.parseExpression(cleanExpression(array[1].asString)),
-                z = molangParser.parseExpression(cleanExpression(array[2].asString)),
+                x = MoLang.createParser(cleanExpression(array[0].asString)).parseExpression(),
+                y = MoLang.createParser(cleanExpression(array[1].asString)).parseExpression(),
+                z = MoLang.createParser(cleanExpression(array[2].asString)).parseExpression(),
                 transformation = transformation
             )
         } catch (e: Exception) {

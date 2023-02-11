@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,7 +26,7 @@ internal class CobblemonLazyPreEvolution(private val rawData: String) : PreEvolu
     }
 
     private val lazyForm: FormData by lazy {
-        this.properties.form?.let { formId -> this.species.forms.firstOrNull { it.name.equals(formId, true) } } ?: this.species.standardForm
+        this.properties.form?.let { formId -> this.species.forms.firstOrNull { it.formOnlyShowdownId().equals(formId, true) } } ?: this.species.standardForm
     }
 
     override val species: Species

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,12 +8,21 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation
 
+import com.bedrockk.molang.Expression
+import com.bedrockk.molang.runtime.MoScope
+import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.math.geometry.toRadians
-import com.eliotlash.molang.expressions.MolangExpression
 import java.util.SortedMap
+import net.minecraft.client.MinecraftClient
+import net.minecraft.util.crash.CrashException
+import net.minecraft.util.crash.CrashReport
 import net.minecraft.util.math.Vec3d
+import java.lang.IllegalStateException
 
 data class BedrockAnimationGroup(
     val formatVersion: String,
@@ -45,11 +54,21 @@ data class BedrockAnimation(
                 }
 
                 if (!timeline.rotation.isEmpty()) {
-                    val rotation = timeline.rotation.resolve(animationSeconds).multiply(model.getChangeFactor(part.modelPart).toDouble())
-                    part.modelPart.apply {
-                        pitch += rotation.x.toFloat().toRadians()
-                        yaw += rotation.y.toFloat().toRadians()
-                        roll += rotation.z.toFloat().toRadians()
+                    try {
+                        val rotation = timeline.rotation.resolve(animationSeconds).multiply(model.getChangeFactor(part.modelPart).toDouble())
+                        part.modelPart.apply {
+                            pitch += rotation.x.toFloat().toRadians()
+                            yaw += rotation.y.toFloat().toRadians()
+                            roll += rotation.z.toFloat().toRadians()
+                        }
+                    } catch (e: Exception) {
+                        val exception = IllegalStateException("Bad animation for species: ${((model.currentEntity)!! as PokemonEntity).pokemon.species.name}", e)
+                        val crash = CrashReport("Cobblemon encountered an unexpected crash", exception)
+                        val section = crash.addElement("Animation Details")
+                        section.add("Pose", state!!.currentPose!!)
+                        section.add("Bone", boneName)
+
+                        throw CrashException(crash)
                     }
                 }
             }
@@ -73,19 +92,26 @@ data class BedrockBoneTimeline (
     val rotation: BedrockBoneValue
 )
 class MolangBoneValue(
-    val x: MolangExpression,
-    val y: MolangExpression,
-    val z: MolangExpression,
+    val x: Expression,
+    val y: Expression,
+    val z: Expression,
     transformation: Transformation
 ) : BedrockBoneValue {
     val yMul = if (transformation == Transformation.POSITION) -1 else 1
     override fun isEmpty() = false
     override fun resolve(time: Double): Vec3d {
-        for (n in arrayOf(x, y, z)) {
-            n.context.setValue("q.anim_time", time)
-            n.context.setValue("query.anim_time", time)
-        }
-        return Vec3d(x.get(), y.get() * yMul, z.get())
+        val runtime = BedrockAnimationAdapter.molangRuntime
+        val environment = runtime.environment
+        val scope = MoScope()
+        val variables = environment.structs.getOrPut("variable") { VariableStruct() } as VariableStruct
+        variables.map["anim_time"] = DoubleValue(time)
+        variables.map["camera_rotation_x"] = DoubleValue(MinecraftClient.getInstance().gameRenderer.camera.rotation.x.toDouble())
+        variables.map["camera_rotation_y"] = DoubleValue(MinecraftClient.getInstance().gameRenderer.camera.rotation.y.toDouble())
+        return Vec3d(
+            x.evaluate(scope, runtime.environment).asDouble(),
+            y.evaluate(scope, runtime.environment).asDouble() * yMul,
+            z.evaluate(scope, runtime.environment).asDouble(),
+        )
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.gui.summary
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.api.moves.MoveSet
@@ -19,6 +20,7 @@ import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonResources
+import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.gui.summary.widgets.EvolutionSelectScreen
 import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget
@@ -26,7 +28,7 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.PartyWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.SummaryTab
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.info.InfoWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves.MovesWidget
-import com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves.change.MoveSwapScreen
+import com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves.MoveSwapScreen
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.stats.StatWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.storage.ClientParty
@@ -43,7 +45,9 @@ import net.minecraft.client.gui.Element
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 
 class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summary.title")) {
@@ -71,6 +75,8 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
         private val typeSpacerDoubleResource = cobblemonResource("ui/summary/type_spacer_double.png")
         private val sideSpacerResource = cobblemonResource("ui/summary/summary_side_spacer.png")
         private val evolveButtonResource = cobblemonResource("ui/summary/summary_evolve_button.png")
+
+        val iconShinyResource = cobblemonResource("ui/summary/icon_shiny.png")
     }
 
     internal lateinit var selectedPokemon: Pokemon
@@ -154,7 +160,12 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
                 pX = x + 78,
                 pY = y - 1,
                 label = lang("ui.info")
-            ) { if (mainScreenIndex != INFO) displayMainScreen(INFO) }
+            ) {
+                if (mainScreenIndex != INFO) {
+                    displayMainScreen(INFO)
+                    playSound(CobblemonSounds.GUI_CLICK.get())
+                }
+            }
         )
 
         summaryTabs.add(
@@ -162,7 +173,12 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
                 pX = x + 119,
                 pY = y - 1,
                 label = lang("ui.moves")
-            ) { if (mainScreenIndex != MOVES) displayMainScreen(MOVES) }
+            ) {
+                if (mainScreenIndex != MOVES) {
+                    displayMainScreen(MOVES)
+                    playSound(CobblemonSounds.GUI_CLICK.get())
+                }
+            }
         )
 
         summaryTabs.add(
@@ -170,7 +186,12 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
                 pX = x + 160,
                 pY = y - 1,
                 label = lang("ui.stats")
-            ) { if (mainScreenIndex != STATS) displayMainScreen(STATS) }
+            ) {
+                if (mainScreenIndex != STATS) {
+                    displayMainScreen(STATS)
+                    playSound(CobblemonSounds.GUI_CLICK.get())
+                }
+            }
         )
 
         summaryTabs[mainScreenIndex].toggleTab()
@@ -182,6 +203,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
                 pX = x + 302,
                 pY = y + 145
             ) {
+                playSound(CobblemonSounds.GUI_CLICK.get())
                 MinecraftClient.getInstance().setScreen(null)
             }
         )
@@ -465,6 +487,19 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
             shadow = true
         )
 
+        // Shiny Icon
+        if (selectedPokemon.shiny) {
+            blitk(
+                matrixStack = pMatrixStack,
+                texture = iconShinyResource,
+                x = (x + 63.5) / SCALE,
+                y = (y + 33.5) / SCALE,
+                width = 14,
+                height = 14,
+                scale = SCALE
+            )
+        }
+
         // Type Icon(s)
         blitk(
             matrixStack = pMatrixStack,
@@ -473,6 +508,23 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
             y = (y + 126) / SCALE,
             width = 134,
             height = 24,
+            scale = SCALE
+        )
+
+        // Held Item
+        val heldItem = selectedPokemon.heldItemNoCopy()
+        val itemX = x + 3
+        val itemY = y + 104
+        if (!heldItem.isEmpty) {
+            MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem, itemX, itemY)
+            MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+        }
+
+        drawScaledText(
+            matrixStack = pMatrixStack,
+            text = lang("held_item"),
+            x = x + 27,
+            y = y + 114.5,
             scale = SCALE
         )
 
@@ -496,6 +548,12 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
 
         // Render all added Widgets
         super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+
+        // Render Item Tooltip
+        if (!heldItem.isEmpty) {
+            val itemHovered = pMouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && pMouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
+            if (itemHovered) renderTooltip(pMatrixStack, heldItem, pMouseX, pMouseY)
+        }
     }
 
     /**
@@ -511,5 +569,9 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
 
     override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
         return children().any { it.mouseClicked(d, e, i) }
+    }
+
+    fun playSound(soundEvent: SoundEvent) {
+        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 }

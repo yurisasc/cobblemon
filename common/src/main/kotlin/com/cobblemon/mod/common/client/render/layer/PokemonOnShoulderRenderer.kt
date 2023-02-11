@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -63,10 +63,11 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             )
             pMatrixStack.scale(scale, scale, scale)
             val model = PokemonModelRepository.getPoser(pokemon.species, pokemon.aspects)
-            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(pokemon.species, pokemon.aspects)))
-            val i = LivingEntityRenderer.getOverlay(pLivingEntity, 0.0f)
             val state = PokemonFloatingState()
             state.animationSeconds = pLivingEntity.age.toFloat() / 20F
+            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(pokemon.species, pokemon.aspects, state)))
+            val i = LivingEntityRenderer.getOverlay(pLivingEntity, 0.0f)
+
             val pose = model.poses.values
                 .firstOrNull { (if (pLeftShoulder) PoseType.SHOULDER_LEFT else PoseType.SHOULDER_RIGHT) in it.poseTypes  }
                 ?: model.poses.values.first()

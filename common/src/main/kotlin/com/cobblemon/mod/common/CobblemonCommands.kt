@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,8 +13,10 @@ import com.cobblemon.mod.common.command.CheckSpawnsCommand
 import com.cobblemon.mod.common.command.ClickTextCommand
 import com.cobblemon.mod.common.command.FriendshipCommand
 import com.cobblemon.mod.common.command.GetNBT
+import com.cobblemon.mod.common.command.GiveAllPokemon
 import com.cobblemon.mod.common.command.GivePokemon
 import com.cobblemon.mod.common.command.HealPokemonCommand
+import com.cobblemon.mod.common.command.HeldItemCommand
 import com.cobblemon.mod.common.command.LevelUp
 import com.cobblemon.mod.common.command.OpenStarterScreenCommand
 import com.cobblemon.mod.common.command.PokemonEditCommand
@@ -47,5 +49,7 @@ object CobblemonCommands {
         OpenStarterScreenCommand.register(dispatcher)
         SpawnAllPokemon.register(dispatcher)
         FriendshipCommand.register(dispatcher)
+        GiveAllPokemon.register(dispatcher)
+        HeldItemCommand.register(dispatcher, registry)
     }
 }

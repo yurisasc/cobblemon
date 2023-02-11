@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,7 @@ class InBattleMove {
                 move = buffer.readString()
                 pp = buffer.readSizedInt(IntSize.U_BYTE)
                 maxpp = buffer.readSizedInt(IntSize.U_BYTE)
-                target = MoveTarget.values()[buffer.readSizedInt(IntSize.U_BYTE)]
+                target = buffer.readEnumConstant(MoveTarget::class.java)
                 disabled = buffer.readBoolean()
             }
         }
@@ -41,7 +41,7 @@ class InBattleMove {
         buffer.writeString(move)
         buffer.writeSizedInt(IntSize.U_BYTE, pp)
         buffer.writeSizedInt(IntSize.U_BYTE, maxpp)
-        buffer.writeSizedInt(IntSize.U_BYTE, target.ordinal)
+        buffer.writeEnumConstant(target)
         buffer.writeBoolean(disabled)
     }
 }

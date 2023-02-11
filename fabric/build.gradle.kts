@@ -1,5 +1,6 @@
 plugins {
     id("cobblemon.platform-conventions")
+    id("cobblemon.publish-conventions")
 }
 
 architectury {
@@ -18,7 +19,8 @@ sourceSets {
 }
 
 repositories {
-    maven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    maven(url = "${rootProject.projectDir}/deps")
+    mavenLocal()
     maven("https://oss.sonatype.org/content/repositories/snapshots")
 }
 
@@ -45,8 +47,7 @@ dependencies {
         libs.serializationCore,
         libs.serializationJson,
         libs.graal,
-        libs.molang,
-        libs.mclib
+        libs.molang
     ).forEach {
         bundle(it)
         runtimeOnly(it)

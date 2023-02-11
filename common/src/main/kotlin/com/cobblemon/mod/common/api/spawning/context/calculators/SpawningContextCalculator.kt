@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,8 +32,8 @@ interface SpawningContextCalculator<I : SpawningContextInput, O : SpawningContex
         var foliageMaterials = mutableListOf(
             Material.LEAVES
         )
-        val isAirCondition: (BlockState) -> Boolean = { it.isAir || it.material in foliageMaterials }
-        val isSolidCondition: (BlockState) -> Boolean = { it.material.isSolid }
+        val isAirCondition: (BlockState) -> Boolean = { it.isAir || it.material in foliageMaterials || !it.material.isSolid }
+        val isSolidCondition: (BlockState) -> Boolean = { it.material.isSolid && it.material != Material.LEAVES }
         val isWaterCondition: (BlockState) -> Boolean = { it.material == Material.WATER && it.fluidState.isStill  }
         val isLavaCondition: (BlockState) -> Boolean = { it.material == Material.LAVA && it.fluidState.isStill }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,16 +32,18 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val head = registerRelevantPart("head", rootPart.getChildOf("body","head"))
     private val tail = registerRelevantPart("tail", rootPart.getChildOf("body","tail"))
 
-    override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3d(-0.05, -0.3, 0.0)
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 2.3F
+    override val portraitTranslation = Vec3d(-0.1, -0.55, 0.0)
+    override val profileScale = 1.1F
+    override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("pidgeotto", "blink").setPreventsIdle(false)}
         registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 0,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeotto", "ground_idle")
@@ -50,6 +52,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         registerPose(
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeotto", "air_idle")
@@ -58,6 +61,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         registerPose(
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeotto", "air_fly")
@@ -67,6 +71,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "walk",
             poseType = PoseType.WALK,
             transformTicks = 5,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 rootPart.translation(

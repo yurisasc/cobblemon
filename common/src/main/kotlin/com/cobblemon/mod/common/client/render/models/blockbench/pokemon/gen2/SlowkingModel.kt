@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,11 +23,11 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rootPart = root.registerChildWithAllChildren("slowking")
     override val head = getPart("head")
 
-    override val portraitScale = 1.45F
-    override val portraitTranslation = Vec3d(-.015, 0.65, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.2, 0.65, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileScale = 0.8F
+    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     override val leftLeg = getPart("leftleg")
     override val rightLeg = getPart("rightleg")
@@ -36,9 +36,11 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("slowking", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowking", "ground_idle")
@@ -48,6 +50,7 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowking", "ground_idle"),

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -47,7 +47,8 @@ object SpeciesFeatureAssignments : JsonDataRegistry<SpeciesFeatureAssignment> {
                 assignments.getOrPut(pokemon) { mutableSetOf() }.addAll(it.features)
             }
         }
+        this.observable.emit(this)
     }
 
-    fun getFeatures(species: Species) = assignments[species.name] ?: emptySet()
+    fun getFeatures(species: Species) = assignments[species.showdownId()] ?: emptySet()
 }

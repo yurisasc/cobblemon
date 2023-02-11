@@ -579,6 +579,25 @@
 					"rotation": ["-5+math.clamp(math.sin(q.anim_time*90*3-90*180)*30,-30,0)", 0, 0]
 				}
 			}
+		},
+		"animation.golduck.blink": {
+			"animation_length": 0.1667,
+			"bones": {
+				"eyelid_right": {
+					"position": {
+						"0.0": [-0.1, 0, -0.1],
+						"0.125": [-0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_left": {
+					"position": {
+						"0.0": [0.1, 0, -0.1],
+						"0.125": [0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
 		}
 	}
 }

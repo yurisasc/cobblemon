@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,9 +8,7 @@
 
 package com.cobblemon.mod.common.battles.runner
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
-import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import java.io.File
 import java.util.UUID
@@ -33,6 +31,8 @@ object GraalShowdown {
             .allowHostAccess(access)
             .allowAllAccess(true)
             .allowCreateThread(true)
+            .logHandler(GraalLogger)
+            .option("engine.WarnInterpreterOnly", "false")
             .option("js.commonjs-require", "true")
             .option("js.commonjs-require-cwd", "showdown")
             .option(

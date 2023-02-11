@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -39,6 +39,7 @@ import java.lang.Double.min
 import java.util.UUID
 import kotlin.math.roundToInt
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.render.DiffuseLighting
@@ -163,16 +164,17 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             reversed = !left,
             species = battlePokemon.species,
             level = battlePokemon.level,
-            aspects = battlePokemon.properties.aspects,
+            aspects = battlePokemon.aspects,
             displayName = battlePokemon.displayName,
             gender = battlePokemon.gender,
             status = battlePokemon.status,
-            hpRatio = battlePokemon.hpRatio,
             state = battlePokemon.state,
             colour = Triple(r, g, b),
             opacity = opacity.toFloat(),
             ballState = activeBattlePokemon.ballCapturing,
-            trueHealth = truePokemon?.let { (it.hp * battlePokemon.hpRatio).roundToInt() to it.hp }
+            maxHealth = truePokemon?.hp ?: 0,
+            health = battlePokemon.hpValue,
+            isFlatHealth = battlePokemon.isHpFlat
         )
     }
 
@@ -187,12 +189,13 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         displayName: MutableText,
         gender: Gender,
         status: PersistentStatus?,
-        hpRatio: Float,
         state: PoseableEntityState<PokemonEntity>?,
         colour: Triple<Float, Float, Float>?,
         opacity: Float,
         ballState: ClientBallDisplay? = null,
-        trueHealth: Pair<Int, Int>?
+        maxHealth: Int,
+        health: Float,
+        isFlatHealth: Boolean
     ) {
 
         val mc = MinecraftClient.getInstance()
@@ -212,11 +215,11 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         )
 
         // Second render the Pokémon through the scissors
-        RenderSystem.enableScissor(
-            scaleIt(portraitStartX),
-            mc.window.height - scaleIt(y + PORTRAIT_DIAMETER + PORTRAIT_OFFSET_Y),
-            scaleIt(PORTRAIT_DIAMETER),
-            scaleIt(PORTRAIT_DIAMETER)
+        DrawableHelper.enableScissor(
+            portraitStartX.toInt(),
+            (y + PORTRAIT_OFFSET_Y).toInt(),
+            (portraitStartX + PORTRAIT_DIAMETER).toInt(),
+            (y + PORTRAIT_DIAMETER + PORTRAIT_OFFSET_Y).toInt(),
         )
         val matrixStack = MatrixStack()
         matrixStack.translate(
@@ -243,7 +246,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             matrixStack.pop()
         }
         matrixStack.pop()
-        RenderSystem.disableScissor()
+        DrawableHelper.disableScissor()
 
         // Third render the tile
         blitk(
@@ -342,7 +345,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             opacity = opacity,
             shadow = true
         )
-
+        val hpRatio = if (isFlatHealth) health / maxHealth else health
         val (healthRed, healthGreen) = getDepletableRedGreen(hpRatio)
         val fullWidth = 83
         val barWidth = hpRatio * fullWidth
@@ -359,10 +362,10 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             blue = 0.27F
         )
 
-        val text = if (trueHealth != null) {
-            "${trueHealth.first}/${trueHealth.second}"
+        val text = if (isFlatHealth) {
+            "${health.toInt()}/$maxHealth"
         } else {
-            "${ceil(hpRatio * 100)}%"
+            "${ceil(health * 100)}%"
         }.text()
 
         drawScaledText(
@@ -415,4 +418,11 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
 
         DiffuseLighting.enableGuiDepthLighting()
     }
+
+    fun onLogout() {
+        this.opacity = MIN_OPACITY
+        this.passedSeconds = 0F
+        this.lastKnownBattle = null
+    }
+
 }

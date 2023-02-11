@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.gui.battle.subscreen
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.battles.ShowdownPokemon
 import com.cobblemon.mod.common.battles.SwitchActionResponse
 import com.cobblemon.mod.common.client.CobblemonClient
@@ -19,6 +20,8 @@ import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.MathHelper.ceil
 class BattleSwitchPokemonSelection(
@@ -63,8 +66,9 @@ class BattleSwitchPokemonSelection(
                 displayName = pokemon.species.translatedName,
                 gender = pokemon.gender,
                 status = pokemon.status?.status,
-                hpRatio = pokemon.currentHealth.toFloat() / pokemon.hp,
-                trueHealth = pokemon.currentHealth to pokemon.hp,
+                maxHealth = pokemon.hp,
+                health = pokemon.currentHealth.toFloat(),
+                isFlatHealth = true,
                 state = null,
                 colour = null,
                 opacity = selection.opacity
@@ -83,6 +87,7 @@ class BattleSwitchPokemonSelection(
             }
             .filter { it.second.uuid !in battleGUI.actor!!.activePokemon.map { it.battlePokemon?.uuid } }
             .filter { it.second.uuid !in switchingInPokemon }
+            .filter { it.second.currentHealth > 0 }
 
         showdownPokemonToPokemon.forEachIndexed { index, (showdownPokemon, pokemon) ->
             val row = index / 2
@@ -118,6 +123,10 @@ class BattleSwitchPokemonSelection(
     }
 
     override fun appendNarrations(builder: NarrationMessageBuilder) {
+    }
+
+    override fun playDownSound(soundManager: SoundManager) {
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
     }
 
     override fun getType() = Selectable.SelectionType.HOVERED

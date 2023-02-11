@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -187,6 +187,15 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
             }
         }
         return this
+    }
+
+    override fun loadPositionFromNBT(nbt: NbtCompound): StoreCoordinates<PartyPosition> {
+        val slot = nbt.getByte(DataKeys.STORE_SLOT).toInt()
+        return StoreCoordinates(this, PartyPosition(slot))
+    }
+
+    override fun savePositionToNBT(position: PartyPosition, nbt: NbtCompound) {
+        nbt.putByte(DataKeys.STORE_SLOT, position.slot.toByte())
     }
 
     override fun getAnyChangeObservable(): Observable<Unit> = anyChangeObservable

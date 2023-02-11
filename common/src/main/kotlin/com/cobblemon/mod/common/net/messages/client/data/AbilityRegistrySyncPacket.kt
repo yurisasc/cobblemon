@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,19 +19,19 @@ class AbilityRegistrySyncPacket : DataRegistrySyncPacket<AbilityTemplate> {
 
     override fun encodeEntry(buffer: PacketByteBuf, entry: AbilityTemplate) {
         buffer.writeString(entry.name)
-        buffer.writeText(entry.displayName)
-        buffer.writeText(entry.description)
+        buffer.writeString(entry.displayName)
+        buffer.writeString(entry.description)
     }
 
     override fun decodeEntry(buffer: PacketByteBuf): AbilityTemplate {
         return AbilityTemplate(
             name = buffer.readString(),
-            displayName = buffer.readText().copy(),
-            description= buffer.readText().copy()
+            displayName = buffer.readString(),
+            description = buffer.readString()
         )
     }
 
     override fun synchronizeDecoded(entries: Collection<AbilityTemplate>) {
-        Abilities.reload(entries.associateBy { cobblemonResource(it.name.lowercase()) })
+        Abilities.receiveSyncPacket(entries)
     }
 }
