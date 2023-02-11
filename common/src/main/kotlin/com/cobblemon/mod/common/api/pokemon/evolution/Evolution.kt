@@ -97,8 +97,8 @@ interface Evolution : EvolutionLike {
             .forEach { evolution ->
                 evolution.attemptEvolution(pokemon)
             }
+        pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING.get(), SoundCategory.NEUTRAL, 1F, 1F)
         CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
-        pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLUTION_COMPLETED.get(), SoundCategory.NEUTRAL, 1F, 1F)
     }
 
     fun evolveAbility(pokemon: Pokemon, previousAbilityPool: AbilityPool) {
