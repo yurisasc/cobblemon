@@ -33,6 +33,7 @@ class BlockBenchModelWrapper<T : Entity>(
     fun initializeModel(context: EntityRendererFactory.Context) {
         entityModel = modelFactory(context.modelLoader.getModelPart(layerLocation)).also {
             if (it is PoseableEntityModel<T>) {
+                it.initializeLocatorAccess()
                 it.registerPoses()
             }
         }

@@ -106,6 +106,7 @@ class RegisteredSpeciesRendering(
             existingEntityModel
         } else {
             val entityModel = poserSupplier(models[modelName]!!)
+            entityModel.initializeLocatorAccess()
             entityModel.registerPoses()
             posers[poserName to modelName] = entityModel
             entityModel

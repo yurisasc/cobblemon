@@ -44,6 +44,7 @@ abstract class ModelRepository<T : Entity> {
             val model = it.entityModel
             if (model is PoseableEntityModel<*>) {
                 model.poses.clear()
+                model.initializeLocatorAccess()
                 model.registerPoses()
             }
         }
