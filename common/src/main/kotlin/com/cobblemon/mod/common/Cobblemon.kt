@@ -74,6 +74,7 @@ import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
+import com.cobblemon.mod.common.item.CobblemonItems
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
 import com.cobblemon.mod.common.net.serverhandling.ServerPacketRegistrar
@@ -167,9 +168,7 @@ object Cobblemon {
 
         CobblemonCriteria // Init the fields and register the criteria
         CobblemonEntities.register()
-        CobblemonBlocks.register()
         CobblemonBlockEntities.register()
-        CobblemonItems.register()
         ServerPacketRegistrar.registerHandlers()
         CobblemonSounds.register()
         CobblemonFeatures.register()
@@ -243,10 +242,12 @@ object Cobblemon {
             CobblemonNetwork.clientHandlersRegistered.complete(Unit)
         }
 
+        /*
         CobblemonBlocks.completed.thenAccept {
             AxeItemHooks.addStrippable(CobblemonBlocks.APRICORN_LOG.get(), CobblemonBlocks.STRIPPED_APRICORN_LOG.get())
             AxeItemHooks.addStrippable(CobblemonBlocks.APRICORN_WOOD.get(), CobblemonBlocks.STRIPPED_APRICORN_WOOD.get())
         }
+         */
 
         SERVER_STARTED.subscribe { server ->
             playerData = PlayerDataStoreManager().also { it.setup(server) }

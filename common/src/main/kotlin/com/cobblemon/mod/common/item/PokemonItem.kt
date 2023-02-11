@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.item
 
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -71,7 +70,7 @@ class PokemonItem : CobblemonItem(Settings().maxCount(1)) {
         fun from(species: Species, vararg aspects: String, count: Int = 1): ItemStack = from(species, aspects.toSet(), count)
 
         fun from(species: Species, aspects: Set<String>, count: Int = 1): ItemStack {
-            val stack = ItemStack(CobblemonItems.POKEMON_MODEL.get(), count)
+            val stack = ItemStack(CobblemonItems.POKEMON_MODEL, count)
             stack.orCreateNbt.apply {
                 putString(DataKeys.POKEMON_ITEM_SPECIES, species.resourceIdentifier.toString())
                 val list = NbtList()

@@ -37,9 +37,9 @@ open class PokeBall(
 ) {
 
     // This gets attached during item registry
-    internal lateinit var itemSupplier: RegistrySupplier<PokeBallItem>
+    internal lateinit var item: PokeBallItem
 
-    fun item(): PokeBallItem = this.itemSupplier.get()
+    fun item(): PokeBallItem = this.item
 
     fun stack(count: Int = 1): ItemStack = ItemStack(this.item(), count)
 

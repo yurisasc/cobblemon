@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonClientImplementation
-import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.item.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
@@ -95,32 +95,32 @@ object CobblemonClient {
     fun registerColors() {
         ColorHandlerRegistry.registerBlockColors(BlockColorProvider { blockState, blockAndTintGetter, blockPos, i ->
             return@BlockColorProvider 0x71c219
-        }, CobblemonBlocks.APRICORN_LEAVES.get())
+        }, CobblemonBlocks.APRICORN_LEAVES)
 
         ColorHandlerRegistry.registerItemColors(ItemColorProvider { itemStack, i ->
             return@ItemColorProvider 0x71c219
-        }, CobblemonItems.APRICORN_LEAVES.get())
+        }, CobblemonItems.APRICORN_LEAVES)
     }
 
     private fun registerBlockRenderTypes() {
         RenderTypeRegistry.register(RenderLayer.getCutout(),
-            CobblemonBlocks.APRICORN_DOOR.get(),
-            CobblemonBlocks.APRICORN_TRAPDOOR.get(),
-            CobblemonBlocks.BLACK_APRICORN_SAPLING.get(),
-            CobblemonBlocks.BLUE_APRICORN_SAPLING.get(),
-            CobblemonBlocks.GREEN_APRICORN_SAPLING.get(),
-            CobblemonBlocks.PINK_APRICORN_SAPLING.get(),
-            CobblemonBlocks.RED_APRICORN_SAPLING.get(),
-            CobblemonBlocks.WHITE_APRICORN_SAPLING.get(),
-            CobblemonBlocks.YELLOW_APRICORN_SAPLING.get(),
-            CobblemonBlocks.BLACK_APRICORN.get(),
-            CobblemonBlocks.BLUE_APRICORN.get(),
-            CobblemonBlocks.GREEN_APRICORN.get(),
-            CobblemonBlocks.PINK_APRICORN.get(),
-            CobblemonBlocks.RED_APRICORN.get(),
-            CobblemonBlocks.WHITE_APRICORN.get(),
-            CobblemonBlocks.YELLOW_APRICORN.get(),
-            CobblemonBlocks.HEALING_MACHINE.get())
+            CobblemonBlocks.APRICORN_DOOR,
+            CobblemonBlocks.APRICORN_TRAPDOOR,
+            CobblemonBlocks.BLACK_APRICORN_SAPLING,
+            CobblemonBlocks.BLUE_APRICORN_SAPLING,
+            CobblemonBlocks.GREEN_APRICORN_SAPLING,
+            CobblemonBlocks.PINK_APRICORN_SAPLING,
+            CobblemonBlocks.RED_APRICORN_SAPLING,
+            CobblemonBlocks.WHITE_APRICORN_SAPLING,
+            CobblemonBlocks.YELLOW_APRICORN_SAPLING,
+            CobblemonBlocks.BLACK_APRICORN,
+            CobblemonBlocks.BLUE_APRICORN,
+            CobblemonBlocks.GREEN_APRICORN,
+            CobblemonBlocks.PINK_APRICORN,
+            CobblemonBlocks.RED_APRICORN,
+            CobblemonBlocks.WHITE_APRICORN,
+            CobblemonBlocks.YELLOW_APRICORN,
+            CobblemonBlocks.HEALING_MACHINE)
     }
 
     fun beforeChatRender(matrixStack: MatrixStack, partialDeltaTicks: Float) {

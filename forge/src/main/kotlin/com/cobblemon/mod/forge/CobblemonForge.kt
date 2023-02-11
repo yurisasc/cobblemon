@@ -8,18 +8,21 @@
 
 package com.cobblemon.mod.forge
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonEntities
-import com.cobblemon.mod.common.CobblemonImplementation
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
+import com.cobblemon.mod.common.item.CobblemonItems
+import com.cobblemon.mod.common.item.group.CobblemonItemGroups
+import com.cobblemon.mod.common.item.group.ItemGroupProvider
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import dev.architectury.platform.forge.EventBuses
+import net.minecraft.item.ItemGroup
+import net.minecraftforge.common.CreativeModeTabRegistry
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.event.CreativeModeTabEvent
 import net.minecraftforge.event.OnDatapackSyncEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.fml.ModList
@@ -27,12 +30,16 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
+import net.minecraftforge.registries.RegisterEvent
 import java.util.*
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
 
     init {
+        this.registerPermissionValidator()
+        this.registerBlocks()
+        this.registerItems()
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
 
@@ -57,7 +64,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::onLogin)
             addListener(this@CobblemonForge::onLogout)
         }
-        Cobblemon.permissionValidator = ForgePermissionValidator
+
     }
 
     fun serverInit(event: FMLDedicatedServerSetupEvent) {
@@ -86,4 +93,43 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun isModInstalled(id: String) = ModList.get().isLoaded(id)
+
+    override fun registerPermissionValidator() {
+        Cobblemon.permissionValidator = ForgePermissionValidator
+    }
+
+    override fun registerBlocks() {
+        with(FMLJavaModLoadingContext.get().modEventBus) {
+            addListener<RegisterEvent> { event ->
+                event.register(CobblemonBlocks.registryKey) { helper ->
+                    CobblemonBlocks.register { identifier, block -> helper.register(identifier, block) }
+                }
+            }
+            addListener<CreativeModeTabEvent.Register> { event ->
+                CobblemonItemGroups.register { provider ->
+                    Cobblemon.LOGGER.info("Registered {} tab", provider.identifier.toString())
+                    event.registerCreativeModeTab(provider.identifier) { builder ->
+                        builder.displayName(provider.displayName)
+                        builder.icon(provider.icon)
+                    }
+                }
+            }
+            addListener<CreativeModeTabEvent.BuildContents> { event ->
+                CobblemonItems.registerToItemGroups { group, item ->
+                    if (event.tab == group) {
+                        event.add(item)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun registerItems() {
+        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+            event.register(CobblemonItems.registryKey) { helper ->
+                CobblemonItems.register { identifier, item -> helper.register(identifier, item) }
+            }
+        }
+    }
+
 }

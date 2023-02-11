@@ -9,14 +9,16 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.apricorn.Apricorn
-import com.cobblemon.mod.common.registry.CompletableRegistry
 import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
 import com.cobblemon.mod.common.block.PCBlock
-import dev.architectury.registry.registries.RegistrySupplier
+import com.cobblemon.mod.common.registry.PlatformRegistry
 import net.minecraft.block.*
 import net.minecraft.entity.EntityType
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvents
@@ -24,11 +26,12 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.intprovider.UniformIntProvider
 import java.util.function.ToIntFunction
 
-object CobblemonBlocks : CompletableRegistry<Block>(RegistryKeys.BLOCK) {
-    /**
-     * Evolution Ores
-     */
+object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<Block>>, Block>() {
 
+    override val registry: Registry<Block> = Registries.BLOCK
+    override val registryKey: RegistryKey<Registry<Block>> = RegistryKeys.BLOCK
+
+    // Evolution Ores
     val DAWN_STONE_ORE = this.evolutionStoneOre("dawn_stone_ore")
     val DUSK_STONE_ORE = this.evolutionStoneOre("dusk_stone_ore")
     val FIRE_STONE_ORE = this.evolutionStoneOre("fire_stone_ore")
@@ -41,10 +44,7 @@ object CobblemonBlocks : CompletableRegistry<Block>(RegistryKeys.BLOCK) {
     val THUNDER_STONE_ORE = this.evolutionStoneOre("thunder_stone_ore")
     val WATER_STONE_ORE = this.evolutionStoneOre("water_stone_ore")
 
-    /**
-     * Deepslate separator
-     */
-
+    // Deepslate Ores
     val DEEPSLATE_DAWN_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_dawn_stone_ore")
     val DEEPSLATE_DUSK_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_dusk_stone_ore")
     val DEEPSLATE_FIRE_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_fire_stone_ore")
@@ -56,104 +56,75 @@ object CobblemonBlocks : CompletableRegistry<Block>(RegistryKeys.BLOCK) {
     val DEEPSLATE_THUNDER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_thunder_stone_ore")
     val DEEPSLATE_WATER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_water_stone_ore")
 
-    /**
-     * Apricorns
-     */
-
-    val APRICORN_LOG = queue("apricorn_log") {
-        log(
-            MapColor.DIRT_BROWN,
-            MapColor.BROWN
-        )
-    }
-    val STRIPPED_APRICORN_LOG = queue("stripped_apricorn_log") {
-        log(
-            MapColor.DIRT_BROWN,
-            MapColor.DIRT_BROWN
-        )
-    }
-    val APRICORN_WOOD = queue("apricorn_wood") {
-        log(
-            MapColor.DIRT_BROWN,
-            MapColor.DIRT_BROWN
-        )
-    }
-    val STRIPPED_APRICORN_WOOD = queue("stripped_apricorn_wood") {
-        log(
-            MapColor.DIRT_BROWN,
-            MapColor.DIRT_BROWN
-        )
-    }
-    val APRICORN_PLANKS = queue("apricorn_planks") { Block(AbstractBlock.Settings.of(Material.WOOD, MapColor.DIRT_BROWN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)) }
-    val APRICORN_LEAVES = queue("apricorn_leaves") { com.cobblemon.mod.common.CobblemonBlocks.leaves(BlockSoundGroup.GRASS) }
-    val APRICORN_FENCE = queue("apricorn_fence") { FenceBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.get().defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)) }
-    val APRICORN_FENCE_GATE = queue("apricorn_fence_gate") { FenceGateBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.get().defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD), SoundEvents.BLOCK_FENCE_GATE_CLOSE, SoundEvents.BLOCK_FENCE_GATE_OPEN) }
-    val APRICORN_BUTTON = queue("apricorn_button") { ButtonBlock(AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), 30, true, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_ON) }
-    val APRICORN_PRESSURE_PLATE = queue("apricorn_pressure_plate") { PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.get().defaultMapColor).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), SoundEvents.BLOCK_WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundEvents.BLOCK_WOODEN_PRESSURE_PLATE_CLICK_ON) }
+    // Apricorns
+    val APRICORN_LOG = this.log("apricorn_log", arg2 = MapColor.BROWN)
+    val STRIPPED_APRICORN_LOG = this.log("stripped_apricorn_log")
+    val APRICORN_WOOD = this.log("apricorn_wood")
+    val STRIPPED_APRICORN_WOOD = this.log("stripped_apricorn_wood")
+    val APRICORN_PLANKS = this.create("apricorn_planks", Block(AbstractBlock.Settings.of(Material.WOOD, MapColor.DIRT_BROWN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
+    val APRICORN_LEAVES = this.leaves("apricorn_leaves")
+    val APRICORN_FENCE = this.create("apricorn_fence", FenceBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
+    val APRICORN_FENCE_GATE = this.create("apricorn_fence_gate", FenceGateBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD), SoundEvents.BLOCK_FENCE_GATE_CLOSE, SoundEvents.BLOCK_FENCE_GATE_OPEN))
+    val APRICORN_BUTTON = this.create("apricorn_button", ButtonBlock(AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), 30, true, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_ON))
+    val APRICORN_PRESSURE_PLATE = this.create("apricorn_pressure_plate", PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), SoundEvents.BLOCK_WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundEvents.BLOCK_WOODEN_PRESSURE_PLATE_CLICK_ON))
     // Tag was removed be sure to add it back when implemented
     //val APRICORN_SIGN = queue("apricorn_sign") { StandingSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE) }
     //val APRICORN_WALL_SIGN = queue("apricorn_wall_sign") { WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD).dropsLike(APRICORN_SIGN), APRICORN_WOOD_TYPE) }
-    val APRICORN_SLAB = queue("apricorn_slab") { SlabBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)) }
-    val APRICORN_STAIRS = queue("apricorn_stairs") { StairsBlock(
-        APRICORN_PLANKS.get().defaultState, AbstractBlock.Settings.copy(
-            APRICORN_PLANKS.get())) }
-    val APRICORN_DOOR = queue("apricorn_door") { DoorBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.get().defaultMapColor).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque(),
-        SoundEvents.BLOCK_WOODEN_DOOR_CLOSE,
-        SoundEvents.BLOCK_WOODEN_DOOR_OPEN
-    ) }
-    val APRICORN_TRAPDOOR = queue("apricorn_trapdoor") { TrapdoorBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning { _, _, _, _ -> false },
-        SoundEvents.BLOCK_WOODEN_TRAPDOOR_CLOSE,
-        SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN
-    ) }
+    val APRICORN_SLAB = this.create("apricorn_slab", SlabBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
+    val APRICORN_STAIRS = this.create("apricorn_stairs", StairsBlock(APRICORN_PLANKS.defaultState, AbstractBlock.Settings.copy(APRICORN_PLANKS)))
+    val APRICORN_DOOR = this.create("apricorn_door", DoorBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque(), SoundEvents.BLOCK_WOODEN_DOOR_CLOSE, SoundEvents.BLOCK_WOODEN_DOOR_OPEN))
+    val APRICORN_TRAPDOOR = this.create("apricorn_trapdoor", TrapdoorBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning { _, _, _, _ -> false }, SoundEvents.BLOCK_WOODEN_TRAPDOOR_CLOSE, SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN))
 
     private val PLANT_PROPERTIES = AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)
-    val BLACK_APRICORN_SAPLING = queue("black_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.BLACK) }
-    val BLUE_APRICORN_SAPLING = queue("blue_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.BLUE) }
-    val GREEN_APRICORN_SAPLING = queue("green_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.GREEN) }
-    val PINK_APRICORN_SAPLING = queue("pink_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.PINK) }
-    val RED_APRICORN_SAPLING = queue("red_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.RED) }
-    val WHITE_APRICORN_SAPLING = queue("white_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.WHITE) }
-    val YELLOW_APRICORN_SAPLING = queue("yellow_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.YELLOW) }
+    val BLACK_APRICORN_SAPLING = this.create("black_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.BLACK))
+    val BLUE_APRICORN_SAPLING = this.create("blue_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.BLUE))
+    val GREEN_APRICORN_SAPLING = this.create("green_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.GREEN))
+    val PINK_APRICORN_SAPLING = this.create("pink_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.PINK))
+    val RED_APRICORN_SAPLING = this.create("red_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.RED))
+    val WHITE_APRICORN_SAPLING = this.create("white_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.WHITE))
+    val YELLOW_APRICORN_SAPLING = this.create("yellow_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.YELLOW))
 
-    val BLACK_APRICORN = registerApricornBlock("black_apricorn", Apricorn.BLACK)
-    val BLUE_APRICORN = registerApricornBlock("blue_apricorn", Apricorn.BLUE)
-    val GREEN_APRICORN = registerApricornBlock("green_apricorn", Apricorn.GREEN)
-    val PINK_APRICORN = registerApricornBlock("pink_apricorn", Apricorn.PINK)
-    val RED_APRICORN = registerApricornBlock("red_apricorn", Apricorn.RED)
-    val WHITE_APRICORN = registerApricornBlock("white_apricorn", Apricorn.WHITE)
-    val YELLOW_APRICORN = registerApricornBlock("yellow_apricorn", Apricorn.YELLOW)
+    val BLACK_APRICORN = this.apricornBlock("black_apricorn", Apricorn.BLACK)
+    val BLUE_APRICORN = this.apricornBlock("blue_apricorn", Apricorn.BLUE)
+    val GREEN_APRICORN = this.apricornBlock("green_apricorn", Apricorn.GREEN)
+    val PINK_APRICORN = this.apricornBlock("pink_apricorn", Apricorn.PINK)
+    val RED_APRICORN = this.apricornBlock("red_apricorn", Apricorn.RED)
+    val WHITE_APRICORN = this.apricornBlock("white_apricorn", Apricorn.WHITE)
+    val YELLOW_APRICORN = this.apricornBlock("yellow_apricorn", Apricorn.YELLOW)
 
-    val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque().luminance(ToIntFunction { state: BlockState -> if (state.get(HealingMachineBlock.CHARGE_LEVEL) >= HealingMachineBlock.MAX_CHARGE_LEVEL) 7 else 2 })) }
-    val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque().luminance(ToIntFunction { state: BlockState -> if ((state.get(
-            PCBlock.ON) as Boolean) && (state.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 })) }
+    val HEALING_MACHINE = this.create("healing_machine", HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque().luminance { state: BlockState ->
+        if (state.get(HealingMachineBlock.CHARGE_LEVEL) >= HealingMachineBlock.MAX_CHARGE_LEVEL) 7 else 2
+    }))
+    val PC = this.create("pc", PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque().luminance { state: BlockState ->
+        if ((state.get(PCBlock.ON) as Boolean) && (state.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0
+    }))
 
-    private fun registerApricornBlock(id: String, apricorn: Apricorn): RegistrySupplier<ApricornBlock> {
-        return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn) }
-    }
+    private fun apricornBlock(name: String, apricorn: Apricorn): ApricornBlock = this.create(name, ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn))
 
     /**
      * Helper method for creating logs
      * copied over from Vanilla
      */
-    private fun log(arg: MapColor, arg2: MapColor): PillarBlock {
-        return PillarBlock(AbstractBlock.Settings.of(Material.WOOD) { arg3: BlockState ->
+    private fun log(name: String, arg: MapColor = MapColor.DIRT_BROWN, arg2: MapColor = MapColor.DIRT_BROWN): PillarBlock {
+        val block = PillarBlock(AbstractBlock.Settings.of(Material.WOOD) { arg3: BlockState ->
             if (arg3.get(PillarBlock.AXIS) === Direction.Axis.Y) arg else arg2
         }.strength(2.0f).sounds(BlockSoundGroup.WOOD))
+        return this.create(name, block)
     }
 
-    private fun evolutionStoneOre(name: String) = this.queue(name) { ExperienceDroppingBlock(AbstractBlock.Settings.copy(Blocks.IRON_ORE), UniformIntProvider.create(1, 2)) }
+    private fun evolutionStoneOre(name: String) = this.create(name, ExperienceDroppingBlock(AbstractBlock.Settings.copy(Blocks.IRON_ORE), UniformIntProvider.create(1, 2)))
 
-    private fun deepslateEvolutionStoneOre(name: String) = this.queue(name) { ExperienceDroppingBlock(AbstractBlock.Settings.copy(Blocks.DEEPSLATE_IRON_ORE), UniformIntProvider.create(1, 2)) }
+    private fun deepslateEvolutionStoneOre(name: String) = this.create(name, ExperienceDroppingBlock(AbstractBlock.Settings.copy(Blocks.DEEPSLATE_IRON_ORE), UniformIntProvider.create(1, 2)))
 
     /**
      * Helper method for creating leaves
      * copied over from Vanilla
      */
-    private fun leaves(sound: BlockSoundGroup): LeavesBlock {
-        return LeavesBlock(
-            AbstractBlock.Settings.of(Material.LEAVES).strength(0.2f).ticksRandomly().sounds(sound).nonOpaque()
+    private fun leaves(name: String): LeavesBlock {
+        val block = LeavesBlock(AbstractBlock.Settings.of(Material.LEAVES).strength(0.2f).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque()
                 .allowsSpawning { _, _, _, type -> type === EntityType.OCELOT || type === EntityType.PARROT }
                 .suffocates { _, _, _ -> false }
                 .blockVision { _, _, _ -> false })
+        return this.create(name, block)
     }
 }

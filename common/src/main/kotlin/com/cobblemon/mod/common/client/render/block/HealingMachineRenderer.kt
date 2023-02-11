@@ -40,7 +40,7 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Con
         poseStack.push()
 
         val blockState = if (blockEntity.world != null) blockEntity.cachedState
-            else (CobblemonBlocks.HEALING_MACHINE.get().defaultState.with(HorizontalFacingBlock.FACING, Direction.SOUTH) as BlockState)
+            else (CobblemonBlocks.HEALING_MACHINE.defaultState.with(HorizontalFacingBlock.FACING, Direction.SOUTH) as BlockState)
         val yRot = blockState.get(HorizontalFacingBlock.FACING).asRotation()
 
         // Position Poké Balls

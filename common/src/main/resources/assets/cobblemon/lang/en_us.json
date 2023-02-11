@@ -1,5 +1,5 @@
 {
-  "itemGroup.cobblemon.pokeball": "Poké Balls",
+  "itemGroup.cobblemon.pokeball": "Cobblemon - Poké Balls",
   "item.cobblemon.poke_ball": "Poké Ball",
   "item.cobblemon.slate_ball": "Slate Ball",
   "item.cobblemon.azure_ball": "Azure Ball",
@@ -47,7 +47,7 @@
   "item.cobblemon.white_apricorn": "White Apricorn",
   "item.cobblemon.yellow_apricorn": "Yellow Apricorn",
 
-  "itemGroup.cobblemon.evolution_item": "Evolution Items",
+  "itemGroup.cobblemon.evolution_item": "Cobblemon - Evolution Items",
   "item.cobblemon.black_augurite": "Black Augurite",
   "item.cobblemon.dragon_scale": "Dragon Scale",
   "item.cobblemon.dubious_disc": "Dubious Disc",
@@ -60,7 +60,7 @@
   "item.cobblemon.protector": "Protector",
   "item.cobblemon.upgrade": "Upgrade",
 
-  "itemGroup.cobblemon.medicine": "Medicine",
+  "itemGroup.cobblemon.medicine": "Cobblemon - Medicine",
   "item.cobblemon.rare_candy": "Rare Candy",
   "item.cobblemon.exp_candy_xs": "Exp. Candy XS",
   "item.cobblemon.exp_candy_s": "Exp. Candy S",
@@ -74,7 +74,7 @@
   "item.cobblemon.protein": "Protein",
   "item.cobblemon.zinc": "Zinc",
 
-  "itemGroup.cobblemon.held_item": "Held Items",
+  "itemGroup.cobblemon.held_item": "Cobblemon - Held Items",
   "item.cobblemon.assault_vest": "Assault Vest",
   "item.cobblemon.black_glasses": "Black Glasses",
   "item.cobblemon.choice_band": "Choice Band",
@@ -121,6 +121,10 @@
   "item.cobblemon.park_ball.tooltip": "2.5× in all Forest or Plains biomes",
   "item.cobblemon.dream_ball.tooltip": "4× on sleeping Pokémon",
   "item.cobblemon.beast_ball.tooltip": "5× on Ultra Beasts, 0.1× otherwise",
+
+  "itemGroup.cobblemon.building_blocks": "Cobblemon - Building Blocks",
+  "itemGroup.cobblemon.machines": "Cobblemon - Machines",
+  "itemGroup.cobblemon.plants": "Cobblemon - Plants",
 
   "block.cobblemon.apricorn_log": "Apricorn Log",
   "block.cobblemon.stripped_apricorn_log": "Stripped Apricorn Log",

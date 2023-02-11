@@ -23,15 +23,9 @@ object CobblemonBlockEntities : CompletableRegistry<BlockEntityType<*>>(Registry
     }
 
     val HEALING_MACHINE = register("healing_machine") {
-        BlockEntityType.Builder.create(
-            ::HealingMachineBlockEntity,
-            CobblemonBlocks.HEALING_MACHINE.get()
-        ).build(null)
+        BlockEntityType.Builder.create(::HealingMachineBlockEntity, CobblemonBlocks.HEALING_MACHINE).build(null)
     }
     val PC = register("pc") {
-        BlockEntityType.Builder.create(
-            ::PCBlockEntity,
-            CobblemonBlocks.PC.get()
-        ).build(null)
+        BlockEntityType.Builder.create(::PCBlockEntity, CobblemonBlocks.PC).build(null)
     }
 }

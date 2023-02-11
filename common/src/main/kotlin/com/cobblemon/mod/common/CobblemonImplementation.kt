@@ -12,7 +12,15 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import net.minecraft.server.network.ServerPlayerEntity
 
 interface CobblemonImplementation {
+
     fun isModInstalled(id: String): Boolean
+
+    fun registerPermissionValidator()
+
+    fun registerItems()
+
+    fun registerBlocks()
+
 }
 
 interface NetworkDelegate {

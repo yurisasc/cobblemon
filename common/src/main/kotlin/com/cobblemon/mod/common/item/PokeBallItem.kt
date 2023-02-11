@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.isServerSide
 import com.cobblemon.mod.common.util.math.geometry.toRadians
-import dev.architectury.registry.CreativeTabRegistry
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -28,10 +27,6 @@ import kotlin.math.cos
 class PokeBallItem(
     val pokeBall : PokeBall
 ) : CobblemonItem(Settings()) {
-
-    init {
-        CreativeTabRegistry.append(CobblemonCreativeTabs.POKE_BALL_GROUP, this)
-    }
 
     override fun use(world: World, player: PlayerEntity, usedHand: Hand): TypedActionResult<ItemStack> {
         val itemStack = player.getStackInHand(usedHand)

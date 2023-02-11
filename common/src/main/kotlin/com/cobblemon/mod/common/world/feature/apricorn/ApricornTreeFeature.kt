@@ -63,7 +63,7 @@ class ApricornTreeFeature : Feature<SingleStateFeatureConfig>(SingleStateFeature
         }
 
         // Create trunk
-        val logState = CobblemonBlocks.APRICORN_LOG.get().defaultState
+        val logState = CobblemonBlocks.APRICORN_LOG.defaultState
         for (y in 0..4) {
             try {
                 val logPos = origin.offset(UP, y)
@@ -75,7 +75,7 @@ class ApricornTreeFeature : Feature<SingleStateFeatureConfig>(SingleStateFeature
 
         // Decorate with leaves
         val allApricornSpots: MutableList<List<Pair<Direction, BlockPos>>> = mutableListOf()
-        val leafBlock = CobblemonBlocks.APRICORN_LEAVES.get().defaultState
+        val leafBlock = CobblemonBlocks.APRICORN_LEAVES.defaultState
 
         val layerOnePos = origin.offset(UP)
         for (direction in listOf(NORTH, EAST, SOUTH, WEST)) {

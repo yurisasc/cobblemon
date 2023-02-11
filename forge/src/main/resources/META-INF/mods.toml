@@ -23,7 +23,7 @@ description='''
 [[dependencies.cobblemon]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.19.2]"
+versionRange="[1.19.3]"
 
 [[dependencies.cobblemon]]
 modId="forge" #mandatory

@@ -10,18 +10,10 @@ package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.item.CobblemonCreativeTabs
-import dev.architectury.registry.CreativeTabRegistry
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 
-class VitaminItem(
-    val stat: Stat
-) : PokemonInteractiveItem(Settings(), Ownership.OWNER) {
-
-    init {
-        CreativeTabRegistry.append(CobblemonCreativeTabs.MEDICINE_ITEM_GROUP, this)
-    }
+class VitaminItem(val stat: Stat) : PokemonInteractiveItem(Settings(), Ownership.OWNER) {
 
     companion object {
         const val EV_YIELD = 10
