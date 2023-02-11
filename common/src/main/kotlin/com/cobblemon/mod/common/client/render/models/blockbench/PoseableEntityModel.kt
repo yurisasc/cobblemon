@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
+import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
+import com.cobblemon.mod.common.client.render.LocatorState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -24,6 +26,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuir
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumer
@@ -31,6 +34,7 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.Vec3f
 
 /**
  * A model that can be posed and animated using [StatelessAnimation]s and [StatefulAnimation]s. This
@@ -46,6 +50,9 @@ abstract class PoseableEntityModel<T : Entity>(
     var currentEntity: T? = null
 
     val poses = mutableMapOf<String, Pose<T, out ModelFrame>>()
+    val locatorStates = mutableMapOf<String, LocatorState>()
+    lateinit var locatorAccess: LocatorAccess
+
     /**
      * A list of [TransformedModelPart] that are relevant to any frame or animation.
      * This allows the original rotations to be reset.
@@ -124,6 +131,10 @@ abstract class PoseableEntityModel<T : Entity>(
         registerRelevantPart(name to child)
         loadSpecificNamedChildren(child, nameList)
         return child
+    }
+
+    fun initializeLocatorAccess() {
+        locatorAccess = LocatorAccess.resolve(rootPart) ?: LocatorAccess(rootPart)
     }
 
     fun getPart(name: String) = relevantPartsByName[name]!!.modelPart
@@ -243,10 +254,33 @@ abstract class PoseableEntityModel<T : Entity>(
         state.currentPose?.let { getPose(it) }?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         state.applyAdditives(entity, this, state)
         relevantParts.forEach { it.changeFactor = 1F }
+        updateLocators()
     }
 
     override fun setAngles(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         setupAnimStateful(entity, getState(entity), limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+    }
+
+    /**
+     * Figures out where all of this model's locators are in real space, so that they can be
+     * found and used from other client-side systems.
+     */
+    fun updateLocators() {
+        val entity = currentEntity ?: return
+        val matrixStack = MatrixStack()
+        matrixStack.translate(entity.x, entity.y, entity.z)
+        matrixStack.push()
+        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180 - entity.bodyYaw))
+        matrixStack.push()
+        matrixStack.scale(-1F, -1F, 1F)
+        // We could improve this to be generalized for other entities
+        if (entity is PokemonEntity) {
+            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            matrixStack.scale(scale, scale, scale)
+        }
+        // Standard living entity offset, only God knows why Mojang did this.
+        matrixStack.translate(0.0, -1.5, 0.0)
+        locatorAccess.update(matrixStack, locatorStates)
     }
 
     fun ModelPart.translation(
