@@ -134,6 +134,18 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         operator fun getValue(_species: PokemonSpecies, property: KProperty<*>) = getByIdentifier(cobblemonResource(property.name.lowercase()))
     }
 
+    init {
+        SpeciesAdditions.observable.subscribe {
+            this.species.forEach(Species::initialize)
+            Cobblemon.showdownThread.showdownStarted.whenComplete { _, _ -> createShowdownData() }.get()
+            // Reload this with the mod
+            CobblemonEmptyHeldItemManager.load()
+            CobblemonHeldItemManager.load()
+            Cobblemon.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
+            this.observable.emit(this)
+        }
+    }
+
     /**
      * Finds a species by the pathname of their [Identifier].
      * This method exists for the convenience of finding Cobble default Pokémon.
@@ -189,15 +201,6 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             if (species.implemented) {
                 this.implemented.add(species)
             }
-        }
-        SpeciesAdditions.observable.subscribe {
-            this.species.forEach(Species::initialize)
-            Cobblemon.showdownThread.showdownStarted.whenComplete { _, _ -> createShowdownData() }.get()
-            // Reload this with the mod
-            CobblemonEmptyHeldItemManager.load()
-            CobblemonHeldItemManager.load()
-            Cobblemon.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
-            this.observable.emit(this)
         }
     }
 

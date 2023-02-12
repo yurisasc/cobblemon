@@ -86,6 +86,7 @@
 - Fixed being able to select fainted party members in the switch menu causing the battle to lock.
 - Fixed ``/spawnpokemon`` command not supporting any command source other than players.
 - Fixed shiny Gyarados not using the red Gyarados texture.
+- Fixed Showdown initialization happening several times when you login depending on how many times you have relogged this session (hilarious).
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
