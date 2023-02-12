@@ -29,6 +29,8 @@ interface CobblemonImplementation {
 
     fun registerBlockEntityTypes()
 
+    fun registerWorldGenFeatures()
+
 }
 
 interface NetworkDelegate {

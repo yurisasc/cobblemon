@@ -92,7 +92,6 @@ import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.registry.CompletableRegistry
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.util.*
-import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.common.world.feature.apricorn.CobblemonApricornPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
@@ -154,14 +153,11 @@ object Cobblemon {
         ExperienceGroups.registerDefaults()
         CaptureCalculators.registerDefaults()
 
-
-
         this.loadConfig()
         this.implementation = implementation
 
         CobblemonCriteria // Init the fields and register the criteria
         ServerPacketRegistrar.registerHandlers()
-        CobblemonFeatures.register()
         CobblemonGameRules.register()
 
         ShoulderEffectRegistry.register()
@@ -231,13 +227,6 @@ object Cobblemon {
             TICK_POST.subscribe { ScheduledTaskTracker.update() }
             CobblemonNetwork.clientHandlersRegistered.complete(Unit)
         }
-
-        /*
-        CobblemonBlocks.completed.thenAccept {
-            AxeItemHooks.addStrippable(CobblemonBlocks.APRICORN_LOG.get(), CobblemonBlocks.STRIPPED_APRICORN_LOG.get())
-            AxeItemHooks.addStrippable(CobblemonBlocks.APRICORN_WOOD.get(), CobblemonBlocks.STRIPPED_APRICORN_WOOD.get())
-        }
-         */
 
         SERVER_STARTED.subscribe { server ->
             playerData = PlayerDataStoreManager().also { it.setup(server) }

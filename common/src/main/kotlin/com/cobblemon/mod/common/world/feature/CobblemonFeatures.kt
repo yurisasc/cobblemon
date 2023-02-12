@@ -8,15 +8,19 @@
 
 package com.cobblemon.mod.common.world.feature
 
-import com.cobblemon.mod.common.registry.CompletableRegistry
+import com.cobblemon.mod.common.registry.PlatformRegistry
 import com.cobblemon.mod.common.world.feature.apricorn.ApricornTreeFeature
-import dev.architectury.registry.registries.RegistrySupplier
-import java.util.function.Supplier
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.gen.feature.Feature
 
-object CobblemonFeatures : CompletableRegistry<Feature<*>>(RegistryKeys.FEATURE) {
+object CobblemonFeatures : PlatformRegistry<Registry<Feature<*>>, RegistryKey<Registry<Feature<*>>>, Feature<*>>() {
 
-    val APRICORN_TREE_FEATURE = this.queue("apricorn_tree") { ApricornTreeFeature() }
+    override val registry: Registry<Feature<*>> = Registries.FEATURE
+    override val registryKey: RegistryKey<Registry<Feature<*>>> = RegistryKeys.FEATURE
+
+    val APRICORN_TREE_FEATURE = this.create("apricorn_tree", ApricornTreeFeature())
 
 }

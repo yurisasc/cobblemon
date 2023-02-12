@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
+import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkDelegate
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
@@ -34,6 +35,7 @@ object CobblemonFabric : CobblemonImplementation {
         this.registerEntityTypes()
         this.registerEntityAttributes()
         this.registerBlockEntityTypes()
+        this.registerWorldGenFeatures()
         CobblemonNetwork.networkDelegate = CobblemonFabricNetworkDelegate
         Cobblemon.preinitialize(this)
 
@@ -78,10 +80,14 @@ object CobblemonFabric : CobblemonImplementation {
     }
 
     override fun registerEntityAttributes() {
-        FabricDefaultAttributeRegistry.register(CobblemonEntities.POKEMON, PokemonEntity.createAttributes())
+        CobblemonEntities.registerAttributes { entityType, builder -> FabricDefaultAttributeRegistry.register(entityType, builder) }
     }
 
     override fun registerBlockEntityTypes() {
         CobblemonBlockEntities.register { identifier, type -> Registry.register(CobblemonBlockEntities.registry, identifier, type) }
+    }
+
+    override fun registerWorldGenFeatures() {
+        CobblemonFeatures.register { identifier, feature -> Registry.register(CobblemonFeatures.registry, identifier, feature) }
     }
 }

@@ -14,7 +14,9 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.registry.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnGroup
+import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -27,12 +29,20 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
 
     val POKEMON_KEY = cobblemonResource("pokemon")
     val POKEMON: EntityType<PokemonEntity> = this.create(
-        POKEMON_KEY.path, EntityType.Builder.create({ _, world -> PokemonEntity(world) }, SpawnGroup.CREATURE).build(
-            POKEMON_KEY.toString()))
+        POKEMON_KEY.path,
+        EntityType.Builder.create({ _, world -> PokemonEntity(world) }, SpawnGroup.CREATURE)
+            .build(POKEMON_KEY.toString())
+    )
 
     val EMPTY_POKEBALL_KEY = cobblemonResource("empty_pokeball")
     val EMPTY_POKEBALL: EntityType<EmptyPokeBallEntity> = this.create(
-        EMPTY_POKEBALL_KEY.path, EntityType.Builder.create({ _, world -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, world) }, SpawnGroup.MISC).build(
-            EMPTY_POKEBALL_KEY.toString()))
+        EMPTY_POKEBALL_KEY.path,
+        EntityType.Builder.create({ _, world -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, world) }, SpawnGroup.MISC)
+            .build(EMPTY_POKEBALL_KEY.toString())
+    )
+
+    fun registerAttributes(consumer: (EntityType<out LivingEntity>, DefaultAttributeContainer.Builder) -> Unit) {
+        consumer(POKEMON, PokemonEntity.createAttributes())
+    }
 
 }

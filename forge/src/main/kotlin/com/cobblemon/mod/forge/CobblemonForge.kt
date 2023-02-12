@@ -11,6 +11,7 @@ package com.cobblemon.mod.forge
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
+import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import dev.architectury.platform.forge.EventBuses
@@ -41,6 +42,7 @@ class CobblemonForge : CobblemonImplementation {
         this.registerEntityTypes()
         this.registerEntityAttributes()
         this.registerBlockEntityTypes()
+        this.registerWorldGenFeatures()
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
             addListener(this@CobblemonForge::initialize)
@@ -149,14 +151,12 @@ class CobblemonForge : CobblemonImplementation {
 
     override fun registerEntityAttributes() {
         FMLJavaModLoadingContext.get().modEventBus.addListener<EntityAttributeCreationEvent> { event ->
-            event.put(
-                CobblemonEntities.POKEMON,
-                PokemonEntity.createAttributes()
-                    .add(ForgeMod.ENTITY_GRAVITY.get())
+            CobblemonEntities.registerAttributes { entityType, builder ->
+                builder.add(ForgeMod.ENTITY_GRAVITY.get())
                     .add(ForgeMod.NAMETAG_DISTANCE.get())
                     .add(ForgeMod.SWIM_SPEED.get())
-                    .build()
-            )
+                event.put(entityType, builder.build())
+            }
         }
     }
 
@@ -164,6 +164,14 @@ class CobblemonForge : CobblemonImplementation {
         FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
             event.register(CobblemonBlockEntities.registryKey) { helper ->
                 CobblemonBlockEntities.register { identifier, type -> helper.register(identifier, type) }
+            }
+        }
+    }
+
+    override fun registerWorldGenFeatures() {
+        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+            event.register(CobblemonFeatures.registryKey) { helper ->
+                CobblemonFeatures.register { identifier, feature -> helper.register(identifier, feature) }
             }
         }
     }
