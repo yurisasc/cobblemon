@@ -30,7 +30,7 @@ import kotlin.math.floor
 class HealingMachineBlockEntity(
     val blockPos: BlockPos,
     val blockState: BlockState
-) : BlockEntity(CobblemonBlockEntities.HEALING_MACHINE.get(), blockPos, blockState) {
+) : BlockEntity(CobblemonBlockEntities.HEALING_MACHINE, blockPos, blockState) {
     var currentUser: UUID? = null
         private set
     var pokeBalls: MutableList<PokeBall> = mutableListOf()

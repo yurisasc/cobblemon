@@ -31,6 +31,7 @@ object CobblemonFabric : CobblemonImplementation {
         this.registerItems()
         this.registerEntityTypes()
         this.registerEntityAttributes()
+        this.registerBlockEntityTypes()
         CobblemonNetwork.networkDelegate = CobblemonFabricNetworkDelegate
         Cobblemon.preinitialize(this)
 
@@ -78,4 +79,7 @@ object CobblemonFabric : CobblemonImplementation {
         FabricDefaultAttributeRegistry.register(CobblemonEntities.POKEMON, PokemonEntity.createAttributes())
     }
 
+    override fun registerBlockEntityTypes() {
+        CobblemonBlockEntities.register { identifier, type -> Registry.register(CobblemonBlockEntities.registry, identifier, type) }
+    }
 }

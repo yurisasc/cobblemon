@@ -160,7 +160,6 @@ object Cobblemon {
         this.implementation = implementation
 
         CobblemonCriteria // Init the fields and register the criteria
-        CobblemonBlockEntities.register()
         ServerPacketRegistrar.registerHandlers()
         CobblemonSounds.register()
         CobblemonFeatures.register()

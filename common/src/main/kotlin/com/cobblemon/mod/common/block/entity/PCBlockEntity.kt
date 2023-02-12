@@ -24,7 +24,7 @@ import net.minecraft.world.World
 class PCBlockEntity(
     val blockPos: BlockPos,
     val blockState: BlockState
-) : BlockEntity(CobblemonBlockEntities.PC.get(), blockPos, blockState) {
+) : BlockEntity(CobblemonBlockEntities.PC, blockPos, blockState) {
 
     companion object {
         internal val TICKER = BlockEntityTicker<PCBlockEntity> { world, _, _, blockEntity ->

@@ -19,11 +19,14 @@ interface CobblemonImplementation {
 
     fun registerItems()
 
+    // ToDo register stripped blocks
     fun registerBlocks()
 
     fun registerEntityTypes()
 
     fun registerEntityAttributes()
+
+    fun registerBlockEntityTypes()
 
 }
 

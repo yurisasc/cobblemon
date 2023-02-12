@@ -84,7 +84,7 @@ object CobblemonClient {
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()
 
-        BlockEntityRendererRegistry.register(CobblemonBlockEntities.HEALING_MACHINE.get(), ::HealingMachineRenderer)
+        BlockEntityRendererRegistry.register(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
 
         registerBlockRenderTypes()
         registerColors()

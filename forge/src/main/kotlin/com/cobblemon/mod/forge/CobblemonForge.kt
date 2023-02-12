@@ -8,13 +8,8 @@
 
 package com.cobblemon.mod.forge
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonImplementation
-import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
@@ -42,6 +37,7 @@ class CobblemonForge : CobblemonImplementation {
         this.registerItems()
         this.registerEntityTypes()
         this.registerEntityAttributes()
+        this.registerBlockEntityTypes()
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
             addListener(this@CobblemonForge::initialize)
@@ -92,12 +88,21 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerBlocks() {
+        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+            event.register(CobblemonBlocks.registryKey) { helper ->
+                CobblemonBlocks.register { identifier, block -> helper.register(identifier, block) }
+            }
+        }
+    }
+
+    override fun registerItems() {
         with(FMLJavaModLoadingContext.get().modEventBus) {
             addListener<RegisterEvent> { event ->
-                event.register(CobblemonBlocks.registryKey) { helper ->
-                    CobblemonBlocks.register { identifier, block -> helper.register(identifier, block) }
+                event.register(CobblemonItems.registryKey) { helper ->
+                    CobblemonItems.register { identifier, item -> helper.register(identifier, item) }
                 }
             }
+            // ToDo sort out ordering being insertion
             addListener<CreativeModeTabEvent.Register> { event ->
                 CobblemonItemGroups.register { provider ->
                     Cobblemon.LOGGER.info("Registered {} tab", provider.identifier.toString())
@@ -113,14 +118,6 @@ class CobblemonForge : CobblemonImplementation {
                         event.add(item)
                     }
                 }
-            }
-        }
-    }
-
-    override fun registerItems() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
-            event.register(CobblemonItems.registryKey) { helper ->
-                CobblemonItems.register { identifier, item -> helper.register(identifier, item) }
             }
         }
     }
@@ -143,6 +140,14 @@ class CobblemonForge : CobblemonImplementation {
                     .add(ForgeMod.SWIM_SPEED.get())
                     .build()
             )
+        }
+    }
+
+    override fun registerBlockEntityTypes() {
+        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+            event.register(CobblemonBlockEntities.registryKey) { helper ->
+                CobblemonBlockEntities.register { identifier, type -> helper.register(identifier, type) }
+            }
         }
     }
 }

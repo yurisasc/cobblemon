@@ -187,7 +187,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     @Deprecated("Deprecated in Java")
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int = (world.getBlockEntity(pos) as? HealingMachineBlockEntity)?.currentSignal ?: 0
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = checkType(BlockWithEntityType, CobblemonBlockEntities.HEALING_MACHINE.get(), HealingMachineBlockEntity.TICKER::tick)
+    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = checkType(BlockWithEntityType, CobblemonBlockEntities.HEALING_MACHINE, HealingMachineBlockEntity.TICKER::tick)
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(blockState: BlockState): BlockRenderType {
