@@ -20,6 +20,8 @@ object UpShiftPartyBinding : CobblemonKeyBinding(
     KeybindCategories.COBBLEMON_CATEGORY
 ) {
     override fun onPress() {
-        CobblemonClient.storage.shiftSelected(false)
+        if (CobblemonClient.storage.selectedSlot >= 0) {
+            CobblemonClient.storage.shiftSelected(false)
+        }
     }
 }
