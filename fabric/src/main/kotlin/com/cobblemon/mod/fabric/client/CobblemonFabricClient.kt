@@ -9,10 +9,10 @@
 package com.cobblemon.mod.fabric.client
 
 import com.cobblemon.mod.common.CobblemonClientImplementation
-import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
+import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.function.Supplier
 import net.fabricmc.api.ClientModInitializer
@@ -30,8 +30,8 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
     override fun onInitializeClient() {
         CobblemonClient.initialize(this)
 
-        EntityRendererRegistry.register(CobblemonEntities.POKEMON.get()) { CobblemonClient.registerPokemonRenderer(it) }
-        EntityRendererRegistry.register(CobblemonEntities.EMPTY_POKEBALL.get()) { CobblemonClient.registerPokeBallRenderer(it) }
+        EntityRendererRegistry.register(CobblemonEntities.POKEMON) { CobblemonClient.registerPokemonRenderer(it) }
+        EntityRendererRegistry.register(CobblemonEntities.EMPTY_POKEBALL) { CobblemonClient.registerPokeBallRenderer(it) }
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : SimpleSynchronousResourceReloadListener {
             override fun getFabricId() = cobblemonResource("resources")

@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.item.group
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.item.CobblemonItems
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack

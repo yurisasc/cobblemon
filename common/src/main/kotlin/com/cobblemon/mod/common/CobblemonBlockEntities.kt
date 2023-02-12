@@ -15,7 +15,6 @@ import dev.architectury.registry.registries.RegistrySupplier
 import java.util.function.Supplier
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.world.gen.feature.ConfiguredFeatures
 
 object CobblemonBlockEntities : CompletableRegistry<BlockEntityType<*>>(RegistryKeys.BLOCK_ENTITY_TYPE) {
     private fun <T : BlockEntityType<*>> register(name: String, blockEntityType: Supplier<T>) : RegistrySupplier<T> {

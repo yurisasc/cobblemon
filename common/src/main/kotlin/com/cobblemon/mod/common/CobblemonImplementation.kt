@@ -21,6 +21,10 @@ interface CobblemonImplementation {
 
     fun registerBlocks()
 
+    fun registerEntityTypes()
+
+    fun registerEntityAttributes()
+
 }
 
 interface NetworkDelegate {

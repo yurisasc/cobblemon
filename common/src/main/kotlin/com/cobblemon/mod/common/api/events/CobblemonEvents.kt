@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.api.events
 
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
-import com.cobblemon.mod.common.api.events.entity.EntityAttributeEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
@@ -47,7 +46,6 @@ import net.minecraft.server.network.ServerPlayerEntity
 object CobblemonEvents {
     val MESSAGE_BUILT = EventObservable<MessageBuiltEvent<*>>()
     val DATA_SYNCHRONIZED = SimpleObservable<ServerPlayerEntity>()
-    val ENTITY_ATTRIBUTE = EventObservable<EntityAttributeEvent>()
     val SHOULDER_MOUNT = CancelableObservable<ShoulderMountEvent>()
     val FRIENDSHIP_UPDATED = EventObservable<FriendshipUpdatedEvent>()
     val POKEMON_FAINTED = EventObservable<PokemonFaintedEvent>()

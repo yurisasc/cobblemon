@@ -8,22 +8,22 @@
 
 package com.cobblemon.mod.forge
 
-import com.cobblemon.mod.common.*
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
-import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
-import com.cobblemon.mod.common.item.CobblemonItems
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonImplementation
+import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
-import com.cobblemon.mod.common.item.group.ItemGroupProvider
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import dev.architectury.platform.forge.EventBuses
-import net.minecraft.item.ItemGroup
-import net.minecraftforge.common.CreativeModeTabRegistry
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.CreativeModeTabEvent
 import net.minecraftforge.event.OnDatapackSyncEvent
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
@@ -40,17 +40,10 @@ class CobblemonForge : CobblemonImplementation {
         this.registerPermissionValidator()
         this.registerBlocks()
         this.registerItems()
+        this.registerEntityTypes()
+        this.registerEntityAttributes()
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
-
-            CobblemonEvents.ENTITY_ATTRIBUTE.pipe(filter { it.entityType == CobblemonEntities.POKEMON.get() }, takeFirst())
-                .subscribe {
-                    it.attributeSupplier
-                        .add(ForgeMod.ENTITY_GRAVITY.get())
-                        .add(ForgeMod.NAMETAG_DISTANCE.get())
-                        .add(ForgeMod.SWIM_SPEED.get())
-                }
-
             addListener(this@CobblemonForge::initialize)
             addListener(this@CobblemonForge::serverInit)
             CobblemonNetwork.networkDelegate = CobblemonForgeNetworkDelegate
@@ -132,4 +125,24 @@ class CobblemonForge : CobblemonImplementation {
         }
     }
 
+    override fun registerEntityTypes() {
+        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+            event.register(CobblemonEntities.registryKey) { helper ->
+                CobblemonEntities.register { identifier, type -> helper.register(identifier, type) }
+            }
+        }
+    }
+
+    override fun registerEntityAttributes() {
+        FMLJavaModLoadingContext.get().modEventBus.addListener<EntityAttributeCreationEvent> { event ->
+            event.put(
+                CobblemonEntities.POKEMON,
+                PokemonEntity.createAttributes()
+                    .add(ForgeMod.ENTITY_GRAVITY.get())
+                    .add(ForgeMod.NAMETAG_DISTANCE.get())
+                    .add(ForgeMod.SWIM_SPEED.get())
+                    .build()
+            )
+        }
+    }
 }

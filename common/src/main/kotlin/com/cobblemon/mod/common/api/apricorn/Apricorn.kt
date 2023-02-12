@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.api.apricorn
 
 import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.item.CobblemonItems
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.item.ApricornItem
 import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.block.ApricornSaplingBlock

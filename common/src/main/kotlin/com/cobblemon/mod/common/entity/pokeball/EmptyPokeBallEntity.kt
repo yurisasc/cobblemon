@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.entity.pokeball
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
@@ -23,6 +22,7 @@ import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleTypes
+import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyCaptureResponsePacket
@@ -60,7 +60,7 @@ import net.minecraft.world.World
 class EmptyPokeBallEntity(
     var pokeBall: PokeBall,
     world: World,
-    entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL.get()
+    entityType: EntityType<out EmptyPokeBallEntity> = CobblemonEntities.EMPTY_POKEBALL
 ) : ThrownItemEntity(entityType, world), EntitySpawnExtension {
     enum class CaptureState {
         NOT,

@@ -24,7 +24,6 @@ import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.intprovider.UniformIntProvider
-import java.util.function.ToIntFunction
 
 object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<Block>>, Block>() {
 
@@ -32,37 +31,37 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     override val registryKey: RegistryKey<Registry<Block>> = RegistryKeys.BLOCK
 
     // Evolution Ores
-    val DAWN_STONE_ORE = this.evolutionStoneOre("dawn_stone_ore")
-    val DUSK_STONE_ORE = this.evolutionStoneOre("dusk_stone_ore")
-    val FIRE_STONE_ORE = this.evolutionStoneOre("fire_stone_ore")
-    val ICE_STONE_ORE = this.evolutionStoneOre("ice_stone_ore")
-    val LEAF_STONE_ORE = this.evolutionStoneOre("leaf_stone_ore")
-    val MOON_STONE_ORE = this.evolutionStoneOre("moon_stone_ore")
-    val DRIPSTONE_MOON_STONE_ORE = this.evolutionStoneOre("dripstone_moon_stone_ore")
-    val SHINY_STONE_ORE = this.evolutionStoneOre("shiny_stone_ore")
-    val SUN_STONE_ORE = this.evolutionStoneOre("sun_stone_ore")
-    val THUNDER_STONE_ORE = this.evolutionStoneOre("thunder_stone_ore")
-    val WATER_STONE_ORE = this.evolutionStoneOre("water_stone_ore")
+    val DAWN_STONE_ORE = evolutionStoneOre("dawn_stone_ore")
+    val DUSK_STONE_ORE = evolutionStoneOre("dusk_stone_ore")
+    val FIRE_STONE_ORE = evolutionStoneOre("fire_stone_ore")
+    val ICE_STONE_ORE = evolutionStoneOre("ice_stone_ore")
+    val LEAF_STONE_ORE = evolutionStoneOre("leaf_stone_ore")
+    val MOON_STONE_ORE = evolutionStoneOre("moon_stone_ore")
+    val DRIPSTONE_MOON_STONE_ORE = evolutionStoneOre("dripstone_moon_stone_ore")
+    val SHINY_STONE_ORE = evolutionStoneOre("shiny_stone_ore")
+    val SUN_STONE_ORE = evolutionStoneOre("sun_stone_ore")
+    val THUNDER_STONE_ORE = evolutionStoneOre("thunder_stone_ore")
+    val WATER_STONE_ORE = evolutionStoneOre("water_stone_ore")
 
     // Deepslate Ores
-    val DEEPSLATE_DAWN_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_dawn_stone_ore")
-    val DEEPSLATE_DUSK_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_dusk_stone_ore")
-    val DEEPSLATE_FIRE_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_fire_stone_ore")
-    val DEEPSLATE_ICE_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_ice_stone_ore")
-    val DEEPSLATE_LEAF_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_leaf_stone_ore")
-    val DEEPSLATE_MOON_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_moon_stone_ore")
-    val DEEPSLATE_SHINY_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_shiny_stone_ore")
-    val DEEPSLATE_SUN_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_sun_stone_ore")
-    val DEEPSLATE_THUNDER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_thunder_stone_ore")
-    val DEEPSLATE_WATER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_water_stone_ore")
+    val DEEPSLATE_DAWN_STONE_ORE = deepslateEvolutionStoneOre("deepslate_dawn_stone_ore")
+    val DEEPSLATE_DUSK_STONE_ORE = deepslateEvolutionStoneOre("deepslate_dusk_stone_ore")
+    val DEEPSLATE_FIRE_STONE_ORE = deepslateEvolutionStoneOre("deepslate_fire_stone_ore")
+    val DEEPSLATE_ICE_STONE_ORE = deepslateEvolutionStoneOre("deepslate_ice_stone_ore")
+    val DEEPSLATE_LEAF_STONE_ORE = deepslateEvolutionStoneOre("deepslate_leaf_stone_ore")
+    val DEEPSLATE_MOON_STONE_ORE = deepslateEvolutionStoneOre("deepslate_moon_stone_ore")
+    val DEEPSLATE_SHINY_STONE_ORE = deepslateEvolutionStoneOre("deepslate_shiny_stone_ore")
+    val DEEPSLATE_SUN_STONE_ORE = deepslateEvolutionStoneOre("deepslate_sun_stone_ore")
+    val DEEPSLATE_THUNDER_STONE_ORE = deepslateEvolutionStoneOre("deepslate_thunder_stone_ore")
+    val DEEPSLATE_WATER_STONE_ORE = deepslateEvolutionStoneOre("deepslate_water_stone_ore")
 
     // Apricorns
-    val APRICORN_LOG = this.log("apricorn_log", arg2 = MapColor.BROWN)
-    val STRIPPED_APRICORN_LOG = this.log("stripped_apricorn_log")
-    val APRICORN_WOOD = this.log("apricorn_wood")
-    val STRIPPED_APRICORN_WOOD = this.log("stripped_apricorn_wood")
+    val APRICORN_LOG = log("apricorn_log", arg2 = MapColor.BROWN)
+    val STRIPPED_APRICORN_LOG = log("stripped_apricorn_log")
+    val APRICORN_WOOD = log("apricorn_wood")
+    val STRIPPED_APRICORN_WOOD = log("stripped_apricorn_wood")
     val APRICORN_PLANKS = this.create("apricorn_planks", Block(AbstractBlock.Settings.of(Material.WOOD, MapColor.DIRT_BROWN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
-    val APRICORN_LEAVES = this.leaves("apricorn_leaves")
+    val APRICORN_LEAVES = leaves("apricorn_leaves")
     val APRICORN_FENCE = this.create("apricorn_fence", FenceBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
     val APRICORN_FENCE_GATE = this.create("apricorn_fence_gate", FenceGateBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD), SoundEvents.BLOCK_FENCE_GATE_CLOSE, SoundEvents.BLOCK_FENCE_GATE_OPEN))
     val APRICORN_BUTTON = this.create("apricorn_button", ButtonBlock(AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), 30, true, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_ON))
@@ -71,7 +70,10 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     //val APRICORN_SIGN = queue("apricorn_sign") { StandingSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE) }
     //val APRICORN_WALL_SIGN = queue("apricorn_wall_sign") { WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD).dropsLike(APRICORN_SIGN), APRICORN_WOOD_TYPE) }
     val APRICORN_SLAB = this.create("apricorn_slab", SlabBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
-    val APRICORN_STAIRS = this.create("apricorn_stairs", StairsBlock(APRICORN_PLANKS.defaultState, AbstractBlock.Settings.copy(APRICORN_PLANKS)))
+    val APRICORN_STAIRS = this.create("apricorn_stairs", StairsBlock(
+        APRICORN_PLANKS.defaultState, AbstractBlock.Settings.copy(
+            APRICORN_PLANKS
+        )))
     val APRICORN_DOOR = this.create("apricorn_door", DoorBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque(), SoundEvents.BLOCK_WOODEN_DOOR_CLOSE, SoundEvents.BLOCK_WOODEN_DOOR_OPEN))
     val APRICORN_TRAPDOOR = this.create("apricorn_trapdoor", TrapdoorBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning { _, _, _, _ -> false }, SoundEvents.BLOCK_WOODEN_TRAPDOOR_CLOSE, SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN))
 
@@ -84,13 +86,13 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val WHITE_APRICORN_SAPLING = this.create("white_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.WHITE))
     val YELLOW_APRICORN_SAPLING = this.create("yellow_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.YELLOW))
 
-    val BLACK_APRICORN = this.apricornBlock("black_apricorn", Apricorn.BLACK)
-    val BLUE_APRICORN = this.apricornBlock("blue_apricorn", Apricorn.BLUE)
-    val GREEN_APRICORN = this.apricornBlock("green_apricorn", Apricorn.GREEN)
-    val PINK_APRICORN = this.apricornBlock("pink_apricorn", Apricorn.PINK)
-    val RED_APRICORN = this.apricornBlock("red_apricorn", Apricorn.RED)
-    val WHITE_APRICORN = this.apricornBlock("white_apricorn", Apricorn.WHITE)
-    val YELLOW_APRICORN = this.apricornBlock("yellow_apricorn", Apricorn.YELLOW)
+    val BLACK_APRICORN = apricornBlock("black_apricorn", Apricorn.BLACK)
+    val BLUE_APRICORN = apricornBlock("blue_apricorn", Apricorn.BLUE)
+    val GREEN_APRICORN = apricornBlock("green_apricorn", Apricorn.GREEN)
+    val PINK_APRICORN = apricornBlock("pink_apricorn", Apricorn.PINK)
+    val RED_APRICORN = apricornBlock("red_apricorn", Apricorn.RED)
+    val WHITE_APRICORN = apricornBlock("white_apricorn", Apricorn.WHITE)
+    val YELLOW_APRICORN = apricornBlock("yellow_apricorn", Apricorn.YELLOW)
 
     val HEALING_MACHINE = this.create("healing_machine", HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque().luminance { state: BlockState ->
         if (state.get(HealingMachineBlock.CHARGE_LEVEL) >= HealingMachineBlock.MAX_CHARGE_LEVEL) 7 else 2

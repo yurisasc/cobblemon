@@ -8,62 +8,31 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.entity.EntityAttributeEvent
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.registry.CompletableRegistry
+import com.cobblemon.mod.common.registry.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
-import dev.architectury.registry.level.entity.EntityAttributeRegistry
-import dev.architectury.registry.registries.RegistrySupplier
-import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnGroup
-import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 
-object CobblemonEntities : CompletableRegistry<EntityType<*>>(RegistryKeys.ENTITY_TYPE) {
-    override fun register() {
-        super.register()
+object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey<Registry<EntityType<*>>>, EntityType<*>>() {
 
-        EntityAttributeRegistry.register(
-            { POKEMON.get() },
-            {
-                LivingEntity.createLivingAttributes()
-                    .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
-                    .also { CobblemonEvents.ENTITY_ATTRIBUTE.post(EntityAttributeEvent(POKEMON.get(), it)) }
-            }
-        )
-    }
-    private fun <T : Entity> entity(
-        name: String,
-        entityTypeBuilder: EntityType.Builder<T>
-    ): RegistrySupplier<EntityType<T>> {
-        return queue(name) { entityTypeBuilder.build(cobblemonResource(name).toString()) }
-    }
+    override val registry: Registry<EntityType<*>> = Registries.ENTITY_TYPE
+    override val registryKey: RegistryKey<Registry<EntityType<*>>> = RegistryKeys.ENTITY_TYPE
 
-    private fun <T : LivingEntity> livingEntity(
-        name: String,
-        entityTypeBuilder: EntityType.Builder<T>
-    ): RegistrySupplier<EntityType<T>> {
-        return queue(name) { entityTypeBuilder.build(cobblemonResource("pokemon").toString()) }
-    }
+    val POKEMON_KEY = cobblemonResource("pokemon")
+    val POKEMON: EntityType<PokemonEntity> = this.create(
+        POKEMON_KEY.path, EntityType.Builder.create({ _, world -> PokemonEntity(world) }, SpawnGroup.CREATURE).build(
+            POKEMON_KEY.toString()))
 
-    val POKEMON = livingEntity(
-        name = "pokemon",
-        entityTypeBuilder = EntityType.Builder.create<PokemonEntity>(
-            { _, world -> PokemonEntity(world) },
-            SpawnGroup.CREATURE
-        )
-    )
+    val EMPTY_POKEBALL_KEY = cobblemonResource("empty_pokeball")
+    val EMPTY_POKEBALL: EntityType<EmptyPokeBallEntity> = this.create(
+        EMPTY_POKEBALL_KEY.path, EntityType.Builder.create({ _, world -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, world) }, SpawnGroup.MISC).build(
+            EMPTY_POKEBALL_KEY.toString()))
 
-    val EMPTY_POKEBALL = entity(
-        name = "empty_pokeball",
-        entityTypeBuilder = EntityType.Builder.create<EmptyPokeBallEntity>(
-            { _, world -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, world) },
-            SpawnGroup.MISC
-        )
-    )
 }

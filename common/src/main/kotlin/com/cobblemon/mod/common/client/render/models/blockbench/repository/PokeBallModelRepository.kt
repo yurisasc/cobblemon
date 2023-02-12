@@ -27,7 +27,7 @@ object PokeBallModelRepository : ModelRepository<EmptyPokeBallEntity>() {
         // ToDo when datapack pokeballs are implemented we will need them to provide these fields instead of our defaults
         PokeBalls.all().forEach { pokeball ->
             registerModel(pokeball, baseModel)
-            registerModelTexture(pokeball, Identifier(pokeball.name.namespace, "textures/items/poke_balls/models/${pokeball.name.path}.png"))
+            registerModelTexture(pokeball, Identifier(pokeball.name.namespace, "textures/item/poke_balls/models/${pokeball.name.path}.png"))
         }
     }
 
