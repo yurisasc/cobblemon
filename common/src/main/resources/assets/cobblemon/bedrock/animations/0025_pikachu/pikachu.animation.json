@@ -52,10 +52,10 @@
 					"rotation": ["math.clamp(math.sin(((query.anim_time) - (0.75/2)) * 90 * 2) * 0, 0, 0)", 0, 0]
 				},
 				"foot_left": {
-					"rotation": ["0 - math.clamp(math.sin(((query.anim_time) - (0.75/2)) * 90 * 2) * v.foot, -v.foot, 0)", 0, 0]
+					"rotation": ["0 - math.clamp(math.sin(((query.anim_time) - (0.75/2)) * 90 * 2) * 0, 0, 0)", 0, 0]
 				},
 				"foot_right": {
-					"rotation": ["math.clamp(math.sin(((query.anim_time) - (0.75/2)) * 90 * 2) * v.foot, 0, v.foot)", 0, 0]
+					"rotation": ["math.clamp(math.sin(((query.anim_time) - (0.75/2)) * 90 * 2) * 0, 0, 0)", 0, 0]
 				},
 				"hand_right": {
 					"rotation": [0, -70, 0]
@@ -116,10 +116,10 @@
 					"rotation": ["math.clamp(math.sin(((query.anim_time) - (0.75/3)) * 90 * 3) * 0, 0, 0)", 0, 0]
 				},
 				"foot_left": {
-					"rotation": ["0 - math.clamp(math.sin(((query.anim_time) - (0.75/3)) * 90 * 3) * v.foot, -v.foot, 0)", 0, 0]
+					"rotation": ["0 - math.clamp(math.sin(((query.anim_time) - (0.75/3)) * 90 * 3) * 0, 0, 0)", 0, 0]
 				},
 				"foot_right": {
-					"rotation": ["math.clamp(math.sin(((query.anim_time) - (0.75/3)) * 90 * 3) * v.foot, 0, v.foot)", 0, 0]
+					"rotation": ["math.clamp(math.sin(((query.anim_time) - (0.75/3)) * 90 * 3) * 0, 0, 0)", 0, 0]
 				},
 				"hand_right": {
 					"rotation": [0, -70, 0]
