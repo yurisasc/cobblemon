@@ -9,12 +9,16 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.mojang.brigadier.arguments.ArgumentType
+import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
+import kotlin.reflect.KClass
 
 interface CobblemonImplementation {
 
@@ -44,6 +48,8 @@ interface CobblemonImplementation {
      * @param validTag The [TagKey] required by the [Biome] for this feature to generate in, if null all biomes are valid.
      */
     fun addFeatureToWorldGen(feature: RegistryKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?)
+
+    fun <A : ArgumentType<*>, T : ArgumentSerializer.ArgumentTypeProperties<A>> registerCommandArgument(identifier: Identifier, argumentClass: KClass<A>, serializer: ArgumentSerializer<A, T>)
 
 }
 

@@ -14,9 +14,14 @@ import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
+import com.mojang.brigadier.arguments.ArgumentType
 import dev.architectury.platform.forge.EventBuses
+import net.minecraft.command.argument.ArgumentTypes
+import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
@@ -33,11 +38,16 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
+import net.minecraftforge.registries.DeferredRegister
+import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.RegisterEvent
 import java.util.*
+import kotlin.reflect.KClass
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
+
+    private val COMMAND_ARGUMENT_TYPES = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
 
     init {
         this.registerPermissionValidator()
@@ -51,6 +61,7 @@ class CobblemonForge : CobblemonImplementation {
         CobblemonBiomeModifiers.register()
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
+            COMMAND_ARGUMENT_TYPES.register(this)
             addListener(this@CobblemonForge::initialize)
             addListener(this@CobblemonForge::serverInit)
             CobblemonNetwork.networkDelegate = CobblemonForgeNetworkDelegate
@@ -183,6 +194,10 @@ class CobblemonForge : CobblemonImplementation {
 
     override fun addFeatureToWorldGen(feature: RegistryKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?) {
         CobblemonBiomeModifiers.add(feature, step, validTag)
+    }
+
+    override fun <A : ArgumentType<*>, T : ArgumentSerializer.ArgumentTypeProperties<A>> registerCommandArgument(identifier: Identifier, argumentClass: KClass<A>, serializer: ArgumentSerializer<A, T>) {
+        COMMAND_ARGUMENT_TYPES.register(identifier.path) { ArgumentTypes.registerByClass(argumentClass.java, serializer) }
     }
 
 }

@@ -67,6 +67,7 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.command.argument.*
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
@@ -89,7 +90,6 @@ import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.UntradeableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
-import com.cobblemon.mod.common.registry.CompletableRegistry
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.feature.apricorn.CobblemonApricornPlacedFeatures
@@ -99,6 +99,7 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.InteractionEvent
 import net.minecraft.client.MinecraftClient
+import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.server.network.ServerPlayerEntity
@@ -110,6 +111,7 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.io.PrintWriter
 import java.util.*
+import java.util.function.Supplier
 import kotlin.properties.Delegates
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
@@ -157,6 +159,7 @@ object Cobblemon {
         this.implementation = implementation
         CobblemonOrePlacedFeatures.register()
         CobblemonApricornPlacedFeatures.register()
+        this.registerArgumentTypes()
 
         CobblemonCriteria // Init the fields and register the criteria
         ServerPacketRegistrar.registerHandlers()
@@ -200,10 +203,6 @@ object Cobblemon {
 
     fun initialize() {
         showdownThread.start()
-
-        CompletableRegistry.allRegistriesCompleted.thenAccept {
-            LOGGER.info("All registries loaded.")
-        }
 
         // Start up the data provider.
         CobblemonDataProvider.registerDefaults()
@@ -380,4 +379,13 @@ object Cobblemon {
             exception.printStackTrace()
         }
     }
+
+    private fun registerArgumentTypes() {
+        this.implementation.registerCommandArgument(cobblemonResource("pokemon"), PokemonArgumentType::class, ConstantArgumentSerializer.of(PokemonArgumentType::pokemon))
+        this.implementation.registerCommandArgument(cobblemonResource("pokemon_properties"), PokemonPropertiesArgumentType::class, ConstantArgumentSerializer.of(PokemonPropertiesArgumentType::properties))
+        this.implementation.registerCommandArgument(cobblemonResource("spawn_bucket"), SpawnBucketArgumentType::class, ConstantArgumentSerializer.of(SpawnBucketArgumentType::spawnBucket))
+        this.implementation.registerCommandArgument(cobblemonResource("move"), MoveArgumentType::class, ConstantArgumentSerializer.of(MoveArgumentType::move))
+        this.implementation.registerCommandArgument(cobblemonResource("party_slot"), PartySlotArgumentType::class, ConstantArgumentSerializer.of(PartySlotArgumentType::partySlot))
+    }
+
 }
