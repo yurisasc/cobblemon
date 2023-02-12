@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.world.feature.apricorn
 
 import com.cobblemon.mod.common.Cobblemon
-import dev.architectury.registry.level.biome.BiomeModifications
 import net.minecraft.registry.RegistryKey
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
@@ -27,9 +26,8 @@ object CobblemonApricornPlacedFeatures {
     val APRICORN_TREES = this.of("apricorn_trees")
 
     fun register() {
-        BiomeModifications.addProperties{ _, properties ->
-            properties.generationProperties.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, APRICORN_TREES)
-        }
+        // We don't need to pass in any tags, the feature implementation handles it, while not a perfect system it works
+        Cobblemon.implementation.addFeatureToWorldGen(APRICORN_TREES, GenerationStep.Feature.VEGETAL_DECORATION, null)
     }
 
     private fun of(id: String): RegistryKey<PlacedFeature> = PlacedFeatures.of("${Cobblemon.MODID}:$id")

@@ -18,7 +18,7 @@ versions:
   architectury-plugin: 3.4-SNAPSHOT
 
   # forge
-  forge: 1.19.3-44.1.0
+  forge: 1.19.3-44.1.16
 
   # common
   graal: 22.3.0

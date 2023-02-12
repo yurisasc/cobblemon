@@ -9,7 +9,12 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.GenerationStep
+import net.minecraft.world.gen.feature.PlacedFeature
 
 interface CobblemonImplementation {
 
@@ -30,6 +35,15 @@ interface CobblemonImplementation {
     fun registerBlockEntityTypes()
 
     fun registerWorldGenFeatures()
+
+    /**
+     * Add a feature to the current platform implementation.
+     *
+     * @param feature The [PlacedFeature] being added.
+     * @param step The [GenerationStep.Feature] of this feature.
+     * @param validTag The [TagKey] required by the [Biome] for this feature to generate in, if null all biomes are valid.
+     */
+    fun addFeatureToWorldGen(feature: RegistryKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?)
 
 }
 

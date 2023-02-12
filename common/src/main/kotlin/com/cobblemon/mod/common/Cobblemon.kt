@@ -155,6 +155,8 @@ object Cobblemon {
 
         this.loadConfig()
         this.implementation = implementation
+        CobblemonOrePlacedFeatures.register()
+        CobblemonApricornPlacedFeatures.register()
 
         CobblemonCriteria // Init the fields and register the criteria
         ServerPacketRegistrar.registerHandlers()
@@ -202,9 +204,6 @@ object Cobblemon {
         CompletableRegistry.allRegistriesCompleted.thenAccept {
             LOGGER.info("All registries loaded.")
         }
-
-        CobblemonOrePlacedFeatures.register()
-        CobblemonApricornPlacedFeatures.register()
 
         // Start up the data provider.
         CobblemonDataProvider.registerDefaults()

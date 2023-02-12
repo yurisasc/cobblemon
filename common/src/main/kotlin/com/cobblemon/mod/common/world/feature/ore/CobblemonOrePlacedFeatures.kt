@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.world.feature.ore
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
-import dev.architectury.registry.level.biome.BiomeModifications
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.world.biome.Biome
@@ -84,12 +83,8 @@ object CobblemonOrePlacedFeatures {
     val WATER_STONE_LOWER_RARE = of("water_stone_lower_rare", CobblemonBiomeTags.HAS_WATER_STONE_ORE_RARE)
 
     fun register() {
-        BiomeModifications.addProperties { context, properties ->
-            features.forEach { holder ->
-                if (context.hasTag(holder.validBiomes)) {
-                    properties.generationProperties.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, holder.feature)
-                }
-            }
+        this.features.forEach { holder ->
+            Cobblemon.implementation.addFeatureToWorldGen(holder.feature, GenerationStep.Feature.UNDERGROUND_ORES, holder.validBiomes)
         }
     }
 

@@ -9,12 +9,17 @@
 package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
+import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import dev.architectury.platform.forge.EventBuses
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.tag.TagKey
+import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.GenerationStep
+import net.minecraft.world.gen.feature.PlacedFeature
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
@@ -43,6 +48,7 @@ class CobblemonForge : CobblemonImplementation {
         this.registerEntityAttributes()
         this.registerBlockEntityTypes()
         this.registerWorldGenFeatures()
+        CobblemonBiomeModifiers.register()
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
             addListener(this@CobblemonForge::initialize)
@@ -124,7 +130,6 @@ class CobblemonForge : CobblemonImplementation {
             // ToDo sort out ordering being insertion
             addListener<CreativeModeTabEvent.Register> { event ->
                 CobblemonItemGroups.register { provider ->
-                    Cobblemon.LOGGER.info("Registered {} tab", provider.identifier.toString())
                     event.registerCreativeModeTab(provider.identifier) { builder ->
                         builder.displayName(provider.displayName)
                         builder.icon(provider.icon)
@@ -175,4 +180,9 @@ class CobblemonForge : CobblemonImplementation {
             }
         }
     }
+
+    override fun addFeatureToWorldGen(feature: RegistryKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?) {
+        CobblemonBiomeModifiers.add(feature, step, validTag)
+    }
+
 }
