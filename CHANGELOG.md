@@ -58,7 +58,7 @@
 - Fixed forms not being able to unset the secondary type of a Pokémon in the stat JSON.
 - Fixed optional aspects not saving and loading properly.
 - Fixed an issue of Pokémon not rendering in GUIs on some Mac computers.
-- Fixed a soft-duplicate that could occur when a party Pokémon is pushed through a Nether Portal.
+- Fixed a soft-duplicate that could occur when a party Pokémon is pushed through a Nether Portal or left in a boat.
 - Fixed missing multiplier on the experience calculator when a Pokémon is at or past the level where it would be able to evolve, but it has not.
 - Fixed missing multiplier on the experience calculator based on Pokémon affection.
 - Fixed not all Poké Balls being associated with the `cobblemon:pokeballs` item tag.

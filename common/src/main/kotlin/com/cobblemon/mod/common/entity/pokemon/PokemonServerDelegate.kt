@@ -91,6 +91,10 @@ class PokemonServerDelegate : PokemonSideDelegate {
             }
         }
 
+        if (entity.ownerUuid != null && entity.pokemon.storeCoordinates.get() == null) {
+            entity.discard()
+        }
+
         if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
             entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
         }

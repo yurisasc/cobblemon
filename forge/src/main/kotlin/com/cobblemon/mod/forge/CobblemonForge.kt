@@ -17,7 +17,6 @@ import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
 import java.util.*
-import net.minecraft.server.world.ServerWorld
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.OnDatapackSyncEvent
@@ -71,7 +70,6 @@ class CobblemonForge : CobblemonImplementation {
     fun initialize(event: FMLCommonSetupEvent) {
         Cobblemon.LOGGER.info("Initializing...")
         Cobblemon.initialize()
-        val world: ServerWorld? = null
         //if (ModList.get().isLoaded("luckperms")) { PokemonCobblemon.permissionValidator = LuckPermsPermissionValidator() }
         //else {
         //}

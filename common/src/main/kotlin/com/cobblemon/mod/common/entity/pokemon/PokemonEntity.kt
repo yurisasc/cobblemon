@@ -53,6 +53,9 @@ import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import kotlin.math.round
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -84,9 +87,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import kotlin.math.round
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
 
 class PokemonEntity(
     world: World,
@@ -273,11 +273,6 @@ class PokemonEntity(
         }
     }
 
-    override fun saveNbt(nbt: NbtCompound): Boolean {
-//        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
-        return super.saveNbt(nbt)
-    }
-
     override fun isInvulnerableTo(damageSource: DamageSource): Boolean {
         // If the entity is busy, it cannot be hurt.
         if (busyLocks.isNotEmpty()) {
@@ -343,6 +338,7 @@ class PokemonEntity(
         poseType.set(PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
         behaviourFlags.set(nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
         this.setBehaviourFlag(PokemonBehaviourFlag.EXCITED, true)
+
         CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(
             event = PokemonEntityLoadEvent(this, nbt),
             ifSucceeded = {},
