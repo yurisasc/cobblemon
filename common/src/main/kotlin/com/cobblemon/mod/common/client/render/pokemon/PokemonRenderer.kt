@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.client.render.renderBeaconBeam
 import com.cobblemon.mod.common.client.settings.ServerSettings
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isLookingAt
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
@@ -268,6 +269,15 @@ class PokemonRenderer(
     }
 
     override fun getLyingAngle(entity: PokemonEntity?) = 0F
+
+    override fun hasLabel(entity: PokemonEntity): Boolean {
+        if (!super.hasLabel(entity)) {
+            return false
+        }
+        val player = MinecraftClient.getInstance().player ?: return false
+        val delegate = entity.delegate as? PokemonClientDelegate ?: return false
+        return player.isLookingAt(entity) && delegate.phaseTarget == null
+    }
 
     override fun renderLabelIfPresent(entity: PokemonEntity, text: Text, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int) {
         if (entity.isInvisible) {
