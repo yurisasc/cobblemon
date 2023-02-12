@@ -49,7 +49,7 @@
 - The Healing Machine will now emit a redstone signal with the strength of 1 for every 10% charge it has when attached to a [Redstone Comparator](https://minecraft.fandom.com/wiki/Redstone_Comparator).
 - Made it so that particles are not shown whenever you have a shoulder Pokémon that gives particle effects.
 - Changed the Imports in "PokemonModelReposity" to instead grab the entire Gen rather than each Pokémon Specifically.
-- Changed Hitbox and Size definitions for Decidueye, Blastoise, and magmorter
+- Changed Hitbox and Size definitions for Decidueye, Blastoise, and Magmortar
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
@@ -86,7 +86,8 @@
 - Fixed being able to select fainted party members in the switch menu causing the battle to lock.
 - Fixed ``/spawnpokemon`` command not supporting any command source other than players.
 - Fixed shiny Gyarados not using the red Gyarados texture.
-
+- Fixed Showdown sometimes failing to start because of the load order being undefined.
+ 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
 - Fixed minimumDistanceBetweenEntities option being half of what it's set as.

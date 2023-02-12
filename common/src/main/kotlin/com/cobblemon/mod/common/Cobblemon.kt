@@ -212,6 +212,7 @@ object Cobblemon {
 
     fun initialize() {
         showdownThread.start()
+        showdownThread.showdownStarted.join()
 
         CompletableRegistry.allRegistriesCompleted.thenAccept {
             LOGGER.info("All registries loaded.")
@@ -295,15 +296,13 @@ object Cobblemon {
             }
         }
 
-        showdownThread.showdownStarted.thenAccept {
-            PokemonSpecies.observable.pipe(takeFirst()).subscribe {
-                LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
-                battleRegistry.startBattle(
-                    BattleFormat.GEN_8_SINGLES,
-                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
-                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
-                ).apply { mute = true }
-            }
+        PokemonSpecies.observable.subscribe {
+            LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
+            battleRegistry.startBattle(
+                BattleFormat.GEN_8_SINGLES,
+                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
+                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
+            ).apply { mute = true }
         }
     }
 
