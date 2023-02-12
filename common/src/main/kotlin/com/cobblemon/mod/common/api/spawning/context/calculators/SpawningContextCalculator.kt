@@ -32,7 +32,7 @@ interface SpawningContextCalculator<I : SpawningContextInput, O : SpawningContex
         var foliageMaterials = mutableListOf(
             Material.LEAVES
         )
-        val isAirCondition: (BlockState) -> Boolean = { it.isAir || it.material in foliageMaterials || !it.material.isSolid }
+        val isAirCondition: (BlockState) -> Boolean = { it.isAir || !it.material.isSolid }
         val isSolidCondition: (BlockState) -> Boolean = { it.material.isSolid && it.material != Material.LEAVES }
         val isWaterCondition: (BlockState) -> Boolean = { it.material == Material.WATER && it.fluidState.isStill  }
         val isLavaCondition: (BlockState) -> Boolean = { it.material == Material.LAVA && it.fluidState.isStill }
