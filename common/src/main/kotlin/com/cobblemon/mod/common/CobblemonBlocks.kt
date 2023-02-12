@@ -101,6 +101,16 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         if ((state.get(PCBlock.ON) as Boolean) && (state.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0
     }))
 
+    /**
+     * Returns a map of all the blocks that can be stripped with an axe in the format of input - output.
+     *
+     * @return A map of all the blocks that can be stripped with an axe in the format of input - output.
+     */
+    fun strippedBlocks(): Map<Block, Block> = mapOf(
+        APRICORN_WOOD to STRIPPED_APRICORN_WOOD,
+        APRICORN_LOG to STRIPPED_APRICORN_LOG
+    )
+
     private fun apricornBlock(name: String, apricorn: Apricorn): ApricornBlock = this.create(name, ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn))
 
     /**

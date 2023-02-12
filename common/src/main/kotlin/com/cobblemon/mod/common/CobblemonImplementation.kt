@@ -17,9 +17,10 @@ interface CobblemonImplementation {
 
     fun registerPermissionValidator()
 
+    fun registerSoundEvents()
+
     fun registerItems()
 
-    // ToDo register stripped blocks
     fun registerBlocks()
 
     fun registerEntityTypes()

@@ -20,6 +20,7 @@ import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttribute
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.registry.Registry
 
@@ -27,6 +28,7 @@ object CobblemonFabric : CobblemonImplementation {
 
     fun initialize() {
         this.registerPermissionValidator()
+        this.registerSoundEvents()
         this.registerBlocks()
         this.registerItems()
         this.registerEntityTypes()
@@ -36,11 +38,6 @@ object CobblemonFabric : CobblemonImplementation {
         Cobblemon.preinitialize(this)
 
         Cobblemon.initialize()
-        /*
-        if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
-            Cobblemon.permissionValidator = LuckPermsPermissionValidator()
-        }
-         */
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register { player, isLogin ->
             if (isLogin) {
                 Cobblemon.dataProvider.sync(player)
@@ -56,6 +53,10 @@ object CobblemonFabric : CobblemonImplementation {
         }
     }
 
+    override fun registerSoundEvents() {
+        CobblemonSounds.register { identifier, sound -> Registry.register(CobblemonSounds.registry, identifier, sound) }
+    }
+
     override fun registerItems() {
         CobblemonItems.register { identifier, item -> Registry.register(CobblemonItems.registry, identifier, item) }
         CobblemonItemGroups.register { provider ->
@@ -69,6 +70,7 @@ object CobblemonFabric : CobblemonImplementation {
 
     override fun registerBlocks() {
         CobblemonBlocks.register { identifier, item -> Registry.register(CobblemonBlocks.registry, identifier, item) }
+        CobblemonBlocks.strippedBlocks().forEach { (input, output) -> StrippableBlockRegistry.register(input, output) }
     }
 
     override fun registerEntityTypes() {

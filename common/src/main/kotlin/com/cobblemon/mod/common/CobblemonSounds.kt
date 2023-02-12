@@ -8,31 +8,40 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.registry.CompletableRegistry
+import com.cobblemon.mod.common.registry.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.SoundEvent
 
-object CobblemonSounds : CompletableRegistry<SoundEvent>(RegistryKeys.SOUND_EVENT) {
-    private fun queue(name: String) = queue(name) { SoundEvent.of(cobblemonResource(name)) }
+object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Registry<SoundEvent>>, SoundEvent>() {
 
-    val GUI_CLICK = queue("gui.click")
+    override val registry: Registry<SoundEvent> = Registries.SOUND_EVENT
+    override val registryKey: RegistryKey<Registry<SoundEvent>> = RegistryKeys.SOUND_EVENT
 
-    val PC_ON = queue("pc.on")
-    val PC_OFF = queue("pc.off")
-    val PC_GRAB = queue("pc.grab")
-    val PC_DROP = queue("pc.drop")
-    val PC_RELEASE = queue("pc.release")
+    val GUI_CLICK = this.create("gui.click")
 
-    val HEALING_MACHINE_ACTIVE = queue("healing_machine.active")
+    val PC_ON = this.create("pc.on")
+    val PC_OFF = this.create("pc.off")
+    val PC_GRAB = this.create("pc.grab")
+    val PC_DROP = this.create("pc.drop")
+    val PC_RELEASE = this.create("pc.release")
 
-    val POKE_BALL_CAPTURE_STARTED = queue("poke_ball.capture_started")
-    val POKE_BALL_CAPTURE_SUCCEEDED = queue("poke_ball.capture_succeeded")
-    val POKE_BALL_SHAKE = queue("poke_ball.shake")
-    val POKE_BALL_OPEN = queue("poke_ball.open")
-    val POKE_BALL_HIT = queue("poke_ball.hit")
-    val POKE_BALL_SEND_OUT = queue("poke_ball.send_out")
-    val POKE_BALL_RECALL = queue("poke_ball.recall")
+    val HEALING_MACHINE_ACTIVE = this.create("healing_machine.active")
 
-    val ITEM_USE = queue("item.use")
+    val POKE_BALL_CAPTURE_STARTED = this.create("poke_ball.capture_started")
+    val POKE_BALL_CAPTURE_SUCCEEDED = this.create("poke_ball.capture_succeeded")
+    val POKE_BALL_SHAKE = this.create("poke_ball.shake")
+    val POKE_BALL_OPEN = this.create("poke_ball.open")
+    val POKE_BALL_HIT = this.create("poke_ball.hit")
+    val POKE_BALL_SEND_OUT = this.create("poke_ball.send_out")
+    val POKE_BALL_RECALL = this.create("poke_ball.recall")
+
+    val ITEM_USE = this.create("item.use")
+    
+    private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
+    
+
 }

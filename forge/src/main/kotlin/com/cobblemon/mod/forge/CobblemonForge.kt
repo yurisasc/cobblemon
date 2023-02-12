@@ -16,10 +16,12 @@ import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.common.ToolActions
 import net.minecraftforge.event.CreativeModeTabEvent
 import net.minecraftforge.event.OnDatapackSyncEvent
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
+import net.minecraftforge.event.level.BlockEvent
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
@@ -33,6 +35,7 @@ class CobblemonForge : CobblemonImplementation {
 
     init {
         this.registerPermissionValidator()
+        this.registerSoundEvents()
         this.registerBlocks()
         this.registerItems()
         this.registerEntityTypes()
@@ -52,6 +55,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::onDataPackSync)
             addListener(this@CobblemonForge::onLogin)
             addListener(this@CobblemonForge::onLogout)
+            addListener(this@CobblemonForge::handleBlockStripping)
         }
 
     }
@@ -62,9 +66,6 @@ class CobblemonForge : CobblemonImplementation {
     fun initialize(event: FMLCommonSetupEvent) {
         Cobblemon.LOGGER.info("Initializing...")
         Cobblemon.initialize()
-        //if (ModList.get().isLoaded("luckperms")) { PokemonCobblemon.permissionValidator = LuckPermsPermissionValidator() }
-        //else {
-        //}
     }
 
     private val hasBeenSynced = hashSetOf<UUID>()
@@ -87,11 +88,27 @@ class CobblemonForge : CobblemonImplementation {
         Cobblemon.permissionValidator = ForgePermissionValidator
     }
 
+    override fun registerSoundEvents() {
+        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+            event.register(CobblemonSounds.registryKey) { helper ->
+                CobblemonSounds.register { identifier, sounds -> helper.register(identifier, sounds) }
+            }
+        }
+    }
+
     override fun registerBlocks() {
         FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
             event.register(CobblemonBlocks.registryKey) { helper ->
                 CobblemonBlocks.register { identifier, block -> helper.register(identifier, block) }
             }
+        }
+    }
+
+    private fun handleBlockStripping(e: BlockEvent.BlockToolModificationEvent) {
+        if (e.toolAction == ToolActions.AXE_STRIP) {
+            val start = e.state.block
+            val result = CobblemonBlocks.strippedBlocks()[start] ?: return
+            e.finalState = result.getStateWithProperties(e.state)
         }
     }
 

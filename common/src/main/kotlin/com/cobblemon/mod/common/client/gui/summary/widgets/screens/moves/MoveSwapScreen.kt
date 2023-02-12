@@ -195,7 +195,7 @@ class MoveSwapScreen(
                         newMove = move
                     )
                 )
-                pane.movesWidget.summary.playSound(CobblemonSounds.GUI_CLICK.get())
+                pane.movesWidget.summary.playSound(CobblemonSounds.GUI_CLICK)
                 pane.movesWidget.summary.displaySideScreen(Summary.PARTY)
                 return true
             }

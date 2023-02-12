@@ -248,7 +248,7 @@ class EmptyPokeBallEntity(
                             if (captureResult.isSuccessfulCapture) {
                                 // Do a capture
                                 world.sendParticlesServer(ParticleTypes.CRIT, pos, 10, Vec3d(0.1, -0.5, 0.1), 0.2)
-                                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED.get(), volume = 0.3F, pitch = 1F)
+                                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED, volume = 0.3F, pitch = 1F)
                                 val pokemon = capturingPokemon ?: return@execute
                                 val player = this.owner as? ServerPlayerEntity ?: return@execute
 
@@ -271,7 +271,7 @@ class EmptyPokeBallEntity(
                         }
 
                         rollsRemaining--
-                        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE.get())
+                        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE)
                         shakeEmitter.set(!shakeEmitter.get())
                     }
                     .build()
@@ -293,7 +293,7 @@ class EmptyPokeBallEntity(
             pokemon.busyLocks.remove(this)
             captureFuture.complete(false)
             world.sendParticlesServer(ParticleTypes.CLOUD, pos, 20, Vec3d(0.0, 0.2, 0.0), 0.05)
-            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_OPEN.get())
+            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_OPEN)
             discard()
         }
     }
@@ -320,13 +320,13 @@ class EmptyPokeBallEntity(
         val displace = velocity
         captureState.set(CaptureState.HIT.ordinal.toByte())
         val mul = if (random.nextBoolean()) 1 else -1
-        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_HIT.get())
+        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_HIT)
         velocity = displace.multiply(-1.0, 0.0, -1.0).normalize().rotateY(mul * PI/3).multiply(0.1, 0.0, 0.1).add(0.0, 1.0 / 3, 0.0)
         pokemonEntity.phasingTargetId.set(this.id)
         afterOnMain(seconds = 0.7F) {
             velocity = Vec3d.ZERO
             setNoGravity(true)
-            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED.get(), volume = 0.2F)
+            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED, volume = 0.2F)
             pokemonEntity.beamModeEmitter.set(2.toByte())
         }
 

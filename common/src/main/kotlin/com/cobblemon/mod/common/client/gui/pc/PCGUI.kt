@@ -72,7 +72,7 @@ class PCGUI(
         // Add Exit Button
         this.addDrawableChild(
             ExitButton(pX = x + 320, pY = y + 186) {
-                playSound(CobblemonSounds.PC_OFF.get())
+                playSound(CobblemonSounds.PC_OFF)
                 MinecraftClient.getInstance().setScreen(null)
                 UnlinkPlayerFromPCPacket().sendToServer()
             }
@@ -395,7 +395,7 @@ class PCGUI(
 
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
         if (keyCode == 256) {
-            playSound(CobblemonSounds.PC_OFF.get())
+            playSound(CobblemonSounds.PC_OFF)
             UnlinkPlayerFromPCPacket().sendToServer()
         }
         return super.keyPressed(keyCode, scanCode, modifiers)

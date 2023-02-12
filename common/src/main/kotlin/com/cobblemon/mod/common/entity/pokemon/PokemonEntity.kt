@@ -284,7 +284,7 @@ class PokemonEntity(
         val owner = owner
         val future = CompletableFuture<Pokemon>()
         if (phasingTargetId.get() == -1 && owner != null) {
-            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL.get(), volume = 0.2F)
+            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.2F)
             phasingTargetId.set(owner.id)
             beamModeEmitter.set(2)
             afterOnMain(seconds = SEND_OUT_DURATION) {
@@ -529,7 +529,7 @@ class PokemonEntity(
                             if (!player.isCreative) {
                                 stack.decrement(1)
                             }
-                            this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+                            this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE, volume = 1F, pitch = 1F)
                             return true
                         }
                     }
@@ -537,7 +537,7 @@ class PokemonEntity(
             shouldSave()
             (stack.item as? PokemonInteractiveItem)?.let {
                 if (it.onInteraction(player, this, stack)) {
-                    this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+                    this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE, volume = 1F, pitch = 1F)
                     return true
                 }
             }

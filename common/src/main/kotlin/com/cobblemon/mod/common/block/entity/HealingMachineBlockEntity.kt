@@ -79,7 +79,7 @@ class HealingMachineBlockEntity(
         }
         this.setUser(player.uuid)
         updateBlockChargeLevel(HealingMachineBlock.MAX_CHARGE_LEVEL + 1)
-        if (world != null && !world!!.isClient) world!!.playSoundServer(position = blockPos.toVec3d(), sound = CobblemonSounds.HEALING_MACHINE_ACTIVE.get(), volume = 1F, pitch = 1F)
+        if (world != null && !world!!.isClient) world!!.playSoundServer(position = blockPos.toVec3d(), sound = CobblemonSounds.HEALING_MACHINE_ACTIVE, volume = 1F, pitch = 1F)
     }
 
     fun completeHealing() {

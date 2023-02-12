@@ -229,7 +229,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         // TODO add event to check if they can open this PC?
         PCLinkManager.addLink(ProximityPCLink(pc, player.uuid, blockEntity))
         OpenPCPacket(pc.uuid).sendToPlayer(player)
-        world.playSoundServer(position = blockPos.toVec3d(), sound = CobblemonSounds.PC_ON.get(), volume = 1F, pitch = 1F)
+        world.playSoundServer(position = blockPos.toVec3d(), sound = CobblemonSounds.PC_ON, volume = 1F, pitch = 1F)
         return ActionResult.SUCCESS
     }
 

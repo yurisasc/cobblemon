@@ -67,7 +67,7 @@ class ReorderMoveButton(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
     fun isHovered(mouseX: Double, mouseY: Double, offsetY: Float) = mouseX.toFloat() in ((pX - OFFSET_X)..((pX - OFFSET_X) + (WIDTH * SCALE))) && mouseY.toFloat() in ((pY + offsetY)..((pY + offsetY) + (HEIGHT * SCALE) - 0.5F))

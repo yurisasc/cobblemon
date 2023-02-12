@@ -163,7 +163,7 @@ class PartyWidget(
                         index = -1,
                         isClientPartyMember = isParty
                     )
-                    playSound(CobblemonSounds.PC_GRAB.get())
+                    playSound(CobblemonSounds.PC_GRAB)
                 }
             }
         }
@@ -179,7 +179,7 @@ class PartyWidget(
                 }
                 swapSource = null
                 draggedSlot = null
-                playSound(CobblemonSounds.PC_DROP.get())
+                playSound(CobblemonSounds.PC_DROP)
             }
         }
         return super.mouseReleased(pMouseX, pMouseY, pButton)

@@ -190,6 +190,6 @@ class BattleMoveSelection(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 }

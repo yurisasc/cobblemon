@@ -92,7 +92,7 @@ class StorageWidget(
             onPress = {
                 if (!displayConfirmRelease) {
                     displayConfirmRelease = true
-                    playSound(CobblemonSounds.GUI_CLICK.get())
+                    playSound(CobblemonSounds.GUI_CLICK)
                 }
             }
         )
@@ -114,7 +114,7 @@ class StorageWidget(
                     }
 
                     CobblemonNetwork.sendToServer(packet)
-                    playSound(CobblemonSounds.PC_RELEASE.get())
+                    playSound(CobblemonSounds.PC_RELEASE)
                     resetSelected()
                     displayConfirmRelease = false
                 }
@@ -129,7 +129,7 @@ class StorageWidget(
             onPress = {
                 if (displayConfirmRelease) {
                     displayConfirmRelease = false
-                    playSound(CobblemonSounds.GUI_CLICK.get())
+                    playSound(CobblemonSounds.GUI_CLICK)
                 }
             }
         )
@@ -300,7 +300,7 @@ class StorageWidget(
 
         // Clicking on itself, so unselect position
         if (this.selectedPosition != null && this.selectedPosition == clickedPosition) {
-            if (grabbedSlot != null) playSound(CobblemonSounds.PC_DROP.get())
+            if (grabbedSlot != null) playSound(CobblemonSounds.PC_DROP)
             resetSelected()
             return
         }
@@ -322,7 +322,7 @@ class StorageWidget(
                     parent = this,
                     pokemon = clickedPokemon
                 )
-                playSound(CobblemonSounds.PC_GRAB.get())
+                playSound(CobblemonSounds.PC_GRAB)
 
             }
         } else  {
@@ -338,7 +338,7 @@ class StorageWidget(
                 val packet = clickedPokemon?.let { SwapPCPokemonPacket(it.uuid, clickedPosition, selectedPokemon.uuid, this.selectedPosition as PCPosition) }
                     ?: MovePCPokemonPacket(selectedPokemon.uuid, selectedPosition as PCPosition, clickedPosition)
                 packet.sendToServer()
-                playSound(CobblemonSounds.PC_DROP.get())
+                playSound(CobblemonSounds.PC_DROP)
                 resetSelected()
             }
             // Box to Party
@@ -346,7 +346,7 @@ class StorageWidget(
                 val packet = clickedPokemon?.let { SwapPCPartyPokemonPacket(clickedPokemon.uuid, clickedPosition, selectedPokemon.uuid, this.selectedPosition as PCPosition) }
                     ?: MovePCPokemonToPartyPacket(selectedPokemon.uuid, this.selectedPosition as PCPosition, clickedPosition)
                 packet.sendToServer()
-                playSound(CobblemonSounds.PC_DROP.get())
+                playSound(CobblemonSounds.PC_DROP)
                 resetSelected()
             }
             // Party to Box
@@ -357,7 +357,7 @@ class StorageWidget(
                 val packet = clickedPokemon?.let { SwapPCPartyPokemonPacket(selectedPokemon.uuid, this.selectedPosition as PartyPosition, clickedPokemon.uuid, clickedPosition) }
                     ?: MovePartyPokemonToPCPacket(selectedPokemon.uuid, this.selectedPosition as PartyPosition, clickedPosition)
                 packet.sendToServer()
-                playSound(CobblemonSounds.PC_DROP.get())
+                playSound(CobblemonSounds.PC_DROP)
                 resetSelected()
             }
             // Party to Party
@@ -365,7 +365,7 @@ class StorageWidget(
                 val packet = clickedPokemon?.let { SwapPartyPokemonPacket(it.uuid, clickedPosition, selectedPokemon.uuid, this.selectedPosition as PartyPosition) }
                     ?: MovePartyPokemonPacket(selectedPokemon.uuid, selectedPosition as PartyPosition, clickedPosition)
                 packet.sendToServer()
-                playSound(CobblemonSounds.PC_DROP.get())
+                playSound(CobblemonSounds.PC_DROP)
                 resetSelected()
             }
         }

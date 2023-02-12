@@ -212,7 +212,7 @@ class PartySlotWidget(
             } else {
                 if ((index > -1) && (summary.selectedPokemon.uuid != pokemon?.uuid)) {
                     summary.switchSelection(index)
-                    if (pokemon != null) partyWidget.playSound(CobblemonSounds.GUI_CLICK.get())
+                    if (pokemon != null) partyWidget.playSound(CobblemonSounds.GUI_CLICK)
                     return true
                 }
             }
@@ -229,7 +229,7 @@ class PartySlotWidget(
         if (partyWidget.swapEnabled && partyWidget.isWithinScreen(mouseX, mouseY) && index < 0) {
             repositionSlot(mouseX, mouseY)
         } else {
-            if (partyWidget.swapSource != null) partyWidget.playSound(CobblemonSounds.PC_DROP.get())
+            if (partyWidget.swapSource != null) partyWidget.playSound(CobblemonSounds.PC_DROP)
             toggleDrag(false)
             partyWidget.swapSource = null
             partyWidget.draggedSlot = null

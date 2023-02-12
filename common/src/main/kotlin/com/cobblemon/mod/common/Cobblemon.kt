@@ -161,7 +161,6 @@ object Cobblemon {
 
         CobblemonCriteria // Init the fields and register the criteria
         ServerPacketRegistrar.registerHandlers()
-        CobblemonSounds.register()
         CobblemonFeatures.register()
         CobblemonGameRules.register()
 

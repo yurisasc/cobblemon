@@ -161,7 +161,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
             ) {
                 if (mainScreenIndex != INFO) {
                     displayMainScreen(INFO)
-                    playSound(CobblemonSounds.GUI_CLICK.get())
+                    playSound(CobblemonSounds.GUI_CLICK)
                 }
             }
         )
@@ -174,7 +174,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
             ) {
                 if (mainScreenIndex != MOVES) {
                     displayMainScreen(MOVES)
-                    playSound(CobblemonSounds.GUI_CLICK.get())
+                    playSound(CobblemonSounds.GUI_CLICK)
                 }
             }
         )
@@ -187,7 +187,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
             ) {
                 if (mainScreenIndex != STATS) {
                     displayMainScreen(STATS)
-                    playSound(CobblemonSounds.GUI_CLICK.get())
+                    playSound(CobblemonSounds.GUI_CLICK)
                 }
             }
         )
@@ -201,7 +201,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
                 pX = x + 302,
                 pY = y + 145
             ) {
-                playSound(CobblemonSounds.GUI_CLICK.get())
+                playSound(CobblemonSounds.GUI_CLICK)
                 MinecraftClient.getInstance().setScreen(null)
             }
         )
