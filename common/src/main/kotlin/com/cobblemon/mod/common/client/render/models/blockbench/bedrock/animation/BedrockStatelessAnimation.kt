@@ -34,6 +34,6 @@ class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: Bed
     }
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        animation.run(model, state, (state?.animationSeconds ?: 0F) * speed)
+        animation.run(model, entity, state,  (state?.animationPreviousSeconds ?: 0F) * speed.toDouble(), (state?.animationSeconds ?: 0F) * speed.toDouble())
     }
 }

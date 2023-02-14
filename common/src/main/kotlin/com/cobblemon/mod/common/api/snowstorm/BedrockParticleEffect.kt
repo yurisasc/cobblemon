@@ -26,7 +26,8 @@ class BedrockParticleEffect(
     var id: Identifier = Identifier("effect"),
     var emitter: BedrockParticleEmitter = BedrockParticleEmitter(),
     var particle: BedrockParticle = BedrockParticle(),
-    var curves: MutableList<MoLangCurve> = mutableListOf()
+    var curves: MutableList<MoLangCurve> = mutableListOf(),
+    var space: ParticleSpace = ParticleSpace()
 ) {
     companion object {
         val CODEC: Codec<BedrockParticleEffect> = RecordCodecBuilder.create { instance ->
@@ -34,13 +35,15 @@ class BedrockParticleEffect(
                 Identifier.CODEC.fieldOf("id").forGetter { it.id },
                 BedrockParticleEmitter.CODEC.fieldOf("emitter").forGetter { it.emitter },
                 BedrockParticle.CODEC.fieldOf("particle").forGetter { it.particle },
-                ListCodec(MoLangCurve.codec).fieldOf("curves").forGetter { it.curves }
-            ).apply(instance) { id, emitter, particle, curves ->
+                ListCodec(MoLangCurve.codec).fieldOf("curves").forGetter { it.curves },
+                ParticleSpace.CODEC.fieldOf("space").forGetter { it.space }
+            ).apply(instance) { id, emitter, particle, curves, space ->
                 BedrockParticleEffect(
                     id = id,
                     emitter = emitter,
                     particle = particle,
-                    curves = curves.toMutableList()
+                    curves = curves.toMutableList(),
+                    space = space
                 )
             }
         }
@@ -51,6 +54,7 @@ class BedrockParticleEffect(
         emitter.writeToBuffer(buffer)
         particle.writeToBuffer(buffer)
         buffer.writeCollection(curves) { pb, curve -> MoLangCurve.writeToBuffer(buffer, curve) }
+        space.writeToBuffer(buffer)
     }
 
     fun readFromBuffer(buffer: PacketByteBuf) {
@@ -58,5 +62,6 @@ class BedrockParticleEffect(
         emitter.readFromBuffer(buffer)
         particle.readFromBuffer(buffer)
         curves = buffer.readList { MoLangCurve.readFromBuffer(buffer) }
+        space.readFromBuffer(buffer)
     }
 }

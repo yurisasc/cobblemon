@@ -45,7 +45,7 @@ abstract class ParticleUVMode : CodecMapped {
     open var uSize: Expression = NumberExpression(8.0)
     open var vSize: Expression = NumberExpression(8.0)
 
-    abstract fun get(moLangRuntime: MoLangRuntime, age: Double, maxAge: Expression): UVDetails
+    abstract fun get(moLangRuntime: MoLangRuntime, age: Double, maxAge: Double): UVDetails
 }
 
 enum class ParticleUVModeType {
@@ -125,7 +125,7 @@ class AnimatedParticleUVMode(
         buffer.writeBoolean(loop)
     }
 
-    override fun get(runtime: MoLangRuntime, age: Double, maxAge: Expression): UVDetails {
+    override fun get(runtime: MoLangRuntime, age: Double, maxAge: Double): UVDetails {
         val maxFrame = runtime.resolveInt(maxFrame)
         val stepU = runtime.resolveDouble(stepU)
         val stepV = runtime.resolveDouble(stepV)
@@ -134,8 +134,7 @@ class AnimatedParticleUVMode(
 
 
         if (stretchToLifetime) {
-            val lifetimeSeconds = runtime.resolveDouble(maxAge)
-            val frame = ((age / lifetimeSeconds) * maxFrame).toInt()
+            val frame = ((age / maxAge) * maxFrame).toInt()
             val startU = runtime.resolveDouble(startU) + frame * stepU
             val startV = runtime.resolveDouble(startV) + frame * stepV
             return UVDetails.set(
@@ -192,7 +191,7 @@ class StaticParticleUVMode(
         }
     }
 
-    override fun get(moLangRuntime: MoLangRuntime, age: Double, maxAge: Expression): UVDetails {
+    override fun get(moLangRuntime: MoLangRuntime, age: Double, maxAge: Double): UVDetails {
         return UVDetails.set(
             startU = moLangRuntime.resolveDouble(startU) / textureSizeX,
             startV = moLangRuntime.resolveDouble(startV) / textureSizeY,
