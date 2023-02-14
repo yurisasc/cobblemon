@@ -11,15 +11,21 @@ package com.cobblemon.mod.common.client.net.effect
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.client.particle.ParticleStorm
-import com.cobblemon.mod.common.client.particle.StaticParticleOrigin
+import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.Vec3f.POSITIVE_X
+import net.minecraft.util.math.Vec3f.POSITIVE_Y
 
 object SpawnSnowstormParticleHandler : ClientPacketHandler<SpawnSnowstormParticlePacket> {
     override fun invokeOnClient(packet: SpawnSnowstormParticlePacket, ctx: CobblemonNetwork.NetworkContext) {
-        val origin = StaticParticleOrigin(packet.position)
+        val wrapper = MatrixWrapper()
+        val matrix = MatrixStack()
+        matrix.multiply(POSITIVE_Y.getDegreesQuaternion(packet.yawDegrees))
+        matrix.multiply(POSITIVE_X.getDegreesQuaternion(packet.pitchDegrees))
+        wrapper.update(matrix.peek().positionMatrix)
         val world = MinecraftClient.getInstance().world ?: return
-        val storm = ParticleStorm(packet.effect, origin, world)
-        MinecraftClient.getInstance().particleManager.addParticle(storm)
+        ParticleStorm(packet.effect, wrapper, world).spawn()
     }
 }

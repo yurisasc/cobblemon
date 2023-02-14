@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
-import com.cobblemon.mod.common.client.render.LocatorState
+import com.cobblemon.mod.common.client.render.MatrixWrapper
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.util.math.MatrixStack
 
@@ -68,14 +68,14 @@ class LocatorAccess(
      * Updates all of the locator states with the position at this current frame.
      * This is the same logic as ModelPart uses, that's why we reuse ModelPart#rotate.
      */
-    fun update(matrixStack: MatrixStack, state: MutableMap<String, LocatorState>) {
+    fun update(matrixStack: MatrixStack, state: MutableMap<String, MatrixWrapper>) {
         matrixStack.push()
         joint.rotate(matrixStack)
 
         for ((name, locator) in locators) {
             matrixStack.push()
             locator.rotate(matrixStack)
-            state.getOrPut(name) { LocatorState() }.update(matrixStack.peek().positionMatrix)
+            state.getOrPut(name) { MatrixWrapper() }.update(matrixStack.peek().positionMatrix)
             matrixStack.pop()
         }
 

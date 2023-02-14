@@ -44,7 +44,9 @@ class TexturedModel {
                     locatorBone.rotation = locator.rotation
                     return@map locatorBone
                 }
-            }.flatten()
+            }.flatten() + ModelBone().apply {
+                this.name = LocatorAccess.PREFIX + "root"
+            }
 
             for (bone in geometryBones) {
                 bones[bone.name] = bone
@@ -128,13 +130,10 @@ class TexturedModel {
                     }
                 }
 
-                parts.put(
+                parts[bone.name] = parentPart.addChild(
                     bone.name,
-                    parentPart.addChild(
-                        bone.name,
-                        modelPart,
-                        modelTransform
-                    )
+                    modelPart,
+                    modelTransform
                 )
 
                 var counter = 0
@@ -150,9 +149,9 @@ class TexturedModel {
             return TexturedModelData.of(modelData, geometry.description.textureWidth, geometry.description.textureHeight)
         } catch (e: Exception) {
             if (geometry != null) {
-                throw IllegalArgumentException("Error creating TexturedModelData with identifier ${geometry[0].description.identifier}.", e)
+                throw IllegalArgumentException("Error creating TexturedModelData with identifier ${geometry[0].description.identifier}", e)
             } else {
-                throw IllegalArgumentException("Error creating TexturedModelData.", e)
+                throw IllegalArgumentException("Error creating TexturedModelData", e)
             }
         }
     }

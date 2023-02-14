@@ -39,6 +39,7 @@
 - Added blink animations to many Pokémon.
 - Added client notification of in-battle field effects starting, ending and actions caused by them such as blocking certain moves.
 - Added the ``/spawnpokemonat <pos> <properties>`` command, the ``pos`` argument uses the same syntax as the Minecraft [summon](https://minecraft.fandom.com/wiki/Commands/summon) command.
+- Added particle effect support for model animations
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.

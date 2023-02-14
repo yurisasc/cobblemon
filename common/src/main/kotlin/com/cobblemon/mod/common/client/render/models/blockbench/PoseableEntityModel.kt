@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
-import com.cobblemon.mod.common.client.render.LocatorState
+import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -50,7 +50,7 @@ abstract class PoseableEntityModel<T : Entity>(
     var currentEntity: T? = null
 
     val poses = mutableMapOf<String, Pose<T, out ModelFrame>>()
-    val locatorStates = mutableMapOf<String, LocatorState>()
+    val locatorStates = mutableMapOf<String, MatrixWrapper>()
     lateinit var locatorAccess: LocatorAccess
 
     /**

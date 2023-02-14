@@ -30,6 +30,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
     override val modAPI = ModAPI.FABRIC
+    private val hasBeenSynced = hashSetOf<UUID>()
 
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
@@ -74,8 +75,6 @@ class CobblemonForge : CobblemonImplementation {
         //else {
         //}
     }
-
-    private val hasBeenSynced = hashSetOf<UUID>()
 
     fun onDataPackSync(event: OnDatapackSyncEvent) {
         Cobblemon.dataProvider.sync(event.player ?: return)

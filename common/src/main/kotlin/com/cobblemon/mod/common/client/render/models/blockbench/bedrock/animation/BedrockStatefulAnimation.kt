@@ -44,7 +44,8 @@ open class BedrockStatefulAnimation<T : Entity>(
         headYaw: Float,
         headPitch: Float
     ): Boolean {
+        val previousSeconds = secondsPassed
         secondsPassed += state.deltaSeconds
-        return animation.run(model, state, secondsPassed)
+        return animation.run(model, entity, state, previousSeconds.toDouble(), secondsPassed.toDouble())
     }
 }
