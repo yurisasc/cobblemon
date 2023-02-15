@@ -64,13 +64,13 @@ tasks {
 
     processResources {
         dependsOn(copyAccessWidener)
-        inputs.property("version", rootProject.version.toString().replace("+", "-"))
+        inputs.property("version", rootProject.version)
         inputs.property("fabric_loader_version", libs.fabricLoader.get().version)
         inputs.property("minecraft_version", rootProject.property("mc_version").toString())
 
         filesMatching("fabric.mod.json") {
             expand(
-                "version" to rootProject.version.toString().replace("+", "-"),
+                "version" to rootProject.version,
                 "fabric_loader_version" to libs.fabricLoader.get().version,
                 "minecraft_version" to rootProject.property("mc_version").toString()
             )

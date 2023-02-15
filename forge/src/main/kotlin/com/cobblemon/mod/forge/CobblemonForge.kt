@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.forge.client.CobblemonForgeClient
 import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
+import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
@@ -46,6 +47,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
+import net.minecraftforge.fml.loading.FMLEnvironment
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegisterEvent
 import net.minecraftforge.server.ServerLifecycleHooks
@@ -55,11 +57,10 @@ import kotlin.reflect.KClass
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
 
-    private val COMMAND_ARGUMENT_TYPES = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
-    private val RELOADABLE_RESOURCES = arrayListOf<ResourceReloader>()
+    private val commandArgumentTypes = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
+    private val reloadableResources = arrayListOf<ResourceReloader>()
 
-    override val networkManager: NetworkManager
-        get() = TODO("Not yet implemented")
+    override val networkManager: NetworkManager = CobblemonForgeNetworkManager
 
     init {
         this.registerPermissionValidator()
@@ -72,11 +73,9 @@ class CobblemonForge : CobblemonImplementation {
         this.registerWorldGenFeatures()
         CobblemonBiomeModifiers.register()
         with(FMLJavaModLoadingContext.get().modEventBus) {
-            COMMAND_ARGUMENT_TYPES.register(this)
+            this@CobblemonForge.commandArgumentTypes.register(this)
             addListener(this@CobblemonForge::initialize)
             addListener(this@CobblemonForge::serverInit)
-            //CobblemonNetwork.networkDelegate = CobblemonForgeNetworkDelegate
-
             Cobblemon.preinitialize(this@CobblemonForge)
         }
         with(MinecraftForge.EVENT_BUS) {
@@ -85,7 +84,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::onLogout)
             addListener(this@CobblemonForge::handleBlockStripping)
             addListener(this@CobblemonForge::registerCommands)
-
+            addListener(this@CobblemonForge::onReload)
         }
         ForgePlatformEventHandler.register()
     }
@@ -95,6 +94,8 @@ class CobblemonForge : CobblemonImplementation {
 
     fun initialize(event: FMLCommonSetupEvent) {
         Cobblemon.LOGGER.info("Initializing...")
+        this.networkManager.initClient()
+        this.networkManager.initServer()
         Cobblemon.initialize()
     }
 
@@ -115,7 +116,7 @@ class CobblemonForge : CobblemonImplementation {
     override fun isModInstalled(id: String) = ModList.get().isLoaded(id)
 
     override fun environment(): Environment {
-        TODO("Not yet implemented")
+        return if (FMLEnvironment.dist.isClient) Environment.CLIENT else Environment.SERVER
     }
 
     override fun registerPermissionValidator() {
@@ -212,7 +213,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun <A : ArgumentType<*>, T : ArgumentSerializer.ArgumentTypeProperties<A>> registerCommandArgument(identifier: Identifier, argumentClass: KClass<A>, serializer: ArgumentSerializer<A, T>) {
-        COMMAND_ARGUMENT_TYPES.register(identifier.path) { ArgumentTypes.registerByClass(argumentClass.java, serializer) }
+        this.commandArgumentTypes.register(identifier.path) { ArgumentTypes.registerByClass(argumentClass.java, serializer) }
     }
 
     private fun registerCommands(e: RegisterCommandsEvent) {
@@ -225,7 +226,7 @@ class CobblemonForge : CobblemonImplementation {
 
     override fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>) {
         if (type == ResourceType.SERVER_DATA) {
-            RELOADABLE_RESOURCES += reloader
+            this.reloadableResources += reloader
         }
         else {
             CobblemonForgeClient.registerResourceReloader(reloader)
@@ -233,7 +234,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     private fun onReload(e: AddReloadListenerEvent) {
-        RELOADABLE_RESOURCES.forEach(e::addListener)
+        this.reloadableResources.forEach(e::addListener)
     }
 
     override fun server(): MinecraftServer? = ServerLifecycleHooks.getCurrentServer()

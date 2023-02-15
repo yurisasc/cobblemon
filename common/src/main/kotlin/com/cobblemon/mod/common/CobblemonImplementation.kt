@@ -38,6 +38,11 @@ interface CobblemonImplementation {
      */
     val networkManager: NetworkManager
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     fun environment(): Environment
 
     /**
@@ -161,9 +166,9 @@ interface NetworkManager {
 
     fun initServer()
 
-    fun <T: NetworkPacket<T>> registerClientBound(identifier: Identifier, decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>)
+    fun <T: NetworkPacket<T>> registerClientBound(identifier: Identifier, kClass: KClass<T>, encoder: (T, PacketByteBuf) -> Unit, decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>)
 
-    fun <T: NetworkPacket<T>> registerServerBound(identifier: Identifier, decoder: (PacketByteBuf) -> T, handler: ServerNetworkPacketHandler<T>)
+    fun <T: NetworkPacket<T>> registerServerBound(identifier: Identifier, kClass: KClass<T>, encoder: (T, PacketByteBuf) -> Unit, decoder: (PacketByteBuf) -> T, handler: ServerNetworkPacketHandler<T>)
 
     fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>)
 

@@ -22,6 +22,7 @@ import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
+import kotlin.reflect.KClass
 
 object CobblemonFabricNetworkManager : NetworkManager {
 
@@ -33,12 +34,24 @@ object CobblemonFabricNetworkManager : NetworkManager {
         CobblemonNetwork.initServer()
     }
 
-    override fun <T: NetworkPacket<T>> registerServerBound(identifier: Identifier, decoder: (PacketByteBuf) -> T, handler: ServerNetworkPacketHandler<T>) {
-        ServerPlayNetworking.registerGlobalReceiver(identifier, this.createServerBoundHandler(decoder::invoke, handler::handle))
+    override fun <T : NetworkPacket<T>> registerClientBound(
+        identifier: Identifier,
+        kClass: KClass<T>,
+        encoder: (T, PacketByteBuf) -> Unit,
+        decoder: (PacketByteBuf) -> T,
+        handler: ClientNetworkPacketHandler<T>
+    ) {
+        ClientPlayNetworking.registerGlobalReceiver(identifier, this.createClientBoundHandler(decoder::invoke, handler::handle))
     }
 
-    override fun <T: NetworkPacket<T>> registerClientBound(identifier: Identifier, decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>) {
-        ClientPlayNetworking.registerGlobalReceiver(identifier, this.createClientBoundHandler(decoder::invoke, handler::handle))
+    override fun <T : NetworkPacket<T>> registerServerBound(
+        identifier: Identifier,
+        kClass: KClass<T>,
+        encoder: (T, PacketByteBuf) -> Unit,
+        decoder: (PacketByteBuf) -> T,
+        handler: ServerNetworkPacketHandler<T>
+    ) {
+        ServerPlayNetworking.registerGlobalReceiver(identifier, this.createServerBoundHandler(decoder::invoke, handler::handle))
     }
 
     private fun <T : NetworkPacket<*>> createServerBoundHandler(

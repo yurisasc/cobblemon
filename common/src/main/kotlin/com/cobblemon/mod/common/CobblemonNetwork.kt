@@ -80,6 +80,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
+import kotlin.reflect.KClass
 
 /**
  * Registers Cobblemon packets. Packet handlers are set up on handling the [MessageBuiltEvent] dispatched from here.
@@ -90,8 +91,6 @@ import net.minecraft.util.Identifier
  * @since November 27th, 2021
  */
 object CobblemonNetwork : NetworkManager {
-
-    const val PROTOCOL_VERSION = "1"
 
     fun ServerPlayerEntity.sendPacket(packet: NetworkPacket<*>) = sendPacketToPlayer(this, packet)
     fun sendToServer(packet: NetworkPacket<*>) = this.sendPacketToServer(packet)
@@ -216,12 +215,32 @@ object CobblemonNetwork : NetworkManager {
         this.registerClientBound(SpawnPokeballPacket.ID, SpawnPokeballPacket::decode, SpawnExtraDataEntityHandler())
     }
 
-    override fun <T : NetworkPacket<T>> registerClientBound(identifier: Identifier, decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>) {
-        Cobblemon.implementation.networkManager.registerClientBound(identifier, decoder, handler)
+    private inline fun <reified T : NetworkPacket<T>> registerClientBound(identifier: Identifier, noinline decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>) {
+        Cobblemon.implementation.networkManager.registerClientBound(identifier, T::class, { message, buffer -> message.encode(buffer) }, decoder, handler)
     }
 
-    override fun <T : NetworkPacket<T>> registerServerBound(identifier: Identifier, decoder: (PacketByteBuf) -> T, handler: ServerNetworkPacketHandler<T>) {
-        Cobblemon.implementation.networkManager.registerServerBound(identifier, decoder, handler)
+    private inline fun <reified T : NetworkPacket<T>> registerServerBound(identifier: Identifier, noinline decoder: (PacketByteBuf) -> T, handler: ServerNetworkPacketHandler<T>) {
+        Cobblemon.implementation.networkManager.registerServerBound(identifier, T::class, { message, buffer -> message.encode(buffer) }, decoder, handler)
+    }
+
+    override fun <T : NetworkPacket<T>> registerClientBound(
+        identifier: Identifier,
+        kClass: KClass<T>,
+        encoder: (T, PacketByteBuf) -> Unit,
+        decoder: (PacketByteBuf) -> T,
+        handler: ClientNetworkPacketHandler<T>
+    ) {
+        Cobblemon.implementation.networkManager.registerClientBound(identifier, kClass, encoder, decoder, handler)
+    }
+
+    override fun <T : NetworkPacket<T>> registerServerBound(
+        identifier: Identifier,
+        kClass: KClass<T>,
+        encoder: (T, PacketByteBuf) -> Unit,
+        decoder: (PacketByteBuf) -> T,
+        handler: ServerNetworkPacketHandler<T>
+    ) {
+        Cobblemon.implementation.networkManager.registerServerBound(identifier, kClass, encoder, decoder, handler)
     }
 
     override fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>) = Cobblemon.implementation.networkManager.sendPacketToPlayer(player, packet)
