@@ -62,7 +62,7 @@ tasks {
         inputs.property("version", rootProject.version)
         inputs.property("minecraft_version", rootProject.property("mc_version").toString())
 
-        filesMatching("fabric.mod.json") {
+        filesMatching("META-INF/mods.toml") {
             expand(
                 "version" to rootProject.version,
                 "minecraft_version" to rootProject.property("mc_version").toString()
