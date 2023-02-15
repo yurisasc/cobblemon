@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.storage
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.party.PartyStore
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -22,16 +23,11 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 18th, 2022
  */
-class RemoveClientPokemonPacket() : NetworkPacket {
-    var storeIsParty = false
-    lateinit var storeID: UUID
-    lateinit var pokemonID: UUID
+class RemoveClientPokemonPacket internal constructor(val storeIsParty: Boolean, val storeID: UUID, val pokemonID: UUID) : NetworkPacket<RemoveClientPokemonPacket> {
 
-    constructor(store: PokemonStore<*>, pokemonID: UUID): this() {
-        this.storeIsParty = store is PartyStore
-        this.storeID = store.uuid
-        this.pokemonID = pokemonID
-    }
+    override val id = ID
+
+    constructor(store: PokemonStore<*>, pokemonID: UUID): this(store is PartyStore, store.uuid, pokemonID)
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(storeIsParty)
@@ -39,9 +35,8 @@ class RemoveClientPokemonPacket() : NetworkPacket {
         buffer.writeUuid(pokemonID)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        this.storeIsParty = buffer.readBoolean()
-        this.storeID = buffer.readUuid()
-        this.pokemonID = buffer.readUuid()
+    companion object {
+        val ID = cobblemonResource("remove_client_pokemon")
+        fun decode(buffer: PacketByteBuf) = RemoveClientPokemonPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readUuid())
     }
 }

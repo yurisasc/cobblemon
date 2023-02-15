@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.data
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.data.DataProvider
@@ -21,9 +22,9 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureAssignments
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
 import com.cobblemon.mod.common.api.spawning.SpawnDetailPresets
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
-import dev.architectury.registry.ReloadListenerRegistry
 import java.util.UUID
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
@@ -34,7 +35,7 @@ object CobblemonDataProvider : DataProvider {
 
     // Both Forge n Fabric keep insertion order so if a registry depends on another simply register it after
     var canReload = true
-    private val registries = mutableListOf<DataRegistry>()
+    private val registries = linkedSetOf<DataRegistry>()
     private val synchronizedPlayerIds = mutableListOf<UUID>()
 
     private val scheduledActions = mutableMapOf<UUID, MutableList<() -> Unit>>()
@@ -53,7 +54,7 @@ object CobblemonDataProvider : DataProvider {
 
         CobblemonSpawnPools.load()
 
-        CobblemonEvents.PLAYER_QUIT.subscribe { synchronizedPlayerIds.remove(it.uuid) }
+        PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe { synchronizedPlayerIds.remove(it.player.uuid) }
     }
 
     override fun <T : DataRegistry> register(registry: T): T {
@@ -61,7 +62,7 @@ object CobblemonDataProvider : DataProvider {
         if (this.registries.isEmpty()) {
             LOGGER.info("Note: Cobblemon data registries are only loaded once per server instance as Pokémon species are not safe to reload.")
         }
-        ReloadListenerRegistry.register(registry.type, SimpleResourceReloader(registry))
+        Cobblemon.implementation.registerResourceReloader(registry.id, SimpleResourceReloader(registry), registry.type, this.registries.map { it.id })
         this.registries.add(registry)
         LOGGER.info("Registered the {} registry", registry.id.toString())
         LOGGER.debug("Registered the {} registry of class {}", registry.id.toString(), registry::class.qualifiedName)

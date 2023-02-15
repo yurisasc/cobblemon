@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.keybind.keybinds
 
-import com.cobblemon.mod.common.CobblemonNetwork.sendToServer
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToServer
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.keybind.CobblemonBlockingKeyBinding
@@ -43,9 +43,9 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
             if (pokemon != null && pokemon.currentHealth > 0 ) {
                 val targetedPokemon = player.traceFirstEntityCollision(entityClass = LivingEntity::class.java, ignoreEntity = player)
                 if (targetedPokemon != null && (targetedPokemon !is PokemonEntity || targetedPokemon.canBattle(player))) {
-                    sendToServer(BattleChallengePacket(targetedPokemon.id, pokemon.uuid))
+                    sendPacketToServer(BattleChallengePacket(targetedPokemon.id, pokemon.uuid))
                 } else {
-                    sendToServer(SendOutPokemonPacket(CobblemonClient.storage.selectedSlot))
+                    sendPacketToServer(SendOutPokemonPacket(CobblemonClient.storage.selectedSlot))
                 }
             }
         }

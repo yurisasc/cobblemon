@@ -211,22 +211,22 @@ open class PokemonBattle(
         }
     }
 
-    fun sendUpdate(packet: NetworkPacket) {
+    fun sendUpdate(packet: NetworkPacket<*>) {
         actors.forEach { it.sendUpdate(packet) }
         sendSpectatorUpdate(packet)
     }
 
-    fun sendToActors(packet: NetworkPacket) {
-        CobblemonNetwork.sendToPlayers(actors.flatMap { it.getPlayerUUIDs().mapNotNull { it.getPlayer() } }, packet)
+    fun sendToActors(packet: NetworkPacket<*>) {
+        CobblemonNetwork.sendPacketToPlayers(actors.flatMap { it.getPlayerUUIDs().mapNotNull { it.getPlayer() } }, packet)
     }
 
-    fun sendSplitUpdate(privateActor: BattleActor, publicPacket: NetworkPacket, privatePacket: NetworkPacket) {
+    fun sendSplitUpdate(privateActor: BattleActor, publicPacket: NetworkPacket<*>, privatePacket: NetworkPacket<*>) {
         actors.forEach {  it.sendUpdate(if (it == privateActor) privatePacket else publicPacket) }
         sendSpectatorUpdate(publicPacket)
     }
 
-    fun sendSpectatorUpdate(packet: NetworkPacket) {
-        CobblemonNetwork.sendToPlayers(spectators.mapNotNull { it.getPlayer() }, packet)
+    fun sendSpectatorUpdate(packet: NetworkPacket<*>) {
+        CobblemonNetwork.sendPacketToPlayers(spectators.mapNotNull { it.getPlayer() }, packet)
     }
 
     fun dispatch(dispatcher: () -> DispatchResult) {

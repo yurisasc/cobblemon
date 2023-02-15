@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.controller
 
-import com.cobblemon.mod.common.CobblemonNetwork.sendToServer
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.EvolutionUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.google.gson.JsonArray
@@ -20,6 +20,7 @@ import com.google.gson.JsonElement
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.network.PacketByteBuf
+
 class ClientEvolutionController(override val pokemon: Pokemon) : EvolutionController<EvolutionDisplay> {
 
     private val evolutions = hashSetOf<EvolutionDisplay>()
@@ -28,7 +29,7 @@ class ClientEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         get() = this.evolutions.size
 
     override fun start(evolution: EvolutionDisplay) {
-        sendToServer(AcceptEvolutionPacket(this.pokemon, evolution))
+        CobblemonNetwork.sendPacketToServer(AcceptEvolutionPacket(this.pokemon, evolution))
     }
 
     override fun progress(): Collection<EvolutionProgress<*>> {
@@ -67,10 +68,7 @@ class ClientEvolutionController(override val pokemon: Pokemon) : EvolutionContro
     }
 
     override fun loadFromBuffer(buffer: PacketByteBuf) {
-       repeat(buffer.readInt()) {
-            val display = EvolutionUpdatePacket.decodeSending(buffer)
-            this.add(display)
-       }
+        buffer.readList(AddEvolutionPacket::decodeDisplay).forEach { this.add(it) }
     }
 
     override fun add(element: EvolutionDisplay) = this.evolutions.add(element)

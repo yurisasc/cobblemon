@@ -10,7 +10,7 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.block.entity.PCBlockEntity
-import com.cobblemon.mod.common.registry.PlatformRegistry
+import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry

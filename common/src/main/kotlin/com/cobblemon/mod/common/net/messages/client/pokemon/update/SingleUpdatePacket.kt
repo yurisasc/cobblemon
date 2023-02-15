@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
+import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.network.PacketByteBuf
@@ -20,23 +21,17 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 28th, 2021
  */
-abstract class SingleUpdatePacket<T>(var value: T) : PokemonUpdatePacket() {
-    override fun encode(buffer: PacketByteBuf) {
-        super.encode(buffer)
-        encodeValue(buffer, value)
+abstract class SingleUpdatePacket<T, N : NetworkPacket<N>>(pokemon: Pokemon, val value: T) : PokemonUpdatePacket<N>(pokemon) {
+
+    override fun encodeDetails(buffer: PacketByteBuf) {
+        this.encodeValue(buffer)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        super.decode(buffer)
-        value = decodeValue(buffer)
+    override fun applyToPokemon() {
+        set(this.pokemon, this.value)
     }
 
-    override fun applyToPokemon(pokemon: Pokemon) {
-        set(pokemon, value)
-    }
-
-    abstract fun encodeValue(buffer: PacketByteBuf, value: T)
-    abstract fun decodeValue(buffer: PacketByteBuf): T
+    abstract fun encodeValue(buffer: PacketByteBuf)
 
     /** Sets the value in the client-side Pokémon. */
     abstract fun set(pokemon: Pokemon, value: T)

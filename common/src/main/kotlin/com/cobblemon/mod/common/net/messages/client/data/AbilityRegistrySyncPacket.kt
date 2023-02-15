@@ -13,9 +13,9 @@ import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class AbilityRegistrySyncPacket : DataRegistrySyncPacket<AbilityTemplate> {
-    constructor(): super(emptyList())
-    constructor(abilities: Collection<AbilityTemplate>): super(abilities)
+class AbilityRegistrySyncPacket(abilities: Collection<AbilityTemplate>) : DataRegistrySyncPacket<AbilityTemplate, AbilityRegistrySyncPacket>(abilities) {
+
+    override val id = ID
 
     override fun encodeEntry(buffer: PacketByteBuf, entry: AbilityTemplate) {
         buffer.writeString(entry.name)
@@ -33,5 +33,10 @@ class AbilityRegistrySyncPacket : DataRegistrySyncPacket<AbilityTemplate> {
 
     override fun synchronizeDecoded(entries: Collection<AbilityTemplate>) {
         Abilities.receiveSyncPacket(entries)
+    }
+
+    companion object {
+        val ID = cobblemonResource("ability_sync")
+        fun decode(buffer: PacketByteBuf): AbilityRegistrySyncPacket = AbilityRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 }

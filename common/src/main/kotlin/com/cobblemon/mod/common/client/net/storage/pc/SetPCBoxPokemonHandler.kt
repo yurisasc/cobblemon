@@ -8,14 +8,14 @@
 
 package com.cobblemon.mod.common.client.net.storage.pc
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.client.storage.ClientBox
 import com.cobblemon.mod.common.net.messages.client.storage.pc.SetPCBoxPokemonPacket
+import net.minecraft.client.MinecraftClient
 
-object SetPCBoxPokemonHandler : ClientPacketHandler<SetPCBoxPokemonPacket> {
-    override fun invokeOnClient(packet: SetPCBoxPokemonPacket, ctx: CobblemonNetwork.NetworkContext) {
+object SetPCBoxPokemonHandler : ClientNetworkPacketHandler<SetPCBoxPokemonPacket> {
+    override fun handle(packet: SetPCBoxPokemonPacket, client: MinecraftClient) {
         CobblemonClient.storage.pcStores[packet.storeID]?.let { pc ->
             val boxNumber = packet.boxNumber
             while (pc.boxes.size <= boxNumber) { pc.boxes.add(ClientBox()) }

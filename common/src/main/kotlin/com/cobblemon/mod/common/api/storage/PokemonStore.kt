@@ -65,7 +65,7 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
     abstract fun isValidPosition(position: T): Boolean
 
     /** Sends the given packet to all observing players. */
-    open fun sendPacketToObservers(packet: NetworkPacket) = getObservingPlayers().forEach { it.sendPacket(packet) }
+    open fun sendPacketToObservers(packet: NetworkPacket<*>) = getObservingPlayers().forEach { it.sendPacket(packet) }
 
     /** Adds the given [Pokemon] to the first available space. Returns false if there is no space. */
     open fun add(pokemon: Pokemon): Boolean {

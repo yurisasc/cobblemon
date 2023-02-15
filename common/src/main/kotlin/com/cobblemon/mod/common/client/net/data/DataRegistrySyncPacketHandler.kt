@@ -8,13 +8,13 @@
 
 package com.cobblemon.mod.common.client.net.data
 
-import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
-import com.cobblemon.mod.common.net.PacketHandler
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.client.data.DataRegistrySyncPacket
+import net.minecraft.client.MinecraftClient
 
-class DataRegistrySyncPacketHandler<P, T : DataRegistrySyncPacket<P>> : PacketHandler<T> {
-    override fun invoke(packet: T, ctx: CobblemonNetwork.NetworkContext) {
+class DataRegistrySyncPacketHandler<P, T : DataRegistrySyncPacket<P, T>> : ClientNetworkPacketHandler<T> {
+    override fun handle(packet: T, client: MinecraftClient) {
+        packet.entries.clear()
         packet.entries.addAll(packet.buffer!!.readList(packet::decodeEntry).filterNotNull())
         packet.buffer!!.release()
         packet.synchronizeDecoded(packet.entries)

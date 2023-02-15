@@ -8,18 +8,17 @@
 
 package com.cobblemon.mod.common.client.net.battle
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.text.lightPurple
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.ChallengeNotificationPacket
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
 
-object ChallengeNotificationHandler : ClientPacketHandler<ChallengeNotificationPacket> {
-    override fun invokeOnClient(packet: ChallengeNotificationPacket, ctx: CobblemonNetwork.NetworkContext) {
-        MinecraftClient.getInstance().player?.sendMessage(
+object ChallengeNotificationHandler : ClientNetworkPacketHandler<ChallengeNotificationPacket> {
+    override fun handle(packet: ChallengeNotificationPacket, client: MinecraftClient) {
+        client.player?.sendMessage(
             lang(
                 "challenge.receiver",
                 packet.challengerName,

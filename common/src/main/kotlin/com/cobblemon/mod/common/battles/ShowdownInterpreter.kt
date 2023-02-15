@@ -422,7 +422,7 @@ object ShowdownInterpreter {
             val players = battle.actors.mapNotNull { it.uuid.getPlayer() }
             if (players.isNotEmpty()) {
                 val initializePacket = BattleInitializePacket(battle)
-                players.forEach { CobblemonNetwork.sendToPlayer(it, initializePacket) }
+                players.forEach { CobblemonNetwork.sendPacketToPlayer(it, initializePacket) }
             }
             battle.actors.forEach {
                 it.sendUpdate(BattleSetTeamPokemonPacket(it.pokemonList.map { it.effectedPokemon }))

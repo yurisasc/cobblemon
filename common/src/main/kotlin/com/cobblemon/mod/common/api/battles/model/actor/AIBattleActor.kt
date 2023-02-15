@@ -19,7 +19,7 @@ abstract class AIBattleActor(
     pokemonList: List<BattlePokemon>,
     val battleAI: BattleAI
 ) : BattleActor(gameId, pokemonList.toMutableList()) {
-    override fun sendUpdate(packet: NetworkPacket) {
+    override fun sendUpdate(packet: NetworkPacket<*>) {
         super.sendUpdate(packet)
 
         if (packet is BattleMakeChoicePacket) {

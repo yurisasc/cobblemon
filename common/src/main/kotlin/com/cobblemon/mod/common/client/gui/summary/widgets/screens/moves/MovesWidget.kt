@@ -200,7 +200,7 @@ class MovesWidget(
                 targetSlot = 0
         }
 
-        CobblemonNetwork.sendToServer(
+        CobblemonNetwork.sendPacketToServer(
             RequestMoveSwapPacket(
                 move1 = movePos,
                 move2 = targetSlot,

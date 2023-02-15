@@ -9,8 +9,10 @@
 package com.cobblemon.mod.common.net.messages.server
 
 import com.cobblemon.mod.common.api.moves.MoveTemplate
+import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.serverhandling.storage.BenchMoveHandler
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -26,30 +28,23 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since April 18th, 2022
  */
-class BenchMovePacket() : NetworkPacket {
-    var isParty = true
-    lateinit var uuid: UUID
-    lateinit var oldMove: String
-    lateinit var newMove: String
-
-    constructor(isParty: Boolean, uuid: UUID, oldMove: MoveTemplate, newMove: MoveTemplate): this() {
-        this.isParty = isParty
-        this.uuid = uuid
-        this.oldMove = oldMove.name
-        this.newMove = newMove.name
-    }
-
+class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTemplate, val newMove: MoveTemplate) : NetworkPacket<BenchMovePacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(isParty)
         buffer.writeUuid(uuid)
-        buffer.writeString(oldMove)
-        buffer.writeString(newMove)
+        buffer.writeString(oldMove.name)
+        buffer.writeString(newMove.name)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        isParty = buffer.readBoolean()
-        uuid = buffer.readUuid()
-        oldMove = buffer.readString()
-        newMove = buffer.readString()
+    companion object {
+        val ID = cobblemonResource("bench_move")
+        fun decode(buffer: PacketByteBuf): BenchMovePacket {
+            val isParty = buffer.readBoolean()
+            val uuid = buffer.readUuid()
+            val oldMove = Moves.getByName(buffer.readString())!!
+            val newMove = Moves.getByName(buffer.readString())!!
+            return BenchMovePacket(isParty, uuid, oldMove, newMove)
+        }
     }
 }

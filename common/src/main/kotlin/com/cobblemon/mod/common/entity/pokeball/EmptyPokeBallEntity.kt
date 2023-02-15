@@ -23,19 +23,17 @@ import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleTypes
 import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyCaptureResponsePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
+import com.cobblemon.mod.common.net.messages.client.spawn.SpawnExtraDataEntityPacket
+import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
+import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.util.asResource
-import com.cobblemon.mod.common.util.isServerSide
-import com.cobblemon.mod.common.util.lang
-import com.cobblemon.mod.common.util.playSoundServer
-import com.cobblemon.mod.common.util.sendParticlesServer
-import com.cobblemon.mod.common.util.setPositionSafely
-import dev.architectury.extensions.network.EntitySpawnExtension
-import dev.architectury.networking.NetworkManager
+import com.cobblemon.mod.common.util.*
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -49,6 +47,7 @@ import net.minecraft.item.Item
 import net.minecraft.network.Packet
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.hit.BlockHitResult
@@ -57,11 +56,8 @@ import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-class EmptyPokeBallEntity(
-    var pokeBall: PokeBall,
-    world: World,
-    entityType: EntityType<out EmptyPokeBallEntity> = CobblemonEntities.EMPTY_POKEBALL
-) : ThrownItemEntity(entityType, world), EntitySpawnExtension {
+class EmptyPokeBallEntity(var pokeBall: PokeBall, world: World, entityType: EntityType<out EmptyPokeBallEntity> = CobblemonEntities.EMPTY_POKEBALL) : ThrownItemEntity(entityType, world) {
+
     enum class CaptureState {
         NOT,
         HIT,
@@ -90,7 +86,7 @@ class EmptyPokeBallEntity(
     val captureFuture = CompletableFuture<Boolean>()
 
     val delegate = if (world.isClient) {
-        com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate()
+        EmptyPokeBallClientDelegate()
     } else {
         EmptyPokeBallServerDelegate()
     }
@@ -300,10 +296,6 @@ class EmptyPokeBallEntity(
 
     override fun getDefaultItem(): Item = pokeBall.item()
 
-    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> {
-        return NetworkManager.createAddEntityPacket(this)
-    }
-
     override fun getDimensions(pPose: EntityPose) = DIMENSIONS
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
         val property = EntityProperty(
@@ -338,11 +330,5 @@ class EmptyPokeBallEntity(
         }
     }
 
-    override fun saveAdditionalSpawnData(buf: PacketByteBuf) {
-        buf.writeString(pokeBall.name.toString())
-    }
-
-    override fun loadAdditionalSpawnData(buf: PacketByteBuf) {
-        pokeBall = PokeBalls.getPokeBall(buf.readString().asResource()) ?: PokeBalls.POKE_BALL
-    }
+    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokeballPacket(this.pokeBall, super.createSpawnPacket() as EntitySpawnS2CPacket))
 }

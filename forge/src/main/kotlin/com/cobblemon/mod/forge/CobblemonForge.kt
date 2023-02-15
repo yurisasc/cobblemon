@@ -11,25 +11,33 @@ package com.cobblemon.mod.forge
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
-import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
+import com.cobblemon.mod.forge.client.CobblemonForgeClient
+import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
-import dev.architectury.platform.forge.EventBuses
+import net.minecraft.advancement.criterion.Criteria
+import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.resource.ResourceReloader
+import net.minecraft.resource.ResourceType
+import net.minecraft.server.MinecraftServer
 import net.minecraft.util.Identifier
+import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
+import net.minecraftforge.event.AddReloadListenerEvent
 import net.minecraftforge.event.CreativeModeTabEvent
 import net.minecraftforge.event.OnDatapackSyncEvent
+import net.minecraftforge.event.RegisterCommandsEvent
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.level.BlockEvent
@@ -39,8 +47,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import net.minecraftforge.registries.DeferredRegister
-import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.RegisterEvent
+import net.minecraftforge.server.ServerLifecycleHooks
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -48,6 +56,10 @@ import kotlin.reflect.KClass
 class CobblemonForge : CobblemonImplementation {
 
     private val COMMAND_ARGUMENT_TYPES = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
+    private val RELOADABLE_RESOURCES = arrayListOf<ResourceReloader>()
+
+    override val networkManager: NetworkManager
+        get() = TODO("Not yet implemented")
 
     init {
         this.registerPermissionValidator()
@@ -60,23 +72,22 @@ class CobblemonForge : CobblemonImplementation {
         this.registerWorldGenFeatures()
         CobblemonBiomeModifiers.register()
         with(FMLJavaModLoadingContext.get().modEventBus) {
-            EventBuses.registerModEventBus(Cobblemon.MODID, this)
             COMMAND_ARGUMENT_TYPES.register(this)
             addListener(this@CobblemonForge::initialize)
             addListener(this@CobblemonForge::serverInit)
-            CobblemonNetwork.networkDelegate = CobblemonForgeNetworkDelegate
+            //CobblemonNetwork.networkDelegate = CobblemonForgeNetworkDelegate
 
             Cobblemon.preinitialize(this@CobblemonForge)
-
-            // TODO: Make listener for BiomeLoadingEvent to register feature to biomes
         }
         with(MinecraftForge.EVENT_BUS) {
             addListener(this@CobblemonForge::onDataPackSync)
             addListener(this@CobblemonForge::onLogin)
             addListener(this@CobblemonForge::onLogout)
             addListener(this@CobblemonForge::handleBlockStripping)
-        }
+            addListener(this@CobblemonForge::registerCommands)
 
+        }
+        ForgePlatformEventHandler.register()
     }
 
     fun serverInit(event: FMLDedicatedServerSetupEvent) {
@@ -102,6 +113,10 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun isModInstalled(id: String) = ModList.get().isLoaded(id)
+
+    override fun environment(): Environment {
+        TODO("Not yet implemented")
+    }
 
     override fun registerPermissionValidator() {
         Cobblemon.permissionValidator = ForgePermissionValidator
@@ -199,5 +214,28 @@ class CobblemonForge : CobblemonImplementation {
     override fun <A : ArgumentType<*>, T : ArgumentSerializer.ArgumentTypeProperties<A>> registerCommandArgument(identifier: Identifier, argumentClass: KClass<A>, serializer: ArgumentSerializer<A, T>) {
         COMMAND_ARGUMENT_TYPES.register(identifier.path) { ArgumentTypes.registerByClass(argumentClass.java, serializer) }
     }
+
+    private fun registerCommands(e: RegisterCommandsEvent) {
+        CobblemonCommands.register(e.dispatcher, e.buildContext, e.commandSelection)
+    }
+
+    override fun <T : GameRules.Rule<T>> registerGameRule(name: String, category: GameRules.Category, type: GameRules.Type<T>): GameRules.Key<T> = GameRules.register(name, category, type)
+
+    override fun <T : Criterion<*>> registerCriteria(criteria: T): T = Criteria.register(criteria)
+
+    override fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>) {
+        if (type == ResourceType.SERVER_DATA) {
+            RELOADABLE_RESOURCES += reloader
+        }
+        else {
+            CobblemonForgeClient.registerResourceReloader(reloader)
+        }
+    }
+
+    private fun onReload(e: AddReloadListenerEvent) {
+        RELOADABLE_RESOURCES.forEach(e::addListener)
+    }
+
+    override fun server(): MinecraftServer? = ServerLifecycleHooks.getCurrentServer()
 
 }

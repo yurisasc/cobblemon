@@ -8,14 +8,14 @@
 
 package com.cobblemon.mod.common.client.net.storage.pc
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.client.storage.ClientPC
 import com.cobblemon.mod.common.net.messages.client.storage.pc.InitializePCPacket
+import net.minecraft.client.MinecraftClient
 
-object InitializePCHandler : ClientPacketHandler<InitializePCPacket> {
-    override fun invokeOnClient(packet: InitializePCPacket, ctx: CobblemonNetwork.NetworkContext) {
+object InitializePCHandler : ClientNetworkPacketHandler<InitializePCPacket> {
+    override fun handle(packet: InitializePCPacket, client: MinecraftClient) {
         CobblemonClient.storage.pcStores[packet.storeID] = ClientPC(packet.storeID, packet.boxCount)
     }
 }

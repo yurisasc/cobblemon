@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
-import com.cobblemon.mod.common.client.net.ClientPacketRegistrar
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
@@ -30,11 +29,7 @@ import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.data.CobblemonDataProvider
-import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
-import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
-import dev.architectury.registry.client.rendering.ColorHandlerRegistry
-import dev.architectury.registry.client.rendering.RenderTypeRegistry
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.render.RenderLayer
@@ -76,34 +71,32 @@ object CobblemonClient {
         LOGGER.info("Initializing Cobblemon client")
         this.implementation = implementation
 
-        CLIENT_PLAYER_JOIN.register { onLogin() }
-        CLIENT_PLAYER_QUIT.register { onLogout() }
-
-        ClientPacketRegistrar.registerHandlers()
+        PlatformEvents.CLIENT_PLAYER_LOGIN.subscribe { onLogin() }
+        PlatformEvents.CLIENT_PLAYER_LOGOUT.subscribe { onLogout() }
 
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()
 
-        BlockEntityRendererRegistry.register(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
 
         registerBlockRenderTypes()
         registerColors()
+        PlatformEvents
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
     }
 
     fun registerColors() {
-        ColorHandlerRegistry.registerBlockColors(BlockColorProvider { blockState, blockAndTintGetter, blockPos, i ->
+        this.implementation.registerBlockColors(BlockColorProvider { _, _, _, _ ->
             return@BlockColorProvider 0x71c219
         }, CobblemonBlocks.APRICORN_LEAVES)
-
-        ColorHandlerRegistry.registerItemColors(ItemColorProvider { itemStack, i ->
+        this.implementation.registerItemColors(ItemColorProvider { _, _ ->
             return@ItemColorProvider 0x71c219
         }, CobblemonItems.APRICORN_LEAVES)
     }
 
     private fun registerBlockRenderTypes() {
-        RenderTypeRegistry.register(RenderLayer.getCutout(),
+        this.implementation.registerBlockRenderType(RenderLayer.getCutout(),
             CobblemonBlocks.APRICORN_DOOR,
             CobblemonBlocks.APRICORN_TRAPDOOR,
             CobblemonBlocks.BLACK_APRICORN_SAPLING,

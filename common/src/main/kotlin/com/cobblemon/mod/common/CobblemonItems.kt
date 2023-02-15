@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.registry.PlatformRegistry
+import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.Block
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item

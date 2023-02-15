@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.net.messages.client.storage.party.MoveClientPart
 import com.cobblemon.mod.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.getServer
+import com.cobblemon.mod.common.util.server
 import com.google.gson.JsonObject
 import java.util.UUID
 import net.minecraft.nbt.NbtCompound
@@ -86,7 +86,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return position.slot in (0 until slots.size)
     }
 
-    override fun getObservingPlayers() = getServer()?.playerManager?.playerList?.filter { it.uuid in observerUUIDs } ?: emptyList()
+    override fun getObservingPlayers() = server()?.playerManager?.playerList?.filter { it.uuid in observerUUIDs } ?: emptyList()
     fun size() = slots.size
 
     override fun sendTo(player: ServerPlayerEntity) {

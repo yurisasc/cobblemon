@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.SwapPCPokemonHandler
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -24,19 +25,8 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 20th, 2022
  */
-class SwapPCPokemonPacket() : NetworkPacket {
-    lateinit var pokemon1ID: UUID
-    lateinit var position1: PCPosition
-    lateinit var pokemon2ID: UUID
-    lateinit var position2: PCPosition
-
-    constructor(pokemon1ID: UUID, position1: PCPosition, pokemon2ID: UUID, position2: PCPosition): this() {
-        this.pokemon1ID = pokemon1ID
-        this.position1 = position1
-        this.pokemon2ID = pokemon2ID
-        this.position2 = position2
-    }
-
+class SwapPCPokemonPacket(val pokemon1ID: UUID, val position1: PCPosition, val pokemon2ID: UUID, val position2: PCPosition) : NetworkPacket<SwapPCPokemonPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemon1ID)
         buffer.writePCPosition(position1)
@@ -44,10 +34,8 @@ class SwapPCPokemonPacket() : NetworkPacket {
         buffer.writePCPosition(position2)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        pokemon1ID = buffer.readUuid()
-        position1 = buffer.readPCPosition()
-        pokemon2ID = buffer.readUuid()
-        position2 = buffer.readPCPosition()
+    companion object {
+        val ID = cobblemonResource("swap_pc_pokemon")
+        fun decode(buffer: PacketByteBuf) = SwapPCPokemonPacket(buffer.readUuid(), buffer.readPCPosition(), buffer.readUuid(), buffer.readPCPosition())
     }
 }

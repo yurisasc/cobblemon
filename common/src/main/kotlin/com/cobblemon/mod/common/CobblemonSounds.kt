@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.registry.PlatformRegistry
+import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry

@@ -137,7 +137,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
             pX = x + 106, pY = y + 124,
             pWidth = SelectionButton.BUTTON_WIDTH, pHeight = SelectionButton.BUTTON_HEIGHT
         ) {
-            CobblemonNetwork.sendToServer(
+            CobblemonNetwork.sendPacketToServer(
                 SelectStarterPacket(
                     categoryName = currentCategory.name,
                     selected = currentSelection

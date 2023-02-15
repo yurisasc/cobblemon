@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonNetwork.sendToPlayers
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToPlayers
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.Ability
@@ -60,7 +60,7 @@ import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
-import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
+import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
@@ -74,7 +74,7 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.getServer
+import com.cobblemon.mod.common.util.server
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.setPositionSafely
@@ -216,7 +216,7 @@ open class Pokemon : ShowdownIdentifiable {
     var status: PersistentStatusContainer? = null
         set(value) {
             field = value
-            this._status.emit(value?.status?.name?.toString() ?: "")
+            this._status.emit(value?.status)
         }
     var experience = 0
         internal set(value) {
@@ -272,9 +272,14 @@ open class Pokemon : ShowdownIdentifiable {
         }
 
     var nature = Natures.getRandomNature()
-        set(value) { field = value ; _nature.emit(value.name.toString()) }
+        set(value) { field = value ; _nature.emit(value) }
     var mintedNature: Nature? = null
-        set(value) { field = value ; _mintedNature.emit(value?.name?.toString() ?: "") }
+        set(value) {
+            field = value
+            if (value != null) {
+                _mintedNature.emit(value)
+            }
+        }
 
     val moveSet = MoveSet()
 
@@ -322,7 +327,7 @@ open class Pokemon : ShowdownIdentifiable {
     var scaleModifier = 1F
 
     var caughtBall: PokeBall = PokeBalls.POKE_BALL
-        set(value) { field = value ; _caughtBall.emit(caughtBall.name.toString()) }
+        set(value) { field = value ; _caughtBall.emit(caughtBall) }
     var features = mutableListOf<SpeciesFeature>()
 
     fun asRenderablePokemon() = RenderablePokemon(species, aspects)
@@ -433,7 +438,7 @@ open class Pokemon : ShowdownIdentifiable {
     fun applyStatus(status: PersistentStatus) {
         this.status = PersistentStatusContainer(status, status.statusPeriod().random())
         if (this.status != null) {
-            this._status.emit(this.status!!.status.name.toString())
+            this._status.emit(this.status!!.status)
         }
     }
 
@@ -711,7 +716,7 @@ open class Pokemon : ShowdownIdentifiable {
     fun getOwnerPlayer() : ServerPlayerEntity? {
         storeCoordinates.get().let {
             if (isPlayerOwned()) {
-                return getServer()?.playerManager?.getPlayer(it!!.store.uuid)
+                return server()?.playerManager?.getPlayer(it!!.store.uuid)
             }
         }
         return null
@@ -1011,11 +1016,11 @@ open class Pokemon : ShowdownIdentifiable {
         return true
     }
 
-    fun notify(packet: PokemonUpdatePacket) {
-        storeCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }
+    fun notify(packet: PokemonUpdatePacket<*>) {
+        storeCoordinates.get()?.run { sendPacketToPlayers(store.getObservingPlayers(), packet) }
     }
 
-    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket)? = null): SimpleObservable<T> {
+    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket<*>)? = null): SimpleObservable<T> {
         observables.add(observable)
         observable.subscribe {
             if (notifyPacket != null && storeCoordinates.get() != null) {
@@ -1075,12 +1080,12 @@ open class Pokemon : ShowdownIdentifiable {
     private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket(this, it) }
     private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket(this, it) }
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
-    private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
-    private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
+    private val _nature = registerObservable(SimpleObservable<Nature>()) { NatureUpdatePacket(this, it, false) }
+    private val _mintedNature = registerObservable(SimpleObservable<Nature>()) { NatureUpdatePacket(this, it, true) }
     private val _moveSet = registerObservable(moveSet.observable) { MoveSetUpdatePacket(this, moveSet) }
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(this, it) }
-    private val _status = registerObservable(SimpleObservable<String>()) { StatusUpdatePacket(this, it) }
-    private val _caughtBall = registerObservable(SimpleObservable<String>()) { CaughtBallUpdatePacket(this, it) }
+    private val _status = registerObservable(SimpleObservable<PersistentStatus?>()) { StatusUpdatePacket(this, it) }
+    private val _caughtBall = registerObservable(SimpleObservable<PokeBall>()) { CaughtBallUpdatePacket(this, it) }
     private val _benchedMoves = registerObservable(benchedMoves.observable) { BenchedMovesUpdatePacket(this, it) }
     private val _ivs = registerObservable(ivs.observable) { IVsUpdatePacket(this, it as IVs) }
     private val _evs = registerObservable(evs.observable) { EVsUpdatePacket(this, it as EVs) }

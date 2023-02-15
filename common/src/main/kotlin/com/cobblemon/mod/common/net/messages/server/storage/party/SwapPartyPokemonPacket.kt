@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPartyPosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.party.SwapPartyPokemonHandler
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -24,30 +25,16 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 20th, 2022
  */
-class SwapPartyPokemonPacket() : NetworkPacket {
-    lateinit var pokemon1ID: UUID
-    lateinit var position1: PartyPosition
-    lateinit var pokemon2ID: UUID
-    lateinit var position2: PartyPosition
-
-    constructor(pokemon1ID: UUID, position1: PartyPosition, pokemon2ID: UUID, position2: PartyPosition): this() {
-        this.pokemon1ID = pokemon1ID
-        this.position1 = position1
-        this.pokemon2ID = pokemon2ID
-        this.position2 = position2
-    }
-
+class SwapPartyPokemonPacket(val pokemon1ID: UUID, val position1: PartyPosition, val pokemon2ID: UUID, val position2: PartyPosition) : NetworkPacket<SwapPartyPokemonPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemon1ID)
         buffer.writePartyPosition(position1)
         buffer.writeUuid(pokemon2ID)
         buffer.writePartyPosition(position2)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        pokemon1ID = buffer.readUuid()
-        position1 = buffer.readPartyPosition()
-        pokemon2ID = buffer.readUuid()
-        position2 = buffer.readPartyPosition()
+    companion object {
+        val ID = cobblemonResource("swap_party_pokemon")
+        fun decode(buffer: PacketByteBuf) = SwapPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readUuid(), buffer.readPartyPosition())
     }
 }

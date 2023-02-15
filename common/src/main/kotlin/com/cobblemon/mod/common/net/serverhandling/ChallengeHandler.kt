@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.net.serverhandling
 
-import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.api.text.aqua
 import com.cobblemon.mod.common.api.text.red
@@ -21,10 +21,11 @@ import com.cobblemon.mod.common.net.messages.client.battle.ChallengeNotification
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-object ChallengeHandler : ServerPacketHandler<BattleChallengePacket> {
-    override fun invokeOnServer(packet: BattleChallengePacket, ctx: CobblemonNetwork.NetworkContext, player: ServerPlayerEntity) {
+object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
+    override fun handle(packet: BattleChallengePacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val targetedEntity = player.world.getEntityById(packet.targetedEntityId)?.let {
             if (it is PokemonEntity) {
                 val owner = it.owner

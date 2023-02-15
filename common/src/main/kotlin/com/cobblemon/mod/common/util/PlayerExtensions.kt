@@ -9,10 +9,10 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import java.util.UUID
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
@@ -26,10 +26,10 @@ import net.minecraft.util.math.Vec3d
 
 // Stuff like getting their party
 fun ServerPlayerEntity.party() = Cobblemon.storage.getParty(this)
-fun UUID.getPlayer() = getServer()?.playerManager?.getPlayer(this)
+fun UUID.getPlayer() = server()?.playerManager?.getPlayer(this)
 
 fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
-    CobblemonEvents.PLAYER_QUIT.pipe(filter { it.uuid == uuid }, takeFirst()).subscribe { handler() }
+    PlatformEvents.SERVER_PLAYER_LOGOUT.pipe(filter { it.player.uuid == uuid }, takeFirst()).subscribe { handler() }
 }
 
 fun ServerPlayerEntity.isInBattle() = BattleRegistry.getBattleByParticipatingPlayer(this) != null

@@ -35,7 +35,6 @@ dependencies {
 
     modApi(libs.fabricApi)
     modApi(libs.fabricKotlin)
-    modApi(libs.architecturyFabric)
     modApi(libs.fabricPermissionsApi)
 
     listOf(
@@ -65,10 +64,16 @@ tasks {
 
     processResources {
         dependsOn(copyAccessWidener)
-        inputs.property("version", rootProject.version)
+        inputs.property("version", rootProject.version.toString().replace("+", "-"))
+        inputs.property("fabric_loader_version", libs.fabricLoader.get().version)
+        inputs.property("minecraft_version", rootProject.property("mc_version").toString())
 
         filesMatching("fabric.mod.json") {
-            expand("version" to rootProject.version)
+            expand(
+                "version" to rootProject.version.toString().replace("+", "-"),
+                "fabric_loader_version" to libs.fabricLoader.get().version,
+                "minecraft_version" to rootProject.property("mc_version").toString()
+            )
         }
     }
 }

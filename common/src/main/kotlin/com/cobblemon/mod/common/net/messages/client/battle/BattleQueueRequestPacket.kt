@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.battles.ShowdownActionRequest
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -22,16 +23,13 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since May 22nd, 2022
  */
-class BattleQueueRequestPacket(): NetworkPacket {
-    lateinit var request: ShowdownActionRequest
-    constructor(request: ShowdownActionRequest): this() {
-        this.request = request
-    }
+class BattleQueueRequestPacket(val request: ShowdownActionRequest): NetworkPacket<BattleQueueRequestPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         request.saveToBuffer(buffer)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        request = ShowdownActionRequest().loadFromBuffer(buffer)
+    companion object {
+        val ID = cobblemonResource("battle_queue_request")
+        fun decode(buffer: PacketByteBuf) = BattleQueueRequestPacket(ShowdownActionRequest().loadFromBuffer(buffer))
     }
 }

@@ -19,9 +19,9 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 
-class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate> {
-    constructor(): super(emptyList())
-    constructor(moves: List<MoveTemplate>): super(moves)
+class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacket<MoveTemplate, MovesRegistrySyncPacket>(moves) {
+
+    override val id = ID
 
     override fun encodeEntry(buffer: PacketByteBuf, entry: MoveTemplate) {
         buffer.writeSizedInt(IntSize.U_SHORT, entry.id)
@@ -58,5 +58,10 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate> {
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {
         Moves.receiveSyncPacket(entries)
+    }
+
+    companion object {
+        val ID = cobblemonResource("moves_sync")
+        fun decode(buffer: PacketByteBuf): MovesRegistrySyncPacket = MovesRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 }

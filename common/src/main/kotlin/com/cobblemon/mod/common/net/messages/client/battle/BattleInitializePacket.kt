@@ -20,10 +20,7 @@ import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
-import com.cobblemon.mod.common.util.readMapK
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeMapK
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.*
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
@@ -36,7 +33,9 @@ import net.minecraft.text.MutableText
  * @author Hiroku
  * @since May 10th, 2022
  */
-class BattleInitializePacket() : NetworkPacket {
+class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
+
+    override val id = ID
 
     lateinit var battleId: UUID
     lateinit var battleFormat: BattleFormat
@@ -83,7 +82,7 @@ class BattleInitializePacket() : NetworkPacket {
         }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    private fun decode(buffer: PacketByteBuf) {
         battleId = buffer.readUuid()
         battleFormat = BattleFormat.loadFromBuffer(buffer)
         val sides = mutableListOf<BattleSideDTO>()
@@ -116,6 +115,11 @@ class BattleInitializePacket() : NetworkPacket {
         }
         side1 = sides[0]
         side2 = sides[1]
+    }
+
+    companion object {
+        val ID = cobblemonResource("battle_initialize")
+        fun decode(buffer: PacketByteBuf) = BattleInitializePacket().apply { decode(buffer) }
     }
 
     data class BattleSideDTO(val actors: List<BattleActorDTO>)

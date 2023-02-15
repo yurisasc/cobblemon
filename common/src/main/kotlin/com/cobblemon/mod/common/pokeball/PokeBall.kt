@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.pokeball.catching.CaptureEffect
 import com.cobblemon.mod.common.api.pokeball.catching.CatchRateModifier
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier

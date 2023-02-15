@@ -9,9 +9,7 @@
 package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
-import dev.architectury.registry.CreativeTabRegistry
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 

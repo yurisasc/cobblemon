@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -19,26 +20,16 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 5th, 2022
  */
-class BattleHealthChangePacket() : NetworkPacket {
-    lateinit var pnx: String
-    var newHealthRatio = 0F
-    var newHealth = 0
-
-    constructor(pnx: String, newHealthRatio: Float, newHealth: Int): this() {
-        this.pnx = pnx
-        this.newHealthRatio = newHealthRatio
-        this.newHealth = newHealth
-    }
-
+class BattleHealthChangePacket(val pnx: String, val newHealthRatio: Float, val newHealth: Int) : NetworkPacket<BattleHealthChangePacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(pnx)
         buffer.writeFloat(newHealthRatio)
         buffer.writeInt(newHealth)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        pnx = buffer.readString()
-        newHealthRatio = buffer.readFloat()
-        newHealth = buffer.readInt()
+    companion object {
+        val ID = cobblemonResource("battle_health_change")
+        fun decode(buffer: PacketByteBuf) = BattleHealthChangePacket(buffer.readString(), buffer.readFloat(), buffer.readInt())
     }
 }

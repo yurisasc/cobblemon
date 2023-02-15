@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.SwapPCPartyPokemonHandler
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -28,19 +29,8 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 20th, 2022
  */
-class SwapPCPartyPokemonPacket() : NetworkPacket {
-    lateinit var partyPokemonID: UUID
-    lateinit var partyPosition: PartyPosition
-    lateinit var pcPokemonID: UUID
-    lateinit var pcPosition: PCPosition
-
-    constructor(partyPokemonID: UUID, partyPosition: PartyPosition, pcPokemonID: UUID, pcPosition: PCPosition) : this() {
-        this.partyPokemonID = partyPokemonID
-        this.partyPosition = partyPosition
-        this.pcPokemonID = pcPokemonID
-        this.pcPosition = pcPosition
-    }
-
+class SwapPCPartyPokemonPacket(val partyPokemonID: UUID, val partyPosition: PartyPosition, val pcPokemonID: UUID, val pcPosition: PCPosition) : NetworkPacket<SwapPCPartyPokemonPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(partyPokemonID)
         buffer.writePartyPosition(partyPosition)
@@ -48,10 +38,8 @@ class SwapPCPartyPokemonPacket() : NetworkPacket {
         buffer.writePCPosition(pcPosition)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        partyPokemonID = buffer.readUuid()
-        partyPosition = buffer.readPartyPosition()
-        pcPokemonID = buffer.readUuid()
-        pcPosition = buffer.readPCPosition()
+    companion object {
+        val ID = cobblemonResource("swap_pc_party_pokemon")
+        fun decode(buffer: PacketByteBuf): SwapPCPartyPokemonPacket = SwapPCPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readUuid(), buffer.readPCPosition())
     }
 }

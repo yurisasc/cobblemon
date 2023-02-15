@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
@@ -21,22 +22,14 @@ import net.minecraft.util.Identifier
  * @author Hiroku
  * @since July 2nd, 2022
  */
-class BattleCaptureStartPacket() : NetworkPacket {
-    lateinit var pokeBallType: Identifier
-    lateinit var targetPNX: String
-
-    constructor(pokeBallType: Identifier, targetPNX: String): this() {
-        this.pokeBallType = pokeBallType
-        this.targetPNX = targetPNX
-    }
-
+class BattleCaptureStartPacket(val pokeBallType: Identifier, val targetPNX: String) : NetworkPacket<BattleCaptureStartPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(pokeBallType)
         buffer.writeString(targetPNX)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        pokeBallType = buffer.readIdentifier()
-        targetPNX = buffer.readString()
+    companion object {
+        val ID = cobblemonResource("battle_capture_start")
+        fun decode(buffer: PacketByteBuf) = BattleCaptureStartPacket(buffer.readIdentifier(), buffer.readString())
     }
 }

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.registry
+package com.cobblemon.mod.common.platform
 
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.registry.Registry

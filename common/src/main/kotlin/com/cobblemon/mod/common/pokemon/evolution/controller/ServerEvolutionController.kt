@@ -16,10 +16,11 @@ import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.EvolutionUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressFactory
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.convertToDisplay
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.encode
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.toJsonArray
 import com.google.gson.JsonArray
@@ -156,11 +157,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         if (!toClient) {
             return
         }
-        buffer.writeInt(this.size)
-        this.evolutions.forEach { evolution ->
-            val display = EvolutionUpdatePacket.createSending(this.pokemon, evolution)
-            EvolutionUpdatePacket.encodeSending(display, buffer)
-        }
+        buffer.writeCollection(this.evolutions) { pb, value -> value.convertToDisplay(this.pokemon).encode(pb) }
     }
 
     override fun loadFromBuffer(buffer: PacketByteBuf) {

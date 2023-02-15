@@ -9,8 +9,6 @@
 package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.block.ApricornBlock
-import com.cobblemon.mod.common.item.group.CobblemonItemGroups
-import dev.architectury.registry.CreativeTabRegistry
 import net.minecraft.block.BlockState
 import net.minecraft.block.ComposterBlock
 import net.minecraft.item.AliasedBlockItem

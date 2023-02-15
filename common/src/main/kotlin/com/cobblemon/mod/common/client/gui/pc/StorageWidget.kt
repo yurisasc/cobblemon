@@ -113,7 +113,7 @@ class StorageWidget(
                         else -> return@ReleaseConfirmButton
                     }
 
-                    CobblemonNetwork.sendToServer(packet)
+                    CobblemonNetwork.sendPacketToServer(packet)
                     playSound(CobblemonSounds.PC_RELEASE)
                     resetSelected()
                     displayConfirmRelease = false

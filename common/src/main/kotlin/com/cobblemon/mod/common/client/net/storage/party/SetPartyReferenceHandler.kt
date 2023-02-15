@@ -8,13 +8,13 @@
 
 package com.cobblemon.mod.common.client.net.storage.party
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.storage.party.SetPartyReferencePacket
+import net.minecraft.client.MinecraftClient
 
-object SetPartyReferenceHandler : ClientPacketHandler<SetPartyReferencePacket> {
-    override fun invokeOnClient(packet: SetPartyReferencePacket, ctx: CobblemonNetwork.NetworkContext) {
+object SetPartyReferenceHandler : ClientNetworkPacketHandler<SetPartyReferencePacket> {
+    override fun handle(packet: SetPartyReferencePacket, client: MinecraftClient) {
         CobblemonClient.storage.setPartyStore(packet.storeID)
     }
 }

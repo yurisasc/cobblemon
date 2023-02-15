@@ -44,7 +44,7 @@ open class PokemonBattleActor(
         return world to entity.pos
     }
 
-    override fun sendUpdate(packet: NetworkPacket) {
+    override fun sendUpdate(packet: NetworkPacket<*>) {
         super.sendUpdate(packet)
         if (packet is BattleEndPacket) {
             // Do some shit

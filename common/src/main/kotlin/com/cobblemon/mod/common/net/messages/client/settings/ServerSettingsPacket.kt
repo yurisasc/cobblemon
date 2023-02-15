@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.settings
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -18,21 +19,14 @@ import net.minecraft.network.PacketByteBuf
  * @author Licious
  * @since September 25th, 2022
  */
-class ServerSettingsPacket internal constructor() : NetworkPacket {
-
-    var preventCompletePartyDeposit = false
-        private set
-    var displayEntityLevelLabel = false
-        private set
-
+class ServerSettingsPacket internal constructor(val preventCompletePartyDeposit: Boolean, val displayEntityLevelLabel: Boolean) : NetworkPacket<ServerSettingsPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(Cobblemon.config.preventCompletePartyDeposit)
         buffer.writeBoolean(Cobblemon.config.displayEntityLevelLabel)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        this.preventCompletePartyDeposit = buffer.readBoolean()
-        this.displayEntityLevelLabel = buffer.readBoolean()
+    companion object {
+        val ID = cobblemonResource("server_settings")
+        fun decode(buffer: PacketByteBuf) = ServerSettingsPacket(buffer.readBoolean(), buffer.readBoolean())
     }
-
 }

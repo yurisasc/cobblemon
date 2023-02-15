@@ -4,7 +4,7 @@ plugins {
 }
 
 architectury {
-    common()
+    common("forge", "fabric")
 }
 
 repositories {
@@ -16,7 +16,6 @@ dependencies {
     implementation(libs.reflect)
 
     modImplementation(libs.fabricLoader)
-    modApi(libs.architectury)
     modApi(libs.molang)
     modApi(libs.mclib)
 
@@ -30,8 +29,6 @@ dependencies {
     testImplementation(libs.junitParams)
     testImplementation(libs.mockito)
     testImplementation(libs.mockk)
-
-    compileOnly("net.luckperms:api:${rootProject.property("luckperms_version")}")
 }
 
 publishing {

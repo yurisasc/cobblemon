@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
@@ -19,7 +21,6 @@ import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
@@ -27,7 +28,6 @@ import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
-import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -36,8 +36,9 @@ import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
 import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
+import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
-import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
+import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
@@ -46,10 +47,6 @@ import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
-import dev.architectury.extensions.network.EntitySpawnExtension
-import dev.architectury.networking.NetworkManager
-import java.util.*
-import java.util.concurrent.CompletableFuture
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -70,7 +67,9 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.Packet
+import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -83,6 +82,8 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import java.util.*
+import java.util.concurrent.CompletableFuture
 import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
@@ -91,7 +92,7 @@ class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
-) : TameableShoulderEntity(type, world), EntitySpawnExtension, Poseable {
+) : TameableShoulderEntity(type, world), Poseable {
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
     val subscriptions = mutableListOf<ObservableSubscription<*>>()
@@ -343,7 +344,7 @@ class PokemonEntity(
         )
     }
 
-    override fun createSpawnPacket() = NetworkManager.createAddEntityPacket(this)
+    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokemonPacket(this, super.createSpawnPacket() as EntitySpawnS2CPacket))
 
     override fun getPathfindingPenalty(nodeType: PathNodeType): Float {
         return if (nodeType == PathNodeType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
@@ -416,31 +417,6 @@ class PokemonEntity(
             }
             true
         } else false
-    }
-
-    override fun saveAdditionalSpawnData(buffer: PacketByteBuf) {
-        buffer.writeFloat(pokemon.scaleModifier)
-        buffer.writeIdentifier(pokemon.species.resourceIdentifier)
-        buffer.writeString(pokemon.form.formOnlyShowdownId())
-        buffer.writeInt(phasingTargetId.get())
-        buffer.writeByte(beamModeEmitter.get().toInt())
-        buffer.writeCollection(pokemon.aspects, PacketByteBuf::writeString)
-        buffer.writeInt(if (Cobblemon.config.displayEntityLevelLabel) this.labelLevel.get() else -1)
-    }
-
-    override fun loadAdditionalSpawnData(buffer: PacketByteBuf) {
-        if (this.world.isClient) {
-            pokemon.scaleModifier = buffer.readFloat()
-            // TODO exception handling
-            pokemon.species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
-            // TODO exception handling
-            val formId = buffer.readString()
-            pokemon.form = pokemon.species.forms.find { form -> form.formOnlyShowdownId() == formId } ?: pokemon.species.standardForm
-            phasingTargetId.set(buffer.readInt())
-            beamModeEmitter.set(buffer.readByte())
-            this.aspects.set(buffer.readList(PacketByteBuf::readString).toSet())
-            labelLevel.set(buffer.readInt())
-        }
     }
 
     override fun shouldSave(): Boolean {

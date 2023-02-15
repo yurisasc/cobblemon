@@ -9,11 +9,8 @@
 package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
-import com.cobblemon.mod.common.item.group.CobblemonItemGroups
-import dev.architectury.registry.CreativeTabRegistry
 import net.minecraft.block.ComposterBlock
 import net.minecraft.item.AliasedBlockItem
-import net.minecraft.item.ItemGroup
 
 class ApricornSeedItem(block: ApricornSaplingBlock) : AliasedBlockItem(block, Settings()) {
 

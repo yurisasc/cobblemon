@@ -119,5 +119,5 @@ abstract class BattleActor(
         sendUpdate(BattleMessagePacket(component))
     }
     open fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {}
-    open fun sendUpdate(packet: NetworkPacket) {}
+    open fun sendUpdate(packet: NetworkPacket<*>) {}
 }

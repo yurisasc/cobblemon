@@ -22,48 +22,38 @@ import net.minecraft.util.Identifier
  * @author Licious
  * @since December 29th, 2022
  */
-internal class UnvalidatedPlaySoundS2CPacket constructor() : NetworkPacket {
+internal class UnvalidatedPlaySoundS2CPacket(
+    val sound: Identifier,
+    val category: SoundCategory,
+    val x: Double,
+    val y: Double,
+    val z: Double,
+    val volume: Float,
+    val pitch: Float
+) : NetworkPacket<UnvalidatedPlaySoundS2CPacket> {
 
-    var sound: Identifier = cobblemonResource("dummy")
-    var category: SoundCategory = SoundCategory.MASTER
-    private var fixedX = 0
-    private var fixedY = 0
-    private var fixedZ = 0
-    var volume = 0F
-    var pitch = 0F
-
-    val x get() = this.fixedX / 8.0
-    val y get() = this.fixedY / 8.0
-    val z get() = this.fixedZ / 8.0
-
-    constructor(sound: Identifier, category: SoundCategory, x: Double, y: Double, z: Double, volume: Float, pitch: Float) : this() {
-        this.sound = sound
-        this.category = category
-        this.fixedX = (x * 8.0).toInt()
-        this.fixedY = (y * 8.0).toInt()
-        this.fixedZ = (z * 8.0).toInt()
-        this.volume = volume
-        this.pitch = pitch
-    }
+    override val id = ID
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(this.sound)
         buffer.writeEnumConstant(this.category)
-        buffer.writeInt(this.fixedX)
-        buffer.writeInt(this.fixedY)
-        buffer.writeInt(this.fixedZ)
+        buffer.writeDouble(this.x)
+        buffer.writeDouble(this.y)
+        buffer.writeDouble(this.z)
         buffer.writeFloat(this.volume)
         buffer.writeFloat(this.pitch)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        this.sound = buffer.readIdentifier()
-        this.category = buffer.readEnumConstant(SoundCategory::class.java)
-        this.fixedX = buffer.readInt()
-        this.fixedY = buffer.readInt()
-        this.fixedZ = buffer.readInt()
-        this.volume = buffer.readFloat()
-        this.pitch = buffer.readFloat()
+    companion object {
+        val ID = cobblemonResource("unvalidated_play_sound")
+        fun decode(buffer: PacketByteBuf) = UnvalidatedPlaySoundS2CPacket(
+            buffer.readIdentifier(),
+            buffer.readEnumConstant(SoundCategory::class.java),
+            buffer.readDouble(),
+            buffer.readDouble(),
+            buffer.readDouble(),
+            buffer.readFloat(),
+            buffer.readFloat()
+        )
     }
-
 }

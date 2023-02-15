@@ -17,7 +17,13 @@
     "ServerChunkManagerMixin",
     "ShearsDispenserBehaviorMixin",
     "accessor.AccessorEntity",
-    "entity.TameableEntityMixin"
+    "entity.TameableEntityMixin",
+    "invoker.BooleanRuleInvoker",
+    "invoker.ButtonBlockInvoker",
+    "invoker.DoorBlockInvoker",
+    "invoker.PressurePlateBlockInvoker",
+    "invoker.StairsBlockInvoker",
+    "invoker.TrapdoorBlockInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

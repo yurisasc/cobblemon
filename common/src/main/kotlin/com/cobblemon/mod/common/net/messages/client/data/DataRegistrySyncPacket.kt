@@ -11,16 +11,16 @@ package com.cobblemon.mod.common.net.messages.client.data
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import net.minecraft.network.PacketByteBuf
 
-abstract class DataRegistrySyncPacket<T>(private val registryEntries: Collection<T>) : NetworkPacket {
+abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val registryEntries: Collection<T>) : NetworkPacket<N> {
 
     var buffer: PacketByteBuf? = null
-    internal var entries = arrayListOf<T>()
+    internal val entries = arrayListOf<T>()
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeCollection(this.registryEntries, this::encodeEntry)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    internal fun decodeBuffer(buffer: PacketByteBuf) {
         this.buffer = buffer
         buffer.retain()
     }

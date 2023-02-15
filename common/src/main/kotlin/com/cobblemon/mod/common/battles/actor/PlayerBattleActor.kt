@@ -45,7 +45,7 @@ class PlayerBattleActor(
         }
     }
 
-    override fun sendUpdate(packet: NetworkPacket) {
-        CobblemonNetwork.sendToPlayers(getPlayerUUIDs().mapNotNull { it.getPlayer() }, packet)
+    override fun sendUpdate(packet: NetworkPacket<*>) {
+        CobblemonNetwork.sendPacketToPlayers(getPlayerUUIDs().mapNotNull { it.getPlayer() }, packet)
     }
 }
