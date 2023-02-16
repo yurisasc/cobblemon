@@ -33,7 +33,7 @@
 - Added the Saturation shoulder effect
 - Added the Haste shoulder effect.
 - Added the Water Breathing shoulder effect.
-- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, joltik, and galvantula.
+- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, and Galvantula.
 - Added Water Breathing Effect to Wooper.
 - Added Haste Effect to Joltik.
 - Added blink animations to many Pokémon.
@@ -91,6 +91,7 @@
 - Fixed Showdown initialization happening several times when you login depending on how many times you have relogged this session (hilarious).
 - Fixed Showdown failing to update on first attempt, we totally didn't accidentally delete our target directory or anything, nope.
 - Fixed crashes involving opening the Pokémon summary with an empty party.
+- Fixed missing battle text for Belly Drum, Anger Point, and Haze
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
