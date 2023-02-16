@@ -139,7 +139,7 @@ object Cobblemon {
     var evYieldCalculator: EvCalculator = Generation8EvCalculator
     var starterHandler: StarterHandler = CobblemonStarterHandler()
     var isDedicatedServer = false
-    var showdownThread = ShowdownThread()
+    val showdownThread = ShowdownThread()
     lateinit var config: CobblemonConfig
     var prospector: SpawningProspector = CobblemonSpawningProspector
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
@@ -211,8 +211,7 @@ object Cobblemon {
     }
 
     fun initialize() {
-        showdownThread.start()
-        showdownThread.showdownStarted.join()
+        showdownThread.launch()
 
         CompletableRegistry.allRegistriesCompleted.thenAccept {
             LOGGER.info("All registries loaded.")
