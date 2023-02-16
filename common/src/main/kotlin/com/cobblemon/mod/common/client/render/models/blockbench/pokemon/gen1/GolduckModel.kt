@@ -26,6 +26,7 @@ class GolduckModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.54, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var float: PokemonPose
@@ -41,6 +42,11 @@ class GolduckModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("golduck", "ground_idle")
             )
+        )
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("golduck", "sleep"))
         )
 
         walk = registerPose(

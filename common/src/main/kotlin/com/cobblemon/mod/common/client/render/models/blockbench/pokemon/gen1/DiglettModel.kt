@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -25,6 +27,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.15, 0.0)
 
+    lateinit var sleep: PokemonPose
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("diglett", "blink").setPreventsIdle(false)}
         registerPose(
@@ -32,6 +35,11 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("diglett", "ground_idle"))
+        )
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("diglett", "sleep"))
         )
 
         registerPose(

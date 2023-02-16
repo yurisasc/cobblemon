@@ -33,7 +33,7 @@
 - Added the Saturation shoulder effect
 - Added the Haste shoulder effect.
 - Added the Water Breathing shoulder effect.
-- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, and Galvantula.
+- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, and Galvantula.
 - Added Water Breathing Effect to Wooper.
 - Added Haste Effect to Joltik.
 - Added blink animations to many Pokémon.
@@ -41,6 +41,7 @@
 - Added the ``/spawnpokemonat <pos> <properties>`` command, the ``pos`` argument uses the same syntax as the Minecraft [summon](https://minecraft.fandom.com/wiki/Commands/summon) command.
 - Added particle effect support for model animations
 - Added builtin compatibility with Carry On by preventing the mod being able to interact with Cobblemon entities, the mod caused too many gameplay detrimental features to stay enabled.
+- Added sleep animations to many Pokémon.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.getChildOf
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
@@ -36,7 +37,14 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileScale = 1.2F
     override val profileTranslation = Vec3d(0.0, -0.05, 0.0)
 
+    lateinit var sleep: PokemonPose
+
     override fun registerPoses() {
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("pidgeot", "sleep"))
+        )
+
         val blink = quirk("blink") { bedrockStateful("pidgeot", "blink").setPreventsIdle(false)}
         registerPose(
             poseName = "stand",

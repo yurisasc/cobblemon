@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -25,8 +27,10 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.15, 0.0)
 
+    lateinit var sleep: PokemonPose
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dugtrio", "blink1").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("dugtrio", "blink").setPreventsIdle(false)}
         val blink2 = quirk("blink2") { bedrockStateful("dugtrio", "blink2").setPreventsIdle(false)}
         val blink3 = quirk("blink3") { bedrockStateful("dugtrio", "blink3").setPreventsIdle(false)}
         registerPose(
@@ -34,6 +38,11 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink, blink2, blink3),
             idleAnimations = arrayOf(bedrock("dugtrio", "ground_idle"))
+        )
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("dugtrio", "sleep"))
         )
 
         registerPose(

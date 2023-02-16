@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -33,6 +34,7 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.67F
     override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var summary: PokemonPose
@@ -71,6 +73,11 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 tail4WaveSegment,
                 tail5WaveSegment
             )
+        )
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("arbok", "sleep"))
         )
 
 

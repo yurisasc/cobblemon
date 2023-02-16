@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -26,6 +27,7 @@ class NidoqueenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
@@ -41,6 +43,11 @@ class NidoqueenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
 
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("nidoqueen", "sleep"))
+        )
+
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
@@ -48,7 +55,6 @@ class NidoqueenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("nidoqueen", "ground_idle")
-                //bedrock("nidoqueen", "ground_walk")
             )
         )
     }
