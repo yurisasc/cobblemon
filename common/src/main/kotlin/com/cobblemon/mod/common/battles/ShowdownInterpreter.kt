@@ -77,8 +77,12 @@ object ShowdownInterpreter {
         updateInstructions["|-nothing"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
         }
+        updateInstructions["|-clearallboost"] = { battle, _, _ ->
+            battle.dispatchGo { battle.broadcastChatMessage(battleLang("clearallboost")) }
+        }
         updateInstructions["|-unboost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, false) }
         updateInstructions["|-boost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, true) }
+        updateInstructions["|-setboost|"] = this::handleSetBoostInstruction
         updateInstructions["|t:|"] = {_, _, _ -> }
         updateInstructions["|pp_update|"] = this::handlePpUpdateInstruction
         updateInstructions["|-immune"] = this::handleImmuneInstruction
@@ -140,6 +144,21 @@ object ShowdownInterpreter {
         1 -> "slight"
         2 -> "sharp"
         else -> "severe"
+    }
+
+    private fun handleSetBoostInstruction(battle: PokemonBattle, line: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val message = BattleMessage(line)
+            val pokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
+            val pokemonName = pokemon.battlePokemon?.getName() ?: return@dispatchGo
+            val effect = message.effect() ?: return@dispatchGo
+            val lang = when(effect.id) {
+                "bellydrum" -> battleLang("setboost.bellydrum", pokemonName)
+                "angerpoint" -> battleLang("setboost.angerpoint", pokemonName)
+                else -> battle.createUnimplemented(message)
+            }
+            battle.broadcastChatMessage(lang)
+        }
     }
 
     fun interpretMessage(battleId: UUID, message: String) {
