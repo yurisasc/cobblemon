@@ -42,6 +42,33 @@
 					"rotation": [-5, 0, 0]
 				}
 			}
+		},
+		"animation.venomoth.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [-5, 0, 0],
+					"position": [0, -5.75, 0]
+				},
+				"head": {
+					"rotation": [15, 0, 0]
+				},
+				"abdomen": {
+					"rotation": [15, 0, 0]
+				},
+				"wing_bottom_right1": {
+					"rotation": [0, 70, 0]
+				},
+				"wing_bottom_left1": {
+					"rotation": [0, -72.5, 0]
+				},
+				"wing_top_right1": {
+					"rotation": [0, 72.5, 0]
+				},
+				"wing_top_left1": {
+					"rotation": [0, -72.5, 0]
+				}
+			}
 		}
 	}
 }

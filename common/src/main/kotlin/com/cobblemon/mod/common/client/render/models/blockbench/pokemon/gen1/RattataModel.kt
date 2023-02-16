@@ -38,10 +38,15 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val profileScale = 1.1F
     override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("rattata", "sleep"))
+        )
         val blink = quirk("blink") { bedrockStateful("rattata", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",

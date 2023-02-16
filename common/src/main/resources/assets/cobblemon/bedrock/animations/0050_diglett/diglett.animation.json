@@ -116,6 +116,21 @@
 				}
 			}
 		},
+		"animation.diglett.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [7.5, 0, 0],
+					"position": [0, -3.5, 0.25]
+				},
+				"eyelid_right": {
+					"position": [0, 0, -0.1]
+				},
+				"eyelid_left": {
+					"position": [0, 0, -0.1]
+				}
+			}
+		},
 		"animation.diglett.blink": {
 			"animation_length": 0.16667,
 			"bones": {

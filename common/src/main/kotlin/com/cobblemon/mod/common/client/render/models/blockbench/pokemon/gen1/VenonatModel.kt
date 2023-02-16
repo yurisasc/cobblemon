@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedW
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -29,6 +30,7 @@ class VenonatModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val profileScale = 0.95F
     override val profileTranslation = Vec3d(0.0, 0.31, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
@@ -39,6 +41,11 @@ class VenonatModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             idleAnimations = arrayOf(
                 bedrock("venonat", "ground_idle")
             )
+        )
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("venonat", "sleep"))
         )
 
         walk = registerPose(

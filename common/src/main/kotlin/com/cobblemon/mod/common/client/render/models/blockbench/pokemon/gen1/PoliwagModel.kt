@@ -25,6 +25,7 @@ class PoliwagModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.38, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
@@ -38,6 +39,11 @@ class PoliwagModel(root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(
                 bedrock("poliwag", "ground_idle")
             )
+        )
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("poliwag", "sleep"))
         )
 
         float = registerPose(

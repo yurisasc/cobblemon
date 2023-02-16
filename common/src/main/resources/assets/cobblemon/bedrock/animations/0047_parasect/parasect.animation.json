@@ -436,6 +436,45 @@
 					}
 				}
 			}
+		},
+		"animation.parasect.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [-5, 0, 0],
+					"position": [0, -5.25, 0]
+				},
+				"head": {
+					"rotation": [25, 0, 0]
+				},
+				"mushroom": {
+					"rotation": [-4.98848, 0.54094, -2.55919]
+				},
+				"arm_right": {
+					"rotation": [-4.71374, -13.10686, -61.2244]
+				},
+				"hand_right": {
+					"rotation": [2.47864, 0.32621, -7.49294]
+				},
+				"arm_left": {
+					"rotation": [46.77311, 11.5328, 88.58523]
+				},
+				"hand_left": {
+					"rotation": [-30, 0, -35]
+				},
+				"leg_right_front": {
+					"rotation": [-6.92546, -43.42114, 51.30836]
+				},
+				"leg_left_front": {
+					"rotation": [-37.55945, 40.39543, -62.55466]
+				},
+				"leg_right_back": {
+					"rotation": [69.87065, -41.90314, 7.26404]
+				},
+				"leg_left_back": {
+					"rotation": [71.04314, 36.95106, -6.92164]
+				}
+			}
 		}
 	}
 }
