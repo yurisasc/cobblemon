@@ -19,21 +19,41 @@ import com.google.gson.GsonBuilder
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
-import java.util.concurrent.CompletableFuture
 import net.minecraft.util.Identifier
+import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CountDownLatch
 
 class ShowdownThread : Thread("Cobblemon Showdown") {
 
-    var showdownStarted = CompletableFuture<Unit>()
-    val gson = GsonBuilder()
+    private val latch = CountDownLatch(1)
+    private val gson = GsonBuilder()
         .disableHtmlEscaping()
         .create()
 
-    override fun run() {
-        var showdownDir = File("showdown")
-        showdownDir.mkdir()
+    private val whenReady : Queue<Runnable> = LinkedList()
 
-        val showdownMetadata = loadShowdownMetadata()
+    fun launch() {
+        this.start()
+        this.latch.await()
+        for (action in whenReady) {
+            action.run()
+        }
+    }
+
+    fun queue(action: Runnable) {
+        if (this.latch.count == 0L) {
+            action.run()
+        } else {
+            this.whenReady.add(action)
+        }
+    }
+
+    override fun run() {
+        LOGGER.info("Starting showdown service...")
+
+        var showdownDir = File("showdown")
+        val metadata = loadShowdownMetadata()
 
         // Check if showdown needs to be installed
         if (!showdownDir.exists() || config.autoUpdateShowdown) {
@@ -41,15 +61,14 @@ class ShowdownThread : Thread("Cobblemon Showdown") {
             val showdownMetadataFile = File(showdownDir, "showdown.json")
 
             var extract = true
-
             if (showdownMetadataFile.exists()) {
-                val metaDataStream = InputStreamReader(FileInputStream(showdownMetadataFile))
-                val localShowdownMetadata = gson.fromJson<ShowdownMetadata>(metaDataStream)
-                metaDataStream.close()
-                if (showdownMetadata!!.showdownVersion == localShowdownMetadata.showdownVersion) {
+                val current = this.readShowdownMetadata(showdownMetadataFile)
+                if (metadata!!.showdownVersion == current!!.showdownVersion) {
                     extract = false
                 } else {
-                    showdownDir.renameTo(File("showdown-backup"))
+                    // Backup current install first before continuing
+                    LOGGER.info("Updating showdown service to version ${metadata.showdownVersion}, from version ${current.showdownVersion}...")
+                    showdownDir.copyTo(File("showdown-backup"))
                 }
             }
 
@@ -68,7 +87,7 @@ class ShowdownThread : Thread("Cobblemon Showdown") {
         GraalShowdown.boot()
 
         LOGGER.info("Showdown has been started!")
-        showdownStarted.complete(Unit)
+        this.latch.countDown()
     }
 
     private fun loadShowdownMetadata() : ShowdownMetadata? {
@@ -81,7 +100,16 @@ class ShowdownThread : Thread("Cobblemon Showdown") {
         return null
     }
 
-    private data class ShowdownMetadata(
-        val showdownVersion: Double
-    )
+    private fun readShowdownMetadata(target: File) : ShowdownMetadata? {
+        try {
+            InputStreamReader(FileInputStream(target)).use {
+                return gson.fromJson<ShowdownMetadata>(it)
+            }
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            return null
+        }
+    }
+
+    private data class ShowdownMetadata(val showdownVersion: Double)
 }

@@ -137,7 +137,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     init {
         SpeciesAdditions.observable.subscribe {
             this.species.forEach(Species::initialize)
-            Cobblemon.showdownThread.showdownStarted.whenComplete { _, _ -> createShowdownData() }.get()
+            Cobblemon.showdownThread.queue { createShowdownData() }
             // Reload this with the mod
             CobblemonEmptyHeldItemManager.load()
             CobblemonHeldItemManager.load()

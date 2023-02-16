@@ -89,6 +89,7 @@
 - Fixed shiny Gyarados not using the red Gyarados texture.
 - Fixed Showdown sometimes failing to start because of the load order being undefined.
 - Fixed Showdown initialization happening several times when you login depending on how many times you have relogged this session (hilarious).
+- Fixed Showdown failing to update on first attempt, we totally didn't accidentally delete our target directory or anything, nope.
 - Fixed crashes involving opening the Pokémon summary with an empty party.
 
 ### Developer
