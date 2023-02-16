@@ -51,6 +51,9 @@
 - Made it so that particles are not shown whenever you have a shoulder Pokémon that gives particle effects.
 - Changed the Imports in "PokemonModelReposity" to instead grab the entire Gen rather than each Pokémon Specifically.
 - Changed Hitbox and Size definitions for Decidueye, Blastoise, and Magmortar
+- Apricorns can now be harvested with Axes scaling speed scaling with enchantments and tool material, only dropping the Apricorn if fully grown, these will still destroy the Apricorn so the manual harvest still is recommended unless you're just keen on destroying trees.
+- Apricorns are now a part of the vanilla tag ``minecraft:blocks/mineable/axe``.
+- Apricorns are now compatible with any mod that breaks a whole tree at once.
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
