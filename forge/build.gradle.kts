@@ -1,5 +1,6 @@
 plugins {
     id("cobblemon.platform-conventions")
+    id("cobblemon.publish-conventions")
 }
 
 architectury {
@@ -15,7 +16,8 @@ loom {
 }
 
 repositories {
-    maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    maven(url = "${rootProject.projectDir}/deps")
+    mavenLocal()
 }
 
 dependencies {
@@ -42,20 +44,19 @@ dependencies {
         libs.serializationCore,
         libs.serializationJson,
         libs.graal,
-        libs.molang,
-        libs.mclib
+        libs.molang
     ).forEach {
         forgeRuntimeLibrary(it)
-        bundle(it) {
-            exclude("com.ibm.icu", "icu4j")
-        }
+        bundle(it)
     }
 }
 
 tasks {
     shadowJar {
         exclude("architectury-common.accessWidener")
+        relocate ("com.ibm.icu", "com.cobblemon.mod.relocations.ibm.icu")
     }
+
     processResources {
         inputs.property("version", rootProject.version)
 

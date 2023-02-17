@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,6 +24,8 @@ object CobblemonSounds : CompletableRegistry<SoundEvent>(Registry.SOUND_EVENT_KE
     val PC_DROP = queue("pc.drop")
     val PC_RELEASE = queue("pc.release")
 
+    val HEALING_MACHINE_ACTIVE = queue("healing_machine.active")
+
     val POKE_BALL_CAPTURE_STARTED = queue("poke_ball.capture_started")
     val POKE_BALL_CAPTURE_SUCCEEDED = queue("poke_ball.capture_succeeded")
     val POKE_BALL_SHAKE = queue("poke_ball.shake")
@@ -34,5 +36,5 @@ object CobblemonSounds : CompletableRegistry<SoundEvent>(Registry.SOUND_EVENT_KE
 
     val ITEM_USE = queue("item.use")
     val CAN_EVOLVE = queue("pokemon.can_evolve")
-    val EVOLUTION_COMPLETED = queue("pokemon.evolution_completed")
+    val EVOLVING = queue("pokemon.evolving")
 }

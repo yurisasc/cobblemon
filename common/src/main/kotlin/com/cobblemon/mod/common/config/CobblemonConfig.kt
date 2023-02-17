@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,10 +9,14 @@
 package com.cobblemon.mod.common.config
 
 import com.cobblemon.mod.common.api.drop.ItemDropMethod
+import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.config.constraint.IntConstraint
+import com.cobblemon.mod.common.pokeball.catching.calculators.CobblemonCaptureCalculator
+import com.cobblemon.mod.common.util.adapters.CaptureCalculatorAdapter
 import com.cobblemon.mod.common.util.adapters.IntRangeAdapter
 import com.google.gson.GsonBuilder
+
 class CobblemonConfig {
     companion object {
         val GSON = GsonBuilder()
@@ -20,8 +24,11 @@ class CobblemonConfig {
             .setPrettyPrinting()
             .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
             .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
+            .registerTypeAdapter(CaptureCalculator::class.java, CaptureCalculatorAdapter)
             .create()
     }
+
+    var lastSavedVersion: String = "0.0.1"
 
     @NodeCategory(Category.Pokemon)
     @IntConstraint(min = 1, max = 1000)
@@ -35,6 +42,9 @@ class CobblemonConfig {
     var announceDropItems = true
     @NodeCategory(Category.Pokemon)
     var defaultDropItemMethod = ItemDropMethod.ON_ENTITY
+    @NodeCategory(Category.Pokemon)
+    @LastChangedVersion("1.3.0")
+    var ambientPokemonCryTicks = 360
 
     @NodeCategory(Category.Storage)
     @IntConstraint(min = 1, max = 1000)
@@ -92,6 +102,9 @@ class CobblemonConfig {
     @NodeCategory(Category.Spawning)
     var exportSpawnConfig = false
 
+    @NodeCategory(Category.Spawning)
+    var savePokemonToWorld = true
+
     @NodeCategory(Category.Starter)
     var exportStarterConfig = false
 
@@ -104,8 +117,17 @@ class CobblemonConfig {
     @NodeCategory(category = Category.Battles)
     var allowExperienceFromPvP = true
 
+    @NodeCategory(category = Category.Battles)
+    var experienceShareMultiplier = .5
+
+    @NodeCategory(category = Category.Battles)
+    var luckyEggMultiplier = 1.5
+
     @NodeCategory(category = Category.Pokemon)
     var experienceMultiplier = 2F
+
+    @NodeCategory(category = Category.Spawning)
+    var pokemonPerChunk = 1F
 
     @NodeCategory(Category.PassiveStatus)
     var passiveStatuses = mutableMapOf(
@@ -124,7 +146,7 @@ class CobblemonConfig {
     var maxHealerCharge = 6.0f
 
     @NodeCategory(Category.Healing)
-    var chargeGainedPerTick = 0.00016666666f
+    var chargeGainedPerTick = 0.000333333f
 
     @NodeCategory(Category.Healing)
     var defaultFaintTimer = 300
@@ -152,5 +174,8 @@ class CobblemonConfig {
 
     @NodeCategory(Category.World)
     var apricornSeedChance = 0.1
+
+    @NodeCategory(Category.Pokemon)
+    var captureCalculator: CaptureCalculator = CobblemonCaptureCalculator
 
 }

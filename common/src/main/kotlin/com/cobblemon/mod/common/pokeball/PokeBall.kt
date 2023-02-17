@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,14 +22,14 @@ import net.minecraft.util.Identifier
  * It is intended that there is one poke ball object initialized for a given poke ball type.
  *
  * @property name the poke ball registry name
- * @property catchRateModifiers list of all [CatchRateModifier] that is applicable to the Pokéball
+ * @property catchRateModifier The [CatchRateModifier] of this Pokéball.
  * @property effects list of all [CaptureEffect]s applicable to the Pokéball
  * @property model2d The identifier for the resource this Pokéball will use for the 2d model.
  * @property model3d The identifier for the resource this Pokéball will use for the 3d model.
  */
 open class PokeBall(
     val name: Identifier,
-    val catchRateModifiers: List<CatchRateModifier> = listOf(),
+    val catchRateModifier: CatchRateModifier = CatchRateModifier.DUMMY,
     val effects: List<CaptureEffect> = listOf(),
     val model2d: String,
     val model3d: String

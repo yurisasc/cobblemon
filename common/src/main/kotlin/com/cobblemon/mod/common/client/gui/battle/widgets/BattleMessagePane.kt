@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,11 +11,10 @@ package com.cobblemon.mod.common.client.gui.battle.widgets
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.battle.ClientBattleMessageQueue
-import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.OrderedText
@@ -112,14 +111,14 @@ class BattleMessagePane(
         )
 
         val textBoxHeight = if (expanded) TEXT_BOX_HEIGHT * 2 else TEXT_BOX_HEIGHT
-        RenderSystem.enableScissor(
-            scaleIt(left + 5),
-            scaleIt(33),
-            scaleIt(width),
-            scaleIt(textBoxHeight)
+        DrawableHelper.enableScissor(
+            left + 5,
+            appropriateY + 6,
+            left + 5 + width,
+            appropriateY + 6 + textBoxHeight
         )
         super.render(poseStack, mouseX, mouseY, partialTicks)
-        RenderSystem.disableScissor()
+        DrawableHelper.disableScissor()
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

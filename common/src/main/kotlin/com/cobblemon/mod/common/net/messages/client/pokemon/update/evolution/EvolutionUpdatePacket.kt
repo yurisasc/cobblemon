@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -50,12 +50,7 @@ abstract class EvolutionUpdatePacket : EvolutionLikeUpdatePacket<Evolution, Evol
         // Hacks for DRY, see CobblemonServerEvolutionController for context
 
         internal fun createSending(pokemon: Pokemon, evolution: Evolution): EvolutionDisplay {
-            val result = Pokemon().apply {
-                species = pokemon.species
-                shiny = pokemon.shiny
-                form = pokemon.form
-                gender = pokemon.gender
-            }
+            val result = pokemon.clone()
             evolution.result.apply(result)
             val expectedDisplay = CobblemonEvolutionDisplay(evolution.id, result)
             val event = EvolutionDisplayEvent(result, expectedDisplay, evolution)

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.SeasonResolver
 import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.tags.CobblemonBiomeTags
+import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import java.util.EnumSet
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldAccess

@@ -1,6 +1,6 @@
 plugins {
     id("cobblemon.base-conventions")
-    id("maven-publish")
+    id("cobblemon.publish-conventions")
 }
 
 architectury {
@@ -8,7 +8,8 @@ architectury {
 }
 
 repositories {
-    maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    maven(url = "${rootProject.projectDir}/deps")
+    mavenLocal()
 }
 
 dependencies {
@@ -18,12 +19,12 @@ dependencies {
     modImplementation(libs.fabricLoader)
     modApi(libs.architectury)
     modApi(libs.molang)
-    modApi(libs.mclib)
 
     // For Showdown
     modCompileOnly(libs.graal)
 
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
+
 
     testRuntimeOnly(libs.junitEngine)
     testImplementation(libs.junitApi)
@@ -34,23 +35,6 @@ dependencies {
     compileOnly("net.luckperms:api:${rootProject.property("luckperms_version")}")
 }
 
-publishing {
-    repositories {
-        maven("https://maven.impactdev.net/repository/development/") {
-            name = "ImpactDev-Public"
-            credentials {
-                username = System.getenv("NEXUS_USER")
-                password = System.getenv("NEXUS_PW")
-            }
-        }
-    }
-
-    publications {
-        create<MavenPublication>("mod") {
-            from(components["java"])
-            groupId = "com.cobblemon"
-            artifactId = "mod"
-            version = rootProject.version.toString()
-        }
-    }
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

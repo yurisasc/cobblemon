@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,10 @@ import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.net.ClientPacketRegistrar
+import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
+import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
+import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
@@ -52,8 +55,8 @@ object CobblemonClient {
     /** If true then we won't bother them anymore about choosing a starter even if it's a thing they can do. */
     var checkedStarterScreen = false
 
-    lateinit var overlay: PartyOverlay
-    lateinit var battleOverlay: BattleOverlay
+    val overlay: PartyOverlay by lazy { PartyOverlay() }
+    val battleOverlay: BattleOverlay by lazy { BattleOverlay() }
 
     fun onLogin() {
         clientPlayerData = ClientPlayerData()
@@ -64,7 +67,7 @@ object CobblemonClient {
     fun onLogout() {
         storage.onLogout()
         battle = null
-        battleOverlay = BattleOverlay()
+        battleOverlay.onLogout()
         ScheduledTaskTracker.clear()
         checkedStarterScreen = false
         CobblemonDataProvider.canReload = true
@@ -77,9 +80,6 @@ object CobblemonClient {
         CLIENT_PLAYER_JOIN.register { onLogin() }
         CLIENT_PLAYER_QUIT.register { onLogout() }
 
-        overlay = PartyOverlay()
-        battleOverlay = BattleOverlay()
-
         ClientPacketRegistrar.registerHandlers()
 
         LOGGER.info("Initializing PokéBall models")
@@ -89,6 +89,8 @@ object CobblemonClient {
 
         registerBlockRenderTypes()
         registerColors()
+        LOGGER.info("Registering custom BuiltinItemRenderers")
+        CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
     }
 
     fun registerColors() {
@@ -151,6 +153,7 @@ object CobblemonClient {
 
     fun reloadCodedAssets(resourceManager: ResourceManager) {
         LOGGER.info("Reloading assets")
+        BedrockParticleEffectRepository.loadEffects(resourceManager)
         BedrockAnimationRepository.loadAnimations(resourceManager)
         PokemonModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")

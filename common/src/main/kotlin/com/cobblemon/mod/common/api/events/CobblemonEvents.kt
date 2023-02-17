@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,9 @@ package com.cobblemon.mod.common.api.events
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
 import com.cobblemon.mod.common.api.events.entity.EntityAttributeEvent
+import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
+import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
+import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.net.MessageBuiltEvent
 import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPostEvent
 import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent
@@ -57,6 +60,10 @@ object CobblemonEvents {
     val BATTLE_VICTORY = EventObservable<BattleVictoryEvent>()
 
     val LEVEL_UP_EVENT = EventObservable<LevelUpEvent>()
+
+    val POKEMON_ENTITY_SAVE = EventObservable<PokemonEntitySaveEvent>()
+    val POKEMON_ENTITY_LOAD = CancelableObservable<PokemonEntityLoadEvent>()
+    val POKEMON_ENTITY_SAVE_TO_WORLD = CancelableObservable<PokemonEntitySaveToWorldEvent>()
 
     val EXPERIENCE_GAINED_EVENT_PRE = CancelableObservable<ExperienceGainedPreEvent>()
     val EXPERIENCE_GAINED_EVENT_POST = EventObservable<ExperienceGainedPostEvent>()

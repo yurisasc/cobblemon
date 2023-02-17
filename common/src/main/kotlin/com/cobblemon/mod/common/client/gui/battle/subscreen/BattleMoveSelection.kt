@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -159,7 +159,7 @@ class BattleMoveSelection(
             }
             moveSelection.playDownSound(MinecraftClient.getInstance().soundManager)
             val targets = move.target.targetList(moveSelection.request.activePokemon)
-            if (targets == null) {
+            if (targets.isNullOrEmpty()) {
                 moveSelection.battleGUI.selectAction(moveSelection.request, MoveActionResponse(move.id, null))
             } else if (targets.size == 1) {
                 moveSelection.battleGUI.selectAction(moveSelection.request, MoveActionResponse(move.id, targets[0].getPNX()))

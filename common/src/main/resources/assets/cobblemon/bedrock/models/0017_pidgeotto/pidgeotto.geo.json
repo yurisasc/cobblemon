@@ -39,9 +39,9 @@
 				{
 					"name": "eyelid_left",
 					"parent": "head",
-					"pivot": [1.75, 14, -4],
+					"pivot": [2, 14, -4],
 					"cubes": [
-						{"origin": [1.25, 13.5, -5], "size": [1, 1, 2], "inflate": 0.02, "uv": [37, 0]}
+						{"origin": [1.4, 13.5, -5], "size": [1, 1, 2], "inflate": 0.02, "uv": [37, 0]}
 					]
 				},
 				{
@@ -49,7 +49,7 @@
 					"parent": "head",
 					"pivot": [-1.75, 14, -4],
 					"cubes": [
-						{"origin": [-2.25, 13.5, -5], "size": [1, 1, 2], "inflate": 0.02, "uv": [37, 0], "mirror": true}
+						{"origin": [-2.4, 13.5, -5], "size": [1, 1, 2], "inflate": 0.02, "uv": [37, 0], "mirror": true}
 					]
 				},
 				{

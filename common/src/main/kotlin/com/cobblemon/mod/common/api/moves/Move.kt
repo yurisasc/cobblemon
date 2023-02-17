@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -65,8 +65,8 @@ open class Move(
     val accuracy: Double
         get() = template.accuracy
 
-    val effectChance: Double
-        get() = template.effectChance
+    val effectChances: Array<Double>
+        get() = template.effectChances
 
     val maxPp: Int
         get() = template.pp + raisedPpStages * template.pp / 5

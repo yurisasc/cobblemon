@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,6 +34,6 @@ class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: Bed
     }
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        animation.run(model, state, (state?.animationSeconds ?: 0F) * speed)
+        animation.run(model, entity, state,  (state?.animationPreviousSeconds ?: 0F) * speed.toDouble(), (state?.animationSeconds ?: 0F) * speed.toDouble())
     }
 }

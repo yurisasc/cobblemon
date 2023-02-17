@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,11 +11,14 @@ package com.cobblemon.mod.common.api.battles.model
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.api.tags.CobblemonItemTags
+import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 import com.cobblemon.mod.common.battles.BattleCaptureAction
@@ -25,9 +28,10 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
+import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.runner.GraalShowdown
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
-import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
+import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import java.util.UUID
@@ -53,7 +57,7 @@ open class PokemonBattle(
         side2.battle = this
         this.actors.forEach { actor ->
             actor.pokemonList.forEach { battlePokemon ->
-                battlePokemon.effectedPokemon.getFeature<BattleCriticalHitsFeature>(BattleCriticalHitsFeature.ID)?.reset()
+                battlePokemon.criticalHits = 0
             }
         }
     }
@@ -164,15 +168,33 @@ open class PokemonBattle(
 
     fun end() {
         ended = true
-        for (actor in actors) {
-            for (pokemon in actor.pokemonList.filter { it.health > 0 }) {
-                if (pokemon.facedOpponents.isNotEmpty() /* TODO exp share held item check */) {
-                    val experience = Cobblemon.experienceCalculator.calculate(pokemon)
-                    if (experience > 0) {
-                        actor.awardExperience(pokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
-                    }
-                    Cobblemon.evYieldCalculator.calculate(pokemon).forEach { (stat, amount) ->
-                        pokemon.originalPokemon.evs.add(stat, amount)
+        this.actors.forEach { actor ->
+            val faintedPokemons = actor.pokemonList.filter { it.health <= 0 }
+            actor.getSide().getOppositeSide().actors.forEach { opponent ->
+                val opponentNonFaintedPokemons = opponent.pokemonList.filter { it.health > 0 }
+                faintedPokemons.forEach { faintedPokemon ->
+                    for (opponentPokemon in opponentNonFaintedPokemons) {
+                        val facedFainted = opponentPokemon.facedOpponents.contains(faintedPokemon)
+                        val defeatProgress = DefeatEvolutionProgress()
+                        val pokemon = opponentPokemon.effectedPokemon
+                        if (facedFainted && defeatProgress.shouldKeep(pokemon)) {
+                            val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is DefeatEvolutionProgress && it.currentProgress().target.matches(faintedPokemon.effectedPokemon) }) { defeatProgress }
+                            progress.updateProgress(DefeatEvolutionProgress.Progress(progress.currentProgress().target, progress.currentProgress().amount + 1))
+                        }
+                        val multiplier = when {
+                            // ToDo when Exp. All is implement if enabled && !facedFainted return 2.0, probably should be a configurable value too, this will have priority over the Exp. Share
+                            !facedFainted && pokemon.heldItemNoCopy().isIn(CobblemonItemTags.EXPERIENCE_SHARE) -> Cobblemon.config.experienceShareMultiplier
+                            // ToDo when Exp. All is implemented the facedFainted and else can be collapsed into the 1.0 return value
+                            facedFainted -> 1.0
+                            else -> continue
+                        }
+                        val experience = Cobblemon.experienceCalculator.calculate(opponentPokemon, faintedPokemon, multiplier)
+                        if (experience > 0) {
+                            opponent.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
+                        }
+                        Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
+                            pokemon.evs.add(stat, amount)
+                        }
                     }
                 }
             }
@@ -197,6 +219,20 @@ open class PokemonBattle(
         sendSpectatorUpdate(packet)
     }
 
+    /**
+     * Sends a packet depending on the side of an actor.
+     *
+     * @param source The actor that triggered the necessity for this update.
+     * @param allyPacket The packet sent to the [source] and their allies.
+     * @param opponentPacket The packet sent to the opposing actors.
+     * @param spectatorsAsAlly If the spectators receive the [allyPacket] or the [opponentPacket], default is false.
+     */
+    fun sendSidedUpdate(source: BattleActor, allyPacket: NetworkPacket, opponentPacket: NetworkPacket, spectatorsAsAlly: Boolean = false) {
+        source.getSide().actors.forEach { it.sendUpdate(allyPacket) }
+        source.getSide().getOppositeSide().actors.forEach { it.sendUpdate(opponentPacket) }
+        sendSpectatorUpdate(if (spectatorsAsAlly) allyPacket else opponentPacket)
+    }
+
     fun sendToActors(packet: NetworkPacket) {
         CobblemonNetwork.sendToPlayers(actors.flatMap { it.getPlayerUUIDs().mapNotNull { it.getPlayer() } }, packet)
     }
@@ -218,6 +254,13 @@ open class PokemonBattle(
         dispatch {
             dispatcher()
             GO
+        }
+    }
+
+    fun dispatchWaiting(dispatcher: () -> Unit, delaySeconds: Float = 1F) {
+        dispatch {
+            dispatcher()
+            WaitDispatch(delaySeconds)
         }
     }
 
@@ -254,7 +297,7 @@ open class PokemonBattle(
             .filter { it.getWorldAndPosition() != null }
             .none { pokemonActor ->
                 val (world, pos) = pokemonActor.getWorldAndPosition()!!
-                val nearestPlayerActorDistance = actors
+                val nearestPlayerActorDistance = actors.asSequence()
                     .filter { it.type == ActorType.PLAYER }
                     .filterIsInstance<EntityBackedBattleActor<*>>()
                     .mapNotNull { it.entity }
@@ -282,4 +325,36 @@ open class PokemonBattle(
             actors.forEach { it.responses.clear() ; it.request = null }
         }
     }
+
+    /**
+     * Creates a [Text] representation of an error to interpret a battle message.
+     * This also logs the error, the goal of this function is to make sure users see missing interpretations and report them to us.
+     * Logging is independent of [mute].
+     *
+     * @param message The [BattleMessage] that wasn't able to find a lang interpretation.
+     * @return The generated [Text] meant to notify the client.
+     */
+    internal fun createUnimplemented(message: BattleMessage): Text {
+        LOGGER.error("Failed to handle '{}' action {}", message.id, message.rawMessage)
+        return Text.literal("Failed to handle '${message.id}' action ${message.rawMessage}").red()
+    }
+
+    /**
+     * A variant of [createUnimplemented].
+     * This will log both the public and private message however the clients will no longer receive the full raw message in order to prevent extra information they shouldn't see.
+     *
+     * @param publicMessage The public variant of [BattleMessage] that wasn't able to find a lang interpretation.
+     * @param privateMessage The private variant of [BattleMessage] that wasn't able to find a lang interpretation.
+     * @return The generated [Text] meant to notify the client.
+     *
+     * @throws IllegalArgumentException if the [publicMessage] and [privateMessage] don't have a matching [BattleMessage.id].
+     */
+    internal fun createUnimplementedSplit(publicMessage: BattleMessage, privateMessage: BattleMessage): Text {
+        if (publicMessage.id != privateMessage.id) {
+            throw IllegalArgumentException("Messages do not match")
+        }
+        LOGGER.error("Failed to handle '{}' action: \nPublic » {}\nPrivate » {}", publicMessage.id, publicMessage.rawMessage, privateMessage.rawMessage)
+        return Text.literal("Failed to handle '${publicMessage.id}' action please report to the developers").red()
+    }
+
 }

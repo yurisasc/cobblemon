@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
+import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
@@ -31,10 +32,14 @@ abstract class PoseableEntityState<T : Entity> {
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
+    var animationPreviousSeconds = 0F
     var animationSeconds = 0F
     var deltaSeconds = 0F
     var timeLastRendered = System.currentTimeMillis()
     var wasPaused = false
+    val runtime = MoLangRuntime().also {
+        it.environment.structs["query"] = it.environment.structs["variable"]
+    }
 
     fun isPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.any { it.poseName == currentPose }
     fun isNotPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.none { it.poseName == currentPose }
@@ -57,6 +62,7 @@ abstract class PoseableEntityState<T : Entity> {
 
         timeLastRendered = now
         deltaSeconds = deltaMillis / 1000F
+        animationPreviousSeconds = animationSeconds
         animationSeconds += deltaSeconds
     }
 

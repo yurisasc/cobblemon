@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -190,7 +190,7 @@ fun drawPortraitPokemon(
     state: PoseableEntityState<PokemonEntity>? = null
 ) {
     val model = PokemonModelRepository.getPoser(species, aspects)
-    val texture = PokemonModelRepository.getTexture(species, aspects)
+    val texture = PokemonModelRepository.getTexture(species, aspects, state)
 
     val renderType = model.getLayer(texture)
 
@@ -205,6 +205,7 @@ fun drawPortraitPokemon(
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     }
 
+    matrixStack.push()
     matrixStack.translate(0.0, PORTRAIT_DIAMETER.toDouble() + 2.0, 0.0)
     matrixStack.scale(scale, scale, -scale)
     matrixStack.translate(0.0, -PORTRAIT_DIAMETER / 18.0, 0.0)
@@ -222,10 +223,12 @@ fun drawPortraitPokemon(
     val buffer = immediate.getBuffer(renderType)
     val packedLight = LightmapTextureManager.pack(8, 4)
 
-    model.withLayerContext(immediate, PokemonModelRepository.getLayers(species, aspects)) {
+    model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species, aspects)) {
         model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         immediate.draw()
     }
+
+    matrixStack.pop()
 
     DiffuseLighting.enableGuiDepthLighting()
 }

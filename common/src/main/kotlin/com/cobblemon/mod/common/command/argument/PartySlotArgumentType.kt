@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -52,6 +52,12 @@ class PartySlotArgumentType : ArgumentType<Int> {
             val slot = context.getArgument(name, Int::class.java)
             val source = context.source as? ServerCommandSource ?: throw ServerCommandSource.REQUIRES_PLAYER_EXCEPTION.create()
             val player = source.entity as? ServerPlayerEntity ?: throw ServerCommandSource.REQUIRES_PLAYER_EXCEPTION.create()
+            val party = Cobblemon.storage.getParty(player)
+            return party.get(slot - 1) ?: throw INVALID_SLOT.create(slot)
+        }
+
+        fun <S> getPokemonOf(context: CommandContext<S>, name: String, player: ServerPlayerEntity): Pokemon {
+            val slot = context.getArgument(name, Int::class.java)
             val party = Cobblemon.storage.getParty(player)
             return party.get(slot - 1) ?: throw INVALID_SLOT.create(slot)
         }

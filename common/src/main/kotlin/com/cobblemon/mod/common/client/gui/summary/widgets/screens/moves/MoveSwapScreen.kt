@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -165,7 +165,7 @@ class MoveSwapScreen(
 
             drawScaledText(
                 matrixStack = poseStack,
-                text = pane.movesWidget.format(move.effectChance).text(),
+                text = pane.movesWidget.format(move.effectChances.firstOrNull() ?: 0.0).text(),
                 x = rowLeft + 60.5,
                 y = rowTop + 12,
                 scale = MovesWidget.SCALE,

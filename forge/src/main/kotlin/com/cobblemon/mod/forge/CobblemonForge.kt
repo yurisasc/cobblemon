@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,6 +29,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
+    override val modAPI = ModAPI.FABRIC
+    private val hasBeenSynced = hashSetOf<UUID>()
+
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
@@ -45,7 +48,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::serverInit)
             CobblemonNetwork.networkDelegate = CobblemonForgeNetworkDelegate
 
-            Cobblemon.preinitialize(this@CobblemonForge)
+            Cobblemon.preInitialize(this@CobblemonForge)
 
             LifecycleEvent.SETUP.register {
                 CobblemonConfiguredFeatures.register()
@@ -72,8 +75,6 @@ class CobblemonForge : CobblemonImplementation {
         //else {
         //}
     }
-
-    private val hasBeenSynced = hashSetOf<UUID>()
 
     fun onDataPackSync(event: OnDatapackSyncEvent) {
         Cobblemon.dataProvider.sync(event.player ?: return)

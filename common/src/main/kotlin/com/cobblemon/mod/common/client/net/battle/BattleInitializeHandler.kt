@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.battle.ActiveClientBattlePokemon
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.battle.ClientBattleActor
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon
+import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
 import net.minecraft.client.MinecraftClient
@@ -33,8 +34,8 @@ object BattleInitializeHandler : ClientPacketHandler<BattleInitializePacket> {
 
             val otherSide = if (mySide == packet.side1) packet.side2 else packet.side1
 
-            side1.actors.addAll(mySide.actors.map(this@BattleInitializeHandler::actorFromDTO))
-            side2.actors.addAll(otherSide.actors.map(this@BattleInitializeHandler::actorFromDTO))
+            side1.actors.addAll(mySide.actors.map{ actorFromDTO(it, true) })
+            side2.actors.addAll(otherSide.actors.map{ actorFromDTO(it, false) })
             spectating = sides.any { it.actors.any { it.uuid == MinecraftClient.getInstance().player?.uuid } }
             for (side in listOf(side1, side2)) {
                 side.battle = this
@@ -45,10 +46,13 @@ object BattleInitializeHandler : ClientPacketHandler<BattleInitializePacket> {
                     }
                 }
             }
+            minimised = false
         }
+
+        MinecraftClient.getInstance().setScreen(BattleGUI())
     }
 
-    fun actorFromDTO(actorDTO: BattleInitializePacket.BattleActorDTO): ClientBattleActor {
+    fun actorFromDTO(actorDTO: BattleInitializePacket.BattleActorDTO, isAlly: Boolean): ClientBattleActor {
         return ClientBattleActor(
             showdownId = actorDTO.showdownId,
             displayName = actorDTO.displayName,
@@ -60,8 +64,10 @@ object BattleInitializeHandler : ClientPacketHandler<BattleInitializePacket> {
                     ClientBattlePokemon(
                         uuid = it.uuid,
                         properties = it.properties,
+                        aspects = it.aspects,
                         displayName = it.displayName,
-                        hpRatio = it.hpRatio,
+                        hpValue = it.hpValue,
+                        isHpFlat = isAlly,
                         status = it.status,
                         statChanges = it.statChanges,
                     )

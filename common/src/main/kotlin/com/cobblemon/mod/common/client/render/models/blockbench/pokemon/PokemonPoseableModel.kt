@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -42,23 +42,27 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
     var alpha = 1F
 
     @Transient
-    var currentLayers = listOf<ModelLayer>()
+    var currentLayers: Iterable<ModelLayer> = listOf()
     @Transient
     var bufferProvider: VertexConsumerProvider? = null
+    @Transient
+    var currentState: PoseableEntityState<PokemonEntity>? = null
 
-    fun withLayerContext(buffer: VertexConsumerProvider, layers: List<ModelLayer>, action: () -> Unit) {
-        setLayerContext(buffer, layers)
+    fun withLayerContext(buffer: VertexConsumerProvider, state: PoseableEntityState<PokemonEntity>?, layers: Iterable<ModelLayer>, action: () -> Unit) {
+        setLayerContext(buffer, state, layers)
         action()
         resetLayerContext()
     }
 
-    fun setLayerContext(buffer: VertexConsumerProvider, layers: List<ModelLayer>) {
+    fun setLayerContext(buffer: VertexConsumerProvider, state: PoseableEntityState<PokemonEntity>?, layers: Iterable<ModelLayer>) {
         currentLayers = layers
         bufferProvider = buffer
+        currentState = state
     }
     fun resetLayerContext() {
         currentLayers = emptyList()
         bufferProvider = null
+        currentState = null
     }
 
     /** Registers the same configuration for both left and right shoulder poses. */
@@ -85,14 +89,15 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
     override fun render(stack: MatrixStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
         super.render(stack, buffer, packedLight, OverlayTexture.DEFAULT_UV, red * r, green * g, blue * b, alpha * a)
 
+        val animationSeconds = currentState?.animationSeconds ?: 0F
         val provider = bufferProvider
         if (provider != null) {
             for (layer in currentLayers) {
                 val texture = layer.texture ?: continue
                 val consumer = if (layer.emissive) {
-                    provider.getBuffer(RenderLayer.getEntityTranslucentEmissive(texture))
+                    provider.getBuffer(RenderLayer.getEntityTranslucentEmissive(texture(animationSeconds)))
                 } else {
-                    provider.getBuffer(RenderLayer.getEntityTranslucent(texture))
+                    provider.getBuffer(RenderLayer.getEntityTranslucent(texture(animationSeconds)))
                 }
                 stack.push()
                 stack.scale(layer.scale.x, layer.scale.y, layer.scale.z)

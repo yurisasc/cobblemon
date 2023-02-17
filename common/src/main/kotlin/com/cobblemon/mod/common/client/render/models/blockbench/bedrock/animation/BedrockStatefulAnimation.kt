@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -44,7 +44,8 @@ open class BedrockStatefulAnimation<T : Entity>(
         headYaw: Float,
         headPitch: Float
     ): Boolean {
+        val previousSeconds = secondsPassed
         secondsPassed += state.deltaSeconds
-        return animation.run(model, state, secondsPassed)
+        return animation.run(model, entity, state, previousSeconds.toDouble(), secondsPassed.toDouble())
     }
 }
