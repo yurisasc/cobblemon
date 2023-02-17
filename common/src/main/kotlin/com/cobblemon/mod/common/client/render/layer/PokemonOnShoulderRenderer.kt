@@ -72,6 +72,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
                 .firstOrNull { (if (pLeftShoulder) PoseType.SHOULDER_LEFT else PoseType.SHOULDER_RIGHT) in it.poseTypes  }
                 ?: model.poses.values.first()
             state.setPose(pose.poseName)
+            state.timeEnteredPose = 0F
             model.setupAnimStateful(
                 entity = null,
                 state = state,

@@ -205,6 +205,7 @@ abstract class PoseableEntityModel<T : Entity>(
         currentEntity = entity
         setDefault()
         state.preRender()
+        updateLocators()
         state.currentModel = this
         var poseName = state.getPose()
         var pose = poseName?.let { getPose(it) }

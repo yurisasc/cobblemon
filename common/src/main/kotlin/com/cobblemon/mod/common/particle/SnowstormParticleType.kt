@@ -42,7 +42,7 @@ class SnowstormParticleType : ParticleType<SnowstormParticleEffect>(false, Snows
             velocityZ: Double
         ): Particle {
             return SnowstormParticle(
-                ParticleStorm.stormRegistry[parameters.effect]!!,
+                ParticleStorm.contextStorm!!,
                 world,
                 x, y, z,
                 Vec3d(velocityX, velocityY, velocityZ),

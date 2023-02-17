@@ -395,6 +395,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
 
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
+        state.timeEnteredPose = 0F
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
 
         matrixStack.scale(scale, -scale, scale)
