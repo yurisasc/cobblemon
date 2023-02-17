@@ -133,6 +133,9 @@ class PokemonRenderer(
                 )
             }
         }
+        if (this.shouldRenderLabel(entity)) {
+            this.renderLabelIfPresent(entity, entity.displayName, poseMatrix, buffer, packedLight)
+        }
     }
 
     override fun scale(pEntity: PokemonEntity, pMatrixStack: MatrixStack, pPartialTickTime: Float) {
@@ -270,7 +273,11 @@ class PokemonRenderer(
 
     override fun getLyingAngle(entity: PokemonEntity?) = 0F
 
-    override fun hasLabel(entity: PokemonEntity): Boolean {
+    // At some point vanilla does something to tha matrix.
+    // We want to prevent it from rendering there and instead do it ourselves here.
+    override fun hasLabel(entity: PokemonEntity): Boolean = false
+
+    private fun shouldRenderLabel(entity: PokemonEntity): Boolean {
         if (!super.hasLabel(entity)) {
             return false
         }
