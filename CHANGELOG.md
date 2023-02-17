@@ -33,7 +33,7 @@
 - Added the Saturation shoulder effect
 - Added the Haste shoulder effect.
 - Added the Water Breathing shoulder effect.
-- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, and Galvantula.
+- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, joltik, galvantula, spiritomb, honedge.
 - Added Water Breathing Effect to Wooper.
 - Added Haste Effect to Joltik.
 - Added blink animations to many Pokémon.
