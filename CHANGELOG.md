@@ -40,6 +40,7 @@
 - Added client notification of in-battle field effects starting, ending and actions caused by them such as blocking certain moves.
 - Added the ``/spawnpokemonat <pos> <properties>`` command, the ``pos`` argument uses the same syntax as the Minecraft [summon](https://minecraft.fandom.com/wiki/Commands/summon) command.
 - Added particle effect support for model animations
+- Added particle effect and animation for Gastly.
 - Added builtin compatibility with Carry On by preventing the mod being able to interact with Cobblemon entities, the mod caused too many gameplay detrimental features to stay enabled.
 
 ### Changes

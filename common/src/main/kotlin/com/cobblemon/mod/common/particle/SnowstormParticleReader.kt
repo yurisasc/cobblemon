@@ -43,6 +43,7 @@ import com.cobblemon.mod.common.api.snowstorm.StaticParticleMotion
 import com.cobblemon.mod.common.api.snowstorm.StaticParticleUVMode
 import com.cobblemon.mod.common.api.snowstorm.SteadyParticleEmitterRate
 import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
@@ -54,7 +55,7 @@ object SnowstormParticleReader {
         val effectJson = json.get("particle_effect").asJsonObject
         val descJson = effectJson.get("description").asJsonObject
         val basicRenderParametersJson = descJson.get("basic_render_parameters").asJsonObject
-        val curvesJson = descJson.get("curves")?.asJsonObject ?: JsonObject()
+        val curvesJson = effectJson.get("curves")?.asJsonObject ?: JsonObject()
         val componentsJson = effectJson.get("components")?.asJsonObject ?: JsonObject()
         val emitterInitializationJson = componentsJson.get("minecraft:emitter_initialization")?.asJsonObject ?: JsonObject()
         val particleInitializationJson = componentsJson.get("minecraft:particle_initialization")?.asJsonObject ?: JsonObject()
@@ -84,7 +85,7 @@ object SnowstormParticleReader {
         val maxAge = particleLifetimeJson?.get("max_lifetime")?.asString?.asExpression() ?: 0.0.asExpression()
         val killExpression = particleLifetimeJson?.get("expiration_expression")?.asString?.asExpression() ?: 0.0.asExpression()
         val material = ParticleMaterial.valueOf(basicRenderParametersJson.get("material").asString.substringAfter("_").uppercase())
-        val texture = Identifier(basicRenderParametersJson.get("texture").asString?.let { if (it.endsWith(".png")) it.replace(".png", "") else it }?.replace("particles/", "particle/")?.replace("textures/", ""))
+        val texture = basicRenderParametersJson.get("texture").asString.let { if (it.endsWith(".png")) it.replace(".png", "") else it }.replace("particles/", "particle/").replace("textures/", "").asIdentifierDefaultingNamespace()
         val sizeX = sizeJson?.get(0)?.asString?.asExpression() ?: 1.0.asExpression()
         val sizeY = sizeJson?.get(1)?.asString?.asExpression() ?: 1.0.asExpression()
 
@@ -151,8 +152,8 @@ object SnowstormParticleReader {
             )
         } else if (emitterLifetimeExpressionJson != null) {
             ExpressionEmitterLifetime(
-                activation = (emitterLifetimeExpressionJson.get("activation")?.asString ?: "").asExpression(),
-                expiration = (emitterLifetimeExpressionJson.get("expiration")?.asString ?: "").asExpression()
+                activation = (emitterLifetimeExpressionJson.get("activation_expression")?.asString ?: "").asExpression(),
+                expiration = (emitterLifetimeExpressionJson.get("expiration_expression")?.asString ?: "").asExpression()
             )
         } else {
             TODO("Missing or unspecified emitter lifetime")

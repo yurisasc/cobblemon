@@ -36,11 +36,13 @@ class ParticleStorm(
     private val matrixWrapper: MatrixWrapper,
     val world: ClientWorld,
     val sourceVelocity: () -> Vec3d = { Vec3d.ZERO },
+    val sourceAlive: () -> Boolean = { true },
     val runtime: MoLangRuntime = MoLangRuntime()
 ): NoRenderParticle(world, matrixWrapper.matrix.getOrigin().x, matrixWrapper.matrix.getOrigin().y, matrixWrapper.matrix.getOrigin().z) {
     fun spawn() {
         MinecraftClient.getInstance().particleManager.addParticle(this)
     }
+
     fun getX() = x
     fun getY() = y
     fun getZ() = z
@@ -56,25 +58,30 @@ class ParticleStorm(
     var entity: Entity? = null
 
     companion object {
-        val stormRegistry = mutableMapOf<BedrockParticleEffect, ParticleStorm>()
+        var contextStorm: ParticleStorm? = null
     }
 
     val particleEffect = SnowstormParticleEffect(effect)
 
     init {
-        stormRegistry[effect] = this
         runtime.execute(effect.emitter.startExpressions)
     }
 
     override fun getMaxAge(): Int {
-        return if (stopped) 0.also {
-            stormRegistry.remove(effect)
-        } else Int.MAX_VALUE
+        return if (stopped) 0 else Int.MAX_VALUE
     }
 
     override fun tick() {
         setMaxAge(getMaxAge())
         super.tick()
+
+        if (!sourceAlive()) {
+            stopped = true
+        }
+
+        if (stopped) {
+            return
+        }
 
         val pos = matrixWrapper.matrix.getOrigin()
         prevPosX = x
@@ -85,13 +92,13 @@ class ParticleStorm(
         y = pos.y
         z = pos.z
 
+
         runtime.environment.setSimpleVariable("emitter_random_1", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("emitter_random_2", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("emitter_random_3", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("emitter_random_4", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("emitter_age", DoubleValue(age / 20.0))
         runtime.execute(effect.emitter.updateExpressions)
-
 
         when (effect.emitter.lifetime.getAction(runtime, started, age / 20.0)) {
             ParticleEmitterAction.GO -> {
@@ -120,7 +127,9 @@ class ParticleStorm(
             .multiply(1 / 20.0)
             .add(if (effect.space.localVelocity) sourceVelocity() else Vec3d.ZERO)
 
+        contextStorm = this
         world.addParticle(particleEffect, newPosition.x, newPosition.y, newPosition.z, velocity.x, velocity.y, velocity.z)
+        contextStorm = null
     }
 
     fun transformPosition(position: Vec3d): Vec3d = matrixWrapper.matrix.transformPosition(position)

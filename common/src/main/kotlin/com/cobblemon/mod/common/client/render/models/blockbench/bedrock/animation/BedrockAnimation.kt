@@ -63,15 +63,16 @@ data class BedrockAnimation(
             return false
         }
 
-        if (entity != null) {
+        if (entity != null && state != null) {
             val particleEffectsToPlay = mutableListOf<BedrockParticleKeyframe>()
-            if (previousSecondsPassed > animationSeconds) {
+            if (previousSecondsPassed >= animationSeconds) {
                 particleEffectsToPlay.addAll(particleEffects.filter { it.seconds >= previousSecondsPassed || it.seconds <= animationSeconds })
             } else {
                 particleEffectsToPlay.addAll(particleEffects.filter { it.seconds in previousSecondsPassed..animationSeconds })
             }
 
             for (particleEffect in particleEffectsToPlay) {
+                val poseAtTheTime = state.getPose()
                 val world = entity.world as ClientWorld
                 val matrixWrapper = model.locatorStates[particleEffect.locator] ?: model.locatorStates["root"]!!
                 val effect = particleEffect.effect
@@ -79,7 +80,8 @@ data class BedrockAnimation(
                     effect = effect,
                     matrixWrapper = matrixWrapper,
                     world = world,
-                    sourceVelocity = { entity.velocity }
+                    sourceVelocity = { entity.velocity },
+                    sourceAlive = { !entity.isRemoved && state.currentPose == poseAtTheTime }
                 )
                 storm.runtime.execute(particleEffect.scripts)
                 storm.spawn()

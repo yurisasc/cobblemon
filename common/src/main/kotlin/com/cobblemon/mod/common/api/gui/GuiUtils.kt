@@ -202,6 +202,7 @@ fun drawPortraitPokemon(
         model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
     } else {
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
+        state.timeEnteredPose = 0F
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     }
 
