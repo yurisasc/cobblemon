@@ -45,6 +45,7 @@
 - Added sleep animations to many Pokémon.
 - Added lang interpretation for every showdown message that prevents a move from being executed such as a Taunt, requiring a recharge, flinched, etc.
 - Added translucent option for aspect layers.
+- Added healing to your party when you sleep in a bed.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
