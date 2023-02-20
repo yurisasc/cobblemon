@@ -33,6 +33,7 @@ dependencies {
         isTransitive = false
     }
 
+    modImplementation(libs.fabricLoader)
     modApi(libs.fabricApi)
     modApi(libs.fabricKotlin)
     modApi(libs.fabricPermissionsApi)
