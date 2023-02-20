@@ -106,6 +106,7 @@
 - Fixed missing battle text for Belly Drum, Anger Point, and Haze.
 - Fixed issues with Charizard's sleep pose.
 - Fixed players being able to use multiple healer machines at once.
+- Fixed Pokémon layers not rendering when a Pokémon is on your shoulder.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
