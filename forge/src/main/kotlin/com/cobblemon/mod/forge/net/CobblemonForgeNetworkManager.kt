@@ -14,6 +14,8 @@ import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.Unpooled
+import kotlin.reflect.KClass
 import net.minecraft.client.MinecraftClient
 import net.minecraft.network.Packet
 import net.minecraft.network.PacketByteBuf
@@ -24,7 +26,7 @@ import net.minecraftforge.network.NetworkDirection
 import net.minecraftforge.network.NetworkEvent
 import net.minecraftforge.network.NetworkRegistry
 import net.minecraftforge.network.PacketDistributor
-import kotlin.reflect.KClass
+
 
 object CobblemonForgeNetworkManager : NetworkManager {
 
@@ -32,7 +34,7 @@ object CobblemonForgeNetworkManager : NetworkManager {
     private var id = 0
 
     private val channel = NetworkRegistry.newSimpleChannel(
-        cobblemonResource("forge_network_manager"),
+        cobblemonResource("main"),
         { PROTOCOL_VERSION },
         PROTOCOL_VERSION::equals,
         PROTOCOL_VERSION::equals
@@ -54,7 +56,7 @@ object CobblemonForgeNetworkManager : NetworkManager {
         decoder: (PacketByteBuf) -> T,
         handler: ClientNetworkPacketHandler<T>
     ) {
-        this.channel.registerMessage(this.id++, kClass.java, encoder::invoke, decoder::invoke) { _, _ -> this.wrapClientBoundHandler(handler) }
+        this.channel.registerMessage(this.id++, kClass.java, encoder::invoke, { it.readIdentifier(); decoder(it) }) { _, _ -> this.wrapClientBoundHandler(handler) }
     }
 
     @Suppress("INACCESSIBLE_TYPE")
@@ -65,7 +67,7 @@ object CobblemonForgeNetworkManager : NetworkManager {
         decoder: (PacketByteBuf) -> T,
         handler: ServerNetworkPacketHandler<T>
     ) {
-        this.channel.registerMessage(this.id++, kClass.java, encoder::invoke, decoder::invoke) { _, _ -> this.wrapServerBound(handler) }
+        this.channel.registerMessage(this.id++, kClass.java, encoder::invoke, { it.readIdentifier(); decoder(it) }) { _, _ -> this.wrapServerBound(handler) }
     }
 
     override fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>) {
