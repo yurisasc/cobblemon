@@ -16,7 +16,7 @@ import net.minecraft.network.PacketByteBuf
 /**
  * Base class for packets which update a single value of a Pokémon.
  *
- * Handled by [com.cobblemon.mod.client.net.pokemon.update.SingleUpdatePacketHandler]
+ * Handled by [com.cobblemon.mod.common.client.net.pokemon.update.PokemonUpdatePacketHandler]
  *
  * @author Hiroku
  * @since November 28th, 2021
