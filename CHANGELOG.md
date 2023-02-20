@@ -103,6 +103,9 @@
 - Fixed crashes involving opening the Pokémon summary with an empty party.
 - Fixed missing battle text for Belly Drum, Anger Point, and Haze.
 - Fixed moves that force a switch such as Teleport or U-Turn soft locking battles.
+- Fixed missing battle text for Belly Drum, Anger Point, and Haze.
+- Fixed issues with Charizard's sleep pose.
+- Fixed players being able to use multiple healer machines at once.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
