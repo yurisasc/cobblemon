@@ -30,8 +30,9 @@ class SendOutPokemonPacket(val slot: Int) : NetworkPacket<SendOutPokemonPacket> 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeSizedInt(IntSize.U_BYTE, slot)
     }
+
     companion object {
         val ID = cobblemonResource("send_out_pokemon")
-        fun decode(buffer: PacketByteBuf) = SendOutPokemonPacket(buffer.readInt())
+        fun decode(buffer: PacketByteBuf) = SendOutPokemonPacket(buffer.readSizedInt(IntSize.U_BYTE))
     }
 }

@@ -84,14 +84,14 @@ object CobblemonForgeNetworkManager : NetworkManager {
 
     private fun <T : NetworkPacket<T>> wrapClientBoundHandler(handler: ClientNetworkPacketHandler<T>): (T, NetworkEvent.Context) -> Unit {
         return { msg, context ->
-            handler.handle(msg, MinecraftClient.getInstance())
+            handler.handleOnNettyThread(msg, MinecraftClient.getInstance())
             context.packetHandled = true
         }
     }
 
     private fun <T : NetworkPacket<T>> wrapServerBound(handler: ServerNetworkPacketHandler<T>): (T, NetworkEvent.Context) -> Unit {
         return { msg, context ->
-            handler.handle(msg, context.sender!!.server, context.sender!!)
+            handler.handleOnNettyThread(msg, context.sender!!.server, context.sender!!)
             context.packetHandled = true
         }
     }

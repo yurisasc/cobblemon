@@ -14,4 +14,7 @@ interface ClientNetworkPacketHandler<T: NetworkPacket<T>> {
 
     fun handle(packet: T, client: MinecraftClient)
 
+    fun handleOnNettyThread(packet: T, client: MinecraftClient) {
+        client.execute { handle(packet, client) }
+    }
 }

@@ -26,6 +26,7 @@ abstract class PokemonUpdatePacket<T>(val pokemon: Pokemon) : NetworkPacket<T> w
         // This won't ever happen in instances where packets get sent out, but they protect us from NPEs on fields that require synchronization on load/save
         buffer.writeUuid(pokemon.storeCoordinates.get()?.store?.uuid ?: UUID.randomUUID())
         buffer.writeUuid(pokemon.uuid)
+        encodeDetails(buffer)
     }
 
     abstract fun encodeDetails(buffer: PacketByteBuf)

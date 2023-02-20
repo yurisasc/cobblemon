@@ -30,12 +30,13 @@ public class GuiMixin {
             at = @At(
                 value = "INVOKE",
                 target = "Lnet/minecraft/client/MinecraftClient;getProfiler()Lnet/minecraft/util/profiler/Profiler;",
-                shift = At.Shift.BEFORE
+                shift = At.Shift.BEFORE,
+                ordinal = 1
             ),
             slice = @Slice(
                 from = @At(
-                        value = "INVOKE",
-                        target = "Lnet/minecraft/client/gui/hud/InGameHud;renderScoreboardSidebar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/scoreboard/ScoreboardObjective;)V"
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/gui/hud/InGameHud;renderScoreboardSidebar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/scoreboard/ScoreboardObjective;)V"
                 )
             )
     )
