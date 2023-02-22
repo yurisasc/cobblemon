@@ -17,15 +17,6 @@ accessible field net/minecraft/entity/effect/StatusEffectInstance ambient Z
 accessible method net/minecraft/client/render/WorldRenderer getRandomParticleSpawnChance (Z)Lnet/minecraft/client/option/ParticlesMode;
 accessible method net/minecraft/client/particle/ParticleManager registerFactory (Lnet/minecraft/particle/ParticleType;Lnet/minecraft/client/particle/ParticleFactory;)V
 accessible field net/minecraft/client/particle/ParticleManager particleAtlasTexture Lnet/minecraft/client/texture/SpriteAtlasTexture;
-accessible field net/minecraft/util/math/Matrix3f a00 F
-accessible field net/minecraft/util/math/Matrix3f a01 F
-accessible field net/minecraft/util/math/Matrix3f a02 F
-accessible field net/minecraft/util/math/Matrix3f a10 F
-accessible field net/minecraft/util/math/Matrix3f a11 F
-accessible field net/minecraft/util/math/Matrix3f a12 F
-accessible field net/minecraft/util/math/Matrix3f a20 F
-accessible field net/minecraft/util/math/Matrix3f a21 F
-accessible field net/minecraft/util/math/Matrix3f a22 F
 accessible field net/minecraft/client/render/WorldRenderer frustum Lnet/minecraft/client/render/Frustum;
 accessible class net/minecraft/client/render/RenderLayer$MultiPhase
 accessible class net/minecraft/client/render/RenderLayer$MultiPhaseParameters
