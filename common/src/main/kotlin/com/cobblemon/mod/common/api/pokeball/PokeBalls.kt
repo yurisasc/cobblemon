@@ -16,7 +16,11 @@ import com.cobblemon.mod.common.api.pokeball.catching.CaptureEffect
 import com.cobblemon.mod.common.api.pokeball.catching.CatchRateModifier
 import com.cobblemon.mod.common.api.pokeball.catching.effects.CaptureEffects
 import com.cobblemon.mod.common.api.pokeball.catching.effects.FriendshipEarningBoostEffect
-import com.cobblemon.mod.common.api.pokeball.catching.modifiers.*
+import com.cobblemon.mod.common.api.pokeball.catching.modifiers.BaseStatModifier
+import com.cobblemon.mod.common.api.pokeball.catching.modifiers.CatchRateModifiers
+import com.cobblemon.mod.common.api.pokeball.catching.modifiers.GuaranteedModifier
+import com.cobblemon.mod.common.api.pokeball.catching.modifiers.LabelModifier
+import com.cobblemon.mod.common.api.pokeball.catching.modifiers.MultiplierModifier
 import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
@@ -27,13 +31,11 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import kotlin.math.roundToInt
 import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
-import java.io.File
-import kotlin.io.path.Path
-import kotlin.math.roundToInt
 
 /**
  * The data registry for [PokeBall]s.

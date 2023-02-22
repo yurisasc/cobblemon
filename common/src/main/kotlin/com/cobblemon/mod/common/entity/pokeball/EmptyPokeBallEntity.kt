@@ -9,12 +9,15 @@
 package com.cobblemon.mod.common.entity.pokeball
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.api.text.red
@@ -22,18 +25,18 @@ import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleTypes
-import com.cobblemon.mod.common.CobblemonEntities
-import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyCaptureResponsePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
-import com.cobblemon.mod.common.net.messages.client.spawn.SpawnExtraDataEntityPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
-import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.isServerSide
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.sendParticlesServer
+import com.cobblemon.mod.common.util.setPositionSafely
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -45,7 +48,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity
 import net.minecraft.item.Item
 import net.minecraft.network.Packet
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.particle.ParticleTypes
@@ -55,7 +57,6 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import com.cobblemon.mod.common.api.scheduling.after
 
 class EmptyPokeBallEntity(var pokeBall: PokeBall, world: World, entityType: EntityType<out EmptyPokeBallEntity> = CobblemonEntities.EMPTY_POKEBALL) : ThrownItemEntity(entityType, world) {
 

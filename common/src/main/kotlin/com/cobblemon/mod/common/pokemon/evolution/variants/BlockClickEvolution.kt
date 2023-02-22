@@ -16,9 +16,8 @@ import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequi
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.registry.BlockIdentifierCondition
 import net.minecraft.block.Block
-import net.minecraft.util.Identifier
-import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
 /**

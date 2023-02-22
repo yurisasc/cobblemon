@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.net.messages.client
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.pokemon.Pokemon
+import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import java.util.*
 
 /**
  * Base packet for all the single-field Pokémon update packets.

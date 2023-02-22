@@ -14,14 +14,14 @@ import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEv
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
+import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressFactory
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.convertToDisplay
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.encode
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressFactory
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.convertToDisplay
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.encode
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.toJsonArray
 import com.google.gson.JsonArray
@@ -170,7 +170,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         if (this.evolutions.add(element)) {
             this.pokemon.getOwnerPlayer()?.sendMessage("cobblemon.ui.evolve.hint".asTranslated(pokemon.displayName).green())
             this.pokemon.notify(AddEvolutionPacket(this.pokemon, element))
-            this.pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.CAN_EVOLVE.get(), SoundCategory.NEUTRAL, 1F, 1F)
+            this.pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.CAN_EVOLVE, SoundCategory.NEUTRAL, 1F, 1F)
             return true
         }
         return false

@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.BlockBenchModelW
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.PokeBallModel
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.util.Identifier
 
 object PokeBallModelRepository : ModelRepository<EmptyPokeBallEntity>() {

@@ -28,8 +28,8 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import io.netty.buffer.Unpooled
-import net.minecraft.item.ItemStack
 import java.util.UUID
+import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 

@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.Environment
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.reactive.Observable
 import java.util.concurrent.CompletableFuture
-import net.fabricmc.api.EnvType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.World
 

@@ -227,7 +227,7 @@ open class PokemonBattle(
      * @param opponentPacket The packet sent to the opposing actors.
      * @param spectatorsAsAlly If the spectators receive the [allyPacket] or the [opponentPacket], default is false.
      */
-    fun sendSidedUpdate(source: BattleActor, allyPacket: NetworkPacket, opponentPacket: NetworkPacket, spectatorsAsAlly: Boolean = false) {
+    fun sendSidedUpdate(source: BattleActor, allyPacket: NetworkPacket<*>, opponentPacket: NetworkPacket<*>, spectatorsAsAlly: Boolean = false) {
         source.getSide().actors.forEach { it.sendUpdate(allyPacket) }
         source.getSide().getOppositeSide().actors.forEach { it.sendUpdate(opponentPacket) }
         sendSpectatorUpdate(if (spectatorsAsAlly) allyPacket else opponentPacket)

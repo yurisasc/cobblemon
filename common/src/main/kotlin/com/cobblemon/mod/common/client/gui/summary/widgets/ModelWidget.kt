@@ -16,7 +16,6 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-import net.minecraft.util.math.RotationAxis
 import org.joml.Quaternionf
 import org.joml.Vector3f
 

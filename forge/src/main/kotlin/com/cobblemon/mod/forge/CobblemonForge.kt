@@ -10,14 +10,17 @@ package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
+import com.cobblemon.mod.common.particle.CobblemonParticles
+import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.forge.client.CobblemonForgeClient
 import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
-import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
+import java.util.*
+import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.command.argument.ArgumentTypes
@@ -28,13 +31,12 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
-import net.minecraft.server.network.ServerPlayerEntity
-import java.util.*
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
@@ -55,8 +57,6 @@ import net.minecraftforge.fml.loading.FMLEnvironment
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegisterEvent
 import net.minecraftforge.server.ServerLifecycleHooks
-import java.util.*
-import kotlin.reflect.KClass
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
@@ -70,14 +70,6 @@ class CobblemonForge : CobblemonImplementation {
     override val networkManager: NetworkManager = CobblemonForgeNetworkManager
 
     init {
-        this.registerPermissionValidator()
-        this.registerSoundEvents()
-        this.registerBlocks()
-        this.registerItems()
-        this.registerEntityTypes()
-        this.registerEntityAttributes()
-        this.registerBlockEntityTypes()
-        this.registerWorldGenFeatures()
         CobblemonBiomeModifiers.register()
         with(FMLJavaModLoadingContext.get().modEventBus) {
             this@CobblemonForge.commandArgumentTypes.register(this)
@@ -146,6 +138,14 @@ class CobblemonForge : CobblemonImplementation {
         FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
             event.register(CobblemonBlocks.registryKey) { helper ->
                 CobblemonBlocks.register { identifier, block -> helper.register(identifier, block) }
+            }
+        }
+    }
+
+    override fun registerParticles() {
+        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+            event.register(CobblemonParticles.registryKey) { helper ->
+                CobblemonParticles.register { identifier, particleType -> helper.register(identifier, particleType) }
             }
         }
     }

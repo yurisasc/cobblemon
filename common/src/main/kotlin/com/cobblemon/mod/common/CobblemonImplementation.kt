@@ -11,8 +11,8 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
-import com.mojang.bridge.game.PackType
 import com.mojang.brigadier.arguments.ArgumentType
+import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.network.Packet
@@ -29,7 +29,6 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
-import kotlin.reflect.KClass
 
 interface CobblemonImplementation {
     val modAPI: ModAPI
@@ -101,6 +100,8 @@ interface CobblemonImplementation {
      *
      */
     fun registerWorldGenFeatures()
+
+    fun registerParticles()
 
     /**
      * Add a feature to the current platform implementation.

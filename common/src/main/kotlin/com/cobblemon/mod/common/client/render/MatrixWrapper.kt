@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render
 
-import net.minecraft.util.math.Matrix4f
+import org.joml.Matrix4f
 
 /**
  * Holds onto a space matrix for quick access, exposes the matrix to mutation.
@@ -20,7 +20,7 @@ class MatrixWrapper {
     var matrix: Matrix4f = Matrix4f()
 
     fun update(rotationMatrix: Matrix4f): MatrixWrapper {
-        this.matrix = rotationMatrix.copy()
+        this.matrix = Matrix4f(rotationMatrix)
         return this
     }
 }

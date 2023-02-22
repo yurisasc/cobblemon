@@ -20,13 +20,13 @@ import com.cobblemon.mod.common.platform.events.ClientTickEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.fabric.CobblemonFabric
+import java.util.function.Supplier
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
-import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
@@ -44,18 +44,15 @@ import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.entity.model.EntityModelLayer
-import net.minecraft.client.texture.Sprite
-import net.minecraft.client.texture.SpriteAtlasTexture
+import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
-import net.minecraft.item.Item
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
-import java.util.function.Supplier
 
 class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation {
     override fun onInitializeClient() {
-        registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE, SnowstormParticleType::Factory)
+        registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE_TYPE, SnowstormParticleType::Factory)
         CobblemonClient.initialize(this)
 
         CobblemonFabric.networkManager.initClient()

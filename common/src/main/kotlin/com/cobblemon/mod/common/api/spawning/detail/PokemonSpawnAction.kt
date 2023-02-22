@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
 import com.cobblemon.mod.common.util.weightedSelection
 import kotlin.random.Random
-import net.minecraft.item.Items
 
 /**
  * A [SpawnAction] that will spawn a single [PokemonEntity].

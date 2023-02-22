@@ -21,11 +21,11 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.server.RequestMoveSwapPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
 class MovesWidget(
     pX: Int, pY: Int,

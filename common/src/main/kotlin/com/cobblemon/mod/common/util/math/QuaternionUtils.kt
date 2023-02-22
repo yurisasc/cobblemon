@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.util.math
 
-import org.joml.Quaternionf
-import org.joml.Vector3f
 import kotlin.math.cos
 import kotlin.math.sin
+import org.joml.Quaternionf
+import org.joml.Vector3f
 
 fun Quaternionf.fromEulerXYZDegrees(vector: Vector3f): Quaternionf {
     return fromEulerXYZ(Math.toRadians(vector.x.toDouble()).toFloat(), Math.toRadians(vector.y.toDouble()).toFloat(), Math.toRadians(vector.z.toDouble()).toFloat())

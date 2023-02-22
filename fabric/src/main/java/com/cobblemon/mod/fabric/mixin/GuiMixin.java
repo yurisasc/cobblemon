@@ -31,7 +31,7 @@ public class GuiMixin {
                 value = "INVOKE",
                 target = "Lnet/minecraft/client/MinecraftClient;getProfiler()Lnet/minecraft/util/profiler/Profiler;",
                 shift = At.Shift.BEFORE,
-                ordinal = 1
+                ordinal = 0
             ),
             slice = @Slice(
                 from = @At(

@@ -11,9 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.storage.party
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPartyPosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
 import com.cobblemon.mod.common.net.messages.client.storage.MoveClientPokemonPacket
-import com.cobblemon.mod.common.net.messages.client.storage.pc.MoveClientPCPokemonPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf

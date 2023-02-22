@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.api.text.gold
 import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.MoveCategoryIcon
 import com.cobblemon.mod.common.client.gui.TypeIcon
@@ -21,11 +22,8 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
 
 class MoveSlotButton(
@@ -33,7 +31,7 @@ class MoveSlotButton(
     val move: Move,
     val enabled: Boolean = true,
     onPress: PressAction
-) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("Move"), onPress) {
+) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("Move"), onPress, NarrationSupplier { "".text() }) {
 
     companion object {
         private val moveResource = cobblemonResource("ui/summary/summary_move.png")

@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import com.cobblemon.mod.common.registry.ItemIdentifierCondition
 import com.cobblemon.mod.common.registry.ItemTagCondition
 import net.minecraft.item.Item
-import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
 
 /**

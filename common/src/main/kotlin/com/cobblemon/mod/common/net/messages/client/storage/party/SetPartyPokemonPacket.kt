@@ -15,8 +15,8 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writeP
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import java.util.*
 
 /**
  * Adds the given Pokémon to a specific location in the client storage. This should be a new

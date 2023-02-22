@@ -9,9 +9,9 @@
 package com.cobblemon.mod.common.api.pokemon.experience
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.LevelRequirement
-import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import kotlin.math.pow
 
 fun interface ExperienceCalculator {

@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.advancement.criterion.PickStarterCriterionCondit
 import com.cobblemon.mod.common.advancement.criterion.SimpleCountableCriterionCondition
 import com.cobblemon.mod.common.advancement.criterion.SimpleCriterionTrigger
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 
 /**

@@ -10,23 +10,25 @@ package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
+import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.platform.events.PlatformEvents
-import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.platform.events.ServerEvent
+import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.platform.events.ServerTickEvent
-import com.cobblemon.mod.common.world.feature.CobblemonFeatures
-import com.cobblemon.mod.common.ModAPI
 import com.cobblemon.mod.common.util.didSleep
+import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
-import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents
 import com.mojang.brigadier.arguments.ArgumentType
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import kotlin.reflect.KClass
 import net.fabricmc.api.EnvType
-import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
+import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
@@ -35,11 +37,11 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
+import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
@@ -59,28 +61,16 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
-import kotlin.reflect.KClass
 
 object CobblemonFabric : CobblemonImplementation {
     override val modAPI = ModAPI.FABRIC
-    override fun isModInstalled(id: String) = FabricLoader.getInstance().isModLoaded(id)
 
     private var server: MinecraftServer? = null
 
     override val networkManager: NetworkManager = CobblemonFabricNetworkManager
 
     fun initialize() {
-        this.registerPermissionValidator()
-        this.registerSoundEvents()
-        this.registerBlocks()
-        this.registerItems()
-        this.registerEntityTypes()
-        this.registerEntityAttributes()
-        this.registerBlockEntityTypes()
-        this.registerWorldGenFeatures()
-        Cobblemon.preinitialize(this)
+        Cobblemon.preInitialize(this)
         this.networkManager.initServer()
 
         Cobblemon.initialize()
@@ -190,6 +180,10 @@ object CobblemonFabric : CobblemonImplementation {
 
     override fun registerWorldGenFeatures() {
         CobblemonFeatures.register { identifier, feature -> Registry.register(CobblemonFeatures.registry, identifier, feature) }
+    }
+
+    override fun registerParticles() {
+        CobblemonParticles.register { identifier, particleType -> Registry.register(CobblemonParticles.registry, identifier, particleType) }
     }
 
     override fun addFeatureToWorldGen(feature: RegistryKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?) {

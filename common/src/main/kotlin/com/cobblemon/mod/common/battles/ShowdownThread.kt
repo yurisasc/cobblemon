@@ -19,10 +19,10 @@ import com.google.gson.GsonBuilder
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
-import net.minecraft.util.Identifier
-import java.util.*
-import java.util.concurrent.CompletableFuture
+import java.util.LinkedList
+import java.util.Queue
 import java.util.concurrent.CountDownLatch
+import net.minecraft.util.Identifier
 
 class ShowdownThread : Thread("Cobblemon Showdown") {
 

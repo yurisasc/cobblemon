@@ -18,7 +18,7 @@ import net.minecraft.particle.ParticleType
 class SnowstormParticleEffect(val effect: BedrockParticleEffect) : ParticleEffect {
 
     override fun getType(): ParticleType<*> {
-        return CobblemonParticles.SNOWSTORM_PARTICLE
+        return CobblemonParticles.SNOWSTORM_PARTICLE_TYPE
     }
 
     override fun write(buf: PacketByteBuf) {

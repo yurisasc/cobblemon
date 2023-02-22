@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.pokemon.feature
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.SeasonResolver
 import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature
-import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
+import com.cobblemon.mod.common.pokemon.Pokemon
 import java.util.EnumSet
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldAccess

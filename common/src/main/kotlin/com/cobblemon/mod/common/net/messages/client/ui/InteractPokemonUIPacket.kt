@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.net.messages.client.ui
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
+import net.minecraft.network.PacketByteBuf
 
 /**
  * Tells the client to open the Pokémon interaction interface.

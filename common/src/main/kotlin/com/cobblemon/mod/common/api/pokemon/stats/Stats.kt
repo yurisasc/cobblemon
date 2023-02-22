@@ -10,9 +10,9 @@ package com.cobblemon.mod.common.api.pokemon.stats
 
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import java.util.EnumSet
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import java.util.*
 
 /**
  * An enumeration of the default implemented [Stat]s.

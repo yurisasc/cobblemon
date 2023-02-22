@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.NetworkManager
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
+import kotlin.reflect.KClass
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.client.MinecraftClient
@@ -22,7 +23,6 @@ import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
-import kotlin.reflect.KClass
 
 object CobblemonFabricNetworkManager : NetworkManager {
 

@@ -13,7 +13,13 @@ import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
-import com.cobblemon.mod.common.api.events.pokemon.*
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPostEvent
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent
+import com.cobblemon.mod.common.api.events.pokemon.FriendshipUpdatedEvent
+import com.cobblemon.mod.common.api.events.pokemon.LevelUpEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonFaintedEvent
+import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionDisplayEvent

@@ -21,7 +21,11 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readMapK
+import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.writeMapK
+import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText

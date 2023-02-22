@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.util.Identifier
 
 /**
  * Packet sent to change the status of a Pokémon in battle, such as paralysis or sleep.

@@ -34,7 +34,7 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
 
 /**
  * A model that can be posed and animated using [StatelessAnimation]s and [StatefulAnimation]s. This
@@ -271,7 +271,7 @@ abstract class PoseableEntityModel<T : Entity>(
         val matrixStack = MatrixStack()
         matrixStack.translate(entity.x, entity.y, entity.z)
         matrixStack.push()
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180 - entity.bodyYaw))
+        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
         matrixStack.push()
         matrixStack.scale(-1F, -1F, 1F)
         // We could improve this to be generalized for other entities

@@ -20,16 +20,15 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 5th, 2022
  */
-class BattleHealthChangePacket(val pnx: String, val newHealthRatio: Float, val newHealth: Int) : NetworkPacket<BattleHealthChangePacket> {
+class BattleHealthChangePacket(val pnx: String, val newHealth: Float) : NetworkPacket<BattleHealthChangePacket> {
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(pnx)
-        buffer.writeFloat(newHealthRatio)
-        buffer.writeInt(newHealth)
+        buffer.writeFloat(newHealth)
     }
 
     companion object {
         val ID = cobblemonResource("battle_health_change")
-        fun decode(buffer: PacketByteBuf) = BattleHealthChangePacket(buffer.readString(), buffer.readFloat(), buffer.readInt())
+        fun decode(buffer: PacketByteBuf) = BattleHealthChangePacket(buffer.readString(), buffer.readFloat())
     }
 }

@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
+import java.util.function.Supplier
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -32,7 +33,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.entity.EntityRenderers
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.item.Item
-import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
 import net.minecraft.resource.ReloadableResourceManagerImpl
@@ -44,14 +44,11 @@ import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.ModelEvent
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
-import net.minecraftforge.client.event.RenderGuiOverlayEvent
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
-import java.util.function.Supplier
 
 @EventBusSubscriber(
     modid = Cobblemon.MODID,
@@ -69,7 +66,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     }
     init {
         FMLJavaModLoadingContext.get().modEventBus.addListener(this::register3dPokeballModels)
-        registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE, SnowstormParticleType::Factory)
+        registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE_TYPE, SnowstormParticleType::Factory)
     }
 
     @JvmStatic

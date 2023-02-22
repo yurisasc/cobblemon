@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeIdentifierCondition
 import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import com.cobblemon.mod.common.registry.BiomeIdentifierCondition
 import com.cobblemon.mod.common.registry.BiomeTagCondition
-import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.biome.Biome
 

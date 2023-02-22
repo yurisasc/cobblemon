@@ -92,14 +92,14 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
 
     fun makeLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
         val multiPhaseParameters: RenderLayer.MultiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
-            .shader(if (emissive) RenderPhase.ENTITY_TRANSLUCENT_EMISSIVE_SHADER else RenderPhase.ENTITY_TRANSLUCENT_SHADER)
+            .program(if (emissive) RenderPhase.ENTITY_TRANSLUCENT_EMISSIVE_PROGRAM else RenderPhase.ENTITY_TRANSLUCENT_PROGRAM)
             .texture(RenderPhase.Texture(texture, false, false))
             .transparency(if (translucent) RenderPhase.TRANSLUCENT_TRANSPARENCY else RenderPhase.NO_TRANSPARENCY)
             .cull(RenderPhase.ENABLE_CULLING)
             .writeMaskState(RenderPhase.ALL_MASK)
             .overlay(RenderPhase.ENABLE_OVERLAY_COLOR)
             .build(false)
-        RenderLayer.ENTITY_TRANSLUCENT_EMISSIVE_SHADER
+
         return RenderLayer.of(
             "cobblemon_entity_layer",
             VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,

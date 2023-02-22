@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.effect
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Vec3d
 
@@ -21,19 +22,24 @@ import net.minecraft.util.math.Vec3d
  * @author Hiroku
  * @since January 21st, 2022
  */
-class SpawnSnowstormParticlePacket() : NetworkPacket {
-    var effect = BedrockParticleEffect()
-    var position = Vec3d(0.0, 0.0, 0.0)
-    var yawDegrees: Float = 0F
-    var pitchDegrees: Float = 0F
-
-    constructor(effect: BedrockParticleEffect, position: Vec3d, yawDegrees: Float = 0F, pitchDegrees: Float = 0F): this() {
-        this.effect = effect
-        this.position = position
-        this.yawDegrees = yawDegrees
-        this.pitchDegrees = pitchDegrees
+class SpawnSnowstormParticlePacket(
+    val effect: BedrockParticleEffect,
+    val position: Vec3d,
+    val yawDegrees: Float,
+    val pitchDegrees: Float
+) : NetworkPacket<SpawnSnowstormParticlePacket> {
+    override val id = ID
+    companion object {
+        val ID = cobblemonResource("spawn_snowstorm_particle")
+        fun decode(buffer: PacketByteBuf): SpawnSnowstormParticlePacket {
+            return SpawnSnowstormParticlePacket(
+                effect = BedrockParticleEffect().also { it.readFromBuffer(buffer) },
+                position = Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble()),
+                yawDegrees = buffer.readFloat(),
+                pitchDegrees = buffer.readFloat()
+            )
+        }
     }
-
     override fun encode(buffer: PacketByteBuf) {
         effect.writeToBuffer(buffer)
         buffer.writeDouble(position.x)
@@ -41,16 +47,5 @@ class SpawnSnowstormParticlePacket() : NetworkPacket {
         buffer.writeDouble(position.z)
         buffer.writeFloat(yawDegrees)
         buffer.writeFloat(pitchDegrees)
-    }
-
-    override fun decode(buffer: PacketByteBuf) {
-        effect.readFromBuffer(buffer)
-        position = Vec3d(
-            buffer.readDouble(),
-            buffer.readDouble(),
-            buffer.readDouble()
-        )
-        yawDegrees = buffer.readFloat()
-        pitchDegrees = buffer.readFloat()
     }
 }

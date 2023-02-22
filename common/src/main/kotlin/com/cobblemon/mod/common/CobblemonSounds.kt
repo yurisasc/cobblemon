@@ -40,8 +40,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val POKE_BALL_RECALL = this.create("poke_ball.recall")
 
     val ITEM_USE = this.create("item.use")
-    val CAN_EVOLVE = queue("pokemon.can_evolve")
-    val EVOLVING = queue("pokemon.evolving")
+    val CAN_EVOLVE = this.create("pokemon.can_evolve")
+    val EVOLVING = this.create("pokemon.evolving")
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }

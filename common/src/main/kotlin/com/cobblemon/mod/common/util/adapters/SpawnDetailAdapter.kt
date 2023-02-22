@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.util.adapters
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.spawning.SpawnDetailPresets
 import com.cobblemon.mod.common.api.spawning.SpawnLoader

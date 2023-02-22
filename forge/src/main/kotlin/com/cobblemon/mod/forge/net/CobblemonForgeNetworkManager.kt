@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.util.cobblemonResource
-import io.netty.buffer.Unpooled
 import kotlin.reflect.KClass
 import net.minecraft.client.MinecraftClient
 import net.minecraft.network.Packet

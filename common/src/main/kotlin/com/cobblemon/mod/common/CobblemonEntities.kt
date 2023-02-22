@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
-import com.cobblemon.mod.common.entity.data.CobblemonTrackedDataHandlerRegistry
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.platform.PlatformRegistry
@@ -17,6 +16,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnGroup
+import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -27,7 +27,6 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
 
     override val registry: Registry<EntityType<*>> = Registries.ENTITY_TYPE
     override val registryKey: RegistryKey<Registry<EntityType<*>>> = RegistryKeys.ENTITY_TYPE
-        CobblemonTrackedDataHandlerRegistry.register()
     val POKEMON_KEY = cobblemonResource("pokemon")
     val POKEMON: EntityType<PokemonEntity> = this.create(
         POKEMON_KEY.path,

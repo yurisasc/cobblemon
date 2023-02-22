@@ -8,10 +8,11 @@
 
 package com.cobblemon.mod.common.block.grower
 
-import com.cobblemon.mod.common.world.feature.apricorn.CobblemonApricornConfiguredFeatures
 import com.cobblemon.mod.common.api.apricorn.Apricorn
+import com.cobblemon.mod.common.world.feature.apricorn.CobblemonApricornConfiguredFeatures
 import net.minecraft.block.sapling.SaplingGenerator
 import net.minecraft.util.math.random.Random
+
 class ApricornTreeGrower(private val apricorn: Apricorn) : SaplingGenerator() {
     override fun getTreeFeature(random: Random, bl: Boolean) = when (this.apricorn) {
         Apricorn.BLACK -> CobblemonApricornConfiguredFeatures.BLACK_APRICORN_TREE_KEY

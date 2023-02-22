@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.api.abilities
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.MutableText
 
 /**
  * Representing an Ability with all its attributes

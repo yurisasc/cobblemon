@@ -10,14 +10,15 @@ package com.cobblemon.mod.common.api.snowstorm
 
 import com.cobblemon.mod.common.api.codec.CodecMapped
 import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
+import com.cobblemon.mod.common.util.math.hamiltonProduct
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Quaternionf
 
 interface ParticleCameraMode : CodecMapped {
     companion object : ArbitrarilyMappedSerializableCompanion<ParticleCameraMode, ParticleCameraModeType>(
@@ -33,7 +34,7 @@ interface ParticleCameraMode : CodecMapped {
     }
 
     val type: ParticleCameraModeType
-    fun getRotation(prevAngle: Float, angle: Float, deltaTicks: Float, cameraAngle: Quaternion, cameraYaw: Float, cameraPitch: Float): Quaternion
+    fun getRotation(prevAngle: Float, angle: Float, deltaTicks: Float, cameraAngle: Quaternionf, cameraYaw: Float, cameraPitch: Float): Quaternionf
 }
 
 class RotateXYZCameraMode : ParticleCameraMode {
@@ -47,10 +48,10 @@ class RotateXYZCameraMode : ParticleCameraMode {
 
     override val type = ParticleCameraModeType.ROTATE_XYZ
 
-    override fun getRotation(prevAngle: Float, angle: Float, deltaTicks: Float, cameraAngle: Quaternion, cameraYaw: Float, cameraPitch: Float): Quaternion {
+    override fun getRotation(prevAngle: Float, angle: Float, deltaTicks: Float, cameraAngle: Quaternionf, cameraYaw: Float, cameraPitch: Float): Quaternionf {
         val i = if (angle == 0.0f) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
-        val q = Quaternion(cameraAngle)
-        q.hamiltonProduct(Vec3f.POSITIVE_Z.getDegreesQuaternion(i))
+        val q = Quaternionf(cameraAngle)
+        q.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(i))
         return q
     }
 
@@ -70,13 +71,18 @@ class RotateYCameraMode : ParticleCameraMode {
 
     override val type = ParticleCameraModeType.ROTATE_Y
 
-    override fun getRotation(prevAngle: Float, angle: Float, deltaTicks: Float, cameraAngle: Quaternion, cameraYaw: Float, cameraPitch: Float): Quaternion {
+    override fun getRotation(prevAngle: Float, angle: Float, deltaTicks: Float, cameraAngle: Quaternionf, cameraYaw: Float, cameraPitch: Float): Quaternionf {
         val i = if (angle == 0F) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
-        val xyz = cameraAngle.toEulerXyz()
-        xyz.set(0f, xyz.y, 0f)
-        val q = Quaternion.fromEulerXyz(xyz)
-        q.hamiltonProduct(Vec3f.POSITIVE_Z.getDegreesQuaternion(i))
-        return q
+
+        val q2 = RotationAxis.POSITIVE_Y.rotationDegrees(/*180 - */cameraYaw)
+        q2.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(i))
+
+        return q2
+//        val xyz = cameraAngle.toEulerXyz()
+//        xyz.set(0f, xyz.y, 0f)
+//        val q = Quaternion.fromEulerXyz(xyz)
+//        q.hamiltonProduct(Vec3f.POSITIVE_Z.getDegreesQuaternion(i))
+//        return q
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
@@ -98,9 +104,9 @@ class LookAtXYZ : ParticleCameraMode {
     override fun readFromBuffer(buffer: PacketByteBuf) {}
     override fun writeToBuffer(buffer: PacketByteBuf) {}
 
-    override fun getRotation(prevAngle: Float, angle: Float, deltaTicks: Float, cameraAngle: Quaternion, cameraYaw: Float, cameraPitch: Float): Quaternion {
+    override fun getRotation(prevAngle: Float, angle: Float, deltaTicks: Float, cameraAngle: Quaternionf, cameraYaw: Float, cameraPitch: Float): Quaternionf {
         val i = if (angle == 0F) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
-        val rotation = Quaternion(0F, 0F, 0F, 1F)
+        val rotation = Quaternionf(0F, 0F, 0F, 1F)
 //        rotation.hamiltonProduct(Vec3f.POSITIVE_Y.getDegreesQuaternion(-cameraYaw))
 //        rotation.hamiltonProduct(Vec3f.POSITIVE_X.getDegreesQuaternion(cameraPitch))
 //        rotation.hamiltonProduct(Vec3f.POSITIVE_Z.getDegreesQuaternion(i))

@@ -54,7 +54,7 @@ class MoveSelectGUI(
                 pX = x + 92,
                 pY = y + 115
             ) {
-                playSound(CobblemonSounds.GUI_CLICK.get())
+                playSound(CobblemonSounds.GUI_CLICK)
                 MinecraftClient.getInstance().setScreen(null)
             }
         )

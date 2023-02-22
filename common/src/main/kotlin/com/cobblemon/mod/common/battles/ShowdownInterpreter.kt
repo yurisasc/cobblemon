@@ -29,12 +29,12 @@ import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgre
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.*
-import net.minecraft.entity.LivingEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.text.Text
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.roundToInt
+import net.minecraft.entity.LivingEntity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.text.Text
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String, MutableList<String>) -> Unit>()
@@ -760,7 +760,7 @@ object ShowdownInterpreter {
                 "magnitude" -> battleLang("magnitude_level", message.argumentAt(2)?.toIntOrNull() ?: 1)
                 "bide" -> battleLang("bide_activate", pokemonName)
                 "gravity" -> battleLang("activate.gravity", pokemonName)
-                "focusband" -> battleLang("item.hung_on.end", pokemonName, CobblemonItems.FOCUS_BAND.get().name)
+                "focusband" -> battleLang("item.hung_on.end", pokemonName, CobblemonItems.FOCUS_BAND.name)
                 "mistyterrain" -> battleLang("activate.misty_terrain", pokemonName)
                 "psychicterrain" -> battleLang("activate.psychic_terrain", pokemonName)
                 "healbell" -> battleLang("activate.heal_bell")

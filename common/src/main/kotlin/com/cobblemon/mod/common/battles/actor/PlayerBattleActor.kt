@@ -22,7 +22,6 @@ import com.cobblemon.mod.common.util.getPlayer
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
 
 class PlayerBattleActor(
     uuid: UUID,

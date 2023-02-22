@@ -8,14 +8,9 @@
 
 package com.cobblemon.mod.common.util.adapters
 
-import com.cobblemon.mod.common.util.asNbt
-import com.cobblemon.mod.common.util.saveToJson
 import com.google.gson.*
-import java.lang.reflect.Type
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
-import net.minecraft.registry.Registry
 
 /**
  * Saves and loads an [ItemStack] with JSON.

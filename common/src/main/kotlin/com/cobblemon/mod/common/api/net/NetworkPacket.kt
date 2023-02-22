@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.util.server
 import io.netty.buffer.Unpooled
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.registry.RegistryKey
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 

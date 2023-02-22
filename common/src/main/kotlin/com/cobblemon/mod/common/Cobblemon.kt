@@ -38,7 +38,6 @@ import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
-import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
@@ -60,18 +59,21 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.command.argument.*
+import com.cobblemon.mod.common.command.argument.MoveArgumentType
+import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
+import com.cobblemon.mod.common.command.argument.PokemonArgumentType
+import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
+import com.cobblemon.mod.common.command.argument.SpawnBucketArgumentType
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
+import com.cobblemon.mod.common.entity.data.CobblemonTrackedDataHandlerRegistry
 import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
-import com.cobblemon.mod.common.net.serverhandling.ServerPacketRegistrar
-import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.permission.LaxPermissionValidator
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -86,10 +88,24 @@ import com.cobblemon.mod.common.pokemon.properties.UntradeableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.ifDedicatedServer
+import com.cobblemon.mod.common.util.isLaterVersion
+import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.removeAmountIf
+import com.cobblemon.mod.common.util.server
 import com.cobblemon.mod.common.world.feature.apricorn.CobblemonApricornPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.util.UUID
+import kotlin.properties.Delegates
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
+import kotlin.reflect.jvm.javaField
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -97,15 +113,6 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.util.WorldSavePath
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.*
-import kotlin.properties.Delegates
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
-import kotlin.reflect.jvm.javaField
 
 object Cobblemon {
     const val MODID = "cobblemon"
@@ -139,6 +146,16 @@ object Cobblemon {
     var seasonResolver: SeasonResolver = TagSeasonResolver
 
     fun preInitialize(implementation: CobblemonImplementation) {
+        implementation.registerPermissionValidator()
+        implementation.registerSoundEvents()
+        implementation.registerBlocks()
+        implementation.registerItems()
+        implementation.registerEntityTypes()
+        implementation.registerEntityAttributes()
+        implementation.registerBlockEntityTypes()
+        implementation.registerWorldGenFeatures()
+        implementation.registerParticles()
+
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
 
@@ -153,7 +170,8 @@ object Cobblemon {
 
         CobblemonCriteria // Init the fields and register the criteria
         CobblemonGameRules // Init fields and register
-        CobblemonParticles.register()
+
+        CobblemonTrackedDataHandlerRegistry.register()
 
         ShoulderEffectRegistry.register()
 

@@ -24,7 +24,6 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.RotationAxis
 import org.joml.Quaternionf
 import org.joml.Vector3f
 

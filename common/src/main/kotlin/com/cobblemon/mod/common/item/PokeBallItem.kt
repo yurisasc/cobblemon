@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.isServerSide
 import com.cobblemon.mod.common.util.math.geometry.toRadians
+import kotlin.math.cos
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -22,7 +23,6 @@ import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import kotlin.math.cos
 
 class PokeBallItem(
     val pokeBall : PokeBall

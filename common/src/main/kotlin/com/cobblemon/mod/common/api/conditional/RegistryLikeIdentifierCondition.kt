@@ -9,8 +9,8 @@
 package com.cobblemon.mod.common.api.conditional
 
 import com.google.gson.JsonElement
-import net.minecraft.util.Identifier
 import net.minecraft.registry.Registry
+import net.minecraft.util.Identifier
 
 /**
  * A condition for some registry type which asserts that the entry must have the given [Identifier].

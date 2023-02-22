@@ -100,7 +100,7 @@ interface Evolution : EvolutionLike {
             .forEach { evolution ->
                 evolution.attemptEvolution(pokemon)
             }
-        pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING.get(), SoundCategory.NEUTRAL, 1F, 1F)
+        pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
         CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
     }
 

@@ -13,10 +13,16 @@ import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.green
-import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.block.HealingMachineBlock
+import com.cobblemon.mod.common.pokeball.PokeBall
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.toVec3d
 import java.util.UUID
+import kotlin.math.floor
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
@@ -25,7 +31,6 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import kotlin.math.floor
 
 class HealingMachineBlockEntity(
     val blockPos: BlockPos,

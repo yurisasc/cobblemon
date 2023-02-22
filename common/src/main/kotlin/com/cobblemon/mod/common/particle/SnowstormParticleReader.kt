@@ -48,7 +48,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Vector4f
+import org.joml.Vector4f
 
 object SnowstormParticleReader {
     fun loadEffect(json: JsonObject): BedrockParticleEffect {
@@ -85,7 +85,7 @@ object SnowstormParticleReader {
         val maxAge = particleLifetimeJson?.get("max_lifetime")?.asString?.asExpression() ?: 0.0.asExpression()
         val killExpression = particleLifetimeJson?.get("expiration_expression")?.asString?.asExpression() ?: 0.0.asExpression()
         val material = ParticleMaterial.valueOf(basicRenderParametersJson.get("material").asString.substringAfter("_").uppercase())
-        val texture = basicRenderParametersJson.get("texture").asString.let { if (it.endsWith(".png")) it.replace(".png", "") else it }.replace("particles/", "particle/").replace("textures/", "").asIdentifierDefaultingNamespace()
+        val texture = basicRenderParametersJson.get("texture").asString.let { if (it.endsWith(".png")) it.replace(".png", "") else it }.replace("particles/", "").replace("textures/", "").asIdentifierDefaultingNamespace()
         val sizeX = sizeJson?.get(0)?.asString?.asExpression() ?: 1.0.asExpression()
         val sizeY = sizeJson?.get(1)?.asString?.asExpression() ?: 1.0.asExpression()
 
