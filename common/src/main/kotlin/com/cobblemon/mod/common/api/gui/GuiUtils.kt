@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -191,7 +191,7 @@ fun drawPortraitPokemon(
     state: PoseableEntityState<PokemonEntity>? = null
 ) {
     val model = PokemonModelRepository.getPoser(species, aspects)
-    val texture = PokemonModelRepository.getTexture(species, aspects)
+    val texture = PokemonModelRepository.getTexture(species, aspects, state)
 
     val renderType = model.getLayer(texture)
 
@@ -203,6 +203,7 @@ fun drawPortraitPokemon(
         model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
     } else {
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
+        state.timeEnteredPose = 0F
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     }
 
@@ -224,7 +225,7 @@ fun drawPortraitPokemon(
     val buffer = immediate.getBuffer(renderType)
     val packedLight = LightmapTextureManager.pack(8, 4)
 
-    model.withLayerContext(immediate, PokemonModelRepository.getLayers(species, aspects)) {
+    model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species, aspects)) {
         model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         immediate.draw()
     }

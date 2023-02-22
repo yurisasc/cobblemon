@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,8 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
+import com.cobblemon.mod.common.particle.CobblemonParticles
+import com.cobblemon.mod.common.particle.SnowstormParticleType
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -21,6 +23,8 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.model.TexturedModelData
+import net.minecraft.client.particle.ParticleFactory
+import net.minecraft.client.particle.SpriteProvider
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
@@ -28,6 +32,9 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.entity.EntityRenderers
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.item.Item
+import net.minecraft.client.util.ModelIdentifier
+import net.minecraft.particle.ParticleEffect
+import net.minecraft.particle.ParticleType
 import net.minecraft.resource.ReloadableResourceManagerImpl
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
@@ -36,6 +43,9 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.ModelEvent
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent
+import net.minecraftforge.client.event.RenderGuiOverlayEvent
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber
@@ -49,9 +59,17 @@ import java.util.function.Supplier
     value = [Dist.CLIENT]
 )
 object CobblemonForgeClient : CobblemonClientImplementation {
-
+    val particleFactories = mutableListOf<PreparedParticleFactory<*>>()
+    class PreparedParticleFactory<T : ParticleEffect>(val type: ParticleType<T>, val factory: (SpriteProvider) -> ParticleFactory<T>) {
+        fun register(event: RegisterParticleProvidersEvent) {
+            // Use the lambda version of the function so that it is interpreted as a sprite-aware factory
+            // otherwise the textures associated with it won't be added to the sprite atlas
+            event.register(type, factory)
+        }
+    }
     init {
         FMLJavaModLoadingContext.get().modEventBus.addListener(this::register3dPokeballModels)
+        registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE, SnowstormParticleType::Factory)
     }
 
     @JvmStatic
@@ -75,6 +93,18 @@ object CobblemonForgeClient : CobblemonClientImplementation {
 
     override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
         ForgeHooksClient.registerLayerDefinition(modelLayer, supplier)
+    }
+
+    override fun <T : ParticleEffect> registerParticleFactory(type: ParticleType<T>, factory: (SpriteProvider) -> ParticleFactory<T>) {
+        particleFactories.add(PreparedParticleFactory(type, factory))
+    }
+
+    @JvmStatic
+    @SubscribeEvent
+    fun onRegisterParticleProviders(event: RegisterParticleProvidersEvent) {
+        for (factoryProviders in particleFactories) {
+            factoryProviders.register(event)
+        }
     }
 
     @JvmStatic

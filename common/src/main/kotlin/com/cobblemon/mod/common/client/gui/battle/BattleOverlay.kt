@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -169,12 +169,13 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             displayName = battlePokemon.displayName,
             gender = battlePokemon.gender,
             status = battlePokemon.status,
-            hpRatio = battlePokemon.hpRatio,
             state = battlePokemon.state,
             colour = Triple(r, g, b),
             opacity = opacity.toFloat(),
             ballState = activeBattlePokemon.ballCapturing,
-            trueHealth = truePokemon?.let { (it.hp * battlePokemon.hpRatio).roundToInt() to it.hp }
+            maxHealth = truePokemon?.hp ?: 0,
+            health = battlePokemon.hpValue,
+            isFlatHealth = battlePokemon.isHpFlat
         )
     }
 
@@ -189,12 +190,13 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         displayName: MutableText,
         gender: Gender,
         status: PersistentStatus?,
-        hpRatio: Float,
         state: PoseableEntityState<PokemonEntity>?,
         colour: Triple<Float, Float, Float>?,
         opacity: Float,
         ballState: ClientBallDisplay? = null,
-        trueHealth: Pair<Int, Int>?
+        maxHealth: Int,
+        health: Float,
+        isFlatHealth: Boolean
     ) {
 
         val mc = MinecraftClient.getInstance()
@@ -344,7 +346,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             opacity = opacity,
             shadow = true
         )
-
+        val hpRatio = if (isFlatHealth) health / maxHealth else health
         val (healthRed, healthGreen) = getDepletableRedGreen(hpRatio)
         val fullWidth = 83
         val barWidth = hpRatio * fullWidth
@@ -361,10 +363,10 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             blue = 0.27F
         )
 
-        val text = if (trueHealth != null) {
-            "${trueHealth.first}/${trueHealth.second}"
+        val text = if (isFlatHealth) {
+            "${health.toInt()}/$maxHealth"
         } else {
-            "${ceil(hpRatio * 100)}%"
+            "${ceil(health * 100)}%"
         }.text()
 
         drawScaledText(
@@ -394,6 +396,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(5F)
 
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
+        state.timeEnteredPose = 0F
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
 
         matrixStack.scale(scale, -scale, scale)

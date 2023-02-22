@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.moves
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.data.DataRegistry
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.moves.categories.DamageCategories
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.types.ElementalTypes
@@ -35,6 +36,7 @@ object Moves : DataRegistry {
 
     override fun reload(manager: ResourceManager) {
         this.allMoves.clear()
+        this.idMapping.clear()
         val script = """
             PokemonShowdown.Dex.mod("${Cobblemon.MODID}")
               .moves.all();
@@ -95,7 +97,10 @@ object Moves : DataRegistry {
     fun all() = this.allMoves.values.toList()
 
     internal fun receiveSyncPacket(moves: Collection<MoveTemplate>) {
-        moves.forEach { move -> this.register(move) }
+        moves.forEach { move ->
+            this.register(move)
+            this.idMapping[move.id] = move
+        }
     }
 
     private fun register(move: MoveTemplate) {

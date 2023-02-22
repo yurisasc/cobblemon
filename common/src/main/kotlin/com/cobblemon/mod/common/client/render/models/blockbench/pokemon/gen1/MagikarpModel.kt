@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,15 +27,17 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     val leftMustache = getPart("whisker_left")
     val rightMustache = getPart("whisker_right")
 
-    override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3d(0.12, -0.45, 0.0)
-    override val profileScale = 1F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.1, -0.75, 0.0)
+    override val profileScale = 0.95F
+    override val profileTranslation = Vec3d(0.0, 0.40, 0.0)
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("magikarp", "blink").setPreventsIdle(false)}
         registerPose(
             poseName = "land",
             poseTypes = STANDING_POSES + PoseType.PROFILE,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("magikarp","flop")),
             transformedParts = arrayOf(
                 rootPart.asTransformed().addPosition(Y_AXIS, 6),
@@ -47,6 +49,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "swimming",
             poseTypes = SWIMMING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("magikarp", "water_swim")
             )
@@ -55,6 +58,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "fly",
             poseTypes = FLYING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("magikarp", "air_idle")
             )
@@ -63,6 +67,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "portrait",
             poseTypes = setOf(PoseType.PORTRAIT),
+            quirks = arrayOf(blink),
             idleAnimations = emptyArray<StatelessAnimation<PokemonEntity, out ModelFrame>>(),
             transformedParts = arrayOf(
                 leftMustache.withRotation(Y_AXIS, (-75F).toRadians()),

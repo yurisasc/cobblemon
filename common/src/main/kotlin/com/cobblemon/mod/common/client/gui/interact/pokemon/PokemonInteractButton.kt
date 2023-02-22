@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,6 +23,7 @@ class PokemonInteractButton(
     private val iconResource: Identifier? = null,
     private val textureResource: Identifier,
     private val enabled: Boolean = true,
+    private val container: PokemonInteractGUI,
     onPress: PressAction
 ) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("Interact"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
@@ -33,7 +34,7 @@ class PokemonInteractButton(
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        blitk(
+            blitk(
             matrixStack = matrices,
             texture = textureResource,
             x = x,
@@ -62,5 +63,5 @@ class PokemonInteractButton(
     override fun playDownSound(pHandler: SoundManager) {
     }
 
-    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + SIZE)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + SIZE))
+    fun isHovered(mouseX: Double, mouseY: Double) = (mouseX.toFloat() in (x.toFloat()..(x.toFloat() + SIZE)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + SIZE))) && !container.isMouseInCenter(mouseX, mouseY)
 }

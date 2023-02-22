@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.gui.interact.pokemon
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.api.text.bold
+import com.cobblemon.mod.common.client.gui.pc.StorageSlot
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
@@ -47,7 +48,8 @@ class PokemonInteractGUI(
             y = y,
             iconResource = iconShoulderResource,
             textureResource = topLeftResource,
-            enabled = canMountShoulder
+            enabled = canMountShoulder,
+            container = this
         ) {
             if (canMountShoulder) {
                 InteractPokemonPacket(pokemonID, true).sendToServer()
@@ -60,7 +62,8 @@ class PokemonInteractGUI(
             x = x + PokemonInteractButton.SIZE,
             y = y,
             iconResource = iconHeldItemResource,
-            textureResource = topRightResource
+            textureResource = topRightResource,
+            container = this
         ) {
             InteractPokemonPacket(pokemonID, false).sendToServer()
             MinecraftClient.getInstance().setScreen(null)
@@ -71,7 +74,8 @@ class PokemonInteractGUI(
             x = x,
             y = y + PokemonInteractButton.SIZE,
             textureResource = bottomLeftResource,
-            enabled = false
+            enabled = false,
+            container = this
         ) {});
 
         // ToDo something else
@@ -79,7 +83,8 @@ class PokemonInteractGUI(
             x = x + PokemonInteractButton.SIZE,
             y = y + PokemonInteractButton.SIZE,
             textureResource = bottomRightResource,
-            enabled = false
+            enabled = false,
+            container = this
         ) {});
     }
 
@@ -102,5 +107,17 @@ class PokemonInteractGUI(
 
     override fun shouldPause(): Boolean {
         return false
+    }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        if (isMouseInCenter(mouseX, mouseY)) return false
+        return super.mouseClicked(mouseX, mouseY, button)
+    }
+
+    fun isMouseInCenter(mouseX: Double, mouseY: Double): Boolean {
+        val x = ((width - SIZE) / 2) + 44
+        val y = ((height - SIZE) / 2) + 44
+        return mouseX.toFloat() in (x.toFloat()..(x.toFloat() + 50))
+            && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + 50))
     }
 }

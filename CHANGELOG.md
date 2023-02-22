@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.2.1](#1-2-1)
+## [1.3.0](#1-3-0)
 ### Additions
 - Added `/giveallpokemon` command which is definitely safe and not insane.
 - Added generation 9 Pokémon species, move and ability data.
@@ -14,6 +14,7 @@
 - Added an interface that appears when interacting with your Pokémon while sneaking. The interface allows for interactive options such as shouldering and exchanging held items.
 - Added a new item for representing Pokémon within native UI menus.
 - Added support for Pokémon species data appending making it so datapack developers no longer need to overwrite files.
+- Added support for custom Pokémon to implement 'quirks' such as blinks.
 - Added an implementation of every [catch rate](https://bulbapedia.bulbagarden.net/wiki/Catch_rate) from generation 1 to 9, these can be used by changing the ``captureCalculator`` config value:
   - ``generation_1`` Sets the calculator to the generation 1 implementation.
   - ``generation_2`` Sets the calculator to the generation 2 implementation.
@@ -26,6 +27,25 @@
   - ``generation_9`` Sets the calculator to the generation 9 implementation.
   - ``cobblemon`` Sets the calculator to the custom Cobblemon implementation, this is the default value.
   - ``debug`` Sets the calculator to the debug/cheat implementation, every attempt will be a successful critical capture.
+- Added sound for harvesting apricorns.
+- Added icon to summary and PC interfaces to indicated if a Pokémon is shiny.
+- Added animated texture support.
+- Added the Saturation shoulder effect
+- Added the Haste shoulder effect.
+- Added the Water Breathing shoulder effect.
+- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, Galvantula, Honedge, Spiritomb.
+- Added Water Breathing Effect to Wooper.
+- Added Haste Effect to Joltik.
+- Added blink animations to many Pokémon.
+- Added client notification of in-battle field effects starting, ending and actions caused by them such as blocking certain moves.
+- Added the ``/spawnpokemonat <pos> <properties>`` command, the ``pos`` argument uses the same syntax as the Minecraft [summon](https://minecraft.fandom.com/wiki/Commands/summon) command.
+- Added particle effect support for model animations
+- Added particle effect and animation for Gastly.
+- Added builtin compatibility with Carry On by preventing the mod being able to interact with Cobblemon entities, the mod caused too many gameplay detrimental features to stay enabled.
+- Added sleep animations to many Pokémon.
+- Added lang interpretation for every showdown message that prevents a move from being executed such as a Taunt, requiring a recharge, flinched, etc.
+- Added translucent option for aspect layers.
+- Added healing to your party when you sleep in a bed.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -34,6 +54,13 @@
 - The PC block screen will now turn on when being used.
 - The Healing Machine will now visually display its charge level using 6 stages.
 - The Healing Machine will now emit a redstone signal with the strength of 1 for every 10% charge it has when attached to a [Redstone Comparator](https://minecraft.fandom.com/wiki/Redstone_Comparator).
+- Made it so that particles are not shown whenever you have a shoulder Pokémon that gives particle effects.
+- Changed the Imports in "PokemonModelReposity" to instead grab the entire Gen rather than each Pokémon Specifically.
+- Changed Hitbox and Size definitions for Decidueye, Blastoise, and Magmortar
+- Apricorns can now be harvested with Axes scaling speed scaling with enchantments and tool material, only dropping the Apricorn if fully grown, these will still destroy the Apricorn so the manual harvest still is recommended unless you're just keen on destroying trees.
+- Apricorns are now a part of the vanilla tag ``minecraft:blocks/mineable/axe``.
+- Apricorns are now compatible with any mod that breaks a whole tree at once.
+- Apricorns no longer have a config value for the seed drop chance these are now a part of their loot table which can be found in ``cobblemon/loot_tables/blocks/<color>_apricorn.json``.
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
@@ -42,7 +69,7 @@
 - Fixed forms not being able to unset the secondary type of a Pokémon in the stat JSON.
 - Fixed optional aspects not saving and loading properly.
 - Fixed an issue of Pokémon not rendering in GUIs on some Mac computers.
-- Fixed a soft-duplicate that could occur when a party Pokémon is pushed through a Nether Portal.
+- Fixed a soft-duplicate that could occur when a party Pokémon is pushed through a Nether Portal or left in a boat.
 - Fixed missing multiplier on the experience calculator when a Pokémon is at or past the level where it would be able to evolve, but it has not.
 - Fixed missing multiplier on the experience calculator based on Pokémon affection.
 - Fixed not all Poké Balls being associated with the `cobblemon:pokeballs` item tag.
@@ -54,11 +81,36 @@
 - Fixed missing lang and interpretation for bide
 - Fixed datapack Pokémon not being able to battle.
 - Fixed datapack Pokémon lang key generation, a Pokémon under the namespace ``example`` named ``Pogemon`` will now correctly look for the lang key ``example.species.pogemon.name``.
-- Fixed missing lang and interpretation for bide.
+- Fixed HP recovery related battle actions not animating for the client nor updating the in-game Pokémon HP.
+- Fixed client not receiving messages for the different "stages" for the move Bide.
+- Fixed the ability Speed Boost not having a human-readable battle message, this is an ongoing effort to prettify all the different ability triggers.
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
+- Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
+- Fixed stat change messages for boosts over 3 stages
+- Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.
+- Fixed PokéBalls taking forever to capture Pokémon if you are underwater or up in the air where it takes a long time to hit the ground.
+- Fixed Pokémon being unable to spawn on blocks such as snow layers.
+- Fixed Pokémon spawning inside of trees.
+- Fixed various strange battle issues such as Flying types being vulnerable to Ground type moves and status effects hitting despite vulnerabilities.
+- Fixed Pokémon experience not loading after a restart and instead going back to the minimal amount for the current level.
+- Fixed being able to use ``/healpokemon`` in battle.
+- Fixed being able to select fainted party members in the switch menu causing the battle to lock.
+- Fixed ``/spawnpokemon`` command not supporting any command source other than players.
+- Fixed shiny Gyarados not using the red Gyarados texture.
+- Fixed Showdown sometimes failing to start because of the load order being undefined.
+- Fixed Showdown initialization happening several times when you login depending on how many times you have relogged this session (hilarious).
+- Fixed Showdown failing to update on first attempt, we totally didn't accidentally delete our target directory or anything, nope.
+- Fixed crashes involving opening the Pokémon summary with an empty party.
+- Fixed missing battle text for Belly Drum, Anger Point, and Haze.
+- Fixed moves that force a switch such as Teleport or U-Turn soft locking battles.
+- Fixed missing battle text for Belly Drum, Anger Point, and Haze.
+- Fixed issues with Charizard's sleep pose.
+- Fixed players being able to use multiple healer machines at once.
+- Fixed Pokémon layers not rendering when a Pokémon is on your shoulder.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
+- Fixed minimumDistanceBetweenEntities option being half of what it's set as.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions

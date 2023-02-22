@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,7 +40,6 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.MathHelper
@@ -61,7 +60,7 @@ class PokemonRenderer(
     }
 
     override fun getTexture(entity: PokemonEntity): Identifier {
-        return PokemonModelRepository.getTexture(entity.pokemon.species, entity.aspects.get())
+        return PokemonModelRepository.getTexture(entity.pokemon.species, entity.aspects.get(), entity.delegate as PokemonClientDelegate)
     }
 
     override fun render(
@@ -72,6 +71,7 @@ class PokemonRenderer(
         buffer: VertexConsumerProvider,
         packedLight: Int
     ) {
+        shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat()
         DELTA_TICKS = partialTicks // TODO move this somewhere universal // or just fecking remove it
         model = PokemonModelRepository.getPoser(entity.pokemon.species, entity.aspects.get())
 
@@ -99,7 +99,7 @@ class PokemonRenderer(
         }
 
         if (modelNow is PokemonPoseableModel) {
-            modelNow.setLayerContext(buffer, PokemonModelRepository.getLayers(entity.pokemon.species, entity.aspects.get()))
+            modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species, entity.aspects.get()))
         }
 
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
@@ -132,6 +132,9 @@ class PokemonRenderer(
                     glowRangeAngle = PI / 7
                 )
             }
+        }
+        if (this.shouldRenderLabel(entity)) {
+            this.renderLabelIfPresent(entity, entity.displayName, poseMatrix, buffer, packedLight)
         }
     }
 
@@ -308,4 +311,58 @@ class PokemonRenderer(
     }
 
     override fun getLyingAngle(entity: PokemonEntity?) = 0F
+
+    // At some point vanilla does something to tha matrix.
+    // We want to prevent it from rendering there and instead do it ourselves here.
+    override fun hasLabel(entity: PokemonEntity): Boolean = false
+
+    private fun shouldRenderLabel(entity: PokemonEntity): Boolean {
+        if (!super.hasLabel(entity)) {
+            return false
+        }
+        val player = MinecraftClient.getInstance().player ?: return false
+        val delegate = entity.delegate as? PokemonClientDelegate ?: return false
+        return player.isLookingAt(entity) && delegate.phaseTarget == null
+    }
+
+    override fun renderLabelIfPresent(entity: PokemonEntity, text: Text, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int) {
+        if (entity.isInvisible) {
+            return
+        }
+        val player = MinecraftClient.getInstance().player ?: return
+        val d = this.dispatcher.getSquaredDistanceToCamera(entity)
+        if(d <= 4096.0){
+            val scale = min(1.5, max(0.65, d.remap(DoubleRange(-16.0, 96.0), DoubleRange(0.0, 1.0))))
+            val sizeScale = MathHelper.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.5, 1.0)
+            val offsetScale = MathHelper.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.0,1.0)
+            val entityHeight = entity.boundingBox.yLength + 0.5f
+            matrices.push()
+            matrices.translate(0.0, entityHeight, 0.0)
+            matrices.multiply(dispatcher.rotation)
+            matrices.translate(0.0,0.0+(offsetScale/2),-(scale+offsetScale))
+            matrices.scale((-0.025*sizeScale).toFloat(), (-0.025*sizeScale).toFloat(), 1 * sizeScale.toFloat())
+            val matrix4f = matrices.peek().positionMatrix
+            val opacity = (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25f) * 255.0f).toInt() shl 24
+            var label = entity.pokemon.species.translatedName
+            if (ServerSettings.displayEntityLevelLabel && entity.labelLevel() > 0) {
+                val levelLabel = lang("label.lv", entity.labelLevel())
+                label = label.add(" ").append(levelLabel)
+            }
+            var h = (-textRenderer.getWidth(label) / 2).toFloat()
+            val y = 0F
+            val seeThrough = true
+            val packedLight = LightmapTextureManager.pack(15, 15)
+            textRenderer.draw(label, h, y, 0x20FFFFFF, false, matrix4f, vertexConsumers, seeThrough, opacity, packedLight)
+            textRenderer.draw(label, h, y, -1, false, matrix4f, vertexConsumers, false, 0, packedLight)
+
+            if (entity.canBattle(player)) {
+                val sendOutBinding = PartySendBinding.boundKey().localizedText
+                val battlePrompt = lang("challenge_label", sendOutBinding)
+                h = (-textRenderer.getWidth(battlePrompt) / 2).toFloat()
+                textRenderer.draw(battlePrompt, h, y + 10, 0x20FFFFFF, false, matrix4f, vertexConsumers, seeThrough, opacity, packedLight)
+                textRenderer.draw(battlePrompt, h, y + 10, -1, false, matrix4f, vertexConsumers, false, 0, packedLight)
+            }
+            matrices.pop()
+        }
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -59,7 +59,23 @@ import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.AbilityUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.EVsUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.HeldItemUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.IVsUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.StatusUpdatePacket
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
@@ -289,11 +305,13 @@ open class Pokemon : ShowdownIdentifiable {
     var faintedTimer: Int = -1
         set(value) {
             field = value
+            anyChangeObservable.emit(this)
         }
 
     var healTimer: Int = -1
         set(value) {
             field = value
+            anyChangeObservable.emit(this)
         }
 
     /**
@@ -421,6 +439,15 @@ open class Pokemon : ShowdownIdentifiable {
         entity?.heal(entity.maxHealth - entity.health)
     }
 
+    fun didSleep() {
+        this.currentHealth = min((currentHealth + (hp / 2)), hp)
+        this.status = null
+        this.faintedTimer = -1
+        this.healTimer = -1
+        val entity = entity
+        entity?.heal(entity.maxHealth - entity.health)
+    }
+
     /**
      * Check if this Pokémon can be healed.
      * This verifies if HP is not maxed, any status is present or any move is not full PP.
@@ -496,8 +523,8 @@ open class Pokemon : ShowdownIdentifiable {
     fun swapHeldItem(stack: ItemStack, decrement: Boolean = true): ItemStack {
         var giving = stack
         if (decrement) {
-            stack.decrement(1)
             giving = stack.copy().apply { count = 1 }
+            stack.decrement(1)
         }
         val existing = this.heldItem()
         this.heldItem = giving
@@ -558,8 +585,8 @@ open class Pokemon : ShowdownIdentifiable {
         }
         form = species.forms.find { it.formOnlyShowdownId() == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
-        experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE).takeIf { experienceGroup.getLevel(experience) != level } ?: experienceGroup.getExperience(level)
-        friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt().coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonLevel)
+        experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE).takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
+        friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt().coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonFriendship)
         gender = Gender.valueOf(nbt.getString(DataKeys.POKEMON_GENDER).takeIf { it.isNotBlank() } ?: Gender.MALE.name)
         currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
@@ -651,8 +678,8 @@ open class Pokemon : ShowdownIdentifiable {
         }
         form = species.forms.find { it.formOnlyShowdownId() == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
-        experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(experience) != level } ?: experienceGroup.getExperience(level)
-        friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt.coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonLevel)
+        experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
+        friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt.coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonFriendship)
         currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
         gender = Gender.valueOf(json.get(DataKeys.POKEMON_GENDER)?.asString ?: "male")
         ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
@@ -946,7 +973,7 @@ open class Pokemon : ShowdownIdentifiable {
             event = ExperienceGainedPreEvent(this, source, appliedXP),
             ifSucceeded = { appliedXP = it.experience},
             ifCanceled = {
-                return AddExperienceResult(level, level, emptySet(), appliedXP)
+                return AddExperienceResult(level, level, emptySet(), 0)
             }
         )
 

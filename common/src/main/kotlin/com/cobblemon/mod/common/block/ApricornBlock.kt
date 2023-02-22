@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,15 +8,17 @@
 
 package com.cobblemon.mod.common.block
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
+import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.block.*
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties
@@ -115,6 +117,7 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
         if (state.get(AGE) == MAX_AGE) {
             val resetState = this.harvest(world, state, pos)
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, resetState))
+            if (!world.isClient) world.playSoundServer(position = pos.toVec3d(), sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
             return ActionResult.success(world.isClient)
         }
         return super.onUse(state, world, pos, player, hand, hit)
@@ -125,7 +128,8 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
 
     /**
      * Harvests the apricorn at the given params.
-     * This also handles the random possible seed drop.
+     * This uses [Block.dropStacks] to handle the drops.
+     * It will also reset the [BlockState] of this block at the given location to the start of growth.
      *
      * @param world The [World] the apricorn is in.
      * @param state The [BlockState] of the apricorn.
@@ -133,10 +137,8 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
      * @return The [BlockState] after harvest.
      */
     fun harvest(world: World, state: BlockState, pos: BlockPos): BlockState {
-        dropStack(world, pos, ItemStack(this.apricorn.item()))
-        if (world.random.nextFloat() < Cobblemon.config.apricornSeedChance) {
-            dropStack(world, pos, ItemStack(this.apricorn.seed()))
-        }
+        // Uses loot tables, to change the drops use 'data/cobblemon/loot_tables/blocks/<color>_apricorn.json'
+        Block.dropStacks(state, world, pos)
         // Don't use default as we want to keep the facing
         val resetState = state.with(AGE, MIN_AGE)
         world.setBlockState(pos, resetState, Block.NOTIFY_LISTENERS)

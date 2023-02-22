@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 6th, 2022
  */
-class BattleSwitchPokemonPacket(val pnx: String, val newPokemon: BattleInitializePacket.ActiveBattlePokemonDTO) : NetworkPacket<BattleSwitchPokemonPacket> {
+class BattleSwitchPokemonPacket(val pnx: String, val newPokemon: BattleInitializePacket.ActiveBattlePokemonDTO, val isAlly: Boolean) : NetworkPacket<BattleSwitchPokemonPacket> {
 
     override val id = ID
 
@@ -31,11 +31,11 @@ class BattleSwitchPokemonPacket(val pnx: String, val newPokemon: BattleInitializ
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(pnx)
         newPokemon.saveToBuffer(buffer)
+        buffer.writeBoolean(isAlly)
     }
 
     companion object {
         val ID = cobblemonResource("battle_switch_pokemon")
-        fun decode(buffer: PacketByteBuf) = BattleSwitchPokemonPacket(buffer.readString(), BattleInitializePacket.ActiveBattlePokemonDTO.loadFromBuffer(buffer))
+        fun decode(buffer: PacketByteBuf) = BattleSwitchPokemonPacket(buffer.readString(), BattleInitializePacket.ActiveBattlePokemonDTO.loadFromBuffer(buffer), buffer.readBoolean())
     }
-
 }

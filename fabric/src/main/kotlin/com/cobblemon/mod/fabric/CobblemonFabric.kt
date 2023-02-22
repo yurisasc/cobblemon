@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,8 +15,11 @@ import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.platform.events.ServerEvent
 import com.cobblemon.mod.common.platform.events.ServerTickEvent
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
+import com.cobblemon.mod.common.ModAPI
+import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
+import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents
 import com.mojang.brigadier.arguments.ArgumentType
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
@@ -36,6 +39,7 @@ import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
@@ -60,6 +64,8 @@ import java.util.concurrent.Executor
 import kotlin.reflect.KClass
 
 object CobblemonFabric : CobblemonImplementation {
+    override val modAPI = ModAPI.FABRIC
+    override fun isModInstalled(id: String) = FabricLoader.getInstance().isModLoaded(id)
 
     private var server: MinecraftServer? = null
 
@@ -78,6 +84,22 @@ object CobblemonFabric : CobblemonImplementation {
         this.networkManager.initServer()
 
         Cobblemon.initialize()
+        /*
+        if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
+            Cobblemon.permissionValidator = LuckPermsPermissionValidator()
+        }
+         */
+        if (FabricLoader.getInstance().getModContainer("fabric-permissions-api-v0").isPresent) {
+            Cobblemon.permissionValidator = FabricPermissionValidator()
+        }
+        EntitySleepEvents.STOP_SLEEPING.register { playerEntity, _ ->
+            if (playerEntity !is ServerPlayerEntity) {
+                return@register
+            }
+
+            playerEntity.didSleep()
+        }
+
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register { player, isLogin ->
             if (isLogin) {
                 Cobblemon.dataProvider.sync(player)

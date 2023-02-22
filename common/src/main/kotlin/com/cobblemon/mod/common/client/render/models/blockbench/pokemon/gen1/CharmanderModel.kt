@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,11 +30,11 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(0.05, 0.3, 0.0)
+    override val portraitScale = 1.65F
+    override val portraitTranslation = Vec3d(0.1, 0.2, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override val profileScale = 0.71F
+    override val profileTranslation = Vec3d(0.0, 0.72, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

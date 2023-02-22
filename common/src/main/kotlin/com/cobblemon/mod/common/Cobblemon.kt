@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -70,6 +70,8 @@ import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
+import com.cobblemon.mod.common.net.serverhandling.ServerPacketRegistrar
+import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.permission.LaxPermissionValidator
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -107,7 +109,7 @@ import kotlin.reflect.jvm.javaField
 
 object Cobblemon {
     const val MODID = "cobblemon"
-    const val VERSION = "1.2.0"
+    const val VERSION = "1.3.0"
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER = LogManager.getLogger()
 
@@ -122,7 +124,7 @@ object Cobblemon {
     var evYieldCalculator: EvCalculator = Generation8EvCalculator
     var starterHandler: StarterHandler = CobblemonStarterHandler()
     var isDedicatedServer = false
-    var showdownThread = ShowdownThread()
+    val showdownThread = ShowdownThread()
     lateinit var config: CobblemonConfig
     var prospector: SpawningProspector = CobblemonSpawningProspector
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
@@ -136,7 +138,7 @@ object Cobblemon {
     var statProvider: StatProvider = CobblemonStatProvider
     var seasonResolver: SeasonResolver = TagSeasonResolver
 
-    fun preinitialize(implementation: CobblemonImplementation) {
+    fun preInitialize(implementation: CobblemonImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
 
@@ -151,6 +153,7 @@ object Cobblemon {
 
         CobblemonCriteria // Init the fields and register the criteria
         CobblemonGameRules // Init fields and register
+        CobblemonParticles.register()
 
         ShoulderEffectRegistry.register()
 
@@ -188,7 +191,7 @@ object Cobblemon {
     }
 
     fun initialize() {
-        showdownThread.start()
+        showdownThread.launch()
 
         // Start up the data provider.
         CobblemonDataProvider.registerDefaults()
@@ -257,15 +260,13 @@ object Cobblemon {
             }
         }
 
-        showdownThread.showdownStarted.thenAccept {
-            PokemonSpecies.observable.pipe(takeFirst()).subscribe {
-                LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
-                battleRegistry.startBattle(
-                    BattleFormat.GEN_8_SINGLES,
-                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
-                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
-                ).apply { mute = true }
-            }
+        PokemonSpecies.observable.subscribe {
+            LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
+            battleRegistry.startBattle(
+                BattleFormat.GEN_8_SINGLES,
+                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
+                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
+            ).apply { mute = true }
         }
     }
 

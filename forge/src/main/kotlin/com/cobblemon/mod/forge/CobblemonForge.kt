@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.forge.client.CobblemonForgeClient
 import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
+import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
@@ -32,6 +33,8 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
+import net.minecraft.server.network.ServerPlayerEntity
+import java.util.*
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
@@ -41,6 +44,7 @@ import net.minecraftforge.event.OnDatapackSyncEvent
 import net.minecraftforge.event.RegisterCommandsEvent
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
+import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
 import net.minecraftforge.event.level.BlockEvent
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
@@ -56,6 +60,9 @@ import kotlin.reflect.KClass
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
+    override val modAPI = ModAPI.FABRIC
+    private val hasBeenSynced = hashSetOf<UUID>()
+
 
     private val commandArgumentTypes = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
     private val reloadableResources = arrayListOf<ResourceReloader>()
@@ -76,17 +83,23 @@ class CobblemonForge : CobblemonImplementation {
             this@CobblemonForge.commandArgumentTypes.register(this)
             addListener(this@CobblemonForge::initialize)
             addListener(this@CobblemonForge::serverInit)
-            Cobblemon.preinitialize(this@CobblemonForge)
+            Cobblemon.preInitialize(this@CobblemonForge)
         }
         with(MinecraftForge.EVENT_BUS) {
             addListener(this@CobblemonForge::onDataPackSync)
             addListener(this@CobblemonForge::onLogin)
             addListener(this@CobblemonForge::onLogout)
+            addListener(this@CobblemonForge::wakeUp)
             addListener(this@CobblemonForge::handleBlockStripping)
             addListener(this@CobblemonForge::registerCommands)
             addListener(this@CobblemonForge::onReload)
         }
         ForgePlatformEventHandler.register()
+    }
+
+    fun wakeUp(event: PlayerWakeUpEvent) {
+        val playerEntity = event.entity as? ServerPlayerEntity ?: return
+        playerEntity.didSleep()
     }
 
     fun serverInit(event: FMLDedicatedServerSetupEvent) {
@@ -98,8 +111,6 @@ class CobblemonForge : CobblemonImplementation {
         this.networkManager.initServer()
         Cobblemon.initialize()
     }
-
-    private val hasBeenSynced = hashSetOf<UUID>()
 
     fun onDataPackSync(event: OnDatapackSyncEvent) {
         Cobblemon.dataProvider.sync(event.player ?: return)

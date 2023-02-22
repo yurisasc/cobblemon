@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,6 +29,12 @@ object CobblemonItemTags {
     val ANY_HELD_ITEM = create("held/is_held_item")
     val EXPERIENCE_SHARE = create("held/experience_share")
     val LUCKY_EGG = create("held/lucky_egg")
+
+    /**
+     * This tag is only used for a Torterra aspect based easter egg evolution at the moment.
+     * It simply includes the 'minecraft:azalea' and 'minecraft:flowering_azalea' items by default.
+     */
+    val AZALEA_TREE = create("azalea_tree")
 
     private fun create(path: String) = TagKey.of(RegistryKeys.ITEM, cobblemonResource(path))
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,7 +30,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
 
         matrices.push()
         val model = PokemonModelRepository.getPoser(pokemon.species, pokemon.aspects)
-        val renderLayer = model.getLayer(PokemonModelRepository.getTexture(pokemon.species, pokemon.aspects))
+        val renderLayer = model.getLayer(PokemonModelRepository.getTexture(pokemon.species, pokemon.aspects, null))
 
         val transformations = positions[mode]!!
 

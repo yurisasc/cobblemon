@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -38,10 +38,10 @@ class PCBlockEntity(
         val pcBlock = blockState.block as PCBlock
 
         if (world != null && !world!!.isClient) {
-            val posBottom = pcBlock.getBase(blockState, blockPos)
-            val posTop = pcBlock.getPositionOfOtherPart(blockState, posBottom)
-
+            val posBottom = pcBlock.getBasePosition(blockState, blockPos)
             val stateBottom = world!!.getBlockState(posBottom)
+
+            val posTop = pcBlock.getPositionOfOtherPart(stateBottom, posBottom)
             val stateTop = world!!.getBlockState(posTop)
 
             if (stateBottom.get(PCBlock.ON) != on) {

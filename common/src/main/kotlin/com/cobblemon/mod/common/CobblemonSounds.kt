@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,8 +40,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val POKE_BALL_RECALL = this.create("poke_ball.recall")
 
     val ITEM_USE = this.create("item.use")
-    
-    private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
-    
+    val CAN_EVOLVE = queue("pokemon.can_evolve")
+    val EVOLVING = queue("pokemon.evolving")
 
+    private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }
