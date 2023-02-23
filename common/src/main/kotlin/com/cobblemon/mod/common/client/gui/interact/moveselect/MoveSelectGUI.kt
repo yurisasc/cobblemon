@@ -28,7 +28,7 @@ class MoveSelectGUI(
         const val WIDTH = 122
         const val HEIGHT = 133
 
-        private val baseBackgroundResource = cobblemonResource("ui/interact/move_select.png")
+        private val baseBackgroundResource = cobblemonResource("textures/gui/interact/move_select.png")
     }
 
     private val moves = pokemon.moveSet.getMoves()

@@ -75,8 +75,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
         private val typeSpacerDoubleResource = cobblemonResource("textures/gui/summary/type_spacer_double.png")
         private val sideSpacerResource = cobblemonResource("textures/gui/summary/summary_side_spacer.png")
         private val evolveButtonResource = cobblemonResource("textures/gui/summary/summary_evolve_button.png")
-
-        val iconShinyResource = cobblemonResource("ui/summary/icon_shiny.png")
+        val iconShinyResource = cobblemonResource("textures/gui/summary/icon_shiny.png")
     }
 
     internal lateinit var selectedPokemon: Pokemon

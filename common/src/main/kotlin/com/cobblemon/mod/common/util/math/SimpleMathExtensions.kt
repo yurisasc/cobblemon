@@ -16,6 +16,7 @@ import kotlin.math.sin
 import kotlin.random.Random
 import net.minecraft.util.math.Vec3d
 import org.joml.Matrix3f
+import org.joml.Quaternionf
 import org.joml.Vector3f
 
 infix fun Int.pow(power: Int): Int {
@@ -116,6 +117,12 @@ fun convertSphericalToCartesian(radius: Double, theta: Double, psi: Double): Vec
 
 /** Based on [this answer](https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d) */
 fun getRotationMatrix(from: Vec3d, to: Vec3d): Matrix3f {
+
+    val q = Quaternionf(0.0, 0.0, 0.0, 1.0)
+    q.rotateTo(Vector3f(from.x.toFloat(), from.y.toFloat(), from.z.toFloat()), Vector3f(to.x.toFloat(), to.y.toFloat(), to.z.toFloat()))
+    val m = Matrix3f()
+    return m.identity().rotation(q)
+
     val v = from.crossProduct(to)
     val c = from.dotProduct(to)
 
