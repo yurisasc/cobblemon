@@ -17,6 +17,7 @@
     "ServerChunkManagerMixin",
     "ShearsDispenserBehaviorMixin",
     "accessor.AccessorEntity",
+    "invoker.ClientPlayNetworkHandlerInvoker",
     "entity.TameableEntityMixin",
     "invoker.BooleanRuleInvoker",
     "invoker.ButtonBlockInvoker",

@@ -9,8 +9,11 @@
 package com.cobblemon.mod.common.net.messages.client.spawn
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.mixin.invoker.ClientPlayNetworkHandlerInvoker
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
+import net.minecraft.network.NetworkThreadUtils
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 
@@ -29,11 +32,21 @@ abstract class SpawnExtraDataEntityPacket<E: Entity>(private val vanillaSpawnPac
     fun spawnAndApply(client: MinecraftClient) {
         client.execute {
             val player = client.player ?: return@execute
-            player.networkHandler.onEntitySpawn(this.vanillaSpawnPacket)
-            val entity = player.world.getEntityById(this.vanillaSpawnPacket.id) ?: return@execute
+            val world = player.world as? ClientWorld ?: return@execute
+            // This is a copy pasta of ClientPlayNetworkHandler#onEntitySpawn
+            // This exists due to us needing to do everything it does except spawn the entity in the world.
+            // We invoke applyData then we add the entity to the world.
+            NetworkThreadUtils.forceMainThread(this.vanillaSpawnPacket, player.networkHandler, client)
+            val entityType = this.vanillaSpawnPacket.entityType
+            val entity = entityType.create(world) ?: return@execute
+            entity.onSpawnPacket(this.vanillaSpawnPacket)
+            // Cobblemon start
             if (this.checkType(entity)) {
                 this.applyData(entity as E)
             }
+            // Cobblemon end
+            world.addEntity(this.vanillaSpawnPacket.id, entity)
+            (player.networkHandler as ClientPlayNetworkHandlerInvoker).callPlaySpawnSound(entity)
         }
     }
 
