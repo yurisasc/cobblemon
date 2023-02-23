@@ -17,7 +17,7 @@ import net.minecraft.network.NetworkThreadUtils
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 
-abstract class SpawnExtraDataEntityPacket<E: Entity>(private val vanillaSpawnPacket: EntitySpawnS2CPacket) : NetworkPacket<SpawnExtraDataEntityPacket<E>>  {
+abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(private val vanillaSpawnPacket: EntitySpawnS2CPacket) : NetworkPacket<T> {
     override fun encode(buffer: PacketByteBuf) {
         this.encodeEntityData(buffer)
         this.vanillaSpawnPacket.write(buffer)

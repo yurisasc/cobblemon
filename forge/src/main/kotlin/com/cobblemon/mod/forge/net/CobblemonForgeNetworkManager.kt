@@ -15,14 +15,12 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import kotlin.reflect.KClass
-import net.minecraft.client.MinecraftClient
 import net.minecraft.network.Packet
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraftforge.network.NetworkDirection
-import net.minecraftforge.network.NetworkEvent
 import net.minecraftforge.network.NetworkRegistry
 import net.minecraftforge.network.PacketDistributor
 
@@ -55,7 +53,11 @@ object CobblemonForgeNetworkManager : NetworkManager {
         decoder: (PacketByteBuf) -> T,
         handler: ClientNetworkPacketHandler<T>
     ) {
-        this.channel.registerMessage(this.id++, kClass.java, encoder::invoke, { it.readIdentifier(); decoder(it) }) { _, _ -> this.wrapClientBoundHandler(handler) }
+        this.channel.registerMessage(this.id++, kClass.java, encoder::invoke, decoder::invoke) { msg, ctx ->
+            val context = ctx.get()
+            handler.handleOnNettyThread(msg)
+            context.packetHandled = true
+        }
     }
 
     @Suppress("INACCESSIBLE_TYPE")
@@ -66,7 +68,11 @@ object CobblemonForgeNetworkManager : NetworkManager {
         decoder: (PacketByteBuf) -> T,
         handler: ServerNetworkPacketHandler<T>
     ) {
-        this.channel.registerMessage(this.id++, kClass.java, encoder::invoke, { it.readIdentifier(); decoder(it) }) { _, _ -> this.wrapServerBound(handler) }
+        this.channel.registerMessage(this.id++, kClass.java, encoder::invoke, decoder::invoke) { msg, ctx ->
+            val context = ctx.get()
+            handler.handleOnNettyThread(msg, context.sender!!.server, context.sender!!)
+            context.packetHandled = true
+        }
     }
 
     override fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>) {
@@ -80,19 +86,4 @@ object CobblemonForgeNetworkManager : NetworkManager {
     override fun <T : NetworkPacket<*>> asVanillaClientBound(packet: T): Packet<ClientPlayPacketListener> {
         return this.channel.toVanillaPacket(packet, NetworkDirection.PLAY_TO_CLIENT) as Packet<ClientPlayPacketListener>
     }
-
-    private fun <T : NetworkPacket<T>> wrapClientBoundHandler(handler: ClientNetworkPacketHandler<T>): (T, NetworkEvent.Context) -> Unit {
-        return { msg, context ->
-            handler.handleOnNettyThread(msg, MinecraftClient.getInstance())
-            context.packetHandled = true
-        }
-    }
-
-    private fun <T : NetworkPacket<T>> wrapServerBound(handler: ServerNetworkPacketHandler<T>): (T, NetworkEvent.Context) -> Unit {
-        return { msg, context ->
-            handler.handleOnNettyThread(msg, context.sender!!.server, context.sender!!)
-            context.packetHandled = true
-        }
-    }
-
 }

@@ -28,7 +28,7 @@ class SpawnPokemonPacket(
     private val beamModeEmitter: Byte,
     private val labelLevel: Int,
     vanillaSpawnPacket: EntitySpawnS2CPacket
-) : SpawnExtraDataEntityPacket<PokemonEntity>(vanillaSpawnPacket) {
+) : SpawnExtraDataEntityPacket<SpawnPokemonPacket, PokemonEntity>(vanillaSpawnPacket) {
 
     override val id: Identifier = ID
 
@@ -63,6 +63,8 @@ class SpawnPokemonPacket(
         entity.phasingTargetId.set(this.phasingTargetId)
         entity.beamModeEmitter.set(this.beamModeEmitter)
         entity.labelLevel.set(this.labelLevel)
+        entity.species.set(entity.pokemon.species.resourceIdentifier.toString())
+        entity.aspects.set(aspects)
     }
 
     override fun checkType(entity: Entity): Boolean = entity is PokemonEntity

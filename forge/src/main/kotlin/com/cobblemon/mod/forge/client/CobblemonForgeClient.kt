@@ -44,6 +44,8 @@ import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.ModelEvent
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
+import net.minecraftforge.client.event.RenderGuiOverlayEvent
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber
@@ -86,6 +88,13 @@ object CobblemonForgeClient : CobblemonClientImplementation {
             EntityRenderers.register(CobblemonEntities.EMPTY_POKEBALL) { CobblemonClient.registerPokeBallRenderer(it) }
         }
         ForgeClientPlatformEventHandler.register()
+    }
+
+    @SubscribeEvent
+    fun onRenderGameOverlay(event: RenderGuiOverlayEvent.Pre) {
+        if (event.overlay.id == VanillaGuiOverlay.CHAT_PANEL.id()) {
+            CobblemonClient.beforeChatRender(event.poseStack, event.partialTick)
+        }
     }
 
     override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {

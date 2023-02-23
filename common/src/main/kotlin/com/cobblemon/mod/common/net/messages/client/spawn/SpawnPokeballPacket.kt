@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier
 class SpawnPokeballPacket(
     val pokeBall: PokeBall,
     vanillaSpawnPacket: EntitySpawnS2CPacket
-) : SpawnExtraDataEntityPacket<EmptyPokeBallEntity>(vanillaSpawnPacket) {
+) : SpawnExtraDataEntityPacket<SpawnPokeballPacket, EmptyPokeBallEntity>(vanillaSpawnPacket) {
 
     override val id: Identifier = ID
 

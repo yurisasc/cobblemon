@@ -41,7 +41,9 @@ object CobblemonFabricNetworkManager : NetworkManager {
         decoder: (PacketByteBuf) -> T,
         handler: ClientNetworkPacketHandler<T>
     ) {
-        ClientPlayNetworking.registerGlobalReceiver(identifier, this.createClientBoundHandler(decoder::invoke, handler::handleOnNettyThread))
+        ClientPlayNetworking.registerGlobalReceiver(identifier, this.createClientBoundHandler(decoder::invoke) { msg, _ ->
+            handler.handleOnNettyThread(msg)
+        })
     }
 
     override fun <T : NetworkPacket<T>> registerServerBound(

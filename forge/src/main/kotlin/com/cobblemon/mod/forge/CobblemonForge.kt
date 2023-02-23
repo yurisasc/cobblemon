@@ -60,7 +60,7 @@ import net.minecraftforge.server.ServerLifecycleHooks
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
-    override val modAPI = ModAPI.FABRIC
+    override val modAPI = ModAPI.FORGE
     private val hasBeenSynced = hashSetOf<UUID>()
 
 

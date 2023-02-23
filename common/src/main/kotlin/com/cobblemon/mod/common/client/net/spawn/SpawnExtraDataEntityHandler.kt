@@ -13,8 +13,8 @@ import com.cobblemon.mod.common.net.messages.client.spawn.SpawnExtraDataEntityPa
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.Entity
 
-class SpawnExtraDataEntityHandler<E : Entity> : ClientNetworkPacketHandler<SpawnExtraDataEntityPacket<E>> {
-    override fun handle(packet: SpawnExtraDataEntityPacket<E>, client: MinecraftClient) {
+class SpawnExtraDataEntityHandler<T : SpawnExtraDataEntityPacket<T, E>, E : Entity> : ClientNetworkPacketHandler<T> {
+    override fun handle(packet: T, client: MinecraftClient) {
         packet.spawnAndApply(client)
     }
 
