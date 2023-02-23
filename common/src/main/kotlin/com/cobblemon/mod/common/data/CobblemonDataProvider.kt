@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureAssignments
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
 import com.cobblemon.mod.common.api.spawning.SpawnDetailPresets
+import com.cobblemon.mod.common.pokedex.PokedexDataRegistry
 import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import dev.architectury.registry.ReloadListenerRegistry
@@ -50,6 +51,7 @@ object CobblemonDataProvider : DataProvider {
         this.register(PokeBalls)
         this.register(PropertiesCompletionProvider)
         this.register(SpawnDetailPresets)
+        this.register(PokedexDataRegistry)
 
         CobblemonSpawnPools.load()
 
