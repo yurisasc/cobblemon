@@ -1,0 +1,19 @@
+{
+  "species": "cobblemon:cryogonal",
+  "order": 0,
+  "variations": [
+    {
+      "aspects": [],
+      "poser": "cobblemon:cryogonal",
+      "model": "cobblemon:cryogonal.geo",
+      "texture": "cobblemon:textures/pokemon/0615_cryogonal/cryogonal.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0615_cryogonal/cryogonal_shiny.png"
+    }
+  ]
+}

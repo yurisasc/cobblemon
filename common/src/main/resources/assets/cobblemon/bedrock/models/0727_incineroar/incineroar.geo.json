@@ -75,9 +75,9 @@
 				{
 					"name": "eyelid_right",
 					"parent": "eyes",
-					"pivot": [-1.925, 31.5, -3.6],
+					"pivot": [-1.925, 31.5, -3.7],
 					"cubes": [
-						{"origin": [-2.925, 30.5, -4.1], "size": [2, 2, 1], "inflate": 0.02, "uv": [74, 8], "mirror": true}
+						{"origin": [-2.925, 30.5, -4.2], "size": [2, 2, 1], "inflate": 0.02, "uv": [74, 8], "mirror": true}
 					]
 				},
 				{
