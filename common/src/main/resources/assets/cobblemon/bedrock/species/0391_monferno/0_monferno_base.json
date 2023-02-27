@@ -1,0 +1,16 @@
+{
+  "species": "cobblemon:monferno",
+  "order": 0,
+  "variations": [
+    {
+      "aspects": [],
+      "poser": "cobblemon:monferno",
+      "model": "cobblemon:monferno.geo",
+      "texture": "cobblemon:textures/pokemon/0391_monferno/monferno.png",
+      "layers": []
+    },
+    {
+      "aspects": []
+    }
+  ]
+}

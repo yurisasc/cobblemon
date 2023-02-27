@@ -1,0 +1,16 @@
+{
+  "species": "cobblemon:chimchar",
+  "order": 0,
+  "variations": [
+    {
+      "aspects": [],
+      "poser": "cobblemon:chimchar",
+      "model": "cobblemon:chimchar.geo",
+      "texture": "cobblemon:textures/pokemon/0390_chimchar/chimchar.png",
+      "layers": []
+    },
+    {
+      "aspects": []
+    }
+  ]
+}

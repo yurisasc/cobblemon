@@ -33,7 +33,7 @@
 - Added the Saturation shoulder effect
 - Added the Haste shoulder effect.
 - Added the Water Breathing shoulder effect.
-- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, Galvantula, Honedge, Spiritomb.
+- Implemented the Pokémon Mawile, Carvanha, Sharpedo, Seedot, Nuzleaf, Shiftry, Kricketot, Kricketune, Heatmor, Durant, Wooloo, Dubwool, Pumpkaboo, Gourgeist, Sigilyph, Cryogonal, Whismur, Loudred, Exploud, Misdreavus, Mismagius, Tatsugiri, Eiscue, Luvdisc, Stantler, Wyrdeer, Lotad, Lombre, Ludicolo, Pineco, Forretress, Gible, Gabite, Garchomp, Sneasel, Weavile, Elgyem, Beheeyem, Chespin, Quilladin, Chesnaught, Baltoy, Claydol, Riolu, Lucario, Treeko, Grovyle, Sceptile, Nacli, Naclstack, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, Galvantula, Honedge, Duoblade, Aegislash, Spiritomb, Chimchar, Monferno, Infernape, Popplio, Brionne, Primarina, Spinda.
 - Added Water Breathing Effect to Wooper.
 - Added Haste Effect to Joltik.
 - Added blink animations to many Pokémon.
@@ -42,10 +42,14 @@
 - Added particle effect support for model animations
 - Added particle effect and animation for Gastly.
 - Added builtin compatibility with Carry On by preventing the mod being able to interact with Cobblemon entities, the mod caused too many gameplay detrimental features to stay enabled.
-- Added sleep animations to many Pokémon.
+- Added sleep and faint animations to many Pokémon.
 - Added lang interpretation for every showdown message that prevents a move from being executed such as a Taunt, requiring a recharge, flinched, etc.
 - Added translucent option for aspect layers.
 - Added healing to your party when you sleep in a bed.
+- Added ability to shear Wooloo and Dubwool.
+- Added sleep animations to many Pokémon.
+- Added the Gen 3 Pokémon to the starter select screen.
+- Added Paldea starter slect lang to "en_us"
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -62,6 +66,8 @@
 - Apricorns are now compatible with any mod that breaks a whole tree at once.
 - Apricorns no longer have a config value for the seed drop chance these are now a part of their loot table which can be found in ``cobblemon/loot_tables/blocks/<color>_apricorn.json``.
 - Advancements were redone to be slightly more interesting, with improved names, descriptions, and sorting.
+- Improved the framing of all in-game Pokémon in the party and PC GUIs.
+- Updated models and textures for Tentacool line, Gengar, Slowpoke line, Tyrogue line, Doduo line, Dratini, Dragonair, Quagsire, and Piplup line.
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
@@ -108,6 +114,7 @@
 - Fixed issues with Charizard's sleep pose.
 - Fixed players being able to use multiple healer machines at once.
 - Fixed Pokémon layers not rendering when a Pokémon is on your shoulder.
+- Fixed Caterpie and Weedle not moving or looking at players. That was meant to be Metapod and Kakuna, how embarrassing.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.

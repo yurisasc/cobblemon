@@ -17,8 +17,8 @@ import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
-import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.OnDatapackSyncEvent
