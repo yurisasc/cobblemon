@@ -320,16 +320,16 @@ class StorageWidget(
                     if (clickedPosition is PCPosition) {
                         val firstEmptySpace = party.slots.indexOfFirst { it == null }
                         if (firstEmptySpace != -1) {
-                            if (ServerSettings.preventCompletePartyDeposit && party.count { it != null } == 1) {
-                                return
-                            }
-
                             val packet = MovePCPokemonToPartyPacket(clickedPokemon.uuid, clickedPosition, PartyPosition(firstEmptySpace))
                             packet.sendToServer()
                             playSound(CobblemonSounds.PC_DROP.get())
                             return
                         }
                     } else if (clickedPosition is PartyPosition) {
+                        if (ServerSettings.preventCompletePartyDeposit && party.count { it != null } == 1) {
+                            return
+                        }
+
                         val firstEmptySpace = pc.boxes[box].indexOfFirst { it == null }
                         if (firstEmptySpace != -1) {
                             val packet = MovePartyPokemonToPCPacket(clickedPokemon.uuid, clickedPosition, PCPosition(box, firstEmptySpace))
