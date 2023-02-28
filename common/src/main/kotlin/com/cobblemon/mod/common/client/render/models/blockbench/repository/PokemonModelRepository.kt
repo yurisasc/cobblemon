@@ -8,9 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.*
@@ -22,34 +19,21 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.*
-import com.cobblemon.mod.common.client.render.pokemon.ModelLayer
-import com.cobblemon.mod.common.client.render.pokemon.RegisteredSpeciesRendering
-import com.cobblemon.mod.common.client.render.pokemon.SpeciesVariationSet
-import com.cobblemon.mod.common.client.util.exists
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.pokemon.Species
-import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.endsWith
-import com.cobblemon.mod.common.util.fromJson
-import java.io.File
-import java.nio.charset.StandardCharsets
 import net.minecraft.client.model.ModelPart
-import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
 
-object PokemonModelRepository : ModelRepository<PokemonEntity>() {
-    val posers = mutableMapOf<Identifier, (ModelPart) -> PokemonPoseableModel>()
-    val renders = mutableMapOf<Identifier, RegisteredSpeciesRendering>()
-    val texturedModels = mutableMapOf<Identifier, TexturedModel>()
+object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPoseableModel>() {
+    override val title = "Pokémon"
+    override val type = "pokemon"
+    override val variationDirectories = listOf("bedrock/$type/resolvers", "bedrock/species")
+    override val poserDirectories = listOf("bedrock/$type/posers", "bedrock/posers")
+    override val modelDirectories = listOf("bedrock/$type/models", "bedrock/models")
+    override val animationDirectories: List<String> = listOf("bedrock/animations", "bedrock/$type/animations")
 
-    fun registerPosers(resourceManager: ResourceManager) {
-        posers.clear()
-        registerInBuiltPosers()
-        registerJsonPosers(resourceManager)
-    }
+    override val fallback = cobblemonResource("substitute")
 
-    fun registerInBuiltPosers() {
+    override fun registerInBuiltPosers() {
         inbuilt("bulbasaur", ::BulbasaurModel)
         inbuilt("ivysaur", ::IvysaurModel)
         inbuilt("venusaur", ::VenusaurModel)
@@ -355,18 +339,18 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("infernape", :: InfernapeModel)
         inbuilt("popplio", :: PopplioModel)
         inbuilt("brionne", :: BrionneModel)
-        inbuilt("primarina", :: PrimarinaModel)
-        inbuilt("spinda", :: SpindaModel)
-        inbuilt("seedot", :: SeedotModel)
-        inbuilt("nuzleaf", :: NuzleafModel)
-        inbuilt("shiftry", :: ShiftryModel)
-        inbuilt("kricketot", :: KricketotModel)
-        inbuilt("kricketune", :: KricketuneModel)
-        inbuilt("heatmor", :: HeatmorModel)
-        inbuilt("durant", :: DurantModel)
-        inbuilt("carvanha", :: CarvanhaModel)
-        inbuilt("sharpedo", :: SharpedoModel)
-        inbuilt("mawile", :: MawileModel)
+        inbuilt("primarina", ::PrimarinaModel)
+        inbuilt("spinda", ::SpindaModel)
+        inbuilt("seedot", ::SeedotModel)
+        inbuilt("nuzleaf", ::NuzleafModel)
+        inbuilt("shiftry", ::ShiftryModel)
+        inbuilt("kricketot", ::KricketotModel)
+        inbuilt("kricketune", ::KricketuneModel)
+        inbuilt("heatmor", ::HeatmorModel)
+        inbuilt("durant", ::DurantModel)
+        inbuilt("carvanha", ::CarvanhaModel)
+        inbuilt("sharpedo", ::SharpedoModel)
+        inbuilt("mawile", ::MawileModel)
 
 
 
@@ -378,103 +362,10 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     }
 
-    fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
-        posers[cobblemonResource(name)] = model
-    }
-
-
-
-    fun registerJsonPosers(resourceManager: ResourceManager) {
-        resourceManager.findResources("bedrock/posers") { path -> path.endsWith(".json") }.forEach { identifier, resource ->
-            resource.inputStream.use { stream ->
-                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                posers[resolvedIdentifier] = {
-                    JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
-                    JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
-                }
-            }
+    override fun loadJsonPoser(json: String): (ModelPart) -> PokemonPoseableModel {
+        return {
+            JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
+            JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
         }
-    }
-
-    fun registerSpeciesAssetResolvers(resourceManager: ResourceManager) {
-        val speciesToSpeciesVariationSets = mutableMapOf<Identifier, MutableList<SpeciesVariationSet>>()
-        resourceManager.findResources("bedrock/species") { path -> path.endsWith(".json") }.forEach { identifier, resource ->
-            resource.inputStream.use { stream ->
-                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                val speciesVariationSet = RegisteredSpeciesRendering.GSON.fromJson<SpeciesVariationSet>(json)
-                speciesToSpeciesVariationSets.getOrPut(speciesVariationSet.species) { mutableListOf() }.add(speciesVariationSet)
-            }
-        }
-
-        for ((species, speciesVariationSets) in speciesToSpeciesVariationSets) {
-            val variations = speciesVariationSets.sortedBy { it.order }.flatMap { it.variations }.toMutableList()
-            renders[species] = RegisteredSpeciesRendering(species, variations)
-        }
-
-        renders.values.forEach(RegisteredSpeciesRendering::initialize)
-    }
-
-    override fun registerAll() {
-    }
-
-    fun registerModels(resourceManager: ResourceManager) {
-        var models = 0
-        resourceManager.findResources("bedrock/models") { path -> path.endsWith(".geo.json") }.forEach { identifier, resource ->
-            resource.inputStream.use { stream ->
-                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                texturedModels[resolvedIdentifier] = TexturedModel.from(json)
-                models++
-            }
-        }
-        Cobblemon.LOGGER.info("Loaded $models Pokémon models.")
-    }
-
-    override fun reload(resourceManager: ResourceManager) {
-        Cobblemon.LOGGER.info("Loading Pokémon models...")
-        this.renders.clear()
-        this.posers.clear()
-        registerPosers(resourceManager)
-        registerModels(resourceManager)
-        registerSpeciesAssetResolvers(resourceManager)
-        initializeModelLayers()
-    }
-
-    fun getPoser(species: Species, aspects: Set<String>): PokemonPoseableModel {
-        try {
-            val poser = this.renders[species.resourceIdentifier]?.getPoser(aspects)
-            if (poser != null) {
-                return poser
-            }
-        } catch(e: IllegalStateException) {
-//            e.printStackTrace()
-        }
-        return this.renders[cobblemonResource("substitute")]!!.getPoser(aspects)
-    }
-
-    fun getTexture(species: Species, aspects: Set<String>, state: PoseableEntityState<PokemonEntity>?): Identifier {
-        try {
-            val texture = this.renders[species.resourceIdentifier]?.getTexture(aspects, state?.animationSeconds ?: 0F)
-            if (texture != null) {
-                if (texture.exists()) {
-                    return texture
-                } else if (SHINY_ASPECT.aspect in aspects) {
-                    // If the shiny texture doesn't exist, try parsing again but without the shiny - it doesn't seem to be implemented.
-                    return getTexture(species, aspects - SHINY_ASPECT.aspect, state)
-                }
-            }
-        } catch(_: IllegalStateException) { }
-        return this.renders[cobblemonResource("substitute")]!!.getTexture(aspects, state?.animationSeconds ?: 0F)
-    }
-
-    fun getLayers(species: Species, aspects: Set<String>): Iterable<ModelLayer> {
-        try {
-            val layers = this.renders[species.resourceIdentifier]?.getLayers(aspects)
-            if (layers != null) {
-                return layers
-            }
-        } catch(_: IllegalStateException) { }
-        return this.renders[cobblemonResource("substitute")]!!.getLayers(aspects)
     }
 }

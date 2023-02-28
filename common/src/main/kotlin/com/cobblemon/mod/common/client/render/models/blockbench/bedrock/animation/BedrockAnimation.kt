@@ -73,7 +73,7 @@ data class BedrockAnimation(
 
             for (particleEffect in particleEffectsToPlay) {
                 val world = entity.world as ClientWorld
-                val matrixWrapper = model.locatorStates[particleEffect.locator] ?: model.locatorStates["root"]!!
+                val matrixWrapper = state.locatorStates[particleEffect.locator] ?: state.locatorStates["root"]!!
                 val effect = particleEffect.effect
 
                 if (particleEffect in state.poseParticles) {

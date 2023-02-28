@@ -46,8 +46,8 @@ fun drawProfilePokemon(
     state: PoseableEntityState<PokemonEntity>?,
     scale: Float = 20F
 ) {
-    val model = PokemonModelRepository.getPoser(species, aspects)
-    val texture = PokemonModelRepository.getTexture(species, aspects, state)
+    val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
+    val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state)
 
     val renderType = model.getLayer(texture)
 
@@ -78,7 +78,7 @@ fun drawProfilePokemon(
     RenderSystem.setShaderLights(light1, light2)
     val packedLight = LightmapTextureManager.pack(8, 6)
 
-    model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species, aspects)) {
+    model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
         model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         bufferSource.draw()
     }

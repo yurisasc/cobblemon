@@ -49,7 +49,7 @@
 - Added ability to shear Wooloo and Dubwool.
 - Added sleep animations to many Pokémon.
 - Added the Gen 3 Pokémon to the starter select screen.
-- Added Paldea starter slect lang to "en_us"
+- Added new models and animations for Poké Balls and reworked their mechanics to feel much smoother instead of being pure frustration.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
