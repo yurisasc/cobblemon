@@ -7,7 +7,8 @@
             "id": "porygonz-1",
             "pokemon": "porygonz",
             "presets": [
-                "urban"
+                "urban",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -7,7 +7,8 @@
             "id": "steelix-1",
             "pokemon": "steelix",
             "presets": [
-                "underground"
+                "underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",

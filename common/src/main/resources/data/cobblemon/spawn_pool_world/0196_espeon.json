@@ -6,6 +6,9 @@
         {
             "id": "espeon-1",
             "pokemon": "espeon",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",

@@ -6,6 +6,9 @@
         {
             "id": "prinplup-1",
             "pokemon": "prinplup",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -22,7 +25,8 @@
             "id": "prinplup-2",
             "pokemon": "prinplup",
             "presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

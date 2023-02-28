@@ -6,6 +6,9 @@
         {
             "id": "pachirisu-1",
             "pokemon": "pachirisu",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

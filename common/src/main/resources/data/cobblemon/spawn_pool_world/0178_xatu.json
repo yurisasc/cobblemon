@@ -6,6 +6,9 @@
         {
             "id": "xatu-1",
             "pokemon": "xatu",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

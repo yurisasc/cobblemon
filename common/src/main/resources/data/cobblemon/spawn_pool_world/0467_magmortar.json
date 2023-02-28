@@ -6,6 +6,9 @@
         {
             "id": "magmortar-1",
             "pokemon": "magmortar",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

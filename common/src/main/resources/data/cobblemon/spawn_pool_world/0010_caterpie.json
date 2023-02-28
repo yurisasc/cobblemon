@@ -6,6 +6,10 @@
         {
             "id": "caterpie-1",
             "pokemon": "caterpie",
+            "presets": [
+                "wilderness",
+                "treetop"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -27,7 +31,8 @@
             "id": "caterpie-2",
             "pokemon": "caterpie",
             "presets": [
-                "foliage"
+                "foliage",
+                "treetop"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -44,6 +49,10 @@
 		{
             "id": "caterpie-valencian-1",
             "pokemon": "caterpie valencian",
+            "presets": [
+                "wilderness",
+                "treetop"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

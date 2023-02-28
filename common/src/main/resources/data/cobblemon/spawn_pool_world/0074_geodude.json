@@ -6,6 +6,9 @@
         {
             "id": "geodude-1",
             "pokemon": "geodude",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -22,7 +25,8 @@
             "id": "geodude-2",
             "pokemon": "geodude",
             "presets": [
-                "underground"
+                "underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",

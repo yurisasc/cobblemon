@@ -6,6 +6,9 @@
         {
             "id": "decidueye-1",
             "pokemon": "decidueye",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",

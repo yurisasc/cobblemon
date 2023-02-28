@@ -6,6 +6,9 @@
         {
             "id": "sylveon-1",
             "pokemon": "sylveon",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",

@@ -6,6 +6,9 @@
         {
             "id": "leafeon-1",
             "pokemon": "leafeon",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",

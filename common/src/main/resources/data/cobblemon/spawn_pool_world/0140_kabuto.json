@@ -6,6 +6,9 @@
         {
             "id": "kabuto-1",
             "pokemon": "kabuto",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -23,7 +26,8 @@
             "id": "kabuto-2",
             "pokemon": "kabuto",
 			"presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",
@@ -41,7 +45,8 @@
             "id": "kabuto-3",
             "pokemon": "kabuto",
             "presets": [
-                "underground"
+                "underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -60,7 +65,8 @@
             "pokemon": "kabuto",
             "presets": [
                 "underwater",
-				"underground"
+				"underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

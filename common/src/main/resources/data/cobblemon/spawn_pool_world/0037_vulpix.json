@@ -6,6 +6,9 @@
         {
             "id": "vulpix-1",
             "pokemon": "vulpix",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

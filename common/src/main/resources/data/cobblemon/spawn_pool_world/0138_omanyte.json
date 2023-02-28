@@ -6,6 +6,9 @@
         {
             "id": "omanyte-1",
             "pokemon": "omanyte",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -23,7 +26,8 @@
             "id": "omanyte-2",
             "pokemon": "omanyte",
 			"presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",
@@ -41,7 +45,8 @@
             "id": "omanyte-3",
             "pokemon": "omanyte",
             "presets": [
-                "underground"
+                "underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -60,7 +65,8 @@
             "pokemon": "omanyte",
             "presets": [
 				"underwater",
-                "underground"
+                "underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

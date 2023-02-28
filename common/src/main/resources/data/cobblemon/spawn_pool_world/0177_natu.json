@@ -6,6 +6,9 @@
         {
             "id": "natu-1",
             "pokemon": "natu",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

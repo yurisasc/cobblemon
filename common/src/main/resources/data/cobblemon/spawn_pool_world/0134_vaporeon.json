@@ -8,7 +8,7 @@
             "pokemon": "vaporeon",
             "presets": [
                 "freshwater",
-                "freshwater"
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "presets": [
                 "freshwater",
                 "underwater",
-                "freshwater"
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

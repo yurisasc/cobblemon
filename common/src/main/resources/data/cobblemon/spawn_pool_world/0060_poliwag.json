@@ -7,7 +7,8 @@
             "id": "poliwag-1",
             "pokemon": "poliwag",
             "presets": [
-                "freshwater"
+                "freshwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -27,7 +28,8 @@
             "pokemon": "poliwag",
             "presets": [
                 "freshwater",
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

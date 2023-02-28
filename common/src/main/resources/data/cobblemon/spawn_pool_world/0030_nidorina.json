@@ -6,6 +6,9 @@
         {
             "id": "nidorina-1",
             "pokemon": "nidorina",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

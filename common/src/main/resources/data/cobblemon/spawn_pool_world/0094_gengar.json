@@ -7,7 +7,8 @@
             "id": "gengar-1",
             "pokemon": "gengar",
             "presets": [
-                "underground"
+                "underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +26,8 @@
             "id": "gengar-2",
             "pokemon": "gengar",
             "presets": [
-                "underground"
+                "underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -47,6 +49,10 @@
         {
             "id": "gengar-3",
             "pokemon": "gengar",
+            "presets": [
+                "wilderness",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -62,6 +68,10 @@
         {
             "id": "gengar-4",
             "pokemon": "gengar",
+            "presets": [
+                "wilderness",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

@@ -6,6 +6,9 @@
         {
             "id": "starmie-1",
             "pokemon": "starmie",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -23,7 +26,8 @@
             "id": "starmie-2",
             "pokemon": "starmie",
             "presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "seafloor",

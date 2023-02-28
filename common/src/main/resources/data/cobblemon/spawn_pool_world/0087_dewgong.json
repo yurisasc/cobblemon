@@ -6,6 +6,9 @@
         {
             "id": "dewgong-1",
             "pokemon": "dewgong",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -22,7 +25,8 @@
             "id": "dewgong-2",
             "pokemon": "dewgong",
             "presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

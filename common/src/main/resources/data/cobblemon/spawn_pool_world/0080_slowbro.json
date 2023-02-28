@@ -6,6 +6,9 @@
         {
             "id": "slowbro-1",
             "pokemon": "slowbro",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

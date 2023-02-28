@@ -7,7 +7,8 @@
             "id": "poliwhirl-1",
             "pokemon": "poliwhirl",
             "presets": [
-                "freshwater"
+                "freshwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -27,7 +28,8 @@
             "pokemon": "poliwhirl",
             "presets": [
                 "freshwater",
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

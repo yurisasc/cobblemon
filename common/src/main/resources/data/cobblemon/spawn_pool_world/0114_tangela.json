@@ -6,6 +6,9 @@
         {
             "id": "tangela-1",
             "pokemon": "tangela",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

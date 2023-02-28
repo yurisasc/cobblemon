@@ -6,6 +6,9 @@
         {
             "id": "ekans-1",
             "pokemon": "ekans",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -21,6 +24,9 @@
         {
             "id": "ekans-dark-1",
             "pokemon": "ekans snake-pattern=dark",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

@@ -6,6 +6,10 @@
         {
             "id": "crobat-1",
             "pokemon": "crobat",
+            "presets": [
+                "wilderness",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -34,7 +38,9 @@
             "id": "crobat-2",
             "pokemon": "crobat",
             "presets": [
-                "underground"
+                "underground",
+                "wilderness",
+                "derelict"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -56,6 +62,10 @@
         {
             "id": "crobat-3",
             "pokemon": "crobat",
+            "presets": [
+                "wilderness",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

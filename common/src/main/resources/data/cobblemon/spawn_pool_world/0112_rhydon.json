@@ -6,6 +6,9 @@
         {
             "id": "rhydon-1",
             "pokemon": "rhydon",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

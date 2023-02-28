@@ -7,7 +7,8 @@
             "id": "chansey-1",
             "pokemon": "chansey",
             "presets": [
-                "urban"
+                "urban",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",

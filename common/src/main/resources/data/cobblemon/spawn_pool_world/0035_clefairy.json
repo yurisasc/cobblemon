@@ -6,6 +6,9 @@
         {
             "id": "clefairy-1",
             "pokemon": "clefairy",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

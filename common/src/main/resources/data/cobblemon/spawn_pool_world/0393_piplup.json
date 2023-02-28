@@ -6,6 +6,9 @@
         {
             "id": "piplup-1",
             "pokemon": "piplup",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -22,7 +25,8 @@
             "id": "piplup-2",
             "pokemon": "piplup",
             "presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

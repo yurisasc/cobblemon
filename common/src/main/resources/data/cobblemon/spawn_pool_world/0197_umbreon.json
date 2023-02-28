@@ -6,6 +6,9 @@
         {
             "id": "umbreon-1",
             "pokemon": "umbreon",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",

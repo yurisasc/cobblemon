@@ -7,7 +7,8 @@
             "id": "bidoof-1",
             "pokemon": "bidoof",
 			"presets": [
-                "freshwater"
+                "freshwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -23,7 +24,8 @@
             "pokemon": "bidoof",
 			"presets": [
                 "freshwater",
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "fluid-surface",

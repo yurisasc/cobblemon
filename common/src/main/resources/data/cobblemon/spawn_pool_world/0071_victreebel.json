@@ -6,6 +6,9 @@
         {
             "id": "victreebel-1",
             "pokemon": "victreebel",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

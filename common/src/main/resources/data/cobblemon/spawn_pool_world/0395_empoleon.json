@@ -6,6 +6,9 @@
         {
             "id": "empoleon-1",
             "pokemon": "empoleon",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -22,7 +25,8 @@
             "id": "empoleon-2",
             "pokemon": "empoleon",
             "presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

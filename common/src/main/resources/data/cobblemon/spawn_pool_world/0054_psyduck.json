@@ -7,7 +7,8 @@
             "id": "psyduck-1",
             "pokemon": "psyduck",
             "presets": [
-                "freshwater"
+                "freshwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -23,7 +24,8 @@
             "pokemon": "psyduck",
             "presets": [
                 "freshwater",
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

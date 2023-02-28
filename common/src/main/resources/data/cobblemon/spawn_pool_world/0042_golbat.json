@@ -6,6 +6,10 @@
         {
             "id": "golbat-1",
             "pokemon": "golbat",
+            "presets": [
+                "wilderness",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -34,7 +38,8 @@
             "id": "golbat-2",
             "pokemon": "golbat",
             "presets": [
-                "underground"
+                "underground",
+                "derelict"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -56,6 +61,10 @@
         {
             "id": "golbat-3",
             "pokemon": "golbat",
+            "presets": [
+                "wilderness",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

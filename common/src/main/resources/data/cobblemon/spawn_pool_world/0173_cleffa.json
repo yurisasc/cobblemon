@@ -6,6 +6,9 @@
         {
             "id": "cleffa-1",
             "pokemon": "cleffa",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -23,7 +26,8 @@
             "id": "cleffa-2",
             "pokemon": "cleffa",
             "presets": [
-                "underground"
+                "underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -40,6 +44,9 @@
         {
             "id": "cleffa-3",
             "pokemon": "cleffa",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -57,6 +64,9 @@
         {
             "id": "cleffa-4",
             "pokemon": "cleffa",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

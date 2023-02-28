@@ -6,6 +6,9 @@
         {
             "id": "bounsweet-1",
             "pokemon": "bounsweet",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

@@ -6,6 +6,9 @@
         {
             "id": "staryu-1",
             "pokemon": "staryu",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -23,7 +26,8 @@
             "id": "staryu-2",
             "pokemon": "staryu",
             "presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "seafloor",

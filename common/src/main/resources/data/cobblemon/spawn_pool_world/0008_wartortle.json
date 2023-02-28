@@ -7,7 +7,8 @@
             "id": "wartortle-1",
             "pokemon": "wartortle",
             "presets": [
-                "river"
+                "river",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -23,7 +24,8 @@
             "pokemon": "wartortle",
             "presets": [
                 "river",
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

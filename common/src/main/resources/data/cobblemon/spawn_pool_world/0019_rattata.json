@@ -6,6 +6,10 @@
         {
             "id": "rattata-1",
             "pokemon": "rattata",
+            "presets": [
+                "derelict",
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -28,7 +32,8 @@
             "id": "rattata-alolan-1",
             "pokemon": "rattata alolan",
             "presets": [
-                "underground"
+                "underground",
+                "derelict"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -50,6 +55,10 @@
         {
             "id": "rattata-alolan-2",
             "pokemon": "rattata alolan",
+            "presets": [
+                "wilderness",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

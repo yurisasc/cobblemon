@@ -6,6 +6,9 @@
         {
             "id": "omastar-1",
             "pokemon": "omastar",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -23,7 +26,8 @@
             "id": "omastar-2",
             "pokemon": "omastar",
 			"presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",
@@ -41,7 +45,8 @@
             "id": "omastar-3",
             "pokemon": "omastar",
             "presets": [
-                "underground"
+                "underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -60,7 +65,8 @@
             "pokemon": "omastar",
             "presets": [
                 "underwater",
-				"underground"
+				"underground",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

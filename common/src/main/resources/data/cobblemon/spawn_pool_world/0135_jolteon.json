@@ -6,6 +6,9 @@
         {
             "id": "jolteon-1",
             "pokemon": "jolteon",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",

@@ -6,6 +6,9 @@
         {
             "id": "pyukumuku-1",
             "pokemon": "pyukumuku",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -22,7 +25,8 @@
             "id": "pyukumuku-2",
             "pokemon": "pyukumuku",
             "presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",
@@ -45,7 +49,8 @@
             "id": "pyukumuku-3",
             "pokemon": "pyukumuku",
             "presets": [
-                "underwater"
+                "underwater",
+                "wilderness"
             ],
             "type": "pokemon",
             "context": "submerged",

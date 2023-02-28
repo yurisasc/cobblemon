@@ -6,6 +6,9 @@
         {
             "id": "honchkrow-1",
             "pokemon": "honchkrow",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -25,6 +28,9 @@
 		{
             "id": "honchkrow-2",
             "pokemon": "honchkrow",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

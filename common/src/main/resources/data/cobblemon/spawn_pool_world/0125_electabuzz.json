@@ -6,6 +6,9 @@
         {
             "id": "electabuzz-1",
             "pokemon": "electabuzz",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -22,6 +25,9 @@
         {
             "id": "electabuzz-2",
             "pokemon": "electabuzz",
+            "presets": [
+                "wilderness"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
