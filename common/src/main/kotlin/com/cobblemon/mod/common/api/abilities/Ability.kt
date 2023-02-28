@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.api.abilities
 
+import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.MutableText
 
 /**
  * Representing an Ability with all its attributes
@@ -32,24 +32,40 @@ open class Ability internal constructor(var template: AbilityTemplate, var force
     val description: String
         get() = template.description
 
+    var index: Int = -1
+
+    var priority = Priority.HIGHEST
+
     open fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putString(DataKeys.POKEMON_ABILITY_NAME, name)
         nbt.putBoolean(DataKeys.POKEMON_ABILITY_FORCED, forced)
+        nbt.putInt(DataKeys.POKEMON_ABILITY_INDEX, index)
+        nbt.putString(DataKeys.POKEMON_ABILITY_PRIORITY, priority.name)
         return nbt
     }
 
     open fun saveToJSON(json: JsonObject): JsonObject {
         json.addProperty(DataKeys.POKEMON_ABILITY_NAME, name)
         json.addProperty(DataKeys.POKEMON_ABILITY_FORCED, forced)
+        json.addProperty(DataKeys.POKEMON_ABILITY_INDEX, index)
+        json.addProperty(DataKeys.POKEMON_ABILITY_PRIORITY, priority.name)
         return json
     }
 
     open fun loadFromNBT(nbt: NbtCompound): Ability {
         forced = nbt.getBoolean(DataKeys.POKEMON_ABILITY_FORCED)
+        if (nbt.contains(DataKeys.POKEMON_ABILITY_INDEX) && nbt.contains(DataKeys.POKEMON_ABILITY_PRIORITY)) {
+            this.index = nbt.getInt(DataKeys.POKEMON_ABILITY_INDEX)
+            this.priority = Priority.valueOf(nbt.getString(DataKeys.POKEMON_ABILITY_PRIORITY))
+        }
         return this
     }
     open fun loadFromJSON(json: JsonObject): Ability {
         forced = json.get(DataKeys.POKEMON_ABILITY_FORCED)?.asBoolean ?: false
+        if (json.has(DataKeys.POKEMON_ABILITY_INDEX) && json.has(DataKeys.POKEMON_ABILITY_PRIORITY)) {
+            this.index = json.get(DataKeys.POKEMON_ABILITY_INDEX).asInt
+            this.priority = Priority.valueOf(json.get(DataKeys.POKEMON_ABILITY_PRIORITY).asString)
+        }
         return this
     }
 }

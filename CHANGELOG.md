@@ -115,6 +115,7 @@
 - Fixed players being able to use multiple healer machines at once.
 - Fixed Pokémon layers not rendering when a Pokémon is on your shoulder.
 - Fixed Caterpie and Weedle not moving or looking at players. That was meant to be Metapod and Kakuna, how embarrassing.
+- Fixed Pokémon not carrying over the correct equivalent original ability when evolving from stages that only had one ability.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
