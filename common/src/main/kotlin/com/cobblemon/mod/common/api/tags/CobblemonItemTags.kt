@@ -24,7 +24,7 @@ object CobblemonItemTags {
     val APRICORN_SEEDS = create("apricorn_seeds")
     val APRICORNS = create("apricorns")
     val EXPERIENCE_CANDIES = create("experience_candies")
-    val POKEBALLS = create("pokeballs")
+    val POKEBALLS = create("poke_balls")
     val ANY_HELD_ITEM = create("held/is_held_item")
     val EXPERIENCE_SHARE = create("held/experience_share")
     val LUCKY_EGG = create("held/lucky_egg")
