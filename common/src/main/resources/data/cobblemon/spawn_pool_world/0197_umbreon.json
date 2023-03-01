@@ -7,7 +7,7 @@
             "id": "umbreon-1",
             "pokemon": "umbreon",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

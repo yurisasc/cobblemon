@@ -7,7 +7,7 @@
             "id": "parasect-1",
             "pokemon": "parasect",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "parasect-2",
             "pokemon": "parasect",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -44,7 +44,7 @@
             "pokemon": "parasect",
 			"presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

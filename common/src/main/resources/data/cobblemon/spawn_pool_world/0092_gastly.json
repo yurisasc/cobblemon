@@ -8,7 +8,7 @@
             "pokemon": "gastly",
             "presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -27,7 +27,7 @@
             "pokemon": "gastly",
             "presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -51,7 +51,7 @@
             "id": "gastly-3",
             "pokemon": "gastly",
             "presets": [
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",
@@ -71,7 +71,7 @@
             "id": "gastly-4",
             "pokemon": "gastly",
             "presets": [
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",

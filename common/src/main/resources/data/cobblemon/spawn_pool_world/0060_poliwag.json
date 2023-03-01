@@ -8,7 +8,7 @@
             "pokemon": "poliwag",
             "presets": [
                 "freshwater",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -28,8 +28,7 @@
             "pokemon": "poliwag",
             "presets": [
                 "freshwater",
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",

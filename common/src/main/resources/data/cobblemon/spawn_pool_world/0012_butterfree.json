@@ -7,7 +7,7 @@
             "id": "butterfree-1",
             "pokemon": "butterfree",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -32,7 +32,7 @@
             "id": "butterfree-valencian-1",
             "pokemon": "butterfree valencian",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

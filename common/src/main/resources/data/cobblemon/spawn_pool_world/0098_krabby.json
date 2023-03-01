@@ -7,7 +7,7 @@
             "id": "krabby-1",
             "pokemon": "krabby",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

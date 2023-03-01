@@ -7,7 +7,7 @@
             "id": "magmar-1",
             "pokemon": "magmar",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -34,7 +34,7 @@
             "id": "magmar-2",
             "pokemon": "magmar",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -53,7 +53,7 @@
             "id": "magmar-3",
             "pokemon": "magmar",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

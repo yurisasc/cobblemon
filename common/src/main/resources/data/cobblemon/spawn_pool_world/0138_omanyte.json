@@ -7,7 +7,7 @@
             "id": "omanyte-1",
             "pokemon": "omanyte",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,8 +26,7 @@
             "id": "omanyte-2",
             "pokemon": "omanyte",
 			"presets": [
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",
@@ -46,7 +45,7 @@
             "pokemon": "omanyte",
             "presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -65,8 +64,7 @@
             "pokemon": "omanyte",
             "presets": [
 				"underwater",
-                "underground",
-                "wilderness"
+                "underground"
             ],
             "type": "pokemon",
             "context": "submerged",

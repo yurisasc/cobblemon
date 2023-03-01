@@ -7,7 +7,7 @@
             "id": "hitmonlee-1",
             "pokemon": "hitmonlee",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

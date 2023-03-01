@@ -7,7 +7,7 @@
             "id": "blaziken-1",
             "pokemon": "blaziken",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

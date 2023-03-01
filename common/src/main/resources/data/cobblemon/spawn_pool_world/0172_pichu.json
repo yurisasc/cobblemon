@@ -7,7 +7,7 @@
             "id": "pichu-1",
             "pokemon": "pichu",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

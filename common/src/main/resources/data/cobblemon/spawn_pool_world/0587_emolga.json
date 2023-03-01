@@ -7,7 +7,8 @@
             "id": "emolga-1",
             "pokemon": "emolga",
             "presets": [
-                "wilderness"
+                "natural",
+				"treetop"
             ],
             "type": "pokemon",
             "context": "grounded",

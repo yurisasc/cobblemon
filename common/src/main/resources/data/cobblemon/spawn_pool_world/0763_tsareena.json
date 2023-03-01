@@ -7,7 +7,7 @@
             "id": "tsareena-1",
             "pokemon": "tsareena",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -8,7 +8,7 @@
             "pokemon": "steelix",
             "presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

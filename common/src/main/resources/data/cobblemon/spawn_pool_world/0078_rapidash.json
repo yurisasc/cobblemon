@@ -7,7 +7,7 @@
             "id": "rapidash-1",
             "pokemon": "rapidash",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -27,7 +27,7 @@
             "id": "rapidash-2",
             "pokemon": "rapidash",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -7,7 +7,7 @@
             "id": "sandshrew-1",
             "pokemon": "sandshrew",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

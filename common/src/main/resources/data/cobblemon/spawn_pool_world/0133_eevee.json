@@ -7,7 +7,7 @@
             "id": "eevee-1",
             "pokemon": "eevee",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

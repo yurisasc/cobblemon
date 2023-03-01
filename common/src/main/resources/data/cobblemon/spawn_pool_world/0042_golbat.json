@@ -7,7 +7,7 @@
             "id": "golbat-1",
             "pokemon": "golbat",
             "presets": [
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",
@@ -62,7 +62,7 @@
             "id": "golbat-3",
             "pokemon": "golbat",
             "presets": [
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",

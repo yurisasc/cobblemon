@@ -7,7 +7,7 @@
             "id": "litten-1",
             "pokemon": "litten",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

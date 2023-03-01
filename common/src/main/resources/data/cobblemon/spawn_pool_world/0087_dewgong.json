@@ -7,7 +7,7 @@
             "id": "dewgong-1",
             "pokemon": "dewgong",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,8 +25,7 @@
             "id": "dewgong-2",
             "pokemon": "dewgong",
             "presets": [
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",

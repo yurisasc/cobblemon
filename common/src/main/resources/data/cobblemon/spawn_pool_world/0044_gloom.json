@@ -7,7 +7,7 @@
             "id": "gloom-1",
             "pokemon": "gloom",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,7 +26,7 @@
             "id": "gloom-2",
             "pokemon": "gloom",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -45,7 +45,7 @@
             "id": "gloom-valencian-1",
             "pokemon": "gloom valencian",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

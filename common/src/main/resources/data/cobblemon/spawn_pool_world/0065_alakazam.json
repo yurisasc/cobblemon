@@ -7,7 +7,7 @@
             "id": "alakazam-1",
             "pokemon": "alakazam",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

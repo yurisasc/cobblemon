@@ -7,7 +7,7 @@
             "id": "nidorino-1",
             "pokemon": "nidorino",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

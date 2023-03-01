@@ -7,7 +7,7 @@
             "id": "piplup-1",
             "pokemon": "piplup",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,8 +25,7 @@
             "id": "piplup-2",
             "pokemon": "piplup",
             "presets": [
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",

@@ -7,7 +7,7 @@
             "id": "sizzlipede-1",
             "pokemon": "sizzlipede",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "sizzlipede-2",
             "pokemon": "sizzlipede",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

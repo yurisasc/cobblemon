@@ -7,7 +7,7 @@
             "id": "ponyta-1",
             "pokemon": "ponyta",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -27,7 +27,7 @@
             "id": "ponyta-2",
             "pokemon": "ponyta",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

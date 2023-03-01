@@ -7,7 +7,7 @@
             "id": "seel-1",
             "pokemon": "seel",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,8 +25,7 @@
             "id": "seel-2",
             "pokemon": "seel",
             "presets": [
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",

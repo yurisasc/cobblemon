@@ -7,7 +7,7 @@
             "id": "mankey-1",
             "pokemon": "mankey",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",

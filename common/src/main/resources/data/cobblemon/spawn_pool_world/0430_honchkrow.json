@@ -7,7 +7,8 @@
             "id": "honchkrow-1",
             "pokemon": "honchkrow",
             "presets": [
-                "wilderness"
+                "natural",
+				"treetop"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -29,7 +30,8 @@
             "id": "honchkrow-2",
             "pokemon": "honchkrow",
             "presets": [
-                "wilderness"
+                "natural",
+				"treetop"
             ],
             "type": "pokemon",
             "context": "grounded",

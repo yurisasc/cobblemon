@@ -7,7 +7,7 @@
             "id": "clefairy-1",
             "pokemon": "clefairy",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

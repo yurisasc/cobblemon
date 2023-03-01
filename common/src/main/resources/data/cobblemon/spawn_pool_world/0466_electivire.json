@@ -7,7 +7,7 @@
             "id": "electivire-1",
             "pokemon": "electivire",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -34,6 +34,9 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_plains"
+                ],
+				"neededNearbyBlocks": [
+                    "minecraft:lightning_rod"
                 ]
             }
         }

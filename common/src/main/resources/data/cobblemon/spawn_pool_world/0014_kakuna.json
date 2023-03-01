@@ -7,7 +7,7 @@
             "id": "kakuna-1",
             "pokemon": "kakuna",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",

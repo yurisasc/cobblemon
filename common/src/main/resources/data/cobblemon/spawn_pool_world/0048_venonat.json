@@ -7,8 +7,7 @@
             "id": "venonat-1",
             "pokemon": "venonat",
             "presets": [
-                "wilderness",
-                "treetop"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

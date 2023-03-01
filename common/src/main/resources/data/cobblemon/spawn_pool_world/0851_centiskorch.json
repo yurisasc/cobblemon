@@ -7,7 +7,7 @@
             "id": "centiskorch-1",
             "pokemon": "centiskorch",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "centiskorch-2",
             "pokemon": "centiskorch",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

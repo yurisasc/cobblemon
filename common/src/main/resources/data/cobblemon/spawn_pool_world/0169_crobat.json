@@ -7,7 +7,7 @@
             "id": "crobat-1",
             "pokemon": "crobat",
             "presets": [
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",
@@ -39,7 +39,7 @@
             "pokemon": "crobat",
             "presets": [
                 "underground",
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",
@@ -63,7 +63,7 @@
             "id": "crobat-3",
             "pokemon": "crobat",
             "presets": [
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",

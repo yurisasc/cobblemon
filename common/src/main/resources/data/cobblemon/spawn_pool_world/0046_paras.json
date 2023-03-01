@@ -7,7 +7,7 @@
             "id": "paras-1",
             "pokemon": "paras",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "paras-2",
             "pokemon": "paras",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -44,7 +44,7 @@
             "pokemon": "paras",
 			"presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

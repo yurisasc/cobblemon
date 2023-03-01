@@ -8,7 +8,7 @@
             "pokemon": "golduck",
             "presets": [
                 "freshwater",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -24,8 +24,7 @@
             "pokemon": "golduck",
             "presets": [
                 "freshwater",
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",

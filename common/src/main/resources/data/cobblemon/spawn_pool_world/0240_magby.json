@@ -7,7 +7,7 @@
             "id": "magby-1",
             "pokemon": "magby",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -34,7 +34,7 @@
             "id": "magby-2",
             "pokemon": "magby",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -53,7 +53,7 @@
             "id": "magby-3",
             "pokemon": "magby",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

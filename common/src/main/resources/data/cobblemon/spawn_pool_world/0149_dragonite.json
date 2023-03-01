@@ -8,7 +8,7 @@
             "pokemon": "dragonite",
             "presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -29,7 +29,7 @@
             "id": "dragonite-2",
             "pokemon": "dragonite",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

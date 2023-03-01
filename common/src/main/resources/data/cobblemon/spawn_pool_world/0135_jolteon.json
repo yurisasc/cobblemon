@@ -7,7 +7,7 @@
             "id": "jolteon-1",
             "pokemon": "jolteon",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

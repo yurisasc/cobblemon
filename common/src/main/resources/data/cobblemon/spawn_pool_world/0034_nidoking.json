@@ -7,7 +7,7 @@
             "id": "nidoking-1",
             "pokemon": "nidoking",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

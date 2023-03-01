@@ -7,7 +7,7 @@
             "id": "prinplup-1",
             "pokemon": "prinplup",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,8 +25,7 @@
             "id": "prinplup-2",
             "pokemon": "prinplup",
             "presets": [
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",

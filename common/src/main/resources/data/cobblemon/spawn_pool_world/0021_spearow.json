@@ -7,7 +7,7 @@
             "id": "spearow-1",
             "pokemon": "spearow",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",

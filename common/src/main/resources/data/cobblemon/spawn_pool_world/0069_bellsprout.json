@@ -7,7 +7,7 @@
             "id": "bellsprout-1",
             "pokemon": "bellsprout",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

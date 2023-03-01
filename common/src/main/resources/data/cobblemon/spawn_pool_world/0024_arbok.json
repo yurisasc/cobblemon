@@ -7,7 +7,7 @@
             "id": "arbok-1",
             "pokemon": "arbok",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "arbok-dark-1",
             "pokemon": "arbok snake-pattern=dark",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -7,7 +7,7 @@
             "id": "caterpie-1",
             "pokemon": "caterpie",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",
@@ -31,6 +31,7 @@
             "id": "caterpie-2",
             "pokemon": "caterpie",
             "presets": [
+				"natural",
                 "foliage",
                 "treetop"
             ],
@@ -50,7 +51,7 @@
             "id": "caterpie-valencian-1",
             "pokemon": "caterpie valencian",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",

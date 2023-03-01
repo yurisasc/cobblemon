@@ -7,7 +7,7 @@
             "id": "maractus-1",
             "pokemon": "maractus",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -7,7 +7,7 @@
             "id": "aerodactyl-1",
             "pokemon": "aerodactyl",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,7 +26,7 @@
             "pokemon": "aerodactyl",
             "presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

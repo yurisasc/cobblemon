@@ -7,7 +7,7 @@
             "id": "ekans-1",
             "pokemon": "ekans",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "ekans-dark-1",
             "pokemon": "ekans snake-pattern=dark",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

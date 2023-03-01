@@ -7,7 +7,7 @@
             "id": "tangela-1",
             "pokemon": "tangela",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

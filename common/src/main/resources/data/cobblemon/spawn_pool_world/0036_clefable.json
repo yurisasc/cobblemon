@@ -7,7 +7,7 @@
             "id": "clefable-1",
             "pokemon": "clefable",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

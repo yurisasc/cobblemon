@@ -7,7 +7,7 @@
             "id": "magnemite-1",
             "pokemon": "magnemite",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

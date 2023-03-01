@@ -7,7 +7,7 @@
             "id": "hitmonchan-1",
             "pokemon": "hitmonchan",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

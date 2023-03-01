@@ -7,7 +7,7 @@
             "id": "igglybuff-1",
             "pokemon": "igglybuff",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "igglybuff-2",
             "pokemon": "igglybuff",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

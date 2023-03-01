@@ -7,7 +7,7 @@
             "id": "zubat-1",
             "pokemon": "zubat",
             "presets": [
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",
@@ -62,7 +62,7 @@
             "id": "zubat-3",
             "pokemon": "zubat",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -7,7 +7,7 @@
             "id": "espeon-1",
             "pokemon": "espeon",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

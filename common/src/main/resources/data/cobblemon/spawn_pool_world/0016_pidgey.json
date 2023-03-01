@@ -7,7 +7,7 @@
             "id": "pidgey-1",
             "pokemon": "pidgey",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",

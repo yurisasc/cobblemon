@@ -8,7 +8,7 @@
             "pokemon": "hypno",
             "presets": [
                 "urban",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

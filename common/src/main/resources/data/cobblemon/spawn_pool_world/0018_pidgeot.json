@@ -7,7 +7,7 @@
             "id": "pidgeot-1",
             "pokemon": "pidgeot",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",

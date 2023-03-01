@@ -7,7 +7,8 @@
             "id": "rowlet-1",
             "pokemon": "rowlet",
             "presets": [
-                "wilderness"
+                "natural",
+				"treetop"
             ],
             "type": "pokemon",
             "context": "grounded",

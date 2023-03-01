@@ -8,7 +8,7 @@
             "pokemon": "dugtrio",
             "presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

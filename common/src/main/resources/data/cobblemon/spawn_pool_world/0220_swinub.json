@@ -7,7 +7,7 @@
             "id": "swinub-1",
             "pokemon": "swinub",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

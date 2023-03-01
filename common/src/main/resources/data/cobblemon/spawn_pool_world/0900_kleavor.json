@@ -7,7 +7,7 @@
             "id": "kleavor-1",
             "pokemon": "kleavor",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

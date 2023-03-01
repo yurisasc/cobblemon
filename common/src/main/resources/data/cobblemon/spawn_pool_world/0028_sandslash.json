@@ -7,7 +7,7 @@
             "id": "sandslash-1",
             "pokemon": "sandslash",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

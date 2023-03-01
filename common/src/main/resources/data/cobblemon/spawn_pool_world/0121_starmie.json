@@ -7,7 +7,7 @@
             "id": "starmie-1",
             "pokemon": "starmie",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,8 +26,7 @@
             "id": "starmie-2",
             "pokemon": "starmie",
             "presets": [
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "seafloor",

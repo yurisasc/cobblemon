@@ -7,7 +7,7 @@
             "id": "fearow-1",
             "pokemon": "fearow",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",

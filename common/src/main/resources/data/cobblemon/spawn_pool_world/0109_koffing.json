@@ -7,7 +7,7 @@
             "id": "koffing-1",
             "pokemon": "koffing",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "koffing-2",
             "pokemon": "koffing",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

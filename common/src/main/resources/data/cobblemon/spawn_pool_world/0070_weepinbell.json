@@ -7,7 +7,7 @@
             "id": "weepinbell-1",
             "pokemon": "weepinbell",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

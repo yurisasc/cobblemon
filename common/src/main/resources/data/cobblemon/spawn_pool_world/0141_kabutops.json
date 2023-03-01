@@ -7,7 +7,7 @@
             "id": "kabutops-1",
             "pokemon": "kabutops",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,8 +26,7 @@
             "id": "kabutops-2",
             "pokemon": "kabutops",
 			"presets": [
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",
@@ -46,7 +45,7 @@
             "pokemon": "kabutops",
             "presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -65,8 +64,7 @@
             "pokemon": "kabutops",
             "presets": [
                 "underwater",
-				"underground",
-                "wilderness"
+				"underground"
             ],
             "type": "pokemon",
             "context": "submerged",

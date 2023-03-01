@@ -7,7 +7,7 @@
             "id": "flareon-1",
             "pokemon": "flareon",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

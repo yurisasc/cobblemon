@@ -7,7 +7,7 @@
             "id": "elekid-1",
             "pokemon": "elekid",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,7 +26,7 @@
             "id": "elekid-2",
             "pokemon": "elekid",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

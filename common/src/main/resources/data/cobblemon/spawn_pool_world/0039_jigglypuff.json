@@ -7,7 +7,7 @@
             "id": "jigglypuff-1",
             "pokemon": "jigglypuff",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "jigglypuff-2",
             "pokemon": "jigglypuff",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

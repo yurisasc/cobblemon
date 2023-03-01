@@ -7,7 +7,8 @@
             "id": "decidueye-1",
             "pokemon": "decidueye",
             "presets": [
-                "wilderness"
+                "natural",
+				"treetop"
             ],
             "type": "pokemon",
             "context": "grounded",

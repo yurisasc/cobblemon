@@ -8,7 +8,7 @@
             "pokemon": "seadra",
             "presets": [
                 "underwater",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "submerged",

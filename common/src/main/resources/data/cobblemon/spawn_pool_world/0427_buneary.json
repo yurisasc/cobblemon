@@ -7,7 +7,7 @@
             "id": "buneary-1",
             "pokemon": "buneary",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -7,7 +7,7 @@
             "id": "charmeleon-1",
             "pokemon": "charmeleon",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

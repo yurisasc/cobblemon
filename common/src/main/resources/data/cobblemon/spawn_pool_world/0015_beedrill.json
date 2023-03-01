@@ -7,7 +7,7 @@
             "id": "beedrill-1",
             "pokemon": "beedrill",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

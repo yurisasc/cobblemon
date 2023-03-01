@@ -7,7 +7,7 @@
             "id": "nidoranm-1",
             "pokemon": "nidoranm",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

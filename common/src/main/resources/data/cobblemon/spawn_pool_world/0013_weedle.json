@@ -7,7 +7,7 @@
             "id": "weedle-1",
             "pokemon": "weedle",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",

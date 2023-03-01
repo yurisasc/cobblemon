@@ -7,7 +7,7 @@
             "id": "deerling-1",
             "pokemon": "deerling",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

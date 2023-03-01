@@ -7,7 +7,7 @@
             "id": "marshtomp-1",
             "pokemon": "marshtomp",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,8 +26,7 @@
             "id": "marshtomp-2",
             "pokemon": "marshtomp",
             "presets": [
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",

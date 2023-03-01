@@ -7,7 +7,7 @@
             "id": "primeape-1",
             "pokemon": "primeape",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",

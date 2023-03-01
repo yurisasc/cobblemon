@@ -7,7 +7,7 @@
             "id": "tyrogue-1",
             "pokemon": "tyrogue",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

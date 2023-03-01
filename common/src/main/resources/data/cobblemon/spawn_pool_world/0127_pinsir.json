@@ -7,7 +7,7 @@
             "id": "pinsir-1",
             "pokemon": "pinsir",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",

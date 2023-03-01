@@ -7,7 +7,7 @@
             "id": "abra-1",
             "pokemon": "abra",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

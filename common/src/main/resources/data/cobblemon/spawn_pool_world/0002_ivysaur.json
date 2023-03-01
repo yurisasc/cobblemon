@@ -7,7 +7,7 @@
             "id": "ivysaur-1",
             "pokemon": "ivysaur",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

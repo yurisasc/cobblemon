@@ -8,7 +8,7 @@
             "pokemon": "happiny",
             "presets": [
                 "urban",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

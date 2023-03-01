@@ -8,7 +8,7 @@
             "pokemon": "bidoof",
 			"presets": [
                 "freshwater",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -24,11 +24,9 @@
             "pokemon": "bidoof",
 			"presets": [
                 "freshwater",
-                "underwater",
-                "wilderness"
+				"water_surface"
             ],
             "type": "pokemon",
-            "context": "fluid-surface",
             "bucket": "common",
             "level": "1-25",
             "weight": 9.0,

@@ -7,7 +7,7 @@
             "id": "dwebble-1",
             "pokemon": "dwebble",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

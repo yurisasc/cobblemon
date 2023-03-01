@@ -7,7 +7,7 @@
             "id": "sylveon-1",
             "pokemon": "sylveon",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

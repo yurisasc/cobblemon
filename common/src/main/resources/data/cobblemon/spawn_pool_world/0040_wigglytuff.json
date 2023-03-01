@@ -7,7 +7,7 @@
             "id": "wigglytuff-1",
             "pokemon": "wigglytuff",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "wigglytuff-2",
             "pokemon": "wigglytuff",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

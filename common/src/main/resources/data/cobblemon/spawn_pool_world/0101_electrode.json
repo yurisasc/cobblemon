@@ -8,7 +8,7 @@
             "pokemon": "electrode",
             "presets": [
                 "urban",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

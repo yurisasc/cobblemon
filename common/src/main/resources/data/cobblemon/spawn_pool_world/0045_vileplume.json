@@ -7,7 +7,7 @@
             "id": "vileplume-1",
             "pokemon": "vileplume",
             "presets": [
-                "wilderness",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",
@@ -27,7 +27,7 @@
             "id": "vileplume-2",
             "pokemon": "vileplume",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -46,7 +46,7 @@
             "id": "vileplume-valencian-1",
             "pokemon": "vileplume valencian",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

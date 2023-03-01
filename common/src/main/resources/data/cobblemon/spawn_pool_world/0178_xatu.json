@@ -7,7 +7,8 @@
             "id": "xatu-1",
             "pokemon": "xatu",
             "presets": [
-                "wilderness"
+                "natural",
+				"treetop"
             ],
             "type": "pokemon",
             "context": "grounded",

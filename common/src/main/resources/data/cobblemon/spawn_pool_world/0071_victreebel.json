@@ -7,7 +7,7 @@
             "id": "victreebel-1",
             "pokemon": "victreebel",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -7,7 +7,7 @@
             "id": "swampert-1",
             "pokemon": "swampert",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,8 +26,7 @@
             "id": "swampert-2",
             "pokemon": "swampert",
             "presets": [
-                "underwater",
-                "wilderness"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",

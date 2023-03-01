@@ -7,7 +7,7 @@
             "id": "scyther-1",
             "pokemon": "scyther",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -31,7 +31,7 @@
             "id": "scyther-2",
             "pokemon": "scyther",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

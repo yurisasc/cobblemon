@@ -8,7 +8,7 @@
             "pokemon": "smoochum",
             "presets": [
                 "urban",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

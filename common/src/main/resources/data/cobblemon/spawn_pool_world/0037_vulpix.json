@@ -7,7 +7,7 @@
             "id": "vulpix-1",
             "pokemon": "vulpix",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

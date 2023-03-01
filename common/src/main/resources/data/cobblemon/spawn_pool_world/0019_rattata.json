@@ -8,7 +8,7 @@
             "pokemon": "rattata",
             "presets": [
                 "derelict",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -56,7 +56,7 @@
             "id": "rattata-alolan-2",
             "pokemon": "rattata alolan",
             "presets": [
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",

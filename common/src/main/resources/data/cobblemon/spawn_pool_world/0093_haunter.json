@@ -8,7 +8,7 @@
             "pokemon": "haunter",
             "presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -27,7 +27,7 @@
             "pokemon": "haunter",
             "presets": [
                 "underground",
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -51,7 +51,7 @@
             "id": "haunter-3",
             "pokemon": "haunter",
             "presets": [
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",
@@ -71,7 +71,7 @@
             "id": "haunter-4",
             "pokemon": "haunter",
             "presets": [
-                "wilderness",
+                "natural",
                 "derelict"
             ],
             "type": "pokemon",

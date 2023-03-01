@@ -7,7 +7,7 @@
             "id": "steenee-1",
             "pokemon": "steenee",
             "presets": [
-                "wilderness"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
