@@ -16,7 +16,9 @@ import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.scheduling.ScheduledTask
 import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
@@ -41,6 +43,7 @@ import com.cobblemon.mod.common.util.setPositionSafely
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.atomic.AtomicInteger
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
@@ -237,9 +240,8 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         return
     }
 
-    override fun shouldSave(): Boolean {
-        return false
-    }
+    // Poké Balls don't save to the world.
+    override fun shouldSave() = false
 
     override fun tick() {
         delegate.tick(this)
@@ -259,12 +261,8 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
             }
 
             if (captureState.get() == CaptureState.FALL.ordinal.toByte()) {
-                after(ticks = 30) {
-                    velocity = Vec3d.ZERO
-                    setNoGravity(true)
-                    isOnGround = true
-                }
                 if (isOnGround) {
+                    // We have hit the ground, time to stop falling and start shaking! Calculate capture.
                     capturingPokemon?.setPositionSafely(pos)
                     captureState.set(CaptureState.SHAKE.ordinal.toByte())
                     val captureResult = Cobblemon.config.captureCalculator.processCapture(owner as ServerPlayerEntity, pokeBall, capturingPokemon!!.pokemon)
@@ -279,60 +277,59 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
                             .delay(SECONDS_BEFORE_SHAKE)
                             .interval(SECONDS_BETWEEN_SHAKES)
                             .execute {
-                                if (capturingPokemon?.isAlive != true) {
-                                    discard()
-                                }
-
-                                if (!isAlive) {
-                                    it.expire()
-                                    return@execute
-                                }
-
-                                if (rollsRemaining <= 0) {
-                                    if (captureResult.isSuccessfulCapture) {
-                                        captureState.set((if (captureResult.isCriticalCapture) CaptureState.CAPTURED_CRITICAL else CaptureState.CAPTURED).ordinal.toByte())
-                                        // Do a capture
-                                        world.sendParticlesServer(ParticleTypes.CRIT, pos, 10, Vec3d(0.1, -0.5, 0.1), 0.2)
-                                        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED.get(), volume = 0.3F, pitch = 1F)
-                                        val pokemon = capturingPokemon ?: return@execute
-                                        val player = this.owner as? ServerPlayerEntity ?: return@execute
-
-                                        afterOnMain(seconds = 1F) {
-                                            pokemon.discard()
-                                            discard()
-                                            captureFuture.complete(true)
-                                            val party = Cobblemon.storage.getParty(player.uuid)
-                                            pokemon.pokemon.caughtBall = pokeBall
-                                            pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
-                                            party.add(pokemon.pokemon)
-                                            CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
-                                        }
-
-                                        return@execute
-                                    } else {
-                                        breakFree()
-                                    }
-                                    return@execute
-                                }
-
+                                shakeBall(it, rollsRemaining, captureResult)
                                 rollsRemaining--
-                                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE.get())
-                                shakeEmitter.set(!shakeEmitter.get())
                             }
                             .build()
                 }
             }
         }
 
-        /*if (captureState.get() == CaptureState.NOT.ordinal.toByte()) {
-            yaw = ((MathHelper.atan2(velocity.x, velocity.z) * 180 / Math.PI).toFloat())
-            println("It's in the air so $yaw")
-        } else */
-
+        // Look at the target, if the target is known.
         if (hitTargetPosition.get().length() != 0.0) {
             val diff = hitTargetPosition.get().subtract(pos)
             yaw = ((MathHelper.atan2(diff.x, diff.z) * 180 / Math.PI).toFloat())
         }
+    }
+
+    private fun shakeBall(task: ScheduledTask, rollsRemaining: Int, captureResult: CaptureContext) {
+        if (capturingPokemon?.isAlive != true) {
+            discard()
+        }
+
+        if (!isAlive) {
+            task.expire()
+            return
+        }
+
+        if (rollsRemaining <= 0) {
+            if (captureResult.isSuccessfulCapture) {
+                captureState.set((if (captureResult.isCriticalCapture) CaptureState.CAPTURED_CRITICAL else CaptureState.CAPTURED).ordinal.toByte())
+                // Do a capture
+                world.sendParticlesServer(ParticleTypes.CRIT, pos, 10, Vec3d(0.1, -0.5, 0.1), 0.2)
+                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED.get(), volume = 0.3F, pitch = 1F)
+                val pokemon = capturingPokemon ?: return
+                val player = this.owner as? ServerPlayerEntity ?: return
+
+                afterOnMain(seconds = 1F) {
+                    pokemon.discard()
+                    discard()
+                    captureFuture.complete(true)
+                    val party = Cobblemon.storage.getParty(player.uuid)
+                    pokemon.pokemon.caughtBall = pokeBall
+                    pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
+                    party.add(pokemon.pokemon)
+                    CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
+                }
+                return
+            } else {
+                breakFree()
+            }
+            return
+        }
+
+        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE.get())
+        shakeEmitter.set(!shakeEmitter.get())
     }
 
     private fun breakFree() {
@@ -377,9 +374,11 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         captureState.set(CaptureState.HIT.ordinal.toByte())
         val mul = if (random.nextBoolean()) 1 else -1
         world.playSoundServer(pos, CobblemonSounds.POKE_BALL_HIT.get())
+        // Bounce backwards away from the hit Pokémon
         velocity = displace.multiply(-1.0, 0.0, -1.0).normalize().rotateY(mul * PI/3).multiply(0.1, 0.0, 0.1).add(0.0, 1.0 / 3, 0.0)
         pokemonEntity.phasingTargetId.set(this.id)
         afterOnMain(seconds = 0.7F) {
+            // Start beaming them up.
             velocity = Vec3d.ZERO
             setNoGravity(true)
             world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED.get(), volume = 0.2F)
@@ -387,10 +386,19 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         }
 
         afterOnMain(seconds = 2.2F) {
+            // Time to begin falling
             pokemonEntity.phasingTargetId.set(-1)
             pokemonEntity.beamModeEmitter.set(0.toByte())
             pokemonEntity.isInvisible = true
             captureState.set(CaptureState.FALL.ordinal.toByte())
+            after(seconds = 1.5F) {
+                // If it was still falling after a second and a half, just assume it's landed because we can't wait all day.
+                if (captureState.get() == CaptureState.FALL.ordinal.toByte()) {
+                    velocity = Vec3d.ZERO
+                    setNoGravity(true)
+                    isOnGround = true
+                }
+            }
         }
     }
 

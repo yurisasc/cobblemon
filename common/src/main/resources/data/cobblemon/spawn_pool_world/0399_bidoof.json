@@ -22,8 +22,8 @@
             "id": "bidoof-2",
             "pokemon": "bidoof",
 			"presets": [
-                "freshwater",
-                "water_surface"
+                "water_surface",
+                "freshwater"
             ],
             "type": "pokemon",
             "bucket": "common",

@@ -85,7 +85,8 @@ data class BedrockAnimation(
                     matrixWrapper = matrixWrapper,
                     world = world,
                     sourceVelocity = { entity.velocity },
-                    sourceAlive = { !entity.isRemoved && particleEffect in state.poseParticles }
+                    sourceAlive = { !entity.isRemoved && particleEffect in state.poseParticles },
+                    sourceVisible = { !entity.isInvisible }
                 )
 
                 state.poseParticles.add(particleEffect)
