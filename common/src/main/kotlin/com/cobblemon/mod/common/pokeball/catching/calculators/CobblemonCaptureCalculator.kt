@@ -71,20 +71,10 @@ object CobblemonCaptureCalculator : CaptureCalculator, CriticalCaptureProvider {
      * - difficulty: A difficulty factor, modified to scale with your own pokemon's level, which is directly affected
      * by the level of the wild pokemon against your own.
      *
-     * Normally, the difficulty factor simply checks if the level of your pokemon is less than the target wild
-     * pokemon. If so, your capture rate is immediately reduced by 90%, making it far more difficult for a
-     * pokeball to succeed in capture. In this implementation, the mechanic scales to your level, so the closer
-     * your pokemon is to the opponent's level, the better the odds. So, if the target pokemon is level 100 and
-     * your pokemon is level 95, you'd only face a 10% reduction. Now, in the event your pokemon is level 5 and
-     * the target is level 10, you'd have a 50% reduction in catch rate potential. This should see a better
-     * difficulty factor for users who simply start and catch the highest level pokemon they can find immediately,
-     * effectively skipping the entire starting phase.
-     *
-     * In the event you throw a pokeball out of battle, the difficulty factor will automatically default to the base
-     * 90% reduction.
-     *
-     * Finally, if your pokemon has a level higher than that of the target, a maximum multiplier of 1 will be applied,
-     * which simply forces this modifier to act as a no-op.
+     * The difficulty modifier makes it so that every level higher the wild pokemon is than the highest level pokemon
+     * in your party, you will receive a 2% reduction in your overall catch rate of that pokemon. For example,
+     * if your highest level is 15 and the wild is 20 you will be hit with a 10% reduction. This reduction maxes out at
+     * 90%. This 90% reduction would take place at a 45 level difference or higher.
      */
     private fun getCatchRate(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon): Float {
         val catchRate = target.form.catchRate.toFloat()
@@ -100,8 +90,13 @@ object CobblemonCaptureCalculator : CaptureCalculator, CriticalCaptureProvider {
         modifiedCatchRate *= bonusLevel
         if (thrower is ServerPlayerEntity) {
             val highestLevelThrower = this.findHighestThrowerLevel(thrower, target) ?: return modifiedCatchRate
-            val difficulty = min(1F, max(33F / 100F, highestLevelThrower.toFloat() / target.level))
-            modifiedCatchRate *= difficulty
+            if (highestLevelThrower < target.level) {
+                var difficulty : Float = 1F - ((target.level - highestLevelThrower) * 2 ) / 100
+                if (difficulty < 0.1F) {
+                        difficulty = 0.1F
+                }
+                modifiedCatchRate *= difficulty
+            }
         }
         return modifiedCatchRate
     }
