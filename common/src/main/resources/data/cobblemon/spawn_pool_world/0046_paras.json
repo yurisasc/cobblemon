@@ -6,6 +6,9 @@
         {
             "id": "paras-1",
             "pokemon": "paras",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -21,6 +24,9 @@
         {
             "id": "paras-2",
             "pokemon": "paras",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -37,7 +43,8 @@
             "id": "paras-3",
             "pokemon": "paras",
 			"presets": [
-                "underground"
+                "underground",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

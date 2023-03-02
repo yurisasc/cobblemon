@@ -6,6 +6,9 @@
         {
             "id": "ditto-1",
             "pokemon": "ditto",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -22,7 +25,8 @@
             "id": "ditto-2",
             "pokemon": "ditto",
             "presets": [
-                "underground"
+                "underground",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

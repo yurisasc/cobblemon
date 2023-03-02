@@ -6,6 +6,10 @@
         {
             "id": "raticate-1",
             "pokemon": "raticate",
+            "presets": [
+                "natural",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -28,7 +32,8 @@
             "id": "raticate-alolan-1",
             "pokemon": "raticate alolan",
             "presets": [
-                "underground"
+                "underground",
+                "derelict"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -50,6 +55,10 @@
         {
             "id": "raticate-alolan-2",
             "pokemon": "raticate alolan",
+            "presets": [
+                "natural",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

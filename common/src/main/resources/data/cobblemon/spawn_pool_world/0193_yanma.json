@@ -7,10 +7,10 @@
             "id": "yanma-1",
             "pokemon": "yanma",
             "presets": [
-                "freshwater"
+                "freshwater",
+                "water_surface"
             ],
             "type": "pokemon",
-            "context": "grounded",
             "bucket": "common",
             "level": "11-39",
             "weight": 5.4,

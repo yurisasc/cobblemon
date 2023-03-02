@@ -6,6 +6,10 @@
         {
             "id": "zubat-1",
             "pokemon": "zubat",
+            "presets": [
+                "natural",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -34,7 +38,8 @@
             "id": "zubat-2",
             "pokemon": "zubat",
             "presets": [
-                "underground"
+                "underground",
+                "derelict"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -56,6 +61,9 @@
         {
             "id": "zubat-3",
             "pokemon": "zubat",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

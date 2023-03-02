@@ -7,7 +7,8 @@
             "id": "poliwhirl-1",
             "pokemon": "poliwhirl",
             "presets": [
-                "freshwater"
+                "freshwater",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

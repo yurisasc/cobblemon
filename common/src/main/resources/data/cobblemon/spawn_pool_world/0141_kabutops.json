@@ -6,6 +6,9 @@
         {
             "id": "kabutops-1",
             "pokemon": "kabutops",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -41,7 +44,8 @@
             "id": "kabutops-3",
             "pokemon": "kabutops",
             "presets": [
-                "underground"
+                "underground",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

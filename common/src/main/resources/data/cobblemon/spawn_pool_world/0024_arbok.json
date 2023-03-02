@@ -6,6 +6,9 @@
         {
             "id": "arbok-1",
             "pokemon": "arbok",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -21,6 +24,9 @@
         {
             "id": "arbok-dark-1",
             "pokemon": "arbok snake-pattern=dark",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

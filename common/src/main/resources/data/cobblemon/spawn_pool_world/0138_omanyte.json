@@ -6,6 +6,9 @@
         {
             "id": "omanyte-1",
             "pokemon": "omanyte",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -41,7 +44,8 @@
             "id": "omanyte-3",
             "pokemon": "omanyte",
             "presets": [
-                "underground"
+                "underground",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

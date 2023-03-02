@@ -6,6 +6,9 @@
         {
             "id": "aerodactyl-1",
             "pokemon": "aerodactyl",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -22,7 +25,8 @@
             "id": "aerodactyl-2",
             "pokemon": "aerodactyl",
             "presets": [
-                "underground"
+                "underground",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

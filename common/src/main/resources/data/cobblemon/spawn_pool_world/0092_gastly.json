@@ -7,7 +7,8 @@
             "id": "gastly-1",
             "pokemon": "gastly",
             "presets": [
-                "underground"
+                "underground",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +26,8 @@
             "id": "gastly-2",
             "pokemon": "gastly",
             "presets": [
-                "underground"
+                "underground",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -48,6 +50,10 @@
         {
             "id": "gastly-3",
             "pokemon": "gastly",
+            "presets": [
+                "natural",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -64,6 +70,10 @@
         {
             "id": "gastly-4",
             "pokemon": "gastly",
+            "presets": [
+                "natural",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

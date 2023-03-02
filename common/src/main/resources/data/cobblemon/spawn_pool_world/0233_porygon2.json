@@ -7,7 +7,8 @@
             "id": "porygon2-1",
             "pokemon": "porygon2",
             "presets": [
-                "urban"
+                "urban",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

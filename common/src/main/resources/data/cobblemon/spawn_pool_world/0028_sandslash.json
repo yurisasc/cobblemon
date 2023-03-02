@@ -6,6 +6,9 @@
         {
             "id": "sandslash-1",
             "pokemon": "sandslash",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

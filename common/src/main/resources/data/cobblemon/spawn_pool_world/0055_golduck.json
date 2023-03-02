@@ -7,7 +7,8 @@
             "id": "golduck-1",
             "pokemon": "golduck",
             "presets": [
-                "freshwater"
+                "freshwater",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

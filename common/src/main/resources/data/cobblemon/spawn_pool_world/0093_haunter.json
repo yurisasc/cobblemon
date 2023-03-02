@@ -7,7 +7,8 @@
             "id": "haunter-1",
             "pokemon": "haunter",
             "presets": [
-                "underground"
+                "underground",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +26,8 @@
             "id": "haunter-2",
             "pokemon": "haunter",
             "presets": [
-                "underground"
+                "underground",
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -48,6 +50,10 @@
         {
             "id": "haunter-3",
             "pokemon": "haunter",
+            "presets": [
+                "natural",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -64,6 +70,10 @@
         {
             "id": "haunter-4",
             "pokemon": "haunter",
+            "presets": [
+                "natural",
+                "derelict"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
