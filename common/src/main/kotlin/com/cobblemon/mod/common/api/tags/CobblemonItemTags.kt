@@ -28,6 +28,8 @@ object CobblemonItemTags {
     val ANY_HELD_ITEM = create("held/is_held_item")
     val EXPERIENCE_SHARE = create("held/experience_share")
     val LUCKY_EGG = create("held/lucky_egg")
+    val EVOLUTION_STONES = create("evolution_stones")
+    val EVOLUTION_ITEMS = create("evolution_items")
 
     /**
      * This tag is only used for a Torterra aspect based easter egg evolution at the moment.
