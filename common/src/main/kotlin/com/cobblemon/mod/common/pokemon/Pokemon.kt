@@ -881,15 +881,29 @@ open class Pokemon : ShowdownIdentifiable {
                 potential.template == this.ability.template
             }
         }
+        val isDummy = this.ability.template == Abilities.DUMMY
 
         // EXPLANATION
         // This is used to keep the same intended ability between evolution stages
         // Between species updates if an original indexed data is attached it will be honored next time that it's possible
         // This is still not a perfect system but it will now only break if players are constantly adding/removing data edits which at that point it's on them
-        if (this.ability.template == Abilities.DUMMY || (!hasLegalAbility && !hasForcedAbility)) {
+        if (isDummy || (!hasLegalAbility && !hasForcedAbility)) {
             var needsSelection = true
             var needsUpdate = true
-            if (this.ability.index > -1) {
+            if (this.ability.index == -1 && !isDummy) {
+                base@ for ((priority, list) in this.form.abilities.mapping) {
+                    for ((index, potential) in list.withIndex()) {
+                        if (potential.template == this.ability.template) {
+                            this.ability.priority = priority
+                            this.ability.index = index
+                            needsUpdate = false
+                            needsSelection = false
+                            break@base
+                        }
+                    }
+                }
+            }
+            else if (this.ability.index >= 0) {
                 needsUpdate = false
                 val potentialAbility = this.form.abilities.mapping[this.ability.priority]?.getOrNull(this.ability.index)
                 if (potentialAbility != null) {
