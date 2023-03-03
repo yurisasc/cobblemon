@@ -37,28 +37,33 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
             val shouldLoop = animationLength > 0 && json["loop"]?.asBoolean == true
             val boneTimelines = mutableMapOf<String, BedrockBoneTimeline>()
             val particleEffects = mutableListOf<BedrockParticleKeyframe>()
-            json["bones"].asJsonObject.entrySet().forEach { (boneName, timeline) ->
+            json["bones"]?.asJsonObject?.entrySet()?.forEach { (boneName, timeline) ->
                 boneTimelines[boneName] = deserializeBoneTimeline(timeline.asJsonObject)
             }
             json["particle_effects"]?.asJsonObject?.entrySet()?.forEach { (frame, effectJson) ->
-                effectJson as JsonObject
-                val effectId = effectJson.get("effect").asString.asIdentifierDefaultingNamespace()
-                val effect = BedrockParticleEffectRepository.getEffect(effectId)
-                    ?: throw IllegalArgumentException("Unrecognized particle effect $effectId referenced in animation. Maybe your particle effect isn't named correctly inside the effect file?")
-                val locator = effectJson.get("locator")?.asString ?: "root"
-                val seconds = frame.toFloat()
-                val scripts = effectJson.get("pre_effect_script")?.asString?.split("\n")?.map { MoLang.createParser(it).parseExpression() } ?: emptyList()
-
-                particleEffects.add(
-                    BedrockParticleKeyframe(
+                fun resolveEffect(jsonObject: JsonObject): BedrockParticleKeyframe {
+                    val effectId = jsonObject.get("effect").asString.asIdentifierDefaultingNamespace()
+                    val effect = BedrockParticleEffectRepository.getEffect(effectId)
+                        ?: throw IllegalArgumentException("Unrecognized particle effect $effectId referenced in animation. Maybe your particle effect isn't named correctly inside the effect file?")
+                    val locator = jsonObject.get("locator")?.asString ?: "root"
+                    val seconds = frame.toFloat()
+                    val scripts = jsonObject.get("pre_effect_script")?.asString?.split("\n")?.map { MoLang.createParser(it).parseExpression() } ?: emptyList()
+                    return BedrockParticleKeyframe(
                         seconds = seconds,
                         effect = effect,
                         locator = locator,
                         scripts = scripts
                     )
-                )
+                }
+
+                if (effectJson is JsonObject) {
+                    particleEffects.add(resolveEffect(effectJson))
+                } else if (effectJson is JsonArray) {
+                    for (effectJsonElement in effectJson) {
+                        particleEffects.add(resolveEffect(effectJsonElement as JsonObject))
+                    }
+                }
             }
-            // TODO it val effects =
             return BedrockAnimation(shouldLoop, animationLength, particleEffects, boneTimelines)
         }
         else {

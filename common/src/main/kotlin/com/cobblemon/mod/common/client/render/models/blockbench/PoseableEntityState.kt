@@ -9,12 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockParticleKeyframe
+import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
+import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.Entity
 
@@ -32,14 +36,20 @@ abstract class PoseableEntityState<T : Entity> {
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
-    var animationPreviousSeconds = 0F
+    var timeEnteredPose = 0F
+    var previousAnimationSeconds = 0F
     var animationSeconds = 0F
     var deltaSeconds = 0F
     var timeLastRendered = System.currentTimeMillis()
     var wasPaused = false
+    val poseParticles = mutableListOf<BedrockParticleKeyframe>()
     val runtime = MoLangRuntime().also {
         it.environment.structs["query"] = it.environment.structs["variable"]
     }
+
+    val locatorStates = mutableMapOf<String, MatrixWrapper>()
+
+    val renderQueue = ConcurrentLinkedQueue<() -> Unit>()
 
     fun isPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.any { it.poseName == currentPose }
     fun isNotPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.none { it.poseName == currentPose }
@@ -62,8 +72,17 @@ abstract class PoseableEntityState<T : Entity> {
 
         timeLastRendered = now
         deltaSeconds = deltaMillis / 1000F
-        animationPreviousSeconds = animationSeconds
+        previousAnimationSeconds = animationSeconds
         animationSeconds += deltaSeconds
+
+        while (renderQueue.peek() != null) {
+            val action = renderQueue.poll()
+            action()
+        }
+    }
+
+    fun doLater(action: () -> Unit) {
+        renderQueue.offer(action)
     }
 
     fun getPose(): String? {
@@ -75,12 +94,18 @@ abstract class PoseableEntityState<T : Entity> {
         val model = currentModel
         if (model != null) {
             val poseImpl = model.getPose(pose) ?: return
+            poseParticles.removeIf { it !in poseImpl.idleAnimations.filterIsInstance<BedrockStatelessAnimation<*>>().flatMap { it.particleKeyFrames } }
             poseImpl.onTransitionedInto(this)
+            timeEnteredPose = animationSeconds
         }
-
     }
 
     fun applyAdditives(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?) {
         additives.removeIf { !it.run(entity, model, state) }
+    }
+
+    fun setStatefulAnimations(vararg animations: StatefulAnimation<T, out ModelFrame>) {
+        statefulAnimations.clear()
+        statefulAnimations.addAll(animations)
     }
 }

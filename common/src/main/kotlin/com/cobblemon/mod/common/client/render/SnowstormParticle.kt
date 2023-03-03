@@ -12,6 +12,7 @@ import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.ModAPI
+import com.cobblemon.mod.common.api.snowstorm.UVDetails
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.util.resolveBoolean
 import com.cobblemon.mod.common.util.resolveDouble
@@ -26,8 +27,6 @@ import net.minecraft.client.render.Camera
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
@@ -62,6 +61,8 @@ class SnowstormParticle(
     val random2 = variableStruct.map["particle_random_2"]
     val random3 = variableStruct.map["particle_random_3"]
     val random4 = variableStruct.map["particle_random_4"]
+
+    val uvDetails = UVDetails()
 
     fun getSpriteFromAtlas(): Sprite {
         val atlas = MinecraftClient.getInstance().particleManager.particleAtlasTexture
@@ -125,8 +126,8 @@ class SnowstormParticle(
         val h = (MathHelper.lerp(tickDelta.toDouble(), prevPosZ, z) - vec3d.getZ()).toFloat()
         val quaternion = storm.effect.particle.cameraMode.getRotation(prevAngle, angle, tickDelta, camera.rotation, camera.yaw, camera.pitch)
 
-        val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat()
-        val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat()
+        val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat() / 2
+        val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat() / 2
 
         val particleVertices = arrayOf(
             Vec3f(-xSize, -ySize, 0.0f),
@@ -142,7 +143,7 @@ class SnowstormParticle(
             vertex.add(f, g, h)
         }
 
-        val uvs = storm.effect.particle.uvMode.get(storm.runtime, age / 20.0, maxAge / 20.0)
+        val uvs = storm.effect.particle.uvMode.get(storm.runtime, age / 20.0, maxAge / 20.0, uvDetails)
         val colour = storm.effect.particle.tinting.getTint(storm.runtime)
 
         val spriteURange = sprite.maxU - sprite.minU
@@ -185,7 +186,6 @@ class SnowstormParticle(
         applyRandoms()
 
         setParticleAgeInRuntime()
-
         storm.runtime.execute(storm.effect.particle.updateExpressions)
         angularVelocity += storm.effect.particle.rotation.getAngularAcceleration(storm.runtime, angularVelocity) / 20
 
@@ -196,7 +196,8 @@ class SnowstormParticle(
             val acceleration = storm.effect.particle.motion.getAcceleration(
                 storm.runtime,
                 Vec3d(velocityX, velocityY, velocityZ).multiply(20.0) // Uses blocks per second, not blocks per tick
-            ).multiply(1 / 20.0)
+            ).multiply(1 / 20.0).multiply(1 / 20.0)
+
             velocityX += acceleration.x
             velocityY += acceleration.y
             velocityZ += acceleration.z
@@ -211,7 +212,7 @@ class SnowstormParticle(
 
         age++
 
-        if (storm.effect.space.localVelocity) {
+        if (storm.effect.space.localPosition) {
             this.move(velocityX + (storm.getX() - storm.getPrevX()), velocityY + (storm.getY() - storm.getPrevY()), velocityZ + (storm.getZ() - storm.getPrevZ()))
         } else {
             this.move(velocityX, velocityY, velocityZ)

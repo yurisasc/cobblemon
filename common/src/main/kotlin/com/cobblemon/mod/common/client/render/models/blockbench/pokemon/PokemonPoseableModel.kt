@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
+import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -16,14 +17,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Statel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.cobblemon.mod.common.client.render.pokemon.ModelLayer
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderPhase
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -35,35 +39,6 @@ import net.minecraft.util.math.Vec3d
 abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
 
     override fun getState(entity: PokemonEntity) = entity.delegate as PokemonClientDelegate
-
-    var red = 1F
-    var green = 1F
-    var blue = 1F
-    var alpha = 1F
-
-    @Transient
-    var currentLayers: Iterable<ModelLayer> = listOf()
-    @Transient
-    var bufferProvider: VertexConsumerProvider? = null
-    @Transient
-    var currentState: PoseableEntityState<PokemonEntity>? = null
-
-    fun withLayerContext(buffer: VertexConsumerProvider, state: PoseableEntityState<PokemonEntity>?, layers: Iterable<ModelLayer>, action: () -> Unit) {
-        setLayerContext(buffer, state, layers)
-        action()
-        resetLayerContext()
-    }
-
-    fun setLayerContext(buffer: VertexConsumerProvider, state: PoseableEntityState<PokemonEntity>?, layers: Iterable<ModelLayer>) {
-        currentLayers = layers
-        bufferProvider = buffer
-        currentState = state
-    }
-    fun resetLayerContext() {
-        currentLayers = emptyList()
-        bufferProvider = null
-        currentState = null
-    }
 
     /** Registers the same configuration for both left and right shoulder poses. */
     fun <F : ModelFrame> registerShoulderPoses(
@@ -84,27 +59,6 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
             idleAnimations = idleAnimations,
             transformedParts = transformedParts
         )
-    }
-
-    override fun render(stack: MatrixStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
-        super.render(stack, buffer, packedLight, OverlayTexture.DEFAULT_UV, red * r, green * g, blue * b, alpha * a)
-
-        val animationSeconds = currentState?.animationSeconds ?: 0F
-        val provider = bufferProvider
-        if (provider != null) {
-            for (layer in currentLayers) {
-                val texture = layer.texture ?: continue
-                val consumer = if (layer.emissive) {
-                    provider.getBuffer(RenderLayer.getEntityTranslucentEmissive(texture(animationSeconds)))
-                } else {
-                    provider.getBuffer(RenderLayer.getEntityTranslucent(texture(animationSeconds)))
-                }
-                stack.push()
-                stack.scale(layer.scale.x, layer.scale.y, layer.scale.z)
-                super.render(stack, consumer, packedLight, OverlayTexture.DEFAULT_UV, layer.tint.x, layer.tint.y, layer.tint.z, layer.tint.w)
-                stack.pop()
-            }
-        }
     }
 
     @Transient

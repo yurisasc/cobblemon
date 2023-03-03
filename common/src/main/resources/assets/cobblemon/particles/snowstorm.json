@@ -1,5 +1,7 @@
 {
   "textures": [
-    "cobblemon:goo"
+    "cobblemon:goo",
+    "cobblemon:smoke",
+    "cobblemon:tailflame"
   ]
 }

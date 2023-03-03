@@ -58,6 +58,7 @@ class ShowdownThread : Thread("Cobblemon Showdown") {
         // Check if showdown needs to be installed
         if (!showdownDir.exists() || config.autoUpdateShowdown) {
             val showdownZip = File(showdownDir, "showdown.zip")
+            showdownZip.mkdirs()
             val showdownMetadataFile = File(showdownDir, "showdown.json")
 
             var extract = true
@@ -68,6 +69,12 @@ class ShowdownThread : Thread("Cobblemon Showdown") {
                 } else {
                     // Backup current install first before continuing
                     LOGGER.info("Updating showdown service to version ${metadata.showdownVersion}, from version ${current.showdownVersion}...")
+
+                    val backupDir = File("showdown-backup")
+                    if (backupDir.exists() && backupDir.isDirectory) {
+                        backupDir.deleteRecursively()
+                    }
+
                     showdownDir.copyTo(File("showdown-backup"))
                 }
             }

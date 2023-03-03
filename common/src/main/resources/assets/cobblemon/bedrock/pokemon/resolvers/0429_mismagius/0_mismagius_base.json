@@ -1,0 +1,19 @@
+{
+  "species": "cobblemon:mismagius",
+  "order": 0,
+  "variations": [
+    {
+      "aspects": [],
+      "poser": "cobblemon:mismagius",
+      "model": "cobblemon:mismagius.geo",
+      "texture": "cobblemon:textures/pokemon/0429_mismagius/mismagius.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0429_mismagius/mismagius_shiny.png"
+    }
+  ]
+}
