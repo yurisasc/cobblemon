@@ -121,6 +121,7 @@
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
 - Fixed minimumDistanceBetweenEntities option being half of what it's set as.
+- Fixed the contents of CobblemonEvents, CobblemonBlocks etc having getters instead of just being public static properties.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
