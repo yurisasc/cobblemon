@@ -50,6 +50,8 @@
 - Added sleep animations to many Pokémon.
 - Added the Gen 3 Pokémon to the starter select screen.
 - Added new models and animations for Poké Balls and reworked their mechanics to feel much smoother instead of being pure frustration.
+- Added Evolution stones to Item Tags
+- Added Evolution items to Item Tags
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.

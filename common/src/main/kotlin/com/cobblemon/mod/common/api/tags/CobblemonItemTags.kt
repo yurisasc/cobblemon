@@ -20,15 +20,25 @@ import net.minecraft.util.registry.Registry
  */
 object CobblemonItemTags {
 
+    @JvmField
     val APRICORN_LOGS = create("apricorn_logs")
+    @JvmField
     val APRICORN_SEEDS = create("apricorn_seeds")
+    @JvmField
     val APRICORNS = create("apricorns")
+    @JvmField
     val EXPERIENCE_CANDIES = create("experience_candies")
+    @JvmField
     val POKEBALLS = create("poke_balls")
+    @JvmField
     val ANY_HELD_ITEM = create("held/is_held_item")
+    @JvmField
     val EXPERIENCE_SHARE = create("held/experience_share")
+    @JvmField
     val LUCKY_EGG = create("held/lucky_egg")
+    @JvmField
     val EVOLUTION_STONES = create("evolution_stones")
+    @JvmField
     val EVOLUTION_ITEMS = create("evolution_items")
 
     /**
