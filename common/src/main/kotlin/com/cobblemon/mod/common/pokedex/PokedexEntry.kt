@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.pokedex
 
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
 import net.minecraft.util.Identifier
@@ -29,5 +30,9 @@ class PokedexEntry(var species: Identifier, var formNames: MutableList<String>) 
             }
         }
         return false
+    }
+
+    fun isValidEntry(): Boolean {
+        return PokemonSpecies.getByIdentifier(species) != null
     }
 }

@@ -25,12 +25,12 @@ object PokedexDataRegistry : JsonDataRegistry<PokedexAddition> {
     val pokedexes = mutableMapOf<Identifier, PokedexAddition>()
 
     fun load(identifier: Identifier, pokedex: PokedexAddition) {
-        pokedex.flattenDex()
         if(pokedexes[identifier] != null) {
             pokedexes[identifier]?.pokemon?.addAll(pokedex.pokemon)
         } else {
             pokedexes[identifier] = pokedex
         }
+        pokedex.flattenDex()
     }
 
     override val gson: Gson = GsonBuilder()

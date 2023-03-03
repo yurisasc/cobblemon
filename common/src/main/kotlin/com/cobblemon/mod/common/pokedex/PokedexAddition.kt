@@ -49,6 +49,9 @@ class PokedexAddition {
         var lastEntry = PokedexEntry(Identifier("cobblemon:nulldex"), arrayListOf())
         val flatEntries = arrayListOf<PokedexEntry>()
         pokemon.forEach() {
+            if(!it.isValidEntry()) {
+                return
+            }
             if(it.matchSpecies(lastEntry)) {
                 lastEntry.formNames.addAll(it.formNames)
             } else {
