@@ -27,7 +27,7 @@ class ChimcharModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.0, 0.1, 0.0)
+    override val portraitTranslation = Vec3d(-0.1, 0.0, 0.0)
 
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 0.7, 0.0)

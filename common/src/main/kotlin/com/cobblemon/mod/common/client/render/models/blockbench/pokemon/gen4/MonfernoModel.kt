@@ -26,8 +26,8 @@ class MonfernoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.0, 0.6, 0.0)
+    override val portraitScale = 2.2F
+    override val portraitTranslation = Vec3d(-0.2, 0.4, 0.0)
 
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
