@@ -10,7 +10,10 @@
       "layers": []
     },
     {
-      "aspects": []
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0390_chimchar/chimchar_shiny.png"
     }
   ]
 }
