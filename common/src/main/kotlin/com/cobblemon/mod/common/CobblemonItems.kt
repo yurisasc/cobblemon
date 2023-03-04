@@ -285,11 +285,25 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     @JvmField
     val ASSAULT_VEST = this.heldItem("assault_vest")
     @JvmField
+    val AUSPICIOUS_ARMOR = this.heldItem("auspicious_armor")
+    @JvmField
+    val BIG_ROOT = this.heldItem("big_root")
+    @JvmField
+    val BLACK_BELT = this.heldItem("black_belt")
+    @JvmField
     val BLACK_GLASSES = this.heldItem("black_glasses")
+    @JvmField
+    val BLACK_SLUDGE = this.heldItem("black_sludge")
+    @JvmField
+    val CHARCOAL = this.heldItem("charcoal")
     @JvmField
     val CHOICE_BAND = this.heldItem("choice_band")
     @JvmField
+    val CHOICE_SCARF = this.heldItem("choice_scarf")
+    @JvmField
     val CHOICE_SPECS = this.heldItem("choice_specs")
+    @JvmField
+    val DRAGON_FANG = this.heldItem("dragon_fang")
     @JvmField
     val EXP_SHARE = this.heldItem("exp_share")
     @JvmField
@@ -306,6 +320,8 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val ROCKY_HELMET = this.heldItem("rocky_helmet")
     @JvmField
     val SAFETY_GOGGLES = this.heldItem("safety_goggles")
+    @JvmField
+    val SILK_SCARF = this.heldItem("silk_scarf")
     @JvmField
     val WISE_GLASSES = this.heldItem("wise_glasses")
 
