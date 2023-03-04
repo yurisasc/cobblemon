@@ -55,6 +55,7 @@
 - Added the Ability Pokémon Property.
 - Added Evolution stones to Item Tags
 - Added Evolution items to Item Tags
+- Added party scrolling via holding R and using the mouse wheel so you don't need to take your hand off your mouse.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.

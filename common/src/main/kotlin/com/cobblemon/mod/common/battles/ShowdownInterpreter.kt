@@ -894,8 +894,10 @@ object ShowdownInterpreter {
                 battleActor.responses.clear()
                 // We need to send this out because 'upkeep' isn't received until the request is handled since the turn won't swap
                 if (request.forceSwitch.withIndex().any { it.value && battleActor.activePokemon.getOrNull(it.index)?.isGone() == false }) {
-                    battleActor.mustChoose = true
-                    battleActor.sendUpdate(BattleMakeChoicePacket())
+                    battle.doWhenClear {
+                        battleActor.mustChoose = true
+                        battleActor.sendUpdate(BattleMakeChoicePacket())
+                    }
                 }
             }
         } else {

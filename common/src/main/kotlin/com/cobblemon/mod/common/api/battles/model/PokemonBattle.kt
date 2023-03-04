@@ -86,6 +86,7 @@ open class PokemonBattle(
 
     var dispatchResult = GO
     val dispatches = ConcurrentLinkedQueue<BattleDispatch>()
+    val afterDispatches = mutableListOf<() -> Unit>()
 
     val captureActions = mutableListOf<BattleCaptureAction>()
 
@@ -279,10 +280,19 @@ open class PokemonBattle(
         dispatches.add(dispatcher)
     }
 
+    fun doWhenClear(action: () -> Unit) {
+        afterDispatches.add(action)
+    }
+
     fun tick() {
         while (dispatchResult.canProceed()) {
             val dispatch = dispatches.poll() ?: break
             dispatchResult = dispatch(this)
+        }
+
+        if (dispatches.isEmpty()) {
+            afterDispatches.toList().forEach { it() }
+            afterDispatches.clear()
         }
 
         if (started && isPvW && !ended) {
