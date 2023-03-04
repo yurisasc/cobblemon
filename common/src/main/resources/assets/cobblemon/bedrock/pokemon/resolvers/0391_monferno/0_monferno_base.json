@@ -10,7 +10,10 @@
       "layers": []
     },
     {
-      "aspects": []
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0391_monferno/monferno_shiny.png"
     }
   ]
 }

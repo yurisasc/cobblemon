@@ -10,7 +10,10 @@
       "layers": []
     },
     {
-      "aspects": []
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0392_infernape/infernape_shiny.png"
     }
   ]
 }
