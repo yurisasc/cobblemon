@@ -71,6 +71,7 @@
 - Advancements were redone to be slightly more interesting, with improved names, descriptions, and sorting.
 - Improved the framing of all in-game Pokémon in the party and PC GUIs.
 - Updated models and textures for Tentacool line, Gengar, Slowpoke line, Tyrogue line, Doduo line, Dratini, Dragonair, Quagsire, and Piplup line.
+- Improved sending out Pokémon at the start of battle so that they are positioned in a less annoying way.
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
