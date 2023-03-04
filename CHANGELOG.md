@@ -48,7 +48,9 @@
 - Added healing to your party when you sleep in a bed.
 - Added ability to shear Wooloo and Dubwool.
 - Added sleep animations to many Pokémon.
-- Added the Gen 3 Pokémon to the starter select screen.
+- Added the Gen 3, 4, and 7 Starter Pokémon to the starter select screen.
+- Added Paldea starter select lang to "en_us".
+- Added emissive layers to many Pokémon.
 - Added new models and animations for Poké Balls and reworked their mechanics to feel much smoother instead of being pure frustration.
 - Added the Ability Pokémon Property.
 - Added Evolution stones to Item Tags

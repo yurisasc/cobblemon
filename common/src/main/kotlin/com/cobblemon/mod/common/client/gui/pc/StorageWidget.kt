@@ -329,7 +329,6 @@ class StorageWidget(
                         if (ServerSettings.preventCompletePartyDeposit && party.count { it != null } == 1) {
                             return
                         }
-
                         val firstEmptySpace = pc.boxes[box].indexOfFirst { it == null }
                         if (firstEmptySpace != -1) {
                             val packet = MovePartyPokemonToPCPacket(clickedPokemon.uuid, clickedPosition, PCPosition(box, firstEmptySpace))
