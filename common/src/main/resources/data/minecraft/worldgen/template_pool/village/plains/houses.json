@@ -348,7 +348,7 @@
         },
         "projection": "rigid"
       },
-      "weight": 10
+      "weight": 20
     },
     {
       "element": {
