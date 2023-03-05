@@ -341,14 +341,14 @@
     },
     {
       "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_small_house_3",
+        "element_type": "minecraft:single_pool_element",
+        "location": "cobblemon:village_plains_pokecenter",
         "processors": {
           "processors": []
         },
         "projection": "rigid"
       },
-      "weight": 50
+      "weight": 10
     },
     {
       "element": {
