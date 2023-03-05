@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.trading
+package com.cobblemon.mod.common.trade
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.pokemon.Pokemon
