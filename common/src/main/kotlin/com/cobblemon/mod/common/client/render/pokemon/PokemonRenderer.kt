@@ -63,8 +63,8 @@ class PokemonRenderer(
             period = 1F
         )
 
-        val recallBeamColour = Vector4f(0.85F, 0.85F, 1F, 0.5F)
-        val sendOutBeamColour = Vector4f(1F, 0.1F, 0.1F, 1F)
+        val recallBeamColour = Vector4f(1F, 0.1F, 0.1F, 1F)
+        val sendOutBeamColour = Vector4f(0.85F, 0.85F, 1F, 0.5F)
     }
 
     override fun getTexture(entity: PokemonEntity): Identifier {
