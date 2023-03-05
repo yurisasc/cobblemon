@@ -55,7 +55,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 }
                 // Check in on battle requests, if the other player has challenged me, this starts the battle
                 val existingChallenge = BattleRegistry.pvpChallenges[targetedEntity.uuid]
-                if (existingChallenge != null && !existingChallenge.isExpired()) {
+                if (existingChallenge != null && !existingChallenge.isExpired() && existingChallenge.challengedPlayerUUID == player.uuid) {
                     BattleBuilder.pvp1v1(player, targetedEntity)
                     BattleRegistry.pvpChallenges.remove(targetedEntity.uuid)
                 } else {
