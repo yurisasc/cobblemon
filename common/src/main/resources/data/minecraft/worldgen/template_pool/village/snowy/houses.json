@@ -4,7 +4,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_small_house_1",
+        "location": "minecraft:village/snowy/houses/snowy_small_house_1",
         "processors": {
           "processors": []
         },
@@ -15,7 +15,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_small_house_2",
+        "location": "minecraft:village/snowy/houses/snowy_small_house_2",
         "processors": {
           "processors": []
         },
@@ -26,7 +26,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_small_house_3",
+        "location": "minecraft:village/snowy/houses/snowy_small_house_3",
         "processors": {
           "processors": []
         },
@@ -37,7 +37,18 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_small_house_4",
+        "location": "minecraft:village/snowy/houses/snowy_small_house_4",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_small_house_5",
         "processors": {
           "processors": []
         },
@@ -48,7 +59,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_small_house_5",
+        "location": "minecraft:village/snowy/houses/snowy_small_house_6",
         "processors": {
           "processors": []
         },
@@ -59,7 +70,117 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_small_house_6",
+        "location": "minecraft:village/snowy/houses/snowy_small_house_7",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_small_house_8",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_medium_house_1",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_medium_house_2",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_medium_house_3",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_butchers_shop_1",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_butchers_shop_2",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_tool_smith_1",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_fletcher_house_1",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_shepherds_house_1",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/snowy/houses/snowy_armorer_house_1",
         "processors": {
           "processors": []
         },
@@ -70,95 +191,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_small_house_7",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_small_house_8",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_medium_house_1",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_medium_house_2",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_butcher_shop_1",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_tool_smith_1",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_fletcher_house_1",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_shepherd_house_1",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_armorer_1",
+        "location": "minecraft:village/snowy/houses/snowy_armorer_house_2",
         "processors": {
           "processors": []
         },
@@ -169,7 +202,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_fisher_1",
+        "location": "minecraft:village/snowy/houses/snowy_fisher_cottage",
         "processors": {
           "processors": []
         },
@@ -180,7 +213,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_tannery_1",
+        "location": "minecraft:village/snowy/houses/snowy_tannery_1",
         "processors": {
           "processors": []
         },
@@ -191,7 +224,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_cartographer_house_1",
+        "location": "minecraft:village/snowy/houses/snowy_cartographer_house_1",
         "processors": {
           "processors": []
         },
@@ -202,7 +235,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_library_1",
+        "location": "minecraft:village/snowy/houses/snowy_library_1",
         "processors": {
           "processors": []
         },
@@ -213,7 +246,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_mason_1",
+        "location": "minecraft:village/snowy/houses/snowy_masons_house_1",
         "processors": {
           "processors": []
         },
@@ -224,7 +257,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_weaponsmith_1",
+        "location": "minecraft:village/snowy/houses/snowy_masons_house_2",
         "processors": {
           "processors": []
         },
@@ -235,7 +268,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_temple_1",
+        "location": "minecraft:village/snowy/houses/snowy_weapon_smith_1",
         "processors": {
           "processors": []
         },
@@ -246,7 +279,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_temple_2",
+        "location": "minecraft:village/snowy/houses/snowy_temple_1",
         "processors": {
           "processors": []
         },
@@ -257,34 +290,25 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_large_farm_1",
-        "processors": "minecraft:farm_desert",
+        "location": "minecraft:village/snowy/houses/snowy_farm_1",
+        "processors": "minecraft:farm_snowy",
         "projection": "rigid"
       },
-      "weight": 11
+      "weight": 3
     },
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_farm_1",
-        "processors": "minecraft:farm_desert",
+        "location": "minecraft:village/snowy/houses/snowy_farm_2",
+        "processors": "minecraft:farm_snowy",
         "projection": "rigid"
       },
-      "weight": 4
+      "weight": 3
     },
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_farm_2",
-        "processors": "minecraft:farm_desert",
-        "projection": "rigid"
-      },
-      "weight": 4
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_animal_pen_1",
+        "location": "minecraft:village/snowy/houses/snowy_animal_pen_1",
         "processors": {
           "processors": []
         },
@@ -295,7 +319,7 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/desert/houses/desert_animal_pen_2",
+        "location": "minecraft:village/snowy/houses/snowy_animal_pen_2",
         "processors": {
           "processors": []
         },
@@ -305,8 +329,8 @@
     },
     {
       "element": {
-        "element_type": "minecraft:single_pool_element",
-        "location": "cobblemon:village_desert/village_desert_pokecenter",
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "cobblemon:village_snowy/village_snowy_pokecenter",
         "processors": {
           "processors": []
         },
@@ -318,8 +342,8 @@
       "element": {
         "element_type": "minecraft:empty_pool_element"
       },
-      "weight": 5
+      "weight": 6
     }
   ],
-  "fallback": "minecraft:village/desert/terminators"
+  "fallback": "minecraft:village/snowy/terminators"
 }

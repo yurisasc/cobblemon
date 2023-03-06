@@ -4,8 +4,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/corner_01",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/corner_01",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 2
@@ -13,8 +13,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/corner_02",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/corner_02",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 2
@@ -22,8 +22,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/corner_03",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/corner_03",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 2
@@ -31,8 +31,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/straight_01",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/straight_01",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 4
@@ -40,8 +40,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/straight_02",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/straight_02",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 4
@@ -49,8 +49,17 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/straight_03",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/straight_03",
+        "processors": "minecraft:street_snowy_or_taiga",
+        "projection": "terrain_matching"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/taiga/streets/straight_04",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 7
@@ -58,8 +67,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/straight_04",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/straight_05",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 7
@@ -67,17 +76,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/straight_05",
-        "processors": "minecraft:street_plains",
-        "projection": "terrain_matching"
-      },
-      "weight": 3
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/straight_06",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/straight_06",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 4
@@ -85,17 +85,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/crossroad_01",
-        "processors": "minecraft:street_plains",
-        "projection": "terrain_matching"
-      },
-      "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/crossroad_02",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/crossroad_01",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 1
@@ -103,8 +94,17 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/crossroad_03",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/crossroad_02",
+        "processors": "minecraft:street_snowy_or_taiga",
+        "projection": "terrain_matching"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/taiga/streets/crossroad_03",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 2
@@ -112,8 +112,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/crossroad_04",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/crossroad_04",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 2
@@ -121,8 +121,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/crossroad_05",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/crossroad_05",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 2
@@ -130,8 +130,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/crossroad_06",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/crossroad_06",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 2
@@ -139,8 +139,8 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "minecraft:village/plains/streets/turn_01",
-        "processors": "minecraft:street_plains",
+        "location": "minecraft:village/taiga/streets/turn_01",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 3
@@ -148,12 +148,12 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        "location": "cobblemon:village_plains/village_plains_long_path",
-        "processors": "minecraft:street_plains",
+        "location": "cobblemon:village_taiga/village_taiga_long_path",
+        "processors": "minecraft:street_snowy_or_taiga",
         "projection": "terrain_matching"
       },
       "weight": 20
     }
   ],
-  "fallback": "minecraft:village/plains/terminators"
+  "fallback": "minecraft:village/taiga/terminators"
 }

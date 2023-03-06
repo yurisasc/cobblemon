@@ -14,17 +14,6 @@
     },
     {
       "element": {
-        "element_type": "minecraft:single_pool_element",
-        "location": "cobblemon:village_savannah_pokecenter",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 10
-    },
-    {
-      "element": {
         "element_type": "minecraft:legacy_single_pool_element",
         "location": "minecraft:village/savanna/houses/savanna_small_house_2",
         "processors": {
@@ -346,6 +335,17 @@
         "projection": "rigid"
       },
       "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "cobblemon:village_savanna/village_savanna_pokecenter",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 35
     },
     {
       "element": {
