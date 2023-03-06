@@ -75,6 +75,11 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
     ): StatefulAnimation<PokemonEntity, ModelFrame>? = null
+
+    open fun getEatAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ): StatefulAnimation<PokemonEntity, ModelFrame>? = null
 }
 
 typealias PokemonPose = Pose<PokemonEntity, ModelFrame>

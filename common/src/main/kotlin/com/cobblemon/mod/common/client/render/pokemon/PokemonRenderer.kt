@@ -79,7 +79,7 @@ class PokemonRenderer(
         buffer: VertexConsumerProvider,
         packedLight: Int
     ) {
-        shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat()
+        shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
         DELTA_TICKS = partialTicks // TODO move this somewhere universal // or just fecking remove it
         model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects.get())
 

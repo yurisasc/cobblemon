@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -98,4 +100,10 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 )
         )
     }
+
+    override fun getEatAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = bedrockStateful("wooloo", "eat")
+
 }

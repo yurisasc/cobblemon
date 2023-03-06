@@ -235,6 +235,11 @@ class PokemonEntity(
 //        return super.canWalkOnFluid(state)
     }
 
+    override fun handleStatus(status: Byte) {
+        delegate.handleStatus(status)
+        super.handleStatus(status)
+    }
+
     override fun tick() {
         super.tick()
         // We will be handling idle logic ourselves thank you
