@@ -102,7 +102,7 @@
 - Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
 - Fixed stat change messages for boosts over 3 stages
 - Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.
-- Fixed PokéBalls taking forever to capture Pokémon if you are underwater or up in the air where it takes a long time to hit the ground.
+- Fixed Poké Balls taking forever to capture Pokémon if you are underwater or up in the air where it takes a long time to hit the ground.
 - Fixed Pokémon being unable to spawn on blocks such as snow layers.
 - Fixed Pokémon spawning inside of trees.
 - Fixed various strange battle issues such as Flying types being vulnerable to Ground type moves and status effects hitting despite vulnerabilities.
@@ -124,6 +124,7 @@
 - Fixed Caterpie and Weedle not moving or looking at players. That was meant to be Metapod and Kakuna, how embarrassing.
 - Fixed Pokémon not carrying over the correct equivalent original ability when evolving from stages that only had one ability.
 - Fixed Deerling and Sawsbuck not spawning with the correct season.
+- Fixed catch rates being entirely too difficult.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
