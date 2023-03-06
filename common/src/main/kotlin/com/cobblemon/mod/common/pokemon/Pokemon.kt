@@ -141,9 +141,11 @@ open class Pokemon : ShowdownIdentifiable {
             checkGender()
             checkAbility()
             updateHP(quotient)
+            /*
             if (ability.template == Abilities.DUMMY && !isClient) {
                 ability = form.abilities.select(value, aspects)
             }
+             */
             _species.emit(value)
         }
 
@@ -427,6 +429,15 @@ open class Pokemon : ShowdownIdentifiable {
     fun heal() {
         this.currentHealth = hp
         this.moveSet.heal()
+        this.status = null
+        this.faintedTimer = -1
+        this.healTimer = -1
+        val entity = entity
+        entity?.heal(entity.maxHealth - entity.health)
+    }
+
+    fun didSleep() {
+        this.currentHealth = min((currentHealth + (hp / 2)), hp)
         this.status = null
         this.faintedTimer = -1
         this.healTimer = -1
@@ -864,17 +875,61 @@ open class Pokemon : ShowdownIdentifiable {
         if (isClient) {
             return
         }
-        val hasForcedAbility = ability.forced
-        val hasLegalAbility = ability.template in form.abilities.mapping.flatMap { it.value.map { it.template } }
+        val hasForcedAbility = this.ability.forced
+        val hasLegalAbility = this.form.abilities.mapping.values.any { list ->
+            list.any { potential ->
+                potential.template == this.ability.template
+            }
+        }
+        val isDummy = this.ability.template == Abilities.DUMMY
 
-        if (ability.template == Abilities.DUMMY || (!hasLegalAbility && !hasForcedAbility)) {
-            ability = form.abilities.select(species, aspects)
+        // EXPLANATION
+        // This is used to keep the same intended ability between evolution stages
+        // Between species updates if an original indexed data is attached it will be honored next time that it's possible
+        // This is still not a perfect system but it will now only break if players are constantly adding/removing data edits which at that point it's on them
+        if (isDummy || (!hasLegalAbility && !hasForcedAbility)) {
+            var needsSelection = true
+            var needsUpdate = true
+            if (this.ability.index == -1 && !isDummy) {
+                base@ for ((priority, list) in this.form.abilities.mapping) {
+                    for ((index, potential) in list.withIndex()) {
+                        if (potential.template == this.ability.template) {
+                            this.ability.priority = priority
+                            this.ability.index = index
+                            needsUpdate = false
+                            needsSelection = false
+                            break@base
+                        }
+                    }
+                }
+            }
+            else if (this.ability.index >= 0) {
+                needsUpdate = false
+                val potentialAbility = this.form.abilities.mapping[this.ability.priority]?.getOrNull(this.ability.index)
+                if (potentialAbility != null) {
+                    // Don't update index nor priority
+                    val newAbility = potentialAbility.template.create()
+                    newAbility.index = this.ability.index
+                    newAbility.priority = this.ability.priority
+                    this.ability = newAbility
+                    needsSelection = false
+                }
+            }
+            if (needsSelection) {
+                val (ability, priority) = this.form.abilities.select(this.species, this.aspects)
+                ability.index = this.ability.index
+                ability.priority = this.ability.priority
+                this.ability = ability
+                if (needsUpdate) {
+                    this.ability.index = this.form.abilities.mapping[priority]!!.indexOfFirst { potential -> potential.template == this.ability.template }
+                    this.ability.priority = priority
+                }
+            }
         }
     }
 
     fun initializeMoveset(preferLatest: Boolean = true) {
         val possibleMoves = form.moves.getLevelUpMovesUpTo(level).toMutableList()
-
         moveSet.doWithoutEmitting {
             moveSet.clear()
             if (possibleMoves.isEmpty()) {

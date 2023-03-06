@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -28,6 +29,7 @@ class MankeyModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(-0.03, 0.4, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
@@ -41,6 +43,11 @@ class MankeyModel(root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(
                 bedrock("mankey", "ground_idle")
             )
+        )
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("mankey", "sleep"))
         )
 
         walk = registerPose(

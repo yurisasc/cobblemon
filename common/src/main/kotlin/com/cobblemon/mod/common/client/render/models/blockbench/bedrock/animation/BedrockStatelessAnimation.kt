@@ -26,6 +26,8 @@ import net.minecraft.entity.Entity
  */
 class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: BedrockAnimation) : StatelessAnimation<T, ModelFrame>(frame) {
     override val targetFrame: Class<ModelFrame> = ModelFrame::class.java
+    val particleKeyFrames = animation.particleEffects
+
     var speed = 1F
 
     fun setSpeed(speed: Float): BedrockStatelessAnimation<T> {
@@ -34,6 +36,8 @@ class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: Bed
     }
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        animation.run(model, state, (state?.animationSeconds ?: 0F) * speed)
+        val prev = if (state == null) 0F else (state.previousAnimationSeconds - state.timeEnteredPose)
+        val cur = if (state == null) 0F else (state.animationSeconds - state.timeEnteredPose)
+        animation.run(model, entity, state,  prev * speed.toDouble(), cur * speed.toDouble())
     }
 }

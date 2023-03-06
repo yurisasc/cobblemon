@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
@@ -53,11 +54,15 @@ import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import kotlin.math.round
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.control.MoveControl
+import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.damage.DamageSource
@@ -70,10 +75,12 @@ import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.FluidTags
@@ -84,9 +91,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import kotlin.math.round
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
+import net.minecraft.world.event.GameEvent
 
 class PokemonEntity(
     world: World,
@@ -230,6 +235,11 @@ class PokemonEntity(
 //        return super.canWalkOnFluid(state)
     }
 
+    override fun handleStatus(status: Byte) {
+        delegate.handleStatus(status)
+        super.handleStatus(status)
+    }
+
     override fun tick() {
         super.tick()
         // We will be handling idle logic ourselves thank you
@@ -271,11 +281,6 @@ class PokemonEntity(
         } else {
             super.fall(pY, pOnGround, pState, pPos)
         }
-    }
-
-    override fun saveNbt(nbt: NbtCompound): Boolean {
-//        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
-        return super.saveNbt(nbt)
     }
 
     override fun isInvulnerableTo(damageSource: DamageSource): Boolean {
@@ -343,6 +348,7 @@ class PokemonEntity(
         poseType.set(PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
         behaviourFlags.set(nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
         this.setBehaviourFlag(PokemonBehaviourFlag.EXCITED, true)
+
         CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(
             event = PokemonEntityLoadEvent(this, nbt),
             ifSucceeded = {},
@@ -374,6 +380,11 @@ class PokemonEntity(
             goalSelector.add(4, PokemonMoveIntoFluidGoal(this))
             goalSelector.add(5, SleepOnTrainerGoal(this))
             goalSelector.add(5, WildRestGoal(this))
+
+            if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) != null) {
+                goalSelector.add(5, EatGrassGoal(this))
+            }
+
             goalSelector.add(6, PokemonWanderAroundGoal(this))
             goalSelector.add(7, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
         }
@@ -396,6 +407,42 @@ class PokemonEntity(
     }
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
+        val itemStack = player.getStackInHand(hand)
+        if (itemStack.isOf(Items.SHEARS) && player is ServerPlayerEntity) {
+            val feature = pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED)
+            val isShearable = feature?.enabled == false
+            if (isShearable) {
+                feature!!
+                world.playSoundFromEntity(
+                    null,
+                    this,
+                    SoundEvents.ENTITY_SHEEP_SHEAR,
+                    SoundCategory.PLAYERS,
+                    1.0F,
+                    1.0F
+                )
+                val i = 1 + random.nextInt(3)
+
+                for (j in 0 until i) {
+                    val itemEntity = this.dropItem(Items.WHITE_WOOL, 1)
+                    if (itemEntity != null) {
+                        itemEntity.velocity = itemEntity.velocity.add(
+                            ((random.nextFloat() - random.nextFloat()) * 0.1f).toDouble(),
+                            (random.nextFloat() * 0.05f).toDouble(),
+                            ((random.nextFloat() - random.nextFloat()) * 0.1f).toDouble()
+                        )
+                    }
+                }
+                this.emitGameEvent(GameEvent.SHEAR, player)
+                itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
+                feature.enabled = true
+                pokemon.markFeatureDirty(feature)
+                pokemon.updateAspects()
+                return ActionResult.SUCCESS
+            }
+        }
+
+
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
                 InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer).sendToPlayer(player)
@@ -634,6 +681,17 @@ class PokemonEntity(
         delegate.updatePostDeath()
     }
 
+    override fun onEatingGrass() {
+        super.onEatingGrass()
+
+        val feature = pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED)
+        if (feature != null) {
+            feature.enabled = false
+            pokemon.markFeatureDirty(feature)
+            pokemon.updateAspects()
+        }
+    }
+
     override fun travel(movementInput: Vec3d) {
         val previousX = this.x
         val previousY = this.y
@@ -770,10 +828,6 @@ class PokemonEntity(
     // ToDo END - Review when implementing nicknames
 
     override fun isBreedingItem(stack: ItemStack): Boolean = false
-
-    override fun getBreedingAge(): Int = -1
-
-    override fun setBreedingAge(age: Int) {}
 
     override fun canBreedWith(other: AnimalEntity): Boolean = false
 

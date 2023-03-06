@@ -41,7 +41,7 @@ interface ParticleEmitterRate : CodecMapped {
     }
 
     val type: ParticleEmitterRateType
-    fun getEmitCount(runtime: MoLangRuntime, currentlyActive: Int): Int
+    fun getEmitCount(runtime: MoLangRuntime, started: Boolean, currentlyActive: Int): Int
 }
 
 enum class ParticleEmitterRateType {
@@ -61,8 +61,8 @@ class InstantParticleEmitterRate(var amount: Int = 1) : ParticleEmitterRate {
 
     override val type = ParticleEmitterRateType.INSTANT
 
-    override fun getEmitCount(runtime: MoLangRuntime, currentlyActive: Int): Int {
-        if (currentlyActive > 0) {
+    override fun getEmitCount(runtime: MoLangRuntime, started: Boolean, currentlyActive: Int): Int {
+        if (started) {
             return 0
         } else {
             return amount
@@ -98,7 +98,7 @@ class SteadyParticleEmitterRate(
 
     override val type = ParticleEmitterRateType.STEADY
 
-    override fun getEmitCount(runtime: MoLangRuntime, currentlyActive: Int): Int {
+    override fun getEmitCount(runtime: MoLangRuntime, started: Boolean, currentlyActive: Int): Int {
         val max = runtime.resolveDouble(maximum).toInt()
         val variables = runtime.environment.structs["variable"] as VariableStruct
         var currentOverflow = variables.map[OVERFLOW_VARIABLE]?.asDouble() ?: 0.0

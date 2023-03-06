@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -21,11 +22,12 @@ class OddishModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("oddish")
 
     override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
+    override val portraitTranslation = Vec3d(-0.0, -1.0, 0.0)
 
     override val profileScale = 0.85F
     override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
@@ -39,6 +41,11 @@ class OddishModel(root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(
                 bedrock("oddish", "ground_idle")
             )
+        )
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("oddish", "sleep"))
         )
 
         walk = registerPose(

@@ -12,16 +12,18 @@ import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
+import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
 import java.util.*
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.OnDatapackSyncEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
+import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
@@ -31,6 +33,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
     override val modAPI = ModAPI.FABRIC
+    private val hasBeenSynced = hashSetOf<UUID>()
 
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
@@ -61,8 +64,14 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::onDataPackSync)
             addListener(this@CobblemonForge::onLogin)
             addListener(this@CobblemonForge::onLogout)
+            addListener(this@CobblemonForge::wakeUp)
         }
         Cobblemon.permissionValidator = ForgePermissionValidator
+    }
+
+    fun wakeUp(event: PlayerWakeUpEvent) {
+        val playerEntity = event.entity as? ServerPlayerEntity ?: return
+        playerEntity.didSleep()
     }
 
     fun serverInit(event: FMLDedicatedServerSetupEvent) {
@@ -71,13 +80,10 @@ class CobblemonForge : CobblemonImplementation {
     fun initialize(event: FMLCommonSetupEvent) {
         Cobblemon.LOGGER.info("Initializing...")
         Cobblemon.initialize()
-        val world: ServerWorld? = null
         //if (ModList.get().isLoaded("luckperms")) { PokemonCobblemon.permissionValidator = LuckPermsPermissionValidator() }
         //else {
         //}
     }
-
-    private val hasBeenSynced = hashSetOf<UUID>()
 
     fun onDataPackSync(event: OnDatapackSyncEvent) {
         Cobblemon.dataProvider.sync(event.player ?: return)

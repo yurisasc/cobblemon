@@ -9,16 +9,21 @@
 package com.cobblemon.mod.common.client.particle
 
 import com.bedrockk.molang.runtime.MoLangRuntime
-import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
+import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.particle.SnowstormParticleEffect
+import com.cobblemon.mod.common.util.math.geometry.getOrigin
+import com.cobblemon.mod.common.util.math.geometry.transformDirection
+import com.cobblemon.mod.common.util.math.geometry.transformPosition
 import kotlin.random.Random
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.NoRenderParticle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
+import net.minecraft.util.math.Vec3d
 
 /**
  * An instance of a bedrock particle effect.
@@ -28,12 +33,24 @@ import net.minecraft.entity.Entity
  */
 class ParticleStorm(
     val effect: BedrockParticleEffect,
-    val origin: SnowstormParticleOrigin,
-    val world: ClientWorld
-): NoRenderParticle(world, origin.position.x, origin.position.y, origin.position.z) {
-    val runtime = MoLangRuntime().also {
-        it.environment.structs["variable"] = VariableStruct()
+    private val matrixWrapper: MatrixWrapper,
+    val world: ClientWorld,
+    val sourceVelocity: () -> Vec3d = { Vec3d.ZERO },
+    val sourceAlive: () -> Boolean = { true },
+    val sourceVisible: () -> Boolean = { true },
+    val runtime: MoLangRuntime = MoLangRuntime()
+): NoRenderParticle(world, matrixWrapper.matrix.getOrigin().x, matrixWrapper.matrix.getOrigin().y, matrixWrapper.matrix.getOrigin().z) {
+    fun spawn() {
+        MinecraftClient.getInstance().particleManager.addParticle(this)
     }
+
+    fun getX() = x
+    fun getY() = y
+    fun getZ() = z
+
+    fun getPrevX() = prevPosX
+    fun getPrevY() = prevPosY
+    fun getPrevZ() = prevPosZ
 
     val particles = mutableListOf<SnowstormParticle>()
     var started = false
@@ -42,30 +59,41 @@ class ParticleStorm(
     var entity: Entity? = null
 
     companion object {
-        val stormRegistry = mutableMapOf<BedrockParticleEffect, ParticleStorm>()
+        var contextStorm: ParticleStorm? = null
     }
 
     val particleEffect = SnowstormParticleEffect(effect)
 
     init {
-        stormRegistry[effect] = this
         runtime.execute(effect.emitter.startExpressions)
     }
 
     override fun getMaxAge(): Int {
-        return if (stopped) 0.also {
-            stormRegistry.remove(effect)
-        } else Int.MAX_VALUE
+        return if (stopped) 0 else Int.MAX_VALUE
     }
 
     override fun tick() {
         setMaxAge(getMaxAge())
         super.tick()
 
-        val pos = origin.position
+        if (!sourceAlive()) {
+            stopped = true
+            markDead()
+        }
+
+        if (stopped || !sourceVisible()) {
+            return
+        }
+
+        val pos = matrixWrapper.matrix.getOrigin()
+        prevPosX = x
+        prevPosY = y
+        prevPosZ = z
+
         x = pos.x
         y = pos.y
         z = pos.z
+
 
         runtime.environment.setSimpleVariable("emitter_random_1", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("emitter_random_2", DoubleValue(Random.Default.nextDouble()))
@@ -74,11 +102,10 @@ class ParticleStorm(
         runtime.environment.setSimpleVariable("emitter_age", DoubleValue(age / 20.0))
         runtime.execute(effect.emitter.updateExpressions)
 
-
         when (effect.emitter.lifetime.getAction(runtime, started, age / 20.0)) {
             ParticleEmitterAction.GO -> {
+                val toEmit = effect.emitter.rate.getEmitCount(runtime, started, particles.size)
                 started = true
-                val toEmit = effect.emitter.rate.getEmitCount(runtime, particles.size)
                 repeat(times = toEmit) {
                     spawnParticle()
                 }
@@ -95,10 +122,18 @@ class ParticleStorm(
         runtime.environment.setSimpleVariable("particle_random_3", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("particle_random_4", DoubleValue(Random.Default.nextDouble()))
 
-        val center = effect.emitter.shape.getCenter(runtime, entity).add(x, y, z)
-        val newPosition = effect.emitter.shape.getNewParticlePosition(runtime, entity).add(x, y, z)
-        val velocity = effect.particle.motion.getInitialVelocity(runtime, particlePos = newPosition, emitterPos = center).multiply(1/50.0)
-        velocity.multiply(1 / 20.0)
+        val center = transformPosition(effect.emitter.shape.getCenter(runtime, entity))
+        val newPosition = transformPosition(effect.emitter.shape.getNewParticlePosition(runtime, entity))
+        val initialVelocity = effect.particle.motion.getInitialVelocity(runtime, particlePos = newPosition, emitterPos = center)
+        val velocity = (if (effect.space.localPosition) transformDirection(initialVelocity) else initialVelocity)
+            .multiply(1 / 20.0)
+            .add(if (effect.space.localVelocity) sourceVelocity() else Vec3d.ZERO)
+
+        contextStorm = this
         world.addParticle(particleEffect, newPosition.x, newPosition.y, newPosition.z, velocity.x, velocity.y, velocity.z)
+        contextStorm = null
     }
+
+    fun transformPosition(position: Vec3d): Vec3d = matrixWrapper.matrix.transformPosition(position)
+    fun transformDirection(direction: Vec3d): Vec3d = matrixWrapper.matrix.transformDirection(direction)
 }

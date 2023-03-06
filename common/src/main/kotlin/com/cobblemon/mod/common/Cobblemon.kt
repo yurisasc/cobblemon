@@ -31,11 +31,13 @@ import com.cobblemon.mod.common.api.permission.PermissionValidator
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculators
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceCalculator
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.experience.StandardExperienceCalculator
 import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
+import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
@@ -92,6 +94,7 @@ import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.registry.CompletableRegistry
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
+import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.getServer
 import com.cobblemon.mod.common.util.ifDedicatedServer
@@ -139,7 +142,7 @@ object Cobblemon {
     var evYieldCalculator: EvCalculator = Generation8EvCalculator
     var starterHandler: StarterHandler = CobblemonStarterHandler()
     var isDedicatedServer = false
-    var showdownThread = ShowdownThread()
+    val showdownThread = ShowdownThread()
     lateinit var config: CobblemonConfig
     var prospector: SpawningProspector = CobblemonSpawningProspector
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
@@ -211,7 +214,7 @@ object Cobblemon {
     }
 
     fun initialize() {
-        showdownThread.start()
+        showdownThread.launch()
 
         CompletableRegistry.allRegistriesCompleted.thenAccept {
             LOGGER.info("All registries loaded.")
@@ -228,6 +231,10 @@ object Cobblemon {
 
         SpeciesFeatures.types["choice"] = ChoiceSpeciesFeatureProvider::class.java
         SpeciesFeatures.types["flag"] = FlagSpeciesFeatureProvider::class.java
+
+        SpeciesFeatures.register(
+            DataKeys.HAS_BEEN_SHEARED,
+            FlagSpeciesFeatureProvider(keys = listOf(DataKeys.HAS_BEEN_SHEARED), default = false))
 
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)
@@ -295,15 +302,13 @@ object Cobblemon {
             }
         }
 
-        showdownThread.showdownStarted.thenAccept {
-            PokemonSpecies.observable.pipe(takeFirst()).subscribe {
-                LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
-                battleRegistry.startBattle(
-                    BattleFormat.GEN_8_SINGLES,
-                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
-                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
-                ).apply { mute = true }
-            }
+        PokemonSpecies.observable.subscribe {
+            LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
+            battleRegistry.startBattle(
+                BattleFormat.GEN_8_SINGLES,
+                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
+                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
+            ).apply { mute = true }
         }
     }
 

@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.particle
 
 import com.bedrockk.molang.Expression
-import com.bedrockk.molang.ast.BooleanExpression
 import com.bedrockk.molang.ast.NumberExpression
 import com.cobblemon.mod.common.api.snowstorm.AnimatedParticleUVMode
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticle
@@ -35,6 +34,7 @@ import com.cobblemon.mod.common.api.snowstorm.OutwardsMotionDirection
 import com.cobblemon.mod.common.api.snowstorm.ParticleCollision
 import com.cobblemon.mod.common.api.snowstorm.ParticleMaterial
 import com.cobblemon.mod.common.api.snowstorm.ParticleMotionDirection
+import com.cobblemon.mod.common.api.snowstorm.ParticleSpace
 import com.cobblemon.mod.common.api.snowstorm.PointParticleEmitterShape
 import com.cobblemon.mod.common.api.snowstorm.RotateXYZCameraMode
 import com.cobblemon.mod.common.api.snowstorm.RotateYCameraMode
@@ -43,19 +43,19 @@ import com.cobblemon.mod.common.api.snowstorm.StaticParticleMotion
 import com.cobblemon.mod.common.api.snowstorm.StaticParticleUVMode
 import com.cobblemon.mod.common.api.snowstorm.SteadyParticleEmitterRate
 import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vector4f
-import org.apache.commons.codec.binary.Hex
 
 object SnowstormParticleReader {
     fun loadEffect(json: JsonObject): BedrockParticleEffect {
         val effectJson = json.get("particle_effect").asJsonObject
         val descJson = effectJson.get("description").asJsonObject
         val basicRenderParametersJson = descJson.get("basic_render_parameters").asJsonObject
-        val curvesJson = descJson.get("curves")?.asJsonObject ?: JsonObject()
+        val curvesJson = effectJson.get("curves")?.asJsonObject ?: JsonObject()
         val componentsJson = effectJson.get("components")?.asJsonObject ?: JsonObject()
         val emitterInitializationJson = componentsJson.get("minecraft:emitter_initialization")?.asJsonObject ?: JsonObject()
         val particleInitializationJson = componentsJson.get("minecraft:particle_initialization")?.asJsonObject ?: JsonObject()
@@ -79,12 +79,13 @@ object SnowstormParticleReader {
         val tintingJson = componentsJson.get("minecraft:particle_appearance_tinting")?.asJsonObject
         val colourJson = tintingJson?.get("color")
         val collisionJson = componentsJson.get("minecraft:particle_motion_collision")?.asJsonObject
+        val spaceJson = componentsJson.get("minecraft:emitter_local_space")?.asJsonObject
 
         val id = Identifier(descJson.get("identifier").asString)
         val maxAge = particleLifetimeJson?.get("max_lifetime")?.asString?.asExpression() ?: 0.0.asExpression()
         val killExpression = particleLifetimeJson?.get("expiration_expression")?.asString?.asExpression() ?: 0.0.asExpression()
         val material = ParticleMaterial.valueOf(basicRenderParametersJson.get("material").asString.substringAfter("_").uppercase())
-        val texture = Identifier(basicRenderParametersJson.get("texture").asString?.let { if (it.endsWith(".png")) it.replace(".png", "") else it })
+        val texture = basicRenderParametersJson.get("texture").asString.let { if (it.endsWith(".png")) it.replace(".png", "") else it }.replace("particles/", "particle/").replace("textures/", "").asIdentifierDefaultingNamespace()
         val sizeX = sizeJson?.get(0)?.asString?.asExpression() ?: 1.0.asExpression()
         val sizeY = sizeJson?.get(1)?.asString?.asExpression() ?: 1.0.asExpression()
 
@@ -151,8 +152,8 @@ object SnowstormParticleReader {
             )
         } else if (emitterLifetimeExpressionJson != null) {
             ExpressionEmitterLifetime(
-                activation = (emitterLifetimeExpressionJson.get("activation")?.asString ?: "").asExpression(),
-                expiration = (emitterLifetimeExpressionJson.get("expiration")?.asString ?: "").asExpression()
+                activation = (emitterLifetimeExpressionJson.get("activation_expression")?.asString ?: "").asExpression(),
+                expiration = (emitterLifetimeExpressionJson.get("expiration_expression")?.asString ?: "").asExpression()
             )
         } else {
             TODO("Missing or unspecified emitter lifetime")
@@ -177,11 +178,11 @@ object SnowstormParticleReader {
         }
 
         val shape = if (emitterShapePointJson != null) {
-            val arr = emitterShapePointJson.get("offset").asJsonArray.map { it.asString.asExpression() }
+            val arr = emitterShapePointJson.get("offset")?.asJsonArray?.map { it.asString.asExpression() } ?: listOf(0.0.asExpression(), 0.0.asExpression(), 0.0.asExpression())
             resolveDirection(emitterShapePointJson)
             PointParticleEmitterShape(offset = Triple(arr[0], arr[1], arr[2]))
         } else if (emitterShapeSphereJson != null) {
-            val arr = emitterShapeSphereJson.get("offset").asJsonArray.map { it.asString.asExpression() }
+            val arr = emitterShapeSphereJson.get("offset")?.asJsonArray?.map { it.asString.asExpression() } ?: listOf(0.0.asExpression(), 0.0.asExpression(), 0.0.asExpression())
             resolveDirection(emitterShapeSphereJson)
             SphereParticleEmitterShape(
                 offset = Triple(arr[0], arr[1], arr[2]),
@@ -190,7 +191,7 @@ object SnowstormParticleReader {
             )
         } else if (emitterShapeDiscJson != null) {
             resolveDirection(emitterShapeDiscJson)
-            val offsetExpressions = emitterShapeDiscJson.get("offset").asJsonArray.map { it.asString.asExpression() }
+            val offsetExpressions = emitterShapeDiscJson.get("offset")?.asJsonArray?.map { it.asString.asExpression() } ?: listOf(0.0.asExpression(), 0.0.asExpression(), 0.0.asExpression())
             val normalJson = emitterShapeDiscJson.get("plane_normal") ?: JsonPrimitive("y")
             val normal: Triple<Expression, Expression, Expression> = if (normalJson.isJsonArray) {
                 val normalArr = normalJson.asJsonArray.map { it.asString.asExpression() }
@@ -227,7 +228,7 @@ object SnowstormParticleReader {
         } else {
             TODO("Missing or unimplemented emitter shape")
         }
-        val motion = if (dynamicMotionJson != null && dynamicMotionJson.has("linear_acceleration")) {
+        val motion = if (dynamicMotionJson != null) {
             val accelerationExpressions = dynamicMotionJson.get("linear_acceleration")?.asJsonArray?.map { it.asString.asExpression() }
                 ?: listOf(0.0.asExpression(), 0.0.asExpression(), 0.0.asExpression())
             val drag= dynamicMotionJson.get("linear_drag_coefficient")?.asString?.asExpression() ?: 0.0.asExpression()
@@ -259,6 +260,8 @@ object SnowstormParticleReader {
                 vSize = sizeUV[1].asString.asExpression(),
                 stepU = stepUV[0].asString.asExpression(),
                 stepV = stepUV[1].asString.asExpression(),
+                textureSizeX = uvModeJson.get("texture_width")?.asInt ?: 128,
+                textureSizeY = uvModeJson.get("texture_height")?.asInt ?: 128,
                 maxFrame = flipbook.get("max_frame")?.asString?.asExpression() ?: NumberExpression(0.0),
                 loop = flipbook.get("loop")?.asBoolean ?: false,
                 fps = flipbook.get("frames_per_second")?.asString?.asExpression() ?: NumberExpression(0.0),
@@ -315,6 +318,14 @@ object SnowstormParticleReader {
                 expiresOnContact = it.get("expire_on_contact")?.asBoolean ?: false
             )
         } ?: ParticleCollision()
+        val space = spaceJson?.let {
+            val spaceRotation = it.get("rotation")?.asBoolean ?: false
+            ParticleSpace(
+                localPosition = if (spaceRotation) true else it.get("position")?.asBoolean ?: false,
+                localRotation = spaceRotation,
+                localVelocity = it.get("velocity")?.asBoolean ?: false
+            )
+        } ?: ParticleSpace()
 
         return BedrockParticleEffect(
             id = id,
@@ -342,7 +353,8 @@ object SnowstormParticleReader {
                 collision = collision,
                 environmentLighting = environmentLighting,
                 tinting = tinting
-            )
+            ),
+            space = space
         )
     }
 

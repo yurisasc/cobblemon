@@ -20,21 +20,41 @@ import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.text.*
-import com.cobblemon.mod.common.battles.dispatch.*
+import com.cobblemon.mod.common.api.text.aqua
+import com.cobblemon.mod.common.api.text.gold
+import com.cobblemon.mod.common.api.text.plus
+import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
+import com.cobblemon.mod.common.battles.dispatch.DispatchResult
+import com.cobblemon.mod.common.battles.dispatch.GO
+import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
+import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.net.messages.client.battle.*
+import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.asTranslated
+import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.runOnServer
+import com.cobblemon.mod.common.util.swap
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
+import kotlin.math.roundToInt
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.math.roundToInt
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String, MutableList<String>) -> Unit>()
@@ -77,8 +97,12 @@ object ShowdownInterpreter {
         updateInstructions["|-nothing"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
         }
+        updateInstructions["|-clearallboost"] = { battle, _, _ ->
+            battle.dispatchGo { battle.broadcastChatMessage(battleLang("clearallboost")) }
+        }
         updateInstructions["|-unboost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, false) }
         updateInstructions["|-boost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, true) }
+        updateInstructions["|-setboost|"] = this::handleSetBoostInstruction
         updateInstructions["|t:|"] = {_, _, _ -> }
         updateInstructions["|pp_update|"] = this::handlePpUpdateInstruction
         updateInstructions["|-immune"] = this::handleImmuneInstruction
@@ -140,6 +164,21 @@ object ShowdownInterpreter {
         1 -> "slight"
         2 -> "sharp"
         else -> "severe"
+    }
+
+    private fun handleSetBoostInstruction(battle: PokemonBattle, line: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val message = BattleMessage(line)
+            val pokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
+            val pokemonName = pokemon.battlePokemon?.getName() ?: return@dispatchGo
+            val effect = message.effect() ?: return@dispatchGo
+            val lang = when(effect.id) {
+                "bellydrum" -> battleLang("setboost.bellydrum", pokemonName)
+                "angerpoint" -> battleLang("setboost.angerpoint", pokemonName)
+                else -> battle.createUnimplemented(message)
+            }
+            battle.broadcastChatMessage(lang)
+        }
     }
 
     fun interpretMessage(battleId: UUID, message: String) {
@@ -427,7 +466,7 @@ object ShowdownInterpreter {
 
         battle.dispatch {
             battle.sendToActors(BattleMakeChoicePacket())
-            battle.broadcastChatMessage("It is now turn $turnNumber".aqua())
+            battle.broadcastChatMessage(battleLang("turn", turnNumber).aqua())
             battle.turn(turnNumber)
             GO
         }
@@ -554,7 +593,6 @@ object ShowdownInterpreter {
                     move
                 ))
             }
-
             GO
         }
     }
@@ -567,13 +605,26 @@ object ShowdownInterpreter {
             // This may be null as it's not always given
             val moveName = message.argumentAt(2)?.let { Moves.getByName(it)?.displayName } ?: Text.EMPTY
             val name = pokemon.battlePokemon?.getName() ?: "DEAD".text()
-            val actionText = when (reason) {
-                Statuses.SLEEP.showdownName -> lang("status.sleep.is", name)
+            val actionText = when(reason) {
+                // ToDo in the games they use a generic image because there is a popup of the ability and the sprite of the mon, it may be good to have a similar system here
+                "ability: Armor Tail", "ability: Damp", "ability: Dazzling", "ability: Queenly Majesty" -> battleLang("cant.generic_block", name, moveName)
+                "ability: Truant" -> battleLang("cant.truant", name, moveName)
                 Statuses.PARALYSIS.showdownName -> lang("status.paralysis.is", name)
+                Statuses.SLEEP.showdownName -> lang("status.sleep.is", name)
                 Statuses.FROZEN.showdownName -> lang("status.frozen.is", name)
+                "flinch" -> battleLang("cant.flinched", name)
+                "recharge" -> battleLang("cant.recharge", name)
+                "Attract" -> battleLang("cant.attract", name)
+                "Disable" -> battleLang("cant.disable", name)
+                "Focus Punch" -> battleLang("cant.focus_punch", name)
+                "move: Heal Block" -> battleLang("cant.heal_block", name, moveName)
+                "move: Imprison" -> battleLang("cant.imprison", name, moveName)
                 "move: Gravity" -> battleLang("cant.gravity", name, moveName)
-                "flinch" -> battleLang("flinched", name)
-                else -> reason.text() // Way for us to find those we have not implemented
+                "Shell Trap" -> battleLang("cant.shell_trap", name)
+                "move: Taunt" -> battleLang("cant.taunt", name, moveName)
+                "move: Throat Chop" -> battleLang("cant.throat_chop", name, moveName)
+                "nopp" -> battleLang("cant.no_pp", name, moveName)
+                else -> battle.createUnimplemented(message).copy()
             }
             battle.broadcastChatMessage(actionText.red())
         }
@@ -734,6 +785,7 @@ object ShowdownInterpreter {
                 "psychicterrain" -> battleLang("activate.psychic_terrain", pokemonName)
                 "healbell" -> battleLang("activate.heal_bell")
                 "aromatherapy" -> battleLang("activate.aromatherapy")
+                "trapped" -> battleLang("activate.trapped")
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
@@ -836,17 +888,17 @@ object ShowdownInterpreter {
         // Parse Json message and update state info for actor
         val request = BattleRegistry.gson.fromJson(message.split("|request|")[1], ShowdownActionRequest::class.java)
         if (battle.started) {
-            battle.dispatch {
+            battle.dispatchGo {
                 battleActor.sendUpdate(BattleQueueRequestPacket(request))
                 battleActor.request = request
                 battleActor.responses.clear()
-                val goneIndices = battleActor.activePokemon.filter { it.isGone() }.map { battleActor.activePokemon.indexOf(it) }
-                val forceSwitchIndices = request.forceSwitch.mapIndexedNotNull { index, b -> if (b) index else null }
-                if (forceSwitchIndices.any { it in goneIndices }) {
-                    battleActor.mustChoose = true
-                    battleActor.sendUpdate(BattleMakeChoicePacket())
+                // We need to send this out because 'upkeep' isn't received until the request is handled since the turn won't swap
+                if (request.forceSwitch.withIndex().any { it.value && battleActor.activePokemon.getOrNull(it.index)?.isGone() == false }) {
+                    battle.doWhenClear {
+                        battleActor.mustChoose = true
+                        battleActor.sendUpdate(BattleMakeChoicePacket())
+                    }
                 }
-                GO
             }
         } else {
             battleActor.request = request
@@ -861,14 +913,21 @@ object ShowdownInterpreter {
             val uuid = UUID.fromString(publicMessage.split("|")[2].split(":")[1].trim())
             val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
             val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
+
             activePokemon.battlePokemon = pokemon
             val pokemonEntity = pokemon.entity
             if (pokemonEntity == null && entity != null) {
+                val targetPos = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.entity?.pos?.let { pos ->
+                    val offset = pos.subtract(entity.pos)
+                    val idealPos = entity.pos.add(offset.multiply(0.33))
+                    idealPos
+                } ?: entity.pos
+
                 pokemon.effectedPokemon.sendOutWithAnimation(
                     source = entity,
                     battleId = battle.battleId,
                     level = entity.world as ServerWorld,
-                    position = entity.pos
+                    position = targetPos
                 )
             }
         } else {

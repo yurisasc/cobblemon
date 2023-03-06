@@ -78,19 +78,11 @@ class DynamicParticleMotion(
     }
 
     override fun getAcceleration(runtime: MoLangRuntime, velocity: Vec3d): Vec3d {
-        val acceleration = Vec3d(
+        return Vec3d(
             runtime.resolveDouble(acceleration.first),
             runtime.resolveDouble(acceleration.second),
             runtime.resolveDouble(acceleration.third)
-        )
-
-        val nextVelocity = velocity.add(acceleration)
-        val drag = nextVelocity.normalize().multiply(runtime.resolveDouble(drag))
-        return if (drag.length() > nextVelocity.length()) {
-            Vec3d.ZERO
-        } else {
-            nextVelocity.subtract(drag).subtract(velocity)
-        }
+        ).subtract(velocity.multiply(runtime.resolveDouble(drag) / 20)/* Drag is measured in blocks per tick per tick, I know it sounds dumb. */)
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)

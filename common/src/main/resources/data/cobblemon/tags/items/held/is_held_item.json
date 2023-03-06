@@ -2,16 +2,24 @@
   "replace": false,
   "values": [
     "cobblemon:assault_vest",
+    "cobblemon:auspicious_armor",
+    "cobblemon:big_root",
+    "cobblemon:black_belt",
     "cobblemon:black_glasses",
+    "cobblemon:black_sludge",
+    "cobblemon:charcoal",
     "cobblemon:choice_band",
+    "cobblemon:choice_scarf",
     "cobblemon:choice_specs",
     "cobblemon:exp_share",
+    "cobblemon:dragon_fang",
     "cobblemon:focus_band",
     "cobblemon:hard_stone",
     "cobblemon:heavy_duty_boots",
     "cobblemon:muscle_band",
     "cobblemon:rocky_helmet",
     "cobblemon:safety_goggles",
+    "cobblemon:silk_scarf",
     "cobblemon:wise_glasses"
   ]
 }
