@@ -56,6 +56,7 @@
 - Added Evolution stones to Item Tags
 - Added Evolution items to Item Tags
 - Added party scrolling via holding R and using the mouse wheel so you don't need to take your hand off your mouse.
+- Added milking to Miltank.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
