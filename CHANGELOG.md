@@ -57,6 +57,7 @@
 - Added Evolution items to Item Tags
 - Added party scrolling via holding R and using the mouse wheel so you don't need to take your hand off your mouse.
 - Added milking to Miltank.
+- Added several evolution items.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -68,7 +69,7 @@
 - Made it so that particles are not shown whenever you have a shoulder Pokémon that gives particle effects.
 - Changed the Imports in "PokemonModelReposity" to instead grab the entire Gen rather than each Pokémon Specifically.
 - Changed Hitbox and Size definitions for Decidueye, Blastoise, and Magmortar
-- Apricorns can now be harvested with Axes scaling speed scaling with enchantments and tool material, only dropping the Apricorn if fully grown, these will still destroy the Apricorn so the manual harvest still is recommended unless you're just keen on destroying trees.
+- Apricorns can now be harvested with Axes, the speed will scale with enchantments and tool material, only dropping the Apricorn if fully grown, these will still destroy the Apricorn so the manual harvest still is recommended unless you're just keen on destroying trees.
 - Apricorns are now a part of the vanilla tag ``minecraft:blocks/mineable/axe``.
 - Apricorns are now compatible with any mod that breaks a whole tree at once.
 - Apricorns no longer have a config value for the seed drop chance these are now a part of their loot table which can be found in ``cobblemon/loot_tables/blocks/<color>_apricorn.json``.

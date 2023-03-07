@@ -10,12 +10,7 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
-import com.cobblemon.mod.common.item.ApricornItem
-import com.cobblemon.mod.common.item.ApricornSeedItem
-import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.CobblemonItemGroups
-import com.cobblemon.mod.common.item.PokeBallItem
-import com.cobblemon.mod.common.item.PokemonItem
+import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
@@ -166,28 +161,39 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val PC = queue("pc") { blockItem(CobblemonBlocks.PC.get(), ItemGroup.REDSTONE) }
 
     // Evolution items
-    @JvmField
-    val LINK_CABLE = queue("link_cable") { LinkCableItem() }
-    @JvmField
-    val KINGS_ROCK = queue("kings_rock") { evolutionItem() }
-    @JvmField
-    val METAL_COAT = queue("metal_coat") { evolutionItem() }
-    @JvmField
-    val BLACK_AUGURITE = queue("black_augurite") { evolutionItem() }
-    @JvmField
-    val PROTECTOR = queue("protector") { evolutionItem() }
-    @JvmField
-    val OVAL_STONE = queue("oval_stone") { evolutionItem() }
-    @JvmField
-    val DRAGON_SCALE = queue("dragon_scale") { evolutionItem() }
-    @JvmField
-    val ELECTIRIZER = queue("electirizer") { evolutionItem() }
-    @JvmField
-    val MAGMARIZER = queue("magmarizer") { evolutionItem() }
-    @JvmField
-    val UPGRADE = queue("upgrade") { evolutionItem() }
-    @JvmField
-    val DUBIOUS_DISC = queue("dubious_disc") { evolutionItem() }
+    @JvmField val LINK_CABLE = this.queue("link_cable") { LinkCableItem() }
+    @JvmField val DRAGON_SCALE = this.evolutionItem("dragon_scale")
+    @JvmField val KINGS_ROCK = this.evolutionItem("kings_rock")
+    @JvmField val METAL_COAT = this.evolutionItem("metal_coat")
+    @JvmField val UPGRADE = this.evolutionItem("upgrade")
+    @JvmField val DUBIOUS_DISC = this.evolutionItem("dubious_disc")
+    @JvmField val DEEP_SEA_SCALE = this.evolutionItem("deep_sea_scale")
+    @JvmField val DEEP_SEA_TOOTH = this.evolutionItem("deep_sea_tooth")
+    @JvmField val ELECTIRIZER = this.evolutionItem("electirizer")
+    @JvmField val MAGMARIZER = this.evolutionItem("magmarizer")
+    @JvmField val OVAL_STONE = this.evolutionItem("oval_stone")
+    @JvmField val PROTECTOR = this.evolutionItem("protector")
+    @JvmField val REAPER_CLOTH = this.evolutionItem("reaper_cloth")
+    @JvmField val PRISM_SCALE = this.evolutionItem("prism_scale")
+    @JvmField val SACHET = this.evolutionItem("sachet")
+    @JvmField val WHIPPED_DREAM = this.evolutionItem("whipped_dream")
+    @JvmField val STRAWBERRY_SWEET = this.evolutionItem("strawberry_sweet")
+    @JvmField val LOVE_SWEET = this.evolutionItem("love_sweet")
+    @JvmField val BERRY_SWEET = this.evolutionItem("berry_sweet")
+    @JvmField val CLOVER_SWEET = this.evolutionItem("clover_sweet")
+    @JvmField val FLOWER_SWEET = this.evolutionItem("flower_sweet")
+    @JvmField val STAR_SWEET = this.evolutionItem("star_sweet")
+    @JvmField val RIBBON_SWEET = this.evolutionItem("ribbon_sweet")
+    @JvmField val CHIPPED_POT = this.evolutionItem("chipped_pot")
+    @JvmField val CRACKED_POT = this.evolutionItem("cracked_pot")
+    @JvmField val SWEET_APPLE = this.evolutionItem("sweet_apple")
+    @JvmField val TART_APPLE = this.evolutionItem("tart_apple")
+    @JvmField val GALARICA_CUFF = this.evolutionItem("galarica_cuff")
+    @JvmField val GALARICA_WREATH = this.evolutionItem("galarica_wreath")
+    @JvmField val BLACK_AUGURITE = this.evolutionItem("black_augurite")
+    @JvmField val PEAT_BLOCK = this.evolutionItem("peat_block")
+    // ToDo enable me when malicious armor goes in the game
+    //@JvmField val AUSPICIOUS_ARMOR = this.heldItem("auspicious_armor")
 
     // Medicine
     @JvmField
@@ -261,31 +267,29 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     @JvmField
     val DRIPSTONE_MOON_STONE_ORE = queue("dripstone_moon_stone_ore") { blockItem(CobblemonBlocks.DRIPSTONE_MOON_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
     @JvmField
-    val DAWN_STONE = queue("dawn_stone") { evolutionItem() }
+    val DAWN_STONE = this.evolutionItem("dawn_stone")
     @JvmField
-    val DUSK_STONE = queue("dusk_stone") { evolutionItem() }
+    val DUSK_STONE = this.evolutionItem("dusk_stone")
     @JvmField
-    val FIRE_STONE = queue("fire_stone") { evolutionItem() }
+    val FIRE_STONE = this.evolutionItem("fire_stone")
     @JvmField
-    val ICE_STONE = queue("ice_stone") { evolutionItem() }
+    val ICE_STONE = this.evolutionItem("ice_stone")
     @JvmField
-    val LEAF_STONE = queue("leaf_stone") { evolutionItem() }
+    val LEAF_STONE = this.evolutionItem("leaf_stone")
     @JvmField
-    val MOON_STONE = queue("moon_stone") { evolutionItem() }
+    val MOON_STONE = this.evolutionItem("moon_stone")
     @JvmField
-    val SHINY_STONE = queue("shiny_stone") { evolutionItem() }
+    val SHINY_STONE = this.evolutionItem("shiny_stone")
     @JvmField
-    val SUN_STONE = queue("sun_stone") { evolutionItem() }
+    val SUN_STONE = this.evolutionItem("sun_stone")
     @JvmField
-    val THUNDER_STONE = queue("thunder_stone") { evolutionItem() }
+    val THUNDER_STONE = this.evolutionItem("thunder_stone")
     @JvmField
-    val WATER_STONE = queue("water_stone") { evolutionItem() }
+    val WATER_STONE = this.evolutionItem("water_stone")
 
     // Held Items
     @JvmField
     val ASSAULT_VEST = this.heldItem("assault_vest")
-    @JvmField
-    val AUSPICIOUS_ARMOR = this.heldItem("auspicious_armor")
     @JvmField
     val BIG_ROOT = this.heldItem("big_root")
     @JvmField
@@ -339,9 +343,7 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
         return AliasedBlockItem(block, Item.Settings().group(tab))
     }
 
-    private fun evolutionItem(): CobblemonItem {
-        return CobblemonItem(Item.Settings().group(CobblemonItemGroups.EVOLUTION_ITEM_GROUP))
-    }
+    private fun evolutionItem(name: String) = queue(name) { CobblemonItem(Item.Settings().group(CobblemonItemGroups.EVOLUTION_ITEM_GROUP)) }
 
     private fun pokeballItem(pokeBall: PokeBall): RegistrySupplier<PokeBallItem> {
         val supplier = this.queue(pokeBall.name.path) { PokeBallItem(pokeBall) }

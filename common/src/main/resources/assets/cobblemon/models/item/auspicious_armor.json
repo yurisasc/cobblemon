@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cobblemon:items/held_items/auspicious_armor"
+    "layer0": "cobblemon:items/evolution/auspicious_armor"
   }
 }
