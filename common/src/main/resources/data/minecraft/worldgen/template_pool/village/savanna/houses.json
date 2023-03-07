@@ -1,6 +1,16 @@
 {
-  "replace": true,
   "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "cobblemon:village_savanna/village_savanna_pokecenter",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 35
+    },
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
@@ -335,17 +345,6 @@
         "projection": "rigid"
       },
       "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "location": "cobblemon:village_savanna/village_savanna_pokecenter",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 35
     },
     {
       "element": {

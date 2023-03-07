@@ -1,6 +1,14 @@
 {
-  "replace": true,
   "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "cobblemon:village_taiga/village_taiga_pokecenter",
+        "processors": "minecraft:mossify_10_percent",
+        "projection": "rigid"
+      },
+      "weight": 35
+    },
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
@@ -243,15 +251,6 @@
         "projection": "rigid"
       },
       "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "cobblemon:village_taiga/village_taiga_pokecenter",
-        "processors": "minecraft:mossify_10_percent",
-        "projection": "rigid"
-      },
-      "weight": 35
     },
     {
       "element": {

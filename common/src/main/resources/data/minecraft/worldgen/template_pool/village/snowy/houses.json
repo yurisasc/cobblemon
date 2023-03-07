@@ -4,6 +4,17 @@
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
+        "location": "cobblemon:village_snowy/village_snowy_pokecenter",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      },
+      "weight": 35
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
         "location": "minecraft:village/snowy/houses/snowy_small_house_1",
         "processors": {
           "processors": []
@@ -326,17 +337,6 @@
         "projection": "rigid"
       },
       "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "minecraft:legacy_single_pool_element",
-        "location": "cobblemon:village_snowy/village_snowy_pokecenter",
-        "processors": {
-          "processors": []
-        },
-        "projection": "rigid"
-      },
-      "weight": 35
     },
     {
       "element": {
