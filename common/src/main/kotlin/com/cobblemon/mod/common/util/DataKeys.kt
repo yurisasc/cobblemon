@@ -97,5 +97,6 @@ object DataKeys {
     const val POKEMON_ITEM_ASPECTS = "aspects"
 
     // Features
+    const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
 }
