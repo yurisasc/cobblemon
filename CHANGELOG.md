@@ -76,6 +76,7 @@
 - Improved the framing of all in-game Pokémon in the party and PC GUIs.
 - Updated models and textures for Tentacool line, Gengar, Slowpoke line, Tyrogue line, Doduo line, Dratini, Dragonair, Quagsire, and Piplup line.
 - Improved sending out Pokémon at the start of battle so that they are positioned in a less annoying way.
+- Name Tags will no longer be used on Pokémon and Poke Ball entities, this prevents the item from being wasted.
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
