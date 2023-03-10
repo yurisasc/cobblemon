@@ -299,7 +299,7 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     @JvmField
     val BLACK_SLUDGE = this.heldItem("black_sludge")
     @JvmField
-    val CHARCOAL = this.heldItem("charcoal")
+    val CHARCOAL = this.heldItem("charcoal_stick")
     @JvmField
     val CHOICE_BAND = this.heldItem("choice_band")
     @JvmField
@@ -317,15 +317,41 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     @JvmField
     val HEAVY_DUTY_BOOTS = this.heldItem("heavy_duty_boots")
     @JvmField
+    val LEFTOVERS = this.heldItem("leftovers")
+    @JvmField
+    val LIGHT_CLAY = this.heldItem("light_clay")
+    @JvmField
     val LUCKY_EGG = this.heldItem("lucky_egg")
     @JvmField
+    val MAGNET = this.heldItem("magnet")
+    @JvmField
+    val MIRACLE_SEED = this.heldItem("miracle_seed")
+    @JvmField
     val MUSCLE_BAND = this.heldItem("muscle_band")
+    @JvmField
+    val MYSTIC_WATER = this.heldItem("mystic_water")
+    @JvmField
+    val NEVER_MELT_ICE = this.heldItem("never_melt_ice")
+    @JvmField
+    val POISON_BARB = this.heldItem("poison_barb")
+    @JvmField
+    val QUICK_CLAW = this.heldItem("quick_claw")
     @JvmField
     val ROCKY_HELMET = this.heldItem("rocky_helmet")
     @JvmField
     val SAFETY_GOGGLES = this.heldItem("safety_goggles")
     @JvmField
+    val SHARP_BEAK = this.heldItem("sharp_beak")
+    @JvmField
     val SILK_SCARF = this.heldItem("silk_scarf")
+    @JvmField
+    val SILVER_POWDER = this.heldItem("silver_powder")
+    @JvmField
+    val SOFT_SAND = this.heldItem("soft_sand")
+    @JvmField
+    val SPELL_TAG = this.heldItem("spell_tag")
+    @JvmField
+    val TWISTED_SPOON = this.heldItem("twisted_spoon")
     @JvmField
     val WISE_GLASSES = this.heldItem("wise_glasses")
 
