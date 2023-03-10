@@ -56,6 +56,8 @@
 - Added Evolution stones to Item Tags
 - Added Evolution items to Item Tags
 - Added party scrolling via holding R and using the mouse wheel so you don't need to take your hand off your mouse.
+- Added block tag support to the 'neededBaseBlocks' and 'neededNearbyBlocks' spawn condition.
+- Added a config option for disallowing players from damaging Pokémon by hand.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -130,6 +132,7 @@
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
 - Fixed minimumDistanceBetweenEntities option being half of what it's set as.
 - Fixed the contents of CobblemonEvents, CobblemonBlocks etc having getters instead of just being public static properties.
+- Added ApricornHarvestEvent.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
