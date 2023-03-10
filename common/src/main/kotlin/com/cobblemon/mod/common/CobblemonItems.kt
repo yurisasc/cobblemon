@@ -9,12 +9,14 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
 import com.cobblemon.mod.common.pokeball.PokeBall
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.registry.CompletableRegistry
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
@@ -299,7 +301,7 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     @JvmField
     val BLACK_SLUDGE = this.heldItem("black_sludge")
     @JvmField
-    val CHARCOAL = this.heldItem("charcoal_stick")
+    val CHARCOAL = this.heldItem("charcoal_stick", remappedName = "charcoal")
     @JvmField
     val CHOICE_BAND = this.heldItem("choice_band")
     @JvmField
@@ -378,6 +380,11 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
         return supplier
     }
 
-    private fun heldItem(name: String): RegistrySupplier<CobblemonItem> = queue(name) { CobblemonItem(Item.Settings().group(CobblemonItemGroups.HELD_ITEM_GROUP)) }
-
+    private fun heldItem(name: String, remappedName: String? = null): RegistrySupplier<CobblemonItem> = queue(name) {
+        val item = CobblemonItem(Item.Settings().group(CobblemonItemGroups.HELD_ITEM_GROUP))
+        if (remappedName != null) {
+            CobblemonHeldItemManager.registerRemap(item, remappedName)
+        }
+        return@queue item
+    }
 }
