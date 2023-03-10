@@ -290,6 +290,11 @@ class PokemonEntity(
             return true
         }
 
+        // Owned Pokémon cannot be hurt by players or suffocation
+        if (ownerUuid != null && (damageSource.attacker is PlayerEntity || damageSource == DamageSource.IN_WALL)) {
+            return true
+        }
+
         if (!Cobblemon.config.playerDamagePokemon && damageSource.attacker is PlayerEntity) {
             return true
         }
