@@ -43,6 +43,7 @@ object CobblemonCaptureCalculator: CaptureCalculator, CriticalCaptureProvider, P
      * 90%. This 90% reduction would take place at a 45 level difference or higher.
      */
     override fun processCapture(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon): CaptureContext {
+//        return Gen3And4CaptureCalculator.processCapture(thrower, pokeBall, target)
         if (pokeBall.catchRateModifier.isGuaranteed()) {
             return CaptureContext.successful()
         }
@@ -62,7 +63,7 @@ object CobblemonCaptureCalculator: CaptureCalculator, CriticalCaptureProvider, P
         val ballBonus = if (validModifier) pokeBall.catchRateModifier.value(thrower, target).roundToInt().coerceAtLeast(1) else 1
         var modifiedCatchRate = pokeBall.catchRateModifier
             .behavior(thrower, target)
-            .mutator((3F * target.hp - 2F * target.currentHealth) * 4096F * darkGrass * catchRate * inBattleModifier, ballBonus.toFloat()) / (3F * target.hp)
+            .mutator((3F * target.hp - 2F * target.currentHealth) * darkGrass * catchRate * inBattleModifier, ballBonus.toFloat()) / (3F * target.hp)
         modifiedCatchRate *= bonusStatus * bonusLevel
         if (thrower is ServerPlayerEntity) {
             val highestLevelThrower = this.findHighestThrowerLevel(thrower, target)
