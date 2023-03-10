@@ -175,4 +175,7 @@ class CobblemonConfig {
     @NodeCategory(Category.Pokemon)
     var captureCalculator: CaptureCalculator = CobblemonCaptureCalculator
 
+    @NodeCategory(Category.Pokemon)
+    var playerDamagePokemon = true
+
 }
