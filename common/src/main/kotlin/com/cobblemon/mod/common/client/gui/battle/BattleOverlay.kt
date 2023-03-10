@@ -407,7 +407,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
 
         val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
         val buffer = immediate.getBuffer(renderType)
-        val packedLight = LightmapTextureManager.pack(8, 4)
+        val packedLight = LightmapTextureManager.pack(11, 7)
         model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
 
         immediate.draw()

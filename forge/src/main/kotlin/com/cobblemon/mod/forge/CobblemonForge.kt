@@ -28,7 +28,6 @@ import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
@@ -36,7 +35,7 @@ class CobblemonForge : CobblemonImplementation {
     private val hasBeenSynced = hashSetOf<UUID>()
 
     init {
-        with(FMLJavaModLoadingContext.get().modEventBus) {
+        with(thedarkcolour.kotlinforforge.forge.MOD_BUS) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
 
             CobblemonEvents.ENTITY_ATTRIBUTE.pipe(filter { it.entityType == CobblemonEntities.POKEMON.get() }, takeFirst())

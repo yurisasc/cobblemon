@@ -84,6 +84,7 @@
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
 - Fixed Pokémon that faint from poison appearing to be on full health and suckering you into false hope.
+- Fixed incompatibility with Kotlin for Forge (by depending on Kotlin for Forge ourselves)
 - Fixed Sliggoo and Goodra secretly being their Hisuian form despite us not having those modelled yet.
 - Fixed forms not being able to unset the secondary type of a Pokémon in the stat JSON.
 - Fixed optional aspects not saving and loading properly.
@@ -130,6 +131,7 @@
 - Fixed Pokémon not carrying over the correct equivalent original ability when evolving from stages that only had one ability.
 - Fixed Deerling and Sawsbuck not spawning with the correct season.
 - Fixed catch rates being entirely too difficult.
+- Fixed lower brightness settings causing Pokémon to appear much too dark in menus such as the party and PC.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
