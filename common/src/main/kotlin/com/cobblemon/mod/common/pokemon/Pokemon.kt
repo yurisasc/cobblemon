@@ -921,7 +921,9 @@ open class Pokemon : ShowdownIdentifiable {
                 ability.priority = this.ability.priority
                 this.ability = ability
                 if (needsUpdate) {
-                    this.ability.index = this.form.abilities.mapping[priority]!!.indexOfFirst { potential -> potential.template == this.ability.template }
+                    // This may sometimes happen when both species and form update as well as if AbilityPool#select throws a graceful exception, we return to prevent a crash.
+                    val mapped = this.form.abilities.mapping[priority] ?: return
+                    this.ability.index = mapped.indexOfFirst { potential -> potential.template == this.ability.template }
                     this.ability.priority = priority
                 }
             }

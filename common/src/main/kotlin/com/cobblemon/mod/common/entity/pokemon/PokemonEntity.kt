@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -289,6 +290,10 @@ class PokemonEntity(
             return true
         }
 
+        if (!Cobblemon.config.playerDamagePokemon && damageSource.attacker is PlayerEntity) {
+            return true
+        }
+
         return super.isInvulnerableTo(damageSource)
     }
 
@@ -408,37 +413,53 @@ class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         val itemStack = player.getStackInHand(hand)
-        if (itemStack.isOf(Items.SHEARS) && player is ServerPlayerEntity) {
-            val feature = pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED)
-            val isShearable = feature?.enabled == false
-            if (isShearable) {
-                feature!!
-                world.playSoundFromEntity(
-                    null,
-                    this,
-                    SoundEvents.ENTITY_SHEEP_SHEAR,
-                    SoundCategory.PLAYERS,
-                    1.0F,
-                    1.0F
-                )
-                val i = 1 + random.nextInt(3)
+        if (player is ServerPlayerEntity) {
+            if (itemStack.isOf(Items.SHEARS)) {
+                val feature = pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED)
+                val isShearable = feature?.enabled == false
+                if (isShearable) {
+                    feature!!
+                    world.playSoundFromEntity(
+                        null,
+                        this,
+                        SoundEvents.ENTITY_SHEEP_SHEAR,
+                        SoundCategory.PLAYERS,
+                        1.0F,
+                        1.0F
+                    )
+                    val i = 1 + random.nextInt(3)
 
-                for (j in 0 until i) {
-                    val itemEntity = this.dropItem(Items.WHITE_WOOL, 1)
-                    if (itemEntity != null) {
-                        itemEntity.velocity = itemEntity.velocity.add(
-                            ((random.nextFloat() - random.nextFloat()) * 0.1f).toDouble(),
-                            (random.nextFloat() * 0.05f).toDouble(),
-                            ((random.nextFloat() - random.nextFloat()) * 0.1f).toDouble()
-                        )
+                    for (j in 0 until i) {
+                        val itemEntity = this.dropItem(Items.WHITE_WOOL, 1)
+                        if (itemEntity != null) {
+                            itemEntity.velocity = itemEntity.velocity.add(
+                                ((random.nextFloat() - random.nextFloat()) * 0.1f).toDouble(),
+                                (random.nextFloat() * 0.05f).toDouble(),
+                                ((random.nextFloat() - random.nextFloat()) * 0.1f).toDouble()
+                            )
+                        }
                     }
+                    this.emitGameEvent(GameEvent.SHEAR, player)
+                    itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
+                    feature.enabled = true
+                    pokemon.markFeatureDirty(feature)
+                    pokemon.updateAspects()
+                    return ActionResult.SUCCESS
                 }
-                this.emitGameEvent(GameEvent.SHEAR, player)
-                itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
-                feature.enabled = true
-                pokemon.markFeatureDirty(feature)
-                pokemon.updateAspects()
-                return ActionResult.SUCCESS
+            }
+            if (itemStack.isOf(Items.BUCKET)) {
+                if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
+                    world.playSoundFromEntity(
+                        null,
+                        this,
+                        SoundEvents.ENTITY_GOAT_MILK,
+                        SoundCategory.PLAYERS,
+                        1.0F,
+                        1.0F
+                    )
+                    player.setStackInHand(hand, ItemStack(Items.MILK_BUCKET))
+                    return ActionResult.SUCCESS
+                }
             }
         }
 
