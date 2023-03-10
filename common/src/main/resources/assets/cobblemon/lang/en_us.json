@@ -317,7 +317,7 @@
   "cobblemon.command.teach": "%2$s's %1$s learnt %3$s.",
   "cobblemon.command.teach.already_knows": "%1$s already knows %2$s!",
   "cobblemon.command.healpokemon.heal": "Fully healed %1$s's party.",
-  "cobblemon.command.friendship": " %1$s has %2$s friendship.",
+  "cobblemon.command.friendship": "%1$s has %2$s friendship.",
   "cobblemon.command.givepokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
   "cobblemon.command.spawnpokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
   "cobblemon.command.held_item": "%1$s' %2$s was given the %3$s to hold.",
