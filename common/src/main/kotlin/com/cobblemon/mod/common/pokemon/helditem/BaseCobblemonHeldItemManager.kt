@@ -85,5 +85,4 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
         }
         return null
     }
-
 }

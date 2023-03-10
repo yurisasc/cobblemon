@@ -296,7 +296,7 @@ class PokemonRenderer(
         }
         val player = MinecraftClient.getInstance().player ?: return
         val d = this.dispatcher.getSquaredDistanceToCamera(entity)
-        if(d <= 4096.0){
+        if (d <= 4096.0){
             val scale = min(1.5, max(0.65, d.remap(DoubleRange(-16.0, 96.0), DoubleRange(0.0, 1.0))))
             val sizeScale = MathHelper.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.5, 1.0)
             val offsetScale = MathHelper.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.0,1.0)
