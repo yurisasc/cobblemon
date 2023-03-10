@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.events.entity.EntityAttributeEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
+import com.cobblemon.mod.common.api.events.farming.ApricornHarvestEvent
 import com.cobblemon.mod.common.api.events.net.MessageBuiltEvent
 import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPostEvent
 import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent
@@ -94,6 +95,9 @@ object CobblemonEvents {
     val LOOT_DROPPED = CancelableObservable<LootDroppedEvent>()
     @JvmField
     val STARTER_CHOSEN = CancelableObservable<StarterChosenEvent>()
+
+    @JvmField
+    val APRICORN_HARVESTED = EventObservable<ApricornHarvestEvent>()
 
     @JvmField
     val SERVER_STARTING = LifecycleEvent.SERVER_STARTING.asServerObservable()
