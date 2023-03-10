@@ -17,17 +17,19 @@ import net.minecraft.network.PacketByteBuf
 /**
  * Packet sent to the client when the other player updates their offered Pokémon.
  *
+ * Handled by [com.cobblemon.mod.common.client.net.trade.TradeUpdatedHandler]
+ *
  * @author Hiroku
  * @since March 5th, 2023
  */
-class TradeUpdatedPacket(val pokemon: Pokemon) : NetworkPacket<TradeUpdatedPacket> {
+class TradeUpdatedPacket(val pokemon: Pokemon?) : NetworkPacket<TradeUpdatedPacket> {
     companion object {
-        private val ID = cobblemonResource("trade_updated")
-        fun decode(buffer: PacketByteBuf) = TradeUpdatedPacket(PokemonDTO().also { it.decode(buffer) }.create())
+        val ID = cobblemonResource("trade_updated")
+        fun decode(buffer: PacketByteBuf) = TradeUpdatedPacket(buffer.readNullable { PokemonDTO().also { it.decode(buffer) }.create() })
     }
 
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {
-        PokemonDTO(pokemon, true).encode(buffer)
+        buffer.writeNullable(pokemon) { _, pokemon -> PokemonDTO(pokemon, true).encode(buffer) }
     }
 }

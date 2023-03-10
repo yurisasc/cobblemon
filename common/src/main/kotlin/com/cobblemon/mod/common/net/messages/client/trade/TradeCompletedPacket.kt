@@ -15,12 +15,14 @@ import net.minecraft.network.PacketByteBuf
 /**
  * Packet sent to the client when the open trade has been completed.
  *
+ * Handled by [com.cobblemon.mod.common.client.net.trade.TradeCompletedHandler]
+ *
  * @author Hiroku
  * @since March 5th, 2023
  */
 class TradeCompletedPacket : NetworkPacket<TradeCompletedPacket> {
     companion object {
-        private val ID = cobblemonResource("trade_completed")
+        val ID = cobblemonResource("trade_completed")
         fun decode(buffer: PacketByteBuf) = TradeCompletedPacket()
     }
 

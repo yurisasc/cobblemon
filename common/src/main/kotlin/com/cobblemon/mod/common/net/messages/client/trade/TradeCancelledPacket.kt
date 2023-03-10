@@ -13,14 +13,16 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 /**
- * Packet sent to close the trade GUI as the trade was cancelled (programmatically or by log-off or by player action.
+ * Packet sent to close the trade GUI as the trade was cancelled (programmatically, by log-off, or by player action).
+ *
+ * Handled by [com.cobblemon.mod.common.client.net.trade.TradeCancelledHandler]
  *
  * @author Hiroku
  * @since March 5th, 2023
  */
 class TradeCancelledPacket : NetworkPacket<TradeCancelledPacket> {
     companion object {
-        private val ID = cobblemonResource("trade_cancelled")
+        val ID = cobblemonResource("trade_cancelled")
         fun decode(buffer: PacketByteBuf) = TradeCancelledPacket()
     }
 

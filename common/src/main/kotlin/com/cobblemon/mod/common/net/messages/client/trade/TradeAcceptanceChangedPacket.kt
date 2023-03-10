@@ -19,12 +19,14 @@ import net.minecraft.network.PacketByteBuf
  * @param pokemonId The UUID of the Pokémon that was offered when the other player changed their acceptance.
  * @param accepted Whether the other player is accepting the offered Pokémon.
  *
+ * Handled by [com.cobblemon.mod.common.client.net.trade.TradeAcceptanceChangedHandler]
+ *
  * @author Hiroku
  * @since March 5th, 2023
  */
 class TradeAcceptanceChangedPacket(val pokemonId: UUID, val accepted: Boolean) : NetworkPacket<TradeAcceptanceChangedPacket> {
     companion object {
-        private val ID = cobblemonResource("trade_acceptance_changed")
+        val ID = cobblemonResource("trade_acceptance_changed")
         fun decode(buffer: PacketByteBuf) = TradeAcceptanceChangedPacket(buffer.readUuid(), buffer.readBoolean())
     }
 
