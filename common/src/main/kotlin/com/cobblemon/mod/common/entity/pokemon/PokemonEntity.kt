@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -286,6 +287,10 @@ class PokemonEntity(
     override fun isInvulnerableTo(damageSource: DamageSource): Boolean {
         // If the entity is busy, it cannot be hurt.
         if (busyLocks.isNotEmpty()) {
+            return true
+        }
+
+        if (!Cobblemon.config.playerDamagePokemon && damageSource.attacker is PlayerEntity) {
             return true
         }
 
