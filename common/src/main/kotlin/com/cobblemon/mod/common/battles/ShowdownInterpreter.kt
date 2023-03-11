@@ -786,6 +786,7 @@ object ShowdownInterpreter {
                 "healbell" -> battleLang("activate.heal_bell")
                 "aromatherapy" -> battleLang("activate.aromatherapy")
                 "trapped" -> battleLang("activate.trapped")
+                "quickclaw" -> battleLang("item.quick_claw.end", pokemonName)
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
@@ -1131,6 +1132,7 @@ object ShowdownInterpreter {
                             "aquaring" -> battleLang("heal.aqua_ring", battlePokemon.getName())
                             "ingrain" -> battleLang("heal.ingrain", battlePokemon.getName())
                             "grassyterrain" -> battleLang("heal.grassy_terrain", battlePokemon.getName())
+                            "leftovers" -> battleLang("heal.leftovers", battlePokemon.getName())
                             else -> battle.createUnimplementedSplit(publicMessage, privateMessage)
                         }
                     }
