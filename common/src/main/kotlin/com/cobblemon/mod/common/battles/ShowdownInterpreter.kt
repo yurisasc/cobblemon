@@ -560,7 +560,12 @@ object ShowdownInterpreter {
             this.lastMover[battle.battleId] = message
             val userPNX = editMessaged.split("|")[0].split(":")[0].trim()
             val (_, userPokemon) = battle.getActorAndActiveSlotFromPNX(userPNX)
-            val move = editMessaged.split("|")[1].split("|")[0]
+            val moveName = editMessaged.split("|")[1].split("|")[0]
+                .replace(" ", "")
+                .lowercase()
+                .replace("[^A-z0-9]".toRegex(), "")
+
+            val moveTemplate = Moves.getByName(moveName) ?: return@dispatch GO.also { battle.broadcastChatMessage("UNRECOGNIZED MOVE: $moveName".text()) }
             val hasTarget = editMessaged.split("|").size == 3 && editMessaged.split("|")[2].isNotEmpty()
             val targetPokemon = if (hasTarget) {
                 val targetPNX = editMessaged.split("|")[2].split(":")[0]
@@ -569,12 +574,10 @@ object ShowdownInterpreter {
                 null
             }
             userPokemon.battlePokemon?.effectedPokemon?.let { pokemon ->
-                Moves.getByName(move)?.let { moveTemplate ->
-                    val progress = UseMoveEvolutionProgress()
-                    if (progress.shouldKeep(pokemon)) {
-                        val created = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is UseMoveEvolutionProgress && it.currentProgress().move == moveTemplate }) { progress }
-                        created.updateProgress(UseMoveEvolutionProgress.Progress(created.currentProgress().move, created.currentProgress().amount + 1))
-                    }
+                val progress = UseMoveEvolutionProgress()
+                if (progress.shouldKeep(pokemon)) {
+                    val created = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is UseMoveEvolutionProgress && it.currentProgress().move == moveTemplate }) { progress }
+                    created.updateProgress(UseMoveEvolutionProgress.Progress(created.currentProgress().move, created.currentProgress().amount + 1))
                 }
             }
             if (targetPokemon != null && targetPokemon.second != userPokemon) {
@@ -583,14 +586,14 @@ object ShowdownInterpreter {
                 battle.broadcastChatMessage(battleLang(
                     key = "used_move_on",
                     userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
-                    move,
+                    moveTemplate.displayName,
                     targetPokemon.battlePokemon?.getName() ?: "ERROR".red()
                 ))
             } else {
                 battle.broadcastChatMessage(battleLang(
                     key = "used_move",
                     userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
-                    move
+                    moveTemplate.displayName
                 ))
             }
             GO

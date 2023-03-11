@@ -132,6 +132,7 @@
 - Fixed Deerling and Sawsbuck not spawning with the correct season.
 - Fixed catch rates being entirely too difficult.
 - Fixed lower brightness settings causing Pokémon to appear much too dark in menus such as the party and PC.
+- Fixed move names not being translated in battle messages.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
