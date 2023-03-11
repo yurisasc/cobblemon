@@ -30,7 +30,7 @@ interface ShowdownService {
     fun getAbilityIds(): JsonArray
     fun getMoves(): JsonArray
     fun getItemIds(): JsonArray
-    fun indicateSpeciesInitialized()
+    fun sendSpeciesData()
 
     companion object {
         private var service: ShowdownService? = null
