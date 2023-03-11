@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.battles.runner.socket
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.google.gson.Gson
@@ -118,9 +120,18 @@ class SocketShowdownService(val host: String = "localhost", val port: Int = 1846
         return gson.fromJson(response, JsonArray::class.java)
     }
 
-    override fun indicateSpeciesInitialized() {
-        writer.write(">afterCobbledSpeciesInit\n")
+    override fun sendSpeciesData() {
+        writer.write(">resetSpeciesData")
         writer.flush()
+        val queue = arrayListOf<String>()
+        PokemonSpecies.species.forEach { species ->
+            queue.add(">receiveSpeciesData ${gson.toJson(PokemonSpecies.ShowdownSpecies(species, null))}\n")
+            species.forms.forEach { form ->
+                if (form != species.standardForm) {
+                    queue.add(">receiveSpeciesData ${gson.toJson(PokemonSpecies.ShowdownSpecies(species, form))}\n")
+                }
+            }
+        }
+        // ToDo fix me
     }
-
 }
