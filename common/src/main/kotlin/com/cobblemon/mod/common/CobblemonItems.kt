@@ -339,6 +339,8 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     @JvmField
     val QUICK_CLAW = this.heldItem("quick_claw")
     @JvmField
+    val RAZOR_CLAW = this.heldItem("razor_claw")
+    @JvmField
     val ROCKY_HELMET = this.heldItem("rocky_helmet")
     @JvmField
     val SAFETY_GOGGLES = this.heldItem("safety_goggles")
