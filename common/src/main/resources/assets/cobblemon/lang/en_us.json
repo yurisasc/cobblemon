@@ -636,6 +636,8 @@
   "cobblemon.command.checkspawns.spawns": "Spawns",
   "cobblemon.command.checkspawns.nothing": "Nothing can spawn here right now.",
 
+  "cobblemon.leftovers.created": "You were left with some Leftovers.",
+
   "cobblemon.move.absorb": "Absorb",
   "cobblemon.move.absorb.desc": "A nutrient-draining attack. The user’s HP is restored by half the damage taken by the target.",
   "cobblemon.move.accelerock": "Accelerock",
