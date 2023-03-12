@@ -6,22 +6,25 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.client.net.battle
+package com.cobblemon.mod.common.client.net.trade
 
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.text.lightPurple
+import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
-import com.cobblemon.mod.common.net.messages.client.battle.ChallengeNotificationPacket
+import com.cobblemon.mod.common.client.trade.ClientTradeOffer
+import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
 
-object ChallengeNotificationHandler : ClientNetworkPacketHandler<ChallengeNotificationPacket> {
-    override fun handle(packet: ChallengeNotificationPacket, client: MinecraftClient) {
+object TradeOfferNotificationHandler : ClientNetworkPacketHandler<TradeOfferNotificationPacket> {
+    override fun handle(packet: TradeOfferNotificationPacket, client: MinecraftClient) {
+        CobblemonClient.requests.tradeOffers.add(ClientTradeOffer(packet.tradeOfferId, packet.traderId))
         client.player?.sendMessage(
             lang(
-                "challenge.receiver",
-                packet.challengerName,
+                "trade.offer",
+                packet.traderName,
                 PartySendBinding.boundKey().localizedText
             ).lightPurple()
         )

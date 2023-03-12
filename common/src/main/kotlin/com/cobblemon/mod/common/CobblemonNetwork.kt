@@ -32,6 +32,8 @@ import com.cobblemon.mod.common.client.net.storage.pc.*
 import com.cobblemon.mod.common.client.net.trade.TradeAcceptanceChangedHandler
 import com.cobblemon.mod.common.client.net.trade.TradeCancelledHandler
 import com.cobblemon.mod.common.client.net.trade.TradeCompletedHandler
+import com.cobblemon.mod.common.client.net.trade.TradeOfferExpiredHandler
+import com.cobblemon.mod.common.client.net.trade.TradeOfferNotificationHandler
 import com.cobblemon.mod.common.client.net.trade.TradeUpdatedHandler
 import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.net.messages.client.data.*
@@ -58,6 +60,8 @@ import com.cobblemon.mod.common.net.messages.client.storage.pc.*
 import com.cobblemon.mod.common.net.messages.client.trade.TradeAcceptanceChangedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeCancelledPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeCompletedPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferExpiredPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeUpdatedPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
@@ -94,11 +98,11 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
 /**
- * Registers Cobblemon packets. Packet handlers are set up on handling the [MessageBuiltEvent] dispatched from here.
+ * Registers Cobblemon network packets.
  *
  * This class also contains short functions for dispatching our packets to a player, all players, or to the entire server.
  *
- * @author Hiroku
+ * @author Hiroku, Licious
  * @since November 27th, 2021
  */
 object CobblemonNetwork : NetworkManager {
@@ -207,9 +211,10 @@ object CobblemonNetwork : NetworkManager {
         this.registerClientBound(BattleCaptureEndPacket.ID, BattleCaptureEndPacket::decode, BattleCaptureEndHandler)
         this.registerClientBound(BattleCaptureShakePacket.ID, BattleCaptureShakePacket::decode, BattleCaptureShakeHandler)
         this.registerClientBound(BattleApplyCaptureResponsePacket.ID, BattleApplyCaptureResponsePacket::decode, BattleApplyCaptureResponseHandler)
-        this.registerClientBound(ChallengeNotificationPacket.ID, ChallengeNotificationPacket::decode, ChallengeNotificationHandler)
+        this.registerClientBound(BattleChallengeNotificationPacket.ID, BattleChallengeNotificationPacket::decode, BattleChallengeNotificationHandler)
         this.registerClientBound(BattleUpdateTeamPokemonPacket.ID, BattleUpdateTeamPokemonPacket::decode, BattleUpdateTeamPokemonHandler)
         this.registerClientBound(BattlePersistentStatusPacket.ID, BattlePersistentStatusPacket::decode, BattlePersistentStatusHandler)
+        this.registerClientBound(BattleChallengeExpiredPacket.ID, BattleChallengeExpiredPacket::decode, BattleChallengeExpiredHandler)
 
         // Settings packets
         this.registerClientBound(ServerSettingsPacket.ID, ServerSettingsPacket::decode, ServerSettingsPacketHandler)
@@ -233,6 +238,8 @@ object CobblemonNetwork : NetworkManager {
         this.registerClientBound(TradeCancelledPacket.ID, TradeCancelledPacket::decode, TradeCancelledHandler)
         this.registerClientBound(TradeCompletedPacket.ID, TradeCompletedPacket::decode, TradeCompletedHandler)
         this.registerClientBound(TradeUpdatedPacket.ID, TradeUpdatedPacket::decode, TradeUpdatedHandler)
+        this.registerClientBound(TradeOfferNotificationPacket.ID, TradeOfferNotificationPacket::decode, TradeOfferNotificationHandler)
+        this.registerClientBound(TradeOfferExpiredPacket.ID, TradeOfferExpiredPacket::decode, TradeOfferExpiredHandler)
     }
 
     private inline fun <reified T : NetworkPacket<T>> registerClientBound(identifier: Identifier, noinline decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>) {

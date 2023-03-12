@@ -17,10 +17,11 @@ import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.net.messages.client.battle.ChallengeNotificationPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeNotificationPacket
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
+import java.util.UUID
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -57,14 +58,14 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 val existingChallenge = BattleRegistry.pvpChallenges[targetedEntity.uuid]
                 if (existingChallenge != null && !existingChallenge.isExpired() && existingChallenge.challengedPlayerUUID == player.uuid) {
                     BattleBuilder.pvp1v1(player, targetedEntity)
-                    BattleRegistry.pvpChallenges.remove(targetedEntity.uuid)
+                    BattleRegistry.removeChallenge(targetedEntity.uuid)
                 } else {
-                    val challenge = BattleRegistry.BattleChallenge(targetedEntity.uuid)
+                    val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid)
                     BattleRegistry.pvpChallenges[player.uuid] = challenge
                     after(seconds = challenge.expiryTimeSeconds.toFloat()) {
-                        BattleRegistry.pvpChallenges.remove(player.uuid, challenge)
+                        BattleRegistry.removeChallenge(player.uuid, challengeId = challenge.challengeId)
                     }
-                    targetedEntity.sendPacket(ChallengeNotificationPacket(player.name.copy().aqua()))
+                    targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua()))
                     player.sendMessage(lang("challenge.sender", targetedEntity.name).yellow())
                 }
             }
