@@ -26,11 +26,11 @@ import org.joml.Vector3f
 class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
     override fun render(stack: ItemStack, mode: ModelTransformation.Mode, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
         val pokemonItem = stack.item as? PokemonItem ?: return
-        val pokemon = pokemonItem.asPokemon(stack) ?: return
+        val (species, aspects) = pokemonItem.getSpeciesAndAspects(stack) ?: return
 
         matrices.push()
-        val model = PokemonModelRepository.getPoser(pokemon.species, pokemon.aspects)
-        val renderLayer = model.getLayer(PokemonModelRepository.getTexture(pokemon.species, pokemon.aspects, null))
+        val model = PokemonModelRepository.getPoser(species, aspects)
+        val renderLayer = model.getLayer(PokemonModelRepository.getTexture(species, aspects, null))
 
         val transformations = positions[mode]!!
 
