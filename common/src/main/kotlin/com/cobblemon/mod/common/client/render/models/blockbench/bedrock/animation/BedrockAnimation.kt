@@ -69,7 +69,7 @@ data class BedrockAnimation(
 
             for (particleEffect in particleEffectsToPlay) {
                 val world = entity.world as ClientWorld
-                val matrixWrapper = model.locatorStates[particleEffect.locator] ?: model.locatorStates["root"]!!
+                val matrixWrapper = state.locatorStates[particleEffect.locator] ?: state.locatorStates["root"]!!
                 val effect = particleEffect.effect
 
                 if (particleEffect in state.poseParticles) {
@@ -81,7 +81,8 @@ data class BedrockAnimation(
                     matrixWrapper = matrixWrapper,
                     world = world,
                     sourceVelocity = { entity.velocity },
-                    sourceAlive = { !entity.isRemoved && particleEffect in state.poseParticles }
+                    sourceAlive = { !entity.isRemoved && particleEffect in state.poseParticles },
+                    sourceVisible = { !entity.isInvisible }
                 )
 
                 state.poseParticles.add(particleEffect)

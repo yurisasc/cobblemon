@@ -60,17 +60,26 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val THUNDER_STONE_ORE = evolutionStoneOre("thunder_stone_ore")
     val WATER_STONE_ORE = evolutionStoneOre("water_stone_ore")
 
-    // Deepslate Ores
-    val DEEPSLATE_DAWN_STONE_ORE = deepslateEvolutionStoneOre("deepslate_dawn_stone_ore")
-    val DEEPSLATE_DUSK_STONE_ORE = deepslateEvolutionStoneOre("deepslate_dusk_stone_ore")
-    val DEEPSLATE_FIRE_STONE_ORE = deepslateEvolutionStoneOre("deepslate_fire_stone_ore")
-    val DEEPSLATE_ICE_STONE_ORE = deepslateEvolutionStoneOre("deepslate_ice_stone_ore")
-    val DEEPSLATE_LEAF_STONE_ORE = deepslateEvolutionStoneOre("deepslate_leaf_stone_ore")
-    val DEEPSLATE_MOON_STONE_ORE = deepslateEvolutionStoneOre("deepslate_moon_stone_ore")
-    val DEEPSLATE_SHINY_STONE_ORE = deepslateEvolutionStoneOre("deepslate_shiny_stone_ore")
-    val DEEPSLATE_SUN_STONE_ORE = deepslateEvolutionStoneOre("deepslate_sun_stone_ore")
-    val DEEPSLATE_THUNDER_STONE_ORE = deepslateEvolutionStoneOre("deepslate_thunder_stone_ore")
-    val DEEPSLATE_WATER_STONE_ORE = deepslateEvolutionStoneOre("deepslate_water_stone_ore")
+    @JvmField
+    val DEEPSLATE_DAWN_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_dawn_stone_ore")
+    @JvmField
+    val DEEPSLATE_DUSK_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_dusk_stone_ore")
+    @JvmField
+    val DEEPSLATE_FIRE_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_fire_stone_ore")
+    @JvmField
+    val DEEPSLATE_ICE_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_ice_stone_ore")
+    @JvmField
+    val DEEPSLATE_LEAF_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_leaf_stone_ore")
+    @JvmField
+    val DEEPSLATE_MOON_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_moon_stone_ore")
+    @JvmField
+    val DEEPSLATE_SHINY_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_shiny_stone_ore")
+    @JvmField
+    val DEEPSLATE_SUN_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_sun_stone_ore")
+    @JvmField
+    val DEEPSLATE_THUNDER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_thunder_stone_ore")
+    @JvmField
+    val DEEPSLATE_WATER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_water_stone_ore")
 
     // Apricorns
     val APRICORN_LOG = log("apricorn_log", arg2 = MapColor.BROWN)
@@ -100,12 +109,19 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val WHITE_APRICORN_SAPLING = this.create("white_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.WHITE))
     val YELLOW_APRICORN_SAPLING = this.create("yellow_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.YELLOW))
 
+    @JvmField
     val BLACK_APRICORN = apricornBlock("black_apricorn", Apricorn.BLACK)
+    @JvmField
     val BLUE_APRICORN = apricornBlock("blue_apricorn", Apricorn.BLUE)
+    @JvmField
     val GREEN_APRICORN = apricornBlock("green_apricorn", Apricorn.GREEN)
+    @JvmField
     val PINK_APRICORN = apricornBlock("pink_apricorn", Apricorn.PINK)
+    @JvmField
     val RED_APRICORN = apricornBlock("red_apricorn", Apricorn.RED)
+    @JvmField
     val WHITE_APRICORN = apricornBlock("white_apricorn", Apricorn.WHITE)
+    @JvmField
     val YELLOW_APRICORN = apricornBlock("yellow_apricorn", Apricorn.YELLOW)
 
     val HEALING_MACHINE = this.create("healing_machine", HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque().luminance { state: BlockState ->
@@ -114,6 +130,11 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val PC = this.create("pc", PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque().luminance { state: BlockState ->
         if ((state.get(PCBlock.ON) as Boolean) && (state.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0
     }))
+    @JvmField
+    val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque().luminance(ToIntFunction { state: BlockState -> if (state.get(HealingMachineBlock.CHARGE_LEVEL) >= HealingMachineBlock.MAX_CHARGE_LEVEL) 7 else 2 })) }
+    @JvmField
+    val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque().luminance(ToIntFunction { state: BlockState -> if ((state.get(
+            PCBlock.ON) as Boolean) && (state.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 })) }
 
     /**
      * Returns a map of all the blocks that can be stripped with an axe in the format of input - output.

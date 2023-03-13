@@ -38,6 +38,8 @@ import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
+import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
+import com.cobblemon.mod.common.api.reactive.Observable.Companion.map
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
@@ -53,6 +55,7 @@ import com.cobblemon.mod.common.api.storage.factory.FileBackedPokemonStoreFactor
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
+import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
@@ -88,6 +91,7 @@ import com.cobblemon.mod.common.pokemon.properties.UntradeableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
+import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.ifDedicatedServer
 import com.cobblemon.mod.common.util.isLaterVersion
@@ -109,6 +113,7 @@ import kotlin.reflect.jvm.javaField
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.item.NameTagItem
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.WorldSavePath
 import net.minecraft.world.World
@@ -190,6 +195,12 @@ object Cobblemon {
             battleRegistry.getBattleByParticipatingPlayer(it.player)?.stop()
         }
 
+        InteractionEvent.INTERACT_ENTITY.register(InteractionEvent.InteractEntity { player, entity, hand ->
+            if (player.getStackInHand(hand).item is NameTagItem && entity.type.isIn(CobblemonEntityTypeTags.CANNOT_HAVE_NAME_TAG))
+                EventResult.interruptTrue()
+            else
+                EventResult.pass()
+        })
         PlatformEvents.RIGHT_CLICK_BLOCK.subscribe { event ->
             val player = event.player
             val block = player.world.getBlockState(event.pos).block
@@ -219,6 +230,13 @@ object Cobblemon {
 
         SpeciesFeatures.types["choice"] = ChoiceSpeciesFeatureProvider::class.java
         SpeciesFeatures.types["flag"] = FlagSpeciesFeatureProvider::class.java
+
+        SpeciesFeatures.register(
+            DataKeys.CAN_BE_MILKED,
+            FlagSpeciesFeatureProvider(keys = listOf(DataKeys.CAN_BE_MILKED), default = true))
+        SpeciesFeatures.register(
+            DataKeys.HAS_BEEN_SHEARED,
+            FlagSpeciesFeatureProvider(keys = listOf(DataKeys.HAS_BEEN_SHEARED), default = false))
 
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)

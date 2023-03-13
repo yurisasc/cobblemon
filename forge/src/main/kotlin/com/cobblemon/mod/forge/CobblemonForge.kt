@@ -17,9 +17,12 @@ import com.cobblemon.mod.forge.client.CobblemonForgeClient
 import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
+import dev.architectury.event.events.common.LifecycleEvent
+import dev.architectury.platform.forge.EventBuses
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
 import java.util.*
+import net.minecraft.server.network.ServerPlayerEntity
 import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
@@ -71,7 +74,7 @@ class CobblemonForge : CobblemonImplementation {
 
     init {
         CobblemonBiomeModifiers.register()
-        with(FMLJavaModLoadingContext.get().modEventBus) {
+        with(thedarkcolour.kotlinforforge.forge.MOD_BUS) {
             this@CobblemonForge.commandArgumentTypes.register(this)
             addListener(this@CobblemonForge::initialize)
             addListener(this@CobblemonForge::serverInit)

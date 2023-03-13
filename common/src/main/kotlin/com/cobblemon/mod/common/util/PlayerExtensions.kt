@@ -26,6 +26,9 @@ import net.minecraft.util.math.Vec3d
 
 // Stuff like getting their party
 fun ServerPlayerEntity.party() = Cobblemon.storage.getParty(this)
+fun ServerPlayerEntity.pc() = Cobblemon.storage.getPC(this.uuid)
+fun ServerPlayerEntity.extraData(key: String) = Cobblemon.playerData.get(this).extraData[key]
+fun UUID.getPlayer() = getServer()?.playerManager?.getPlayer(this)
 fun UUID.getPlayer() = server()?.playerManager?.getPlayer(this)
 
 fun ServerPlayerEntity.onLogout(handler: () -> Unit) {

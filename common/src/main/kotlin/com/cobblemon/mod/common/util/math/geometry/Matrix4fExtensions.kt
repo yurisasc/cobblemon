@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.util.math.geometry
 
+import net.minecraft.util.math.Matrix4f
 import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
 import org.joml.Vector4f

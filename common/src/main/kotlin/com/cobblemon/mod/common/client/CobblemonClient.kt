@@ -75,9 +75,6 @@ object CobblemonClient {
         PlatformEvents.CLIENT_PLAYER_LOGIN.subscribe { onLogin() }
         PlatformEvents.CLIENT_PLAYER_LOGOUT.subscribe { onLogout() }
 
-        LOGGER.info("Initializing PokéBall models")
-        PokeBallModelRepository.init()
-
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
 
         registerBlockRenderTypes()
@@ -134,21 +131,23 @@ object CobblemonClient {
 
     fun registerPokemonRenderer(context: EntityRendererFactory.Context): PokemonRenderer {
         LOGGER.info("Registering Pokémon renderer")
-        PokemonModelRepository.initializeModels(context)
         return PokemonRenderer(context)
     }
 
     fun registerPokeBallRenderer(context: EntityRendererFactory.Context): PokeBallRenderer {
         LOGGER.info("Registering PokéBall renderer")
-        PokeBallModelRepository.initializeModels(context)
         return PokeBallRenderer(context)
     }
 
     fun reloadCodedAssets(resourceManager: ResourceManager) {
-        LOGGER.info("Reloading assets")
+        LOGGER.info("Loading assets...")
         BedrockParticleEffectRepository.loadEffects(resourceManager)
-        BedrockAnimationRepository.loadAnimations(resourceManager)
+        BedrockAnimationRepository.loadAnimations(
+            resourceManager = resourceManager,
+            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories
+        )
         PokemonModelRepository.reload(resourceManager)
+        PokeBallModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
 //        PokeBallModelRepository.reload(resourceManager)
     }

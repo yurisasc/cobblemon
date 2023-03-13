@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.util.adapters
 
-import com.cobblemon.mod.common.client.render.pokemon.AnimatedModelTextureSupplier
-import com.cobblemon.mod.common.client.render.pokemon.ModelTextureSupplier
-import com.cobblemon.mod.common.client.render.pokemon.StaticModelTextureSupplier
+import com.cobblemon.mod.common.client.render.AnimatedModelTextureSupplier
+import com.cobblemon.mod.common.client.render.ModelTextureSupplier
+import com.cobblemon.mod.common.client.render.StaticModelTextureSupplier
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -19,7 +19,7 @@ import java.lang.reflect.Type
 import net.minecraft.util.Identifier
 
 /**
- * Adapter for reading a [ModelTextureSupplier] from JSON. This can be either a simple string field (for a
+ * Adapter for reading a [ModelTextureSupplier] from JSON. This can be either a simple string field for a
  * [StaticModelTextureSupplier], or an object with specific fields in the case of [AnimatedModelTextureSupplier].
  *
  * @author Hiroku
