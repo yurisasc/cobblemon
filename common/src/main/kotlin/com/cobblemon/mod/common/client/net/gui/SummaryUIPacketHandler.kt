@@ -12,15 +12,14 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
+import net.minecraft.client.MinecraftClient
 
 object SummaryUIPacketHandler: ClientNetworkPacketHandler<SummaryUIPacket> {
     override fun handle(packet: SummaryUIPacket, client: MinecraftClient) {
         try {
-            client.setScreen(
-                Summary(
-                    pokemon = packet.pokemon.map { it.create() }.toTypedArray(),
-                    editable = packet.editable
-                )
+            Summary.open(
+                party = packet.pokemon.map { it.create() },
+                editable = packet.editable
             )
         } catch (e: Exception) {
             Cobblemon.LOGGER.debug("Failed to open the summary from the SummaryUI packet handler", e)

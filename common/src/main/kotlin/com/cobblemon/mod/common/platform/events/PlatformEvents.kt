@@ -37,5 +37,5 @@ object PlatformEvents {
     val CLIENT_PLAYER_LOGOUT = EventObservable<ClientPlayerEvent.Logout>()
     val PLAYER_DEATH = CancelableObservable<ServerPlayerEvent.Death>()
     val RIGHT_CLICK_BLOCK = CancelableObservable<ServerPlayerEvent.RightClickBlock>()
-
+    val RIGHT_CLICK_ENTITY = CancelableObservable<ServerPlayerEvent.RightClickEntity>()
 }

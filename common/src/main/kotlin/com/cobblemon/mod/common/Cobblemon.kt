@@ -195,12 +195,11 @@ object Cobblemon {
             battleRegistry.getBattleByParticipatingPlayer(it.player)?.stop()
         }
 
-        InteractionEvent.INTERACT_ENTITY.register(InteractionEvent.InteractEntity { player, entity, hand ->
-            if (player.getStackInHand(hand).item is NameTagItem && entity.type.isIn(CobblemonEntityTypeTags.CANNOT_HAVE_NAME_TAG))
-                EventResult.interruptTrue()
-            else
-                EventResult.pass()
-        })
+        PlatformEvents.RIGHT_CLICK_ENTITY.subscribe { event ->
+            if (event.player.getStackInHand(event.hand).item is NameTagItem && event.entity.type.isIn(CobblemonEntityTypeTags.CANNOT_HAVE_NAME_TAG)) {
+                event.cancel()
+            }
+        }
         PlatformEvents.RIGHT_CLICK_BLOCK.subscribe { event ->
             val player = event.player
             val block = player.world.getBlockState(event.pos).block

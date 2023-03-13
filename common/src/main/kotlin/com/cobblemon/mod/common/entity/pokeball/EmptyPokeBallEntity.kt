@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.entity.pokeball
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -20,7 +20,6 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.scheduling.ScheduledTask
-import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
@@ -44,7 +43,6 @@ import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.sendParticlesServer
 import com.cobblemon.mod.common.util.setPositionSafely
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.atomic.AtomicInteger
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
@@ -67,7 +65,7 @@ import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
+class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
     enum class CaptureState {
         NOT,
         HIT,
@@ -126,7 +124,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
     constructor(
         pokeBall: PokeBall,
         world: World,
-        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL.get()
+        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL
     ): super(entityType, world) {
         this.pokeBall = pokeBall
     }
@@ -135,7 +133,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         pokeBall: PokeBall,
         world: World,
         ownerEntity: LivingEntity,
-        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL.get()
+        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL
     ): super(entityType, ownerEntity, world) {
         this.pokeBall = pokeBall
     }
@@ -400,18 +398,8 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         }
     }
 
-    override fun saveAdditionalSpawnData(buf: PacketByteBuf) {
-        buf.writeString(pokeBall.name.toString())
-        buf.writeCollection(aspects.get()) { _, aspect -> buf.writeString(aspect)}
-    }
-
-    override fun loadAdditionalSpawnData(buf: PacketByteBuf) {
-        pokeBall = PokeBalls.getPokeBall(buf.readString().asResource()) ?: PokeBalls.POKE_BALL
-        aspects.set(buf.readList { it.readString() }.toSet())
-    }
-
     override fun getPoseType(): PoseType {
         return PoseType.NONE
     }
-    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokeballPacket(this.pokeBall, super.createSpawnPacket() as EntitySpawnS2CPacket))
+    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokeballPacket(this.pokeBall, this.aspects.get(), super.createSpawnPacket() as EntitySpawnS2CPacket))
 }

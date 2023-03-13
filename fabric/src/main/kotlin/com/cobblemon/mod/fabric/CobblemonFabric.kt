@@ -33,6 +33,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
+import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
@@ -56,6 +57,7 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Identifier
+import net.minecraft.util.TypedActionResult
 import net.minecraft.util.profiler.Profiler
 import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
@@ -117,13 +119,26 @@ object CobblemonFabric : CobblemonImplementation {
             return@register true
         }
 
-        UseBlockCallback.EVENT.register { player, world, hand, hitResult ->
+        UseBlockCallback.EVENT.register { player, _, hand, hitResult ->
             val serverPlayer = player as? ServerPlayerEntity ?: return@register ActionResult.PASS
             PlatformEvents.RIGHT_CLICK_BLOCK.postThen(
                 event = ServerPlayerEvent.RightClickBlock(serverPlayer, hitResult.blockPos, hand, hitResult.side),
                 ifSucceeded = {},
                 ifCanceled = { return@register ActionResult.FAIL }
             )
+            return@register ActionResult.PASS
+        }
+
+        UseEntityCallback.EVENT.register { player, _, hand, entity, _ ->
+            val item = player.getStackInHand(hand)
+            val serverPlayer = player as? ServerPlayerEntity ?: return@register ActionResult.PASS
+
+            PlatformEvents.RIGHT_CLICK_ENTITY.postThen(
+                event = ServerPlayerEvent.RightClickEntity(serverPlayer, item, hand, entity),
+                ifSucceeded = {},
+                ifCanceled = { return@register ActionResult.FAIL }
+            )
+
             return@register ActionResult.PASS
         }
 

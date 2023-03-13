@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.platform.events
 
 import com.cobblemon.mod.common.api.events.Cancelable
+import net.minecraft.entity.Entity
+import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -54,4 +56,5 @@ interface ServerPlayerEvent {
      */
     data class RightClickBlock(override val player: ServerPlayerEntity, val pos: BlockPos, val hand: Hand, val face: Direction?) : ServerPlayerEvent, Cancelable()
 
+    data class RightClickEntity(override val player: ServerPlayerEntity, val item: ItemStack, val hand: Hand, val entity: Entity): ServerPlayerEvent, Cancelable()
 }

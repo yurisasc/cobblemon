@@ -322,7 +322,7 @@ class StorageWidget(
                         if (firstEmptySpace != -1) {
                             val packet = MovePCPokemonToPartyPacket(clickedPokemon.uuid, clickedPosition, PartyPosition(firstEmptySpace))
                             packet.sendToServer()
-                            playSound(CobblemonSounds.PC_DROP.get())
+                            playSound(CobblemonSounds.PC_DROP)
                             return
                         }
                     } else if (clickedPosition is PartyPosition) {
@@ -333,7 +333,7 @@ class StorageWidget(
                         if (firstEmptySpace != -1) {
                             val packet = MovePartyPokemonToPCPacket(clickedPokemon.uuid, clickedPosition, PCPosition(box, firstEmptySpace))
                             packet.sendToServer()
-                            playSound(CobblemonSounds.PC_DROP.get())
+                            playSound(CobblemonSounds.PC_DROP)
                             return
                         }
                     }

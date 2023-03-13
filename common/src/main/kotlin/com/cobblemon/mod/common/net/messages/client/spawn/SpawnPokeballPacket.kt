@@ -19,6 +19,7 @@ import net.minecraft.util.Identifier
 
 class SpawnPokeballPacket(
     val pokeBall: PokeBall,
+    val aspects: Set<String>,
     vanillaSpawnPacket: EntitySpawnS2CPacket
 ) : SpawnExtraDataEntityPacket<SpawnPokeballPacket, EmptyPokeBallEntity>(vanillaSpawnPacket) {
 
@@ -26,10 +27,12 @@ class SpawnPokeballPacket(
 
     override fun encodeEntityData(buffer: PacketByteBuf) {
         buffer.writeIdentifier(this.pokeBall.name)
+        buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect)}
     }
 
     override fun applyData(entity: EmptyPokeBallEntity) {
         entity.pokeBall = this.pokeBall
+        entity.aspects.set(this.aspects)
     }
 
     override fun checkType(entity: Entity): Boolean = entity is EmptyPokeBallEntity
@@ -39,7 +42,8 @@ class SpawnPokeballPacket(
         fun decode(buffer: PacketByteBuf): SpawnPokeballPacket {
             val pokeBall = PokeBalls.getPokeBall(buffer.readIdentifier())!!
             val vanillaPacket = decodeVanillaPacket(buffer)
-            return SpawnPokeballPacket(pokeBall, vanillaPacket)
+
+            return SpawnPokeballPacket(pokeBall, buffer.readList { it.readString() }.toSet(), vanillaPacket)
         }
     }
 

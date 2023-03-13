@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
-import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
@@ -25,7 +24,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Transformed
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
-import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
@@ -229,7 +227,7 @@ abstract class PoseableEntityModel<T : Entity>(
 
     fun makeLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
         val multiPhaseParameters: RenderLayer.MultiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
-            .shader(if (emissive) RenderPhase.ENTITY_TRANSLUCENT_EMISSIVE_SHADER else RenderPhase.ENTITY_TRANSLUCENT_SHADER)
+            .program(if (emissive) RenderPhase.ENTITY_TRANSLUCENT_EMISSIVE_PROGRAM else RenderPhase.ENTITY_TRANSLUCENT_PROGRAM)
             .texture(RenderPhase.Texture(texture, false, false))
             .transparency(if (translucent) RenderPhase.TRANSLUCENT_TRANSPARENCY else RenderPhase.NO_TRANSPARENCY)
             .cull(RenderPhase.ENABLE_CULLING)
@@ -378,7 +376,7 @@ abstract class PoseableEntityModel<T : Entity>(
                 val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
                 matrixStack.scale(scale, scale, scale)
             } else if (entity is EmptyPokeBallEntity) {
-                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.yaw))
+                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
                 matrixStack.push()
                 matrixStack.scale(1F, -1F, -1F)
                 matrixStack.scale(0.7F, 0.7F, 0.7F)

@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.farming.ApricornHarvestEvent
 import com.cobblemon.mod.common.api.events.item.LeftoversCreatedEvent
-import com.cobblemon.mod.common.api.events.net.MessageBuiltEvent
 import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPostEvent
 import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent
 import com.cobblemon.mod.common.api.events.pokemon.FriendshipUpdatedEvent

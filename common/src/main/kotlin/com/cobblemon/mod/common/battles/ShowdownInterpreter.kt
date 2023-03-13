@@ -43,13 +43,6 @@ import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionP
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
-import com.cobblemon.mod.common.util.*
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.math.roundToInt
-import net.minecraft.entity.LivingEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.text.Text
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer

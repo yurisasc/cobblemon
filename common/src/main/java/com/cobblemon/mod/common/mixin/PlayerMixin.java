@@ -138,7 +138,7 @@ public abstract class PlayerMixin extends LivingEntity {
     public void onEatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
         if (!getWorld().isClient) {
             if (stack.getItem() == Items.APPLE && getWorld().random.nextDouble() < Cobblemon.config.getAppleLeftoversChance()) {
-                ItemStack leftovers = new ItemStack(CobblemonItems.LEFTOVERS.get());
+                ItemStack leftovers = new ItemStack(CobblemonItems.LEFTOVERS);
                 ServerPlayerEntity player = Objects.requireNonNull(getServer()).getPlayerManager().getPlayer(uuid);
                 assert player != null;
                 CobblemonEvents.LEFTOVERS_CREATED.postThen(

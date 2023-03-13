@@ -10,6 +10,7 @@ package com.cobblemon.mod.forge.event
 
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.platform.events.ServerEvent
+import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.platform.events.ServerTickEvent
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraftforge.common.MinecraftForge
@@ -96,4 +97,16 @@ object ForgePlatformEventHandler {
         )
     }
 
+    @SubscribeEvent
+    fun onRightClickEntity(e: PlayerInteractEvent.EntityInteract) {
+        val player = e.entity as? ServerPlayerEntity ?: return
+        val hand = e.hand
+        val item = player.getStackInHand(hand)
+        val entity = e.target
+        PlatformEvents.RIGHT_CLICK_ENTITY.postThen(
+            event = ServerPlayerEvent.RightClickEntity(player, item, hand, entity),
+            ifSucceeded = {},
+            ifCanceled = { e.isCanceled = true }
+        )
+    }
 }

@@ -10,8 +10,6 @@ package com.cobblemon.mod.common.client.net.battle
 
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
-import com.cobblemon.mod.common.client.render.pokeball.animation.ShakeAnimation
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureShakePacket
 import net.minecraft.client.MinecraftClient
 
