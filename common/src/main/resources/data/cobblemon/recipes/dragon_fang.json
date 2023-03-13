@@ -1,14 +1,13 @@
 {
     "type": "minecraft:crafting_shapeless",
-    
-    "key": {
-        "S": {
-            "item": "minecraft:dragon_breath"
-        },
-        "E": {
+    "ingredients": [
+        {
             "item": "cobblemon:razor_fang"
+        },
+        {
+            "item": "minecraft:dragon_breath"
         }
-    },
+    ],
     "result": {
         "item": "cobblemon:dragon_fang"
     }
