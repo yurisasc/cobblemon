@@ -14,12 +14,14 @@ import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import org.joml.Vector3f
 
 class PlayerInteractButton(
     x: Int, y: Int,
     private val iconResource: Identifier? = null,
     private val textureResource: Identifier,
     private val enabled: Boolean = true,
+    private val prompted: () -> Boolean,
     private val container: PlayerInteractGUI,
     onPress: PressAction
 ) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("Interact"), onPress, DEFAULT_NARRATION_SUPPLIER) {
@@ -28,10 +30,19 @@ class PlayerInteractButton(
         const val SIZE = 69
         const val ICON_SIZE = 32
         const val ICON_SCALE = 0.5F
+
+        val glowingColour = Vector3f(0F, 0.8F, 0F)
+        val regularColour = Vector3f(1F, 1F, 1F)
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-            blitk(
+        val colour: Vector3f = if (prompted()) {
+            glowingColour
+        } else {
+            regularColour
+        }
+
+        blitk(
             matrixStack = matrices,
             texture = textureResource,
             x = x,
@@ -52,7 +63,10 @@ class PlayerInteractButton(
                 width = ICON_SIZE,
                 height = ICON_SIZE,
                 alpha = if (enabled) 1F else 0.4F,
-                scale = ICON_SCALE
+                scale = ICON_SCALE,
+                red = colour.x,
+                green = colour.y,
+                blue = colour.z
             )
         }
     }

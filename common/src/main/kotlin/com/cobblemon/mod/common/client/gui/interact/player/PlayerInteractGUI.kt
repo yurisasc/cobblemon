@@ -8,16 +8,24 @@
 
 package com.cobblemon.mod.common.client.gui.interact.player
 
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.gui.blitk
+import com.cobblemon.mod.common.client.CobblemonClient
+import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
+import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPacket
+import com.cobblemon.mod.common.net.messages.server.trade.OfferTradePacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 
 class PlayerInteractGUI(
-    private val playerID: UUID
+    private val player: PlayerEntity
 ) : Screen(Text.translatable("cobblemon.ui.interact.player")) {
+    val playerId = player.uuid
     companion object {
         const val SIZE = 138
 
@@ -42,37 +50,55 @@ class PlayerInteractGUI(
             iconResource = iconBattleResource,
             textureResource = topLeftResource,
             enabled = true,
+            prompted = { CobblemonClient.requests.battleChallenges.any { it.challengerId == playerId } },
             container = this
         ) {
             // BATTLE CHALLENGE / ACCEPT
+            val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == playerId }
+            // This can be improved in future with more detailed battle challenge data.
+//            if (battleRequest == null) {
+//                CobblemonNetwork.sendToServer(BattleChallengePacket(player.id, playerId))
+//            } else {
+            CobblemonNetwork.sendToServer(BattleChallengePacket(player.id, playerId))
+            close()
+//            }
         });
 
-        // Give Item Button
+        // Trade
         this.addDrawableChild(PlayerInteractButton(
             x = x + PlayerInteractButton.SIZE,
             y = y,
             iconResource = iconTradeResource,
             textureResource = topRightResource,
+            prompted = { CobblemonClient.requests.tradeOffers.any { it.traderId == playerId }},
             container = this
         ) {
             // TRADE OFFER / ACCEPT
+            val tradeOffer = CobblemonClient.requests.tradeOffers.find { it.traderId == playerId }
+            if (tradeOffer == null) {
+                CobblemonNetwork.sendToServer(OfferTradePacket(playerId))
+            } else {
+                CobblemonNetwork.sendToServer(AcceptTradeRequestPacket(tradeOffer.tradeOfferId))
+            }
+            close()
         });
 
-        // ToDo Moves
+        // Team up with another player to do 2v1 battles
         this.addDrawableChild(PlayerInteractButton(
             x = x,
             y = y + PlayerInteractButton.SIZE,
             textureResource = bottomLeftResource,
             enabled = false,
+            prompted = { false },
             container = this
         ) {});
 
-        // ToDo something else
         this.addDrawableChild(PlayerInteractButton(
             x = x + PlayerInteractButton.SIZE,
             y = y + PlayerInteractButton.SIZE,
             textureResource = bottomRightResource,
             enabled = false,
+            prompted = { false },
             container = this
         ) {});
     }

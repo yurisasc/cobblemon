@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.keybind.keybinds
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToServer
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
+import com.cobblemon.mod.common.client.gui.interact.player.PlayerInteractGUI
 import com.cobblemon.mod.common.client.keybind.CobblemonBlockingKeyBinding
 import com.cobblemon.mod.common.client.keybind.KeybindCategories
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -20,6 +21,7 @@ import com.cobblemon.mod.common.util.traceFirstEntityCollision
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.InputUtil
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 
 object PartySendBinding : CobblemonBlockingKeyBinding(
     "key.cobblemon.throwpartypokemon",
@@ -45,8 +47,11 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
                 if (targetedPokemon != null && (targetedPokemon !is PokemonEntity || targetedPokemon.canBattle(player))) {
 
                     // Interaction GUI
-
-                    sendPacketToServer(BattleChallengePacket(targetedPokemon.id, pokemon.uuid))
+                    if (targetedPokemon is PlayerEntity) {
+                        MinecraftClient.getInstance().setScreen(PlayerInteractGUI(targetedPokemon))
+                    } else {
+                        sendPacketToServer(BattleChallengePacket(targetedPokemon.id, pokemon.uuid))
+                    }
                 } else {
                     sendPacketToServer(SendOutPokemonPacket(CobblemonClient.storage.selectedSlot))
                 }

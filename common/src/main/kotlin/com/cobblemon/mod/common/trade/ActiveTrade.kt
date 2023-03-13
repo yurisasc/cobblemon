@@ -8,6 +8,11 @@
 
 package com.cobblemon.mod.common.trade
 
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeAcceptanceChangedPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeCancelledPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeCompletedPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeUpdatedPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -18,13 +23,26 @@ class ActiveTrade(val player1: ServerPlayerEntity, val player2: ServerPlayerEnti
     fun getOffer(player: ServerPlayerEntity) = if (player == player1) player1Offer else player2Offer
     fun getOpposingOffer(player: ServerPlayerEntity) = if (player == player1) player2Offer else player1Offer
 
-    fun updateOffer(player: ServerPlayerEntity, pokemon: Pokemon) {
+    fun updateOffer(player: ServerPlayerEntity, pokemon: Pokemon?) {
         getOffer(player).updateOffer(pokemon)
+        val packet = TradeUpdatedPacket(player.uuid, pokemon)
+        getOppositePlayer(player).sendPacket(packet)
+        player.sendPacket(packet)
     }
 
-    fun acceptOffer(player: ServerPlayerEntity) {
-        getOpposingOffer(player).accepted = true
+    fun updateAcceptance(player: ServerPlayerEntity, acceptance: Boolean) {
+        val offer = getOpposingOffer(player)
+        if (offer.accepted != acceptance) {
+            offer.accepted = acceptance
+            getOppositePlayer(player).sendPacket(TradeAcceptanceChangedPacket(offer.pokemon!!.uuid, acceptance))
+        }
+
+        if (offer.accepted && getOffer(player).accepted) {
+            performTrade()
+        }
     }
+
+    fun getOppositePlayer(player: ServerPlayerEntity) = if (player == player1) player2 else player1
 
     fun performTrade() {
         TradeManager.performTrade(
@@ -33,5 +51,18 @@ class ActiveTrade(val player1: ServerPlayerEntity, val player2: ServerPlayerEnti
             pokemon1 = player1Offer.pokemon!!,
             pokemon2 = player2Offer.pokemon!!
         )
+        completeTrade()
+    }
+
+    fun cancelTrade() {
+        val cancelTrade = TradeCancelledPacket()
+        player1.sendPacket(cancelTrade)
+        player2.sendPacket(cancelTrade)
+    }
+
+    fun completeTrade() {
+        val completeTrade = TradeCompletedPacket()
+        player1.sendPacket(completeTrade)
+        player2.sendPacket(completeTrade)
     }
 }

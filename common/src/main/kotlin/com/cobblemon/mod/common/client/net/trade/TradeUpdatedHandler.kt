@@ -16,7 +16,14 @@ import net.minecraft.client.MinecraftClient
 object TradeUpdatedHandler : ClientNetworkPacketHandler<TradeUpdatedPacket> {
     override fun handle(packet: TradeUpdatedPacket, client: MinecraftClient) {
         val trade = CobblemonClient.trade ?: return
-        trade.acceptedOppositeOffer = false
-        trade.oppositeOffer.set(packet.pokemon)
+
+        if (packet.playerId == MinecraftClient.getInstance().player?.uuid) {
+            trade.myOffer.set(packet.pokemon)
+            trade.oppositeAcceptedMyOffer.set(false)
+        } else {
+            trade.acceptedOppositeOffer = false
+            trade.oppositeOffer.set(packet.pokemon)
+        }
+
     }
 }

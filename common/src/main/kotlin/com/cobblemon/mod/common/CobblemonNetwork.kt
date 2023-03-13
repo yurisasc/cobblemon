@@ -34,6 +34,7 @@ import com.cobblemon.mod.common.client.net.trade.TradeCancelledHandler
 import com.cobblemon.mod.common.client.net.trade.TradeCompletedHandler
 import com.cobblemon.mod.common.client.net.trade.TradeOfferExpiredHandler
 import com.cobblemon.mod.common.client.net.trade.TradeOfferNotificationHandler
+import com.cobblemon.mod.common.client.net.trade.TradeStartedHandler
 import com.cobblemon.mod.common.client.net.trade.TradeUpdatedHandler
 import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.net.messages.client.data.*
@@ -62,6 +63,7 @@ import com.cobblemon.mod.common.net.messages.client.trade.TradeCancelledPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeCompletedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferExpiredPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeUpdatedPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
@@ -75,6 +77,11 @@ import com.cobblemon.mod.common.net.messages.server.storage.party.MovePartyPokem
 import com.cobblemon.mod.common.net.messages.server.storage.party.ReleasePartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.party.SwapPartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.pc.*
+import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPacket
+import com.cobblemon.mod.common.net.messages.server.trade.CancelTradePacket
+import com.cobblemon.mod.common.net.messages.server.trade.ChangeTradeAcceptancePacket
+import com.cobblemon.mod.common.net.messages.server.trade.OfferTradePacket
+import com.cobblemon.mod.common.net.messages.server.trade.UpdateTradeOfferPacket
 import com.cobblemon.mod.common.net.serverhandling.ChallengeHandler
 import com.cobblemon.mod.common.net.serverhandling.battle.BattleSelectActionsHandler
 import com.cobblemon.mod.common.net.serverhandling.evolution.AcceptEvolutionHandler
@@ -89,6 +96,11 @@ import com.cobblemon.mod.common.net.serverhandling.storage.party.MovePartyPokemo
 import com.cobblemon.mod.common.net.serverhandling.storage.party.ReleasePCPokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.storage.party.SwapPartyPokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.*
+import com.cobblemon.mod.common.net.serverhandling.trade.AcceptTradeRequestHandler
+import com.cobblemon.mod.common.net.serverhandling.trade.CancelTradeHandler
+import com.cobblemon.mod.common.net.serverhandling.trade.ChangeTradeAcceptanceHandler
+import com.cobblemon.mod.common.net.serverhandling.trade.OfferTradeHandler
+import com.cobblemon.mod.common.net.serverhandling.trade.UpdateTradeOfferHandler
 import com.cobblemon.mod.common.util.server
 import kotlin.reflect.KClass
 import net.minecraft.network.Packet
@@ -145,6 +157,13 @@ object CobblemonNetwork : NetworkManager {
 
         // Battle packets
         this.registerServerBound(BattleSelectActionsPacket.ID, BattleSelectActionsPacket::decode, BattleSelectActionsHandler)
+
+        // Trade
+        this.registerServerBound(AcceptTradeRequestPacket.ID, AcceptTradeRequestPacket::decode, AcceptTradeRequestHandler)
+        this.registerServerBound(CancelTradePacket.ID, CancelTradePacket::decode, CancelTradeHandler)
+        this.registerServerBound(ChangeTradeAcceptancePacket.ID, ChangeTradeAcceptancePacket::decode, ChangeTradeAcceptanceHandler)
+        this.registerServerBound(OfferTradePacket.ID, OfferTradePacket::decode, OfferTradeHandler)
+        this.registerServerBound(UpdateTradeOfferPacket.ID, UpdateTradeOfferPacket::decode, UpdateTradeOfferHandler)
     }
 
     override fun initServer() {
@@ -240,6 +259,7 @@ object CobblemonNetwork : NetworkManager {
         this.registerClientBound(TradeUpdatedPacket.ID, TradeUpdatedPacket::decode, TradeUpdatedHandler)
         this.registerClientBound(TradeOfferNotificationPacket.ID, TradeOfferNotificationPacket::decode, TradeOfferNotificationHandler)
         this.registerClientBound(TradeOfferExpiredPacket.ID, TradeOfferExpiredPacket::decode, TradeOfferExpiredHandler)
+        this.registerClientBound(TradeStartedPacket.ID, TradeStartedPacket::decode, TradeStartedHandler)
     }
 
     private inline fun <reified T : NetworkPacket<T>> registerClientBound(identifier: Identifier, noinline decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>) {

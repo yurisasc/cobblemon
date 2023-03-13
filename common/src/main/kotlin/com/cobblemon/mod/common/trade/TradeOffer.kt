@@ -14,7 +14,7 @@ class TradeOffer {
     var pokemon: Pokemon? = null
     var accepted = false
 
-    fun updateOffer(pokemon: Pokemon) {
+    fun updateOffer(pokemon: Pokemon?) {
         this.pokemon = pokemon
         accepted = false
     }

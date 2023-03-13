@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.pokemon.Pokemon
 
 class ClientTrade {
-    var myOffer: Pokemon? = null
+    var myOffer = SettableObservable<Pokemon?>(null)
     var oppositeOffer = SettableObservable<Pokemon?>(null)
     var oppositeAcceptedMyOffer = SettableObservable(false)
     var acceptedOppositeOffer = false
