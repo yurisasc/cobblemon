@@ -34,6 +34,19 @@ accessible field net/minecraft/client/render/RenderPhase ALL_MASK Lnet/minecraft
 accessible class net/minecraft/client/render/RenderPhase$Overlay
 accessible field net/minecraft/client/render/RenderPhase ENABLE_OVERLAY_COLOR Lnet/minecraft/client/render/RenderPhase$Overlay;
 
+accessible class net/minecraft/structure/pool/StructurePoolBasedGenerator$StructurePoolGenerator
+accessible method net/minecraft/structure/pool/StructurePoolBasedGenerator$StructurePoolGenerator <init> (Lnet/minecraft/registry/Registry;ILnet/minecraft/world/gen/chunk/ChunkGenerator;Lnet/minecraft/structure/StructureTemplateManager;Ljava/util/List;Lnet/minecraft/util/math/random/Random;)V
+accessible field net/minecraft/structure/pool/StructurePoolBasedGenerator$StructurePoolGenerator structurePieces Ljava/util/Deque;
+accessible method net/minecraft/structure/pool/StructurePoolBasedGenerator$StructurePoolGenerator generatePiece (Lnet/minecraft/structure/PoolStructurePiece;Lorg/apache/commons/lang3/mutable/MutableObject;IZLnet/minecraft/world/HeightLimitView;Lnet/minecraft/world/gen/noise/NoiseConfig;)V
+
+accessible class net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece
+accessible method net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece <init> (Lnet/minecraft/structure/PoolStructurePiece;Lorg/apache/commons/lang3/mutable/MutableObject;I)V
+accessible field net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece piece Lnet/minecraft/structure/PoolStructurePiece;
+accessible field net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece pieceShape Lorg/apache/commons/lang3/mutable/MutableObject;
+accessible field net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece currentSize I
+
+accessible field net/minecraft/structure/pool/SinglePoolElement location Lcom/mojang/datafixers/util/Either;
+
 #accessible method net/minecraft/client/render/RenderLayer$MultiPhase (Ljava/lang/String;Lnet/minecraft/client/render/VertexFormat;Lnet/minecraft/client/render/VertexFormat$DrawMode;IZZLnet/minecraft/client/render/RenderLayer$MultiPhaseParameters;)Lnet/minecraft/client/render/RenderLayer$MultiPhase;
 
 #String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, MultiPhaseParameters phases
