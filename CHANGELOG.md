@@ -133,6 +133,7 @@
 - Fixed catch rates being entirely too difficult.
 - Fixed lower brightness settings causing Pokémon to appear much too dark in menus such as the party and PC.
 - Fixed move names not being translated in battle messages.
+- Fixed issue of not being able to drag the scroll bar in summary and battle interfaces.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.

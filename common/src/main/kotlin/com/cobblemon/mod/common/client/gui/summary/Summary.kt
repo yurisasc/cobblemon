@@ -562,12 +562,17 @@ class Summary private constructor(party: Collection<Pokemon>, private val editab
         return false
     }
 
-    override fun mouseScrolled(d: Double, e: Double, f: Double): Boolean {
-        return children().any { it.mouseScrolled(d, e, f) }
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
+        return children().any { it.mouseScrolled(mouseX, mouseY, amount) }
     }
 
-    override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
-        return children().any { it.mouseClicked(d, e, i) }
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        return children().any { it.mouseClicked(mouseX, mouseY, button) }
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
+        if (sideScreenIndex == MOVE_SWAP || sideScreenIndex == EVOLVE) sideScreen.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
     }
 
     fun playSound(soundEvent: SoundEvent) {
