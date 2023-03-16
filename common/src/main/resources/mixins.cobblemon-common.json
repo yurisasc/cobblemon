@@ -25,7 +25,10 @@
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
-    "StructurePoolMixin"
+    "StructurePoolMixin",
+    "StructurePoolBasedGeneratorMixin",
+    "StructurePoolGeneratorMixin",
+    "StructureStartMixin"
   ],
   "injectors": {
     "defaultRequire": 1
