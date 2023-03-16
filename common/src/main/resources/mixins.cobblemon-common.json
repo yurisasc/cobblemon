@@ -27,7 +27,8 @@
     "invoker.TrapdoorBlockInvoker",
     "StructurePoolMixin",
     "StructurePoolGeneratorMixin",
-    "StructureStartMixin"
+    "StructureStartMixin",
+    "StructureMixin"
   ],
   "injectors": {
     "defaultRequire": 1
