@@ -41,9 +41,10 @@ class SpawnPokeballPacket(
         val ID = cobblemonResource("spawn_empty_pokeball_entity")
         fun decode(buffer: PacketByteBuf): SpawnPokeballPacket {
             val pokeBall = PokeBalls.getPokeBall(buffer.readIdentifier())!!
+            val aspects = buffer.readList { it.readString() }.toSet()
             val vanillaPacket = decodeVanillaPacket(buffer)
 
-            return SpawnPokeballPacket(pokeBall, buffer.readList { it.readString() }.toSet(), vanillaPacket)
+            return SpawnPokeballPacket(pokeBall, aspects, vanillaPacket)
         }
     }
 

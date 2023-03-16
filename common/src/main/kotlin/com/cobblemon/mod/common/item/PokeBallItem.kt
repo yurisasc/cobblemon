@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import kotlin.math.cos
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ArrowItem
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text

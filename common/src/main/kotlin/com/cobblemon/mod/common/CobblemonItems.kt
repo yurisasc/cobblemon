@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.CobblemonItems.pokeBalls
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.item.ApricornItem
@@ -37,6 +36,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     override val registry: Registry<Item> = Registries.ITEM
     override val registryKey: RegistryKey<Registry<Item>> = RegistryKeys.ITEM
 
+    @JvmField
+    val pokeBalls = mutableListOf<PokeBallItem>()
     @JvmField
     val POKE_BALL = pokeBallItem(PokeBalls.POKE_BALL)
     @JvmField
@@ -101,9 +102,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val MASTER_BALL = pokeBallItem(PokeBalls.MASTER_BALL)
     @JvmField
     val CHERISH_BALL = pokeBallItem(PokeBalls.CHERISH_BALL)
-
-    @JvmField
-    val pokeBalls = mutableListOf<PokeBallItem>()
 
     @JvmField
     val RED_APRICORN = create("red_apricorn", ApricornItem(CobblemonBlocks.RED_APRICORN))

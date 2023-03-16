@@ -244,9 +244,9 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
     override fun shouldSave() = false
 
     override fun tick() {
+        super.tick()
         delegate.tick(this)
         entityProperties.forEach { it.checkForUpdate() }
-        super.tick()
         if (world.isServerSide()) {
             capturingPokemon?.let {
                 if (hitTargetPosition.get() != it.pos && !it.isInvisible) {
