@@ -53,7 +53,7 @@ public class StructurePoolBasedGeneratorMixin {
     @Inject(method = "generate(Lnet/minecraft/world/gen/structure/Structure$Context;Lnet/minecraft/registry/entry/RegistryEntry;Ljava/util/Optional;ILnet/minecraft/util/math/BlockPos;ZLjava/util/Optional;I)Ljava/util/Optional;",
             at = @At("HEAD"))
     private static void onStartingGeneration(Structure.Context context, RegistryEntry<StructurePool> structurePool, Optional<Identifier> id, int size, BlockPos pos, boolean useExpansionHack, Optional<Heightmap.Type> projectStartToHeightmap, int maxDistanceFromCenter, CallbackInfoReturnable<Optional<Structure.StructurePosition>> cir) {
-        System.out.println("Generation Started:");
+//        System.out.println("Generation Started:");
         generatedStructureCounts = new HashMap<String, Integer>();
     }
 

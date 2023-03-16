@@ -52,8 +52,6 @@ public class StructurePoolGeneratorMixin {
 
     @ModifyVariable(method = "generatePiece", at = @At("STORE"), ordinal = 1)
     private Iterator<StructurePoolElement> injected(Iterator<StructurePoolElement> iterator) {
-        System.out.println("Iterator list");
-
         List<StructurePoolElement> beforeList = new ArrayList<StructurePoolElement>();
         List<StructurePoolElement> reducedList = new ArrayList<StructurePoolElement>();
         while (iterator.hasNext()) {
@@ -76,34 +74,18 @@ public class StructurePoolGeneratorMixin {
 
             if (currentlyPlacedCount < maxAllowed) {
                 reducedList.add(structure);
-                //            System.out.println("Before: " + generatedStructureCounts);
-//            System.out.println("Generated piece: " + structurePieceLocationKey);
-//                generatedStructureCounts.put(structurePieceLocationKey, currentlyPlacedCount + 1);
-                continue;
-////            System.out.println("After: " + generatedStructureCounts + "\n");
             }
         }
 
-        System.out.println("Before List: " + beforeList);
-        System.out.println("Reduced List: " + reducedList);
-        List<StructurePoolElement> structurePiecesList = structurePieces.stream()
-                .map(shapedStructurePiece -> shapedStructurePiece.piece.getPoolElement())
-                .collect(Collectors.toList());
-        System.out.println("Structures: " + structurePiecesList);
-        System.out.println(generatedStructureCounts + "\n");
-
+//        System.out.println("Before List: " + beforeList);
+//        System.out.println("Reduced List: " + reducedList);
+//        List<StructurePoolElement> structurePiecesList = structurePieces.stream()
+//                .map(shapedStructurePiece -> shapedStructurePiece.piece.getPoolElement())
+//                .collect(Collectors.toList());
+//        System.out.println("Structures: " + structurePiecesList);
+//        System.out.println(generatedStructureCounts + "\n");
         return reducedList.iterator();
     }
-
-//    @ModifyVariable(
-//            method = "generatePiece",
-//            at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"),
-//            index = 1
-//    )
-//    private Iterator<StructurePoolElement> mixin(Iterator<StructurePoolElement> original) {
-//        return original;
-//    }
-
 
     @Inject(method = "generatePiece", at = @At("HEAD"))
     private void beforeGeneratePiece(PoolStructurePiece piece, MutableObject<VoxelShape> pieceShape, int minY, boolean modifyBoundingBox, HeightLimitView world, NoiseConfig noiseConfig, CallbackInfo ci) {
