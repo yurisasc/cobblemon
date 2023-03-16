@@ -26,7 +26,6 @@
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
     "StructurePoolMixin",
-    "StructurePoolBasedGeneratorMixin",
     "StructurePoolGeneratorMixin",
     "StructureStartMixin"
   ],

@@ -41,6 +41,13 @@ public class StructurePoolGeneratorMixin {
         aMap.put("cobblemon:village_desert/village_desert_pokecenter", 1);
         aMap.put("cobblemon:village_snowy/village_snowy_pokecenter", 1);
         aMap.put("cobblemon:village_taiga/village_taiga_pokecenter", 1);
+
+
+        aMap.put("cobblemon:village_plains/village_plains_long_path", 3);
+        aMap.put("cobblemon:village_savanna/village_savanna_long_path", 3);
+        aMap.put("cobblemon:village_desert/village_desert_long_path", 3);
+        aMap.put("cobblemon:village_snowy/village_snowy_long_path", 3);
+        aMap.put("cobblemon:village_taiga/village_taiga_long_path", 3);
         structureMaxes = Collections.unmodifiableMap(aMap);
     }
 
