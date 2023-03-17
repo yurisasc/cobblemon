@@ -35,7 +35,7 @@
 - Added the Water Breathing shoulder effect.
 - Implemented the Pokémon Torkoal, Miltank, Snivy, Servine, Serperior, Tepig, Pignite, Emboar, Oshawott, Dewott, Samurott, Grookey, Thwackey, Rillaboom, Scorbunny, Raboot, Sobble, Drizzile, Inteleon, Cinderace, Mawile, Fennekin, Braixen, Delphox, Froakie, Frogadier, Greninja, Carvanha, Sharpedo, Seedot, Nuzleaf, Shiftry, Kricketot, Kricketune, Heatmor, Durant, Wooloo, Dubwool, Pumpkaboo, Gourgeist, Sigilyph, Cryogonal, Whismur, Loudred, Exploud, Misdreavus, Mismagius, Tatsugiri, Eiscue, Luvdisc, Stantler, Wyrdeer, Lotad, Lombre, Ludicolo, Pineco, Forretress, Gible, Gabite, Garchomp, Sneasel, Weavile, Elgyem, Beheeyem, Chespin, Quilladin, Chesnaught, Baltoy, Claydol, Riolu, Lucario, Treeko, Grovyle, Sceptile, Nacli, Naclstack, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, Galvantula, Honedge, Duoblade, Aegislash, Spiritomb, Chimchar, Monferno, Infernape, Popplio, Brionne, Primarina, Spinda.
 - Added the Speed shoulder effect.
-- Implemented the Pokémon Miltank, Mawile, Carvanha, Sharpedo, Seedot, Nuzleaf, Shiftry, Kricketot, Kricketune, Heatmor, Durant, Wooloo, Dubwool, Pumpkaboo, Gourgeist, Sigilyph, Cryogonal, Whismur, Loudred, Exploud, Misdreavus, Mismagius, Tatsugiri, Eiscue, Luvdisc, Stantler, Wyrdeer, Lotad, Lombre, Ludicolo, Pineco, Forretress, Gible, Gabite, Garchomp, Sneasel, Weavile, Elgyem, Beheeyem, Chespin, Quilladin, Chesnaught, Baltoy, Claydol, Riolu, Lucario, Treeko, Grovyle, Sceptile, Nacli, Naclstack, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, Galvantula, Honedge, Duoblade, Aegislash, Spiritomb, Chimchar, Monferno, Infernape, Popplio, Brionne, Primarina, Spinda.
+- Implemented the Pokémon Miltank, Mawile, Carvanha, Sharpedo, Seedot, Nuzleaf, Shiftry, Kricketot, Kricketune, Heatmor, Durant, Wooloo, Dubwool, Pumpkaboo, Gourgeist, Sigilyph, Cryogonal, Whismur, Loudred, Exploud, Misdreavus, Mismagius, Tatsugiri, Eiscue, Luvdisc, Stantler, Wyrdeer, Lotad, Lombre, Ludicolo, Pineco, Forretress, Gible, Gabite, Garchomp, Sneasel, Weavile, Elgyem, Beheeyem, Chespin, Quilladin, Chesnaught, Baltoy, Claydol, Riolu, Lucario, Treeko, Grovyle, Sceptile, Nacli, Naclstack, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, Galvantula, Honedge, Duoblade, Aegislash, Spiritomb, Chimchar, Monferno, Infernape, Tepig, Pignite, Emboar, Popplio, Brionne, Primarina, Spinda, Torkoal, Fennekin, Braixen, Delphox, Froakie, Frogadier, Greninja, Grookey, Thwackey, Rillaboom, Scorbunny, Raboot, Cinderace, Sobble, Drizzile, and Inteleon.
 - Added Water Breathing Effect to Wooper.
 - Added Haste Effect to Joltik.
 - Added Speed Effect to Pichu and Pikachu.
@@ -83,6 +83,9 @@
 - Updated models and textures for Tentacool line, Gengar, Slowpoke line, Tyrogue line, Doduo line, Dratini, Dragonair, Quagsire, and Piplup line.
 - Improved sending out Pokémon at the start of battle so that they are positioned in a less annoying way.
 - Name Tags will no longer be used on Pokémon and Poke Ball entities, this prevents the item from being wasted.
+- Fixed incorrect spawns of Tentacool, Tentacruel, Dragonite, Politoed, Tangrowth, Lickilicky, Electivire, and Magmortar.
+- Lowered spawn rate of Tauros.
+- Sableye now spawns near gem ores as well as amethyst.
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).

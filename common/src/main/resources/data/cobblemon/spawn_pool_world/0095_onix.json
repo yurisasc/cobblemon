@@ -7,7 +7,7 @@
             "id": "onix-1",
             "pokemon": "onix",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

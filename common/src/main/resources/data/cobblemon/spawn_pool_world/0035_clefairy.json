@@ -6,6 +6,9 @@
         {
             "id": "clefairy-1",
             "pokemon": "clefairy",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -23,7 +26,7 @@
             "id": "clefairy-2",
             "pokemon": "clefairy",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -40,6 +43,9 @@
         {
             "id": "clefairy-3",
             "pokemon": "clefairy",
+			"presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -57,6 +63,9 @@
         {
             "id": "clefairy-4",
             "pokemon": "clefairy",
+			"presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
