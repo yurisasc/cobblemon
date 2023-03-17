@@ -33,6 +33,19 @@
     "monster",
     "dragon"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:stick",
+        "percentage": 50
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:leer",
     "1:pound",

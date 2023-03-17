@@ -168,11 +168,15 @@
     "mineral"
   ],
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
-        "item": "minecraft:coal",
+        "item": "minecraft:flint",
         "percentage": 50
+      },
+	  {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
       }
     ]
   },

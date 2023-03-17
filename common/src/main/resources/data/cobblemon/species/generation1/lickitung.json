@@ -30,8 +30,7 @@
     "entries": [
       {
         "item": "minecraft:slime_ball",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "percentage": 50
       }
     ]
   },

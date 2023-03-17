@@ -34,6 +34,15 @@
   "eggGroups": [
     "flying"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:confusion",
     "1:gust",

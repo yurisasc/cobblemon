@@ -27,6 +27,15 @@
     "water_1",
     "grass"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:lily_pad",
+        "percentage": 50
+      }
+    ]
+  },
   "moves": [
     "1:astonish",
     "1:growl",

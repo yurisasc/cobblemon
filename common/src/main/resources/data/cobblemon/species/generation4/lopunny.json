@@ -85,12 +85,11 @@
       },
       {
         "item": "minecraft:rabbit_hide",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "percentage": 10
       },
       {
         "item": "minecraft:rabbit_foot",
-        "percentage": 10
+        "percentage": 5
       }
     ]
   },

@@ -199,11 +199,15 @@
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
         "item": "minecraft:slime_ball",
         "percentage": 50
+      },
+	  {
+        "item": "cobblemon:black_sludge",
+        "percentage": 2.5
       }
     ]
   },

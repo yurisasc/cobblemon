@@ -28,12 +28,16 @@
     "dragon"
   ],
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
-        "item": "minecraft:prismarine_crystals",
+        "item": "minecraft:prismarine_shard",
         "quantityRange": "1-3",
         "percentage": 75
+      },
+      {
+        "item": "cobblemon:dragon_scale",
+        "percentage": 10
       }
     ]
   },

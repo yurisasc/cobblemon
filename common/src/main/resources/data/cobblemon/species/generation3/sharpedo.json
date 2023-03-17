@@ -80,6 +80,15 @@
   "eggGroups": [
     "water_2"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:deep_sea_tooth",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:aquajet",
     "1:feint",

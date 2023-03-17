@@ -219,6 +219,19 @@
   "eggGroups": [
     "amorphous"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:pumpkin_seeds",
+		"percentage": 50
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:astonish",
     "1:trickortreat",

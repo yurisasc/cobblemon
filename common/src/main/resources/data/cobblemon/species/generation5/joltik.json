@@ -29,6 +29,19 @@
   "eggGroups": [
     "bug"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:spider_eye",
+        "percentage": 50
+      }
+    ]
+  },
   "moves": [
     "1:absorb",
     "1:furycutter",

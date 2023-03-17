@@ -55,6 +55,15 @@
       "eggGroups": [
         "human_like"
       ],
+	  "drops": {
+	  "amount": "1",
+	  "entries": [
+		{
+        "item": "cobblemon:light_clay",
+        "percentage": 5
+		}
+	  ]
+	},
       "moves": [
         "1:batonpass",
         "1:copycat",

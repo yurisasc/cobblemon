@@ -25,6 +25,15 @@
   "eggGroups": [
     "undiscovered"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:moon_stone",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:copycat",
     "1:pound",

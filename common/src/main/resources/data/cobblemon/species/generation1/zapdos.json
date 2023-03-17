@@ -52,6 +52,18 @@
       "eggGroups": [
         "undiscovered"
       ],
+	  "drops": {
+	  "amount": "2",
+	  "entries": [
+		{
+		  "item": "minecraft:feather",
+    	  "quantityRange": "2-5"
+		},
+		{
+        "item": "cobblemon:magnet"
+		}
+	  ]
+	},
       "moves": [
         "1:focusenergy",
         "1:peck",

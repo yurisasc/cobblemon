@@ -53,6 +53,23 @@
       "eggGroups": [
         "flying"
       ],
+	"drops": {
+    "amount": "3",
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "1-3",
+        "percentage": 75
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+	  {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 20
+      }
+    ]
+  },
       "moves": [
         "1:growl",
         "1:leafage",

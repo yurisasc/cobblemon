@@ -25,6 +25,20 @@
   "eggGroups": [
     "field"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:coal",
+		"quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:ember",
     "1:smog",

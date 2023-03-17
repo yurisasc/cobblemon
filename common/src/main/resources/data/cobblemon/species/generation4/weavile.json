@@ -25,6 +25,19 @@
   "eggGroups": [
     "field"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 10
+      },
+      {
+        "item": "cobblemon:quick_claw",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:agility",
     "1:assurance",

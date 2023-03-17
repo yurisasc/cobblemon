@@ -33,6 +33,15 @@
   "eggGroups": [
     "field"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:leather",
+        "percentage": 50
+      }
+    ]
+  },
   "moves": [
     "1:mefirst",
     "1:tackle",

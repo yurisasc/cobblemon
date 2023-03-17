@@ -26,6 +26,16 @@
   "eggGroups": [
     "bug"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:stone_axe",
+        "quantityRange": "1-2",
+        "percentage": 66
+      }
+    ]
+  },
   "moves": [
     "1:leer",
     "1:quickattack",

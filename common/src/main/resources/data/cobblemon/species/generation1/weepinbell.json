@@ -25,6 +25,15 @@
   "eggGroups": [
     "grass"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "29:knockoff",
     "32:sweetscent",

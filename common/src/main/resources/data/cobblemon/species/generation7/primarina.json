@@ -26,6 +26,15 @@
     "water_1",
     "field"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 20
+      }
+    ]
+  },
   "moves": [
     "1:disarmingvoice",
     "1:growl",

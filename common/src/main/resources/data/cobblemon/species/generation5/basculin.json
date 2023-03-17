@@ -39,6 +39,18 @@
       "wanderChance": 1
     }
   },
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:salmon"
+      },
+	  {
+        "item": "minecraft:bone_meal",
+		"percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:tailwhip",
     "1:watergun",
