@@ -1,6 +1,11 @@
 # Changelog
 
 ## [1.3.0](#1-3-0)
+
+### Dependencies
+- Upgraded Fabric API dependence to 0.75.1+1.19.2
+- Upgraded Architectury dependence to 6.5.69
+
 ### Additions
 - Added new models and animations for Poké Balls and reworked their mechanics to feel much smoother instead of being pure frustration.
 - Added party scrolling via holding R and using the mouse wheel so you don't need to take your hand off your mouse.
