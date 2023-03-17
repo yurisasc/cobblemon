@@ -24,6 +24,15 @@
   "eggGroups": [
     "fairy"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:magnet",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:growl",
     "1:nuzzle",

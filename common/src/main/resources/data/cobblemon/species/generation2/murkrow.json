@@ -32,6 +32,18 @@
   "eggGroups": [
     "flying"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:chicken"
+      }
+    ]
+  },
   "moves": [
     "1:astonish",
     "1:peck",

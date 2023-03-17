@@ -35,6 +35,20 @@
       }
     }
   },
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:scute",
+		"quantityRange": "1-2",
+        "percentage": 66
+      },
+	  {
+        "item": "minecraft:bone_meal",
+		"percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:absorb",
     "1:harden",

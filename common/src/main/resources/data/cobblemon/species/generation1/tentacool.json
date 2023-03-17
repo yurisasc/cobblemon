@@ -44,6 +44,10 @@
     "amount": "1",
     "entries": [
       {
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
+      },
+	  {
         "item": "minecraft:glow_ink_sac",
         "quantityRange": "1-3",
         "percentage": 10

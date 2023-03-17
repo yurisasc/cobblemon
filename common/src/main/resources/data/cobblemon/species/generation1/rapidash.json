@@ -137,12 +137,16 @@
     "field"
   ],
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
         "item": "minecraft:leather",
         "quantityRange": "1-2",
         "percentage": 66
+      },
+	  {
+        "item": "minecraft:blaze_powder",
+        "percentage": 5
       }
     ]
   },

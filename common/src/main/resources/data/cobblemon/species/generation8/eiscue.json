@@ -32,6 +32,22 @@
     "water_1",
     "field"
   ],
+  "drops": {
+    "amount": "3",
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:raw_chicken"
+      },
+      {
+        "item": "minecraft:raw_cod",
+        "percentage": 50
+      }
+    ]
+  },
   "moves": [
     "1:powdersnow",
     "1:tackle",

@@ -34,11 +34,15 @@
     "dragon"
   ],
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
-        "item": "minecraft:charcoal",
+        "item": "minecraft:blaze_powder",
         "percentage": 50
+      },
+	  {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 5
       }
     ]
   },

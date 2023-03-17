@@ -24,6 +24,15 @@
   "eggGroups": [
     "water_2"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:deep_sea_scale",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:charm",
     "1:tackle",

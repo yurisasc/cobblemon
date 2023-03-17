@@ -44,6 +44,10 @@
     "entries": [
       {
         "item": "minecraft:salmon"
+      },
+	  {
+        "item": "minecraft:bone_meal",
+		"percentage": 5
       }
     ]
   },

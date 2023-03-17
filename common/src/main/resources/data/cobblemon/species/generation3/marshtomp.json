@@ -35,12 +35,16 @@
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
         "item": "minecraft:clay_ball",
         "quantityRange": "1-2",
         "percentage": 66
+      },
+	  {
+        "item": "cobblemon:mystic_water",
+        "percentage": 10
       }
     ]
   },

@@ -182,11 +182,15 @@
     "field"
   ],
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
-        "item": "minecraft:gold_ingot",
-        "percentage": 25
+        "item": "minecraft:raw_gold",
+        "percentage": 20
+      },
+	  {
+        "item": "cobblemon:quick_claw",
+        "percentage": 5
       }
     ]
   },

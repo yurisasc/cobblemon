@@ -25,6 +25,24 @@
     "field",
     "human_like"
   ],
+  "drops": {
+    "amount": "3",
+    "entries": [
+      {
+        "item": "minecraft:rabbit_hide",
+		"quantityRange": "1-2",
+		"percentage": 66
+      },
+      {
+        "item": "minecraft:rabbit_foot",
+        "percentage": 10
+      },
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:ember",
     "1:growl",

@@ -86,6 +86,15 @@
     "monster",
     "dragon"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:dragonbreath",
     "1:dragonrage",

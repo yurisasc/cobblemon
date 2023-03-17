@@ -38,7 +38,7 @@
     "amount": "2",
     "entries": [
       {
-        "item": "minecraft:prismarine_crystals",
+        "item": "minecraft:prismarine_shard",
         "quantityRange": "1-2",
         "percentage": 66
       },

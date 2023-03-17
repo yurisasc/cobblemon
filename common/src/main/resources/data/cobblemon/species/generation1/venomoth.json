@@ -42,6 +42,15 @@
       "light": "0-4"
     }
   },
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:disable",
     "1:foresight",
