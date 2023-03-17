@@ -44,7 +44,10 @@ class HealingMachineBlockEntity(
     var currentSignal = 0
         private set
 
+    var maxCharge: Float = 6F
+
     init {
+        maxCharge = (Cobblemon.config.maxHealerCharge).coerceAtLeast(6F)
         this.updateRedstoneSignal()
         this.updateBlockChargeLevel()
     }
@@ -72,9 +75,9 @@ class HealingMachineBlockEntity(
     }
 
     fun activate(player: ServerPlayerEntity) {
-        if (!Cobblemon.config.infiniteHealerCharge && this.healingCharge != Cobblemon.config.maxHealerCharge) {
+        if (!Cobblemon.config.infiniteHealerCharge && this.healingCharge != maxCharge) {
             val neededHealthPercent = player.party().getHealingRemainderPercent()
-            this.healingCharge -= neededHealthPercent
+            this.healingCharge = (healingCharge - neededHealthPercent).coerceIn(0F..maxCharge)
             this.updateRedstoneSignal()
         }
         this.setUser(player.uuid)
@@ -127,7 +130,7 @@ class HealingMachineBlockEntity(
             this.healTimeLeft = compoundTag.getInt(DataKeys.HEALER_MACHINE_TIME_LEFT)
         }
         if (compoundTag.contains(DataKeys.HEALER_MACHINE_CHARGE)) {
-            this.healingCharge = compoundTag.getFloat(DataKeys.HEALER_MACHINE_CHARGE)
+            this.healingCharge = compoundTag.getFloat(DataKeys.HEALER_MACHINE_CHARGE).coerceIn(0F..maxCharge)
         }
         if (compoundTag.contains(DataKeys.HEALER_MACHINE_INFINITE)) {
             this.infinite = compoundTag.getBoolean(DataKeys.HEALER_MACHINE_INFINITE)
@@ -175,14 +178,16 @@ class HealingMachineBlockEntity(
         if (Cobblemon.config.infiniteHealerCharge || this.infinite) {
             this.currentSignal = MAX_REDSTONE_SIGNAL
         }
-        val remainder = ((this.healingCharge / Cobblemon.config.maxHealerCharge) * 100).toInt() / 10
+        val remainder = ((this.healingCharge / maxCharge) * 100).toInt() / 10
         this.currentSignal = remainder.coerceAtMost(MAX_REDSTONE_SIGNAL)
     }
 
     private fun updateBlockChargeLevel(level: Int? = null) {
         if (world != null && !world!!.isClient) {
-            val chargeLevel = level ?: if (Cobblemon.config.infiniteHealerCharge || this.infinite) HealingMachineBlock.MAX_CHARGE_LEVEL
-                else floor((healingCharge / Cobblemon.config.maxHealerCharge) * HealingMachineBlock.MAX_CHARGE_LEVEL).toInt()
+            val chargeLevel = (level ?:
+                if (Cobblemon.config.infiniteHealerCharge || this.infinite) HealingMachineBlock.MAX_CHARGE_LEVEL
+                else floor((healingCharge / maxCharge) * HealingMachineBlock.MAX_CHARGE_LEVEL).toInt()
+            ).coerceIn(0..HealingMachineBlock.MAX_CHARGE_LEVEL + 1)
 
             val state = world!!.getBlockState(blockPos)
             if (state != null && state.block is HealingMachineBlock) {
@@ -208,9 +213,9 @@ class HealingMachineBlockEntity(
                 }
             } else {
                 // Recharging
-                val maxCharge = Cobblemon.config.maxHealerCharge
-                if (blockEntity.healingCharge < maxCharge) {
-                    blockEntity.healingCharge = (blockEntity.healingCharge + Cobblemon.config.chargeGainedPerTick).coerceAtMost(maxCharge)
+                if (blockEntity.healingCharge < blockEntity.maxCharge) {
+                    val chargePerTick = (Cobblemon.config.chargeGainedPerTick).coerceAtLeast(0F)
+                    blockEntity.healingCharge = (blockEntity.healingCharge + chargePerTick).coerceIn(0F..blockEntity.maxCharge)
                     blockEntity.updateBlockChargeLevel()
                     blockEntity.updateRedstoneSignal()
                     blockEntity.markUpdated()
