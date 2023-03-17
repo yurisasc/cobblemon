@@ -33,6 +33,15 @@
       }
     }
   },
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:kings_rock",
+        "percentage": 20
+      }
+    ]
+  },
   "moves": [
     "1:bellydrum",
     "1:bodyslam",

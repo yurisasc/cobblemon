@@ -29,11 +29,11 @@
     "entries": [
       {
         "item": "minecraft:blaze_powder",
-        "percentage": 5
+        "percentage": 2.5
       },
       {
         "item": "cobblemon:magmarizer",
-        "percentage": 5
+        "percentage": 2.5
       }
     ]
   },

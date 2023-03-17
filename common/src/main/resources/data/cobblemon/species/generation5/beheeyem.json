@@ -33,6 +33,20 @@
   "eggGroups": [
     "human_like"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+		"quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:confusion",
     "1:growl",

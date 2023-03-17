@@ -35,6 +35,15 @@
     "monster",
     "field"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:doublekick",
     "1:earthpower",

@@ -35,11 +35,13 @@
     "field"
   ],
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
-        "item": "minecraft:brown_wool",
-        "percentage": 50
+        "item": "minecraft:raw_porkchop"
+      },
+	  {
+        "item": "minecraft:brown_wool"
       }
     ]
   },

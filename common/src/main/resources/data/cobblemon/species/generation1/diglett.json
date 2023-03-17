@@ -185,11 +185,15 @@
     "field"
   ],
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
         "item": "minecraft:potato",
         "percentage": 50
+      },
+	  {
+        "item": "cobblemon:big_root",
+        "percentage": 2.5
       }
     ]
   },

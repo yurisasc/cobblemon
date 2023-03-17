@@ -26,6 +26,15 @@
   "eggGroups": [
     "undiscovered"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:barrier",
     "1:copycat",

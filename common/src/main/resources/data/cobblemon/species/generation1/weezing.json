@@ -154,6 +154,15 @@
       }
     }
   },
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:black_sludge",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:heatwave",
     "1:poisongas",

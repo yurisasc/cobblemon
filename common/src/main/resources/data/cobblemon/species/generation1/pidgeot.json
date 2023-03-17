@@ -88,7 +88,7 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": "3",
     "entries": [
       {
         "item": "minecraft:feather",
@@ -97,6 +97,10 @@
       },
       {
         "item": "minecraft:chicken"
+      },
+	  {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 5
       }
     ]
   },

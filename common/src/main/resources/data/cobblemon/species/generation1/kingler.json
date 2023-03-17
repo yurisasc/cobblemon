@@ -83,6 +83,15 @@
       }
     }
   },
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:kings_rock",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:hammerarm",
     "1:harden",

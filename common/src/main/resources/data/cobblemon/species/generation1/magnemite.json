@@ -39,6 +39,19 @@
       }
     }
   },
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "percentage": 50
+      },
+	  {
+        "item": "cobblemon:magnet",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:tackle",
     "1:thundershock",

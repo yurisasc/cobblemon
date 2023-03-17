@@ -38,6 +38,19 @@
   "eggGroups": [
     "water_1"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:pearlescent_froglight",
+        "percentage": 50
+      },
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:growl",
     "1:pound",

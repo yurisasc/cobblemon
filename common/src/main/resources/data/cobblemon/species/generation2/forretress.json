@@ -33,6 +33,20 @@
   "eggGroups": [
     "bug"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:string",
+		"quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "cobblemon:metal_coat",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:autotomize",
     "1:bugbite",

@@ -38,6 +38,15 @@
     "field",
     "dragon"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:firefang",
     "1:icefang",

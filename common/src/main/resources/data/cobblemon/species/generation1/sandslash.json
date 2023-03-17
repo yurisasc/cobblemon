@@ -60,6 +60,15 @@
       "eggGroups": [
         "field"
       ],
+	  "drops": {
+	  "amount": "1",
+	  "entries": [
+		{
+        "item": "cobblemon:quick_claw",
+        "percentage": 5
+		}
+	  ]
+	},
       "moves": [
         "1:blizzard",
         "1:defensecurl",

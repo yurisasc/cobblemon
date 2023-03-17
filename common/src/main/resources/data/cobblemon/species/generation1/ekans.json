@@ -37,6 +37,15 @@
     "field",
     "dragon"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "25:spitup",
     "25:stockpile",

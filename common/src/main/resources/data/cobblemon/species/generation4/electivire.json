@@ -25,12 +25,17 @@
     "human_like"
   ],
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
         "item": "minecraft:redstone",
         "quantityRange": "1-3",
         "percentage": 75
+      },
+      {
+        "item": "cobblemon:electirizer",
+        "quantityRange": "1",
+        "percentage": 10
       }
     ]
   },

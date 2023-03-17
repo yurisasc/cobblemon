@@ -88,6 +88,15 @@
       }
     }
   },
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "17:pursuit",
     "23:venoshock",

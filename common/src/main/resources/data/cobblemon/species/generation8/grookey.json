@@ -25,6 +25,18 @@
     "field",
     "grass"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:stick"
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:growl",
     "1:scratch",

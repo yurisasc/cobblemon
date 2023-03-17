@@ -41,6 +41,23 @@
       "light": "0-4"
     }
   },
+  "drops": {
+    "amount": "3",
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+	  {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:aquajet",
     "1:confusion",

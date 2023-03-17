@@ -24,6 +24,23 @@
   "eggGroups": [
     "field"
   ],
+  "drops": {
+    "amount": "3",
+    "entries": [
+      {
+        "item": "minecraft:stick"
+      },
+      {
+        "item": "minecraft:blaze_powder",
+		"quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:ember",
     "1:scratch",
