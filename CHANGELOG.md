@@ -57,7 +57,7 @@
 - Pokémon now save to the world by default, meaning the same Pokémon will remain in the world and not disappear after you log out and log back in. They still despawn over time though.
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
 - Update the PC and Healing Machine models and bounding boxes.
-- The PC and Healing Machine now emit light when fully charged and when turned on respectively.
+- The Healing Machine and PC now emit light when fully charged or when turned on respectively.
 - The PC block screen will now turn on when being used.
 - The Healing Machine will now visually display its charge level using 6 stages.
 - The Healing Machine will now emit a redstone signal with the strength of 1 for every 10% charge it has when attached to a [Redstone Comparator](https://minecraft.fandom.com/wiki/Redstone_Comparator).
