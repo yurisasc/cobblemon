@@ -7,7 +7,7 @@
             "id": "dragonite-1",
             "pokemon": "dragonite",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -27,6 +27,9 @@
         {
             "id": "dragonite-2",
             "pokemon": "dragonite",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
