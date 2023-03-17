@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Drizzile",
   "nationalPokedexNumber": 817,
   "primaryType": "water",
@@ -94,10 +95,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.95,
+    "height": 1.45,
     "fixed": false
   },
   "baseFriendship": 50,

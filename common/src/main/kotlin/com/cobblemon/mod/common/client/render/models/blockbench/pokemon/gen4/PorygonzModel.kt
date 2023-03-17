@@ -51,9 +51,4 @@ class PorygonzModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
-
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("porygonz", "faint") else null
 }

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Fennekin",
   "nationalPokedexNumber": 653,
   "primaryType": "fire",
@@ -131,7 +132,7 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.5,
   "hitbox": {
     "width": 1,
     "height": 1,

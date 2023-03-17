@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Greninja",
   "nationalPokedexNumber": 658,
   "primaryType": "water",
@@ -14,6 +15,20 @@
     "special_attack": 103,
     "special_defence": 71,
     "speed": 122
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
   },
   "catchRate": 45,
   "maleRatio": 0.875,
@@ -259,10 +274,10 @@
   ],
   "preEvolution": "frogadier",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2,
     "fixed": false
   },
   "baseFriendship": 70,

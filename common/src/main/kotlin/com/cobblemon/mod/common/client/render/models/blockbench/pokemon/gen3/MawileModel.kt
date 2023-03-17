@@ -62,9 +62,7 @@ class MawileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("mawile", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
+                bedrock("mawile", "ground_walk")
             )
         )
     }

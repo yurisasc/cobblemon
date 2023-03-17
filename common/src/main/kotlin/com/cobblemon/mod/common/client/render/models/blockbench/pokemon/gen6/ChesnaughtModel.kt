@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -25,7 +23,6 @@ import net.minecraft.util.math.Vec3d
 class ChesnaughtModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("chesnaught")
     override val head = getPart("head")
-
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
     override val leftLeg = getPart("leg_left")
@@ -37,9 +34,10 @@ class ChesnaughtModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     override val profileScale = 0.6F
     override val profileTranslation = Vec3d(0.0, 0.85, 0.0)
 
-    lateinit var sleep: PokemonPose
+
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("chesnaught", "blink").setPreventsIdle(false)}
@@ -67,6 +65,12 @@ class ChesnaughtModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
                 singleBoneLook(),
                 bedrock("chesnaught", "ground_walk")
             )
+        )
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                transformTicks = 10,
+                idleAnimations = arrayOf(bedrock("chesnaught", "sleep"))
         )
     }
 }

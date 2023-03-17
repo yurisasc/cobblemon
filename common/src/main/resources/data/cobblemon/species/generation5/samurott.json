@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Samurott",
   "nationalPokedexNumber": 503,
   "primaryType": "water",
@@ -235,8 +236,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.6,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 70,
