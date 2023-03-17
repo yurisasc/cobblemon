@@ -353,6 +353,8 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("mawile", ::MawileModel)
         inbuilt("walkingwake", ::WalkingwakeModel)
         inbuilt("ironleaves", ::IronleavesModel)
+        inbuilt("miltank", ::MiltankModel)
+        inbuilt("torkoal", ::TorkoalModel)
 
 
 

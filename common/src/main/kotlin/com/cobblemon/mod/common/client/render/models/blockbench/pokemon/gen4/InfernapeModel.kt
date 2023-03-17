@@ -27,7 +27,7 @@ class InfernapeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.5, 1.9, 0.0)
+    override val portraitTranslation = Vec3d(-0.65, 1.55, 0.0)
 
     override val profileScale = 0.5F
     override val profileTranslation = Vec3d(0.0, 1.0, 0.0)

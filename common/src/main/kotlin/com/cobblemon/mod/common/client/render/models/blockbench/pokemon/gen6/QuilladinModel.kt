@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -32,11 +33,18 @@ class QuilladinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("quilladin", "blink").setPreventsIdle(false)}
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("quilladin", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
@@ -52,9 +60,8 @@ class QuilladinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 0.9F, amplitudeMultiplier = 1.1f),
                 singleBoneLook(),
-                bedrock("quilladin", "ground_idle")
+                bedrock("quilladin", "ground_walk")
             )
         )
     }
