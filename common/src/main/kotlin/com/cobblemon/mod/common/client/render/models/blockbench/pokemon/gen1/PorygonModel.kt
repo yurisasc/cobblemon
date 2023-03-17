@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -16,15 +18,17 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class PorygonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class PorygonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("porygon")
     override val head = getPart("head")
+    override val leftLeg = getPart("leg_left")
+    override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.2, -0.8, 0.0)
+    override val portraitTranslation = Vec3d(-0.2, 0.5, 0.0)
 
     override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.2, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -35,8 +39,8 @@ class PorygonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                //bedrock("porygon", "ground_idle")
+                singleBoneLook(),
+                bedrock("porygon", "ground_idle")
             )
         )
 
@@ -45,8 +49,8 @@ class PorygonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                //bedrock("porygon", "ground_walk")
+                singleBoneLook(),
+                bedrock("porygon", "ground_idle")
             )
         )
     }

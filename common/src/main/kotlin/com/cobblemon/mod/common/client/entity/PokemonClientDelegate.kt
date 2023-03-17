@@ -113,6 +113,14 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             }
         }
 
+        val model = currentModel
+        if (model != null) {
+            val curState = model.currentState
+            model.currentState = this
+            model.updateLocators()
+            model.currentState = curState
+        }
+
         previousVerticalVelocity = entity.velocity.y.toFloat()
     }
 

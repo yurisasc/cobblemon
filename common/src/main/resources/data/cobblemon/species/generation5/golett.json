@@ -20,7 +20,9 @@
   "behaviour": {
     "resting": {
       "canSleep": true,
-      "sleepChance": 0
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "catchRate": 190,

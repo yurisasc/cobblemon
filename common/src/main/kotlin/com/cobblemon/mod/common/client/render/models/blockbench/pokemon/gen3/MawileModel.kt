@@ -33,15 +33,22 @@ class MawileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("mawile", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("mawile", "sleep"))
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("mawile", "ground_idle")
@@ -52,6 +59,7 @@ class MawileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("mawile", "ground_idle"),
