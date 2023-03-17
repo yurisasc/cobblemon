@@ -48,7 +48,7 @@ class PiplupModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
+            poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -58,7 +58,7 @@ class PiplupModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
+            poseType = PoseType.WALK,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

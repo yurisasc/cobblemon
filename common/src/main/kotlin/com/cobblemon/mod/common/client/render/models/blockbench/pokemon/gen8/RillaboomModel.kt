@@ -72,10 +72,7 @@ class RillaboomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("rillaboom", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
-                //bedrock("rillaboom", "ground_walk")
+                bedrock("rillaboom", "ground_walk")
             )
         )
 
