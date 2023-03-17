@@ -143,6 +143,10 @@
 - Fixed the contents of CobblemonEvents, CobblemonBlocks etc having getters instead of just being public static properties.
 - Added ApricornHarvestEvent.
 
+### Localization
+- Added complete translations for French, German, Simplified Mandarin, Brazilian Portuguese, and Pirate English.
+- Added partial translations for Traditional Mandarin, Italian, and Spanish. We'd love more help with this!
+
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
 - Added models for Natu and Xatu, Murkrow and Honchkrow, Wailmer and Wailord.
