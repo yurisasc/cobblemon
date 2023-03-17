@@ -17,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "item": "cobblemon:leftovers"
+            "items": ["cobblemon:leftovers"]
           }
         ]
       }
