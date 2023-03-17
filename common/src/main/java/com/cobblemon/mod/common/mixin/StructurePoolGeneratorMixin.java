@@ -110,36 +110,26 @@ public abstract class StructurePoolGeneratorMixin {
         }
         //////
 
-//        if (beforeList.size() != reducedList.size()) {
-            System.out.println("Before List: " + beforeList);
-            System.out.println("Reduced List: " + reducedList);
-            List<StructurePoolElement> structurePiecesList = structurePieces.stream()
-                    .map(shapedStructurePiece -> shapedStructurePiece.piece.getPoolElement())
-                    .collect(Collectors.toList());
-            System.out.println("Structures: " + structurePiecesList);
-            System.out.println(generatedStructureCounts + "\n");
-//        }
+        System.out.println("Before List: " + beforeList);
+        System.out.println("Reduced List: " + reducedList);
+        List<StructurePoolElement> structurePiecesList = structurePieces.stream()
+                .map(shapedStructurePiece -> shapedStructurePiece.piece.getPoolElement())
+                .collect(Collectors.toList());
+        System.out.println("Structures: " + structurePiecesList);
+        System.out.println(generatedStructureCounts + "\n");
+
         return reducedList.iterator();
     }
 
     @ModifyVariable(method = "generatePiece", at = @At("STORE"), ordinal = 1)
     private PoolStructurePiece injected(PoolStructurePiece poolStructurePiece) {
-//        System.out.println("INJECTED: ");
-//        System.out.println(poolStructurePiece);
-//        System.out.println(poolStructurePiece.getPoolElement());
-
         String structureLocationKey = getCobblemonOnlyLocation(poolStructurePiece.getPoolElement());
-//        System.out.println("HERE 1 ");
         if (structureLocationKey != null) {
-//            System.out.println("HERE 2" + structureLocationKey);
             Integer currentlyGenerated = generatedStructureCounts.get(structureLocationKey);
             if (currentlyGenerated == null) currentlyGenerated = 0;
             generatedStructureCounts.put(structureLocationKey, currentlyGenerated + 1);
-
-//            System.out.println("HERE 2B" + generatedStructureCounts);
         }
 
-//        System.out.println("HERE 3");
         return poolStructurePiece;
     }
 
@@ -193,31 +183,6 @@ public abstract class StructurePoolGeneratorMixin {
                 .map(shapedStructurePiece -> shapedStructurePiece.piece.getPoolElement())
                 .collect(Collectors.toList());
     }
-//
-//    @Inject(method = "generatePiece", at = @At("RETURN"))
-//    private void onGeneratePiece(PoolStructurePiece piece, MutableObject<VoxelShape> pieceShape, int minY, boolean modifyBoundingBox, HeightLimitView world, NoiseConfig noiseConfig, CallbackInfo ci) {
-//        String structurePieceLocationKey = getLocationIfAvailable(piece.getPoolElement());
-//        if (structurePieceLocationKey == null) {
-//            return;
-//        }
-//
-////        Integer currentlyPlacedCount = generatedStructureCounts.get(structurePieceLocationKey);
-//        Integer currentlyPlacedCount = StructurePoolBasedGeneratorMixin.generatedStructureCounts.get(structurePieceLocationKey);
-//        if (currentlyPlacedCount == null) {
-////            System.out.println("Before: " + generatedStructureCounts);
-//            System.out.println("Generated piece: " + structurePieceLocationKey);
-////            generatedStructureCounts.put(structurePieceLocationKey, 1);
-//            StructurePoolBasedGeneratorMixin.generatedStructureCounts.put(structurePieceLocationKey, 1);
-////            System.out.println("After: " + generatedStructureCounts + "\n");
-//            return;
-//        }
-//
-////        System.out.println("Before: " + generatedStructureCounts);
-////        System.out.println("Adding: " + structurePieceLocationKey);
-////        generatedStructureCounts.put(structurePieceLocationKey, currentlyPlacedCount+1);
-//        StructurePoolBasedGeneratorMixin.generatedStructureCounts.put(structurePieceLocationKey, currentlyPlacedCount+1);
-////        System.out.println("After: " + generatedStructureCounts + "\n");
-//    }
 
     private static String getCobblemonOnlyLocation(StructurePoolElement structurePoolElement) {
         String location = getLocationIfAvailable(structurePoolElement);
@@ -252,13 +217,9 @@ public abstract class StructurePoolGeneratorMixin {
         List<StructurePoolElement> reducedList = new ArrayList<>();
         Integer instancesFound = 0;
 
-//        System.out.println(generatedStructureCounts);
-//        System.out.println("Removing: " + locationKey + " after " + allowedNumberOfInstances);
-//        System.out.println("from: " + structureList);
-
         for (StructurePoolElement structurePoolElement: structureList) {
             String structureKey = getCobblemonOnlyLocation(structurePoolElement);
-            if (structureKey != null || structureKey != locationKey) {
+            if (structureKey == null || !structureKey.equals(locationKey)) {
                 reducedList.add(structurePoolElement);
                 continue;
             }
@@ -270,8 +231,6 @@ public abstract class StructurePoolGeneratorMixin {
             reducedList.add(structurePoolElement);
             instancesFound++;
         }
-
-//        System.out.println("Result: " + reducedList + "\n");
 
         return  reducedList;
     }
