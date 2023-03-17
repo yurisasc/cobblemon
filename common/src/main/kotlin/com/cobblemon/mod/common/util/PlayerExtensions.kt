@@ -38,7 +38,6 @@ fun ServerPlayerEntity.didSleep() {
     if (sleepTimer != 100 || world.timeOfDay.toInt() % 24000 != 0) {
         return
     }
-
     party().didSleep()
 }
 

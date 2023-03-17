@@ -328,6 +328,8 @@
   "cobblemon.command.pokeheal.in_battle": "You cannot heal your party while in a battle!",
 
   "advancements.cobblemon.root": "The World of Cobblemon!",
+  "advancements.cobblemon.obtain_leftovers": "Reduce, Reuse, Recycle!",
+    "advancements.cobblemon.obtain_leftovers.description": "Keep the leftovers after eating an apple.",
   "advancements.cobblemon.root.description": "Choose a starter Pokémon and set out on a new adventure",
   "advancements.cobblemon.harvest_apricorn": "Is it a Fruit or is it a Nut?",
   "advancements.cobblemon.harvest_apricorn.description": "Right-click to harvest a fully-grown Apricorn",
