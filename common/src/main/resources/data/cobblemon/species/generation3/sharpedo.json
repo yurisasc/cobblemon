@@ -19,6 +19,13 @@
   "catchRate": 60,
   "maleRatio": 0.5,
   "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "forms": [
     {
       "name": "Mega",
