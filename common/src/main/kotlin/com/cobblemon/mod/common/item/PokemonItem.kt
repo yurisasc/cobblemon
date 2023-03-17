@@ -64,12 +64,16 @@ class PokemonItem : CobblemonItem(Settings().maxCount(1)) {
 
     companion object {
 
+        @JvmStatic
         fun from(pokemon: Pokemon, count: Int = 1): ItemStack = from(pokemon.species, pokemon.aspects, count)
 
+        @JvmStatic
         fun from(properties: PokemonProperties, count: Int = 1): ItemStack = from(properties.create(), count)
 
+        @JvmStatic
         fun from(species: Species, vararg aspects: String, count: Int = 1): ItemStack = from(species, aspects.toSet(), count)
 
+        @JvmStatic
         fun from(species: Species, aspects: Set<String>, count: Int = 1): ItemStack {
             val stack = ItemStack(CobblemonItems.POKEMON_MODEL.get(), count)
             stack.orCreateNbt.apply {
