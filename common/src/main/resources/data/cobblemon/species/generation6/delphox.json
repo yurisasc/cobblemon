@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Delphox",
   "nationalPokedexNumber": 655,
   "primaryType": "fire",
@@ -143,10 +144,10 @@
   ],
   "preEvolution": "braixen",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 3,
     "fixed": false
   },
   "baseFriendship": 70,

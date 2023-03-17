@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Braixen",
   "nationalPokedexNumber": 654,
   "primaryType": "fire",
@@ -140,10 +141,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2.25,
     "fixed": false
   },
   "baseFriendship": 70,

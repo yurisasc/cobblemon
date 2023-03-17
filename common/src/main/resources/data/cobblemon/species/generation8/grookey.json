@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Grookey",
   "nationalPokedexNumber": 810,
   "primaryType": "grass",
@@ -108,9 +109,9 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
+    "width": 0.8,
     "height": 1,
     "fixed": false
   },

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Frogadier",
   "nationalPokedexNumber": 657,
   "primaryType": "water",
@@ -13,6 +14,20 @@
     "special_attack": 83,
     "special_defence": 56,
     "speed": 97
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
   },
   "catchRate": 45,
   "maleRatio": 0.875,
@@ -127,10 +142,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 2,
     "fixed": false
   },
   "baseFriendship": 70,

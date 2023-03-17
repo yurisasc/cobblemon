@@ -33,6 +33,7 @@
 - Added the Saturation shoulder effect
 - Added the Haste shoulder effect.
 - Added the Water Breathing shoulder effect.
+- Implemented the Pokémon Torkoal, Miltank, Snivy, Servine, Serperior, Tepig, Pignite, Emboar, Oshawott, Dewott, Samurott, Grookey, Thwackey, Rillaboom, Scorbunny, Raboot, Sobble, Drizzile, Inteleon, Cinderace, Mawile, Fennekin, Braixen, Delphox, Froakie, Frogadier, Greninja, Carvanha, Sharpedo, Seedot, Nuzleaf, Shiftry, Kricketot, Kricketune, Heatmor, Durant, Wooloo, Dubwool, Pumpkaboo, Gourgeist, Sigilyph, Cryogonal, Whismur, Loudred, Exploud, Misdreavus, Mismagius, Tatsugiri, Eiscue, Luvdisc, Stantler, Wyrdeer, Lotad, Lombre, Ludicolo, Pineco, Forretress, Gible, Gabite, Garchomp, Sneasel, Weavile, Elgyem, Beheeyem, Chespin, Quilladin, Chesnaught, Baltoy, Claydol, Riolu, Lucario, Treeko, Grovyle, Sceptile, Nacli, Naclstack, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, Galvantula, Honedge, Duoblade, Aegislash, Spiritomb, Chimchar, Monferno, Infernape, Popplio, Brionne, Primarina, Spinda.
 - Added the Speed shoulder effect.
 - Implemented the Pokémon Miltank, Mawile, Carvanha, Sharpedo, Seedot, Nuzleaf, Shiftry, Kricketot, Kricketune, Heatmor, Durant, Wooloo, Dubwool, Pumpkaboo, Gourgeist, Sigilyph, Cryogonal, Whismur, Loudred, Exploud, Misdreavus, Mismagius, Tatsugiri, Eiscue, Luvdisc, Stantler, Wyrdeer, Lotad, Lombre, Ludicolo, Pineco, Forretress, Gible, Gabite, Garchomp, Sneasel, Weavile, Elgyem, Beheeyem, Chespin, Quilladin, Chesnaught, Baltoy, Claydol, Riolu, Lucario, Treeko, Grovyle, Sceptile, Nacli, Naclstack, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, Joltik, Galvantula, Honedge, Duoblade, Aegislash, Spiritomb, Chimchar, Monferno, Infernape, Popplio, Brionne, Primarina, Spinda.
 - Added Water Breathing Effect to Wooper.
@@ -50,7 +51,7 @@
 - Added healing to your party when you sleep in a bed.
 - Added ability to shear Wooloo and Dubwool.
 - Added sleep animations to many Pokémon.
-- Added the Gen 3, 4, and 7 Starter Pokémon to the starter select screen.
+- Added the Gen 3, 4, 5, 6, 7, and 8 Starter Pokémon to the starter select screen.
 - Added Paldea starter select lang to "en_us".
 - Added emissive layers to many Pokémon.
 - Added new models and animations for Poké Balls and reworked their mechanics to feel much smoother instead of being pure frustration.

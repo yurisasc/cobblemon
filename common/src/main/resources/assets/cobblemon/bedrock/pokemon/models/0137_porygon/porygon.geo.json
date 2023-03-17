@@ -132,7 +132,7 @@
 				{
 					"name": "leg_left",
 					"parent": "legs",
-					"pivot": [3.5, 4, 0.5],
+					"pivot": [3.5, 4, 2.75],
 					"cubes": [
 						{"origin": [3.5, 0, -6], "size": [4, 3, 13], "inflate": 0.02, "uv": [30, 45]},
 						{"origin": [3.5, 0, 2], "size": [4, 3, 5], "inflate": 0.01, "pivot": [0, 3, 7], "rotation": [-30, 0, 0], "uv": [29, 31]},
@@ -142,7 +142,7 @@
 				{
 					"name": "leg_right",
 					"parent": "legs",
-					"pivot": [-3.5, 4, 0.5],
+					"pivot": [-3.5, 4, 2.75],
 					"cubes": [
 						{"origin": [-7.5, 0, -6], "size": [4, 3, 13], "inflate": 0.02, "uv": [0, 48], "mirror": true},
 						{"origin": [-7.5, 0, 2], "size": [4, 3, 5], "inflate": 0.01, "pivot": [0, 3, 7], "rotation": [-30, 0, 0], "uv": [3, 37], "mirror": true},

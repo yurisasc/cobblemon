@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Tepig",
   "nationalPokedexNumber": 498,
   "primaryType": "fire",
@@ -13,6 +14,14 @@
     "special_attack": 45,
     "special_defence": 45,
     "speed": 45
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 45,
   "maleRatio": 0.875,
@@ -116,10 +125,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 0.85,
     "fixed": false
   },
   "baseFriendship": 70,

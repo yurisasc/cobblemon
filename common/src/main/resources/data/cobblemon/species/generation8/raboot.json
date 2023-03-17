@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Raboot",
   "nationalPokedexNumber": 814,
   "primaryType": "fire",
@@ -104,10 +105,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.75,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 50,
