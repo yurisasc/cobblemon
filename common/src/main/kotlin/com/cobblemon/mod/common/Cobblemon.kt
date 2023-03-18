@@ -67,6 +67,7 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
@@ -311,9 +312,11 @@ object Cobblemon {
         }
 
         PokemonSpecies.observable.subscribe {
+            ShowdownService.get().closeConnection()
+            ShowdownService.get().openConnection()
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
             battleRegistry.startBattle(
-                BattleFormat.GEN_8_SINGLES,
+                BattleFormat.GEN_9_SINGLES,
                 BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
                 BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
             ).apply { mute = true }
