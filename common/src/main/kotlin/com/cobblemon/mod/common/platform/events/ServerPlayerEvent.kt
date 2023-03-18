@@ -42,7 +42,7 @@ interface ServerPlayerEvent {
 
     /**
      * Fired when the [player] dies.
-     * If canceled the death will be prevent but healing is required in order to not be stuck in a loop.
+     * If canceled the death will be prevented but healing is required in order to not be stuck in a loop.
      */
     data class Death(override val player: ServerPlayerEntity) : ServerPlayerEvent, Cancelable()
 
@@ -56,5 +56,13 @@ interface ServerPlayerEvent {
      */
     data class RightClickBlock(override val player: ServerPlayerEntity, val pos: BlockPos, val hand: Hand, val face: Direction?) : ServerPlayerEvent, Cancelable()
 
+    /**
+     * Fired when the [player] right clicks an entity.
+     * When canceled no interaction will occur.
+     *
+     * @property item The [ItemStack] clicked on the [entity].
+     * @property hand The [Hand] that clicked the [entity].
+     * @property entity The [Entity] the [player] clicked.
+     */
     data class RightClickEntity(override val player: ServerPlayerEntity, val item: ItemStack, val hand: Hand, val entity: Entity): ServerPlayerEvent, Cancelable()
 }
