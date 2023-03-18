@@ -7,6 +7,7 @@
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.
+- Fixed console spam when rendering Pokémon model items.
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 
