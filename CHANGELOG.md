@@ -1,4 +1,12 @@
 # Changelog
+## [1.3.1](#1-3-1)
+
+### Additions
+
+### Changes
+
+### Fixes
+- Fixed killing a Dodrio killing your game.
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 
