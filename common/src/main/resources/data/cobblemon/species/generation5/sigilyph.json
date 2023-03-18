@@ -17,6 +17,14 @@
     "special_defence": 80,
     "speed": 97
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 45,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -26,6 +34,15 @@
   "eggGroups": [
     "flying"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:confusion",
     "1:gust",

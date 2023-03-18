@@ -25,6 +25,15 @@
   "eggGroups": [
     "amorphous"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:confuseray",
     "1:nightshade",

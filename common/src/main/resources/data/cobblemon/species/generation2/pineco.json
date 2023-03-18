@@ -32,6 +32,15 @@
   "eggGroups": [
     "bug"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "percentage": 50
+      }
+    ]
+  },
   "moves": [
     "1:protect",
     "1:tackle",

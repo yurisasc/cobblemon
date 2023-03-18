@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Grookey",
   "nationalPokedexNumber": 810,
   "primaryType": "grass",
@@ -24,6 +25,18 @@
     "field",
     "grass"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:stick"
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:growl",
     "1:scratch",
@@ -108,9 +121,9 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
+    "width": 0.8,
     "height": 1,
     "fixed": false
   },

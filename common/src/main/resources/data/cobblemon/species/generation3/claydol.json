@@ -32,6 +32,20 @@
   "eggGroups": [
     "mineral"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+		"quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:confusion",
     "1:harden",

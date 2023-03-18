@@ -25,6 +25,15 @@
   "eggGroups": [
     "field"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 20
+      }
+    ]
+  },
   "moves": [
     "1:bulkup",
     "1:crosschop",

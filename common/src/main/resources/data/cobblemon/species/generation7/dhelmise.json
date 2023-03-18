@@ -32,6 +32,21 @@
   "eggGroups": [
     "mineral"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:kelp",
+		"quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "minecraft:raw_iron",
+		"quantityRange": "1-2",
+        "percentage": 66
+      }
+    ]
+  },
   "moves": [
     "1:absorb",
     "1:rapidspin",

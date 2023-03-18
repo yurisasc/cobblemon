@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Rillaboom",
   "nationalPokedexNumber": 812,
   "primaryType": "grass",
@@ -73,6 +74,19 @@
     "field",
     "grass"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:stick",
+		"maxSelectableTimes": 2
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 20
+      }
+    ]
+  },
   "moves": [
     "1:branchpoke",
     "1:doublehit",
@@ -159,10 +173,10 @@
   ],
   "preEvolution": "thwackey",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.95,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.6,
+    "height": 2.3,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -33,8 +33,8 @@ class BestSpawnerConfig {
     val replaceWithNewVersion = true
     val contextWeights = mutableMapOf(
         "grounded" to 1F,
-        "submerged" to 0.95F,
-        "surface" to 0.05F
+        "submerged" to 0.99F,
+        "surface" to 0.01F
     )
     val buckets = mutableListOf(
         SpawnBucket("common", 94.4F),

@@ -74,6 +74,15 @@
   "eggGroups": [
     "human_like"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:muscle_band",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:focusenergy",
     "1:leer",

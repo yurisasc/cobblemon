@@ -33,6 +33,15 @@
   "eggGroups": [
     "undiscovered"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:growl",
     "1:poisonsting",

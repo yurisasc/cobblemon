@@ -17,6 +17,14 @@
     "special_defence": 60,
     "speed": 50
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 75,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -27,12 +35,15 @@
     "field"
   ],
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
+        "item": "minecraft:raw_porkchop",
+		"quantityRange": "1-2"
+      },
+	  {
         "item": "minecraft:brown_wool",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "1-2"
       }
     ]
   },

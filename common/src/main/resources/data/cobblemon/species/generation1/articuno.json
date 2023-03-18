@@ -52,6 +52,18 @@
       "eggGroups": [
         "undiscovered"
       ],
+	  "drops": {
+	  "amount": "2",
+	  "entries": [
+		{
+		  "item": "minecraft:feather",
+    	  "quantityRange": "2-5"
+		},
+		{
+        "item": "cobblemon:nevermelt_ice"
+		}
+	  ]
+	},
       "moves": [
         "1:gust",
         "1:psychoshift",

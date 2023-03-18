@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Froakie",
   "nationalPokedexNumber": 656,
   "primaryType": "water",
@@ -14,6 +15,20 @@
     "special_defence": 44,
     "speed": 71
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -23,6 +38,19 @@
   "eggGroups": [
     "water_1"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:pearlescent_froglight",
+        "percentage": 50
+      },
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:growl",
     "1:pound",
@@ -129,10 +157,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 0.8,
     "fixed": false
   },
   "baseFriendship": 70,

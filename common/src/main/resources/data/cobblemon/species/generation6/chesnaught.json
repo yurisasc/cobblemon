@@ -16,6 +16,14 @@
     "special_defence": 75,
     "speed": 64
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -25,6 +33,15 @@
   "eggGroups": [
     "field"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 20
+      }
+    ]
+  },
   "moves": [
     "1:bellydrum",
     "1:feint",

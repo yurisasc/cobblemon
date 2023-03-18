@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Samurott",
   "nationalPokedexNumber": 503,
   "primaryType": "water",
@@ -51,6 +52,20 @@
       "eggGroups": [
         "field"
       ],
+	  "drops": {
+		"amount": "2",
+		"entries": [
+		  {
+			"item": "minecraft:nautilus_shell",
+			"quantityRange": "1-3",
+			"percentage": 75
+		  },
+		  {
+			"item": "cobblemon:mystic_water",
+			"percentage": 20
+		  }
+		]
+	  },
       "moves": [
         "1:megahorn",
         "1:slash",
@@ -235,8 +250,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.6,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 70,

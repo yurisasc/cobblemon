@@ -6,6 +6,9 @@
         {
             "id": "flareon-1",
             "pokemon": "flareon",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",

@@ -25,6 +25,22 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canBreatheUnderwater": true
+      }
+    }
+  },
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:deep_sea_tooth",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:aquajet",
     "1:leer",

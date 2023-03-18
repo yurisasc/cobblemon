@@ -76,6 +76,15 @@
     "field",
     "fairy"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:astonish",
     "1:growl",

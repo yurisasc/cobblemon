@@ -12,6 +12,14 @@
     "special_defence": 65,
     "speed": 36
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -19,6 +27,15 @@
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": ["monster", "grass"],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:absorb",
     "1:tackle",

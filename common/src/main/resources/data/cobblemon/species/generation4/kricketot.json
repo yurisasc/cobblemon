@@ -24,6 +24,15 @@
   "eggGroups": [
     "bug"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:metronome",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:bide",
     "1:growl",

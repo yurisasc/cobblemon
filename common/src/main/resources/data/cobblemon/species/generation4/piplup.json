@@ -31,10 +31,16 @@
         "canSwimInWater": true,
         "canBreatheUnderwater": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": "3",
     "entries": [
       {
         "item": "minecraft:feather",
@@ -42,6 +48,10 @@
       },
       {
         "item": "minecraft:chicken"
+      },
+	  {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5
       }
     ]
   },

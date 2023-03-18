@@ -33,6 +33,15 @@
   "eggGroups": [
     "field"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:muscle_band",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:fling",
     "1:focusenergy",
