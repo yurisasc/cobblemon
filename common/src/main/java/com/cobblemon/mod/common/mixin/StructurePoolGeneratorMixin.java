@@ -60,18 +60,14 @@ public abstract class StructurePoolGeneratorMixin {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onStructurePoolGeneratorCreation(Registry registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List children, Random random, CallbackInfo ci) {
         generatedStructureCounts = new HashMap<String, Integer>();
-        System.out.println("NEW POOL GENERATOR CREATED:");
-    }
-
-    @Inject(method = "generatePiece", at = @At("RETURN"))
-    private void afterGeneratePiece(PoolStructurePiece piece, MutableObject<VoxelShape> pieceShape, int minY, boolean modifyBoundingBox, HeightLimitView world, NoiseConfig noiseConfig, CallbackInfo ci) {
-        System.out.println("CHILDREN: " + children + " \n");
+//        System.out.println("NEW POOL GENERATOR CREATED:");
     }
 
     @ModifyVariable(method = "generatePiece", at = @At("STORE"), ordinal = 1)
     private Iterator<StructurePoolElement> reduceStructurePoolELementIterator(Iterator<StructurePoolElement> iterator) {
         List<StructurePoolElement> beforeList = new ArrayList<StructurePoolElement>();
         List<StructurePoolElement> reducedList = new ArrayList<StructurePoolElement>();
+
         while (iterator.hasNext()) {
             StructurePoolElement structure = iterator.next();
             beforeList.add(structure);
