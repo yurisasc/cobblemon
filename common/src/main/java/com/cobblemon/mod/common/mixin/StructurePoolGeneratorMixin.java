@@ -1,6 +1,8 @@
 package com.cobblemon.mod.common.mixin;
 
+import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.structure.PoolStructurePiece;
 import net.minecraft.structure.StructureTemplateManager;
 import net.minecraft.structure.pool.LegacySinglePoolElement;
@@ -60,6 +62,13 @@ public abstract class StructurePoolGeneratorMixin {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onStructurePoolGeneratorCreation(Registry registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List children, Random random, CallbackInfo ci) {
         generatedStructureCounts = new HashMap<String, Integer>();
+        System.out.println("LOOK HERE 2: ");
+//        System.out.println(BuiltinRegistries.REGISTRY_BUILDER);
+        System.out.println(BuiltinRegistries.REGISTRY_BUILDER.registries);
+        for (RegistryBuilder.RegistryInfo info: BuiltinRegistries.REGISTRY_BUILDER.registries) {
+            System.out.println(info);
+//            System.out.println(info.entryLookup());
+        }
 //        System.out.println("NEW POOL GENERATOR CREATED:");
     }
 
@@ -92,7 +101,7 @@ public abstract class StructurePoolGeneratorMixin {
         }
 
 
-        System.out.println("Reduced List before: " + reducedList);
+//        System.out.println("Reduced List before: " + reducedList);
 
         //////
         for (String maxStructureLocationKey : structureMaxes.keySet()) {
@@ -106,13 +115,13 @@ public abstract class StructurePoolGeneratorMixin {
         }
         //////
 
-        System.out.println("Before List: " + beforeList);
-        System.out.println("Reduced List: " + reducedList);
+//        System.out.println("Before List: " + beforeList);
+//        System.out.println("Reduced List: " + reducedList);
         List<StructurePoolElement> structurePiecesList = structurePieces.stream()
                 .map(shapedStructurePiece -> shapedStructurePiece.piece.getPoolElement())
                 .collect(Collectors.toList());
-        System.out.println("Structures: " + structurePiecesList);
-        System.out.println(generatedStructureCounts + "\n");
+//        System.out.println("Structures: " + structurePiecesList);
+//        System.out.println(generatedStructureCounts + "\n");
 
         return reducedList.iterator();
     }
@@ -142,8 +151,8 @@ public abstract class StructurePoolGeneratorMixin {
         }
 
         if (structureLocationKey != null && structureLocationKey.equals("cobblemon:village_snowy/village_snowy_pokecenter")) {
-            System.out.println("Generating: cobblemon:village_snowy/village_snowy_pokecenter");
-            System.out.println("After Counts: " + generatedStructureCounts + "\n");
+//            System.out.println("Generating: cobblemon:village_snowy/village_snowy_pokecenter");
+//            System.out.println("After Counts: " + generatedStructureCounts + "\n");
         }
 
         List<StructurePoolElement> beforeStructurePiecesList = structurePieces.stream()
