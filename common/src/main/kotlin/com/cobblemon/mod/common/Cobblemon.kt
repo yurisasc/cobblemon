@@ -312,8 +312,6 @@ object Cobblemon {
         }
 
         PokemonSpecies.observable.subscribe {
-            ShowdownService.get().closeConnection()
-            ShowdownService.get().openConnection()
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
             battleRegistry.startBattle(
                 BattleFormat.GEN_9_SINGLES,

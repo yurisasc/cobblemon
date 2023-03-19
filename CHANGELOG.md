@@ -8,6 +8,7 @@
 ### Fixes
 - Fixed killing a Dodrio killing your game.
 - Fixed console spam when rendering Pokémon model items.
+- Fixed custom Pokémon not being usable in battle, properly. A last minute fix caused this to break again; what are these devs not paid for?
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 
