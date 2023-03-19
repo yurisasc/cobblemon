@@ -101,4 +101,8 @@ abstract class TickingSpawner(
     }
 
     open fun getCauseEntity(): Entity? = null
+
+    fun getAllInfluences() = this.influences + manager.influences
+
+    override fun copyInfluences() = this.getAllInfluences().toMutableList()
 }
