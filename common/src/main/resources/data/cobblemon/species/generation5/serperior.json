@@ -98,12 +98,17 @@
     "tutor:holdback",
     "tutor:irontail",
     "tutor:knockoff",
+    "tutor:leafstorm",
+    "tutor:leechseed",
     "tutor:outrage",
     "tutor:seedbomb",
+    "tutor:sleeptalk",
     "tutor:snatch",
     "tutor:snore",
+    "tutor:substitute",
     "tutor:synthesis",
-    "tutor:worryseed"
+    "tutor:worryseed",
+    "tutor:wringout"
   ],
   "labels": [
     "gen5"
