@@ -34,11 +34,18 @@ fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
     CobblemonEvents.PLAYER_QUIT.pipe(filter { it.uuid == uuid }, takeFirst()).subscribe { handler() }
 }
 
-fun ServerPlayerEntity.didSleep() {
-    if (sleepTimer != 100 || world.timeOfDay.toInt() % 24000 != 0) {
-        return
+/**
+ * Attempts to heal the player party when they're sleeping.
+ * This will fail if the sleeping trigger isn't the typical vanilla bed or if [isInBattle] is true.
+ *
+ * @return If the attempt to heal was successful.
+ */
+fun ServerPlayerEntity.didSleep(): Boolean {
+    if (sleepTimer != 100 || world.timeOfDay.toInt() % 24000 != 0 || this.isInBattle()) {
+        return false
     }
     party().didSleep()
+    return true
 }
 
 fun ServerPlayerEntity.isInBattle() = BattleRegistry.getBattleByParticipatingPlayer(this) != null

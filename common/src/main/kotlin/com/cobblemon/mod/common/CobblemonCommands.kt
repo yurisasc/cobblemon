@@ -35,5 +35,6 @@ object CobblemonCommands {
         FriendshipCommand.register(dispatcher)
         GiveAllPokemon.register(dispatcher)
         HeldItemCommand.register(dispatcher, registry)
+        PcCommand.register(dispatcher)
     }
 }

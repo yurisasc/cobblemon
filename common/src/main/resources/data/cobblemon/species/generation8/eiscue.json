@@ -106,6 +106,7 @@
     "tm:terablast",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:weatherball",
     "tm:whirlpool",
     "tm:zenheadbutt"
   ],
@@ -134,12 +135,6 @@
       },
       "catchRate": 60,
       "maleRatio": 0.5,
-      "baseScale": 1.1,
-      "hitbox": {
-        "width": 0.9,
-        "height": 1.4,
-        "fixed": false
-      },
       "baseExperienceYield": 165,
       "baseFriendship": 50,
       "evYield": {

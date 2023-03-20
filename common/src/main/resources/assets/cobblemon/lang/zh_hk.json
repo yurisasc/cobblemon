@@ -440,7 +440,7 @@
   "cobblemon.battle.activate.aromatherapy": "A soothing aroma wafted through the area!",
   "cobblemon.battle.activate.trapped": "%1$s can no longer escape!",
   "cobblemon.battle.set_hp.pain_split": "The battlers shared their pain!",
-  "cobblemon.battle.speed_boost_ability": "%1$s's Speed Boost Activated!",
+  "cobblemon.battle.ability.speed_boost": "%1$s's Speed Boost Activated!",
   "cobblemon.battle.errors.busy": "%1$s 很忙",
   "cobblemon.battle.error.in_battle": "%1$s 已在戰鬥中",
   "cobblemon.battle.error.in_battle.personal": "準備好開始戰鬥！",
