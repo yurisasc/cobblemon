@@ -35,8 +35,7 @@
       "canWalkOnWater": true
     },
     "wanderChance": 1
-  }
-},
+  },
   "drops": {
     "amount": "1",
     "entries": [

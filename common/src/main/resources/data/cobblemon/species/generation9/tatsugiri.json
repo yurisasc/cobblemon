@@ -41,8 +41,7 @@
       "canWalkOnWater": true
     },
     "wanderChance": 1
-  }
-},
+  },
   "drops": {
     "amount": "2",
     "entries": [
