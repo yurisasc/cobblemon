@@ -23,10 +23,11 @@
 - Fixed performance issues with shouldered Pokémon in certain systems.
 - Fixed learnset issues for Pokémon whose only modern debut was LGPE/BDSP/LA.
 - Fixed the display of a raw battle message for when the effect of Yawn ends and the sleeping starts.
-- Fixed Shiny Zubat displaying their normal texture.
+- Fixed Shiny Zubat, Grimer, Omanyte, Elgyem, Delphox and Aegislash  displaying their normal texture.
 - Fixed sleeping in beds allowing fainted Pokémon to receive experience after a battle ends.
 - Fixed an issue where a Pokémon will claim to have learnt a new move they already have in their moveset when learnt at an earlier level in their previous evolution.
 - Fixed Dispensers not being able to shear Wooloo, this will also extend to other mods that check if an entity is valid to shear.
+- Fixed being locked in an endless healing queue if you broke the healing machine during use.
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 
