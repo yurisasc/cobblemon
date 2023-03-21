@@ -526,6 +526,7 @@
   "cobblemon.battle.heal.ingrain": "%1$s absorbed nutrients with its roots!",
   "cobblemon.battle.heal.grassy_terrain": "%1$s's HP was restored.",
   "cobblemon.battle.heal.leftovers": "%1$s restored a little HP using its Leftovers!",
+  "cobblemon.battle.heal.black_sludge": "%1$s restored a little HP using its Black Sludge!",
   "cobblemon.battle.heal.generic": "%1$s restored its HP.",
 
   "cobblemon.experience.gained": "%1$s received %2$s experience.",

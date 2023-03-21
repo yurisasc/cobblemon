@@ -1145,6 +1145,7 @@ object ShowdownInterpreter {
                             "ingrain" -> battleLang("heal.ingrain", battlePokemon.getName())
                             "grassyterrain" -> battleLang("heal.grassy_terrain", battlePokemon.getName())
                             "leftovers" -> battleLang("heal.leftovers", battlePokemon.getName())
+                            "blacksludge" -> battleLang("heal.black_sludge", battlePokemon.getName())
                             else -> battle.createUnimplementedSplit(publicMessage, privateMessage)
                         }
                     }
