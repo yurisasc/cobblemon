@@ -28,6 +28,8 @@
 - Fixed an issue where a Pokémon will claim to have learnt a new move they already have in their moveset when learnt at an earlier level in their previous evolution.
 - Fixed Dispensers not being able to shear Wooloo, this will also extend to other mods that check if an entity is valid to shear.
 - Fixed being locked in an endless healing queue if you broke the healing machine during use.
+- Fixed the currently held item of your Pokémon not dropping to the ground when removing it if your inventory was full.
+- Fixed creative mode allowing you to make your Pokémon hold more than 1 of the same item.
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 

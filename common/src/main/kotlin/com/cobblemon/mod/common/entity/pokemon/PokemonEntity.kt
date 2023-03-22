@@ -621,9 +621,8 @@ class PokemonEntity(
             returned.isEmpty -> lang("held_item.give", this.pokemon.displayName, giving.name)
             else -> lang("held_item.replace", returned.name, this.pokemon.displayName, giving.name)
         }
-        player.giveItemStack(returned)
+        player.giveOrDropItemStack(returned)
         player.sendMessage(text)
-        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
         return true
     }
 

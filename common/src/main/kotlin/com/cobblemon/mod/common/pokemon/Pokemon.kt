@@ -521,9 +521,8 @@ open class Pokemon : ShowdownIdentifiable {
      * @return The existing [ItemStack] being held.
      */
     fun swapHeldItem(stack: ItemStack, decrement: Boolean = true): ItemStack {
-        var giving = stack
+        val giving = stack.copy().apply { count = 1 }
         if (decrement) {
-            giving = stack.copy().apply { count = 1 }
             stack.decrement(1)
         }
         val existing = this.heldItem()
