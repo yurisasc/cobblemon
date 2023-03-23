@@ -106,6 +106,7 @@ import com.cobblemon.mod.common.world.placement.CobblemonPlacementTypes
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.InteractionEvent
+import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
 import java.io.File
 import java.io.FileReader
@@ -212,6 +213,11 @@ object Cobblemon {
             }
             return@RightClickBlock EventResult.pass()
         })
+
+        PlayerEvent.CHANGE_DIMENSION.register(PlayerEvent.ChangeDimension{ player, _, _ ->
+            player.party().forEach { pokemon -> pokemon.entity?.recallWithAnimation() }
+        })
+
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)

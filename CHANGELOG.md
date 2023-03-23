@@ -6,6 +6,7 @@
 - Added battle messages for the effects of the ability Sturdy.
 - Added battle messages for healing with Black Sludge.
 - Added the ``/pc`` command which opens up the PC UI the same way interacting with the block would, this will be a cheat command in the Minecraft permission system or use the permission ``cobblemon.command.pc`` if a permission mod is present.
+- You can now click the right and left arrow keys to move navigate PC boxes.
 
 ### Changes
 - Replaced the "Failed to handle" battle messages to "Missing interpretation" to make it more clear that mechanics do work just still pending dedicated messages.
@@ -31,6 +32,7 @@
 - Fixed being locked in an endless healing queue if you broke the healing machine during use.
 - Fixed the currently held item of your Pokémon not dropping to the ground when removing it if your inventory was full.
 - Fixed creative mode allowing you to make your Pokémon hold more than 1 of the same item.
+- Fixed a Pokémon duplication glitch when teleporting between worlds.
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 
