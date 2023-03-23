@@ -29,7 +29,7 @@
     "entries": [
       {
         "item": "minecraft:nautilus_shell",
-		"quantityRange": "1-2",
+        "quantityRange": "1-2",
         "percentage": 66
       },
       {
@@ -45,17 +45,17 @@
     "1:watergun",
     "1:watersport",
     "13:focusenergy",
-    "18:razorshell",
-    "21:furycutter",
-    "26:waterpulse",
+    "17:razorshell",
+    "20:furycutter",
+    "25:waterpulse",
+    "28:revenge",
     "29:aerialace",
-    "29:revenge",
-    "34:aquajet",
-    "37:encore",
-    "42:aquatail",
-    "45:retaliate",
-    "50:swordsdance",
-    "53:hydropump",
+    "33:aquajet",
+    "36:encore",
+    "41:aquatail",
+    "44:retaliate",
+    "49:swordsdance",
+    "52:hydropump",
     "tm:aerialace",
     "tm:airslash",
     "tm:attract",
@@ -85,6 +85,7 @@
     "tm:protect",
     "tm:raindance",
     "tm:rest",
+    "tm:retaliate",
     "tm:return",
     "tm:rocksmash",
     "tm:round",
@@ -107,9 +108,15 @@
     "tm:waterpulse",
     "tm:workup",
     "tm:xscissor",
+    "tutor:aquatail",
     "tutor:covet",
+    "tutor:helpinghand",
+    "tutor:icywind",
     "tutor:irontail",
-    "tutor:snore"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:waterpledge",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen5"

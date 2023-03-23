@@ -26,6 +26,7 @@ import kotlin.math.floor
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
@@ -95,14 +96,14 @@ class HealingMachineBlockEntity(
         val player = this.currentUser?.getPlayer() ?: return clearData()
         val party = player.party()
 
-        alreadyHealing.remove(player.uuid)
         party.heal()
         player.sendMessage(lang("healingmachine.healed").green())
         updateBlockChargeLevel()
         clearData()
     }
 
-    private fun clearData() {
+    internal fun clearData() {
+        this.currentUser?.let(alreadyHealing::remove)
         this.currentUser = null
         this.pokeBalls.clear()
         this.healTimeLeft = 0
@@ -203,7 +204,7 @@ class HealingMachineBlockEntity(
     }
 
     companion object {
-        val alreadyHealing = mutableListOf<UUID>()
+        private val alreadyHealing = hashSetOf<UUID>()
         const val MAX_REDSTONE_SIGNAL = 10
 
         internal val TICKER = BlockEntityTicker<HealingMachineBlockEntity> { world, _, _, blockEntity ->
@@ -227,5 +228,8 @@ class HealingMachineBlockEntity(
                 }
             }
         }
+
+        fun isUsingHealer(player: PlayerEntity) = this.alreadyHealing.contains(player.uuid)
+
     }
 }

@@ -30,7 +30,7 @@
     "entries": [
       {
         "item": "minecraft:rabbit_hide",
-		"percentage": 50
+        "percentage": 50
       },
       {
         "item": "minecraft:rabbit_foot",
@@ -65,6 +65,7 @@
     "tm:attract",
     "tm:batonpass",
     "tm:blazekick",
+    "tm:bounce",
     "tm:electroball",
     "tm:endure",
     "tm:facade",
@@ -98,7 +99,8 @@
     "tm:terablast",
     "tm:trailblaze",
     "tm:uturn",
-    "tm:workup"
+    "tm:workup",
+    "tutor:firepledge"
   ],
   "labels": [
     "gen8"

@@ -79,6 +79,11 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
     val eggMoves = mutableListOf<MoveTemplate>()
     val tutorMoves = mutableListOf<MoveTemplate>()
     val tmMoves = mutableListOf<MoveTemplate>()
+    /**
+     * Moves the species/form will have learnt when evolving into itself.
+     * These are dynamically resolved each boot.
+     */
+    val evolutionMoves = mutableSetOf<MoveTemplate>()
     val formChangeMoves = mutableListOf<MoveTemplate>()
 
     fun getLevelUpMovesUpTo(level: Int) = levelUpMoves

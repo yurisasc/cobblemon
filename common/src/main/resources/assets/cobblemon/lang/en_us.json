@@ -324,6 +324,7 @@
   "cobblemon.command.pokemonedit": "Edited %2$s's %1$s.",
   "cobblemon.command.teach": "%2$s's %1$s learnt %3$s.",
   "cobblemon.command.teach.already_knows": "%1$s already knows %2$s!",
+  "cobblemon.command.teach.cant_learn": "%1$s can't learn %2$s!",
   "cobblemon.command.healpokemon.heal": "Fully healed %1$s's party.",
   "cobblemon.command.friendship": "%1$s has %2$s friendship.",
   "cobblemon.command.givepokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
@@ -475,10 +476,15 @@
   "cobblemon.battle.activate.heal_bell": "A bell chimed!",
   "cobblemon.battle.activate.aromatherapy": "A soothing aroma wafted through the area!",
   "cobblemon.battle.activate.trapped": "%1$s can no longer escape!",
+  "cobblemon.battle.activate.bind": "%1$s was squeezed by %2$s!",
+  "cobblemon.battle.activate.court_change": "%1$s swapped the battle effects affecting each side of the field!",
+
+  "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
 
   "cobblemon.battle.set_hp.pain_split": "The battlers shared their pain!",
 
-  "cobblemon.battle.speed_boost_ability": "%1$s's Speed Boost Activated!",
+  "cobblemon.battle.ability.sturdy": "%1$s endured the hit!",
+  "cobblemon.battle.ability.speed_boost": "%1$s's Speed Boost Activated!",
 
   "cobblemon.battle.errors.busy": "%1$s is busy!",
   "cobblemon.battle.error.in_battle": "%1$s is already in a battle.",
@@ -525,6 +531,7 @@
   "cobblemon.battle.heal.ingrain": "%1$s absorbed nutrients with its roots!",
   "cobblemon.battle.heal.grassy_terrain": "%1$s's HP was restored.",
   "cobblemon.battle.heal.leftovers": "%1$s restored a little HP using its Leftovers!",
+  "cobblemon.battle.heal.black_sludge": "%1$s restored a little HP using its Black Sludge!",
   "cobblemon.battle.heal.generic": "%1$s restored its HP.",
 
   "cobblemon.experience.gained": "%1$s received %2$s experience.",

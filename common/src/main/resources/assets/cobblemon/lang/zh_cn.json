@@ -440,7 +440,7 @@
   "cobblemon.battle.activate.aromatherapy": "舒缓身心的芳香在场地上散发开了！",
   "cobblemon.battle.activate.trapped": "%1$s无法逃走了！",
   "cobblemon.battle.set_hp.pain_split": "双方分担了痛楚！",
-  "cobblemon.battle.speed_boost_ability": "%1$s的加速！",
+  "cobblemon.battle.ability.speed_boost": "%1$s的加速！",
   "cobblemon.battle.errors.busy": "这只%1$s没有空！",
   "cobblemon.battle.error.in_battle": "这只%1$s正在战斗中。",
   "cobblemon.battle.error.in_battle.personal": "你正在一场战斗中！",

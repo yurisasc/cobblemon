@@ -46,7 +46,7 @@
     "entries": [
       {
         "item": "minecraft:flint",
-		"quantityRange": "1-2",
+        "quantityRange": "1-2",
         "percentage": 66
       }
     ]

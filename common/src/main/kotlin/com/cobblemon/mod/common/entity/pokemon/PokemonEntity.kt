@@ -55,6 +55,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.Shearable
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
@@ -68,6 +69,7 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
+import net.minecraft.entity.passive.SheepEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
@@ -102,7 +104,7 @@ class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
-) : TameableShoulderEntity(type, world), Poseable {
+) : TameableShoulderEntity(type, world), Poseable, Shearable {
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
     val subscriptions = mutableListOf<ObservableSubscription<*>>()
@@ -427,40 +429,13 @@ class PokemonEntity(
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         val itemStack = player.getStackInHand(hand)
         if (player is ServerPlayerEntity) {
-            if (itemStack.isOf(Items.SHEARS)) {
-                val feature = pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED)
-                val isShearable = feature?.enabled == false
-                if (isShearable) {
-                    feature!!
-                    world.playSoundFromEntity(
-                        null,
-                        this,
-                        SoundEvents.ENTITY_SHEEP_SHEAR,
-                        SoundCategory.PLAYERS,
-                        1.0F,
-                        1.0F
-                    )
-                    val i = 1 + random.nextInt(3)
-
-                    for (j in 0 until i) {
-                        val itemEntity = this.dropItem(Items.WHITE_WOOL, 1)
-                        if (itemEntity != null) {
-                            itemEntity.velocity = itemEntity.velocity.add(
-                                ((random.nextFloat() - random.nextFloat()) * 0.1f).toDouble(),
-                                (random.nextFloat() * 0.05f).toDouble(),
-                                ((random.nextFloat() - random.nextFloat()) * 0.1f).toDouble()
-                            )
-                        }
-                    }
-                    this.emitGameEvent(GameEvent.SHEAR, player)
-                    itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
-                    feature.enabled = true
-                    pokemon.markFeatureDirty(feature)
-                    pokemon.updateAspects()
-                    return ActionResult.SUCCESS
-                }
+            if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
+                this.sheared(SoundCategory.PLAYERS)
+                this.emitGameEvent(GameEvent.SHEAR, player)
+                itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
+                return ActionResult.SUCCESS
             }
-            if (itemStack.isOf(Items.BUCKET)) {
+            else if (itemStack.isOf(Items.BUCKET)) {
                 if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
                     world.playSoundFromEntity(
                         null,
@@ -629,9 +604,8 @@ class PokemonEntity(
             returned.isEmpty -> lang("held_item.give", this.pokemon.displayName, giving.name)
             else -> lang("held_item.replace", returned.name, this.pokemon.displayName, giving.name)
         }
-        player.giveItemStack(returned)
+        player.giveOrDropItemStack(returned)
         player.sendMessage(text)
-        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
         return true
     }
 
@@ -843,4 +817,25 @@ class PokemonEntity(
 
     override fun breed(world: ServerWorld, other: AnimalEntity) {}
 
+    override fun sheared(shearedSoundCategory: SoundCategory) {
+        this.world.playSoundFromEntity(null, this,SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0F, 1.0F)
+        val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return
+        feature.enabled = true
+        this.pokemon.markFeatureDirty(feature)
+        this.pokemon.updateAspects()
+        val i = this.random.nextInt(3)
+        for (j in 0 until i) {
+            val itemEntity = this.dropItem(Items.WHITE_WOOL, 1) ?: return
+            itemEntity.velocity = itemEntity.velocity.add(
+                ((this.random.nextFloat() - this.random.nextFloat()) * 0.1f).toDouble(),
+                (this.random.nextFloat() * 0.05f).toDouble(),
+                ((this.random.nextFloat() - this.random.nextFloat()) * 0.1f).toDouble()
+            )
+        }
+    }
+
+    override fun isShearable(): Boolean {
+        val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return false
+        return !this.isBusy && !this.pokemon.isFainted() && !feature.enabled
+    }
 }
