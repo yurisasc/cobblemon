@@ -35,6 +35,9 @@
 - Fixed creative mode allowing you to make your Pokémon hold more than 1 of the same item.
 - Fixed a Pokémon duplication glitch when teleporting between worlds.
 
+### Developer
+- Add events that are being fired just before and after a Pokémon is being released (ReleasePokemonEvent)
+
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 
 ### Dependencies
