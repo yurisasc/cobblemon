@@ -94,14 +94,17 @@ object ShowdownInterpreter {
         updateInstructions["|-fieldstart|"] = this::handleFieldStartInstructions
         updateInstructions["|-fieldend|"] = this::handleFieldEndInstructions
         updateInstructions["|-ability|"] = this::handleAbilityInstructions
+        //To-Do updateInstructions["|-endability|"] = this::handleEndAbilityInstruction
         updateInstructions["|-nothing"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
         }
         updateInstructions["|-clearallboost"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("clearallboost")) }
         }
-        // ToDo -singleturn|p2a: 596a8320-3330-466b-8f0b-005016b4b1a7|Protect
-        // ToDo |-singlemove|p2a: a234d8ef-e558-4e37-846b-5df82ccf8256|Rage
+        updateInstructions["|-singleturn|"] = this::handleSingleTurnInstruction
+        updateInstructions["|-singlemove|"] = this::handleSingleMoveInstruction
+        updateInstructions["|-prepare|"] = this::handlePrepareInstruction
+        updateInstructions["|-swapboost"] = this::handleSwapBoostInstruction
         updateInstructions["|-swapsideconditions|"] = this::handleSilently
         updateInstructions["|-unboost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, false) }
         updateInstructions["|-boost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, true) }
@@ -769,6 +772,56 @@ object ShowdownInterpreter {
         }
     }
 
+    private fun handleSingleTurnInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo{
+            val message = BattleMessage(rawMessage)
+            val pokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
+            val pokemonName = pokemon.battlePokemon?.getName() ?: return@dispatchGo
+            val effect = message.effectAt(1) ?: return@dispatchGo
+            val lang = when(effect.id) {
+                "protect" -> battleLang("singleturn.protect", pokemonName)
+                "endure" -> battleLang("singleturn.endure", pokemonName)
+                "craftyshield" -> battleLang("singleturn.crafty_shield", pokemonName)
+                "powder" -> battleLang("singleturn.powder", pokemonName)
+                "followme" -> battleLang("singleturn.follow_me", pokemonName)
+                "snatch" -> battleLang("singleturn.snatch", pokemonName)
+                "quickguard" -> battleLang("singleturn.quick_guard", pokemonName)
+                "wideguard" -> battleLang("singleturn.wide_guard", pokemonName)
+                "roost" -> battleLang("singleturn.roost", pokemonName)
+                "matblock" -> battleLang("singleturn.mat_block", pokemonName)
+                "maxguard" -> battleLang("singleturn.max_guard", pokemonName)
+                "instruct" -> battleLang("singleturn.instruct", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
+                "focuspunch" -> battleLang("singleturn.focus_punch", pokemonName)
+                "electrify" -> battleLang("singleturn.electrify", pokemonName)
+                "beakblast" -> battleLang("singleturn.beak_blast", pokemonName)
+                "helpinghand" -> battleLang("singleturn.helping_hand", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
+                "magiccoat" -> battleLang("singleturn.magic_coat", pokemonName)
+                "ragepowder" -> battleLang("singleturn.rage_powder", pokemonName)
+                "shelltrap" -> battleLang("singleturn.shell_trap", pokemonName)
+                "spotlight" -> battleLang("singleturn.spotlight", pokemonName)
+                else -> battle.createUnimplemented(message)
+            }
+            battle.broadcastChatMessage(lang)
+        }
+    }
+
+    private fun handleSingleMoveInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val message = BattleMessage(rawMessage)
+            val pokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
+            val pokemonName = pokemon.battlePokemon?.getName() ?: return@dispatchGo
+            val effect = message.effectAt(1) ?: return@dispatchGo
+            val lang = when (effect.id) {
+                "destinybond" -> battleLang("singlemove.destiny_bond", pokemonName)
+                "glaiverush" -> battleLang("singlemove.glaive_rush", pokemonName)
+                "grudge" -> battleLang("singlemove.grudge", pokemonName)
+                "rage" -> battleLang("singlemove.rage", pokemonName)
+                else -> battle.createUnimplemented(message)
+            }
+            battle.broadcastChatMessage(lang)
+        }
+    }
+
     private fun handleActivateInstructions(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>){
         battle.dispatchGo{
             val message = BattleMessage(rawMessage)
@@ -795,6 +848,8 @@ object ShowdownInterpreter {
                 "quickclaw" -> battleLang("item.quick_claw.end", pokemonName)
                 "bind" -> battleLang("activate.bind", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
                 "courtchange" -> battleLang("activate.court_change", pokemonName)
+                "guardsplit" -> battleLang("activate.guard_split", pokemonName)
+                "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
@@ -852,18 +907,71 @@ object ShowdownInterpreter {
     }
 
     private fun handleAbilityInstructions(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
-        battle.dispatchWaiting {
+        battle.dispatchGo {
             val message = BattleMessage(rawMessage)
-            val battlePokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchWaiting
-            val pokemonName = battlePokemon.getName()
+            val pokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
+            val pokemonName = pokemon.battlePokemon?.getName() ?: return@dispatchGo
+            val effect = message.effectAt(1) ?: return@dispatchGo
             //val abilityId = message.argumentAt(1) ?: return@dispatchWaiting
-            val effect = message.effect() ?: return@dispatchWaiting
+            //val effect = message.effect() ?: return@dispatchWaiting
             val feedback = when (effect.id) {
                 "speedboost" -> battleLang("ability.speed_boost", pokemonName)
                 "sturdy" -> battleLang("ability.sturdy", pokemonName)
-                else -> battle.createUnimplemented(message)
+                "intimidate" -> battleLang("ability.intimidate", pokemonName)
+                "unnerve" -> battleLang("ability.unnerve", pokemonName)
+                "anticipation" -> battleLang("ability.anticipation", pokemonName)
+                "airlock" -> battleLang("ability.air_lock")
+                "cloudnine" -> battleLang("ability.air_lock") //Cloud Nine shares the same text as Air Lock
+                else -> battleLang("ability.generic", pokemonName, message.argumentAt(1)!!)
             }
             battle.broadcastChatMessage(feedback)
+        }
+    }
+
+    private fun handlePrepareInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val message = BattleMessage(rawMessage)
+            val pokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
+            val pokemonName = pokemon.battlePokemon?.getName() ?: return@dispatchGo
+            val effect = message.effectAt(1) ?: return@dispatchGo
+            //Prevents spam when the move Role Play is used
+            val lang = when(effect.id) {
+                "bounce" -> battleLang("prepare.bounce", pokemonName)
+                "dig" -> battleLang("prepare.dig", pokemonName)
+                "dive" -> battleLang("prepare.dive", pokemonName)
+                "fly" -> battleLang("prepare.fly", pokemonName)
+                "freezeshock" -> battleLang("prepare.freeze_shock", pokemonName)
+                "geomancy" -> battleLang("prepare.geomancy", pokemonName)
+                "iceburn" -> battleLang("prepare.ice_burn", pokemonName)
+                "meteorbeam" -> battleLang("prepare.meteor_beam", pokemonName)
+                "phantomforce" -> battleLang("prepare.phantom_force", pokemonName)
+                "razorwind" -> battleLang("prepare.razor_wind", pokemonName)
+                "shadowforce" -> battleLang("prepare.phantom_force", pokemonName) //Phantom Force and Shadow Force share the same text
+                "skullbash" -> battleLang("prepare.skull_bash", pokemonName)
+                "skyattack" -> battleLang("prepare.sky_attack", pokemonName)
+                "skydrop" -> battleLang("prepare.sky_drop", pokemonName)
+                "solarbeam" -> battleLang("prepare.solar_beam", pokemonName)
+                "solarblade" -> battleLang("prepare.solar_beam", pokemonName) //Solar Beam and Solar Blade share the same text
+                else -> battle.createUnimplemented(message)
+            }
+            battle.broadcastChatMessage(lang)
+        }
+    }
+
+    private fun handleSwapBoostInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val message = BattleMessage(rawMessage)
+            val pokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
+            val pokemonName = pokemon.battlePokemon?.getName() ?: return@dispatchGo
+            val targetPokemonName = message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo
+            val effect = message.effectAt(1) ?: return@dispatchGo
+            val lang = when(effect.id) {
+                "guardswap" -> battleLang("swapboost.generic", pokemonName, targetPokemonName)
+                "heartswap" -> battleLang("swapboost.generic", pokemonName, targetPokemonName)
+                "powerswap" -> battleLang("swapboost.generic", pokemonName, targetPokemonName)
+                else -> battle.createUnimplemented(message)
+            }
+            battle.broadcastChatMessage(lang)
         }
     }
 
@@ -1145,7 +1253,7 @@ object ShowdownInterpreter {
                             "ingrain" -> battleLang("heal.ingrain", battlePokemon.getName())
                             "grassyterrain" -> battleLang("heal.grassy_terrain", battlePokemon.getName())
                             "leftovers" -> battleLang("heal.leftovers", battlePokemon.getName())
-                            "blacksludge" -> battleLang("heal.black_sludge", battlePokemon.getName())
+                            "raindish" -> battleLang("heal.rain_dish", battlePokemon.getName())
                             else -> battle.createUnimplementedSplit(publicMessage, privateMessage)
                         }
                     }

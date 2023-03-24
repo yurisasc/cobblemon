@@ -2,8 +2,7 @@
 ## [1.3.1](#1-3-1)
 
 ### Additions
-- Added battle messages for the effects of the moves Bind, Court Change and Protect.
-- Added battle messages for the effects of the ability Sturdy.
+- Added battle messages interpretation for 50+ moves and abilities.
 - Added battle messages for healing with Black Sludge.
 - Added the ``/pc`` command which opens up the PC UI the same way interacting with the block would, this will be a cheat command in the Minecraft permission system or use the permission ``cobblemon.command.pc`` if a permission mod is present.
 - You can now click the right and left arrow keys to move navigate PC boxes.
