@@ -11,6 +11,7 @@
 - Replaced the "Failed to handle" battle messages to "Missing interpretation" to make it more clear that mechanics do work just still pending dedicated messages.
 - You can now click the portraits of other Pokémon in the starter selection screen to navigate directly to them.
 - The ``/teach`` command can now only allow the Pokémon to be given moves in their learnset, this can be controlled with the permission ``cobblemon.command.teach.bypass``, to account for that change the base command now requires the permission ``cobblemon.command.teach.base``, this change is meant only for people using a mod capable of providing permissions such as [LuckPerms](https://luckperms.net/).
+- Apricorns will no longer collide with their block form when picked, this should improve the experience in automatic farms.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.
