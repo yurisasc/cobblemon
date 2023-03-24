@@ -312,14 +312,17 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
                 val player = this.owner as? ServerPlayerEntity ?: return
 
                 afterOnMain(seconds = 1F) {
-                    pokemon.discard()
-                    discard()
-                    captureFuture.complete(true)
-                    val party = Cobblemon.storage.getParty(player.uuid)
-                    pokemon.pokemon.caughtBall = pokeBall
-                    pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
-                    party.add(pokemon.pokemon)
-                    CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
+                    // Dupes occurred by double-adding Pokémon, this hopefully prevents it triple-condom style
+                    if (pokemon.pokemon.isWild() && pokemon.isAlive && !captureFuture.isDone) {
+                        pokemon.discard()
+                        discard()
+                        captureFuture.complete(true)
+                        val party = Cobblemon.storage.getParty(player.uuid)
+                        pokemon.pokemon.caughtBall = pokeBall
+                        pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
+                        party.add(pokemon.pokemon)
+                        CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
+                    }
                 }
                 return
             } else {
