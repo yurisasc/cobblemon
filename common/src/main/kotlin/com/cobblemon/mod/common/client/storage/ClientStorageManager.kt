@@ -77,7 +77,7 @@ class ClientStorageManager {
     }
 
     fun locatePokemon(storeID: UUID, pokemonID: UUID): Pokemon? {
-        partyStores[storeID]?.let { return it.findByUUID(pokemonID) } ?: return pcStores[storeID]?.findByUUID(pokemonID)
+        return partyStores[storeID]?.findByUUID(pokemonID) ?: pcStores[storeID]?.findByUUID(pokemonID)
     }
 
     fun createParty(mine: Boolean, uuid: UUID, slots: Int) {
