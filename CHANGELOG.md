@@ -36,6 +36,7 @@
 - Fixed the currently held item of your Pokémon not dropping to the ground when removing it if your inventory was full.
 - Fixed creative mode allowing you to make your Pokémon hold more than 1 of the same item.
 - Fixed a Pokémon duplication glitch when teleporting between worlds.
+- Fixed dedicated servers being able to reload Cobblemon data with the vanilla ``/reload`` command causing unintended behavior for clients.
 
 ### Developer
 - Add events that are being fired just before and after a Pokémon is being released (ReleasePokemonEvent)
