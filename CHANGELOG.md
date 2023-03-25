@@ -40,6 +40,9 @@
 ### Developer
 - Add events that are being fired just before and after a Pokémon is being released (ReleasePokemonEvent)
 
+### Localization
+- Added complete translations for Japanese.
+
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 
 ### Dependencies
