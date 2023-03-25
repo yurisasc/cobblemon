@@ -38,7 +38,7 @@
             "id": "golbat-2",
             "pokemon": "golbat",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",

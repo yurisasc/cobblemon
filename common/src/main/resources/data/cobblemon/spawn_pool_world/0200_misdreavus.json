@@ -26,7 +26,7 @@
             "id": "misdreavus-2",
             "pokemon": "misdreavus",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
