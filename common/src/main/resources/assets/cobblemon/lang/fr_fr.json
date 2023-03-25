@@ -440,7 +440,7 @@
   "cobblemon.battle.activate.aromatherapy": "Une odeur apaisante flotte dans l'air !",
   "cobblemon.battle.activate.trapped": "%1$s ne peut plus s'échapper !",
   "cobblemon.battle.set_hp.pain_split": "Les adversaires partagent leur PV !",
-  "cobblemon.battle.speed_boost_ability": "La vitesse de %1$s augmente !",
+  "cobblemon.battle.ability.speed_boost": "La vitesse de %1$s augmente !",
   "cobblemon.battle.errors.busy": "%1$s est occupé !",
   "cobblemon.battle.error.in_battle": "%1$s est déjà en combat.",
   "cobblemon.battle.error.in_battle.personal": "Vous êtes déjà dans un combat !",

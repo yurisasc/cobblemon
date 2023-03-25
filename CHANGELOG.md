@@ -2,12 +2,35 @@
 ## [1.3.1](#1-3-1)
 
 ### Additions
+- Added battle messages for the effects of the moves Bind, Court Change and Protect.
+- Added battle messages for the effects of the ability Sturdy.
+- Added battle messages for healing with Black Sludge.
+- Added the ``/pc`` command which opens up the PC UI the same way interacting with the block would, this will be a cheat command in the Minecraft permission system or use the permission ``cobblemon.command.pc`` if a permission mod is present.
 
 ### Changes
+- Replaced the "Failed to handle" battle messages to "Missing interpretation" to make it more clear that mechanics do work just still pending dedicated messages.
+- You can now click the portraits of other Pokémon in the starter selection screen to navigate directly to them.
+- The ``/teach`` command can now only allow the Pokémon to be given moves in their learnset, this can be controlled with the permission ``cobblemon.command.teach.bypass``, to account for that change the base command now requires the permission ``cobblemon.command.teach.base``, this change is meant only for people using a mod capable of providing permissions such as [LuckPerms](https://luckperms.net/).
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.
 - Fixed console spam when rendering Pokémon model items.
+- Fixed custom Pokémon not being usable in battle, properly. A last minute fix caused this to break again; what are these devs not paid for?
+- Fixed an issue with the experience calculation when the Exp. Share is held.
+- Fixed Experience Candy and Experience Share attempting to bring Pokémon above level cap causing crashes.
+- Fixed level 100 Pokémon having experience go over the cap total amount they should have.
+- Fixed ``/pokemonspawnat`` having the argument positions reverted making it impossible for brigadier to understand when to suggest coordinates it is now the intended ``/spawnpokemonat <pos> <properties>``.
+- Fixed moves learnt on evolution not being given when said evolution happens. If you were affected by this issue your existing Pokémon will be able to relearn moves.
+- Fixed performance issues with shouldered Pokémon in certain systems.
+- Fixed learnset issues for Pokémon whose only modern debut was LGPE/BDSP/LA.
+- Fixed the display of a raw battle message for when the effect of Yawn ends and the sleeping starts.
+- Fixed Shiny Zubat, Grimer, Omanyte, Elgyem, Delphox and Aegislash  displaying their normal texture.
+- Fixed sleeping in beds allowing fainted Pokémon to receive experience after a battle ends.
+- Fixed an issue where a Pokémon will claim to have learnt a new move they already have in their moveset when learnt at an earlier level in their previous evolution.
+- Fixed Dispensers not being able to shear Wooloo, this will also extend to other mods that check if an entity is valid to shear.
+- Fixed being locked in an endless healing queue if you broke the healing machine during use.
+- Fixed the currently held item of your Pokémon not dropping to the ground when removing it if your inventory was full.
+- Fixed creative mode allowing you to make your Pokémon hold more than 1 of the same item.
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 

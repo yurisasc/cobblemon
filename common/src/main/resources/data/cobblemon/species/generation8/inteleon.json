@@ -150,7 +150,9 @@
     "tm:weatherball",
     "tm:whirlpool",
     "tm:workup",
-    "tutor:scaleshot"
+    "tutor:hydrocannon",
+    "tutor:scaleshot",
+    "tutor:waterpledge"
   ],
   "labels": [
     "gen8"

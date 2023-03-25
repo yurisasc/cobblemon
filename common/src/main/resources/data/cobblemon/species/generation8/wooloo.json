@@ -33,7 +33,7 @@
     "entries": [
       {
         "item": "minecraft:mutton",
-		"quantityRange": "1-2",
+        "quantityRange": "1-2",
         "percentage": 66
       },
       {

@@ -440,7 +440,7 @@
   "cobblemon.battle.activate.aromatherapy": "Um aroma calmante se alastrou pela área!",
   "cobblemon.battle.activate.trapped": "%1$s não pode mais escapar!",
   "cobblemon.battle.set_hp.pain_split": "Os batalhadores dividiram as suas dores!",
-  "cobblemon.battle.speed_boost_ability": "Aumento de Velocidade do %1$s ativado!",
+  "cobblemon.battle.ability.speed_boost": "Aumento de Velocidade do %1$s ativado!",
   "cobblemon.battle.errors.busy": "%1$s está ocupado(a)!",
   "cobblemon.battle.error.in_battle": "%1$s está em uma batalha.",
   "cobblemon.battle.error.in_battle.personal": "Você já está em batalha!",

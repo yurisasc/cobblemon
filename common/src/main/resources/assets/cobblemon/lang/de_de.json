@@ -440,7 +440,7 @@
   "cobblemon.battle.activate.aromatherapy": "Ein wohltuendes Aroma breitet sich aus!",
   "cobblemon.battle.activate.trapped": "%1$s kann nicht mehr fliehen!",
   "cobblemon.battle.set_hp.pain_split": "Die Kontrahenten teilen sich ihre KP!",
-  "cobblemon.battle.speed_boost_ability": "%1$s's Temposchub wurde aktiviert!",
+  "cobblemon.battle.ability.speed_boost": "%1$s's Temposchub wurde aktiviert!",
   "cobblemon.battle.errors.busy": "%1$s ist beschäftigt!",
   "cobblemon.battle.error.in_battle": "%1$s ist bereits im Kampf.",
   "cobblemon.battle.error.in_battle.personal": "Du bist bereits im Kampf!",

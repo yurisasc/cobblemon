@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
+import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
@@ -34,6 +35,8 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.party
+import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.text.Text
@@ -191,7 +194,7 @@ open class PokemonBattle(
                         }
                         val experience = Cobblemon.experienceCalculator.calculate(opponentPokemon, faintedPokemon, multiplier)
                         if (experience > 0) {
-                            opponent.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
+                            opponent.awardExperience(opponentPokemon, experience)
                         }
                         Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
                             pokemon.evs.add(stat, amount)
@@ -258,7 +261,7 @@ open class PokemonBattle(
         }
     }
 
-    fun dispatchWaiting(dispatcher: () -> Unit, delaySeconds: Float = 1F) {
+    fun dispatchWaiting(delaySeconds: Float = 1F, dispatcher: () -> Unit) {
         dispatch {
             dispatcher()
             WaitDispatch(delaySeconds)
@@ -345,8 +348,8 @@ open class PokemonBattle(
      * @return The generated [Text] meant to notify the client.
      */
     internal fun createUnimplemented(message: BattleMessage): Text {
-        LOGGER.error("Failed to handle '{}' action {}", message.id, message.rawMessage)
-        return Text.literal("Failed to handle '${message.id}' action ${message.rawMessage}").red()
+        LOGGER.error("Missing interpretation on '{}' action {}", message.id, message.rawMessage)
+        return Text.literal("Missing interpretation on '${message.id}' action ${message.rawMessage}").red()
     }
 
     /**
@@ -363,8 +366,8 @@ open class PokemonBattle(
         if (publicMessage.id != privateMessage.id) {
             throw IllegalArgumentException("Messages do not match")
         }
-        LOGGER.error("Failed to handle '{}' action: \nPublic » {}\nPrivate » {}", publicMessage.id, publicMessage.rawMessage, privateMessage.rawMessage)
-        return Text.literal("Failed to handle '${publicMessage.id}' action please report to the developers").red()
+        LOGGER.error("Missing interpretation on '{}' action: \nPublic » {}\nPrivate » {}", publicMessage.id, publicMessage.rawMessage, privateMessage.rawMessage)
+        return Text.literal("Missing interpretation on '${publicMessage.id}' action please report to the developers").red()
     }
 
 }

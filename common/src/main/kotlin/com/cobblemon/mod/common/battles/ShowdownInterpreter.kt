@@ -100,6 +100,9 @@ object ShowdownInterpreter {
         updateInstructions["|-clearallboost"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("clearallboost")) }
         }
+        // ToDo -singleturn|p2a: 596a8320-3330-466b-8f0b-005016b4b1a7|Protect
+        // ToDo |-singlemove|p2a: a234d8ef-e558-4e37-846b-5df82ccf8256|Rage
+        updateInstructions["|-swapsideconditions|"] = this::handleSilently
         updateInstructions["|-unboost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, false) }
         updateInstructions["|-boost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, true) }
         updateInstructions["|-setboost|"] = this::handleSetBoostInstruction
@@ -790,6 +793,8 @@ object ShowdownInterpreter {
                 "aromatherapy" -> battleLang("activate.aromatherapy")
                 "trapped" -> battleLang("activate.trapped")
                 "quickclaw" -> battleLang("item.quick_claw.end", pokemonName)
+                "bind" -> battleLang("activate.bind", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
+                "courtchange" -> battleLang("activate.court_change", pokemonName)
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
@@ -797,7 +802,7 @@ object ShowdownInterpreter {
     }
 
     private fun handleFieldStartInstructions(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>){
-        battle.dispatchWaiting({
+        battle.dispatchWaiting {
             val message = BattleMessage(rawMessage)
             // Note persistent is a CAP ability only we can ignore the flag
             val lang: Text = when (message.argumentAt(0)) {
@@ -818,11 +823,11 @@ object ShowdownInterpreter {
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
-        })
+        }
     }
 
     private fun handleFieldEndInstructions(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>){
-        battle.dispatchWaiting({
+        battle.dispatchWaiting {
             val message = BattleMessage(rawMessage)
             // Note persistent is a CAP ability only we can ignore the flag
             val lang: Text = when (message.argumentAt(0)) {
@@ -843,37 +848,41 @@ object ShowdownInterpreter {
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
-        })
-    }
-
-    private fun handleAbilityInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
-        battle.dispatch {
-            val editedMessage = message.split("|-ability|")[1]
-            val pnx = editedMessage.substring(0, 3)
-            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-            val fromWhat = editedMessage.split("|")[1]
-            when (fromWhat) {
-                "Speed Boost" -> battle.broadcastChatMessage(battleLang("speed_boost_ability", pokemon.battlePokemon!!.getName()))
-                else -> battle.broadcastChatMessage(editedMessage.text())
-            }
-            WaitDispatch(1F)
         }
     }
 
-    private fun handleEndInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
-        battle.dispatch {
-            val editedMessage = message.split("|-end|")[1]
-            val pnx = editedMessage.substring(0, 3)
-            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-            val fromWhat = editedMessage.split("|")[1]
-
-            when (fromWhat) {
-                "confusion" -> battle.broadcastChatMessage(battleLang("confusion_snapped", pokemon.battlePokemon!!.getName()))
-                "move: Bide" -> battle.broadcastChatMessage(battleLang("bide_end", pokemon.battlePokemon!!.getName()))
-                else -> battle.broadcastChatMessage(editedMessage.text())
+    private fun handleAbilityInstructions(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchWaiting {
+            val message = BattleMessage(rawMessage)
+            val battlePokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchWaiting
+            val pokemonName = battlePokemon.getName()
+            //val abilityId = message.argumentAt(1) ?: return@dispatchWaiting
+            val effect = message.effect() ?: return@dispatchWaiting
+            val feedback = when (effect.id) {
+                "speedboost" -> battleLang("ability.speed_boost", pokemonName)
+                "sturdy" -> battleLang("ability.sturdy", pokemonName)
+                else -> battle.createUnimplemented(message)
             }
+            battle.broadcastChatMessage(feedback)
+        }
+    }
 
-            WaitDispatch(1F)
+    private fun handleEndInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchWaiting {
+            val message = BattleMessage(rawMessage)
+            val battlePokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchWaiting
+            val pokemonName = battlePokemon.getName()
+            val effect = message.effectAt(1) ?: return@dispatchWaiting
+            if (message.hasOptionalArgument("silent")) {
+                LOGGER.debug("Received silent: {}", message.rawMessage)
+            }
+            val feedback = when (effect.id) {
+                "confusion" -> battleLang("confusion_snapped", pokemonName)
+                "bide" -> battleLang("bide_end", pokemonName)
+                "bind" -> battleLang("end.bide", pokemonName)
+                else -> battle.createUnimplemented(message)
+            }
+            battle.broadcastChatMessage(feedback)
         }
     }
 
@@ -1101,7 +1110,7 @@ object ShowdownInterpreter {
     }
 
     private fun handleHealInstruction(battle: PokemonBattle, actor: BattleActor, rawPublic: String, rawPrivate: String) {
-        battle.dispatchWaiting({
+        battle.dispatchWaiting {
             val publicMessage = BattleMessage(rawPublic)
             val privateMessage = BattleMessage(rawPrivate)
             val pnx = privateMessage.argumentAt(0)?.substring(0, 3) ?: return@dispatchWaiting
@@ -1136,6 +1145,7 @@ object ShowdownInterpreter {
                             "ingrain" -> battleLang("heal.ingrain", battlePokemon.getName())
                             "grassyterrain" -> battleLang("heal.grassy_terrain", battlePokemon.getName())
                             "leftovers" -> battleLang("heal.leftovers", battlePokemon.getName())
+                            "blacksludge" -> battleLang("heal.black_sludge", battlePokemon.getName())
                             else -> battle.createUnimplementedSplit(publicMessage, privateMessage)
                         }
                     }
@@ -1154,11 +1164,11 @@ object ShowdownInterpreter {
                     status.applyMessage.let { battle.broadcastChatMessage(it.asTranslated(battlePokemon.getName())) }
                 }
             }
-        })
+        }
     }
 
     private fun handleSetHpInstructions(battle: PokemonBattle, actor: BattleActor, rawPublic: String, rawPrivate: String){
-        battle.dispatchWaiting({
+        battle.dispatchWaiting {
             val publicMessage = BattleMessage(rawPublic)
             val privateMessage = BattleMessage(rawPrivate)
             val pnx = privateMessage.argumentAt(0)?.substring(0, 3) ?: return@dispatchWaiting
@@ -1177,7 +1187,13 @@ object ShowdownInterpreter {
                 else -> battle.createUnimplemented(publicMessage)
             }
             battle.broadcastChatMessage(lang)
-        })
+        }
     }
+
+    // Used for things that are only meant for visual information we don't have
+    private fun handleSilently(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {  }
+    }
+
 
 }

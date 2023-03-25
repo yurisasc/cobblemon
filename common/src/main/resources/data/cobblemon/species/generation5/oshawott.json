@@ -94,6 +94,7 @@
     "tm:protect",
     "tm:raindance",
     "tm:rest",
+    "tm:retaliate",
     "tm:return",
     "tm:rocksmash",
     "tm:round",
@@ -116,9 +117,15 @@
     "tm:waterpulse",
     "tm:workup",
     "tm:xscissor",
+    "tutor:aquatail",
     "tutor:covet",
+    "tutor:helpinghand",
+    "tutor:icywind",
     "tutor:irontail",
-    "tutor:snore"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:waterpledge",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen5"

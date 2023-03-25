@@ -39,9 +39,9 @@
     "entries": [
       {
         "item": "minecraft:raw_porkchop",
-		"quantityRange": "2-3"
+        "quantityRange": "2-3"
       },
-	  {
+      {
         "item": "minecraft:brown_wool",
         "quantityRange": "2-3"
       }
@@ -51,23 +51,26 @@
     "1:ancientpower",
     "1:flail",
     "1:furyattack",
-    "1:icefang",
-    "1:mudslap",
     "1:mudsport",
     "1:odorsleuth",
     "1:peck",
     "1:powdersnow",
     "1:tackle",
+    "13:mudslap",
     "15:iceshard",
-    "18:mudbomb",
-    "20:mist",
-    "25:endure",
+    "16:endure",
+    "20:mudbomb",
+    "25:hail",
+    "28:icefang",
     "30:icywind",
+    "32:takedown",
+    "33:doublehit",
     "37:amnesia",
-    "44:takedown",
-    "51:earthquake",
-    "58:blizzard",
-    "65:thrash",
+    "40:earthquake",
+    "41:thrash",
+    "48:mist",
+    "56:blizzard",
+    "65:scaryface",
     "tm:amnesia",
     "tm:attract",
     "tm:avalanche",
@@ -124,12 +127,29 @@
     "tm:superpower",
     "tm:swagger",
     "tm:toxic",
+    "tutor:ancientpower",
     "tutor:block",
+    "tutor:doublehit",
+    "tutor:earthpower",
+    "tutor:earthquake",
     "tutor:endeavor",
     "tutor:furycutter",
+    "tutor:hail",
     "tutor:headbutt",
+    "tutor:icefang",
     "tutor:iciclecrash",
-    "tutor:knockoff"
+    "tutor:iciclespear",
+    "tutor:icywind",
+    "tutor:ironhead",
+    "tutor:knockoff",
+    "tutor:mudslap",
+    "tutor:rockslide",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:takedown"
   ],
   "labels": [
     "gen4"

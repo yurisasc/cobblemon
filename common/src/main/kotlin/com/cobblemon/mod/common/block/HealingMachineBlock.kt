@@ -149,7 +149,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
             return ActionResult.SUCCESS
         }
 
-        if (player.uuid in HealingMachineBlockEntity.alreadyHealing) {
+        if (HealingMachineBlockEntity.isUsingHealer(player)) {
             player.sendMessage(lang("healingmachine.alreadyhealing").red())
             return ActionResult.SUCCESS
         }
@@ -174,6 +174,14 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
             }
             blockEntity.infinite = true
         }
+    }
+
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+        val blockEntity = world.getBlockEntity(pos)
+        if (blockEntity is HealingMachineBlockEntity) {
+            blockEntity.clearData()
+        }
+        super.onBreak(world, pos, state, player)
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
