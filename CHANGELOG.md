@@ -18,6 +18,7 @@
 - Fixed console spam when rendering Pokémon model items.
 - Fixed the possible duplicate when capturing Pokémon (probably, this one's hard to reproduce to confirm it's fixed).
 - Fixed (probably) an issue with some particle effects applying after a Pokémon has died or on top of the wrong Pokémon.
+- Fixed Pokémon not looking at each other in battle.
 - Fixed custom Pokémon not being usable in battle, properly. A last minute fix caused this to break again; what are these devs not paid for?
 - Fixed an issue with the experience calculation when the Exp. Share is held.
 - Fixed Experience Candy and Experience Share attempting to bring Pokémon above level cap causing crashes.
