@@ -57,7 +57,6 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Identifier
-import net.minecraft.util.TypedActionResult
 import net.minecraft.util.profiler.Profiler
 import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
@@ -73,7 +72,7 @@ object CobblemonFabric : CobblemonImplementation {
 
     fun initialize() {
         Cobblemon.preInitialize(this)
-        this.networkManager.initServer()
+        this.networkManager.registerServerBound()
 
         Cobblemon.initialize()
         /*

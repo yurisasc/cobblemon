@@ -16,7 +16,10 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 
 object CobblemonParticles : PlatformRegistry<Registry<ParticleType<*>>, RegistryKey<Registry<ParticleType<*>>>, ParticleType<*>>() {
-    val SNOWSTORM_PARTICLE_TYPE = this.create("snowstorm", SnowstormParticleType())
+
     override val registry: Registry<ParticleType<*>> = Registries.PARTICLE_TYPE
     override val registryKey: RegistryKey<Registry<ParticleType<*>>> = RegistryKeys.PARTICLE_TYPE
+
+    val SNOWSTORM_PARTICLE_TYPE = this.create("snowstorm", SnowstormParticleType())
+
 }

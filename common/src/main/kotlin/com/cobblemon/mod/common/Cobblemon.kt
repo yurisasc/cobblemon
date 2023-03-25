@@ -152,6 +152,7 @@ object Cobblemon {
     var seasonResolver: SeasonResolver = TagSeasonResolver
 
     fun preInitialize(implementation: CobblemonImplementation) {
+        this.implementation = implementation
         implementation.registerPermissionValidator()
         implementation.registerSoundEvents()
         implementation.registerBlocks()
@@ -169,7 +170,6 @@ object Cobblemon {
         CaptureCalculators.registerDefaults()
 
         this.loadConfig()
-        this.implementation = implementation
         CobblemonOrePlacedFeatures.register()
         CobblemonApricornPlacedFeatures.register()
         this.registerArgumentTypes()

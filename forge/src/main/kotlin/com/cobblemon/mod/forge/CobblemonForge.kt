@@ -52,11 +52,11 @@ import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import net.minecraftforge.fml.loading.FMLEnvironment
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegisterEvent
 import net.minecraftforge.server.ServerLifecycleHooks
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
@@ -70,12 +70,12 @@ class CobblemonForge : CobblemonImplementation {
     override val networkManager: NetworkManager = CobblemonForgeNetworkManager
 
     init {
-        CobblemonBiomeModifiers.register()
-        with(thedarkcolour.kotlinforforge.forge.MOD_BUS) {
+        with(MOD_BUS) {
             this@CobblemonForge.commandArgumentTypes.register(this)
             addListener(this@CobblemonForge::initialize)
             addListener(this@CobblemonForge::serverInit)
             Cobblemon.preInitialize(this@CobblemonForge)
+            addListener(CobblemonBiomeModifiers::register)
         }
         with(MinecraftForge.EVENT_BUS) {
             addListener(this@CobblemonForge::onDataPackSync)
@@ -99,8 +99,8 @@ class CobblemonForge : CobblemonImplementation {
 
     fun initialize(event: FMLCommonSetupEvent) {
         Cobblemon.LOGGER.info("Initializing...")
-        this.networkManager.initClient()
-        this.networkManager.initServer()
+        this.networkManager.registerClientBound()
+        this.networkManager.registerServerBound()
         Cobblemon.initialize()
     }
 
@@ -127,7 +127,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerSoundEvents() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonSounds.registryKey) { helper ->
                 CobblemonSounds.register { identifier, sounds -> helper.register(identifier, sounds) }
             }
@@ -135,7 +135,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerBlocks() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonBlocks.registryKey) { helper ->
                 CobblemonBlocks.register { identifier, block -> helper.register(identifier, block) }
             }
@@ -143,7 +143,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerParticles() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonParticles.registryKey) { helper ->
                 CobblemonParticles.register { identifier, particleType -> helper.register(identifier, particleType) }
             }
@@ -159,7 +159,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerItems() {
-        with(FMLJavaModLoadingContext.get().modEventBus) {
+        with(MOD_BUS) {
             addListener<RegisterEvent> { event ->
                 event.register(CobblemonItems.registryKey) { helper ->
                     CobblemonItems.register { identifier, item -> helper.register(identifier, item) }
@@ -185,7 +185,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerEntityTypes() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonEntities.registryKey) { helper ->
                 CobblemonEntities.register { identifier, type -> helper.register(identifier, type) }
             }
@@ -193,7 +193,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerEntityAttributes() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<EntityAttributeCreationEvent> { event ->
+        MOD_BUS.addListener<EntityAttributeCreationEvent> { event ->
             CobblemonEntities.registerAttributes { entityType, builder ->
                 builder.add(ForgeMod.ENTITY_GRAVITY.get())
                     .add(ForgeMod.NAMETAG_DISTANCE.get())
@@ -204,7 +204,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerBlockEntityTypes() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonBlockEntities.registryKey) { helper ->
                 CobblemonBlockEntities.register { identifier, type -> helper.register(identifier, type) }
             }
@@ -212,7 +212,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerWorldGenFeatures() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonFeatures.registryKey) { helper ->
                 CobblemonFeatures.register { identifier, feature -> helper.register(identifier, feature) }
             }

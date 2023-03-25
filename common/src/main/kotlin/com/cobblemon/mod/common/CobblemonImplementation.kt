@@ -169,13 +169,13 @@ enum class ModAPI {
 
 interface NetworkManager {
 
-    fun initClient()
+    fun registerClientBound()
 
-    fun initServer()
+    fun registerServerBound()
 
-    fun <T: NetworkPacket<T>> registerClientBound(identifier: Identifier, kClass: KClass<T>, encoder: (T, PacketByteBuf) -> Unit, decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>)
+    fun <T: NetworkPacket<T>> createClientBound(identifier: Identifier, kClass: KClass<T>, encoder: (T, PacketByteBuf) -> Unit, decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>)
 
-    fun <T: NetworkPacket<T>> registerServerBound(identifier: Identifier, kClass: KClass<T>, encoder: (T, PacketByteBuf) -> Unit, decoder: (PacketByteBuf) -> T, handler: ServerNetworkPacketHandler<T>)
+    fun <T: NetworkPacket<T>> createServerBound(identifier: Identifier, kClass: KClass<T>, encoder: (T, PacketByteBuf) -> Unit, decoder: (PacketByteBuf) -> T, handler: ServerNetworkPacketHandler<T>)
 
     fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>)
 

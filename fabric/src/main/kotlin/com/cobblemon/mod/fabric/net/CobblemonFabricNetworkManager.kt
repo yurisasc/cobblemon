@@ -26,15 +26,15 @@ import net.minecraft.util.Identifier
 
 object CobblemonFabricNetworkManager : NetworkManager {
 
-    override fun initClient() {
-        CobblemonNetwork.initClient()
+    override fun registerClientBound() {
+        CobblemonNetwork.registerClientBound()
     }
 
-    override fun initServer() {
-        CobblemonNetwork.initServer()
+    override fun registerServerBound() {
+        CobblemonNetwork.registerServerBound()
     }
 
-    override fun <T : NetworkPacket<T>> registerClientBound(
+    override fun <T : NetworkPacket<T>> createClientBound(
         identifier: Identifier,
         kClass: KClass<T>,
         encoder: (T, PacketByteBuf) -> Unit,
@@ -46,7 +46,7 @@ object CobblemonFabricNetworkManager : NetworkManager {
         })
     }
 
-    override fun <T : NetworkPacket<T>> registerServerBound(
+    override fun <T : NetworkPacket<T>> createServerBound(
         identifier: Identifier,
         kClass: KClass<T>,
         encoder: (T, PacketByteBuf) -> Unit,

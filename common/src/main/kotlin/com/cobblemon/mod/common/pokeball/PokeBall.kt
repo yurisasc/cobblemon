@@ -31,8 +31,8 @@ open class PokeBall(
     val name: Identifier,
     val catchRateModifier: CatchRateModifier = CatchRateModifier.DUMMY,
     val effects: List<CaptureEffect> = listOf(),
-    val model2d: ModelIdentifier,
-    val model3d: ModelIdentifier
+    val model2d: Identifier,
+    val model3d: Identifier
 ) {
 
     // This gets attached during item registry
