@@ -40,7 +40,7 @@ object PcCommand {
         val player = context.source.playerOrThrow
         val pc = player.pc()
         if (player.isInBattle()) {
-            IN_BATTLE_EXCEPTION.create()
+            throw IN_BATTLE_EXCEPTION.create()
         }
         PCLinkManager.addLink(PermissiblePcLink(pc, player, CobblemonPermissions.PC))
         OpenPCPacket(pc.uuid).sendToPlayer(player)
