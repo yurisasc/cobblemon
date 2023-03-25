@@ -26,7 +26,7 @@
             "id": "mismagius-2",
             "pokemon": "mismagius",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -34,7 +34,7 @@
             "level": "44-49",
             "weight": 0.06,
             "condition": {
-                "canSeeSky": true,
+                "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_spooky",
                     "#cobblemon:is_swamp"

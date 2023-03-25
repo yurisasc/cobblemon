@@ -28,7 +28,7 @@
             "id": "joltik-2",
             "pokemon": "joltik",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",

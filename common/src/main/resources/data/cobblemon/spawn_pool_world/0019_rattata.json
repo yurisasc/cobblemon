@@ -31,7 +31,7 @@
             "id": "rattata-2",
             "pokemon": "rattata",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -79,7 +79,7 @@
             "id": "rattata-alolan-1",
             "pokemon": "rattata alolan",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",

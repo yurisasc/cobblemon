@@ -10,7 +10,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "46-50",
-            "weight": 0.02,
+            "weight": 0.1,
             "condition": {
                 "biomes": [
                     "#minecraft:is_nether"
@@ -39,7 +39,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "46-50",
-            "weight": 0.02,
+            "weight": 0.1,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [

@@ -6,12 +6,18 @@
 - Added battle messages for healing with Black Sludge.
 - Added the ``/pc`` command which opens up the PC UI the same way interacting with the block would, this will be a cheat command in the Minecraft permission system or use the permission ``cobblemon.command.pc`` if a permission mod is present.
 - You can now click the right and left arrow keys to move navigate PC boxes.
+- Elgyem family now drops Chorus Fruit, Geodude family now drops Black Augurite.
+- Added missing spawn files for Golett family.
 
 ### Changes
 - Replaced the "Failed to handle" battle messages to "Missing interpretation" to make it more clear that mechanics do work just still pending dedicated messages.
 - You can now click the portraits of other Pokémon in the starter selection screen to navigate directly to them.
 - The ``/teach`` command can now only allow the Pokémon to be given moves in their learnset, this can be controlled with the permission ``cobblemon.command.teach.bypass``, to account for that change the base command now requires the permission ``cobblemon.command.teach.base``, this change is meant only for people using a mod capable of providing permissions such as [LuckPerms](https://luckperms.net/).
 - Apricorns will no longer collide with their block form when picked, this should improve the experience in automatic farms.
+- Increased spawn chances for many Pokémon requiring specific blocks to be nearby.
+- Put Cryogonal in more snowy biomes.
+- Ditto and Eevee, Gible, and Riolu families have been made more common.
+- Lowered spawn rate of Gyarados on the surface.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.
@@ -37,6 +43,7 @@
 - Fixed creative mode allowing you to make your Pokémon hold more than 1 of the same item.
 - Fixed a Pokémon duplication glitch when teleporting between worlds.
 - Fixed dedicated servers being able to reload Cobblemon data with the vanilla ``/reload`` command causing unintended behavior for clients.
+- Fixed underground Pokémon spawning above ground.
 
 ### Developer
 - Add events that are being fired just before and after a Pokémon is being released (ReleasePokemonEvent)

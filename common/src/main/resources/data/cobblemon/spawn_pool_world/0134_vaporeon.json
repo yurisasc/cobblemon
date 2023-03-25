@@ -14,7 +14,7 @@
             "context": "grounded",
             "bucket": "ultra-rare",
             "level": "33-52",
-            "weight": 0.1,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true
             }
@@ -30,7 +30,7 @@
             "context": "submerged",
             "bucket": "ultra-rare",
             "level": "33-52",
-            "weight": 0.1,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true
             }

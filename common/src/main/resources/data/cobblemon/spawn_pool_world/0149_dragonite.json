@@ -7,7 +7,7 @@
             "id": "dragonite-1",
             "pokemon": "dragonite",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -16,6 +16,7 @@
             "weight": 0.1,
             "condition": {
                 "canSeeSky": false,
+				"maxY": 32,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],

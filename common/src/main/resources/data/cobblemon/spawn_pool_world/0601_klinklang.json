@@ -6,6 +6,9 @@
         {
             "id": "klinklang-1",
             "pokemon": "klinklang",
+			"presets": [
+                "underground"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -33,7 +36,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "49-52",
-            "weight": 0.02,
+            "weight": 0.1,
             "condition": {
                 "biomes": [
                     "#cobblemon:is_overworld"

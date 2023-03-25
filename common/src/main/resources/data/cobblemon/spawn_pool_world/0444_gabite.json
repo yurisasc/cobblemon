@@ -11,11 +11,10 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "ultra-rare",
+            "bucket": "rare",
             "level": "24-47",
-            "weight": 0.9,
+            "weight": 0.54,
             "condition": {
-                "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_mountain"
                 ]
@@ -25,7 +24,7 @@
             "id": "gabite-2",
             "pokemon": "gabite",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -40,7 +39,8 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_abyss"
+                    "#cobblemon:is_abyss",
+					"#cobblemon:is_mountain"
                 ]
             }
         }

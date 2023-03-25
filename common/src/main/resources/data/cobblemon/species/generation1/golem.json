@@ -179,7 +179,7 @@
     "mineral"
   ],
   "drops": {
-    "amount": "2",
+    "amount": "3",
     "entries": [
       {
         "item": "minecraft:flint",
@@ -188,6 +188,10 @@
       },
       {
         "item": "cobblemon:hard_stone",
+        "percentage": 10
+      },
+      {
+        "item": "cobblemon:black_augurite",
         "percentage": 10
       }
     ]
