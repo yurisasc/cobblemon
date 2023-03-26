@@ -45,6 +45,7 @@
 - Fixed dedicated servers being able to reload Cobblemon data with the vanilla ``/reload`` command causing unintended behavior for clients.
 - Fixed underground Pokémon spawning above ground.
 - Fixed Pokémon portrait not reverting back to the Pokémon after a failed capture during battle.
+- Fixed all Gen IX Pokémon as well as Wyrdeer, Kleavor, Ursaluna, Basculegion, Sneasler, Overqwil, and Enamorus having 0 exp yields.
 
 ### Developer
 - Add events that are being fired just before and after a Pokémon is being released (ReleasePokemonEvent)
