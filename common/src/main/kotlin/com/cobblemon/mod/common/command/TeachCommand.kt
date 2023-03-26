@@ -33,7 +33,7 @@ object TeachCommand {
     private const val PLAYER = "player"
     private const val SLOT = "slot"
     private const val MOVE = "move"
-    private val ALREAD_KNOWS_EXCEPTION = Dynamic2CommandExceptionType { a, b -> commandLang("$NAME.already_knows", a, b).red() }
+    private val ALREADY_KNOWS_EXCEPTION = Dynamic2CommandExceptionType { a, b -> commandLang("$NAME.already_knows", a, b).red() }
     private val CANT_LEARN_EXCEPTION = Dynamic2CommandExceptionType { a, b -> commandLang("$NAME.cant_learn", a, b).red() }
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
@@ -49,21 +49,31 @@ object TeachCommand {
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {
-        val pokemon = PartySlotArgumentType.getPokemon(context, SLOT)
+        val pokemon = PartySlotArgumentType.getPokemonOf(context, SLOT, player)
         val move = MoveArgumentType.getMove(context, MOVE)
+
         if (!Cobblemon.permissionValidator.hasPermission(context.source, CobblemonPermissions.TEACH_BYPASS_LEARNSET) && !LearnsetQuery.ANY.canLearn(move, pokemon.form.moves)) {
             throw CANT_LEARN_EXCEPTION.create(pokemon.displayName, move.displayName)
         }
+
         if (pokemon.moveSet.getMoves().any { it.template == move } || pokemon.benchedMoves.any { it.moveTemplate == move }) {
-            throw ALREAD_KNOWS_EXCEPTION.create(pokemon.displayName, move.displayName)
+            throw ALREADY_KNOWS_EXCEPTION.create(pokemon.displayName, move.displayName)
         }
+
         if (pokemon.moveSet.hasSpace()) {
             pokemon.moveSet.add(move.create())
         }
         else {
             pokemon.benchedMoves.add(BenchedMove(move, 0))
         }
-        context.source.sendFeedback(commandLang(NAME, pokemon.species.translatedName, player.name, move.displayName), true)
+
+        val pokemonLearntMessage = commandLang(NAME, pokemon.species.translatedName, player.name, move.displayName)
+        context.source.sendFeedback(pokemonLearntMessage, true)
+
+        if (!context.source.player?.equals(player)!!) {
+            player.sendMessage(pokemonLearntMessage)
+        }
+
         return Command.SINGLE_SUCCESS
     }
 
