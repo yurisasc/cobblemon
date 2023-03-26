@@ -146,7 +146,12 @@
       "result": "froslass",
       "consumeHeldItem": false,
       "learnableMoves": [],
-      "requirements": [],
+      "requirements": [
+        {
+          "variant": "properties",
+          "target": "gender=female"
+        }
+      ],
       "requiredContext": "cobblemon:dawn_stone"
     }
   ],

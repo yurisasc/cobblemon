@@ -66,6 +66,10 @@
         {
           "variant": "level",
           "minLevel": 21
+        },
+        {
+          "variant": "properties",
+          "target": "gender=female"
         }
       ]
     }
