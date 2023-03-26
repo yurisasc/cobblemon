@@ -70,7 +70,7 @@ object TeachCommand {
         val pokemonLearntMessage = commandLang(NAME, pokemon.species.translatedName, player.name, move.displayName)
         context.source.sendFeedback(pokemonLearntMessage, true)
 
-        if (!context.source.player?.equals(player)!!) {
+        if (context.source.player?.equals(player) != true) {
             player.sendMessage(pokemonLearntMessage)
         }
 
