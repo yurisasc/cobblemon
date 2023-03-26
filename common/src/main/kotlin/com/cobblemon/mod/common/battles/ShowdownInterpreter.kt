@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.battles
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage

@@ -324,10 +324,9 @@ open class PokemonBattle(
             }
 
         if (wildPokemonOutOfRange) {
-            CobblemonEvents.BATTLE_FLED.post(BattleFledEvent(this)) {
-                actors.filterIsInstance<EntityBackedBattleActor<*>>().mapNotNull { it.entity }.forEach { it.sendMessage(battleLang("flee").yellow()) }
-                stop()
-            }
+            CobblemonEvents.BATTLE_FLED.post(BattleFledEvent(this, actors.asSequence().filterIsInstance<PlayerBattleActor>().iterator().next()))
+            actors.filterIsInstance<EntityBackedBattleActor<*>>().mapNotNull { it.entity }.forEach { it.sendMessage(battleLang("flee").yellow()) }
+            stop()
         }
     }
 
