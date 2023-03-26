@@ -16,7 +16,7 @@ import net.minecraft.util.math.Vec3d
 data class PokemonSentPreEvent(
     val pokemon: Pokemon,
     val level: ServerWorld,
-    var position: Vec3d
+    val position: Vec3d
 ) : Cancelable()
 
 /**

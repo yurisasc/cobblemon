@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
@@ -501,7 +502,17 @@ object ShowdownInterpreter {
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             pokemon.battlePokemon?.sendUpdate()
             battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
-            CobblemonEvents.BATTLE_FAINTED.post(BattleFaintedEvent(battle, pokemon.battlePokemon))
+
+            val killer = lastMover[battle.battleId]?.let { move ->
+                val pnx = move
+                        .replace("|move|", "")
+                        .split("|")[0]
+                        .split(":")[0].trim()
+
+                return@let battle.getActorAndActiveSlotFromPNX(pnx).second.battlePokemon
+            }
+
+            CobblemonEvents.BATTLE_FAINTED.post(BattleFaintedEvent(battle, pokemon.battlePokemon, killer))
             pokemon.battlePokemon = null
             WaitDispatch(2.5F)
         }

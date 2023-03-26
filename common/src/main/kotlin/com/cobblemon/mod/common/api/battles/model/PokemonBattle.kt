@@ -37,8 +37,6 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
-import com.cobblemon.mod.common.util.party
-import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.text.Text
@@ -326,7 +324,7 @@ open class PokemonBattle(
             }
 
         if (wildPokemonOutOfRange) {
-            CobblemonEvents.BATTLE_FLED.postThen(BattleFledEvent(this)) {
+            CobblemonEvents.BATTLE_FLED.post(BattleFledEvent(this)) {
                 actors.filterIsInstance<EntityBackedBattleActor<*>>().mapNotNull { it.entity }.forEach { it.sendMessage(battleLang("flee").yellow()) }
                 stop()
             }
