@@ -18,6 +18,7 @@
 - Put Cryogonal in more snowy biomes.
 - Ditto and Eevee, Gible, and Riolu families have been made more common.
 - Lowered spawn rate of Gyarados on the surface.
+- Apricorn leaves can now be used in the [Composter](https://minecraft.fandom.com/wiki/Composter) block, these have the same chance to raise the compost pile the Minecraft leaves do.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.
