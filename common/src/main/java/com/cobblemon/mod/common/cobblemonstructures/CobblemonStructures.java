@@ -39,17 +39,17 @@ public class CobblemonStructures {
         addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyHousesPoolLocation, "cobblemon:village_snowy/village_snowy_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
         addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaHousesPoolLocation, "cobblemon:village_taiga/village_taiga_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, StructureProcessorLists.MOSSIFY_10_PERCENT);
 
-//        Identifier plainsStreetsPoolLocation = new Identifier("minecraft:village/plains/streets");
-//        Identifier desertStreetsPoolLocation = new Identifier("minecraft:village/desert/streets");
-//        Identifier savannaStreetsPoolLocation = new Identifier("minecraft:village/savanna/streets");
-//        Identifier snowyStreetsPoolLocation = new Identifier("minecraft:village/snowy/streets");
-//        Identifier taigaStreetsPoolLocation = new Identifier("minecraft:village/taiga/streets");
-        
-//        addBuildingToPool(templatePoolRegistry, processorListRegistry, plainsStreetsPoolLocation, "cobblemon:village_desert/village_plains_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING);
-//        addBuildingToPool(templatePoolRegistry, processorListRegistry, desertStreetsPoolLocation, "cobblemon:village_desert/village_desert_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING);
-//        addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaStreetsPoolLocation, "cobblemon:village_desert/village_savanna_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING);
-//        addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyStreetsPoolLocation, "cobblemon:village_desert/village_snowy_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING);
-//        addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaStreetsPoolLocation, "cobblemon:village_desert/village_taiga_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING);
+        Identifier plainsStreetsPoolLocation = new Identifier("minecraft:village/plains/streets");
+        Identifier desertStreetsPoolLocation = new Identifier("minecraft:village/desert/streets");
+        Identifier savannaStreetsPoolLocation = new Identifier("minecraft:village/savanna/streets");
+        Identifier snowyStreetsPoolLocation = new Identifier("minecraft:village/snowy/streets");
+        Identifier taigaStreetsPoolLocation = new Identifier("minecraft:village/taiga/streets");
+
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, plainsStreetsPoolLocation, "cobblemon:village_plains/village_plains_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_PLAINS);
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, desertStreetsPoolLocation, "cobblemon:village_desert/village_desert_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, EMPTY_PROCESSOR_LIST_KEY);
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaStreetsPoolLocation, "cobblemon:village_savanna/village_savanna_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_SAVANNA);
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyStreetsPoolLocation, "cobblemon:village_snowy/village_snowy_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_SNOWY_OR_TAIGA);
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaStreetsPoolLocation, "cobblemon:village_taiga/village_taiga_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_SNOWY_OR_TAIGA);
     }
 
     public static void addBuildingToPool(Registry<StructurePool> templatePoolRegistry, Registry<StructureProcessorList> processorListRegistry, Identifier poolRL, String nbtPieceRL, int weight, StructurePool.Projection projection, RegistryKey<StructureProcessorList> processorListKey) {
