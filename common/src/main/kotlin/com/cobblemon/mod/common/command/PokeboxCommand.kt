@@ -40,6 +40,7 @@ object PokeboxCommand {
     private val BOX_DOES_NOT_EXIST = { boxNo: Int -> commandLang("pokebox.box_does_not_exist", boxNo) }
     private val BOX_IS_FULL_EXCEPTION = { boxNo: Int -> commandLang("pokebox.box_is_full", boxNo) }
     private val STORAGE_IS_FULL_EXCEPTION = commandLang("pokebox.storage_is_full")
+    private val LAST_POKE_EXCEPTION = commandLang("pokebox.last_pokemon")
 
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(literal("pokebox")
@@ -99,6 +100,11 @@ object PokeboxCommand {
         }
 
         pokemons.forEach { pokemon ->
+            if (ServerSettings.preventCompletePartyDeposit && playerParty.occupied() == 1) {
+                context.source.sendError(LAST_POKE_EXCEPTION.red())
+                return pokemons.size - 1
+            }
+
             // If PCStore and PCBox both implemented PokemonStore we could make this code a lot cleaner via the same interface
             val pcPosition = if (box == null) {
                 playerPc.getFirstAvailablePosition()
