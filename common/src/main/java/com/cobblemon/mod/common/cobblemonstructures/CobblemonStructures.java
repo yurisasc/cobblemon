@@ -20,8 +20,8 @@ import java.util.List;
 public class CobblemonStructures {
 
     private static final RegistryKey<StructureProcessorList> EMPTY_PROCESSOR_LIST_KEY = RegistryKey.of(RegistryKeys.PROCESSOR_LIST, new Identifier("minecraft", "empty"));
-    private static final Integer pokecenterWeight = 35;
-    private static final Integer longPathWeight = 20;
+    private static final Integer pokecenterWeight = 75;
+    private static final Integer longPathWeight = 10;
 
     public static void registerJigsaws(MinecraftServer server) {
         Registry<StructurePool> templatePoolRegistry = server.getRegistryManager().get(RegistryKeys.TEMPLATE_POOL);
