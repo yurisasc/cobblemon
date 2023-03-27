@@ -43,7 +43,6 @@ import com.cobblemon.mod.common.util.setPositionSafely
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.atomic.AtomicInteger
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
@@ -293,11 +292,11 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
     }
 
     private fun shakeBall(task: ScheduledTask, rollsRemaining: Int, captureResult: CaptureContext) {
-        if (capturingPokemon?.isAlive != true) {
-            discard()
-        }
-
-        if (!isAlive) {
+        if (this.capturingPokemon?.isAlive != true || !this.isAlive || this.owner == null|| owner?.isAlive != true) {
+            if (this.capturingPokemon?.isAlive == true) {
+                this.breakFree()
+            }
+            this.discard()
             task.expire()
             return
         }
@@ -418,4 +417,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
     override fun getPoseType(): PoseType {
         return PoseType.NONE
     }
+
+    override fun canUsePortals() = false
+
 }
