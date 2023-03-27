@@ -82,6 +82,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                bedrock("pidgeotto", "ground_idle"),
                 rootPart.translation(
                     function = parabolaFunction(
                         peak = -4F,
