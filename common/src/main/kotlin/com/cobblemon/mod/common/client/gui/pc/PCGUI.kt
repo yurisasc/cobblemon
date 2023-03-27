@@ -414,8 +414,14 @@ class PCGUI(
                 playSound(CobblemonSounds.PC_OFF.get())
                 UnlinkPlayerFromPCPacket().sendToServer()
             }
-            InputUtil.GLFW_KEY_RIGHT -> this.storageWidget.box += 1
-            InputUtil.GLFW_KEY_LEFT -> this.storageWidget.box -= 1
+            InputUtil.GLFW_KEY_RIGHT -> {
+                playSound(CobblemonSounds.GUI_CLICK.get())
+                this.storageWidget.box += 1
+            }
+            InputUtil.GLFW_KEY_LEFT -> {
+                playSound(CobblemonSounds.GUI_CLICK.get())
+                this.storageWidget.box -= 1
+            }
         }
         return super.keyPressed(keyCode, scanCode, modifiers)
     }
