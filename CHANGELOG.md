@@ -47,12 +47,14 @@
 - Fixed underground Pokémon spawning above ground.
 - Fixed Pokémon portrait not reverting back to the Pokémon after a failed capture during battle.
 - Fixed all Gen IX Pokémon as well as Wyrdeer, Kleavor, Ursaluna, Basculegion, Sneasler, Overqwil, and Enamorus having 0 exp yields.
+- Fixed crash caused by Pokémon pathing
 
 ### Developer
 - Add events that are being fired just before and after a Pokémon is being released (ReleasePokemonEvent)
 
 ### Localization
 - Added complete translations for Japanese, Thai, Canadian French.
+- Added partial translation for Russian.
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 
