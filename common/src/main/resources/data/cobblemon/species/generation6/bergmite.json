@@ -26,6 +26,14 @@
     "monster",
     "mineral"
   ],
+  "behaviour": {
+    "swim": {
+      "swimSpeed": 0.1,
+      "canSwimInWater": true,
+      "canBreatheUnderwater": true,
+      "canWalkOnWater": true
+    }
+  },
   "moves": [
     "1:bite",
     "1:harden",
