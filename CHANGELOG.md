@@ -25,6 +25,7 @@
 - Updated Swinub line model and animations.
 - Improved fire immunity so not all Pokémon resist lava damage.
 - Tweaked portrait frames for Pidgey line and Walking Wake.
+- Changed all buff shoulder effects to only give a rank 1 buff.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.
