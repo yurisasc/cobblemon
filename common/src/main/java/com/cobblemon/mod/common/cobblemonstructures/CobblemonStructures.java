@@ -11,6 +11,7 @@ import net.minecraft.structure.pool.SinglePoolElement;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
 import net.minecraft.structure.processor.StructureProcessorList;
+import net.minecraft.structure.processor.StructureProcessorLists;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -19,7 +20,6 @@ import java.util.List;
 public class CobblemonStructures {
 
     private static final RegistryKey<StructureProcessorList> EMPTY_PROCESSOR_LIST_KEY = RegistryKey.of(RegistryKeys.PROCESSOR_LIST, new Identifier("minecraft", "empty"));
-    private static final RegistryKey<StructureProcessorList> MOSSIFY_10_PERCENT_PROCESSOR_LIST_KEY = RegistryKey.of(RegistryKeys.PROCESSOR_LIST, new Identifier("minecraft", "mossify_10_percent"));
     private static final Integer pokecenterWeight = 35;
     private static final Integer longPathWeight = 20;
 
@@ -37,14 +37,14 @@ public class CobblemonStructures {
         addBuildingToPool(templatePoolRegistry, processorListRegistry, desertHousesPoolLocation, "cobblemon:village_desert/village_desert_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
         addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaHousesPoolLocation, "cobblemon:village_savanna/village_savanna_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
         addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyHousesPoolLocation, "cobblemon:village_snowy/village_snowy_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaHousesPoolLocation, "cobblemon:village_taiga/village_taiga_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaHousesPoolLocation, "cobblemon:village_taiga/village_taiga_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, StructureProcessorLists.MOSSIFY_10_PERCENT);
 
 //        Identifier plainsStreetsPoolLocation = new Identifier("minecraft:village/plains/streets");
 //        Identifier desertStreetsPoolLocation = new Identifier("minecraft:village/desert/streets");
 //        Identifier savannaStreetsPoolLocation = new Identifier("minecraft:village/savanna/streets");
 //        Identifier snowyStreetsPoolLocation = new Identifier("minecraft:village/snowy/streets");
 //        Identifier taigaStreetsPoolLocation = new Identifier("minecraft:village/taiga/streets");
-
+        
 //        addBuildingToPool(templatePoolRegistry, processorListRegistry, plainsStreetsPoolLocation, "cobblemon:village_desert/village_plains_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING);
 //        addBuildingToPool(templatePoolRegistry, processorListRegistry, desertStreetsPoolLocation, "cobblemon:village_desert/village_desert_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING);
 //        addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaStreetsPoolLocation, "cobblemon:village_desert/village_savanna_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING);
