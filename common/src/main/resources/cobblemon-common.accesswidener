@@ -55,6 +55,7 @@ accessible field net/minecraft/registry/BuiltinRegistries REGISTRY_BUILDER  Lnet
 accessible field net/minecraft/registry/RegistryBuilder registries  Ljava/util/List;
 accessible class net/minecraft/registry/RegistryBuilder$RegistryInfo
 
+#accessible field net/minecraft/registry/entry/RegistryEntry$Reference referenceType Lnet/minecraft/registry/entry/RegistryEntry$Reference$Type;
 
 #accessible method net/minecraft/client/render/RenderLayer$MultiPhase (Ljava/lang/String;Lnet/minecraft/client/render/VertexFormat;Lnet/minecraft/client/render/VertexFormat$DrawMode;IZZLnet/minecraft/client/render/RenderLayer$MultiPhaseParameters;)Lnet/minecraft/client/render/RenderLayer$MultiPhase;
 

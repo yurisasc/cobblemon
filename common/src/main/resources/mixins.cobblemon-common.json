@@ -26,7 +26,7 @@
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
     "StructurePoolGeneratorMixin",
-    "PlainsVillageDataMixin"
+    "StructurePoolAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

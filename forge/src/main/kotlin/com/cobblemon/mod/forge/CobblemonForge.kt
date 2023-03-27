@@ -9,6 +9,7 @@
 package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.cobblemonstructures.CobblemonStructures
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.util.didSleep
@@ -48,6 +49,7 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
 import net.minecraftforge.event.level.BlockEvent
+import net.minecraftforge.event.server.ServerAboutToStartEvent
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
@@ -85,8 +87,13 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::handleBlockStripping)
             addListener(this@CobblemonForge::registerCommands)
             addListener(this@CobblemonForge::onReload)
+            addListener(this@CobblemonForge::addCobblemonStructures)
         }
         ForgePlatformEventHandler.register()
+    }
+
+    fun addCobblemonStructures(event: ServerAboutToStartEvent) {
+        CobblemonStructures.registerJigsaws(event.server)
     }
 
     fun wakeUp(event: PlayerWakeUpEvent) {

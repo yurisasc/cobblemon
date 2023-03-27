@@ -62,14 +62,6 @@ public abstract class StructurePoolGeneratorMixin {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onStructurePoolGeneratorCreation(Registry registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List children, Random random, CallbackInfo ci) {
         generatedStructureCounts = new HashMap<String, Integer>();
-        System.out.println("LOOK HERE 2: ");
-//        System.out.println(BuiltinRegistries.REGISTRY_BUILDER);
-        System.out.println(BuiltinRegistries.REGISTRY_BUILDER.registries);
-        for (RegistryBuilder.RegistryInfo info: BuiltinRegistries.REGISTRY_BUILDER.registries) {
-            System.out.println(info);
-//            System.out.println(info.entryLookup());
-        }
-//        System.out.println("NEW POOL GENERATOR CREATED:");
     }
 
     @ModifyVariable(method = "generatePiece", at = @At("STORE"), ordinal = 1)

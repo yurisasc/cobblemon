@@ -9,6 +9,7 @@
 package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.cobblemonstructures.CobblemonStructures
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.platform.events.PlatformEvents
@@ -98,6 +99,7 @@ object CobblemonFabric : CobblemonImplementation {
         ServerLifecycleEvents.SERVER_STARTING.register { server ->
             this.server = server
             PlatformEvents.SERVER_STARTING.post(ServerEvent.Starting(server))
+            CobblemonStructures.registerJigsaws(server)
         }
         ServerLifecycleEvents.SERVER_STARTED.register { server -> PlatformEvents.SERVER_STARTED.post(ServerEvent.Started(server)) }
         ServerLifecycleEvents.SERVER_STOPPING.register { server -> PlatformEvents.SERVER_STOPPING.post(ServerEvent.Stopping(server)) }
