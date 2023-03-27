@@ -51,7 +51,7 @@ class BestSpawnerConfig {
             .disableHtmlEscaping()
             .create()
 
-        const val CONFIG_NAME = "best-spawner-config.json"
+        const val CONFIG_NAME = "best-spawner-config"
 
         fun load(): BestSpawnerConfig {
             val internal = loadInternal()
@@ -74,7 +74,7 @@ class BestSpawnerConfig {
         }
 
         private fun loadInternal(): BestSpawnerConfig {
-            val reader = InputStreamReader(Cobblemon::class.java.getResourceAsStream("/assets/${Cobblemon.MODID}/spawning/$CONFIG_NAME")!!)
+            val reader = InputStreamReader(Cobblemon::class.java.getResourceAsStream("/assets/${Cobblemon.MODID}/spawning/$CONFIG_NAME.json")!!)
             val config = GSON.fromJson(reader, BestSpawnerConfig::class.java)
             reader.close()
             return config
@@ -99,7 +99,7 @@ class BestSpawnerConfig {
         }
 
         fun saveExternal() {
-            val stream = Cobblemon::class.java.getResourceAsStream("/assets/${Cobblemon.MODID}/spawning/$CONFIG_NAME")!!
+            val stream = Cobblemon::class.java.getResourceAsStream("/assets/${Cobblemon.MODID}/spawning/$CONFIG_NAME.json")!!
             val bytes = stream.readAllBytes()
             stream.close()
             val configFile = File("config/${Cobblemon.MODID}/spawning/$CONFIG_NAME.json")
