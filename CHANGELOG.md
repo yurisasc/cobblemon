@@ -8,6 +8,7 @@
 - You can now click the right and left arrow keys to move navigate PC boxes.
 - Elgyem family now drops Chorus Fruit, Geodude family now drops Black Augurite.
 - Added missing spawn files for Golett family.
+- Added animations to Staryu line and Porygon line.
 
 ### Changes
 - Replaced the "Failed to handle" battle messages to "Missing interpretation" to make it more clear that mechanics do work just still pending dedicated messages.
@@ -20,13 +21,16 @@
 - Lowered spawn rate of Gyarados on the surface.
 - Apricorn leaves can now be used in the [Composter](https://minecraft.fandom.com/wiki/Composter) block, these have the same chance to raise the compost pile the Minecraft leaves do.
 - PC makes sounds when using your keyboard to navigate boxes.
+- Updated Gengar's model and texture.
+- Updated Swinub line model and animations.
 - Improved fire immunity so not all Pokémon resist lava damage.
+- Tweaked portrait frames for Pidgey line and Walking Wake.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.
 - Fixed console spam when rendering Pokémon model items.
 - Fixed the possible duplicate when capturing Pokémon (probably, this one's hard to reproduce to confirm it's fixed).
-  - Previously duplicated Pokémon are cleaned from PCs and parties on restart. 
+- Previously duplicated Pokémon are cleaned from PCs and parties on restart. 
 - Fixed (probably) an issue with some particle effects applying after a Pokémon has died or on top of the wrong Pokémon.
 - Fixed Pokémon not looking at each other in battle.
 - Fixed custom Pokémon not being usable in battle, properly. A last minute fix caused this to break again; what are these devs not paid for?
@@ -38,7 +42,7 @@
 - Fixed performance issues with shouldered Pokémon in certain systems.
 - Fixed learnset issues for Pokémon whose only modern debut was LGPE/BDSP/LA.
 - Fixed the display of a raw battle message for when the effect of Yawn ends and the sleeping starts.
-- Fixed Shiny Zubat, Grimer, Omanyte, Elgyem, Delphox and Aegislash  displaying their normal texture.
+- Fixed Shiny Zubat, Grimer, Omanyte, Elgyem, Delphox and Aegislash displaying their normal texture.
 - Fixed sleeping in beds allowing fainted Pokémon to receive experience after a battle ends.
 - Fixed an issue where a Pokémon will claim to have learnt a new move they already have in their moveset when learnt at an earlier level in their previous evolution.
 - Fixed Dispensers not being able to shear Wooloo, this will also extend to other mods that check if an entity is valid to shear.
@@ -52,6 +56,13 @@
 - Fixed all Gen IX Pokémon as well as Wyrdeer, Kleavor, Ursaluna, Basculegion, Sneasler, Overqwil, and Enamorus having 0 exp yields.
 - Fixed crash caused by Pokémon pathing
 - Fixed Pokémon not returning to their balls when being healed in a healing machine
+- Fixed all Gen IX Pokémon as well as forms added in PLA and Wyrdeer, Kleavor, Ursaluna, Basculegion, Sneasler, Overqwil, and Enamorus having 0 exp yields.
+- Fixed Irons Leaves having bluetooth back legs.
+- Fixed Golurk not having shoulder plates on shoulders.
+- Fixed some water Pokémon walking onto land from the water even though they are fish.
+- Fixed Porygon2 and PorygonZ being too small.
+- Fixed Snivy line head look animation.
+- Fixed Staryu line not being able to swim.
 
 ### Developer
 - Add events that are being fired just before and after a Pokémon is being released (ReleasePokemonEvent)

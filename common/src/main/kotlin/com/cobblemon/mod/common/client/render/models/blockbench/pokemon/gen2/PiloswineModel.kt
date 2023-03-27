@@ -18,7 +18,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class PiloswineModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart = root.registerChildWithAllChildren("piloswine_male")
+    override val rootPart = root.registerChildWithAllChildren("piloswine")
 
     override val portraitScale = 3.0F
     override val portraitTranslation = Vec3d(-0.6, -3.0, 0.0)
