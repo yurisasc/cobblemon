@@ -10,13 +10,11 @@ package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.client.settings.ServerSettings
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
 import com.cobblemon.mod.common.net.messages.client.storage.RemoveClientPokemonPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.pc
-import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.player
+import com.cobblemon.mod.common.util.*
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -26,7 +24,6 @@ import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
 
 /**
  * Send Pokemon to the PC.
@@ -40,6 +37,10 @@ import net.minecraft.text.Text
  *  If a box is selected and would not beable to house all of the party Pokemon, no action will take place.
  */
 object PokeboxCommand {
+    private val BOX_DOES_NOT_EXIST = { boxNo: Int -> commandLang("pokebox.box_does_not_exist", boxNo) }
+    private val BOX_IS_FULL_EXCEPTION = { boxNo: Int -> commandLang("pokebox.box_is_full", boxNo) }
+    private val STORAGE_IS_FULL_EXCEPTION = commandLang("pokebox.storage_is_full")
+
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(literal("pokebox")
             .permission(CobblemonPermissions.POKEBOX)
@@ -74,50 +75,52 @@ object PokeboxCommand {
                     execute(context, player, player.party().toList())
                 }))
     }
-}
 
-private fun execute(
-    context: CommandContext<ServerCommandSource>,
-    player: ServerPlayerEntity,
-    pokemons: Collection<Pokemon>,
-    box: Int? = null,
-): Int {
-    val playerPc = player.pc()
-    val playerParty = player.party()
+    private fun execute(
+        context: CommandContext<ServerCommandSource>,
+        player: ServerPlayerEntity,
+        pokemons: Collection<Pokemon>,
+        box: Int? = null,
+    ): Int {
+        val playerPc = player.pc()
+        val playerParty = player.party()
 
-    // If specifying a box, first check that the box exists and can sufficiently hold all the pokemon to be moved.
-    if (box != null) {
-        if (playerPc.boxes.size < box) {
-            throw SimpleCommandExceptionType(Text.literal("That player doesn't have a box $box").red()).create()
-        }
+        // If specifying a box, first check that the box exists and can sufficiently hold all the pokemon to be moved.
+        if (box != null) {
+            if (playerPc.boxes.size < box) {
+                throw SimpleCommandExceptionType(BOX_DOES_NOT_EXIST(box).red()).create()
+            }
 
-        val pcBox = playerPc.boxes.get(box - 1)
-
-        if (pcBox.unoccupiedSlots < pokemons.size) {
-            throw SimpleCommandExceptionType(Text.literal("Unable to make space in the PC Box.").red()).create()
-        }
-    }
-
-    pokemons.forEach { pokemon ->
-        // If PCStore and PCBox both implemented PokemonStore we could make this code a lot cleaner via the same interface
-        val pcPosition = if (box == null) {
-            playerPc.getFirstAvailablePosition()
-                ?: throw SimpleCommandExceptionType(Text.literal("Unable to find an available spot for your pokemon").red()).create()
-        } else {
             val pcBox = playerPc.boxes.get(box - 1)
-            pcBox.getFirstAvailablePosition()
-                ?: throw SimpleCommandExceptionType(Text.literal("Unable to find an available spot for your pokemon").red()).create()
+
+            if (pcBox.unoccupiedSlots < pokemons.size) {
+                throw SimpleCommandExceptionType(BOX_IS_FULL_EXCEPTION(box).red()).create()
+            }
         }
 
-        playerParty.remove(pokemon)
-        playerPc[pcPosition] = pokemon
+        pokemons.forEach { pokemon ->
+            // If PCStore and PCBox both implemented PokemonStore we could make this code a lot cleaner via the same interface
+            val pcPosition = if (box == null) {
+                playerPc.getFirstAvailablePosition()
+                    ?: throw SimpleCommandExceptionType(STORAGE_IS_FULL_EXCEPTION.red()).create()
 
-        // Let the client(s) know about the change to party
-        playerParty.sendPacketToObservers(
-            RemoveClientPokemonPacket(player.party(), pokemon.uuid)
-        )
+            } else {
+                val pcBox = playerPc.boxes.get(box - 1)
+                pcBox.getFirstAvailablePosition()
+                    ?: throw SimpleCommandExceptionType(BOX_IS_FULL_EXCEPTION(box).red()).create()
+
+            }
+
+            playerParty.remove(pokemon)
+            playerPc[pcPosition] = pokemon
+
+            // Let the client(s) know about the change to party
+            playerParty.sendPacketToObservers(
+                RemoveClientPokemonPacket(player.party(), pokemon.uuid)
+            )
+        }
+
+        // Let the call know how many Pokemon were moved to the PC
+        return pokemons.size
     }
-
-    // Let the call know how many entities were moved
-    return pokemons.size
 }

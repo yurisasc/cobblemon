@@ -326,6 +326,10 @@
   "cobblemon.command.spawnpokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
   "cobblemon.command.held_item": "%1$s's %2$s was given the %3$s to hold.",
   "cobblemon.command.pokeheal.in_battle": "You cannot heal your party while in a battle!",
+  "cobblemon.command.pokebox.box_does_not_exist": "That Player does not have a box %1$s.",
+  "cobblemon.command.pokebox.box_is_full": "That Player's box %1$s is full.",
+  "cobblemon.command.pokebox.storage_is_full": "That Player's storage is full.",
+  "cobblemon.command.pokebox.last_pokemon": "Cannot send that Player's last Pokémon to the PC.",
 
   "advancements.cobblemon.root": "The World of Cobblemon!",
   "advancements.cobblemon.obtain_leftovers": "Reduce, Reuse, Recycle!",
