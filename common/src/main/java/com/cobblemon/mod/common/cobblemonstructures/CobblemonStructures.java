@@ -7,6 +7,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.structure.pool.LegacySinglePoolElement;
 import net.minecraft.structure.pool.SinglePoolElement;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
@@ -38,13 +39,12 @@ public class CobblemonStructures {
         Identifier snowyHousesPoolLocation = new Identifier("minecraft:village/snowy/houses");
         Identifier taigaHousesPoolLocation = new Identifier("minecraft:village/taiga/houses");
 
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, plainsHousesPoolLocation, "cobblemon:village_plains/village_plains_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, desertHousesPoolLocation, "cobblemon:village_desert/village_desert_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaHousesPoolLocation, "cobblemon:village_savanna/village_savanna_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyHousesPoolLocation, "cobblemon:village_snowy/village_snowy_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaHousesPoolLocation, "cobblemon:village_taiga/village_taiga_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, StructureProcessorLists.MOSSIFY_10_PERCENT);
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, plainsHousesPoolLocation, CobblemonStructureIDs.PLAINS_POKECENTER, pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, desertHousesPoolLocation, CobblemonStructureIDs.DESERT_POKECENTER, pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaHousesPoolLocation, CobblemonStructureIDs.SAVANNA_POKECENTER, pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyHousesPoolLocation, CobblemonStructureIDs.SNOWY_POKECENTER, pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaHousesPoolLocation, CobblemonStructureIDs.TAIGA_POKECENTER, pokecenterWeight, StructurePool.Projection.RIGID, StructureProcessorLists.MOSSIFY_10_PERCENT);
     }
-
     private static void addLongPaths(Registry<StructurePool> templatePoolRegistry, Registry<StructureProcessorList> processorListRegistry) {
         Identifier plainsStreetsPoolLocation = new Identifier("minecraft:village/plains/streets");
         Identifier desertStreetsPoolLocation = new Identifier("minecraft:village/desert/streets");
@@ -52,21 +52,34 @@ public class CobblemonStructures {
         Identifier snowyStreetsPoolLocation = new Identifier("minecraft:village/snowy/streets");
         Identifier taigaStreetsPoolLocation = new Identifier("minecraft:village/taiga/streets");
 
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, plainsStreetsPoolLocation, "cobblemon:village_plains/village_plains_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_PLAINS);
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, desertStreetsPoolLocation, "cobblemon:village_desert/village_desert_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, EMPTY_PROCESSOR_LIST_KEY);
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaStreetsPoolLocation, "cobblemon:village_savanna/village_savanna_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_SAVANNA);
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyStreetsPoolLocation, "cobblemon:village_snowy/village_snowy_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_SNOWY_OR_TAIGA);
-        addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaStreetsPoolLocation, "cobblemon:village_taiga/village_taiga_long_path", longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_SNOWY_OR_TAIGA);
+        addLegacyBuildingToPool(templatePoolRegistry, processorListRegistry, plainsStreetsPoolLocation, CobblemonStructureIDs.PLAINS_LONG_PATH, longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_PLAINS);
+        addLegacyBuildingToPool(templatePoolRegistry, processorListRegistry, desertStreetsPoolLocation, CobblemonStructureIDs.DESERT_LONG_PATH, longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, EMPTY_PROCESSOR_LIST_KEY);
+        addLegacyBuildingToPool(templatePoolRegistry, processorListRegistry, savannaStreetsPoolLocation, CobblemonStructureIDs.SAVANNA_LONG_PATH, longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_SAVANNA);
+        addLegacyBuildingToPool(templatePoolRegistry, processorListRegistry, snowyStreetsPoolLocation, CobblemonStructureIDs.SNOWY_LONG_PATH, longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_SNOWY_OR_TAIGA);
+        addLegacyBuildingToPool(templatePoolRegistry, processorListRegistry, taigaStreetsPoolLocation, CobblemonStructureIDs.TAIGA_LONG_PATH, longPathWeight, StructurePool.Projection.TERRAIN_MATCHING, StructureProcessorLists.STREET_SNOWY_OR_TAIGA);
+    }
+
+    public static void addLegacyBuildingToPool(Registry<StructurePool> templatePoolRegistry, Registry<StructureProcessorList> processorListRegistry, Identifier poolRL, String nbtPieceRL, int weight, StructurePool.Projection projection, RegistryKey<StructureProcessorList> processorListKey) {
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, poolRL, nbtPieceRL, weight, projection, processorListKey, true);
     }
 
     public static void addBuildingToPool(Registry<StructurePool> templatePoolRegistry, Registry<StructureProcessorList> processorListRegistry, Identifier poolRL, String nbtPieceRL, int weight, StructurePool.Projection projection, RegistryKey<StructureProcessorList> processorListKey) {
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, poolRL, nbtPieceRL, weight, projection, processorListKey, false);
+    }
+
+    public static void addBuildingToPool(Registry<StructurePool> templatePoolRegistry, Registry<StructureProcessorList> processorListRegistry, Identifier poolRL, String nbtPieceRL, int weight, StructurePool.Projection projection, RegistryKey<StructureProcessorList> processorListKey, boolean shouldUseLegacySingePoolElement) {
         if (processorListRegistry.getEntry(processorListKey).isEmpty()) return;
         RegistryEntry.Reference<StructureProcessorList> processorList = processorListRegistry.getEntry(processorListKey).get();
 
         StructurePool pool = templatePoolRegistry.get(poolRL);
         if (pool == null) return;
 
-        SinglePoolElement piece = SinglePoolElement.ofProcessedSingle(nbtPieceRL, processorList).apply(projection);
+        SinglePoolElement piece;
+        if (shouldUseLegacySingePoolElement) {
+            piece = LegacySinglePoolElement.ofProcessedLegacySingle(nbtPieceRL, processorList).apply(projection);
+        } else {
+            piece = SinglePoolElement.ofProcessedSingle(nbtPieceRL, processorList).apply(projection);
+        }
 
         for (int i = 0; i < weight; i++) {
             ((StructurePoolAccessor) pool).getElements().add(piece);

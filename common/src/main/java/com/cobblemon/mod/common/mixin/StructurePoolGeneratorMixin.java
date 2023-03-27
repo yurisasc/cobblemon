@@ -1,5 +1,6 @@
 package com.cobblemon.mod.common.mixin;
 
+import com.cobblemon.mod.common.cobblemonstructures.CobblemonStructureIDs;
 import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryBuilder;
@@ -45,17 +46,17 @@ public abstract class StructurePoolGeneratorMixin {
     static {
         //Mapped using location string as key
         Map<String, Integer> aMap = new HashMap<String, Integer>();
-        aMap.put("cobblemon:village_plains/village_plains_pokecenter", 1);
-        aMap.put("cobblemon:village_savanna/village_savanna_pokecenter", 1);
-        aMap.put("cobblemon:village_desert/village_desert_pokecenter", 1);
-        aMap.put("cobblemon:village_snowy/village_snowy_pokecenter", 1);
-        aMap.put("cobblemon:village_taiga/village_taiga_pokecenter", 1);
+        aMap.put(CobblemonStructureIDs.PLAINS_POKECENTER, 1);
+        aMap.put(CobblemonStructureIDs.DESERT_POKECENTER, 1);
+        aMap.put(CobblemonStructureIDs.SAVANNA_POKECENTER, 1);
+        aMap.put(CobblemonStructureIDs.SNOWY_POKECENTER, 1);
+        aMap.put(CobblemonStructureIDs.TAIGA_POKECENTER, 1);
 
-//        aMap.put("cobblemon:village_plains/village_plains_long_path", 3);
-//        aMap.put("cobblemon:village_savanna/village_savanna_long_path", 3);
-//        aMap.put("cobblemon:village_desert/village_desert_long_path", 3);
-//        aMap.put("cobblemon:village_snowy/village_snowy_long_path", 3);
-//        aMap.put("cobblemon:village_taiga/village_taiga_long_path", 3);
+//        aMap.put(CobblemonStructureIDs.PLAINS_LONG_PATH, 3);
+//        aMap.put(CobblemonStructureIDs.DESERT_LONG_PATH, 3);
+//        aMap.put(CobblemonStructureIDs.SAVANNA_LONG_PATH, 3);
+//        aMap.put(CobblemonStructureIDs.SNOWY_LONG_PATH, 3);
+//        aMap.put(CobblemonStructureIDs.TAIGA_LONG_PATH, 3);
         structureMaxes = Collections.unmodifiableMap(aMap);
     }
 
