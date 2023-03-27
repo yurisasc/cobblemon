@@ -6,7 +6,7 @@
 				"identifier": "geometry.servine",
 				"texture_width": 64,
 				"texture_height": 64,
-				"visible_bounds_width": 4,
+				"visible_bounds_width": 5,
 				"visible_bounds_height": 3.5,
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
@@ -49,7 +49,7 @@
 					"name": "torso_top2",
 					"parent": "torso_top",
 					"pivot": [0, 5.3, -7.25],
-					"rotation": [-32.5, 0, 0],
+					"rotation": [-32, 0, 0],
 					"cubes": [
 						{"origin": [-2.5, 5.35, -13.1], "size": [5, 5, 6], "inflate": 0.01, "uv": [8, 14]}
 					]
@@ -308,15 +308,26 @@
 				{
 					"name": "head",
 					"parent": "neck",
-					"pivot": [0, 6.9, -18.85],
-					"rotation": [12.5, 0, 0],
+					"pivot": [0, 7, -18.85],
+					"rotation": [102, 0, 0]
+				},
+				{
+					"name": "head_ai",
+					"parent": "head",
+					"pivot": [0, 7, -18.85]
+				},
+				{
+					"name": "head_rotation",
+					"parent": "head_ai",
+					"pivot": [0, 7, -18.85],
+					"rotation": [-90, 0, 0],
 					"cubes": [
 						{"origin": [-3, 4.9, -24.85], "size": [6, 6, 6], "uv": [0, 1]}
 					]
 				},
 				{
 					"name": "eyes",
-					"parent": "head",
+					"parent": "head_rotation",
 					"pivot": [0.5, 7.625, -22.45]
 				},
 				{
@@ -355,7 +366,7 @@
 				},
 				{
 					"name": "head_leaf",
-					"parent": "head",
+					"parent": "head_rotation",
 					"pivot": [0, 10.9, -24.5],
 					"rotation": [-17.5, 0, 0],
 					"cubes": [
@@ -374,7 +385,7 @@
 				},
 				{
 					"name": "muzzle",
-					"parent": "head",
+					"parent": "head_rotation",
 					"pivot": [0, 4.99, -19.45],
 					"rotation": [7.5, 0, 0],
 					"cubes": [
@@ -452,7 +463,7 @@
 					"pivot": [0.5, 9.5, 13],
 					"rotation": [0, 45, 0],
 					"cubes": [
-						{"origin": [-1.5, 9.5, 13], "size": [4, 0, 3], "inflate": 0.01, "uv": [50, 3]}
+						{"origin": [-1.5, 9.5, 13], "size": [4, 0, 3], "uv": [50, 3]}
 					]
 				},
 				{
@@ -461,7 +472,7 @@
 					"pivot": [2.5, 9.5, 16],
 					"rotation": [0, -10, 0],
 					"cubes": [
-						{"origin": [-1.5, 9.5, 16], "size": [4, 0, 4], "inflate": 0.01, "uv": [-4, 25]}
+						{"origin": [-1.5, 9.5, 16], "size": [4, 0, 4], "uv": [-4, 25]}
 					]
 				},
 				{

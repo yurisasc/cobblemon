@@ -31,8 +31,7 @@
         "swimSpeed": 0.2,
         "canSwimInWater": true,
         "canBreatheUnderwater": true
-      },
-      "wanderChance": 1
+      }
     }
   },
   "catchRate": 25,
