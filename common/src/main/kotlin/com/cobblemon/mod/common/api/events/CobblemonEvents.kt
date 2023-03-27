@@ -8,9 +8,7 @@
 
 package com.cobblemon.mod.common.api.events
 
-import com.cobblemon.mod.common.api.events.battles.BattleFaintedEvent
-import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
-import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
+import com.cobblemon.mod.common.api.events.battles.*
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
 import com.cobblemon.mod.common.api.events.entity.EntityAttributeEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
@@ -67,6 +65,10 @@ object CobblemonEvents {
     val POKEMON_CAPTURED = EventObservable<PokemonCapturedEvent>()
 //    @JvmField
 //    val EGG_HATCH = EventObservable<HatchEggEvent>()
+    @JvmField
+    val BATTLE_STARTED_PRE = CancelableObservable<BattleStartedPreEvent>()
+    @JvmField
+    val BATTLE_STARTED_POST = EventObservable<BattleStartedPostEvent>()
     @JvmField
     val BATTLE_FAINTED = EventObservable<BattleFaintedEvent>()
     @JvmField

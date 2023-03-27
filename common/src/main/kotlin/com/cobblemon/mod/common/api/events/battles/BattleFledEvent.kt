@@ -9,7 +9,7 @@ import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
  * @author Segfault Guy
  * @since March 25th 2023
  */
-class BattleFledEvent (
+data class BattleFledEvent (
 
     override val battle: PokemonBattle,
     val player: PlayerBattleActor

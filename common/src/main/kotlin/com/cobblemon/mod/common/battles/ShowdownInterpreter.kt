@@ -236,6 +236,7 @@ object ShowdownInterpreter {
 
                         for (instruction in splitUpdateInstructions.entries) {
                             if (lines[0].startsWith(instruction.key)) {
+                                battle.updateBattleActions(publicMessage)
                                 instruction.value(battle, targetActor, publicMessage, privateMessage)
                                 break
                             }
@@ -247,6 +248,7 @@ object ShowdownInterpreter {
                         if (line != "|") {
                             val instruction = updateInstructions.entries.find { line.startsWith(it.key) }?.value
                             if (instruction != null) {
+                                battle.updateBattleActions(line)
                                 instruction(battle, line, lines)
                             } else {
                                 battle.dispatch {
@@ -502,16 +504,7 @@ object ShowdownInterpreter {
             pokemon.battlePokemon?.sendUpdate()
             battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
 
-            val killer = lastMover[battle.battleId]?.let { move ->
-                val pnx = move
-                        .replace("|move|", "")
-                        .split("|")[0]
-                        .split(":")[0].trim()
-
-                return@let battle.getActorAndActiveSlotFromPNX(pnx).second.battlePokemon
-            }
-
-            CobblemonEvents.BATTLE_FAINTED.post(BattleFaintedEvent(battle, pokemon.battlePokemon, killer))
+            pokemon.battlePokemon?.let { CobblemonEvents.BATTLE_FAINTED.post(BattleFaintedEvent(battle, it, interpretFaint(pnx, battle))) }
             pokemon.battlePokemon = null
             WaitDispatch(2.5F)
         }
@@ -1316,5 +1309,50 @@ object ShowdownInterpreter {
         battle.dispatchGo {  }
     }
 
+    private fun interpretFaint(pnx: String, battle: PokemonBattle): BattlePokemon? {
+
+        val action = battle.battleActions[pnx]
+        var killerPnx: String?
+        if(action != null) {
+            val tags = action.substring(1).split("|")
+            killerPnx = when (tags[0]) {
+
+                "-damage" -> {
+                    // items, recoil, confusion
+                    if (tags.size == 4 && tags[3].matches(".*(item|Recoil|confusion).*".toRegex())) {
+                        tags[1].substring(0, 3)
+                    // weather, status ailments, entry hazards
+                    } else if (tags.size == 4 && tags[3].contains("[from]")) {
+                        null
+                    // abilities, damaging protect (spikey shield)
+                    } else if (tags.size == 5) {
+                        tags[4].substring(5, 8)
+                    // normal moves
+                    } else {
+                        lastMover[battle.battleId]?.substring(6, 9)
+                    }
+                }
+
+                // destiny bond
+                "-activate" -> {
+                    battle.updateAllBattleActions(action)
+                    tags[1].substring(0, 3)
+                }
+
+                // perish song
+                "-start" -> {
+                    null
+                }
+
+                // suicide moves
+                else -> {
+                    pnx
+                }
+            }
+        } else {
+            killerPnx = lastMover[battle.battleId]?.substring(6,9)
+        };
+        return killerPnx?.let { battle.getActorAndActiveSlotFromPNX(it).second.battlePokemon }
+    }
 
 }

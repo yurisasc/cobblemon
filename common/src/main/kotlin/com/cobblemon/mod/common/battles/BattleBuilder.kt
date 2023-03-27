@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.battles
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
@@ -19,12 +21,12 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
-import java.util.Optional
-import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import java.util.*
+import kotlin.collections.HashMap
 
 object BattleBuilder {
     fun pvp1v1(
@@ -58,13 +60,18 @@ object BattleBuilder {
         }
 
         return if (errors.isEmpty) {
-            SuccessfulBattleStart(
-                BattleRegistry.startBattle(
-                    battleFormat = battleFormat,
-                    side1 = BattleSide(player1Actor),
-                    side2 = BattleSide(player2Actor)
+            CobblemonEvents.BATTLE_STARTED_PRE.postThen(
+                    BattleStartedPreEvent(listOf(player1Actor, player2Actor), battleFormat, true))
+            {
+                SuccessfulBattleStart(
+                        BattleRegistry.startBattle(
+                                battleFormat = battleFormat,
+                                side1 = BattleSide(player1Actor),
+                                side2 = BattleSide(player2Actor)
+                        )
                 )
-            )
+            }
+            errors
         } else {
             errors
         }
@@ -114,15 +121,20 @@ object BattleBuilder {
         }
 
         return if (errors.isEmpty) {
-            val battle = BattleRegistry.startBattle(
-                battleFormat = battleFormat,
-                side1 = BattleSide(playerActor),
-                side2 = BattleSide(wildActor)
-            )
-            if (!cloneParties) {
-                pokemonEntity.battleId.set(Optional.of(battle.battleId))
+            CobblemonEvents.BATTLE_STARTED_PRE.postThen(
+                    BattleStartedPreEvent(listOf(playerActor, wildActor), battleFormat, false))
+            {
+                val battle = BattleRegistry.startBattle(
+                        battleFormat = battleFormat,
+                        side1 = BattleSide(playerActor),
+                        side2 = BattleSide(wildActor)
+                )
+                if (!cloneParties) {
+                    pokemonEntity.battleId.set(Optional.of(battle.battleId))
+                }
+                SuccessfulBattleStart(battle)
             }
-            SuccessfulBattleStart(battle)
+            errors
         } else {
             errors
         }

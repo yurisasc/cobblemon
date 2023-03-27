@@ -93,6 +93,8 @@ open class PokemonBattle(
 
     val captureActions = mutableListOf<BattleCaptureAction>()
 
+    val battleActions = mutableMapOf<String, String>()
+
     /** Whether or not there is one side with at least one player, and the other only has wild Pokémon. */
     val isPvW: Boolean
         get() {
@@ -372,6 +374,21 @@ open class PokemonBattle(
         }
         LOGGER.error("Missing interpretation on '{}' action: \nPublic » {}\nPrivate » {}", publicMessage.id, publicMessage.rawMessage, privateMessage.rawMessage)
         return Text.literal("Missing interpretation on '${publicMessage.id}' action please report to the developers").red()
+    }
+
+    fun updateBattleActions(action: String) {
+        if (action.matches("\\|(move|\\-.*)\\|p\\da:.*".toRegex())) {
+            val pnx = action.substring(2).split("|")[1].substring(0, 3)
+            battleActions[pnx] = action
+        }
+    }
+
+    fun updateAllBattleActions(action: String) {
+        if (action.matches("\\|(move|\\-.*)\\|p\\da:.*".toRegex())) {
+            battleActions.forEach {
+                battleActions[it.key] = action
+            }
+        }
     }
 
 }

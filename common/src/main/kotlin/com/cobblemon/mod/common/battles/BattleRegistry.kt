@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
@@ -184,6 +186,7 @@ object BattleRegistry {
 
         // Compiles the request and sends it off
         ShowdownService.get().startBattle(battle, messages.toTypedArray())
+        CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedPostEvent(battle))
         return battle
     }
 
