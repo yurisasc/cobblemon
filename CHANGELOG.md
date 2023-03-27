@@ -25,6 +25,7 @@
 - Fixed killing a Dodrio killing your game.
 - Fixed console spam when rendering Pokémon model items.
 - Fixed the possible duplicate when capturing Pokémon (probably, this one's hard to reproduce to confirm it's fixed).
+  - Previously duplicated Pokémon are cleaned from PCs and parties on restart. 
 - Fixed (probably) an issue with some particle effects applying after a Pokémon has died or on top of the wrong Pokémon.
 - Fixed Pokémon not looking at each other in battle.
 - Fixed custom Pokémon not being usable in battle, properly. A last minute fix caused this to break again; what are these devs not paid for?
