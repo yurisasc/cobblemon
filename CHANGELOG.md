@@ -20,6 +20,7 @@
 - Lowered spawn rate of Gyarados on the surface.
 - Apricorn leaves can now be used in the [Composter](https://minecraft.fandom.com/wiki/Composter) block, these have the same chance to raise the compost pile the Minecraft leaves do.
 - PC makes sounds when using your keyboard to navigate boxes.
+- Improved fire immunity so not all Pokémon resist lava damage.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.

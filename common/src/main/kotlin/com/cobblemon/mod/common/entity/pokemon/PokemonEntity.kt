@@ -268,7 +268,7 @@ class PokemonEntity(
      * Prevents fire type Pokémon from taking fire damage.
      */
     override fun isFireImmune(): Boolean {
-        return FIRE in pokemon.types || behaviour.moving.swim.canSwimInLava
+        return FIRE in pokemon.types || !behaviour.moving.swim.hurtByLava
     }
 
     /**
