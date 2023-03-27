@@ -27,6 +27,11 @@ public class CobblemonStructures {
         Registry<StructurePool> templatePoolRegistry = server.getRegistryManager().get(RegistryKeys.TEMPLATE_POOL);
         Registry<StructureProcessorList> processorListRegistry = server.getRegistryManager().get(RegistryKeys.PROCESSOR_LIST);
 
+        addPokecenters(templatePoolRegistry, processorListRegistry);
+        addLongPaths(templatePoolRegistry, processorListRegistry);
+    }
+
+    private static void addPokecenters(Registry<StructurePool> templatePoolRegistry, Registry<StructureProcessorList> processorListRegistry) {
         Identifier plainsHousesPoolLocation = new Identifier("minecraft:village/plains/houses");
         Identifier desertHousesPoolLocation = new Identifier("minecraft:village/desert/houses");
         Identifier savannaHousesPoolLocation = new Identifier("minecraft:village/savanna/houses");
@@ -38,7 +43,9 @@ public class CobblemonStructures {
         addBuildingToPool(templatePoolRegistry, processorListRegistry, savannaHousesPoolLocation, "cobblemon:village_savanna/village_savanna_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
         addBuildingToPool(templatePoolRegistry, processorListRegistry, snowyHousesPoolLocation, "cobblemon:village_snowy/village_snowy_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, EMPTY_PROCESSOR_LIST_KEY);
         addBuildingToPool(templatePoolRegistry, processorListRegistry, taigaHousesPoolLocation, "cobblemon:village_taiga/village_taiga_pokecenter", pokecenterWeight, StructurePool.Projection.RIGID, StructureProcessorLists.MOSSIFY_10_PERCENT);
+    }
 
+    private static void addLongPaths(Registry<StructurePool> templatePoolRegistry, Registry<StructureProcessorList> processorListRegistry) {
         Identifier plainsStreetsPoolLocation = new Identifier("minecraft:village/plains/streets");
         Identifier desertStreetsPoolLocation = new Identifier("minecraft:village/desert/streets");
         Identifier savannaStreetsPoolLocation = new Identifier("minecraft:village/savanna/streets");
