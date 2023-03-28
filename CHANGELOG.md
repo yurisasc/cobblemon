@@ -9,6 +9,7 @@
 - Elgyem family now drops Chorus Fruit, Geodude family now drops Black Augurite.
 - Added missing spawn files for Golett family.
 - Added animations to Staryu line and Porygon line.
+- Added an ``any`` evolution requirement allowing you to define ``possibilities`` of other evolution requirements, for example, this allows you to create an evolution that requires the Pokémon to be shiny or a female.
 
 ### Changes
 - Replaced the "Failed to handle" battle messages to "Missing interpretation" to make it more clear that mechanics do work just still pending dedicated messages.
