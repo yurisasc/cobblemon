@@ -129,4 +129,8 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             statefulAnimations.add(animation)
         }
     }
+
+    override fun updatePostDeath() {
+        ++entity.deathTime
+    }
 }
