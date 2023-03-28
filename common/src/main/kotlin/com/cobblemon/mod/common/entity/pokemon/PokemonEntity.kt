@@ -674,7 +674,8 @@ class PokemonEntity(
     }
 
     override fun updatePostDeath() {
-        super.updatePostDeath()
+        // Do not invoke super we need to keep a tight lid on this due to the Thorium mod forcing the ticks to a max of 20 on server side if we invoke a field update here
+        // Client delegate is mimicking expected behavior on client end.
         delegate.updatePostDeath()
     }
 

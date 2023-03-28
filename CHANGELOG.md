@@ -67,6 +67,7 @@
 - Fixed Porygon2 and PorygonZ being too small.
 - Fixed Snivy line head look animation.
 - Fixed Staryu line not being able to swim.
+- Fixed an incompatibility with [Thorium](https://modrinth.com/mod/thorium) patch for [MC-84873](https://bugs.mojang.com/browse/MC-84873).
 - Fixed Pidgeotto wings when walking.
 
 ### Developer
