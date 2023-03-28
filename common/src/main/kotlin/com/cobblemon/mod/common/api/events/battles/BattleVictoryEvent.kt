@@ -19,5 +19,6 @@ import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
  */
 data class BattleVictoryEvent (
     override val battle: PokemonBattle,
-    val winners : List<BattleActor>
+    val winners : List<BattleActor>,
+    val losers : List<BattleActor>
 ) : BattleEvent
