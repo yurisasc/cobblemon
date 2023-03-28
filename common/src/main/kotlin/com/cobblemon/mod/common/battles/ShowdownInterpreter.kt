@@ -850,6 +850,7 @@ object ShowdownInterpreter {
                 "courtchange" -> battleLang("activate.court_change", pokemonName)
                 "guardsplit" -> battleLang("activate.guard_split", pokemonName)
                 "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
+                "wrap" -> battleLang("activate.wrap", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
@@ -988,6 +989,7 @@ object ShowdownInterpreter {
                 "confusion" -> battleLang("confusion_snapped", pokemonName)
                 "bide" -> battleLang("bide_end", pokemonName)
                 "bind" -> battleLang("end.bide", pokemonName)
+                "wrap" -> battleLang("end.wrap", pokemonName)
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(feedback)
@@ -1135,6 +1137,11 @@ object ShowdownInterpreter {
         battle.dispatch {
             val newHealthRatio: Float
             val remainingHealth = newHealth.split("/")[0].toInt()
+
+            if (battleMessage.optionalArgument("from")?.equals("move: Wrap") == true) {
+                battle.broadcastChatMessage(battleLang("hurt.wrap", activePokemon.battlePokemon?.getName()!!))
+            }
+
             if (newHealth == "0") {
                 newHealthRatio = 0F
                 battle.dispatch {
