@@ -472,6 +472,7 @@
   "cobblemon.battle.activate.aromatherapy": "A soothing aroma wafted through the area!",
   "cobblemon.battle.activate.trapped": "%1$s can no longer escape!",
   "cobblemon.battle.activate.bind": "%1$s was squeezed by %2$s!",
+  "cobblemon.battle.activate.wrap": "%1$s was wrapped by %2$s!",
   "cobblemon.battle.activate.court_change": "%1$s swapped the battle effects affecting each side of the field!",
   "cobblemon.battle.activate.guard_split": "%1$s shared its guard with the target!",
   "cobblemon.battle.activate.spite": "It reduced the PP of %1$s's %2$s by %3$s!",
@@ -519,7 +520,12 @@
   "cobblemon.battle.singlemove.grudge": "%1$s wants its target to bear a grudge!",
   "cobblemon.battle.singlemove.rage": "%1$s goes into a rage!",
 
+  "cobblemon.battle.hurt.wrap": "%1$s was hurt by wrap!",
+
   "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
+  "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
+
+
 
   "cobblemon.battle.set_hp.pain_split": "The battlers shared their pain!",
 
