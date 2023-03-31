@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "minecraft:blue_ice"
+              "cobblemon:never_melt_ice_using_stone"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cobblemon:never_melt_ice"
+        "recipe": "cobblemon:never_melt_ice_using_stone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

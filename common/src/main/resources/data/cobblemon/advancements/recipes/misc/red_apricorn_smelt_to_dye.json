@@ -1,12 +1,12 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_ice": {
+    "has_apricorn": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:blue_ice"
+              "cobblemon:red_apricorn"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cobblemon:never_melt_ice"
+        "recipe": "cobblemon:red_apricorn_smelt_to_dye"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_ice",
+      "has_apricorn",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "cobblemon:never_melt_ice", "cobblemon:never_melt_ice_using_stone"
+      "cobblemon:red_apricorn_smelt_to_dye"
     ]
   }
 }

@@ -12,6 +12,7 @@
 - Add lava surface spawn preset.
 - Added animations to Staryu line and Porygon line.
 - Added an ``any`` evolution requirement allowing you to define ``possibilities`` of other evolution requirements, for example, this allows you to create an evolution that requires the Pokémon to be shiny or a female.
+- Apricorns can now be smelted into dyes.
 
 ### Changes
 - Replaced the `Failed to handle` battle messages to `Missing interpretation` to make it more clear that mechanics do work just still pending dedicated messages.
@@ -29,6 +30,7 @@
 - Improved fire immunity so not all Pokémon resist lava damage.
 - Tweaked portrait frames for Pidgey line and Walking Wake.
 - Changed all buff shoulder effects to only give a rank 1 buff.
+- Changed the recipes for Mystic Water, Miracle Seed, and Charcoal Stick to utilise the evolution stones, as well as Never-Melt Ice having an alternate recipe using the Ice Stone.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.

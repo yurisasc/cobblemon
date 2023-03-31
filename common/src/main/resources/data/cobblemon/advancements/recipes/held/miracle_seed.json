@@ -1,13 +1,11 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_meal": {
+    "has_seeds": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:bone_meal"
-            ]
+            "tag": "cobblemon:seeds"            
           }
         ]
       },
@@ -22,7 +20,7 @@
   },
   "requirements": [
     [
-      "has_meal",
+      "has_seeds",
       "has_the_recipe"
     ]
   ],
