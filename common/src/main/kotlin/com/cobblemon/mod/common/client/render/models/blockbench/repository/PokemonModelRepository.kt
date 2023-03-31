@@ -379,8 +379,10 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("snivy", ::SnivyModel)
         inbuilt("servine", ::ServineModel)
         inbuilt("serperior", ::SerperiorModel)
-
-
+        inbuilt("slugma", ::SlugmaModel)
+        inbuilt("magcargo", ::MagcargoModel)
+        inbuilt("nosepass", ::NosepassModel)
+        inbuilt("probopass", ::ProbopassModel)
 
         // Unhooked because the families are not completed
 //        inbuilt("sprigatito", ::SprigatitoModel)

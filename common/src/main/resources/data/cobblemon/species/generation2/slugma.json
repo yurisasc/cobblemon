@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Slugma",
   "nationalPokedexNumber": 218,
   "primaryType": "fire",
@@ -14,6 +15,26 @@
     "special_attack": 70,
     "special_defence": 40,
     "speed": 20
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canWalkOnLava": true,
+        "canBreatheUnderlava": true,
+        "avoidsWater": true,
+        "canSwimInLava": true,
+        "canSwimInWater": false
+      },
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    }
   },
   "catchRate": 190,
   "maleRatio": 0.5,
@@ -146,9 +167,9 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
+    "width": 0.8,
     "height": 1,
     "fixed": false
   },

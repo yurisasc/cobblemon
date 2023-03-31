@@ -560,49 +560,39 @@ object ShowdownInterpreter {
     }
 
     // |move|p1a: Charizard|Tackle|p2a: Magikarp
-    private fun handleMoveInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
-        battle.dispatch {
-            val editMessaged = message.replace("|move|", "")
-            this.lastMover[battle.battleId] = message
-            val userPNX = editMessaged.split("|")[0].split(":")[0].trim()
-            val (_, userPokemon) = battle.getActorAndActiveSlotFromPNX(userPNX)
-            val moveName = editMessaged.split("|")[1].split("|")[0]
-                .replace(" ", "")
-                .lowercase()
-                .replace("[^A-z0-9]".toRegex(), "")
+    private fun handleMoveInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            this.lastMover[battle.battleId] = rawMessage
+            val message = BattleMessage(rawMessage)
 
-            val moveTemplate = Moves.getByName(moveName) ?: return@dispatch GO.also { battle.broadcastChatMessage("UNRECOGNIZED MOVE: $moveName".text()) }
-            val hasTarget = editMessaged.split("|").size == 3 && editMessaged.split("|")[2].isNotEmpty()
-            val targetPokemon = if (hasTarget) {
-                val targetPNX = editMessaged.split("|")[2].split(":")[0]
-                battle.getActorAndActiveSlotFromPNX(targetPNX)
-            } else {
-                null
-            }
+            val userPokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
+            val targetPokemon = message.actorAndActivePokemon(2, battle)?.second
+
+            val effect = message.effectAt(1) ?: return@dispatchGo
+            val move = Moves.getByNameOrDummy(effect.id)
+
             userPokemon.battlePokemon?.effectedPokemon?.let { pokemon ->
                 val progress = UseMoveEvolutionProgress()
                 if (progress.shouldKeep(pokemon)) {
-                    val created = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is UseMoveEvolutionProgress && it.currentProgress().move == moveTemplate }) { progress }
+                    val created = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is UseMoveEvolutionProgress && it.currentProgress().move == move }) { progress }
                     created.updateProgress(UseMoveEvolutionProgress.Progress(created.currentProgress().move, created.currentProgress().amount + 1))
                 }
             }
-            if (targetPokemon != null && targetPokemon.second != userPokemon) {
-                val targetPNX = editMessaged.split("|")[2].split(":")[0]
-                val (_, targetPokemon) = battle.getActorAndActiveSlotFromPNX(targetPNX)
+
+            if (targetPokemon != null && targetPokemon != userPokemon) {
                 battle.broadcastChatMessage(battleLang(
                     key = "used_move_on",
                     userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
-                    moveTemplate.displayName,
+                    move.displayName,
                     targetPokemon.battlePokemon?.getName() ?: "ERROR".red()
                 ))
             } else {
                 battle.broadcastChatMessage(battleLang(
                     key = "used_move",
                     userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
-                    moveTemplate.displayName
+                    move.displayName
                 ))
             }
-            GO
         }
     }
 
@@ -850,6 +840,7 @@ object ShowdownInterpreter {
                 "courtchange" -> battleLang("activate.court_change", pokemonName)
                 "guardsplit" -> battleLang("activate.guard_split", pokemonName)
                 "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
+                "wrap" -> battleLang("activate.wrap", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
@@ -988,6 +979,7 @@ object ShowdownInterpreter {
                 "confusion" -> battleLang("confusion_snapped", pokemonName)
                 "bide" -> battleLang("bide_end", pokemonName)
                 "bind" -> battleLang("end.bide", pokemonName)
+                "wrap" -> battleLang("end.wrap", pokemonName)
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(feedback)
@@ -1135,6 +1127,11 @@ object ShowdownInterpreter {
         battle.dispatch {
             val newHealthRatio: Float
             val remainingHealth = newHealth.split("/")[0].toInt()
+
+            if (battleMessage.optionalArgument("from")?.equals("move: Wrap") == true) {
+                battle.broadcastChatMessage(battleLang("hurt.wrap", activePokemon.battlePokemon?.getName()!!))
+            }
+
             if (newHealth == "0") {
                 newHealthRatio = 0F
                 battle.dispatch {
