@@ -36,6 +36,7 @@
 - After a battle, the last Pokémon used now becomes the selected one in your party.
 - Made Weavile a little bigger.
 - Changed the recipes for Mystic Water, Miracle Seed, and Charcoal Stick to utilise the evolution stones, as well as Never-Melt Ice having an alternate recipe using the Ice Stone.
+- Link Cables will now require Pokémon to hold any held item normally required for their evolution.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.
@@ -82,7 +83,9 @@
 - Fixed instantly fleeing from Pokémon set to be unfleeable
 - Fixed Pumpkaboo line forms not working. (Currently sizes aren't visual but check base stats to see which size you have.)
 - Fixed a bug that caused already interpreted messages for moves to be mistaken as uninterpreted
-- Fixed Friendship attacks to use friendship values from your Pokémon
+- Fixed Friendship attacks to use friendship values from your Pokémon.
+- Fixed Link Cables consuming held items they shouldn't due to not validating the held item of a Pokémon.
+- Fixed a crash when Aromatherapy cured the status of party members.
 
 ### Developer
 - Add events that are being fired just before and after a Pokémon is being released (ReleasePokemonEvent)
