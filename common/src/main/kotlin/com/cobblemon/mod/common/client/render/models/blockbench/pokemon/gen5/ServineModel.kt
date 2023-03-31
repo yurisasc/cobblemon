@@ -48,7 +48,7 @@ class ServineModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-//                singleBoneLook(),
+                singleBoneLook(),
                 bedrock("servine", "ground_idle")
             )
         )
@@ -59,7 +59,7 @@ class ServineModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-//                singleBoneLook(),
+                singleBoneLook(),
                 bedrock("servine", "ground_walk")
             )
         )
