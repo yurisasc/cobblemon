@@ -70,6 +70,7 @@
 - Fixed an incompatibility with [Thorium](https://modrinth.com/mod/thorium) patch for [MC-84873](https://bugs.mojang.com/browse/MC-84873).
 - Fixed Pidgeotto wings when walking.
 - Fixed Pokémon missing the non-level up moves they could relearn when rejoining a world until a new move was added to their relearn list.
+- Fixed a bug that caused already interpreted messages for moves to be mistaken as uninterpreted
 - Fixed Friendship attacks to use friendship values from your Pokémon
 
 ### Developer

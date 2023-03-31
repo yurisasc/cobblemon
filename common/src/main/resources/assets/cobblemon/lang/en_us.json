@@ -427,6 +427,7 @@
   "cobblemon.battle.bide_start": "%1$s begins storing energy!",
   "cobblemon.battle.bide_activate": "%1$s is storing energy!",
   "cobblemon.battle.bide_end": "%1$s unleashed its energy!",
+  "cobblemon.battle.yawn_start": "%1$s grew drowsy!",
 
   "cobblemon.battle.field_start.electric_terrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.field_start.grassy_terrain": "Grass grew to cover the battlefield!",
