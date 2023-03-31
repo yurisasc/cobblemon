@@ -328,6 +328,10 @@
   "cobblemon.command.pokeheal.in_battle": "You cannot heal your party while in a battle!",
   "cobblemon.command.spawnpokemonfrompool": "A %1$s has spawned in the area.",
   "cobblemon.command.spawnpokemonfrompool.unable_to_spawn": "Unable to spawn a Pokémon.",
+  "cobblemon.command.pokebox.box_does_not_exist": "That Player does not have a box %1$s.",
+  "cobblemon.command.pokebox.box_is_full": "That Player's box %1$s is full.",
+  "cobblemon.command.pokebox.storage_is_full": "That Player's storage is full.",
+  "cobblemon.command.pokebox.last_pokemon": "Did not send that Player's last Pokémon to the PC.",
 
   "advancements.cobblemon.root": "The World of Cobblemon!",
   "advancements.cobblemon.obtain_leftovers": "Reduce, Reuse, Recycle!",

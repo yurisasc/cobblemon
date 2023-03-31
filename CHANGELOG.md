@@ -10,6 +10,7 @@
 - Added missing spawn files for Golett and Bergmite family.
 - Implemented Slugma, Magcargo, Nosepass, and Probopass.
 - Add lava surface spawn preset.
+- Added the `/pokebox` and `/pokeboxall` commands to move Pokemon(s) to the PC from a Player's party, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.pokebox` if a permission mod is present. On a successful execution of the command the output will be the number of pokemon moved to the Player's PC.
 - Added animations to Staryu line and Porygon line.
 - Added faint animations to Klink line.
 - Added an ``any`` evolution requirement allowing you to define ``possibilities`` of other evolution requirements, for example, this allows you to create an evolution that requires the Pokémon to be shiny or a female.
