@@ -11,6 +11,7 @@
 - Implemented Slugma, Magcargo, Nosepass, and Probopass.
 - Add lava surface spawn preset.
 - Added animations to Staryu line and Porygon line.
+- Added faint animations to Klink line.
 - Added an ``any`` evolution requirement allowing you to define ``possibilities`` of other evolution requirements, for example, this allows you to create an evolution that requires the Pokémon to be shiny or a female.
 - Apricorns can now be smelted into dyes.
 
@@ -30,6 +31,7 @@
 - Improved fire immunity so not all Pokémon resist lava damage.
 - Tweaked portrait frames for Pidgey line and Walking Wake.
 - Changed all buff shoulder effects to only give a rank 1 buff.
+- Made Weavile a little bigger.
 - Changed the recipes for Mystic Water, Miracle Seed, and Charcoal Stick to utilise the evolution stones, as well as Never-Melt Ice having an alternate recipe using the Ice Stone.
 
 ### Fixes
@@ -71,7 +73,10 @@
 - Fixed Staryu line not being able to swim.
 - Fixed an incompatibility with [Thorium](https://modrinth.com/mod/thorium) patch for [MC-84873](https://bugs.mojang.com/browse/MC-84873).
 - Fixed Pidgeotto wings when walking.
+- Fixed Delphox walk animation.
+- Fixed Froakie line sleep animations in battle.
 - Fixed Pokémon missing the non-level up moves they could relearn when rejoining a world until a new move was added to their relearn list.
+- Fixed Pumpkaboo line forms not working. (Currently sizes aren't visual but check base stats to see which size you have.)
 - Fixed a bug that caused already interpreted messages for moves to be mistaken as uninterpreted
 - Fixed Friendship attacks to use friendship values from your Pokémon
 
