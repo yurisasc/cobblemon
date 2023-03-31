@@ -758,6 +758,9 @@ object ShowdownInterpreter {
             if (message.contains("move: Bide")){
                 battle.broadcastChatMessage(battleLang("bide_start",pokemon.battlePokemon?.getName() ?: ""))
             }
+            if (message.contains("move: Yawn")){
+                battle.broadcastChatMessage(battleLang("yawn_start",pokemon.battlePokemon?.getName() ?: ""))
+            }
             WaitDispatch(2F)
         }
     }
@@ -975,14 +978,16 @@ object ShowdownInterpreter {
             if (message.hasOptionalArgument("silent")) {
                 LOGGER.debug("Received silent: {}", message.rawMessage)
             }
-            val feedback = when (effect.id) {
-                "confusion" -> battleLang("confusion_snapped", pokemonName)
-                "bide" -> battleLang("bide_end", pokemonName)
-                "bind" -> battleLang("end.bide", pokemonName)
-                "wrap" -> battleLang("end.wrap", pokemonName)
-                else -> battle.createUnimplemented(message)
+            else {
+                val feedback = when (effect.id) {
+                    "confusion" -> battleLang("confusion_snapped", pokemonName)
+                    "bide" -> battleLang("bide_end", pokemonName)
+                    "bind" -> battleLang("end.bide", pokemonName)
+                    "wrap" -> battleLang("end.wrap", pokemonName)
+                    else -> battle.createUnimplemented(message)
+                }
+                battle.broadcastChatMessage(feedback)
             }
-            battle.broadcastChatMessage(feedback)
         }
     }
 
