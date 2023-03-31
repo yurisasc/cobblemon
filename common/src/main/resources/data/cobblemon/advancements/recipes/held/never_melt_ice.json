@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "cobblemon:never_melt_ice"
+      "cobblemon:never_melt_ice", "cobblemon:never_melt_ice_using_stone"
     ]
   }
 }

@@ -429,6 +429,14 @@ open class Pokemon : ShowdownIdentifiable {
         this.state = InactivePokemonState()
     }
 
+    fun tryRecallWithAnimation() {
+        if (this.entity != null) {
+            this.entity?.recallWithAnimation()
+            return
+        }
+        this.recall()
+    }
+
     fun heal() {
         this.currentHealth = hp
         this.moveSet.heal()

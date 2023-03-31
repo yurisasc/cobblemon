@@ -161,7 +161,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
             val neededCharge = player.party().getHealingRemainderPercent() - blockEntity.healingCharge
             player.sendMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red())
         }
-        party.forEach { it.entity?.recallWithAnimation() }
+        party.forEach { it.tryRecallWithAnimation() }
         return ActionResult.CONSUME
     }
 
