@@ -48,7 +48,7 @@ class SnivyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-//                singleBoneLook(),
+                singleBoneLook(),
                 bedrock("snivy", "ground_idle")
             )
         )
@@ -59,7 +59,7 @@ class SnivyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-//                singleBoneLook(),
+                singleBoneLook(),
                 bedrock("snivy", "ground_walk")
             )
         )

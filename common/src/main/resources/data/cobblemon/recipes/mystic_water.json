@@ -3,14 +3,14 @@
     "pattern": [
         " S ",
         "S S",
-        " B "
+        "WS "
     ],
     "key": {
         "S": {
             "item": "minecraft:string"
         },
-        "B": {
-            "item": "minecraft:water_bucket"
+        "W": {
+            "item": "cobblemon:water_stone"
         }
     },
     "result":

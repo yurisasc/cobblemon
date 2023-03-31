@@ -33,7 +33,7 @@ class SerperiorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             idleAnimations = arrayOf(
-//                singleBoneLook(),
+                singleBoneLook(),
                 bedrock("serperior", "ground_idle")
             )
         )
@@ -42,7 +42,7 @@ class SerperiorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
-//                singleBoneLook(),
+                singleBoneLook(),
                 bedrock("serperior", "ground_walk")
             )
         )

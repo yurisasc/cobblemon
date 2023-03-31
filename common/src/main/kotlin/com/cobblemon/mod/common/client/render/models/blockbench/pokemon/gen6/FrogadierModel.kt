@@ -46,7 +46,6 @@ class FrogadierModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { !it.isBattling },
                 idleAnimations = arrayOf(bedrock("frogadier", "sleep"))
         )
 

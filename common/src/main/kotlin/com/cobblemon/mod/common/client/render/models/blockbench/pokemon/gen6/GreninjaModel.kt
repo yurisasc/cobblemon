@@ -49,7 +49,6 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { !it.isBattling },
                 transformedParts = arrayOf(
                         shurikenleft.asTransformed().withVisibility(visibility = false),
                         shurikenright.asTransformed().withVisibility(visibility = false)

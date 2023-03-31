@@ -12,7 +12,10 @@
 - Add lava surface spawn preset.
 - Added the `/pokebox` and `/pokeboxall` commands to move Pokemon(s) to the PC from a Player's party, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.pokebox` if a permission mod is present. On a successful execution of the command the output will be the number of pokemon moved to the Player's PC.
 - Added animations to Staryu line and Porygon line.
+- Added faint animations to Klink line.
 - Added an ``any`` evolution requirement allowing you to define ``possibilities`` of other evolution requirements, for example, this allows you to create an evolution that requires the Pokémon to be shiny or a female.
+- Added the `/spawnpokemonfrompool [amount]` or `/forcespawn [amount]` command to spawn Pokémon(s) in the surrounding area using the natural spawn rates/pool of that area, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.spawnpokemon` if a permission mod is present. On a successful execution of the command, the amount of Pokémon spawned will be the output.
+- Apricorns can now be smelted into dyes.
 
 ### Changes
 - Replaced the `Failed to handle` battle messages to `Missing interpretation` to make it more clear that mechanics do work just still pending dedicated messages.
@@ -30,6 +33,9 @@
 - Improved fire immunity so not all Pokémon resist lava damage.
 - Tweaked portrait frames for Pidgey line and Walking Wake.
 - Changed all buff shoulder effects to only give a rank 1 buff.
+- After a battle, the last Pokémon used now becomes the selected one in your party.
+- Made Weavile a little bigger.
+- Changed the recipes for Mystic Water, Miracle Seed, and Charcoal Stick to utilise the evolution stones, as well as Never-Melt Ice having an alternate recipe using the Ice Stone.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game.
@@ -70,13 +76,22 @@
 - Fixed Staryu line not being able to swim.
 - Fixed an incompatibility with [Thorium](https://modrinth.com/mod/thorium) patch for [MC-84873](https://bugs.mojang.com/browse/MC-84873).
 - Fixed Pidgeotto wings when walking.
+- Fixed Delphox walk animation.
+- Fixed Froakie line sleep animations in battle.
+- Fixed Pokémon missing the non-level up moves they could relearn when rejoining a world until a new move was added to their relearn list.
+- Fixed instantly fleeing from Pokémon set to be unfleeable
+- Fixed Pumpkaboo line forms not working. (Currently sizes aren't visual but check base stats to see which size you have.)
+- Fixed a bug that caused already interpreted messages for moves to be mistaken as uninterpreted
+- Fixed Friendship attacks to use friendship values from your Pokémon
 
 ### Developer
 - Add events that are being fired just before and after a Pokémon is being released (ReleasePokemonEvent)
+- Migrated HandleMoveInstruction to use BattleMessage.
 
 ### Localization
 - Added complete translations for Japanese, Thai, Canadian French.
-- Added partial translation for Russian.
+- Added partial translation for Russian, Ukrainian, Mexican Spanish, Korean.
+- Updated every existing language's translation.
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 
@@ -213,6 +228,7 @@
 - Fixed ambient sound file path for Porygon2.
 - Fixed forms not being able to unset the secondary type of a Pokémon in the stat JSON.
 - Fixed moves that haven't carried over from generation 8 onwards having the description they did in the generation 8 games instead of their last valid one.
+- Fixed shoulder mounted pokemon not returning to party on healer use and on evolution 
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.

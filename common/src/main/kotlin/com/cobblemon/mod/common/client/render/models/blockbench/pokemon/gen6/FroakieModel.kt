@@ -46,7 +46,6 @@ class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { !it.isBattling },
                 idleAnimations = arrayOf(bedrock("froakie", "sleep"))
         )
 
