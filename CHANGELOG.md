@@ -77,6 +77,7 @@
 - Fixed Delphox walk animation.
 - Fixed Froakie line sleep animations in battle.
 - Fixed Pokémon missing the non-level up moves they could relearn when rejoining a world until a new move was added to their relearn list.
+- Fixed instantly fleeing from Pokémon set to be unfleeable
 - Fixed Pumpkaboo line forms not working. (Currently sizes aren't visual but check base stats to see which size you have.)
 - Fixed a bug that caused already interpreted messages for moves to be mistaken as uninterpreted
 - Fixed Friendship attacks to use friendship values from your Pokémon
