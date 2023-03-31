@@ -213,6 +213,7 @@
 - Fixed ambient sound file path for Porygon2.
 - Fixed forms not being able to unset the secondary type of a Pokémon in the stat JSON.
 - Fixed moves that haven't carried over from generation 8 onwards having the description they did in the generation 8 games instead of their last valid one.
+- Fixed shoulder mounted pokemon not returning to party on healer use and on evolution 
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
