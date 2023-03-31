@@ -74,11 +74,12 @@
 
 ### Developer
 - Add events that are being fired just before and after a Pokémon is being released (ReleasePokemonEvent)
-- Migrated HandleMoveInstruction to use BattleMessage
+- Migrated HandleMoveInstruction to use BattleMessage.
 
 ### Localization
 - Added complete translations for Japanese, Thai, Canadian French.
-- Added partial translation for Russian.
+- Added partial translation for Russian, Ukrainian, Mexican Spanish, Korean.
+- Updated every existing language's translation.
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
 
