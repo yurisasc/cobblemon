@@ -592,6 +592,9 @@
   "cobblemon.battle.heal.rain_dish": "%1$s restored HP from Rain Dish!",
   "cobblemon.battle.heal.generic": "%1$s restored its HP.",
 
+  "cobblemon.battle.cure_status.ability.naturalcure": "%1$s is cured by its Natural Cure!",
+
+
   "cobblemon.experience.gained": "%1$s received %2$s experience.",
   "cobblemon.experience.level_up": "%1$s is now level %2$s!",
   "cobblemon.experience.learned_move": "%1$s has learned %2$s.",

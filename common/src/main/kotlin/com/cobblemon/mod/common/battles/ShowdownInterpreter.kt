@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.battles
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
+import com.cobblemon.mod.common.api.battles.interpreter.Effect
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
@@ -726,22 +727,20 @@ object ShowdownInterpreter {
         }
     }
 
-    private fun handleCureStatusInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
-        battle.dispatch {
-            val pnx = message.split("|-curestatus|")[1].substring(0, 3)
-            val remaining = message.substringAfter("|-curestatus|")
-            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-            val status = Statuses.getStatus(remaining.split("|")[1])
-            val battlePokemon = pokemon.battlePokemon ?: return@dispatch GO
-            if (status is PersistentStatus) {
-                battlePokemon.effectedPokemon.status = null
-                battle.sendUpdate(BattlePersistentStatusPacket(pnx, null))
+    private fun handleCureStatusInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchWaiting {
+            val message = BattleMessage(rawMessage)
+            val pokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchWaiting
+            val status = message.argumentAt(1)?.let(Statuses::getStatus) ?: return@dispatchWaiting
+            val effect = message.effect()
+            val lang = when {
+                effect?.type == Effect.Type.ABILITY -> battleLang("cure_status.ability.${effect.id}", pokemon.getName())
+                // Lang related to move stuff is tied to the status as a generic message such as fire moves defrosting Pokémon
+                effect?.type == Effect.Type.MOVE -> battleLang("cure_status.move.${status.name}", pokemon.getName(), Moves.getByNameOrDummy(effect.id).displayName)
+                message.hasOptionalArgument("msg") -> status.removeMessage?.asTranslated(pokemon.getName()) ?: return@dispatchWaiting
+                else -> return@dispatchWaiting
             }
-            val showMessage = "[msg]" in remaining
-            if (status != null && showMessage) {
-                status.removeMessage?.let { battle.broadcastChatMessage(it.asTranslated(battlePokemon.getName())) }
-            }
-            WaitDispatch(1F)
+            battle.broadcastChatMessage(lang)
         }
     }
 
