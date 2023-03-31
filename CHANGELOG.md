@@ -32,6 +32,7 @@
 - Improved fire immunity so not all Pokémon resist lava damage.
 - Tweaked portrait frames for Pidgey line and Walking Wake.
 - Changed all buff shoulder effects to only give a rank 1 buff.
+- After a battle, the last Pokémon used now becomes the selected one in your party.
 - Made Weavile a little bigger.
 - Changed the recipes for Mystic Water, Miracle Seed, and Charcoal Stick to utilise the evolution stones, as well as Never-Melt Ice having an alternate recipe using the Ice Stone.
 
