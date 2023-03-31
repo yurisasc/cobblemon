@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
 import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import com.cobblemon.mod.common.util.getServer
+import com.cobblemon.mod.common.util.ifClient
 import dev.architectury.registry.ReloadListenerRegistry
 import java.util.UUID
 import net.minecraft.resource.ResourceManager
@@ -57,7 +58,9 @@ object CobblemonDataProvider : DataProvider {
 
         CobblemonSpawnPools.load()
 
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, SimpleResourceReloader(ResourceType.CLIENT_RESOURCES))
+        ifClient(){
+            ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, SimpleResourceReloader(ResourceType.CLIENT_RESOURCES))
+        }
         ReloadListenerRegistry.register(ResourceType.SERVER_DATA, SimpleResourceReloader(ResourceType.SERVER_DATA))
 
         CobblemonEvents.PLAYER_QUIT.subscribe {
