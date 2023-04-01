@@ -730,9 +730,11 @@ object ShowdownInterpreter {
     private fun handleCureStatusInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchWaiting {
             val message = BattleMessage(rawMessage)
-            val pokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchWaiting
+            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val status = message.argumentAt(1)?.let(Statuses::getStatus) ?: return@dispatchWaiting
             val effect = message.effect()
+            pokemon.effectedPokemon.status = null
+            pokemon.sendUpdate()
             val lang = when {
                 effect?.type == Effect.Type.ABILITY -> battleLang("cure_status.ability.${effect.id}", pokemon.getName())
                 // Lang related to move stuff is tied to the status as a generic message such as fire moves defrosting Pokémon
@@ -1053,6 +1055,7 @@ object ShowdownInterpreter {
                 val uuid = UUID.fromString(publicMessage.split("|")[2].split(":")[1].trim())
                 val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
                 val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
+                pokemon.sendUpdate()
 
                 if (activePokemon.battlePokemon == pokemon) {
                     return@dispatchInsert emptySet() // Already switched in, Showdown does this if the pokemon is going to die before it can switch
