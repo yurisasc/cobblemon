@@ -36,5 +36,7 @@ object CobblemonCommands {
         GiveAllPokemon.register(dispatcher)
         HeldItemCommand.register(dispatcher, registry)
         PcCommand.register(dispatcher)
+        SpawnPokemonFromPool.register(dispatcher)
+        PokeboxCommand.register(dispatcher)
     }
 }

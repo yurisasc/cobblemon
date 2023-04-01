@@ -6,6 +6,9 @@
         {
             "id": "spiritomb-1",
             "pokemon": "spiritomb",
+			"presets": [
+                "underground"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -22,6 +25,21 @@
                     "minecraft:deepslate_tiles",
                     "minecraft:polished_deepslate"
                 ]
+            }
+        },
+        {
+            "id": "spiritomb-2",
+            "pokemon": "spiritomb",
+            "presets": [
+                "ruined_structures"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "25-48",
+            "weight": 10.0,
+            "condition": {
+                "canSeeSky": false
             }
         }
     ]

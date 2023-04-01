@@ -57,7 +57,9 @@ dependencies {
 
 tasks {
     shadowJar {
+        exclude("architectury.common.json")
         exclude("architectury-common.accessWidener")
+
         relocate ("com.ibm.icu", "com.cobblemon.mod.relocations.ibm.icu")
     }
 

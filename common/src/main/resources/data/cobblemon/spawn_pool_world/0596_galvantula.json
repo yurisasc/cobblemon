@@ -28,7 +28,7 @@
             "id": "galvantula-2",
             "pokemon": "galvantula",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",

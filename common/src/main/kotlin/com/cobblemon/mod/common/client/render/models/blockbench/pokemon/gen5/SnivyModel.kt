@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3d
 
 class SnivyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("snivy")
-    override val head = getPart("head")
+    override val head = getPart("head_ai")
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
     override val rightLeg = getPart("leg_right")
@@ -48,7 +48,7 @@ class SnivyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-//                singleBoneLook(),
+                singleBoneLook(),
                 bedrock("snivy", "ground_idle")
             )
         )
@@ -59,7 +59,7 @@ class SnivyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-//                singleBoneLook(),
+                singleBoneLook(),
                 bedrock("snivy", "ground_walk")
             )
         )

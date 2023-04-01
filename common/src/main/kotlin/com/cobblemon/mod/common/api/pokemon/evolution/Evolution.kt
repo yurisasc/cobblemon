@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
@@ -93,6 +94,9 @@ interface Evolution : EvolutionLike {
      * @param pokemon The [Pokemon] being evolved.
      */
     fun forceEvolve(pokemon: Pokemon) {
+        if (pokemon.state is ShoulderedState) {
+            pokemon.tryRecallWithAnimation()
+        }
         // ToDo Once implemented queue evolution for a pokemon state that is not in battle, start animation instead of instantly doing all of this
         this.result.apply(pokemon)
         this.learnableMoves.forEach { move ->

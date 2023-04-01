@@ -69,7 +69,6 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
-import net.minecraft.entity.passive.SheepEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
@@ -280,7 +279,7 @@ class PokemonEntity(
      * Prevents fire type Pokémon from taking fire damage.
      */
     override fun isFireImmune(): Boolean {
-        return FIRE in pokemon.types || behaviour.moving.swim.canSwimInLava
+        return FIRE in pokemon.types || !behaviour.moving.swim.hurtByLava
     }
 
     /**
@@ -661,7 +660,8 @@ class PokemonEntity(
     }
 
     override fun updatePostDeath() {
-        super.updatePostDeath()
+        // Do not invoke super we need to keep a tight lid on this due to the Thorium mod forcing the ticks to a max of 20 on server side if we invoke a field update here
+        // Client delegate is mimicking expected behavior on client end.
         delegate.updatePostDeath()
     }
 
@@ -838,4 +838,6 @@ class PokemonEntity(
         val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return false
         return !this.isBusy && !this.pokemon.isFainted() && !feature.enabled
     }
+
+    override fun canUsePortals() = false
 }

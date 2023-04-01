@@ -6,6 +6,9 @@
         {
             "id": "klang-1",
             "pokemon": "klang",
+			"presets": [
+                "underground"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -37,7 +40,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "38-44",
-            "weight": 0.18,
+            "weight": 0.9,
             "condition": {
                 "biomes": [
                     "#cobblemon:is_overworld"

@@ -11,9 +11,9 @@
                 "freshwater"
             ],
             "type": "pokemon",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "20-54",
-            "weight": 0.1,
+            "weight": 2,
             "condition": {
                 "canSeeSky": true
             }
@@ -41,9 +41,9 @@
                 "water_surface"
             ],
             "type": "pokemon",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "20-54",
-            "weight": 0.1,
+            "weight": 2,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

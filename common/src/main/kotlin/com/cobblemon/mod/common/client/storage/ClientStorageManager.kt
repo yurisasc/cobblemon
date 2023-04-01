@@ -51,6 +51,11 @@ class ClientStorageManager {
         }
     }
 
+    fun switchToPokemon(pokemon: UUID) {
+        selectedPokemon = pokemon
+        selectedSlot = myParty.indexOf(myParty.findByUUID(pokemon))
+    }
+
     fun checkSelectedPokemon() {
         if (selectedSlot == -1) {
             val pokemon = myParty.firstOrNull { it != null } ?: return

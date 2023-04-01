@@ -309,15 +309,18 @@ open class PokemonBattle(
             .filterIsInstance<FleeableBattleActor>()
             .filter { it.getWorldAndPosition() != null }
             .none { pokemonActor ->
-                val (world, pos) = pokemonActor.getWorldAndPosition()!!
-                val nearestPlayerActorDistance = actors.asSequence()
-                    .filter { it.type == ActorType.PLAYER }
-                    .filterIsInstance<EntityBackedBattleActor<*>>()
-                    .mapNotNull { it.entity }
-                    .filter { it.world == world }
-                    .minOfOrNull { pos.distanceTo(it.pos) }
+                if (pokemonActor.fleeDistance == -1F) true
+                else {
+                    val (world, pos) = pokemonActor.getWorldAndPosition()!!
+                    val nearestPlayerActorDistance = actors.asSequence()
+                        .filter { it.type == ActorType.PLAYER }
+                        .filterIsInstance<EntityBackedBattleActor<*>>()
+                        .mapNotNull { it.entity }
+                        .filter { it.world == world }
+                        .minOfOrNull { pos.distanceTo(it.pos) }
 
-                nearestPlayerActorDistance != null && nearestPlayerActorDistance < pokemonActor.fleeDistance
+                    nearestPlayerActorDistance != null && nearestPlayerActorDistance < pokemonActor.fleeDistance
+                }
             }
 
         if (wildPokemonOutOfRange) {

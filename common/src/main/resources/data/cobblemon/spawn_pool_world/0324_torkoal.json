@@ -45,7 +45,7 @@
             "id": "torkoal-3",
             "pokemon": "torkoal",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -60,7 +60,14 @@
 				"neededNearbyBlocks": [
                     "minecraft:coal_ore"
                 ]
-            }
+            },
+			"anticondition": {
+				"biomes": [
+                    "#cobblemon:is_abyss",
+					"#cobblemon:is_mountain",
+					"#cobblemon:is_thermal"
+                ]
+			}
         }
     ]
 }

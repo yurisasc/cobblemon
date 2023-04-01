@@ -293,11 +293,11 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
     }
 
     private fun shakeBall(task: ScheduledTask, rollsRemaining: Int, captureResult: CaptureContext) {
-        if (capturingPokemon?.isAlive != true) {
-            discard()
-        }
-
-        if (!isAlive) {
+        if (this.capturingPokemon?.isAlive != true || !this.isAlive || this.owner == null|| owner?.isAlive != true) {
+            if (this.capturingPokemon?.isAlive == true) {
+                this.breakFree()
+            }
+            this.discard()
             task.expire()
             return
         }
@@ -312,14 +312,17 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
                 val player = this.owner as? ServerPlayerEntity ?: return
 
                 afterOnMain(seconds = 1F) {
-                    pokemon.discard()
-                    discard()
-                    captureFuture.complete(true)
-                    val party = Cobblemon.storage.getParty(player.uuid)
-                    pokemon.pokemon.caughtBall = pokeBall
-                    pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
-                    party.add(pokemon.pokemon)
-                    CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
+                    // Dupes occurred by double-adding Pokémon, this hopefully prevents it triple-condom style
+                    if (pokemon.pokemon.isWild() && pokemon.isAlive && !captureFuture.isDone) {
+                        pokemon.discard()
+                        discard()
+                        captureFuture.complete(true)
+                        val party = Cobblemon.storage.getParty(player.uuid)
+                        pokemon.pokemon.caughtBall = pokeBall
+                        pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
+                        party.add(pokemon.pokemon)
+                        CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
+                    }
                 }
                 return
             } else {
@@ -401,5 +404,8 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
     override fun getPoseType(): PoseType {
         return PoseType.NONE
     }
+
+    override fun canUsePortals() = false
+
     override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokeballPacket(this.pokeBall, this.aspects.get(), super.createSpawnPacket() as EntitySpawnS2CPacket))
 }

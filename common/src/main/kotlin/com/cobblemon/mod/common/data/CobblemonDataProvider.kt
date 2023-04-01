@@ -22,11 +22,16 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureAssignments
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
 import com.cobblemon.mod.common.api.spawning.SpawnDetailPresets
+import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
+import com.cobblemon.mod.common.util.getServer
+import com.cobblemon.mod.common.util.ifClient
+import dev.architectury.registry.ReloadListenerRegistry
 import java.util.UUID
 import net.minecraft.resource.ResourceManager
+import net.minecraft.resource.ResourceType
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -34,7 +39,8 @@ import net.minecraft.util.Identifier
 object CobblemonDataProvider : DataProvider {
 
     // Both Forge n Fabric keep insertion order so if a registry depends on another simply register it after
-    var canReload = true
+    internal var canReload = true
+    // Both Forge n Fabric keep insertion order so if a registry depends on another simply register it after
     private val registries = linkedSetOf<DataRegistry>()
     private val synchronizedPlayerIds = mutableListOf<UUID>()
 
@@ -55,6 +61,15 @@ object CobblemonDataProvider : DataProvider {
         CobblemonSpawnPools.load()
 
         PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe { synchronizedPlayerIds.remove(it.player.uuid) }
+        ifClient(){
+            ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, SimpleResourceReloader(ResourceType.CLIENT_RESOURCES))
+        }
+        ReloadListenerRegistry.register(ResourceType.SERVER_DATA, SimpleResourceReloader(ResourceType.SERVER_DATA))
+
+        CobblemonEvents.PLAYER_QUIT.subscribe {
+            UnlockReloadPacket().sendToPlayer(it)
+            synchronizedPlayerIds.remove(it.uuid)
+        }
     }
 
     override fun <T : DataRegistry> register(registry: T): T {
@@ -89,10 +104,17 @@ object CobblemonDataProvider : DataProvider {
         }
     }
 
-    private class SimpleResourceReloader(private val registry: DataRegistry) : SynchronousResourceReloader {
+    private class SimpleResourceReloader(private val type: ResourceType) : SynchronousResourceReloader {
         override fun reload(manager: ResourceManager) {
-            if (canReload) {
-                this.registry.reload(manager)
+            // Check for a server running, this is due to the create a world screen triggering datapack reloads, these are fine to happen as many times as needed as players may be in the process of adding their datapacks.
+            val isInGame = getServer() != null
+            if (isInGame && this.type == ResourceType.SERVER_DATA && !canReload) {
+                return
+            }
+            registries.filter { it.type == this.type }
+                .forEach { it.reload(manager) }
+            if (isInGame && this.type == ResourceType.SERVER_DATA) {
+                canReload = false
             }
         }
     }

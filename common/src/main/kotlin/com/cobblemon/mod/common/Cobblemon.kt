@@ -122,7 +122,7 @@ import org.apache.logging.log4j.LogManager
 
 object Cobblemon {
     const val MODID = "cobblemon"
-    const val VERSION = "1.3.0"
+    const val VERSION = "1.3.1"
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER = LogManager.getLogger()
 
@@ -212,6 +212,11 @@ object Cobblemon {
                     }
             }
         }
+
+        PlayerEvent.CHANGE_DIMENSION.register(PlayerEvent.ChangeDimension{ player, _, _ ->
+            player.party().forEach { pokemon -> pokemon.entity?.recallWithAnimation() }
+        })
+
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)

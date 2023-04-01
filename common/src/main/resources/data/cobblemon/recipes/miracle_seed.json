@@ -2,24 +2,15 @@
     "type": "minecraft:crafting_shaped",
     "pattern": [
         " S ",
-        "MFP",
-        " B "
+        "SLS",
+        " S "
     ],
     "key": {
         "S": {
-            "item": "minecraft:wheat_seeds"
+            "tag": "cobblemon:seeds"
         },
-        "M": {
-            "item": "minecraft:melon_seeds"
-        },
-        "F": {
-            "item": "minecraft:bone_meal"
-        },
-        "P": {
-            "item": "minecraft:pumpkin_seeds"
-        },
-        "B": {
-            "item": "minecraft:beetroot_seeds"
+        "L": {
+            "item": "cobblemon:leaf_stone"
         }
     },
     "result":

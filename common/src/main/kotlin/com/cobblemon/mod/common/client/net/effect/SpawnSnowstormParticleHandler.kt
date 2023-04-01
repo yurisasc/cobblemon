@@ -24,7 +24,7 @@ object SpawnSnowstormParticleHandler : ClientNetworkPacketHandler<SpawnSnowstorm
         matrix.translate(packet.position.x, packet.position.y, packet.position.z)
         matrix.multiply(POSITIVE_Y.rotationDegrees(packet.yawDegrees))
         matrix.multiply(POSITIVE_X.rotationDegrees(packet.pitchDegrees))
-        wrapper.update(matrix.peek().positionMatrix)
+        wrapper.updateMatrix(matrix.peek().positionMatrix)
         val world = MinecraftClient.getInstance().world ?: return
         ParticleStorm(packet.effect, wrapper, world).spawn()
     }

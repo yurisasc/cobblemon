@@ -53,6 +53,10 @@
         {
           "variant": "level",
           "minLevel": 20
+        },
+        {
+          "variant": "properties",
+          "target": "gender=female"
         }
       ]
     },
@@ -66,6 +70,10 @@
         {
           "variant": "level",
           "minLevel": 20
+        },
+        {
+          "variant": "properties",
+          "target": "gender=female"
         }
       ]
     },
@@ -79,6 +87,10 @@
         {
           "variant": "level",
           "minLevel": 20
+        },
+        {
+          "variant": "properties",
+          "target": "gender=female"
         }
       ]
     },
@@ -92,6 +104,10 @@
         {
           "variant": "level",
           "minLevel": 20
+        },
+        {
+          "variant": "properties",
+          "target": "gender=male"
         }
       ]
     }

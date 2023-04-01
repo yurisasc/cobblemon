@@ -291,7 +291,7 @@ abstract class PoseableEntityModel<T : Entity>(
         state.currentModel = this
         setDefault()
         state.preRender()
-        updateLocators()
+        updateLocators(state)
         var poseName = state.getPose()
         var pose = poseName?.let { getPose(it) }
         val entityPoseType = if (entity is Poseable) entity.getPoseType() else null
@@ -326,7 +326,7 @@ abstract class PoseableEntityModel<T : Entity>(
         state.currentPose?.let { getPose(it) }?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         state.applyAdditives(entity, this, state)
         relevantParts.forEach { it.changeFactor = 1F }
-        updateLocators()
+        updateLocators(state)
     }
 
     override fun setAngles(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
@@ -362,30 +362,26 @@ abstract class PoseableEntityModel<T : Entity>(
      * Figures out where all of this model's locators are in real space, so that they can be
      * found and used from other client-side systems.
      */
-    fun updateLocators() {
-        currentState?.let {
-            val entity = currentEntity ?: return
-            val matrixStack = MatrixStack()
-            matrixStack.translate(entity.x, entity.y, entity.z)
+    fun updateLocators(state: PoseableEntityState<T>) {
+        val entity = currentEntity ?: return
+        val matrixStack = MatrixStack()
+        // We could improve this to be generalized for other entities
+        if (entity is PokemonEntity) {
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
-            // We could improve this to be generalized for other entities
-            if (entity is PokemonEntity) {
-                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
-                matrixStack.push()
-                matrixStack.scale(-1F, -1F, 1F)
-                val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
-                matrixStack.scale(scale, scale, scale)
-            } else if (entity is EmptyPokeBallEntity) {
-                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
-                matrixStack.push()
-                matrixStack.scale(1F, -1F, -1F)
-                matrixStack.scale(0.7F, 0.7F, 0.7F)
-            }
-            // Standard living entity offset, only God knows why Mojang did this.
-            matrixStack.translate(0.0, -1.5, 0.0)
-
-            locatorAccess.update(matrixStack, it.locatorStates)
+            matrixStack.scale(-1F, -1F, 1F)
+            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            matrixStack.scale(scale, scale, scale)
+        } else if (entity is EmptyPokeBallEntity) {
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
+            matrixStack.push()
+            matrixStack.scale(1F, -1F, -1F)
+            matrixStack.scale(0.7F, 0.7F, 0.7F)
         }
+        // Standard living entity offset, only God knows why Mojang did this.
+        matrixStack.translate(0.0, -1.5, 0.0)
+
+        locatorAccess.update(matrixStack, state.locatorStates)
     }
 
     fun ModelPart.translation(

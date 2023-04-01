@@ -60,11 +60,11 @@
         "gen6"
       ],
       "aspects": [
-        "small"
+        "pumpkin-size-small"
       ],
       "height": 7,
       "weight": 95,
-      "preEvolution": "pumpkaboo form=small",
+      "preEvolution": "pumpkaboo pumpkin_size=small",
       "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
@@ -108,11 +108,11 @@
         "gen6"
       ],
       "aspects": [
-        "large"
+        "pumpkin-size-large"
       ],
       "height": 11,
       "weight": 140,
-      "preEvolution": "pumpkaboo form=large",
+      "preEvolution": "pumpkaboo pumpkin_size=large",
       "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
@@ -156,11 +156,11 @@
         "gen6"
       ],
       "aspects": [
-        "super"
+        "pumpkin-size-super"
       ],
       "height": 17,
       "weight": 390,
-      "preEvolution": "pumpkaboo form=super",
+      "preEvolution": "pumpkaboo pumpkin_size=super",
       "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
@@ -286,7 +286,7 @@
   "pokedex": [
     "cobblemon.species.gourgeist.desc"
   ],
-  "preEvolution": "pumpkaboo",
+  "preEvolution": "pumpkaboo pumpkin_size=average",
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
@@ -305,6 +305,8 @@
   },
   "height": 9,
   "weight": 125,
-  "aspects": [],
+  "aspects": [
+    "pumpkin-size-average"
+  ],
   "cannotDynamax": false
 }

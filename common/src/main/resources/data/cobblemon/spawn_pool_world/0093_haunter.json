@@ -7,7 +7,7 @@
             "id": "haunter-1",
             "pokemon": "haunter",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "haunter-2",
             "pokemon": "haunter",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",

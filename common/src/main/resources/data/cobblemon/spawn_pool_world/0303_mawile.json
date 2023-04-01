@@ -7,7 +7,7 @@
             "id": "mawile-1",
             "pokemon": "mawile",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +25,7 @@
             "id": "mawile-2",
             "pokemon": "mawile",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",

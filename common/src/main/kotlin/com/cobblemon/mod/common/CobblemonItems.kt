@@ -23,6 +23,9 @@ import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import net.minecraft.block.Block
+import net.minecraft.block.ComposterBlock
+import net.minecraft.item.*
+import net.minecraft.util.registry.Registry
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
@@ -33,8 +36,17 @@ import net.minecraft.registry.RegistryKeys
 
 object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<Item>>, Item>() {
 
-    override val registry: Registry<Item> = Registries.ITEM
-    override val registryKey: RegistryKey<Registry<Item>> = RegistryKeys.ITEM
+    init {
+        this.completed.thenRun {
+            val compostChance = ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.getFloat(Items.OAK_LEAVES)
+            // Should always pass unless Mojang reworks leaves to no longer work in the Composter, in that case we already updated w.o doing anything
+            if (compostChance != ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.defaultReturnValue()) {
+                ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE[APRICORN_LEAVES.get()] = compostChance
+            }
+        }
+    }
+
+    private val pokeballs = mutableListOf<RegistrySupplier<PokeBallItem>>()
 
     @JvmField
     val pokeBalls = mutableListOf<PokeBallItem>()
