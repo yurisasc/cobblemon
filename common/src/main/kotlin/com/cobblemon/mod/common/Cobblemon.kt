@@ -213,9 +213,11 @@ object Cobblemon {
             }
         }
 
-        PlayerEvent.CHANGE_DIMENSION.register(PlayerEvent.ChangeDimension{ player, _, _ ->
-            player.party().forEach { pokemon -> pokemon.entity?.recallWithAnimation() }
-        })
+
+
+        PlatformEvents.CHANGE_DIMENSION.subscribe {
+            it.player.party().forEach { pokemon -> pokemon.entity?.recallWithAnimation() }
+        }
 
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)

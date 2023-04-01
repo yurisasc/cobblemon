@@ -26,9 +26,9 @@ import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
-import com.cobblemon.mod.common.util.getServer
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.ifClient
-import dev.architectury.registry.ReloadListenerRegistry
+import com.cobblemon.mod.common.util.server
 import java.util.UUID
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
@@ -60,16 +60,15 @@ object CobblemonDataProvider : DataProvider {
 
         CobblemonSpawnPools.load()
 
-        PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe { synchronizedPlayerIds.remove(it.player.uuid) }
-        ifClient(){
-            ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, SimpleResourceReloader(ResourceType.CLIENT_RESOURCES))
+        PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe {
+            synchronizedPlayerIds.remove(it.player.uuid)
+            UnlockReloadPacket().sendToPlayer(it.player)
         }
-        ReloadListenerRegistry.register(ResourceType.SERVER_DATA, SimpleResourceReloader(ResourceType.SERVER_DATA))
 
-        CobblemonEvents.PLAYER_QUIT.subscribe {
-            UnlockReloadPacket().sendToPlayer(it)
-            synchronizedPlayerIds.remove(it.uuid)
+        ifClient {
+            Cobblemon.implementation.registerResourceReloader(cobblemonResource("client_resources"), SimpleResourceReloader(ResourceType.CLIENT_RESOURCES), ResourceType.CLIENT_RESOURCES, emptyList())
         }
+        Cobblemon.implementation.registerResourceReloader(cobblemonResource("data_resources"), SimpleResourceReloader(ResourceType.SERVER_DATA), ResourceType.SERVER_DATA, emptyList())
     }
 
     override fun <T : DataRegistry> register(registry: T): T {
@@ -77,7 +76,6 @@ object CobblemonDataProvider : DataProvider {
         if (this.registries.isEmpty()) {
             LOGGER.info("Note: Cobblemon data registries are only loaded once per server instance as Pokémon species are not safe to reload.")
         }
-        Cobblemon.implementation.registerResourceReloader(registry.id, SimpleResourceReloader(registry), registry.type, this.registries.map { it.id })
         this.registries.add(registry)
         LOGGER.info("Registered the {} registry", registry.id.toString())
         LOGGER.debug("Registered the {} registry of class {}", registry.id.toString(), registry::class.qualifiedName)
@@ -107,7 +105,7 @@ object CobblemonDataProvider : DataProvider {
     private class SimpleResourceReloader(private val type: ResourceType) : SynchronousResourceReloader {
         override fun reload(manager: ResourceManager) {
             // Check for a server running, this is due to the create a world screen triggering datapack reloads, these are fine to happen as many times as needed as players may be in the process of adding their datapacks.
-            val isInGame = getServer() != null
+            val isInGame = server() != null
             if (isInGame && this.type == ResourceType.SERVER_DATA && !canReload) {
                 return
             }

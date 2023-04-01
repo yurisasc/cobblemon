@@ -23,6 +23,7 @@ import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
+import net.minecraft.resource.SynchronousResourceReloader
 
 interface CobblemonClientImplementation {
     fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>)
@@ -38,5 +39,4 @@ interface CobblemonClientImplementation {
     fun registerBlockColors(provider: BlockColorProvider, vararg blocks: Block)
 
     fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<T>, factory: BlockEntityRendererFactory<T>)
-
 }

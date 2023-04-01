@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.forge.event
 
+import com.cobblemon.mod.common.platform.events.ChangeDimensionEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.platform.events.ServerEvent
 import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
@@ -17,6 +18,7 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.event.server.ServerStartedEvent
 import net.minecraftforge.event.server.ServerStartingEvent
@@ -108,5 +110,13 @@ object ForgePlatformEventHandler {
             ifSucceeded = {},
             ifCanceled = { e.isCanceled = true }
         )
+    }
+
+    @SubscribeEvent
+    fun onChangeDimension(e: PlayerChangedDimensionEvent) {
+        val player = e.entity
+        if (player is ServerPlayerEntity) {
+            PlatformEvents.CHANGE_DIMENSION.post(ChangeDimensionEvent(player))
+        }
     }
 }
