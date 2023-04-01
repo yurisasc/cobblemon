@@ -51,7 +51,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         entity.subscriptions.add(entity.deathEffectsStarted.subscribe {
             if (it) {
                 val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
-                val animation = model.getFaintAnimation(entity, this) ?: return@subscribe
+                val animation = try { model.getFaintAnimation(entity, this) } catch (e: Exception) { e.printStackTrace(); null } ?: return@subscribe
                 statefulAnimations.add(animation)
             }
         })
