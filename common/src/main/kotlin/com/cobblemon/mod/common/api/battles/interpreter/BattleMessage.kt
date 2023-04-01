@@ -124,7 +124,7 @@ class BattleMessage(rawMessage: String) {
      * @return A pair of [BattleActor] and [ActiveBattlePokemon] if the argument exists and successfully parses them otherwise null.
      */
     fun actorAndActivePokemon(index: Int, battle: PokemonBattle): Pair<BattleActor, ActiveBattlePokemon>? {
-        val pnx = this.argumentAt(index)?.substring(0, 3) ?: return null
+        val pnx = this.argumentAt(index)?.takeIf { it.length >= 3 }?.substring(0, 3) ?: return null
         return this.actorAndActivePokemon(pnx, battle)
     }
 
