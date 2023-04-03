@@ -427,6 +427,49 @@ abstract class PoseableEntityModel<T : Entity>(
         preventsIdleCheck
     )
 
+    fun bedrockStatefulOrNull(
+        animationGroup: String,
+        animation: String,
+        animationPrefix: String = "animation.$animationGroup",
+        preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean = { _, _, _ -> true }
+    ) = BedrockAnimationRepository.getAnimationOrNull(animationGroup, "$animationPrefix.$animation")?.let {BedrockStatefulAnimation(
+        BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation"),
+        preventsIdleCheck
+    ) }
+
+    fun bedrockOrNull(
+        animationGroup: String,
+        animation: String,
+        animationPrefix: String = "animation.$animationGroup"
+    ) = BedrockAnimationRepository.getAnimationOrNull(animationGroup, "$animationPrefix.$animation")?.let {
+        BedrockStatelessAnimation<T>(this, it)
+    }
+
+    fun blankAnimation() = object : StatelessAnimation<T, ModelFrame>(this) {
+        override val targetFrame = ModelFrame::class.java
+        override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {}
+    }
+
+    fun blankAnimationStateful(isTransform: Boolean = false, preventsIdle: Boolean = false) = object : StatefulAnimation<T, ModelFrame> {
+        override val isTransform = isTransform
+        override fun run(
+            entity: T?,
+            model: PoseableEntityModel<T>,
+            state: PoseableEntityState<T>,
+            limbSwing: Float,
+            limbSwingAmount: Float,
+            ageInTicks: Float,
+            headYaw: Float,
+            headPitch: Float
+        ) = false
+
+        override fun preventsIdle(
+            entity: T?,
+            state: PoseableEntityState<T>,
+            idleAnimation: StatelessAnimation<T, *>
+        ) = preventsIdle
+    }
+
     fun quirk(
         name: String,
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,

@@ -54,4 +54,8 @@ object BedrockAnimationRepository {
         return animationGroup.animations[animationName]
             ?: throw IllegalArgumentException("Animation $animationName not found in animation group $fileName")
     }
+
+    fun getAnimationOrNull(fileName: String, animationName: String): BedrockAnimation? {
+        return animationGroups[fileName]?.animations?.get(animationName)
+    }
 }

@@ -6,8 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.platform.events
+package com.cobblemon.mod.common.entity.npc
 
-import net.minecraft.server.network.ServerPlayerEntity
+import com.cobblemon.mod.common.api.entity.EntitySideDelegate
 
-class ChangeDimensionEvent(val player: ServerPlayerEntity)
+class NPCServerDelegate : EntitySideDelegate<NPCEntity> {
+}

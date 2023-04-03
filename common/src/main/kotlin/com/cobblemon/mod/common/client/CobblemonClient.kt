@@ -23,14 +23,18 @@ import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererR
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.npc.NPCRenderer
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.platform.events.PlatformEvents
+import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.render.RenderLayer
@@ -41,6 +45,7 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.resource.ResourceManager
+import net.minecraft.util.Identifier
 
 object CobblemonClient {
     lateinit var implementation: CobblemonClientImplementation
@@ -139,6 +144,11 @@ object CobblemonClient {
         return PokeBallRenderer(context)
     }
 
+    fun registerNPCRenderer(context: EntityRendererFactory.Context): NPCRenderer {
+        LOGGER.info("Registering NPC renderer")
+        return NPCRenderer(context)
+    }
+
     fun reloadCodedAssets(resourceManager: ResourceManager) {
         LOGGER.info("Loading assets...")
         BedrockParticleEffectRepository.loadEffects(resourceManager)
@@ -148,6 +158,7 @@ object CobblemonClient {
         )
         PokemonModelRepository.reload(resourceManager)
         PokeBallModelRepository.reload(resourceManager)
+        NPCModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
 //        PokeBallModelRepository.reload(resourceManager)
     }

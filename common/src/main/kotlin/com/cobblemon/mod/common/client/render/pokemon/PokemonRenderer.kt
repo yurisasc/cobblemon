@@ -38,7 +38,6 @@ import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
-import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -53,7 +52,7 @@ import org.joml.Vector4f
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
-) : MobEntityRenderer<PokemonEntity, EntityModel<PokemonEntity>>(context, null, 0.5f) {
+) : MobEntityRenderer<PokemonEntity, PokemonPoseableModel>(context, null, 0.5f) {
     companion object {
         var DELTA_TICKS = 0F
         val glowLengthFunction = parabolaFunction(
@@ -85,7 +84,7 @@ class PokemonRenderer(
         val beamMode = entity.beamModeEmitter.get().toInt()
         val modelNow = model as PoseableEntityModel<PokemonEntity>
         val s = clientDelegate.secondsSinceBeamEffectStarted
-        if (modelNow is PokemonPoseableModel && beamMode != 0) {
+        if (beamMode != 0) {
             if (s > BEAM_EXTEND_TIME) {
                 val value = (s - BEAM_EXTEND_TIME) /  BEAM_SHRINK_TIME
                 val colourValue = if (beamMode == 1) {

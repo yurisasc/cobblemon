@@ -59,6 +59,7 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
 
         EntityRendererRegistry.register(CobblemonEntities.POKEMON) { CobblemonClient.registerPokemonRenderer(it) }
         EntityRendererRegistry.register(CobblemonEntities.EMPTY_POKEBALL) { CobblemonClient.registerPokeBallRenderer(it) }
+        EntityRendererRegistry.register(CobblemonEntities.NPC) { CobblemonClient.registerNPCRenderer(it) }
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : SimpleSynchronousResourceReloadListener {
             override fun getFabricId() = cobblemonResource("resources")
