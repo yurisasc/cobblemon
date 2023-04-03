@@ -25,18 +25,16 @@ import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
-import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
-import com.cobblemon.mod.common.util.party
-import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.text.Text
@@ -147,6 +145,13 @@ open class PokemonBattle(
         val pokemon = actor.getSide().activePokemon.find { it.getLetter() == letter }
             ?: throw IllegalStateException("Invalid pnx: $pnx - unknown pokemon")
         return actor to pokemon
+    }
+
+    fun getBattlePokemon(pnx: String, pokemonID: String): BattlePokemon {
+        val actor = actors.find { it.showdownId == pnx.substring(0, 2) }
+            ?: throw IllegalStateException("Invalid pnx: $pnx - unknown actor")
+        return actor.pokemonList.find { it.uuid.toString() == pokemonID }
+            ?: throw IllegalStateException("Invalid pnx: $pnx - unknown pokemon")
     }
 
     fun broadcastChatMessage(component: Text) {
