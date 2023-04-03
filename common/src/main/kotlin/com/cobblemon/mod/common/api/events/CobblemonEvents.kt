@@ -70,8 +70,6 @@ object CobblemonEvents {
     @JvmField
     val BATTLE_STARTED_POST = EventObservable<BattleStartedPostEvent>()
     @JvmField
-    val BATTLE_FAINTED = EventObservable<BattleFaintedEvent>()
-    @JvmField
     val BATTLE_FLED = EventObservable<BattleFledEvent>()
     @JvmField
     val BATTLE_VICTORY = EventObservable<BattleVictoryEvent>()

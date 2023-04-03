@@ -61,7 +61,7 @@ object BattleBuilder {
 
         return if (errors.isEmpty) {
             CobblemonEvents.BATTLE_STARTED_PRE.postThen(
-                    BattleStartedPreEvent(listOf(player1Actor, player2Actor), battleFormat, true))
+                    BattleStartedPreEvent(listOf(player1Actor, player2Actor), battleFormat, true, false, false))
             {
                 SuccessfulBattleStart(
                         BattleRegistry.startBattle(
@@ -122,7 +122,7 @@ object BattleBuilder {
 
         return if (errors.isEmpty) {
             CobblemonEvents.BATTLE_STARTED_PRE.postThen(
-                    BattleStartedPreEvent(listOf(playerActor, wildActor), battleFormat, false))
+                    BattleStartedPreEvent(listOf(playerActor, wildActor), battleFormat, false, false, true))
             {
                 val battle = BattleRegistry.startBattle(
                         battleFormat = battleFormat,

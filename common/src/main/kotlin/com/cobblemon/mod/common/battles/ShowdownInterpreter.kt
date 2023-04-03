@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.battles.BattleFaintedEvent
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
@@ -236,7 +235,6 @@ object ShowdownInterpreter {
 
                         for (instruction in splitUpdateInstructions.entries) {
                             if (lines[0].startsWith(instruction.key)) {
-                                battle.updateBattleActions(publicMessage)
                                 instruction.value(battle, targetActor, publicMessage, privateMessage)
                                 break
                             }
@@ -248,7 +246,6 @@ object ShowdownInterpreter {
                         if (line != "|") {
                             val instruction = updateInstructions.entries.find { line.startsWith(it.key) }?.value
                             if (instruction != null) {
-                                battle.updateBattleActions(line)
                                 instruction(battle, line, lines)
                             } else {
                                 battle.dispatch {
@@ -503,8 +500,6 @@ object ShowdownInterpreter {
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             pokemon.battlePokemon?.sendUpdate()
             battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
-
-            pokemon.battlePokemon?.let { CobblemonEvents.BATTLE_FAINTED.post(BattleFaintedEvent(battle, it, interpretFaint(pnx, battle))) }
             pokemon.battlePokemon = null
             WaitDispatch(2.5F)
         }
@@ -514,7 +509,7 @@ object ShowdownInterpreter {
         battle.dispatch {
             val ids = message.split("|win|")[1].split("&").map { it.trim() }
             val winners = ids.map { battle.getActor(UUID.fromString(it))!! }
-            val losers = battle.actors.filter { winners.contains(it) }
+            val losers = battle.actors.filter { !winners.contains(it) }
             val winnersText = winners.map { it.getName() }.reduce { acc, next -> acc + " & " + next }
 
             battle.broadcastChatMessage(battleLang("win", winnersText).gold())
@@ -1309,51 +1304,4 @@ object ShowdownInterpreter {
     private fun handleSilently(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchGo {  }
     }
-
-    private fun interpretFaint(pnx: String, battle: PokemonBattle): BattlePokemon? {
-
-        val action = battle.battleActions[pnx]
-        var killerPnx: String?
-        if(action != null) {
-            val tags = action.substring(1).split("|")
-            killerPnx = when (tags[0]) {
-
-                "-damage" -> {
-                    // items, recoil, confusion
-                    if (tags.size == 4 && tags[3].matches(".*(item|Recoil|confusion).*".toRegex())) {
-                        tags[1].substring(0, 3)
-                    // weather, status ailments, entry hazards
-                    } else if (tags.size == 4 && tags[3].contains("[from]")) {
-                        null
-                    // abilities, damaging protect (spikey shield)
-                    } else if (tags.size == 5) {
-                        tags[4].substring(5, 8)
-                    // normal moves
-                    } else {
-                        lastMover[battle.battleId]?.substring(6, 9)
-                    }
-                }
-
-                // destiny bond
-                "-activate" -> {
-                    battle.updateAllBattleActions(action)
-                    tags[1].substring(0, 3)
-                }
-
-                // perish song
-                "-start" -> {
-                    null
-                }
-
-                // suicide moves
-                else -> {
-                    pnx
-                }
-            }
-        } else {
-            killerPnx = lastMover[battle.battleId]?.substring(6,9)
-        };
-        return killerPnx?.let { battle.getActorAndActiveSlotFromPNX(it).second.battlePokemon }
-    }
-
 }

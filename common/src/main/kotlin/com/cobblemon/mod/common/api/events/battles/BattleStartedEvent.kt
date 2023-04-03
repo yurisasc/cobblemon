@@ -16,7 +16,9 @@ data class BattleStartedPreEvent (
 
     val participants: Collection<BattleActor>,
     val format: BattleFormat,
-    val isPvp: Boolean
+    val isPvP: Boolean,
+    val isPvN: Boolean,
+    val isPvW: Boolean
 
 ) : Cancelable()
 
