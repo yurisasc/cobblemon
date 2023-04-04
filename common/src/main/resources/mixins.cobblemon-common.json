@@ -12,6 +12,7 @@
     "pokeball.ItemRendererMixin"
   ],
   "mixins": [
+    "BrewingStandScreenHandlerMixin",
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
