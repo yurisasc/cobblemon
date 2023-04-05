@@ -826,8 +826,8 @@ object ShowdownInterpreter {
         battle.dispatchGo{
             val message = BattleMessage(rawMessage)
             // Sim protocol claims it's '|-activate|EFFECT' but it seems to always be '|-activate|POKEMON|EFFECT'
-            val pokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
-            val pokemonName = pokemon.battlePokemon?.getName() ?: return@dispatchGo
+            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
+            val pokemonName = pokemon.getName()
             val effect = message.effectAt(1) ?: return@dispatchGo
             // Don't say anything about it, it's too spammy
             if (effect.id == "confusion") {
@@ -851,8 +851,17 @@ object ShowdownInterpreter {
                 "guardsplit" -> battleLang("activate.guard_split", pokemonName)
                 "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
                 "wrap" -> battleLang("activate.wrap", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
-                "shedskin" -> battleLang("activate.shed_skin", pokemonName)
                 "destinybond" -> battleLang("activate.destiny_bond", pokemonName)
+                "shedskin" -> {
+                    val status = pokemon.effectedPokemon.status?.status?.showdownName ?: return@dispatchGo
+                    when (status) {
+                        "brn" -> lang("status.burn.cure", pokemonName)
+                        "frz" -> lang("status.frozen.thawed", pokemonName)
+                        "par" -> lang("status.paralysis.cure", pokemonName)
+                        "slp" -> lang("status.sleep.woke", pokemonName)
+                        else -> lang("status.poison.cure", pokemonName)
+                    }
+                }
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
