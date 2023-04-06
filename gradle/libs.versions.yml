@@ -28,8 +28,9 @@ versions:
 
   # test
   junit: 5.9.0
-  mockito: 3.3.3
+  mockito: 5.2.0
   mockk: 1.12.1
+  classgraph: 4.8.153
 
   #
   fabric-permissions-api: 0.2-SNAPSHOT
@@ -152,3 +153,7 @@ dependencies:
     group: io.mockk
     name: mockk
     version: { ref: mockk }
+  classgraph:
+    group: io.github.classgraph
+    name: classgraph
+    version: { ref: classgraph }

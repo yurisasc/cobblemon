@@ -31,6 +31,7 @@ dependencies {
     testImplementation(libs.junitParams)
     testImplementation(libs.mockito)
     testImplementation(libs.mockk)
+    testImplementation(libs.classgraph)
 
     compileOnly("net.luckperms:api:${rootProject.property("luckperms_version")}")
 }
