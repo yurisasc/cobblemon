@@ -1,3 +1,5 @@
+Fixed messages for entry hazards, screens, tailwind, Perish Song, Destiny Bond, Shed Skin, Yawn
+
 # Changelog
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
