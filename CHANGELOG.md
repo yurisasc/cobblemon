@@ -1,4 +1,8 @@
 # Changelog
+## [1.4.0](#1-4-0)
+## Additions
+- Added the `/teststore` command allowing command block/mcfunction users to query a party, PC or both for Pokémon matching specific properties and returning the match count, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.teststore` if a permission mod is present.
+
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
 ### Additions
