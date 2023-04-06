@@ -34,7 +34,7 @@
       },
       "catchRate": 120,
       "maleRatio": 0,
-      "baseExperienceYield": 243,
+      "baseExperienceYield": 130,
       "baseFriendship": 70,
       "evYield": {
         "hp": 0,
@@ -125,9 +125,9 @@
     "fairy"
   ],
   "moves": [
+    "1:fairywind",
     "1:tackle",
     "1:vinewhip",
-    "6:fairywind",
     "10:luckychant",
     "10:safeguard",
     "15:razorleaf",

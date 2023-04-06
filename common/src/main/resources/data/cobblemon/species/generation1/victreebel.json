@@ -35,6 +35,7 @@
     ]
   },
   "moves": [
+    "1:leaftornado",
     "1:razorleaf",
     "1:sleeppowder",
     "1:spitup",
@@ -42,9 +43,8 @@
     "1:swallow",
     "1:sweetscent",
     "1:vinewhip",
-    "27:leaftornado",
-    "47:leafblade",
-    "47:leafstorm",
+    "32:leafstorm",
+    "44:leafblade",
     "tm:attract",
     "tm:bulletseed",
     "tm:captivate",

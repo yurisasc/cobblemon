@@ -44,7 +44,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.875,
-      "baseExperienceYield": 281,
+      "baseExperienceYield": 263,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -60,7 +60,6 @@
         "monster",
         "grass"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -92,7 +91,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.875,
-      "baseExperienceYield": 236,
+      "baseExperienceYield": 263,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -108,7 +107,6 @@
         "monster",
         "grass"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -146,22 +144,22 @@
   },
   "moves": [
     "1:growl",
-    "1:leechseed",
+    "1:growth",
+    "1:petaldance",
     "1:tackle",
     "1:vinewhip",
+    "9:leechseed",
+    "12:razorleaf",
     "15:poisonpowder",
     "15:sleeppowder",
-    "15:takedown",
     "20:seedbomb",
-    "22:razorleaf",
-    "29:sweetscent",
-    "31:doubleedge",
-    "32:petaldance",
-    "39:worryseed",
-    "41:growth",
+    "25:takedown",
+    "30:sweetscent",
+    "37:synthesis",
+    "44:worryseed",
     "50:petalblizzard",
-    "53:synthesis",
-    "65:solarbeam",
+    "51:doubleedge",
+    "58:solarbeam",
     "tm:amnesia",
     "tm:attract",
     "tm:bodyslam",
