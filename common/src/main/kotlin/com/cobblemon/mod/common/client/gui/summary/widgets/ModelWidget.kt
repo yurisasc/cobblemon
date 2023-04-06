@@ -34,7 +34,7 @@ class ModelWidget(
 
     var state = PokemonFloatingState()
     private val minecraft = MinecraftClient.getInstance()
-    private var rotVec = Vector3f(13F, rotationY, 0F)
+    val rotVec = Vector3f(13F, rotationY, 0F)
 
     override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if (!render) {

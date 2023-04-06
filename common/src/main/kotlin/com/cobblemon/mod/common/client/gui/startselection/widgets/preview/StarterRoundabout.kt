@@ -11,11 +11,11 @@ package com.cobblemon.mod.common.client.gui.startselection.widgets.preview
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
-import net.minecraft.client.MinecraftClient
+import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-import net.minecraft.util.math.RotationAxis
+import org.joml.Quaternionf
 import org.joml.Vector3f
 
 /**
@@ -30,18 +30,13 @@ class StarterRoundabout(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     var pokemon: RenderablePokemon,
-    private val clickAction: (mouseX: Double, mouseY: Double) -> Unit = { _, _ -> }
+    private val clickAction: (mouseX: Double, mouseY: Double) -> Unit = { _, _ -> },
+    private val rotationVector: Vector3f
 ): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("StarterRoundabout")) {
 
     companion object {
         const val MODEL_WIDTH = 30
         const val MODEL_HEIGHT = 30
-    }
-
-    val minecraft = MinecraftClient.getInstance()
-
-    init {
-
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -72,7 +67,7 @@ class StarterRoundabout(
         drawProfilePokemon(
             renderablePokemon = pokemon,
             matrixStack = matrices,
-            rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(90F),
+            rotation = Quaternionf().fromEulerXYZDegrees(rotationVector),
             state = null,
             scale = 18F
         )
