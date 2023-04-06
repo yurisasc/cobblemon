@@ -11,8 +11,7 @@ package com.cobblemon.mod.common.battles
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
-import com.cobblemon.mod.common.api.battles.interpreter.Effect
+import com.cobblemon.mod.common.api.battles.interpreter.*
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
@@ -1412,5 +1411,69 @@ object ShowdownInterpreter {
     // Used for things that are only meant for visual information we don't have
     private fun handleSilently(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchGo {  }
+    }
+
+    private fun interpretFaint(pnx: String, battle: PokemonBattle): BattleContext {
+
+        val cause = battle.minorBattleActions[pnx] ?: lastMover[battle.battleId] ?: return MissingContext()
+        val pokemon = cause.getBattlePokemon(0, battle) ?: return MissingContext()
+        val side = pokemon.actor.getSide()
+
+        LOGGER.error(cause.id)
+        return when (cause.id) {
+
+            "-damage", "move" -> {
+
+                // damage from abilities
+                cause.effect("of")?.let {
+                    val effectID = cause.effect()?.id ?: it.id
+                    val originPnx = cause.optionalArgument("of")!!.substringBefore(':')
+                    val uuid = cause.optionalArgument("of")!!.substringAfter(':').trim()
+                    val origin = battle.getBattlePokemon(originPnx, uuid)
+                    BasicContext(effectID, battle.turn, origin)
+                } ?:
+
+                //volatile statuses
+
+                // damage from weather, statuses, entry hazards
+                cause.effect()?.let {
+                    val contextBuckets = BattleContext.damageContexts.map { pokemon.context[it] ?: side.context[it] ?: battle.context[it] }
+                    BattleContext.scoop(it.id, *contextBuckets.toTypedArray())
+                } ?:
+
+                // damage from moves and suicide
+                lastMover[battle.battleId]?.let {
+                    val move = it.effectAt(1)!!.id
+                    val origin = it.getBattlePokemon(0, battle)
+                    BasicContext(move, battle.turn, origin)
+                } ?:
+                MissingContext()
+            }
+
+            // perish song
+            "-start" -> {
+                cause.effectAt(1)?.let {
+                    val effectID = it.id
+                    pokemon.context[Context.VOLATILE]?.find { it.id == effectID}
+                } ?:
+                MissingContext()
+            }
+
+            // destiny bond
+            "-activate" -> {
+                cause.effectAt(1)?.let {
+                    val trigger = lastMover[battle.battleId] ?: return MissingContext()
+                    val origin = trigger.getBattlePokemon(2, battle)
+                    BasicContext(it.id, battle.turn, origin)
+                } ?:
+                MissingContext()
+            }
+
+            else -> MissingContext()
+        }
+    }
+
+    private fun getContextFromAction() {
+
     }
 }

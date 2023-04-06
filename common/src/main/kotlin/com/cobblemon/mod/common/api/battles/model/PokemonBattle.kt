@@ -11,7 +11,9 @@ package com.cobblemon.mod.common.api.battles.model
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.battles.interpreter.BattleContext
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
+import com.cobblemon.mod.common.api.battles.interpreter.Context
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
@@ -94,6 +96,10 @@ open class PokemonBattle(
     val afterDispatches = mutableListOf<() -> Unit>()
 
     val captureActions = mutableListOf<BattleCaptureAction>()
+
+    val majorBattleActions = hashMapOf<String, BattleMessage>()
+    val minorBattleActions = hashMapOf<String, BattleMessage>()
+    val context = hashMapOf<Context, MutableCollection<BattleContext>>()
 
     /** Whether or not there is one side with at least one player, and the other only has wild Pokémon. */
     val isPvW: Boolean

@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.api.battles.interpreter.BattleContext
+import com.cobblemon.mod.common.api.battles.interpreter.Context
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import net.minecraft.text.Text
@@ -23,6 +25,7 @@ class BattleSide(vararg val actors: BattleActor) {
         get() = actors.flatMap { it.activePokemon }
 
     lateinit var battle: PokemonBattle
+    val context = hashMapOf<Context, Collection<BattleContext>>()
     fun getOppositeSide() = if (this == battle.side1) battle.side2 else battle.side1
 
     fun broadcastChatMessage(component: Text) {

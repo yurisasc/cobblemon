@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.battles.pokemon
 
+import com.cobblemon.mod.common.api.battles.interpreter.BattleContext
+import com.cobblemon.mod.common.api.battles.interpreter.Context
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.moves.MoveSet
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
@@ -69,6 +71,8 @@ open class BattlePokemon(
      * The [HeldItemManager] backing this [BattlePokemon].
      */
     val heldItemManager: HeldItemManager by lazy { HeldItemProvider.provide(this) }
+
+    val context = hashMapOf<Context, MutableCollection<BattleContext>>()
 
     open fun getName(): MutableText {
         return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
