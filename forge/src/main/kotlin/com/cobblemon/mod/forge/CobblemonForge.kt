@@ -37,6 +37,7 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
+import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
@@ -48,6 +49,7 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
 import net.minecraftforge.event.level.BlockEvent
+import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
@@ -62,7 +64,6 @@ import thedarkcolour.kotlinforforge.forge.MOD_BUS
 class CobblemonForge : CobblemonImplementation {
     override val modAPI = ModAPI.FORGE
     private val hasBeenSynced = hashSetOf<UUID>()
-
 
     private val commandArgumentTypes = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
     private val reloadableResources = arrayListOf<ResourceReloader>()
@@ -87,6 +88,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::onReload)
         }
         ForgePlatformEventHandler.register()
+        DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable(CobblemonForgeClient::init) }
     }
 
     fun wakeUp(event: PlayerWakeUpEvent) {
