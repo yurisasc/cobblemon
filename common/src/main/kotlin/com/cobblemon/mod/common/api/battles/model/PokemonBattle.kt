@@ -16,6 +16,8 @@ import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.red
@@ -329,6 +331,7 @@ open class PokemonBattle(
             }
 
         if (wildPokemonOutOfRange) {
+            CobblemonEvents.BATTLE_FLED.post(BattleFledEvent(this, actors.asSequence().filterIsInstance<PlayerBattleActor>().iterator().next()))
             actors.filterIsInstance<EntityBackedBattleActor<*>>().mapNotNull { it.entity }.forEach { it.sendMessage(battleLang("flee").yellow()) }
             stop()
         }
@@ -377,5 +380,4 @@ open class PokemonBattle(
         LOGGER.error("Missing interpretation on '{}' action: \nPublic » {}\nPrivate » {}", publicMessage.id, publicMessage.rawMessage, privateMessage.rawMessage)
         return Text.literal("Missing interpretation on '${publicMessage.id}' action please report to the developers").red()
     }
-
 }

@@ -509,12 +509,13 @@ object ShowdownInterpreter {
         battle.dispatch {
             val ids = message.split("|win|")[1].split("&").map { it.trim() }
             val winners = ids.map { battle.getActor(UUID.fromString(it))!! }
+            val losers = battle.actors.filter { !winners.contains(it) }
             val winnersText = winners.map { it.getName() }.reduce { acc, next -> acc + " & " + next }
 
             battle.broadcastChatMessage(battleLang("win", winnersText).gold())
 
             battle.end()
-            CobblemonEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, winners))
+            CobblemonEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, winners, losers))
 
             this.lastMover.remove(battle.battleId)
             GO
@@ -1306,6 +1307,4 @@ object ShowdownInterpreter {
     private fun handleSilently(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchGo {  }
     }
-
-
 }

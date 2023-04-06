@@ -17,11 +17,7 @@ import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
-import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPostEvent
-import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent
-import com.cobblemon.mod.common.api.events.pokemon.FriendshipUpdatedEvent
-import com.cobblemon.mod.common.api.events.pokemon.LevelUpEvent
-import com.cobblemon.mod.common.api.events.pokemon.PokemonFaintedEvent
+import com.cobblemon.mod.common.api.events.pokemon.*
 import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.BenchedMoves
 import com.cobblemon.mod.common.api.moves.Move
@@ -397,14 +393,17 @@ open class Pokemon : ShowdownIdentifiable {
         return this.form.showdownId()
     }
 
-    fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
-        SeasonFeatureHandler.updateSeason(this, level, position.toBlockPos())
-        val entity = PokemonEntity(level, this)
-        entity.setPositionSafely(position)
-        mutation(entity)
-        level.spawnEntity(entity)
-        state = SentOutState(entity)
-        return entity
+    fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity? {
+        CobblemonEvents.POKEMON_SENT_PRE.postThen(PokemonSentPreEvent(this, level, position)) {
+            SeasonFeatureHandler.updateSeason(this, level, position.toBlockPos())
+            val entity = PokemonEntity(level, this)
+            entity.setPositionSafely(position)
+            mutation(entity)
+            level.spawnEntity(entity)
+            state = SentOutState(entity)
+            return entity
+        }
+        return null;
     }
 
     fun sendOutWithAnimation(source: LivingEntity, level: ServerWorld, position: Vec3d, battleId: UUID? = null, mutation: (PokemonEntity) -> Unit = {}): CompletableFuture<PokemonEntity> {
@@ -419,6 +418,7 @@ open class Pokemon : ShowdownIdentifiable {
                 it.phasingTargetId.set(-1)
                 it.beamModeEmitter.set(0)
                 future.complete(it)
+                CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
             }
 
             mutation(it)
@@ -426,6 +426,7 @@ open class Pokemon : ShowdownIdentifiable {
         return future
     }
     fun recall() {
+        CobblemonEvents.POKEMON_RECALLED.post(PokemonRecalledEvent(this, this.entity))
         this.state = InactivePokemonState()
     }
 
