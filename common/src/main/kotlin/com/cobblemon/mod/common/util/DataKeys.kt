@@ -64,12 +64,18 @@ object DataKeys {
 
     const val OWNED_BY_PLAYER = "OwnedByPlayer"
     const val STORE_IS_PARTY = "IsParty"
+    const val PC_ID = "PCId"
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
     const val STORE_BOX = "Box"
     const val STORE_BOX_COUNT = "BoxCount"
     const val STORE_BOX_COUNT_LOCKED = "BoxCountLocked"
     const val STORE_BACKUP = "BackupStore"
+
+    const val TETHERING_ID = "TetheringId"
+    const val TETHER_POKEMON = "TetherPokemon"
+    const val TETHER_COUNT = "TetherCount"
+    const val TETHER_MAX = "TetherMax"
 
     /* Form stuff */
     const val ALOLAN = "alolan"

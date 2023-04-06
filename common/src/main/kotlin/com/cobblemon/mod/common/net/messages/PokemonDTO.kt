@@ -65,6 +65,7 @@ class PokemonDTO : Encodable, Decodable {
     lateinit var evolutionBuffer: PacketByteBuf
     lateinit var nature: Identifier
     var heldItem: ItemStack = ItemStack.EMPTY
+    var tetheringId: UUID? = null
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
@@ -92,6 +93,7 @@ class PokemonDTO : Encodable, Decodable {
         pokemon.evolutionProxy.saveToBuffer(evolutionBuffer, toClient)
         this.nature = pokemon.nature.name
         this.heldItem = pokemon.heldItemNoCopy()
+        this.tetheringId = pokemon.tetheringId
     }
 
     override fun encode(buffer: PacketByteBuf) {
@@ -122,6 +124,7 @@ class PokemonDTO : Encodable, Decodable {
         evolutionBuffer.release()
         buffer.writeIdentifier(nature)
         buffer.writeItemStack(this.heldItem)
+        buffer.writeNullable(tetheringId) { _, v -> buffer.writeUuid(v) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -153,6 +156,7 @@ class PokemonDTO : Encodable, Decodable {
         evolutionBuffer = PacketByteBuf(buffer.readBytes(bytesToRead))
         nature = buffer.readIdentifier()
         heldItem = buffer.readItemStack()
+        tetheringId = buffer.readNullable { buffer.readUuid() }
     }
 
     fun create(): Pokemon {
@@ -191,6 +195,7 @@ class PokemonDTO : Encodable, Decodable {
             evolutionBuffer.release()
             it.nature = Natures.getNature(nature)!!
             it.swapHeldItem(heldItem, false)
+            it.tetheringId = tetheringId
         }
     }
 }

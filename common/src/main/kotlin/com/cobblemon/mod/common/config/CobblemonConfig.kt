@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.config
 
 import com.cobblemon.mod.common.api.drop.ItemDropMethod
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
-import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculators
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.pokeball.catching.calculators.CobblemonCaptureCalculator
@@ -181,4 +180,10 @@ class CobblemonConfig {
 
     @NodeCategory(Category.World)
     var appleLeftoversChance = 0.025
+
+    @NodeCategory(Category.World)
+    var defaultPasturedPokemonLimit = 10
+
+    @NodeCategory(Category.World)
+    var pastureBlockUpdateTicks = 40
 }

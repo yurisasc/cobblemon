@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
 import com.cobblemon.mod.common.block.PCBlock
+import com.cobblemon.mod.common.block.PokemonTetherBlock
 import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker
@@ -172,6 +173,18 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
                 .strength(2F)
                 .nonOpaque()
                 .luminance { if ((it.get(PCBlock.ON) as Boolean) && (it.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 }
+        )
+    )
+
+    @JvmField
+    val POKEMON_TETHER = create(
+        "pokemon_tether",
+        PokemonTetherBlock(
+            AbstractBlock.Settings
+                .of(Material.METAL, MapColor.IRON_GRAY)
+                .sounds(BlockSoundGroup.METAL)
+                .strength(2F)
+                .nonOpaque()
         )
     )
 
