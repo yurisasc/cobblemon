@@ -410,7 +410,8 @@
   "cobblemon.capture.not_single": "You can only capture wild Pokémon in a 1v1 battle.",
   "cobblemon.you_in_battle": "You can't do that while in a battle!",
   "cobblemon.battle.turn": "It is now turn %1$s",
-
+  "cobblemon.battle.side_subject.ally": "your",
+  "cobblemon.battle.side_subject.opponent": "the opposing",
 
   "cobblemon.battle.rain_dance": "It started to rain!",
   "cobblemon.battle.rain_dance_upkeep": "Rain continues to fall.",
@@ -424,16 +425,11 @@
   "cobblemon.battle.hail_buffeted": "%1$s was buffeted by hail.",
   "cobblemon.battle.no_weather": "The weather clears up.",
 
-  "cobblemon.battle.confusion_start": "%1$s is confused!",
-  "cobblemon.battle.confusion_activate": "It hurt itself in confusion!",
-  "cobblemon.battle.confusion_snapped": "%1$s snapped out of its confusion!",
-  "cobblemon.battle.protect_start": "%1$s starts protecting itself!",
-  "cobblemon.battle.protect_activate": "%1$s protected itself!",
-  "cobblemon.battle.magnitude_level": "Magnitude %1$s!",
-  "cobblemon.battle.bide_start": "%1$s begins storing energy!",
-  "cobblemon.battle.bide_activate": "%1$s is storing energy!",
-  "cobblemon.battle.bide_end": "%1$s unleashed its energy!",
-  "cobblemon.battle.yawn_start": "%1$s grew drowsy!",
+  "cobblemon.battle.start.confusion": "%1$s is confused!",
+  "cobblemon.battle.start.protect": "%1$s starts protecting itself!",
+  "cobblemon.battle.start.bide": "%1$s begins storing energy!",
+  "cobblemon.battle.start.yawn": "%1$s grew drowsy!",
+  "cobblemon.battle.start.perish_count": "%1$s's perish count fell to %2$s.",
 
   "cobblemon.battle.field_start.electric_terrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.field_start.grassy_terrain": "Grass grew to cover the battlefield!",
@@ -456,6 +452,26 @@
   "cobblemon.battle.field_end.trick_room": "The twisted dimensions returned to normal!",
   "cobblemon.battle.field_end.water_sport": "The effects of Water Sport have faded.",
   "cobblemon.battle.field_end.wonder_room": "Wonder Room wore off, and Defense and Sp. Def stats returned to normal!",
+
+  "cobblemon.battle.field_activate.perish_song": "All Pokémon that heard the song will faint in three turns!",
+
+  "cobblemon.battle.side_start.stealth_rock": "Polished stones float in the air around %1$s team!",
+  "cobblemon.battle.side_start.spikes": "Spikes were scattered on the ground all around %1$s team!",
+  "cobblemon.battle.side_start.toxic_spikes": "Poison spikes were scattered on the ground all around %1$s team!",
+  "cobblemon.battle.side_start.sticky_web": "A sticky web has been laid on the ground around %1$s team!",
+  "cobblemon.battle.side_start.reflect": "Reflect made %1$s team stronger against physical moves!",
+  "cobblemon.battle.side_start.light_screen": "Light Screen made %1$s team stronger against special moves!",
+  "cobblemon.battle.side_start.aurora_veil": "Aurora Veil made %1$s team stronger against physical and special moves!",
+  "cobblemon.battle.side_start.tailwind": "The Tailwind blew from behind %1$s team!",
+
+  "cobblemon.battle.side_end.stealth_rock": "The pointed stones disappeared from around %1$s team!",
+  "cobblemon.battle.side_end.spikes": "The spikes disappeared from the ground around %1$s team!",
+  "cobblemon.battle.side_end.toxic_spikes": "The poison spikes disappeared from the ground around %1$s team!",
+  "cobblemon.battle.side_end.sticky_web": "The sticky web has disappeared from the ground around %1$s team",
+  "cobblemon.battle.side_end.reflect": "%1$s team's Reflect wore off!",
+  "cobblemon.battle.side_end.light_screen": "%1$s team's Light Screen wore off!",
+  "cobblemon.battle.side_end.aurora_veil": "%1$s team's Aurora Veil wore off!",
+  "cobblemon.battle.side_end.tailwind": "%1$s team's Tailwind petered out!",
 
   "cobblemon.battle.cant.generic_block": "%1$s can't use %2$s!",
   "cobblemon.battle.cant.truant": "%1$s is loafing around!",
@@ -483,6 +499,11 @@
   "cobblemon.battle.activate.court_change": "%1$s swapped the battle effects affecting each side of the field!",
   "cobblemon.battle.activate.guard_split": "%1$s shared its guard with the target!",
   "cobblemon.battle.activate.spite": "It reduced the PP of %1$s's %2$s by %3$s!",
+  "cobblemon.battle.activate.shed_skin": "%1$s was cured of its %1$s!",
+  "cobblemon.battle.activate.bide": "%1$s is storing energy!",
+  "cobblemon.battle.activate.protect": "%1$s protected itself!",
+  "cobblemon.battle.activate.magnitude": "Magnitude %1$s!",
+  "cobblemon.battle.activate.destiny_bond": "%1$s took its attacker down with it!",
 
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
@@ -528,11 +549,12 @@
   "cobblemon.battle.singlemove.rage": "%1$s goes into a rage!",
 
   "cobblemon.battle.hurt.wrap": "%1$s was hurt by wrap!",
+  "cobblemon.battle.hurt.confusion": "It hurt itself in confusion!",
 
   "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
   "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
-
-
+  "cobblemon.battle.end.bide": "%1$s unleashed its energy!",
+  "cobblemon.battle.end.confusion": "%1$s snapped out of its confusion!",
 
   "cobblemon.battle.set_hp.pain_split": "The battlers shared their pain!",
 
@@ -678,11 +700,14 @@
   "cobblemon.status.sleep.woke": "%1$s woke up!",
   "cobblemon.status.paralysis.apply": "%1$s was paralyzed!",
   "cobblemon.status.paralysis.is": "%1$s is paralyzed and cannot move",
+  "cobblemon.status.paralysis.cure": "%1$s was cured of its paralysis!",
   "cobblemon.status.poison.apply": "%1$s was poisoned!",
+  "cobblemon.status.poison.cure": "%1$s was cured of its poisoning!",
   "cobblemon.status.poisonbadly.apply": "%1$s was badly poisoned!",
   "cobblemon.status.poison.hurt": "%1$s was hurt by poison",
   "cobblemon.status.burn.apply": "%1$s was burned!",
   "cobblemon.status.burn.hurt": "%1$s was hurt by its burns!",
+  "cobblemon.status.burn.cure": "%1$s was cured of its burn!",
   "cobblemon.status.frozen.apply": "%1$s was frozen solid!",
   "cobblemon.status.frozen.thawed": "%1$s thawed out!",
   "cobblemon.status.frozen.is": "%1$s is frozen solid!",

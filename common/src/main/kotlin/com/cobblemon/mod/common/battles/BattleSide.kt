@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import net.minecraft.text.Text
 
 /**
  * Unlike the Showdown side.ts, this can represent multiple actors.
@@ -23,4 +24,8 @@ class BattleSide(vararg val actors: BattleActor) {
 
     lateinit var battle: PokemonBattle
     fun getOppositeSide() = if (this == battle.side1) battle.side2 else battle.side1
+
+    fun broadcastChatMessage(component: Text) {
+        return this.actors.forEach { it.sendMessage(component) }
+    }
 }
