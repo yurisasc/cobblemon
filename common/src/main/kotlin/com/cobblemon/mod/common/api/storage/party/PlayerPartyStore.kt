@@ -118,7 +118,7 @@ open class PlayerPartyStore(
                 this.secondsSinceFriendshipUpdate = 0
                 this.forEach { pokemon ->
                     if (pokemon.friendship < 160) {
-                        if (pokemon.entity != null) {
+                        if (pokemon.entity != null || pokemon.state is ShoulderedState) {
                             pokemon.incrementFriendship(1)
                         }
                     }
