@@ -496,6 +496,7 @@
   "cobblemon.battle.activate.trapped": "%1$s can no longer escape!",
   "cobblemon.battle.activate.bind": "%1$s was squeezed by %2$s!",
   "cobblemon.battle.activate.wrap": "%1$s was wrapped by %2$s!",
+  "cobblemon.battle.activate.struggle": "%1$s has no moves left!",
   "cobblemon.battle.activate.court_change": "%1$s swapped the battle effects affecting each side of the field!",
   "cobblemon.battle.activate.guard_split": "%1$s shared its guard with the target!",
   "cobblemon.battle.activate.spite": "It reduced the PP of %1$s's %2$s by %3$s!",

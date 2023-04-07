@@ -585,7 +585,7 @@ object ShowdownInterpreter {
                 }
             }
 
-            if (targetPokemon != null && targetPokemon != userPokemon) {
+            if (move.name != "struggle" && targetPokemon != null && targetPokemon != userPokemon) {
                 battle.broadcastChatMessage(battleLang(
                     key = "used_move_on",
                     userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
@@ -852,6 +852,7 @@ object ShowdownInterpreter {
                 "guardsplit" -> battleLang("activate.guard_split", pokemonName)
                 "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
                 "wrap" -> battleLang("activate.wrap", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
+                "struggle" -> battleLang("activate.struggle", pokemonName)
                 "destinybond" -> battleLang("activate.destiny_bond", pokemonName)
                 "shedskin" -> {
                     val status = pokemon.effectedPokemon.status?.status?.showdownName ?: return@dispatchGo
