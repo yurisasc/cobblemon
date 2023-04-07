@@ -39,5 +39,6 @@ object CobblemonCommands {
         SpawnPokemonFromPool.register(dispatcher)
         PokeboxCommand.register(dispatcher)
         TestStoreCommand.register(dispatcher)
+        QueryLearnsetCommand.register(dispatcher)
     }
 }
