@@ -35,7 +35,8 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
         val moving = entity.behaviour.moving
         return moving.walk.canWalk || moving.fly.canFly || (moving.swim.canBreatheUnderwater && mob.isSubmergedIn(FluidTags.WATER))
     }
-    override fun canStart() = super.canStart() && canMove() && !entity.isBusy && entity.ownerUuid == null
+
+    override fun canStart() = super.canStart() && canMove() && !entity.isBusy && (entity.ownerUuid == null || entity.tethering != null)
     override fun shouldContinue() = super.shouldContinue() && canMove() && !entity.isBusy
 
     override fun getWanderTarget(): Vec3d? {
@@ -58,8 +59,9 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
     }
 
     fun getLandTarget(): Vec3d? {
+        val roamDistanceCondition: (BlockPos) -> Boolean = { entity.tethering?.canRoamTo(it) != false }
         val iterable: Iterable<BlockPos> = BlockPos.iterateRandomly(entity.random, 30, entity.blockX - 10, entity.blockY, entity.blockZ - 10, entity.blockX + 10, entity.blockY, entity.blockZ + 10)
-        val condition: (BlockState, BlockPos) -> Boolean = { _, pos -> entity.canFit(pos) }
+        val condition: (BlockState, BlockPos) -> Boolean = { _, pos -> entity.canFit(pos) && roamDistanceCondition(pos) }
         val iterator = iterable.iterator()
         position@
         while (iterator.hasNext()) {
@@ -113,14 +115,15 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
     }
 
     fun getFluidTarget(fluidTag: TagKey<Fluid>): Vec3d? {
+        val roamDistanceCondition: (BlockPos) -> Boolean = { entity.tethering?.canRoamTo(it) != false }
         val walksOnFloor = !entity.behaviour.moving.swim.canSwimInFluid(fluidTag)
         var iterable: Iterable<BlockPos> = BlockPos.iterateRandomly(entity.random, 32, entity.blockPos, 12)
-        var condition: (BlockState, BlockPos) -> Boolean = { blockState, pos -> blockState.fluidState.isIn(fluidTag) && entity.canFit(pos) }
+        var condition: (BlockState, BlockPos) -> Boolean = { blockState, pos -> roamDistanceCondition(pos) && blockState.fluidState.isIn(fluidTag) && entity.canFit(pos) }
         if (walksOnFloor) {
             condition = { blockState, blockPos ->
                 val down = blockPos.down()
                 val below = entity.world.getBlockState(down)
-                blockState.fluidState.isIn(fluidTag) && below.isSolidBlock(entity.world, down) && entity.canFit(blockPos)
+                roamDistanceCondition(blockPos) && blockState.fluidState.isIn(fluidTag) && below.isSolidBlock(entity.world, down) && entity.canFit(blockPos)
             }
         }
         if (entity.world.isAir(entity.blockPos.up())) {

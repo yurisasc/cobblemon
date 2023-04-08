@@ -75,7 +75,8 @@ object DataKeys {
     const val TETHERING_ID = "TetheringId"
     const val TETHER_POKEMON = "TetherPokemon"
     const val TETHER_COUNT = "TetherCount"
-    const val TETHER_MAX = "TetherMax"
+    const val TETHERING = "Tethering"
+    const val TETHERING_POS = "Pos"
 
     /* Form stuff */
     const val ALOLAN = "alolan"

@@ -95,6 +95,11 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.discard()
         }
 
+        val tethering = entity.tethering
+        if (tethering != null && entity.pokemon.tetheringId != tethering.tetheringId) {
+            entity.discard()
+        }
+
         if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
             entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
         }

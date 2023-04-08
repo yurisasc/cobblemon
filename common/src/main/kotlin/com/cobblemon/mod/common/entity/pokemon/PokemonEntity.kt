@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.block.entity.PokemonTetherBlockEntity
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -141,6 +142,8 @@ class PokemonEntity(
 
     var drops: DropTable? = null
 
+    var tethering: PokemonTetherBlockEntity.Tethering? = null
+
     /**
      * The amount of steps this entity has taken.
      */
@@ -155,7 +158,7 @@ class PokemonEntity(
     val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
-    val poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
+    val poseType = addEntityProperty(POSE_TYPE, PoseType.STAND)
     // ToDo uncomment and remove fixed PokemonNameState.SPECIES start once nicknames are implemented.
     // val nameDisplayState = addEntityProperty(POKEMON_NAME_STATE, if (pokemon.nickame != null) PokemonNameState.NICKNAME else PokemonNameState.SPECIES)
     val displayNameState = addEntityProperty(POKEMON_NAME_STATE, PokemonDisplayNameState.SPECIES)
@@ -221,6 +224,7 @@ class PokemonEntity(
         val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val POSE_TYPE = DataTracker.registerData(PokemonEntity::class.java, PoseTypeDataSerializer)
         val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+//        val TETHERING_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
 
         const val BATTLE_LOCK = "battle"
 
@@ -335,8 +339,19 @@ class PokemonEntity(
         if (ownerId != null) {
             nbt.putUuid(DataKeys.POKEMON_OWNER_ID, ownerId)
         }
-
-        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
+        val tethering = this.tethering
+        if (tethering != null) {
+            val tetheringNbt = NbtCompound()
+            tetheringNbt.putUuid(DataKeys.TETHERING_ID, tethering.tetheringId)
+            tetheringNbt.putUuid(DataKeys.POKEMON_UUID, tethering.pokemonId)
+            tetheringNbt.putUuid(DataKeys.PC_ID, tethering.pcId)
+            tetheringNbt.putInt("${DataKeys.TETHERING_POS}X", tethering.pos.x)
+            tetheringNbt.putInt("${DataKeys.TETHERING_POS}Y", tethering.pos.x)
+            tetheringNbt.putInt("${DataKeys.TETHERING_POS}Z", tethering.pos.x)
+            nbt.put(DataKeys.TETHERING, tetheringNbt)
+        } else {
+            nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
+        }
         val battleIdToSave = battleId.get().orElse(null)
         if (battleIdToSave != null) {
             nbt.putUuid(DataKeys.POKEMON_BATTLE_ID, battleIdToSave)
@@ -354,7 +369,33 @@ class PokemonEntity(
         if (nbt.containsUuid(DataKeys.POKEMON_OWNER_ID)) {
             ownerUuid = nbt.getUuid(DataKeys.POKEMON_OWNER_ID)
         }
-        pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+
+        if (nbt.contains(DataKeys.TETHERING)) {
+            val tetheringNBT = nbt.getCompound(DataKeys.TETHERING)
+            val tetheringId = tetheringNBT.getUuid(DataKeys.TETHERING_ID)
+            val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
+            val pokemonId = tetheringNBT.getUuid(DataKeys.POKEMON_UUID)
+            val pos = BlockPos(
+                tetheringNBT.getInt("${DataKeys.TETHERING_POS}X"),
+                tetheringNBT.getInt("${DataKeys.TETHERING_POS}Y"),
+                tetheringNBT.getInt("${DataKeys.TETHERING_POS}Z")
+            )
+
+            val loadedPokemon = Cobblemon.storage.getPC(pcId)[pokemonId]
+            if (loadedPokemon != null && loadedPokemon.tetheringId == tetheringId) {
+                pokemon = loadedPokemon
+                tethering = PokemonTetherBlockEntity.Tethering(
+                    pos = pos,
+                    tetheringId = tetheringId,
+                    pokemonId = pokemonId,
+                    pcId = pcId
+                )
+            } else {
+                pokemon = Pokemon()
+            }
+        } else {
+            pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+        }
         species.set(pokemon.species.resourceIdentifier.toString())
         labelLevel.set(pokemon.level)
         val savedBattleId = if (nbt.containsUuid(DataKeys.POKEMON_BATTLE_ID)) nbt.getUuid(DataKeys.POKEMON_BATTLE_ID) else null
@@ -487,7 +528,7 @@ class PokemonEntity(
                 return true
             }
         }
-        return false
+        return tethering != null
     }
 
     override fun checkDespawn() {
@@ -572,7 +613,6 @@ class PokemonEntity(
                         }
                     }
             }
-            shouldSave()
             (stack.item as? PokemonInteractiveItem)?.let {
                 if (it.onInteraction(player, this, stack)) {
                     this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE, volume = 1F, pitch = 1F)

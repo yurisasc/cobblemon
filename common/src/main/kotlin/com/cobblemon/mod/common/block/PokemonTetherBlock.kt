@@ -3,6 +3,7 @@ package com.cobblemon.mod.common.block
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.block.entity.PokemonTetherBlockEntity
+import com.cobblemon.mod.common.util.isInBattle
 import com.cobblemon.mod.common.util.party
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
@@ -57,7 +58,7 @@ class PokemonTetherBlock(properties: Settings): BlockWithEntity(properties) {
     override fun onBroken(world: WorldAccess, pos: BlockPos, state: BlockState) {
         super.onBroken(world, pos, state)
         val blockEntity = world.getBlockEntity(pos) as? PokemonTetherBlockEntity ?: return
-        blockEntity.getMaxTethered()
+        blockEntity.releaseAllPokemon()
     }
 
     override fun <T : BlockEntity?> getTicker(world: World, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
@@ -73,13 +74,15 @@ class PokemonTetherBlock(properties: Settings): BlockWithEntity(properties) {
         hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
-        if (player is ServerPlayerEntity) {
+        if (player is ServerPlayerEntity && !player.isInBattle()) {
             val pokemon = player.party().first()
             val blockFacing = state.get(HorizontalFacingBlock.FACING)
+            val blockEntity = world.getBlockEntity(pos) as? PokemonTetherBlockEntity ?: return ActionResult.FAIL
 
-            return ActionResult.CONSUME
+            blockEntity.tether(player, pokemon, blockFacing)
+            return ActionResult.SUCCESS
         }
 
-        return super.onUse(state, world, pos, player, hand, hit)
+        return ActionResult.SUCCESS
     }
 }

@@ -580,6 +580,9 @@ open class Pokemon : ShowdownIdentifiable {
         if (!this.heldItem.isEmpty) {
             nbt.put(DataKeys.HELD_ITEM, this.heldItem.writeNbt(NbtCompound()))
         }
+        if (tetheringId != null) {
+            nbt.putUuid(DataKeys.TETHERING_ID, tetheringId)
+        }
         return nbt
     }
 
@@ -640,6 +643,7 @@ open class Pokemon : ShowdownIdentifiable {
         if (nbt.contains(DataKeys.HELD_ITEM)) {
             this.heldItem = ItemStack.fromNbt(nbt.getCompound(DataKeys.HELD_ITEM))
         }
+        tetheringId = if (nbt.containsUuid(DataKeys.TETHERING_ID)) nbt.getUuid(DataKeys.TETHERING_ID) else null
         return this
     }
 
@@ -672,6 +676,10 @@ open class Pokemon : ShowdownIdentifiable {
         features.forEach { it.saveToJSON(json) }
         if (!this.heldItem.isEmpty) {
             ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, this.heldItem).result().ifPresent { json.add(DataKeys.HELD_ITEM, it) }
+        }
+        val tetheringId = tetheringId
+        if (tetheringId != null) {
+            json.addProperty(DataKeys.TETHERING_ID, tetheringId.toString())
         }
         return json
     }
@@ -735,6 +743,9 @@ open class Pokemon : ShowdownIdentifiable {
                 this.heldItem = it.first
             }
         }
+        if (json.has(DataKeys.TETHERING_ID)) {
+            tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
+        }
         return this
     }
 
@@ -767,7 +778,7 @@ open class Pokemon : ShowdownIdentifiable {
     }
 
     fun belongsTo(player: PlayerEntity) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
-    fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
+    fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore || it.store is PCStore } == true
     fun isWild() = storeCoordinates.get() == null
 
     /**

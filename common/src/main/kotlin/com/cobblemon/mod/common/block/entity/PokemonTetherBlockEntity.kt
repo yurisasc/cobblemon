@@ -2,20 +2,35 @@ package com.cobblemon.mod.common.block.entity
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonServerDelegate
+import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.toVec3d
 import java.util.UUID
+import kotlin.math.ceil
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.entity.EntityPose
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 
 class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.POKEMON_TETHER, pos, state) {
-    class Tethering(val tetheringId: UUID, val pokemonId: UUID, val pcId: UUID) {
+    open class Tethering(val pos: BlockPos, val tetheringId: UUID, val pokemonId: UUID, val pcId: UUID) {
         fun getPokemon() = Cobblemon.storage.getPC(pcId)[pokemonId]
+        open fun getMaxRoamDistance() = 64.0
+        open fun canRoamTo(pos: BlockPos) = pos.isWithinDistance(this.pos, getMaxRoamDistance())
     }
 
     companion object {
@@ -29,12 +44,74 @@ class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(C
 
     var ticksUntilCheck = Cobblemon.config.pastureBlockUpdateTicks
     private val tetheredPokemon = mutableListOf<Tethering>()
-    private var maxTetheredPokemon: Short? = null
+    private var maxTetheredPokemon: Int? = null
 
-    fun getMaxTethered() = maxTetheredPokemon ?: Cobblemon.config.defaultPasturedPokemonLimit
+    fun getMaxTethered() = Cobblemon.config.defaultPasturedPokemonLimit
 
-    fun tether(pokemon: Pokemon) {
+    fun tether(player: ServerPlayerEntity, pokemon: Pokemon, directionToBehind: Direction): Boolean {
+        val world = world ?: return false
+        pokemon.recall()
+        val entity = PokemonEntity(world, pokemon = pokemon)
+        entity.setOwner(player)
+        entity.calculateDimensions()
+        val width = entity.boundingBox.xLength
 
+        val idealPlace = pos.add(directionToBehind.vector.multiply(ceil(width).toInt() + 1))
+        var box = entity.getDimensions(EntityPose.STANDING).getBoxAt(idealPlace.toCenterPos())
+
+        for (i in 0..5) {
+            box = box.offset(directionToBehind.vector.x.toDouble(), 0.0, directionToBehind.vector.z.toDouble())
+            val fixedPosition = makeSuitableY(world, idealPlace.add(directionToBehind.vector), entity, box)
+            if (fixedPosition != null) {
+                entity.setPosition(fixedPosition.toCenterPos().subtract(0.0, 0.5, 0.0))
+                val pc = Cobblemon.storage.getPC(player.uuid)
+                val storeCoordinates = pokemon.storeCoordinates.get() ?: return false
+                val pcPosition = pc.getFirstAvailablePosition()
+                entity.beamModeEmitter.set(1)
+                afterOnMain(seconds = SendOutPokemonHandler.SEND_OUT_DURATION) {
+                    entity.beamModeEmitter.set(0)
+                }
+                if (pcPosition != null && world.spawnEntity(entity)) {
+                    storeCoordinates.remove()
+                    pc.add(pokemon)
+                    val tethering = Tethering(fixedPosition, UUID.randomUUID(), pokemon.uuid, pc.uuid)
+                    pokemon.tetheringId = tethering.tetheringId
+                    tetheredPokemon.add(tethering)
+                    entity.tethering = tethering
+                    markDirty()
+                    return true
+                } else if (pcPosition == null) {
+                    pokemon.recall()
+                    entity.discard()
+                    player.sendMessage(lang("pc.full", pc.name))
+                } else {
+                    Cobblemon.LOGGER.warn("Couldn't spawn pastured Pokémon for some reason")
+                }
+                break
+            }
+        }
+
+        return false
+    }
+
+    fun makeSuitableY(world: World, pos: BlockPos, entity: PokemonEntity, box: Box): BlockPos? {
+        if (world.canCollide(entity, box)) {
+            for (i in 1..3) {
+                val newBox = box.offset(0.5, i.toDouble(), 0.5)
+                if (!world.canCollide(entity, newBox)) {
+                    return pos.add(0, i, 0)
+                }
+            }
+        } else {
+            for (i in 1..3) {
+                val newBox = box.offset(0.5, -i.toDouble(), 0.5)
+                if (world.canCollide(entity, newBox)) {
+                    return pos.add(0, -i + 1, 0)
+                }
+            }
+        }
+
+        return null
     }
 
     fun checkPokemon() {
@@ -52,6 +129,12 @@ class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(C
         ticksUntilCheck = Cobblemon.config.pastureBlockUpdateTicks
     }
 
+    fun releaseAllPokemon() {
+        tetheredPokemon.forEach { it.getPokemon()?.tetheringId = null }
+        tetheredPokemon.clear()
+        markDirty()
+    }
+
     fun releasePokemon(pokemonId: UUID) {
         val tethering = tetheredPokemon.find { it.pokemonId == pokemonId } ?: return
         tethering.getPokemon()?.tetheringId = null
@@ -60,22 +143,18 @@ class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(C
 
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
-        if (nbt.contains(DataKeys.TETHER_MAX)) {
-            maxTetheredPokemon = nbt.getShort(DataKeys.TETHER_MAX)
-        }
         val list = nbt.getList(DataKeys.TETHER_POKEMON, NbtCompound.COMPOUND_TYPE.toInt())
         for (tetheringNBT in list) {
             tetheringNBT as NbtCompound
             val tetheringId = tetheringNBT.getUuid(DataKeys.TETHERING_ID)
             val pokemonId = tetheringNBT.getUuid(DataKeys.POKEMON_UUID)
             val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
-            tetheredPokemon.add(Tethering(tetheringId = tetheringId, pokemonId = pokemonId, pcId = pcId))
+            tetheredPokemon.add(Tethering(pos = pos, tetheringId = tetheringId, pokemonId = pokemonId, pcId = pcId))
         }
     }
 
     override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)
-        maxTetheredPokemon?.let { nbt.putShort(DataKeys.TETHER_MAX, it) }
         val list = NbtList()
         for (tethering in tetheredPokemon) {
             val tetheringNBT = NbtCompound()
