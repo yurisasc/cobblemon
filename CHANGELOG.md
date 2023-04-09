@@ -1,4 +1,9 @@
-Fixed messages for entry hazards, screens, tailwind, Perish Song, Destiny Bond, Shed Skin, Yawn
+
+- Fixed messages for entry hazards, screens, tailwind, Perish Song, Destiny Bond, Shed Skin, Yawn
+- Fixed Porygon not evolving with upgrade. 
+- Fixed super sized Pumpkaboo not having any moves. 
+- Fixed Infernape look animation.
+- Fixed Garchomp t-posing while swimming.
 
 # Changelog
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
