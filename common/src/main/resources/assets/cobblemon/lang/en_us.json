@@ -487,6 +487,8 @@
   "cobblemon.battle.activate.court_change": "%1$s swapped the battle effects affecting each side of the field!",
   "cobblemon.battle.activate.guard_split": "%1$s shared its guard with the target!",
   "cobblemon.battle.activate.spite": "It reduced the PP of %1$s's %2$s by %3$s!",
+  "cobblemon.battle.activate.lock_on": "%1$s took aim at %2$s!",
+  "cobblemon.battle.activate.protosynthesis": "The harsh sunlight activated %1$s's Protosynthesis!",
 
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
@@ -535,6 +537,8 @@
 
   "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
   "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
+  "cobblemon.battle.end.disable": "%1$s's move is no longer disabled!",
+  "cobblemon.battle.end.protosynthesis": "The effects of %1$s's Protosynthesis wore off!",
 
 
 
