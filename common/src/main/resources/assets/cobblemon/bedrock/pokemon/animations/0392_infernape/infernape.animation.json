@@ -19,6 +19,12 @@
 				"chest": {
 					"rotation": [27.5, 0, 0]
 				},
+				"neck": {
+					"rotation": [27.5, 0, 0]
+				},
+				"head_angle": {
+					"rotation": [10, 0, 0]
+				},
 				"fire": {
 					"rotation": [7.5, 0, 0]
 				},
@@ -162,8 +168,8 @@
 				"hand_left": {
 					"rotation": [0, 0, 12.5]
 				},
-				"head_rotation": {
-					"rotation": [-35, 0, 0]
+				"head_correction": {
+					"rotation": [-65, 0, 0]
 				}
 			}
 		},

@@ -42,7 +42,7 @@ class GarchompModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
         standing = registerPose(
                 poseName = "standing",
-                poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
+                poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE, PoseType.FLOAT, PoseType.SWIM),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
@@ -65,7 +65,7 @@ class GarchompModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
         flyidle = registerPose(
                 poseName = "hover",
-                poseType = PoseType.HOVER,
+            poseTypes = setOf(PoseType.HOVER),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
@@ -76,7 +76,7 @@ class GarchompModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
         fly = registerPose(
                 poseName = "fly",
-                poseType = PoseType.FLY,
+                poseTypes = setOf(PoseType.FLY),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
