@@ -11,9 +11,7 @@ package com.cobblemon.mod.common.api.battles.model
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.api.battles.interpreter.BattleContext
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
-import com.cobblemon.mod.common.api.battles.interpreter.Context
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
@@ -34,6 +32,7 @@ import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
+import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
@@ -97,9 +96,9 @@ open class PokemonBattle(
 
     val captureActions = mutableListOf<BattleCaptureAction>()
 
-    val majorBattleActions = hashMapOf<String, BattleMessage>()
-    val minorBattleActions = hashMapOf<String, BattleMessage>()
-    val context = hashMapOf<Context, MutableCollection<BattleContext>>()
+    val majorBattleActions = hashMapOf<UUID, BattleMessage>()
+    val minorBattleActions = hashMapOf<UUID, BattleMessage>()
+    val contextManager = ContextManager()
 
     /** Whether or not there is one side with at least one player, and the other only has wild Pokémon. */
     val isPvW: Boolean
