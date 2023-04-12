@@ -36,7 +36,8 @@ import net.minecraft.text.Text
 
 class PCGUI(
     private val pc: ClientPC,
-    private val party: ClientParty
+    private val party: ClientParty,
+    val configuration: PCGUIConfiguration
 ) : Screen(Text.translatable("cobblemon.ui.pc.title")) {
 
     companion object {
@@ -72,13 +73,7 @@ class PCGUI(
         val y = (height - BASE_HEIGHT) / 2
 
         // Add Exit Button
-        this.addDrawableChild(
-            ExitButton(pX = x + 320, pY = y + 186) {
-                playSound(CobblemonSounds.PC_OFF)
-                MinecraftClient.getInstance().setScreen(null)
-                UnlinkPlayerFromPCPacket().sendToServer()
-            }
-        )
+        this.addDrawableChild(ExitButton(pX = x + 320, pY = y + 186) { configuration.exitFunction(this) })
 
         // Add Forward Button
         this.addDrawableChild(
@@ -408,6 +403,14 @@ class PCGUI(
         }
     }
 
+    fun closeNormally(unlink: Boolean = true) {
+        playSound(CobblemonSounds.PC_OFF)
+        MinecraftClient.getInstance().setScreen(null)
+        if (unlink) {
+            UnlinkPlayerFromPCPacket().sendToServer()
+        }
+    }
+
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
         when (keyCode) {
             InputUtil.GLFW_KEY_ESCAPE -> {
@@ -442,7 +445,7 @@ class PCGUI(
         if (ticksElapsed % delayFactor == 0) selectPointerOffsetY += if (selectPointerOffsetIncrement) 1 else -1
     }
 
-    private fun playSound(soundEvent: SoundEvent) {
+    fun playSound(soundEvent: SoundEvent) {
         MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 

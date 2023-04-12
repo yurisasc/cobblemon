@@ -386,9 +386,11 @@ class PokemonEntity(
                 pokemon = loadedPokemon
                 tethering = PokemonTetherBlockEntity.Tethering(
                     pos = pos,
+                    playerId = ownerUuid!!,
                     tetheringId = tetheringId,
                     pokemonId = pokemonId,
-                    pcId = pcId
+                    pcId = pcId,
+                    entityId = id // Doesn't really matter on the entity
                 )
             } else {
                 pokemon = Pokemon()

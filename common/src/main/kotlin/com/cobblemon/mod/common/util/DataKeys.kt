@@ -62,8 +62,6 @@ object DataKeys {
 
     const val BENCHED_MOVES = "BenchedMoves"
 
-    const val OWNED_BY_PLAYER = "OwnedByPlayer"
-    const val STORE_IS_PARTY = "IsParty"
     const val PC_ID = "PCId"
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
@@ -77,6 +75,8 @@ object DataKeys {
     const val TETHER_COUNT = "TetherCount"
     const val TETHERING = "Tethering"
     const val TETHERING_POS = "Pos"
+    const val TETHERING_PLAYER_ID = "PlayerId"
+    const val TETHERING_ENTITY_ID = "EntityId"
 
     /* Form stuff */
     const val ALOLAN = "alolan"

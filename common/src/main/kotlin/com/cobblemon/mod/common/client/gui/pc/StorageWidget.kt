@@ -168,30 +168,32 @@ class StorageWidget(
         }
 
         // Party Slots
-        for (partyIndex in 0..5) {
-            var partyX = x + PARTY_SLOT_START_OFFSET_X
-            var partyY = y + PARTY_SLOT_START_OFFSET_Y
+        if (pcGui.configuration.showParty) {
+            for (partyIndex in 0..5) {
+                var partyX = x + PARTY_SLOT_START_OFFSET_X
+                var partyY = y + PARTY_SLOT_START_OFFSET_Y
 
-            if (partyIndex > 0) {
-                val isEven = partyIndex % 2 == 0
-                val offsetIndex = (partyIndex - (if (isEven) 0 else 1)) / 2
-                val offsetX = if (isEven) 0 else (StorageSlot.SIZE + PARTY_SLOT_PADDING)
-                val offsetY = if (isEven) 0 else 8
+                if (partyIndex > 0) {
+                    val isEven = partyIndex % 2 == 0
+                    val offsetIndex = (partyIndex - (if (isEven) 0 else 1)) / 2
+                    val offsetX = if (isEven) 0 else (StorageSlot.SIZE + PARTY_SLOT_PADDING)
+                    val offsetY = if (isEven) 0 else 8
 
-                partyX += offsetX
-                partyY += ((StorageSlot.SIZE + PARTY_SLOT_PADDING) * offsetIndex) + offsetY
-            }
+                    partyX += offsetX
+                    partyY += ((StorageSlot.SIZE + PARTY_SLOT_PADDING) * offsetIndex) + offsetY
+                }
 
-            PartyStorageSlot(
-                x = partyX,
-                y = partyY,
-                parent = this,
-                party = party,
-                position = PartyPosition(partyIndex),
-                onPress = { this.onStorageSlotClicked(it) }
-            ).also { widget ->
-                this.addWidget(widget)
-                this.partySlots.add(widget)
+                PartyStorageSlot(
+                    x = partyX,
+                    y = partyY,
+                    parent = this,
+                    party = party,
+                    position = PartyPosition(partyIndex),
+                    onPress = { this.onStorageSlotClicked(it) }
+                ).also { widget ->
+                    this.addWidget(widget)
+                    this.partySlots.add(widget)
+                }
             }
         }
     }
@@ -311,6 +313,12 @@ class StorageWidget(
             is BoxStorageSlot -> pc.get(clickedPosition as PCPosition)
             is PartyStorageSlot -> party.get(clickedPosition as PartyPosition)
             else -> null
+        }
+
+        val selectOverride = pcGui.configuration.selectOverride
+        if (selectOverride != null) {
+            selectOverride(pcGui, clickedPosition, clickedPokemon)
+            return
         }
 
         if (grabbedSlot == null) {

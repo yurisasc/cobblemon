@@ -125,7 +125,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.ownerUuid != entity.pokemon.getOwnerUUID()) {
             entity.ownerUuid = entity.pokemon.getOwnerUUID()
         }
-        if (entity.ownerUuid != null && entity.owner == null) {
+        if (entity.ownerUuid != null && entity.owner == null && entity.tethering == null) {
             entity.remove(Entity.RemovalReason.DISCARDED)
         }
         if (entity.pokemon.species.resourceIdentifier.toString() != entity.species.get()) {

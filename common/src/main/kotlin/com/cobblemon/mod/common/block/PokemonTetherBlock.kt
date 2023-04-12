@@ -1,8 +1,21 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.block
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.block.entity.PokemonTetherBlockEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.isInBattle
 import com.cobblemon.mod.common.util.party
 import net.minecraft.block.AbstractBlock
@@ -42,8 +55,7 @@ class PokemonTetherBlock(properties: Settings): BlockWithEntity(properties) {
     }
 
     override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
-    override fun getPlacementState(blockPlaceContext: ItemPlacementContext) = defaultState
-        .with(HorizontalFacingBlock.FACING, blockPlaceContext.playerFacing)
+    override fun getPlacementState(blockPlaceContext: ItemPlacementContext) = defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.playerFacing)
 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         return true
@@ -75,11 +87,31 @@ class PokemonTetherBlock(properties: Settings): BlockWithEntity(properties) {
         hit: BlockHitResult
     ): ActionResult {
         if (player is ServerPlayerEntity && !player.isInBattle()) {
-            val pokemon = player.party().first()
-            val blockFacing = state.get(HorizontalFacingBlock.FACING)
             val blockEntity = world.getBlockEntity(pos) as? PokemonTetherBlockEntity ?: return ActionResult.FAIL
 
-            blockEntity.tether(player, pokemon, blockFacing)
+            CobblemonNetwork.sendPacketToPlayer(
+                player = player,
+                packet = OpenPasturePacket(
+                    pcId = Cobblemon.storage.getPC(player.uuid).uuid,
+                    pasturePos = pos,
+                    totalTethered = blockEntity.tetheredPokemon.size,
+                    tetheredPokemon = blockEntity.tetheredPokemon.filter { it.playerId == player.uuid }.mapNotNull {
+                        val pokemon = it.getPokemon() ?: return@mapNotNull null
+                        OpenPasturePacket.TetherDataDTO(
+                            pokemonId = it.pokemonId,
+                            name = pokemon.displayName,
+                            species = pokemon.species.resourceIdentifier,
+                            aspects = pokemon.aspects,
+                            pcId = it.pcId,
+                            entityKnown = (player.world.getEntityById(it.entityId) as? PokemonEntity)?.tethering?.tetheringId == it.tetheringId
+                        )
+                    }
+                )
+            )
+
+//            val pokemon = player.party().first()
+//            val blockFacing = state.get(HorizontalFacingBlock.FACING)
+//            blockEntity.tether(player, pokemon, blockFacing)
             return ActionResult.SUCCESS
         }
 
