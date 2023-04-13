@@ -57,7 +57,7 @@ object ShowdownInterpreter {
     private val sideUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, String) -> Unit>()
     private val splitUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, String, String) -> Unit>()
     // Stores a reference to the previous move message in a battle so a minor action can refer back to it (Battle UUID : Move message)
-    private val lastMover = mutableMapOf<UUID, BattleMessage>()
+    private val lastCauser = mutableMapOf<UUID, BattleMessage>()
 
     init {
         // Note '-cureteam' is a legacy thing that is only used in generation 2 and 4 mods for heal bell and aromatherapy respectively as such we can just ignore that
@@ -520,7 +520,7 @@ object ShowdownInterpreter {
             battle.end()
             CobblemonEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, winners, losers))
 
-            this.lastMover.remove(battle.battleId)
+            this.lastCauser.remove(battle.battleId)
             GO
         }
     }
@@ -568,7 +568,7 @@ object ShowdownInterpreter {
     private fun handleMoveInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchGo {
             val message = BattleMessage(rawMessage)
-            this.lastMover[battle.battleId] = message
+            this.lastCauser[battle.battleId] = message
 
             val userPokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
             val targetPokemon = message.getBattlePokemon(2, battle)
@@ -693,7 +693,7 @@ object ShowdownInterpreter {
     private fun handleCritInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             battle.broadcastChatMessage(battleLang("crit"))
-            this.lastMover[battle.battleId]?.let { message ->
+            this.lastCauser[battle.battleId]?.let { message ->
                 val battlePokemon = message.getBattlePokemon(0, battle) ?: return@let
                 battlePokemon.criticalHits++
             }
@@ -859,6 +859,8 @@ object ShowdownInterpreter {
     private fun handleActivateInstructions(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>){
         battle.dispatchGo{
             val message = BattleMessage(rawMessage)
+            this.lastCauser[battle.battleId] = message
+
             // Sim protocol claims it's '|-activate|EFFECT' but it seems to always be '|-activate|POKEMON|EFFECT'
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
             val pokemonName = pokemon.getName()
@@ -888,6 +890,8 @@ object ShowdownInterpreter {
                 "lockon" -> battleLang("activate.lock_on", message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo, pokemonName)
                 "protosynthesis" -> battleLang("activate.protosynthesis", pokemonName)
                 "struggle" -> battleLang("activate.struggle", pokemonName)
+                // Don't need additional lang, -sidestart handles it
+                "toxicdebris" -> "".asTranslated()
                 "destinybond" -> {
                     battle.activePokemon.mapNotNull { it.battlePokemon?.uuid }.forEach { battle.minorBattleActions[it] = message }
                     battleLang("activate.destiny_bond", pokemonName)
@@ -985,6 +989,8 @@ object ShowdownInterpreter {
     private fun handleAbilityInstructions(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchGo {
             val message = BattleMessage(rawMessage)
+            this.lastCauser[battle.battleId] = message
+
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
             val pokemonName = pokemon.getName()
             val effect = message.effectAt(1) ?: return@dispatchGo
@@ -1103,7 +1109,6 @@ object ShowdownInterpreter {
                 "tailwind" -> BattleContext.Type.TAILWIND
                 else -> BattleContext.Type.MISC
             }
-            LOGGER.error("CONTEXT BUCKET: " + message.argumentAt(1)?.substringAfterLast(" ")?.lowercase() + " -> " + bucket.name)
             side.contextManager.add(getContextFromAction(message, bucket, battle))
         }
     }
@@ -1484,8 +1489,7 @@ object ShowdownInterpreter {
     }
 
     private fun getContextFromFaint(pokemon: BattlePokemon, battle: PokemonBattle): BattleContext {
-
-        val cause = battle.minorBattleActions[pokemon.uuid] ?: lastMover[battle.battleId] ?: return MissingContext()
+        val cause = battle.minorBattleActions[pokemon.uuid] ?: lastCauser[battle.battleId] ?: return MissingContext()
         val side = pokemon.actor.getSide()
 
         return when (cause.id) {
@@ -1509,7 +1513,7 @@ object ShowdownInterpreter {
                 } ?:
 
                 // damage from moves and suicide
-                lastMover[battle.battleId]?.let {
+                lastCauser[battle.battleId]?.let {
                     val move = it.effectAt(1)!!.id
                     val origin = it.getBattlePokemon(0, battle)
                     BasicContext(move, battle.turn, BattleContext.Type.FAINT, origin)
@@ -1540,21 +1544,25 @@ object ShowdownInterpreter {
     }
 
     private fun getContextFromAction(message: BattleMessage, type: BattleContext.Type, battle: PokemonBattle): BattleContext {
-        // |-action|POKEMON|EFFECT|[from]EFFECT|[of]POKEMON
+        // |-action|POKEMON|EFFECT|[from]EFFECT|[of]POKEMON or |-action|EFFECT|[from]EFFECT|[of]POKEMON
         return message.actorAndActivePokemonFromOptional(battle)?.let {
-            val effectID = message.effectAt(1)?.id ?: return@let MissingContext()
+            // ex: |-item|p2a: ###|Black Sludge|[from] ability: Pickpocket|[of] p1a: ###
+            val effectID = message.effectAt(1)?.id ?: message.effectAt(0)?.id ?: return@let MissingContext()
             BasicContext(effectID, battle.turn, type, it.second.battlePokemon)
         } ?:
-        // |-action|POKEMON|EFFECT| (caused by a move)
+        // |-action|POKEMON|EFFECT| (caused by a move or another action)
         message.actorAndActivePokemon(0, battle)?.let {
+            // ex: |-status|p2a: ###|par -> |move|p1a: ###|Glare|p2a: ###
+            // ex: |-unboost|p1a: ###|atk|1 -> |-ability|p2a: ###|Intimidate|boost
             val effectID = message.effectAt(1)?.id ?: return@let MissingContext()
-            val origin = lastMover[battle.battleId]?.getBattlePokemon(0, battle) ?: return@let MissingContext()
+            val origin = lastCauser[battle.battleId]?.getBattlePokemon(0, battle) ?: return@let MissingContext()
             BasicContext(effectID, battle.turn, type, origin)
         } ?:
-        // |move|POKEMON|MOVE
-        lastMover[battle.battleId]?.let {
-            // ex: |move|p1a: 9139698f-a17c-47b4-8785-7eaaf7189c6b|Stone Axe| -> |-sidestart|p2: 946c60c9-a0b4-4eb0-88d5-665c55e835b4|move: Stealth Rock
-            val effectID = message.effectAt(1)?.id ?: it.effectAt(1)?.id ?: return@let MissingContext()
+        // |-action|EFFECT
+        lastCauser[battle.battleId]?.let {
+            // ex: |-sidestart|p2: ###|move: Toxic Spikes -> |-activate|p1a: ###|ability: Toxic Debris
+            // ex: |-weather|Sandstorm -> |move|p1a: ###|Sandstorm|p1a: ###
+            val effectID = message.effectAt(1)?.id ?: message.effectAt(0)?.id ?: return@let MissingContext()
             BasicContext(effectID, battle.turn, type, it.getBattlePokemon(0, battle))
         } ?:
         MissingContext()
