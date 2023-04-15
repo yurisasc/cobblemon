@@ -125,14 +125,14 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque().luminance(ToIntFunction { state: BlockState -> if ((state.get(
             PCBlock.ON) as Boolean) && (state.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 })) }
 
-    // val AGUAV_BERRY = this.berryBlock("aguav")
+    val AGUAV_BERRY = this.berryBlock("aguav")
     // val APICOT_BERRY = this.berryBlock("apicot")
     // val ASPEAR_BERRY = this.berryBlock("aspear")
     // val BABIRI_BERRY = this.berryBlock("babiri")
     // val BELUE_BERRY = this.berryBlock("belue")
     // val BLUK_BERRY = this.berryBlock("bluk")
     // val CHARTI_BERRY = this.berryBlock("charti")
-    // val CHERI_BERRY = this.berryBlock("cheri")
+    val CHERI_BERRY = this.berryBlock("cheri")
     // val CHESTO_BERRY = this.berryBlock("chesto")
     // val CHILAN_BERRY = this.berryBlock("chilan")
     // val CHOPLE_BERRY = this.berryBlock("chople")

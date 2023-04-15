@@ -114,14 +114,14 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val DUBIOUS_DISC = queue("dubious_disc") { evolutionItem() }
 
     // Plants
-    // val AGUAV_BERRY = berryItem("aguav", CobblemonBlocks.AGUAV_BERRY)
+    val AGUAV_BERRY = berryItem("aguav", CobblemonBlocks.AGUAV_BERRY)
     // val APICOT_BERRY = berryItem("apicot", CobblemonBlocks.APICOT_BERRY)
     // val ASPEAR_BERRY = berryItem("aspear", CobblemonBlocks.ASPEAR_BERRY)
     // val BABIRI_BERRY = berryItem("babiri", CobblemonBlocks.BABIRI_BERRY)
     // val BELUE_BERRY = berryItem("belue", CobblemonBlocks.BELUE_BERRY)
     // val BLUK_BERRY = berryItem("bluk", CobblemonBlocks.BLUK_BERRY)
     // val CHARTI_BERRY = berryItem("charti", CobblemonBlocks.CHARTI_BERRY)
-    // val CHERI_BERRY = berryItem("cheri", CobblemonBlocks.CHERI_BERRY)
+    val CHERI_BERRY = berryItem("cheri", CobblemonBlocks.CHERI_BERRY)
     // val CHESTO_BERRY = berryItem("chesto", CobblemonBlocks.CHESTO_BERRY)
     // val CHILAN_BERRY = berryItem("chilan", CobblemonBlocks.CHILAN_BERRY)
     // val CHOPLE_BERRY = berryItem("chople", CobblemonBlocks.CHOPLE_BERRY)
