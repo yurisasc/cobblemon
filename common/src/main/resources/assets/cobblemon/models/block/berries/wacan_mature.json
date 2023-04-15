@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "leaf",
+		"0": "cobblemon:blocks/leaf",
 		"2": "block/acacia_leaves",
-		"3": "moss_block",
-		"particle": "leaf"
+		"3": "block/moss_block",
+		"particle": "cobblemon:blocks/leaf"
 	},
 	"elements": [
 		{

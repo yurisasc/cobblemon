@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"2": "block/birch_leaves",
-		"3": "stripped_birch_log",
-		"4": "moss_block"
+		"3": "block/stripped_birch_log",
+		"4": "block/moss_block"
 	},
 	"elements": [
 		{

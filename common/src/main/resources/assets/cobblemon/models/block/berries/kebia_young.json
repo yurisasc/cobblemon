@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "block/acacia_leaves",
-		"1": "stripped_warped_stem",
+		"1": "block/stripped_warped_stem",
 		"particle": "block/acacia_leaves"
 	},
 	"elements": [

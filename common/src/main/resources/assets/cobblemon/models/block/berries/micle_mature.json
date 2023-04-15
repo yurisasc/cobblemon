@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "leaf",
+		"0": "cobblemon:blocks/leaf",
 		"1": "block/spruce_leaves",
-		"3": "stripped_crimson_stem",
-		"particle": "leaf"
+		"3": "block/stripped_crimson_stem",
+		"particle": "cobblemon:blocks/leaf"
 	},
 	"elements": [
 		{

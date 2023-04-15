@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "leaf",
-		"1": "stripped_warped_stem",
-		"particle": "leaf"
+		"0": "cobblemon:blocks/leaf",
+		"1": "block/stripped_warped_stem",
+		"particle": "cobblemon:blocks/leaf"
 	},
 	"elements": [
 		{

@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"1": "block/birch_leaves",
-		"2": "mangrove_log",
-		"particle": "mangrove_log"
+		"2": "block/mangrove_log",
+		"particle": "block/mangrove_log"
 	},
 	"elements": [
 		{

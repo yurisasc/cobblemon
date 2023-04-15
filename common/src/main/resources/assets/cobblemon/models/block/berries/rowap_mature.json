@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "leaf",
+		"0": "cobblemon:blocks/leaf",
 		"1": "block/dead_horn_coral_block",
-		"particle": "leaf"
+		"particle": "cobblemon:blocks/leaf"
 	},
 	"elements": [
 		{

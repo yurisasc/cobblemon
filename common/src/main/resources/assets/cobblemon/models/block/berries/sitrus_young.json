@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"1": "stripped_acacia_log",
+		"1": "block/stripped_acacia_log",
 		"leaves": "block/oak_leaves",
-		"particle": "stripped_acacia_log"
+		"particle": "block/stripped_acacia_log"
 	},
 	"elements": [
 		{

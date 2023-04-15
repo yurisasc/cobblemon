@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "block/spruce_leaves",
-		"1": "stripped_crimson_stem",
+		"1": "block/stripped_crimson_stem",
 		"particle": "block/spruce_leaves"
 	},
 	"elements": [

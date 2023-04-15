@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "leaf",
+		"1": "cobblemon:blocks/leaf",
 		"2": "block/dark_oak_leaves",
-		"3": "stripped_crimson_stem"
+		"3": "block/stripped_crimson_stem"
 	},
 	"elements": [
 		{

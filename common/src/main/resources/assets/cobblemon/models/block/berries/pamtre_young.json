@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "leaf",
+		"0": "cobblemon:blocks/leaf",
 		"1": "block/stripped_oak_log",
 		"2": "block/dead_brain_coral_block",
-		"particle": "leaf"
+		"particle": "cobblemon:blocks/leaf"
 	},
 	"elements": [
 		{

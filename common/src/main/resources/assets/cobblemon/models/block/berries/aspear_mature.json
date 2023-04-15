@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"1": "block/dark_oak_leaves",
-		"2": "spruce_log"
+		"2": "block/spruce_log"
 	},
 	"elements": [
 		{

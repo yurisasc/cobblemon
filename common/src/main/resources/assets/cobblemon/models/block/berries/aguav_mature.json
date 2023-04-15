@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "leaf",
-		"1": "stripped_mangrove_log",
-		"particle": "leaf"
+		"0": "cobblemon:blocks/leaf",
+		"2": "block/stripped_mangrove_log",
+		"particle": "cobblemon:blocks/leaf"
 	},
 	"elements": [
 		{

@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "leaf",
-		"particle": "leaf"
+		"2": "cobblemon:blocks/leaf",
+		"particle": "cobblemon:blocks/leaf"
 	},
 	"elements": [
 		{

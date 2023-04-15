@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"2": "block/birch_leaves",
-		"3": "stripped_jungle_log",
-		"4": "stripped_warped_stem",
-		"particle": "stripped_jungle_log"
+		"3": "block/stripped_jungle_log",
+		"4": "block/stripped_warped_stem",
+		"particle": "block/stripped_jungle_log"
 	},
 	"elements": [
 		{

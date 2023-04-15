@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"1": "block/spruce_leaves",
-		"2": "stripped_jungle_log"
+		"2": "block/stripped_jungle_log"
 	},
 	"elements": [
 		{
