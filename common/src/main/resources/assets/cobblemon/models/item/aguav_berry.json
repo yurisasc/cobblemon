@@ -1,6 +1,6 @@
 {
-	"parent": "minecraft:item/generated",
-	"textures": {
-		"layer0": "cobblemon:items/berries/aguav_berry"
-	}
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "cobblemon:items/berries/aguav_berry"
+  }
 }
