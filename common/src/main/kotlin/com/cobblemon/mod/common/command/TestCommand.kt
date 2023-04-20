@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.particle.SnowstormParticleReader
 import com.cobblemon.mod.common.util.fromJson
+import com.cobblemon.mod.common.util.pc
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.mojang.brigadier.Command
@@ -38,7 +39,10 @@ object TestCommand {
         }
 
         try {
-            testParticles(context)
+            val player = context.source.entity as ServerPlayerEntity
+            player.pc().forEach { it.heal(); it.tetheringId = null }
+
+//            testParticles(context)
 
 //            extractMovesData()
 //            // Player variables

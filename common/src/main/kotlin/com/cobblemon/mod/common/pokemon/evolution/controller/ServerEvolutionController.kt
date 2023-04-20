@@ -188,9 +188,10 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
 
     override fun clear() {
         // We don't want to send unnecessary packets
+        val pokemon = this.pokemon
         if (this.evolutions.isNotEmpty()) {
             this.evolutions.clear()
-            this.pokemon.notify(ClearEvolutionsPacket(this.pokemon))
+            this.pokemon.notify(ClearEvolutionsPacket { pokemon })
         }
         this.progress.clear()
     }
@@ -235,13 +236,11 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         return result
     }
 
-    private fun findEvolutionFromId(id: String) = this.pokemon.evolutions
-        .firstOrNull { evolution -> evolution.id.equals(id, true) }
+    private fun findEvolutionFromId(id: String) = this.pokemon.evolutions.firstOrNull { evolution -> evolution.id.equals(id, true) }
 
     companion object {
         private const val PENDING = "pending"
         private const val PROGRESS = "progress"
         private const val ID = "id"
     }
-
 }

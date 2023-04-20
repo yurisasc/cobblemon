@@ -334,17 +334,17 @@ class PokemonEntity(
         return future
     }
 
+    // TODO PASTURE if a pokemon dies, unpasture it or something
+
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
-        val ownerId = ownerUuid
-        if (ownerId != null) {
-            nbt.putUuid(DataKeys.POKEMON_OWNER_ID, ownerId)
-        }
         val tethering = this.tethering
         if (tethering != null) {
             val tetheringNbt = NbtCompound()
             tetheringNbt.putUuid(DataKeys.TETHERING_ID, tethering.tetheringId)
             tetheringNbt.putUuid(DataKeys.POKEMON_UUID, tethering.pokemonId)
+            tetheringNbt.putUuid(DataKeys.POKEMON_OWNER_ID, tethering.playerId)
             tetheringNbt.putUuid(DataKeys.PC_ID, tethering.pcId)
+            // TODO PASTURE change this to use a new coordinate range
             tetheringNbt.putInt("${DataKeys.TETHERING_POS}X", tethering.pos.x)
             tetheringNbt.putInt("${DataKeys.TETHERING_POS}Y", tethering.pos.x)
             tetheringNbt.putInt("${DataKeys.TETHERING_POS}Z", tethering.pos.x)
@@ -366,15 +366,12 @@ class PokemonEntity(
 
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
-        if (nbt.containsUuid(DataKeys.POKEMON_OWNER_ID)) {
-            ownerUuid = nbt.getUuid(DataKeys.POKEMON_OWNER_ID)
-        }
-
         if (nbt.contains(DataKeys.TETHERING)) {
             val tetheringNBT = nbt.getCompound(DataKeys.TETHERING)
             val tetheringId = tetheringNBT.getUuid(DataKeys.TETHERING_ID)
             val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
             val pokemonId = tetheringNBT.getUuid(DataKeys.POKEMON_UUID)
+            val playerId = tetheringNBT.getUuid(DataKeys.POKEMON_OWNER_ID)
             val pos = BlockPos(
                 tetheringNBT.getInt("${DataKeys.TETHERING_POS}X"),
                 tetheringNBT.getInt("${DataKeys.TETHERING_POS}Y"),
@@ -386,7 +383,7 @@ class PokemonEntity(
                 pokemon = loadedPokemon
                 tethering = PokemonTetherBlockEntity.Tethering(
                     pos = pos,
-                    playerId = ownerUuid!!,
+                    playerId = playerId,
                     tetheringId = tetheringId,
                     pokemonId = pokemonId,
                     pcId = pcId,

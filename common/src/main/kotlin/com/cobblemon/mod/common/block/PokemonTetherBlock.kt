@@ -11,14 +11,10 @@ package com.cobblemon.mod.common.block
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.block.entity.PokemonTetherBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
-import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.isInBattle
-import com.cobblemon.mod.common.util.party
-import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -30,7 +26,6 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.state.StateManager
 import net.minecraft.util.ActionResult
@@ -68,8 +63,9 @@ class PokemonTetherBlock(properties: Settings): BlockWithEntity(properties) {
     }
 
     override fun onBroken(world: WorldAccess, pos: BlockPos, state: BlockState) {
-        super.onBroken(world, pos, state)
         val blockEntity = world.getBlockEntity(pos) as? PokemonTetherBlockEntity ?: return
+        super.onBroken(world, pos, state)
+        println("Found thing")
         blockEntity.releaseAllPokemon()
     }
 
@@ -97,12 +93,11 @@ class PokemonTetherBlock(properties: Settings): BlockWithEntity(properties) {
                     totalTethered = blockEntity.tetheredPokemon.size,
                     tetheredPokemon = blockEntity.tetheredPokemon.filter { it.playerId == player.uuid }.mapNotNull {
                         val pokemon = it.getPokemon() ?: return@mapNotNull null
-                        OpenPasturePacket.TetherDataDTO(
+                        OpenPasturePacket.PasturePokemonDataDTO(
                             pokemonId = it.pokemonId,
                             name = pokemon.displayName,
                             species = pokemon.species.resourceIdentifier,
                             aspects = pokemon.aspects,
-                            pcId = it.pcId,
                             entityKnown = (player.world.getEntityById(it.entityId) as? PokemonEntity)?.tethering?.tetheringId == it.tetheringId
                         )
                     }

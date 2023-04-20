@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class NatureUpdatePacket(pokemon: Pokemon, val nature: Nature, val minted: Boolean) : PokemonUpdatePacket<NatureUpdatePacket>(pokemon) {
+class NatureUpdatePacket(pokemon: () -> Pokemon, val nature: Nature, val minted: Boolean) : PokemonUpdatePacket<NatureUpdatePacket>(pokemon) {
 
     override val id = ID
 
@@ -25,18 +25,17 @@ class NatureUpdatePacket(pokemon: Pokemon, val nature: Nature, val minted: Boole
     }
 
     override fun applyToPokemon() {
+        val pokemon = pokemon()
         if (this.minted) {
-            this.pokemon.mintedNature = this.nature
+            pokemon.mintedNature = this.nature
         }
         else {
-            this.pokemon.nature = this.nature
+            pokemon.nature = this.nature
         }
     }
 
     companion object {
         val ID = cobblemonResource("nature_update")
         fun decode(buffer: PacketByteBuf) = NatureUpdatePacket(decodePokemon(buffer), Natures.getNature(buffer.readIdentifier())!!, buffer.readBoolean())
-
     }
-
 }

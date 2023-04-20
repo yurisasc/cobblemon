@@ -16,6 +16,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonServerDelegate
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.getBlockStates
+import com.cobblemon.mod.common.util.getBlockStatesWithPos
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toVec3d
 import java.util.UUID
@@ -27,6 +29,8 @@ import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.entity.EntityPose
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
+import net.minecraft.registry.tag.BlockTags
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
@@ -36,10 +40,12 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.ArrayVoxelShape
 import net.minecraft.world.World
 
+// TODO PASTURE rename pokemon tether block to pasture block, here and elsewhere
 class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.POKEMON_TETHER, pos, state) {
     open class Tethering(val pos: BlockPos, val playerId: UUID, val tetheringId: UUID, val pokemonId: UUID, val pcId: UUID, val entityId: Int) {
         fun getPokemon() = Cobblemon.storage.getPC(pcId)[pokemonId]
         open fun getMaxRoamDistance() = 64.0
+        // TODO PASTURE rework to be min max pos check rather than roam distance
         open fun canRoamTo(pos: BlockPos) = pos.isWithinDistance(this.pos, getMaxRoamDistance())
     }
 
@@ -52,6 +58,8 @@ class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(C
         }
     }
 
+    // TODO PASTURE update the model probably, copy from PC stuff
+
     var ticksUntilCheck = Cobblemon.config.pastureBlockUpdateTicks
     val tetheredPokemon = mutableListOf<Tethering>()
 
@@ -59,14 +67,12 @@ class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(C
 
     fun tether(player: ServerPlayerEntity, pokemon: Pokemon, directionToBehind: Direction): Boolean {
         val world = world ?: return false
-        pokemon.recall()
         val entity = PokemonEntity(world, pokemon = pokemon)
-        entity.setOwner(player)
         entity.calculateDimensions()
         val width = entity.boundingBox.xLength
 
         val idealPlace = pos.add(directionToBehind.vector.multiply(ceil(width).toInt() + 1))
-        var box = entity.getDimensions(EntityPose.STANDING).getBoxAt(idealPlace.toCenterPos())
+        var box = entity.getDimensions(EntityPose.STANDING).getBoxAt(idealPlace.toCenterPos().subtract(0.0, 0.5, 0.0))
 
         for (i in 0..5) {
             box = box.offset(directionToBehind.vector.x.toDouble(), 0.0, directionToBehind.vector.z.toDouble())
@@ -74,15 +80,11 @@ class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(C
             if (fixedPosition != null) {
                 entity.setPosition(fixedPosition.toCenterPos().subtract(0.0, 0.5, 0.0))
                 val pc = Cobblemon.storage.getPC(player.uuid)
-                val storeCoordinates = pokemon.storeCoordinates.get() ?: return false
-                val pcPosition = pc.getFirstAvailablePosition()
                 entity.beamModeEmitter.set(1)
                 afterOnMain(seconds = SendOutPokemonHandler.SEND_OUT_DURATION) {
                     entity.beamModeEmitter.set(0)
                 }
-                if (pcPosition != null && world.spawnEntity(entity)) {
-                    storeCoordinates.remove()
-                    pc.add(pokemon)
+                if (world.spawnEntity(entity)) {
                     val tethering = Tethering(
                         pos = fixedPosition,
                         playerId = player.uuid,
@@ -96,10 +98,6 @@ class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(C
                     entity.tethering = tethering
                     markDirty()
                     return true
-                } else if (pcPosition == null) {
-                    pokemon.recall()
-                    entity.discard()
-                    player.sendMessage(lang("pc.full", pc.name))
                 } else {
                     Cobblemon.LOGGER.warn("Couldn't spawn pastured Pokémon for some reason")
                 }
@@ -107,23 +105,44 @@ class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(C
             }
         }
 
-        println("No position :(")
-
         return false
     }
 
+    override fun markRemoved() {
+        super.markRemoved()
+        releaseAllPokemon()
+    }
+
+
+    fun isSafeFloor(world: World, pos: BlockPos, entity: PokemonEntity): Boolean {
+        val state = world.getBlockState(pos)
+        return if (state.isAir) {
+            false
+        } else if (state.isSolidBlock(world, pos)) {
+            true
+        } else if ((entity.behaviour.moving.swim.canWalkOnWater || entity.behaviour.moving.swim.canSwimInWater) && state.fluidState.isIn(FluidTags.WATER)) {
+            true
+        } else if ((entity.behaviour.moving.swim.canWalkOnLava || entity.behaviour.moving.swim.canSwimInLava) && state.fluidState.isIn(FluidTags.LAVA)) {
+            true
+        } else {
+            false
+        }
+    }
+
+    // TODO PASTURE place the tether block like this: https://gyazo.com/7c163bccfde238688e9a2c600c27aace
+    // You'll find you can't place pokemon into the tether. It's because of this function somehow
     fun makeSuitableY(world: World, pos: BlockPos, entity: PokemonEntity, box: Box): BlockPos? {
         if (world.canCollide(entity, box)) {
             for (i in 1..3) {
                 val newBox = box.offset(0.5, i.toDouble(), 0.5)
-                if (!world.canCollide(entity, newBox)) {
-                    return pos.add(0, i, 0)
+                if (!world.canCollide(entity, newBox) && isSafeFloor(world, pos.add(0, i, 0), entity)) {
+                    return pos.add(0, i + 1, 0)
                 }
             }
         } else {
             for (i in 1..3) {
                 val newBox = box.offset(0.5, -i.toDouble(), 0.5)
-                if (world.canCollide(entity, newBox)) {
+                if (!world.canCollide(entity, newBox) && isSafeFloor(world, pos.add(0, -i, 0), entity)) {
                     return pos.add(0, -i + 1, 0)
                 }
             }
@@ -138,9 +157,7 @@ class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(C
             val pokemon = it.getPokemon()
             if (pokemon == null) {
                 deadLinks.add(it.pokemonId)
-                println("Couldn't find pokemon from tether block anymore, dead link")
             } else if (pokemon.tetheringId == null || pokemon.tetheringId != it.tetheringId) {
-                println("Mismatching tethering ID, removing")
                 deadLinks.add(it.pokemonId)
             }
         }
@@ -150,8 +167,7 @@ class PokemonTetherBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(C
     }
 
     fun releaseAllPokemon() {
-        tetheredPokemon.forEach { it.getPokemon()?.tetheringId = null }
-        tetheredPokemon.clear()
+        tetheredPokemon.toList().forEach { releasePokemon(it.pokemonId) }
         markDirty()
     }
 

@@ -10,16 +10,19 @@ package com.cobblemon.mod.common.net.messages.client.spawn
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
+import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.util.Identifier
 
 class SpawnPokemonPacket(
+    private val ownerId: UUID?,
     private val scaleModifier: Float,
     private val species: Species,
     private val form: FormData,
@@ -27,12 +30,14 @@ class SpawnPokemonPacket(
     private val phasingTargetId: Int,
     private val beamModeEmitter: Byte,
     private val labelLevel: Int,
+    private val poseType: PoseType,
     vanillaSpawnPacket: EntitySpawnS2CPacket
 ) : SpawnExtraDataEntityPacket<SpawnPokemonPacket, PokemonEntity>(vanillaSpawnPacket) {
 
     override val id: Identifier = ID
 
     constructor(entity: PokemonEntity, vanillaSpawnPacket: EntitySpawnS2CPacket) : this(
+        entity.ownerUuid,
         entity.pokemon.scaleModifier,
         entity.pokemon.species,
         entity.pokemon.form,
@@ -40,10 +45,12 @@ class SpawnPokemonPacket(
         entity.phasingTargetId.get(),
         entity.beamModeEmitter.get(),
         if (Cobblemon.config.displayEntityLevelLabel) entity.labelLevel.get() else -1,
+        entity.getPoseType(),
         vanillaSpawnPacket
     )
 
     override fun encodeEntityData(buffer: PacketByteBuf) {
+        buffer.writeNullable(ownerId) { _, v -> buffer.writeUuid(v) }
         buffer.writeFloat(this.scaleModifier)
         buffer.writeIdentifier(this.species.resourceIdentifier)
         buffer.writeString(this.form.formOnlyShowdownId())
@@ -51,9 +58,11 @@ class SpawnPokemonPacket(
         buffer.writeInt(this.phasingTargetId)
         buffer.writeByte(this.beamModeEmitter.toInt())
         buffer.writeInt(this.labelLevel)
+        buffer.writeEnumConstant(this.poseType)
     }
 
     override fun applyData(entity: PokemonEntity) {
+        entity.ownerUuid = ownerId
         entity.pokemon.apply {
             scaleModifier = this@SpawnPokemonPacket.scaleModifier
             species = this@SpawnPokemonPacket.species
@@ -65,6 +74,7 @@ class SpawnPokemonPacket(
         entity.labelLevel.set(this.labelLevel)
         entity.species.set(entity.pokemon.species.resourceIdentifier.toString())
         entity.aspects.set(aspects)
+        entity.poseType.set(poseType)
     }
 
     override fun checkType(entity: Entity): Boolean = entity is PokemonEntity
@@ -72,6 +82,7 @@ class SpawnPokemonPacket(
     companion object {
         val ID = cobblemonResource("spawn_pokemon_entity")
         fun decode(buffer: PacketByteBuf): SpawnPokemonPacket {
+            val ownerId = buffer.readNullable { buffer.readUuid() }
             val scaleModifier = buffer.readFloat()
             val species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
             val showdownId = buffer.readString()
@@ -80,8 +91,9 @@ class SpawnPokemonPacket(
             val phasingTargetId = buffer.readInt()
             val beamModeEmitter = buffer.readByte()
             val labelLevel = buffer.readInt()
+            val poseType = buffer.readEnumConstant(PoseType::class.java)
             val vanillaPacket = decodeVanillaPacket(buffer)
-            return SpawnPokemonPacket(scaleModifier, species, form, aspects, phasingTargetId, beamModeEmitter, labelLevel, vanillaPacket)
+            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, phasingTargetId, beamModeEmitter, labelLevel, poseType, vanillaPacket)
         }
     }
 

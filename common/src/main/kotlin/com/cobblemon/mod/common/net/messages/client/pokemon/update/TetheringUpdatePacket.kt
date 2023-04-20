@@ -19,7 +19,7 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since April 4th, 2023
  */
-class TetheringUpdatePacket(pokemon: Pokemon, tetheringId: UUID?) : SingleUpdatePacket<UUID?, TetheringUpdatePacket>(pokemon, tetheringId) {
+class TetheringUpdatePacket(pokemon: () -> Pokemon, tetheringId: UUID?) : SingleUpdatePacket<UUID?, TetheringUpdatePacket>(pokemon, tetheringId) {
 
     override val id = ID
 

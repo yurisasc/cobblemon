@@ -21,14 +21,14 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 28th, 2021
  */
-abstract class SingleUpdatePacket<T, N : NetworkPacket<N>>(pokemon: Pokemon, val value: T) : PokemonUpdatePacket<N>(pokemon) {
+abstract class SingleUpdatePacket<T, N : NetworkPacket<N>>(pokemon: () -> Pokemon, val value: T) : PokemonUpdatePacket<N>(pokemon) {
 
     override fun encodeDetails(buffer: PacketByteBuf) {
         this.encodeValue(buffer)
     }
 
     override fun applyToPokemon() {
-        set(this.pokemon, this.value)
+        set(this.pokemon(), this.value)
     }
 
     abstract fun encodeValue(buffer: PacketByteBuf)

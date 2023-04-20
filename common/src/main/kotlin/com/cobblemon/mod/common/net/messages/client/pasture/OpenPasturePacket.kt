@@ -25,15 +25,41 @@ import net.minecraft.util.math.BlockPos
  * @author Hiroku
  * @since April 9th, 2023
  */
-class OpenPasturePacket(val pcId: UUID, val pasturePos: BlockPos, val totalTethered: Int, val tetheredPokemon: List<TetherDataDTO>) : NetworkPacket<OpenPasturePacket> {
-    class TetherDataDTO(
+class OpenPasturePacket(val pcId: UUID, val pasturePos: BlockPos, val totalTethered: Int, val tetheredPokemon: List<PasturePokemonDataDTO>) : NetworkPacket<OpenPasturePacket> {
+    class PasturePokemonDataDTO(
         val pokemonId: UUID,
         val name: Text,
         val species: Identifier,
         val aspects: Set<String>,
-        val pcId: UUID,
         val entityKnown: Boolean
-    )
+    ) {
+        companion object {
+            fun decode(buffer: PacketByteBuf): PasturePokemonDataDTO {
+                val pokemonId = buffer.readUuid()
+                val name = buffer.readText()
+                val species = buffer.readIdentifier()
+                val aspects = buffer.readList { it.readString() }.toSet()
+                val entityKnown = buffer.readBoolean()
+
+                return PasturePokemonDataDTO(
+                    pokemonId = pokemonId,
+                    name = name,
+                    species = species,
+                    aspects = aspects,
+                    entityKnown = entityKnown
+                )
+            }
+        }
+
+        fun encode(buffer: PacketByteBuf) {
+            buffer.writeUuid(pokemonId)
+            buffer.writeText(name)
+            buffer.writeIdentifier(species)
+            buffer.writeCollection(aspects) { _, v -> buffer.writeString(v) }
+            buffer.writeBoolean(entityKnown)
+        }
+    }
+
     companion object {
         val ID = cobblemonResource("open_pasture")
 
@@ -41,25 +67,9 @@ class OpenPasturePacket(val pcId: UUID, val pasturePos: BlockPos, val totalTethe
             val pcId = buffer.readUuid()
             val pasturePos = BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt())
             val totalTethered = buffer.readSizedInt(IntSize.U_BYTE)
-            val dtos = mutableListOf<TetherDataDTO>()
+            val dtos = mutableListOf<PasturePokemonDataDTO>()
             repeat(times = buffer.readUnsignedByte().toInt()) {
-                val pokemonId = buffer.readUuid()
-                val name = buffer.readText()
-                val species = buffer.readIdentifier()
-                val aspects = buffer.readList { it.readString() }.toSet()
-                val pcId = buffer.readUuid()
-                val entityKnown = buffer.readBoolean()
-
-                dtos.add(
-                    TetherDataDTO(
-                        pokemonId = pokemonId,
-                        name = name,
-                        species = species,
-                        aspects = aspects,
-                        pcId = pcId,
-                        entityKnown = entityKnown
-                    )
-                )
+                dtos.add(PasturePokemonDataDTO.decode(buffer))
             }
             return OpenPasturePacket(pcId, pasturePos, totalTethered, dtos)
         }
@@ -75,12 +85,7 @@ class OpenPasturePacket(val pcId: UUID, val pasturePos: BlockPos, val totalTethe
         buffer.writeSizedInt(IntSize.U_BYTE, totalTethered)
         buffer.writeSizedInt(IntSize.U_BYTE, tetheredPokemon.size)
         for (tethered in tetheredPokemon) {
-            buffer.writeUuid(tethered.pokemonId)
-            buffer.writeText(tethered.name)
-            buffer.writeIdentifier(tethered.species)
-            buffer.writeCollection(tethered.aspects) { _, v -> buffer.writeString(v) }
-            buffer.writeUuid(tethered.pcId)
-            buffer.writeBoolean(tethered.entityKnown)
+            tethered.encode(buffer)
         }
     }
 }

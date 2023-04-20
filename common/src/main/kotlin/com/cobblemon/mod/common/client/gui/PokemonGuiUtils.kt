@@ -20,6 +20,7 @@ import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.Identifier
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -30,7 +31,7 @@ fun drawProfilePokemon(
     state: PoseableEntityState<PokemonEntity>?,
     scale: Float = 20F
 ) = drawProfilePokemon(
-    renderablePokemon.species,
+    renderablePokemon.species.resourceIdentifier,
     renderablePokemon.aspects,
     matrixStack,
     rotation,
@@ -39,15 +40,15 @@ fun drawProfilePokemon(
 )
 
 fun drawProfilePokemon(
-    species: Species,
+    species: Identifier,
     aspects: Set<String>,
     matrixStack: MatrixStack,
     rotation: Quaternionf,
     state: PoseableEntityState<PokemonEntity>?,
     scale: Float = 20F
 ) {
-    val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
-    val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state)
+    val model = PokemonModelRepository.getPoser(species, aspects)
+    val texture = PokemonModelRepository.getTexture(species, aspects, state)
 
     val renderType = model.getLayer(texture)
 
@@ -78,7 +79,7 @@ fun drawProfilePokemon(
     RenderSystem.setShaderLights(light1, light2)
     val packedLight = LightmapTextureManager.pack(11, 7)
 
-    model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
+    model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species, aspects)) {
         model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         bufferSource.draw()
     }

@@ -19,6 +19,7 @@ import net.minecraft.client.MinecraftClient
 
 object OpenPastureHandler : ClientNetworkPacketHandler<OpenPasturePacket> {
     override fun handle(packet: OpenPasturePacket, client: MinecraftClient) {
+
         val pcConfiguration = PCGUIConfiguration(
 //            exitFunction = null // for now
             selectOverride = { pcGui, storePosition, pokemon ->
