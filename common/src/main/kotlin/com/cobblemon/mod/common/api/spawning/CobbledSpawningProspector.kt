@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.api.spawning.spawner.SpawningArea
 import net.minecraft.block.Blocks
 import net.minecraft.block.Material
+import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.ChunkSectionPos.getSectionCoord
@@ -65,7 +66,8 @@ object CobblemonSpawningProspector : SpawningProspector {
                 height + minimumDistanceBetweenEntities,
                 area.width + minimumDistanceBetweenEntities
             )
-        ).map { it.pos }
+        ).filterIsInstance<LivingEntity>()
+            .map { it.pos }
 
         val defaultState = Blocks.STONE.defaultState
         val defaultBlockData = WorldSlice.BlockData(defaultState, 0)
