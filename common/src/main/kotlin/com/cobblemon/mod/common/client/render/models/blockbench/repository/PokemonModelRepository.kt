@@ -383,6 +383,20 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("magcargo", ::MagcargoModel)
         inbuilt("nosepass", ::NosepassModel)
         inbuilt("probopass", ::ProbopassModel)
+        inbuilt("spinarak", ::SpinarakModel)
+        inbuilt("ariados", ::AriadosModel)
+        inbuilt("shuckle", ::ShuckleModel)
+        inbuilt("taillow", ::TaillowModel)
+        inbuilt("swellow", ::SwellowModel)
+        inbuilt("relicanth", ::RelicanthModel)
+        inbuilt("mudbray", ::MudbrayModel)
+        inbuilt("mudsdale", ::MudsdaleModel)
+        inbuilt("comfey", ::ComfeyModel)
+        inbuilt("tandemaus", ::TandemausModel)
+        inbuilt("maushold", ::MausholdModel)
+        inbuilt("varoom", ::VaroomModel)
+        inbuilt("revavroom", ::RevavroomModel)
+
 
         // Unhooked because the families are not completed
 //        inbuilt("sprigatito", ::SprigatitoModel)

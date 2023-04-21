@@ -18,6 +18,11 @@
     "speed": 91
   },
   "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
     "resting": {
       "canSleep": true,
       "times": "day"

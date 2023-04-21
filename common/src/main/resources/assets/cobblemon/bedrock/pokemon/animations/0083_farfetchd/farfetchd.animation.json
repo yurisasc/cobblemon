@@ -1,68 +1,157 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.farfetchd.air_idle": {
+		"animation.farfetchd.ground_idle": {
 			"loop": true,
 			"bones": {
-				"head": {
-					"position": [0, 0, 0]
+				"wing_left": {
+					"rotation": [-79.19476, 22.13991, 4.11405]
 				},
-				"leftleg": {
-					"position": [0, 1, 0]
+				"wing_left2": {
+					"rotation": [3.13388, 17.22575, 10.47479]
 				},
-				"leftfoot": {
-					"rotation": [30, 0, 0]
+				"wing_left_finger": {
+					"rotation": [0, 0, 112.5]
 				},
-				"rightleg": {
-					"position": [0, 1, 0]
+				"wing_left_finger5": {
+					"rotation": [0, 0, 72.5]
 				},
-				"rightfoot": {
-					"rotation": [30, 0, 0]
+				"wing_left_finger2": {
+					"rotation": [0, 0, 97.5]
 				},
-				"leftwing": {
-					"rotation": [-40, 20, -95]
+				"wing_left_finger6": {
+					"rotation": [0, 0, 65]
 				},
-				"stick": {
-					"rotation": [-60, 0, 0]
+				"wing_left_finger3": {
+					"rotation": [0, 0, 107.5]
 				},
-				"rightwing": {
-					"rotation": [-40, -20, 95]
+				"wing_left_finger7": {
+					"rotation": [0, 0, 67.5]
+				},
+				"wing_left_finger4": {
+					"rotation": [0, 0, 112.5]
+				},
+				"wing_left_finger8": {
+					"rotation": [0, 0, 67.5]
+				},
+				"wing_right": {
+					"rotation": [16.63484, 42.21751, -64.88553]
+				},
+				"wing_right2": {
+					"rotation": [0, -30, 0]
+				},
+				"wing_right3": {
+					"rotation": [0, 25, 0]
 				}
 			}
 		},
-		"animation.farfetchd.air_fly": {
-			"loop": true,
+		"animation.farfetchd.blink": {
+			"animation_length": 0.16667,
 			"bones": {
-				"leftleg": {
-					"position": [0, 1, 0]
+				"eyelid_left": {
+					"position": {
+						"0.0": [-0.1, 0, -0.1],
+						"0.125": [-0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
 				},
-				"leftfoot": {
-					"rotation": [-15, 0, 0]
-				},
-				"rightleg": {
-					"position": [0, 1, 0]
-				},
-				"rightfoot": {
-					"rotation": [-15, 0, 0]
-				},
-				"leftwing": {
-					"rotation": [-40, 30, -95]
-				},
-				"stick": {
-					"rotation": [-60, 0, 0]
-				},
-				"rightwing": {
-					"rotation": [-40, -30, 95]
-				},
-				"body": {
-					"rotation": [30, 0, 0]
+				"eyelid_right": {
+					"position": {
+						"0.0": [0.1, 0, -0.1],
+						"0.125": [0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.farfetchd.cry": {
+			"animation_length": 1.5,
+			"bones": {
+				"neck": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [10, 0, 0],
+						"1.25": [10, 0, 0],
+						"1.5": [0, 0, 0]
+					}
 				},
 				"head": {
-					"rotation": [-30, 0, 0],
-					"position": [0, 0, -1]
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [-15, 0, 0],
+						"1.25": [-15, 0, 0],
+						"1.5": [0, 0, 0]
+					}
 				},
-				"tail": {
-					"rotation": [-40, 0, 0]
+				"jaw": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [25, 0, 0],
+						"1.25": [25, 0, 0],
+						"1.5": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.farfetchd.pose": {
+			"loop": true,
+			"bones": {
+				"torso": {
+					"rotation": [0, 0, 12.5]
+				},
+				"neck": {
+					"rotation": [0, 0, -10]
+				},
+				"head": {
+					"rotation": [-0.019, 4.98093, -7.93688]
+				},
+				"jaw": {
+					"rotation": [20, 0, 0]
+				},
+				"wing_left": {
+					"rotation": [-94.76968, -1.50179, -17.43745]
+				},
+				"wing_left2": {
+					"rotation": [1.29717, 4.82922, 15.0547]
+				},
+				"wing_left_finger": {
+					"rotation": [0, 0, 80]
+				},
+				"wing_left_finger2": {
+					"rotation": [0, 0, 87.5]
+				},
+				"wing_left_finger3": {
+					"rotation": [0, 0, 92.5]
+				},
+				"wing_left_finger4": {
+					"rotation": [0, 0, 110]
+				},
+				"leg_right": {
+					"rotation": [-7.44409, 16.00127, 20.32664]
+				},
+				"foot_right": {
+					"rotation": [5, 0, 0]
+				},
+				"wing_left_finger5": {
+					"rotation": [0, 0, 112.5]
+				},
+				"wing_left_finger6": {
+					"rotation": [0, 0, 105]
+				},
+				"wing_left_finger7": {
+					"rotation": [0, 0, 97.5]
+				},
+				"wing_left_finger8": {
+					"rotation": [0, 0, 87.5]
+				},
+				"wing_right": {
+					"rotation": [16.35515, 30.67942, -59.17945]
+				},
+				"wing_right2": {
+					"rotation": [0, -30, 0]
+				},
+				"wing_right3": {
+					"rotation": [0, 37.5, 0]
 				}
 			}
 		}

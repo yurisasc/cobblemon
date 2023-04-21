@@ -1,0 +1,19 @@
+{
+  "species": "cobblemon:relicanth",
+  "order": 0,
+  "variations": [
+    {
+      "aspects": [],
+      "poser": "cobblemon:relicanth",
+      "model": "cobblemon:relicanth_male.geo",
+      "texture": "cobblemon:textures/pokemon/0369_relicanth/relicanth.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0369_relicanth/relicanth_shiny.png"
+    }
+  ]
+}

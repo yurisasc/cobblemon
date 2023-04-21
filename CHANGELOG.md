@@ -4,6 +4,10 @@
 - Fixed super sized Pumpkaboo not having any moves. 
 - Fixed Infernape look animation.
 - Fixed Garchomp t-posing while swimming.
+- Updated model and Textures of Farfetchd and Gengar.
+- Updated model of Sceptile.
+
+-Implemented the Pokemon Spinarak, Ariados, Shuckle, Taillow, Swellow, Relicanth, Mudbray, Mudsdale, Comfey, Tandemaus, Maushold, Varoom, and Revavroom.
 
 # Changelog
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
