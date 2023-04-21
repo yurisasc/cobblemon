@@ -1,4 +1,7 @@
 
+- Added support for "isBattle" and "isTouchingWater" properties on resource pack Pokémon poses. This allows your custom Pokémon to be posed differently when in battle.
+- Added support for "isVisible" on a transformed part on resource pack Pokémon poses. This allows your custom Pokémon to have bones disappear in specific poses, such as hiding Greninja's throwing star when not in a battle pose.
+
 - Fixed messages for entry hazards, screens, tailwind, Perish Song, Destiny Bond, Shed Skin, Yawn
 - Fixed Porygon not evolving with upgrade. 
 - Fixed super sized Pumpkaboo not having any moves. 
