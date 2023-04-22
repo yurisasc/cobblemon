@@ -4,6 +4,9 @@
 - Added nicknaming.
 - Added the `/teststore <player> <store> <properties>` command allowing command block/mcfunction users to query a party, PC or both for Pokémon matching specific properties and returning the match count, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.teststore` if a permission mod is present.
 - Added the `/querylearnset <player> <slot> <move>` command allowing command block/mcfunction users to query a party slot and check if the Pokémon can learn a specific move returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.querylearnset` if a permission mod is present.
+- Added the `/testpcslot <player> <slot> <properties>` command allowing command block/mcfunction users to query a pc slot and check if the Pokémon matches specific properties returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.testpcslot` if a permission mod is present.
+- Added the `/testpartyslot <player> <slot> <properties>` command allowing command block/mcfunction users to query a party slot and check if the Pokémon matches a specific properties returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.testpartyslot` if a permission mod is present.
+
 
 ## Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -42,6 +45,7 @@
 - Made Weavile a little bigger.
 - Changed the recipes for Mystic Water, Miracle Seed, and Charcoal Stick to utilise the evolution stones, as well as Never-Melt Ice having an alternate recipe using the Ice Stone.
 - Replaced the `Failed to handle` battle messages to `Missing interpretation` to make it more clear that mechanics do work just still pending dedicated messages.
+- Healing Machine and PC are now mine-able with pickaxes and Apricorn leaves are mine-able using hoes.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game. Dodrio will never look the same to us.
@@ -92,6 +96,8 @@
 - Fixed instantly fleeing from Pokémon set to be unfleeable.
 - Fixed Pumpkaboo line forms not working. (Currently sizes aren't visual but check base stats to see which size you have.)
 - Fixed a bug that caused already interpreted messages for moves to be mistaken as uninterpreted.
+- Fixed a Pokémon spawner bug that caused Pokémon to not spawn due to dropped item entities. 
+- Fixed a bug that causes Pokémon model items to be invisible.
 
 ### Developer
 - Add events that are fired just before and after a Pokémon is released (ReleasePokemonEvent.Pre and .Post)
