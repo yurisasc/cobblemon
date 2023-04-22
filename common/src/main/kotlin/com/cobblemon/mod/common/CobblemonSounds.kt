@@ -54,4 +54,11 @@ object CobblemonSounds : CompletableRegistry<SoundEvent>(Registry.SOUND_EVENT_KE
     val CAN_EVOLVE = queue("pokemon.can_evolve")
     @JvmField
     val EVOLVING = queue("pokemon.evolving")
+
+    @JvmField
+    val PVN_BATTLE = queue("battle.pvn.default")
+    @JvmField
+    val PVP_BATTLE = queue("battle.pvp.default")
+    @JvmField
+    val PVW_BATTLE = queue("battle.pvw.default")
 }

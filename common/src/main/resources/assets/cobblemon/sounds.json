@@ -1,4 +1,13 @@
 {
+  "battle.pvn.default": {
+    "sounds": []
+  },
+  "battle.pvp.default": {
+    "sounds": []
+  },
+  "battle.pvw.default": {
+    "sounds": []
+  },
   "healing_machine.active": {
     "sounds": [ "cobblemon:block/healing_machine_active" ]
   },

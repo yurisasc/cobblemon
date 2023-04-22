@@ -32,14 +32,7 @@ import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
@@ -463,6 +456,7 @@ object ShowdownInterpreter {
                 if (actor.uuid.getPlayer() != null) {
                     val initializePacket = BattleInitializePacket(battle, actor.getSide())
                     actor.sendUpdate(initializePacket)
+                    actor.sendUpdate(BattleMusicPacket(battle))
                 }
             }
             battle.actors.forEach { actor ->

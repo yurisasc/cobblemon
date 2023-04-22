@@ -35,6 +35,7 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
@@ -212,6 +213,7 @@ open class PokemonBattle(
             }
         }
         sendUpdate(BattleEndPacket())
+        sendUpdate(BattleMusicPacket(null))
         BattleRegistry.closeBattle(this)
     }
 
