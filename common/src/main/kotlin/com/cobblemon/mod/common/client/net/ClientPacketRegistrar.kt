@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.client.net.battle.BattleEndHandler
 import com.cobblemon.mod.common.client.net.battle.BattleFaintHandler
 import com.cobblemon.mod.common.client.net.battle.BattleHealthChangeHandler
 import com.cobblemon.mod.common.client.net.battle.BattleInitializeHandler
+import com.cobblemon.mod.common.client.net.battle.BattleMadeInvalidChoiceHandler
 import com.cobblemon.mod.common.client.net.battle.BattleMakeChoiceHandler
 import com.cobblemon.mod.common.client.net.battle.BattleMessageHandler
 import com.cobblemon.mod.common.client.net.battle.BattlePersistentStatusHandler
@@ -124,6 +125,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(BattleInitializeHandler)
         registerHandler(BattleFaintHandler)
         registerHandler(BattleQueueRequestHandler)
+        registerHandler(BattleMadeInvalidChoiceHandler)
         registerHandler(BattleMakeChoiceHandler)
         registerHandler(BattleHealthChangeHandler)
         registerHandler(BattleSetTeamPokemonHandler)

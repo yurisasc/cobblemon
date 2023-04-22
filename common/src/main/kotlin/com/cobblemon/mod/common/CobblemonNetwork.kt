@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMadeInvalidChoicePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
@@ -170,6 +171,7 @@ object CobblemonNetwork {
         buildClientMessage<BattleInitializePacket>()
         buildClientMessage<BattleQueueRequestPacket>()
         buildClientMessage<BattleFaintPacket>()
+        buildClientMessage<BattleMadeInvalidChoicePacket>()
         buildClientMessage<BattleMakeChoicePacket>()
         buildClientMessage<BattleHealthChangePacket>()
         buildClientMessage<BattleSetTeamPokemonPacket>()
