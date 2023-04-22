@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.pokemon
 
 import com.cobblemon.mod.common.api.text.add
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
@@ -43,6 +44,7 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
@@ -305,7 +307,7 @@ class PokemonRenderer(
             matrices.scale((-0.025*sizeScale).toFloat(), (-0.025*sizeScale).toFloat(), 1 * sizeScale.toFloat())
             val matrix4f = matrices.peek().positionMatrix
             val opacity = (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25f) * 255.0f).toInt() shl 24
-            var label = entity.pokemon.species.translatedName
+            var label = entity.name.copy()
             if (ServerSettings.displayEntityLevelLabel && entity.labelLevel() > 0) {
                 val levelLabel = lang("label.lv", entity.labelLevel())
                 label = label.add(" ").append(levelLabel)

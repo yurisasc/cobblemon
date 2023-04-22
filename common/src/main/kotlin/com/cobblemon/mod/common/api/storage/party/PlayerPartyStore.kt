@@ -84,7 +84,7 @@ open class PlayerPartyStore(
                     pokemon.faintedTimer -= 1
                     if (pokemon.faintedTimer <= -1) {
                         pokemon.currentHealth = (pokemon.hp * Cobblemon.config.faintAwakenHealthPercent).toInt()
-                        player.sendMessage(Text.translatable("cobblemon.party.faintRecover", pokemon.species.translatedName))
+                        player.sendMessage(Text.translatable("cobblemon.party.faintRecover", pokemon.getDisplayName()))
                     }
                 }
                 // Passive healing while less than full health

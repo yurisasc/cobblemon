@@ -38,8 +38,6 @@ import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
-import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
-import com.cobblemon.mod.common.api.reactive.Observable.Companion.map
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
@@ -62,14 +60,12 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.command.argument.*
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
-import com.cobblemon.mod.common.entity.data.CobblemonTrackedDataHandlerRegistry
 import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
 import com.cobblemon.mod.common.item.PokeBallItem
@@ -111,8 +107,8 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.item.NameTagItem
-import net.minecraft.registry.RegistryKey
 import net.minecraft.util.WorldSavePath
+import net.minecraft.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 
@@ -172,8 +168,6 @@ object Cobblemon {
 
         CobblemonCriteria // Init the fields and register the criteria
         CobblemonGameRules // Init fields and register
-
-        CobblemonTrackedDataHandlerRegistry.register()
 
         ShoulderEffectRegistry.register()
 
