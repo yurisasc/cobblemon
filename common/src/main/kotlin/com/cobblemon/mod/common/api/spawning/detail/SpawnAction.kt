@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.api.spawning.detail
 
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.entity.SpawnEvent
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.util.toVec3d
@@ -31,6 +33,7 @@ abstract class SpawnAction<T : Entity>(
         val e = createEntity() ?: return
         e.setPosition(ctx.position.toVec3d().add(0.5, 1.0, 0.5))
         entity.emit(e)
+        CobblemonEvents.ENTITY_SPAWN.post(SpawnEvent(e, ctx))
         ctx.world.spawnEntity(e)
     }
 
