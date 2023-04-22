@@ -78,7 +78,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (dimensions != null && dimensions!!.isNotEmpty() && ctx.world.dimension.effects !in dimensions!!) {
             return false
-        } else if (moonPhase != null && ctx.moonPhase in moonPhase!!) {
+        } else if (moonPhase != null && ctx.moonPhase !in moonPhase!!) {
             return false
         } else if (biomes != null && biomes!!.isNotEmpty() && biomes!!.none { condition -> condition.fits(ctx.biome, ctx.biomeRegistry) }) {
             return false
