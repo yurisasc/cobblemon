@@ -35,6 +35,7 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMadeInvalidChoicePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
@@ -55,7 +56,6 @@ import java.util.concurrent.CompletableFuture
 import kotlin.math.roundToInt
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
 object ShowdownInterpreter {
@@ -130,6 +130,7 @@ object ShowdownInterpreter {
         splitUpdateInstructions["|drag|"] = this::handleDragInstruction
         splitUpdateInstructions["|-heal|"] = this::handleHealInstruction
         splitUpdateInstructions["|-sethp|"] = this::handleSetHpInstructions
+        sideUpdateInstructions["|error|"] = this::handleErrorInstructions
     }
 
     private fun boostInstruction(battle: PokemonBattle, line: String, remainingLines: MutableList<String>, isBoost: Boolean) {
@@ -1065,6 +1066,34 @@ object ShowdownInterpreter {
                 }
                 it.broadcastChatMessage(lang)
             }
+        }
+    }
+
+    /**
+     * Format:
+     * |error|ERROR
+     *
+     * Some examples
+     * |error|[Invalid choice] Can't choose for Team Preview: You're not in a Team Preview phase
+     * |error|[Unavailable choice] Can't switch: The active Pokémon is trapped
+     * The protocol message to tell you to send a different decision:
+     */
+    private fun handleErrorInstructions(battle: PokemonBattle, battleActor: BattleActor, message: String) {
+        battle.log("Error Instruction")
+        battle.dispatchGo {
+            //TODO: some lang stuff for the error messages (Whats the protocol for adding to other langs )
+            //Also is it okay to ignore the team preview error for now?
+            val battleMessage = BattleMessage(message)
+            val lang = when(message) {
+                "|error|[Unavailable choice] Can't switch: The active Pokémon is trapped" -> battleLang("error.pokemon_is_trapped").red()
+                "|error|[Invalid choice] Can't choose for Team Preview: You're not in a Team Preview phase" -> null
+                else -> battle.createUnimplemented(battleMessage)
+            }
+            lang?.let {
+                battleActor.sendMessage(it)
+            }
+            battleActor.mustChoose = true
+            battleActor.sendUpdate(BattleMadeInvalidChoicePacket())
         }
     }
 
