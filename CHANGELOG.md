@@ -8,6 +8,8 @@
 - Fixed Infernape look animation.
 - Fixed Garchomp t-posing while swimming.
 
+- Added SpawnEvent
+
 # Changelog
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
