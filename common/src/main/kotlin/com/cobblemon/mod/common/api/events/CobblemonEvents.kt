@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.events.entity.EntityAttributeEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
+import com.cobblemon.mod.common.api.events.entity.SpawnEvent
 import com.cobblemon.mod.common.api.events.farming.ApricornHarvestEvent
 import com.cobblemon.mod.common.api.events.item.LeftoversCreatedEvent
 import com.cobblemon.mod.common.api.events.net.MessageBuiltEvent
@@ -26,7 +27,10 @@ import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.events.storage.ReleasePokemonEvent
 import com.cobblemon.mod.common.api.reactive.CancelableObservable
 import com.cobblemon.mod.common.api.reactive.EventObservable
+import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
+import com.cobblemon.mod.common.api.reactive.Observable.Companion.map
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.asObservable
 import com.cobblemon.mod.common.util.asServerObservable
 import com.cobblemon.mod.common.util.asTickObservable
@@ -90,6 +94,15 @@ object CobblemonEvents {
     val POKEMON_ENTITY_LOAD = CancelableObservable<PokemonEntityLoadEvent>()
     @JvmField
     val POKEMON_ENTITY_SAVE_TO_WORLD = CancelableObservable<PokemonEntitySaveToWorldEvent>()
+    @JvmField
+    val ENTITY_SPAWN = CancelableObservable<SpawnEvent<*>>()
+
+    @JvmField
+    val POKEMON_ENTITY_SPAWN = ENTITY_SPAWN
+        .pipe(
+            filter { it.entity is PokemonEntity },
+            map { it as SpawnEvent<PokemonEntity> }
+        )
 
     @JvmField
     val EXPERIENCE_GAINED_EVENT_PRE = CancelableObservable<ExperienceGainedPreEvent>()
