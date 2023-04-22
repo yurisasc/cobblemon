@@ -72,9 +72,9 @@ open class BattlePokemon(
 
     open fun getName(): MutableText {
         return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
-            effectedPokemon.displayName
+            effectedPokemon.getDisplayName()
         } else {
-            battleLang("owned_pokemon", actor.getName(), effectedPokemon.displayName)
+            battleLang("owned_pokemon", actor.getName(), effectedPokemon.getDisplayName())
         }
     }
 

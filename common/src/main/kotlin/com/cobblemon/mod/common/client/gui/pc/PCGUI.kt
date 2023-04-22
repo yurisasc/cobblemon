@@ -238,7 +238,7 @@ class PCGUI(
             drawScaledText(
                 matrixStack = matrices,
                 font = CobblemonResources.DEFAULT_LARGE,
-                text = pokemon.displayName.bold(),
+                text = pokemon.getDisplayName().bold(),
                 x = x + 12,
                 y = y + 11.5,
                 shadow = true

@@ -126,6 +126,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.pokemon.species.resourceIdentifier.toString() != entity.species.get()) {
             entity.species.set(entity.pokemon.species.resourceIdentifier.toString())
         }
+        if (entity.nickname.get() != entity.pokemon.nickname) {
+            entity.nickname.set(entity.pokemon.nickname)
+        }
         if (entity.aspects.get() != entity.pokemon.aspects) {
             entity.aspects.set(entity.pokemon.aspects)
         }

@@ -13,6 +13,7 @@ object DataKeys {
     const val POKEMON = "Pokemon"
     const val POKEMON_UUID = "UUID"
     const val POKEMON_SPECIES_IDENTIFIER = "Species"
+    const val POKEMON_NICKNAME = "Nickname"
     const val POKEMON_FORM_ID = "FormId"
     const val POKEMON_LEVEL = "Level"
     const val POKEMON_GENDER = "Gender"

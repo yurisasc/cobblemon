@@ -31,6 +31,8 @@ import io.netty.buffer.Unpooled
 import java.util.UUID
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 /**
@@ -45,6 +47,7 @@ class PokemonDTO : Encodable, Decodable {
     var toClient = false
     var uuid = UUID.randomUUID()
     lateinit var species: Identifier
+    var nickname: MutableText? = null
     var form = ""
     var level = 1
     var experience = 1
@@ -71,6 +74,7 @@ class PokemonDTO : Encodable, Decodable {
         this.toClient = toClient
         this.uuid = pokemon.uuid
         this.species = pokemon.species.resourceIdentifier
+        this.nickname = pokemon.nickname
         this.form = pokemon.form.name
         this.level = pokemon.level
         this.experience = pokemon.experience
@@ -98,6 +102,7 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeBoolean(toClient)
         buffer.writeUuid(uuid)
         buffer.writeIdentifier(species)
+        buffer.writeNullable(nickname) { _, v -> buffer.writeText(v) }
         buffer.writeString(form)
         buffer.writeInt(experience)
         buffer.writeSizedInt(IntSize.U_SHORT, level)
@@ -128,6 +133,7 @@ class PokemonDTO : Encodable, Decodable {
         toClient = buffer.readBoolean()
         uuid = buffer.readUuid()
         species = buffer.readIdentifier()
+        nickname = buffer.readNullable { buffer.readText().copy() }
         form = buffer.readString()
         experience = buffer.readInt()
         level = buffer.readSizedInt(IntSize.U_SHORT)
@@ -160,6 +166,7 @@ class PokemonDTO : Encodable, Decodable {
             it.isClient = toClient
             it.uuid = uuid
             it.species = PokemonSpecies.getByIdentifier(species)!!
+            it.nickname = nickname
             it.form = it.species.forms.find { it.name == form } ?: it.species.standardForm
             it.experience = experience
             it.level = level

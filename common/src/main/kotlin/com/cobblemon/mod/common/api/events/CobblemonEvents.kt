@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.api.events.pokemon.FriendshipUpdatedEvent
 import com.cobblemon.mod.common.api.events.pokemon.LevelUpEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonFaintedEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonNicknamedEvent
 import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
@@ -49,6 +50,8 @@ object CobblemonEvents {
     val EVOLUTION_DISPLAY = EventObservable<EvolutionDisplayEvent>()
     @JvmField
     val EVOLUTION_COMPLETE = EventObservable<EvolutionCompleteEvent>()
+    @JvmField
+    val POKEMON_NICKNAMED = CancelableObservable<PokemonNicknamedEvent>()
 
     @JvmField
     val POKEMON_CAPTURED = EventObservable<PokemonCapturedEvent>()
