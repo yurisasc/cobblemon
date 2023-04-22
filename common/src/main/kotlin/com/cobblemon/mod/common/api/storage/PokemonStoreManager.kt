@@ -97,4 +97,10 @@ open class PokemonStoreManager {
         getPCs(player.uuid).forEach { pc -> pc.sendTo(player) }
         player.sendPacket(SetPartyReferencePacket(parties.first().uuid))
     }
+
+    open fun onPlayerDisconnect(player: ServerPlayerEntity) {
+        for (factory in factories) {
+            factory.onPlayerDisconnect(player.uuid)
+        }
+    }
 }
