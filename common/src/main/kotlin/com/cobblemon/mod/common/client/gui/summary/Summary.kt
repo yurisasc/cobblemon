@@ -45,6 +45,7 @@ import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
@@ -227,7 +228,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             lang("ui.nickname")
         )
         focused = nicknameEntryWidget
-        nicknameEntryWidget.setTextFieldFocused(false)
+        nicknameEntryWidget.isFocused = false
         addDrawableChild(nicknameEntryWidget)
 
         // Add Model Preview
@@ -594,8 +595,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     }
 
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
-        if (keyCode == 257 && nicknameEntryWidget.isFocused) { // Enter pressed
-            nicknameEntryWidget.setTextFieldFocused(false)
+        if ((keyCode == InputUtil.GLFW_KEY_ENTER || keyCode == InputUtil.GLFW_KEY_KP_ENTER) && nicknameEntryWidget.isFocused) { // Enter pressed
+            nicknameEntryWidget.isFocused = false
         }
         return nicknameEntryWidget.keyPressed(keyCode, scanCode, modifiers) || super.keyPressed(keyCode, scanCode, modifiers)
     }

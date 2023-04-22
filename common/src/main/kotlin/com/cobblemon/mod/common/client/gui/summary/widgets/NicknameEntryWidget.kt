@@ -49,8 +49,10 @@ class NicknameEntryWidget(
 
     override fun setFocused(focused: Boolean) {
         super.setFocused(focused)
+        val oldText = text.trim()
+        text = text.trim().ifBlank { pokemon.species.translatedName.string }
         if (!focused) {
-            if (text != lastSavedName) {
+            if (oldText != lastSavedName) {
                 lastSavedName = text
                 CobblemonNetwork.sendToServer(
                     SetNicknamePacket(
@@ -60,8 +62,6 @@ class NicknameEntryWidget(
                     )
                 )
             }
-
-            text = text.ifEmpty { pokemon.species.translatedName.string }
         }
     }
 
