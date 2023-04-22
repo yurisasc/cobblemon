@@ -41,6 +41,6 @@ object CobblemonCommands {
         TestStoreCommand.register(dispatcher)
         QueryLearnsetCommand.register(dispatcher)
         TestPcSlotCommand.register(dispatcher)
-        TestPartySlot.register(dispatcher)
+        TestPartySlotCommand.register(dispatcher)
     }
 }
