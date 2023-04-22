@@ -40,5 +40,7 @@ object CobblemonCommands {
         PokeboxCommand.register(dispatcher)
         TestStoreCommand.register(dispatcher)
         QueryLearnsetCommand.register(dispatcher)
+        TestPcSlotCommand.register(dispatcher)
+        TestPartySlot.register(dispatcher)
     }
 }
