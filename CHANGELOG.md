@@ -7,6 +7,8 @@
 - Fixed super sized Pumpkaboo not having any moves. 
 - Fixed Infernape look animation.
 - Fixed Garchomp t-posing while swimming.
+- Fixed a bug that caused sleeping pokemon to stay asleep.
+- Fixed a bug that would freeze a battle when a Pokémon gets trapped due to an ability.
 
 - Added SpawnEvent
 
@@ -95,7 +97,6 @@
 - Fixed instantly fleeing from Pokémon set to be unfleeable.
 - Fixed Pumpkaboo line forms not working. (Currently sizes aren't visual but check base stats to see which size you have.)
 - Fixed a bug that caused already interpreted messages for moves to be mistaken as uninterpreted.
-- Fixed a bug that would freeze a battle when a Pokémon gets trapped due to an ability.
 
 ### Developer
 - Add events that are fired just before and after a Pokémon is released (ReleasePokemonEvent.Pre and .Post)

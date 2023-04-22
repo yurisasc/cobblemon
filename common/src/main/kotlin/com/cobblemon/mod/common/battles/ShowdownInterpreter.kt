@@ -734,11 +734,20 @@ object ShowdownInterpreter {
     private fun handleCureStatusInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchWaiting {
             val message = BattleMessage(rawMessage)
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val maybeActivePokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon
+            val maybePartyPokemon = message.getBattlePokemon(0, battle)
+            val pokemon = maybeActivePokemon ?: maybePartyPokemon ?: return@dispatchWaiting
             val status = message.argumentAt(1)?.let(Statuses::getStatus) ?: return@dispatchWaiting
             val effect = message.effect()
             pokemon.effectedPokemon.status = null
             pokemon.sendUpdate()
+
+            if (maybeActivePokemon != null) {
+                val pnx = message.argumentAt(0)?.substring(0, 3)
+                if (pnx is String) {
+                    battle.sendUpdate(BattlePersistentStatusPacket(pnx, null))
+                }
+            }
             val lang = when {
                 effect?.type == Effect.Type.ABILITY -> battleLang("cure_status.ability.${effect.id}", pokemon.getName())
                 // Lang related to move stuff is tied to the status as a generic message such as fire moves defrosting Pokémon
