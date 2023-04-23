@@ -345,6 +345,31 @@ open class PokemonProperties {
         return customProperties.none { !it.matches(pokemonEntity) }
     }
 
+    fun isSubSetOf(properties: PokemonProperties): Boolean {
+        level?.takeIf { it != properties.level }?.let { return false }
+        shiny?.takeIf { it != ("shiny" in properties.aspects) }?.let { return false }
+        gender?.takeIf { it != properties.gender }?.let { return false }
+        species?.run {
+            try {
+                val species = if (this == "random") {
+                    PokemonSpecies.species.random()
+                } else {
+                    PokemonSpecies.getByIdentifier(this.asIdentifierDefaultingNamespace()) ?: return@run
+                }
+                if (properties.species != species.toString()) {
+                    return false
+                }
+            } catch (e: InvalidIdentifierException) {}
+        }
+        nickname?.takeIf { it != properties.nickname }?.let { return false }
+        form?.takeIf { !it.equals(properties.form, true) }?.let { return false }
+        friendship?.takeIf { it != properties.friendship }?.let { return false }
+        pokeball?.takeIf { it != properties.pokeball }?.let { return false }
+        nature?.takeIf { it != properties.nature }?.let { return false }
+        ability?.takeIf { it != properties.ability }?. let { return false }
+        return true
+    }
+
     fun create(): Pokemon {
         val pokemon = Pokemon()
         apply(pokemon)
