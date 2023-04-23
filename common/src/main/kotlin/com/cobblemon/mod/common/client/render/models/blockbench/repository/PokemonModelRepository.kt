@@ -383,6 +383,7 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("magcargo", ::MagcargoModel)
         inbuilt("nosepass", ::NosepassModel)
         inbuilt("probopass", ::ProbopassModel)
+        inbuilt("lanturn", ::LanturnModel)
         inbuilt("spinarak", ::SpinarakModel)
         inbuilt("ariados", ::AriadosModel)
         inbuilt("shuckle", ::ShuckleModel)
