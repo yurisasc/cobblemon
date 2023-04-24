@@ -31,8 +31,6 @@ import com.cobblemon.mod.common.client.net.storage.party.SetPartyPokemonHandler
 import com.cobblemon.mod.common.client.net.storage.party.SetPartyReferenceHandler
 import com.cobblemon.mod.common.client.net.storage.pc.*
 import com.cobblemon.mod.common.net.messages.client.battle.*
-import com.cobblemon.mod.common.net.PacketHandler
-import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.net.messages.client.data.*
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
@@ -83,18 +81,18 @@ import com.cobblemon.mod.common.net.serverhandling.storage.party.SwapPartyPokemo
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.*
 import com.cobblemon.mod.common.util.server
 import kotlin.reflect.KClass
-import net.minecraft.network.packet.Packet
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
 /**
- * Registers Cobblemon packets. Packet handlers are set up on handling the [MessageBuiltEvent] dispatched from here.
+ * Registers Cobblemon packets.
  *
  * This class also contains short functions for dispatching our packets to a player, all players, or to the entire server.
  *
- * @author Hiroku
+ * @author Hiroku, Licious
  * @since November 27th, 2021
  */
 object CobblemonNetwork : NetworkManager {
@@ -172,8 +170,8 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(ChallengeNotificationPacket.ID, ChallengeNotificationPacket::decode, ChallengeNotificationHandler)
         this.createClientBound(BattleUpdateTeamPokemonPacket.ID, BattleUpdateTeamPokemonPacket::decode, BattleUpdateTeamPokemonHandler)
         this.createClientBound(BattlePersistentStatusPacket.ID, BattlePersistentStatusPacket::decode, BattlePersistentStatusHandler)
-        BattleMadeInvalidChoicePacket
-        BattleMusicPacket
+        this.createClientBound(BattleMadeInvalidChoicePacket.ID, BattleMadeInvalidChoicePacket::decode, BattleMadeInvalidChoiceHandler)
+        this.createClientBound(BattleMusicPacket.ID, BattleMusicPacket::decode, BattleMusicHandler)
         // Settings packets
         this.createClientBound(ServerSettingsPacket.ID, ServerSettingsPacket::decode, ServerSettingsPacketHandler)
 

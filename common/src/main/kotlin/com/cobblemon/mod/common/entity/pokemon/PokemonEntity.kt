@@ -93,7 +93,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import java.util.*
@@ -101,6 +100,7 @@ import java.util.concurrent.CompletableFuture
 import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.text.TextContent
 
 class PokemonEntity(
@@ -395,8 +395,10 @@ class PokemonEntity(
                     if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
                         pokemon.status = null
                         return false
+                    } else if (pokemon.status?.status == Statuses.SLEEP || isBusy) {
+                        return true
                     }
-                    return super.canStop()
+                    return false
                 }
                 override fun getControls() = EnumSet.allOf(Control::class.java)
             })
@@ -428,8 +430,8 @@ class PokemonEntity(
                 !this.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) &&
                 worldTime in this.behaviour.resting.times &&
                 light in rest.light &&
-                (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, this.world.registryManager.get(Registry.BLOCK_KEY)) }) &&
-                (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(Registry.BIOME_KEY)) })
+                (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, this.world.registryManager.get(RegistryKeys.BLOCK)) }) &&
+                (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(RegistryKeys.BIOME)) })
     }
 
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
@@ -473,7 +475,6 @@ class PokemonEntity(
                 }
             }
         }
-
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {

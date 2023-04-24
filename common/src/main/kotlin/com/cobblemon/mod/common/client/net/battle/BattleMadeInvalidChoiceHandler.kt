@@ -8,15 +8,14 @@
 
 package com.cobblemon.mod.common.client.net.battle
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMadeInvalidChoicePacket
 import net.minecraft.client.MinecraftClient
 
-object BattleMadeInvalidChoiceHandler : ClientPacketHandler<BattleMadeInvalidChoicePacket> {
-    override fun invokeOnClient(packet: BattleMadeInvalidChoicePacket, ctx: CobblemonNetwork.NetworkContext) {
+object BattleMadeInvalidChoiceHandler : ClientNetworkPacketHandler<BattleMadeInvalidChoicePacket> {
+    override fun handle(packet: BattleMadeInvalidChoicePacket, client: MinecraftClient) {
         //Remove previous selected action, so user can select a new action
         val battle = CobblemonClient.battle ?: return
         battle.mustChoose = true

@@ -37,6 +37,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             pokemonEntity.upwardSpeed = 0F
             return
         }
+
         val behaviour = pokemonEntity.behaviour
         val mediumSpeed = if (pokemonEntity.getPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
             behaviour.moving.fly.flySpeedHorizontal

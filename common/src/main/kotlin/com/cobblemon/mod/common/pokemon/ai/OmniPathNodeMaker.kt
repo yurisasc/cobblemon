@@ -195,9 +195,9 @@ class OmniPathNodeMaker : PathNodeMaker() {
 
     override fun getNodeType(world: BlockView, x: Int, y: Int, z: Int, mob: MobEntity): PathNodeType? {
         val set = EnumSet.noneOf(PathNodeType::class.java)
-        val sizeX = (mob.boundingBox.maxX - mob.boundingBox.minX).toInt()
-        val sizeY = (mob.boundingBox.maxY - mob.boundingBox.minY).toInt()
-        val sizeZ = (mob.boundingBox.maxZ - mob.boundingBox.minZ).toInt()
+        val sizeX = (mob.boundingBox.maxX - mob.boundingBox.minX).toInt() + 1
+        val sizeY = (mob.boundingBox.maxY - mob.boundingBox.minY).toInt() + 1
+        val sizeZ = (mob.boundingBox.maxZ - mob.boundingBox.minZ).toInt() + 1
         var type = findNearbyNodeTypes(world, x, y, z, sizeX, sizeY, sizeZ, canOpenDoors, canEnterOpenDoors, set, PathNodeType.BLOCKED, BlockPos(x, y, z))
 //        if (type == PathNodeType.WATER && PathNodeType.WALKABLE in set) {
 //            type = PathNodeType.WALKABLE

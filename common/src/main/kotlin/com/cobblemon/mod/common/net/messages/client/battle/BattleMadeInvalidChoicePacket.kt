@@ -9,9 +9,21 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class BattleMadeInvalidChoicePacket : NetworkPacket {
+/**
+ * Packet sent to tell the player they can't do a thing.
+ *
+ * @author Yaseen
+ * April 22nd, 2023
+ */
+class BattleMadeInvalidChoicePacket : NetworkPacket<BattleMadeInvalidChoicePacket> {
+    companion object {
+        val ID = cobblemonResource("battle_made_invalid_choice")
+        fun decode(buffer: PacketByteBuf) = BattleMadeInvalidChoicePacket()
+    }
+
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {}
-    override fun decode(buffer: PacketByteBuf) {}
 }

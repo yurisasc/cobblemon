@@ -12,9 +12,10 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundEvent
-import net.minecraft.util.registry.Registry
 
 /**
  * Instructs a client what SoundEvent to play during a battle. If the SoundEvent specified is null, the SoundEvent
@@ -25,27 +26,37 @@ import net.minecraft.util.registry.Registry
  * @author Segfault Guy
  * @since April 20th, 2023
  */
-class BattleMusicPacket() : NetworkPacket {
+class BattleMusicPacket : NetworkPacket<BattleMusicPacket> {
+    companion object {
+        val ID = cobblemonResource("battle_music")
+        fun decode(buffer: PacketByteBuf) =  BattleMusicPacket(
+            music = Registries.SOUND_EVENT.get(buffer.readIdentifier()),
+            volume = buffer.readFloat(),
+            pitch = buffer.readFloat()
+        )
+    }
+
+    override val id = ID
 
     var music : SoundEvent? = null
     var volume = 1.0f
     var pitch = 1.0f
 
-    constructor(music: SoundEvent?, volume: Float = 1.0f, pitch: Float = 1.0f) : this() {
+    constructor(music: SoundEvent?, volume: Float = 1.0f, pitch: Float = 1.0f) {
         this.music = music
         this.volume = volume
         this.pitch = pitch
     }
 
-    constructor(battle: PokemonBattle, volume: Float = 1.0f, pitch: Float = 1.0f) : this() {
+    constructor(battle: PokemonBattle, volume: Float = 1.0f, pitch: Float = 1.0f) {
         this.music = if (battle.isPvP) {
-            CobblemonSounds.PVP_BATTLE.get()
+            CobblemonSounds.PVP_BATTLE
         }
         else if (battle.isPvN) {
-            CobblemonSounds.PVN_BATTLE.get()
+            CobblemonSounds.PVN_BATTLE
         }
         else {
-            CobblemonSounds.PVW_BATTLE.get()
+            CobblemonSounds.PVW_BATTLE
         }
         this.volume = volume
         this.pitch = pitch
@@ -55,12 +66,5 @@ class BattleMusicPacket() : NetworkPacket {
         music?.let { buffer.writeIdentifier(it.id) } ?: buffer.writeIdentifier("".asIdentifierDefaultingNamespace())
         buffer.writeFloat(volume)
         buffer.writeFloat(pitch)
-    }
-
-    override fun decode(buffer: PacketByteBuf) {
-        val musicKey = buffer.readIdentifier()
-        music = Registry.SOUND_EVENT.get(musicKey)
-        volume = buffer.readFloat()
-        pitch = buffer.readFloat()
     }
 }

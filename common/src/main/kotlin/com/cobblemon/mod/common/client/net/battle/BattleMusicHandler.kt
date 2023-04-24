@@ -9,10 +9,9 @@
 package com.cobblemon.mod.common.client.net.battle
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
-import com.cobblemon.mod.common.mixin.accessor.MusicTrackerAccessor
 import com.cobblemon.mod.common.access.SoundManagerDuck
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
+import com.cobblemon.mod.common.mixin.accessor.MusicTrackerAccessor
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.sound.PositionedSoundInstance
@@ -24,15 +23,15 @@ import net.minecraft.sound.SoundEvent
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 
-object BattleMusicHandler : ClientPacketHandler<BattleMusicPacket> {
+object BattleMusicHandler : ClientNetworkPacketHandler<BattleMusicPacket> {
 
     // Keep a reference for look-up in SoundManager
     var music: BattleMusicInstance? = null
     // SoundCategories that are blocked while battle music is playing
     private val interferences = listOf(SoundCategory.AMBIENT, SoundCategory.RECORDS)
 
-    override fun invokeOnClient(packet: BattleMusicPacket, ctx: CobblemonNetwork.NetworkContext) {
-        val soundManager = MinecraftClient.getInstance().soundManager
+    override fun handle(packet: BattleMusicPacket, client: MinecraftClient) {
+        val soundManager = client.soundManager
         val newMusic = packet.music
         val currMusic = this.music
 
