@@ -399,6 +399,7 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("revavroom", ::RevavroomModel)
 
         inbuilt("lanturn", ::LanturnModel)
+        inbuilt("lanturn", ::LanturnModel)
 
         // Unhooked because the families are not completed
 //        inbuilt("sprigatito", ::SprigatitoModel)
