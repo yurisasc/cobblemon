@@ -9,12 +9,21 @@
 package com.cobblemon.mod.common
 
 import java.util.function.Supplier
+import net.minecraft.block.Block
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.client.color.block.BlockColorProvider
+import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.SpriteProvider
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
+import net.minecraft.resource.SynchronousResourceReloader
 
 interface CobblemonClientImplementation {
     fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>)
@@ -22,4 +31,12 @@ interface CobblemonClientImplementation {
         type: ParticleType<T>,
         factory: (SpriteProvider) -> ParticleFactory<T>
     )
+
+    fun registerBlockRenderType(layer: RenderLayer, vararg blocks: Block)
+
+    fun registerItemColors(provider: ItemColorProvider, vararg items: Item)
+
+    fun registerBlockColors(provider: BlockColorProvider, vararg blocks: Block)
+
+    fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<T>, factory: BlockEntityRendererFactory<T>)
 }

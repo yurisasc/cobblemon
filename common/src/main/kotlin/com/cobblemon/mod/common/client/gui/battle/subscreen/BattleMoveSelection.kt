@@ -51,8 +51,8 @@ class BattleMoveSelection(
         const val MOVE_VERTICAL_SPACING = 5F
         const val MOVE_HORIZONTAL_SPACING = 13F
 
-        val moveTexture = cobblemonResource("ui/battle/battle_move.png")
-        val moveOverlayTexture = cobblemonResource("ui/battle/battle_move_overlay.png")
+        val moveTexture = cobblemonResource("textures/gui/battle/battle_move.png")
+        val moveOverlayTexture = cobblemonResource("textures/gui/battle/battle_move_overlay.png")
     }
 
     val moveSet = request.moveSet!!
@@ -169,7 +169,7 @@ class BattleMoveSelection(
         }
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         moveTiles.forEach {
             it.render(matrices, mouseX, mouseY, delta)
         }
@@ -190,6 +190,6 @@ class BattleMoveSelection(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 }

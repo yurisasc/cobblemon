@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cobblemon:items/evolution/star_sweet"
+    "layer0": "cobblemon:item/evolution/star_sweet"
   }
 }

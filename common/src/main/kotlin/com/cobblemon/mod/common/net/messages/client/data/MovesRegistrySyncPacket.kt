@@ -13,11 +13,12 @@ import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.moves.categories.DamageCategories
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.MoveTarget
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate> {
-    constructor(): super(emptyList())
-    constructor(moves: List<MoveTemplate>): super(moves)
+class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacket<MoveTemplate, MovesRegistrySyncPacket>(moves) {
+
+    override val id = ID
 
     override fun encodeEntry(buffer: PacketByteBuf, entry: MoveTemplate) {
         buffer.writeString(entry.name)
@@ -54,5 +55,10 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate> {
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {
         Moves.receiveSyncPacket(entries)
+    }
+
+    companion object {
+        val ID = cobblemonResource("moves_sync")
+        fun decode(buffer: PacketByteBuf): MovesRegistrySyncPacket = MovesRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 }

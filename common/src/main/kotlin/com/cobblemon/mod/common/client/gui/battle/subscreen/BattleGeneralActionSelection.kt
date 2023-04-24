@@ -84,7 +84,7 @@ class BattleGeneralActionSelection(
         )
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         for (tile in tiles) {
             tile.render(matrices, mouseX, mouseY, delta)
         }
@@ -94,11 +94,11 @@ class BattleGeneralActionSelection(
         return tiles.any { it.mouseClicked(mouseX, mouseY, button) }
     }
 
-    override fun appendNarrations(builder: NarrationMessageBuilder) {
+    override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
     override fun getType() = Selectable.SelectionType.NONE

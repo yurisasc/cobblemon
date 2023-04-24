@@ -8,45 +8,35 @@
 
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
-import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.pokemon.Natures
+import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
+import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.util.Identifier
-import net.minecraft.util.InvalidIdentifierException
+import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.PacketByteBuf
 
-class NatureUpdatePacket(
-    private var mintNature : Boolean = false
-) : StringUpdatePacket() {
-    constructor(pokemon: Pokemon, value: String, mintNature: Boolean): this() {
-        this.setTarget(pokemon)
-        this.value = value
-        this.mintNature = mintNature
+class NatureUpdatePacket(pokemon: Pokemon, val nature: Nature, val minted: Boolean) : PokemonUpdatePacket<NatureUpdatePacket>(pokemon) {
+
+    override val id = ID
+
+    override fun encodeDetails(buffer: PacketByteBuf) {
+        buffer.writeIdentifier(this.nature.name)
+        buffer.writeBoolean(this.minted)
     }
 
-    override fun set(pokemon: Pokemon, value: String) {
-        // Check for removing mint
-        if (mintNature && value.isEmpty()) {
-            pokemon.mintedNature = null
-            return
+    override fun applyToPokemon() {
+        if (this.minted) {
+            this.pokemon.mintedNature = this.nature
         }
-
-        try {
-            val nature = Natures.getNature(Identifier(value))
-            // Validate the nature locally
-            if (nature == null) {
-                LOGGER.warn("A invalid nature of '$value' was attempted to be put onto: '$pokemon'")
-                return
-            }
-
-            // Check which nature to modify
-            if (!mintNature) {
-                pokemon.nature = nature
-            } else {
-                pokemon.mintedNature = nature
-            }
-        } catch (e: InvalidIdentifierException) {
-            // This should never happen
-            LOGGER.error("Failed to resolve nature value in NatureUpdatePacket", e)
+        else {
+            this.pokemon.nature = this.nature
         }
     }
+
+    companion object {
+        val ID = cobblemonResource("nature_update")
+        fun decode(buffer: PacketByteBuf) = NatureUpdatePacket(decodePokemon(buffer), Natures.getNature(buffer.readIdentifier())!!, buffer.readBoolean())
+
+    }
+
 }

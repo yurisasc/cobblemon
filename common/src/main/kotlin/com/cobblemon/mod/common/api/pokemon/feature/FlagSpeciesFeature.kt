@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.substitute
 import com.google.gson.JsonObject
 import kotlin.random.Random
 import net.minecraft.nbt.NbtCompound

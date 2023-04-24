@@ -13,10 +13,16 @@ import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.green
-import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.block.HealingMachineBlock
+import com.cobblemon.mod.common.pokeball.PokeBall
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.toVec3d
 import java.util.UUID
+import kotlin.math.floor
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
@@ -26,12 +32,11 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import kotlin.math.floor
 
 class HealingMachineBlockEntity(
     val blockPos: BlockPos,
     val blockState: BlockState
-) : BlockEntity(CobblemonBlockEntities.HEALING_MACHINE.get(), blockPos, blockState) {
+) : BlockEntity(CobblemonBlockEntities.HEALING_MACHINE, blockPos, blockState) {
     var currentUser: UUID? = null
         private set
     var pokeBalls: MutableList<PokeBall> = mutableListOf()
@@ -84,7 +89,7 @@ class HealingMachineBlockEntity(
         this.setUser(player.uuid)
         alreadyHealing.add(player.uuid)
         updateBlockChargeLevel(HealingMachineBlock.MAX_CHARGE_LEVEL + 1)
-        if (world != null && !world!!.isClient) world!!.playSoundServer(position = blockPos.toVec3d(), sound = CobblemonSounds.HEALING_MACHINE_ACTIVE.get(), volume = 1F, pitch = 1F)
+        if (world != null && !world!!.isClient) world!!.playSoundServer(position = blockPos.toVec3d(), sound = CobblemonSounds.HEALING_MACHINE_ACTIVE, volume = 1F, pitch = 1F)
     }
 
     fun completeHealing() {

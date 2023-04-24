@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 
@@ -23,19 +24,13 @@ import net.minecraft.text.MutableText
  * @author Hiroku
  * @since August 5th, 2022
  */
-class ChallengeNotificationPacket internal constructor(): NetworkPacket {
-    lateinit var challengerName: MutableText
-    // Eventually details about the challenge will go in here
-
-    constructor(challengerName: MutableText): this() {
-        this.challengerName = challengerName
-    }
-
+class ChallengeNotificationPacket(val challengerName: MutableText): NetworkPacket<ChallengeNotificationPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeText(challengerName)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        challengerName = buffer.readText().copy()
+    companion object {
+        val ID = cobblemonResource("challenge_notification")
+        fun decode(buffer: PacketByteBuf) = ChallengeNotificationPacket(buffer.readText().copy())
     }
 }

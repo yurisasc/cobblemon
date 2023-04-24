@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
-import java.lang.NumberFormatException
 
 const val QUOTE = '"'
 

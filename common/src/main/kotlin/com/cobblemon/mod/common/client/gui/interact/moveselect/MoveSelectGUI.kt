@@ -28,7 +28,7 @@ class MoveSelectGUI(
         const val WIDTH = 122
         const val HEIGHT = 133
 
-        private val baseBackgroundResource = cobblemonResource("ui/interact/move_select.png")
+        private val baseBackgroundResource = cobblemonResource("textures/gui/interact/move_select.png")
     }
 
     private val moves = pokemon.moveSet.getMoves()
@@ -54,7 +54,7 @@ class MoveSelectGUI(
                 pX = x + 92,
                 pY = y + 115
             ) {
-                playSound(CobblemonSounds.GUI_CLICK.get())
+                playSound(CobblemonSounds.GUI_CLICK)
                 MinecraftClient.getInstance().setScreen(null)
             }
         )

@@ -31,8 +31,8 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.Vec3f
 import net.minecraft.util.shape.VoxelShapes
+import org.joml.Vector3f
 
 class SnowstormParticle(
     val storm: ParticleStorm,
@@ -72,7 +72,6 @@ class SnowstormParticle(
 //        val map = field.get(atlas) as Map<Identifier, Sprite>
 //        println(map.keys.joinToString { it.toString() })
         val sprite = atlas.getSprite(storm.effect.particle.texture)
-//        println(sprite.id)
 //        println(storm.effect.particle.texture)
         return sprite
     }
@@ -130,10 +129,10 @@ class SnowstormParticle(
         val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat() / 2
 
         val particleVertices = arrayOf(
-            Vec3f(-xSize, -ySize, 0.0f),
-            Vec3f(-xSize, ySize, 0.0f),
-            Vec3f(xSize, ySize, 0.0f),
-            Vec3f(xSize, -ySize, 0.0f)
+            Vector3f(-xSize, -ySize, 0.0f),
+            Vector3f(-xSize, ySize, 0.0f),
+            Vector3f(xSize, ySize, 0.0f),
+            Vector3f(xSize, -ySize, 0.0f)
         )
 
 

@@ -12,14 +12,14 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.config.starter.RenderableStarterCategory
 import com.cobblemon.mod.common.config.starter.StarterCategory
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-class OpenStarterUIPacket internal constructor() : NetworkPacket {
 
-    constructor(categories: List<StarterCategory>) : this() {
-        this.categories.addAll(categories.map { it.asRenderableStarterCategory() })
-    }
+class OpenStarterUIPacket internal constructor(val categories: List<RenderableStarterCategory>) : NetworkPacket<OpenStarterUIPacket> {
 
-    val categories = mutableListOf<RenderableStarterCategory>()
+    override val id = ID
+
+    constructor(categories: Collection<StarterCategory>) : this(categories.map { it.asRenderableStarterCategory() })
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeInt(categories.size)
@@ -31,23 +31,28 @@ class OpenStarterUIPacket internal constructor() : NetworkPacket {
         }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        val numCategories = buffer.readInt()
-        for (i in 0 until numCategories) {
-            val name = buffer.readString()
-            val displayName = buffer.readString()
-            val numProperties = buffer.readInt()
-            val renderablePokemon = mutableListOf<RenderablePokemon>()
-            repeat(times = numProperties) {
-                renderablePokemon.add(RenderablePokemon.loadFromBuffer(buffer))
-            }
-            categories.add(
-                RenderableStarterCategory(
-                    name = name,
-                    displayName = displayName,
-                    pokemon = renderablePokemon
+    companion object {
+        val ID = cobblemonResource("open_starter")
+        fun decode(buffer: PacketByteBuf): OpenStarterUIPacket {
+            val numCategories = buffer.readInt()
+            val categories = arrayListOf<RenderableStarterCategory>()
+            for (i in 0 until numCategories) {
+                val name = buffer.readString()
+                val displayName = buffer.readString()
+                val numProperties = buffer.readInt()
+                val renderablePokemon = mutableListOf<RenderablePokemon>()
+                repeat(times = numProperties) {
+                    renderablePokemon.add(RenderablePokemon.loadFromBuffer(buffer))
+                }
+                categories.add(
+                    RenderableStarterCategory(
+                        name = name,
+                        displayName = displayName,
+                        pokemon = renderablePokemon
+                    )
                 )
-            )
+            }
+            return OpenStarterUIPacket(categories)
         }
     }
 }

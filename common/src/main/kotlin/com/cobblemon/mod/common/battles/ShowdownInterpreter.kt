@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
@@ -32,14 +33,7 @@ import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
@@ -55,7 +49,6 @@ import java.util.concurrent.CompletableFuture
 import kotlin.math.roundToInt
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
 object ShowdownInterpreter {
@@ -130,6 +123,7 @@ object ShowdownInterpreter {
         splitUpdateInstructions["|drag|"] = this::handleDragInstruction
         splitUpdateInstructions["|-heal|"] = this::handleHealInstruction
         splitUpdateInstructions["|-sethp|"] = this::handleSetHpInstructions
+        sideUpdateInstructions["|error|"] = this::handleErrorInstructions
     }
 
     private fun boostInstruction(battle: PokemonBattle, line: String, remainingLines: MutableList<String>, isBoost: Boolean) {
@@ -463,6 +457,7 @@ object ShowdownInterpreter {
                 if (actor.uuid.getPlayer() != null) {
                     val initializePacket = BattleInitializePacket(battle, actor.getSide())
                     actor.sendUpdate(initializePacket)
+                    actor.sendUpdate(BattleMusicPacket(battle))
                 }
             }
             battle.actors.forEach { actor ->
@@ -733,11 +728,20 @@ object ShowdownInterpreter {
     private fun handleCureStatusInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchWaiting {
             val message = BattleMessage(rawMessage)
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val maybeActivePokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon
+            val maybePartyPokemon = message.getBattlePokemon(0, battle)
+            val pokemon = maybeActivePokemon ?: maybePartyPokemon ?: return@dispatchWaiting
             val status = message.argumentAt(1)?.let(Statuses::getStatus) ?: return@dispatchWaiting
             val effect = message.effect()
             pokemon.effectedPokemon.status = null
             pokemon.sendUpdate()
+
+            if (maybeActivePokemon != null) {
+                val pnx = message.argumentAt(0)?.substring(0, 3)
+                if (pnx is String) {
+                    battle.sendUpdate(BattlePersistentStatusPacket(pnx, null))
+                }
+            }
             val lang = when {
                 effect?.type == Effect.Type.ABILITY -> battleLang("cure_status.ability.${effect.id}", pokemon.getName())
                 // Lang related to move stuff is tied to the status as a generic message such as fire moves defrosting Pokémon
@@ -840,7 +844,7 @@ object ShowdownInterpreter {
                 "magnitude" -> battleLang("activate.magnitude", message.argumentAt(2)?.toIntOrNull() ?: 1)
                 "bide" -> battleLang("activate.bide", pokemonName)
                 "gravity" -> battleLang("activate.gravity", pokemonName)
-                "focusband" -> battleLang("item.hung_on.end", pokemonName, CobblemonItems.FOCUS_BAND.get().name)
+                "focusband" -> battleLang("item.hung_on.end", pokemonName, CobblemonItems.FOCUS_BAND.name)
                 "mistyterrain" -> battleLang("activate.misty_terrain", pokemonName)
                 "psychicterrain" -> battleLang("activate.psychic_terrain", pokemonName)
                 "healbell" -> battleLang("activate.heal_bell")
@@ -852,6 +856,8 @@ object ShowdownInterpreter {
                 "guardsplit" -> battleLang("activate.guard_split", pokemonName)
                 "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
                 "wrap" -> battleLang("activate.wrap", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
+                "lockon" -> battleLang("activate.lock_on", message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo, pokemonName)
+                "protosynthesis" -> battleLang("activate.protosynthesis", pokemonName)
                 "struggle" -> battleLang("activate.struggle", pokemonName)
                 "destinybond" -> battleLang("activate.destiny_bond", pokemonName)
                 "shedskin" -> {
@@ -1016,6 +1022,8 @@ object ShowdownInterpreter {
                     "bide" -> battleLang("end.bide", pokemonName)
                     "bind" -> battleLang("end.bind", pokemonName)
                     "wrap" -> battleLang("end.wrap", pokemonName)
+                    "disable" -> battleLang("end.disable", pokemonName)
+                    "protosynthesis" -> battleLang("end.protosynthesis", pokemonName)
                     "yawn" -> lang("status.sleep.apply", pokemonName)
                     else -> battle.createUnimplemented(message)
                 }
@@ -1065,6 +1073,32 @@ object ShowdownInterpreter {
                 }
                 it.broadcastChatMessage(lang)
             }
+        }
+    }
+
+    /**
+     * Format:
+     * |error|ERROR
+     *
+     * Some examples
+     * |error|[Invalid choice] Can't choose for Team Preview: You're not in a Team Preview phase
+     * |error|[Unavailable choice] Can't switch: The active Pokémon is trapped
+     * The protocol message to tell you to send a different decision:
+     */
+    private fun handleErrorInstructions(battle: PokemonBattle, battleActor: BattleActor, message: String) {
+        battle.log("Error Instruction")
+        battle.dispatchGo {
+            //TODO: some lang stuff for the error messages (Whats the protocol for adding to other langs )
+            //Also is it okay to ignore the team preview error for now? - You bet!
+            val battleMessage = BattleMessage(message)
+            val lang = when(message) {
+                "|error|[Unavailable choice] Can't switch: The active Pokémon is trapped" -> battleLang("error.pokemon_is_trapped").red()
+                "|error|[Invalid choice] Can't choose for Team Preview: You're not in a Team Preview phase" -> return@dispatchGo
+                else -> battle.createUnimplemented(battleMessage)
+            }
+            battleActor.sendMessage(lang)
+            battleActor.mustChoose = true
+            battleActor.sendUpdate(BattleMadeInvalidChoicePacket())
         }
     }
 

@@ -35,6 +35,7 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
@@ -212,6 +213,7 @@ open class PokemonBattle(
             }
         }
         sendUpdate(BattleEndPacket())
+        sendUpdate(BattleMusicPacket(null))
         BattleRegistry.closeBattle(this)
     }
 
@@ -226,7 +228,7 @@ open class PokemonBattle(
         }
     }
 
-    fun sendUpdate(packet: NetworkPacket) {
+    fun sendUpdate(packet: NetworkPacket<*>) {
         actors.forEach { it.sendUpdate(packet) }
         sendSpectatorUpdate(packet)
     }
@@ -239,23 +241,23 @@ open class PokemonBattle(
      * @param opponentPacket The packet sent to the opposing actors.
      * @param spectatorsAsAlly If the spectators receive the [allyPacket] or the [opponentPacket], default is false.
      */
-    fun sendSidedUpdate(source: BattleActor, allyPacket: NetworkPacket, opponentPacket: NetworkPacket, spectatorsAsAlly: Boolean = false) {
+    fun sendSidedUpdate(source: BattleActor, allyPacket: NetworkPacket<*>, opponentPacket: NetworkPacket<*>, spectatorsAsAlly: Boolean = false) {
         source.getSide().actors.forEach { it.sendUpdate(allyPacket) }
         source.getSide().getOppositeSide().actors.forEach { it.sendUpdate(opponentPacket) }
         sendSpectatorUpdate(if (spectatorsAsAlly) allyPacket else opponentPacket)
     }
 
-    fun sendToActors(packet: NetworkPacket) {
-        CobblemonNetwork.sendToPlayers(actors.flatMap { it.getPlayerUUIDs().mapNotNull { it.getPlayer() } }, packet)
+    fun sendToActors(packet: NetworkPacket<*>) {
+        CobblemonNetwork.sendPacketToPlayers(actors.flatMap { it.getPlayerUUIDs().mapNotNull { it.getPlayer() } }, packet)
     }
 
-    fun sendSplitUpdate(privateActor: BattleActor, publicPacket: NetworkPacket, privatePacket: NetworkPacket) {
+    fun sendSplitUpdate(privateActor: BattleActor, publicPacket: NetworkPacket<*>, privatePacket: NetworkPacket<*>) {
         actors.forEach {  it.sendUpdate(if (it == privateActor) privatePacket else publicPacket) }
         sendSpectatorUpdate(publicPacket)
     }
 
-    fun sendSpectatorUpdate(packet: NetworkPacket) {
-        CobblemonNetwork.sendToPlayers(spectators.mapNotNull { it.getPlayer() }, packet)
+    fun sendSpectatorUpdate(packet: NetworkPacket<*>) {
+        CobblemonNetwork.sendPacketToPlayers(spectators.mapNotNull { it.getPlayer() }, packet)
     }
 
     fun dispatch(dispatcher: () -> DispatchResult) {

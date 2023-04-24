@@ -110,7 +110,7 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
             else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
 
-    override fun isFertilizable(world: BlockView, pos: BlockPos, state: BlockState, isClient: Boolean) = state.get(AGE) < MAX_AGE
+    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = state.get(AGE) < MAX_AGE
 
     override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = true
 

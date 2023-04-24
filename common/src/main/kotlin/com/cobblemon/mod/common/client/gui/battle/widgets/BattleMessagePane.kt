@@ -35,22 +35,6 @@ class BattleMessagePane(
     1 + TEXT_BOX_HEIGHT, // bottom
     LINE_HEIGHT
 ) {
-
-    companion object {
-        const val LINE_HEIGHT = 10
-        const val LINE_WIDTH = 142
-        const val FRAME_WIDTH = 169
-        const val FRAME_HEIGHT = 55
-        const val FRAME_EXPANDED_HEIGHT = 101
-        const val TEXT_BOX_WIDTH = 153
-        const val TEXT_BOX_HEIGHT = 46
-        const val EXPAND_TOGGLE_SIZE = 5
-
-        private val battleMessagePaneFrameResource = cobblemonResource("ui/battle/battle_log.png")
-        private val battleMessagePaneFrameExpandedResource = cobblemonResource("ui/battle/battle_log_expanded.png")
-        private var expanded = false
-    }
-
     var opacity = 1F
     private var scrolling = false
 
@@ -78,6 +62,21 @@ class BattleMessagePane(
         val textBoxHeight = if (expanded) TEXT_BOX_HEIGHT * 2 else TEXT_BOX_HEIGHT
         updateSize(TEXT_BOX_WIDTH, textBoxHeight, appropriateY + 6, appropriateY + 6 + textBoxHeight)
         setLeftPos(appropriateX)
+    }
+
+    companion object {
+        const val LINE_HEIGHT = 10
+        const val LINE_WIDTH = 142
+        const val FRAME_WIDTH = 169
+        const val FRAME_HEIGHT = 55
+        const val FRAME_EXPANDED_HEIGHT = 101
+        const val TEXT_BOX_WIDTH = 153
+        const val TEXT_BOX_HEIGHT = 46
+        const val EXPAND_TOGGLE_SIZE = 5
+
+        private val battleMessagePaneFrameResource = cobblemonResource("textures/gui/battle/battle_log.png")
+        private val battleMessagePaneFrameExpandedResource = cobblemonResource("textures/gui/battle/battle_log_expanded.png")
+        private var expanded = false
     }
 
     override fun addEntry(entry: BattleMessageLine): Int {

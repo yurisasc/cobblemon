@@ -1,3 +1,9 @@
+configurations.all {
+    resolutionStrategy {
+        force(libs.fabricLoader)
+    }
+}
+
 plugins {
     id("cobblemon.platform-conventions")
     id("cobblemon.publish-conventions")
@@ -35,9 +41,9 @@ dependencies {
         isTransitive = false
     }
 
+    modImplementation(libs.fabricLoader)
     modApi(libs.fabricApi)
     modApi(libs.fabricKotlin)
-    modApi(libs.architecturyFabric)
     modApi(libs.fabricPermissionsApi)
 
     listOf(
@@ -69,9 +75,15 @@ tasks {
     processResources {
         dependsOn(copyAccessWidener)
         inputs.property("version", rootProject.version)
+        inputs.property("fabric_loader_version", libs.fabricLoader.get().version)
+        inputs.property("minecraft_version", rootProject.property("mc_version").toString())
 
         filesMatching("fabric.mod.json") {
-            expand("version" to rootProject.version)
+            expand(
+                "version" to rootProject.version,
+                "fabric_loader_version" to libs.fabricLoader.get().version,
+                "minecraft_version" to rootProject.property("mc_version").toString()
+            )
         }
     }
 }

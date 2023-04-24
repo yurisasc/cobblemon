@@ -31,10 +31,10 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         const val OPTION_ROOT_X = 12
         const val OPTION_VERTICAL_OFFSET = 85
 
-        val fightResource = cobblemonResource("ui/battle/battle_menu_fight.png")
-        val bagResource = cobblemonResource("ui/battle/battle_menu_bag.png")
-        val switchResource = cobblemonResource("ui/battle/battle_menu_switch.png")
-        val runResource = cobblemonResource("ui/battle/battle_menu_run.png")
+        val fightResource = cobblemonResource("textures/gui/battle/battle_menu_fight.png")
+        val bagResource = cobblemonResource("textures/gui/battle/battle_menu_bag.png")
+        val switchResource = cobblemonResource("textures/gui/battle/battle_menu_switch.png")
+        val runResource = cobblemonResource("textures/gui/battle/battle_menu_run.png")
     }
 
     private lateinit var messagePane: BattleMessagePane
@@ -60,6 +60,12 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     }
 
     fun getCurrentActionSelection() = children().filterIsInstance<BattleActionSelection>().firstOrNull()
+
+    fun removeInvalidBattleActionSelection() {
+        children().filterIsInstance<BattleActionSelection>().firstOrNull()?.let {
+            children().remove(it)
+        }
+    }
 
     fun selectAction(request: SingleActionRequest, response: ShowdownActionResponse) {
         val battle = CobblemonClient.battle ?: return

@@ -10,13 +10,20 @@ package com.cobblemon.mod.common.api.events
 
 import com.cobblemon.mod.common.api.events.battles.*
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
-import com.cobblemon.mod.common.api.events.entity.EntityAttributeEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
+import com.cobblemon.mod.common.api.events.entity.SpawnEvent
 import com.cobblemon.mod.common.api.events.farming.ApricornHarvestEvent
 import com.cobblemon.mod.common.api.events.item.LeftoversCreatedEvent
-import com.cobblemon.mod.common.api.events.net.MessageBuiltEvent
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPostEvent
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent
+import com.cobblemon.mod.common.api.events.pokemon.FriendshipUpdatedEvent
+import com.cobblemon.mod.common.api.events.pokemon.LevelUpEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonFaintedEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonNicknamedEvent
+import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.events.pokemon.*
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
@@ -26,28 +33,16 @@ import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.events.storage.ReleasePokemonEvent
 import com.cobblemon.mod.common.api.reactive.CancelableObservable
 import com.cobblemon.mod.common.api.reactive.EventObservable
+import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
+import com.cobblemon.mod.common.api.reactive.Observable.Companion.map
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.util.asObservable
-import com.cobblemon.mod.common.util.asServerObservable
-import com.cobblemon.mod.common.util.asTickObservable
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.EntityEvent.LivingDeath
-import dev.architectury.event.events.common.LifecycleEvent
-import dev.architectury.event.events.common.PlayerEvent
-import dev.architectury.event.events.common.PlayerEvent.PlayerJoin
-import dev.architectury.event.events.common.PlayerEvent.PlayerQuit
-import dev.architectury.event.events.common.TickEvent
-import net.minecraft.entity.LivingEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.server.network.ServerPlayerEntity
 
 object CobblemonEvents {
-    @JvmField
-    val MESSAGE_BUILT = EventObservable<MessageBuiltEvent<*>>()
+
     @JvmField
     val DATA_SYNCHRONIZED = SimpleObservable<ServerPlayerEntity>()
-    @JvmField
-    val ENTITY_ATTRIBUTE = EventObservable<EntityAttributeEvent>()
     @JvmField
     val SHOULDER_MOUNT = CancelableObservable<ShoulderMountEvent>()
     @JvmField
@@ -60,6 +55,8 @@ object CobblemonEvents {
     val EVOLUTION_DISPLAY = EventObservable<EvolutionDisplayEvent>()
     @JvmField
     val EVOLUTION_COMPLETE = EventObservable<EvolutionCompleteEvent>()
+    @JvmField
+    val POKEMON_NICKNAMED = CancelableObservable<PokemonNicknamedEvent>()
 
     @JvmField
     val POKEMON_CAPTURED = EventObservable<PokemonCapturedEvent>()
@@ -90,6 +87,15 @@ object CobblemonEvents {
     val POKEMON_ENTITY_LOAD = CancelableObservable<PokemonEntityLoadEvent>()
     @JvmField
     val POKEMON_ENTITY_SAVE_TO_WORLD = CancelableObservable<PokemonEntitySaveToWorldEvent>()
+    @JvmField
+    val ENTITY_SPAWN = CancelableObservable<SpawnEvent<*>>()
+
+    @JvmField
+    val POKEMON_ENTITY_SPAWN = ENTITY_SPAWN
+        .pipe(
+            filter { it.entity is PokemonEntity },
+            map { it as SpawnEvent<PokemonEntity> }
+        )
 
     @JvmField
     val EXPERIENCE_GAINED_EVENT_PRE = CancelableObservable<ExperienceGainedPreEvent>()
@@ -114,27 +120,4 @@ object CobblemonEvents {
     val APRICORN_HARVESTED = EventObservable<ApricornHarvestEvent>()
     @JvmField
     val LEFTOVERS_CREATED = CancelableObservable<LeftoversCreatedEvent>()
-
-    @JvmField
-    val SERVER_STARTING = LifecycleEvent.SERVER_STARTING.asServerObservable()
-    @JvmField
-    val SERVER_STOPPING = LifecycleEvent.SERVER_STOPPING.asServerObservable()
-
-    @JvmField
-    val SERVER_STARTED = LifecycleEvent.SERVER_STARTED.asServerObservable()
-    @JvmField
-    val SERVER_STOPPED = LifecycleEvent.SERVER_STOPPED.asServerObservable()
-
-    @JvmField
-    val TICK_PRE = TickEvent.SERVER_PRE.asTickObservable()
-    @JvmField
-    val TICK_POST = TickEvent.SERVER_POST.asTickObservable()
-
-    @JvmField
-    val PLAYER_JOIN = PlayerEvent.PLAYER_JOIN.asObservable<PlayerJoin, ServerPlayerEntity> { obs -> PlayerJoin { obs.emit(it) } }
-    @JvmField
-    val PLAYER_QUIT = PlayerEvent.PLAYER_QUIT.asObservable<PlayerQuit, ServerPlayerEntity> { obs -> PlayerQuit { obs.emit(it) } }
-
-    @JvmField
-    val LIVING_DEATH = EntityEvent.LIVING_DEATH.asObservable<LivingDeath, LivingEntity> { obs -> LivingDeath { entity, source -> obs.emit(entity); EventResult.pass() } }
 }

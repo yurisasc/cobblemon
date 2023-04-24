@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.api.pokeball.catching.calculators
 
-import net.minecraft.server.network.ServerPlayerEntity
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * A provider for the possibility at a critical capture.

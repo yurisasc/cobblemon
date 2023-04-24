@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.entity.pokeball
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
@@ -27,21 +28,20 @@ import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleTypes
+import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyCaptureResponsePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
+import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.util.asResource
 import com.cobblemon.mod.common.util.isServerSide
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.sendParticlesServer
 import com.cobblemon.mod.common.util.setPositionSafely
-import dev.architectury.extensions.network.EntitySpawnExtension
-import dev.architectury.networking.NetworkManager
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -52,8 +52,9 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity
 import net.minecraft.item.Item
-import net.minecraft.network.Packet
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.packet.Packet
+import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
@@ -64,7 +65,7 @@ import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
+class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
     enum class CaptureState {
         NOT,
         HIT,
@@ -101,7 +102,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
     val captureFuture = CompletableFuture<Boolean>()
 
     val delegate = if (world.isClient) {
-        com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate()
+        EmptyPokeBallClientDelegate()
     } else {
         EmptyPokeBallServerDelegate()
     }
@@ -123,7 +124,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
     constructor(
         pokeBall: PokeBall,
         world: World,
-        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL.get()
+        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL
     ): super(entityType, world) {
         this.pokeBall = pokeBall
     }
@@ -132,7 +133,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         pokeBall: PokeBall,
         world: World,
         ownerEntity: LivingEntity,
-        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL.get()
+        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL
     ): super(entityType, ownerEntity, world) {
         this.pokeBall = pokeBall
     }
@@ -243,9 +244,9 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
     override fun shouldSave() = false
 
     override fun tick() {
+        super.tick()
         delegate.tick(this)
         entityProperties.forEach { it.checkForUpdate() }
-        super.tick()
         if (world.isServerSide()) {
             capturingPokemon?.let {
                 if (hitTargetPosition.get() != it.pos && !it.isInvisible) {
@@ -306,7 +307,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
                 captureState.set((if (captureResult.isCriticalCapture) CaptureState.CAPTURED_CRITICAL else CaptureState.CAPTURED).ordinal.toByte())
                 // Do a capture
                 world.sendParticlesServer(ParticleTypes.CRIT, pos, 10, Vec3d(0.1, -0.5, 0.1), 0.2)
-                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED.get(), volume = 0.3F, pitch = 1F)
+                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED, volume = 0.3F, pitch = 1F)
                 val pokemon = capturingPokemon ?: return
                 val player = this.owner as? ServerPlayerEntity ?: return
 
@@ -330,7 +331,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
             return
         }
 
-        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE.get())
+        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE)
         shakeEmitter.set(!shakeEmitter.get())
     }
 
@@ -348,16 +349,12 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
             pokemon.busyLocks.remove(this)
             captureFuture.complete(false)
             world.sendParticlesServer(ParticleTypes.CLOUD, pos, 20, Vec3d(0.0, 0.2, 0.0), 0.05)
-            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_OPEN.get())
+            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_OPEN)
             discard()
         }
     }
 
     override fun getDefaultItem(): Item = pokeBall.item()
-
-    override fun createSpawnPacket(): Packet<*> {
-        return NetworkManager.createAddEntityPacket(this)
-    }
 
     override fun getDimensions(pPose: EntityPose) = DIMENSIONS
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
@@ -375,7 +372,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         val displace = velocity
         captureState.set(CaptureState.HIT.ordinal.toByte())
         val mul = if (random.nextBoolean()) 1 else -1
-        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_HIT.get())
+        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_HIT)
         // Bounce backwards away from the hit Pokémon
         velocity = displace.multiply(-1.0, 0.0, -1.0).normalize().rotateY(mul * PI/3).multiply(0.1, 0.0, 0.1).add(0.0, 1.0 / 3, 0.0)
         pokemonEntity.phasingTargetId.set(this.id)
@@ -383,7 +380,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
             // Start beaming them up.
             velocity = Vec3d.ZERO
             setNoGravity(true)
-            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED.get(), volume = 0.2F)
+            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED, volume = 0.2F)
             pokemonEntity.beamModeEmitter.set(2.toByte())
         }
 
@@ -404,20 +401,11 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         }
     }
 
-    override fun saveAdditionalSpawnData(buf: PacketByteBuf) {
-        buf.writeString(pokeBall.name.toString())
-        buf.writeCollection(aspects.get()) { _, aspect -> buf.writeString(aspect)}
-    }
-
-    override fun loadAdditionalSpawnData(buf: PacketByteBuf) {
-        pokeBall = PokeBalls.getPokeBall(buf.readString().asResource()) ?: PokeBalls.POKE_BALL
-        aspects.set(buf.readList { it.readString() }.toSet())
-    }
-
     override fun getPoseType(): PoseType {
         return PoseType.NONE
     }
 
     override fun canUsePortals() = false
 
+    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokeballPacket(this.pokeBall, this.aspects.get(), super.createSpawnPacket() as EntitySpawnS2CPacket))
 }

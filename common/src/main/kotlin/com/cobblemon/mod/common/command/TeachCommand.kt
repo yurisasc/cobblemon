@@ -53,11 +53,11 @@ object TeachCommand {
         val move = MoveArgumentType.getMove(context, MOVE)
 
         if (!Cobblemon.permissionValidator.hasPermission(context.source, CobblemonPermissions.TEACH_BYPASS_LEARNSET) && !LearnsetQuery.ANY.canLearn(move, pokemon.form.moves)) {
-            throw CANT_LEARN_EXCEPTION.create(pokemon.displayName, move.displayName)
+            throw CANT_LEARN_EXCEPTION.create(pokemon.getDisplayName(), move.displayName)
         }
 
         if (pokemon.moveSet.getMoves().any { it.template == move } || pokemon.benchedMoves.any { it.moveTemplate == move }) {
-            throw ALREADY_KNOWS_EXCEPTION.create(pokemon.displayName, move.displayName)
+            throw ALREADY_KNOWS_EXCEPTION.create(pokemon.getDisplayName(), move.displayName)
         }
 
         if (pokemon.moveSet.hasSpace()) {

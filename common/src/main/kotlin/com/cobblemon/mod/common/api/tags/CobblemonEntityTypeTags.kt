@@ -9,8 +9,8 @@
 package com.cobblemon.mod.common.api.tags
 
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.tag.TagKey
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 
 /**
  * A collection of the Cobblemon [TagKey]s related to the [Registry.ENTITY_TYPE].
@@ -27,6 +27,6 @@ object CobblemonEntityTypeTags {
     @JvmField
     val CANNOT_HAVE_NAME_TAG = create("cannot_have_name_tag")
 
-    private fun create(path: String) = TagKey.of(Registry.ENTITY_TYPE_KEY, cobblemonResource(path))
+    private fun create(path: String) = TagKey.of(RegistryKeys.ENTITY_TYPE, cobblemonResource(path))
 
 }

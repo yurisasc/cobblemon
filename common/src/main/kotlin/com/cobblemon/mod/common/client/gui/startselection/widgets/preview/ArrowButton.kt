@@ -24,8 +24,8 @@ class ArrowButton(
     texture, onPress) {
 
     companion object {
-        private val RIGHT_ARROW_BUTTON_RESOURCE = cobblemonResource("ui/starterselection/starterselection_arrow_right.png")
-        private val LEFT_ARROW_BUTTON_RESOURCE = cobblemonResource("ui/starterselection/starterselection_arrow_left.png")
+        private val RIGHT_ARROW_BUTTON_RESOURCE = cobblemonResource("textures/gui/starterselection/starterselection_arrow_right.png")
+        private val LEFT_ARROW_BUTTON_RESOURCE = cobblemonResource("textures/gui/starterselection/starterselection_arrow_left.png")
 
         private const val ARROW_BUTTON_WIDTH = 9f
         private const val ARROW_BUTTON_HEIGHT = 14f

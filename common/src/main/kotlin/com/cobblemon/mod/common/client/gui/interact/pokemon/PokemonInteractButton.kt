@@ -22,7 +22,7 @@ class PokemonInteractButton(
     private val enabled: Boolean = true,
     private val container: PokemonInteractGUI,
     onPress: PressAction
-) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("Interact"), onPress) {
+) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("Interact"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         const val SIZE = 69

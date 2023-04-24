@@ -8,12 +8,13 @@
 
 package com.cobblemon.mod.common.net.messages.client.storage.pc
 
+import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.messages.PokemonDTO
-import com.cobblemon.mod.common.net.messages.client.storage.SetPokemonPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -25,17 +26,21 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 18th, 2022
  */
-class SetPCPokemonPacket : SetPokemonPacket<PCPosition> {
-    constructor() {
-        this.pokemon = PokemonDTO()
+class SetPCPokemonPacket internal constructor(val storeID: UUID, val storePosition: PCPosition, val pokemonDTO: PokemonDTO) : NetworkPacket<SetPCPokemonPacket> {
+
+    override val id = ID
+
+    constructor(storeID: UUID, storePosition: PCPosition, pokemon: Pokemon) : this(storeID, storePosition, PokemonDTO(pokemon, true))
+
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeUuid(this.storeID)
+        buffer.writePCPosition(this.storePosition)
+        this.pokemonDTO.encode(buffer)
     }
 
-    constructor(storeID: UUID, storePosition: PCPosition, pokemon: Pokemon) {
-        this.storeID = storeID
-        this.storePosition = storePosition
-        this.pokemon = PokemonDTO(pokemon, toClient = true)
+    companion object {
+        val ID = cobblemonResource("set_pc_pokemon")
+        fun decode(buffer: PacketByteBuf) = SetPCPokemonPacket(buffer.readUuid(), buffer.readPCPosition(), PokemonDTO().apply { decode(buffer) })
     }
 
-    override fun encodePosition(buffer: PacketByteBuf) = buffer.writePCPosition(storePosition)
-    override fun decodePosition(buffer: PacketByteBuf) = buffer.readPCPosition()
 }

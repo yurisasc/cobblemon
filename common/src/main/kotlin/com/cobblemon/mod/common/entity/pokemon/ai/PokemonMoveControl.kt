@@ -21,8 +21,8 @@ import kotlin.math.sqrt
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.tag.BlockTags
-import net.minecraft.tag.FluidTags
+import net.minecraft.registry.tag.BlockTags
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -37,6 +37,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             pokemonEntity.upwardSpeed = 0F
             return
         }
+
         val behaviour = pokemonEntity.behaviour
         val mediumSpeed = if (pokemonEntity.getPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
             behaviour.moving.fly.flySpeedHorizontal

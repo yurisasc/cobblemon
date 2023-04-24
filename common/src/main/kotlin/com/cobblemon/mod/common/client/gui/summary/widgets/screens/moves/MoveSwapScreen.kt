@@ -41,8 +41,8 @@ class MoveSwapScreen(
         const val SLOT_HEIGHT = 18
         const val SLOT_SPACING = 3
 
-        private val moveResource = cobblemonResource("ui/summary/summary_move_condensed.png")
-        private val moveOverlayResource = cobblemonResource("ui/summary/summary_move_overlay_condensed.png")
+        private val moveResource = cobblemonResource("textures/gui/summary/summary_move_condensed.png")
+        private val moveOverlayResource = cobblemonResource("textures/gui/summary/summary_move_overlay_condensed.png")
     }
 
     public override fun addEntry(entry: MoveSlot): Int {
@@ -187,7 +187,7 @@ class MoveSwapScreen(
             if (isMouseOver(d, e)) {
                 val pokemon = pane.movesWidget.summary.selectedPokemon
                 val isParty = pokemon in CobblemonClient.storage.myParty
-                CobblemonNetwork.sendToServer(
+                CobblemonNetwork.sendPacketToServer(
                     BenchMovePacket(
                         isParty = isParty,
                         uuid = pokemon.uuid,
@@ -195,7 +195,7 @@ class MoveSwapScreen(
                         newMove = move
                     )
                 )
-                pane.movesWidget.summary.playSound(CobblemonSounds.GUI_CLICK.get())
+                pane.movesWidget.summary.playSound(CobblemonSounds.GUI_CLICK)
                 pane.movesWidget.summary.displaySideScreen(Summary.PARTY)
                 return true
             }

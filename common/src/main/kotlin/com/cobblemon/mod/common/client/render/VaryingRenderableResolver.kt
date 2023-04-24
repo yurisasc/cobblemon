@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityMo
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.VaryingModelRepository
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.adapters.ModelTextureSupplierAdapter
-import com.cobblemon.mod.common.util.adapters.Vec3fAdapter
+import com.cobblemon.mod.common.util.adapters.Vector3fAdapter
 import com.cobblemon.mod.common.util.adapters.Vector4fAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
@@ -21,8 +21,8 @@ import kotlin.math.floor
 import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Vec3f
-import net.minecraft.util.math.Vector4f
+import org.joml.Vector3f
+import org.joml.Vector4f
 
 /**
  * All the information required for rendering a Pokémon/Poké Ball/NPC with aspects.
@@ -84,7 +84,7 @@ class VaryingRenderableResolver<E : Entity, M : PoseableEntityModel<E>>(
         val GSON = GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
-            .registerTypeAdapter(Vec3f::class.java, Vec3fAdapter)
+            .registerTypeAdapter(Vector3f::class.java, Vector3fAdapter)
             .registerTypeAdapter(Vector4f::class.java, Vector4fAdapter)
             .registerTypeAdapter(ModelTextureSupplier::class.java, ModelTextureSupplierAdapter)
             .disableHtmlEscaping()

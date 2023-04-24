@@ -34,7 +34,7 @@ object DamageCategories {
     fun register(
         name: String,
         displayName: Text,
-        resourceLocation: Identifier = cobblemonResource("ui/categories.png"),
+        resourceLocation: Identifier = cobblemonResource("textures/gui/categories.png"),
         textureXMultiplier: Int
     ): DamageCategory {
         return DamageCategory(

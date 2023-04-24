@@ -12,9 +12,7 @@ import com.cobblemon.mod.common.util.endsWith
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
-import java.nio.file.Path
 import java.util.concurrent.ExecutionException
-import kotlin.io.path.pathString
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 

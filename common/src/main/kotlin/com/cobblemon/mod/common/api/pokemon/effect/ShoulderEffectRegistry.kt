@@ -8,11 +8,10 @@
 
 package com.cobblemon.mod.common.api.pokemon.effect
 
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.effects.*
 import com.cobblemon.mod.common.util.party
-import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
-import dev.architectury.event.events.common.PlayerEvent.PLAYER_QUIT
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
@@ -34,8 +33,8 @@ object ShoulderEffectRegistry {
     // Effects - END
 
     fun register() {
-        PLAYER_JOIN.register { onPlayerJoin(it) }
-        PLAYER_QUIT.register { onPlayerLeave(it) }
+        PlatformEvents.SERVER_PLAYER_LOGIN.subscribe { onPlayerJoin(it.player) }
+        PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe { onPlayerLeave(it.player) }
     }
 
     fun register(name: String, effect: Class<out ShoulderEffect>) = effect.also { effects[name] = it }

@@ -16,11 +16,13 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readMapK
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeMapK
@@ -37,7 +39,9 @@ import net.minecraft.text.MutableText
  * @author Hiroku
  * @since May 10th, 2022
  */
-class BattleInitializePacket() : NetworkPacket {
+class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
+
+    override val id = ID
 
     lateinit var battleId: UUID
     lateinit var battleFormat: BattleFormat
@@ -84,7 +88,7 @@ class BattleInitializePacket() : NetworkPacket {
         }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    private fun decode(buffer: PacketByteBuf) {
         battleId = buffer.readUuid()
         battleFormat = BattleFormat.loadFromBuffer(buffer)
         val sides = mutableListOf<BattleSideDTO>()
@@ -119,6 +123,11 @@ class BattleInitializePacket() : NetworkPacket {
         side2 = sides[1]
     }
 
+    companion object {
+        val ID = cobblemonResource("battle_initialize")
+        fun decode(buffer: PacketByteBuf) = BattleInitializePacket().apply { decode(buffer) }
+    }
+
     data class BattleSideDTO(val actors: List<BattleActorDTO>)
 
     data class BattleActorDTO(
@@ -145,7 +154,7 @@ class BattleInitializePacket() : NetworkPacket {
                 val hpValue = if (isAlly) pokemon.currentHealth.toFloat() else pokemon.currentHealth.toFloat() / pokemon.hp
                 return ActiveBattlePokemonDTO(
                     uuid = pokemon.uuid,
-                    displayName = pokemon.species.translatedName,
+                    displayName = pokemon.getDisplayName(),
                     properties = pokemon.createPokemonProperties(
                         PokemonPropertyExtractor.SPECIES,
                         PokemonPropertyExtractor.LEVEL,

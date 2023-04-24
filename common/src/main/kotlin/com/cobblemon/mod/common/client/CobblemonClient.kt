@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
-import com.cobblemon.mod.common.client.net.ClientPacketRegistrar
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
@@ -31,11 +30,7 @@ import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.data.CobblemonDataProvider
-import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
-import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
-import dev.architectury.registry.client.rendering.ColorHandlerRegistry
-import dev.architectury.registry.client.rendering.RenderTypeRegistry
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.render.RenderLayer
@@ -77,48 +72,46 @@ object CobblemonClient {
         LOGGER.info("Initializing Cobblemon client")
         this.implementation = implementation
 
-        CLIENT_PLAYER_JOIN.register { onLogin() }
-        CLIENT_PLAYER_QUIT.register { onLogout() }
+        PlatformEvents.CLIENT_PLAYER_LOGIN.subscribe { onLogin() }
+        PlatformEvents.CLIENT_PLAYER_LOGOUT.subscribe { onLogout() }
 
-        ClientPacketRegistrar.registerHandlers()
-
-        BlockEntityRendererRegistry.register(CobblemonBlockEntities.HEALING_MACHINE.get(), ::HealingMachineRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
 
         registerBlockRenderTypes()
         registerColors()
+        PlatformEvents
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
     }
 
     fun registerColors() {
-        ColorHandlerRegistry.registerBlockColors(BlockColorProvider { blockState, blockAndTintGetter, blockPos, i ->
+        this.implementation.registerBlockColors(BlockColorProvider { _, _, _, _ ->
             return@BlockColorProvider 0x71c219
-        }, CobblemonBlocks.APRICORN_LEAVES.get())
-
-        ColorHandlerRegistry.registerItemColors(ItemColorProvider { itemStack, i ->
+        }, CobblemonBlocks.APRICORN_LEAVES)
+        this.implementation.registerItemColors(ItemColorProvider { _, _ ->
             return@ItemColorProvider 0x71c219
-        }, CobblemonItems.APRICORN_LEAVES.get())
+        }, CobblemonItems.APRICORN_LEAVES)
     }
 
     private fun registerBlockRenderTypes() {
-        RenderTypeRegistry.register(RenderLayer.getCutout(),
-            CobblemonBlocks.APRICORN_DOOR.get(),
-            CobblemonBlocks.APRICORN_TRAPDOOR.get(),
-            CobblemonBlocks.BLACK_APRICORN_SAPLING.get(),
-            CobblemonBlocks.BLUE_APRICORN_SAPLING.get(),
-            CobblemonBlocks.GREEN_APRICORN_SAPLING.get(),
-            CobblemonBlocks.PINK_APRICORN_SAPLING.get(),
-            CobblemonBlocks.RED_APRICORN_SAPLING.get(),
-            CobblemonBlocks.WHITE_APRICORN_SAPLING.get(),
-            CobblemonBlocks.YELLOW_APRICORN_SAPLING.get(),
-            CobblemonBlocks.BLACK_APRICORN.get(),
-            CobblemonBlocks.BLUE_APRICORN.get(),
-            CobblemonBlocks.GREEN_APRICORN.get(),
-            CobblemonBlocks.PINK_APRICORN.get(),
-            CobblemonBlocks.RED_APRICORN.get(),
-            CobblemonBlocks.WHITE_APRICORN.get(),
-            CobblemonBlocks.YELLOW_APRICORN.get(),
-            CobblemonBlocks.HEALING_MACHINE.get())
+        this.implementation.registerBlockRenderType(RenderLayer.getCutout(),
+            CobblemonBlocks.APRICORN_DOOR,
+            CobblemonBlocks.APRICORN_TRAPDOOR,
+            CobblemonBlocks.BLACK_APRICORN_SAPLING,
+            CobblemonBlocks.BLUE_APRICORN_SAPLING,
+            CobblemonBlocks.GREEN_APRICORN_SAPLING,
+            CobblemonBlocks.PINK_APRICORN_SAPLING,
+            CobblemonBlocks.RED_APRICORN_SAPLING,
+            CobblemonBlocks.WHITE_APRICORN_SAPLING,
+            CobblemonBlocks.YELLOW_APRICORN_SAPLING,
+            CobblemonBlocks.BLACK_APRICORN,
+            CobblemonBlocks.BLUE_APRICORN,
+            CobblemonBlocks.GREEN_APRICORN,
+            CobblemonBlocks.PINK_APRICORN,
+            CobblemonBlocks.RED_APRICORN,
+            CobblemonBlocks.WHITE_APRICORN,
+            CobblemonBlocks.YELLOW_APRICORN,
+            CobblemonBlocks.HEALING_MACHINE)
     }
 
     fun beforeChatRender(matrixStack: MatrixStack, partialDeltaTicks: Float) {
