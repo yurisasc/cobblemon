@@ -19,40 +19,40 @@ import com.cobblemon.mod.common.api.reactive.EventObservable
  * @since February 13th, 2023
  */
 object PlatformEvents {
-    @JvmStatic
+    @JvmField
     val SERVER_STARTING = EventObservable<ServerEvent.Starting>()
-    @JvmStatic
+    @JvmField
     val SERVER_STARTED = EventObservable<ServerEvent.Started>()
-    @JvmStatic
+    @JvmField
     val SERVER_STOPPING = EventObservable<ServerEvent.Stopping>()
-    @JvmStatic
+    @JvmField
     val SERVER_STOPPED = EventObservable<ServerEvent.Stopped>()
 
-    @JvmStatic
+    @JvmField
     val SERVER_TICK_PRE = EventObservable<ServerTickEvent.Pre>()
-    @JvmStatic
+    @JvmField
     val SERVER_TICK_POST = EventObservable<ServerTickEvent.Post>()
 
-    @JvmStatic
+    @JvmField
     val CLIENT_TICK_PRE = EventObservable<ClientTickEvent.Pre>()
-    @JvmStatic
+    @JvmField
     val CLIENT_TICK_POST = EventObservable<ClientTickEvent.Post>()
 
-    @JvmStatic
+    @JvmField
     val SERVER_PLAYER_LOGIN = EventObservable<ServerPlayerEvent.Login>()
-    @JvmStatic
+    @JvmField
     val SERVER_PLAYER_LOGOUT = EventObservable<ServerPlayerEvent.Logout>()
-    @JvmStatic
+    @JvmField
     val CLIENT_PLAYER_LOGIN = EventObservable<ClientPlayerEvent.Login>()
-    @JvmStatic
+    @JvmField
     val CLIENT_PLAYER_LOGOUT = EventObservable<ClientPlayerEvent.Logout>()
-    @JvmStatic
+    @JvmField
     val PLAYER_DEATH = CancelableObservable<ServerPlayerEvent.Death>()
-    @JvmStatic
+    @JvmField
     val RIGHT_CLICK_BLOCK = CancelableObservable<ServerPlayerEvent.RightClickBlock>()
-    @JvmStatic
+    @JvmField
     val RIGHT_CLICK_ENTITY = CancelableObservable<ServerPlayerEvent.RightClickEntity>()
 
-    @JvmStatic
+    @JvmField
     val CHANGE_DIMENSION = EventObservable<ChangeDimensionEvent>()
 }

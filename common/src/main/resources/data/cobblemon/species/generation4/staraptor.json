@@ -25,6 +25,7 @@
     "flying"
   ],
   "moves": [
+    "1:closecombat",
     "1:growl",
     "1:quickattack",
     "1:tackle",

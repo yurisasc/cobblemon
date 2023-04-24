@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
@@ -843,6 +844,8 @@ object ShowdownInterpreter {
                 "guardsplit" -> battleLang("activate.guard_split", pokemonName)
                 "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
                 "wrap" -> battleLang("activate.wrap", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
+                "lockon" -> battleLang("activate.lock_on", message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo, pokemonName)
+                "protosynthesis" -> battleLang("activate.protosynthesis", pokemonName)
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
@@ -983,6 +986,8 @@ object ShowdownInterpreter {
                     "bide" -> battleLang("bide_end", pokemonName)
                     "bind" -> battleLang("end.bide", pokemonName)
                     "wrap" -> battleLang("end.wrap", pokemonName)
+                    "disable" -> battleLang("end.disable", pokemonName)
+                    "protosynthesis" -> battleLang("end.protosynthesis", pokemonName)
                     else -> battle.createUnimplemented(message)
                 }
                 battle.broadcastChatMessage(feedback)
