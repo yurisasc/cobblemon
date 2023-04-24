@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
+import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
 import com.cobblemon.mod.common.api.storage.pc.POKEMON_PER_BOX
 import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
 import com.cobblemon.mod.common.util.pc
@@ -50,6 +51,7 @@ object TestPcSlotCommand {
         val boxNumber = IntegerArgumentType.getInteger(context, BOX)
         val slot = IntegerArgumentType.getInteger(context, SLOT)
         val properties = PokemonPropertiesArgumentType.getPokemonProperties(context, PROPERTIES)
-        return if (player.pc().boxes[boxNumber - 1][slot - 1]?.createPokemonProperties() == properties) Command.SINGLE_SUCCESS else NO_SUCCESS
+        return if (player.pc().boxes[boxNumber - 1][slot - 1]?.createPokemonProperties(*PokemonPropertyExtractor.ALL)
+                ?.let { properties.isSubSetOf(it) } == true) Command.SINGLE_SUCCESS else NO_SUCCESS
     }
 }
