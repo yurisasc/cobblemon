@@ -1091,16 +1091,14 @@ object ShowdownInterpreter {
         battle.log("Error Instruction")
         battle.dispatchGo {
             //TODO: some lang stuff for the error messages (Whats the protocol for adding to other langs )
-            //Also is it okay to ignore the team preview error for now?
+            //Also is it okay to ignore the team preview error for now? - You bet!
             val battleMessage = BattleMessage(message)
             val lang = when(message) {
                 "|error|[Unavailable choice] Can't switch: The active Pokémon is trapped" -> battleLang("error.pokemon_is_trapped").red()
                 "|error|[Invalid choice] Can't choose for Team Preview: You're not in a Team Preview phase" -> return@dispatchGo
                 else -> battle.createUnimplemented(battleMessage)
             }
-            lang?.let {
-                battleActor.sendMessage(it)
-            }
+            battleActor.sendMessage(lang)
             battleActor.mustChoose = true
             battleActor.sendUpdate(BattleMadeInvalidChoicePacket())
         }
