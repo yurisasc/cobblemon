@@ -11,23 +11,7 @@ package com.cobblemon.mod.common.client.net
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.api.moves.MoveTemplate
-import com.cobblemon.mod.common.client.net.battle.BattleApplyCaptureResponseHandler
-import com.cobblemon.mod.common.client.net.battle.BattleCaptureEndHandler
-import com.cobblemon.mod.common.client.net.battle.BattleCaptureShakeHandler
-import com.cobblemon.mod.common.client.net.battle.BattleCaptureStartHandler
-import com.cobblemon.mod.common.client.net.battle.BattleEndHandler
-import com.cobblemon.mod.common.client.net.battle.BattleFaintHandler
-import com.cobblemon.mod.common.client.net.battle.BattleHealthChangeHandler
-import com.cobblemon.mod.common.client.net.battle.BattleInitializeHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMadeInvalidChoiceHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMakeChoiceHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMessageHandler
-import com.cobblemon.mod.common.client.net.battle.BattlePersistentStatusHandler
-import com.cobblemon.mod.common.client.net.battle.BattleQueueRequestHandler
-import com.cobblemon.mod.common.client.net.battle.BattleSetTeamPokemonHandler
-import com.cobblemon.mod.common.client.net.battle.BattleSwitchPokemonHandler
-import com.cobblemon.mod.common.client.net.battle.BattleUpdateTeamPokemonHandler
-import com.cobblemon.mod.common.client.net.battle.ChallengeNotificationHandler
+import com.cobblemon.mod.common.client.net.battle.*
 import com.cobblemon.mod.common.client.net.data.DataRegistrySyncPacketHandler
 import com.cobblemon.mod.common.client.net.data.UnlockReloadPacketHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
@@ -138,6 +122,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(ChallengeNotificationHandler)
         registerHandler(BattleUpdateTeamPokemonHandler)
         registerHandler(BattlePersistentStatusHandler)
+        registerHandler(BattleMusicHandler)
 
         // Settings
         registerHandler(ServerSettingsPacketHandler)

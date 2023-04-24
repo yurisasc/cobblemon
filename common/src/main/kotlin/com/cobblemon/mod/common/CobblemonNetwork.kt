@@ -8,27 +8,11 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.net.MessageBuiltEvent
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.PacketHandler
-import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyCaptureResponsePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureEndPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureShakePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleMadeInvalidChoicePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleUpdateTeamPokemonPacket
-import com.cobblemon.mod.common.net.messages.client.battle.ChallengeNotificationPacket
+import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.net.messages.client.data.*
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
@@ -184,6 +168,7 @@ object CobblemonNetwork {
         buildClientMessage<ChallengeNotificationPacket>()
         buildClientMessage<BattleUpdateTeamPokemonPacket>()
         buildClientMessage<BattlePersistentStatusPacket>()
+        buildClientMessage<BattleMusicPacket>()
 
         // Settings packets
         buildClientMessage<ServerSettingsPacket>()
