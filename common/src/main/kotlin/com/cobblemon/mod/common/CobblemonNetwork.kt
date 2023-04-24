@@ -155,6 +155,7 @@ object CobblemonNetwork {
         buildClientMessage<BattleInitializePacket>()
         buildClientMessage<BattleQueueRequestPacket>()
         buildClientMessage<BattleFaintPacket>()
+        buildClientMessage<BattleMadeInvalidChoicePacket>()
         buildClientMessage<BattleMakeChoicePacket>()
         buildClientMessage<BattleHealthChangePacket>()
         buildClientMessage<BattleSetTeamPokemonPacket>()

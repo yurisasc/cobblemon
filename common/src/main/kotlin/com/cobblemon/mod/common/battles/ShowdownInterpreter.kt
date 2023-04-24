@@ -48,7 +48,6 @@ import java.util.concurrent.CompletableFuture
 import kotlin.math.roundToInt
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
 object ShowdownInterpreter {
@@ -123,6 +122,7 @@ object ShowdownInterpreter {
         splitUpdateInstructions["|drag|"] = this::handleDragInstruction
         splitUpdateInstructions["|-heal|"] = this::handleHealInstruction
         splitUpdateInstructions["|-sethp|"] = this::handleSetHpInstructions
+        sideUpdateInstructions["|error|"] = this::handleErrorInstructions
     }
 
     private fun boostInstruction(battle: PokemonBattle, line: String, remainingLines: MutableList<String>, isBoost: Boolean) {
@@ -727,11 +727,20 @@ object ShowdownInterpreter {
     private fun handleCureStatusInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchWaiting {
             val message = BattleMessage(rawMessage)
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val maybeActivePokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon
+            val maybePartyPokemon = message.getBattlePokemon(0, battle)
+            val pokemon = maybeActivePokemon ?: maybePartyPokemon ?: return@dispatchWaiting
             val status = message.argumentAt(1)?.let(Statuses::getStatus) ?: return@dispatchWaiting
             val effect = message.effect()
             pokemon.effectedPokemon.status = null
             pokemon.sendUpdate()
+
+            if (maybeActivePokemon != null) {
+                val pnx = message.argumentAt(0)?.substring(0, 3)
+                if (pnx is String) {
+                    battle.sendUpdate(BattlePersistentStatusPacket(pnx, null))
+                }
+            }
             val lang = when {
                 effect?.type == Effect.Type.ABILITY -> battleLang("cure_status.ability.${effect.id}", pokemon.getName())
                 // Lang related to move stuff is tied to the status as a generic message such as fire moves defrosting Pokémon
@@ -1059,6 +1068,32 @@ object ShowdownInterpreter {
                 }
                 it.broadcastChatMessage(lang)
             }
+        }
+    }
+
+    /**
+     * Format:
+     * |error|ERROR
+     *
+     * Some examples
+     * |error|[Invalid choice] Can't choose for Team Preview: You're not in a Team Preview phase
+     * |error|[Unavailable choice] Can't switch: The active Pokémon is trapped
+     * The protocol message to tell you to send a different decision:
+     */
+    private fun handleErrorInstructions(battle: PokemonBattle, battleActor: BattleActor, message: String) {
+        battle.log("Error Instruction")
+        battle.dispatchGo {
+            //TODO: some lang stuff for the error messages (Whats the protocol for adding to other langs )
+            //Also is it okay to ignore the team preview error for now? - You bet!
+            val battleMessage = BattleMessage(message)
+            val lang = when(message) {
+                "|error|[Unavailable choice] Can't switch: The active Pokémon is trapped" -> battleLang("error.pokemon_is_trapped").red()
+                "|error|[Invalid choice] Can't choose for Team Preview: You're not in a Team Preview phase" -> return@dispatchGo
+                else -> battle.createUnimplemented(battleMessage)
+            }
+            battleActor.sendMessage(lang)
+            battleActor.mustChoose = true
+            battleActor.sendUpdate(BattleMadeInvalidChoicePacket())
         }
     }
 

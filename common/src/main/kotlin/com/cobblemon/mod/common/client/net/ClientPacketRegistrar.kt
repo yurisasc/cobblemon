@@ -109,6 +109,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(BattleInitializeHandler)
         registerHandler(BattleFaintHandler)
         registerHandler(BattleQueueRequestHandler)
+        registerHandler(BattleMadeInvalidChoiceHandler)
         registerHandler(BattleMakeChoiceHandler)
         registerHandler(BattleHealthChangeHandler)
         registerHandler(BattleSetTeamPokemonHandler)

@@ -7,6 +7,8 @@
 - Fixed super sized Pumpkaboo not having any moves. 
 - Fixed Infernape look animation.
 - Fixed Garchomp t-posing while swimming.
+- Fixed a bug that caused sleeping pokemon to stay asleep.
+- Fixed a bug that would freeze a battle when a Pokémon gets trapped due to an ability.
 
 - Added SpawnEvent
 

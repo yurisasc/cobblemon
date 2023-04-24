@@ -84,6 +84,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import java.util.*
@@ -379,6 +380,13 @@ class PokemonEntity(
             goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
             goalSelector.add(0, object : Goal() {
                 override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get()
+                override fun shouldContinue(): Boolean {
+                    if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
+                        pokemon.status = null
+                        return false
+                    }
+                    return super.canStop()
+                }
                 override fun getControls() = EnumSet.allOf(Control::class.java)
             })
 
@@ -396,6 +404,21 @@ class PokemonEntity(
             goalSelector.add(6, PokemonWanderAroundGoal(this))
             goalSelector.add(7, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
         }
+    }
+
+    fun canSleep(): Boolean {
+        val rest = behaviour.resting
+        val worldTime = (world.timeOfDay % 24000).toInt()
+        val light = world.getLightLevel(blockPos)
+        val block = world.getBlockState(blockPos).block
+        val biome = world.getBiome(blockPos).value()
+
+        return rest.canSleep &&
+                !this.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) &&
+                worldTime in this.behaviour.resting.times &&
+                light in rest.light &&
+                (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, this.world.registryManager.get(Registry.BLOCK_KEY)) }) &&
+                (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(Registry.BIOME_KEY)) })
     }
 
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
