@@ -1095,7 +1095,7 @@ object ShowdownInterpreter {
             val battleMessage = BattleMessage(message)
             val lang = when(message) {
                 "|error|[Unavailable choice] Can't switch: The active Pokémon is trapped" -> battleLang("error.pokemon_is_trapped").red()
-                "|error|[Invalid choice] Can't choose for Team Preview: You're not in a Team Preview phase" -> null
+                "|error|[Invalid choice] Can't choose for Team Preview: You're not in a Team Preview phase" -> return@dispatchGo
                 else -> battle.createUnimplemented(battleMessage)
             }
             lang?.let {
