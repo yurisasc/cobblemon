@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.render
 
 import com.cobblemon.mod.common.util.math.geometry.getOrigin
 import com.cobblemon.mod.common.util.math.geometry.transformPosition
-import net.minecraft.util.math.Matrix4f
+import org.joml.Matrix4f
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -24,7 +24,7 @@ class MatrixWrapper {
     var matrix: Matrix4f = Matrix4f()
 
     fun updateMatrix(rotationMatrix: Matrix4f) = apply {
-        this.matrix = rotationMatrix.copy()
+        this.matrix = Matrix4f(rotationMatrix)
     }
 
     fun updatePosition(position: Vec3d) = apply {

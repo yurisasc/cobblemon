@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.api.spawning.spawner
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.SpawnerManager
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext

@@ -27,6 +27,9 @@
   ],
   "moves": [
     "1:absorb",
+    "1:growth",
+    "1:stunspore",
+    "1:worryseed",
     "4:growth",
     "7:watersport",
     "10:stunspore",

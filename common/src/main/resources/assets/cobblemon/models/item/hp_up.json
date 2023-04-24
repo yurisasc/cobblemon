@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cobblemon:items/medicine/hp_up"
+    "layer0": "cobblemon:item/medicine/hp_up"
   }
 }

@@ -23,14 +23,9 @@ description='''
 [[dependencies.cobblemon]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.19.2]"
+versionRange="[${minecraft_version}]"
 
 [[dependencies.cobblemon]]
 modId="forge" #mandatory
 mandatory=true #mandatory
-versionRange="[40,)" #mandatory
-
-[[dependencies.cobblemon]]
-modId="architectury"
-mandatory=true
-versionRange="[6.5.69,)"
+versionRange="[45,)" #mandatory

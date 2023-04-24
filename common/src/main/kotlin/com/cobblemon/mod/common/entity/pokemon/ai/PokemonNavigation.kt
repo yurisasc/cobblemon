@@ -22,7 +22,7 @@ import net.minecraft.entity.ai.pathing.Path
 import net.minecraft.entity.ai.pathing.PathNode
 import net.minecraft.entity.ai.pathing.PathNodeNavigator
 import net.minecraft.entity.ai.pathing.PathNodeType
-import net.minecraft.tag.FluidTags
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -63,7 +63,8 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         val e = abs(entity.y - targetVec3d.y)
         val f = abs(entity.z - targetVec3d.z)
         val bl = d < nodeReachProximity.toDouble() && f < this.nodeReachProximity.toDouble() && e < 1.0
-        if (bl || entity.canJumpToNextPathNode(currentPath!!.currentNode.type) && shouldJumpToNextNode(vec3d)) {
+
+        if (bl || entity.navigation.canJumpToNext(currentPath!!.currentNode.type) && shouldJumpToNextNode(vec3d)) {
             currentPath!!.next()
         }
 

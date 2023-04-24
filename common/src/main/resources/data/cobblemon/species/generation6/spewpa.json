@@ -25,7 +25,7 @@
   ],
   "moves": [
     "1:harden",
-    "9:protect",
+    "1:protect",
     "tm:irondefense",
     "tm:pounce",
     "tm:protect",

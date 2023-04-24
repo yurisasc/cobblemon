@@ -21,14 +21,14 @@ class NavigationButton(
     pX: Int, pY: Int,
     private val forward: Boolean,
     onPress: PressAction
-): ButtonWidget(pX, pY, (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal("Navigation"), onPress) {
+): ButtonWidget(pX, pY, (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal("Navigation"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 8F
         private const val HEIGHT = 10F
         private const val SCALE = 0.5F
-        private val forwardButtonResource = cobblemonResource("ui/pc/pc_arrow_next.png")
-        private val backwardsButtonResource = cobblemonResource("ui/pc/pc_arrow_previous.png")
+        private val forwardButtonResource = cobblemonResource("textures/gui/pc/pc_arrow_next.png")
+        private val backwardsButtonResource = cobblemonResource("textures/gui/pc/pc_arrow_previous.png")
     }
 
     override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
@@ -47,7 +47,7 @@ class NavigationButton(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + (WIDTH * SCALE))) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + (HEIGHT * SCALE)))

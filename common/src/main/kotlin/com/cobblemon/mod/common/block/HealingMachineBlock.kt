@@ -89,7 +89,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     }
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState {
-        return this.defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.playerFacing)
+        return this.defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
     }
 
     @Deprecated("Deprecated in Java")
@@ -203,7 +203,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     @Deprecated("Deprecated in Java")
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int = (world.getBlockEntity(pos) as? HealingMachineBlockEntity)?.currentSignal ?: 0
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = checkType(blockWithEntityType, CobblemonBlockEntities.HEALING_MACHINE.get(), HealingMachineBlockEntity.TICKER::tick)
+    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = checkType(blockWithEntityType, CobblemonBlockEntities.HEALING_MACHINE, HealingMachineBlockEntity.TICKER::tick)
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(blockState: BlockState): BlockRenderType {

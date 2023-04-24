@@ -43,6 +43,7 @@
     ]
   },
   "moves": [
+    "1:absorb",
     "1:tackle",
     "1:withdraw",
     "9:absorb",

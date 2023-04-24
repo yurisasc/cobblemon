@@ -8,57 +8,65 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.registry.CompletableRegistry
+import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.SoundEvent
-import net.minecraft.util.registry.Registry
 
-object CobblemonSounds : CompletableRegistry<SoundEvent>(Registry.SOUND_EVENT_KEY) {
-    private fun queue(name: String) = queue(name) { SoundEvent(cobblemonResource(name)) }
+object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Registry<SoundEvent>>, SoundEvent>() {
 
-    @JvmField
-    val GUI_CLICK = queue("gui.click")
+    override val registry: Registry<SoundEvent> = Registries.SOUND_EVENT
+    override val registryKey: RegistryKey<Registry<SoundEvent>> = RegistryKeys.SOUND_EVENT
 
     @JvmField
-    val PC_ON = queue("pc.on")
-    @JvmField
-    val PC_OFF = queue("pc.off")
-    @JvmField
-    val PC_GRAB = queue("pc.grab")
-    @JvmField
-    val PC_DROP = queue("pc.drop")
-    @JvmField
-    val PC_RELEASE = queue("pc.release")
+    val GUI_CLICK = this.create("gui.click")
 
     @JvmField
-    val HEALING_MACHINE_ACTIVE = queue("healing_machine.active")
+    val PC_ON = this.create("pc.on")
+    @JvmField
+    val PC_OFF = this.create("pc.off")
+    @JvmField
+    val PC_GRAB = this.create("pc.grab")
+    @JvmField
+    val PC_DROP = this.create("pc.drop")
+    @JvmField
+    val PC_RELEASE = this.create("pc.release")
 
     @JvmField
-    val POKE_BALL_CAPTURE_STARTED = queue("poke_ball.capture_started")
-    @JvmField
-    val POKE_BALL_CAPTURE_SUCCEEDED = queue("poke_ball.capture_succeeded")
-    @JvmField
-    val POKE_BALL_SHAKE = queue("poke_ball.shake")
-    @JvmField
-    val POKE_BALL_OPEN = queue("poke_ball.open")
-    @JvmField
-    val POKE_BALL_HIT = queue("poke_ball.hit")
-    @JvmField
-    val POKE_BALL_SEND_OUT = queue("poke_ball.send_out")
-    @JvmField
-    val POKE_BALL_RECALL = queue("poke_ball.recall")
+    val HEALING_MACHINE_ACTIVE = this.create("healing_machine.active")
 
     @JvmField
-    val ITEM_USE = queue("item.use")
+    val POKE_BALL_CAPTURE_STARTED = this.create("poke_ball.capture_started")
     @JvmField
-    val CAN_EVOLVE = queue("pokemon.can_evolve")
+    val POKE_BALL_CAPTURE_SUCCEEDED = this.create("poke_ball.capture_succeeded")
     @JvmField
-    val EVOLVING = queue("pokemon.evolving")
+    val POKE_BALL_SHAKE = this.create("poke_ball.shake")
+    @JvmField
+    val POKE_BALL_OPEN = this.create("poke_ball.open")
+    @JvmField
+    val POKE_BALL_HIT = this.create("poke_ball.hit")
+    @JvmField
+    val POKE_BALL_SEND_OUT = this.create("poke_ball.send_out")
+    @JvmField
+    val POKE_BALL_RECALL = this.create("poke_ball.recall")
 
     @JvmField
-    val PVN_BATTLE = queue("battle.pvn.default")
+    val ITEM_USE = this.create("item.use")
     @JvmField
-    val PVP_BATTLE = queue("battle.pvp.default")
+    val CAN_EVOLVE = this.create("pokemon.can_evolve")
     @JvmField
-    val PVW_BATTLE = queue("battle.pvw.default")
+    val EVOLVING = this.create("pokemon.evolving")
+
+    @JvmField
+    val PVN_BATTLE = this.create("battle.pvn.default")
+    @JvmField
+    val PVP_BATTLE = this.create("battle.pvp.default")
+    @JvmField
+    val PVW_BATTLE = this.create("battle.pvw.default")
+
+
+    private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }

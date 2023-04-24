@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import kotlin.math.floor
-import net.minecraft.client.util.math.Vector3d
 import net.minecraft.util.math.Vec3d
+import org.joml.Vector3d
 
 /**
  * Interpolates a vector based on a Catmull-Rom spline.

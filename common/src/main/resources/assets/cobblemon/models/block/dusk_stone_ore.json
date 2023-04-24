@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "cobblemon:blocks/dusk_stone_ore"
+    "all": "cobblemon:block/dusk_stone_ore"
   }
 }

@@ -37,7 +37,7 @@ class SummaryButton(
     private val boldText: Boolean = true,
     private val largeText: Boolean = true,
     private val textScale: Float = 1F
-): ButtonWidget(buttonX.toInt(), buttonY.toInt(), buttonWidth.toInt(), buttonHeight.toInt(), text, clickAction) {
+): ButtonWidget(buttonX.toInt(), buttonY.toInt(), buttonWidth.toInt(), buttonHeight.toInt(), text, clickAction, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         const val TEXT_HEIGHT = 9
@@ -46,7 +46,7 @@ class SummaryButton(
     var isActive = false
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double) = false
-    override fun appendNarrations(builder: NarrationMessageBuilder) {
+    override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
     }
 
     override fun renderButton(poseStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
@@ -90,7 +90,7 @@ class SummaryButton(
 
     override fun playDownSound(soundManager: SoundManager) {
         if (!this.silent) {
-            soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+            soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
         }
     }
 

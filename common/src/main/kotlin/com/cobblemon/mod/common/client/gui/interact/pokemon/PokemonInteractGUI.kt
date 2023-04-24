@@ -11,11 +11,11 @@ package com.cobblemon.mod.common.client.gui.interact.pokemon
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import java.util.UUID
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-import java.util.UUID
 
 class PokemonInteractGUI(
     private val pokemonID: UUID,
@@ -24,14 +24,14 @@ class PokemonInteractGUI(
     companion object {
         const val SIZE = 138
 
-        private val baseBackgroundResource = cobblemonResource("ui/interact/interact_base.png")
-        private val topLeftResource = cobblemonResource("ui/interact/button_left_top.png")
-        private val topRightResource = cobblemonResource("ui/interact/button_right_top.png")
-        private val bottomLeftResource = cobblemonResource("ui/interact/button_left_bottom.png")
-        private val bottomRightResource = cobblemonResource("ui/interact/button_right_bottom.png")
+        private val baseBackgroundResource = cobblemonResource("textures/gui/interact/interact_base.png")
+        private val topLeftResource = cobblemonResource("textures/gui/interact/button_left_top.png")
+        private val topRightResource = cobblemonResource("textures/gui/interact/button_right_top.png")
+        private val bottomLeftResource = cobblemonResource("textures/gui/interact/button_left_bottom.png")
+        private val bottomRightResource = cobblemonResource("textures/gui/interact/button_right_bottom.png")
 
-        private val iconShoulderResource = cobblemonResource("ui/interact/icon_shoulder.png")
-        private val iconHeldItemResource = cobblemonResource("ui/interact/icon_held_item.png")
+        private val iconShoulderResource = cobblemonResource("textures/gui/interact/icon_shoulder.png")
+        private val iconHeldItemResource = cobblemonResource("textures/gui/interact/icon_held_item.png")
     }
 
     override fun init() {

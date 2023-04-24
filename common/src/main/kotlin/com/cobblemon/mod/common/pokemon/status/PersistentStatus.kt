@@ -33,7 +33,7 @@ open class PersistentStatus(
      */
     open fun onStatusExpire(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
         if (removeMessage != null) {
-            player.sendMessage(removeMessage.asTranslated(pokemon.displayName))
+            player.sendMessage(removeMessage.asTranslated(pokemon.getDisplayName()))
         }
     }
 

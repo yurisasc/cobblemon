@@ -85,7 +85,7 @@ object TestCommand {
 
         val player = context.source.entity as ServerPlayerEntity
         val position = player.pos.add(4.0, 1.0, 4.0)
-        val pkt = SpawnSnowstormParticlePacket(effect, position)
+        val pkt = SpawnSnowstormParticlePacket(effect, position, 0F, 0F)
         player.sendPacket(pkt)
     }
 

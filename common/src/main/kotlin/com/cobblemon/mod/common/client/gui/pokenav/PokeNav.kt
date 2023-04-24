@@ -43,10 +43,10 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
         private const val buttonHeight = 39
         private const val buttonWidth = 64
         // Textures
-        private val background = cobblemonResource("ui/pokenav/pokenav_base.png")
-        private val exit = cobblemonResource("ui/pokenav/pokenav_exit.png")
-        private val pokemon = cobblemonResource("ui/pokenav/pokenav_pokemon.png")
-        private val select = cobblemonResource("ui/pokenav/pokenav_select.png")
+        private val background = cobblemonResource("textures/gui/pokenav/pokenav_base.png")
+        private val exit = cobblemonResource("textures/gui/pokenav/pokenav_exit.png")
+        private val pokemon = cobblemonResource("textures/gui/pokenav/pokenav_pokemon.png")
+        private val select = cobblemonResource("textures/gui/pokenav/pokenav_select.png")
     }
 
     /**

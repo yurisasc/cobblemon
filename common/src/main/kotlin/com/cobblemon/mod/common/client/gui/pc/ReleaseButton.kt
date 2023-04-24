@@ -23,13 +23,13 @@ class ReleaseButton(
     x: Int, y: Int,
     private val parent: StorageWidget,
     onPress: PressAction
-) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("Release"), onPress) {
+) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("Release"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 58
         private const val HEIGHT = 16
 
-        private val buttonResource = cobblemonResource("ui/pc/pc_release_button.png")
+        private val buttonResource = cobblemonResource("textures/gui/pc/pc_release_button.png")
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {

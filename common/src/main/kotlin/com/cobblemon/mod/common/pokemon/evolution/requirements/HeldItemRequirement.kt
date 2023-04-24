@@ -13,8 +13,8 @@ import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequi
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.registry.ItemIdentifierCondition
 import net.minecraft.item.Item
+import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 
 /**
  * An [EvolutionRequirement] for a [Pokemon.heldItem].
@@ -29,7 +29,7 @@ class HeldItemRequirement(itemCondition: RegistryLikeCondition<Item>) : Evolutio
 
     val itemCondition: RegistryLikeCondition<Item> = itemCondition
 
-    override fun check(pokemon: Pokemon): Boolean = this.itemCondition.fits(pokemon.heldItemNoCopy().item, Registry.ITEM)
+    override fun check(pokemon: Pokemon): Boolean = this.itemCondition.fits(pokemon.heldItemNoCopy().item, Registries.ITEM)
 
     companion object {
         const val ADAPTER_VARIANT = "held_item"

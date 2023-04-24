@@ -37,8 +37,8 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         const val HEIGHT = 114
         const val SLOT_WIDTH = 91
 
-        private val backgroundResource = cobblemonResource("ui/summary/summary_scroll_background.png")
-        private val scrollOverlayResource = cobblemonResource("ui/summary/summary_scroll_overlay.png")
+        private val backgroundResource = cobblemonResource("textures/gui/summary/summary_scroll_background.png")
+        private val scrollOverlayResource = cobblemonResource("textures/gui/summary/summary_scroll_overlay.png")
     }
 
     private var scrolling = false

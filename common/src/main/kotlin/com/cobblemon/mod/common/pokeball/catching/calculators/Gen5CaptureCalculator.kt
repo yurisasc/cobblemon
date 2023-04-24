@@ -15,12 +15,17 @@ import com.cobblemon.mod.common.api.pokeball.catching.calculators.CriticalCaptur
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.PokedexProgressCaptureMultiplierProvider
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.status.statuses.*
-import net.minecraft.entity.LivingEntity
-import net.minecraft.server.network.ServerPlayerEntity
+import com.cobblemon.mod.common.pokemon.status.statuses.BurnStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.FrozenStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.ParalysisStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.PoisonBadlyStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.PoisonStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.SleepStatus
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 import kotlin.random.Random
+import net.minecraft.entity.LivingEntity
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * An implementation of the capture calculator used in the generation 5 games.

@@ -34,6 +34,8 @@ class BattleOptionTile(
         const val OPTION_HEIGHT = 26
     }
 
+    private var focused = false
+
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         val opacity = CobblemonClient.battleOverlay.opacityRatio
         if (opacity < 0.1) {
@@ -71,8 +73,19 @@ class BattleOptionTile(
         return true
     }
 
+    override fun setFocused(focused: Boolean) {
+        this.focused = focused
+    }
+
+    override fun isFocused() = focused
+
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX > x && mouseY > y && mouseX < x + OPTION_WIDTH && mouseY < y + OPTION_HEIGHT
 
-    override fun appendNarrations(builder: NarrationMessageBuilder) = builder.put(NarrationPart.TITLE, text)
+    override fun appendNarrations(builder: NarrationMessageBuilder) {
+        builder.put(NarrationPart.TITLE, text)
+    }
+
     override fun getType() = HOVERED
+
+
 }

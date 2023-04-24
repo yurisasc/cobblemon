@@ -38,6 +38,7 @@
   "moves": [
     "1:ember",
     "1:leer",
+    "1:machpunch",
     "1:scratch",
     "9:taunt",
     "14:machpunch",
@@ -50,6 +51,8 @@
     "46:acrobatics",
     "46:slackoff",
     "49:flareblitz",
+    "49:slackoff",
+    "56:flareblitz",
     "tm:acrobatics",
     "tm:aerialace",
     "tm:attract",

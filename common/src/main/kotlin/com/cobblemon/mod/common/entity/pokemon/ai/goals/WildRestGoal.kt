@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import java.util.EnumSet
 import net.minecraft.entity.ai.goal.Goal
+import net.minecraft.registry.RegistryKeys
 
 /**
  * AI goal for sleeping in the wild.

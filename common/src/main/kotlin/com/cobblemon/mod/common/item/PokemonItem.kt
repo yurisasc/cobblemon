@@ -79,7 +79,7 @@ class PokemonItem : CobblemonItem(Settings().maxCount(1)) {
 
         @JvmStatic
         fun from(species: Species, aspects: Set<String>, count: Int = 1): ItemStack {
-            val stack = ItemStack(CobblemonItems.POKEMON_MODEL.get(), count)
+            val stack = ItemStack(CobblemonItems.POKEMON_MODEL, count)
             stack.orCreateNbt.apply {
                 putString(DataKeys.POKEMON_ITEM_SPECIES, species.resourceIdentifier.toString())
                 val list = NbtList()

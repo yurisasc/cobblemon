@@ -175,6 +175,10 @@
   "item.cobblemon.dream_ball.tooltip": "4× on sleeping Pokémon",
   "item.cobblemon.beast_ball.tooltip": "5× on Ultra Beasts, 0.1× otherwise",
 
+  "itemGroup.cobblemon.building_blocks": "Building Blocks",
+  "itemGroup.cobblemon.machines": "Machines",
+  "itemGroup.cobblemon.plants": "Plants",
+
   "block.cobblemon.apricorn_log": "Apricorn Log",
   "block.cobblemon.stripped_apricorn_log": "Stripped Apricorn Log",
   "block.cobblemon.apricorn_wood": "Apricorn Wood",
@@ -500,6 +504,8 @@
   "cobblemon.battle.activate.court_change": "%1$s swapped the battle effects affecting each side of the field!",
   "cobblemon.battle.activate.guard_split": "%1$s shared its guard with the target!",
   "cobblemon.battle.activate.spite": "It reduced the PP of %1$s's %2$s by %3$s!",
+  "cobblemon.battle.activate.lock_on": "%1$s took aim at %2$s!",
+  "cobblemon.battle.activate.protosynthesis": "The harsh sunlight activated %1$s's Protosynthesis!",
   "cobblemon.battle.activate.shed_skin": "%1$s was cured of its %1$s!",
   "cobblemon.battle.activate.bide": "%1$s is storing energy!",
   "cobblemon.battle.activate.protect": "%1$s protected itself!",
@@ -554,6 +560,10 @@
 
   "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
   "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
+  "cobblemon.battle.end.disable": "%1$s's move is no longer disabled!",
+  "cobblemon.battle.end.protosynthesis": "The effects of %1$s's Protosynthesis wore off!",
+
+
   "cobblemon.battle.end.bide": "%1$s unleashed its energy!",
   "cobblemon.battle.end.confusion": "%1$s snapped out of its confusion!",
 

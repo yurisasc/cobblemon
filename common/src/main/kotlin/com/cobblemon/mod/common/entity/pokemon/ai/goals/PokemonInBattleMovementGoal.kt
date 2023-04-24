@@ -9,13 +9,8 @@
 package com.cobblemon.mod.common.entity.pokemon.ai.goals
 
 import com.cobblemon.mod.common.battles.BattleRegistry
-import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import dev.architectury.event.events.common.TickEvent.Player
-import net.minecraft.command.argument.EntityAnchorArgumentType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.TargetPredicate
 import net.minecraft.entity.ai.goal.Goal
 
 class PokemonInBattleMovementGoal(val entity: PokemonEntity, val range: Int) : Goal() {

@@ -19,11 +19,11 @@ import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.registry.Registry
 
 /**
  * A drop that is an actual item.
@@ -41,7 +41,7 @@ class ItemDropEntry : DropEntry {
     val nbt: NbtCompound? = null
 
     override fun drop(entity: LivingEntity?, world: ServerWorld, pos: Vec3d, player: ServerPlayerEntity?) {
-        val item = world.registryManager.get(Registry.ITEM_KEY).get(item) ?: return LOGGER.error("Unable to load drop item: $item")
+        val item = world.registryManager.get(RegistryKeys.ITEM).get(item) ?: return LOGGER.error("Unable to load drop item: $item")
         val stack = ItemStack(item, quantityRange?.random() ?: quantity)
         val inLava = world.getBlockState(pos.toBlockPos()).block == Blocks.LAVA
         val dropMethod = (dropMethod ?: Cobblemon.config.defaultDropItemMethod).let {

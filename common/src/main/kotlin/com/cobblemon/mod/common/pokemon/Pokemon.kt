@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonNetwork.sendToPlayers
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToPlayers
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.Ability
@@ -55,24 +55,8 @@ import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.AbilityUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.EVsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.HeldItemUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.IVsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.StatusUpdatePacket
-import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
+import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
@@ -86,9 +70,9 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.getServer
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.server
 import com.cobblemon.mod.common.util.setPositionSafely
 import com.cobblemon.mod.common.util.toBlockPos
 import com.google.gson.JsonArray
@@ -113,6 +97,8 @@ import net.minecraft.nbt.NbtString
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
+import net.minecraft.text.Text
+import net.minecraft.text.TextContent
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
@@ -137,11 +123,6 @@ open class Pokemon : ShowdownIdentifiable {
             checkGender()
             checkAbility()
             updateHP(quotient)
-            /*
-            if (ability.template == Abilities.DUMMY && !isClient) {
-                ability = form.abilities.select(value, aspects)
-            }
-             */
             _species.emit(value)
         }
 
@@ -165,8 +146,13 @@ open class Pokemon : ShowdownIdentifiable {
     var ivs = IVs.createRandomIVs()
     var evs = EVs.createEmpty()
 
-    val displayName: MutableText
-        get() = species.translatedName
+    var nickname: MutableText? = null
+        set(value) {
+            field = value
+            _nickname.emit(value)
+        }
+
+    fun getDisplayName(): MutableText = nickname?.takeIf { it.content != TextContent.EMPTY } ?: species.translatedName
 
     var level = 1
         set(value) {
@@ -230,7 +216,7 @@ open class Pokemon : ShowdownIdentifiable {
     var status: PersistentStatusContainer? = null
         set(value) {
             field = value
-            this._status.emit(value?.status?.name?.toString() ?: "")
+            this._status.emit(value?.status)
         }
     var experience = 0
         internal set(value) {
@@ -289,9 +275,14 @@ open class Pokemon : ShowdownIdentifiable {
         }
 
     var nature = Natures.getRandomNature()
-        set(value) { field = value ; _nature.emit(value.name.toString()) }
+        set(value) { field = value ; _nature.emit(value) }
     var mintedNature: Nature? = null
-        set(value) { field = value ; _mintedNature.emit(value?.name?.toString() ?: "") }
+        set(value) {
+            field = value
+            if (value != null) {
+                _mintedNature.emit(value)
+            }
+        }
 
     val moveSet = MoveSet()
 
@@ -341,7 +332,7 @@ open class Pokemon : ShowdownIdentifiable {
     var scaleModifier = 1F
 
     var caughtBall: PokeBall = PokeBalls.POKE_BALL
-        set(value) { field = value ; _caughtBall.emit(caughtBall.name.toString()) }
+        set(value) { field = value ; _caughtBall.emit(caughtBall) }
     var features = mutableListOf<SpeciesFeature>()
 
     fun asRenderablePokemon() = RenderablePokemon(species, aspects)
@@ -409,7 +400,7 @@ open class Pokemon : ShowdownIdentifiable {
     fun sendOutWithAnimation(source: LivingEntity, level: ServerWorld, position: Vec3d, battleId: UUID? = null, mutation: (PokemonEntity) -> Unit = {}): CompletableFuture<PokemonEntity> {
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
-            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT.get(), volume = 0.2F)
+            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.2F)
             it.phasingTargetId.set(source.id)
             it.beamModeEmitter.set(1)
             it.battleId.set(Optional.ofNullable(battleId))
@@ -474,7 +465,7 @@ open class Pokemon : ShowdownIdentifiable {
     fun applyStatus(status: PersistentStatus) {
         this.status = PersistentStatusContainer(status, status.statusPeriod().random())
         if (this.status != null) {
-            this._status.emit(this.status!!.status.name.toString())
+            this._status.emit(this.status!!.status)
         }
     }
 
@@ -551,6 +542,7 @@ open class Pokemon : ShowdownIdentifiable {
         nbt.putString(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
         nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
+        nickname?.let { nbt.putString(DataKeys.POKEMON_NICKNAME, Text.Serializer.toJson(it)) }
         nbt.putString(DataKeys.POKEMON_FORM_ID, form.formOnlyShowdownId())
         nbt.putInt(DataKeys.POKEMON_EXPERIENCE, experience)
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
@@ -591,6 +583,7 @@ open class Pokemon : ShowdownIdentifiable {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
+        nickname = nbt.getString(DataKeys.POKEMON_NICKNAME).takeIf { it.isNotBlank() }?.let { Text.Serializer.fromJson(it) }
         form = species.forms.find { it.formOnlyShowdownId() == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE).takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
@@ -645,6 +638,7 @@ open class Pokemon : ShowdownIdentifiable {
         json.addProperty(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
+        nickname?.let { json.addProperty(DataKeys.POKEMON_NICKNAME, Text.Serializer.toJson(it)) }
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.formOnlyShowdownId())
         json.addProperty(DataKeys.POKEMON_EXPERIENCE, experience)
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
@@ -684,6 +678,7 @@ open class Pokemon : ShowdownIdentifiable {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
+        nickname = json.get(DataKeys.POKEMON_NICKNAME)?.asString?.takeIf { it.isNotBlank() }?.let { Text.Serializer.fromJson(it) }
         form = species.forms.find { it.formOnlyShowdownId() == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
@@ -751,7 +746,7 @@ open class Pokemon : ShowdownIdentifiable {
     fun getOwnerPlayer() : ServerPlayerEntity? {
         storeCoordinates.get().let {
             if (isPlayerOwned()) {
-                return getServer()?.playerManager?.getPlayer(it!!.store.uuid)
+                return server()?.playerManager?.getPlayer(it!!.store.uuid)
             }
         }
         return null
@@ -986,7 +981,7 @@ open class Pokemon : ShowdownIdentifiable {
         if (result.experienceAdded <= 0) {
             return result
         }
-        player.sendMessage(lang("experience.gained", species.translatedName, xp))
+        player.sendMessage(lang("experience.gained", getDisplayName(), xp))
         if (result.oldLevel != result.newLevel) {
             player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
             val repeats = result.newLevel - result.oldLevel
@@ -997,7 +992,7 @@ open class Pokemon : ShowdownIdentifiable {
                 }
             }
             result.newMoves.forEach {
-                player.sendMessage(lang("experience.learned_move", species.translatedName, it.displayName))
+                player.sendMessage(lang("experience.learned_move", getDisplayName(), it.displayName))
             }
         }
         return result
@@ -1098,11 +1093,11 @@ open class Pokemon : ShowdownIdentifiable {
         return true
     }
 
-    fun notify(packet: PokemonUpdatePacket) {
-        storeCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }
+    fun notify(packet: PokemonUpdatePacket<*>) {
+        storeCoordinates.get()?.run { sendPacketToPlayers(store.getObservingPlayers(), packet) }
     }
 
-    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket)? = null): SimpleObservable<T> {
+    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket<*>)? = null): SimpleObservable<T> {
         observables.add(observable)
         observable.subscribe {
             if (notifyPacket != null && storeCoordinates.get() != null) {
@@ -1158,16 +1153,17 @@ open class Pokemon : ShowdownIdentifiable {
 
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
+    private val _nickname = registerObservable(SimpleObservable<MutableText?>()) { NicknameUpdatePacket(this, it) }
     private val _experience = registerObservable(SimpleObservable<Int>()) { ExperienceUpdatePacket(this, it) }
     private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket(this, it) }
     private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket(this, it) }
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
-    private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
-    private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
+    private val _nature = registerObservable(SimpleObservable<Nature>()) { NatureUpdatePacket(this, it, false) }
+    private val _mintedNature = registerObservable(SimpleObservable<Nature>()) { NatureUpdatePacket(this, it, true) }
     private val _moveSet = registerObservable(moveSet.observable) { MoveSetUpdatePacket(this, moveSet) }
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(this, it) }
-    private val _status = registerObservable(SimpleObservable<String>()) { StatusUpdatePacket(this, it) }
-    private val _caughtBall = registerObservable(SimpleObservable<String>()) { CaughtBallUpdatePacket(this, it) }
+    private val _status = registerObservable(SimpleObservable<PersistentStatus?>()) { StatusUpdatePacket(this, it) }
+    private val _caughtBall = registerObservable(SimpleObservable<PokeBall>()) { CaughtBallUpdatePacket(this, it) }
     private val _benchedMoves = registerObservable(benchedMoves.observable) { BenchedMovesUpdatePacket(this, it) }
     private val _ivs = registerObservable(ivs.observable) { IVsUpdatePacket(this, it as IVs) }
     private val _evs = registerObservable(evs.observable) { EVsUpdatePacket(this, it as EVs) }

@@ -28,7 +28,7 @@ class SwapMoveButton(
     var move: MoveTemplate,
     var movesWidget: MovesWidget,
     onPress: PressAction
-): ButtonWidget((pX + OFFSET_X).toInt(), (pY + OFFSET_Y).toInt(), (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal(""), onPress) {
+): ButtonWidget((pX + OFFSET_X).toInt(), (pY + OFFSET_Y).toInt(), (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal(""), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean {
         return false
@@ -40,7 +40,7 @@ class SwapMoveButton(
         private const val OFFSET_X = 114.5F
         private const val OFFSET_Y = 6.5F
         private const val SCALE = 0.5F
-        private val switchMoveButtonResource = cobblemonResource("ui/summary/summary_move_swap.png")
+        private val switchMoveButtonResource = cobblemonResource("textures/gui/summary/summary_move_swap.png")
     }
 
     override fun renderButton(poseStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
@@ -60,7 +60,7 @@ class SwapMoveButton(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in ((pX + OFFSET_X)..((pX + OFFSET_X) + (WIDTH * SCALE))) && mouseY.toFloat() in ((pY + OFFSET_Y)..((pY + OFFSET_Y) + (HEIGHT * SCALE) - 0.5F))

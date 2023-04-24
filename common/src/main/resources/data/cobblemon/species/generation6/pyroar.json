@@ -26,11 +26,11 @@
     "field"
   ],
   "moves": [
+    "1:ember",
     "1:hyperbeam",
     "1:leer",
     "1:tackle",
-    "5:ember",
-    "8:workup",
+    "1:workup",
     "11:headbutt",
     "15:nobleroar",
     "20:takedown",

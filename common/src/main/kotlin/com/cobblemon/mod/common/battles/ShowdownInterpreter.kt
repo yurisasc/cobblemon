@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
@@ -843,7 +844,7 @@ object ShowdownInterpreter {
                 "magnitude" -> battleLang("activate.magnitude", message.argumentAt(2)?.toIntOrNull() ?: 1)
                 "bide" -> battleLang("activate.bide", pokemonName)
                 "gravity" -> battleLang("activate.gravity", pokemonName)
-                "focusband" -> battleLang("item.hung_on.end", pokemonName, CobblemonItems.FOCUS_BAND.get().name)
+                "focusband" -> battleLang("item.hung_on.end", pokemonName, CobblemonItems.FOCUS_BAND.name)
                 "mistyterrain" -> battleLang("activate.misty_terrain", pokemonName)
                 "psychicterrain" -> battleLang("activate.psychic_terrain", pokemonName)
                 "healbell" -> battleLang("activate.heal_bell")
@@ -855,6 +856,8 @@ object ShowdownInterpreter {
                 "guardsplit" -> battleLang("activate.guard_split", pokemonName)
                 "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
                 "wrap" -> battleLang("activate.wrap", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo)
+                "lockon" -> battleLang("activate.lock_on", message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchGo, pokemonName)
+                "protosynthesis" -> battleLang("activate.protosynthesis", pokemonName)
                 "struggle" -> battleLang("activate.struggle", pokemonName)
                 "destinybond" -> battleLang("activate.destiny_bond", pokemonName)
                 "shedskin" -> {
@@ -1019,6 +1022,8 @@ object ShowdownInterpreter {
                     "bide" -> battleLang("end.bide", pokemonName)
                     "bind" -> battleLang("end.bind", pokemonName)
                     "wrap" -> battleLang("end.wrap", pokemonName)
+                    "disable" -> battleLang("end.disable", pokemonName)
+                    "protosynthesis" -> battleLang("end.protosynthesis", pokemonName)
                     "yawn" -> lang("status.sleep.apply", pokemonName)
                     else -> battle.createUnimplemented(message)
                 }

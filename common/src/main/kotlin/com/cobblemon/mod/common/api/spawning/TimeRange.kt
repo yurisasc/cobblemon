@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.spawning
 
+import com.cobblemon.mod.common.api.spawning.TimeRange.Companion.timeRanges
 import com.cobblemon.mod.common.api.spawning.condition.SpawningCondition
 
 /**
