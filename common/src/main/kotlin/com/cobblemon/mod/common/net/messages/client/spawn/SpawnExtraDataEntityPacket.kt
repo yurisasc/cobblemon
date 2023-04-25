@@ -16,6 +16,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.network.NetworkThreadUtils
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.util.math.Vec3d
 
 abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(private val vanillaSpawnPacket: EntitySpawnS2CPacket) : NetworkPacket<T> {
     override fun encode(buffer: PacketByteBuf) {
@@ -40,6 +41,7 @@ abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(priva
             val entityType = this.vanillaSpawnPacket.entityType
             val entity = entityType.create(world) ?: return@execute
             entity.onSpawnPacket(this.vanillaSpawnPacket)
+            entity.velocity = Vec3d(this.vanillaSpawnPacket.velocityX, this.vanillaSpawnPacket.velocityY, this.vanillaSpawnPacket.velocityZ)
             // Cobblemon start
             if (this.checkType(entity)) {
                 this.applyData(entity as E)
