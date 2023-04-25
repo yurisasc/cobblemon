@@ -9,6 +9,75 @@
 - Added support for "isBattle" and "isTouchingWater" properties on resource pack Pokémon poses. This allows your custom Pokémon to be posed differently when in battle.
 - Added support for "isVisible" on a transformed part on resource pack Pokémon poses. This allows your custom Pokémon to have bones disappear in specific poses, such as hiding Greninja's throwing star when not in a battle pose.
 
+### Pokémon Added
+#### Gen 2
+
+- Spinarak
+- Ariados
+- Shuckle
+- Chinchou
+- Lanturn
+
+#### Gen 3
+
+- Taillow
+- Swellow
+- Relicanth
+- Duskull
+- Dusclops
+- Dusknoir
+- Shroomish
+- Breloom
+- Cacnea
+- Cacturne
+
+#### Gen 4
+
+- Cherubi
+- Cherrim
+- Carnivine
+-
+
+#### Gen 5
+
+- Bouffolant
+
+#### Gen 6
+
+- Scatterbug
+- Spewpa
+- Vivillion
+
+#### Gen 7
+
+- Wishiwashi
+- Cutiefly
+- Ribombee
+
+#### Gen 8
+
+- Arrokuda
+- Barraskewda
+- Nickit
+- Thievul
+
+#### Gen 9
+
+- Flittle
+- Espathra
+- Garganacl
+- Fidough
+- Dachbun
+- Armarouge
+- Ceruledge
+- Cetoddle
+- Cetitan
+
+### Changes
+- Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
+- Updated model of Sceptile.
+- Updated texture of Weedle.
+
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
 - Fixed messages for entry hazards, screens, tailwind, Perish Song, Destiny Bond, Shed Skin, Yawn

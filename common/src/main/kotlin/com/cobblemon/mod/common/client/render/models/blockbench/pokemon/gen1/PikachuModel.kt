@@ -34,6 +34,7 @@ class PikachuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var shoulderRight: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     val shoulderOffset = 1.5
     override fun registerPoses() {
@@ -43,6 +44,7 @@ class PikachuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pikachu", "ground_idle")
@@ -57,7 +59,6 @@ class PikachuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pikachu", "ground_walk")
-                //bedrock("pikachu", "ground_walk")
             )
         )
 
@@ -83,6 +84,19 @@ class PikachuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformedParts = arrayOf(
                 rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
             )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("pikachu", "battle_idle")
+            )
+
         )
     }
 
