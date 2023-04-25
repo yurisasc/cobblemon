@@ -434,6 +434,7 @@
   "cobblemon.battle.start.bide": "%1$s begins storing energy!",
   "cobblemon.battle.start.yawn": "%1$s grew drowsy!",
   "cobblemon.battle.start.perish_count": "%1$s's perish count fell to %2$s.",
+  "cobblemon.battle.start.leechseed": "%1$s was seeded!",
 
   "cobblemon.battle.field_start.electric_terrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.field_start.grassy_terrain": "Grass grew to cover the battlefield!",
@@ -557,6 +558,7 @@
 
   "cobblemon.battle.hurt.wrap": "%1$s was hurt by wrap!",
   "cobblemon.battle.hurt.confusion": "It hurt itself in confusion!",
+  "cobblemon.battle.hurt.leechseed": "%1$s's health is sapped by Leech Seed!",
 
   "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
   "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
