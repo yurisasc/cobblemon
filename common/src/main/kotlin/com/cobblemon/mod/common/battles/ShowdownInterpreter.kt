@@ -767,6 +767,7 @@ object ShowdownInterpreter {
                     "protect" -> battleLang("start.protect", pokemon.getName())
                     "bide" -> battleLang("start.bide", pokemon.getName())
                     "yawn" -> battleLang("start.yawn", pokemon.getName())
+                    "leechseed" -> battleLang("start.leechseed", pokemon.getName())
                     // ignore 3 to prevent clutter (-fieldactivate already announces perish)
                     "perish3" -> return@dispatchWaiting
                     "perish2", "perish1", "perish0" -> battleLang("start.perish_count", pokemon.getName(), effect.id.last().digitToInt())
@@ -1239,14 +1240,15 @@ object ShowdownInterpreter {
             }
         }
         val newHealth = privateMessage.split("|")[3].split(" ")[0]
-        val cause = if ("[from]" in publicMessage) publicMessage.substringAfter("[from]").trim() else null
 
         battle.dispatch {
             val newHealthRatio: Float
             val remainingHealth = newHealth.split("/")[0].toInt()
 
-            if (battleMessage.optionalArgument("from")?.equals("move: Wrap") == true) {
-                battle.broadcastChatMessage(battleLang("hurt.wrap", activePokemon.battlePokemon?.getName()!!))
+            when (battleMessage.optionalArgument("from")) {
+                "confusion" -> battle.broadcastChatMessage(battleLang("hurt.confusion", activePokemon.battlePokemon?.getName()!!))
+                "move: Wrap" -> battle.broadcastChatMessage(battleLang("hurt.wrap", activePokemon.battlePokemon?.getName()!!))
+                "Leech Seed" -> battle.broadcastChatMessage(battleLang("hurt.leechseed", activePokemon.battlePokemon?.getName()!!))
             }
 
             if (newHealth == "0") {
@@ -1277,11 +1279,6 @@ object ShowdownInterpreter {
                 }
             }
             battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, remainingHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio))
-            if (cause != null) {
-                when (cause) {
-                    "confusion" -> battle.broadcastChatMessage(battleLang("hurt.confusion", activePokemon.battlePokemon?.getName()!!))
-                }
-            }
             WaitDispatch(1F)
         }
     }
