@@ -43,7 +43,9 @@ interface BattleContext {
         GRAVITY(false, true),
         TAILWIND(false, true),
         SCREEN(false, false),
-        FAINT(false, true),
+        FAINT(false, false),
+        BOOST(false, false),
+        UNBOOST(false, false),
         MISC(false, false);
     }
 }

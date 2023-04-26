@@ -10,18 +10,20 @@ import com.cobblemon.mod.common.api.battles.interpreter.BattleContext
  */
 class ContextManager {
 
-    /** BattleContext.Type buckets containing BattleContexts of that type. */
+    /** [BattleContext.Type] buckets containing [BattleContexts] of that type. */
     val buckets = hashMapOf<BattleContext.Type, MutableCollection<BattleContext>>()
 
     /** Adds a [BattleContext] to its corresponding [BattleContext.Type] bucket. */
-    fun add(context: BattleContext) {
-        if (context.type.exclusive) {
-            val bucket = this.buckets.getOrPut(context.type) { mutableListOf() }
-            bucket.clear()
-            bucket.add(context)
-        }
-        else {
-            this.buckets.getOrPut(context.type) { mutableListOf() }.add(context)
+    fun add(vararg contexts: BattleContext) {
+        contexts.forEach { context ->
+            if (context.type.exclusive) {
+                val bucket = this.buckets.getOrPut(context.type) { mutableListOf() }
+                bucket.clear()
+                bucket.add(context)
+            }
+            else {
+                this.buckets.getOrPut(context.type) { mutableListOf() }.add(context)
+            }
         }
     }
 
@@ -33,7 +35,7 @@ class ContextManager {
         }
     }
 
-    /** Removes all [BattleContext]s of the [BattleContext.Type] bucket that match the contextID. */
+    /** Removes all [BattleContext]s that have IDs matching [contextID] from the [bucketType] bucket. */
     fun remove(contextID: String, bucketType: BattleContext.Type) {
         if (bucketType.exclusive) {
             this.buckets[bucketType]?.clear()
@@ -43,9 +45,29 @@ class ContextManager {
         }
     }
 
-    /** Clears all the [BattleContext]s belonging to the [BattleContext.Type] bucket. */
-    fun clear(bucketType: BattleContext.Type) {
-        this.buckets[bucketType]?.clear()
+    /** Clears all [BattleContext]s belonging to the [bucketTypes] buckets. */
+    fun clear(vararg bucketTypes: BattleContext.Type) {
+        bucketTypes.forEach { bucketType ->
+            this.buckets[bucketType]?.clear()
+        }
+    }
+
+    /** Swaps all the [BattleContext]s belonging to the [bucketTypes] buckets with the contexts of the
+     * [with] manager's respective buckets. */
+    fun swap(with: ContextManager, vararg bucketTypes: BattleContext.Type) {
+        bucketTypes.forEach { bucketType ->
+            val oldContexts = this.buckets[bucketType]?.toMutableList()
+            val newContexts = with.buckets[bucketType]?.toMutableList()
+            this.clear(bucketType)
+            with.clear(bucketType)
+            oldContexts?.let { with.add(*it.toTypedArray()) }
+            newContexts?.let { this.add(*it.toTypedArray()) }
+        }
+    }
+
+    /** Gets all [BattleContext]s belonging to the [bucketType] bucket. */
+    fun get(bucketType: BattleContext.Type) : Collection<BattleContext>? {
+        return buckets[bucketType]
     }
 
     companion object {
@@ -53,7 +75,7 @@ class ContextManager {
         /**
          * Extracts a [BattleContext] from multiple context buckets.
          *
-         * @return the most recently added context with a matching id.
+         * @return The most recently added [BattleContext] with an ID matching [contextID].
          * */
         fun scoop(contextID: String, vararg contextBuckets: Collection<BattleContext>?): BattleContext? {
             contextBuckets.filterNotNull().forEach { bucket ->
