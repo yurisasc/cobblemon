@@ -430,7 +430,6 @@
   "cobblemon.battle.no_weather": "The weather clears up.",
 
   "cobblemon.battle.start.confusion": "%1$s is confused!",
-  "cobblemon.battle.start.protect": "%1$s starts protecting itself!",
   "cobblemon.battle.start.bide": "%1$s begins storing energy!",
   "cobblemon.battle.start.yawn": "%1$s grew drowsy!",
   "cobblemon.battle.start.perish_count": "%1$s's perish count fell to %2$s.",

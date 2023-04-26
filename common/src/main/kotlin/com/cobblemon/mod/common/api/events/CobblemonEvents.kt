@@ -70,6 +70,8 @@ object CobblemonEvents {
     val BATTLE_FLED = EventObservable<BattleFledEvent>()
     @JvmField
     val BATTLE_VICTORY = EventObservable<BattleVictoryEvent>()
+    @JvmField
+    val BATTLE_FAINTED = EventObservable<BattleFaintedEvent>()
 
     @JvmField
     val POKEMON_SENT_PRE = CancelableObservable<PokemonSentPreEvent>()
