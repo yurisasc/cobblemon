@@ -434,6 +434,11 @@
   "cobblemon.battle.start.yawn": "%1$s grew drowsy!",
   "cobblemon.battle.start.perish_count": "%1$s's perish count fell to %2$s.",
   "cobblemon.battle.start.leechseed": "%1$s was seeded!",
+  "cobblemon.battle.start.aqua_ring": "%1$s surrounded itself with a veil of water!",
+  "cobblemon.battle.start.charge": "%1$s began charging power!",
+  "cobblemon.battle.start.taunt": "%1$s fell for the taunt!",
+  "cobblemon.battle.start.autotomize": "%1$s became nimble!",
+  "cobblemon.battle.start.attract": "%1$s fell in love!",
 
   "cobblemon.battle.field_start.electric_terrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.field_start.grassy_terrain": "Grass grew to cover the battlefield!",
