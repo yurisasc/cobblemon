@@ -68,7 +68,8 @@ enum class ShowdownActionResponseType(val loader: (PacketByteBuf) -> ShowdownAct
     MOVE({ MoveActionResponse("", null) }),
     DEFAULT({ DefaultActionResponse() }),
     BALL({ BallActionResponse() }),
-    PASS({ PassActionResponse });
+    PASS({ PassActionResponse }),
+    FORFEIT({ ForfeitActionResponse });
 }
 
 abstract class ShowdownActionResponse(val type: ShowdownActionResponseType) {
@@ -189,6 +190,11 @@ class BallActionResponse() : ShowdownActionResponse(ShowdownActionResponseType.B
     }
 
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "pass"
+}
+
+object ForfeitActionResponse : ShowdownActionResponse(ShowdownActionResponseType.FORFEIT) {
+    override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean) = true
+    override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "forfeit"
 }
 class ShowdownMoveset {
     lateinit var moves: List<InBattleMove>

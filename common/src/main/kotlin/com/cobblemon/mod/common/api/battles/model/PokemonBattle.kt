@@ -169,6 +169,7 @@ open class PokemonBattle(
 
     fun writeShowdownAction(vararg messages: String) {
         log(messages.joinToString("\n"))
+        println("X: " + messages.joinToString("\n"))
         ShowdownService.get().send(battleId, messages.toList().toTypedArray())
     }
 
