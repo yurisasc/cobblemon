@@ -38,12 +38,14 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("bidoof", "blink").setPreventsIdle(false) }
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                //bedrock("bidoof", "ground_idle")
+                singleBoneLook(),
+                bedrock("bidoof", "ground_idle")
             )
         )
 
@@ -52,8 +54,8 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.6F)
-                //bedrock("bidoof", "ground_walk")
+                //QuadrupedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.6F)
+                bedrock("bidoof", "ground_walk")
             )
         )
     }

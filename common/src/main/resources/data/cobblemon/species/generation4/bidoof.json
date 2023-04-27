@@ -27,6 +27,9 @@
     "field"
   ],
   "behaviour": {
+    "walk": {
+      "walkSpeed": 0.3
+    },
     "swim": {
       "swimSpeed": 0.1,
       "canSwimInWater": true,
