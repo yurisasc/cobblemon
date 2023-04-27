@@ -434,7 +434,12 @@
   "cobblemon.battle.start.yawn": "%1$s grew drowsy!",
   "cobblemon.battle.start.perish_count": "%1$s's perish count fell to %2$s.",
   "cobblemon.battle.start.leechseed": "%1$s was seeded!",
-
+  "cobblemon.battle.start.aqua_ring": "%1$s surrounded itself with a veil of water!",
+  "cobblemon.battle.start.charge": "%1$s began charging power!",
+  "cobblemon.battle.start.taunt": "%1$s fell for the taunt!",
+  "cobblemon.battle.start.autotomize": "%1$s became nimble!",
+  "cobblemon.battle.start.attract": "%1$s fell in love!",
+  
   "cobblemon.battle.field_start.electric_terrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.field_start.grassy_terrain": "Grass grew to cover the battlefield!",
   "cobblemon.battle.field_start.gravity": "Gravity intensified!",
@@ -511,6 +516,10 @@
   "cobblemon.battle.activate.protect": "%1$s protected itself!",
   "cobblemon.battle.activate.magnitude": "Magnitude %1$s!",
   "cobblemon.battle.activate.destiny_bond": "%1$s took its attacker down with it!",
+  "cobblemon.battle.activate.synchronize": "[%1$s's Synchronize]",
+  "cobblemon.battle.activate.endure": "%1$s endured the hit!",
+  "cobblemon.battle.activate.attract": "%1$s is in love with %2$s!",
+  "cobblemon.battle.activate.firespin": "%1$s became trapped in the fiery vortex!",
 
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
@@ -563,7 +572,8 @@
   "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
   "cobblemon.battle.end.disable": "%1$s's move is no longer disabled!",
   "cobblemon.battle.end.protosynthesis": "The effects of %1$s's Protosynthesis wore off!",
-
+  "cobblemon.battle.end.taunt": "%1$s shook off the taunt!",
+  "cobblemon.battle.end.firespin": "%1$s was freed from Fire Spin!",
 
   "cobblemon.battle.end.bide": "%1$s unleashed its energy!",
   "cobblemon.battle.end.confusion": "%1$s snapped out of its confusion!",
