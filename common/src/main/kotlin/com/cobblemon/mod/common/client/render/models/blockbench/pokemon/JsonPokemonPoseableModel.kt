@@ -30,6 +30,7 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
+import java.util.function.Supplier
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -48,7 +49,17 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
             .disableHtmlEscaping()
             .registerTypeAdapter(Vec3d::class.java, Vec3dAdapter)
             .setExclusionStrategies(JsonModelExclusion)
-            .registerTypeAdapter(TypeToken.getParameterized(StatefulAnimation::class.java, PokemonEntity::class.java, ModelFrame::class.java).type, StatefulAnimationAdapter)
+            .registerTypeAdapter(
+                TypeToken.getParameterized(
+                    Supplier::class.java,
+                    TypeToken.getParameterized(
+                        StatefulAnimation::class.java,
+                        PokemonEntity::class.java,
+                        ModelFrame::class.java
+                    ).type
+                ).type,
+                StatefulAnimationAdapter
+            )
             .registerTypeAdapter(Pose::class.java, PoseAdapter)
             .registerTypeAdapter(JsonPokemonPoseableModel::class.java, JsonPokemonPoseableModelAdapter)
             .create()
@@ -84,9 +95,9 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
 
 
 
-    val faint: StatefulAnimation<PokemonEntity, ModelFrame>? = null
+    val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
 
-    override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint
+    override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint?.get()
 
 
     object JsonModelExclusion: ExclusionStrategy {
@@ -104,14 +115,14 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
 
     }
 
-    object StatefulAnimationAdapter : JsonDeserializer<StatefulAnimation<PokemonEntity, ModelFrame>> {
-        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): StatefulAnimation<PokemonEntity, ModelFrame> {
+    object StatefulAnimationAdapter : JsonDeserializer<Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>> {
+        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Supplier<StatefulAnimation<PokemonEntity, ModelFrame>> {
             json as JsonPrimitive
             val animString = json.asString
             val splits = animString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)
             val file = splits[0]
             val animation = splits[1]
-            return JsonPokemonPoseableModelAdapter.model!!.bedrockStateful(file, animation)
+            return Supplier { JsonPokemonPoseableModelAdapter.model!!.bedrockStateful(file, animation) }
         }
     }
 
