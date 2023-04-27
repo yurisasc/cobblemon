@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Chinchou",
   "nationalPokedexNumber": 170,
   "primaryType": "water",
@@ -25,6 +26,19 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:bubble",
     "1:supersonic",
