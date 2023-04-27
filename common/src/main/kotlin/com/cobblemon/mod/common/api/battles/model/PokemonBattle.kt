@@ -313,7 +313,7 @@ open class PokemonBattle(
             afterDispatches.clear()
         }
 
-        if (started && isPvW && !ended) {
+        if (started && isPvW && !ended && dispatches.isEmpty()) {
             checkFlee()
         }
     }
