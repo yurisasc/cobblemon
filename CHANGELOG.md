@@ -20,6 +20,7 @@
 - Fixed a bug that caused sleeping pokemon to stay asleep.
 - Fixed a bug that would freeze a battle when a Pokémon gets trapped due to an ability.
 - Fixed the Pokeball close animation canceling whenever colliding with a block.
+- Fixed faint animations not working properly in add-ons.
 
 ### Developer
 - Added SpawnEvent
