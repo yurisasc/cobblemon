@@ -32,6 +32,13 @@
   "eggGroups": [
     "mineral"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.25
+      }
+    }
+  },
   "drops": {
     "amount": "1",
     "entries": [
