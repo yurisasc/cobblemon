@@ -801,6 +801,11 @@ object ShowdownInterpreter {
                     "bide" -> battleLang("start.bide", pokemon.getName())
                     "yawn" -> battleLang("start.yawn", pokemon.getName())
                     "leechseed" -> battleLang("start.leechseed", pokemon.getName())
+                    "aquaring" -> battleLang("start.aqua_ring", pokemon.getName())
+                    "charge" -> battleLang("start.charge", pokemon.getName())
+                    "taunt" -> battleLang("start.taunt", pokemon.getName())
+                    "autotomize" -> battleLang("start.autotomize", pokemon.getName())
+                    "attract" -> battleLang("start.attract", pokemon.getName())
                     // ignore 3 to prevent clutter (-fieldactivate already announces perish)
                     "perish3" -> return@dispatchWaiting
                     "perish2", "perish1", "perish0" -> battleLang("start.perish_count", pokemon.getName(), effect.id.last().digitToInt())
@@ -876,6 +881,7 @@ object ShowdownInterpreter {
             this.lastCauser[battle.battleId] = message
 
             // Sim protocol claims it's '|-activate|EFFECT' but it seems to always be '|-activate|POKEMON|EFFECT'
+            // can also be '|-activate|POKEMON|EFFECT|[of] POKEMON'
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
             val pokemonName = pokemon.getName()
             val effect = message.effectAt(1) ?: return@dispatchGo
@@ -919,6 +925,13 @@ object ShowdownInterpreter {
                         "slp" -> lang("status.sleep.woke", pokemonName)
                         else -> lang("status.poison.cure", pokemonName)
                     }
+                }
+                "synchronize" -> battleLang("activate.synchronize", pokemonName)
+                "endure" -> battleLang("activate.endure", pokemonName)
+                "firespin" -> battleLang("activate.firespin", pokemonName)
+                "attract" -> {
+                    val sourcePokemonName = message.getSourceBattlePokemon(battle)?.getName() ?: return@dispatchGo
+                    battleLang("activate.attract", pokemonName, sourcePokemonName)
                 }
                 else -> battle.createUnimplemented(message)
             }
@@ -1096,6 +1109,8 @@ object ShowdownInterpreter {
                     "disable" -> battleLang("end.disable", pokemonName)
                     "protosynthesis" -> battleLang("end.protosynthesis", pokemonName)
                     "yawn" -> lang("status.sleep.apply", pokemonName)
+                    "taunt" -> battleLang("end.taunt", pokemonName)
+                    "firespin" -> battleLang("end.firespin", pokemonName)
                     else -> battle.createUnimplemented(message)
                 }
                 battle.broadcastChatMessage(feedback)
