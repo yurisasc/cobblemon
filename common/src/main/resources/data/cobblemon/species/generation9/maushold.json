@@ -89,6 +89,12 @@
     "tm:uturn",
     "tm:waterpulse"
   ],
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
   "labels": [
     "gen9"
   ],
