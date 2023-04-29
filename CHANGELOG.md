@@ -14,15 +14,17 @@
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
-- Fixed messages for entry hazards, screens, tailwind, Perish Song, Destiny Bond, Shed Skin, Yawn
-- Fixed Porygon not evolving with upgrade.
+- Fixed messages for entry hazards, screens, Tailwind, Perish Song, Destiny Bond, Shed Skin, and Yawn
+- Fixed Porygon not evolving with an Upgrade.
 - Fixed super sized Pumpkaboo not having any moves.
 - Fixed Infernape look animation.
 - Fixed Garchomp t-posing while swimming.
 - Fixed a bug that caused sleeping pokemon to stay asleep.
 - Fixed a bug that would freeze a battle when a Pokémon gets trapped due to an ability.
-- Fixed the Pokeball close animation canceling whenever colliding with a block.
+- Fixed the Poké Ball close animation canceling whenever colliding with a block.
 - Fixed faint animations not working properly in add-ons.
+- Fixed lighting and Pokémon label issues when a Pokémon item frame is nearby.
+
 
 ### Developer
 - Added SpawnEvent
