@@ -33,15 +33,9 @@ fun ModelPart.setRotation(axis: Int, angleInRadians: Float): ModelPart {
 }
 fun ModelPart.setPosition(axis: Int, position: Float): ModelPart {
     when (axis) {
-        X_AXIS -> {
-            pivotX = position
-        }
-        Y_AXIS -> {
-            pivotY = position
-        }
-        else -> {
-            pivotZ = position
-        }
+        X_AXIS -> { pivotX = position }
+        Y_AXIS -> { pivotY = position }
+        else -> { pivotZ = position }
     }
     return this
 }
