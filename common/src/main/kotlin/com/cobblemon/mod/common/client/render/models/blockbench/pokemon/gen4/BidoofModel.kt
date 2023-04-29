@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.STAND
 import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
@@ -38,8 +39,9 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val profileTranslation = Vec3d(0.0, 0.43, 0.0)
 
     lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var walking: PokemonPose
     lateinit var floating: PokemonPose
+    lateinit var sleeping: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("bidoof", "blink").setPreventsIdle(false) }
@@ -54,7 +56,7 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             )
         )
 
-        walk = registerPose(
+        walking = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
@@ -75,10 +77,15 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 bedrock("bidoof", "water_float")
             )
         )
+
+        sleeping = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("bidoof", "sleep"))
+        )
     }
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("bidoof", "faint") else null
+    ) = if (state.isPosedIn(standing, walking, sleeping)) bedrockStateful("bidoof", "faint") else null
 }

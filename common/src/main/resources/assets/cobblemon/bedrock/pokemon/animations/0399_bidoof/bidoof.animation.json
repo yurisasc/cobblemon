@@ -373,6 +373,44 @@
 					"position": [0, 3, 0]
 				}
 			}
+		},
+		"animation.bidoof.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [0, 30, 0]
+				},
+				"torso": {
+					"rotation": ["0.7*math.sin(q.anim_time*90*0.7)", 0, 0],
+					"position": [0, -2.5, 0]
+				},
+				"head": {
+					"rotation": ["-15.1712 + 0.5*math.sin(q.anim_time*90*0.7-90)", -15.36234, 10.38842],
+					"position": [0, 1, -1]
+				},
+				"eyelid_right": {
+					"position": [0, 0, -0.1]
+				},
+				"eyelid_left": {
+					"position": [0, 0, -0.1]
+				},
+				"leg_front_right": {
+					"rotation": [-85, -5, 0],
+					"position": [0, -3.5, -2]
+				},
+				"leg_front_left": {
+					"rotation": [-82.5, 2.5, 0],
+					"position": [0, -3.5, 0]
+				},
+				"leg_back_right": {
+					"rotation": [72.5, -30, 0],
+					"position": [0, -2.75, -1]
+				},
+				"leg_back_left": {
+					"rotation": [65, 25, 0],
+					"position": [0, -2, 0]
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2
