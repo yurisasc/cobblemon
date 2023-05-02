@@ -155,7 +155,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
         } else {
             setNoGravity(false)
             velocity = Vec3d.ZERO
-            isOnGround = true
+
         }
     }
 
