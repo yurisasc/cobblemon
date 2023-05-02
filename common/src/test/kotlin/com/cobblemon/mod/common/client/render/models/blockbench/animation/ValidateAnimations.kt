@@ -81,13 +81,15 @@ internal class ValidateAnimations {
                 val ignore = AtomicBoolean(false)
                 source = reader.lines()
                     .filter {
+                        var result: Boolean = ignore.get()
                         if(it.trim().startsWith("/*")) {
                             ignore.set(true)
+                            result = true
                         } else if(it.trim().contains("*/")) {
-                            ignore.set(false)
+                            result = ignore.getAndSet(false)
                         }
 
-                        !ignore.get()
+                        !result
                     }
                     .reduce { a, b -> a.plus('\n').plus(b) }
                     .get()
@@ -120,7 +122,7 @@ internal class ValidateAnimations {
                         }
                     }
 
-                    assertEquals(0, options.size)
+                    assertEquals(0, options.size, "Invalid animations found for pokemon: ${entry.key} $options")
                 }
             }
         }
