@@ -405,6 +405,7 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("chimecho", ::ChimechoModel)
         inbuilt("fidough", ::FidoughModel)
         inbuilt("dachsbun", ::DachsbunModel)
+        inbuilt("chatot", ::ChatotModel)
 
 
         // Unhooked because the families are not completed
