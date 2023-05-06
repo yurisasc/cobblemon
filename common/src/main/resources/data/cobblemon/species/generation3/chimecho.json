@@ -134,6 +134,13 @@
     "tutor:wrap",
     "tutor:zenheadbutt"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "labels": [
     "gen3"
   ],
@@ -142,10 +149,10 @@
   ],
   "preEvolution": "chingling",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.4,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 70,
