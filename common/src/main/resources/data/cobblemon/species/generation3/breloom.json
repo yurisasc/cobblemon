@@ -161,10 +161,10 @@
   ],
   "preEvolution": "shroomish",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 70,
