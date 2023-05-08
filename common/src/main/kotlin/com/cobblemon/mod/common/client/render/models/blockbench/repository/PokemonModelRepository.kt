@@ -408,10 +408,15 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("chatot", ::ChatotModel)
         inbuilt("gligar", ::GligarModel)
         inbuilt("gliscor", ::GliscorModel)
+        inbuilt("poochyena", ::PoochyenaModel)
+        inbuilt("mightyena", ::MightyenaModel)
+        inbuilt("sprigatito", ::SprigatitoModel)
+        inbuilt("floragato", ::FloragatoModel)
+        inbuilt("meowscarada", ::MeowscaradaModel)
 
 
         // Unhooked because the families are not completed
-//        inbuilt("sprigatito", ::SprigatitoModel)
+
 //        inbuilt("fuecoco", :: FuecocoModel)
 //        inbuilt("quaxly", :: QuaxlyModel)
 //        inbuilt("charcadet", ::CharcadetModel)
