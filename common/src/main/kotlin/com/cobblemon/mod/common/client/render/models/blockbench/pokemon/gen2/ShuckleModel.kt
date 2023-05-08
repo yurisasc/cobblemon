@@ -20,10 +20,10 @@ class ShuckleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val head = getPart("head")
 
     override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.35, -1.0, 0.0)
+    override val portraitTranslation = Vec3d(-0.7, 0.1, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(-0.1, 0.1, 0.0)
+    override val profileScale = 0.6F
+    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
