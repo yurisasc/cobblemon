@@ -413,10 +413,12 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("sprigatito", ::SprigatitoModel)
         inbuilt("floragato", ::FloragatoModel)
         inbuilt("meowscarada", ::MeowscaradaModel)
+        inbuilt("shroomish", ::ShroomishModel)
+        inbuilt("breloom", ::BreloomModel)
 
 
         // Unhooked because the families are not completed
-
+//        inbuilt("sprigatito", ::SprigatitoModel)
 //        inbuilt("fuecoco", :: FuecocoModel)
 //        inbuilt("quaxly", :: QuaxlyModel)
 //        inbuilt("charcadet", ::CharcadetModel)
