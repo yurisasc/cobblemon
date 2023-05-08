@@ -410,13 +410,16 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("gliscor", ::GliscorModel)
         inbuilt("shroomish", ::ShroomishModel)
         inbuilt("breloom", ::BreloomModel)
+        inbuilt("charcadet", ::CharcadetModel)
+        inbuilt("armarouge", ::ArmarougeModel)
+        inbuilt("ceruledge", ::CeruledgeModel)
+
 
 
         // Unhooked because the families are not completed
 //        inbuilt("sprigatito", ::SprigatitoModel)
 //        inbuilt("fuecoco", :: FuecocoModel)
 //        inbuilt("quaxly", :: QuaxlyModel)
-//        inbuilt("charcadet", ::CharcadetModel)
 
     }
 

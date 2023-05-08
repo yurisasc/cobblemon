@@ -21,25 +21,25 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CharcadetModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
-    override val rootPart = root.registerChildWithAllChildren("charcadet")
+class CeruledgeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+    override val rootPart = root.registerChildWithAllChildren("ceruledge")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.15, -0.45, 0.0)
+    override val portraitScale = 1.8F
+    override val portraitTranslation = Vec3d(-0.2, 1.9, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override val profileScale = 0.5F
+    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("charcadet", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("ceruledge", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
@@ -47,7 +47,7 @@ class CharcadetModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("charcadet", "ground_idle")
+                bedrock("ceruledge", "ground_idle")
             )
         )
 
@@ -58,7 +58,7 @@ class CharcadetModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("charcadet", "ground_idle"),
+                bedrock("ceruledge", "ground_idle"),
                 BipedWalkAnimation(this, amplitudeMultiplier = 0.9F, periodMultiplier = 0.75F)
             )
         )

@@ -19,6 +19,12 @@
   "maleRatio": 0.5,
   "baseExperienceYield": 263,
   "baseFriendship": 20,
+  "baseScale": 0.82,
+  "hitbox": {
+    "width": 0.9,
+    "height": 2.1,
+    "fixed": false
+  },
   "evYield": {
     "hp": 0,
     "attack": 0,
