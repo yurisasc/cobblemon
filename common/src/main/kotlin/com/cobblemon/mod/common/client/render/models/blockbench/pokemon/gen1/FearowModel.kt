@@ -33,13 +33,16 @@ class FearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("fearow", "sleep"))
-        )
+        val blink = quirk("blink") { bedrockStateful("fearow", "blink").setPreventsIdle(false)}
+        //sleep = registerPose(
+        //        poseType = PoseType.SLEEP,
+        //idleAnimations = arrayOf(bedrock("fearow", "sleep"))
+        //)
+
         stand = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("fearow", "ground_idle")
@@ -49,13 +52,14 @@ class FearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("fearow", "ground_idle")
             )
         )
 
-        hover = registerPose(
+/*        hover = registerPose(
             poseName = "hover",
             poseType = PoseType.HOVER,
             idleAnimations = arrayOf(
@@ -73,7 +77,7 @@ class FearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("fearow", "air_fly")
                 //bedrock("fearow", "ground_walk")
             )
-        )
+        )*/
     }
 
 //    override fun getFaintAnimation(

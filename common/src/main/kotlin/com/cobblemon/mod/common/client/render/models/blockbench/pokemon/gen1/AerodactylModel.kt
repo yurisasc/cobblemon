@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -27,6 +28,7 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
@@ -39,6 +41,16 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("aerodactyl", "ground_idle")
+            )
+        )
+
+        walk = registerPose(
+            poseName = "walk",
+            poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("aerodactyl", "ground_walk")
             )
         )
 
@@ -58,7 +70,7 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("aerodactyl", "air_fly")
+                bedrock("aerodactyl", "air_idle")
             )
         )
     }

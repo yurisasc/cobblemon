@@ -21,6 +21,9 @@
 - Shuckle
 - Chinchou
 - Lanturn
+- Aipom
+- Gligar
+- 
 
 #### Gen 3
 
@@ -40,17 +43,29 @@
 - Cherubi
 - Cherrim
 - Carnivine
--
+- Shinx
+- Luxio
+- Luxray
+- Ambipom
+- Gliscor
 
 #### Gen 5
 
 - Bouffolant
+- Roggenrola
+- Boldore
+- Gigalith
+- Venepede
+- Whirlpede
+- Scolipede
 
 #### Gen 6
 
 - Scatterbug
 - Spewpa
 - Vivillion
+- Skrelp
+- Dragalge
 
 #### Gen 7
 
@@ -76,6 +91,8 @@
 - Ceruledge
 - Cetoddle
 - Cetitan
+- Shroodle
+- Grafaiia
 
 ### Changes
 - Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.

@@ -35,10 +35,12 @@ class DrowzeeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("drowzee", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("drowzee", "ground_idle")
@@ -49,6 +51,7 @@ class DrowzeeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 1.1F),
                 singleBoneLook(),

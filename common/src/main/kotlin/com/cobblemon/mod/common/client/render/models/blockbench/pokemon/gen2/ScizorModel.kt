@@ -8,6 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -16,9 +20,14 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("scizor")
     override val head = getPart("head")
+
+    override val leftArm = getPart("left_upper_arm")
+    override val rightArm = getPart("right_upper_arm")
+    override val leftLeg = getPart("left_leg_joint")
+    override val rightLeg = getPart("right_leg_joint")
 
     override val portraitScale = 2.6F
     override val portraitTranslation = Vec3d(-0.2, 1.6, 0.0)
@@ -49,6 +58,8 @@ class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F),
+                BimanualSwingAnimation (this, amplitudeMultiplier = 0.85F),
                 bedrock("scizor", "ground_idle")
             )
         )
@@ -69,7 +80,7 @@ class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("scizor", "air_fly")
+                bedrock("scizor", "air_idle")
             )
         )
     }

@@ -21,8 +21,8 @@ class KleavorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val rootPart = root.registerChildWithAllChildren("kleavor")
     override val head = getPart("head")
 
-    override val leftLeg = getPart("leftleg")
-    override val rightLeg = getPart("rightleg")
+    override val leftLeg = getPart("left_upper_leg")
+    override val rightLeg = getPart("right_upper_leg")
 
     override val portraitScale = 2.0F
     override val portraitTranslation = Vec3d(-0.85, 1.2, 0.0)
@@ -34,9 +34,11 @@ class KleavorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("kleavor", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("kleavor", "ground_idle")
@@ -46,6 +48,7 @@ class KleavorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("kleavor", "ground_idle"),
