@@ -413,6 +413,8 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("charcadet", ::CharcadetModel)
         inbuilt("armarouge", ::ArmarougeModel)
         inbuilt("ceruledge", ::CeruledgeModel)
+        inbuilt("flittle", ::FlittleModel)
+        inbuilt("espathra", ::EspathraModel)
 
 
 
