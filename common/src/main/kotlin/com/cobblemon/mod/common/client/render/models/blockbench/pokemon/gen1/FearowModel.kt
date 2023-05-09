@@ -59,25 +59,6 @@ class FearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
 
-/*        hover = registerPose(
-            poseName = "hover",
-            poseType = PoseType.HOVER,
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("fearow", "air_idle")
-                //bedrock("fearow", "ground_walk")
-            )
-        )
-
-        fly = registerPose(
-            poseName = "fly",
-            poseType = PoseType.FLY,
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("fearow", "air_fly")
-                //bedrock("fearow", "ground_walk")
-            )
-        )*/
     }
 
 //    override fun getFaintAnimation(

@@ -141,23 +141,6 @@ class SpearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             )
         )
 
-/*        hover = registerPose(
-            poseName = "hover",
-            poseType = PoseType.HOVER,
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("spearow", "air_idle")
-            )
-        )
-
-        fly = registerPose(
-            poseName = "fly",
-            poseType = PoseType.FLY,
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("spearow", "air_fly")
-            )
-        )*/
     }
 
 //    override fun getFaintAnimation(
