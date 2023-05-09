@@ -32,6 +32,25 @@
   "eggGroups": [
     "flying"
   ],
+  "baseScale": 0.87,
+  "hitbox": {
+    "width": 1.2,
+    "height": 2.1,
+    "fixed": false
+  },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.3
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:drillpeck",
     "1:featherdance",

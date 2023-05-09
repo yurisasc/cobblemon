@@ -7,8 +7,6 @@
  */
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
-
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -16,20 +14,20 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
+class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("comfey")
+    override val head = getPart("spin")
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.15, -0.8, 0.0)
+    override val portraitScale = 2.3F
+    override val portraitTranslation = Vec3d(-0.4, 2.0, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override val profileScale = 0.5F
+    override val profileTranslation = Vec3d(0.1, 1.0, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -52,6 +50,7 @@ class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("comfey", "ground_idle")
             )
         )
@@ -62,6 +61,7 @@ class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
             transformTicks = 5,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("comfey", "ground_walk")
             )
         )
@@ -73,7 +73,7 @@ class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
                 bedrock("comfey", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset),
             )
         )
 
@@ -84,7 +84,7 @@ class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
                 bedrock("comfey", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset),
             )
         )
     }

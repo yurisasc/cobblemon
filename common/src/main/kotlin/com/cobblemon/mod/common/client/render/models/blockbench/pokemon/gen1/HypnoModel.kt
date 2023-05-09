@@ -22,14 +22,14 @@ class HypnoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
     override val rootPart = root.registerChildWithAllChildren("hypno")
     override val head = getPart("head")
 
-    override val leftLeg = getPart("leftleg")
-    override val rightLeg = getPart("rightleg")
+    override val leftLeg = getPart("left_upper_leg")
+    override val rightLeg = getPart("right_upper_leg")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(0.0, 0.1, 0.0)
+    override val portraitScale = 2.1F
+    override val portraitTranslation = Vec3d(-0.3, 0.6, 0.0)
 
-    override val profileScale = 0.95F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override val profileScale = 0.8F
+    override val profileTranslation = Vec3d(-0.05, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

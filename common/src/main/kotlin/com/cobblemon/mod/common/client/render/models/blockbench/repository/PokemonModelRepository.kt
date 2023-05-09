@@ -401,13 +401,32 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("varoom", ::VaroomModel)
         inbuilt("revavroom", ::RevavroomModel)
         inbuilt("lanturn", ::LanturnModel)
+        inbuilt("chingling", ::ChinglingModel)
+        inbuilt("chimecho", ::ChimechoModel)
+        inbuilt("fidough", ::FidoughModel)
+        inbuilt("dachsbun", ::DachsbunModel)
+        inbuilt("chatot", ::ChatotModel)
+        inbuilt("gligar", ::GligarModel)
+        inbuilt("gliscor", ::GliscorModel)
+        inbuilt("poochyena", ::PoochyenaModel)
+        inbuilt("mightyena", ::MightyenaModel)
+        inbuilt("sprigatito", ::SprigatitoModel)
+        inbuilt("floragato", ::FloragatoModel)
+        inbuilt("meowscarada", ::MeowscaradaModel)
+        inbuilt("shroomish", ::ShroomishModel)
+        inbuilt("breloom", ::BreloomModel)
+        inbuilt("charcadet", ::CharcadetModel)
+        inbuilt("armarouge", ::ArmarougeModel)
+        inbuilt("ceruledge", ::CeruledgeModel)
+        inbuilt("flittle", ::FlittleModel)
+        inbuilt("espathra", ::EspathraModel)
+
 
 
         // Unhooked because the families are not completed
 //        inbuilt("sprigatito", ::SprigatitoModel)
 //        inbuilt("fuecoco", :: FuecocoModel)
 //        inbuilt("quaxly", :: QuaxlyModel)
-//        inbuilt("charcadet", ::CharcadetModel)
 
     }
 

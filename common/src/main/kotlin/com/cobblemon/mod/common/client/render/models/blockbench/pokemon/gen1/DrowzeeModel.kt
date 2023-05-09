@@ -22,11 +22,11 @@ class DrowzeeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val rootPart = root.registerChildWithAllChildren("drowzee")
     override val head = getPart("head")
 
-    override val leftLeg = getPart("leftleg")
-    override val rightLeg = getPart("rightleg")
+    override val leftLeg = getPart("left_leg")
+    override val rightLeg = getPart("right_leg")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.1, -0.3, 0.0)
+    override val portraitScale = 2.4F
+    override val portraitTranslation = Vec3d(0.0, -0.1, 0.0)
 
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.4, 0.0)

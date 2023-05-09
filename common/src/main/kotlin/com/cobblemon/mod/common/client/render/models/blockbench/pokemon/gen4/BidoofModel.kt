@@ -49,6 +49,7 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + STAND,
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -59,6 +60,7 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
         walking = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -70,6 +72,7 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
         floating = registerPose(
             poseName = "float",
             poseTypes = SWIMMING_POSES,
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -80,6 +83,7 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
 
         sleeping = registerPose(
             poseType = PoseType.SLEEP,
+            transformTicks = 10,
             idleAnimations = arrayOf(bedrock("bidoof", "sleep"))
         )
     }

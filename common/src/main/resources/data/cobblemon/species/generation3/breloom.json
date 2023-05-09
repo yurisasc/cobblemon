@@ -26,6 +26,13 @@
     "fairy",
     "grass"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.3
+      }
+    }
+  },
   "moves": [
     "1:absorb",
     "1:growth",
@@ -161,10 +168,10 @@
   ],
   "preEvolution": "shroomish",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 70,
