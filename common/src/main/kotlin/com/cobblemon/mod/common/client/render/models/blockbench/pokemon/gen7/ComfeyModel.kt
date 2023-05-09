@@ -7,7 +7,6 @@
  */
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
-
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
