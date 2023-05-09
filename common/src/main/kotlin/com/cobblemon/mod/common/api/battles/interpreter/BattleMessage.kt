@@ -53,6 +53,11 @@ class BattleMessage(rawMessage: String) {
      */
     private val optionalArgumentMatcher = Regex("^\\$OPTIONAL_ARG_START([^]]+)$OPTIONAL_ARG_END")
 
+    /**
+     * Pattern to match a Showdown position.
+     */
+    private val pnxMatcher = Regex("p\\d[a-c]")
+
     init {
         this.parse(rawMessage)
     }
@@ -125,7 +130,7 @@ class BattleMessage(rawMessage: String) {
      * @return A pair of [BattleActor] and [ActiveBattlePokemon] if the argument exists and successfully parses them otherwise null.
      */
     fun actorAndActivePokemon(index: Int, battle: PokemonBattle): Pair<BattleActor, ActiveBattlePokemon>? {
-        val pnx = this.argumentAt(index)?.takeIf { it.length >= 3 }?.substring(0, 3) ?: return null
+        val (pnx, _) = this.pnxAndUuid(index) ?: return null
         return this.actorAndActivePokemon(pnx, battle)
     }
 
@@ -142,6 +147,28 @@ class BattleMessage(rawMessage: String) {
         val actorID = actorAndPokemonID[0]
         val pokemonID = actorAndPokemonID[1]
         return this.getBattlePokemon(actorID, pokemonID, battle)
+    }
+
+    fun getSourceBattlePokemon(battle: PokemonBattle): BattlePokemon? {
+        val sourcePokemonArgument = this.optionalArguments.get("of") ?: return null
+        val actorAndPokemonID = sourcePokemonArgument.takeIf { it.length >= 2 }?.split(": ") ?: return null
+        if (actorAndPokemonID.count() < 2) return null
+        val actorID = actorAndPokemonID[0]
+        val pokemonID = actorAndPokemonID[1]
+        return this.getBattlePokemon(actorID, pokemonID, battle)
+    }
+
+    /**
+     * Deconstructs the Showdown ID of a Pokemon at the given [index] into its 'pnx' and 'uuid' parts.
+     *
+     * @param index The index of the argument containing the Showdown ID of a Pokemon.
+     * @return A 'pnx' String representing position and a 'uuid' String representing the unique Pokemon if parsed correctly, otherwise null.
+     */
+    fun pnxAndUuid(index: Int): Pair<String, String>? {
+        val argument = this.argumentAt(index)?.takeIf { it.length >= 3 }?.split(":")?.takeIf { it.size == 2 } ?: return null
+        val pnx = argument[0].takeIf { it.matches(pnxMatcher) } ?: return null
+        val uuid = argument[1].trim()
+        return pnx to uuid
     }
 
     /**

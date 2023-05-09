@@ -41,10 +41,10 @@ fun linearLerpAlpha(before: Double, after: Double, value: Double): Double {
  */
 fun catmullromLerp(frameA: BedrockAnimationKeyFrame?, frameB: BedrockAnimationKeyFrame, frameC: BedrockAnimationKeyFrame, frameD: BedrockAnimationKeyFrame?, axis: Int, time: Double, runtime: MoLangRuntime) : Double {
     val vectors = mutableListOf<Vector2d>()
-    val frameAData = frameA?.data?.resolve(time, runtime)
-    val frameBData = frameB.data.resolve(time, runtime)
-    val frameCData = frameC.data.resolve(time, runtime)
-    val frameDData = frameD?.data?.resolve(time, runtime)
+    val frameAData = frameA?.post?.resolve(time, runtime)
+    val frameBData = frameB.post.resolve(time, runtime)
+    val frameCData = frameC.pre.resolve(time, runtime)
+    val frameDData = frameD?.pre?.resolve(time, runtime)
     if (frameAData != null) vectors.add(Vector2d(frameA.time, frameAData.get(axis)))
     vectors.add(Vector2d(frameB.time, frameBData.get(axis)))
     vectors.add(Vector2d(frameC.time, frameCData.get(axis)))

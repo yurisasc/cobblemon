@@ -423,8 +423,8 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
 
 
 
+
         // Unhooked because the families are not completed
-//        inbuilt("sprigatito", ::SprigatitoModel)
 //        inbuilt("fuecoco", :: FuecocoModel)
 //        inbuilt("quaxly", :: QuaxlyModel)
 

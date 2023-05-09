@@ -46,10 +46,12 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         val rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(transformations.rotation.x, transformations.rotation.y, transformations.rotation.z))
         matrices.multiply(rotation)
         rotation.conjugate()
+        val oldRotation = MinecraftClient.getInstance().entityRenderDispatcher.rotation
         MinecraftClient.getInstance().entityRenderDispatcher.rotation = rotation
 
         val light1 = Vector3f(-1F, 1F, 1.0F)
         val light2 = Vector3f(1.3F, -1F, 1.0F)
+        val previous = RenderSystem.shaderLightDirections.let { it[0] to it[1] }
         RenderSystem.setShaderLights(light1, light2)
 //        val packedLight = LightmapTextureManager.pack(12, 12)
         val vertexConsumer: VertexConsumer = vertexConsumers.getBuffer(renderLayer)
@@ -63,7 +65,8 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         matrices.pop()
         matrices.pop()
 
-        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
+        RenderSystem.setShaderLights(previous.first, previous.second)
+        MinecraftClient.getInstance().entityRenderDispatcher.rotation = oldRotation
     }
 
     companion object {

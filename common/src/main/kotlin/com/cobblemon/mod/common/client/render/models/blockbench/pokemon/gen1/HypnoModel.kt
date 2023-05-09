@@ -35,9 +35,11 @@ class HypnoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("hypno", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("hypno", "ground_idle")
@@ -47,6 +49,7 @@ class HypnoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F),
                 singleBoneLook(),

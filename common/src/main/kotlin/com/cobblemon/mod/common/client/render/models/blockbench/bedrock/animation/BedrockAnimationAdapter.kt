@@ -17,6 +17,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import java.lang.reflect.Type
 
 /**
@@ -69,7 +70,7 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
     private fun deserializeBoneTimeline(bone: JsonObject): BedrockBoneTimeline {
         val positions = if (bone.has("position")) {
             if (bone["position"].isJsonObject) {
-                deserializeRotationKeyframes(bone["position"].asJsonObject, Transformation.POSITION)
+                deserializeKeyframe(bone["position"].asJsonObject, Transformation.POSITION)
             } else {
                 deserializeMolangBoneValue(bone["position"].asJsonArray, Transformation.POSITION)
             }
@@ -78,14 +79,27 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
         }
         val rotations = if (bone.has("rotation")) {
             if (bone["rotation"].isJsonObject) {
-                deserializeRotationKeyframes(bone["rotation"].asJsonObject, Transformation.ROTATION)
+                deserializeKeyframe(bone["rotation"].asJsonObject, Transformation.ROTATION)
             } else {
                 deserializeMolangBoneValue(bone["rotation"].asJsonArray, Transformation.ROTATION)
             }
         } else {
             EmptyBoneValue
         }
-        return BedrockBoneTimeline(positions, rotations)
+        val scale = if (bone.has("scale")) {
+            val json = bone["scale"]
+            if (json.isJsonObject) {
+                deserializeKeyframe(json.asJsonObject, Transformation.SCALE)
+            } else if (json.isJsonArray) {
+                deserializeMolangBoneValue(json.asJsonArray, Transformation.SCALE)
+            } else {
+                val str = json.asString
+                deserializeMolangBoneValue(JsonArray().also { arr -> repeat(times = 3) { arr.add(JsonPrimitive(str)) } }, Transformation.SCALE)
+            }
+        } else {
+            EmptyBoneValue
+        }
+        return BedrockBoneTimeline(positions, rotations, scale)
     }
 
     fun cleanExpression(value: String) =
@@ -108,30 +122,42 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
         }
     }
 
-    private fun deserializeRotationKeyframes(frames: JsonObject, transformation: Transformation): BedrockKeyFrameBoneValue {
+    private fun deserializeKeyframe(frames: JsonObject, transformation: Transformation): BedrockKeyFrameBoneValue {
         val keyframes = BedrockKeyFrameBoneValue()
         frames.entrySet().forEach { (time, keyframeJson) ->
             val timeDbl = time.toDouble()
             when {
                 keyframeJson is JsonObject -> {
                     if (keyframeJson.has("post")) {
+                        val post = keyframeJson["post"]
 //                        val transformationData = keyframeJson["post"].asJsonArray.map { it.asDouble }
 //                        val transformationVector = Vec3d(transformationData[0], transformationData[1], transformationData[2])
-                        keyframes[timeDbl] = BedrockAnimationKeyFrame(
+                        keyframes[timeDbl] = JumpBedrockAnimationKeyFrame(
                             time = timeDbl,
                             transformation = transformation,
-                            data = deserializeMolangBoneValue(keyframeJson["post"].asJsonArray, transformation),
+                            pre = deserializeMolangBoneValue(keyframeJson["pre"]?.asJsonArray ?: post.asJsonArray, transformation),
+                            post = deserializeMolangBoneValue(post.asJsonArray, transformation),
                             interpolationType = InterpolationType.SMOOTH
                         )
-                    }
-                    else {
+                    } else if (keyframeJson.has("pre")) {
+                        val pre = keyframeJson["pre"]
+//                        val transformationData = keyframeJson["post"].asJsonArray.map { it.asDouble }
+//                        val transformationVector = Vec3d(transformationData[0], transformationData[1], transformationData[2])
+                        keyframes[timeDbl] = JumpBedrockAnimationKeyFrame(
+                            time = timeDbl,
+                            transformation = transformation,
+                            pre = deserializeMolangBoneValue(pre.asJsonArray, transformation),
+                            post = deserializeMolangBoneValue(keyframeJson["post"]?.asJsonArray ?: pre.asJsonArray, transformation),
+                            interpolationType = InterpolationType.SMOOTH
+                        )
+                    } else {
                         throw IllegalStateException("transformation data ('post') could not be found")
                     }
                 }
                 keyframeJson is JsonArray -> {
 //                    val transformationData = keyframeJson.map { it.asDouble }
 //                    val transformationVector = Vec3d(transformationData[0], transformationData[1], transformationData[2])
-                    keyframes[timeDbl] = BedrockAnimationKeyFrame(
+                    keyframes[timeDbl] = SimpleBedrockAnimationKeyFrame(
                         time = timeDbl,
                         transformation = transformation,
                         data = deserializeMolangBoneValue(keyframeJson, transformation),

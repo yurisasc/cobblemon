@@ -28,7 +28,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val rightWing = getPart("wing_right")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
-    override val head = getPart("head")
+    override val head = getPart("neck")
     private val tail = getPart("tail")
 
     override val portraitScale = 2.8F

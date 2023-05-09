@@ -57,7 +57,6 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("raichu", "ground_walk")
-                //bedrock("raichu", "ground_walk")
             )
         )
     }

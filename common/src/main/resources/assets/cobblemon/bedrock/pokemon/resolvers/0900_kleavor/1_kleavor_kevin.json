@@ -1,0 +1,17 @@
+{
+  "species": "cobblemon:kleavor",
+  "order": 1,
+  "variations": [
+    {
+      "aspects": ["kevin"],
+      "model": "cobblemon:kevin.geo",
+      "texture": "cobblemon:textures/pokemon/0900_kleavor/kevin.png"
+    },
+    {
+      "aspects": [
+        "shiny", "kevin"
+      ],
+      "texture": "cobblemon:textures/pokemon/0900_kleavor/kevin_shiny.png"
+    }
+  ]
+}
