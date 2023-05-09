@@ -11,6 +11,7 @@
 - Added support for scale in animations.
 - Added support for jump keyframes (i.e. pre and post keyframes)
 - Made Nosepass point towards world spawn while idle.
+- Added structure spawn conditions
 
 ### Pokémon Added
 #### Gen 2
