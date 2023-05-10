@@ -1,0 +1,19 @@
+{
+  "species": "cobblemon:masquerain",
+  "order": 0,
+  "variations": [
+    {
+      "aspects": [],
+      "poser": "cobblemon:masquerain",
+      "model": "cobblemon:masquerain.geo",
+      "texture": "cobblemon:textures/pokemon/0284_masquerain/masquerain.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0284_masquerain/masquerain_shiny.png"
+    }
+  ]
+}

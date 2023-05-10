@@ -420,7 +420,8 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("ceruledge", ::CeruledgeModel)
         inbuilt("flittle", ::FlittleModel)
         inbuilt("espathra", ::EspathraModel)
-
+        inbuilt("surskit", ::SurskitModel)
+        inbuilt("masquerain", ::MasquerainModel)
 
 
 
@@ -428,7 +429,6 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         // Unhooked because the families are not completed
 //        inbuilt("fuecoco", :: FuecocoModel)
 //        inbuilt("quaxly", :: QuaxlyModel)
-        //inbuilt("surskit", ::SurskitModel)
 
     }
 

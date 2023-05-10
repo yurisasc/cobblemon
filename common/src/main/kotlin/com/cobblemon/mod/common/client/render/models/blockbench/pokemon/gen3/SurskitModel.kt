@@ -35,11 +35,13 @@ class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val wateroffset = -8
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("surskit", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isTouchingWater },
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("surskit", "ground_idle")
             )
@@ -48,6 +50,7 @@ class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("surskit", "ground_walk")
@@ -59,6 +62,7 @@ class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isTouchingWater },
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("surskit", "ground_idle")
             ),
@@ -72,6 +76,7 @@ class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             condition = { it.isTouchingWater },
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("surskit", "ground_walk")
             ),
