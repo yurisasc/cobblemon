@@ -8,16 +8,13 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.block.MedicinalLeekBlock
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
 import com.cobblemon.mod.common.block.PCBlock
-import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
-import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
-import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker
-import com.cobblemon.mod.common.mixin.invoker.StairsBlockInvoker
-import com.cobblemon.mod.common.mixin.invoker.TrapdoorBlockInvoker
+import com.cobblemon.mod.common.mixin.invoker.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.*
 import net.minecraft.entity.EntityType
@@ -26,9 +23,9 @@ import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.intprovider.UniformIntProvider
+
 
 object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<Block>>, Block>() {
 
@@ -131,6 +128,10 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val WHITE_APRICORN_SAPLING = this.create("white_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.WHITE))
     @JvmField
     val YELLOW_APRICORN_SAPLING = this.create("yellow_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.YELLOW))
+
+    @JvmField
+    val MEDICINAL_LEEK_CROP = this.create("medicinal_leek_crop", MedicinalLeekBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+
 
     @JvmField
     val BLACK_APRICORN = apricornBlock("black_apricorn", Apricorn.BLACK)

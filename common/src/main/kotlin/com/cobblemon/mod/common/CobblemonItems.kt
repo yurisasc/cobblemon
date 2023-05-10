@@ -10,11 +10,7 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
-import com.cobblemon.mod.common.item.ApricornItem
-import com.cobblemon.mod.common.item.ApricornSeedItem
-import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.PokeBallItem
-import com.cobblemon.mod.common.item.PokemonItem
+import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
@@ -239,6 +235,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val PROTEIN = create("protein", VitaminItem(Stats.ATTACK))
     @JvmField
     val ZINC = create("zinc", VitaminItem(Stats.SPECIAL_DEFENCE))
+    @JvmField
+    val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK_CROP))
 
     /**
      * Evolution Ores and Stones
@@ -504,6 +502,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, CALCIUM)
             consumer(group, ZINC)
             consumer(group, CARBOS)
+            consumer(group, MEDICINAL_LEEK)
         }
         CobblemonItemGroups.PLANTS.group().let { group ->
             consumer(group, RED_APRICORN)
