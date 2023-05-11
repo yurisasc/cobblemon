@@ -4,23 +4,23 @@
 		"animation.masquerain.ground_idle": {
 			"loop": true,
 			"bones": {
-				"wing_head_left": {
+				"antenna_left": {
 					"rotation": [0, 0, "-45 - math.sin(q.anim_time*90*2-90)"]
 				},
-				"wing_head_right": {
+				"antenna_right": {
 					"rotation": [0, 0, "45 + math.sin(q.anim_time*90*2-90)"]
 				},
 				"wing_left_front": {
-					"rotation": [30, "10+ math.clamp(math.sin(q.anim_time*90*2*20)*12.5,-7.5,7.5)", 10]
+					"rotation": [30, "10+ math.clamp(math.sin(q.anim_time*90*2*30)*12.5,-7.5,7.5)", 10]
 				},
 				"wing_left_back": {
-					"rotation": [30, "-10 - math.clamp(math.sin(q.anim_time*90*2*20)*12.5,-7.5,7.5)", 10]
+					"rotation": [30, "-10 - math.clamp(math.sin(q.anim_time*90*2*30)*12.5,-7.5,7.5)", 10]
 				},
 				"wing_left_front2": {
-					"rotation": [30, "-10 - math.clamp(math.sin(q.anim_time*90*2*20)*12.5,-7.5,7.5)", -10]
+					"rotation": [30, "-10 - math.clamp(math.sin(q.anim_time*90*2*30)*12.5,-7.5,7.5)", -10]
 				},
 				"wing_left_back2": {
-					"rotation": [30, "10 + math.clamp(math.sin(q.anim_time*90*2*20)*12.5,-7.5,7.5)", -10]
+					"rotation": [30, "10 + math.clamp(math.sin(q.anim_time*90*2*30)*12.5,-7.5,7.5)", -10]
 				},
 				"abdomen": {
 					"rotation": ["-15 + math.sin(q.anim_time*90*2-90)*5", 0, 0]
@@ -36,23 +36,23 @@
 		"animation.masquerain.ground_walk": {
 			"loop": true,
 			"bones": {
-				"wing_head_left": {
+				"antenna_left": {
 					"rotation": [0, -12.5, "-45 - math.sin(q.anim_time*90*4-90)"]
 				},
-				"wing_head_right": {
+				"antenna_right": {
 					"rotation": [0, 12.5, "45 + math.sin(q.anim_time*90*4-90)"]
 				},
 				"wing_left_front": {
-					"rotation": [30, "10+ math.clamp(math.sin(q.anim_time*90*2*20)*12.5,-7.5,7.5)", 10]
+					"rotation": [30, "10+ math.clamp(math.sin(q.anim_time*90*2*30)*12.5,-7.5,7.5)", 10]
 				},
 				"wing_left_back": {
-					"rotation": [30, "-10 - math.clamp(math.sin(q.anim_time*90*2*20)*12.5,-7.5,7.5)", 10]
+					"rotation": [30, "-10 - math.clamp(math.sin(q.anim_time*90*2*30)*12.5,-7.5,7.5)", 10]
 				},
 				"wing_left_front2": {
-					"rotation": [30, "-10 - math.clamp(math.sin(q.anim_time*90*2*20)*12.5,-7.5,7.5)", -10]
+					"rotation": [30, "-10 - math.clamp(math.sin(q.anim_time*90*2*30)*12.5,-7.5,7.5)", -10]
 				},
 				"wing_left_back2": {
-					"rotation": [30, "10 + math.clamp(math.sin(q.anim_time*90*2*20)*12.5,-7.5,7.5)", -10]
+					"rotation": [30, "10 + math.clamp(math.sin(q.anim_time*90*2*30)*12.5,-7.5,7.5)", -10]
 				},
 				"abdomen": {
 					"rotation": ["-5 + math.sin(q.anim_time*90*4-90-45)*7.5", 0, 0],

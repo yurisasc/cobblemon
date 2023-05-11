@@ -84,7 +84,7 @@
 					]
 				},
 				{
-					"name": "wing_head_left",
+					"name": "antenna_left",
 					"parent": "head",
 					"pivot": [3, 12, -6],
 					"cubes": [
@@ -92,7 +92,7 @@
 					]
 				},
 				{
-					"name": "wing_head_right",
+					"name": "antenna_right",
 					"parent": "head",
 					"pivot": [-3, 12, -6],
 					"cubes": [
