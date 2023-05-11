@@ -9,25 +9,29 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.item.ApricornItem
 import com.cobblemon.mod.common.item.ApricornSeedItem
 import com.cobblemon.mod.common.item.CobblemonItem
+import com.cobblemon.mod.common.item.MintLeafItem
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
+import com.cobblemon.mod.common.item.interactive.MintItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
+import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import net.minecraft.block.Block
 import net.minecraft.block.ComposterBlock
-import net.minecraft.item.*
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
+import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -239,6 +243,74 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val PROTEIN = create("protein", VitaminItem(Stats.ATTACK))
     @JvmField
     val ZINC = create("zinc", VitaminItem(Stats.SPECIAL_DEFENCE))
+
+    @JvmField
+    val RED_MINT_SEEDS = blockItem("red_mint_seeds", MintType.RED.getCropBlock())
+    @JvmField
+    val RED_MINT_LEAF = create("red_mint_leaf", MintLeafItem(MintType.RED))
+    @JvmField
+    val BLUE_MINT_SEEDS = blockItem("blue_mint_seeds", MintType.BLUE.getCropBlock())
+    @JvmField
+    val BLUE_MINT_LEAF = create("blue_mint_leaf", MintLeafItem(MintType.BLUE))
+    @JvmField
+    val CYAN_MINT_SEEDS = blockItem("cyan_mint_seeds", MintType.CYAN.getCropBlock())
+    @JvmField
+    val CYAN_MINT_LEAF = create("cyan_mint_leaf", MintLeafItem(MintType.CYAN))
+    @JvmField
+    val PINK_MINT_SEEDS = blockItem("pink_mint_seeds", MintType.PINK.getCropBlock())
+    @JvmField
+    val PINK_MINT_LEAF = create("pink_mint_leaf", MintLeafItem(MintType.PINK))
+    @JvmField
+    val GREEN_MINT_SEEDS = blockItem("green_mint_seeds", MintType.GREEN.getCropBlock())
+    @JvmField
+    val GREEN_MINT_LEAF = create("green_mint_leaf", MintLeafItem(MintType.GREEN))
+    @JvmField
+    val WHITE_MINT_SEEDS = blockItem("white_mint_seeds", MintType.WHITE.getCropBlock())
+    @JvmField
+    val WHITE_MINT_LEAF = create("white_mint_leaf", MintLeafItem(MintType.WHITE))
+
+    @JvmField
+    val LONELY_MINT = create("lonely_mint", MintItem(Natures.LONELY))
+    @JvmField
+    val ADAMANT_MINT = create("adamant_mint", MintItem(Natures.ADAMANT))
+    @JvmField
+    val NAUGHTY_MINT = create("naughty_mint", MintItem(Natures.NAUGHTY))
+    @JvmField
+    val BRAVE_MINT = create("brave_mint", MintItem(Natures.BRAVE))
+    @JvmField
+    val BOLD_MINT = create("bold_mint", MintItem(Natures.BOLD))
+    @JvmField
+    val IMPISH_MINT = create("impish_mint", MintItem(Natures.IMPISH))
+    @JvmField
+    val LAX_MINT = create("lax_mint", MintItem(Natures.LAX))
+    @JvmField
+    val RELAXED_MINT = create("relaxed_mint", MintItem(Natures.RELAXED))
+    @JvmField
+    val MODEST_MINT = create("modest_mint", MintItem(Natures.MODEST))
+    @JvmField
+    val MILD_MINT = create("mild_mint", MintItem(Natures.MILD))
+    @JvmField
+    val RASH_MINT = create("rash_mint", MintItem(Natures.RASH))
+    @JvmField
+    val QUIET_MINT = create("quiet_mint", MintItem(Natures.QUIET))
+    @JvmField
+    val CALM_MINT = create("calm_mint", MintItem(Natures.CALM))
+    @JvmField
+    val GENTLE_MINT = create("gentle_mint", MintItem(Natures.GENTLE))
+    @JvmField
+    val CAREFUL_MINT = create("careful_mint", MintItem(Natures.CAREFUL))
+    @JvmField
+    val SASSY_MINT = create("sassy_mint", MintItem(Natures.SASSY))
+    @JvmField
+    val TIMID_MINT = create("timid_mint", MintItem(Natures.TIMID))
+    @JvmField
+    val HASTY_MINT = create("hasty_mint", MintItem(Natures.HASTY))
+    @JvmField
+    val JOLLY_MINT = create("jolly_mint", MintItem(Natures.JOLLY))
+    @JvmField
+    val NAIVE_MINT = create("naive_mint", MintItem(Natures.NAIVE))
+    @JvmField
+    val SERIOUS_MINT = create("serious_mint", MintItem(Natures.SERIOUS))
 
     /**
      * Evolution Ores and Stones
@@ -504,6 +576,26 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, CALCIUM)
             consumer(group, ZINC)
             consumer(group, CARBOS)
+            consumer(group, LONELY_MINT)
+            consumer(group, ADAMANT_MINT)
+            consumer(group, NAUGHTY_MINT)
+            consumer(group, BRAVE_MINT)
+            consumer(group, BOLD_MINT)
+            consumer(group, IMPISH_MINT)
+            consumer(group, LAX_MINT)
+            consumer(group, RELAXED_MINT)
+            consumer(group, MODEST_MINT)
+            consumer(group, MILD_MINT)
+            consumer(group, RASH_MINT)
+            consumer(group, QUIET_MINT)
+            consumer(group, CALM_MINT)
+            consumer(group, GENTLE_MINT)
+            consumer(group, CAREFUL_MINT)
+            consumer(group, SASSY_MINT)
+            consumer(group, TIMID_MINT)
+            consumer(group, HASTY_MINT)
+            consumer(group, JOLLY_MINT)
+            consumer(group, SERIOUS_MINT)
         }
         CobblemonItemGroups.PLANTS.group().let { group ->
             consumer(group, RED_APRICORN)
@@ -520,6 +612,19 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, PINK_APRICORN_SEED)
             consumer(group, BLACK_APRICORN_SEED)
             consumer(group, WHITE_APRICORN_SEED)
+
+            consumer(group, RED_MINT_SEEDS)
+            consumer(group, RED_MINT_LEAF)
+            consumer(group, BLUE_MINT_SEEDS)
+            consumer(group, BLUE_MINT_LEAF)
+            consumer(group, CYAN_MINT_SEEDS)
+            consumer(group, CYAN_MINT_LEAF)
+            consumer(group, PINK_MINT_SEEDS)
+            consumer(group, PINK_MINT_LEAF)
+            consumer(group, GREEN_MINT_SEEDS)
+            consumer(group, GREEN_MINT_LEAF)
+            consumer(group, WHITE_MINT_SEEDS)
+            consumer(group, WHITE_MINT_LEAF)
         }
         CobblemonItemGroups.BUILDING_BLOCKS.group().let { group ->
             consumer(group, APRICORN_LOG)
