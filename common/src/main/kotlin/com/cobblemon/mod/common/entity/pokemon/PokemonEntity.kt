@@ -600,7 +600,14 @@ class PokemonEntity(
             shouldSave()
             (stack.item as? PokemonInteractiveItem)?.let {
                 if (it.onInteraction(player, this, stack)) {
-                    this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE, volume = 1F, pitch = 1F)
+                    it.sound?.let {
+                        this.world.playSoundServer(
+                            position = this.pos,
+                            sound = it,
+                            volume = 1F,
+                            pitch = 1F
+                        )
+                    }
                     return true
                 }
             }

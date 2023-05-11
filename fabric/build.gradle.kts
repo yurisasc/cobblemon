@@ -68,9 +68,7 @@ tasks {
         into(generatedResources)
     }
 
-    shadowJar {
-        exclude("architectury.common.json")
-    }
+    shadowJar {}
 
     processResources {
         dependsOn(copyAccessWidener)

@@ -60,6 +60,9 @@
   "gui.click": {
     "sounds": [ "cobblemon:click" ]
   },
+  "mint.use": {
+    "sounds": [ "cobblemon:mint" ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },
