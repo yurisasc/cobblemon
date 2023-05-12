@@ -19,8 +19,9 @@ import net.minecraft.server.network.ServerPlayerEntity
 object ChangeTradeAcceptanceHandler : ServerNetworkPacketHandler<ChangeTradeAcceptancePacket> {
     override fun handle(packet: ChangeTradeAcceptancePacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val trade = TradeManager.getActiveTrade(player.uuid) ?: return player.sendPacket(TradeCancelledPacket())
-        if (trade.getOpposingOffer(player).pokemon?.uuid == packet.pokemonOfferId) {
-            trade.updateAcceptance(player, packet.newAcceptance)
+        val tradeParticipant = trade.getTradeParticipant(player.uuid)
+        if (trade.getOpposingOffer(tradeParticipant).pokemon?.uuid == packet.pokemonOfferId) {
+            trade.updateAcceptance(tradeParticipant, packet.newAcceptance)
         }
     }
 }

@@ -20,9 +20,10 @@ import net.minecraft.server.network.ServerPlayerEntity
 object UpdateTradeOfferHandler : ServerNetworkPacketHandler<UpdateTradeOfferPacket> {
     override fun handle(packet: UpdateTradeOfferPacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val trade = TradeManager.getActiveTrade(player.uuid) ?: return player.sendPacket(CancelTradePacket())
+        val tradeParticipant = trade.getTradeParticipant(player.uuid)
         val newOffer = packet.newOffer
         if (newOffer == null) {
-            trade.updateOffer(player, null)
+            trade.updateOffer(tradeParticipant, null)
         } else {
             val (pokemonId, partyPosition) = newOffer
             val party = player.party()
@@ -30,7 +31,7 @@ object UpdateTradeOfferHandler : ServerNetworkPacketHandler<UpdateTradeOfferPack
             if (pokemon == null || pokemon.uuid != pokemonId) {
                 return
             } else {
-                trade.updateOffer(player, pokemon)
+                trade.updateOffer(tradeParticipant, pokemon)
             }
         }
     }

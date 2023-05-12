@@ -8,10 +8,8 @@
 
 package com.cobblemon.mod.common.trade
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.scheduling.after
-import com.cobblemon.mod.common.net.messages.client.trade.TradeCancelledPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferExpiredPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
@@ -60,7 +58,7 @@ object TradeManager {
         } else {
             requests.remove(request)
             val otherPlayer = request.senderId.getPlayer() ?: return
-            val trade = ActiveTrade(player, otherPlayer)
+            val trade = ActiveTrade(PlayerTradeParticipant(player), PlayerTradeParticipant(otherPlayer))
             activeTrades.add(trade)
             player.sendPacket(TradeStartedPacket(otherPlayer.uuid, otherPlayer.name.copy()))
             otherPlayer.sendPacket(TradeStartedPacket(player.uuid, player.name.copy()))
@@ -74,20 +72,25 @@ object TradeManager {
             otherPlayer?.sendPacket(TradeOfferExpiredPacket(request.tradeOfferId))
             requests.remove(request)
         }
+
         val trade = getActiveTrade(player.uuid)
         if (trade != null) {
-            val oppositePlayer = trade.getOppositePlayer(player)
-            oppositePlayer.sendPacket(TradeCancelledPacket())
+            val tradeParticipant = trade.getTradeParticipant(player.uuid)
+            val oppositeParticipant = trade.getOppositePlayer(tradeParticipant)
+            oppositeParticipant.cancelTrade()
             activeTrades.remove(trade)
         }
     }
 
-    fun performTrade(player1: ServerPlayerEntity, pokemon1: Pokemon, player2: ServerPlayerEntity, pokemon2: Pokemon) {
-        val party1 = Cobblemon.storage.getParty(player1)
-        val party2 = Cobblemon.storage.getParty(player2)
+    fun performTrade(player1: TradeParticipant, pokemon1: Pokemon, player2: TradeParticipant, pokemon2: Pokemon) {
+        val party1 = player1.party
+        val party2 = player2.party
 
         party1.remove(pokemon1)
         party2.remove(pokemon2)
+
+        party2.add(pokemon1)
+        party1.add(pokemon2)
 
         pokemon1.evolutions.filterIsInstance<TradeEvolution>().firstOrNull {
             it.attemptEvolution(pokemon1, pokemon2)
