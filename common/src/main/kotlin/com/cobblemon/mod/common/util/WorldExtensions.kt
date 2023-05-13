@@ -44,7 +44,7 @@ fun World.squeezeWithinBounds(pos: BlockPos): BlockPos {
     return BlockPos(
         pos.x.coerceIn(border.boundWest.toInt(), border.boundEast.toInt()),
         pos.y.coerceIn(bottomY, topY),
-        pos.z.coerceIn(border.boundWest.toInt(), border.boundEast.toInt())
+        pos.z.coerceIn(border.boundNorth.toInt(), border.boundSouth.toInt())
     )
 }
 
