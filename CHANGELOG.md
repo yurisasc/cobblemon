@@ -14,6 +14,10 @@
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
 
+### Changes
+- Updated sprites for EV medicines, the rare candy, and the apricorn door item.
+- Updated textures for apricorn doors and all the evolution stone ores.
+
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
 - Fixed messages for entry hazards, screens, Tailwind, Perish Song, Destiny Bond, Shed Skin, and Yawn
@@ -26,6 +30,8 @@
 - Fixed the Poké Ball close animation canceling whenever colliding with a block.
 - Fixed faint animations not working properly in add-ons.
 - Fixed lighting and Pokémon label issues when a Pokémon item frame is nearby.
+- Fixed Pokémon being able to spawn outside the world border as a tease.
+- Fixed deepslate water stone ore items looking like deepslate fire stone ores.
 
 
 ### Developer
