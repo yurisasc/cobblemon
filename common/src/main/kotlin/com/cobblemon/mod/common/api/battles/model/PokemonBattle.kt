@@ -35,6 +35,7 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
@@ -217,6 +218,12 @@ open class PokemonBattle(
                 }
             }
         }
+        // Heal Mon if wild
+        actors.filter { it.type == ActorType.WILD }
+            .filterIsInstance<EntityBackedBattleActor<*>>()
+            .mapNotNull { it.entity }
+            .filterIsInstance<PokemonEntity>()
+            .forEach{it.pokemon.heal()}
         sendUpdate(BattleEndPacket())
         sendUpdate(BattleMusicPacket(null))
         BattleRegistry.closeBattle(this)
@@ -337,8 +344,13 @@ open class PokemonBattle(
                     nearestPlayerActorDistance != null && nearestPlayerActorDistance < pokemonActor.fleeDistance
                 }
             }
-
         if (wildPokemonOutOfRange) {
+            // Heal Wild Pokemon
+            actors.filter { it.type == ActorType.WILD }
+                .filterIsInstance<EntityBackedBattleActor<*>>()
+                .mapNotNull { it.entity }
+                .filterIsInstance<PokemonEntity>()
+                .forEach{it.pokemon.heal()}
             CobblemonEvents.BATTLE_FLED.post(BattleFledEvent(this, actors.asSequence().filterIsInstance<PlayerBattleActor>().iterator().next()))
             actors.filterIsInstance<EntityBackedBattleActor<*>>().mapNotNull { it.entity }.forEach { it.sendMessage(battleLang("flee").yellow()) }
             stop()
