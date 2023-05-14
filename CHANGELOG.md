@@ -17,6 +17,7 @@
 ### Changes
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
 - Updated textures for apricorn doors and all the evolution stone ores.
+- Wild Pokémon now heal if you are defeated by them or flee from them.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
