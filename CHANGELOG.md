@@ -33,7 +33,7 @@
 - Fixed lighting and Pokémon label issues when a Pokémon item frame is nearby.
 - Fixed Pokémon being able to spawn outside the world border as a tease.
 - Fixed deepslate water stone ore items looking like deepslate fire stone ores.
-
+- Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
 
 ### Developer
 - Added SpawnEvent
