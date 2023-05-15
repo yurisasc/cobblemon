@@ -34,6 +34,7 @@
 - Fixed Pokémon being able to spawn outside the world border as a tease.
 - Fixed deepslate water stone ore items looking like deepslate fire stone ores.
 - Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
+- Fixed a crash when wild Pokémon have to struggle under specific circumstances.
 
 ### Developer
 - Added SpawnEvent
