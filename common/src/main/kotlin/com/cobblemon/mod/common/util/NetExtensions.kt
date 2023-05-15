@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.net.IntSize
 import io.netty.buffer.ByteBuf
+import net.minecraft.util.math.Vec3d
 
 fun ByteBuf.writeConditional(condition: () -> Boolean, writer: () -> Unit) {
     writeConditional(condition(), writer)
@@ -64,3 +65,11 @@ fun <K, V> ByteBuf.readMapK(size: IntSize = IntSize.U_BYTE, map: MutableMap<K, V
         map[key] = value
     }
 }
+
+fun ByteBuf.writeVec3d(vec3d: Vec3d) {
+    writeDouble(vec3d.x)
+    writeDouble(vec3d.y)
+    writeDouble(vec3d.z)
+}
+
+fun ByteBuf.readVec3d() = Vec3d(readDouble(), readDouble(), readDouble())
