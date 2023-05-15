@@ -48,7 +48,7 @@ abstract class TickingSpawner(
 
     var lastSpawnTime = 0L
     var ticksUntilNextSpawn = 100F
-    var ticksBetweenSpawns = 20F
+    abstract var ticksBetweenSpawns: Float
     var tickTimerMultiplier = 1F
 
     @Volatile

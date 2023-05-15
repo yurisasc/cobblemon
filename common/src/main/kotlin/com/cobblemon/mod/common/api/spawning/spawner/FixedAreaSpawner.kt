@@ -30,7 +30,8 @@ open class FixedAreaSpawner(
     val world: ServerWorld,
     val position: BlockPos,
     val horizontalRadius: Int,
-    val verticalRadius: Int
+    val verticalRadius: Int,
+    override var ticksBetweenSpawns: Float = 20F
 ) : AreaSpawner(name, spawns, manager) {
     override fun getArea(cause: SpawnCause): SpawningArea? {
         val basePos = position.add(-horizontalRadius, -verticalRadius, -horizontalRadius)

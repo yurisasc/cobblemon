@@ -95,6 +95,9 @@ class CobblemonConfig {
     var worldSliceHeight = 16
 
     @NodeCategory(Category.Spawning)
+    var ticksBetweenSpawnAttempts = 20F
+
+    @NodeCategory(Category.Spawning)
     var minimumSliceDistanceFromPlayer = 16F
 
     @NodeCategory(Category.Spawning)

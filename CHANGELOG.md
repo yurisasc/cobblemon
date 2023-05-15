@@ -19,6 +19,7 @@
 - Updated textures for apricorn doors and all the evolution stone ores.
 - Wild Pokémon now heal if you are defeated by them or flee from them.
 - Doubled the default time between ambient Pokémon cries (they have cries if you're using a resource pack to add them)
+- Moved spawn attempts per tick to a config option (ticksBetweenSpawnAttempts)
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
