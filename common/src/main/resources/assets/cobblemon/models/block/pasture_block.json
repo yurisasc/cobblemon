@@ -1,11 +1,11 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "cobblemon:block/tether_screen",
-		"2": "cobblemon:block/tether_side",
-		"3": "cobblemon:block/tether_top",
-		"4": "cobblemon:block/tether_bottom",
-		"particle": "cobblemon:block/tether_screen"
+		"1": "cobblemon:block/pasture_screen",
+		"2": "cobblemon:block/pasture_side",
+		"3": "cobblemon:block/pasture_top",
+		"4": "cobblemon:block/pasture_bottom",
+		"particle": "cobblemon:block/pasture_screen"
 	},
 	"elements": [
 		{

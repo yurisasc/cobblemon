@@ -72,6 +72,8 @@ object DataKeys {
 
     const val TETHERING_ID = "TetheringId"
     const val TETHER_POKEMON = "TetherPokemon"
+    const val TETHER_MIN_ROAM_POS = "TetherMinRoamPos"
+    const val TETHER_MAX_ROAM_POS = "TetherMaxRoamPos"
     const val TETHER_COUNT = "TetherCount"
     const val TETHERING = "Tethering"
     const val TETHERING_POS = "Pos"

@@ -20,16 +20,15 @@ import net.minecraft.util.math.BlockPos
  * @author Hiroku
  * @since April 9th, 2023
  */
-class PasturePokemonPacket(val pcId: UUID, val pokemonId: UUID, val pasturePos: BlockPos) : NetworkPacket<PasturePokemonPacket> {
+class PasturePokemonPacket(val pokemonId: UUID, val pasturePos: BlockPos) : NetworkPacket<PasturePokemonPacket> {
     companion object {
         val ID = cobblemonResource("pasture_pokemon")
 
-        fun decode(buffer: PacketByteBuf) = PasturePokemonPacket(buffer.readUuid(), buffer.readUuid(), BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt()))
+        fun decode(buffer: PacketByteBuf) = PasturePokemonPacket(buffer.readUuid(), BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt()))
     }
 
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeUuid(pcId)
         buffer.writeUuid(pokemonId)
         buffer.writeInt(pasturePos.x)
         buffer.writeInt(pasturePos.y)

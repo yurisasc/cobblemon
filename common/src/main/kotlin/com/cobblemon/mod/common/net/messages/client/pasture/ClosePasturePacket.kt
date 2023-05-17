@@ -17,8 +17,6 @@ import net.minecraft.network.PacketByteBuf
  *
  * @author Hiroku
  * @since April 17th, 2023
- *
- * TODO PASTURE needs packet handler on client
  */
 class ClosePasturePacket : NetworkPacket<ClosePasturePacket> {
     companion object {

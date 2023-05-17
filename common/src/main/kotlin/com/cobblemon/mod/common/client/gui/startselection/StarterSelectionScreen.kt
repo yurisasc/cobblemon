@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.gui.startselection
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.gui.ColourLibrary
 import com.cobblemon.mod.common.api.gui.MultiLineLabelK
@@ -83,7 +84,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
         val y = (height - BASE_HEIGHT) / 2
 
         if (categories.isEmpty()) {
-            println("Empty category list while opening StarterSelectionUI")
+            Cobblemon.LOGGER.warn("Empty category list while opening StarterSelectionUI")
             return
         }
 

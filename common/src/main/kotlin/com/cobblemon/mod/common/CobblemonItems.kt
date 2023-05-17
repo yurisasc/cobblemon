@@ -177,7 +177,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val PC = blockItem("pc", CobblemonBlocks.PC)
     @JvmField
-    val POKEMON_TETHER = blockItem("pokemon_tether", CobblemonBlocks.POKEMON_TETHER)
+    val POKEMON_TETHER = blockItem("pasture_block", CobblemonBlocks.POKEMON_TETHER)
 
     // Evolution items
     @JvmField val LINK_CABLE = create("link_cable", LinkCableItem())

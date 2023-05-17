@@ -10,9 +10,8 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.block.entity.PCBlockEntity
-import com.cobblemon.mod.common.block.entity.PokemonTetherBlockEntity
+import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.platform.PlatformRegistry
-import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -29,6 +28,6 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
     @JvmField
     val PC: BlockEntityType<PCBlockEntity> = this.create("pc", BlockEntityType.Builder.create(::PCBlockEntity, CobblemonBlocks.PC).build(null))
     @JvmField
-    val POKEMON_TETHER: BlockEntityType<PokemonTetherBlockEntity> = this.create("pokemon_tether", BlockEntityType.Builder.create(::PokemonTetherBlockEntity, CobblemonBlocks.POKEMON_TETHER).build(null))
+    val PASTURE_BLOCK: BlockEntityType<PokemonPastureBlockEntity> = this.create("pokemon_tether", BlockEntityType.Builder.create(::PokemonPastureBlockEntity, CobblemonBlocks.POKEMON_TETHER).build(null))
 
 }

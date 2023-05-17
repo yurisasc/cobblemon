@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.api.pasture
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 
-// TODO PASTURE Need to use this in the interact with pasture block then use links when handling server-side packets
+// Need to use this in the interact with pasture block then use links when handling server-side packets
 // to authenticate that they were able to interact.
 object PastureLinkManager {
     // Maps player UUID
@@ -22,7 +22,7 @@ object PastureLinkManager {
         links[playerId] = link
     }
 
-    fun getLinkByPlayerAndPastureId(player: ServerPlayerEntity, pastureId: UUID): PastureLink? {
+    fun getLinkByPlayer(player: ServerPlayerEntity): PastureLink? {
         val link = getLinkByPlayerId(player.uuid)
         if (link != null) {
             if (link.dimension != player.world.dimensionKey.value || !link.pos.isWithinDistance(player.pos, 10.0)) {

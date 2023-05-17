@@ -6,29 +6,28 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.client.net.storage.pc
+package com.cobblemon.mod.common.client.net.pasture
 
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.gui.pc.PCGUI
-import com.cobblemon.mod.common.net.messages.client.storage.pc.ClosePCPacket
+import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
 import net.minecraft.client.MinecraftClient
 
 /**
- * Handles the request to close the PC GUI.
+ * Handles the request to close the pasture GUI.
  *
  * @author Deltric
  * @since May 17th, 2023
  */
-object ClosePCHandler : ClientNetworkPacketHandler<ClosePCPacket> {
-    override fun handle(packet: ClosePCPacket, client: MinecraftClient) {
+object ClosePastureHandler: ClientNetworkPacketHandler<ClosePasturePacket> {
+
+    override fun handle(packet: ClosePasturePacket, client: MinecraftClient) {
         if (client.currentScreen !is PCGUI) {
             return
         }
 
         val pc = client.currentScreen as PCGUI
-        if (pc.pc.uuid != packet.storeID) {
-            return
-        }
         pc.configuration.exitFunction.invoke(pc)
     }
+
 }

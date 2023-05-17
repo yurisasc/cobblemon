@@ -25,7 +25,7 @@ object OpenPastureHandler : ClientNetworkPacketHandler<OpenPasturePacket> {
             selectOverride = { pcGui, storePosition, pokemon ->
                 if (pokemon != null && pokemon.tetheringId == null) {
                     pcGui.closeNormally(unlink = false)
-                    CobblemonNetwork.sendToServer(PasturePokemonPacket(pcId = packet.pcId, pokemonId = pokemon.uuid, pasturePos = packet.pasturePos))
+                    CobblemonNetwork.sendToServer(PasturePokemonPacket(pokemonId = pokemon.uuid, pasturePos = packet.pasturePos))
                 }
             },
             showParty = false

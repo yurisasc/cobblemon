@@ -35,8 +35,8 @@ import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 
 class PCGUI(
-    private val pc: ClientPC,
-    private val party: ClientParty,
+    val pc: ClientPC,
+    val party: ClientParty,
     val configuration: PCGUIConfiguration
 ) : Screen(Text.translatable("cobblemon.ui.pc.title")) {
 

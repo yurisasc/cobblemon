@@ -11,7 +11,9 @@ package com.cobblemon.mod.common.block
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.block.entity.PokemonTetherBlockEntity
+import com.cobblemon.mod.common.api.pasture.PastureLink
+import com.cobblemon.mod.common.api.pasture.PastureLinkManager
+import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
 import com.cobblemon.mod.common.util.isInBattle
@@ -37,12 +39,13 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
+import java.util.*
 
-class PokemonTetherBlock(properties: Settings): BlockWithEntity(properties) {
+class PastureBlock(properties: Settings): BlockWithEntity(properties) {
     companion object {
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState) = PokemonTetherBlockEntity(pos, state)
+    override fun createBlockEntity(pos: BlockPos, state: BlockState) = PokemonPastureBlockEntity(pos, state)
 
     init {
         defaultState = this.stateManager.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
@@ -63,14 +66,13 @@ class PokemonTetherBlock(properties: Settings): BlockWithEntity(properties) {
     }
 
     override fun onBroken(world: WorldAccess, pos: BlockPos, state: BlockState) {
-        val blockEntity = world.getBlockEntity(pos) as? PokemonTetherBlockEntity ?: return
+        val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
         super.onBroken(world, pos, state)
-        println("Found thing")
         blockEntity.releaseAllPokemon()
     }
 
     override fun <T : BlockEntity?> getTicker(world: World, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
-        return checkType(type, CobblemonBlockEntities.POKEMON_TETHER, PokemonTetherBlockEntity.TICKER::tick)
+        return checkType(type, CobblemonBlockEntities.PASTURE_BLOCK, PokemonPastureBlockEntity.TICKER::tick)
     }
 
     @Deprecated("Deprecated in Java")
@@ -83,12 +85,13 @@ class PokemonTetherBlock(properties: Settings): BlockWithEntity(properties) {
         hit: BlockHitResult
     ): ActionResult {
         if (player is ServerPlayerEntity && !player.isInBattle()) {
-            val blockEntity = world.getBlockEntity(pos) as? PokemonTetherBlockEntity ?: return ActionResult.FAIL
+            val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return ActionResult.FAIL
+            val pcId = Cobblemon.storage.getPC(player.uuid).uuid
 
             CobblemonNetwork.sendPacketToPlayer(
                 player = player,
                 packet = OpenPasturePacket(
-                    pcId = Cobblemon.storage.getPC(player.uuid).uuid,
+                    pcId = pcId,
                     pasturePos = pos,
                     totalTethered = blockEntity.tetheredPokemon.size,
                     tetheredPokemon = blockEntity.tetheredPokemon.filter { it.playerId == player.uuid }.mapNotNull {
@@ -104,9 +107,7 @@ class PokemonTetherBlock(properties: Settings): BlockWithEntity(properties) {
                 )
             )
 
-//            val pokemon = player.party().first()
-//            val blockFacing = state.get(HorizontalFacingBlock.FACING)
-//            blockEntity.tether(player, pokemon, blockFacing)
+            PastureLinkManager.createLink(player.uuid, PastureLink(UUID.randomUUID(), pcId, world.dimensionKey.value, pos))
             return ActionResult.SUCCESS
         }
 

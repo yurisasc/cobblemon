@@ -18,8 +18,6 @@ import net.minecraft.network.PacketByteBuf
  *
  * @author Hiroku
  * @since April 16th, 2023
- *
- *  * TODO PASTURE packet handler on client
  */
 class PokemonUnpasturedPacket(val pokemonId: UUID) : NetworkPacket<PokemonUnpasturedPacket> {
     companion object {

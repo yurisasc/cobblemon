@@ -186,4 +186,7 @@ class CobblemonConfig {
 
     @NodeCategory(Category.World)
     var pastureBlockUpdateTicks = 40
+
+    @NodeCategory(Category.World)
+    var pastureMaxWanderDistance = 64
 }

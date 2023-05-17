@@ -29,7 +29,7 @@ import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
-import com.cobblemon.mod.common.block.entity.PokemonTetherBlockEntity
+import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -77,6 +77,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtHelper
 import net.minecraft.network.Packet
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
@@ -142,7 +143,7 @@ class PokemonEntity(
 
     var drops: DropTable? = null
 
-    var tethering: PokemonTetherBlockEntity.Tethering? = null
+    var tethering: PokemonPastureBlockEntity.Tethering? = null
 
     /**
      * The amount of steps this entity has taken.
@@ -334,8 +335,6 @@ class PokemonEntity(
         return future
     }
 
-    // TODO PASTURE if a pokemon dies, unpasture it or something
-
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
         val tethering = this.tethering
         if (tethering != null) {
@@ -344,10 +343,8 @@ class PokemonEntity(
             tetheringNbt.putUuid(DataKeys.POKEMON_UUID, tethering.pokemonId)
             tetheringNbt.putUuid(DataKeys.POKEMON_OWNER_ID, tethering.playerId)
             tetheringNbt.putUuid(DataKeys.PC_ID, tethering.pcId)
-            // TODO PASTURE change this to use a new coordinate range
-            tetheringNbt.putInt("${DataKeys.TETHERING_POS}X", tethering.pos.x)
-            tetheringNbt.putInt("${DataKeys.TETHERING_POS}Y", tethering.pos.x)
-            tetheringNbt.putInt("${DataKeys.TETHERING_POS}Z", tethering.pos.x)
+            tetheringNbt.put(DataKeys.TETHER_MIN_ROAM_POS, NbtHelper.fromBlockPos(tethering.minRoamPos))
+            tetheringNbt.put(DataKeys.TETHER_MAX_ROAM_POS, NbtHelper.fromBlockPos(tethering.maxRoamPos))
             nbt.put(DataKeys.TETHERING, tetheringNbt)
         } else {
             nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
@@ -372,17 +369,15 @@ class PokemonEntity(
             val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
             val pokemonId = tetheringNBT.getUuid(DataKeys.POKEMON_UUID)
             val playerId = tetheringNBT.getUuid(DataKeys.POKEMON_OWNER_ID)
-            val pos = BlockPos(
-                tetheringNBT.getInt("${DataKeys.TETHERING_POS}X"),
-                tetheringNBT.getInt("${DataKeys.TETHERING_POS}Y"),
-                tetheringNBT.getInt("${DataKeys.TETHERING_POS}Z")
-            )
+            val minRoamPos = NbtHelper.toBlockPos(tetheringNBT.getCompound(DataKeys.TETHER_MIN_ROAM_POS))
+            val maxRoamPos = NbtHelper.toBlockPos(tetheringNBT.getCompound(DataKeys.TETHER_MAX_ROAM_POS))
 
             val loadedPokemon = Cobblemon.storage.getPC(pcId)[pokemonId]
             if (loadedPokemon != null && loadedPokemon.tetheringId == tetheringId) {
                 pokemon = loadedPokemon
-                tethering = PokemonTetherBlockEntity.Tethering(
-                    pos = pos,
+                tethering = PokemonPastureBlockEntity.Tethering(
+                    minRoamPos = minRoamPos,
+                    maxRoamPos = maxRoamPos,
                     playerId = playerId,
                     tetheringId = tetheringId,
                     pokemonId = pokemonId,
@@ -672,7 +667,7 @@ class PokemonEntity(
         return false
     }
 
-    override fun remove(reason: RemovalReason?) {
+    override fun remove(reason: RemovalReason) {
         val stateEntity = (pokemon.state as? ActivePokemonState)?.entity
         super.remove(reason)
         if (stateEntity == this) {
@@ -680,6 +675,10 @@ class PokemonEntity(
         }
         subscriptions.forEach(ObservableSubscription<*>::unsubscribe)
         removalObservable.emit(reason)
+
+        if (reason.shouldDestroy() && pokemon.tetheringId != null) {
+            pokemon.tetheringId = null
+        }
     }
 
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result

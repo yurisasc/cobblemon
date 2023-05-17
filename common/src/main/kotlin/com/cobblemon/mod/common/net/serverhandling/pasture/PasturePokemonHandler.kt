@@ -10,28 +10,28 @@ package com.cobblemon.mod.common.net.serverhandling.pasture
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
-import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
-import com.cobblemon.mod.common.block.entity.PokemonTetherBlockEntity
+import com.cobblemon.mod.common.api.pasture.PastureLink
+import com.cobblemon.mod.common.api.pasture.PastureLinkManager
+import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.net.messages.server.pasture.PasturePokemonPacket
+import com.cobblemon.mod.common.util.distanceTo
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
 object PasturePokemonHandler : ServerNetworkPacketHandler<PasturePokemonPacket> {
     override fun handle(packet: PasturePokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
-        val pc = Cobblemon.storage.getPC(player.uuid)
+        val pastureLink = PastureLinkManager.getLinkByPlayer(player) ?: return
+        val pc = Cobblemon.storage.getPC(pastureLink.pcId)
         val pokemon = pc[packet.pokemonId] ?: return
 
-        val pastureBlockEntity = player.world.getBlockEntity(packet.pasturePos) as? PokemonTetherBlockEntity ?: return
-        val state = player.world.getBlockState(packet.pasturePos)
+        val pastureBlockEntity = player.world.getBlockEntity(pastureLink.pos) as? PokemonPastureBlockEntity ?: return
+        val state = player.world.getBlockState(pastureLink.pos)
         val direction = state.get(HorizontalFacingBlock.FACING)
 
         if (pokemon.tetheringId != null) {
             return
         }
-
         pastureBlockEntity.tether(player, pokemon, direction)
-
-        // todo pc links but for pasture blocks
     }
 }
