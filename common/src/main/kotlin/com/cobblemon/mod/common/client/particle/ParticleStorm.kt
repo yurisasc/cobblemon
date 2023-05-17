@@ -33,7 +33,7 @@ import net.minecraft.util.math.Vec3d
  */
 class ParticleStorm(
     val effect: BedrockParticleEffect,
-    private val matrixWrapper: MatrixWrapper,
+    val matrixWrapper: MatrixWrapper,
     val world: ClientWorld,
     val sourceVelocity: () -> Vec3d = { Vec3d.ZERO },
     val sourceAlive: () -> Boolean = { true },
