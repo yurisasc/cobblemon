@@ -94,7 +94,6 @@ import com.cobblemon.mod.common.util.server
 import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -163,7 +162,7 @@ object Cobblemon {
         CaptureCalculators.registerDefaults()
 
         this.loadConfig()
-        CobblemonBlockPredicates.touch()
+//        CobblemonBlockPredicates.touch()
         CobblemonOrePlacedFeatures.register()
         CobblemonPlacedFeatures.register()
         this.registerArgumentTypes()
