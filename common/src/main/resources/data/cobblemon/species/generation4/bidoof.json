@@ -181,5 +181,39 @@
   "height": 5,
   "weight": 200,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "riding": {
+    "properties": [
+      {
+        "key": "land",
+        "attributes": {
+          "speed": 2,
+          "acceleration": 3
+        }
+      }
+    ],
+    "seats": [
+      {
+        "offset": {
+          "x": 0.0,
+          "y": -0.15,
+          "z": -0.15
+        }
+      }
+    ],
+    "conditions": [
+      {
+        "key": "cobblemon:has_badge",
+        "value": "cobblemon:gen1_gym4",
+        "or": {
+          "key": "cobblemon:has_permission",
+          "value": "cobblemon.riding.override"
+        },
+        "and": {
+          "key": "cobblemon:has_move",
+          "value": "cobblemon:surf"
+        }
+      }
+    ]
+  }
 }

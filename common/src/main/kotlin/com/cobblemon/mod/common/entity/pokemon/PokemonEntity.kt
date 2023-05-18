@@ -26,7 +26,6 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -51,11 +50,12 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import net.minecraft.block.BlockState
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.Shearable
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.Shearable
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -63,7 +63,6 @@ import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.damage.DamageSources
 import net.minecraft.entity.damage.DamageTypes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
@@ -77,9 +76,10 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.packet.Packet
 import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -87,10 +87,12 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
+import net.minecraft.text.TextContent
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
@@ -100,8 +102,6 @@ import java.util.concurrent.CompletableFuture
 import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.text.TextContent
 
 class PokemonEntity(
     world: World,
@@ -261,8 +261,6 @@ class PokemonEntity(
             this.updateEyeHeight()
         }
     }
-
-
 
     fun setMoveControl(moveControl: MoveControl) {
         this.moveControl = moveControl
@@ -479,7 +477,7 @@ class PokemonEntity(
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
-                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer).sendToPlayer(player)
+                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer, this.canStartRiding(this)).sendToPlayer(player)
             } else {
                 // TODO #105
                 if (this.attemptItemInteraction(player, player.getStackInHand(hand))) return ActionResult.SUCCESS
@@ -849,4 +847,73 @@ class PokemonEntity(
     }
 
     override fun canUsePortals() = false
+
+    override fun canStartRiding(entity: Entity): Boolean {
+        if(this.pokemon.riding.supported() && super.canStartRiding(entity)) {
+            val seats = this.pokemon.riding.seats()
+            return seats.any { !it.occupied(this) }
+        }
+
+        return false
+    }
+
+    override fun tickControlled(controllingPassenger: LivingEntity, movementInput: Vec3d?) {
+        super.tickControlled(controllingPassenger, movementInput)
+
+        val vec2f: Vec2f = this.getControlledRotation(controllingPassenger)
+        setRotation(vec2f.y, vec2f.x)
+        this.bodyYaw = this.yaw
+        this.headYaw = this.yaw
+        this.prevYaw = this.yaw
+    }
+
+    private fun getControlledRotation(controllingPassenger: LivingEntity): Vec2f {
+        return Vec2f(controllingPassenger.pitch * 0.5f, controllingPassenger.yaw)
+    }
+
+    override fun updatePassengerPosition(passenger: Entity) {
+        if(this.hasPassenger(passenger)) {
+            val seat = this.pokemon.riding.seats().firstOrNull { it.occupant(this) == passenger }
+            if (seat != null) {
+                val offset = seat.offset.rotateY(-this.bodyYaw * (Math.PI.toFloat() / 180))
+                passenger.setPosition(this.pos.add(offset))
+                if(passenger is LivingEntity) {
+                    passenger.bodyYaw = this.bodyYaw
+                }
+            }
+        }
+    }
+
+    override fun getControllingPassenger(): LivingEntity? {
+        // TODO - Only the owner of the pokemon itself should be allowed to control the pokemon
+        val seat = this.pokemon.riding.seats().firstOrNull { it.occupied(this) }
+        val occupant = seat?.occupant(this)
+
+        if(occupant is LivingEntity) {
+            return occupant
+        }
+
+        return null
+    }
+
+    override fun updatePassengerForDismount(passenger: LivingEntity?): Vec3d {
+        val seat = this.pokemon.riding.seats().firstOrNull { it.occupant(this) == passenger }
+        seat?.detach(this)
+        return super.updatePassengerForDismount(passenger)
+    }
+
+    override fun getControlledMovementInput(controllingPassenger: LivingEntity?, movementInput: Vec3d?): Vec3d {
+        super.getControlledMovementInput(controllingPassenger, movementInput)
+        val f = controllingPassenger!!.sidewaysSpeed * 0.5f
+        var g = controllingPassenger.forwardSpeed
+        if (g <= 0.0f) {
+            g *= 0.25f
+        }
+
+        return Vec3d(f.toDouble(), 0.0, g.toDouble())
+    }
+
+    override fun getSaddledSpeed(controllingPassenger: LivingEntity?): Float {
+        return this.pokemon.form.behaviour.moving.walk.walkSpeed
+    }
 }

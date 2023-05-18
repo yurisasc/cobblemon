@@ -18,7 +18,8 @@ object InteractPokemonUIPacketHandler: ClientNetworkPacketHandler<InteractPokemo
         client.setScreen(
             PokemonInteractGUI(
                 pokemonID = packet.pokemonID,
-                canMountShoulder = packet.canMountShoulder
+                canMountShoulder = packet.canMountShoulder,
+                canRide = packet.canRide
             )
         )
     }

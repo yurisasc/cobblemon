@@ -23,12 +23,15 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
+import com.cobblemon.mod.common.api.riding.properties.RidingProperties
+import com.cobblemon.mod.common.api.riding.properties.Seat
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
+import com.cobblemon.mod.common.pokemon.riding.CobblemonRidingProperties
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.annotations.SerializedName
@@ -93,7 +96,11 @@ class FormData(
      * The [MoveTemplate] of the signature attack of the G-Max form.
      * This is always null on any form aside G-Max.
      */
-    val gigantamaxMove: MoveTemplate? = null
+    val gigantamaxMove: MoveTemplate? = null,
+
+    @SerializedName("riding")
+    private var _riding: RidingProperties? = null
+
 ) : Decodable, Encodable, ShowdownIdentifiable {
     @SerializedName("name")
     var name: String = name
@@ -170,6 +177,9 @@ class FormData(
     val weight: Float
         get() = _weight ?: species.weight
 
+    val riding: RidingProperties
+        get() = _riding ?: species.riding
+
     internal val labels: Set<String>
         get() = _labels ?: species.labels
 
@@ -235,8 +245,9 @@ class FormData(
             pb.writeFloat(hitbox.height)
             pb.writeBoolean(hitbox.fixed)
         }
-        buffer.writeNullable(this._moves) { buf, moves -> moves.encode(buf)}
+        buffer.writeNullable(this._moves) { pb, moves -> moves.encode(pb)}
         buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
+        buffer.writeNullable(this._riding) { _, properties -> (properties as CobblemonRidingProperties).encode(buffer) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -259,6 +270,12 @@ class FormData(
         }
         this._moves = buffer.readNullable { pb -> Learnset().apply { decode(pb) }}
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
+        this._riding = buffer.readNullable { pb ->
+            val properties = CobblemonRidingProperties.unsupported()
+            properties.decode(pb)
+
+            properties
+        }
     }
 
     /**

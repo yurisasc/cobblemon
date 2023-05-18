@@ -19,7 +19,8 @@ import net.minecraft.text.Text
 
 class PokemonInteractGUI(
     private val pokemonID: UUID,
-    private val canMountShoulder: Boolean
+    private val canMountShoulder: Boolean,
+    private val canRide: Boolean
 ) : Screen(Text.translatable("cobblemon.ui.interact.pokemon")) {
     companion object {
         const val SIZE = 138
@@ -48,7 +49,7 @@ class PokemonInteractGUI(
             container = this
         ) {
             if (canMountShoulder) {
-                InteractPokemonPacket(pokemonID, true).sendToServer()
+                InteractPokemonPacket(pokemonID, mountShoulder = true, ride = false).sendToServer()
                 MinecraftClient.getInstance().setScreen(null)
             }
         });
@@ -61,7 +62,7 @@ class PokemonInteractGUI(
             textureResource = topRightResource,
             container = this
         ) {
-            InteractPokemonPacket(pokemonID, false).sendToServer()
+            InteractPokemonPacket(pokemonID, mountShoulder = false, ride = false).sendToServer()
             MinecraftClient.getInstance().setScreen(null)
         });
 
@@ -74,14 +75,20 @@ class PokemonInteractGUI(
             container = this
         ) {});
 
-        // ToDo something else
+        // Ride Button
         this.addDrawableChild(PokemonInteractButton(
             x = x + PokemonInteractButton.SIZE,
             y = y + PokemonInteractButton.SIZE,
             textureResource = bottomRightResource,
-            enabled = false,
+            iconResource = iconShoulderResource,
+            enabled = this.canRide,
             container = this
-        ) {});
+        ) {
+            if(this.canRide) {
+                InteractPokemonPacket(pokemonID, mountShoulder = false, ride = true).sendToServer()
+                MinecraftClient.getInstance().setScreen(null)
+            }
+        });
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {

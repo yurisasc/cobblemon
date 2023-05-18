@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.drop.DropTable
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
@@ -21,6 +20,7 @@ import com.cobblemon.mod.common.api.pokemon.evolution.PreEvolution
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
+import com.cobblemon.mod.common.api.riding.properties.RidingProperties
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
+import com.cobblemon.mod.common.pokemon.riding.CobblemonRidingProperties
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.entity.EntityDimensions
@@ -35,7 +36,6 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.InvalidIdentifierException
 
 class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var name: String = "Bulbasaur"
@@ -101,6 +101,9 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         private set
 
     var forms = mutableListOf<FormData>()
+        private set
+
+    var riding: RidingProperties = CobblemonRidingProperties.unsupported()
         private set
 
     val standardForm by lazy { FormData(_evolutions = this.evolutions).initialize(this) }
@@ -186,6 +189,8 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.moves.encode(buffer)
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
+
+        (this.riding as CobblemonRidingProperties).encode(buffer)
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -208,6 +213,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.pokedex += buffer.readList { pb -> pb.readString() }
         this.forms.clear()
         this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
+        (this.riding as CobblemonRidingProperties).decode(buffer)
         this.initialize()
     }
 

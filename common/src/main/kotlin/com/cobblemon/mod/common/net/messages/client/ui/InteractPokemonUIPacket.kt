@@ -22,17 +22,18 @@ import net.minecraft.network.PacketByteBuf
  * @author Village
  * @since January 7th, 2023
  */
-class InteractPokemonUIPacket(val pokemonID: UUID, val canMountShoulder: Boolean): NetworkPacket<InteractPokemonUIPacket> {
+class InteractPokemonUIPacket(val pokemonID: UUID, val canMountShoulder: Boolean, val canRide: Boolean): NetworkPacket<InteractPokemonUIPacket> {
 
     override val id = ID
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writeBoolean(canMountShoulder)
+        buffer.writeBoolean(canRide)
     }
 
     companion object {
         val ID = cobblemonResource("interact_pokemon_ui")
-        fun decode(buffer: PacketByteBuf) = InteractPokemonUIPacket(buffer.readUuid(), buffer.readBoolean())
+        fun decode(buffer: PacketByteBuf) = InteractPokemonUIPacket(buffer.readUuid(), buffer.readBoolean(), buffer.readBoolean())
     }
 }

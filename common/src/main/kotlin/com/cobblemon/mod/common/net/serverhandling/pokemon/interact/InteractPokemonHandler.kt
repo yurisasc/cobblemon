@@ -23,6 +23,11 @@ object InteractPokemonHandler : ServerNetworkPacketHandler<InteractPokemonPacket
                     return
                 }
                 pokemonEntity.tryMountingShoulder(player)
+            } else if (packet.ride) {
+                if (pokemonEntity.pokemon.supportsRiding()) {
+                    val seat = pokemonEntity.pokemon.seats().first { !it.occupied(pokemonEntity) }
+                    seat.attach(pokemonEntity, player)
+                }
             } else {
                 pokemonEntity.offerHeldItem(player, player.mainHandStack)
             }
