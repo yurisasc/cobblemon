@@ -107,7 +107,7 @@
     }
   ],
   "mutations": {
-    "cobblemon:oran": "cobblemon:sitrus",
+    "cobblemon:oran": "cobblemon:lum",
     "cobblemon:persim": "cobblemon:mago"
   },
   "sproutShape": [

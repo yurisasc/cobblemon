@@ -1,0 +1,159 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 4
+  },
+  "lifeCycles": {
+    "min": 3,
+    "max": 3
+  },
+  "growthFactors": [
+    {
+      "variant": "cobblemon:biome_temperature",
+      "range": {
+        "min": 0.8,
+        "max": 1.0
+      },
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "variant": "cobblemon:biome_downfall",
+      "range": {
+        "min": 0.8,
+        "max": 1.0
+      },
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "variant": "cobblemon:heal_status",
+      "status": [
+        "cobblemon:poison",
+        "cobblemon:poisonbadly"
+      ]
+    }
+  ],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 4.5,
+        "y": 10.5,
+        "z": 7.5
+      },
+      "rotation": 0
+    },
+    {
+      "position": {
+        "x": 10.6,
+        "y": 12.4,
+        "z": 4
+      },
+      "rotation": 0
+    },
+    {
+      "position": {
+        "x": 13,
+        "y": 14.4,
+        "z": 9.6
+      },
+      "rotation": 0
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 16.4,
+        "z": 12.6
+      },
+      "rotation": 0
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 23.7,
+        "z": 10.6
+      },
+      "rotation": 0
+    },
+    {
+      "position": {
+        "x": 12,
+        "y": 24.7,
+        "z": 11
+      },
+      "rotation": 0
+    },
+    {
+      "position": {
+        "x": 10.5,
+        "y": 20.7,
+        "z": 4
+      },
+      "rotation": 0
+    },
+    {
+      "position": {
+        "x": 4,
+        "y": 20.7,
+        "z": 5.5
+      },
+      "rotation": 0
+    }
+  ],
+  "mutations": {
+    "cobblemon:roseli": "cobblemon:qualot",
+    "cobblemon:tanga": "cobblemon:watmel"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "SWEET": 10
+  },
+  "tintIndexes": {
+    "1": "#686898"
+  },
+  "flowerModel": "cobblemon:pecha_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/pecha.png",
+  "fruitModel": "cobblemon:pecha_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/pecha.png"
+}
