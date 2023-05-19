@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
@@ -153,7 +154,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
                 val hpValue = if (isAlly) pokemon.currentHealth.toFloat() else pokemon.currentHealth.toFloat() / pokemon.hp
                 return ActiveBattlePokemonDTO(
                     uuid = pokemon.uuid,
-                    displayName = pokemon.species.translatedName,
+                    displayName = pokemon.getDisplayName(),
                     properties = pokemon.createPokemonProperties(
                         PokemonPropertyExtractor.SPECIES,
                         PokemonPropertyExtractor.LEVEL,

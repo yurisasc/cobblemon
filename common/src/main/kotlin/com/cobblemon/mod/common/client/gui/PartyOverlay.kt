@@ -188,7 +188,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
 
                 drawScaledText(
                     matrixStack = matrixStack,
-                    text = pokemon.displayName,
+                    text = pokemon.getDisplayName(),
                     x = panelX + selectedOffsetX + 2.5F,
                     y = indexY + 25,
                     scale = SCALE

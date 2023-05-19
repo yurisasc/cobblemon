@@ -19,13 +19,14 @@ import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformation
+import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
 class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
-    override fun render(stack: ItemStack, mode: ModelTransformation.Mode, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
+    override fun render(stack: ItemStack, mode: ModelTransformationMode, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
         val pokemonItem = stack.item as? PokemonItem ?: return
         val (species, aspects) = pokemonItem.getSpeciesAndAspects(stack) ?: return
 
@@ -45,10 +46,12 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         val rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(transformations.rotation.x, transformations.rotation.y, transformations.rotation.z))
         matrices.multiply(rotation)
         rotation.conjugate()
+        val oldRotation = MinecraftClient.getInstance().entityRenderDispatcher.rotation
         MinecraftClient.getInstance().entityRenderDispatcher.rotation = rotation
 
         val light1 = Vector3f(-1F, 1F, 1.0F)
         val light2 = Vector3f(1.3F, -1F, 1.0F)
+        val previous = RenderSystem.shaderLightDirections.let { it[0] to it[1] }
         RenderSystem.setShaderLights(light1, light2)
 //        val packedLight = LightmapTextureManager.pack(12, 12)
         val vertexConsumer: VertexConsumer = vertexConsumers.getBuffer(renderLayer)
@@ -62,54 +65,55 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         matrices.pop()
         matrices.pop()
 
-        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
+        RenderSystem.setShaderLights(previous.first, previous.second)
+        MinecraftClient.getInstance().entityRenderDispatcher.rotation = oldRotation
     }
 
     companion object {
-        val positions: MutableMap<ModelTransformation.Mode, Transformations> = mutableMapOf()
+        val positions: MutableMap<ModelTransformationMode, Transformations> = mutableMapOf()
 
         init {
-            positions[ModelTransformation.Mode.GUI] = PokemonItemRenderer().Transformations(
+            positions[ModelTransformationMode.GUI] = PokemonItemRenderer().Transformations(
                 PokemonItemRenderer().Transformation(1.0, -1.9, -0.5),
                 PokemonItemRenderer().Transformation(0.5F, -0.5F, -0.5F),
                 PokemonItemRenderer().Transformation(0F, 35F, 0F)
             )
-            positions[ModelTransformation.Mode.FIXED] = PokemonItemRenderer().Transformations(
+            positions[ModelTransformationMode.FIXED] = PokemonItemRenderer().Transformations(
                 PokemonItemRenderer().Transformation(1.0, -2.0, 3.0),
                 PokemonItemRenderer().Transformation(0.5F, -0.5F, -0.5F),
                 PokemonItemRenderer().Transformation(0F, 35F - 180F, 0F)
             )
-            positions[ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND] = PokemonItemRenderer().Transformations(
+            positions[ModelTransformationMode.FIRST_PERSON_RIGHT_HAND] = PokemonItemRenderer().Transformations(
                 PokemonItemRenderer().Transformation(2.75, -1.2, 5.0),
                 PokemonItemRenderer().Transformation(0.5F, -0.5F, -0.5F),
                 PokemonItemRenderer().Transformation(0F, 35F, 0F)
             )
-            positions[ModelTransformation.Mode.FIRST_PERSON_LEFT_HAND] = PokemonItemRenderer().Transformations(
+            positions[ModelTransformationMode.FIRST_PERSON_LEFT_HAND] = PokemonItemRenderer().Transformations(
                 PokemonItemRenderer().Transformation(-0.75, -1.2, 5.0),
                 PokemonItemRenderer().Transformation(0.5F, -0.5F, -0.5F),
                 PokemonItemRenderer().Transformation(0F, -35F, 0F)
             )
-            positions[ModelTransformation.Mode.THIRD_PERSON_RIGHT_HAND] = PokemonItemRenderer().Transformations(
+            positions[ModelTransformationMode.THIRD_PERSON_RIGHT_HAND] = PokemonItemRenderer().Transformations(
                 PokemonItemRenderer().Transformation(1.0, -2.6, 2.75),
                 PokemonItemRenderer().Transformation(0.5F, -0.5F, -0.5F),
                 PokemonItemRenderer().Transformation(0F, 35F, 0F)
             )
-            positions[ModelTransformation.Mode.THIRD_PERSON_LEFT_HAND] = PokemonItemRenderer().Transformations(
+            positions[ModelTransformationMode.THIRD_PERSON_LEFT_HAND] = PokemonItemRenderer().Transformations(
                 PokemonItemRenderer().Transformation(1.0, -2.6, 2.75),
                 PokemonItemRenderer().Transformation(0.5F, -0.5F, -0.5F),
                 PokemonItemRenderer().Transformation(0F, -35F, 0F)
             )
-            positions[ModelTransformation.Mode.GROUND] = PokemonItemRenderer().Transformations(
+            positions[ModelTransformationMode.GROUND] = PokemonItemRenderer().Transformations(
                 PokemonItemRenderer().Transformation(1.0, -2.6, 3.0),
                 PokemonItemRenderer().Transformation(0.5F, -0.5F, -0.5F),
                 PokemonItemRenderer().Transformation(0F, 35F, 0F)
             )
-            positions[ModelTransformation.Mode.HEAD] = PokemonItemRenderer().Transformations(
+            positions[ModelTransformationMode.HEAD] = PokemonItemRenderer().Transformations(
                 PokemonItemRenderer().Transformation(1.0, -3.5, 3.0),
                 PokemonItemRenderer().Transformation(0.5F, -0.5F, -0.5F),
                 PokemonItemRenderer().Transformation(0F, 215F, 0F)
             )
-            positions[ModelTransformation.Mode.NONE] = PokemonItemRenderer().Transformations(
+            positions[ModelTransformationMode.NONE] = PokemonItemRenderer().Transformations(
                 PokemonItemRenderer().Transformation(0.0, 0.0, 0.0),
                 PokemonItemRenderer().Transformation(0.5F, -0.5F, -0.5F),
                 PokemonItemRenderer().Transformation(0F, 0F, 0F)

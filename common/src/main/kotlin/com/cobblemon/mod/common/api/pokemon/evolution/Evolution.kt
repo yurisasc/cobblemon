@@ -106,7 +106,7 @@ interface Evolution : EvolutionLike {
             else {
                 pokemon.benchedMoves.add(BenchedMove(move, 0))
             }
-            pokemon.getOwnerPlayer()?.sendMessage(lang("experience.learned_move", pokemon.species.translatedName, move.displayName))
+            pokemon.getOwnerPlayer()?.sendMessage(lang("experience.learned_move", pokemon.getDisplayName(), move.displayName))
         }
         // we want to instantly tick for example you might only evolve your Bulbasaur at level 34 so Venusaur should be immediately available
         pokemon.evolutions.filterIsInstance<PassiveEvolution>()

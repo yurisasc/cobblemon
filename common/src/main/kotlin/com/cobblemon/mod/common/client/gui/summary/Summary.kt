@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.gui.summary.widgets.EvolutionSelectScreen
 import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget
+import com.cobblemon.mod.common.client.gui.summary.widgets.NicknameEntryWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.PartyWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.SummaryTab
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.info.InfoWidget
@@ -44,6 +45,7 @@ import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
@@ -105,6 +107,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     private lateinit var mainScreen: ClickableWidget
     lateinit var sideScreen: Element
     lateinit var modelWidget: ModelWidget
+    lateinit var nicknameEntryWidget: NicknameEntryWidget
     private val summaryTabs = mutableListOf<SummaryTab>()
     private var mainScreenIndex = INFO
     var sideScreenIndex = PARTY
@@ -214,6 +217,20 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             }
         )
 
+        // Add Nickname Entry
+        nicknameEntryWidget = NicknameEntryWidget(
+            selectedPokemon,
+            x = x + 12,
+            y = (y + 14.5).toInt(),
+            width = 50,
+            height = 10,
+            isParty = true,
+            lang("ui.nickname")
+        )
+        focused = nicknameEntryWidget
+        nicknameEntryWidget.isFocused = false
+        addDrawableChild(nicknameEntryWidget)
+
         // Add Model Preview
         modelWidget = ModelWidget(
             pX = x + 6,
@@ -262,6 +279,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         displayMainScreen(mainScreenIndex)
         children().find { it is EvolutionSelectScreen }?.let(this::remove)
         modelWidget.pokemon = selectedPokemon.asRenderablePokemon()
+        nicknameEntryWidget.setSelectedPokemon(selectedPokemon)
     }
 
     private var moveSetSubscription: ObservableSubscription<MoveSet>? = null
@@ -455,15 +473,6 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             scale = SCALE
         )
 
-        drawScaledText(
-            matrixStack = pMatrixStack,
-            font = CobblemonResources.DEFAULT_LARGE,
-            text = selectedPokemon.displayName.bold(),
-            x = x + 12,
-            y = y + 14.5,
-            shadow = true
-        )
-
         if (selectedPokemon.gender != Gender.GENDERLESS) {
             val isMale = selectedPokemon.gender == Gender.MALE
             val textSymbol = if (isMale) "♂".text().bold() else "♀".text().bold()
@@ -525,8 +534,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         val itemX = x + 3
         val itemY = y + 104
         if (!heldItem.isEmpty) {
-            MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem, itemX, itemY)
-            MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+            MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(pMatrixStack, heldItem, itemX, itemY)
+            MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(pMatrixStack, MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
         }
 
         drawScaledText(
@@ -583,6 +592,17 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
         if (sideScreenIndex == MOVE_SWAP || sideScreenIndex == EVOLVE) sideScreen.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+    }
+
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        if ((keyCode == InputUtil.GLFW_KEY_ENTER || keyCode == InputUtil.GLFW_KEY_KP_ENTER) && nicknameEntryWidget.isFocused) { // Enter pressed
+            nicknameEntryWidget.isFocused = false
+        }
+        return nicknameEntryWidget.keyPressed(keyCode, scanCode, modifiers) || super.keyPressed(keyCode, scanCode, modifiers)
+    }
+
+    override fun charTyped(chr: Char, modifiers: Int): Boolean {
+        return nicknameEntryWidget.charTyped(chr, modifiers) || super.charTyped(chr, modifiers)
     }
 
     fun playSound(soundEvent: SoundEvent) {

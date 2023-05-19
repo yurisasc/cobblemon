@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import net.minecraft.block.BlockState
 import net.minecraft.block.Material
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.world.World
 
 /**
@@ -61,5 +62,5 @@ open class SpawningContextInput(
     /** What caused the spawn context, as a [SpawnCause]. */
     val cause: SpawnCause,
     /** The [Level] the spawning context exists in. */
-    val world: World
+    val world: ServerWorld
 )

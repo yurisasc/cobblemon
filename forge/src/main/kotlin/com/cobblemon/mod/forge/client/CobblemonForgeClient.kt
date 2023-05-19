@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.forge.client
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
@@ -16,7 +15,6 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
-import java.util.function.Supplier
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -32,6 +30,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.entity.EntityRenderers
 import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
@@ -39,22 +38,30 @@ import net.minecraft.resource.ReloadableResourceManagerImpl
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.SynchronousResourceReloader
-import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.ModelEvent
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
-import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import java.util.function.Supplier
 
-@Mod.EventBusSubscriber(modid = Cobblemon.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = [Dist.CLIENT])
 object CobblemonForgeClient : CobblemonClientImplementation {
 
-    @JvmStatic @SubscribeEvent
-    fun onClientSetup(event: FMLClientSetupEvent) {
+    fun init() {
+        with(MOD_BUS) {
+            addListener(::onClientSetup)
+            addListener(::onKeyMappingRegister)
+            addListener(::onRegisterParticleProviders)
+            addListener(::register3dPokeballModels)
+        }
+        MinecraftForge.EVENT_BUS.addListener(this::onRenderGuiOverlayEvent)
+    }
+
+    private fun onClientSetup(event: FMLClientSetupEvent) {
         (MinecraftClient.getInstance().resourceManager as ReloadableResourceManagerImpl)
             .registerReloader(object : SynchronousResourceReloader {
                 override fun reload(resourceManager: ResourceManager) {
@@ -96,25 +103,21 @@ object CobblemonForgeClient : CobblemonClientImplementation {
         BlockEntityRendererFactories.register(type, factory)
     }
 
-    @JvmStatic @SubscribeEvent
-    fun register3dPokeballModels(event: ModelEvent.RegisterAdditional) {
+    private fun register3dPokeballModels(event: ModelEvent.RegisterAdditional) {
         PokeBalls.all().forEach { pokeball ->
-            event.register(pokeball.model3d)
+            event.register(ModelIdentifier(pokeball.model3d, "inventory"))
         }
     }
 
-    @JvmStatic @SubscribeEvent
-    fun onKeyMappingRegister(event: RegisterKeyMappingsEvent) {
+    private fun onKeyMappingRegister(event: RegisterKeyMappingsEvent) {
         CobblemonKeyBinds.register(event::register)
     }
 
-    @JvmStatic @SubscribeEvent
-    fun onRegisterParticleProviders(event: RegisterParticleProvidersEvent) {
+    private fun onRegisterParticleProviders(event: RegisterParticleProvidersEvent) {
         event.register(CobblemonParticles.SNOWSTORM_PARTICLE_TYPE, SnowstormParticleType::Factory)
     }
 
-    @JvmStatic @SubscribeEvent
-    fun onRenderGuiOverlayEvent(event: RenderGuiOverlayEvent.Pre) {
+    private fun onRenderGuiOverlayEvent(event: RenderGuiOverlayEvent.Pre) {
         if (event.overlay.id == VanillaGuiOverlay.CHAT_PANEL.id()) {
             CobblemonClient.beforeChatRender(event.poseStack, event.partialTick)
         }

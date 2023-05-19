@@ -27,6 +27,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.text.Text
 
 /** Handles purely server logic for a Pokémon */
 class PokemonServerDelegate : PokemonSideDelegate {
@@ -137,6 +138,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
         }
         if (entity.pokemon.species.resourceIdentifier.toString() != entity.species.get()) {
             entity.species.set(entity.pokemon.species.resourceIdentifier.toString())
+        }
+        if (entity.nickname.get() != entity.pokemon.nickname) {
+            entity.nickname.set(entity.pokemon.nickname ?: Text.empty())
         }
         if (entity.aspects.get() != entity.pokemon.aspects) {
             entity.aspects.set(entity.pokemon.aspects)

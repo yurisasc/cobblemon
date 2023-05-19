@@ -38,8 +38,6 @@ import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
-import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
-import com.cobblemon.mod.common.api.reactive.Observable.Companion.map
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
@@ -62,18 +60,12 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.battles.runner.ShowdownService
-import com.cobblemon.mod.common.command.argument.MoveArgumentType
-import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
-import com.cobblemon.mod.common.command.argument.PokemonArgumentType
-import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
-import com.cobblemon.mod.common.command.argument.SpawnBucketArgumentType
+import com.cobblemon.mod.common.command.argument.*
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
-import com.cobblemon.mod.common.entity.data.CobblemonTrackedDataHandlerRegistry
 import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
 import com.cobblemon.mod.common.item.PokeBallItem
@@ -99,7 +91,7 @@ import com.cobblemon.mod.common.util.isLaterVersion
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.removeAmountIf
 import com.cobblemon.mod.common.util.server
-import com.cobblemon.mod.common.world.feature.apricorn.CobblemonApricornPlacedFeatures
+import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.io.File
@@ -115,14 +107,14 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.item.NameTagItem
-import net.minecraft.registry.RegistryKey
 import net.minecraft.util.WorldSavePath
+import net.minecraft.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 
 object Cobblemon {
     const val MODID = "cobblemon"
-    const val VERSION = "1.3.1"
+    const val VERSION = "1.4.0"
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER = LogManager.getLogger()
 
@@ -170,14 +162,13 @@ object Cobblemon {
         CaptureCalculators.registerDefaults()
 
         this.loadConfig()
+//        CobblemonBlockPredicates.touch()
         CobblemonOrePlacedFeatures.register()
-        CobblemonApricornPlacedFeatures.register()
+        CobblemonPlacedFeatures.register()
         this.registerArgumentTypes()
 
         CobblemonCriteria // Init the fields and register the criteria
         CobblemonGameRules // Init fields and register
-
-        CobblemonTrackedDataHandlerRegistry.register()
 
         ShoulderEffectRegistry.register()
 
@@ -190,6 +181,7 @@ object Cobblemon {
         PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe {
             PCLinkManager.removeLink(it.player.uuid)
             BattleRegistry.getBattleByParticipatingPlayer(it.player)?.stop()
+            storage.onPlayerDisconnect(it.player)
         }
         PlatformEvents.PLAYER_DEATH.subscribe {
             PCLinkManager.removeLink(it.player.uuid)
@@ -413,6 +405,7 @@ object Cobblemon {
         this.implementation.registerCommandArgument(cobblemonResource("spawn_bucket"), SpawnBucketArgumentType::class, ConstantArgumentSerializer.of(SpawnBucketArgumentType::spawnBucket))
         this.implementation.registerCommandArgument(cobblemonResource("move"), MoveArgumentType::class, ConstantArgumentSerializer.of(MoveArgumentType::move))
         this.implementation.registerCommandArgument(cobblemonResource("party_slot"), PartySlotArgumentType::class, ConstantArgumentSerializer.of(PartySlotArgumentType::partySlot))
+        this.implementation.registerCommandArgument(cobblemonResource("pokemon_store"), PokemonStoreArgumentType::class, ConstantArgumentSerializer.of(PokemonStoreArgumentType::pokemonStore))
     }
 
 }

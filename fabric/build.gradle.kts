@@ -1,3 +1,9 @@
+configurations.all {
+    resolutionStrategy {
+        force(libs.fabricLoader)
+    }
+}
+
 plugins {
     id("cobblemon.platform-conventions")
     id("cobblemon.publish-conventions")
@@ -62,9 +68,7 @@ tasks {
         into(generatedResources)
     }
 
-    shadowJar {
-        exclude("architectury.common.json")
-    }
+    shadowJar {}
 
     processResources {
         dependsOn(copyAccessWidener)

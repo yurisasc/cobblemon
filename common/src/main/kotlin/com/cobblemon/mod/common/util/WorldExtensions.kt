@@ -40,13 +40,12 @@ fun <T : ParticleEffect> World.sendParticlesServer(
 ) = (this as ServerWorld).spawnParticles(particleType, position.x, position.y, position.z, particles, offset.x, offset.y, offset.z, speed)
 
 fun World.squeezeWithinBounds(pos: BlockPos): BlockPos {
-    return if (pos.y < bottomY) {
-        BlockPos(pos.x, bottomY, pos.z)
-    } else if (pos.y > topY) {
-        BlockPos(pos.x, topY, pos.z)
-    } else {
-        pos
-    }
+    val border = worldBorder
+    return BlockPos(
+        pos.x.coerceIn(border.boundWest.toInt(), border.boundEast.toInt()),
+        pos.y.coerceIn(bottomY, topY),
+        pos.z.coerceIn(border.boundNorth.toInt(), border.boundSouth.toInt())
+    )
 }
 
 fun Box.getRanges(): Triple<IntRange, IntRange, IntRange> {

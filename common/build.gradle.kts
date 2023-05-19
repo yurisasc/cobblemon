@@ -30,6 +30,7 @@ dependencies {
     testImplementation(libs.junitParams)
     testImplementation(libs.mockito)
     testImplementation(libs.mockk)
+    testImplementation(libs.classgraph)
 }
 
 tasks.withType<Test> {

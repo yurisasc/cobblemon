@@ -61,6 +61,12 @@ class BattleGUI : Screen(battleLang("gui.title")) {
 
     fun getCurrentActionSelection() = children().filterIsInstance<BattleActionSelection>().firstOrNull()
 
+    fun removeInvalidBattleActionSelection() {
+        children().filterIsInstance<BattleActionSelection>().firstOrNull()?.let {
+            children().remove(it)
+        }
+    }
+
     fun selectAction(request: SingleActionRequest, response: ShowdownActionResponse) {
         val battle = CobblemonClient.battle ?: return
         if (request.response == null) {

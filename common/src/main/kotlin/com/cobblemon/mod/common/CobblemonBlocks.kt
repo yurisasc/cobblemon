@@ -12,7 +12,9 @@ import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
+import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.PCBlock
+import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.block.PastureBlock
 import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
@@ -27,7 +29,6 @@ import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.intprovider.UniformIntProvider
 
@@ -35,6 +36,9 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     override val registry: Registry<Block> = Registries.BLOCK
     override val registryKey: RegistryKey<Registry<Block>> = RegistryKeys.BLOCK
+
+    val APRICORN_BLOCK_SET_TYPE = BlockSetType("apricorn")
+    val APRICORN_WOOD_TYPE = WoodType.register(WoodType("apricorn", APRICORN_BLOCK_SET_TYPE))
 
     // Evolution Ores
     @JvmField
@@ -97,11 +101,11 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val APRICORN_FENCE = this.create("apricorn_fence", FenceBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
     @JvmField
-    val APRICORN_FENCE_GATE = this.create("apricorn_fence_gate", FenceGateBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD), SoundEvents.BLOCK_FENCE_GATE_CLOSE, SoundEvents.BLOCK_FENCE_GATE_OPEN))
+    val APRICORN_FENCE_GATE = this.create("apricorn_fence_gate", FenceGateBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE))
     @JvmField
-    val APRICORN_BUTTON = this.create("apricorn_button", ButtonBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), 30, true, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_ON))
+    val APRICORN_BUTTON = this.create("apricorn_button", ButtonBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), APRICORN_BLOCK_SET_TYPE, 30, true))
     @JvmField
-    val APRICORN_PRESSURE_PLATE = this.create("apricorn_pressure_plate", PressurePlateBlockInvoker.`cobblemon$create`(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), SoundEvents.BLOCK_WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundEvents.BLOCK_WOODEN_PRESSURE_PLATE_CLICK_ON))
+    val APRICORN_PRESSURE_PLATE = this.create("apricorn_pressure_plate", PressurePlateBlockInvoker.`cobblemon$create`(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), APRICORN_BLOCK_SET_TYPE))
     // Tag was removed be sure to add it back when implemented
     //val APRICORN_SIGN = queue("apricorn_sign") { StandingSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE) }
     //val APRICORN_WALL_SIGN = queue("apricorn_wall_sign") { WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD).dropsLike(APRICORN_SIGN), APRICORN_WOOD_TYPE) }
@@ -110,9 +114,9 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val APRICORN_STAIRS = this.create("apricorn_stairs", StairsBlockInvoker.`cobblemon$create`(APRICORN_PLANKS.defaultState, AbstractBlock.Settings.copy(APRICORN_PLANKS)))
     @JvmField
-    val APRICORN_DOOR = this.create("apricorn_door", DoorBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque(), SoundEvents.BLOCK_WOODEN_DOOR_CLOSE, SoundEvents.BLOCK_WOODEN_DOOR_OPEN))
+    val APRICORN_DOOR = this.create("apricorn_door", DoorBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.defaultMapColor).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque(), APRICORN_BLOCK_SET_TYPE))
     @JvmField
-    val APRICORN_TRAPDOOR = this.create("apricorn_trapdoor", TrapdoorBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning { _, _, _, _ -> false }, SoundEvents.BLOCK_WOODEN_TRAPDOOR_CLOSE, SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN))
+    val APRICORN_TRAPDOOR = this.create("apricorn_trapdoor", TrapdoorBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning { _, _, _, _ -> false }, APRICORN_BLOCK_SET_TYPE))
 
     private val PLANT_PROPERTIES = AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)
     @JvmField
@@ -175,6 +179,19 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
                 .luminance { if ((it.get(PCBlock.ON) as Boolean) && (it.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 }
         )
     )
+
+    @JvmField
+    val RED_MINT = create("red_mint", MintBlock(MintType.RED, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val BLUE_MINT = create("blue_mint", MintBlock(MintType.BLUE, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val CYAN_MINT = create("cyan_mint", MintBlock(MintType.CYAN, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val PINK_MINT = create("pink_mint", MintBlock(MintType.PINK, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val GREEN_MINT = create("green_mint", MintBlock(MintType.GREEN, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val WHITE_MINT = create("white_mint", MintBlock(MintType.WHITE, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
 
     @JvmField
     val PASTURE = create(

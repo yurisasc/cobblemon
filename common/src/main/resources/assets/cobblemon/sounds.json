@@ -1,4 +1,13 @@
 {
+  "battle.pvn.default": {
+    "sounds": []
+  },
+  "battle.pvp.default": {
+    "sounds": []
+  },
+  "battle.pvw.default": {
+    "sounds": []
+  },
   "healing_machine.active": {
     "sounds": [ "cobblemon:block/healing_machine_active" ]
   },
@@ -50,6 +59,9 @@
   },
   "gui.click": {
     "sounds": [ "cobblemon:click" ]
+  },
+  "mint.use": {
+    "sounds": [ "cobblemon:mint" ]
   },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]

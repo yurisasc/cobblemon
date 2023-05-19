@@ -46,7 +46,7 @@ class InfernapeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 poseTypes = STATIONARY_POSES + UI_POSES,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
-                        //singleBoneLook(),
+                        singleBoneLook(),
                         bedrock("infernape", "idle")
                 )
         )
@@ -56,7 +56,7 @@ class InfernapeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 poseTypes = MOVING_POSES,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
-                        //singleBoneLook(),
+                        singleBoneLook(),
                         bedrock("infernape", "idle"),
                         BipedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 0.8F),
                         BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)

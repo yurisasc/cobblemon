@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.platform.events.ServerTickEvent
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
+import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import com.mojang.brigadier.arguments.ArgumentType
@@ -77,6 +78,8 @@ object CobblemonFabric : CobblemonImplementation {
         this.networkManager.registerServerBound()
 
         Cobblemon.initialize()
+
+        CobblemonBlockPredicates.touch()
         /*
         if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
             Cobblemon.permissionValidator = LuckPermsPermissionValidator()

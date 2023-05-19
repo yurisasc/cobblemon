@@ -19,6 +19,7 @@ import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
 class SpawnPokemonPacket(
@@ -29,6 +30,7 @@ class SpawnPokemonPacket(
     private val aspects: Set<String>,
     private val phasingTargetId: Int,
     private val beamModeEmitter: Byte,
+    private val nickname: MutableText?,
     private val labelLevel: Int,
     private val poseType: PoseType,
     vanillaSpawnPacket: EntitySpawnS2CPacket
@@ -44,6 +46,7 @@ class SpawnPokemonPacket(
         entity.pokemon.aspects,
         entity.phasingTargetId.get(),
         entity.beamModeEmitter.get(),
+        entity.pokemon.nickname,
         if (Cobblemon.config.displayEntityLevelLabel) entity.labelLevel.get() else -1,
         entity.getPoseType(),
         vanillaSpawnPacket
@@ -57,6 +60,7 @@ class SpawnPokemonPacket(
         buffer.writeCollection(this.aspects) { pb, value -> pb.writeString(value) }
         buffer.writeInt(this.phasingTargetId)
         buffer.writeByte(this.beamModeEmitter.toInt())
+        buffer.writeNullable(this.nickname) { _, v -> buffer.writeText(v) }
         buffer.writeInt(this.labelLevel)
         buffer.writeEnumConstant(this.poseType)
     }
@@ -68,6 +72,7 @@ class SpawnPokemonPacket(
             species = this@SpawnPokemonPacket.species
             form = this@SpawnPokemonPacket.form
             aspects = this@SpawnPokemonPacket.aspects
+            nickname = this@SpawnPokemonPacket.nickname
         }
         entity.phasingTargetId.set(this.phasingTargetId)
         entity.beamModeEmitter.set(this.beamModeEmitter)
@@ -90,10 +95,11 @@ class SpawnPokemonPacket(
             val aspects = buffer.readList(PacketByteBuf::readString).toSet()
             val phasingTargetId = buffer.readInt()
             val beamModeEmitter = buffer.readByte()
+            val nickname = buffer.readNullable { buffer.readText().copy() }
             val labelLevel = buffer.readInt()
             val poseType = buffer.readEnumConstant(PoseType::class.java)
             val vanillaPacket = decodeVanillaPacket(buffer)
-            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, phasingTargetId, beamModeEmitter, labelLevel, poseType, vanillaPacket)
+            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, vanillaPacket)
         }
     }
 

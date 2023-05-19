@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui.summary.widgets
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.gui.summary.Summary
@@ -68,7 +69,7 @@ class PartySlotWidget(
         return 0
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 
         val isDraggedSlot = partyWidget.swapEnabled && partyWidget.swapSource == index
@@ -163,7 +164,7 @@ class PartySlotWidget(
 
             drawScaledText(
                 matrixStack = matrices,
-                text = slotPokemon.displayName,
+                text = slotPokemon.getDisplayName(),
                 x = x + 4,
                 y = y + 20,
                 scale = halfScale
