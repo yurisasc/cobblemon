@@ -177,14 +177,15 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     )
 
     @JvmField
-    val POKEMON_TETHER = create(
+    val PASTURE = create(
         "pasture_block",
         PastureBlock(
             AbstractBlock.Settings
-                .of(Material.METAL, MapColor.IRON_GRAY)
-                .sounds(BlockSoundGroup.METAL)
+                .of(Material.WOOD, MapColor.BROWN)
+                .sounds(BlockSoundGroup.WOOD)
                 .strength(2F)
                 .nonOpaque()
+                .luminance { if ((it.get(PastureBlock.ON) as Boolean) && (it.get(PastureBlock.PART) == PastureBlock.PasturePart.TOP)) 10 else 0 }
         )
     )
 

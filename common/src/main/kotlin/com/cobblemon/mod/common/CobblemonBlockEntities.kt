@@ -28,6 +28,6 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
     @JvmField
     val PC: BlockEntityType<PCBlockEntity> = this.create("pc", BlockEntityType.Builder.create(::PCBlockEntity, CobblemonBlocks.PC).build(null))
     @JvmField
-    val PASTURE_BLOCK: BlockEntityType<PokemonPastureBlockEntity> = this.create("pokemon_tether", BlockEntityType.Builder.create(::PokemonPastureBlockEntity, CobblemonBlocks.POKEMON_TETHER).build(null))
+    val PASTURE_BLOCK: BlockEntityType<PokemonPastureBlockEntity> = this.create("pokemon_tether", BlockEntityType.Builder.create(::PokemonPastureBlockEntity, CobblemonBlocks.PASTURE).build(null))
 
 }

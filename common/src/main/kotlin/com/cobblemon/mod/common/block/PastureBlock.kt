@@ -11,12 +11,16 @@ package com.cobblemon.mod.common.block
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pasture.PastureLink
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
+import com.cobblemon.mod.common.block.entity.PCBlockEntity
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
 import com.cobblemon.mod.common.util.isInBattle
+import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -40,29 +44,153 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 import java.util.*
+import net.minecraft.block.Blocks
+import net.minecraft.block.ShapeContext
+import net.minecraft.entity.LivingEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.state.property.BooleanProperty
+import net.minecraft.state.property.EnumProperty
+import net.minecraft.util.BlockMirror
+import net.minecraft.util.BlockRotation
+import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 
 class PastureBlock(properties: Settings): BlockWithEntity(properties) {
     companion object {
+        val PART = EnumProperty.of("part", PasturePart::class.java)
+        val ON = BooleanProperty.of("on")
+
+        private val NORTH_AABB_TOP = VoxelShapes.union(
+            VoxelShapes.cuboid(0.1875, 0.0, 0.0, 0.8125, 0.875, 0.125),
+            VoxelShapes.cuboid(0.125, 0.8125, 0.125, 0.875, 0.9375, 0.6875),
+            VoxelShapes.cuboid(0.125, 0.125, 0.125, 0.875, 0.8125, 0.625),
+            VoxelShapes.cuboid(0.0625, 0.0, 0.125, 0.125, 0.9375, 0.6875),
+            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.125, 0.6875),
+            VoxelShapes.cuboid(0.875, 0.0, 0.125, 0.9375, 0.9375, 0.6875),
+            VoxelShapes.cuboid(0.125, 0.0, 0.6875, 0.875, 0.0625, 0.875)
+        )
+
+        private val SOUTH_AABB_TOP = VoxelShapes.union(
+            VoxelShapes.cuboid(0.1875, 0.0, 0.875, 0.8125, 0.875, 1.0),
+            VoxelShapes.cuboid(0.125, 0.8125, 0.3125, 0.875, 0.9375, 0.875),
+            VoxelShapes.cuboid(0.125, 0.125, 0.375, 0.875, 0.8125, 0.875),
+            VoxelShapes.cuboid(0.875, 0.0, 0.3125, 0.9375, 0.9375, 0.875),
+            VoxelShapes.cuboid(0.125, 0.0, 0.3125, 0.875, 0.125, 0.875),
+            VoxelShapes.cuboid(0.0625, 0.0, 0.3125, 0.125, 0.9375, 0.875),
+            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.0625, 0.3125)
+        )
+
+        private val WEST_AABB_TOP = VoxelShapes.union(
+            VoxelShapes.cuboid(0.0, 0.0, 0.1875, 0.125, 0.875, 0.8125),
+            VoxelShapes.cuboid(0.125, 0.8125, 0.125, 0.6875, 0.9375, 0.875),
+            VoxelShapes.cuboid(0.125, 0.125, 0.125, 0.625, 0.8125, 0.875),
+            VoxelShapes.cuboid(0.125, 0.0, 0.0625, 0.6875, 0.9375, 0.125),
+            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.6875, 0.125, 0.875),
+            VoxelShapes.cuboid(0.125, 0.0, 0.875, 0.6875, 0.9375, 0.9375),
+            VoxelShapes.cuboid(0.6875, 0.0, 0.125, 0.875, 0.0625, 0.875)
+        )
+
+        private val EAST_AABB_TOP = VoxelShapes.union(
+            VoxelShapes.cuboid(0.875, 0.0, 0.1875, 1.0, 0.875, 0.8125),
+            VoxelShapes.cuboid(0.3125, 0.8125, 0.125, 0.875, 0.9375, 0.875),
+            VoxelShapes.cuboid(0.375, 0.125, 0.125, 0.875, 0.8125, 0.875),
+            VoxelShapes.cuboid(0.3125, 0.0, 0.0625, 0.875, 0.9375, 0.125),
+            VoxelShapes.cuboid(0.3125, 0.0, 0.125, 0.875, 0.125, 0.875),
+            VoxelShapes.cuboid(0.3125, 0.0, 0.875, 0.875, 0.9375, 0.9375),
+            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.3125, 0.0625, 0.875)
+        )
+
+        private val NORTH_AABB_BOTTOM = VoxelShapes.union(
+            VoxelShapes.cuboid(0.0625, 0.0625, 0.125, 0.9375, 1.0, 0.9375),
+            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.0625, 0.875),
+            VoxelShapes.cuboid(0.1875, 0.0, 0.0, 0.8125, 1.0, 0.125)
+        )
+
+        private val SOUTH_AABB_BOTTOM = VoxelShapes.union(
+            VoxelShapes.cuboid(0.0625, 0.0625, 0.0625, 0.9375, 1.0, 0.875),
+            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.0625, 0.875),
+            VoxelShapes.cuboid(0.1875, 0.0, 0.875, 0.8125, 1.0, 1.0)
+        )
+
+        private val WEST_AABB_BOTTOM = VoxelShapes.union(
+            VoxelShapes.cuboid(0.125, 0.0625, 0.0625, 0.9375, 1.0, 0.9375),
+            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.0625, 0.875),
+            VoxelShapes.cuboid(0.0, 0.0, 0.1875, 0.125, 1.0, 0.8125)
+        )
+
+        private val EAST_AABB_BOTTOM = VoxelShapes.union(
+            VoxelShapes.cuboid(0.0625, 0.0625, 0.0625, 0.875, 1.0, 0.9375),
+            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.0625, 0.875),
+            VoxelShapes.cuboid(0.875, 0.0, 0.1875, 1.0, 1.0, 0.8125)
+        )
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState) = PokemonPastureBlockEntity(pos, state)
+    enum class PasturePart(private val label: String) : StringIdentifiable {
+        TOP("top"),
+        BOTTOM("bottom");
+        override fun asString() = label
+    }
+
+    override fun createBlockEntity(blockPos: BlockPos, blockState: BlockState) = if (blockState.get(PART) == PasturePart.BOTTOM) PokemonPastureBlockEntity(blockPos, blockState) else null
+
 
     init {
         defaultState = this.stateManager.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
-//            .with(PCBlock.ON, false)
+            .with(PART, PasturePart.BOTTOM)
+            .with(ON, false)
     }
 
     override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
-    override fun getPlacementState(blockPlaceContext: ItemPlacementContext) = defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.playerFacing)
+    override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
+        val abovePosition = blockPlaceContext.blockPos.up()
+        val world = blockPlaceContext.world
+        if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
+            return defaultState
+                .with(HorizontalFacingBlock.FACING, blockPlaceContext.playerFacing)
+                .with(PART, PasturePart.BOTTOM)
+        }
+
+        return null
+    }
 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         return true
     }
 
+    fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
+        return if (state.get(PART) == PasturePart.BOTTOM) {
+            pos.up()
+        } else {
+            pos.down()
+        }
+    }
+
+    fun getBasePosition(state: BlockState, pos: BlockPos): BlockPos {
+        return if (isBase(state)) {
+            pos
+        } else {
+            pos.down()
+        }
+    }
+
+    private fun isBase(state: BlockState): Boolean = state.get(PART) == PasturePart.BOTTOM
+
     @Deprecated("Deprecated in Java")
     override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType) = false
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
+        builder.add(PART)
+        builder.add(ON)
+    }
+
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
+        super.onBreak(world, pos, state, player)
+        val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
+        if (otherPart.block is PastureBlock) {
+            world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, 35)
+            world.syncWorldEvent(player, 2001, getPositionOfOtherPart(state, pos), Block.getRawIdFromState(otherPart))
+        }
     }
 
     override fun onBroken(world: WorldAccess, pos: BlockPos, state: BlockState) {
@@ -75,6 +203,12 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
         return checkType(type, CobblemonBlockEntities.PASTURE_BLOCK, PokemonPastureBlockEntity.TICKER::tick)
     }
 
+    override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
+        world.setBlockState(pos.up(), state.with(PART, PasturePart.TOP) as BlockState, 3)
+        world.updateNeighbors(pos, Blocks.AIR)
+        state.updateNeighbors(world, pos, 3)
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onUse(
         state: BlockState,
@@ -85,7 +219,15 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
         hit: BlockHitResult
     ): ActionResult {
         if (player is ServerPlayerEntity && !player.isInBattle()) {
-            val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return ActionResult.FAIL
+            val basePos = getBasePosition(state, pos)
+
+            // Remove any duplicate block entities that may exist
+            world.getBlockEntity(basePos.up())?.markRemoved()
+
+            val baseEntity = world.getBlockEntity(basePos)
+            if (baseEntity !is PokemonPastureBlockEntity) return ActionResult.SUCCESS
+
+
             val pcId = Cobblemon.storage.getPC(player.uuid).uuid
 
             CobblemonNetwork.sendPacketToPlayer(
@@ -93,8 +235,8 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
                 packet = OpenPasturePacket(
                     pcId = pcId,
                     pasturePos = pos,
-                    totalTethered = blockEntity.tetheredPokemon.size,
-                    tetheredPokemon = blockEntity.tetheredPokemon.filter { it.playerId == player.uuid }.mapNotNull {
+                    totalTethered = baseEntity.tetheredPokemon.size,
+                    tetheredPokemon = baseEntity.tetheredPokemon.filter { it.playerId == player.uuid }.mapNotNull {
                         val pokemon = it.getPokemon() ?: return@mapNotNull null
                         OpenPasturePacket.PasturePokemonDataDTO(
                             pokemonId = it.pokemonId,
@@ -108,9 +250,50 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
             )
 
             PastureLinkManager.createLink(player.uuid, PastureLink(UUID.randomUUID(), pcId, world.dimensionKey.value, pos))
+
+            world.playSoundServer(
+                position = pos.toVec3d(),
+                sound = CobblemonSounds.PC_ON,
+                volume = 1F,
+                pitch = 1F
+            )
+
             return ActionResult.SUCCESS
         }
 
         return ActionResult.SUCCESS
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun getOutlineShape(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, collisionContext: ShapeContext): VoxelShape {
+        return if (blockState.get(PART) == PasturePart.TOP)  {
+            when (blockState.get(HorizontalFacingBlock.FACING)) {
+                Direction.SOUTH -> SOUTH_AABB_TOP
+                Direction.WEST -> WEST_AABB_TOP
+                Direction.EAST -> EAST_AABB_TOP
+                else -> NORTH_AABB_TOP
+            }
+        } else {
+            when (blockState.get(HorizontalFacingBlock.FACING)) {
+                Direction.SOUTH -> SOUTH_AABB_BOTTOM
+                Direction.WEST -> WEST_AABB_BOTTOM
+                Direction.EAST -> EAST_AABB_BOTTOM
+                else -> NORTH_AABB_BOTTOM
+            }
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun rotate(blockState: BlockState, rotation: BlockRotation) =
+        blockState.with(HorizontalFacingBlock.FACING, rotation.rotate(blockState.get(HorizontalFacingBlock.FACING)))
+
+    @Deprecated("Deprecated in Java")
+    override fun mirror(blockState: BlockState, mirror: BlockMirror): BlockState {
+        return blockState.rotate(mirror.getRotation(blockState.get(HorizontalFacingBlock.FACING)))
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos?, newState: BlockState, moved: Boolean) {
+        if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
 }
