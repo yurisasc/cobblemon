@@ -195,7 +195,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     @JvmField
     val PASTURE = create(
-        "pasture_block",
+        "pasture",
         PastureBlock(
             AbstractBlock.Settings
                 .of(Material.WOOD, MapColor.BROWN)

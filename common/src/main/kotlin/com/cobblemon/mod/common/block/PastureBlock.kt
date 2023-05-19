@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pasture.PastureLink
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
-import com.cobblemon.mod.common.block.entity.PCBlockEntity
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
@@ -147,7 +146,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
         val world = blockPlaceContext.world
         if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
             return defaultState
-                .with(HorizontalFacingBlock.FACING, blockPlaceContext.playerFacing)
+                .with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
                 .with(PART, PasturePart.BOTTOM)
         }
 
@@ -196,11 +195,11 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
     override fun onBroken(world: WorldAccess, pos: BlockPos, state: BlockState) {
         val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
         super.onBroken(world, pos, state)
-        blockEntity.releaseAllPokemon()
+        blockEntity.onBroken()
     }
 
     override fun <T : BlockEntity?> getTicker(world: World, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
-        return checkType(type, CobblemonBlockEntities.PASTURE_BLOCK, PokemonPastureBlockEntity.TICKER::tick)
+        return checkType(type, CobblemonBlockEntities.PASTURE, PokemonPastureBlockEntity.TICKER::tick)
     }
 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
@@ -240,7 +239,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
                         val pokemon = it.getPokemon() ?: return@mapNotNull null
                         OpenPasturePacket.PasturePokemonDataDTO(
                             pokemonId = it.pokemonId,
-                            name = pokemon.displayName,
+                            name = pokemon.getDisplayName(),
                             species = pokemon.species.resourceIdentifier,
                             aspects = pokemon.aspects,
                             entityKnown = (player.world.getEntityById(it.entityId) as? PokemonEntity)?.tethering?.tetheringId == it.tetheringId

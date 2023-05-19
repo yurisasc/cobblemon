@@ -8,8 +8,14 @@
 
 package com.cobblemon.mod.common.api.pasture
 
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
+import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.removeIf
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.math.BlockPos
 
 // Need to use this in the interact with pasture block then use links when handling server-side packets
 // to authenticate that they were able to interact.
@@ -32,5 +38,13 @@ object PastureLinkManager {
         }
 
         return link
+    }
+
+    fun removeAt(world: ServerWorld, pos: BlockPos) {
+        links.removeIf { (uuid, pastureLink) ->
+            val shouldRemove = pastureLink.dimension == world.dimensionKey.value && pastureLink.pos == pos
+            uuid.getPlayer()?.sendPacket(ClosePasturePacket())
+            return@removeIf shouldRemove
+        }
     }
 }

@@ -1179,7 +1179,7 @@ open class Pokemon : ShowdownIdentifiable {
 
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket({ this }, it) }
-    private val _nickname = registerObservable(SimpleObservable<MutableText?>()) { NicknameUpdatePacket(this, it) }
+    private val _nickname = registerObservable(SimpleObservable<MutableText?>()) { NicknameUpdatePacket({ this }, it) }
     private val _experience = registerObservable(SimpleObservable<Int>()) { ExperienceUpdatePacket({ this }, it) }
     private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket({ this }, it) }
     private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket({ this }, it) }

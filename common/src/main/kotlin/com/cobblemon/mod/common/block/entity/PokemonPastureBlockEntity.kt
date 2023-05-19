@@ -13,8 +13,7 @@ import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
-import com.cobblemon.mod.common.api.storage.pc.link.ProximityPCLink
-import com.cobblemon.mod.common.block.PCBlock
+import com.cobblemon.mod.common.block.PastureBlock
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -27,13 +26,13 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.ItemEntity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtList
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.TypeFilter
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
@@ -41,7 +40,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
 
-class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEntity(CobblemonBlockEntities.PASTURE_BLOCK, pos, state) {
+class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEntity(CobblemonBlockEntities.PASTURE, pos, state) {
     open class Tethering(val minRoamPos: BlockPos, val maxRoamPos: BlockPos, val playerId: UUID, val tetheringId: UUID, val pokemonId: UUID, val pcId: UUID, val entityId: Int) {
         fun getPokemon() = Cobblemon.storage.getPC(pcId)[pokemonId]
         val box = Box(minRoamPos, maxRoamPos)
@@ -55,11 +54,9 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
             if (blockEntity.ticksUntilCheck <= 0) {
                 blockEntity.checkPokemon()
             }
-            blockEntity.togglePCOn(blockEntity.getInRangeViewerCount(world, blockEntity.pos) > 0)
+            blockEntity.togglePastureOn(blockEntity.getInRangeViewerCount(world, blockEntity.pos) > 0)
         }
     }
-
-    // TODO PASTURE update the model probably, copy from PC stuff
 
     var ticksUntilCheck = Cobblemon.config.pastureBlockUpdateTicks
     val tetheredPokemon = mutableListOf<Tethering>()
@@ -118,38 +115,37 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         return false
     }
 
-    private fun togglePCOn(on: Boolean) {
-        val pcBlock = state.block as PCBlock
+    private fun togglePastureOn(on: Boolean) {
+        val pastureBlock = state.block as PastureBlock
 
         if (world != null && !world!!.isClient) {
             val world = world!!
-            val posBottom = pcBlock.getBasePosition(state, pos)
+            val posBottom = pastureBlock.getBasePosition(state, pos)
             val stateBottom = world.getBlockState(posBottom)
 
-            val posTop = pcBlock.getPositionOfOtherPart(stateBottom, posBottom)
+            val posTop = pastureBlock.getPositionOfOtherPart(stateBottom, posBottom)
             val stateTop = world.getBlockState(posTop)
 
             try {
-                if (stateBottom.get(PCBlock.ON) != on) {
-                    world.setBlockState(posTop, stateTop.with(PCBlock.ON, on))
-                    world.setBlockState(posBottom, stateBottom.with(PCBlock.ON, on))
+                if (stateBottom.get(PastureBlock.ON) != on) {
+                    world.setBlockState(posTop, stateTop.with(PastureBlock.ON, on))
+                    world.setBlockState(posBottom, stateBottom.with(PastureBlock.ON, on))
                 }
             } catch (exception: IllegalArgumentException) {
-                // This is probably a PC from before 1.3. Break it.
-                if (world.getBlockState(pos.up()).block is PCBlock) {
+                if (world.getBlockState(pos.up()).block is PastureBlock) {
                     world.setBlockState(pos.up(), Blocks.AIR.defaultState)
                 } else {
                     world.setBlockState(pos.down(), Blocks.AIR.defaultState)
                 }
                 world.setBlockState(pos, Blocks.AIR.defaultState)
-                world.spawnEntity(ItemEntity(world, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5, ItemStack(CobblemonBlocks.PC)))
+                world.spawnEntity(ItemEntity(world, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5, ItemStack(CobblemonBlocks.PASTURE)))
             }
         }
     }
 
     override fun markRemoved() {
         super.markRemoved()
-        releaseAllPokemon()
+        onBroken()
     }
 
 
@@ -207,9 +203,11 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         markDirty()
     }
 
-    fun releaseAllPokemon() {
-        tetheredPokemon.toList().forEach { releasePokemon(it.pokemonId) }
-        markDirty()
+    fun onBroken() {
+        if (world is ServerWorld) {
+            tetheredPokemon.toList().forEach { releasePokemon(it.pokemonId) }
+            PastureLinkManager.removeAt(world as ServerWorld, pos)
+        }
     }
 
     fun releasePokemon(pokemonId: UUID) {
