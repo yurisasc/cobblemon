@@ -854,4 +854,10 @@ class PokemonEntity(
     }
 
     override fun canUsePortals() = false
+
+    override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
+        if (player != null) {
+            if(this.ownerUuid == player.uuid) goalSelector.tick()
+        }
+    }
 }
