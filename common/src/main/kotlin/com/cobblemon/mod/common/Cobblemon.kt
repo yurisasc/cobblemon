@@ -91,7 +91,7 @@ import com.cobblemon.mod.common.util.isLaterVersion
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.removeAmountIf
 import com.cobblemon.mod.common.util.server
-import com.cobblemon.mod.common.world.feature.apricorn.CobblemonApricornPlacedFeatures
+import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.io.File
@@ -114,7 +114,7 @@ import org.apache.logging.log4j.LogManager
 
 object Cobblemon {
     const val MODID = "cobblemon"
-    const val VERSION = "1.3.1"
+    const val VERSION = "1.4.0"
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER = LogManager.getLogger()
 
@@ -162,8 +162,9 @@ object Cobblemon {
         CaptureCalculators.registerDefaults()
 
         this.loadConfig()
+//        CobblemonBlockPredicates.touch()
         CobblemonOrePlacedFeatures.register()
-        CobblemonApricornPlacedFeatures.register()
+        CobblemonPlacedFeatures.register()
         this.registerArgumentTypes()
 
         CobblemonCriteria // Init the fields and register the criteria

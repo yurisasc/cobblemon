@@ -8,10 +8,12 @@
 
 package com.cobblemon.mod.common.item.interactive
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem.Ownership
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.sound.SoundEvent
 
 /**
  * An [InteractiveItem] targeting [PokemonEntity]s.
@@ -21,6 +23,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 abstract class PokemonInteractiveItem(properties: Settings, vararg accepted: Ownership) : InteractiveItem<PokemonEntity>(properties) {
 
     private val accepted = accepted.toSet()
+    open val sound: SoundEvent? = CobblemonSounds.ITEM_USE
 
     final override fun onInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon

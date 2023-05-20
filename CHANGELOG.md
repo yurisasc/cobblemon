@@ -2,6 +2,7 @@
 ## [1.4.0](#1-4-0)
 ### Additions
 - Added nicknaming.
+- Added mints.
 - Added the `/teststore <player> <store> <properties>` command allowing command block/mcfunction users to query a party, PC or both for Pokémon matching specific properties and returning the match count, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.teststore` if a permission mod is present.
 - Added the `/querylearnset <player> <slot> <move>` command allowing command block/mcfunction users to query a party slot and check if the Pokémon can learn a specific move returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.querylearnset` if a permission mod is present.
 - Added the `/testpcslot <player> <slot> <properties>` command allowing command block/mcfunction users to query a pc slot and check if the Pokémon matches specific properties returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.testpcslot` if a permission mod is present.
@@ -23,7 +24,7 @@
 - Lanturn
 - Aipom
 - Gligar
-- 
+-
 
 #### Gen 3
 
@@ -95,6 +96,11 @@
 - Grafaiia
 
 ### Changes
+- Updated sprites for EV medicines, the rare candy, and the apricorn door item.
+- Updated textures for apricorn doors and all the evolution stone ores.
+- Wild Pokémon now heal if you are defeated by them or flee from them.
+- Doubled the default time between ambient Pokémon cries (they have cries if you're using a resource pack to add them)
+- Moved spawn attempts per tick to a config option (ticksBetweenSpawnAttempts)
 - Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
 - Updated model of Sceptile.
 - Updated texture of Weedle.
@@ -111,7 +117,10 @@
 - Fixed the Poké Ball close animation canceling whenever colliding with a block.
 - Fixed faint animations not working properly in add-ons.
 - Fixed lighting and Pokémon label issues when a Pokémon item frame is nearby.
-
+- Fixed Pokémon being able to spawn outside the world border as a tease.
+- Fixed deepslate water stone ore items looking like deepslate fire stone ores.
+- Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
+- Fixed a crash when wild Pokémon have to struggle under specific circumstances.
 
 ### Developer
 - Added SpawnEvent

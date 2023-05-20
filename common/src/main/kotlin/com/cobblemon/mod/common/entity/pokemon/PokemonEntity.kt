@@ -26,7 +26,6 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -50,12 +49,17 @@ import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
+import java.util.*
+import java.util.concurrent.CompletableFuture
+import kotlin.math.round
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.Shearable
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.Shearable
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -63,7 +67,6 @@ import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.damage.DamageSources
 import net.minecraft.entity.damage.DamageTypes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
@@ -77,9 +80,10 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.packet.Packet
 import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -87,6 +91,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
+import net.minecraft.text.TextContent
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -95,13 +100,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.math.round
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.text.TextContent
 
 class PokemonEntity(
     world: World,
@@ -600,7 +598,14 @@ class PokemonEntity(
             shouldSave()
             (stack.item as? PokemonInteractiveItem)?.let {
                 if (it.onInteraction(player, this, stack)) {
-                    this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE, volume = 1F, pitch = 1F)
+                    it.sound?.let {
+                        this.world.playSoundServer(
+                            position = this.pos,
+                            sound = it,
+                            volume = 1F,
+                            pitch = 1F
+                        )
+                    }
                     return true
                 }
             }

@@ -277,12 +277,7 @@ open class Pokemon : ShowdownIdentifiable {
     var nature = Natures.getRandomNature()
         set(value) { field = value ; _nature.emit(value) }
     var mintedNature: Nature? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                _mintedNature.emit(value)
-            }
-        }
+        set(value) { field = value ; _mintedNature.emit(value) }
 
     val moveSet = MoveSet()
 
@@ -566,6 +561,7 @@ open class Pokemon : ShowdownIdentifiable {
         val propertyList = customProperties.map { it.asString() }.map { NbtString.of(it) }
         nbt.put(DataKeys.POKEMON_DATA, NbtList().also { it.addAll(propertyList) })
         nbt.putString(DataKeys.POKEMON_NATURE, nature.name.toString())
+        mintedNature?.let { nbt.putString(DataKeys.POKEMON_MINTED_NATURE, it.name.toString()) }
         features.forEach { it.saveToNBT(nbt) }
         if (!this.heldItem.isEmpty) {
             nbt.put(DataKeys.HELD_ITEM, this.heldItem.writeNbt(NbtCompound()))
@@ -625,6 +621,9 @@ open class Pokemon : ShowdownIdentifiable {
             features.add(feature)
         }
         this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
+        if (nbt.contains(DataKeys.POKEMON_MINTED_NATURE)) {
+            this.mintedNature = nbt.getString(DataKeys.POKEMON_MINTED_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it)) }
+        }
         updateAspects()
         checkAbility()
         nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
@@ -661,6 +660,7 @@ open class Pokemon : ShowdownIdentifiable {
         val propertyList = customProperties.map { it.asString() }.map { JsonPrimitive(it) }
         json.add(DataKeys.POKEMON_DATA, JsonArray().also { propertyList.forEach(it::add) })
         json.addProperty(DataKeys.POKEMON_NATURE, nature.name.toString())
+        mintedNature?.let { json.addProperty(DataKeys.POKEMON_MINTED_NATURE, it.name.toString()) }
         features.forEach { it.saveToJSON(json) }
         if (!this.heldItem.isEmpty) {
             ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, this.heldItem).result().ifPresent { json.add(DataKeys.HELD_ITEM, it) }
@@ -720,6 +720,9 @@ open class Pokemon : ShowdownIdentifiable {
             features.add(feature)
         }
         this.nature = json.get(DataKeys.POKEMON_NATURE).asString?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
+        if (json.has(DataKeys.POKEMON_MINTED_NATURE)) {
+            this.mintedNature = json.get(DataKeys.POKEMON_MINTED_NATURE).asString?.let { Natures.getNature(Identifier(it)) }
+        }
         updateAspects()
         checkAbility()
         json.get(DataKeys.POKEMON_EVOLUTIONS)?.let { this.evolutionProxy.loadFromJson(it) }
@@ -1159,7 +1162,7 @@ open class Pokemon : ShowdownIdentifiable {
     private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket(this, it) }
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
     private val _nature = registerObservable(SimpleObservable<Nature>()) { NatureUpdatePacket(this, it, false) }
-    private val _mintedNature = registerObservable(SimpleObservable<Nature>()) { NatureUpdatePacket(this, it, true) }
+    private val _mintedNature = registerObservable(SimpleObservable<Nature?>()) { NatureUpdatePacket(this, it, true) }
     private val _moveSet = registerObservable(moveSet.observable) { MoveSetUpdatePacket(this, moveSet) }
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(this, it) }
     private val _status = registerObservable(SimpleObservable<PersistentStatus?>()) { StatusUpdatePacket(this, it) }
