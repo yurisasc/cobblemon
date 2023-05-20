@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
 import com.cobblemon.mod.common.util.isInBattle
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
+import com.cobblemon.mod.common.util.voxelShape
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -60,69 +61,56 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
         val PART = EnumProperty.of("part", PasturePart::class.java)
         val ON = BooleanProperty.of("on")
 
-        private val NORTH_AABB_TOP = VoxelShapes.union(
-            VoxelShapes.cuboid(0.1875, 0.0, 0.0, 0.8125, 0.875, 0.125),
-            VoxelShapes.cuboid(0.125, 0.8125, 0.125, 0.875, 0.9375, 0.6875),
-            VoxelShapes.cuboid(0.125, 0.125, 0.125, 0.875, 0.8125, 0.625),
-            VoxelShapes.cuboid(0.0625, 0.0, 0.125, 0.125, 0.9375, 0.6875),
-            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.125, 0.6875),
-            VoxelShapes.cuboid(0.875, 0.0, 0.125, 0.9375, 0.9375, 0.6875),
-            VoxelShapes.cuboid(0.125, 0.0, 0.6875, 0.875, 0.0625, 0.875)
-        )
+        private val SOUTH_AABB_TOP = buildCollider(top = true, Direction.NORTH)
+        private val NORTH_AABB_TOP = buildCollider(top = true, Direction.SOUTH)
+        private val WEST_AABB_TOP = buildCollider(top = true, Direction.WEST)
+        private val EAST_AABB_TOP = buildCollider(top = true, Direction.EAST)
 
-        private val SOUTH_AABB_TOP = VoxelShapes.union(
-            VoxelShapes.cuboid(0.1875, 0.0, 0.875, 0.8125, 0.875, 1.0),
-            VoxelShapes.cuboid(0.125, 0.8125, 0.3125, 0.875, 0.9375, 0.875),
-            VoxelShapes.cuboid(0.125, 0.125, 0.375, 0.875, 0.8125, 0.875),
-            VoxelShapes.cuboid(0.875, 0.0, 0.3125, 0.9375, 0.9375, 0.875),
-            VoxelShapes.cuboid(0.125, 0.0, 0.3125, 0.875, 0.125, 0.875),
-            VoxelShapes.cuboid(0.0625, 0.0, 0.3125, 0.125, 0.9375, 0.875),
-            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.0625, 0.3125)
-        )
+        private val SOUTH_AABB_BOTTOM = buildCollider(top = false, Direction.SOUTH)
+        private val NORTH_AABB_BOTTOM = buildCollider(top = false, Direction.NORTH)
+        private val WEST_AABB_BOTTOM = buildCollider(top = false, Direction.WEST)
+        private val EAST_AABB_BOTTOM = buildCollider(top = false, Direction.EAST)
 
-        private val WEST_AABB_TOP = VoxelShapes.union(
-            VoxelShapes.cuboid(0.0, 0.0, 0.1875, 0.125, 0.875, 0.8125),
-            VoxelShapes.cuboid(0.125, 0.8125, 0.125, 0.6875, 0.9375, 0.875),
-            VoxelShapes.cuboid(0.125, 0.125, 0.125, 0.625, 0.8125, 0.875),
-            VoxelShapes.cuboid(0.125, 0.0, 0.0625, 0.6875, 0.9375, 0.125),
-            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.6875, 0.125, 0.875),
-            VoxelShapes.cuboid(0.125, 0.0, 0.875, 0.6875, 0.9375, 0.9375),
-            VoxelShapes.cuboid(0.6875, 0.0, 0.125, 0.875, 0.0625, 0.875)
-        )
-
-        private val EAST_AABB_TOP = VoxelShapes.union(
-            VoxelShapes.cuboid(0.875, 0.0, 0.1875, 1.0, 0.875, 0.8125),
-            VoxelShapes.cuboid(0.3125, 0.8125, 0.125, 0.875, 0.9375, 0.875),
-            VoxelShapes.cuboid(0.375, 0.125, 0.125, 0.875, 0.8125, 0.875),
-            VoxelShapes.cuboid(0.3125, 0.0, 0.0625, 0.875, 0.9375, 0.125),
-            VoxelShapes.cuboid(0.3125, 0.0, 0.125, 0.875, 0.125, 0.875),
-            VoxelShapes.cuboid(0.3125, 0.0, 0.875, 0.875, 0.9375, 0.9375),
-            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.3125, 0.0625, 0.875)
-        )
-
-        private val NORTH_AABB_BOTTOM = VoxelShapes.union(
-            VoxelShapes.cuboid(0.0625, 0.0625, 0.125, 0.9375, 1.0, 0.9375),
-            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.0625, 0.875),
-            VoxelShapes.cuboid(0.1875, 0.0, 0.0, 0.8125, 1.0, 0.125)
-        )
-
-        private val SOUTH_AABB_BOTTOM = VoxelShapes.union(
-            VoxelShapes.cuboid(0.0625, 0.0625, 0.0625, 0.9375, 1.0, 0.875),
-            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.0625, 0.875),
-            VoxelShapes.cuboid(0.1875, 0.0, 0.875, 0.8125, 1.0, 1.0)
-        )
-
-        private val WEST_AABB_BOTTOM = VoxelShapes.union(
-            VoxelShapes.cuboid(0.125, 0.0625, 0.0625, 0.9375, 1.0, 0.9375),
-            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.0625, 0.875),
-            VoxelShapes.cuboid(0.0, 0.0, 0.1875, 0.125, 1.0, 0.8125)
-        )
-
-        private val EAST_AABB_BOTTOM = VoxelShapes.union(
-            VoxelShapes.cuboid(0.0625, 0.0625, 0.0625, 0.875, 1.0, 0.9375),
-            VoxelShapes.cuboid(0.125, 0.0, 0.125, 0.875, 0.0625, 0.875),
-            VoxelShapes.cuboid(0.875, 0.0, 0.1875, 1.0, 1.0, 0.8125)
-        )
+        private fun buildCollider(top: Boolean, direction: Direction): VoxelShape {
+            if (top) {
+                return VoxelShapes.union(
+                    voxelShape(0.1875, 0.0, 0.0625, 0.8125, 0.0625, 0.3125, direction),
+                    voxelShape(0.125, 0.0, 0.375, 0.875, 0.1875, 0.9375, direction),
+                    voxelShape(0.1875, 0.1875, 0.4375, 0.8125, 0.6875, 0.9375, direction),
+                    voxelShape(0.8125, 0.1875, 0.375, 0.875, 0.6875, 0.9375, direction),
+                    voxelShape(0.125, 0.1875, 0.375, 0.1875, 0.6875, 0.9375, direction),
+                    voxelShape(0.125, 0.6875, 0.375, 0.875, 0.75, 0.9375, direction)
+                )
+            } else {
+                return VoxelShapes.union(
+                    voxelShape(0.875, 0.0, 0.0, 1.0, 1.0, 0.125, direction),
+                    voxelShape(0.125, 0.0, 0.0, 0.875, 0.125, 0.125, direction),
+                    voxelShape(0.125, 0.875, 0.0, 0.875, 1.0, 0.125, direction),
+                    voxelShape(0.125, 0.125, 0.0625, 0.875, 0.875, 0.125, direction),
+                    voxelShape(0.0625, 0.125, 0.125, 0.125, 0.875, 0.875, direction),
+                    voxelShape(0.0, 0.0, 0.0, 0.125, 1.0, 0.125, direction),
+                    voxelShape(0.125, 0.0, 0.125, 0.875, 0.125, 1.0, direction),
+                    voxelShape(0.875, 0.125, 0.125, 0.9375, 0.875, 0.875, direction),
+                    voxelShape(0.125, 0.875, 0.125, 0.875, 1.0, 1.0, direction),
+                    voxelShape(0.875, 0.0, 0.875, 1.0, 1.0, 1.0, direction),
+                    voxelShape(0.875, 0.0, 0.125, 1.0, 0.125, 0.875, direction),
+                    voxelShape(0.875, 0.875, 0.125, 1.0, 1.0, 0.875, direction),
+                    voxelShape(0.0, 0.875, 0.125, 0.125, 1.0, 0.875, direction),
+                    voxelShape(0.0, 0.0, 0.125, 0.125, 0.125, 0.875, direction),
+                    voxelShape(0.0, 0.0, 0.875, 0.125, 1.0, 1.0, direction),
+                    voxelShape(0.0, 0.125, 0.375, 0.0625, 0.875, 0.625, direction),
+                    voxelShape(0.9375, 0.125, 0.375, 1.0, 0.875, 0.625, direction),
+                    voxelShape(0.1875, 0.1875, 0.05625, 0.8125, 0.75, 0.05625, direction),
+                    voxelShape(0.1875, 0.125, 0.3125, 0.8125, 0.3125, 0.875, direction),
+                    voxelShape(0.1875, 0.125, 0.3125, 0.8125, 0.3125, 0.875, direction),
+                    voxelShape(0.1875, 0.0625, 0.875, 0.8125, 0.25, 0.875, direction),
+                    voxelShape(0.1875, 0.25, 0.25, 0.1875, 0.4375, 0.875, direction),
+                    voxelShape(0.8125, 0.25, 0.25, 0.8125, 0.4375, 0.875, direction),
+                    voxelShape(0.1875, 0.3125, 0.3125, 0.8125, 0.5, 0.3125, direction),
+                    voxelShape(0.25, 0.75, 0.3125, 0.75, 1.0, 0.8125, direction)
+                )
+            }
+        }
     }
 
     enum class PasturePart(private val label: String) : StringIdentifiable {
