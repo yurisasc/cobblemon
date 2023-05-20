@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.gui.battle.subscreen
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
-import com.cobblemon.mod.common.battles.ForfeitActionResponse
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
@@ -67,9 +66,7 @@ class BattleGeneralActionSelection(
                 }
             } else {
                 addOption(rank++, battleLang("ui.forfeit"), BattleGUI.runResource) {
-                    //TODO: Confirmatuion
-//                    battleGUI.changeActionSelection(BattleSwitchPokemonSelection(battleGUI, request))
-                    battleGUI.selectAction(request, ForfeitActionResponse)
+                    battleGUI.changeActionSelection(ForfeitConfirmationSelection(battleGUI, request))
                     playDownSound(MinecraftClient.getInstance().soundManager)
                 }
             }

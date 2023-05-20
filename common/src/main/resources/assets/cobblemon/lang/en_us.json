@@ -303,6 +303,7 @@
   "cobblemon.battle.ui.capture": "Catch",
   "cobblemon.battle.ui.run": "Run",
   "cobblemon.battle.ui.forfeit": "Forfeit",
+  "cobblemon.battle.ui.forfeit_confirmation": "Forfeiting makes you lose the battle. Are you sure?",
   "cobblemon.battle.ui.hide_label": "Press %1$s to move around.",
   "cobblemon.battle.ui.actions_label": "You need to choose an action. Press %1$s.",
 
