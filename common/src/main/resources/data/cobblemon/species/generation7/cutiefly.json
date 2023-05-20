@@ -26,6 +26,16 @@
     "bug",
     "fairy"
   ],
+  "behavior": {
+    "moving": {
+      "swim": {
+        "canWalkOnWater": true
+      },
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:absorb",
     "1:fairywind",
