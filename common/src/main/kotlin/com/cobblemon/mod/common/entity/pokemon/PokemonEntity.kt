@@ -53,10 +53,12 @@ import com.cobblemon.mod.common.util.*
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import net.minecraft.block.BlockState
+import net.minecraft.block.LeavesBlock
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
+import net.minecraft.entity.ai.pathing.LandPathNodeMaker
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
@@ -88,6 +90,7 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import kotlin.math.abs
 import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
@@ -857,7 +860,9 @@ class PokemonEntity(
 
     override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
         if (player != null) {
-            if(this.ownerUuid == player.uuid) goalSelector.tick()
+            if(this.ownerUuid == player.uuid) {
+                this.teleportToOwnerOrRecall()
+            }
         }
     }
 }
