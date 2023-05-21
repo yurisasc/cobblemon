@@ -861,62 +861,7 @@ class PokemonEntity(
     override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
         if (player != null) {
             if(this.ownerUuid == player.uuid) {
-                teleportToOwnerOrRecall()
-            }
-        }
-    }
-
-    /**
-     * Attempts to teleport near the owner.
-     * If it fails, the Pokémon is recalled.
-     * This does not check if the PokemonEntity has an owner.
-     */
-    fun teleportToOwnerOrRecall() {
-        // Derivative of net.minecraft.entity.ai.goal.FollowOwnerGoal.tryTeleport
-        val blockPos = this.owner!!.blockPos
-        var hasTeleported = false;
-        for (i in 0..9) {
-            val j = this.getRandom().nextInt(7) - 3
-            val k = this.getRandom().nextInt(3) - 1
-            val l = this.getRandom().nextInt(7) - 3
-            hasTeleported = this.tryTeleportTo(blockPos.x + j, blockPos.y + k, blockPos.z + l)
-            if (hasTeleported) {
-                break
-            }
-        }
-        if(!hasTeleported) pokemon.recall()
-    }
-
-    private fun tryTeleportTo(x : Int, y : Int, z : Int) : Boolean {
-        return if (abs(x - this.owner!!.x) < 2.0 && abs(z - this.owner!!.z) < 2.0) {
-            false
-        } else if(!canTeleportTo(BlockPos(x,y,z))) {
-            false
-        } else {
-            this.refreshPositionAndAngles(
-                x.toDouble() + 0.5,
-                y.toDouble(),
-                z.toDouble() + 0.5,
-                this.yaw,
-                this.pitch
-            )
-            navigation.stop()
-            true
-        }
-    }
-
-    private fun canTeleportTo(pos: BlockPos): Boolean {
-        val pathNodeType = LandPathNodeMaker.getLandNodeType(world, pos.mutableCopy())
-        return if (pathNodeType != PathNodeType.WALKABLE) {
-            false
-        } else {
-            val blockState = world.getBlockState(pos.down())
-            if (blockState.block is LeavesBlock) {
-                false
-            } else {
-                val blockPos = pos.subtract(this.blockPos)
-                world.isSpaceEmpty(this, this.boundingBox.offset(blockPos))
-                true
+                this.teleportToOwnerOrRecall()
             }
         }
     }
