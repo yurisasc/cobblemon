@@ -14,8 +14,11 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.LandPathNodeMaker
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.passive.TameableEntity
+import net.minecraft.server.world.ChunkTicketType
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
@@ -133,6 +136,12 @@ fun Entity.closestPosition(positions: Iterable<BlockPos>, filter: (BlockPos) -> 
 fun PokemonEntity.teleportToOwnerOrRecall() : Boolean {
     val success = this.teleportToOwner()
     if(!success) {
+        // We need to load the chunk via ticket so the entity being recalled doesn't get stuck in the unloaded chunk.
+        val chunkPos = ChunkPos(BlockPos(x, y, z))
+        (world as ServerWorld).chunkManager.addTicket(
+            ChunkTicketType.POST_TELEPORT, chunkPos, 0,
+            id
+        )
         pokemon.recall()
     }
     return success
@@ -145,7 +154,7 @@ fun PokemonEntity.teleportToOwnerOrRecall() : Boolean {
 fun TameableEntity.teleportToOwner() : Boolean {
     // Derivative of net.minecraft.entity.ai.goal.FollowOwnerGoal.tryTeleport
     val blockPos = this.owner!!.blockPos
-    var hasTeleported = false;
+    var hasTeleported = false
     for (i in 0..24) {
         // Since the original method runs 10x every tick,
         // we make this one run 25x when attempted,
