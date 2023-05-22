@@ -26,7 +26,7 @@
     "bug",
     "fairy"
   ],
-  "behavior": {
+  "behaviour": {
     "moving": {
       "swim": {
         "canWalkOnWater": true
@@ -145,10 +145,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.3,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 2,
     "fixed": false
   },
   "baseFriendship": 50,

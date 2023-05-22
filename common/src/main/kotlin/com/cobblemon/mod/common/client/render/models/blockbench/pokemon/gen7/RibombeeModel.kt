@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class RibombeeModel(root: ModelPart) : PokemonPoseableModel(){
     override val rootPart = root.registerChildWithAllChildren("ribombee")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.1, 0.1, 0.0)
+    override val portraitScale = 2.2F
+    override val portraitTranslation = Vec3d(-0.4, 2.7, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.1, 0.8, 0.0)
+    override val profileScale = 0.5F
+    override val profileTranslation = Vec3d(0.1, 1.4, 0.0)
 
     lateinit var idle: PokemonPose
     lateinit var walk: PokemonPose
@@ -42,7 +42,7 @@ class RibombeeModel(root: ModelPart) : PokemonPoseableModel(){
             idleAnimations = arrayOf(
                 bedrock("ribombee", "ground_idle")
             ),
-           transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -5F))
+           transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -12F))
         )
 
         walk = registerPose(
@@ -51,7 +51,7 @@ class RibombeeModel(root: ModelPart) : PokemonPoseableModel(){
             idleAnimations = arrayOf(
                 bedrock("ribombee", "ground_idle")
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -5F))
+            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -12F))
         )
     }
 }
