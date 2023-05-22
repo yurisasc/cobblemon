@@ -19,6 +19,16 @@
   "catchRate": 75,
   "maleRatio": 0.5,
   "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canWalkOnWater": true
+      },
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "forms": [
     {
       "name": "Totem",
@@ -53,16 +63,6 @@
         "bug",
         "fairy"
       ],
-      "behavior": {
-        "moving": {
-          "swim": {
-            "canWalkOnWater": true
-          },
-          "fly": {
-            "canFly": true
-          }
-        }
-      },
       "moves": [
         "1:absorb",
         "1:fairywind",
@@ -140,7 +140,13 @@
       "weight": 20,
       "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "baseScale": 0.9,
+      "hitbox": {
+        "width": 0.9,
+        "height": 2.6,
+        "fixed": false
+      }
     }
   ],
   "baseExperienceYield": 162,
@@ -244,10 +250,10 @@
   ],
   "preEvolution": "cutiefly",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.45,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 2.6,
     "fixed": false
   },
   "baseFriendship": 50,
