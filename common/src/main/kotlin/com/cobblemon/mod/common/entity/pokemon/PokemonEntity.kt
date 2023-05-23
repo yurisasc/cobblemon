@@ -75,6 +75,7 @@ import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ChunkTicketType
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -85,6 +86,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
@@ -865,7 +867,13 @@ class PokemonEntity(
         if (player != null) {
             if(this.ownerUuid == player.uuid) {
                 if(!beingRecalled) {
-                    this.teleportToOwnerOrRecall()
+                    // We're loading the chunk because it creates a ghost if we don't.
+                    val chunkPos = ChunkPos(BlockPos(x, y, z))
+                    (world as ServerWorld).chunkManager.addTicket(
+                        ChunkTicketType.POST_TELEPORT, chunkPos, 0,
+                        id
+                    )
+                    pokemon.recall()
                 }
             }
         }
