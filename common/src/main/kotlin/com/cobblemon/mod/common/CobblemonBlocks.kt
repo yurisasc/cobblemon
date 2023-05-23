@@ -13,7 +13,14 @@ import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
+import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.PCBlock
+import com.cobblemon.mod.common.mint.MintType
+import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
+import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
+import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker
+import com.cobblemon.mod.common.mixin.invoker.StairsBlockInvoker
+import com.cobblemon.mod.common.mixin.invoker.TrapdoorBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.*
@@ -178,6 +185,19 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
                 .luminance { if ((it.get(PCBlock.ON) as Boolean) && (it.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 }
         )
     )
+
+    @JvmField
+    val RED_MINT = create("red_mint", MintBlock(MintType.RED, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val BLUE_MINT = create("blue_mint", MintBlock(MintType.BLUE, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val CYAN_MINT = create("cyan_mint", MintBlock(MintType.CYAN, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val PINK_MINT = create("pink_mint", MintBlock(MintType.PINK, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val GREEN_MINT = create("green_mint", MintBlock(MintType.GREEN, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val WHITE_MINT = create("white_mint", MintBlock(MintType.WHITE, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
 
     /**
      * Returns a map of all the blocks that can be stripped with an axe in the format of input - output.

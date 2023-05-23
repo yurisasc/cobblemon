@@ -113,6 +113,14 @@ object CobblemonClient {
             CobblemonBlocks.YELLOW_APRICORN,
             CobblemonBlocks.HEALING_MACHINE,
             CobblemonBlocks.MEDICINAL_LEEK_CROP)
+            CobblemonBlocks.HEALING_MACHINE,
+            CobblemonBlocks.RED_MINT,
+            CobblemonBlocks.BLUE_MINT,
+            CobblemonBlocks.CYAN_MINT,
+            CobblemonBlocks.PINK_MINT,
+            CobblemonBlocks.GREEN_MINT,
+            CobblemonBlocks.WHITE_MINT,
+        )
     }
 
     fun beforeChatRender(matrixStack: MatrixStack, partialDeltaTicks: Float) {
