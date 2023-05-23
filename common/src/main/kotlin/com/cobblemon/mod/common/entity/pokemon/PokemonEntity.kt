@@ -303,8 +303,11 @@ class PokemonEntity(
         return super.isInvulnerableTo(damageSource)
     }
 
+    var beingRecalled = false;
+
     fun recallWithAnimation(): CompletableFuture<Pokemon> {
         val owner = owner
+        beingRecalled = true
         val future = CompletableFuture<Pokemon>()
         if (phasingTargetId.get() == -1 && owner != null) {
             owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL.get(), volume = 0.2F)
@@ -318,7 +321,7 @@ class PokemonEntity(
             pokemon.recall()
             future.complete(pokemon)
         }
-
+        future.whenComplete{ _, _ -> beingRecalled = false }
         return future
     }
 
@@ -861,7 +864,9 @@ class PokemonEntity(
     override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
         if (player != null) {
             if(this.ownerUuid == player.uuid) {
-                this.teleportToOwnerOrRecall()
+                if(!beingRecalled) {
+                    this.teleportToOwnerOrRecall()
+                }
             }
         }
     }
