@@ -358,8 +358,8 @@
   "cobblemon.drop.item.inventory": "You received %2$s (%1$sx).",
   "cobblemon.drop.item.full": "Your inventory was full so the %1$s dropped to the ground.",
 
-  "cobblemon.mint.interact": "%1$s's nature has changed!",
-  "cobblemon.mint.same_nature": "%1$s's nature seems unaffected by the %2$s.",
+  "cobblemon.mint.interact": "%1$s's stats has changed!",
+  "cobblemon.mint.same_nature": "%1$s's stats seems unaffected by the %2$s.",
 
   "cobblemon.command.general.invalid-party-slot": "There is no Pokémon in slot %1$s!",
   "cobblemon.command.givePokémon.give": "Gave %1$s to %2$s.",
