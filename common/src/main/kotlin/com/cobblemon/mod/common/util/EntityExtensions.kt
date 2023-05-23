@@ -177,12 +177,10 @@ private fun TameableEntity.tryTeleportTo(x : Int, y : Int, z : Int) : Boolean {
     } else if(!canTeleportTo(BlockPos(x,y,z))) {
         false
     } else {
-        this.refreshPositionAndAngles(
+        this.teleport(
             x.toDouble() + 0.5,
             y.toDouble(),
-            z.toDouble() + 0.5,
-            this.yaw,
-            this.pitch
+            z.toDouble() + 0.5
         )
         navigation.stop()
         true
