@@ -7,26 +7,13 @@
       "poser": "cobblemon:masquerain",
       "model": "cobblemon:masquerain.geo",
       "texture": "cobblemon:textures/pokemon/0284_masquerain/masquerain.png",
-      "layers": [
-        {
-          "name": "wings",
-          "texture": "cobblemon:textures/pokemon/0284_masquerain/masquerain_wings.png",
-          "translucent": true
-        }
-      ]
+      "layers": []
     },
     {
       "aspects": [
         "shiny"
       ],
-      "texture": "cobblemon:textures/pokemon/0284_masquerain/masquerain_shiny.png",
-      "layers": [
-        {
-          "name": "wings",
-          "texture": "cobblemon:textures/pokemon/0284_masquerain/masquerain_wings_shiny.png",
-          "translucent": true
-        }
-      ]
+      "texture": "cobblemon:textures/pokemon/0284_masquerain/masquerain_shiny.png"
     }
   ]
 }
