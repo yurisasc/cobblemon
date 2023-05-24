@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Cutiefly",
   "nationalPokedexNumber": 742,
   "primaryType": "bug",
@@ -145,9 +146,9 @@
       ]
     }
   ],
-  "baseScale": 0.45,
+  "baseScale": 0.3,
   "hitbox": {
-    "width": 1,
+    "width": 0.9,
     "height": 2,
     "fixed": false
   },

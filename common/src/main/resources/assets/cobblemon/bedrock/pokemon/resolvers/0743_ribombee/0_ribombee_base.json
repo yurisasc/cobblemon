@@ -1,19 +1,32 @@
 {
-  "species": "cobblemon:cutiefly",
+  "species": "cobblemon:ribombee",
   "order": 0,
   "variations": [
     {
       "aspects": [],
-      "poser": "cobblemon:cutiefly",
-      "model": "cobblemon:cutiefly.geo",
-      "texture": "cobblemon:textures/pokemon/0742_cutiefly/cutiefly.png",
-      "layers": []
+      "poser": "cobblemon:ribombee",
+      "model": "cobblemon:ribombee.geo",
+      "texture": "cobblemon:textures/pokemon/0743_ribombee/ribombee.png",
+      "layers": [
+        {
+          "name": "wings",
+          "texture": "cobblemon:textures/pokemon/0743_ribombee/ribombee_wings.png",
+          "translucent": true
+        }
+      ]
     },
     {
       "aspects": [
         "shiny"
       ],
-      "texture": "cobblemon:textures/pokemon/0742_cutiefly/cutiefly_shiny.png"
+      "texture": "cobblemon:textures/pokemon/0743_ribombee/ribombee_shiny.png",
+      "layers": [
+        {
+          "name": "wings",
+          "texture": "cobblemon:textures/pokemon/0743_ribombee/ribombee_wings_shiny.png",
+          "translucent": true
+        }
+      ]
     }
   ]
 }
