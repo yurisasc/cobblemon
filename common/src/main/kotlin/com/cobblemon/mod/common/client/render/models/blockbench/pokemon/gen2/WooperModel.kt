@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -17,6 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -34,10 +36,18 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var shoulderRight: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
 
     val shoulderOffset = 2.5
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("wooper", "blink").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("wooper", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
@@ -54,8 +64,7 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("wooper", "ground_idle")
-                //bedrock("wooper", "ground_walk")
+                bedrock("wooper", "ground_walk")
             )
         )
 
@@ -84,8 +93,8 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("wooper", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("wooper", "faint") else null
 }
