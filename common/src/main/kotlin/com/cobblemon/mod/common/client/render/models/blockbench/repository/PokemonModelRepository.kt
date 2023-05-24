@@ -425,6 +425,7 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("cutiefly", ::CutieflyModel)
         inbuilt("ribombee", ::RibombeeModel)
         inbuilt("carnivine", ::CarnivineModel)
+        inbuilt("falinks", ::FalinksModel)
 
 
 
