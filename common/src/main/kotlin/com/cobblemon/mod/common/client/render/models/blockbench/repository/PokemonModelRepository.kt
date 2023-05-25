@@ -428,6 +428,9 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("falinks", ::FalinksModel)
         inbuilt("stufful", ::StuffulModel)
         inbuilt("bewear", ::BewearModel)
+        inbuilt("scatterbug", ::ScatterbugModel)
+        inbuilt("spewpa", ::SpewpaModel)
+        inbuilt("vivillon", ::VivillonModel)
 
 
 
