@@ -19,7 +19,7 @@
   "behaviour": {
     "moving": {
       "walk": {
-        "walkSpeed": 0.23
+        "walkSpeed": 0.15
       }
     },
     "resting": {
@@ -127,6 +127,12 @@
       ]
     }
   ],
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 0.8,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.naclstack.desc"

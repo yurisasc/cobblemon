@@ -18,8 +18,8 @@
   "behaviour": {
     "moving": {
       "canLook": false,
-      "walking": {
-        "walkSpeed": 0.15
+      "walk": {
+        "walkSpeed": 0.25
       }
     }
   },

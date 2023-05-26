@@ -274,6 +274,7 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("honchkrow", ::HonchkrowModel)
         inbuilt("nacli", :: NacliModel)
         inbuilt("naclstack", :: NaclstackModel)
+        inbuilt("garganacl", ::GarganaclModel)
         inbuilt("dhelmise", :: DhelmiseModel)
         inbuilt("alcremie", :: AlcremieModel)
         inbuilt("milcery", :: MilceryModel)
@@ -426,6 +427,11 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("ribombee", ::RibombeeModel)
         inbuilt("carnivine", ::CarnivineModel)
         inbuilt("falinks", ::FalinksModel)
+        inbuilt("stufful", ::StuffulModel)
+        inbuilt("bewear", ::BewearModel)
+        inbuilt("scatterbug", ::ScatterbugModel)
+        inbuilt("spewpa", ::SpewpaModel)
+        inbuilt("vivillon", ::VivillonModel)
 
 
 

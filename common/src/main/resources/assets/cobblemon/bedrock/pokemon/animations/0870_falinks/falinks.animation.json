@@ -14,7 +14,7 @@
 			"bones": {
 				"torso": {
 					"rotation": [
-						0,
+						"math.sin(q.anim_time*90*4*2-180-90)*5 + math.sin(q.anim_time*90*4*3*2+180-270)*5/10",
 						"math.sin(q.anim_time*90*4-180)*5 + math.sin(q.anim_time*90*4*3+180)*5/10",
 						"math.sin(q.anim_time*90*4)*5 + math.sin(q.anim_time*90*4*3)*5/10"
 					],
@@ -46,7 +46,7 @@
 				},
 				"torso2": {
 					"rotation": [
-						0,
+						"math.sin(q.anim_time*90*4*2-180-90-60)*5 + math.sin(q.anim_time*90*4*3*2+180-270-180)*5/10",
 						"math.sin(q.anim_time*90*4-180-30)*5 + math.sin(q.anim_time*90*4*3+180-90)*5/10",
 						"math.sin(q.anim_time*90*4-30)*5 + math.sin(q.anim_time*90*4*3-90)*5/10"
 					],
@@ -70,7 +70,7 @@
 				},
 				"torso3": {
 					"rotation": [
-						0,
+						"math.sin(q.anim_time*90*4*2-180-90-60-60)*5 + math.sin(q.anim_time*90*4*3*2+180-270-180-180)*5/10",
 						"math.sin(q.anim_time*90*4-180-30-30)*5 + math.sin(q.anim_time*90*4*3+180-90-90)*5/10",
 						"math.sin(q.anim_time*90*4-30-30)*5 + math.sin(q.anim_time*90*4*3-90-90)*5/10"
 					],
@@ -94,7 +94,7 @@
 				},
 				"torso4": {
 					"rotation": [
-						0,
+						"math.sin(q.anim_time*90*4*2-180-90-60-60-60)*5 + math.sin(q.anim_time*90*4*3*2+180-270-180-180-180)*5/10",
 						"math.sin(q.anim_time*90*4-180-30-30-30)*5 + math.sin(q.anim_time*90*4*3+180-90-90-90)*5/10",
 						"math.sin(q.anim_time*90*4-30-30-30)*5 + math.sin(q.anim_time*90*4*3-90-90-90)*5/10"
 					],
@@ -118,7 +118,7 @@
 				},
 				"torso5": {
 					"rotation": [
-						0,
+						"math.sin(q.anim_time*90*4*2-180-90-60-60-60-60)*5 + math.sin(q.anim_time*90*4*3*2+180-270-180-180-180-180)*5/10",
 						"math.sin(q.anim_time*90*4-180-30-30-30-30)*5 + math.sin(q.anim_time*90*4*3+180-90-90-90-90)*5/10",
 						"math.sin(q.anim_time*90*4-30-30-30-30)*5 + math.sin(q.anim_time*90*4*3-90-90-90-90)*5/10"
 					],
@@ -142,7 +142,7 @@
 				},
 				"torso6": {
 					"rotation": [
-						0,
+						"math.sin(q.anim_time*90*4*2-180-90-60-60-60-60-60)*5 + math.sin(q.anim_time*90*4*3*2+180-270-180-180-180-180-180)*5/10",
 						"math.sin(q.anim_time*90*4-180-30-30-30-30-30)*5 + math.sin(q.anim_time*90*4*3+180-90-90-90-90-90)*5/10",
 						"math.sin(q.anim_time*90*4-30-30-30-30-30)*5 + math.sin(q.anim_time*90*4*3-90-90-90-90-90)*5/10"
 					],
@@ -163,6 +163,9 @@
 						"1+math.sin(q.anim_time*90*4-30-30-30-30-30)*1 + math.sin(q.anim_time*90*4*3-90-90-90-90-90)*1/10",
 						"-1.75+math.sin(q.anim_time*90*4-30-30-30-30-30)*-2 - math.sin(q.anim_time*90*4*3-90-90-90-90-90)*2/10 + 2*math.sin(q.anim_time*90*4-90-180-30-30-30-30-30 + math.sin(q.anim_time*90*4-90-180-30-30-30-30-30)*30)"
 					]
+				},
+				"falinks": {
+					"position": [0, 0, 0]
 				}
 			}
 		},
@@ -309,5 +312,6 @@
 				}
 			}
 		}
-	}
+	},
+	"geckolib_format_version": 2
 }
