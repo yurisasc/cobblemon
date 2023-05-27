@@ -112,7 +112,7 @@ object CobblemonClient {
             CobblemonBlocks.WHITE_APRICORN,
             CobblemonBlocks.YELLOW_APRICORN,
             CobblemonBlocks.HEALING_MACHINE,
-            CobblemonBlocks.MEDICINAL_LEEK_CROP)
+            CobblemonBlocks.MEDICINAL_LEEK_CROP,
             CobblemonBlocks.HEALING_MACHINE,
             CobblemonBlocks.RED_MINT,
             CobblemonBlocks.BLUE_MINT,

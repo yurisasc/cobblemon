@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:simple_random_selector",
+  "placement": [
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "Name": "cobblemon:medicinal_leeks"
+        }
+      }
+    }
+  ],
+  "config": {
+    "features": "cobblemon:medicinal_leeks"
+  }
+}

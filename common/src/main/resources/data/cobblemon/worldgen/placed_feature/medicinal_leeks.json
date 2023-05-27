@@ -1,0 +1,16 @@
+{
+  "feature": "cobblemon:medicinal_leeks",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 50
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "WORLD_SURFACE"
+    }
+  ]
+}
