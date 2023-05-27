@@ -16,7 +16,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 object InteractPokemonHandler : ServerNetworkPacketHandler<InteractPokemonPacket> {
     override fun handle(packet: InteractPokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
-        val pokemonEntity = player.getWorld().getEntity(packet.pokemonID);
+        val pokemonEntity = player.getWorld().getEntity(packet.pokemonID)
         if (pokemonEntity is PokemonEntity) {
             if (packet.mountShoulder) {
                 if (!pokemonEntity.isReadyToSitOnPlayer) {
@@ -24,9 +24,9 @@ object InteractPokemonHandler : ServerNetworkPacketHandler<InteractPokemonPacket
                 }
                 pokemonEntity.tryMountingShoulder(player)
             } else if (packet.ride) {
-                if (pokemonEntity.pokemon.supportsRiding()) {
-                    val seat = pokemonEntity.pokemon.seats().first { !it.occupied(pokemonEntity) }
-                    seat.attach(pokemonEntity, player)
+                if (pokemonEntity.pokemon.riding.supported()) {
+                    val seat = pokemonEntity.seats.first { it.acceptsRider(player, pokemonEntity) }
+                    seat.mount(pokemonEntity, player)
                 }
             } else {
                 pokemonEntity.offerHeldItem(player, player.mainHandStack)

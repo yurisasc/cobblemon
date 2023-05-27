@@ -3,16 +3,16 @@ package com.cobblemon.mod.common.pokemon.riding
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
-import com.cobblemon.mod.common.api.riding.properties.MountProperties
-import com.cobblemon.mod.common.api.riding.properties.RidingProperties
-import com.cobblemon.mod.common.api.riding.properties.Seat
-import com.cobblemon.mod.common.api.riding.types.MountType
+import com.cobblemon.mod.common.api.riding.properties.mounting.MountProperties
+import com.cobblemon.mod.common.api.riding.properties.riding.RidingProperties
+import com.cobblemon.mod.common.api.riding.properties.mounting.MountType
+import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 import com.google.gson.annotations.SerializedName
 import net.minecraft.network.PacketByteBuf
 
 data class CobblemonRidingProperties(
     @SerializedName("seats")
-    private val _seats: List<Seat>? = null,
+    private val _seats: List<SeatProperties>? = null,
 
     @SerializedName("conditions")
     private val _conditions: List<RidingCondition>? = null,
@@ -29,7 +29,7 @@ data class CobblemonRidingProperties(
         return this._properties.isNotEmpty() && this._seats?.isNotEmpty() ?: false
     }
 
-    override fun seats(): List<Seat> {
+    override fun seats(): List<SeatProperties> {
         return this._seats ?: listOf()
     }
 
@@ -43,13 +43,13 @@ data class CobblemonRidingProperties(
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeNullable(this._seats) { _, seats -> buffer.writeCollection(seats) { _, seat -> seat.encode(buffer) } }
-        for(entry in this._properties.entries) {
-            buffer.writeIdentifier(entry.key.identifier)
-
-        }
+//        for(entry in this._properties.entries) {
+//            buffer.writeIdentifier(entry.key.identifier)
+//
+//        }
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        buffer.readNullable { _ -> buffer.readList { _ -> Seat.decode(buffer) } }
+        buffer.readNullable { _ -> buffer.readList { _ -> SeatProperties.decode(buffer) } }
     }
 }

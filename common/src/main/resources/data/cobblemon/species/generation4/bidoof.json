@@ -183,7 +183,7 @@
   "aspects": [],
   "cannotDynamax": false,
   "riding": {
-    "properties": [
+    "mounts": [
       {
         "key": "land",
         "attributes": {
@@ -194,6 +194,7 @@
     ],
     "seats": [
       {
+        "driver": true,
         "offset": {
           "x": 0.0,
           "y": -0.15,

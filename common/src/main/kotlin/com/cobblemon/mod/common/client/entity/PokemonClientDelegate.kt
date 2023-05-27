@@ -99,6 +99,8 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                 }
             }
         })
+
+        entity.subscriptions.add(entity.seatUpdater.subscribe { entity.seats = it.map { it.create(entity) } })
     }
 
     override fun initialize(entity: PokemonEntity) {

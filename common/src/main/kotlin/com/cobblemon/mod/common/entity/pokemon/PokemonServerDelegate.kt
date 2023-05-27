@@ -36,6 +36,8 @@ class PokemonServerDelegate : PokemonSideDelegate {
         updatePathfindingPenalties(pokemon)
         entity.initGoals()
         updateMaxHealth()
+
+        entity.seats = pokemon.riding.seats().map { it.create() }
     }
 
     fun updatePathfindingPenalties(pokemon: Pokemon) {

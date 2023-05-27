@@ -48,12 +48,7 @@ import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.riding.properties.Seat
-import com.cobblemon.mod.common.api.riding.attributes.RidingAttribute
-import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
-import com.cobblemon.mod.common.api.riding.properties.RidingProperties
-import com.cobblemon.mod.common.api.riding.types.CobblemonMountingTypes
-import com.cobblemon.mod.common.api.riding.types.MountType
+import com.cobblemon.mod.common.api.riding.properties.riding.RidingProperties
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
@@ -110,7 +105,6 @@ import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
-import java.util.Collections
 
 open class Pokemon : ShowdownIdentifiable {
     var uuid = UUID.randomUUID()

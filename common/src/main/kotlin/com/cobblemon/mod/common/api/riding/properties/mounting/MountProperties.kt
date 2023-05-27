@@ -1,7 +1,6 @@
-package com.cobblemon.mod.common.api.riding.properties
+package com.cobblemon.mod.common.api.riding.properties.mounting
 
 import com.cobblemon.mod.common.api.riding.attributes.RidingAttribute
-import com.cobblemon.mod.common.api.riding.types.MountType
 
 interface MountProperties {
 

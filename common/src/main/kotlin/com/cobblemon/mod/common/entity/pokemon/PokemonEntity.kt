@@ -20,11 +20,15 @@ import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.SeatDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.api.riding.Rideable
+import com.cobblemon.mod.common.api.riding.properties.riding.RidingProperties
+import com.cobblemon.mod.common.api.riding.seats.Seat
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
@@ -107,7 +111,7 @@ class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
-) : TameableShoulderEntity(type, world), Poseable, Shearable {
+) : TameableShoulderEntity(type, world), Poseable, Shearable, Rideable {
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
     val subscriptions = mutableListOf<ObservableSubscription<*>>()
@@ -158,6 +162,12 @@ class PokemonEntity(
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
     internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
+    internal val seatUpdater = addEntityProperty(SEAT_UPDATER, listOf())
+
+    override val properties: RidingProperties
+        get() = TODO("Not yet implemented")
+
+    override var seats: List<Seat> = pokemon.riding.seats().map { it.create() }
 
     /**
      * 0 is do nothing,
@@ -221,6 +231,7 @@ class PokemonEntity(
         val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val POSE_TYPE = DataTracker.registerData(PokemonEntity::class.java, PoseTypeDataSerializer)
         val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        val SEAT_UPDATER = DataTracker.registerData(PokemonEntity::class.java, SeatDataSerializer)
 
         const val BATTLE_LOCK = "battle"
 
@@ -477,7 +488,7 @@ class PokemonEntity(
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
-                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer, this.canStartRiding(this)).sendToPlayer(player)
+                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer, this.canStartRiding(player)).sendToPlayer(player)
             } else {
                 // TODO #105
                 if (this.attemptItemInteraction(player, player.getStackInHand(hand))) return ActionResult.SUCCESS
@@ -850,8 +861,8 @@ class PokemonEntity(
 
     override fun canStartRiding(entity: Entity): Boolean {
         if(this.pokemon.riding.supported() && super.canStartRiding(entity)) {
-            val seats = this.pokemon.riding.seats()
-            return seats.any { !it.occupied(this) }
+            val seats = this.seats
+            return seats.any { it.acceptsRider(entity, this) }
         }
 
         return false
@@ -873,9 +884,9 @@ class PokemonEntity(
 
     override fun updatePassengerPosition(passenger: Entity) {
         if(this.hasPassenger(passenger)) {
-            val seat = this.pokemon.riding.seats().firstOrNull { it.occupant(this) == passenger }
+            val seat = this.seats.firstOrNull { it.occupant() == passenger }
             if (seat != null) {
-                val offset = seat.offset.rotateY(-this.bodyYaw * (Math.PI.toFloat() / 180))
+                val offset = seat.properties.offset.rotateY(-this.bodyYaw * (Math.PI.toFloat() / 180))
                 passenger.setPosition(this.pos.add(offset))
                 if(passenger is LivingEntity) {
                     passenger.bodyYaw = this.bodyYaw
@@ -884,10 +895,14 @@ class PokemonEntity(
         }
     }
 
+    // TODO - Need to fix client side knowledge of seat occupants
     override fun getControllingPassenger(): LivingEntity? {
-        // TODO - Only the owner of the pokemon itself should be allowed to control the pokemon
-        val seat = this.pokemon.riding.seats().firstOrNull { it.occupied(this) }
-        val occupant = seat?.occupant(this)
+        val seat = this.seats.firstOrNull { it.properties.driver }
+        val occupant = seat?.occupant()
+
+        if(seat != null) {
+            seat.properties.driver
+        }
 
         if(occupant is LivingEntity) {
             return occupant
@@ -897,8 +912,8 @@ class PokemonEntity(
     }
 
     override fun updatePassengerForDismount(passenger: LivingEntity?): Vec3d {
-        val seat = this.pokemon.riding.seats().firstOrNull { it.occupant(this) == passenger }
-        seat?.detach(this)
+        val seat = this.seats.firstOrNull { it.occupant() == passenger }
+        seat?.dismount(this)
         return super.updatePassengerForDismount(passenger)
     }
 
@@ -916,4 +931,5 @@ class PokemonEntity(
     override fun getSaddledSpeed(controllingPassenger: LivingEntity?): Float {
         return this.pokemon.form.behaviour.moving.walk.walkSpeed
     }
+
 }
