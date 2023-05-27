@@ -1,0 +1,12 @@
+{
+  "poses": {
+    "evolve": {
+      "poseName": "evolve",
+      "transformTicks": 0,
+      "poseTypes": ["NONE"],
+      "animations": [
+        "bedrock(evolution, evolution)"
+      ]
+    }
+  }
+}

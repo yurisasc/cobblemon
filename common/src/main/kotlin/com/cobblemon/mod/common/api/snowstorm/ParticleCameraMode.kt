@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.api.snowstorm
 import com.cobblemon.mod.common.api.codec.CodecMapped
 import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.client.render.MatrixWrapper
+import com.cobblemon.mod.common.util.math.geometry.Axis
+import com.cobblemon.mod.common.util.math.geometry.toDegrees
 import com.cobblemon.mod.common.util.math.hamiltonProduct
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
@@ -20,12 +22,19 @@ import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.pow
 import kotlin.math.sqrt
+import kotlin.random.Random
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 import org.joml.AxisAngle4d
 import org.joml.Quaternionf
+import org.joml.Quaternionfc
+import org.joml.Vector3d
+import org.joml.Vector3f
+import org.joml.Vector3fc
+import org.joml.Vector4f
 
 interface ParticleCameraMode : CodecMapped {
     companion object : ArbitrarilyMappedSerializableCompanion<ParticleCameraMode, ParticleCameraModeType>(
@@ -54,6 +63,8 @@ interface ParticleCameraMode : CodecMapped {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -77,6 +88,8 @@ class RotateXYZCameraMode : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -109,6 +122,8 @@ class RotateYCameraMode : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -146,13 +161,15 @@ class LookAtXYZ : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
         viewDirection: Vec3d
     ): Quaternionf {
         val i = if (angle == 0F) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
-        val rotation = Quaternionf(0F, 0F, 0F, 1F)
+        val rotation = Quaternionf()
         rotation.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(-cameraYaw))
         rotation.hamiltonProduct(RotationAxis.POSITIVE_X.rotationDegrees(cameraPitch))
         rotation.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(i))
@@ -174,11 +191,18 @@ class LookAtY : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
         viewDirection: Vec3d
     ): Quaternionf {
+        /*
+        val vec = matrixWrapper.getOrigin().add(particlePosition)
+        val v = cameraPosition.withAxis(Direction.Axis.Y, vec.y)
+*/
+
         val rotation = Quaternionf(0F, 0F, 0F, 1F)
         rotation.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(-cameraYaw))
         return rotation
@@ -203,6 +227,8 @@ class DirectionZ : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -236,6 +262,8 @@ class EmitterYZPlane : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -274,6 +302,8 @@ class EmitterXZPlane : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -311,6 +341,8 @@ class EmitterXYPlane : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -347,6 +379,8 @@ class DirectionY : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -380,6 +414,8 @@ class DirectionX : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -413,17 +449,45 @@ class LookAtDirection : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
         viewDirection: Vec3d
     ): Quaternionf {
-        val i = if (angle == 0F) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
-        val rotation = Quaternionf(0F, 0F, 0F, 1F)
-        rotation.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees((viewDirection.x * -cameraYaw).toFloat()))
-        rotation.hamiltonProduct(RotationAxis.POSITIVE_X.rotationDegrees((viewDirection.y * cameraPitch).toFloat()))
-        rotation.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees((viewDirection.z * i).toFloat()))
-        return rotation
+        val fixedParticlePos = particlePosition.withAxis(Direction.Axis.Y, cameraPosition.y)
+        val turnVec = fixedParticlePos.subtract(cameraPosition).normalize()
+        val y = atan2(turnVec.x, turnVec.z)
+        val i = if (angle == 0.0f) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
+        val q = Quaternionf().rotateTo(
+            Vector3f(1F, 0F, 0F),
+            viewDirection.let { Vector3f(it.x.toFloat(), it.y.toFloat(), it.z.toFloat()) }
+        )
+            .hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(y.toDegrees()))
+//            .hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(i))
+        return q
+//
+//        val toParticle = fixedParticlePos.subtract(cameraPosition).let { Vector3f(it.x.toFloat(), it.y.toFloat(), it.z.toFloat()) }
+////        q.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(Random.Default.nextFloat() * 360))
+////        val y = atan2(viewDirection.x, viewDirection.z)
+//        val z = atan2(viewDirection.y, sqrt(viewDirection.x.pow(2.0) + viewDirection.z.pow(2.0)))
+//        q.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(y.toFloat()))
+//        q.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(z.toFloat()))
+//        return q
+//
+//
+//        val v = matrixWrapper.transformPosition(viewDirection).add(matrixWrapper.position)
+///*
+//        val vec = matrixWrapper.getOrigin().add(particlePosition)
+//        val v = cameraPosition.withAxis(Direction.Axis.Y, vec.y)
+//*/
+//        val i = if (angle == 0F) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
+//        val rotation = Quaternionf(0F, 0F, 0F, 1F)
+//        rotation.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees((viewDirection.x * -cameraYaw).toFloat()))
+//        rotation.hamiltonProduct(RotationAxis.POSITIVE_X.rotationDegrees((viewDirection.y * cameraPitch).toFloat()))
+//        rotation.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees((viewDirection.z * i).toFloat()))
+//        return rotation
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)

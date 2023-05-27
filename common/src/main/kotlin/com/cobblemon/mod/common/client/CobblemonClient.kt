@@ -19,10 +19,12 @@ import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
+import com.cobblemon.mod.common.client.render.generic.GenericBedrockRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
@@ -146,15 +148,21 @@ object CobblemonClient {
         return PokeBallRenderer(context)
     }
 
+    fun registerGenericBedrockRenderer(context: EntityRendererFactory.Context): GenericBedrockRenderer {
+        LOGGER.info("Registering Generic Bedrock renderer")
+        return GenericBedrockRenderer(context)
+    }
+
     fun reloadCodedAssets(resourceManager: ResourceManager) {
         LOGGER.info("Loading assets...")
         BedrockParticleEffectRepository.loadEffects(resourceManager)
         BedrockAnimationRepository.loadAnimations(
             resourceManager = resourceManager,
-            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories
+            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + GenericBedrockModelRepository.animationDirectories
         )
         PokemonModelRepository.reload(resourceManager)
         PokeBallModelRepository.reload(resourceManager)
+        GenericBedrockModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
 //        PokeBallModelRepository.reload(resourceManager)
     }

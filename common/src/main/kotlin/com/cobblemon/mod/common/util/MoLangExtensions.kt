@@ -14,9 +14,14 @@ import com.bedrockk.molang.ast.NumberExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.MoScope
 import com.bedrockk.molang.runtime.value.MoValue
+import java.lang.IllegalArgumentException
 import net.minecraft.util.math.Vec3d
 
-fun MoLangRuntime.resolve(expression: Expression): MoValue = expression.evaluate(MoScope(), environment)
+fun MoLangRuntime.resolve(expression: Expression): MoValue = try {
+    expression.evaluate(MoScope(), environment)
+} catch (e: Exception) {
+    throw IllegalArgumentException("Unable to parse expression: ${expression.getString()}", e)
+}
 fun MoLangRuntime.resolveDouble(expression: Expression): Double = resolve(expression).asDouble()
 fun MoLangRuntime.resolveInt(expression: Expression): Int = resolveDouble(expression).toInt()
 

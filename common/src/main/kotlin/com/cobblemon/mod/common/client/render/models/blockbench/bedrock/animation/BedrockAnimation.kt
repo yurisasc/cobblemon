@@ -76,6 +76,7 @@ data class BedrockAnimation(
                     continue
                 }
 
+                println("$animationSeconds Spawning effect ${particleEffect.effect.id}!")
                 val storm = ParticleStorm(
                     effect = effect,
                     matrixWrapper = matrixWrapper,

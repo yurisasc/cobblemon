@@ -110,8 +110,8 @@ class SnowstormParticle(
 
         applyRandoms()
         setParticleAgeInRuntime()
-        storm.effect.curves.forEach { it.apply(storm.runtime) }
         storm.runtime.execute(storm.effect.particle.renderExpressions)
+
 //        // TODO need to implement the other materials but not sure exactly what they are GL wise
 //        when (storm.effect.particle.material) {
 //            ParticleMaterial.ALPHA -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
@@ -130,6 +130,8 @@ class SnowstormParticle(
             prevAngle = prevAngle,
             angle = angle,
             deltaTicks = tickDelta,
+            particlePosition = Vec3d(x, y, z),
+            cameraPosition = camera.pos,
             cameraAngle = camera.rotation,
             cameraYaw = camera.yaw,
             cameraPitch = camera.pitch,

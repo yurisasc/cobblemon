@@ -73,6 +73,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
             CobblemonClient.initialize(this)
             EntityRenderers.register(CobblemonEntities.POKEMON) { CobblemonClient.registerPokemonRenderer(it) }
             EntityRenderers.register(CobblemonEntities.EMPTY_POKEBALL) { CobblemonClient.registerPokeBallRenderer(it) }
+            EntityRenderers.register(CobblemonEntities.GENERIC_BEDROCK_ENTITY) { CobblemonClient.registerGenericBedrockRenderer(it) }
         }
         ForgeClientPlatformEventHandler.register()
     }

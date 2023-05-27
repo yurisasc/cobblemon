@@ -28,7 +28,6 @@ import net.minecraft.util.Identifier
 abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     val posers = mutableMapOf<Identifier, (ModelPart) -> M>()
     val variations = mutableMapOf<Identifier, VaryingRenderableResolver<E, M>>()
-
     val texturedModels = mutableMapOf<Identifier, TexturedModel>()
 
     abstract val title: String

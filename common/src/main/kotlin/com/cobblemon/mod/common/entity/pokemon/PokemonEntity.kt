@@ -739,7 +739,7 @@ class PokemonEntity(
     }
 
     fun getIsSubmerged() = isInLava || isSubmergedInWater
-    override fun getPoseType(): PoseType = this.poseType.get()
+    override fun getCurrentPoseType(): PoseType = this.poseType.get()
 
     /**
      * Returns the [Species.translatedName] of the backing [pokemon].

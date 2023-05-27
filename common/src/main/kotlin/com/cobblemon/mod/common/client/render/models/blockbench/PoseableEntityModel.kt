@@ -174,6 +174,7 @@ abstract class PoseableEntityModel<T : Entity>(
     }
 
     fun getPart(name: String) = relevantPartsByName[name]!!.modelPart
+    fun getPartFallback(vararg names: String) = names.firstNotNullOfOrNull { relevantPartsByName[it]?.modelPart } ?: rootPart
 
     private fun loadSpecificNamedChildren(modelPart: ModelPart, nameList: Iterable<String>) {
         for ((name, child) in modelPart.children.entries) {
@@ -294,7 +295,7 @@ abstract class PoseableEntityModel<T : Entity>(
         updateLocators(state)
         var poseName = state.getPose()
         var pose = poseName?.let { getPose(it) }
-        val entityPoseType = if (entity is Poseable) entity.getPoseType() else null
+        val entityPoseType = if (entity is Poseable) entity.getCurrentPoseType() else null
 
         if (entity != null && (poseName == null || pose == null || !pose.condition(entity) || entityPoseType !in pose.poseTypes)) {
             val desirablePose = poses.values.firstOrNull { (entityPoseType == null || entityPoseType in it.poseTypes) && it.condition(entity) }

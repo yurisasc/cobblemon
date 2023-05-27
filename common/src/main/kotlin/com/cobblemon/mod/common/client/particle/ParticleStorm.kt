@@ -102,17 +102,24 @@ class ParticleStorm(
         runtime.environment.setSimpleVariable("emitter_age", DoubleValue(age / 20.0))
         runtime.execute(effect.emitter.updateExpressions)
 
+        // curves
+
+        var toEmit = 0
+
         when (effect.emitter.lifetime.getAction(runtime, started, age / 20.0)) {
             ParticleEmitterAction.GO -> {
-                val toEmit = effect.emitter.rate.getEmitCount(runtime, started, particles.size)
+                toEmit = effect.emitter.rate.getEmitCount(runtime, started, particles.size)
                 started = true
-                repeat(times = toEmit) {
-                    spawnParticle()
-                }
             }
             ParticleEmitterAction.NOTHING -> {}
             ParticleEmitterAction.STOP -> stopped = true
             ParticleEmitterAction.RESET -> started = false
+        }
+
+        effect.curves.forEach { it.apply(runtime) }
+
+        repeat(times = toEmit) {
+            spawnParticle()
         }
     }
 

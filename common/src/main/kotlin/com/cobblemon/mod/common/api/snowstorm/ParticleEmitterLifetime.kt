@@ -12,11 +12,13 @@ import com.bedrockk.molang.Expression
 import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.ast.NumberExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.codec.CodecMapped
 import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
+import com.cobblemon.mod.common.util.resolve
 import com.cobblemon.mod.common.util.resolveBoolean
 import com.cobblemon.mod.common.util.resolveDouble
 import com.mojang.serialization.Codec
@@ -55,7 +57,9 @@ class OnceEmitterLifetime(var activeTime: Expression = 1.0.asExpression()) : Par
     override val type = ParticleEmitterLifetimeType.ONCE
 
     override fun getAction(runtime: MoLangRuntime, started: Boolean, emitterAge: Double): ParticleEmitterAction {
-        return if (emitterAge > runtime.resolveDouble(activeTime)) {
+        val activeTime = runtime.resolve(activeTime)
+        runtime.environment.setSimpleVariable("emitter_lifetime", activeTime)
+        return if (emitterAge > activeTime.asDouble()) {
             ParticleEmitterAction.STOP
         } else {
             ParticleEmitterAction.GO
@@ -127,11 +131,13 @@ class LoopingEmitterLifetime(var activeTime: Expression = 1.0.asExpression(), va
     override val type = ParticleEmitterLifetimeType.LOOPING
 
     override fun getAction(runtime: MoLangRuntime, started: Boolean, emitterAge: Double): ParticleEmitterAction {
-        val activeTime = runtime.resolveDouble(activeTime)
+        val activeTime = runtime.resolve(activeTime)
+        val activeTimeValue = activeTime.asDouble()
         val sleepTime = runtime.resolveDouble(sleepTime)
-        val interval = activeTime + sleepTime
+        val interval = activeTimeValue + sleepTime
         val displacement = emitterAge % interval
-        return if (displacement < activeTime) {
+        runtime.environment.setSimpleVariable("emitter_lifetime", activeTime)
+        return if (displacement < activeTimeValue) {
             ParticleEmitterAction.GO
         } else {
             ParticleEmitterAction.RESET

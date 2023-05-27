@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation

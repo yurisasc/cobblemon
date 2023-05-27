@@ -9,8 +9,11 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.particle.SnowstormParticleReader
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.fromJson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -18,7 +21,6 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import java.io.File
-import java.io.PrintWriter
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
@@ -38,7 +40,21 @@ object TestCommand {
         }
 
         try {
-            testParticles(context)
+            val w = context.source.world
+            val e = GenericBedrockEntity(world = w).apply {
+                category = cobblemonResource("evolution")
+//                colliderHeight = 3F
+//                colliderWidth = 1.5F
+//                savesToWorld = true
+            }
+
+            val p = context.source.entity!!.pos.add(2.0, 0.0, 0.0)
+            e.setPos(p.x, p.y, p.z)
+            w.spawnEntity(e)
+            after(seconds = 10F) {
+                e.kill()
+            }
+//            testParticles(context)
 
 //            extractMovesData()
 //            // Player variables

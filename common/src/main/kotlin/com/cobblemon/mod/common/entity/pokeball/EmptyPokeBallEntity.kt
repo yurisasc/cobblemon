@@ -401,7 +401,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
         }
     }
 
-    override fun getPoseType(): PoseType {
+    override fun getCurrentPoseType(): PoseType {
         return PoseType.NONE
     }
 

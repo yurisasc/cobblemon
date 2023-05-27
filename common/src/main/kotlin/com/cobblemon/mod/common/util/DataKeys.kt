@@ -101,4 +101,13 @@ object DataKeys {
     // Features
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
+
+    /* Generic Bedrock Entity */
+    const val GENERIC_BEDROCK_CATEGORY = "Category"
+    const val GENERIC_BEDROCK_ASPECTS = "Aspects"
+    const val GENERIC_BEDROCK_POSE_TYPE = "PoseType"
+    const val GENERIC_BEDROCK_SCALE = "Scale"
+    const val GENERIC_BEDROCK_COLLIDER_WIDTH = "Width"
+    const val GENERIC_BEDROCK_COLLIDER_HEIGHT = "Height"
+
 }
