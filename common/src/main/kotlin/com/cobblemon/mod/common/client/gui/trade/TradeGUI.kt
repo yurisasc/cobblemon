@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.client.gui.trade
 
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.client.trade.ClientTrade
+import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket.TradeablePokemon
 import com.cobblemon.mod.common.net.messages.server.trade.CancelTradePacket
 import com.cobblemon.mod.common.net.messages.server.trade.ChangeTradeAcceptancePacket
 import com.cobblemon.mod.common.net.messages.server.trade.UpdateTradeOfferPacket
@@ -28,7 +30,8 @@ import net.minecraft.text.MutableText
 class TradeGUI(
     val trade: ClientTrade,
     val traderId: UUID,
-    val traderName: MutableText
+    val traderName: MutableText,
+    val traderParty: List<TradeablePokemon>
 ): Screen(lang("trade.gui.title")) {
 
 

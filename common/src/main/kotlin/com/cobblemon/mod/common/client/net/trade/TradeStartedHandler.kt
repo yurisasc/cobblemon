@@ -19,7 +19,6 @@ object TradeStartedHandler : ClientNetworkPacketHandler<TradeStartedPacket> {
     override fun handle(packet: TradeStartedPacket, client: MinecraftClient) {
         val trade = ClientTrade()
         CobblemonClient.trade = trade
-        CobblemonClient.trade = trade
-        MinecraftClient.getInstance().setScreen(TradeGUI(trade, packet.traderId, packet.traderName))
+        MinecraftClient.getInstance().setScreen(TradeGUI(trade, packet.traderId, packet.traderName, packet.traderParty))
     }
 }
