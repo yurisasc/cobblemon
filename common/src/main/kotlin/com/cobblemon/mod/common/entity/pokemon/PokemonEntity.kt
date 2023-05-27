@@ -895,7 +895,6 @@ class PokemonEntity(
         }
     }
 
-    // TODO - Need to fix client side knowledge of seat occupants
     override fun getControllingPassenger(): LivingEntity? {
         val seat = this.seats.firstOrNull { it.properties.driver }
         val occupant = seat?.occupant()
