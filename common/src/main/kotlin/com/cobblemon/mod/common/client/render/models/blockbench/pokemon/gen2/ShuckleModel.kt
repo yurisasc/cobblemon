@@ -8,10 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -27,11 +29,14 @@ class ShuckleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("ditto", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -42,16 +47,28 @@ class ShuckleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
             transformTicks = 5,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("shuckle", "ground_walk")
             )
         )
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
+            transformTicks = 5,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("shuckle", "sleep")
+            )
+        )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("shuckle", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("shuckle", "faint") else null
 }
