@@ -167,7 +167,7 @@ class PokemonEntity(
     override val properties: RidingProperties
         get() = TODO("Not yet implemented")
 
-    override var seats: List<Seat> = pokemon.riding.seats().map { it.create() }
+    override var seats: List<Seat> = pokemon.riding.seats().map { it.create(this) }
 
     /**
      * 0 is do nothing,
@@ -862,7 +862,7 @@ class PokemonEntity(
     override fun canStartRiding(entity: Entity): Boolean {
         if(this.pokemon.riding.supported() && super.canStartRiding(entity)) {
             val seats = this.seats
-            return seats.any { it.acceptsRider(entity, this) }
+            return seats.any { it.acceptsRider(entity) }
         }
 
         return false
@@ -870,6 +870,12 @@ class PokemonEntity(
 
     override fun tickControlled(controllingPassenger: LivingEntity, movementInput: Vec3d?) {
         super.tickControlled(controllingPassenger, movementInput)
+        if(this.isSubmergedInWater && this.shouldDismountUnderwater()) {
+            this.seats.forEach { it.dismount(false) }
+            this.removeAllPassengers()
+
+            this.seatUpdater.set(this.seats.map { it.toDTO() })
+        }
 
         val vec2f: Vec2f = this.getControlledRotation(controllingPassenger)
         setRotation(vec2f.y, vec2f.x)
@@ -899,10 +905,6 @@ class PokemonEntity(
         val seat = this.seats.firstOrNull { it.properties.driver }
         val occupant = seat?.occupant()
 
-        if(seat != null) {
-            seat.properties.driver
-        }
-
         if(occupant is LivingEntity) {
             return occupant
         }
@@ -912,14 +914,14 @@ class PokemonEntity(
 
     override fun updatePassengerForDismount(passenger: LivingEntity?): Vec3d {
         val seat = this.seats.firstOrNull { it.occupant() == passenger }
-        seat?.dismount(this)
+        seat?.dismount()
         return super.updatePassengerForDismount(passenger)
     }
 
     override fun getControlledMovementInput(controllingPassenger: LivingEntity?, movementInput: Vec3d?): Vec3d {
         super.getControlledMovementInput(controllingPassenger, movementInput)
         val f = controllingPassenger!!.sidewaysSpeed * 0.5f
-        var g = controllingPassenger.forwardSpeed
+        var g = controllingPassenger.forwardSpeed * 0.5f
         if (g <= 0.0f) {
             g *= 0.25f
         }
@@ -929,6 +931,26 @@ class PokemonEntity(
 
     override fun getSaddledSpeed(controllingPassenger: LivingEntity?): Float {
         return this.pokemon.form.behaviour.moving.walk.walkSpeed
+    }
+
+    override fun setJumpStrength(strength: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun canJump(): Boolean {
+        return false
+    }
+
+    override fun startJumping(height: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun stopJumping() {
+        TODO("Not yet implemented")
+    }
+
+    override fun shouldDismountUnderwater(): Boolean {
+        return true
     }
 
 }

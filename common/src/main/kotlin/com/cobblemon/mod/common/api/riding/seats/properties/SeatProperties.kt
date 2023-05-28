@@ -2,6 +2,7 @@ package com.cobblemon.mod.common.api.riding.seats.properties
 
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.seats.Seat
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Vec3d
 
@@ -15,8 +16,8 @@ data class SeatProperties(
     val offset: Vec3d
 ) : Encodable {
 
-    fun create(): Seat {
-        return Seat(this)
+    fun create(mount: PokemonEntity): Seat {
+        return Seat(mount, this)
     }
 
     override fun encode(buffer: PacketByteBuf) {

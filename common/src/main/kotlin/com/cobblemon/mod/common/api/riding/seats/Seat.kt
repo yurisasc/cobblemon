@@ -1,12 +1,10 @@
 package com.cobblemon.mod.common.api.riding.seats
 
-import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatDTO
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Represents a particular seat that is available to a pokemon capable of being ridden. The two main properties
@@ -15,13 +13,16 @@ import net.minecraft.network.PacketByteBuf
  * Care should be taken when tracking the occupant attached to a seat. The implementation should verify the entity
  * is properly detached where necessary as to avoid a memory leak down the road.
  *
+ * @property properties The respective properties that make up this seat, such as the position the entity will sit
+ * when mounted on this seat.
  * @property occupant If occupied, represents the entity currently sitting in this seat.
  * @since 1.5.0
  */
 data class Seat(
+    val mount: PokemonEntity,
     val properties: SeatProperties,
     private var occupant: Entity? = null
-) : Encodable {
+) {
 
     /**
      * Specifies if any occupant currently occupies this seat. With the way rider lists are managed, we cannot
@@ -49,14 +50,14 @@ data class Seat(
      * @return `true` if the rider is allowed to mount the entity, `false` otherwise
      * @since 1.5.0
      */
-    fun acceptsRider(rider: Entity, mount: PokemonEntity) : Boolean {
-        if(this.occupied()) {
+    fun acceptsRider(rider: Entity) : Boolean {
+        if (this.occupied()) {
             return false
         }
 
-        if(this.properties.driver) {
-            if(rider is PlayerEntity) {
-                return mount.pokemon.getOwnerUUID() == rider.uuid
+        if (this.properties.driver) {
+            if (rider is PlayerEntity) {
+                return this.mount.pokemon.getOwnerUUID() == rider.uuid
             }
 
             return false
@@ -75,45 +76,82 @@ data class Seat(
         return this.occupant
     }
 
+    /**
+     * Attempts to mount an entity onto the given pokemon mount, if specified. Where null, the
+     * occupant will force a dismount instead. Otherwise, the requested rider will attempt to be
+     * positioned onto this seat, such that it is a valid request. In other words, we would still
+     * disallow attempts to sit the pokemon upon the pokemon.
+     *
+     * @param rider The entity that will ride on the pokemon using this seat
+     * @param update Whether this call should inform the client that its set of seats has been updated
+     * @since 1.5.0
+     */
     @JvmOverloads
-    fun mount(mount: PokemonEntity, rider: Entity?, update: Boolean = true) {
-        if(!mount.world.isClient) {
+    fun mount(rider: Entity?, update: Boolean = true) : Boolean {
+        if(!this.mount.world.isClient) {
             if(rider == null) {
-                this.dismount(mount)
-                return
+                this.dismount(update)
+                return true
             }
 
-            rider.yaw = mount.yaw
-            rider.pitch = mount.pitch
+            if (rider.startRiding(mount)) {
+                this.occupant = rider
+                if (update) {
+                    this.mount.seatUpdater.set(this.mount.seats.map { it.toDTO() })
+                }
 
-            rider.startRiding(mount)
-
-            this.occupant = rider
-            if(update) {
-                mount.seatUpdater.set(mount.seats.map { it.toDTO() })
+                return true
             }
+
+            return false
         } else {
             this.occupant = rider
         }
+
+        return true
     }
 
-    fun dismount(mount: PokemonEntity) {
-        this.occupant = null
-        mount.seatUpdater.set(mount.seats.map { it.toDTO() })
+    /**
+     * If a rider currently occupies this seat, they will be detached from the seat.
+     *
+     * @param update Whether this call should inform the client that its set of seats has been updated
+     * @since 1.5.0
+     */
+    @JvmOverloads
+    fun dismount(update: Boolean = true) {
+        if (this.occupant != null) {
+            this.occupant = null
+
+            if (update) {
+                this.mount.seatUpdater.set(mount.seats.map { it.toDTO() })
+            }
+        }
     }
 
-    fun switch(mount: PokemonEntity, target: Seat) {
-        this.mount(mount, target.occupant, false)
-        target.mount(mount, this.occupant, true)
+    /**
+     * Switches the occupants of two seats between each other, such that they belong to the same mount.
+     *
+     * @since 1.5.0
+     */
+    fun switch(target: Seat) : Boolean {
+        if (target.mount.uuid == this.mount.uuid) {
+            this.mount(target.occupant, false)
+            target.mount(this.occupant, true)
+
+            return true
+        }
+
+        return false
     }
 
-    private fun toDTO() : SeatDTO {
+    /**
+     * Creates a data serializable version of a Seat that is to be used when providing updates from server
+     * to client.
+     *
+     * @since 1.5.0
+     */
+    fun toDTO() : SeatDTO {
         return SeatDTO(this.properties, this.occupant)
-    }
-
-    override fun encode(buffer: PacketByteBuf) {
-        this.properties.encode(buffer)
-        buffer.writeNullable(this.occupant) { _, occupant -> buffer.writeInt(occupant.id) }
     }
 
 }

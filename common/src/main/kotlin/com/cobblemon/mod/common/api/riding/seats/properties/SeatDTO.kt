@@ -29,7 +29,7 @@ class SeatDTO : Encodable, Decodable {
     }
 
     fun create(mount: PokemonEntity) : Seat {
-        return Seat(this.properties, if(this.occupant != null) mount.world.getEntityById(this.occupant!!) else null)
+        return Seat(mount, this.properties, if(this.occupant != null) mount.world.getEntityById(this.occupant!!) else null)
     }
 
 }
