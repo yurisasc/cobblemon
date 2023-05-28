@@ -34,10 +34,10 @@ class MagnezoneModel(root: ModelPart) : PokemonPoseableModel() {
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("magnezone", "blink").setPreventsIdle(false) }
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("magnezone", "sleep"))
-        )
+//        sleep = registerPose(
+//            poseType = PoseType.SLEEP,
+//            idleAnimations = arrayOf(bedrock("magnezone", "sleep"))
+//        )
 
         registerPose(
             poseName = "hover",
@@ -45,7 +45,7 @@ class MagnezoneModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("magnezone", "air_idle")
+                bedrock("magnezone", "ground_idle")
             )
         )
 
@@ -55,14 +55,14 @@ class MagnezoneModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("magnezone", "air_fly")
+                bedrock("magnezone", "ground_idle")
             )
         )
 
     }
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("magnezone", "faint") else null
+//    override fun getFaintAnimation(
+//        pokemonEntity: PokemonEntity,
+//        state: PoseableEntityState<PokemonEntity>
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("magnezone", "faint") else null
 }
