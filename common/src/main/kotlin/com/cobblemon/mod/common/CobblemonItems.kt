@@ -485,13 +485,13 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         }
         CobblemonItemGroups.EVOLUTION_ITEMS.group().let { group ->
             consumer(group, LINK_CABLE)
-            consumer(group, KINGS_ROCK)
             consumer(group, BLACK_AUGURITE)
             consumer(group, PROTECTOR)
             consumer(group, OVAL_STONE)
             consumer(group, DRAGON_SCALE)
             consumer(group, ELECTIRIZER)
             consumer(group, MAGMARIZER)
+            consumer(group, METAL_COAT)
             consumer(group, UPGRADE)
             consumer(group, KINGS_ROCK)
             consumer(group, RAZOR_CLAW)
@@ -548,6 +548,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, LIGHT_CLAY)
             consumer(group, LUCKY_EGG)
             consumer(group, MAGNET)
+            consumer(group, METAL_COAT)
             consumer(group, MIRACLE_SEED)
             consumer(group, MUSCLE_BAND)
             consumer(group, MYSTIC_WATER)
