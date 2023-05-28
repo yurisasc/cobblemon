@@ -1,7 +1,7 @@
 {
   "type": "choice",
   "keys": ["vivillon_wings"],
-  "default": "random",
+  "default": "meadow",
   "choices": [
     "archipelago",
     "continental",
