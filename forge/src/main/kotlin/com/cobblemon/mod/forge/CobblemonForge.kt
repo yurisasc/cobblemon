@@ -18,6 +18,7 @@ import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
+import com.cobblemon.mod.forge.worldgen.CobblemonForgeBlockPredicateType
 import com.mojang.brigadier.arguments.ArgumentType
 import java.util.*
 import kotlin.reflect.KClass
@@ -77,6 +78,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::serverInit)
             Cobblemon.preInitialize(this@CobblemonForge)
             addListener(CobblemonBiomeModifiers::register)
+            addListener(CobblemonForgeBlockPredicateType::register)
         }
         with(MinecraftForge.EVENT_BUS) {
             addListener(this@CobblemonForge::onDataPackSync)

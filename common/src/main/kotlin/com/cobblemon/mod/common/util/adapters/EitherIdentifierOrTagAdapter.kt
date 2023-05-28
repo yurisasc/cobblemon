@@ -17,8 +17,14 @@ import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
-import net.minecraft.world.gen.structure.Structure
 
+/**
+ * An adapter that can deserialize a string field that is either an [Identifier] or a [TagKey]
+ * for the registry specified by the [registryKey] parameter.
+ *
+ * @author Hiroku
+ * @since May 7th, 2023
+ */
 class EitherIdentifierOrTagAdapter<E, T : Registry<E>>(val registryKey: RegistryKey<T>) : JsonDeserializer<Either<Identifier, TagKey<E>>> {
     override fun deserialize(
         element: JsonElement,
