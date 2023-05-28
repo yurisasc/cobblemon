@@ -15,6 +15,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.getWaterAndLavaIn
 import com.cobblemon.mod.common.util.math.geometry.toDegrees
 import com.cobblemon.mod.common.util.math.geometry.toRadians
+import com.cobblemon.mod.common.util.toVec3d
+import net.minecraft.command.argument.EntityAnchorArgumentType
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -37,6 +39,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             pokemonEntity.upwardSpeed = 0F
             return
         }
+
         val behaviour = pokemonEntity.behaviour
         val mediumSpeed = if (pokemonEntity.getPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
             behaviour.moving.fly.flySpeedHorizontal

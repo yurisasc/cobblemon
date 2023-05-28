@@ -123,6 +123,16 @@ data class BedrockAnimation(
                         throw CrashException(crash)
                     }
                 }
+
+                if (!timeline.scale.isEmpty()) {
+                    var scale = timeline.scale.resolve(animationSeconds, state?.runtime ?: sharedRuntime)
+                    val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0).multiply(model.getChangeFactor(part.modelPart).toDouble())
+                    scale = deviation.subtract(1.0, 1.0, 1.0).multiply(-1.0)
+                    val mp = part.modelPart
+                    mp.xScale *= scale.x.toFloat()
+                    mp.yScale *= scale.y.toFloat()
+                    mp.zScale *= scale.z.toFloat()
+                }
             }
         }
         return true
@@ -141,7 +151,8 @@ object EmptyBoneValue : BedrockBoneValue {
 
 data class BedrockBoneTimeline (
     val position: BedrockBoneValue,
-    val rotation: BedrockBoneValue
+    val rotation: BedrockBoneValue,
+    val scale: BedrockBoneValue
 )
 class MolangBoneValue(
     val x: Expression,
@@ -185,8 +196,8 @@ class BedrockKeyFrameBoneValue : HashMap<Double, BedrockAnimationKeyFrame>(), Be
         val after = sortedTimeline.getAtIndex(afterIndex)
         val before = sortedTimeline.getAtIndex(beforeIndex)
 
-        val afterData = after?.data?.resolve(time, runtime) ?: Vec3d.ZERO
-        val beforeData = before?.data?.resolve(time, runtime) ?: Vec3d.ZERO
+        val afterData = after?.pre?.resolve(time, runtime) ?: Vec3d.ZERO
+        val beforeData = before?.post?.resolve(time, runtime) ?: Vec3d.ZERO
 
         if (before != null || after != null) {
             if (before != null && before.interpolationType == InterpolationType.SMOOTH || after != null && after.interpolationType == InterpolationType.SMOOTH) {
@@ -223,17 +234,37 @@ class BedrockKeyFrameBoneValue : HashMap<Double, BedrockAnimationKeyFrame>(), Be
 
 }
 
-data class BedrockAnimationKeyFrame(
+abstract class BedrockAnimationKeyFrame(
     val time: Double,
     val transformation: Transformation,
-    val data: MolangBoneValue,
     val interpolationType: InterpolationType
-)
+) {
+    abstract val pre: MolangBoneValue
+    abstract val post: MolangBoneValue
+}
+
+class SimpleBedrockAnimationKeyFrame(
+    time: Double,
+    transformation: Transformation,
+    interpolationType: InterpolationType,
+    val data: MolangBoneValue
+): BedrockAnimationKeyFrame(time, transformation, interpolationType) {
+    override val pre = data
+    override val post = data
+}
+
+class JumpBedrockAnimationKeyFrame(
+    time: Double,
+    transformation: Transformation,
+    interpolationType: InterpolationType,
+    override val pre: MolangBoneValue,
+    override val post: MolangBoneValue
+): BedrockAnimationKeyFrame(time, transformation, interpolationType)
 
 enum class InterpolationType {
     SMOOTH, LINEAR
 }
 
 enum class Transformation {
-    POSITION, ROTATION
+    POSITION, ROTATION, SCALE
 }

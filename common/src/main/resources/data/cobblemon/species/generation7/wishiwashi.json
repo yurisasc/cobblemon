@@ -34,20 +34,20 @@
   "moves": [
     "1:growl",
     "1:watergun",
-    "6:helpinghand",
+    "4:helpinghand",
+    "8:beatup",
     "9:feintattack",
-    "14:brine",
-    "17:aquaring",
-    "22:tearfullook",
+    "12:brine",
+    "16:tearfullook",
+    "20:dive",
+    "24:soak",
     "25:takedown",
     "28:uproar",
-    "30:dive",
-    "33:beatup",
-    "38:aquatail",
-    "41:doubleedge",
-    "46:soak",
-    "49:endeavor",
-    "54:hydropump",
+    "32:aquatail",
+    "36:aquaring",
+    "40:endeavor",
+    "44:hydropump",
+    "48:doubleedge",
     "egg:mist",
     "egg:muddywater",
     "egg:takedown",
@@ -126,7 +126,7 @@
       },
       "catchRate": 60,
       "maleRatio": 0.5,
-      "baseExperienceYield": 217,
+      "baseExperienceYield": 61,
       "baseFriendship": 50,
       "evYield": {
         "hp": 1,
@@ -141,7 +141,6 @@
       "eggGroups": [
         "water_2"
       ],
-      "moves": [],
       "labels": [
         "gen7"
       ],

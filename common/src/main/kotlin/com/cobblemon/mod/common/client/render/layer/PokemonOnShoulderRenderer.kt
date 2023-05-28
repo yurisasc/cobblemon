@@ -62,11 +62,11 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             val cache = this.playerCache.getOrPut(pLivingEntity.uuid) { ShoulderCache() }
             val pokemon: Pokemon
             if (pLeftShoulder && cache.lastKnownLeft?.uuid != uuid) {
-                pokemon = Pokemon().loadFromNBT(compoundTag.getCompound(DataKeys.POKEMON))
+                pokemon = Pokemon().also { it.isClient = true }.loadFromNBT(compoundTag.getCompound(DataKeys.POKEMON))
                 cache.lastKnownLeft = pokemon
             }
             else if (!pLeftShoulder && cache.lastKnownRight?.uuid != uuid) {
-                pokemon = Pokemon().loadFromNBT(compoundTag.getCompound(DataKeys.POKEMON))
+                pokemon = Pokemon().also { it.isClient = true }.loadFromNBT(compoundTag.getCompound(DataKeys.POKEMON))
                 cache.lastKnownRight = pokemon
             }
             else {

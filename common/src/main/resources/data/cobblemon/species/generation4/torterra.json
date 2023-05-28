@@ -45,6 +45,7 @@
   },
   "moves": [
     "1:absorb",
+    "1:earthquake",
     "1:razorleaf",
     "1:tackle",
     "1:withdraw",

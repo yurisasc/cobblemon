@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.battles.actor.MultiPokemonBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
+import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleUpdateTeamPokemonPacket
 import com.cobblemon.mod.common.pokemon.IVs
@@ -70,11 +71,13 @@ open class BattlePokemon(
      */
     val heldItemManager: HeldItemManager by lazy { HeldItemProvider.provide(this) }
 
+    val contextManager = ContextManager()
+
     open fun getName(): MutableText {
         return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
-            effectedPokemon.displayName
+            effectedPokemon.getDisplayName()
         } else {
-            battleLang("owned_pokemon", actor.getName(), effectedPokemon.displayName)
+            battleLang("owned_pokemon", actor.getName(), effectedPokemon.getDisplayName())
         }
     }
 

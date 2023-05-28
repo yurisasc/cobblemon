@@ -9,7 +9,10 @@
     "GameRendererMixin",
     "PartyScrollMixin",
     "accessor.KeyBindingAccessor",
-    "pokeball.ItemRendererMixin"
+    "pokeball.ItemRendererMixin",
+    "SoundManagerMixin",
+    "SoundSystemMixin",
+    "accessor.MusicTrackerAccessor"
   ],
   "mixins": [
     "BrewingStandScreenHandlerMixin",
