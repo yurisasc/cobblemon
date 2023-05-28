@@ -178,7 +178,6 @@ object Cobblemon {
         CobblemonGameRules // Init fields and register
 
         ShoulderEffectRegistry.register()
-        BrewingRecipes.registerBrewingRecipes()
 
         DATA_SYNCHRONIZED.subscribe {
             storage.onPlayerDataSync(it)

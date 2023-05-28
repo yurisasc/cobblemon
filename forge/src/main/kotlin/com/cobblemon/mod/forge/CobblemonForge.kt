@@ -9,6 +9,7 @@
 package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.util.didSleep
@@ -26,6 +27,8 @@ import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.item.ItemStack
+import net.minecraft.recipe.Ingredient
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -42,6 +45,7 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry
 import net.minecraftforge.event.AddReloadListenerEvent
 import net.minecraftforge.event.CreativeModeTabEvent
 import net.minecraftforge.event.OnDatapackSyncEvent
@@ -79,6 +83,7 @@ class CobblemonForge : CobblemonImplementation {
             Cobblemon.preInitialize(this@CobblemonForge)
             addListener(CobblemonBiomeModifiers::register)
             addListener(CobblemonForgeBlockPredicateType::register)
+            addListener(this@CobblemonForge::on)
         }
         with(MinecraftForge.EVENT_BUS) {
             addListener(this@CobblemonForge::onDataPackSync)
@@ -106,6 +111,15 @@ class CobblemonForge : CobblemonImplementation {
         this.networkManager.registerClientBound()
         this.networkManager.registerServerBound()
         Cobblemon.initialize()
+    }
+
+    fun on(event: RegisterEvent) {
+        event.register(RegistryKeys.POTION) {
+            BrewingRecipes.registerPotionTypes()
+            BrewingRecipes.getRecipes().forEach { (input, ingredient, output) ->
+                BrewingRecipeRegistry.addRecipe(Ingredient.ofItems(input), ingredient, ItemStack(output))
+            }
+        }
     }
 
     fun onDataPackSync(event: OnDatapackSyncEvent) {

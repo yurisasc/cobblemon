@@ -9,6 +9,7 @@
 package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.platform.events.ChangeDimensionEvent
@@ -50,6 +51,9 @@ import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.item.ItemStack
+import net.minecraft.recipe.BrewingRecipeRegistry
+import net.minecraft.recipe.Ingredient
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
@@ -80,6 +84,10 @@ object CobblemonFabric : CobblemonImplementation {
         Cobblemon.initialize()
 
         CobblemonBlockPredicates.touch()
+        BrewingRecipes.registerPotionTypes()
+        BrewingRecipes.getRecipes().forEach { (input, ingredient, output) ->
+            BrewingRecipeRegistry.ITEM_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
+        }
         /*
         if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
             Cobblemon.permissionValidator = LuckPermsPermissionValidator()
