@@ -24,7 +24,13 @@
 - Lanturn
 - Aipom
 - Gligar
--
+- Chimecho
+- Hoothoot
+- Noctowl
+- Mareep
+- Flaaffy
+- Ampharos
+- Sudowoodo
 
 #### Gen 3
 
@@ -33,11 +39,16 @@
 - Relicanth
 - Duskull
 - Dusclops
-- Dusknoir
 - Shroomish
 - Breloom
 - Cacnea
 - Cacturne
+- Poochyena
+- Mightyenna
+- Wingull 
+- Pelipper
+- Numel
+- Camerupt
 
 #### Gen 4
 
@@ -49,6 +60,10 @@
 - Luxray
 - Ambipom
 - Gliscor
+- Dusknoir
+- Chingling
+- Bonsly
+- Chatot
 
 #### Gen 5
 
@@ -59,6 +74,10 @@
 - Venepede
 - Whirlpede
 - Scolipede
+- Yamask
+- Cofagrigus
+- Patrat
+- Watchog
 
 #### Gen 6
 
@@ -67,10 +86,13 @@
 - Vivillion
 - Skrelp
 - Dragalge
+- Bunnelby
+- Diggersby
 
 #### Gen 7
 
 - Wishiwashi
+- Comfey
 - Cutiefly
 - Ribombee
 
@@ -80,9 +102,13 @@
 - Barraskewda
 - Nickit
 - Thievul
+- Falinks
 
 #### Gen 9
 
+- Sprigatitto
+- Floragato
+- Meowscarada
 - Flittle
 - Espathra
 - Garganacl
@@ -94,6 +120,11 @@
 - Cetitan
 - Shroodle
 - Grafaiia
+- Varoom
+- Revavroom
+- Squawkabilly
+- Glimmet
+- Glimmora
 
 ### Changes
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
@@ -101,7 +132,7 @@
 - Wild Pokémon now heal if you are defeated by them or flee from them.
 - Doubled the default time between ambient Pokémon cries (they have cries if you're using a resource pack to add them)
 - Moved spawn attempts per tick to a config option (ticksBetweenSpawnAttempts)
-- Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
+- Updated model and textures of Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky Happiny, Chansey, Pidgey, Pidgeotto, Pidgeot, Spearow, Fearow, Drowzee, Hypno, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
 - Updated model of Sceptile.
 - Updated texture of Weedle.
 
