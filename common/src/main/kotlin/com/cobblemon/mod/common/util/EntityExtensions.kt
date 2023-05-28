@@ -14,8 +14,11 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.LandPathNodeMaker
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.passive.TameableEntity
+import net.minecraft.server.world.ChunkTicketType
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
@@ -123,75 +126,4 @@ fun Entity.closestPosition(positions: Iterable<BlockPos>, filter: (BlockPos) -> 
     }
 
     return closest
-}
-
-/**
- * Attempts to teleport near the owner.
- * If the teleport fails, it recalls the PokemonEntity to the owner's party.
- * Returns true if the teleport was successful.
- */
-fun PokemonEntity.teleportToOwnerOrRecall() : Boolean {
-    val success = this.teleportToOwner()
-    if(!success) {
-        pokemon.recall()
-    }
-    return success
-}
-
-/**
- * Attempts to teleport near the owner.
- * Returns true if successful.
- */
-fun TameableEntity.teleportToOwner() : Boolean {
-    // Derivative of net.minecraft.entity.ai.goal.FollowOwnerGoal.tryTeleport
-    val blockPos = this.owner!!.blockPos
-    var hasTeleported = false;
-    for (i in 0..24) {
-        // Since the original method runs 10x every tick,
-        // we make this one run 25x when attempted,
-        // which makes it a much lower chance that it'll fail when it shouldn't.
-        // This is sadly unavoidable, and can only be changed by changing how many times this loops.
-        val j = this.random.nextInt(7) - 3
-        val k = this.random.nextInt(3) - 1
-        val l = this.random.nextInt(7) - 3
-        hasTeleported = this.tryTeleportTo(blockPos.x + j, blockPos.y + k, blockPos.z + l)
-        if (hasTeleported) {
-            break
-        }
-    }
-    return hasTeleported
-}
-
-private fun TameableEntity.tryTeleportTo(x : Int, y : Int, z : Int) : Boolean {
-    return if (abs(x - this.owner!!.x) < 2.0 && abs(z - this.owner!!.z) < 2.0) {
-        false
-    } else if(!canTeleportTo(BlockPos(x,y,z))) {
-        false
-    } else {
-        this.refreshPositionAndAngles(
-            x.toDouble() + 0.5,
-            y.toDouble(),
-            z.toDouble() + 0.5,
-            this.yaw,
-            this.pitch
-        )
-        navigation.stop()
-        true
-    }
-}
-
-private fun TameableEntity.canTeleportTo(pos: BlockPos): Boolean {
-    val pathNodeType = LandPathNodeMaker.getLandNodeType(world, pos.mutableCopy())
-    return if (pathNodeType != PathNodeType.WALKABLE) {
-        false
-    } else {
-        val blockState = world.getBlockState(pos.down())
-        if (blockState.block is LeavesBlock) {
-            false
-        } else {
-            val blockPos = pos.subtract(this.blockPos)
-            world.isSpaceEmpty(this, this.boundingBox.offset(blockPos))
-            true
-        }
-    }
 }

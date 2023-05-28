@@ -53,12 +53,10 @@ import com.cobblemon.mod.common.util.*
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import net.minecraft.block.BlockState
-import net.minecraft.block.LeavesBlock
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.entity.ai.pathing.LandPathNodeMaker
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
@@ -75,6 +73,7 @@ import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ChunkTicketType
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -85,12 +84,12 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import java.util.*
 import java.util.concurrent.CompletableFuture
-import kotlin.math.abs
 import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
@@ -303,8 +302,11 @@ class PokemonEntity(
         return super.isInvulnerableTo(damageSource)
     }
 
+    var beingRecalled = false;
+
     fun recallWithAnimation(): CompletableFuture<Pokemon> {
         val owner = owner
+        beingRecalled = true
         val future = CompletableFuture<Pokemon>()
         if (phasingTargetId.get() == -1 && owner != null) {
             owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL.get(), volume = 0.2F)
@@ -318,7 +320,7 @@ class PokemonEntity(
             pokemon.recall()
             future.complete(pokemon)
         }
-
+        future.whenComplete{ _, _ -> beingRecalled = false }
         return future
     }
 
@@ -861,7 +863,15 @@ class PokemonEntity(
     override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
         if (player != null) {
             if(this.ownerUuid == player.uuid) {
-                this.teleportToOwnerOrRecall()
+                if(!beingRecalled) {
+                    // We're loading the chunk because it creates a ghost if we don't.
+                    val chunkPos = ChunkPos(BlockPos(x, y, z))
+                    (world as ServerWorld).chunkManager.addTicket(
+                        ChunkTicketType.POST_TELEPORT, chunkPos, 0,
+                        id
+                    )
+                    pokemon.recall()
+                }
             }
         }
     }
