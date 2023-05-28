@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:iron_nugget"
+        },
+        {
+            "item": "minecraft:glass_bottle"
+        },
+        {
+            "item": "minecraft:slime_ball"
+        },
+        {
+            "item": "cobblemon:pink_mint_leaf"
+        }
+    ],
+    "result": {
+        "item": "cobblemon:x_sp_def"
+    }
+}
