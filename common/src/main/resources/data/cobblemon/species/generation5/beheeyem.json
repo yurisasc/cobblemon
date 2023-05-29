@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Beheeyem",
   "nationalPokedexNumber": 606,
   "primaryType": "psychic",
@@ -15,6 +16,14 @@
     "special_defence": 95,
     "speed": 40
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 90,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -24,6 +33,25 @@
   "eggGroups": [
     "human_like"
   ],
+  "drops": {
+    "amount": "3",
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "minecraft:chorus_fruit",
+        "quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:confusion",
     "1:growl",
@@ -95,6 +123,7 @@
     "tm:storedpower",
     "tm:substitute",
     "tm:swagger",
+    "tm:telekinesis",
     "tm:thief",
     "tm:thunderbolt",
     "tm:thunderwave",
@@ -106,6 +135,8 @@
     "tm:wonderroom",
     "tm:zenheadbutt",
     "tutor:afteryou",
+    "tutor:allyswitch",
+    "tutor:darkpulse",
     "tutor:expandingforce",
     "tutor:gravity",
     "tutor:magiccoat",
@@ -115,8 +146,15 @@
     "tutor:roleplay",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
-    "tutor:telekinesis"
+    "tutor:snore",
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:uproar",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"
@@ -126,10 +164,10 @@
   ],
   "preEvolution": "elgyem",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 1.7,
     "fixed": false
   },
   "baseFriendship": 50,

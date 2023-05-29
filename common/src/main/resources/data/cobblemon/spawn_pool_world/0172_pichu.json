@@ -6,11 +6,14 @@
         {
             "id": "pichu-1",
             "pokemon": "pichu",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
             "level": "4-20",
-            "weight": 0.18,
+            "weight": 1.8,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

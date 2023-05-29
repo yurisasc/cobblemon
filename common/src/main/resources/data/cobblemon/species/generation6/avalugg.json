@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Avalugg",
   "nationalPokedexNumber": 713,
   "primaryType": "ice",
@@ -38,7 +39,7 @@
       },
       "catchRate": 55,
       "maleRatio": 0.5,
-      "baseExperienceYield": 0,
+      "baseExperienceYield": 180,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -133,7 +134,16 @@
     "monster",
     "mineral"
   ],
+  "behaviour": {
+    "swim": {
+      "swimSpeed": 0.1,
+      "canSwimInWater": true,
+      "canBreatheUnderwater": true,
+      "canWalkOnWater": true
+    }
+  },
   "moves": [
+    "1:bodyslam",
     "1:harden",
     "1:powdersnow",
     "1:rapidspin",
@@ -215,6 +225,12 @@
     "tm:toxic",
     "tutor:afteryou",
     "tutor:block",
+    "tutor:icywind",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
     "tutor:waterpulse"
   ],
   "labels": [
@@ -226,10 +242,10 @@
   ],
   "preEvolution": "bergmite",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 4,
+    "height": 3,
     "fixed": false
   },
   "baseFriendship": 50,

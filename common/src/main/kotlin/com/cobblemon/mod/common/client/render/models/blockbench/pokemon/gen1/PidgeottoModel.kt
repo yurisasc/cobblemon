@@ -32,8 +32,8 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val head = getPart("head")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.1, -0.55, 0.0)
+    override val portraitScale = 2.8F
+    override val portraitTranslation = Vec3d(-0.1, -0.8, 0.0)
     override val profileScale = 1.1F
     override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
@@ -80,6 +80,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                bedrock("pidgeotto", "ground_idle"),
                 rootPart.translation(
                     function = parabolaFunction(
                         peak = -4F,

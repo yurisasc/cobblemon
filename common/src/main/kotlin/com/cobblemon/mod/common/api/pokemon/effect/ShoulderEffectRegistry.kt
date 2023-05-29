@@ -10,11 +10,7 @@ package com.cobblemon.mod.common.api.pokemon.effect
 
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
-import com.cobblemon.mod.common.pokemon.effects.HasteEffect
-import com.cobblemon.mod.common.pokemon.effects.LightSourceEffect
-import com.cobblemon.mod.common.pokemon.effects.SaturationEffect
-import com.cobblemon.mod.common.pokemon.effects.SlowFallEffect
-import com.cobblemon.mod.common.pokemon.effects.WaterBreathingEffect
+import com.cobblemon.mod.common.pokemon.effects.*
 import com.cobblemon.mod.common.util.party
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -33,6 +29,7 @@ object ShoulderEffectRegistry {
     val HASTE = register("haste", HasteEffect::class.java)
     val WATER_BREATHING = register("water_breathing", WaterBreathingEffect::class.java)
     val SATURATION = register("saturation", SaturationEffect::class.java)
+    val SPEED = register("speed", SpeedEffect::class.java)
     // Effects - END
 
     fun register() {

@@ -11,12 +11,14 @@ package com.cobblemon.mod.fabric
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
+import com.cobblemon.mod.common.platform.events.ChangeDimensionEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.platform.events.ServerEvent
 import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.platform.events.ServerTickEvent
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
+import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import com.mojang.brigadier.arguments.ArgumentType
@@ -29,10 +31,12 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
+import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
@@ -71,9 +75,11 @@ object CobblemonFabric : CobblemonImplementation {
 
     fun initialize() {
         Cobblemon.preInitialize(this)
-        this.networkManager.initServer()
+        this.networkManager.registerServerBound()
 
         Cobblemon.initialize()
+
+        CobblemonBlockPredicates.touch()
         /*
         if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
             Cobblemon.permissionValidator = LuckPermsPermissionValidator()
@@ -117,13 +123,31 @@ object CobblemonFabric : CobblemonImplementation {
             return@register true
         }
 
-        UseBlockCallback.EVENT.register { player, world, hand, hitResult ->
+        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register { player, _, _ ->
+            PlatformEvents.CHANGE_DIMENSION.post(ChangeDimensionEvent(player))
+        }
+
+
+        UseBlockCallback.EVENT.register { player, _, hand, hitResult ->
             val serverPlayer = player as? ServerPlayerEntity ?: return@register ActionResult.PASS
             PlatformEvents.RIGHT_CLICK_BLOCK.postThen(
                 event = ServerPlayerEvent.RightClickBlock(serverPlayer, hitResult.blockPos, hand, hitResult.side),
                 ifSucceeded = {},
                 ifCanceled = { return@register ActionResult.FAIL }
             )
+            return@register ActionResult.PASS
+        }
+
+        UseEntityCallback.EVENT.register { player, _, hand, entity, _ ->
+            val item = player.getStackInHand(hand)
+            val serverPlayer = player as? ServerPlayerEntity ?: return@register ActionResult.PASS
+
+            PlatformEvents.RIGHT_CLICK_ENTITY.postThen(
+                event = ServerPlayerEvent.RightClickEntity(serverPlayer, item, hand, entity),
+                ifSucceeded = {},
+                ifCanceled = { return@register ActionResult.FAIL }
+            )
+
             return@register ActionResult.PASS
         }
 

@@ -46,11 +46,23 @@ object CobblemonPermissions {
 
     val TAKE_POKEMON = this.create("${COMMAND_PREFIX}takepokemon", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
-    val TEACH = this.create("${COMMAND_PREFIX}teach", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+    val TEACH = this.create("${COMMAND_PREFIX}teach.base", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+    val TEACH_BYPASS_LEARNSET = this.create("${COMMAND_PREFIX}teach.bypass", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
     val FRIENDSHIP = this.create("${COMMAND_PREFIX}friendship", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
     val HELD_ITEM = this.create("${COMMAND_PREFIX}helditem", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+
+    val PC = this.create("${COMMAND_PREFIX}pc", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+
+    val POKEBOX = this.create("${COMMAND_PREFIX}pokebox", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+
+    val TEST_STORE = this.create("${COMMAND_PREFIX}teststore", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+
+    val QUERY_LEARNSET = this.create("${COMMAND_PREFIX}querylearnset", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+
+    val TEST_PC_SLOT = this.create("${COMMAND_PREFIX}testpcslot", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+    val TEST_PARTY_SLOT = this.create("${COMMAND_PREFIX}testpartyslot", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
     fun all(): Iterable<Permission> = this.permissions
 

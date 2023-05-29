@@ -97,11 +97,21 @@
     "tm:whirlpool",
     "tm:willowisp",
     "tutor:bind",
+    "tutor:brine",
+    "tutor:darkpulse",
+    "tutor:gigadrain",
+    "tutor:icywind",
     "tutor:magiccoat",
+    "tutor:ominouswind",
     "tutor:painsplit",
     "tutor:poltergeist",
+    "tutor:raindance",
     "tutor:shockwave",
-    "tutor:spite"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:spite",
+    "tutor:trick",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen5"

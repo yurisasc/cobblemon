@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import kotlin.reflect.KClass
-import net.minecraft.network.Packet
+import net.minecraft.network.packet.Packet
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.server.network.ServerPlayerEntity
@@ -37,16 +37,16 @@ object CobblemonForgeNetworkManager : NetworkManager {
         PROTOCOL_VERSION::equals
     )
 
-    override fun initClient() {
-        CobblemonNetwork.initClient()
+    override fun registerClientBound() {
+        CobblemonNetwork.registerClientBound()
     }
 
-    override fun initServer() {
-        CobblemonNetwork.initServer()
+    override fun registerServerBound() {
+        CobblemonNetwork.registerServerBound()
     }
 
     @Suppress("INACCESSIBLE_TYPE")
-    override fun <T : NetworkPacket<T>> registerClientBound(
+    override fun <T : NetworkPacket<T>> createClientBound(
         identifier: Identifier,
         kClass: KClass<T>,
         encoder: (T, PacketByteBuf) -> Unit,
@@ -61,7 +61,7 @@ object CobblemonForgeNetworkManager : NetworkManager {
     }
 
     @Suppress("INACCESSIBLE_TYPE")
-    override fun <T : NetworkPacket<T>> registerServerBound(
+    override fun <T : NetworkPacket<T>> createServerBound(
         identifier: Identifier,
         kClass: KClass<T>,
         encoder: (T, PacketByteBuf) -> Unit,

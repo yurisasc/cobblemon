@@ -55,7 +55,7 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE_TYPE, SnowstormParticleType::Factory)
         CobblemonClient.initialize(this)
 
-        CobblemonFabric.networkManager.initClient()
+        CobblemonFabric.networkManager.registerClientBound()
 
         EntityRendererRegistry.register(CobblemonEntities.POKEMON) { CobblemonClient.registerPokemonRenderer(it) }
         EntityRendererRegistry.register(CobblemonEntities.EMPTY_POKEBALL) { CobblemonClient.registerPokeBallRenderer(it) }

@@ -32,7 +32,7 @@ public abstract class ModelLoaderMixin {
     private void cobblemon$load3dPokeballModels(BlockColors blockColors, Profiler profiler, Map jsonUnbakedModels, Map blockStates, CallbackInfo ci) {
         profiler.swap(Cobblemon.MODID + "_pokeball_3d_model");
         for (PokeBall pokeBall : PokeBalls.INSTANCE.all()) {
-            this.addModel(pokeBall.getModel3d());
+            this.addModel(new ModelIdentifier(pokeBall.getModel3d(), "inventory"));
         }
     }
 

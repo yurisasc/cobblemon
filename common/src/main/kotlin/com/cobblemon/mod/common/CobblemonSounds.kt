@@ -21,27 +21,55 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     override val registry: Registry<SoundEvent> = Registries.SOUND_EVENT
     override val registryKey: RegistryKey<Registry<SoundEvent>> = RegistryKeys.SOUND_EVENT
 
+    @JvmField
     val GUI_CLICK = this.create("gui.click")
 
+    @JvmField
     val PC_ON = this.create("pc.on")
+    @JvmField
     val PC_OFF = this.create("pc.off")
+    @JvmField
     val PC_GRAB = this.create("pc.grab")
+    @JvmField
     val PC_DROP = this.create("pc.drop")
+    @JvmField
     val PC_RELEASE = this.create("pc.release")
 
+    @JvmField
     val HEALING_MACHINE_ACTIVE = this.create("healing_machine.active")
 
+    @JvmField
     val POKE_BALL_CAPTURE_STARTED = this.create("poke_ball.capture_started")
+    @JvmField
     val POKE_BALL_CAPTURE_SUCCEEDED = this.create("poke_ball.capture_succeeded")
+    @JvmField
     val POKE_BALL_SHAKE = this.create("poke_ball.shake")
+    @JvmField
     val POKE_BALL_OPEN = this.create("poke_ball.open")
+    @JvmField
     val POKE_BALL_HIT = this.create("poke_ball.hit")
+    @JvmField
     val POKE_BALL_SEND_OUT = this.create("poke_ball.send_out")
+    @JvmField
     val POKE_BALL_RECALL = this.create("poke_ball.recall")
 
+    @JvmField
     val ITEM_USE = this.create("item.use")
+    @JvmField
     val CAN_EVOLVE = this.create("pokemon.can_evolve")
+    @JvmField
     val EVOLVING = this.create("pokemon.evolving")
+
+    @JvmField
+    val PVN_BATTLE = this.create("battle.pvn.default")
+    @JvmField
+    val PVP_BATTLE = this.create("battle.pvp.default")
+    @JvmField
+    val PVW_BATTLE = this.create("battle.pvw.default")
+
+    @JvmField
+    val MINT_USE = this.create("mint.use")
+
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }

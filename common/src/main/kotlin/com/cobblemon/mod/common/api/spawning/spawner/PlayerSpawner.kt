@@ -20,6 +20,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.MathHelper.ceil
 
@@ -32,7 +33,7 @@ import net.minecraft.util.math.MathHelper.ceil
  */
 class PlayerSpawner(player: ServerPlayerEntity, spawns: SpawnPool, manager: SpawnerManager) : AreaSpawner(player.name.string, spawns, manager) {
     val uuid: UUID = player.uuid
-
+    override var ticksBetweenSpawns = config.ticksBetweenSpawnAttempts
     override fun getCauseEntity() = uuid.getPlayer()
     override fun getArea(cause: SpawnCause): SpawningArea? {
         val player = uuid.getPlayer() ?: return null
@@ -57,7 +58,7 @@ class PlayerSpawner(player: ServerPlayerEntity, spawns: SpawnPool, manager: Spaw
 
         return SpawningArea(
             cause = cause,
-            world = player.world,
+            world = player.world as ServerWorld,
             baseX = ceil(x - sliceDiameter / 2F),
             baseY = ceil(center.y - sliceHeight / 2F),
             baseZ = ceil(z - sliceDiameter / 2F),

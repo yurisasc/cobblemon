@@ -22,14 +22,15 @@ import net.minecraft.util.Identifier
  * @author Hiroku
  * @since July 2nd, 2022
  */
-class BattleCaptureStartPacket(val pokeBallType: Identifier, val targetPNX: String) : NetworkPacket<BattleCaptureStartPacket> {
+class BattleCaptureStartPacket(val pokeBallType: Identifier, val aspects: Set<String>, val targetPNX: String) : NetworkPacket<BattleCaptureStartPacket> {
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(pokeBallType)
+        buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect) }
         buffer.writeString(targetPNX)
     }
     companion object {
         val ID = cobblemonResource("battle_capture_start")
-        fun decode(buffer: PacketByteBuf) = BattleCaptureStartPacket(buffer.readIdentifier(), buffer.readString())
+        fun decode(buffer: PacketByteBuf) = BattleCaptureStartPacket(buffer.readIdentifier(), buffer.readList { it.readString() }.toSet(), buffer.readString())
     }
 }

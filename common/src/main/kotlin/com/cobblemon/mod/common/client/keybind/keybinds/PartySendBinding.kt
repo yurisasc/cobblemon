@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
 import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
+import javax.swing.plaf.basic.BasicSliderUI.ScrollListener
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.util.InputUtil
@@ -31,13 +32,35 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
     InputUtil.GLFW_KEY_R,
     KeybindCategories.COBBLEMON_CATEGORY
 ) {
-    override fun onPress() {
+    var secondsSinceActioned = 0F
+
+    fun actioned() {
+        secondsSinceActioned = 0F
+    }
+
+    fun canAction() = secondsSinceActioned > 0.75
+
+    override fun onTick() {
+        if (secondsSinceActioned < 100) {
+            secondsSinceActioned += MinecraftClient.getInstance().tickDelta
+        }
+
+        super.onTick()
+    }
+
+    override fun onRelease() {
+        if (!canAction() || timeDown > 1F) {
+            return
+        }
+
         val player = MinecraftClient.getInstance().player ?: return
+
         val battle = CobblemonClient.battle
         if (battle != null) {
             battle.minimised = !battle.minimised
             if (!battle.minimised) {
                 MinecraftClient.getInstance().setScreen(BattleGUI())
+                actioned()
             }
             return
         }
@@ -52,6 +75,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
                 else {
                     processEntityTarget(player, pokemon, targetEntity)
                 }
+                actioned()
             }
         }
     }
@@ -66,5 +90,9 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
                 sendPacketToServer(BattleChallengePacket(entity.id, pokemon.uuid))
             }
         }
+    }
+
+    override fun onPress() {
+
     }
 }

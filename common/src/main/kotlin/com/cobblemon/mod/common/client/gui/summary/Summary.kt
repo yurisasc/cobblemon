@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.gui.summary.widgets.EvolutionSelectScreen
 import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget
+import com.cobblemon.mod.common.client.gui.summary.widgets.NicknameEntryWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.PartyWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.SummaryTab
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.info.InfoWidget
@@ -31,14 +32,12 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves.MoveSwa
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves.MovesWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.stats.StatWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
-import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.net.messages.server.storage.party.MovePartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.party.SwapPartyPokemonPacket
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import java.security.InvalidParameterException
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.Drawable
 import net.minecraft.client.gui.Element
@@ -46,11 +45,20 @@ import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 
-class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summary.title")) {
+/**
+ * The screen responsible for displaying various information regarding a Pokémon team.
+ *
+ * @property party The party that will be displayed.
+ * @property editable Whether you shall be able to edit Pokémon with operations such as reordering their move set.
+ *
+ * @param selection The index the [party] will have as the base [selectedPokemon].
+ */
+class Summary private constructor(party: Collection<Pokemon?>, private val editable: Boolean, selection: Int): Screen(Text.translatable("cobblemon.ui.summary.title")) {
 
     companion object {
         const val BASE_WIDTH = 331
@@ -76,48 +84,50 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
         private val sideSpacerResource = cobblemonResource("textures/gui/summary/summary_side_spacer.png")
         private val evolveButtonResource = cobblemonResource("textures/gui/summary/summary_evolve_button.png")
         val iconShinyResource = cobblemonResource("textures/gui/summary/icon_shiny.png")
+
+        /**
+         * Attempts to open this screen for a client.
+         * If an exception is thrown this screen will not open.
+         *
+         * @param party The party to be displayed.
+         * @param editable Whether you shall be able to edit Pokémon with operations such as reordering their move set.
+         * @param selection The index to start as the selected party member, based on the [party].
+         *
+         * @throws IllegalArgumentException If the [party] is empty or contains more than 6 members.
+         * @throws IndexOutOfBoundsException If the [selection] is not a possible index of [party].
+         */
+        fun open(party: Collection<Pokemon?>, editable: Boolean = true, selection: Int = 0) {
+            val mc = MinecraftClient.getInstance()
+            val screen = Summary(party, editable, selection)
+            mc.setScreen(screen)
+        }
     }
 
-    internal lateinit var selectedPokemon: Pokemon
+    internal var selectedPokemon: Pokemon
     private lateinit var mainScreen: ClickableWidget
     lateinit var sideScreen: Element
     lateinit var modelWidget: ModelWidget
-    private val partyList = mutableListOf<Pokemon?>()
+    lateinit var nicknameEntryWidget: NicknameEntryWidget
     private val summaryTabs = mutableListOf<SummaryTab>()
     private var mainScreenIndex = INFO
     var sideScreenIndex = PARTY
+    private val party = ArrayList(party)
 
-    // Whether you shall be able to edit Pokémon (Move reordering)
-    private var editable = true
-
-    constructor(vararg pokemon: Pokemon, editable: Boolean = true, selection: Int = 0) : this() {
-        pokemon.forEach {
-            partyList.add(it)
+    init {
+        if (this.party.isEmpty()) {
+            throw IllegalArgumentException("Summary UI cannot display zero Pokemon")
         }
-        selectedPokemon = partyList[selection]
-            ?: partyList.filterNotNull().first()
-        commonInit()
-        this.editable = editable
-    }
-
-    constructor(party: ClientParty) : this() {
-        party.forEach { partyList.add(it) }
-        selectedPokemon = partyList[CobblemonClient.storage.selectedSlot]
-            ?: partyList.filterNotNull().first()
-        commonInit()
-    }
-
-    /**
-     * Make sure that we have at least one Pokemon and not more than 6
-     */
-    private fun commonInit() {
-        if (partyList.isEmpty()) {
-            throw InvalidParameterException("Summary UI cannot display zero Pokemon")
+        if (this.party.size > 6) {
+            throw IllegalArgumentException("Summary UI cannot display more than six Pokemon")
         }
-        if (partyList.size > 6) {
-            throw InvalidParameterException("Summary UI cannot display more than six Pokemon")
+
+        val idealSelected = this.party[selection]
+        if (idealSelected == null) {
+            this.selectedPokemon = this.party.first { it != null }!!
+        } else {
+            this.selectedPokemon = idealSelected
         }
-        listenToMoveSet()
+        this.listenToMoveSet()
     }
 
     /**
@@ -207,6 +217,20 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
             }
         )
 
+        // Add Nickname Entry
+        nicknameEntryWidget = NicknameEntryWidget(
+            selectedPokemon,
+            x = x + 12,
+            y = (y + 14.5).toInt(),
+            width = 50,
+            height = 10,
+            isParty = true,
+            lang("ui.nickname")
+        )
+        focused = nicknameEntryWidget
+        nicknameEntryWidget.isFocused = false
+        addDrawableChild(nicknameEntryWidget)
+
         // Add Model Preview
         modelWidget = ModelWidget(
             pX = x + 6,
@@ -221,10 +245,15 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
     }
 
     fun swapPartySlot(sourceIndex: Int, targetIndex: Int) {
-        val sourcePokemon = partyList[sourceIndex]
+        if (sourceIndex >= this.party.size || targetIndex >= this.party.size) {
+            return
+        }
+
+        val sourcePokemon = this.party.getOrNull(sourceIndex)
 
         if (sourcePokemon != null) {
-            val targetPokemon = partyList[targetIndex]
+            val targetPokemon = this.party.getOrNull(targetIndex)
+
             val sourcePosition = PartyPosition(sourceIndex)
             val targetPosition = PartyPosition(targetIndex)
 
@@ -233,8 +262,8 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
             packet.sendToServer()
 
             // Update change in UI
-            partyList[targetIndex] = sourcePokemon
-            partyList[sourceIndex] = targetPokemon
+            this.party[targetIndex] = sourcePokemon
+            this.party[sourceIndex] = targetPokemon
             displaySideScreen(PARTY)
             (sideScreen as PartyWidget).enableSwap()
         }
@@ -244,14 +273,13 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
      * Switches the selected PKM
      */
     fun switchSelection(newSelection: Int) {
-        partyList[newSelection]?.run {
-            selectedPokemon = this
-        }
+        this.party.getOrNull(newSelection)?.let { this.selectedPokemon = it }
         moveSetSubscription?.unsubscribe()
         listenToMoveSet()
         displayMainScreen(mainScreenIndex)
         children().find { it is EvolutionSelectScreen }?.let(this::remove)
         modelWidget.pokemon = selectedPokemon.asRenderablePokemon()
+        nicknameEntryWidget.setSelectedPokemon(selectedPokemon)
     }
 
     private var moveSetSubscription: ObservableSubscription<MoveSet>? = null
@@ -335,7 +363,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
                     pY = y + 24,
                     isParty = selectedPokemon in CobblemonClient.storage.myParty,
                     summary = this,
-                    partyList = partyList
+                    partyList = this.party
                 )
             }
             MOVE_SWAP -> {
@@ -445,15 +473,6 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
             scale = SCALE
         )
 
-        drawScaledText(
-            matrixStack = pMatrixStack,
-            font = CobblemonResources.DEFAULT_LARGE,
-            text = selectedPokemon.displayName.bold(),
-            x = x + 12,
-            y = y + 14.5,
-            shadow = true
-        )
-
         if (selectedPokemon.gender != Gender.GENDERLESS) {
             val isMale = selectedPokemon.gender == Gender.MALE
             val textSymbol = if (isMale) "♂".text().bold() else "♀".text().bold()
@@ -515,8 +534,8 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
         val itemX = x + 3
         val itemY = y + 104
         if (!heldItem.isEmpty) {
-            MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem, itemX, itemY)
-            MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+            MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(pMatrixStack, heldItem, itemX, itemY)
+            MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(pMatrixStack, MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
         }
 
         drawScaledText(
@@ -562,12 +581,28 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
         return false
     }
 
-    override fun mouseScrolled(d: Double, e: Double, f: Double): Boolean {
-        return children().any { it.mouseScrolled(d, e, f) }
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
+        return children().any { it.mouseScrolled(mouseX, mouseY, amount) }
     }
 
-    override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
-        return children().any { it.mouseClicked(d, e, i) }
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        return children().any { it.mouseClicked(mouseX, mouseY, button) }
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
+        if (sideScreenIndex == MOVE_SWAP || sideScreenIndex == EVOLVE) sideScreen.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+    }
+
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        if ((keyCode == InputUtil.GLFW_KEY_ENTER || keyCode == InputUtil.GLFW_KEY_KP_ENTER) && nicknameEntryWidget.isFocused) { // Enter pressed
+            nicknameEntryWidget.isFocused = false
+        }
+        return nicknameEntryWidget.keyPressed(keyCode, scanCode, modifiers) || super.keyPressed(keyCode, scanCode, modifiers)
+    }
+
+    override fun charTyped(chr: Char, modifiers: Int): Boolean {
+        return nicknameEntryWidget.charTyped(chr, modifiers) || super.charTyped(chr, modifiers)
     }
 
     fun playSound(soundEvent: SoundEvent) {

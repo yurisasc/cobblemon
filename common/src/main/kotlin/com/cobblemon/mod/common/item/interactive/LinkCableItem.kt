@@ -19,7 +19,8 @@ class LinkCableItem : PokemonInteractiveItem(Settings(), Ownership.OWNER) {
         val pokemon = entity.pokemon
         pokemon.evolutions.filterIsInstance<TradeEvolution>().forEach { evolution ->
             // If an evolution is possible non-optional or has been successfully queued we will consume the item and stop
-            if (evolution.evolve(pokemon)) {
+            // validate requirements to respect required held items and such.
+            if (evolution.requirements.all { it.check(pokemon) } && evolution.evolve(pokemon)) {
                 this.consumeItem(player, stack)
                 return true
             }

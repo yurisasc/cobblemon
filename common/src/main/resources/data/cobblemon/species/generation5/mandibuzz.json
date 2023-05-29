@@ -26,6 +26,7 @@
     "flying"
   ],
   "moves": [
+    "1:bonerush",
     "1:flatter",
     "1:furyattack",
     "1:gust",
@@ -71,6 +72,7 @@
     "tm:irondefense",
     "tm:nastyplot",
     "tm:payback",
+    "tm:pluck",
     "tm:protect",
     "tm:psychup",
     "tm:raindance",
@@ -95,11 +97,27 @@
     "tm:taunt",
     "tm:thief",
     "tm:torment",
+    "tm:toxic",
     "tm:uturn",
     "tutor:block",
+    "tutor:darkpulse",
+    "tutor:defog",
     "tutor:dualwingbeat",
+    "tutor:feintattack",
+    "tutor:flatter",
+    "tutor:foulplay",
+    "tutor:heatwave",
+    "tutor:irondefense",
+    "tutor:knockoff",
     "tutor:lashout",
-    "tutor:snatch"
+    "tutor:nastyplot",
+    "tutor:pluck",
+    "tutor:roost",
+    "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:tailwind"
   ],
   "labels": [
     "gen5"

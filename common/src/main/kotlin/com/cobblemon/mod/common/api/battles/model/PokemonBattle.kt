@@ -16,6 +16,8 @@ import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.red
@@ -25,12 +27,17 @@ import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
+import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
-import com.cobblemon.mod.common.battles.runner.GraalShowdown
+import com.cobblemon.mod.common.battles.interpreter.ContextManager
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
@@ -86,8 +93,13 @@ open class PokemonBattle(
 
     var dispatchResult = GO
     val dispatches = ConcurrentLinkedQueue<BattleDispatch>()
+    val afterDispatches = mutableListOf<() -> Unit>()
 
     val captureActions = mutableListOf<BattleCaptureAction>()
+
+    val majorBattleActions = hashMapOf<UUID, BattleMessage>()
+    val minorBattleActions = hashMapOf<UUID, BattleMessage>()
+    val contextManager = ContextManager()
 
     /** Whether or not there is one side with at least one player, and the other only has wild Pokémon. */
     val isPvW: Boolean
@@ -145,13 +157,20 @@ open class PokemonBattle(
         return actor to pokemon
     }
 
+    fun getBattlePokemon(pnx: String, pokemonID: String): BattlePokemon {
+        val actor = actors.find { it.showdownId == pnx.substring(0, 2) }
+            ?: throw IllegalStateException("Invalid pnx: $pnx - unknown actor")
+        return actor.pokemonList.find { it.uuid.toString() == pokemonID }
+            ?: throw IllegalStateException("Invalid pnx: $pnx - unknown pokemon")
+    }
+
     fun broadcastChatMessage(component: Text) {
         return actors.forEach { it.sendMessage(component) }
     }
 
     fun writeShowdownAction(vararg messages: String) {
         log(messages.joinToString("\n"))
-        GraalShowdown.sendToShowdown(battleId, messages.toList().toTypedArray())
+        ShowdownService.get().send(battleId, messages.toList().toTypedArray())
     }
 
     fun turn(newTurnNumber: Int) {
@@ -190,7 +209,7 @@ open class PokemonBattle(
                         }
                         val experience = Cobblemon.experienceCalculator.calculate(opponentPokemon, faintedPokemon, multiplier)
                         if (experience > 0) {
-                            opponent.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
+                            opponent.awardExperience(opponentPokemon, experience)
                         }
                         Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
                             pokemon.evs.add(stat, amount)
@@ -199,7 +218,14 @@ open class PokemonBattle(
                 }
             }
         }
+        // Heal Mon if wild
+        actors.filter { it.type == ActorType.WILD }
+            .filterIsInstance<EntityBackedBattleActor<*>>()
+            .mapNotNull { it.entity }
+            .filterIsInstance<PokemonEntity>()
+            .forEach{it.pokemon.heal()}
         sendUpdate(BattleEndPacket())
+        sendUpdate(BattleMusicPacket(null))
         BattleRegistry.closeBattle(this)
     }
 
@@ -257,7 +283,7 @@ open class PokemonBattle(
         }
     }
 
-    fun dispatchWaiting(dispatcher: () -> Unit, delaySeconds: Float = 1F) {
+    fun dispatchWaiting(delaySeconds: Float = 1F, dispatcher: () -> Unit) {
         dispatch {
             dispatcher()
             WaitDispatch(delaySeconds)
@@ -279,13 +305,22 @@ open class PokemonBattle(
         dispatches.add(dispatcher)
     }
 
+    fun doWhenClear(action: () -> Unit) {
+        afterDispatches.add(action)
+    }
+
     fun tick() {
         while (dispatchResult.canProceed()) {
             val dispatch = dispatches.poll() ?: break
             dispatchResult = dispatch(this)
         }
 
-        if (started && isPvW && !ended) {
+        if (dispatches.isEmpty()) {
+            afterDispatches.toList().forEach { it() }
+            afterDispatches.clear()
+        }
+
+        if (started && isPvW && !ended && dispatches.isEmpty()) {
             checkFlee()
         }
     }
@@ -296,18 +331,27 @@ open class PokemonBattle(
             .filterIsInstance<FleeableBattleActor>()
             .filter { it.getWorldAndPosition() != null }
             .none { pokemonActor ->
-                val (world, pos) = pokemonActor.getWorldAndPosition()!!
-                val nearestPlayerActorDistance = actors.asSequence()
-                    .filter { it.type == ActorType.PLAYER }
-                    .filterIsInstance<EntityBackedBattleActor<*>>()
-                    .mapNotNull { it.entity }
-                    .filter { it.world == world }
-                    .minOfOrNull { pos.distanceTo(it.pos) }
+                if (pokemonActor.fleeDistance == -1F) true
+                else {
+                    val (world, pos) = pokemonActor.getWorldAndPosition()!!
+                    val nearestPlayerActorDistance = actors.asSequence()
+                        .filter { it.type == ActorType.PLAYER }
+                        .filterIsInstance<EntityBackedBattleActor<*>>()
+                        .mapNotNull { it.entity }
+                        .filter { it.world == world }
+                        .minOfOrNull { pos.distanceTo(it.pos) }
 
-                nearestPlayerActorDistance != null && nearestPlayerActorDistance < pokemonActor.fleeDistance
+                    nearestPlayerActorDistance != null && nearestPlayerActorDistance < pokemonActor.fleeDistance
+                }
             }
-
         if (wildPokemonOutOfRange) {
+            // Heal Wild Pokemon
+            actors.filter { it.type == ActorType.WILD }
+                .filterIsInstance<EntityBackedBattleActor<*>>()
+                .mapNotNull { it.entity }
+                .filterIsInstance<PokemonEntity>()
+                .forEach{it.pokemon.heal()}
+            CobblemonEvents.BATTLE_FLED.post(BattleFledEvent(this, actors.asSequence().filterIsInstance<PlayerBattleActor>().iterator().next()))
             actors.filterIsInstance<EntityBackedBattleActor<*>>().mapNotNull { it.entity }.forEach { it.sendMessage(battleLang("flee").yellow()) }
             stop()
         }
@@ -335,8 +379,8 @@ open class PokemonBattle(
      * @return The generated [Text] meant to notify the client.
      */
     internal fun createUnimplemented(message: BattleMessage): Text {
-        LOGGER.error("Failed to handle '{}' action {}", message.id, message.rawMessage)
-        return Text.literal("Failed to handle '${message.id}' action ${message.rawMessage}").red()
+        LOGGER.error("Missing interpretation on '{}' action {}", message.id, message.rawMessage)
+        return Text.literal("Missing interpretation on '${message.id}' action ${message.rawMessage}").red()
     }
 
     /**
@@ -353,8 +397,7 @@ open class PokemonBattle(
         if (publicMessage.id != privateMessage.id) {
             throw IllegalArgumentException("Messages do not match")
         }
-        LOGGER.error("Failed to handle '{}' action: \nPublic » {}\nPrivate » {}", publicMessage.id, publicMessage.rawMessage, privateMessage.rawMessage)
-        return Text.literal("Failed to handle '${publicMessage.id}' action please report to the developers").red()
+        LOGGER.error("Missing interpretation on '{}' action: \nPublic » {}\nPrivate » {}", publicMessage.id, publicMessage.rawMessage, privateMessage.rawMessage)
+        return Text.literal("Missing interpretation on '${publicMessage.id}' action please report to the developers").red()
     }
-
 }

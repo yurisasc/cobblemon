@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
@@ -237,7 +238,7 @@ class PCGUI(
             drawScaledText(
                 matrixStack = matrices,
                 font = CobblemonResources.DEFAULT_LARGE,
-                text = pokemon.displayName.bold(),
+                text = pokemon.getDisplayName().bold(),
                 x = x + 12,
                 y = y + 11.5,
                 shadow = true
@@ -262,8 +263,8 @@ class PCGUI(
             val itemX = x + 3
             val itemY = y + 98
             if (!heldItem.isEmpty) {
-                MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem, itemX, itemY)
-                MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+                MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(matrices, heldItem, itemX, itemY)
+                MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(matrices, MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
             }
 
             drawScaledText(
@@ -408,9 +409,19 @@ class PCGUI(
     }
 
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
-        if (keyCode == 256) {
-            playSound(CobblemonSounds.PC_OFF)
-            UnlinkPlayerFromPCPacket().sendToServer()
+        when (keyCode) {
+            InputUtil.GLFW_KEY_ESCAPE -> {
+                playSound(CobblemonSounds.PC_OFF)
+                UnlinkPlayerFromPCPacket().sendToServer()
+            }
+            InputUtil.GLFW_KEY_RIGHT -> {
+                playSound(CobblemonSounds.GUI_CLICK)
+                this.storageWidget.box += 1
+            }
+            InputUtil.GLFW_KEY_LEFT -> {
+                playSound(CobblemonSounds.GUI_CLICK)
+                this.storageWidget.box -= 1
+            }
         }
         return super.keyPressed(keyCode, scanCode, modifiers)
     }

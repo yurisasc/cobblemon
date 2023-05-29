@@ -52,7 +52,6 @@
       "eggGroups": [
         "mineral"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -104,6 +103,7 @@
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:endure",
+    "tm:explosion",
     "tm:facade",
     "tm:fling",
     "tm:focusblast",
@@ -140,11 +140,22 @@
     "tm:swagger",
     "tm:thief",
     "tm:thunderbolt",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:venomdrench",
     "tm:venoshock",
     "tutor:corrosivegas",
-    "tutor:spite"
+    "tutor:darkpulse",
+    "tutor:drainpunch",
+    "tutor:gigadrain",
+    "tutor:gunkshot",
+    "tutor:painsplit",
+    "tutor:recycle",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:spite",
+    "tutor:stompingtantrum"
   ],
   "labels": [
     "gen5"

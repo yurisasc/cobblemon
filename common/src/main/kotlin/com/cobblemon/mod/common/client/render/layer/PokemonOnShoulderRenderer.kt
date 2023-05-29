@@ -22,7 +22,12 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
+import java.util.*
+
 class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRendererContext<T, PlayerEntityModel<T>>) : FeatureRenderer<T, PlayerEntityModel<T>>(renderLayerParent) {
+
+    private val playerCache = hashMapOf<UUID, ShoulderCache>()
+
     override fun render(
         pMatrixStack: MatrixStack,
         pBuffer: VertexConsumerProvider,
@@ -53,7 +58,21 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
         val compoundTag = if (pLeftShoulder) pLivingEntity.shoulderEntityLeft else pLivingEntity.shoulderEntityRight
         if (compoundTag.isPokemonEntity()) {
             pMatrixStack.push()
-            val pokemon = Pokemon().loadFromNBT(compoundTag.getCompound(DataKeys.POKEMON))
+            val uuid = compoundTag.getCompound(DataKeys.POKEMON).getUuid(DataKeys.POKEMON_UUID)
+            val cache = this.playerCache.getOrPut(pLivingEntity.uuid) { ShoulderCache() }
+            val pokemon: Pokemon
+            if (pLeftShoulder && cache.lastKnownLeft?.uuid != uuid) {
+                pokemon = Pokemon().also { it.isClient = true }.loadFromNBT(compoundTag.getCompound(DataKeys.POKEMON))
+                cache.lastKnownLeft = pokemon
+            }
+            else if (!pLeftShoulder && cache.lastKnownRight?.uuid != uuid) {
+                pokemon = Pokemon().also { it.isClient = true }.loadFromNBT(compoundTag.getCompound(DataKeys.POKEMON))
+                cache.lastKnownRight = pokemon
+            }
+            else {
+                // should never be null but might as well be safe
+                pokemon = (if (pLeftShoulder) cache.lastKnownLeft else cache.lastKnownRight) ?: Pokemon()
+            }
             val scale = pokemon.form.baseScale * pokemon.scaleModifier
             val width = pokemon.form.hitbox.width
             val offset = width / 2 - 0.7
@@ -63,10 +82,10 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
                 0.0
             )
             pMatrixStack.scale(scale, scale, scale)
-            val model = PokemonModelRepository.getPoser(pokemon.species, pokemon.aspects)
+            val model = PokemonModelRepository.getPoser(pokemon.species.resourceIdentifier, pokemon.aspects)
             val state = PokemonFloatingState()
             state.animationSeconds = pLivingEntity.age.toFloat() / 20F
-            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(pokemon.species, pokemon.aspects, state)))
+            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(pokemon.species.resourceIdentifier, pokemon.aspects, state)))
             val i = LivingEntityRenderer.getOverlay(pLivingEntity, 0.0f)
 
             val pose = model.poses.values
@@ -84,10 +103,13 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
                 ageInTicks = pLivingEntity.age.toFloat()
             )
             model.render(pMatrixStack, vertexConsumer, pPackedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)
-            model.withLayerContext(pBuffer, state, PokemonModelRepository.getLayers(pokemon.species, pokemon.aspects)) {
+            model.withLayerContext(pBuffer, state, PokemonModelRepository.getLayers(pokemon.species.resourceIdentifier, pokemon.aspects)) {
                 model.render(pMatrixStack, vertexConsumer, pPackedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
             }
             pMatrixStack.pop();
         }
     }
+
+    private data class ShoulderCache(var lastKnownLeft: Pokemon? = null, var lastKnownRight: Pokemon? = null)
+
 }

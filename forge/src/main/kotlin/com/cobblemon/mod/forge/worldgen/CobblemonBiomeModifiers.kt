@@ -19,7 +19,6 @@ import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
 import net.minecraftforge.common.world.BiomeModifier
 import net.minecraftforge.common.world.ModifiableBiomeInfo
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.RegisterEvent
 import net.minecraftforge.server.ServerLifecycleHooks
@@ -35,12 +34,10 @@ internal object CobblemonBiomeModifiers : BiomeModifier {
     private var codec: Codec<out BiomeModifier>? = null
     private val entries = arrayListOf<Entry>()
 
-    fun register() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
-            event.register(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS) { helper ->
-                this.codec = Codec.unit(CobblemonBiomeModifiers)
-                helper.register(cobblemonResource("inject_coded"), this.codec)
-            }
+    fun register(event: RegisterEvent) {
+        event.register(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS) { helper ->
+            this.codec = Codec.unit(CobblemonBiomeModifiers)
+            helper.register(cobblemonResource("inject_coded"), this.codec)
         }
     }
 

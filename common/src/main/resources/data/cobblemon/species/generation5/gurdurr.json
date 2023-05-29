@@ -98,8 +98,18 @@
     "tm:workup",
     "tutor:block",
     "tutor:coaching",
+    "tutor:drainpunch",
+    "tutor:firepunch",
+    "tutor:focuspunch",
+    "tutor:helpinghand",
+    "tutor:icepunch",
     "tutor:knockoff",
-    "tutor:machpunch"
+    "tutor:lowkick",
+    "tutor:machpunch",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:superpower",
+    "tutor:thunderpunch"
   ],
   "labels": [
     "gen5"

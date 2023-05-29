@@ -42,6 +42,7 @@
     "egg:counter",
     "egg:dragonbreath",
     "egg:focuspunch",
+    "egg:reversal",
     "tm:aerialace",
     "tm:attract",
     "tm:brickbreak",
@@ -52,6 +53,7 @@
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
+    "tm:dragontail",
     "tm:earthquake",
     "tm:echoedvoice",
     "tm:endure",
@@ -92,8 +94,16 @@
     "tm:xscissor",
     "tutor:aquatail",
     "tutor:dracometeor",
+    "tutor:dragonpulse",
     "tutor:dualchop",
-    "tutor:scaleshot"
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:irontail",
+    "tutor:lowkick",
+    "tutor:outrage",
+    "tutor:scaleshot",
+    "tutor:snore",
+    "tutor:uproar"
   ],
   "labels": [
     "gen7"

@@ -16,6 +16,14 @@
     "special_defence": 60,
     "speed": 30
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 130,
   "maleRatio": -1,
   "shoulderMountable": false,
@@ -25,6 +33,15 @@
   "eggGroups": [
     "mineral"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "percentage": 50
+      }
+    ]
+  },
   "moves": [
     "1:thundershock",
     "1:visegrip",
@@ -42,6 +59,7 @@
     "44:zapcannon",
     "48:hyperbeam",
     "tm:assurance",
+    "tm:chargebeam",
     "tm:confide",
     "tm:doubleteam",
     "tm:endure",
@@ -71,16 +89,21 @@
     "tm:uproar",
     "tm:voltswitch",
     "tm:wildcharge",
+    "tutor:bind",
     "tutor:gravity",
+    "tutor:irondefense",
     "tutor:magiccoat",
     "tutor:magnetrise",
     "tutor:recycle",
     "tutor:risingvoltage",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:steelbeam",
     "tutor:steelroller",
-    "tutor:telekinesis"
+    "tutor:telekinesis",
+    "tutor:uproar"
   ],
   "labels": [
     "gen5"

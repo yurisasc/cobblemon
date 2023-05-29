@@ -13,6 +13,7 @@ object DataKeys {
     const val POKEMON = "Pokemon"
     const val POKEMON_UUID = "UUID"
     const val POKEMON_SPECIES_IDENTIFIER = "Species"
+    const val POKEMON_NICKNAME = "Nickname"
     const val POKEMON_FORM_ID = "FormId"
     const val POKEMON_LEVEL = "Level"
     const val POKEMON_GENDER = "Gender"
@@ -31,6 +32,8 @@ object DataKeys {
     const val POKEMON_ABILITY = "Ability"
     const val POKEMON_ABILITY_NAME = "AbilityName"
     const val POKEMON_ABILITY_FORCED = "AbilityForced"
+    const val POKEMON_ABILITY_INDEX = "AbilityIndex"
+    const val POKEMON_ABILITY_PRIORITY = "AbilityPriority"
     const val POKEMON_SHINY = "Shiny"
     const val POKEMON_STATUS = "Status"
     const val POKEMON_STATUS_NAME = "StatusName"
@@ -40,6 +43,7 @@ object DataKeys {
     const val POKEMON_HEALING_TIMER = "HealingTimer"
     const val POKEMON_DATA = "PokemonData"
     const val POKEMON_NATURE = "Nature"
+    const val POKEMON_MINTED_NATURE = "MintedNature"
     const val HELD_ITEM = "HeldItem"
 
     const val POKEMON_STATE = "State"
@@ -94,4 +98,7 @@ object DataKeys {
     const val POKEMON_ITEM_SPECIES = "species"
     const val POKEMON_ITEM_ASPECTS = "aspects"
 
+    // Features
+    const val CAN_BE_MILKED = "milkable"
+    const val HAS_BEEN_SHEARED = "sheared"
 }

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Primarina",
   "nationalPokedexNumber": 730,
   "primaryType": "water",
@@ -25,10 +26,20 @@
     "water_1",
     "field"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 20
+      }
+    ]
+  },
   "moves": [
     "1:disarmingvoice",
     "1:growl",
     "1:pound",
+    "1:sparklingaria",
     "1:watergun",
     "9:aquajet",
     "12:babydolleyes",
@@ -100,13 +111,22 @@
     "tutor:aquatail",
     "tutor:covet",
     "tutor:flipturn",
+    "tutor:helpinghand",
     "tutor:hydrocannon",
+    "tutor:hypervoice",
+    "tutor:icywind",
+    "tutor:irontail",
+    "tutor:liquidation",
     "tutor:magiccoat",
     "tutor:mistyexplosion",
+    "tutor:moonblast",
     "tutor:perishsong",
+    "tutor:snore",
     "tutor:tripleaxel",
+    "tutor:uproar",
     "tutor:waterpledge",
-    "tutor:waterpulse"
+    "tutor:waterpulse",
+    "tutor:wonderroom"
   ],
   "labels": [
     "gen7"
@@ -118,8 +138,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.7,
+    "height": 1.8,
     "fixed": false
   },
   "baseFriendship": 50,

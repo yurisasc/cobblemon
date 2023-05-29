@@ -79,7 +79,6 @@ interface HeldItemManager {
      */
     fun take(pokemon: BattlePokemon, showdownId: String)
 
-
     companion object {
 
         /**
