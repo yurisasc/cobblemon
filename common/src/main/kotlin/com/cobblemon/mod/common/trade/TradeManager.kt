@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferExpiredPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket.TradeablePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
 import com.cobblemon.mod.common.util.getPlayer
@@ -60,8 +61,8 @@ object TradeManager {
             val otherPlayer = request.senderId.getPlayer() ?: return
             val trade = ActiveTrade(PlayerTradeParticipant(player), PlayerTradeParticipant(otherPlayer))
             activeTrades.add(trade)
-            player.sendPacket(TradeStartedPacket(otherPlayer.uuid, otherPlayer.name.copy()))
-            otherPlayer.sendPacket(TradeStartedPacket(player.uuid, player.name.copy()))
+            player.sendPacket(TradeStartedPacket(otherPlayer.uuid, otherPlayer.name.copy(), trade.player2.party.map(::TradeablePokemon)))
+            otherPlayer.sendPacket(TradeStartedPacket(player.uuid, player.name.copy(), trade.player1.party.map(::TradeablePokemon)))
         }
     }
 

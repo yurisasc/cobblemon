@@ -155,7 +155,7 @@
   "cobblemon.overflow_no_space": "Your party was full and so was %1$s!",
   "cobblemon.overflow_to_pc": "Your party was full! %1$s has been added to %2$s.",
   "cobblemon.your_pc": "Your PC",
-  "cobblemon.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
+  "cobblemon.command.pokespawn.invalid-pokemon": "Invalid Pokémon name",
   "cobblemon.command.pokespawn.invalid-move": "Invalid move name",
 
   "cobblemon.ui.generic.yes": "Yes",
@@ -196,6 +196,8 @@
   "cobblemon.ui.info.ability": "Ability",
   "cobblemon.ui.info.experience_points": "Exp. Points",
   "cobblemon.ui.info.to_next_level": "To Next Lv.",
+
+  "cobblemon.ui.trade": "Trade",
 
   "cobblemon.ui.party": "Party",
   "cobblemon.ui.power": "Power",

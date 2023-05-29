@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui.trade
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.bold
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.trade.ClientTrade
@@ -22,7 +23,7 @@ import net.minecraft.text.Text
 
 class TradeButton(
     x: Int, y: Int,
-    val trade: ClientTrade,
+    val parent: TradeGUI,
     onPress: PressAction
 ) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("Trade"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
@@ -36,8 +37,11 @@ class TradeButton(
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        val texture = if (trade.myOffer.get() == null || trade.oppositeOffer.get() == null) buttonDisabledResource
-            else (if (trade.acceptedOppositeOffer) buttonActiveResource else buttonResource)
+        val enabled = parent.offeredPokemon != null && parent.opposingOfferedPokemon != null
+        val active = parent.tradeConfirmed && !parent.opposingTradeConfirmed
+
+        val texture = if (!enabled) buttonDisabledResource
+            else (if (active) buttonActiveResource else buttonResource)
         blitk(
             matrixStack = matrices,
             texture = texture,
@@ -49,10 +53,12 @@ class TradeButton(
             textureHeight = HEIGHT * 2
         )
 
+
+        var label = if (active) ".".repeat(parent.readyProgress).text() else lang("ui.trade")
         drawScaledText(
             matrixStack = matrices,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = lang("ui.pc.release").bold(),
+            text = label.bold(),
             x = x + (WIDTH / 2),
             y = y + 2.5,
             centered = true,

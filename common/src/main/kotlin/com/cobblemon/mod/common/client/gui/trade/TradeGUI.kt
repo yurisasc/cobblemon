@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.client.trade.ClientTrade
-import com.cobblemon.mod.common.net.messages.server.storage.pc.UnlinkPlayerFromPCPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket.TradeablePokemon
 import com.cobblemon.mod.common.net.messages.server.trade.CancelTradePacket
 import com.cobblemon.mod.common.net.messages.server.trade.ChangeTradeAcceptancePacket
 import com.cobblemon.mod.common.net.messages.server.trade.UpdateTradeOfferPacket
@@ -50,7 +50,8 @@ class TradeGUI(
     val trade: ClientTrade,
     val traderId: UUID,
     val traderName: MutableText,
-    val traderParty: ClientParty
+    val traderParty: List<TradeablePokemon>,
+    val party: ClientParty
 ): Screen(lang("trade.gui.title")) {
 
     companion object {
@@ -62,6 +63,10 @@ class TradeGUI(
         const val PORTRAIT_SIZE = 78
         const val TYPE_SPACER_WIDTH = 134
         const val TYPE_SPACER_HEIGHT = 12
+        const val TRADE_READY_WIDTH = 28
+        const val TRADE_READY_HEIGHT = 6
+        const val TRADE_READY_TOP_HEIGHT = 5
+        const val READY_PROGRESS_LIMIT = 6
         const val SCALE = 0.5F
 
         private val baseResource = cobblemonResource("textures/gui/trade/trade_base.png")
@@ -69,17 +74,23 @@ class TradeGUI(
         private val typeSpacerResource = cobblemonResource("textures/gui/trade/type_spacer.png")
         private val typeSpacerSingleResource = cobblemonResource("textures/gui/trade/type_spacer_single.png")
         private val typeSpacerDoubleResource = cobblemonResource("textures/gui/trade/type_spacer_double.png")
+        private val tradeReadyResource = cobblemonResource("textures/gui/trade/trade_ready.png")
+        private val tradeReadyTopResource = cobblemonResource("textures/gui/trade/trade_ready_top.png")
+        private val opposingTradeReadyResource = cobblemonResource("textures/gui/trade/trade_ready_opposing.png")
+        private val opposingTradeReadyTopResource = cobblemonResource("textures/gui/trade/trade_ready_top_opposing.png")
     }
 
     private var offeredPokemonModel: ModelWidget? = null
     private var opposingOfferedPokemonModel: ModelWidget? = null
-    internal var offeredPokemon: Pokemon? = null
-    internal var opposingOfferedPokemon: Pokemon? = null
 
-    private lateinit var tradeButton: TradeButton
+    var offeredPokemon: Pokemon? = null
+    var opposingOfferedPokemon: Pokemon? = null
+    var tradeConfirmed: Boolean = false
+    var opposingTradeConfirmed: Boolean = false
 
     var ticksElapsed = 0
     var selectPointerOffsetY = 0
+    var readyProgress = 0
     var selectPointerOffsetIncrement = false
 
     override fun init() {
@@ -90,17 +101,31 @@ class TradeGUI(
         this.addDrawableChild(
             ExitButton(pX = x + 265, pY = y + 6) {
                 playSound(CobblemonSounds.GUI_CLICK)
+                close()
                 MinecraftClient.getInstance().setScreen(null)
             }
         )
 
         // Trade Button
-        tradeButton = TradeButton(
-            x = x + 120,
-            y = y + 119,
-            trade = trade,
-            onPress = {
-            }
+        this.addDrawableChild(
+            TradeButton(
+                x = x + 120,
+                y = y + 119,
+                parent = this,
+                onPress = {
+                    if (offeredPokemon != null && opposingOfferedPokemon != null) {
+                        if (tradeConfirmed) {
+                            trade.acceptedOppositeOffer = false;
+                            tradeConfirmed = false
+                            readyProgress = 0
+                        } else {
+                            trade.acceptedOppositeOffer = true;
+                            tradeConfirmed = true
+                        }
+                        // TODO send packets
+                    }
+                }
+            )
         )
 
         // Party
@@ -118,20 +143,19 @@ class TradeGUI(
                 slotY += ((PartySlot.SIZE + PARTY_SLOT_PADDING) * offsetIndex) + offsetY
             }
 
-            val pokemon = traderParty.get(PartyPosition(partyIndex))
-            println("LOAD PARTY POKEMON: " + pokemon?.displayName)
+            val pokemon = party.get(PartyPosition(partyIndex))
             PartySlot(
                 x = slotX,
                 y = slotY,
                 pokemon = pokemon,
                 parent = this,
                 onPress = {
-                    trade.myOffer.set(pokemon)
-                    println("CLICKED SLOT POKEMON: " + pokemon?.displayName)
+                    if (!tradeConfirmed) trade.myOffer.set(if (offeredPokemon == pokemon) null else pokemon)
                 }
             ).also { widget -> addDrawableChild(widget) }
         }
 
+        // TODO REPLACE WITH OPPOSING TRADER'S PARTY, CURRENT USES PLAYER'S PARTY
         // Opposing Party
         for (partyIndex in 0..5) {
             var slotX = x + 230
@@ -150,7 +174,7 @@ class TradeGUI(
             PartySlot(
                 x = slotX,
                 y = slotY,
-                pokemon = traderParty.get(PartyPosition(partyIndex)),
+                pokemon = party.get(PartyPosition(partyIndex)),
                 parent = this,
                 isOpposing = true,
                 onPress = {}
@@ -166,21 +190,13 @@ class TradeGUI(
             // Make a sound maybe
         }
         trade.oppositeOffer.subscribe { newOffer: Pokemon? ->
-            // Update any GUI stuff
+            setOfferedPokemon(pokemon = newOffer, isOpposing = true)
         }
         trade.oppositeAcceptedMyOffer.subscribe { acceptance ->
-            // Swap it to say they are ready or w/e
+            opposingTradeConfirmed = acceptance
         }
         trade.myOffer.subscribe { myOffer: Pokemon? ->
-            // Update any GUI
-            if (myOffer !=  null) {
-                println("POKEMON: " + myOffer.displayName)
-                setOfferedPokemon(pokemon = myOffer)
-                setOfferedPokemon(
-                    pokemon = myOffer,
-                    isOpposing = true
-                )
-            }
+            setOfferedPokemon(pokemon = myOffer)
         }
     }
 
@@ -225,7 +241,74 @@ class TradeGUI(
         renderPokemonInfo(offeredPokemon, false, matrices, x, y)
         renderPokemonInfo(opposingOfferedPokemon, true, matrices, x, y)
 
-        tradeButton.render(matrices, mouseX, mouseY, delta)
+        if (tradeConfirmed) {
+            blitk(
+                matrixStack = matrices,
+                texture = tradeReadyResource,
+                x = x + 85,
+                y = y + 126,
+                width = TRADE_READY_WIDTH,
+                height = TRADE_READY_HEIGHT,
+                vOffset = TRADE_READY_HEIGHT * readyProgress,
+                textureHeight = TRADE_READY_HEIGHT * READY_PROGRESS_LIMIT
+            )
+
+            blitk(
+                matrixStack = matrices,
+                texture = tradeReadyTopResource,
+                x = x + 112,
+                y = y + 2,
+                width = TRADE_READY_WIDTH,
+                height = TRADE_READY_TOP_HEIGHT,
+                vOffset = TRADE_READY_TOP_HEIGHT * readyProgress,
+                textureHeight = TRADE_READY_TOP_HEIGHT * READY_PROGRESS_LIMIT
+            )
+        }
+
+        if (opposingTradeConfirmed) {
+            blitk(
+                matrixStack = matrices,
+                texture = opposingTradeReadyResource,
+                x = x + 180,
+                y = y + 126,
+                width = TRADE_READY_WIDTH,
+                height = TRADE_READY_HEIGHT,
+                vOffset = TRADE_READY_HEIGHT * readyProgress,
+                textureHeight = TRADE_READY_HEIGHT * READY_PROGRESS_LIMIT
+            )
+
+            blitk(
+                matrixStack = matrices,
+                texture = opposingTradeReadyTopResource,
+                x = x + 153,
+                y = y + 2,
+                width = TRADE_READY_WIDTH,
+                height = TRADE_READY_TOP_HEIGHT,
+                vOffset = TRADE_READY_TOP_HEIGHT * readyProgress,
+                textureHeight = TRADE_READY_TOP_HEIGHT * READY_PROGRESS_LIMIT
+            )
+        }
+
+        // Render usernames
+        drawScaledText(
+            matrixStack = matrices,
+            font = CobblemonResources.DEFAULT_LARGE,
+            text = MinecraftClient.getInstance().session.username.text().bold(),
+            x = x + 57,
+            y = y - 10.5,
+            centered = true,
+            shadow = true
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            font = CobblemonResources.DEFAULT_LARGE,
+            text = traderName.bold(),
+            x = x + 237,
+            y = y - 10.5,
+            centered = true,
+            shadow = true
+        )
 
         super.render(matrices, mouseX, mouseY, delta)
 
@@ -252,6 +335,8 @@ class TradeGUI(
         var delayFactor = 3
         if (ticksElapsed % (2 * delayFactor) == 0) selectPointerOffsetIncrement = !selectPointerOffsetIncrement
         if (ticksElapsed % delayFactor == 0) selectPointerOffsetY += if (selectPointerOffsetIncrement) 1 else -1
+
+        if (ticksElapsed % 6 == 0) readyProgress = if (readyProgress == READY_PROGRESS_LIMIT) 0 else readyProgress + 1
     }
 
     override fun close() {
@@ -259,13 +344,13 @@ class TradeGUI(
         super.close()
     }
 
-    private fun setOfferedPokemon(pokemon: Pokemon, isOpposing: Boolean = false) {
+    private fun setOfferedPokemon(pokemon: Pokemon?, isOpposing: Boolean = false) {
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
 
         if (isOpposing) {
             opposingOfferedPokemon = pokemon
-            opposingOfferedPokemonModel = ModelWidget(
+            opposingOfferedPokemonModel = if (pokemon != null) ModelWidget(
                 pX = x + 147,
                 pY = y + 30,
                 pWidth = PORTRAIT_SIZE,
@@ -274,10 +359,10 @@ class TradeGUI(
                 baseScale = 2F,
                 rotationY = 35F,
                 offsetY = -10.0
-            )
+            ) else null
         } else {
             offeredPokemon = pokemon
-            offeredPokemonModel = ModelWidget(
+            offeredPokemonModel = if (pokemon != null) ModelWidget(
                 pX = x + 68,
                 pY = y + 30,
                 pWidth = PORTRAIT_SIZE,
@@ -286,7 +371,7 @@ class TradeGUI(
                 baseScale = 2F,
                 rotationY = 325F,
                 offsetY = -10.0
-            )
+            ) else null
         }
     }
 
@@ -360,15 +445,6 @@ class TradeGUI(
                 MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem, itemX, itemY)
                 MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
             }
-
-            drawScaledText(
-                matrixStack = matrices,
-                text = lang("held_item"),
-                x = x + (if (isOpposing) 270.5 else 22.5),
-                y = y + 135.5,
-                scale = SCALE,
-                centered = true
-            )
 
             // Shiny Icon
             if (pokemon.shiny) {
@@ -547,6 +623,15 @@ class TradeGUI(
 
         drawScaledText(
             matrixStack = matrices,
+            text = lang("held_item"),
+            x = x + 22.5,
+            y = y + 135.5,
+            scale = SCALE,
+            centered = true
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
             text = lang("ui.stats.ivs").bold(),
             x = x + 37.5,
             y = y + 147.5,
@@ -628,6 +713,15 @@ class TradeGUI(
             y = y + 173.5,
             centered = true,
             scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("held_item"),
+            x = x + 270.5,
+            y = y + 135.5,
+            scale = SCALE,
+            centered = true
         )
 
         drawScaledText(
