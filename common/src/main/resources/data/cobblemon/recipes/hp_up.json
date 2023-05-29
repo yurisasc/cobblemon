@@ -2,16 +2,28 @@
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
         {
-            "item": "minecraft:iron_nugget"
+            "item": "cobblemon:medicinal_brew"
         },
         {
-            "item": "cobblemon:medicinal_brew"
+            "item": "minecraft:sugar"
+        },
+        {
+            "item": "minecraft:sugar"
         },
         {
             "item": "cobblemon:pomeg_berry"
         },
         {
-            "item": "minecraft:sugar"
+            "item": "cobblemon:pomeg_berry"
+        },
+        {
+            "item": "cobblemon:white_mint_leaf"
+        },
+        {
+            "item": "cobblemon:white_mint_leaf"
+        },
+		{
+            "item": "minecraft:iron_ingot"
         }
     ],
     "result": {

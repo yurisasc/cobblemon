@@ -2,16 +2,16 @@
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
         {
-            "item": "minecraft:gold_nugget"
+            "item": "cobblemon:pp_up"
         },
-        {
+		{
             "item": "cobblemon:pp_up"
         },
         {
-            "item": "cobblemon:leppa_berry"
+            "item": "cobblemon:vivichoke"
         },
         {
-            "item": "minecraft:sugar"
+            "item": "cobblemon:vivichoke"
         }
     ],
     "result": {

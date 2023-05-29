@@ -2,16 +2,28 @@
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
         {
-            "item": "minecraft:iron_nugget"
+            "item": "cobblemon:medicinal_brew"
         },
         {
-            "item": "cobblemon:medicinal_brew"
+            "item": "cobblemon:pep_up_flower"
+        },
+        {
+            "item": "cobblemon:pep_up_flower"
         },
         {
             "item": "cobblemon:leppa_berry"
         },
         {
-            "item": "minecraft:sugar"
+            "item": "cobblemon:leppa_berry"
+        },
+        {
+            "item": "cobblemon:vivichoke"
+        },
+        {
+            "item": "cobblemon:vivichoke"
+        },
+        {
+            "item": "minecraft:gold_ingot"
         }
     ],
     "result": {

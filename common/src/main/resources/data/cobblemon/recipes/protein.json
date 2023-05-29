@@ -2,16 +2,28 @@
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
         {
-            "item": "minecraft:iron_nugget"
+            "item": "cobblemon:medicinal_brew"
         },
         {
-            "item": "cobblemon:medicinal_brew"
+            "tag": "cobblemon:protein_ingredients"
+        },
+        {
+            "tag": "cobblemon:protein_ingredients"
         },
         {
             "item": "cobblemon:kelpsy_berry"
         },
         {
-            "tag": "cobblemon:protein_ingredients"
+            "item": "cobblemon:kelpsy_berry"
+        },
+        {
+            "item": "cobblemon:red_mint_leaf"
+        },
+        {
+            "item": "cobblemon:red_mint_leaf"
+        },
+		{
+            "item": "minecraft:iron_ingot"
         }
     ],
     "result": {
