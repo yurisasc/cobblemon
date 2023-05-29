@@ -98,7 +98,9 @@
   "labels": [
     "gen9"
   ],
-  "aspects": [],
+  "aspects": [
+    "maushold-family-three"
+  ],
   "height": 3,
   "weight": 23,
   "preEvolution": "tandemaus",
@@ -198,7 +200,7 @@
         "gen9"
       ],
       "aspects": [
-        "four"
+        "maushold-family-four"
       ],
       "height": 3,
       "weight": 28,

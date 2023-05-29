@@ -31,7 +31,6 @@
 - Lanturn
 - Aipom
 - Gligar
-- 
 
 #### Gen 3
 
@@ -45,6 +44,14 @@
 - Breloom
 - Cacnea
 - Cacturne
+- Clamperl
+- Huntail
+- Gorebyss
+- Surskit
+- Masquerain
+- Poochyena
+- Mightyena
+- Chimecho
 
 #### Gen 4
 
@@ -56,6 +63,8 @@
 - Luxray
 - Ambipom
 - Gliscor
+- Chatot
+- Chingling
 
 #### Gen 5
 
@@ -80,6 +89,9 @@
 - Wishiwashi
 - Cutiefly
 - Ribombee
+- Stufful
+- Bewear
+- Comfey
 
 #### Gen 8
 
@@ -87,6 +99,7 @@
 - Barraskewda
 - Nickit
 - Thievul
+- Falinks
 
 #### Gen 9
 
@@ -94,17 +107,19 @@
 - Espathra
 - Garganacl
 - Fidough
-- Dachbun
+- Dachsbun
 - Armarouge
 - Ceruledge
 - Cetoddle
 - Cetitan
 - Shroodle
-- Grafaiia
+- Grafaiai
+- Tandemaus
+- Maushold
 
 ### Changes
-- Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
-- Updated model of Sceptile.
+- Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgeotto, Pidgeot, Scyther, Scizor,and Kleavor.
+- Updated models of Sceptile and Shuckle.
 - Updated texture of Weedle.
 
 ### Fixes
@@ -114,7 +129,7 @@
 - Fixed super sized Pumpkaboo not having any moves.
 - Fixed Infernape look animation.
 - Fixed Garchomp t-posing while swimming.
-- Fixed a bug that caused sleeping pokemon to stay asleep.
+- Fixed a bug that caused sleeping Pokémon to stay asleep.
 - Fixed a bug that would freeze a battle when a Pokémon gets trapped due to an ability.
 - Fixed the Poké Ball close animation canceling whenever colliding with a block.
 - Fixed faint animations not working properly in add-ons.
@@ -123,6 +138,7 @@
 - Fixed deepslate water stone ore items looking like deepslate fire stone ores.
 - Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
 - Fixed a crash when wild Pokémon have to struggle under specific circumstances.
+- Fixed uncolored pixels on Yanma's shiny texture
 
 ### Developer
 - Added SpawnEvent

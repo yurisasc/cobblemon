@@ -3,9 +3,9 @@
   "order": 0,
   "variations": [
     {
-      "aspects": ["maushold-family-four"],
+      "aspects": [],
       "poser": "cobblemon:maushold",
-      "model": "cobblemon:maushold_four.geo",
+      "model": "cobblemon:maushold_three.geo",
       "texture": "cobblemon:textures/pokemon/0925_maushold/maushold.png",
       "layers": []
     },
@@ -14,6 +14,12 @@
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0925_maushold/maushold_shiny.png"
+    },
+    {
+      "aspects": [
+        "maushold-family-four"
+      ],
+      "model": "cobblemon:maushold_four.geo"
     }
   ]
 }
