@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.regex.Pattern
 import kotlin.io.path.Path
 import kotlin.io.path.name
+import org.junit.jupiter.api.Assertions.assertNotNull
 
 internal class ValidateAnimations {
 
@@ -67,8 +68,8 @@ internal class ValidateAnimations {
         Files.walk(assets).use {
             it.forEach {
                 val matcher = assetName.matcher(it.name)
-                if(matcher.matches()) {
-                    val resolver = cache[matcher.group("name")]!!
+                if (matcher.matches()) {
+                    val resolver = cache[matcher.group("name")] ?: return@forEach
                     resolver.animation = it
                 }
             }
