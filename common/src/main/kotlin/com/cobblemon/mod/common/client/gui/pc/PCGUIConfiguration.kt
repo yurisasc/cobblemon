@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.client.gui.pc
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.pokemon.Pokemon
 
-class PCGUIConfiguration(
+open class PCGUIConfiguration(
     val exitFunction: (PCGUI) -> Unit = { it.closeNormally(unlink = true) },
     val selectOverride: ((PCGUI, StorePosition, Pokemon?) -> Unit)? = null,
     val showParty: Boolean = true

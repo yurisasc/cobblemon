@@ -16,6 +16,8 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.client.CobblemonResources
+import com.cobblemon.mod.common.client.gui.pasture.PasturePCGUIConfiguration
+import com.cobblemon.mod.common.client.gui.pasture.PastureWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.settings.ServerSettings
@@ -134,6 +136,10 @@ class StorageWidget(
                 }
             }
         )
+
+        if (pcGui.configuration is PasturePCGUIConfiguration) {
+            addWidget(PastureWidget(pcGui.configuration, x + PCGUI.BASE_WIDTH - PastureWidget.WIDTH, y))
+        }
     }
 
     fun canDeleteSelected(): Boolean {
@@ -209,31 +215,34 @@ class StorageWidget(
 
     override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         // Party  Label
-        drawScaledText(
-            matrixStack = matrices,
-            font = CobblemonResources.DEFAULT_LARGE,
-            text = lang("ui.party").bold(),
-            x = x + 213,
-            y = y - 15.5,
-            centered = true,
-            shadow = true
-        )
-
-        if (canDeleteSelected() && displayConfirmRelease) {
+        if (pcGui.configuration.showParty) {
             drawScaledText(
                 matrixStack = matrices,
                 font = CobblemonResources.DEFAULT_LARGE,
-                text = lang("ui.pc.release").bold(),
-                x = x + 223,
-                y = y + 119,
-                centered = true
+                text = lang("ui.party").bold(),
+                x = x + 213,
+                y = y - 15.5,
+                centered = true,
+                shadow = true
             )
+
+
+            if (canDeleteSelected() && displayConfirmRelease) {
+                drawScaledText(
+                    matrixStack = matrices,
+                    font = CobblemonResources.DEFAULT_LARGE,
+                    text = lang("ui.pc.release").bold(),
+                    x = x + 223,
+                    y = y + 119,
+                    centered = true
+                )
+            }
+
+            this.releaseButton.render(matrices, mouseX, mouseY, delta)
+            this.releaseYesButton.render(matrices, mouseX, mouseY, delta)
+            this.releaseNoButton.render(matrices, mouseX, mouseY, delta)
         }
 
-        this.releaseButton.render(matrices, mouseX, mouseY, delta)
-        this.releaseYesButton.render(matrices, mouseX, mouseY, delta)
-        this.releaseNoButton.render(matrices, mouseX, mouseY, delta)
-        
         // Screen Overlay
         blitk(
             matrixStack = matrices,

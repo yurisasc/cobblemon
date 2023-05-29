@@ -37,6 +37,7 @@ open class StorageSlot(
         private val genderIconMale = cobblemonResource("textures/gui/pc/gender_icon_male.png")
         private val genderIconFemale = cobblemonResource("textures/gui/pc/gender_icon_female.png")
         private val selectPointerResource = cobblemonResource("textures/gui/pc/pc_pointer.png")
+        private val pasturedOverlayResource = cobblemonResource("textures/gui/pc/pc_pasture_slot_overlay.png")
     }
 
     override fun playDownSound(soundManager: SoundManager) {
@@ -120,6 +121,17 @@ open class StorageSlot(
                 y = posY + 16.0,
                 scale = 0.5,
                 matrixStack = matrices
+            )
+        }
+
+        if (pokemon.tetheringId != null) {
+            blitk(
+                matrixStack = matrices,
+                x = x,
+                y = y,
+                width = SIZE,
+                height = SIZE,
+                texture = pasturedOverlayResource
             )
         }
     }

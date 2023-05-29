@@ -17,6 +17,8 @@ import net.minecraft.util.math.BlockPos
 /**
  * Packet sent to the server to pasture a Pokémon.
  *
+ * Handled by [com.cobblemon.mod.common.net.serverhandling.pasture.PasturePokemonHandler]
+ *
  * @author Hiroku
  * @since April 9th, 2023
  */

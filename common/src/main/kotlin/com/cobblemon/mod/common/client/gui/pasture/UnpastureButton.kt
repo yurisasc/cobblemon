@@ -1,0 +1,54 @@
+package com.cobblemon.mod.common.client.gui.pasture
+
+import com.cobblemon.mod.common.api.gui.blitk
+import com.cobblemon.mod.common.api.text.bold
+import com.cobblemon.mod.common.client.CobblemonResources
+import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.lang
+import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.Text
+
+class UnpastureButton(
+    x: Int, y: Int,
+    val configuration: PasturePCGUIConfiguration,
+    onPress: PressAction
+) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("Retrieve"), onPress, DEFAULT_NARRATION_SUPPLIER) {
+
+    companion object {
+        private const val WIDTH = 58
+        private const val HEIGHT = 16
+
+        private val buttonResource = cobblemonResource("textures/gui/pasture/pasture_deploy_button.png")
+    }
+
+    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+        blitk(
+            matrixStack = matrices,
+            texture = buttonResource,
+            x = x,
+            y = y,
+            width = WIDTH,
+            height = HEIGHT,
+            vOffset = if (isHovered(mouseX.toDouble(), mouseY.toDouble())) HEIGHT else 0,
+            textureHeight = HEIGHT * 2
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            font = CobblemonResources.DEFAULT_LARGE,
+            text = lang("ui.pasture.retrieve").bold(),
+            x = x + (WIDTH / 2),
+            y = y + 3.5,
+            centered = true,
+            shadow = true
+        )
+    }
+
+    override fun playDownSound(pHandler: SoundManager) {
+    }
+
+    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + WIDTH)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + HEIGHT))
+}
