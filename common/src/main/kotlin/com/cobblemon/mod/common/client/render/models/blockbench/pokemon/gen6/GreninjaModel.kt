@@ -48,7 +48,6 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                quirks = arrayOf(blink),
                 transformedParts = arrayOf(
                         shurikenleft.asTransformed().withVisibility(visibility = false),
                         shurikenright.asTransformed().withVisibility(visibility = false)
@@ -141,5 +140,5 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float)) bedrockStateful("greninja", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float, sleep)) bedrockStateful("greninja", "faint") else null
 }

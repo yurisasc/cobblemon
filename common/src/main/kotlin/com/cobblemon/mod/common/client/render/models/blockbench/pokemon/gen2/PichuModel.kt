@@ -53,7 +53,7 @@ class PichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pichu", "ground_idle")
+                bedrock("pichu", "ground_walk")
             )
         )
 

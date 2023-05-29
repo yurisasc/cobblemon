@@ -32,7 +32,7 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
-    lateinit var floating: PokemonPose
+    lateinit var hovering: PokemonPose
     lateinit var flying: PokemonPose
     lateinit var shoulderLeft: PokemonPose
     lateinit var shoulderRight: PokemonPose
@@ -48,31 +48,31 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         standing = registerPose(
-                poseName = "standing",
+            poseName = "standing",
             quirks = arrayOf(blink),
-                poseTypes = UI_POSES + PoseType.STAND,
-                transformTicks = 10,
-                idleAnimations = arrayOf(
-                    singleBoneLook(),
-                        bedrock("flittle", "ground_idle")
-                )
+            poseTypes = UI_POSES + PoseType.STAND,
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("flittle", "ground_idle")
+            )
         )
 
         walk = registerPose(
-                poseName = "walk",
+            poseName = "walk",
             quirks = arrayOf(blink),
-                poseTypes = MOVING_POSES,
-                transformTicks = 10,
-                idleAnimations = arrayOf(
-                    singleBoneLook(),
-                        bedrock("flittle", "ground_walk")
-                )
+            poseType = PoseType.WALK,
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("flittle", "ground_walk")
+            )
         )
 
-        floating = registerPose(
-            poseName = "floating",
+        hovering = registerPose(
+            poseName = "hovering",
             quirks = arrayOf(blink),
-            poseType = PoseType.FLOAT,
+            poseTypes = setOf(PoseType.FLOAT,PoseType.HOVER),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -83,7 +83,7 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         flying = registerPose(
             poseName = "flying",
             quirks = arrayOf(blink),
-            poseType = PoseType.FLY,
+            poseTypes = setOf(PoseType.FLY,PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),

@@ -4,47 +4,175 @@
 		"animation.lickilicky.ground_idle": {
 			"loop": true,
 			"bones": {
-				"tongue": {
-					"rotation": [45, 0, 0]
+				"torso": {
+					"rotation": [5, 0, 0]
 				},
-				"tongue2": {
+				"head": {
+					"rotation": [-2.5, 0, 0]
+				},
+				"upper_torso": {
+					"rotation": [-5, 0, 0]
+				},
+				"cowlick": {
+					"rotation": [0, 0, 0]
+				},
+				"left_foot": {
+					"rotation": [0.21865, -4.99523, 4.99046]
+				},
+				"left_leg": {
+					"rotation": [1.92797, -17.56604, -5.67698]
+				},
+				"right_leg": {
+					"rotation": [1.92797, 17.56604, 5.67698]
+				},
+				"right_foot": {
+					"rotation": [0.21865, 4.99523, -4.99046]
+				},
+				"left_lower_arm": {
+					"rotation": [0, 22.5, 0]
+				},
+				"left_upper_arm": {
+					"rotation": [0, 0, 37.5]
+				},
+				"right_upper_arm": {
+					"rotation": [0, 0, -37.5]
+				},
+				"right_lower_arm": {
+					"rotation": [0, -22.5, 0]
+				},
+				"jaw": {
+					"position": [0, 0, 0]
+				},
+				"tail_3": {
+					"rotation": [-5, 0, 0]
+				},
+				"tongue_1": {
+					"position": [0, 0, 2]
+				},
+				"tongue_5": {
 					"rotation": [15, 0, 0]
 				},
-				"leftarm": {
-					"rotation": [15, 0, 30]
+				"tongue_4": {
+					"rotation": [12.5, 0, 0]
 				},
-				"rightarm": {
-					"rotation": [15, 0, -30]
+				"tongue_3": {
+					"position": [0, 0, 9]
 				},
-				"leftleg": {
+				"tongue_2": {
+					"position": [0, 0, 9]
+				}
+			}
+		},
+		"animation.lickilicky.test": {
+			"loop": true,
+			"bones": {
+				"torso": {
+					"rotation": [0, 0, 5],
+					"position": [0, 0.75, 0]
+				},
+				"head": {
+					"rotation": [-4.98107, -0.43523, -4.98107]
+				},
+				"upper_torso": {
+					"rotation": [0, 0, 0]
+				},
+				"cowlick": {
+					"rotation": [-4.91063, 2.30644, 4.43745]
+				},
+				"left_leg": {
+					"rotation": [1.92797, -17.56604, -5.67698]
+				},
+				"left_foot": {
+					"rotation": [0.21865, -4.99523, 4.99046]
+				},
+				"right_leg": {
+					"rotation": [-41.96648, 27.27619, 15.87033],
+					"position": [-1, 0, 0]
+				},
+				"right_foot": {
+					"rotation": [10.03742, 4.92385, 0.87038]
+				},
+				"left_upper_arm": {
+					"rotation": [-22.5, 0, 10]
+				},
+				"left_lower_arm": {
+					"rotation": [0, 22.5, 0]
+				},
+				"right_upper_arm": {
+					"rotation": [-57.10087, -12.67956, 18.74227],
+					"position": [0, -0.25, 2]
+				},
+				"right_lower_arm": {
+					"rotation": [0, -25, 0],
+					"position": [0, 0, 0]
+				},
+				"tail_1": {
 					"rotation": [0, -5, 0]
 				},
-				"rightleg": {
-					"rotation": [0, 5, 0]
+				"tail_2": {
+					"rotation": [0.17854, 0.75623, -4.81323]
 				},
-				"tail": {
-					"rotation": [30, 0, 0]
+				"tail_3": {
+					"rotation": [-0.1007, -3.99485, 0.46057]
 				},
-				"tail2": {
-					"rotation": [-30, 0, 0]
+				"jaw": {
+					"position": [0, -2.75, 0]
+				},
+				"tongue_1": {
+					"rotation": [-17.53742, 4.92385, -0.87038],
+					"position": [0, -1, -4]
+				},
+				"tongue_2": {
+					"rotation": [17.81606, 6.89338, 3.75033]
+				},
+				"tongue_3": {
+					"rotation": [12.54495, 5.42225, 3.64395]
+				},
+				"tongue_4": {
+					"rotation": [32.822, 4.96806, 6.15643]
+				},
+				"tongue_5": {
+					"rotation": [25.11629, 0.14602, 5.58685]
 				}
 			}
 		},
 		"animation.lickilicky.blink": {
 			"animation_length": 0.16667,
 			"bones": {
-				"eyelid_right": {
+				"closed": {
 					"position": {
 						"0.0": [0, 0, -0.1],
 						"0.125": [0, 0, -0.1],
 						"0.1667": [0, 0, 0]
 					}
+				}
+			}
+		},
+		"animation.lickilicky.cry": {
+			"animation_length": 1.5,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [-7.5, 0, 0],
+						"1.25": [-7.5, 0, 0],
+						"1.5": [0, 0, 0]
+					}
 				},
-				"eyelid_left": {
+				"jaw": {
 					"position": {
-						"0.0": [0, 0, -0.1],
-						"0.125": [0, 0, -0.1],
-						"0.1667": [0, 0, 0]
+						"0.0": [0, 0, 0],
+						"0.25": [0, -2.9, 0],
+						"1.25": [0, -2.9, 0],
+						"1.5": [0, 0, 0]
+					}
+				},
+				"tongue_1": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.25": [0, -1.5, 0],
+						"1.25": [0, -1.5, 0],
+						"1.5": [0, 0, 0]
 					}
 				}
 			}

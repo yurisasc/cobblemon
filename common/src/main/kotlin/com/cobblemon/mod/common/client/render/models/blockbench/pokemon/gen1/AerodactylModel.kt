@@ -29,11 +29,17 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("aerodactyl", "blink").setPreventsIdle(false)}
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("aerodactyl", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
@@ -70,7 +76,7 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("aerodactyl", "air_idle")
+                bedrock("aerodactyl", "air_fly")
             )
         )
     }

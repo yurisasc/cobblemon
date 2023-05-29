@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "mudbray",
+					"name": "mudsdale",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "mudbray",
+					"parent": "mudsdale",
 					"pivot": [0, 8, 0]
 				},
 				{

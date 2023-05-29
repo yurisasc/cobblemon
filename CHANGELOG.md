@@ -13,13 +13,7 @@
 - Added support for jump keyframes (i.e. pre and post keyframes)
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
-
-### Changes
-- Updated sprites for EV medicines, the rare candy, and the apricorn door item.
-- Updated textures for apricorn doors and all the evolution stone ores.
-- Wild Pokémon now heal if you are defeated by them or flee from them.
-- Doubled the default time between ambient Pokémon cries (they have cries if you're using a resource pack to add them)
-- Moved spawn attempts per tick to a config option (ticksBetweenSpawnAttempts)
+- Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
 
 ### Pokémon Added
 #### Gen 2
@@ -31,6 +25,12 @@
 - Lanturn
 - Aipom
 - Gligar
+- Hoothoot
+- Noctowl
+- Mareep
+- Flaaffy
+- Ampharos
+- Sudowoodo
 
 #### Gen 3
 
@@ -39,18 +39,21 @@
 - Relicanth
 - Duskull
 - Dusclops
-- Dusknoir
 - Shroomish
 - Breloom
 - Cacnea
 - Cacturne
+- Poochyena
+- Mightyenna
+- Wingull 
+- Pelipper
+- Numel
+- Camerupt
 - Clamperl
 - Huntail
 - Gorebyss
 - Surskit
 - Masquerain
-- Poochyena
-- Mightyena
 - Chimecho
 
 #### Gen 4
@@ -63,8 +66,10 @@
 - Luxray
 - Ambipom
 - Gliscor
-- Chatot
+- Dusknoir
 - Chingling
+- Bonsly
+- Chatot
 
 #### Gen 5
 
@@ -75,6 +80,10 @@
 - Venepede
 - Whirlpede
 - Scolipede
+- Yamask
+- Cofagrigus
+- Patrat
+- Watchog
 
 #### Gen 6
 
@@ -83,6 +92,8 @@
 - Vivillion
 - Skrelp
 - Dragalge
+- Bunnelby
+- Diggersby
 
 #### Gen 7
 
@@ -103,6 +114,9 @@
 
 #### Gen 9
 
+- Sprigatitto
+- Floragato
+- Meowscarada
 - Flittle
 - Espathra
 - Garganacl
@@ -116,11 +130,25 @@
 - Grafaiai
 - Tandemaus
 - Maushold
+- Varoom
+- Revavroom
+- Squawkabilly
+- Glimmet
+- Glimmora
 
 ### Changes
 - Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgeotto, Pidgeot, Scyther, Scizor,and Kleavor.
 - Updated models of Sceptile and Shuckle.
+- Updated sprites for EV medicines, the rare candy, and the apricorn door item.
+- Updated textures for apricorn doors and all the evolution stone ores.
+- Wild Pokémon now heal if you are defeated by them or flee from them.
+- Doubled the default time between ambient Pokémon cries (they have cries if you're using a resource pack to add them)
+- Moved spawn attempts per tick to a config option (ticksBetweenSpawnAttempts)
+- Updated model and textures of Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey, Pidgey, Pidgeotto, Pidgeot, Spearow, Fearow, Drowzee, Hypno, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
+- Updated model Sceptile.
 - Updated texture of Weedle.
+- Updated shiny texture of Dwebble and Crustle.
+- Updated Animations for Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong

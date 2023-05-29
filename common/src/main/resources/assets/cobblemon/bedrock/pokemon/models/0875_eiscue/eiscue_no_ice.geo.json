@@ -7,8 +7,8 @@
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 3,
-				"visible_bounds_height": 3.5,
-				"visible_bounds_offset": [0, 1.25, 0]
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
 			},
 			"bones": [
 				{
@@ -92,26 +92,6 @@
 					"rotation": [0, -57.5, 0],
 					"cubes": [
 						{"origin": [0, 15, -1], "size": [0, 7, 3], "uv": [32, 31]}
-					]
-				},
-				{
-					"name": "ice",
-					"parent": "neck",
-					"pivot": [0, 11.5, 0.5],
-					"cubes": [
-						{"origin": [-6, 11.5, -5], "size": [12, 11, 11], "uv": [0, 0]},
-						{"origin": [1, 15, -5.01], "size": [4, 4, 0], "uv": [38, 34]},
-						{"origin": [-5, 15, -5.01], "size": [4, 4, 0], "uv": [38, 30]},
-						{"origin": [-1.5, 13, -7], "size": [3, 2, 2], "uv": [35, 4]}
-					]
-				},
-				{
-					"name": "hair2",
-					"parent": "ice",
-					"pivot": [0, 22.5, 0.5],
-					"rotation": [0, -57.5, 0],
-					"cubes": [
-						{"origin": [0, 21.5, -1], "size": [0, 6, 3], "uv": [0, 35]}
 					]
 				},
 				{
