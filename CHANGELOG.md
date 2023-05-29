@@ -146,7 +146,7 @@
 - Fixed super sized Pumpkaboo not having any moves.
 - Fixed Infernape look animation.
 - Fixed Garchomp t-posing while swimming.
-- Fixed a bug that caused sleeping pokemon to stay asleep.
+- Fixed a bug that caused sleeping Pokémon to stay asleep.
 - Fixed a bug that would freeze a battle when a Pokémon gets trapped due to an ability.
 - Fixed the Poké Ball close animation canceling whenever colliding with a block.
 - Fixed faint animations not working properly in add-ons.
