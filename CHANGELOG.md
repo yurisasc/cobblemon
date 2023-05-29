@@ -25,7 +25,6 @@
 - Lanturn
 - Aipom
 - Gligar
-- Chimecho
 - Hoothoot
 - Noctowl
 - Mareep
@@ -50,6 +49,12 @@
 - Pelipper
 - Numel
 - Camerupt
+- Clamperl
+- Huntail
+- Gorebyss
+- Surskit
+- Masquerain
+- Chimecho
 
 #### Gen 4
 
@@ -93,9 +98,11 @@
 #### Gen 7
 
 - Wishiwashi
-- Comfey
 - Cutiefly
 - Ribombee
+- Stufful
+- Bewear
+- Comfey
 
 #### Gen 8
 
@@ -114,13 +121,15 @@
 - Espathra
 - Garganacl
 - Fidough
-- Dachbun
+- Dachsbun
 - Armarouge
 - Ceruledge
 - Cetoddle
 - Cetitan
 - Shroodle
-- Grafaiia
+- Grafaiai
+- Tandemaus
+- Maushold
 - Varoom
 - Revavroom
 - Squawkabilly
@@ -128,6 +137,8 @@
 - Glimmora
 
 ### Changes
+- Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgeotto, Pidgeot, Scyther, Scizor,and Kleavor.
+- Updated models of Sceptile and Shuckle.
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
 - Updated textures for apricorn doors and all the evolution stone ores.
 - Wild Pokémon now heal if you are defeated by them or flee from them.
@@ -146,7 +157,7 @@
 - Fixed super sized Pumpkaboo not having any moves.
 - Fixed Infernape look animation.
 - Fixed Garchomp t-posing while swimming.
-- Fixed a bug that caused sleeping pokemon to stay asleep.
+- Fixed a bug that caused sleeping Pokémon to stay asleep.
 - Fixed a bug that would freeze a battle when a Pokémon gets trapped due to an ability.
 - Fixed the Poké Ball close animation canceling whenever colliding with a block.
 - Fixed faint animations not working properly in add-ons.
@@ -155,6 +166,7 @@
 - Fixed deepslate water stone ore items looking like deepslate fire stone ores.
 - Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
 - Fixed a crash when wild Pokémon have to struggle under specific circumstances.
+- Fixed uncolored pixels on Yanma's shiny texture
 
 ### Developer
 - Added SpawnEvent

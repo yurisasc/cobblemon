@@ -115,19 +115,6 @@
           "minLevel": 25
         }
       ]
-    },
-    {
-      "id": "tandemaus_maushold",
-      "variant": "level_up",
-      "result": "maushold form=four",
-      "consumeHeldItem": false,
-      "learnableMoves": [],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 25
-        }
-      ]
     }
   ],
   "cannotDynamax": false,

@@ -83,7 +83,7 @@
     "moving": {
       "moving" : {
         "walk": {
-          "walkSpeed": 0.38
+          "walkSpeed": 0.42
         }
       },
       "fly": {
