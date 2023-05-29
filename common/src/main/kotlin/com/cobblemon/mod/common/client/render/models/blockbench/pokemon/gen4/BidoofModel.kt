@@ -64,7 +64,6 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                //QuadrupedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.6F)
                 bedrock("bidoof", "ground_walk")
             )
         )
@@ -76,7 +75,6 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("bidoof", "ground_idle"),
                 bedrock("bidoof", "water_float")
             )
         )

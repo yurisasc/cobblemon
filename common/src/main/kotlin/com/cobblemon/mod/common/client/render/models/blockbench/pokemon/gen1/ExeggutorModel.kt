@@ -35,9 +35,13 @@ class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink1 = quirk("blink") { bedrockStateful("exeggutor", "blink").setPreventsIdle(false) }
+        val blink2 = quirk("blink") { bedrockStateful("exeggutor", "blink2").setPreventsIdle(false) }
+        val blink3 = quirk("blink") { bedrockStateful("exeggutor", "blink3").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink1, blink2, blink3),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("exeggutor", "ground_idle")
@@ -47,6 +51,7 @@ class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink1, blink2, blink3),
             idleAnimations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 1f),
                 singleBoneLook(),

@@ -69,5 +69,5 @@ class TepigModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("tepig", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("tepig", "faint") else null
 }

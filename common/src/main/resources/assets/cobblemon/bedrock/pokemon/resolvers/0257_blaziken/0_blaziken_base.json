@@ -5,7 +5,7 @@
     {
       "aspects": [],
       "poser": "cobblemon:blaziken",
-      "model": "cobblemon:blaziken.geo",
+      "model": "cobblemon:blaziken_male.geo",
       "texture": "cobblemon:textures/pokemon/0257_blaziken/blaziken.png",
       "layers": []
     },

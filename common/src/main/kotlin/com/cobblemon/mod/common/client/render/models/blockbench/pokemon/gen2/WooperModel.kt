@@ -96,5 +96,5 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("wooper", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("wooper", "faint") else null
 }

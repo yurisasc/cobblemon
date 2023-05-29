@@ -74,5 +74,5 @@ class CharcadetModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walking)) bedrockStateful("charcadet", "faint") else null
+    ) = if (state.isPosedIn(standing, walking, sleep)) bedrockStateful("charcadet", "faint") else null
 }
