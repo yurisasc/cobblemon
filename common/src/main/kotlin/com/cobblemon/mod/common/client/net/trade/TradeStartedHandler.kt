@@ -20,6 +20,6 @@ object TradeStartedHandler : ClientNetworkPacketHandler<TradeStartedPacket> {
         val trade = ClientTrade()
         CobblemonClient.trade = trade
         CobblemonClient.trade = trade
-        MinecraftClient.getInstance().setScreen(TradeGUI(trade, packet.traderId, packet.traderName))
+        MinecraftClient.getInstance().setScreen(TradeGUI(trade, packet.traderId, packet.traderName, CobblemonClient.storage.myParty))
     }
 }

@@ -9,14 +9,35 @@
 package com.cobblemon.mod.common.client.gui.trade
 
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.gui.blitk
+import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.api.storage.party.PartyPosition
+import com.cobblemon.mod.common.api.text.bold
+import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.client.CobblemonResources
+import com.cobblemon.mod.common.client.gui.ExitButton
+import com.cobblemon.mod.common.client.gui.TypeIcon
+import com.cobblemon.mod.common.client.gui.summary.Summary
+import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.client.trade.ClientTrade
+import com.cobblemon.mod.common.net.messages.server.storage.pc.UnlinkPlayerFromPCPacket
 import com.cobblemon.mod.common.net.messages.server.trade.CancelTradePacket
 import com.cobblemon.mod.common.net.messages.server.trade.ChangeTradeAcceptancePacket
 import com.cobblemon.mod.common.net.messages.server.trade.UpdateTradeOfferPacket
+import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.asTranslated
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawableHelper
 import java.util.UUID
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.sound.SoundEvent
 import net.minecraft.text.MutableText
 
 /**
@@ -28,11 +49,114 @@ import net.minecraft.text.MutableText
 class TradeGUI(
     val trade: ClientTrade,
     val traderId: UUID,
-    val traderName: MutableText
+    val traderName: MutableText,
+    val traderParty: ClientParty
 ): Screen(lang("trade.gui.title")) {
 
+    companion object {
+        const val BASE_WIDTH = 293
+        const val BASE_HEIGHT = 212
+        const val BASE_BACKGROUND_WIDTH = 157
+        const val BASE_BACKGROUND_HEIGHT = 85
+        const val PARTY_SLOT_PADDING = 4
+        const val PORTRAIT_SIZE = 78
+        const val TYPE_SPACER_WIDTH = 134
+        const val TYPE_SPACER_HEIGHT = 12
+        const val SCALE = 0.5F
 
-    init {
+        private val baseResource = cobblemonResource("textures/gui/trade/trade_base.png")
+        private val baseBackgroundResource = cobblemonResource("textures/gui/trade/trade_background.png")
+        private val typeSpacerResource = cobblemonResource("textures/gui/trade/type_spacer.png")
+        private val typeSpacerSingleResource = cobblemonResource("textures/gui/trade/type_spacer_single.png")
+        private val typeSpacerDoubleResource = cobblemonResource("textures/gui/trade/type_spacer_double.png")
+    }
+
+    private var offeredPokemonModel: ModelWidget? = null
+    private var opposingOfferedPokemonModel: ModelWidget? = null
+    internal var offeredPokemon: Pokemon? = null
+    internal var opposingOfferedPokemon: Pokemon? = null
+
+    private lateinit var tradeButton: TradeButton
+
+    var ticksElapsed = 0
+    var selectPointerOffsetY = 0
+    var selectPointerOffsetIncrement = false
+
+    override fun init() {
+        val x = (width - BASE_WIDTH) / 2
+        val y = (height - BASE_HEIGHT) / 2
+
+        // Exit Button
+        this.addDrawableChild(
+            ExitButton(pX = x + 265, pY = y + 6) {
+                playSound(CobblemonSounds.GUI_CLICK)
+                MinecraftClient.getInstance().setScreen(null)
+            }
+        )
+
+        // Trade Button
+        tradeButton = TradeButton(
+            x = x + 120,
+            y = y + 119,
+            trade = trade,
+            onPress = {
+            }
+        )
+
+        // Party
+        for (partyIndex in 0..5) {
+            var slotX = x + 9
+            var slotY = y + 38
+
+            if (partyIndex > 0) {
+                val isEven = partyIndex % 2 == 0
+                val offsetIndex = (partyIndex - (if (isEven) 0 else 1)) / 2
+                val offsetX = if (isEven) 0 else (PartySlot.SIZE + PARTY_SLOT_PADDING)
+                val offsetY = if (isEven) 0 else -8
+
+                slotX += offsetX
+                slotY += ((PartySlot.SIZE + PARTY_SLOT_PADDING) * offsetIndex) + offsetY
+            }
+
+            val pokemon = traderParty.get(PartyPosition(partyIndex))
+            println("LOAD PARTY POKEMON: " + pokemon?.displayName)
+            PartySlot(
+                x = slotX,
+                y = slotY,
+                pokemon = pokemon,
+                parent = this,
+                onPress = {
+                    trade.myOffer.set(pokemon)
+                    println("CLICKED SLOT POKEMON: " + pokemon?.displayName)
+                }
+            ).also { widget -> addDrawableChild(widget) }
+        }
+
+        // Opposing Party
+        for (partyIndex in 0..5) {
+            var slotX = x + 230
+            var slotY = y + 30
+
+            if (partyIndex > 0) {
+                val isEven = partyIndex % 2 == 0
+                val offsetIndex = (partyIndex - (if (isEven) 0 else 1)) / 2
+                val offsetX = if (isEven) 0 else (PartySlot.SIZE + PARTY_SLOT_PADDING)
+                val offsetY = if (isEven) 0 else 8
+
+                slotX += offsetX
+                slotY += ((PartySlot.SIZE + PARTY_SLOT_PADDING) * offsetIndex) + offsetY
+            }
+
+            PartySlot(
+                x = slotX,
+                y = slotY,
+                pokemon = traderParty.get(PartyPosition(partyIndex)),
+                parent = this,
+                isOpposing = true,
+                onPress = {}
+            ).also { widget -> addDrawableChild(widget) }
+        }
+
         trade.cancelEmitter.subscribe {
             super.close()
             // Maybe a sound
@@ -49,11 +173,518 @@ class TradeGUI(
         }
         trade.myOffer.subscribe { myOffer: Pokemon? ->
             // Update any GUI
+            if (myOffer !=  null) {
+                println("POKEMON: " + myOffer.displayName)
+                setOfferedPokemon(pokemon = myOffer)
+                setOfferedPokemon(
+                    pokemon = myOffer,
+                    isOpposing = true
+                )
+            }
         }
+    }
+
+    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+        val x = (width - BASE_WIDTH) / 2
+        val y = (height - BASE_HEIGHT) / 2
+
+        // Render Background Resource
+        val backgroundX = x + 68
+        val backgroundY = y + 23
+        blitk(
+            matrixStack = matrices,
+            texture = baseBackgroundResource,
+            x = backgroundX,
+            y = backgroundY,
+            width = BASE_BACKGROUND_WIDTH,
+            height = BASE_BACKGROUND_HEIGHT
+        )
+
+        // Render Model Portraits
+        DrawableHelper.enableScissor(
+            backgroundX,
+            backgroundY,
+            backgroundX + BASE_BACKGROUND_WIDTH,
+            backgroundY +  BASE_BACKGROUND_HEIGHT
+        )
+        offeredPokemonModel?.render(matrices, mouseX, mouseY, delta)
+        opposingOfferedPokemonModel?.render(matrices, mouseX, mouseY, delta)
+        DrawableHelper.disableScissor()
+
+        // Render Base Resource
+        blitk(
+            matrixStack = matrices,
+            texture = baseResource,
+            x = x, y = y,
+            width = BASE_WIDTH,
+            height = BASE_HEIGHT
+        )
+
+        renderInfoLabels(matrices, x, y)
+
+        renderPokemonInfo(offeredPokemon, false, matrices, x, y)
+        renderPokemonInfo(opposingOfferedPokemon, true, matrices, x, y)
+
+        tradeButton.render(matrices, mouseX, mouseY, delta)
+
+        super.render(matrices, mouseX, mouseY, delta)
+
+        // Item Tooltip
+        if (offeredPokemon != null && !offeredPokemon!!.heldItemNoCopy().isEmpty) {
+            val itemX = x + 50
+            val itemY = y + 125
+            val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
+            if (itemHovered) renderTooltip(matrices, offeredPokemon!!.heldItemNoCopy(), mouseX, mouseY)
+        }
+
+        if (opposingOfferedPokemon != null && !opposingOfferedPokemon!!.heldItemNoCopy().isEmpty) {
+            val itemX = x + 227
+            val itemY = y + 125
+            val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
+            if (itemHovered) renderTooltip(matrices, opposingOfferedPokemon!!.heldItemNoCopy(), mouseX, mouseY)
+        }
+    }
+
+    override fun tick() {
+        ticksElapsed++
+
+        // Calculate select pointer offset
+        var delayFactor = 3
+        if (ticksElapsed % (2 * delayFactor) == 0) selectPointerOffsetIncrement = !selectPointerOffsetIncrement
+        if (ticksElapsed % delayFactor == 0) selectPointerOffsetY += if (selectPointerOffsetIncrement) 1 else -1
     }
 
     override fun close() {
         CobblemonNetwork.sendToServer(CancelTradePacket())
         super.close()
+    }
+
+    private fun setOfferedPokemon(pokemon: Pokemon, isOpposing: Boolean = false) {
+        val x = (width - BASE_WIDTH) / 2
+        val y = (height - BASE_HEIGHT) / 2
+
+        if (isOpposing) {
+            opposingOfferedPokemon = pokemon
+            opposingOfferedPokemonModel = ModelWidget(
+                pX = x + 147,
+                pY = y + 30,
+                pWidth = PORTRAIT_SIZE,
+                pHeight = PORTRAIT_SIZE,
+                pokemon = pokemon.asRenderablePokemon(),
+                baseScale = 2F,
+                rotationY = 35F,
+                offsetY = -10.0
+            )
+        } else {
+            offeredPokemon = pokemon
+            offeredPokemonModel = ModelWidget(
+                pX = x + 68,
+                pY = y + 30,
+                pWidth = PORTRAIT_SIZE,
+                pHeight = PORTRAIT_SIZE,
+                pokemon = pokemon.asRenderablePokemon(),
+                baseScale = 2F,
+                rotationY = 325F,
+                offsetY = -10.0
+            )
+        }
+    }
+
+    private fun playSound(soundEvent: SoundEvent) {
+        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+    }
+
+    private fun renderPokemonInfo(pokemon: Pokemon?, isOpposing: Boolean, matrices: MatrixStack, x: Int, y: Int) {
+        if (pokemon != null) {
+            // Level
+            val levelXOffset = if (isOpposing) 117 else 0
+            drawScaledText(
+                matrixStack = matrices,
+                font = CobblemonResources.DEFAULT_LARGE,
+                text = lang("ui.lv").bold(),
+                x = x + 76 + levelXOffset,
+                y = y + 1.5,
+                shadow = true
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                font = CobblemonResources.DEFAULT_LARGE,
+                text = pokemon.level.toString().text().bold(),
+                x = x + 89 + levelXOffset,
+                y = y + 1.5,
+                shadow = true
+            )
+
+            // Poké Ball
+            val nameXOffset = if (isOpposing) 75 else 0
+            val ballResource = cobblemonResource("textures/item/poke_balls/" + pokemon.caughtBall.name.path + ".png")
+            blitk(
+                matrixStack = matrices,
+                texture = ballResource,
+                x = (x + 73.5 + nameXOffset) / SCALE,
+                y = (y + 12) / SCALE,
+                width = 16,
+                height = 16,
+                scale = SCALE
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                font = CobblemonResources.DEFAULT_LARGE,
+                text = pokemon.displayName.bold(),
+                x = x + 82 + nameXOffset,
+                y = y + 11.5,
+                shadow = true
+            )
+
+            if (pokemon.gender != Gender.GENDERLESS) {
+                val isMale = pokemon.gender == Gender.MALE
+                val textSymbol = if (isMale) "♂".text().bold() else "♀".text().bold()
+                drawScaledText(
+                    matrixStack = matrices,
+                    font = CobblemonResources.DEFAULT_LARGE,
+                    text = textSymbol,
+                    x = x + 139 + nameXOffset,
+                    y = y + 11.5,
+                    colour = if (isMale) 0x32CBFF else 0xFC5454,
+                    shadow = true
+                )
+            }
+
+            // Held Item
+            val heldItem = pokemon.heldItemNoCopy()
+            val itemX = x + (if (isOpposing) 227 else 50)
+            val itemY = y + 125
+            if (!heldItem.isEmpty) {
+                MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem, itemX, itemY)
+                MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+            }
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = lang("held_item"),
+                x = x + (if (isOpposing) 270.5 else 22.5),
+                y = y + 135.5,
+                scale = SCALE,
+                centered = true
+            )
+
+            // Shiny Icon
+            if (pokemon.shiny) {
+                blitk(
+                    matrixStack = matrices,
+                    texture = Summary.iconShinyResource,
+                    x = (x + (if (isOpposing) 214.5 else 71.5)) / SCALE,
+                    y = (y + 33.5) / SCALE,
+                    width = 14,
+                    height = 14,
+                    scale = SCALE
+                )
+            }
+
+            blitk(
+                matrixStack = matrices,
+                texture = if (pokemon.secondaryType != null) typeSpacerDoubleResource else typeSpacerSingleResource,
+                x = (x + (if (isOpposing) 153 else 73)) / SCALE,
+                y = (y + 113.5) / SCALE,
+                width = TYPE_SPACER_WIDTH,
+                height = TYPE_SPACER_HEIGHT,
+                vOffset = if (isOpposing) TYPE_SPACER_HEIGHT else 0,
+                textureHeight = TYPE_SPACER_HEIGHT * 2,
+                scale = SCALE
+            )
+
+            TypeIcon(
+                x = x + (if (isOpposing) 187 else 106),
+                y = y + 112,
+                type = pokemon.primaryType,
+                secondaryType = pokemon.secondaryType,
+                doubleCenteredOffset = 5F,
+                secondaryOffset = 10F,
+                small = true,
+                centeredX = true
+            ).render(matrices)
+
+            val labelXOffset = if (isOpposing) 77 else 0
+
+            // Nature
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.nature.displayName.asTranslated(),
+                x = x + 108 + labelXOffset,
+                y = y + 146.5,
+                centered = true,
+                shadow = true,
+                scale = SCALE
+            )
+
+            // Ability
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.ability.displayName.asTranslated(),
+                x = x + 108 + labelXOffset,
+                y = y + 163.5,
+                centered = true,
+                shadow = true,
+                scale = SCALE
+            )
+
+            // Moves
+            val moves = pokemon.moveSet.getMoves()
+            for (i in moves.indices) {
+                drawScaledText(
+                    matrixStack = matrices,
+                    text = moves[i].displayName,
+                    x = x + 108 + labelXOffset,
+                    y = y + 180.5 + (7 * i),
+                    centered = true,
+                    shadow = true,
+                    scale = SCALE
+                )
+            }
+
+            // IVs
+            val ivXOffset = if (isOpposing) 218 else 0
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.ivs.getOrDefault(Stats.HP).toString().text(),
+                x = x + 60 + ivXOffset,
+                y = y + 155.5,
+                scale = SCALE
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.ivs.getOrDefault(Stats.ATTACK).toString().text(),
+                x = x + 60 + ivXOffset,
+                y = y + 163.5,
+                scale = SCALE
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.ivs.getOrDefault(Stats.DEFENCE).toString().text(),
+                x = x + 60 + ivXOffset,
+                y = y + 171.5,
+                scale = SCALE
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.ivs.getOrDefault(Stats.SPECIAL_ATTACK).toString().text(),
+                x = x + 60 + ivXOffset,
+                y = y + 179.5,
+                scale = SCALE
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.ivs.getOrDefault(Stats.SPECIAL_DEFENCE).toString().text(),
+                x = x + 60 + ivXOffset,
+                y = y + 187.5,
+                scale = SCALE
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.ivs.getOrDefault(Stats.SPEED).toString().text(),
+                x = x + 60 + ivXOffset,
+                y = y + 195.5,
+                scale = SCALE
+            )
+        } else {
+            blitk(
+                matrixStack = matrices,
+                texture = typeSpacerResource,
+                x = (x + (if (isOpposing) 153 else 73)) / SCALE,
+                y = (y + 113.5) / SCALE,
+                width = TYPE_SPACER_WIDTH,
+                height = TYPE_SPACER_HEIGHT,
+                vOffset = if (isOpposing) TYPE_SPACER_HEIGHT else 0,
+                textureHeight = TYPE_SPACER_HEIGHT * 2,
+                scale = SCALE
+            )
+        }
+    }
+
+    private fun renderInfoLabels(matrices: MatrixStack, x: Int, y: Int) {
+        drawScaledText(
+            matrixStack = matrices,
+            font = CobblemonResources.DEFAULT_LARGE,
+            text = lang("ui.party").bold(),
+            x = x + 25.5,
+            y = y + 7,
+            centered = true
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.info.nature").bold(),
+            x = x + 108,
+            y = y + 139.5,
+            centered = true,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.info.ability").bold(),
+            x = x + 108,
+            y = y + 156.5,
+            centered = true,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.moves").bold(),
+            x = x + 108,
+            y = y + 173.5,
+            centered = true,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.ivs").bold(),
+            x = x + 37.5,
+            y = y + 147.5,
+            centered = true,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.hp"),
+            x = x + 9.5,
+            y = y + 155.5,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.atk"),
+            x = x + 9.5,
+            y = y + 163.5,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.def"),
+            x = x + 9.5,
+            y = y + 171.5,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.sp_atk"),
+            x = x + 9.5,
+            y = y + 179.5,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.sp_def"),
+            x = x + 9.5,
+            y = y + 187.5,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.speed"),
+            x = x + 9.5,
+            y = y + 195.5,
+            scale = SCALE
+        )
+
+        // Opposing
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.info.nature").bold(),
+            x = x + 185,
+            y = y + 139.5,
+            centered = true,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.info.ability").bold(),
+            x = x + 185,
+            y = y + 156.5,
+            centered = true,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.moves").bold(),
+            x = x + 185,
+            y = y + 173.5,
+            centered = true,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.ivs").bold(),
+            x = x + 255.5,
+            y = y + 147.5,
+            centered = true,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.hp"),
+            x = x + 227.5,
+            y = y + 155.5,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.atk"),
+            x = x + 227.5,
+            y = y + 163.5,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.def"),
+            x = x + 227.5,
+            y = y + 171.5,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.sp_atk"),
+            x = x + 227.5,
+            y = y + 179.5,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.sp_def"),
+            x = x + 227.5,
+            y = y + 187.5,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.speed"),
+            x = x + 227.5,
+            y = y + 195.5,
+            scale = SCALE
+        )
     }
 }
