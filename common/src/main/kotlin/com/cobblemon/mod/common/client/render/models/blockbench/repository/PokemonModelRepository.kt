@@ -432,9 +432,13 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("scatterbug", ::ScatterbugModel)
         inbuilt("spewpa", ::SpewpaModel)
         inbuilt("vivillon", ::VivillonModel)
-
-
-
+        inbuilt("barboach", ::BarboachModel)
+        inbuilt("whiscash", ::WhiscashModel)
+        inbuilt("combee", ::CombeeModel)
+        inbuilt("vespiquen", ::VespiquenModel)
+        inbuilt("lillipup", ::LillipupModel)
+        inbuilt("herdier", ::HerdierModel)
+        inbuilt("stoutland", ::StoutlandModel)
 
         // Unhooked because the families are not completed
 //        inbuilt("fuecoco", :: FuecocoModel)

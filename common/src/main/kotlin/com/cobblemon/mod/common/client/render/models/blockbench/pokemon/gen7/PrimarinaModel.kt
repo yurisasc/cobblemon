@@ -40,7 +40,7 @@ class PrimarinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("primarina", "land_idle")
+                        bedrock("primarina", "ground_idle")
                 )
         )
 
@@ -50,7 +50,7 @@ class PrimarinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("primarina", "land_walk")
+                        bedrock("primarina", "ground_idle")
                 )
         )
 
@@ -60,7 +60,7 @@ class PrimarinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("primarina", "water_idle")
+                        bedrock("primarina", "ground_idle")
                 )
         )
 
@@ -70,7 +70,7 @@ class PrimarinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("primarina", "water_swim")
+                        bedrock("primarina", "ground_idle")
                 )
         )
     }

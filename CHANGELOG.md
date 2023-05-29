@@ -144,11 +144,11 @@
 - Wild Pokémon now heal if you are defeated by them or flee from them.
 - Doubled the default time between ambient Pokémon cries (they have cries if you're using a resource pack to add them)
 - Moved spawn attempts per tick to a config option (ticksBetweenSpawnAttempts)
-- Updated model and textures of Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey, Pidgey, Pidgeotto, Pidgeot, Spearow, Fearow, Drowzee, Hypno, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
+- Updated model and textures of Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey, Pidgey, Pidgeotto, Pidgeot, Spearow, Fearow, Drowzee, Hypno, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
 - Updated model Sceptile.
 - Updated texture of Weedle.
 - Updated shiny texture of Dwebble and Crustle.
-- Updated Animations for Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
+- Updated Animations for Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong

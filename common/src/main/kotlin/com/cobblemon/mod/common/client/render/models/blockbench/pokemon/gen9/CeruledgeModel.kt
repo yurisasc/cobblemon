@@ -104,5 +104,5 @@ class CeruledgeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walking)) bedrockStateful("ceruledge", "faint") else null
+    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("ceruledge", "faint") else null
 }

@@ -22,8 +22,8 @@ class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rootPart = root.registerChildWithAllChildren("exeggutor")
     override val head = getPart("head")
 
-    override val leftLeg = getPart("leftleg")
-    override val rightLeg = getPart("rightleg")
+    override val leftLeg = getPart("leg_left")
+    override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 1.9F
     override val portraitTranslation = Vec3d(-0.35, 0.12, 0.0)

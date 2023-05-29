@@ -89,5 +89,5 @@ class ArmarougeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walking)) bedrockStateful("armarouge", "faint") else null
+    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("armarouge", "faint") else null
 }
