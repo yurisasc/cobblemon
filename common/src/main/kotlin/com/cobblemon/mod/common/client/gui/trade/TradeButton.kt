@@ -54,7 +54,7 @@ class TradeButton(
         )
 
 
-        var label = if (active) ".".repeat(parent.readyProgress).text() else lang("ui.trade")
+        val label = if (active) ".".repeat(parent.readyProgress).text() else lang("ui.trade")
         drawScaledText(
             matrixStack = matrices,
             font = CobblemonResources.DEFAULT_LARGE,

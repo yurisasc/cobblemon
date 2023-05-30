@@ -191,12 +191,12 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(BattleCaptureEndPacket.ID, BattleCaptureEndPacket::decode, BattleCaptureEndHandler)
         this.createClientBound(BattleCaptureShakePacket.ID, BattleCaptureShakePacket::decode, BattleCaptureShakeHandler)
         this.createClientBound(BattleApplyCaptureResponsePacket.ID, BattleApplyCaptureResponsePacket::decode, BattleApplyCaptureResponseHandler)
-        this.registerClientBound(BattleChallengeNotificationPacket.ID, BattleChallengeNotificationPacket::decode, BattleChallengeNotificationHandler)
+        this.createClientBound(BattleChallengeNotificationPacket.ID, BattleChallengeNotificationPacket::decode, BattleChallengeNotificationHandler)
         this.createClientBound(BattleUpdateTeamPokemonPacket.ID, BattleUpdateTeamPokemonPacket::decode, BattleUpdateTeamPokemonHandler)
         this.createClientBound(BattlePersistentStatusPacket.ID, BattlePersistentStatusPacket::decode, BattlePersistentStatusHandler)
         this.createClientBound(BattleMadeInvalidChoicePacket.ID, BattleMadeInvalidChoicePacket::decode, BattleMadeInvalidChoiceHandler)
         this.createClientBound(BattleMusicPacket.ID, BattleMusicPacket::decode, BattleMusicHandler)
-        this.registerClientBound(BattleChallengeExpiredPacket.ID, BattleChallengeExpiredPacket::decode, BattleChallengeExpiredHandler)
+        this.createClientBound(BattleChallengeExpiredPacket.ID, BattleChallengeExpiredPacket::decode, BattleChallengeExpiredHandler)
 
 
 
@@ -219,13 +219,13 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(SpawnPokeballPacket.ID, SpawnPokeballPacket::decode, SpawnExtraDataEntityHandler())
 
         // Trade packets
-        this.registerClientBound(TradeAcceptanceChangedPacket.ID, TradeAcceptanceChangedPacket::decode, TradeAcceptanceChangedHandler)
-        this.registerClientBound(TradeCancelledPacket.ID, TradeCancelledPacket::decode, TradeCancelledHandler)
-        this.registerClientBound(TradeCompletedPacket.ID, TradeCompletedPacket::decode, TradeCompletedHandler)
-        this.registerClientBound(TradeUpdatedPacket.ID, TradeUpdatedPacket::decode, TradeUpdatedHandler)
-        this.registerClientBound(TradeOfferNotificationPacket.ID, TradeOfferNotificationPacket::decode, TradeOfferNotificationHandler)
-        this.registerClientBound(TradeOfferExpiredPacket.ID, TradeOfferExpiredPacket::decode, TradeOfferExpiredHandler)
-        this.registerClientBound(TradeStartedPacket.ID, TradeStartedPacket::decode, TradeStartedHandler)
+        this.createClientBound(TradeAcceptanceChangedPacket.ID, TradeAcceptanceChangedPacket::decode, TradeAcceptanceChangedHandler)
+        this.createClientBound(TradeCancelledPacket.ID, TradeCancelledPacket::decode, TradeCancelledHandler)
+        this.createClientBound(TradeCompletedPacket.ID, TradeCompletedPacket::decode, TradeCompletedHandler)
+        this.createClientBound(TradeUpdatedPacket.ID, TradeUpdatedPacket::decode, TradeUpdatedHandler)
+        this.createClientBound(TradeOfferNotificationPacket.ID, TradeOfferNotificationPacket::decode, TradeOfferNotificationHandler)
+        this.createClientBound(TradeOfferExpiredPacket.ID, TradeOfferExpiredPacket::decode, TradeOfferExpiredHandler)
+        this.createClientBound(TradeStartedPacket.ID, TradeStartedPacket::decode, TradeStartedHandler)
     }
 
     override fun registerServerBound() {
@@ -266,11 +266,11 @@ object CobblemonNetwork : NetworkManager {
         this.createServerBound(BattleSelectActionsPacket.ID, BattleSelectActionsPacket::decode, BattleSelectActionsHandler)
 
         // Trade
-        this.registerServerBound(AcceptTradeRequestPacket.ID, AcceptTradeRequestPacket::decode, AcceptTradeRequestHandler)
-        this.registerServerBound(CancelTradePacket.ID, CancelTradePacket::decode, CancelTradeHandler)
-        this.registerServerBound(ChangeTradeAcceptancePacket.ID, ChangeTradeAcceptancePacket::decode, ChangeTradeAcceptanceHandler)
-        this.registerServerBound(OfferTradePacket.ID, OfferTradePacket::decode, OfferTradeHandler)
-        this.registerServerBound(UpdateTradeOfferPacket.ID, UpdateTradeOfferPacket::decode, UpdateTradeOfferHandler)
+        this.createServerBound(AcceptTradeRequestPacket.ID, AcceptTradeRequestPacket::decode, AcceptTradeRequestHandler)
+        this.createServerBound(CancelTradePacket.ID, CancelTradePacket::decode, CancelTradeHandler)
+        this.createServerBound(ChangeTradeAcceptancePacket.ID, ChangeTradeAcceptancePacket::decode, ChangeTradeAcceptanceHandler)
+        this.createServerBound(OfferTradePacket.ID, OfferTradePacket::decode, OfferTradeHandler)
+        this.createServerBound(UpdateTradeOfferPacket.ID, UpdateTradeOfferPacket::decode, UpdateTradeOfferHandler)
     }
 
     private inline fun <reified T : NetworkPacket<T>> createClientBound(identifier: Identifier, noinline decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>) {

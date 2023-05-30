@@ -50,7 +50,7 @@ class TradeGUI(
     val trade: ClientTrade,
     val traderId: UUID,
     val traderName: MutableText,
-    val traderParty: List<TradeablePokemon>,
+    val traderParty: List<TradeablePokemon?>,
     val party: ClientParty
 ): Screen(lang("trade.gui.title")) {
 
@@ -147,15 +147,16 @@ class TradeGUI(
             PartySlot(
                 x = slotX,
                 y = slotY,
-                pokemon = pokemon,
+                pokemon = pokemon?.let(::TradeablePokemon),
                 parent = this,
                 onPress = {
-                    if (!tradeConfirmed) trade.myOffer.set(if (offeredPokemon == pokemon) null else pokemon)
+                    if (!tradeConfirmed) {
+                        trade.myOffer.set(if (offeredPokemon == pokemon) null else pokemon)
+                    }
                 }
             ).also { widget -> addDrawableChild(widget) }
         }
 
-        // TODO REPLACE WITH OPPOSING TRADER'S PARTY, CURRENT USES PLAYER'S PARTY
         // Opposing Party
         for (partyIndex in 0..5) {
             var slotX = x + 230
@@ -174,7 +175,7 @@ class TradeGUI(
             PartySlot(
                 x = slotX,
                 y = slotY,
-                pokemon = party.get(PartyPosition(partyIndex)),
+                pokemon = traderParty[partyIndex],
                 parent = this,
                 isOpposing = true,
                 onPress = {}
@@ -417,7 +418,7 @@ class TradeGUI(
             drawScaledText(
                 matrixStack = matrices,
                 font = CobblemonResources.DEFAULT_LARGE,
-                text = pokemon.displayName.bold(),
+                text = pokemon.getDisplayName().bold(),
                 x = x + 82 + nameXOffset,
                 y = y + 11.5,
                 shadow = true
@@ -442,8 +443,8 @@ class TradeGUI(
             val itemX = x + (if (isOpposing) 227 else 50)
             val itemY = y + 125
             if (!heldItem.isEmpty) {
-                MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem, itemX, itemY)
-                MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+                MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(matrices, heldItem, itemX, itemY)
+                MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(matrices, MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
             }
 
             // Shiny Icon

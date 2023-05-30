@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
+import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -27,7 +28,7 @@ import org.joml.Vector3f
 
 open class PartySlot(
     x: Int, y: Int,
-    private val pokemon: Pokemon?,
+    private val pokemon: TradeStartedPacket.TradeablePokemon?,
     private val parent: TradeGUI,
     private val isOpposing: Boolean = false,
     onPress: PressAction
@@ -106,7 +107,7 @@ open class PartySlot(
             }
             matrices.pop()
 
-            if (isSelected()) {
+            if (hasSelected()) {
                 blitk(
                     matrixStack = matrices,
                     texture = selectPointerResource,
@@ -119,7 +120,7 @@ open class PartySlot(
             }
 
             // Held Item
-            val heldItem = pokemon.heldItemNoCopy()
+            val heldItem = pokemon.heldItem
             if (!heldItem.isEmpty) {
                 renderScaledGuiItemIcon(
                     itemStack = heldItem,
@@ -132,9 +133,9 @@ open class PartySlot(
         }
     }
 
-    open fun isSelected(): Boolean {
+    open fun hasSelected(): Boolean {
         val offeredPokemon = if (isOpposing) parent.trade.oppositeOffer else parent.trade.myOffer.get()
-        return pokemon == offeredPokemon && pokemon != null
+        return pokemon?.species == offeredPokemon && pokemon != null
     }
 
     fun isHovered(mouseX: Int, mouseY: Int) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + SIZE)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + SIZE))

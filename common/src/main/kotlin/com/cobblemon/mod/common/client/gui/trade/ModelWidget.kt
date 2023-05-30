@@ -29,21 +29,18 @@ class ModelWidget(
     var state = PokemonFloatingState()
     private var rotVec = Vector3f(13F, rotationY, 0F)
 
-    override fun render(matrixStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
-        matrixStack.push()
-        matrixStack.translate(x + width * 0.5, y.toDouble() + offsetY, 0.0)
-        matrixStack.scale(baseScale, baseScale, baseScale)
+    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+        matrices.push()
+        matrices.translate(x + width * 0.5, y.toDouble() + offsetY, 0.0)
+        matrices.scale(baseScale, baseScale, baseScale)
 
         drawProfilePokemon(
             renderablePokemon = pokemon,
-            matrixStack = matrixStack,
+            matrixStack = matrices,
             rotation = Quaternionf().fromEulerXYZDegrees(rotVec),
             state = state
         )
 
-        matrixStack.pop()
-    }
-
-    override fun onClick(pMouseX: Double, pMouseY: Double) {
+        matrices.pop()
     }
 }

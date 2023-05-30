@@ -9,9 +9,11 @@
 package com.cobblemon.mod.common.net.messages.client.trade
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
@@ -32,9 +34,10 @@ import net.minecraft.util.Identifier
 class TradeStartedPacket(
     val traderId: UUID,
     val traderName: MutableText,
-    val traderParty: List<TradeablePokemon>
+    val traderParty: List<TradeablePokemon?>
 ) : NetworkPacket<TradeStartedPacket> {
     class TradeablePokemon(
+        val pokemonId: UUID,
         val species: Identifier,
         val aspects: Set<String>,
         val level: Int,
@@ -43,6 +46,7 @@ class TradeStartedPacket(
     ) {
         companion object {
             fun decode(buffer: PacketByteBuf) = TradeablePokemon(
+                buffer.readUuid(),
                 buffer.readIdentifier(),
                 buffer.readList { it.readString() }.toSet(),
                 buffer.readSizedInt(IntSize.U_SHORT),
@@ -52,6 +56,7 @@ class TradeStartedPacket(
         }
 
         constructor(pokemon: Pokemon): this(
+            pokemon.uuid,
             pokemon.species.resourceIdentifier,
             pokemon.aspects,
             pokemon.level,
@@ -60,12 +65,18 @@ class TradeStartedPacket(
         )
 
         fun encode(buffer: PacketByteBuf) {
+            buffer.writeUuid(pokemonId)
             buffer.writeIdentifier(species)
             buffer.writeCollection(aspects) { _, v -> buffer.writeString(v) }
             buffer.writeSizedInt(IntSize.U_SHORT, level)
             buffer.writeSizedInt(IntSize.U_BYTE, gender.ordinal)
             buffer.writeItemStack(heldItem)
         }
+
+        fun asRenderablePokemon() = RenderablePokemon(
+            species = PokemonSpecies.getByIdentifier(species)!!,
+            aspects = aspects
+        )
     }
 
     companion object {
@@ -73,7 +84,7 @@ class TradeStartedPacket(
         fun decode(buffer: PacketByteBuf) = TradeStartedPacket(
             buffer.readUuid(),
             buffer.readText().copy(),
-            buffer.readList { TradeablePokemon.decode(buffer) }
+            buffer.readList { buffer.readNullable { TradeablePokemon.decode(buffer) } }
         )
     }
 
@@ -81,6 +92,6 @@ class TradeStartedPacket(
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(traderId)
         buffer.writeText(traderName)
-        buffer.writeCollection(traderParty) { _, v -> v.encode(buffer) }
+        buffer.writeCollection(traderParty) { _, v -> buffer.writeNullable(v) { _, v2 -> v2.encode(buffer) } }
     }
 }

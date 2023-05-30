@@ -61,8 +61,8 @@ object TradeManager {
             val otherPlayer = request.senderId.getPlayer() ?: return
             val trade = ActiveTrade(PlayerTradeParticipant(player), PlayerTradeParticipant(otherPlayer))
             activeTrades.add(trade)
-            player.sendPacket(TradeStartedPacket(otherPlayer.uuid, otherPlayer.name.copy(), trade.player2.party.map(::TradeablePokemon)))
-            otherPlayer.sendPacket(TradeStartedPacket(player.uuid, player.name.copy(), trade.player1.party.map(::TradeablePokemon)))
+            player.sendPacket(TradeStartedPacket(otherPlayer.uuid, otherPlayer.name.copy(), trade.player2.party.mapNullPreserving(::TradeablePokemon)))
+            otherPlayer.sendPacket(TradeStartedPacket(player.uuid, player.name.copy(), trade.player1.party.mapNullPreserving(::TradeablePokemon)))
         }
     }
 

@@ -10,15 +10,12 @@ package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
-import com.cobblemon.mod.common.battles.runner.GraalShowdown
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.particle.SnowstormParticleReader
 import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
-import com.cobblemon.mod.common.trade.TradeManager
-import com.cobblemon.mod.common.trade.TradeOffer
 import com.cobblemon.mod.common.util.fromJson
 import com.cobblemon.mod.common.util.toPokemon
 import com.google.gson.GsonBuilder
@@ -27,7 +24,6 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import java.io.File
-import java.io.PrintWriter
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
@@ -102,7 +98,7 @@ object TestCommand {
             )
         )
         this.trade = trade
-        playerEntity.sendPacket(TradeStartedPacket(trade.player2.uuid, trade.player2.name.copy()))
+        playerEntity.sendPacket(TradeStartedPacket(trade.player2.uuid, trade.player2.name.copy(), trade.player2.party.mapNullPreserving(TradeStartedPacket::TradeablePokemon)))
 
         taskBuilder()
             .interval(0.5F) // Run every half second
