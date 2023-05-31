@@ -116,7 +116,10 @@ class CobblemonForge : CobblemonImplementation {
     fun on(event: RegisterEvent) {
         event.register(RegistryKeys.POTION) {
             BrewingRecipes.registerPotionTypes()
-            BrewingRecipes.getRecipes().forEach { (input, ingredient, output) ->
+            BrewingRecipes.getPotionRecipes().forEach { (input, ingredient, output) ->
+                BrewingRecipeRegistry.addRecipe(Ingredient.ofItems(input), ingredient, ItemStack(output))
+            }
+            BrewingRecipes.getItemRecipes().forEach { (input, ingredient, output) ->
                 BrewingRecipeRegistry.addRecipe(Ingredient.ofItems(input), ingredient, ItemStack(output))
             }
         }

@@ -51,9 +51,7 @@ import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
-import net.minecraft.item.ItemStack
 import net.minecraft.recipe.BrewingRecipeRegistry
-import net.minecraft.recipe.Ingredient
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
@@ -85,7 +83,10 @@ object CobblemonFabric : CobblemonImplementation {
 
         CobblemonBlockPredicates.touch()
         BrewingRecipes.registerPotionTypes()
-        BrewingRecipes.getRecipes().forEach { (input, ingredient, output) ->
+        BrewingRecipes.getPotionRecipes().forEach { (input, ingredient, output) ->
+            BrewingRecipeRegistry.POTION_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
+        }
+        BrewingRecipes.getItemRecipes().forEach { (input, ingredient, output) ->
             BrewingRecipeRegistry.ITEM_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
         }
         /*
