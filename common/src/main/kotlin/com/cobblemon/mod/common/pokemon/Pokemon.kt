@@ -152,7 +152,7 @@ open class Pokemon : ShowdownIdentifiable {
             _nickname.emit(value)
         }
 
-    fun getDisplayName(): MutableText = nickname?.takeIf { it.content != TextContent.EMPTY } ?: species.translatedName
+    fun getDisplayName(): MutableText = nickname?.copy()?.takeIf { it.content != TextContent.EMPTY } ?: species.translatedName.copy()
 
     var level = 1
         set(value) {
