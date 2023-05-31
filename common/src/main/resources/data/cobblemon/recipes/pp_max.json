@@ -4,14 +4,26 @@
         {
             "item": "cobblemon:pp_up"
         },
-		{
-            "item": "cobblemon:pp_up"
+        {
+            "item": "cobblemon:pep_up_flower"
+        },
+        {
+            "item": "cobblemon:pep_up_flower"
+        },
+        {
+            "item": "cobblemon:leppa_berry"
+        },
+        {
+            "item": "cobblemon:leppa_berry"
         },
         {
             "item": "cobblemon:vivichoke"
         },
         {
             "item": "cobblemon:vivichoke"
+        },
+        {
+            "item": "minecraft:gold_ingot"
         }
     ],
     "result": {
