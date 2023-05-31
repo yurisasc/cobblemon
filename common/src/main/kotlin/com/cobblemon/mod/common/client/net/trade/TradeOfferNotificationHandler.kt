@@ -22,11 +22,8 @@ object TradeOfferNotificationHandler : ClientNetworkPacketHandler<TradeOfferNoti
     override fun handle(packet: TradeOfferNotificationPacket, client: MinecraftClient) {
         CobblemonClient.requests.tradeOffers.add(ClientTradeOffer(packet.tradeOfferId, packet.traderId))
         client.player?.sendMessage(
-            lang(
-                "trade.offer",
-                packet.traderName,
-                PartySendBinding.boundKey().localizedText
-            ).lightPurple()
+            lang("trade.offer", packet.traderName, PartySendBinding.boundKey().localizedText),
+            true
         )
     }
 }

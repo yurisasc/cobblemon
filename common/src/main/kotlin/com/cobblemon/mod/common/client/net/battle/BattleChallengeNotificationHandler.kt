@@ -26,7 +26,8 @@ object BattleChallengeNotificationHandler : ClientNetworkPacketHandler<BattleCha
                 "challenge.receiver",
                 packet.challengerName,
                 PartySendBinding.boundKey().localizedText
-            ).lightPurple()
+            ),
+            true
         )
     }
 }

@@ -292,6 +292,10 @@
   "cobblemon.ui.info.to_next_level": "To Next Lv.",
 
   "cobblemon.ui.trade": "Trade",
+  "cobblemon.trade.occupied": "%1$s is busy.",
+  "cobblemon.trade.request_expired": "The request to trade with %1$s has timed out.",
+  "cobblemon.trade.request_sent": "Offered to trade with %1$s",
+  "cobblemon.trade.offer": "%1$s offered to trade Pokémon with you.",
 
   "cobblemon.ui.party": "Party",
   "cobblemon.ui.power": "Power",
@@ -355,7 +359,7 @@
 
   "cobblemon.challenge_label": "Press %1$s to battle.",
   "cobblemon.challenge.sender": "You challenged %1$s to a battle!",
-  "cobblemon.challenge.receiver": "%1$s has challenged you to battle! Press %2$s while looking at them to battle.",
+  "cobblemon.challenge.receiver": "%1$s has challenged you to battle!",
 
   "cobblemon.drop.item.inventory": "You received %2$s (%1$sx).",
   "cobblemon.drop.item.full": "Your inventory was full so the %1$s dropped to the ground.",

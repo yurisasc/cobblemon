@@ -37,8 +37,8 @@ class TradeButton(
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        val enabled = parent.offeredPokemon != null && parent.opposingOfferedPokemon != null
-        val active = parent.tradeConfirmed && !parent.opposingTradeConfirmed
+        val enabled = parent.offeredPokemon != null && parent.opposingOfferedPokemon != null && parent.protectiveTicks <= 0
+        val active = parent.trade.acceptedOppositeOffer && !parent.trade.oppositeAcceptedMyOffer.get()
 
         val texture = if (!enabled) buttonDisabledResource
             else (if (active) buttonActiveResource else buttonResource)

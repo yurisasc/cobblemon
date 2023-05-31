@@ -21,6 +21,7 @@ class ActiveTrade(val player1: TradeParticipant, val player2: TradeParticipant) 
 
     fun updateOffer(tradeParticipant: TradeParticipant, pokemon: Pokemon?) {
         getOffer(tradeParticipant).updateOffer(pokemon)
+        getOffer(getOppositePlayer(tradeParticipant)).accepted = false
         player1.updateOffer(tradeParticipant, pokemon)
         player2.updateOffer(tradeParticipant, pokemon)
     }
@@ -30,6 +31,7 @@ class ActiveTrade(val player1: TradeParticipant, val player2: TradeParticipant) 
         if (offer.accepted != acceptance) {
             offer.accepted = acceptance
             getOppositePlayer(tradeParticipant).changeTradeAcceptance(offer.pokemon!!.uuid, acceptance)
+            tradeParticipant.changeTradeAcceptance(offer.pokemon!!.uuid, acceptance)
         }
 
         if (offer.accepted && getOffer(tradeParticipant).accepted) {
@@ -52,10 +54,12 @@ class ActiveTrade(val player1: TradeParticipant, val player2: TradeParticipant) 
     fun cancelTrade() {
         player1.cancelTrade()
         player2.cancelTrade()
+        TradeManager.activeTrades -= this
     }
 
     fun completeTrade() {
         player1.completeTrade()
         player2.completeTrade()
+        TradeManager.activeTrades -= this
     }
 }

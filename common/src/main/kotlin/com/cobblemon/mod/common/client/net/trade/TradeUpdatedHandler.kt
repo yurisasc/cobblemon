@@ -19,11 +19,10 @@ object TradeUpdatedHandler : ClientNetworkPacketHandler<TradeUpdatedPacket> {
 
         if (packet.playerId == MinecraftClient.getInstance().player?.uuid) {
             trade.myOffer.set(packet.pokemon)
-            trade.oppositeAcceptedMyOffer.set(false)
         } else {
-            trade.acceptedOppositeOffer = false
             trade.oppositeOffer.set(packet.pokemon)
         }
-
+        trade.oppositeAcceptedMyOffer.set(false)
+        trade.acceptedOppositeOffer = false
     }
 }

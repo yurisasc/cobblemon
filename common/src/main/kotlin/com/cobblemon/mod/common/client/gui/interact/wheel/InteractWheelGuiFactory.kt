@@ -53,6 +53,7 @@ fun createPlayerInteractGui(targetPlayer: PlayerEntity, pokemon: Pokemon): Inter
             if (tradeOffer == null) {
                 CobblemonNetwork.sendToServer(OfferTradePacket(targetPlayer.uuid))
             } else {
+                CobblemonClient.requests.tradeOffers -= tradeOffer
                 CobblemonNetwork.sendToServer(AcceptTradeRequestPacket(tradeOffer.tradeOfferId))
             }
             closeGUI()

@@ -85,13 +85,12 @@ class TradeGUI(
 
     var offeredPokemon: Pokemon? = null
     var opposingOfferedPokemon: Pokemon? = null
-    var tradeConfirmed: Boolean = false
-    var opposingTradeConfirmed: Boolean = false
 
     var ticksElapsed = 0
     var selectPointerOffsetY = 0
     var readyProgress = 0
     var selectPointerOffsetIncrement = false
+    var protectiveTicks = 0
 
     override fun init() {
         val x = (width - BASE_WIDTH) / 2
@@ -113,16 +112,17 @@ class TradeGUI(
                 y = y + 119,
                 parent = this,
                 onPress = {
-                    if (offeredPokemon != null && opposingOfferedPokemon != null) {
-                        if (tradeConfirmed) {
-                            trade.acceptedOppositeOffer = false;
-                            tradeConfirmed = false
+                    if (offeredPokemon != null && opposingOfferedPokemon != null && protectiveTicks <= 0) {
+                        ticksElapsed = 0
+                        if (trade.acceptedOppositeOffer) {
+//                            trade.acceptedOppositeOffer = false;
                             readyProgress = 0
+                            CobblemonNetwork.sendToServer(ChangeTradeAcceptancePacket(opposingOfferedPokemon!!.uuid, false))
                         } else {
-                            trade.acceptedOppositeOffer = true;
-                            tradeConfirmed = true
+//                            trade.acceptedOppositeOffer = true;
+                            readyProgress = 0
+                            CobblemonNetwork.sendToServer(ChangeTradeAcceptancePacket(opposingOfferedPokemon!!.uuid, true))
                         }
-                        // TODO send packets
                     }
                 }
             )
@@ -150,8 +150,9 @@ class TradeGUI(
                 pokemon = pokemon?.let(::TradeablePokemon),
                 parent = this,
                 onPress = {
-                    if (!tradeConfirmed) {
-                        trade.myOffer.set(if (offeredPokemon == pokemon) null else pokemon)
+                    if (!trade.acceptedOppositeOffer) {
+                        val pk = if (offeredPokemon?.uuid == pokemon?.uuid) null else pokemon
+                        CobblemonNetwork.sendToServer(UpdateTradeOfferPacket(pk?.let { it.uuid to PartyPosition(partyIndex) }))
                     }
                 }
             ).also { widget -> addDrawableChild(widget) }
@@ -193,12 +194,14 @@ class TradeGUI(
         trade.oppositeOffer.subscribe { newOffer: Pokemon? ->
             setOfferedPokemon(pokemon = newOffer, isOpposing = true)
         }
-        trade.oppositeAcceptedMyOffer.subscribe { acceptance ->
-            opposingTradeConfirmed = acceptance
-        }
         trade.myOffer.subscribe { myOffer: Pokemon? ->
             setOfferedPokemon(pokemon = myOffer)
         }
+        trade.oppositeAcceptedMyOffer.subscribe {
+            ticksElapsed = 0
+            readyProgress = 0
+        }
+
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -242,7 +245,7 @@ class TradeGUI(
         renderPokemonInfo(offeredPokemon, false, matrices, x, y)
         renderPokemonInfo(opposingOfferedPokemon, true, matrices, x, y)
 
-        if (tradeConfirmed) {
+        if (trade.acceptedOppositeOffer) {
             blitk(
                 matrixStack = matrices,
                 texture = tradeReadyResource,
@@ -266,7 +269,7 @@ class TradeGUI(
             )
         }
 
-        if (opposingTradeConfirmed) {
+        if (trade.oppositeAcceptedMyOffer.get()) {
             blitk(
                 matrixStack = matrices,
                 texture = opposingTradeReadyResource,
@@ -331,6 +334,9 @@ class TradeGUI(
 
     override fun tick() {
         ticksElapsed++
+        if (protectiveTicks > 0) {
+            protectiveTicks--
+        }
 
         // Calculate select pointer offset
         var delayFactor = 3
@@ -346,6 +352,7 @@ class TradeGUI(
     }
 
     private fun setOfferedPokemon(pokemon: Pokemon?, isOpposing: Boolean = false) {
+        protectiveTicks = 20
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
 
@@ -361,6 +368,7 @@ class TradeGUI(
                 rotationY = 35F,
                 offsetY = -10.0
             ) else null
+            trade.acceptedOppositeOffer = false
         } else {
             offeredPokemon = pokemon
             offeredPokemonModel = if (pokemon != null) ModelWidget(
