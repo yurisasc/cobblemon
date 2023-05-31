@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "cobblemon:medicinal_leek"
+        },
+        {
+            "item": "minecraft:potato"
+        },
+        {
+            "item": "minecraft:bowl"
+        }
+    ],
+    "result": {
+        "item": "cobblemon:leek_and_potato_stew"
+    }
+}
