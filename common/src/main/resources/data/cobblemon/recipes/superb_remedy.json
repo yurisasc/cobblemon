@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "cobblemon:fine_remedy"
+        },
+        {
+            "item": "cobblemon:vivichoke"
+        },
+        {
+            "item": "cobblemon:vivichoke"
+        },
+		{
+			"item": "cobblemon:big_root"
+		}
+    ],
+    "result": {
+        "item": "cobblemon:superb_remedy"
+    }
+}

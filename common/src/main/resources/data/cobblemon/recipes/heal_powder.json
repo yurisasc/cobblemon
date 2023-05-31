@@ -2,9 +2,9 @@
   "type": "minecraft:smelting",
   "group": "misc",
   "ingredient": {
-    "item": "cobblemon:medicinal_leek"
+    "item": "cobblemon:revival_herb"
   },
-  "result": "cobblemon:roasted_leek",
-  "experience": 0.1,
+  "result": "cobblemon:heal_powder",
+  "experience": 0.2,
   "cookingtime": 200
 }
