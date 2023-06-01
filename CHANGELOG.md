@@ -55,6 +55,8 @@
 - Surskit
 - Masquerain
 - Chimecho
+- Barboach
+- Whiscash
 
 #### Gen 4
 
@@ -70,6 +72,8 @@
 - Chingling
 - Bonsly
 - Chatot
+- Combee
+- Vespiquen
 
 #### Gen 5
 
@@ -84,6 +88,9 @@
 - Cofagrigus
 - Patrat
 - Watchog
+- Lillipup
+- Herdier
+- Stoutland
 
 #### Gen 6
 
@@ -103,6 +110,7 @@
 - Stufful
 - Bewear
 - Comfey
+- Alolan Exeggutor
 
 #### Gen 8
 
@@ -111,6 +119,11 @@
 - Nickit
 - Thievul
 - Falinks
+- Galarian Farfetch'd
+- Sirfetch'd
+- Rookidee
+- Corvisquire
+- Corviknight
 
 #### Gen 9
 

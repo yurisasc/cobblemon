@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("exeggutor")
     override val head = getPart("head")
 
@@ -27,11 +27,11 @@ class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rightLeg = getPart("leg_right")
 
     val head2 = object : HeadedFrame {
-        override val rootPart = this@ExeggutorModel.rootPart
+        override val rootPart = this@ExeggutorAlolanModel.rootPart
         override val head: ModelPart = getPart("head2")
     }
     val head3 = object : HeadedFrame {
-        override val rootPart = this@ExeggutorModel.rootPart
+        override val rootPart = this@ExeggutorAlolanModel.rootPart
         override val head: ModelPart = getPart("head3")
     }
 
@@ -45,7 +45,7 @@ class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink") { bedrockStateful("exeggutor", "blink").setPreventsIdle(false) }
+        val blink1 = quirk("blink") { bedrockStateful("exeggutor", "blink1").setPreventsIdle(false) }
         val blink2 = quirk("blink") { bedrockStateful("exeggutor", "blink2").setPreventsIdle(false) }
         val blink3 = quirk("blink") { bedrockStateful("exeggutor", "blink3").setPreventsIdle(false) }
         standing = registerPose(
