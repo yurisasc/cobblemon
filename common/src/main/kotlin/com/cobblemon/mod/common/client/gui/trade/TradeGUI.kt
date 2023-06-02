@@ -20,10 +20,8 @@ import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.render.drawScaledText
-import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket.TradeablePokemon
-import com.cobblemon.mod.common.net.messages.server.storage.pc.UnlinkPlayerFromPCPacket
 import com.cobblemon.mod.common.net.messages.server.trade.CancelTradePacket
 import com.cobblemon.mod.common.net.messages.server.trade.ChangeTradeAcceptancePacket
 import com.cobblemon.mod.common.net.messages.server.trade.UpdateTradeOfferPacket
@@ -32,16 +30,14 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import com.cobblemon.mod.common.util.scaleIt
+import java.util.UUID
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
-import java.util.UUID
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
-import net.minecraft.sound.SoundEvents
 import net.minecraft.text.MutableText
 
 /**
@@ -103,7 +99,6 @@ class TradeGUI(
         }
 
         trade.completedEmitter.subscribe {
-            playSound(SoundEvents.BLOCK_AMETHYST_BLOCK_BREAK)
             val (pokemonId1, pokemonId2) = it
             val myTradedPokemon = party.find { it?.pokemonId == pokemonId1 }
             val theirTradedPokemon = traderParty.find { it?.pokemonId == pokemonId2 }
