@@ -16,7 +16,6 @@ import net.minecraft.client.MinecraftClient
 object TradeCompletedHandler : ClientNetworkPacketHandler<TradeCompletedPacket> {
     override fun handle(packet: TradeCompletedPacket, client: MinecraftClient) {
         val trade = CobblemonClient.trade ?: return
-        trade.completedEmitter.emit(Unit)
-        CobblemonClient.trade = null
+        trade.completedEmitter.emit(packet.pokemonId1 to packet.pokemonId2)
     }
 }

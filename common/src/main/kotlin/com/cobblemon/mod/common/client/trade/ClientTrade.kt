@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.trade
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.pokemon.Pokemon
+import java.util.UUID
 
 class ClientTrade {
     var myOffer = SettableObservable<Pokemon?>(null)
@@ -18,7 +19,7 @@ class ClientTrade {
     var oppositeAcceptedMyOffer = SettableObservable(false)
     var acceptedOppositeOffer = false
 
-    var completedEmitter = SimpleObservable<Unit>()
+    var completedEmitter = SimpleObservable<Pair<UUID, UUID>>()
     var cancelEmitter = SimpleObservable<Unit>()
 
     fun accept() {

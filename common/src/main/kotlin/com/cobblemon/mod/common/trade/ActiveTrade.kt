@@ -22,16 +22,16 @@ class ActiveTrade(val player1: TradeParticipant, val player2: TradeParticipant) 
     fun updateOffer(tradeParticipant: TradeParticipant, pokemon: Pokemon?) {
         getOffer(tradeParticipant).updateOffer(pokemon)
         getOffer(getOppositePlayer(tradeParticipant)).accepted = false
-        player1.updateOffer(tradeParticipant, pokemon)
-        player2.updateOffer(tradeParticipant, pokemon)
+        player1.updateOffer(this, tradeParticipant, pokemon)
+        player2.updateOffer(this, tradeParticipant, pokemon)
     }
 
     fun updateAcceptance(tradeParticipant: TradeParticipant, acceptance: Boolean) {
         val offer = getOpposingOffer(tradeParticipant)
         if (offer.accepted != acceptance) {
             offer.accepted = acceptance
-            getOppositePlayer(tradeParticipant).changeTradeAcceptance(offer.pokemon!!.uuid, acceptance)
-            tradeParticipant.changeTradeAcceptance(offer.pokemon!!.uuid, acceptance)
+            getOppositePlayer(tradeParticipant).changeTradeAcceptance(this, offer.pokemon!!.uuid, acceptance)
+            tradeParticipant.changeTradeAcceptance(this, offer.pokemon!!.uuid, acceptance)
         }
 
         if (offer.accepted && getOffer(tradeParticipant).accepted) {
@@ -52,14 +52,18 @@ class ActiveTrade(val player1: TradeParticipant, val player2: TradeParticipant) 
     }
 
     fun cancelTrade() {
-        player1.cancelTrade()
-        player2.cancelTrade()
+        player1.cancelTrade(this)
+        player2.cancelTrade(this)
         TradeManager.activeTrades -= this
     }
 
     fun completeTrade() {
-        player1.completeTrade()
-        player2.completeTrade()
-        TradeManager.activeTrades -= this
+        player1.completeTrade(this, player1Offer.pokemon!!.uuid, player2Offer.pokemon!!.uuid)
+        player2.completeTrade(this, player2Offer.pokemon!!.uuid, player1Offer.pokemon!!.uuid)
+
+        player1Offer.pokemon = null
+        player1Offer.accepted = false
+        player2Offer.pokemon = null
+        player2Offer.accepted = false
     }
 }

@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket.TradeablePokemon
+import com.cobblemon.mod.common.net.messages.server.storage.pc.UnlinkPlayerFromPCPacket
 import com.cobblemon.mod.common.net.messages.server.trade.CancelTradePacket
 import com.cobblemon.mod.common.net.messages.server.trade.ChangeTradeAcceptancePacket
 import com.cobblemon.mod.common.net.messages.server.trade.UpdateTradeOfferPacket
@@ -36,8 +37,10 @@ import net.minecraft.client.gui.DrawableHelper
 import java.util.UUID
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.SoundEvents
 import net.minecraft.text.MutableText
 
 /**
@@ -50,8 +53,8 @@ class TradeGUI(
     val trade: ClientTrade,
     val traderId: UUID,
     val traderName: MutableText,
-    val traderParty: List<TradeablePokemon?>,
-    val party: ClientParty
+    val traderParty: MutableList<TradeablePokemon?>,
+    val party: MutableList<TradeablePokemon?>
 ): Screen(lang("trade.gui.title")) {
 
     companion object {
@@ -91,6 +94,47 @@ class TradeGUI(
     var readyProgress = 0
     var selectPointerOffsetIncrement = false
     var protectiveTicks = 0
+
+    init {
+        trade.cancelEmitter.subscribe {
+            super.close()
+            // Maybe a sound
+        }
+
+        trade.completedEmitter.subscribe {
+            playSound(SoundEvents.BLOCK_AMETHYST_BLOCK_BREAK)
+            val (pokemonId1, pokemonId2) = it
+            val myTradedPokemon = party.find { it?.pokemonId == pokemonId1 }
+            val theirTradedPokemon = traderParty.find { it?.pokemonId == pokemonId2 }
+            if (myTradedPokemon == null || theirTradedPokemon == null) {
+                CobblemonNetwork.sendToServer(CancelTradePacket())
+                return@subscribe close()
+            }
+            val i1 = party.indexOf(myTradedPokemon)
+            val i2 = traderParty.indexOf(theirTradedPokemon)
+            party[i1] = theirTradedPokemon
+            traderParty[i2] = myTradedPokemon
+            offeredPokemon = null
+            opposingOfferedPokemon = null
+            ticksElapsed = 0
+            readyProgress = 0
+            trade.oppositeAcceptedMyOffer.set(false)
+            setOfferedPokemon(pokemon = null, isOpposing = true)
+            setOfferedPokemon(pokemon = null, isOpposing = false)
+            clearAndInit()
+            // Make a sound maybe
+        }
+        trade.oppositeOffer.subscribe { newOffer: Pokemon? ->
+            setOfferedPokemon(pokemon = newOffer, isOpposing = true)
+        }
+        trade.myOffer.subscribe { myOffer: Pokemon? ->
+            setOfferedPokemon(pokemon = myOffer)
+        }
+        trade.oppositeAcceptedMyOffer.subscribe {
+            ticksElapsed = 0
+            readyProgress = 0
+        }
+    }
 
     override fun init() {
         val x = (width - BASE_WIDTH) / 2
@@ -143,16 +187,16 @@ class TradeGUI(
                 slotY += ((PartySlot.SIZE + PARTY_SLOT_PADDING) * offsetIndex) + offsetY
             }
 
-            val pokemon = party.get(PartyPosition(partyIndex))
+            val pokemon = party[partyIndex]
             PartySlot(
                 x = slotX,
                 y = slotY,
-                pokemon = pokemon?.let(::TradeablePokemon),
+                pokemon = pokemon,
                 parent = this,
                 onPress = {
                     if (!trade.acceptedOppositeOffer) {
-                        val pk = if (offeredPokemon?.uuid == pokemon?.uuid) null else pokemon
-                        CobblemonNetwork.sendToServer(UpdateTradeOfferPacket(pk?.let { it.uuid to PartyPosition(partyIndex) }))
+                        val pk = if (offeredPokemon?.uuid == pokemon?.pokemonId) null else pokemon
+                        CobblemonNetwork.sendToServer(UpdateTradeOfferPacket(pk?.let { it.pokemonId to PartyPosition(partyIndex) }))
                     }
                 }
             ).also { widget -> addDrawableChild(widget) }
@@ -182,26 +226,6 @@ class TradeGUI(
                 onPress = {}
             ).also { widget -> addDrawableChild(widget) }
         }
-
-        trade.cancelEmitter.subscribe {
-            super.close()
-            // Maybe a sound
-        }
-        trade.completedEmitter.subscribe {
-            super.close()
-            // Make a sound maybe
-        }
-        trade.oppositeOffer.subscribe { newOffer: Pokemon? ->
-            setOfferedPokemon(pokemon = newOffer, isOpposing = true)
-        }
-        trade.myOffer.subscribe { myOffer: Pokemon? ->
-            setOfferedPokemon(pokemon = myOffer)
-        }
-        trade.oppositeAcceptedMyOffer.subscribe {
-            ticksElapsed = 0
-            readyProgress = 0
-        }
-
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -330,6 +354,16 @@ class TradeGUI(
             val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
             if (itemHovered) renderTooltip(matrices, opposingOfferedPokemon!!.heldItemNoCopy(), mouseX, mouseY)
         }
+    }
+
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        when (keyCode) {
+            InputUtil.GLFW_KEY_ESCAPE -> {
+//                playSound(CobblemonSounds.PC_OFF)
+                CancelTradePacket().sendToServer()
+            }
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers)
     }
 
     override fun tick() {

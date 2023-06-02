@@ -91,7 +91,7 @@ object TestCommand {
         val trade = ActiveTrade(
             player1 = PlayerTradeParticipant(playerEntity),
             player2 = DummyTradeParticipant(
-                pokemonList = listOf(
+                pokemonList = mutableListOf(
                     "pikachu level=30 shiny".toPokemon(),
                     "machop level=15".toPokemon()
                 )
@@ -126,7 +126,6 @@ object TestCommand {
             // you can update the code here and the 'currentDebugId' value and this will run once.
 
             // Something
-            println("THING!")
 
             this.lastDebugId = currentDebugId
         }

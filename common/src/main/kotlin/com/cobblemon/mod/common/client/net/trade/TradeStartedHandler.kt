@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.trade.TradeGUI
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket.TradeablePokemon
 import net.minecraft.client.MinecraftClient
 
 object TradeStartedHandler : ClientNetworkPacketHandler<TradeStartedPacket> {
@@ -24,8 +25,8 @@ object TradeStartedHandler : ClientNetworkPacketHandler<TradeStartedPacket> {
                 trade,
                 packet.traderId,
                 packet.traderName,
-                packet.traderParty,
-                CobblemonClient.storage.myParty
+                packet.traderParty.toMutableList(),
+                CobblemonClient.storage.myParty.map { it?.let(::TradeablePokemon) }.toMutableList()
             )
         )
     }

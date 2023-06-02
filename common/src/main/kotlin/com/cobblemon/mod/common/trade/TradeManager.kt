@@ -78,7 +78,7 @@ object TradeManager {
         if (trade != null) {
             val tradeParticipant = trade.getTradeParticipant(player.uuid)
             val oppositeParticipant = trade.getOppositePlayer(tradeParticipant)
-            oppositeParticipant.cancelTrade()
+            oppositeParticipant.cancelTrade(trade)
             activeTrades.remove(trade)
         }
     }
