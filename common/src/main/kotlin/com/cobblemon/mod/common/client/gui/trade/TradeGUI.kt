@@ -32,6 +32,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.scaleIt
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import java.util.UUID
@@ -137,6 +138,7 @@ class TradeGUI(
     }
 
     override fun init() {
+        println("Initialized GUI")
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
 
@@ -226,6 +228,9 @@ class TradeGUI(
                 onPress = {}
             ).also { widget -> addDrawableChild(widget) }
         }
+
+        setOfferedPokemon(pokemon = offeredPokemon, isOpposing = false)
+        setOfferedPokemon(pokemon = opposingOfferedPokemon, isOpposing = true)
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -564,13 +569,14 @@ class TradeGUI(
             }
 
             // IVs
-            val ivXOffset = if (isOpposing) 218 else 0
+            val ivXOffset = if (isOpposing) 205 else -13
             drawScaledText(
                 matrixStack = matrices,
                 text = pokemon.ivs.getOrDefault(Stats.HP).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 155.5,
-                scale = SCALE
+                scale = SCALE,
+                centered = true
             )
 
             drawScaledText(
@@ -578,7 +584,8 @@ class TradeGUI(
                 text = pokemon.ivs.getOrDefault(Stats.ATTACK).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 163.5,
-                scale = SCALE
+                scale = SCALE,
+                centered = true
             )
 
             drawScaledText(
@@ -586,7 +593,8 @@ class TradeGUI(
                 text = pokemon.ivs.getOrDefault(Stats.DEFENCE).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 171.5,
-                scale = SCALE
+                scale = SCALE,
+                centered = true
             )
 
             drawScaledText(
@@ -594,7 +602,8 @@ class TradeGUI(
                 text = pokemon.ivs.getOrDefault(Stats.SPECIAL_ATTACK).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 179.5,
-                scale = SCALE
+                scale = SCALE,
+                centered = true
             )
 
             drawScaledText(
@@ -602,7 +611,8 @@ class TradeGUI(
                 text = pokemon.ivs.getOrDefault(Stats.SPECIAL_DEFENCE).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 187.5,
-                scale = SCALE
+                scale = SCALE,
+                centered = true
             )
 
             drawScaledText(
@@ -610,7 +620,64 @@ class TradeGUI(
                 text = pokemon.ivs.getOrDefault(Stats.SPEED).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 195.5,
-                scale = SCALE
+                scale = SCALE,
+                centered = true
+            )
+
+            // EVs
+            val evXOffset = if (isOpposing) 221 else 3
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.evs.getOrDefault(Stats.HP).toString().text(),
+                x = x + 60 + evXOffset,
+                y = y + 155.5,
+                scale = SCALE,
+                centered = true
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.evs.getOrDefault(Stats.ATTACK).toString().text(),
+                x = x + 60 + evXOffset,
+                y = y + 163.5,
+                scale = SCALE,
+                centered = true
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.evs.getOrDefault(Stats.DEFENCE).toString().text(),
+                x = x + 60 + evXOffset,
+                y = y + 171.5,
+                scale = SCALE,
+                centered = true
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.evs.getOrDefault(Stats.SPECIAL_ATTACK).toString().text(),
+                x = x + 60 + evXOffset,
+                y = y + 179.5,
+                scale = SCALE,
+                centered = true
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.evs.getOrDefault(Stats.SPECIAL_DEFENCE).toString().text(),
+                x = x + 60 + evXOffset,
+                y = y + 187.5,
+                scale = SCALE,
+                centered = true
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = pokemon.evs.getOrDefault(Stats.SPEED).toString().text(),
+                x = x + 60 + evXOffset,
+                y = y + 195.5,
+                scale = SCALE,
+                centered = true
             )
         } else {
             blitk(
@@ -676,7 +743,16 @@ class TradeGUI(
         drawScaledText(
             matrixStack = matrices,
             text = lang("ui.stats.ivs").bold(),
-            x = x + 37.5,
+            x = x + 47,
+            y = y + 147.5,
+            centered = true,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.evs").bold(),
+            x = x + 62.5,
             y = y + 147.5,
             centered = true,
             scale = SCALE
@@ -770,8 +846,17 @@ class TradeGUI(
         drawScaledText(
             matrixStack = matrices,
             text = lang("ui.stats.ivs").bold(),
-            x = x + 255.5,
-            y = y + 147.5,
+            x = x + 265,
+            y = y + 148,
+            centered = true,
+            scale = SCALE
+        )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = lang("ui.stats.evs").bold(),
+            x = x + 280.5,
+            y = y + 148,
             centered = true,
             scale = SCALE
         )
