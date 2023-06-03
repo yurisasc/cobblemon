@@ -18,8 +18,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
-    override val rootPart = root.registerChildWithAllChildren("tandemaus")
+class MausholdfourModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+    override val rootPart = root.registerChildWithAllChildren("maushold")
     override val head = getPart("head")
 
     override val portraitScale = 1.0F
@@ -34,23 +34,37 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
 
-        val blink1 = quirk("blink1") { bedrockStateful("tandemaus", "blink1").setPreventsIdle(false)}
-        val blink2 = quirk("blink2") { bedrockStateful("tandemaus", "blink2").setPreventsIdle(false)}
+        val blink1 = quirk("blink1") { bedrockStateful("maushold_four", "blink1").setPreventsIdle(false)}
+        val blink2 = quirk("blink2") { bedrockStateful("maushold_four", "blink2").setPreventsIdle(false)}
+        val blink3 = quirk("blink3") { bedrockStateful("maushold_four", "blink3").setPreventsIdle(false)}
+        val blink4 = quirk("blink4") { bedrockStateful("maushold_four", "blink4").setPreventsIdle(false)}
 
         val head2 = object : HeadedFrame {
-            override val rootPart = this@TandemausModel.rootPart
+            override val rootPart = this@MausholdfourModel.rootPart
             override val head: ModelPart = getPart("head2")
+        }
+
+        val head3 = object : HeadedFrame {
+            override val rootPart = this@MausholdfourModel.rootPart
+            override val head: ModelPart = getPart("head3")
+        }
+
+        val head4 = object : HeadedFrame {
+            override val rootPart = this@MausholdfourModel.rootPart
+            override val head: ModelPart = getPart("head4")
         }
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink1, blink2),
+            quirks = arrayOf(blink1, blink2, blink3, blink4),
             idleAnimations = arrayOf(
-                bedrock("tandemaus", "ground_idle"),
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false),
+                SingleBoneLookAnimation(head3, false, false),
+                SingleBoneLookAnimation(head4, false, false),
+                bedrock("maushold_four", "ground_idle")
             )
         )
 
@@ -58,11 +72,13 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink1, blink2),
+            quirks = arrayOf(blink1, blink2, blink3, blink4),
             idleAnimations = arrayOf(
-                bedrock("tandemaus", "ground_walk"),
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false),
+                SingleBoneLookAnimation(head3, false, false),
+                SingleBoneLookAnimation(head4, false, false),
+                bedrock("maushold_four", "ground_walk")
             )
         )
 
@@ -70,15 +86,13 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            quirks = arrayOf(blink1, blink2),
             idleAnimations = arrayOf(
-                bedrock("tandemaus", "ground_idle")
-                //bedrock("tandemaus", "sleep")
+                bedrock("maushold_four", "sleep")
             )
         )
     }
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("tandemaus", "faint") else null
+    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("maushold_four", "faint") else null
 }

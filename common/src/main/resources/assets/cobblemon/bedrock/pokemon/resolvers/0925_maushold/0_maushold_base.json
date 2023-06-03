@@ -19,6 +19,7 @@
       "aspects": [
         "maushold-family-four"
       ],
+      "poser": "cobblemon:mausholdfour",
       "model": "cobblemon:maushold_four.geo"
     }
   ]
