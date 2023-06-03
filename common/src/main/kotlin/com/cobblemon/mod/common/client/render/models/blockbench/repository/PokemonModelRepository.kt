@@ -101,7 +101,9 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("electabuzz", ::ElectabuzzModel)
         inbuilt("exeggcute", ::ExeggcuteModel)
         inbuilt("exeggutor", ::ExeggutorModel)
+        inbuilt("exeggutor_alolan", ::ExeggutorAlolanModel)
         inbuilt("farfetchd", ::FarfetchdModel)
+        inbuilt("farfetchd_galarian", ::FarfetchdGalarianModel)
         inbuilt("fearow", ::FearowModel)
         inbuilt("flareon", ::FlareonModel)
         inbuilt("gastly", ::GastlyModel)
@@ -439,6 +441,11 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("lillipup", ::LillipupModel)
         inbuilt("herdier", ::HerdierModel)
         inbuilt("stoutland", ::StoutlandModel)
+        inbuilt("sirfetchd", ::SirfetchdModel)
+        inbuilt("rookidee", ::RookideeModel)
+        inbuilt("corvisquire", ::CorvisquireModel)
+        inbuilt("corviknight", ::CorviknightModel)
+
 
         // Unhooked because the families are not completed
 //        inbuilt("fuecoco", :: FuecocoModel)

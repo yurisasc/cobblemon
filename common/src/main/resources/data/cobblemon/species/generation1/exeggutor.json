@@ -48,6 +48,12 @@
         "special_defence": 0,
         "speed": 0
       },
+      "baseScale": 1.0,
+      "hitbox": {
+        "width": 1.0,
+        "height": 5.0,
+        "fixed": false
+      },
       "experienceGroup": "slow",
       "eggCycles": 20,
       "eggGroups": [
@@ -372,10 +378,10 @@
   ],
   "preEvolution": "exeggcute",
   "evolutions": [],
-  "baseScale": 1.7,
+  "baseScale": 1.0,
   "hitbox": {
-    "width": 0.7,
-    "height": 1.3,
+    "width": 1.0,
+    "height": 1.7,
     "fixed": false
   },
   "baseFriendship": 50,

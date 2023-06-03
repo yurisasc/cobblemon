@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -72,7 +73,12 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("chatot", "air_idle")
+                bedrock("chatot", "air_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Z_AXIS
+                )
             )
         )
 

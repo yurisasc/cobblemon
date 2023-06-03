@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Corvisquire",
   "nationalPokedexNumber": 822,
   "primaryType": "flying",
@@ -20,6 +21,13 @@
   "shoulderMountable": false,
   "baseExperienceYield": 128,
   "experienceGroup": "medium_slow",
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "eggCycles": 15,
   "eggGroups": [
     "flying"
