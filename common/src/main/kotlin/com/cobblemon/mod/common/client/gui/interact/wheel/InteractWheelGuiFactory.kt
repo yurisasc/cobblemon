@@ -20,6 +20,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import java.util.*
+import org.joml.Vector3f
 
 fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean): InteractWheelGUI {
     val mountShoulder = InteractWheelOption(
@@ -48,6 +49,7 @@ fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean): Intera
 fun createPlayerInteractGui(targetPlayer: PlayerEntity, pokemon: Pokemon): InteractWheelGUI {
     val trade = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_trade.png"),
+        colour = { if (CobblemonClient.requests.tradeOffers.any { it.traderId == targetPlayer.uuid }) Vector3f(0F, 0.6F, 0F) else null },
         onPress = {
             val tradeOffer = CobblemonClient.requests.tradeOffers.find { it.traderId == targetPlayer.uuid }
             if (tradeOffer == null) {
@@ -61,6 +63,7 @@ fun createPlayerInteractGui(targetPlayer: PlayerEntity, pokemon: Pokemon): Inter
     )
     val battle = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"),
+        colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == targetPlayer.uuid }) Vector3f(0F, 0.6F, 0F) else null },
         onPress = {
             val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == targetPlayer.uuid }
             // This can be improved in future with more detailed battle challenge data.

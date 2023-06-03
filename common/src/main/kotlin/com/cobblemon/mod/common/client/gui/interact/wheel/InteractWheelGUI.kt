@@ -44,6 +44,7 @@ class InteractWheelGUI(private val options: Map<Orientation, InteractWheelOption
             x = x,
             y = y,
             isEnabled = option != null,
+            colour = option?.colour ?: { null },
             onPress = { option?.onPress?.invoke() }
         ))
     }

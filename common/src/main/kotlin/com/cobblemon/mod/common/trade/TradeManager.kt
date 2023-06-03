@@ -55,7 +55,7 @@ object TradeManager {
     fun acceptTradeRequest(player: ServerPlayerEntity, tradeOfferId: UUID) {
         val request = requests.find { it.tradeOfferId == tradeOfferId }
         if (request == null) {
-            player.sendMessage(lang("trade.request_expired"), true)
+            player.sendMessage(lang("trade.request_already_expired"), true)
         } else {
             requests.remove(request)
             val otherPlayer = request.senderId.getPlayer() ?: return

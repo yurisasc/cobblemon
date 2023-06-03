@@ -9,8 +9,10 @@
 package com.cobblemon.mod.common.client.gui.interact.wheel
 
 import net.minecraft.util.Identifier
+import org.joml.Vector3f
 
 data class InteractWheelOption(
     val iconResource: Identifier,
+    val colour: () -> Vector3f? = { null },
     val onPress: () -> Unit
 )

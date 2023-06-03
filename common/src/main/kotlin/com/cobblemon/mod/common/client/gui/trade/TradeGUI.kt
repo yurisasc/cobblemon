@@ -133,7 +133,6 @@ class TradeGUI(
     }
 
     override fun init() {
-        println("Initialized GUI")
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
 

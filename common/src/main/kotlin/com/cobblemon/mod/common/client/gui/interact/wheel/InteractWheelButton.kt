@@ -14,6 +14,8 @@ import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import org.joml.Vector3f
+import org.joml.Vector4f
 
 class InteractWheelButton(
     private val iconResource: Identifier?,
@@ -21,6 +23,7 @@ class InteractWheelButton(
     x: Int,
     y: Int,
     private val isEnabled: Boolean,
+    private val colour: () -> Vector3f?,
     onPress: PressAction
 ) : ButtonWidget(x, y, BUTTON_SIZE, BUTTON_SIZE, Text.literal("Interact"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
@@ -47,6 +50,7 @@ class InteractWheelButton(
 
         if (iconResource != null) {
             val (iconX, iconY) = getIconPosition()
+            val colour = this.colour() ?: Vector3f(1F, 1F, 1F)
             blitk(
                 matrixStack = matrices,
                 texture = iconResource,
@@ -55,6 +59,9 @@ class InteractWheelButton(
                 width = ICON_SIZE,
                 height = ICON_SIZE,
                 alpha = if (isEnabled) 1f else 0.4f,
+                red = colour.x,
+                green = colour.y,
+                blue = colour.z,
                 scale = ICON_SCALE
             )
         }
