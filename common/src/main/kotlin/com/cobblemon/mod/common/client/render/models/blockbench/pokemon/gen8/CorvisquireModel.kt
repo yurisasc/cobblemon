@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -63,7 +64,12 @@ class CorvisquireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("corvisquire", "air_idle")
+                bedrock("corvisquire", "air_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Z_AXIS
+                )
             )
         )
 
@@ -74,7 +80,12 @@ class CorvisquireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("corvisquire", "air_fly")
+                bedrock("corvisquire", "air_fly"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Z_AXIS
+                )
             )
         )
 

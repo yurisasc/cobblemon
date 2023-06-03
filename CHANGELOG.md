@@ -14,6 +14,7 @@
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
 - Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
+- Added flying placeholder animations to Pidgey, Pidgeotto, Pidgeot, Golbat, Crobat, Scyther, Scizor, Zapdos, Moltres, Articuno, Dragonite, Rowlet, Dartrix, and Decidueye.
 
 ### Pokémon Added
 #### Gen 2
@@ -179,7 +180,7 @@
 - Fixed deepslate water stone ore items looking like deepslate fire stone ores.
 - Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
 - Fixed a crash when wild Pokémon have to struggle under specific circumstances.
-- Fixed uncolored pixels on Yanma's shiny texture
+- Fixed uncolored pixels on Yanma's shiny texture.
 
 ### Developer
 - Added SpawnEvent
