@@ -174,7 +174,7 @@ class PartySlotWidget(
                 blitk(
                     matrixStack = matrices,
                     texture = if (slotPokemon.gender == Gender.MALE) genderIconMale else genderIconFemale,
-                    x = (x + 36.5) / halfScale,
+                    x = (x + 40) / halfScale,
                     y = (y + 20) / halfScale,
                     height = 7,
                     width = 5,
