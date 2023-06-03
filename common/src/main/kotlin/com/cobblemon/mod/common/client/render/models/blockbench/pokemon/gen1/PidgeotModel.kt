@@ -48,7 +48,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         val blink = quirk("blink") { bedrockStateful("pidgeot", "blink").setPreventsIdle(false)}
         registerPose(
             poseName = "stand",
-            poseTypes = UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -58,7 +58,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 
         registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

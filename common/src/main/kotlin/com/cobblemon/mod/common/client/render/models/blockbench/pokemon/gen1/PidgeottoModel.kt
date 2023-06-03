@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Transformed
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.util.math.geometry.toRadians
@@ -34,7 +35,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     private val tail = getPart("tail")
 
     override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.1, -0.8, 0.0)
+    override val portraitTranslation = Vec3d(-0.4, -0.9, 0.0)
     override val profileScale = 1.1F
     override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
@@ -48,17 +49,12 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         val blink = quirk("blink") { bedrockStateful("pidgeotto", "blink").setPreventsIdle(false)}
         registerPose(
             poseName = "stand",
-            poseTypes = STATIONARY_POSES + UI_POSES,
+            poseTypes = STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + UI_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgeotto", "ground_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("pidgeotto", "ground_idle")
             )
         )
         registerPose(
@@ -69,7 +65,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 singleBoneLook(),
                 bedrock("pidgeotto", "air_idle"),
                 WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
                     axis = TransformedModelPart.Z_AXIS
                 )
@@ -81,12 +77,17 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgeotto", "air_fly")
+                bedrock("pidgeotto", "air_fly"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Z_AXIS
+                )
             )
         )
         registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = MOVING_POSES - PoseType.FLY - PoseType.SWIM,
             transformTicks = 5,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
