@@ -401,6 +401,7 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("comfey", ::ComfeyModel)
         inbuilt("tandemaus", ::TandemausModel)
         inbuilt("maushold", ::MausholdModel)
+        inbuilt("mausholdfour", ::MausholdfourModel)
         inbuilt("varoom", ::VaroomModel)
         inbuilt("revavroom", ::RevavroomModel)
         inbuilt("lanturn", ::LanturnModel)
