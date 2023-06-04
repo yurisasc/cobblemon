@@ -41,6 +41,7 @@
 
 ### Developer
 - Added SpawnEvent
+- Added persistent NBT property inside Pokemon to store quick, simple data.
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
