@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
+import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
+import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.forge.client.CobblemonForgeClient
 import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
@@ -78,7 +80,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::serverInit)
             Cobblemon.preInitialize(this@CobblemonForge)
             addListener(CobblemonBiomeModifiers::register)
-            addListener(CobblemonForgeBlockPredicateType::register)
+            addListener(this@CobblemonForge::registryLoad)
         }
         with(MinecraftForge.EVENT_BUS) {
             addListener(this@CobblemonForge::onDataPackSync)
@@ -106,6 +108,15 @@ class CobblemonForge : CobblemonImplementation {
         this.networkManager.registerClientBound()
         this.networkManager.registerServerBound()
         Cobblemon.initialize()
+    }
+
+    fun registryLoad(event: RegisterEvent) {
+        event.register(RegistryKeys.BLOCK_PREDICATE_TYPE) {
+            CobblemonBlockPredicates.touch()
+        }
+        event.register(RegistryKeys.PLACEMENT_MODIFIER_TYPE) {
+            CobblemonPlacementModifierTypes.touch()
+        }
     }
 
     fun onDataPackSync(event: OnDatapackSyncEvent) {
