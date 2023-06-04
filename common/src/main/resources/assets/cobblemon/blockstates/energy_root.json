@@ -1,19 +1,5 @@
 {
   "variants": {
-    "": {
-      "model": "cobblemon:block/energy_root"
-    },
-    "facing=north": {
-      "y": 0
-    },
-    "facing=east": {
-      "y": 90
-    },
-    "facing=south": {
-      "y": 180
-    },
-    "facing=west": {
-      "y": 270
-    }
+    "": { "model": "cobblemon:block/energy_root" }
   }
 }

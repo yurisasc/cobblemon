@@ -603,6 +603,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, JOLLY_MINT)
             consumer(group, SERIOUS_MINT)
             consumer(group, MEDICINAL_LEEK)
+            consumer(group, ENERGY_ROOT)
         }
         CobblemonItemGroups.PLANTS.group().let { group ->
             consumer(group, RED_APRICORN)
@@ -632,6 +633,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, GREEN_MINT_LEAF)
             consumer(group, WHITE_MINT_SEEDS)
             consumer(group, WHITE_MINT_LEAF)
+            consumer(group, ENERGY_ROOT)
         }
         CobblemonItemGroups.BUILDING_BLOCKS.group().let { group ->
             consumer(group, APRICORN_LOG)

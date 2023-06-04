@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.block
 
 import net.minecraft.block.Block
+import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.Fertilizable
 import net.minecraft.item.ItemPlacementContext
@@ -32,7 +33,9 @@ class EnergyRootBlock(settings: Settings) : Block(settings), Fertilizable {
     override fun hasRandomTicks(state: BlockState) = true
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         // Check for propagation
-        spreadFrom(world, pos, random)
+        if (random.nextDouble() < 0.01 && world.getLightLevel(pos) < 12) {
+            spreadFrom(world, pos, random)
+        }
     }
 
     override fun getPlacementState(context: ItemPlacementContext): BlockState? {
@@ -40,7 +43,8 @@ class EnergyRootBlock(settings: Settings) : Block(settings), Fertilizable {
     }
 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
-        return world.getBlockState(pos.up()).isIn(BlockTags.DIRT) && state.isAir
+        val canPlace = world.getBlockState(pos.up()).isIn(BlockTags.DIRT) && world.isAir(pos)
+        return canPlace
     }
 
     fun getPropagatingBlockState(random: Random): BlockState {
@@ -75,4 +79,6 @@ class EnergyRootBlock(settings: Settings) : Block(settings), Fertilizable {
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
         spreadFrom(world, pos, random)
     }
+
+    override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
 }

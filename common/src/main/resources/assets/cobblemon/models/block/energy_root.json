@@ -2,8 +2,8 @@
 	"credit": "EikoBiko",
 	"texture_size": [32, 16],
 	"textures": {
-		"0": "energy_root",
-		"particle": "energy_root"
+		"0": "cobblemon:block/energy_root",
+		"particle": "cobblemon:block/energy_root"
 	},
 	"elements": [
 		{

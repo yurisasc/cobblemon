@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.world.feature
 
 import com.cobblemon.mod.common.Cobblemon
 import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.tag.BiomeTags
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
 import net.minecraft.world.gen.feature.PlacedFeatures
@@ -37,7 +38,7 @@ object CobblemonPlacedFeatures {
         Cobblemon.implementation.addFeatureToWorldGen(APRICORN_TREES, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MINTS, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MEDICINAL_LEEK, GenerationStep.Feature.VEGETAL_DECORATION, null)
-        Cobblemon.implementation.addFeatureToWorldGen(ENERGY_ROOT, GenerationStep.Feature.VEGETAL_DECORATION, null)
+        Cobblemon.implementation.addFeatureToWorldGen(ENERGY_ROOT, GenerationStep.Feature.VEGETAL_DECORATION, BiomeTags.IS_OVERWORLD)
     }
 
     private fun of(id: String): RegistryKey<PlacedFeature> = PlacedFeatures.of("${Cobblemon.MODID}:$id")

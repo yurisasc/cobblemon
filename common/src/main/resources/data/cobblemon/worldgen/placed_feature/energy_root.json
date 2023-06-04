@@ -2,17 +2,17 @@
   "feature": "cobblemon:energy_root",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 6
+      "type": "minecraft:count",
+      "count": 4
     },
     {
       "type": "minecraft:in_square"
     },
     {
       "type": "cobblemon:beneath_heightmap",
-      "heightmap": "WORLD_SURFACE",
+      "heightmap": "OCEAN_FLOOR",
       "offset": -1,
-      "reach": 24
+      "reach": 16
     },
     {
       "type": "minecraft:block_predicate_filter",
@@ -22,11 +22,7 @@
           {
             "type": "minecraft:matching_blocks",
             "blocks": "#minecraft:dirt",
-            "offset": [
-              0,
-              -1,
-              0
-            ]
+            "offset": [0, 1, 0]
           },
           {
             "type": "minecraft:matching_blocks",
