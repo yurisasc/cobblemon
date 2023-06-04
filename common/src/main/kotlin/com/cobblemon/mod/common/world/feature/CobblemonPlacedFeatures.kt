@@ -30,12 +30,14 @@ object CobblemonPlacedFeatures {
     val MINTS = of("mints")
 
     val MEDICINAL_LEEK = of("medicinal_leek")
+    val ENERGY_ROOT = of("energy_root")
 
     fun register() {
         // We don't need to pass in any tags, the feature implementation handles it, while not a perfect system it works
         Cobblemon.implementation.addFeatureToWorldGen(APRICORN_TREES, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MINTS, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MEDICINAL_LEEK, GenerationStep.Feature.VEGETAL_DECORATION, null)
+        Cobblemon.implementation.addFeatureToWorldGen(ENERGY_ROOT, GenerationStep.Feature.VEGETAL_DECORATION, null)
     }
 
     private fun of(id: String): RegistryKey<PlacedFeature> = PlacedFeatures.of("${Cobblemon.MODID}:$id")

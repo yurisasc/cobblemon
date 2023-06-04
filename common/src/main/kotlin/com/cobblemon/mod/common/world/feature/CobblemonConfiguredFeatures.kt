@@ -23,9 +23,12 @@ object CobblemonConfiguredFeatures {
     val WHITE_APRICORN_TREE_KEY = of("white_apricorn_tree")
     val YELLOW_APRICORN_TREE_KEY = of("yellow_apricorn_tree")
 
+    @JvmField
     val MINTS_KEY = of("mints")
-
+    @JvmField
     val MEDICINAL_LEEKS_KEY = of("medicinal_leek")
+    @JvmField
+    val ENERGY_ROOTS_KEY = of("energy_root")
 
 
     private fun of(id: String): RegistryKey<ConfiguredFeature<*, *>> = ConfiguredFeatures.of("${Cobblemon.MODID}:$id")

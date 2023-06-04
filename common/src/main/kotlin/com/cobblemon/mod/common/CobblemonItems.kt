@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.item.interactive.CandyItem
+import com.cobblemon.mod.common.item.interactive.EnergyRoot
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.MintItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
@@ -246,6 +247,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val ZINC = create("zinc", VitaminItem(Stats.SPECIAL_DEFENCE))
     @JvmField
     val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK_CROP))
+    @JvmField
+    val ENERGY_ROOT = create("energy_root", EnergyRoot(CobblemonBlocks.ENERGY_ROOT))
 
     @JvmField
     val RED_MINT_SEEDS = blockItem("red_mint_seeds", MintType.RED.getCropBlock())
