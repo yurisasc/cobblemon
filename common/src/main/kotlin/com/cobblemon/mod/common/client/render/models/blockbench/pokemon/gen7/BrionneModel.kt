@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
+package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -22,7 +22,7 @@ class BrionneModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("brionne")
     override val head = getPart("head")
 
-    override val portraitScale = 2.3F
+    override val portraitScale = 2.1F
     override val portraitTranslation = Vec3d(-0.4, -0.3, 0.0)
 
     override val profileScale = 0.7F
