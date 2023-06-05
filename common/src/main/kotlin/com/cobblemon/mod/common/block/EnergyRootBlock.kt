@@ -8,16 +8,21 @@
 
 package com.cobblemon.mod.common.block
 
+import com.cobblemon.mod.common.util.asTranslated
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.Fertilizable
+import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
+import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldView
 
@@ -28,6 +33,10 @@ class EnergyRootBlock(settings: Settings) : Block(settings), Fertilizable {
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
+    }
+
+    override fun appendTooltip(stack: ItemStack, world: BlockView?, tooltip: MutableList<Text>, options: TooltipContext) {
+        tooltip.add("block.cobblemon.energy_root.tooltip".asTranslated())
     }
 
     override fun hasRandomTicks(state: BlockState) = true
