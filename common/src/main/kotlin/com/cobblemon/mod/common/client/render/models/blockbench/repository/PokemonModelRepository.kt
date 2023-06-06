@@ -450,7 +450,7 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("glimmora", ::GlimmoraModel)
         inbuilt("bonsly", ::BonslyModel)
         inbuilt("sudowoodo", ::SudowoodoModel)
-//        inbuilt("bouffalant", ::BouffalantModel)
+        inbuilt("bouffalant", ::BouffalantModel)
 
 
         // Unhooked because the families are not completed

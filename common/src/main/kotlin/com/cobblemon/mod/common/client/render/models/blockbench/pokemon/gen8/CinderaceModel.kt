@@ -29,7 +29,7 @@ class CinderaceModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.3, 2.3, 0.0)
+    override val portraitTranslation = Vec3d(-0.3, 2.6, 0.0)
 
     override val profileScale = 0.5F
     override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
