@@ -21,11 +21,11 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("aerodactyl")
     override val head = getPart("head")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-1.0, -0.55, 0.0)
+    override val portraitScale = 1.9F
+    override val portraitTranslation = Vec3d(-1.0, -0.65, 0.0)
 
-    override val profileScale = 0.95F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override val profileScale = 0.55F
+    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -42,7 +42,7 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = UI_POSES + PoseType.STAND,
+            poseType = PoseType.STAND,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -62,7 +62,7 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         hover = registerPose(
             poseName = "hover",
-            poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
+            poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT) + UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

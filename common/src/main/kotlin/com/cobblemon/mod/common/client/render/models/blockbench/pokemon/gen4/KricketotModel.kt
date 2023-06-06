@@ -36,7 +36,7 @@ class KricketotModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
         val blink = quirk("blink") { bedrockStateful("kricketot", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES + PoseType.SHOULDER_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("kricketot", "ground_idle")

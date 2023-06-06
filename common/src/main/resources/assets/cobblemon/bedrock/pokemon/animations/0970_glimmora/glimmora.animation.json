@@ -1,0 +1,338 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.glimmora.ground_idle": {
+			"loop": true,
+			"bones": {
+				"frontpetal_top_rotation": {
+					"rotation": [5, 0, 0]
+				},
+				"frontpetal_top2": {
+					"rotation": [-65, 0, 0]
+				},
+				"frontpetal_top3": {
+					"rotation": [-30, 0, 0]
+				},
+				"frontpetal_top4": {
+					"rotation": [-20, 0, 0]
+				},
+				"frontpetal_top_left_rotation": {
+					"rotation": [5, 0, 0]
+				},
+				"frontpetal_top_left2": {
+					"rotation": [-65, 0, 0]
+				},
+				"frontpetal_top_left3": {
+					"rotation": [-30, 0, 0]
+				},
+				"frontpetal_top_left4": {
+					"rotation": [-20, 0, 0]
+				},
+				"frontpetal_top_right2": {
+					"rotation": [-65, 0, 0]
+				},
+				"frontpetal_top_right3": {
+					"rotation": [-30, 0, 0]
+				},
+				"frontpetal_top_right4": {
+					"rotation": [-20, 0, 0]
+				},
+				"frontpetal_bottom2": {
+					"rotation": [65, 0, 0]
+				},
+				"frontpetal_bottom3": {
+					"rotation": [30, 0, 0]
+				},
+				"frontpetal_bottom4": {
+					"rotation": [20, 0, 0]
+				},
+				"frontpetal_bottom_left2": {
+					"rotation": [65, 0, 0]
+				},
+				"frontpetal_bottom_left3": {
+					"rotation": [30, 0, 0]
+				},
+				"frontpetal_bottom_left4": {
+					"rotation": [20, 0, 0]
+				},
+				"frontpetal_bottom_right2": {
+					"rotation": [65, 0, 0]
+				},
+				"frontpetal_bottom_right3": {
+					"rotation": [30, 0, 0]
+				},
+				"frontpetal_bottom_right4": {
+					"rotation": [20, 0, 0]
+				},
+				"midpetal_top_left": {
+					"rotation": [0, 0, 7.5]
+				},
+				"midpetal_top_left_rotation": {
+					"rotation": [-15, 0, 0]
+				},
+				"midpetal_top_left2": {
+					"rotation": [-55, 0, 0]
+				},
+				"midpetal_top_left3": {
+					"rotation": [-35, 0, 0]
+				},
+				"midpetal_top_left4": {
+					"rotation": [-10, 0, 0]
+				},
+				"midpetal_top_right4": {
+					"rotation": [-10, 0, 0]
+				},
+				"midpetal_top_right3": {
+					"rotation": [-35, 0, 0]
+				},
+				"midpetal_top_right2": {
+					"rotation": [-55, 0, 0]
+				},
+				"midpetal_top_right_rotation": {
+					"rotation": [-15, 0, 0]
+				},
+				"midpetal_top_right": {
+					"rotation": [0, 0, -7.5]
+				},
+				"midpetal_bottom_left": {
+					"rotation": [0, 0, -7.5]
+				},
+				"midpetal_bottom_left_rotation": {
+					"rotation": [15, 0, 0]
+				},
+				"midpetal_bottom_left2": {
+					"rotation": [55, 0, 0]
+				},
+				"midpetal_bottom_left3": {
+					"rotation": [35, 0, 0]
+				},
+				"midpetal_bottom_left4": {
+					"rotation": [10, 0, 0]
+				},
+				"midpetal_bottom_right": {
+					"rotation": [0, 0, 7.5]
+				},
+				"midpetal_bottom_right_rotation": {
+					"rotation": [15, 0, 0]
+				},
+				"midpetal_bottom_right2": {
+					"rotation": [55, 0, 0]
+				},
+				"midpetal_bottom_right3": {
+					"rotation": [35, 0, 0]
+				},
+				"midpetal_bottom_right4": {
+					"rotation": [10, 0, 0]
+				},
+				"backpetal_bottom_rotation": {
+					"rotation": [77.5, 0, 0]
+				},
+				"backpetal_bottom2": {
+					"rotation": [25, 0, 0]
+				},
+				"backpetal_top_left_rotation": {
+					"rotation": [-77.5, 0, 0]
+				},
+				"backpetal_top_left2": {
+					"rotation": [-25, 0, 0]
+				},
+				"backpetal_top_right_rotation": {
+					"rotation": [-77.5, 0, 0]
+				},
+				"backpetal_top_right2": {
+					"rotation": [-25, 0, 0]
+				},
+				"frontpetal_top_right_rotation": {
+					"rotation": [5, 0, 0]
+				},
+				"frontpetal_bottom_rotation": {
+					"rotation": [-5, 0, 0]
+				},
+				"frontpetal_bottom_left_rotation": {
+					"rotation": [-2.5, 0, 0]
+				},
+				"frontpetal_bottom_right_rotation": {
+					"rotation": [-5, 0, 0]
+				}
+			}
+		},
+		"animation.glimmora.battle_idle": {
+			"loop": true,
+			"bones": {
+				"frontpetal_top": {
+					"rotation": [0, 0, 0]
+				},
+				"frontpetal_top_rotation": {
+					"rotation": [15, 0, 0]
+				},
+				"frontpetal_top2": {
+					"rotation": [-30, 0, 0]
+				},
+				"frontpetal_top3": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"frontpetal_top4": {
+					"rotation": [-27.5, 0, 0]
+				},
+				"frontpetal_top_left_rotation": {
+					"rotation": [15, 0, 0]
+				},
+				"frontpetal_top_left2": {
+					"rotation": [-30, 0, 0]
+				},
+				"frontpetal_top_left3": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"frontpetal_top_left4": {
+					"rotation": [-27.5, 0, 0]
+				},
+				"body": {
+					"rotation": [0, 0, 0],
+					"position": [0, 10, 0]
+				},
+				"frontpetal_top_right_rotation": {
+					"rotation": [15, 0, 0]
+				},
+				"frontpetal_top_right2": {
+					"rotation": [-30, 0, 0]
+				},
+				"frontpetal_top_right3": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"frontpetal_top_right4": {
+					"rotation": [-27.5, 0, 0]
+				},
+				"frontpetal_bottom_rotation": {
+					"rotation": [-15, 0, 0]
+				},
+				"frontpetal_bottom2": {
+					"rotation": [30, 0, 0]
+				},
+				"frontpetal_bottom3": {
+					"rotation": [12.5, 0, 0]
+				},
+				"frontpetal_bottom4": {
+					"rotation": [27.5, 0, 0]
+				},
+				"frontpetal_bottom_left_rotation": {
+					"rotation": [-15, 0, 0]
+				},
+				"frontpetal_bottom_left2": {
+					"rotation": [30, 0, 0]
+				},
+				"frontpetal_bottom_left3": {
+					"rotation": [12.5, 0, 0]
+				},
+				"frontpetal_bottom_left4": {
+					"rotation": [27.5, 0, 0]
+				},
+				"frontpetal_bottom_right_rotation": {
+					"rotation": [-15, 0, 0]
+				},
+				"frontpetal_bottom_right2": {
+					"rotation": [30, 0, 0]
+				},
+				"frontpetal_bottom_right3": {
+					"rotation": [12.5, 0, 0]
+				},
+				"frontpetal_bottom_right4": {
+					"rotation": [27.5, 0, 0]
+				},
+				"midpetal_top_left": {
+					"rotation": [0, 0, 0]
+				},
+				"midpetal_top_left_rotation": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"midpetal_top_left2": {
+					"rotation": [-17.5, 0, 0]
+				},
+				"midpetal_top_left3": {
+					"rotation": [-20, 0, 0]
+				},
+				"midpetal_top_left4": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"midpetal_top_right": {
+					"rotation": [0, 0, 0]
+				},
+				"midpetal_top_right_rotation": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"midpetal_top_right2": {
+					"rotation": [-17.5, 0, 0]
+				},
+				"midpetal_top_right3": {
+					"rotation": [-20, 0, 0]
+				},
+				"midpetal_top_right4": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"midpetal_bottom_left": {
+					"rotation": [0, 0, 0]
+				},
+				"midpetal_bottom_left_rotation": {
+					"rotation": [12.5, 0, 0]
+				},
+				"midpetal_bottom_left2": {
+					"rotation": [17.5, 0, 0]
+				},
+				"midpetal_bottom_left3": {
+					"rotation": [20, 0, 0]
+				},
+				"midpetal_bottom_left4": {
+					"rotation": [12.5, 0, 0]
+				},
+				"midpetal_bottom_right_rotation": {
+					"rotation": [12.5, 0, 0]
+				},
+				"midpetal_bottom_right2": {
+					"rotation": [17.5, 0, 0]
+				},
+				"midpetal_bottom_right3": {
+					"rotation": [20, 0, 0]
+				},
+				"midpetal_bottom_right4": {
+					"rotation": [12.5, 0, 0]
+				},
+				"backpetal_bottom2": {
+					"rotation": [15, 0, 0]
+				},
+				"backpetal_bottom_rotation": {
+					"rotation": [50, 0, 0]
+				},
+				"backpetal_top_left_rotation": {
+					"rotation": [-50, 0, 0]
+				},
+				"backpetal_top_left2": {
+					"rotation": [-15, 0, 0]
+				},
+				"backpetal_top_right_rotation": {
+					"rotation": [-50, 0, 0]
+				},
+				"backpetal_top_right2": {
+					"rotation": [-15, 0, 0]
+				}
+			}
+		},
+		"animation.glimmora.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_left": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_right": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

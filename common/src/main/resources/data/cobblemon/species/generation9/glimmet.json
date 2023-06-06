@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Glimmet",
   "nationalPokedexNumber": 969,
   "primaryType": "rock",
@@ -14,6 +15,13 @@
     "special_attack": 105,
     "special_defence": 60,
     "speed": 60
+  },
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
   },
   "catchRate": 70,
   "maleRatio": 0.5,
@@ -102,6 +110,12 @@
       ]
     }
   ],
+  "baseScale": 0.45,
+  "hitbox": {
+    "width": 1,
+    "height": 2,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.glimmet.desc"

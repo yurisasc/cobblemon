@@ -1,0 +1,65 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.glimmet.ground_idle": {
+			"loop": true,
+			"bones": {
+				"petal_top_rotation": {
+					"rotation": [0, 0, 0]
+				},
+				"petal_top_left_rotation": {
+					"rotation": [0, 0, 0]
+				},
+				"petal_top_right2": {
+					"rotation": [-30, 0, 0]
+				},
+				"petal_bottom2": {
+					"rotation": [30, 0, 0]
+				},
+				"petal_bottom_left2": {
+					"rotation": [30, 0, 0]
+				},
+				"petal_bottom_right2": {
+					"rotation": [30, 0, 0]
+				},
+				"body": {
+					"position": [0, 16, -3]
+				},
+				"stem": {
+					"rotation": [-45, 0, 0]
+				},
+				"stem2": {
+					"rotation": [-10, 0, 0]
+				},
+				"bulb": {
+					"rotation": [-10, 0, 0]
+				},
+				"petal_top2": {
+					"rotation": [-30, 0, 0]
+				},
+				"petal_top_left2": {
+					"rotation": [-30, 0, 0]
+				}
+			}
+		},
+		"animation.glimmet.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_left": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_right": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}
