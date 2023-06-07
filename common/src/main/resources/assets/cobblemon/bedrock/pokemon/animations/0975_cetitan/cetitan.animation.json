@@ -54,6 +54,9 @@
 				},
 				"finger_right": {
 					"rotation": [0, 50, 0]
+				},
+				"torso_open": {
+					"scale": 0
 				}
 			}
 		},
