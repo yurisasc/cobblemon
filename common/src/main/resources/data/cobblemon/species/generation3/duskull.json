@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Duskull",
   "nationalPokedexNumber": 355,
   "primaryType": "ghost",
@@ -23,6 +24,13 @@
   "eggGroups": [
     "amorphous"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:astonish",
     "1:leer",

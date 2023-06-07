@@ -66,7 +66,6 @@ class ThwackeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling },
             transformedParts = arrayOf(
                 stick_head_left.asTransformed().withVisibility(visibility = false),
                 stick_head_right.asTransformed().withVisibility(visibility = false),
