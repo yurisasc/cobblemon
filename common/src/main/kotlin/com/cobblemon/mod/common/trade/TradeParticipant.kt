@@ -38,6 +38,7 @@ interface TradeParticipant {
      * If it's null, it means they're no longer offering a Pokémon (so they're redeciding).
      */
     fun updateOffer(trade: ActiveTrade, tradeParticipant: TradeParticipant, pokemon: Pokemon?)
+
     /**
      * Notifies the participant that the acceptance state for trading with the opponent [Pokemon] with UUID [pokemonId]
      * has changed to [acceptance].
@@ -47,8 +48,10 @@ interface TradeParticipant {
      * moments before.
      */
     fun changeTradeAcceptance(trade: ActiveTrade, pokemonId: UUID, acceptance: Boolean)
+
     /** Notifies the participant that the trade has been cancelled. */
     fun cancelTrade(trade: ActiveTrade)
+
     /** Notifies the participant that the trade has been completed. The actual Pokémon have already been exchanged. */
     fun completeTrade(trade: ActiveTrade, pokemonId1: UUID, pokemonId2: UUID)
 }

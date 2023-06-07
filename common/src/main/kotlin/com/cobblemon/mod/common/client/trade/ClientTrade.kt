@@ -21,11 +21,4 @@ class ClientTrade {
 
     var completedEmitter = SimpleObservable<Pair<UUID, UUID>>()
     var cancelEmitter = SimpleObservable<Unit>()
-
-    fun accept() {
-//        val acceptedId = oppositeOffer!!.uuid
-//        CobblemonNetwork.sendToServer()
-    }
-
-
 }
