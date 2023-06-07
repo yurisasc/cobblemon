@@ -270,7 +270,14 @@
 				"eye_closed_right": {
 					"position": [-0.1, 0, -0.1]
 				}
+			},
+			"particle_effects": {
+				"0.0": {
+					"effect": "sleep_zzz",
+					"locator": "sleep"
+				}
 			}
 		}
-	}
+	},
+	"geckolib_format_version": 2
 }
