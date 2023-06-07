@@ -8,14 +8,8 @@
             "item": "cobblemon:revive"
         },
         {
-            "item": "cobblemon:vivichoke"
-        },
-        {
-            "item": "minecraft:sugar"
-        },
-		{
-			"item": "minecraft:sugar"
-		}
+            "item": "cobblemon:revive"
+        }
     ],
     "result": {
         "item": "cobblemon:max_revive"

@@ -2,7 +2,7 @@
   "type": "minecraft:smelting",
   "group": "misc",
   "ingredient": {
-    "item": "cobblemon:energy_root"
+    "item": "cobblemon:big_root"
   },
   "result": "cobblemon:remedy",
   "experience": 0.1,
