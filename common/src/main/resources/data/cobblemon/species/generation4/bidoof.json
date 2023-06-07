@@ -195,7 +195,12 @@
     "capabilities": {
       "land": {
         "speed": 2,
-        "acceleration": 3
+        "acceleration": 3,
+        "weight": 3
+      },
+      "water": {
+        "trait": "boat",
+        "speed": 1
       }
     },
     "seats": [

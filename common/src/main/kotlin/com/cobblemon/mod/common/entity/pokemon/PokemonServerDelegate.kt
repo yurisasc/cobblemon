@@ -136,34 +136,16 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.labelLevel.get() != entity.pokemon.level) {
             entity.labelLevel.set(entity.pokemon.level)
         }
-        val isMoving = !entity.navigation.isIdle
-        if (isMoving && !entity.isMoving.get()) {
-            entity.isMoving.set(true)
-        } else if (!isMoving && entity.isMoving.get()) {
-            entity.isMoving.set(false)
-        }
 
-        updatePoseType()
-    }
+        if (entity.seats.none { it.occupied() }) {
+            val isMoving = !entity.navigation.isIdle
+            if (isMoving && !entity.isMoving.get()) {
+                entity.isMoving.set(true)
+            } else if (!isMoving && entity.isMoving.get()) {
+                entity.isMoving.set(false)
+            }
 
-    fun updatePoseType() {
-        val isSleeping = entity.pokemon.status?.status == Statuses.SLEEP && entity.behaviour.resting.canSleep
-        val isMoving = entity.isMoving.get()
-        val isUnderwater = entity.getIsSubmerged()
-        val isFlying = entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
-
-        val poseType = when {
-            isSleeping -> PoseType.SLEEP
-            isMoving && isUnderwater  -> PoseType.SWIM
-            isUnderwater -> PoseType.FLOAT
-            isMoving && isFlying -> PoseType.FLY
-            isFlying -> PoseType.HOVER
-            isMoving -> PoseType.WALK
-            else -> PoseType.STAND
-        }
-
-        if (poseType != entity.poseType.get()) {
-            entity.poseType.set(poseType)
+            entity.updatePoseType()
         }
     }
 

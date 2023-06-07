@@ -6,8 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.riding.properties.mounting
+package com.cobblemon.mod.common.api.riding.capabilities
 
-import net.minecraft.util.Identifier
+import com.cobblemon.mod.common.api.riding.attributes.RidingAttribute
 
-data class MountType(val identifier: Identifier)
+class RidingCapability {
+
+
+
+}

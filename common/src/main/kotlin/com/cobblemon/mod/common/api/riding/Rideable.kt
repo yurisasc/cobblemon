@@ -1,6 +1,14 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.api.riding
 
-import com.cobblemon.mod.common.api.riding.properties.riding.RidingProperties
+import com.cobblemon.mod.common.api.riding.capabilities.RidingCapabilities
 import com.cobblemon.mod.common.api.riding.seats.Seat
 import net.minecraft.entity.JumpingMount
 
@@ -17,6 +25,8 @@ interface Rideable : JumpingMount {
      * @since 1.5.0
      */
     val properties: RidingProperties
+
+    val capabilities: RidingCapabilities
 
     /**
      * Specifies a list of stateful seats which are capable of tracking an occupant.

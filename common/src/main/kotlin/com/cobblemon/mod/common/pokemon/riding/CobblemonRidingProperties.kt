@@ -1,10 +1,18 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.pokemon.riding
 
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
 import com.cobblemon.mod.common.api.riding.properties.mounting.MountProperties
-import com.cobblemon.mod.common.api.riding.properties.riding.RidingProperties
+import com.cobblemon.mod.common.api.riding.RidingProperties
 import com.cobblemon.mod.common.api.riding.properties.mounting.MountType
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 import com.google.gson.annotations.SerializedName

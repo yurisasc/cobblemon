@@ -14,6 +14,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.addRotation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.entity.Entity
 
@@ -31,7 +33,8 @@ class SingleBoneLookAnimation<T : Entity>(frame: HeadedFrame, val invertX: Boole
         val pitch = (if (invertX) -1 else 1) * headPitch.coerceIn(-45F, 70F)
         val yaw = (if (invertY) -1 else 1) * headYaw.coerceIn(-45F, 45F)
 
-        frame.head.addRotation(X_AXIS, pitch.toRadians())
-        frame.head.addRotation(Y_AXIS, yaw.toRadians())
+        val cf = model.getChangeFactor(frame.head)
+        frame.head.addRotation(X_AXIS, cf * pitch.toRadians())
+        frame.head.addRotation(Y_AXIS, cf * yaw.toRadians())
     }
 }

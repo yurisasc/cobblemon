@@ -27,7 +27,9 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.riding.Rideable
-import com.cobblemon.mod.common.api.riding.properties.riding.RidingProperties
+import com.cobblemon.mod.common.api.riding.RidingProperties
+import com.cobblemon.mod.common.api.riding.attributes.RidingAttribute
+import com.cobblemon.mod.common.api.riding.capabilities.RidingCapabilities
 import com.cobblemon.mod.common.api.riding.seats.Seat
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
@@ -52,6 +54,7 @@ import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
+import com.cobblemon.mod.common.pokemon.riding.attributes.MomentumAttribute
 import com.cobblemon.mod.common.util.*
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
@@ -166,8 +169,15 @@ class PokemonEntity(
 
     override val properties: RidingProperties
         get() = TODO("Not yet implemented")
+    override val capabilities: RidingCapabilities
+        get() = TODO("Not yet implemented")
 
     override var seats: List<Seat> = pokemon.riding.seats().map { it.create(this) }
+
+    private val momentum = MomentumAttribute(
+        RidingAttribute(RidingAttribute.SPEED, 1F),
+        RidingAttribute(RidingAttribute.ACCELERATION, 2F)
+    )
 
     /**
      * 0 is do nothing,
@@ -868,9 +878,17 @@ class PokemonEntity(
         return false
     }
 
-    override fun tickControlled(controllingPassenger: LivingEntity, movementInput: Vec3d?) {
+    override fun tickControlled(controllingPassenger: LivingEntity, movementInput: Vec3d) {
         super.tickControlled(controllingPassenger, movementInput)
-        if(this.isSubmergedInWater && this.shouldDismountUnderwater()) {
+        this.momentum.tick(movementInput)
+
+        if (movementInput != Vec3d.ZERO) {
+            this.isMoving.set(true)
+        } else {
+            this.isMoving.set(false)
+        }
+
+        if (this.isSubmergedInWater && this.shouldDismountUnderwater()) {
             this.seats.forEach { it.dismount(false) }
             this.removeAllPassengers()
 
@@ -879,9 +897,11 @@ class PokemonEntity(
 
         val vec2f: Vec2f = this.getControlledRotation(controllingPassenger)
         setRotation(vec2f.y, vec2f.x)
-        this.bodyYaw = this.yaw
         this.headYaw = this.yaw
+        this.bodyYaw = this.yaw
         this.prevYaw = this.yaw
+
+        this.updatePoseType()
     }
 
     private fun getControlledRotation(controllingPassenger: LivingEntity): Vec2f {
@@ -889,7 +909,7 @@ class PokemonEntity(
     }
 
     override fun updatePassengerPosition(passenger: Entity) {
-        if(this.hasPassenger(passenger)) {
+        if (this.hasPassenger(passenger)) {
             val seat = this.seats.firstOrNull { it.occupant() == passenger }
             if (seat != null) {
                 val offset = seat.properties.offset.rotateY(-this.bodyYaw * (Math.PI.toFloat() / 180))
@@ -905,7 +925,7 @@ class PokemonEntity(
         val seat = this.seats.firstOrNull { it.properties.driver }
         val occupant = seat?.occupant()
 
-        if(occupant is LivingEntity) {
+        if (occupant is LivingEntity) {
             return occupant
         }
 
@@ -920,7 +940,7 @@ class PokemonEntity(
 
     override fun getControlledMovementInput(controllingPassenger: LivingEntity?, movementInput: Vec3d?): Vec3d {
         super.getControlledMovementInput(controllingPassenger, movementInput)
-        val f = controllingPassenger!!.sidewaysSpeed * 0.5f
+        val f = controllingPassenger!!.sidewaysSpeed * 0.2f
         var g = controllingPassenger.forwardSpeed * 0.5f
         if (g <= 0.0f) {
             g *= 0.25f
@@ -929,28 +949,56 @@ class PokemonEntity(
         return Vec3d(f.toDouble(), 0.0, g.toDouble())
     }
 
-    override fun getSaddledSpeed(controllingPassenger: LivingEntity?): Float {
-        return this.pokemon.form.behaviour.moving.walk.walkSpeed
+    override fun getSaddledSpeed(controllingPassenger: LivingEntity): Float {
+//        val speed = this.capabilities.capability(this)
+//            ?.attribute(RidingAttributeOption.SPEED)
+//            ?.apply()
+
+        // return speed ?? this.pokemon.form.behaviour.moving.walk.walkSpeed
+//        return this.pokemon.form.behaviour.moving.walk.walkSpeed
+        return this.momentum.momentum()
     }
 
     override fun setJumpStrength(strength: Int) {
-        TODO("Not yet implemented")
+        // See if this controls the hot bar element
+
     }
 
     override fun canJump(): Boolean {
-        return false
+        return true
     }
 
     override fun startJumping(height: Int) {
-        TODO("Not yet implemented")
+
     }
 
     override fun stopJumping() {
-        TODO("Not yet implemented")
+        // Set back to land pose type?
     }
 
     override fun shouldDismountUnderwater(): Boolean {
         return true
+    }
+
+    fun updatePoseType() {
+        val isSleeping = this.pokemon.status?.status == Statuses.SLEEP && this.behaviour.resting.canSleep
+        val isMoving = this.isMoving.get()
+        val isUnderwater = this.getIsSubmerged()
+        val isFlying = this.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
+
+        val poseType = when {
+            isSleeping -> PoseType.SLEEP
+            isMoving && isUnderwater -> PoseType.SWIM
+            isUnderwater -> PoseType.FLOAT
+            isMoving && isFlying -> PoseType.FLY
+            isFlying -> PoseType.HOVER
+            isMoving -> PoseType.WALK
+            else -> PoseType.STAND
+        }
+
+        if (poseType != this.poseType.get()) {
+            this.poseType.set(poseType)
+        }
     }
 
 }
