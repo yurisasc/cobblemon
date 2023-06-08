@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.battles.interpreter.*
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
@@ -21,11 +20,7 @@ import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.text.aqua
-import com.cobblemon.mod.common.api.text.gold
-import com.cobblemon.mod.common.api.text.plus
-import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
@@ -49,6 +44,7 @@ import java.util.concurrent.CompletableFuture
 import kotlin.math.roundToInt
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
 object ShowdownInterpreter {
@@ -246,7 +242,6 @@ object ShowdownInterpreter {
                         for (instruction in splitUpdateInstructions.entries) {
                             if (lines[0].startsWith(instruction.key)) {
                                 instruction.value(battle, targetActor, BattleMessage(publicMessage), BattleMessage(privateMessage))
-                                LOGGER.error(publicMessage)
                                 break
                             }
                         }
@@ -258,7 +253,6 @@ object ShowdownInterpreter {
                             val instruction = updateInstructions.entries.find { line.startsWith(it.key) }?.value
                             if (instruction != null) {
                                 instruction(battle, BattleMessage(line), lines)
-                                LOGGER.error(line)
                             } else {
                                 battle.dispatch {
                                     battle.broadcastChatMessage(line.text())
@@ -281,7 +275,6 @@ object ShowdownInterpreter {
                 for (instruction in sideUpdateInstructions.entries) {
                     if (line.startsWith(instruction.key)) {
                         instruction.value(battle, targetActor, BattleMessage(line))
-                        LOGGER.error(line)
                     }
                 }
             }
@@ -560,13 +553,13 @@ object ShowdownInterpreter {
      * The Pokémon POKEMON has been inflicted with STATUS.
      */
     fun handleStatusInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
-        battle.dispatchWaiting {
-            val (pnx, _) = message.pnxAndUuid(0) ?: return@dispatchWaiting
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            val statusLabel = message.argumentAt(1) ?: return@dispatchWaiting
-            val status = Statuses.getStatus(statusLabel)
-                ?: return@dispatchWaiting LOGGER.error("Unrecognized status: $statusLabel")
+        val (pnx, _) = message.pnxAndUuid(0) ?: return
+        val pokemon = message.getBattlePokemon(0, battle) ?: return
+        val statusLabel = message.argumentAt(1) ?: return
+        val status = Statuses.getStatus(statusLabel) ?: return LOGGER.error("Unrecognized status: $statusLabel")
+        broadcastOptionalAbility(battle, message.effect(), pokemon.getName())
 
+        battle.dispatchWaiting {
             if (status is PersistentStatus) {
                 pokemon.effectedPokemon.applyStatus(status)
                 battle.sendUpdate(BattlePersistentStatusPacket(pnx, status))
@@ -587,7 +580,7 @@ object ShowdownInterpreter {
     private fun handleMissInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         battle.dispatchWaiting(1.5F) {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            battle.broadcastChatMessage(battleLang("missed"))
+            battle.broadcastChatMessage(battleLang("missed").red())
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -602,7 +595,7 @@ object ShowdownInterpreter {
         battle.dispatchWaiting {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val name = pokemon.getName()
-            battle.broadcastChatMessage(battleLang("immune", name))
+            battle.broadcastChatMessage(battleLang("immune", name).red())
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -614,14 +607,16 @@ object ShowdownInterpreter {
      * The specified Pokémon has used move MOVE at TARGET.
      */
     private fun handleMoveInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        val userPokemon = message.getBattlePokemon(0, battle) ?: return
+        val targetPokemon = message.getBattlePokemon(2, battle)
+        val effect = message.effectAt(1) ?: return
+        val optionalEffect = message.effect()
+        val move = Moves.getByNameOrDummy(effect.id)
+        val pokemonName = userPokemon.getName()
+        broadcastOptionalAbility(battle, optionalEffect, pokemonName)
+
         battle.dispatchGo {
             this.lastCauser[battle.battleId] = message
-
-            val userPokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
-            val targetPokemon = message.getBattlePokemon(2, battle)
-
-            val effect = message.effectAt(1) ?: return@dispatchGo
-            val move = Moves.getByNameOrDummy(effect.id)
 
             userPokemon.effectedPokemon.let { pokemon ->
                 val progress = UseMoveEvolutionProgress()
@@ -631,20 +626,15 @@ object ShowdownInterpreter {
                 }
             }
 
-            if (move.name != "struggle" && targetPokemon != null && targetPokemon != userPokemon) {
-                battle.broadcastChatMessage(battleLang(
-                    key = "used_move_on",
-                    userPokemon.getName(),
-                    move.displayName,
-                    targetPokemon.getName()
-                ))
-            } else {
-                battle.broadcastChatMessage(battleLang(
-                    key = "used_move",
-                    userPokemon.getName(),
-                    move.displayName
-                ))
+            val lang = when {
+                optionalEffect?.id == "magicbounce" ->
+                    battleLang("ability.magicbounce", pokemonName, move.displayName)
+                move.name != "struggle" && targetPokemon != null && targetPokemon != userPokemon ->
+                    battleLang("used_move_on", pokemonName, move.displayName, targetPokemon.getName())
+                else ->
+                    battleLang("used_move", pokemonName, move.displayName)
             }
+            battle.broadcastChatMessage(lang)
 
             battle.majorBattleActions[userPokemon.uuid] = message
         }
@@ -661,21 +651,17 @@ object ShowdownInterpreter {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
             val name = pokemon.getName()
-
             // Move may be null as it's not always given
-            val lang = message.argumentAt(2)?.let {
-                val moveName = Moves.getByName(it)?.displayName ?: Text.EMPTY
-                when (effectID) {
-                    // TODO: in the games they use a generic image because there is a popup of the ability and the sprite of the mon, it may be good to have a similar system here
-                    "armortail", "damp", "dazzling", "queenlymajesty" -> battleLang("cant.generic", name, moveName)
-                    else -> battleLang("cant.$effectID", name, moveName)
+            val moveName = message.argumentAt(2)?.let { Moves.getByName(it)?.displayName } ?: Text.EMPTY
+
+            val lang = when (effectID) {
+                // TODO: in the games they use a generic image because there is a popup of the ability and the sprite of the mon, it may be good to have a similar system here
+                "armortail", "damp", "dazzling", "queenlymajesty" -> battleLang("cant.generic", name, moveName)
+                "par", "slp", "frz" -> {
+                    val status = Statuses.getStatus(effectID)?.name?.path ?: return@dispatchWaiting
+                    lang("status.$status.is", name)
                 }
-            } ?:
-            when (effectID) {
-                Statuses.PARALYSIS.showdownName -> lang("status.paralysis.is", name)
-                Statuses.SLEEP.showdownName -> lang("status.sleep.is", name)
-                Statuses.FROZEN.showdownName -> lang("status.frozen.is", name)
-                else -> battleLang("cant.$effectID", name)
+                else -> battleLang("cant.$effectID", name, moveName)
             }
 
             battle.broadcastChatMessage(lang.red())
@@ -739,7 +725,7 @@ object ShowdownInterpreter {
     private fun handleCritInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         battle.dispatchGo {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
-            battle.broadcastChatMessage(battleLang("crit"))
+            battle.broadcastChatMessage(battleLang("crit").yellow())
             this.lastCauser[battle.battleId]?.let { message ->
                 val battlePokemon = message.getBattlePokemon(0, battle) ?: return@let
                 battlePokemon.criticalHits++
@@ -758,8 +744,11 @@ object ShowdownInterpreter {
      * Otherwise, it means that the weather has changed due to a move or ability, or has expired, in which case WEATHER will be none.
      */
     private fun handleWeatherInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>){
+        val weather = message.effectAt(0)?.id ?: return
+        val user = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKNOWN")
+        broadcastOptionalAbility(battle, message.effect(), user)
+
         battle.dispatchWaiting(1.5F) {
-            val weather = message.effectAt(0)?.id ?: return@dispatchWaiting
             val lang = when {
                 message.hasOptionalArgument("upkeep") -> battleLang("weather.$weather.upkeep")
                 weather != "none" -> {
@@ -785,7 +774,7 @@ object ShowdownInterpreter {
     private fun handleFailInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>){
         battle.dispatchWaiting(1.5F){
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            battle.broadcastChatMessage(battleLang("fail"))
+            battle.broadcastChatMessage(battleLang("fail").red())
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -811,12 +800,15 @@ object ShowdownInterpreter {
      * The Pokémon POKEMON has recovered from STATUS.
      */
     private fun handleCureStatusInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        val maybeActivePokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon
+        val maybePartyPokemon = message.getBattlePokemon(0, battle)
+        val pokemon = maybeActivePokemon ?: maybePartyPokemon ?: return
+        val pokemonName = pokemon.getName()
+        val status = message.argumentAt(1)?.let(Statuses::getStatus) ?: return
+        val effect = message.effect()
+        broadcastOptionalAbility(battle, effect, pokemonName)
+
         battle.dispatchWaiting {
-            val maybeActivePokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon
-            val maybePartyPokemon = message.getBattlePokemon(0, battle)
-            val pokemon = maybeActivePokemon ?: maybePartyPokemon ?: return@dispatchWaiting
-            val status = message.argumentAt(1)?.let(Statuses::getStatus) ?: return@dispatchWaiting
-            val effect = message.effect()
             pokemon.effectedPokemon.status = null
             pokemon.sendUpdate()
 
@@ -825,12 +817,9 @@ object ShowdownInterpreter {
                     battle.sendUpdate(BattlePersistentStatusPacket(it.first, null))
                 }
             }
-            val lang = when {
-                effect?.type == Effect.Type.ABILITY -> battleLang("curestatus.ability.${effect.id}", pokemon.getName())
-                // Lang related to move stuff is tied to the status as a generic message such as fire moves defrosting Pokémon
-                effect?.type == Effect.Type.MOVE -> battleLang("curestatus.move.${status.name}", pokemon.getName(), Moves.getByNameOrDummy(effect.id).displayName)
-                message.hasOptionalArgument("msg") -> status.removeMessage?.asTranslated(pokemon.getName()) ?: return@dispatchWaiting
-                else -> return@dispatchWaiting
+            val lang = when (effect?.type) {
+                Effect.Type.ABILITY -> battleLang("curestatus.${effect.id}", pokemonName)
+                else -> status.removeMessage.asTranslated(pokemonName)
             }
             battle.broadcastChatMessage(lang)
             pokemon.contextManager.remove(status.showdownName, BattleContext.Type.STATUS)
@@ -845,21 +834,9 @@ object ShowdownInterpreter {
      * A volatile status has been inflicted on the POKEMON Pokémon by EFFECT.
      */
     private fun handleStartInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>){
-
-        val pokemon = message.getBattlePokemon(0, battle) ?: return
-        val effectID = message.effectAt(1)?.id ?: return
-        if (message.hasOptionalArgument("silent")) {
-            LOGGER.debug("Received silent: {}", message.rawMessage)
-            return
-        }
-
-        battle.dispatchWaiting {
-            val lang = when (effectID) {
-                "perish3" -> "".asTranslated() // skip
-                "perish2", "perish1", "perish0" -> battleLang("start.perish", pokemon.getName(), effectID.last().digitToInt())
-                else -> battleLang("start.$effectID", pokemon.getName())
-            }
-            battle.broadcastChatMessage(lang)
+        battle.dispatch {
+            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatch GO
+            val effectID = message.effectAt(1)?.id ?: return@dispatch GO
 
             // skip adding contexts for every time the perish counter decrements
             if (!effectID.contains("perish")) {
@@ -867,6 +844,16 @@ object ShowdownInterpreter {
                 pokemon.contextManager.add(getContextFromAction(message, BattleContext.Type.VOLATILE, battle))
             }
             battle.minorBattleActions[pokemon.uuid] = message
+
+            if (!message.hasOptionalArgument("silent")) {
+                val lang = when (effectID) {
+                    "confusion", "perish3" -> return@dispatch GO // Skip
+                    "perish2", "perish1", "perish0" -> battleLang("start.perish", pokemon.getName(), effectID.last().digitToInt())
+                    else -> battleLang("start.$effectID", pokemon.getName())
+                }
+                battle.broadcastChatMessage(lang)
+            }
+            WaitDispatch(1F)
         }
     }
 
@@ -880,11 +867,9 @@ object ShowdownInterpreter {
         battle.dispatchWaiting(1.5F) {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
+            val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: return@dispatchWaiting
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
-            val lang = when (effectID) {
-                "instruct", "helpinghand" -> battleLang("singleturn.$effectID", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchWaiting)
-                else -> battleLang("singleturn.$effectID", pokemonName)
-            }
+            val lang = battleLang("singleturn.$effectID", pokemonName, sourceName)
             battle.broadcastChatMessage(lang)
             battle.minorBattleActions[pokemon.uuid] = message
         }
@@ -914,44 +899,33 @@ object ShowdownInterpreter {
      * A miscellaneous effect has activated.This is triggered whenever an effect could not be better described by one of the other minor messages.
      */
     private fun handleActivateInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>){
-        battle.dispatchWaiting{
-            this.lastCauser[battle.battleId] = message
+        val pokemon = message.getBattlePokemon(0, battle) ?: return
+        val pokemonName = pokemon.getName()
+        val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKOWN")
+        val effect = message.effectAt(1) ?: return
+        broadcastOptionalAbility(battle, effect, pokemonName)
 
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            val pokemonName = pokemon.getName()
-            val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
-            val lang = when (effectID) {
-                "healbell", "aromatherapy", "trapped" -> battleLang("activate.$effectID")
+        battle.dispatch{
+            this.lastCauser[battle.battleId] = message
+            battle.minorBattleActions[pokemon.uuid] = message
+
+            val lang = when (effect.id) {
                 // Includes a 3rd argument being the magnitude level as a number
                 "magnitude" -> battleLang("activate.magnitude", message.argumentAt(2)?.toIntOrNull() ?: 1)
-                "focusband" -> battleLang("item.hung_on.end", pokemonName, CobblemonItems.FOCUS_BAND.name)
+                // Includes spited move and the PP it was reduced by
                 "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
-                "bind", "wrap", "lockon" -> battleLang("activate.$effectID", pokemonName, message.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.getName() ?: return@dispatchWaiting)
-                // Don't need additional lang
-                "toxicdebris", "confusion" -> "".asTranslated()
+                // Don't need additional lang, announced elsewhere
+                "toxicdebris", "shedskin" -> return@dispatch GO
                 // Add activation to each Pokemon's history
                 "destinybond" -> {
                     battle.activePokemon.mapNotNull { it.battlePokemon?.uuid }.forEach { battle.minorBattleActions[it] = message }
                     battleLang("activate.destinybond", pokemonName)
                 }
-                "shedskin" -> {
-                    val status = pokemon.effectedPokemon.status?.status?.showdownName ?: return@dispatchWaiting
-                    when (status) {
-                        "brn" -> lang("status.burn.cure", pokemonName)
-                        "frz" -> lang("status.frozen.thawed", pokemonName)
-                        "par" -> lang("status.paralysis.cure", pokemonName)
-                        "slp" -> lang("status.sleep.woke", pokemonName)
-                        else -> lang("status.poison.cure", pokemonName)
-                    }
-                }
-                "attract" -> {
-                    val sourcePokemonName = message.getSourceBattlePokemon(battle)?.getName() ?: return@dispatchWaiting
-                    battleLang("activate.attract", pokemonName, sourcePokemonName)
-                }
-                else -> battleLang("activate.$effectID", pokemonName)
+                "focussash", "focusband" -> battleLang("activate.focusband", pokemonName, message.effectAt(1)!!.typelessData)
+                else -> battleLang("activate.${effect.id}", pokemonName, sourceName)
             }
             battle.broadcastChatMessage(lang)
-            battle.minorBattleActions[pokemon.uuid] = message
+            WaitDispatch(1F)
         }
     }
 
@@ -962,17 +936,13 @@ object ShowdownInterpreter {
      * The field condition CONDITION has started.
      */
     private fun handleFieldStartInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>){
+        val effect = message.effectAt(0) ?: return
+        val user = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKNOWN")
+        broadcastOptionalAbility(battle, effect, user)
+
         battle.dispatchWaiting(1.5F) {
-            val effect = message.effectAt(0) ?: return@dispatchWaiting
             // Note persistent is a CAP ability only we can ignore the flag
-            val lang = when (effect.id) {
-                // Covers ability starts too they share lang
-                "trickroom" -> {
-                    val user = message.actorAndActivePokemonFromOptional(battle, "of")?.second?.battlePokemon
-                    battleLang("fieldstart.trickroom", user?.getName() ?: Text.literal("UNKNOWN"))
-                }
-                else -> battleLang("fieldstart.${effect.id}")
-            }
+            val lang = battleLang("fieldstart.${effect.id}", user)
             battle.broadcastChatMessage(lang)
 
             val type = BattleContext.Type.valueOf(effect.rawData.substringAfterLast(" ").uppercase())
@@ -993,7 +963,7 @@ object ShowdownInterpreter {
             battle.broadcastChatMessage(lang)
 
             val type = BattleContext.Type.valueOf(effect.rawData.substringAfterLast(" ").uppercase())
-            battle.contextManager.remove(message.effectAt(0)!!.id, type)
+            battle.contextManager.remove(effect.id, type)
         }
     }
 
@@ -1007,7 +977,7 @@ object ShowdownInterpreter {
         battle.dispatchWaiting(2.5F) {
             val effectID = message.effectAt(0)?.id ?: return@dispatchWaiting
             val lang = battleLang("fieldactivate.$effectID")
-            battle.broadcastChatMessage(lang)
+            battle.broadcastChatMessage(lang.red())
 
             // share this action with all active Pokemon
             battle.activePokemon.forEach {
@@ -1028,19 +998,39 @@ object ShowdownInterpreter {
      * POKEMON has just switched-in, and its ability ABILITY is being announced to have a long-term effect.
      */
     private fun handleAbilityInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
-        battle.dispatchGo {
+        val pokemon = message.getBattlePokemon(0, battle) ?: return
+        val pokemonName = pokemon.getName()
+        val effect = message.effectAt(1) ?: return
+        broadcastAbility(battle, effect, pokemonName)
+
+        battle.dispatch {
             this.lastCauser[battle.battleId] = message
 
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
-            val pokemonName = pokemon.getName()
-            val effect = message.effectAt(1)?: return@dispatchGo
             val lang = when (effect.id) {
-                "sturdy", "unnerve", "anticipation" -> battleLang("ability.${effect.id}", pokemonName)
-                "airlock", "cloudnine" -> battleLang("ability.airlock") //Cloud Nine shares the same text as Air Lock
-                else -> battleLang("ability.generic", pokemonName, effect.rawData)
+                "sturdy", "unnerve", "anticipation" -> battleLang("ability.${effect.id}", pokemonName) // Unique message
+                "airlock", "cloudnine" -> battleLang("ability.airlock") // Cloud Nine shares the same text as Air Lock
+                else -> null // Effect broadcasted by a succeeding instruction
             }
-            battle.broadcastChatMessage(lang)
+
             battle.minorBattleActions[pokemon.uuid] = message
+            if (lang != null) {
+                battle.broadcastChatMessage(lang)
+                return@dispatch WaitDispatch(1F)
+            }
+            else return@dispatch GO
+        }
+    }
+
+    fun broadcastOptionalAbility(battle: PokemonBattle, effect: Effect?, pokemonName: MutableText) {
+        if (effect != null && effect.type == Effect.Type.ABILITY)
+            broadcastAbility(battle, effect, pokemonName)
+    }
+
+    // Broadcasts a generic lang to notify players of ability activations (effects are broadcasted separately)
+    fun broadcastAbility(battle: PokemonBattle, effect: Effect, pokemonName: MutableText) {
+        battle.dispatchGo {
+            val lang = battleLang("ability.generic", pokemonName, effect.typelessData).yellow()
+            battle.broadcastChatMessage(lang)
         }
     }
 
@@ -1098,10 +1088,7 @@ object ShowdownInterpreter {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
-            if (message.hasOptionalArgument("silent")) {
-                LOGGER.debug("Received silent: {}", message.rawMessage)
-            }
-            else {
+            if (!message.hasOptionalArgument("silent")) {
                 val lang = when (effectID) {
                     "yawn" -> lang("status.sleep.apply", pokemonName)
                     else -> battleLang("end.$effectID", pokemonName)
@@ -1345,13 +1332,26 @@ object ShowdownInterpreter {
             }
         }
         val newHealth = privateMessage.argumentAt(1)?.split(" ")?.get(0) ?: return
+        val effect = privateMessage.effect()
+        val pokemonName = battlePokemon.getName()
+        val sourceName = privateMessage.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKOWN")
+        broadcastOptionalAbility(battle, effect, sourceName)
 
         battle.dispatch {
             val newHealthRatio: Float
             val remainingHealth = newHealth.split("/")[0].toInt()
 
-            privateMessage.effect()?.let {
-                battle.broadcastChatMessage(battleLang("damage.${it.id}", battlePokemon.getName()))
+            if (effect != null) {
+                val lang = when (effect.id) {
+                    "blacksludge", "stickybarb" -> battleLang("damage.item", pokemonName, effect.typelessData)
+                    "brn", "psn", "tox" -> {
+                        val status = Statuses.getStatus(effect.id)?.name?.path ?: return@dispatch GO
+                        lang("status.$status.hurt", pokemonName)
+                    }
+                    "aftermath" -> battleLang("damage.generic", pokemonName)
+                    else -> battleLang("damage.${effect.id}", pokemonName, sourceName)
+                }
+                battle.broadcastChatMessage(lang.red())
             }
 
             if (newHealth == "0") {
@@ -1448,6 +1448,9 @@ object ShowdownInterpreter {
      * POKEMON has just switched in, and its item ITEM is being announced to have a long-term effect.
      */
     fun handleItemInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKOWN")
+        broadcastOptionalAbility(battle, message.effect(), sourceName)
+
         battle.dispatchGo {
             val battlePokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
             battlePokemon.heldItemManager.handleStartInstruction(battlePokemon, battle, message)
@@ -1463,7 +1466,7 @@ object ShowdownInterpreter {
      * The ITEM held by POKEMON has been destroyed by a move or ability, and it now holds no item.
      *
      * Format:
-     * |-item|POKEMON|ITEM
+     * |-enditem|POKEMON|ITEM
      *
      * POKEMON's ITEM has destroyed itself (consumed or used).
      */
@@ -1484,13 +1487,17 @@ object ShowdownInterpreter {
      * The specified Pokémon POKEMON has healed damage, and is now at HP STATUS.
      */
     private fun handleHealInstruction(battle: PokemonBattle, actor: BattleActor, publicMessage: BattleMessage, privateMessage: BattleMessage) {
+        val (pnx, _) = privateMessage.pnxAndUuid(0) ?: return
+        val battlePokemon = privateMessage.getBattlePokemon(0, battle) ?: return
+        val rawHpAndStatus = privateMessage.argumentAt(1)?.split(" ") ?: return
+        val rawHpRatio = rawHpAndStatus.getOrNull(0) ?: return
+        val newHealth = rawHpRatio.split("/").getOrNull(0)?.toIntOrNull() ?: return
+        val newHealthRatio = publicMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toFloatOrNull()?.times(0.01F) ?: return
+        val effect = privateMessage.effect()
+        val pokemonName = battlePokemon.getName()
+        broadcastOptionalAbility(battle, effect, pokemonName)
+
         battle.dispatchWaiting {
-            val (pnx, _) = privateMessage.pnxAndUuid(0) ?: return@dispatchWaiting
-            val battlePokemon = privateMessage.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            val rawHpAndStatus = privateMessage.argumentAt(1)?.split(" ") ?: return@dispatchWaiting
-            val rawHpRatio = rawHpAndStatus.getOrNull(0) ?: return@dispatchWaiting
-            val newHealth = rawHpRatio.split("/").getOrNull(0)?.toIntOrNull() ?: return@dispatchWaiting
-            val newHealthRatio = publicMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toFloatOrNull()?.times(0.01F) ?: return@dispatchWaiting
             battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, newHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio))
             val silent = privateMessage.hasOptionalArgument("silent")
             if (!silent) {
@@ -1504,21 +1511,27 @@ object ShowdownInterpreter {
                         battleLang("heal.wish", wisher?.getName() ?: actor.nameOwned(name))
                     }
                     privateMessage.hasOptionalArgument("from") -> {
-                        val effectID = privateMessage.effect("from")?.id ?: return@dispatchWaiting
-                        when (effectID) {
-                            "drain" -> {
-                                val drained = privateMessage.actorAndActivePokemonFromOptional(battle, "of")?.second?.battlePokemon ?: return@dispatchWaiting
-                                battleLang("heal.drain", drained.getName())
+                        when (effect!!.type) {
+                            Effect.Type.ITEM -> when (effect.id) {
+                                "leftovers", "shellbell", "blacksludge" -> battleLang("heal.leftovers", battlePokemon.getName(), effect.typelessData)
+                                else -> battleLang("heal.item", battlePokemon.getName(), effect.typelessData)
                             }
-                            else -> battleLang("heal.$effectID", battlePokemon.getName())
+                            else -> when (effect.id) {
+                                "drain" -> {
+                                    val drained = privateMessage.getSourceBattlePokemon(battle) ?: return@dispatchWaiting
+                                    battleLang("heal.drain", drained.getName())
+                                }
+                                else -> battleLang("heal.${effect.id}", battlePokemon.getName())
+                            }
                         }
                     }
                     else -> battleLang("heal.generic", battlePokemon.getName())
                 }
                 battle.broadcastChatMessage(lang)
-                battle.minorBattleActions[battlePokemon.uuid] = privateMessage
             }
+            battle.minorBattleActions[battlePokemon.uuid] = privateMessage
             battlePokemon.effectedPokemon.currentHealth = newHealth
+
             // This part is not always present
             val rawStatus = rawHpAndStatus.getOrNull(1) ?: return@dispatchWaiting
             val status = Statuses.getStatus(rawStatus) ?: return@dispatchWaiting
@@ -1547,12 +1560,11 @@ object ShowdownInterpreter {
             battlePokemon.effectedPokemon.currentHealth = flatHp.roundToInt()
             battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, flatHp), BattleHealthChangePacket(pnx, ratioHp))
             // It doesn't matter which we check when silent both have it
-            if (publicMessage.hasOptionalArgument("silent")) {
-                return@dispatchWaiting
+            if (!publicMessage.hasOptionalArgument("silent")) {
+                val effectID = publicMessage.effect()?.id ?: return@dispatchWaiting
+                val lang = battleLang("sethp.$effectID")
+                battle.broadcastChatMessage(lang)
             }
-            val effectID = publicMessage.effect()?.id ?: return@dispatchWaiting
-            val lang = battleLang("sethp.$effectID")
-            battle.broadcastChatMessage(lang)
             battle.minorBattleActions[battlePokemon.uuid] = publicMessage
         }
     }
