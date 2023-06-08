@@ -61,7 +61,6 @@ class PokemonItem : CobblemonItem(Settings().maxCount(1)) {
             return null
         }
         return nbt.getList(DataKeys.POKEMON_ITEM_ASPECTS, NbtElement.STRING_TYPE.toInt())
-            .filterIsInstance<NbtString>()
             .map { it.asString() }
             .toSet()
     }
