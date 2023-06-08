@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
@@ -13,9 +21,8 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CacneaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BimanualFrame, BipedFrame {
+class CacneaModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("cacnea")
-    override val head = getPart("head")
 
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
@@ -37,7 +44,6 @@ class CacneaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("cacnea", "ground_idle")
             )
         )
@@ -47,7 +53,6 @@ class CacneaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 BipedWalkAnimation(this),
                 BimanualSwingAnimation(this),
                 bedrock("cacnea", "ground_idle")
