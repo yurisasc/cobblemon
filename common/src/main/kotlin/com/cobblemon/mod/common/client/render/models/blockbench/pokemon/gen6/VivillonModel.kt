@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -15,6 +16,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame {
@@ -30,7 +32,7 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     override val profileTranslation = Vec3d(0.1, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
+    lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
@@ -39,7 +41,10 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("vivillon", "sleep"))
+            idleAnimations = arrayOf(
+                bedrock("vivillon", "sleep"),
+                bedrock("particles", "sleeping_zzz")
+            )
         )
 
         standing = registerPose(
@@ -53,8 +58,8 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -10F))
         )
 
-        walking = registerPose(
-            poseName = "walking",
+        walk = registerPose(
+            poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -64,4 +69,10 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -10F))
         )
     }
+//    override fun getFaintAnimation(
+//        pokemonEntity: PokemonEntity,
+//        state: PoseableEntityState<PokemonEntity>
+//    ) = if (state.isPosedIn(standing, walk))
+//        bedrockStateful("vivillon", "faint")
+//    else null
 }

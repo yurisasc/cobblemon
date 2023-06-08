@@ -8,14 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -34,6 +37,7 @@ class BonslyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("bonsly", "blink").setPreventsIdle(false) }
@@ -56,10 +60,21 @@ class BonslyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                 bedrock("bonsly", "ground_walk")
             )
         )
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("bonsly", "sleep_pot"),
+                bedrock("particles", "sleeping_zzz")
+            )
+        )
     }
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("bonsly", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk))
+//        bedrockStateful("bonsly", "faint")
+//    else null
 }

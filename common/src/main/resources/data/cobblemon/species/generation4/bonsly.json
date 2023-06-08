@@ -21,6 +21,11 @@
       "walk": {
         "walkSpeed": 0.25
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "catchRate": 255,
