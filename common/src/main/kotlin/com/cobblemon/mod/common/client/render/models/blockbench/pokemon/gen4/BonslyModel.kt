@@ -66,7 +66,8 @@ class BonslyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(
                 bedrock("bonsly", "sleep_pot"),
-                bedrock("particles", "sleeping_zzz")
+                bedrock("particles", "sleeping_zzz"),
+                bedrock("particles", "sleeping_bubbles")
             )
         )
     }

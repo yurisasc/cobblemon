@@ -43,7 +43,8 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(
                 bedrock("vivillon", "sleep"),
-                bedrock("particles", "sleeping_zzz")
+                bedrock("particles", "sleeping_zzz"),
+                bedrock("particles", "sleeping_bubbles")
             )
         )
 
