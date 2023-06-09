@@ -146,6 +146,11 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         }
     }
 
+    fun toGappyList() = slots.toList()
+
+    /** Maps the slots of the party using the giving mapper function, but preserving the nulls in the party at the right spots. */
+    fun <T : Any> mapNullPreserving(mapper: (Pokemon) -> T): List<T?> = toGappyList().map { it?.let(mapper) }
+
     override fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putInt(DataKeys.STORE_SLOT_COUNT, slots.size)
         for (slot in slots.indices) {
