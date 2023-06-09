@@ -18,10 +18,10 @@ class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
     override val rootPart = root.registerChildWithAllChildren("falinks")
 
     override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.7, -1.2, 0.0)
+    override val portraitTranslation = Vec3d(-1.2, -1.2, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.2, 0.8, 0.0)
+    override val profileScale = 0.5F
+    override val profileTranslation = Vec3d(0.1, 0.9, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var battlestanding: PokemonPose

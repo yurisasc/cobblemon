@@ -20,15 +20,15 @@
 					],
 					"position": [0, "2.5*math.abs(math.sin(q.anim_time*90*4)*0.5 + math.sin(q.anim_time*90*4*3)*0.5/10)", 0]
 				},
-				"shield_left": {
+				"shield_left1": {
 					"rotation": [0, 70, 0],
 					"position": [-1.5, 0.5, -5.5]
 				},
-				"shield_right": {
+				"shield_right1": {
 					"rotation": [0, -70, 0],
 					"position": [1.75, 0.5, -5.5]
 				},
-				"leg_left": {
+				"leg_left1": {
 					"rotation": ["-20+math.sin(q.anim_time*90*4-180-5)*-45 - math.sin(q.anim_time*90*4*3+180-15)*45/10", 0, 0],
 					"position": [
 						0,
@@ -36,7 +36,7 @@
 						"-1.75+math.sin(q.anim_time*90*4-180)*-2 - math.sin(q.anim_time*90*4*3+180)*2/10 + 2*math.sin(q.anim_time*90*4-90 + math.sin(q.anim_time*90*4-90)*30)"
 					]
 				},
-				"leg_right": {
+				"leg_right1": {
 					"rotation": ["-20+math.sin(q.anim_time*90*4-180-5)*45 + math.sin(q.anim_time*90*4*3+180-15)*45/10", 0, 0],
 					"position": [
 						0,
@@ -175,7 +175,7 @@
 				"falinks": {
 					"position": [0, 0, 5]
 				},
-				"body": {
+				"body1": {
 					"position": [0, 0, 9]
 				},
 				"body2": {
@@ -201,14 +201,14 @@
 		"animation.falinks.blink": {
 			"animation_length": 0.16667,
 			"bones": {
-				"eyelid_left": {
+				"eyelid_left1": {
 					"position": {
 						"0.0": [0, 0, -0.1],
 						"0.125": [0, 0, -0.1],
 						"0.1667": [0, 0, 0]
 					}
 				},
-				"eyelid_right": {
+				"eyelid_right1": {
 					"position": {
 						"0.0": [0, 0, -0.1],
 						"0.125": [0, 0, -0.1],
