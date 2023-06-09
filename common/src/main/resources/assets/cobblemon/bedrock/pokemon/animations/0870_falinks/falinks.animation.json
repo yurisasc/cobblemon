@@ -4,7 +4,7 @@
 		"animation.falinks.ground_idle": {
 			"loop": true,
 			"bones": {
-				"torso": {
+				"torso1": {
 					"position": [0, 0, 0]
 				}
 			}
@@ -12,7 +12,7 @@
 		"animation.falinks.ground_walk": {
 			"loop": true,
 			"bones": {
-				"torso": {
+				"torso1": {
 					"rotation": [
 						"math.sin(q.anim_time*90*4*2-180-90)*5 + math.sin(q.anim_time*90*4*3*2+180-270)*5/10",
 						"math.sin(q.anim_time*90*4-180)*5 + math.sin(q.anim_time*90*4*3+180)*5/10",

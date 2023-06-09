@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
+import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import net.minecraft.client.color.block.BlockColorProvider
@@ -45,16 +46,20 @@ import net.minecraft.resource.ResourceManager
 object CobblemonClient {
     lateinit var implementation: CobblemonClientImplementation
     val storage = ClientStorageManager()
+    var trade: ClientTrade? = null
     var battle: ClientBattle? = null
     var clientPlayerData = ClientPlayerData()
     /** If true then we won't bother them anymore about choosing a starter even if it's a thing they can do. */
     var checkedStarterScreen = false
+    var requests = ClientPlayerActionRequests()
+
 
     val overlay: PartyOverlay by lazy { PartyOverlay() }
     val battleOverlay: BattleOverlay by lazy { BattleOverlay() }
 
     fun onLogin() {
         clientPlayerData = ClientPlayerData()
+        requests = ClientPlayerActionRequests()
         storage.onLogin()
         CobblemonDataProvider.canReload = false
     }
