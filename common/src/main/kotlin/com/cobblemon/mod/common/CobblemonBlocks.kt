@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.block.ApricornSaplingBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
 import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.PCBlock
+import com.cobblemon.mod.common.block.RevivalHerbBlock
 import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
@@ -139,6 +140,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val MEDICINAL_LEEK_CROP = this.create("medicinal_leek_crop", MedicinalLeekBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
 
+    @JvmField
+    val REVIVAL_HERB = this.create("revival_herb", RevivalHerbBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.CROP)))
 
     @JvmField
     val BLACK_APRICORN = apricornBlock("black_apricorn", Apricorn.BLACK)

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:random_patch",
+  "config": {
+    "feature": {
+      "feature": {
+        "type": "minecraft:simple_block",
+        "config": {
+          "to_place": {
+            "type": "minecraft:simple_state_provider",
+            "state": {
+              "Name": "cobblemon:revival_herb",
+              "Properties": {
+                "age": "9",
+                "is_wild": true
+              }
+            }
+          }
+        }
+      },
+      "placement": []
+    },
+    "tries": 5,
+    "xz_spread": 4,
+    "y_spread": 1
+  }
+}

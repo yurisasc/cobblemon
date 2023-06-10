@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.world.feature
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.tag.BiomeTags
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
 import net.minecraft.world.gen.feature.PlacedFeatures
@@ -31,11 +33,14 @@ object CobblemonPlacedFeatures {
 
     val MEDICINAL_LEEK = of("medicinal_leek")
 
+    val REVIVAL_HERB = of("revival_herb")
+
     fun register() {
         // We don't need to pass in any tags, the feature implementation handles it, while not a perfect system it works
         Cobblemon.implementation.addFeatureToWorldGen(APRICORN_TREES, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MINTS, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MEDICINAL_LEEK, GenerationStep.Feature.VEGETAL_DECORATION, null)
+        Cobblemon.implementation.addFeatureToWorldGen(REVIVAL_HERB, GenerationStep.Feature.UNDERGROUND_DECORATION, CobblemonBiomeTags.HAS_REVIVAL_HERBS)
     }
 
     private fun of(id: String): RegistryKey<PlacedFeature> = PlacedFeatures.of("${Cobblemon.MODID}:$id")

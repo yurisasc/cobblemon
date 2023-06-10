@@ -27,6 +27,7 @@ object CobblemonConfiguredFeatures {
 
     val MEDICINAL_LEEKS_KEY = of("medicinal_leek")
 
+    val REVIVAL_HERBS_KEY = of("revival_herb")
 
     private fun of(id: String): RegistryKey<ConfiguredFeature<*, *>> = ConfiguredFeatures.of("${Cobblemon.MODID}:$id")
 

@@ -246,6 +246,10 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val ZINC = create("zinc", VitaminItem(Stats.SPECIAL_DEFENCE))
     @JvmField
     val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK_CROP))
+    @JvmField
+    val REVIVAL_HERB = create("revival_herb", RevivalHerbItem(CobblemonBlocks.REVIVAL_HERB))
+    @JvmField
+    val PEP_UP_FLOWER = create("pep_up_flower", PepUpFlowerItem(Item.Settings()))
 
     @JvmField
     val RED_MINT_SEEDS = blockItem("red_mint_seeds", MintType.RED.getCropBlock())
@@ -600,6 +604,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, JOLLY_MINT)
             consumer(group, SERIOUS_MINT)
             consumer(group, MEDICINAL_LEEK)
+            consumer(group, REVIVAL_HERB)
         }
         CobblemonItemGroups.PLANTS.group().let { group ->
             consumer(group, RED_APRICORN)
@@ -629,6 +634,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, GREEN_MINT_LEAF)
             consumer(group, WHITE_MINT_SEEDS)
             consumer(group, WHITE_MINT_LEAF)
+
+            consumer(group, REVIVAL_HERB)
+            consumer(group, PEP_UP_FLOWER)
         }
         CobblemonItemGroups.BUILDING_BLOCKS.group().let { group ->
             consumer(group, APRICORN_LOG)
