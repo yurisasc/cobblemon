@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
@@ -16,6 +17,8 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeExpiredPacket
+import com.cobblemon.mod.common.util.getPlayer
 import com.google.gson.GsonBuilder
 import java.time.Instant
 import java.util.Optional
@@ -26,6 +29,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 object BattleRegistry {
 
     class BattleChallenge(
+        val challengeId: UUID,
         val challengedPlayerUUID: UUID,
         var expiryTimeSeconds: Int = 60
     ) {
@@ -35,12 +39,21 @@ object BattleRegistry {
 
     val gson = GsonBuilder().disableHtmlEscaping().create()
     private val battleMap = ConcurrentHashMap<UUID, PokemonBattle>()
-    // Challenger to challenged
+    // Challenger to challenge
     val pvpChallenges = mutableMapOf<UUID, BattleChallenge>()
 
     fun onServerStarted() {
         battleMap.clear()
         pvpChallenges.clear()
+    }
+
+    fun removeChallenge(challengerId: UUID, challengeId: UUID? = null) {
+        val existing = pvpChallenges[challengerId] ?: return
+        if (existing.challengeId != challengeId) {
+            return
+        }
+        pvpChallenges.remove(challengerId)
+        existing.challengedPlayerUUID.getPlayer()?.sendPacket(BattleChallengeExpiredPacket(existing.challengeId))
     }
 
     /**
