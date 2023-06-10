@@ -32,6 +32,7 @@ object CobblemonPlacedFeatures {
     val MINTS = of("mints")
 
     val MEDICINAL_LEEK = of("medicinal_leek")
+    val ENERGY_ROOT = of("energy_root")
 
     val REVIVAL_HERB = of("revival_herb")
 
@@ -40,6 +41,7 @@ object CobblemonPlacedFeatures {
         Cobblemon.implementation.addFeatureToWorldGen(APRICORN_TREES, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MINTS, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MEDICINAL_LEEK, GenerationStep.Feature.VEGETAL_DECORATION, null)
+        Cobblemon.implementation.addFeatureToWorldGen(ENERGY_ROOT, GenerationStep.Feature.VEGETAL_DECORATION, BiomeTags.IS_OVERWORLD)
         Cobblemon.implementation.addFeatureToWorldGen(REVIVAL_HERB, GenerationStep.Feature.UNDERGROUND_DECORATION, CobblemonBiomeTags.HAS_REVIVAL_HERBS)
     }
 

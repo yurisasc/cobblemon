@@ -106,6 +106,7 @@
   "item.cobblemon.iron": "Iron",
   "item.cobblemon.protein": "Protein",
   "item.cobblemon.zinc": "Zinc",
+  "item.cobblemon.energy_root.tooltip": "Smelt to make a Remedy",
 
   "item.cobblemon.red_mint_leaf": "Red Mint Leaf",
   "item.cobblemon.red_mint_leaf.tooltip": "Capable of influencing a Pokémon's attack stat",
@@ -248,6 +249,7 @@
   "block.cobblemon.pink_mint": "Pink Mint Seeds",
   "block.cobblemon.green_mint": "Green Mint Seeds",
   "block.cobblemon.white_mint": "White Mint Seeds",
+  "block.cobblemon.energy_root": "Energy Root",
 
   "cobblemon.overflow_no_pc": "Your party was full and you don't have a PC!",
   "cobblemon.overflow_no_space": "Your party was full and so was %1$s!",

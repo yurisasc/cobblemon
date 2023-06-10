@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.block.MedicinalLeekBlock
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
+import com.cobblemon.mod.common.block.EnergyRootBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
 import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.PCBlock
@@ -139,6 +140,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     @JvmField
     val MEDICINAL_LEEK_CROP = this.create("medicinal_leek_crop", MedicinalLeekBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val ENERGY_ROOT = this.create("energy_root", EnergyRootBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.ROOTS)))
 
     @JvmField
     val REVIVAL_HERB = this.create("revival_herb", RevivalHerbBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.CROP)))
