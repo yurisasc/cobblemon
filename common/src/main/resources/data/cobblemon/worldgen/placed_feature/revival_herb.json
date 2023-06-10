@@ -6,19 +6,15 @@
       "count": 3
     },
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 8
-    },
-    {
       "type": "minecraft:in_square"
-    },
-    {
-      "type": "minecraft:biome"
     },
     {
       "type": "cobblemon:beneath_heightmap",
       "heightmap": "OCEAN_FLOOR",
       "offset": -1
+    },
+    {
+      "type": "minecraft:biome"
     },
     {
       "type": "minecraft:block_predicate_filter",
@@ -27,7 +23,7 @@
         "state": {
           "Name": "cobblemon:revival_herb",
           "Properties": {
-            "is_wild": true
+            "is_wild": "true"
           }
         }
       }

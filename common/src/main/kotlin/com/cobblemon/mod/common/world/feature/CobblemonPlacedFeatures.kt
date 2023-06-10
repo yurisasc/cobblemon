@@ -42,7 +42,7 @@ object CobblemonPlacedFeatures {
         Cobblemon.implementation.addFeatureToWorldGen(MINTS, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MEDICINAL_LEEK, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(ENERGY_ROOT, GenerationStep.Feature.VEGETAL_DECORATION, BiomeTags.IS_OVERWORLD)
-        Cobblemon.implementation.addFeatureToWorldGen(REVIVAL_HERB, GenerationStep.Feature.UNDERGROUND_DECORATION, CobblemonBiomeTags.HAS_REVIVAL_HERBS)
+        Cobblemon.implementation.addFeatureToWorldGen(REVIVAL_HERB, GenerationStep.Feature.VEGETAL_DECORATION, CobblemonBiomeTags.HAS_REVIVAL_HERBS)
     }
 
     private fun of(id: String): RegistryKey<PlacedFeature> = PlacedFeatures.of("${Cobblemon.MODID}:$id")

@@ -125,7 +125,8 @@ object CobblemonClient {
             CobblemonBlocks.PINK_MINT,
             CobblemonBlocks.GREEN_MINT,
             CobblemonBlocks.WHITE_MINT,
-            CobblemonBlocks.ENERGY_ROOT
+            CobblemonBlocks.ENERGY_ROOT,
+            CobblemonBlocks.REVIVAL_HERB
         )
     }
 

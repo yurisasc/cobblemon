@@ -11,13 +11,26 @@
               "Name": "cobblemon:revival_herb",
               "Properties": {
                 "age": "9",
-                "is_wild": true
+                "is_wild": "true"
               }
             }
           }
         }
       },
-      "placement": []
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:would_survive",
+            "state": {
+              "Name": "cobblemon:revival_herb",
+              "Properties": {
+                "is_wild": "true"
+              }
+            }
+          }
+        }
+      ]
     },
     "tries": 5,
     "xz_spread": 4,

@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.world.placementmodifier
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import java.util.Optional
 import java.util.stream.Stream
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
@@ -25,20 +26,20 @@ import net.minecraft.world.gen.placementmodifier.PlacementModifier
  * @author Hiroku
  * @since June 4th, 2023
  */
-class BeneathHeightmapPlacementModifier(val heightmap: Heightmap.Type, val offset: Int, val reach: Int) : PlacementModifier() {
+class BeneathHeightmapPlacementModifier(val heightmap: Heightmap.Type, val offset: Int, val reach: Int?) : PlacementModifier() {
     companion object {
         val MODIFIER_CODEC: Codec<BeneathHeightmapPlacementModifier> = RecordCodecBuilder.create { instance ->
             instance
                 .group(
                     Heightmap.Type.CODEC.fieldOf("heightmap").forGetter { it.heightmap },
                     PrimitiveCodec.INT.fieldOf("offset").forGetter { it.offset },
-                    PrimitiveCodec.INT.fieldOf("reach").forGetter { it.reach }
+                    PrimitiveCodec.INT.optionalFieldOf("reach").forGetter { Optional.ofNullable(it.reach) }
                 )
                 .apply(instance) { heightmap, offset, reach ->
                     BeneathHeightmapPlacementModifier(
                         heightmap,
                         offset,
-                        reach
+                        reach.orElse(null)
                     )
                 }
         }
@@ -52,7 +53,7 @@ class BeneathHeightmapPlacementModifier(val heightmap: Heightmap.Type, val offse
         val positions = mutableListOf<BlockPos>()
 
         var y = topY
-        while (y > context.bottomY && topY - y < reach) {
+        while (y > context.bottomY && (reach == null || topY - y < reach)) {
             positions.add(BlockPos(x, y, z))
             y--
         }
