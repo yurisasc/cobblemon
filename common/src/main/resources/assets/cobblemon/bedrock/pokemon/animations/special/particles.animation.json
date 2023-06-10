@@ -9,6 +9,15 @@
 					"locator": "sleep"
 				}
 			}
+		},
+		"animation.particles.sleeping_bubbles": {
+			"loop": true,
+			"particle_effects": {
+				"0.0": {
+					"effect": "sleep_bubbles",
+					"locator": "sleep"
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2
