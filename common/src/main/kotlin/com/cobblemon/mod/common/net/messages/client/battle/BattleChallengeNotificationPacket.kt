@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 
@@ -19,18 +20,25 @@ import net.minecraft.text.MutableText
  * the keybind to challenge them back. In future this is likely to include information
  * about the battle.
  *
- * Handled by [com.cobblemon.mod.common.client.net.battle.ChallengeNotificationHandler].
+ * Handled by [com.cobblemon.mod.common.client.net.battle.BattleChallengeNotificationHandler].
  *
  * @author Hiroku
  * @since August 5th, 2022
  */
-class ChallengeNotificationPacket(val challengerName: MutableText): NetworkPacket<ChallengeNotificationPacket> {
+class BattleChallengeNotificationPacket(
+    val battleChallengeId: UUID,
+    val challengerId: UUID,
+    val challengerName: MutableText
+): NetworkPacket<BattleChallengeNotificationPacket> {
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {
+        buffer.writeUuid(battleChallengeId)
+        buffer.writeUuid(challengerId)
         buffer.writeText(challengerName)
     }
+
     companion object {
-        val ID = cobblemonResource("challenge_notification")
-        fun decode(buffer: PacketByteBuf) = ChallengeNotificationPacket(buffer.readText().copy())
+        val ID = cobblemonResource("battle_challenge_notification")
+        fun decode(buffer: PacketByteBuf) = BattleChallengeNotificationPacket(buffer.readUuid(), buffer.readUuid(), buffer.readText().copy())
     }
 }

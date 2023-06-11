@@ -102,6 +102,9 @@ object DataKeys {
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
 
+    // Persistent Data
+    const val POKEMON_PERSISTENT_DATA = "PersistentData"
+
     /* Generic Bedrock Entity */
     const val GENERIC_BEDROCK_CATEGORY = "Category"
     const val GENERIC_BEDROCK_ASPECTS = "Aspects"

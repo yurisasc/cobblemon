@@ -9,12 +9,16 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
-import com.cobblemon.mod.common.api.scheduling.after
-import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
+import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.particle.SnowstormParticleReader
+import com.cobblemon.mod.common.trade.ActiveTrade
+import com.cobblemon.mod.common.trade.DummyTradeParticipant
+import com.cobblemon.mod.common.trade.PlayerTradeParticipant
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.fromJson
+import com.cobblemon.mod.common.util.toPokemon
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.mojang.brigadier.Command
@@ -40,6 +44,8 @@ object TestCommand {
         }
 
         try {
+//            testTrade(context.source.player!!)
+//            testParticles(context)
             val w = context.source.world
             val e = GenericBedrockEntity(world = w).apply {
                 category = cobblemonResource("evolution")
@@ -94,6 +100,54 @@ object TestCommand {
         }
         return Command.SINGLE_SUCCESS
     }
+
+    var trade: ActiveTrade? = null
+    var lastDebugId = 0
+
+    private fun testTrade(playerEntity: ServerPlayerEntity) {
+        val trade = ActiveTrade(
+            player1 = PlayerTradeParticipant(playerEntity),
+            player2 = DummyTradeParticipant(
+                pokemonList = mutableListOf(
+                    "pikachu level=30 shiny".toPokemon(),
+                    "machop level=15".toPokemon()
+                )
+            )
+        )
+        this.trade = trade
+        playerEntity.sendPacket(TradeStartedPacket(trade.player2.uuid, trade.player2.name.copy(), trade.player2.party.mapNullPreserving(TradeStartedPacket::TradeablePokemon)))
+
+        taskBuilder()
+            .interval(0.5F) // Run every half second
+            .execute { task ->
+                if (this.trade != trade) {
+                    task.expire()
+                    return@execute
+                }
+
+                testUpdate()
+            }
+            .iterations(Int.MAX_VALUE)
+            .build()
+    }
+
+    private fun testUpdate() {
+        val trade = this.trade ?: return
+        val dummy = trade.player2 as DummyTradeParticipant
+
+        val currentDebugId = 0 // Change this number to some other number and hot reload when you want the later code block to run once.
+
+        if (lastDebugId != currentDebugId) {
+            // Some code here, when hotswapped, will immediately run.
+            // This is a trick so that if you want to fiddle with the GUI, then you want the dummy participant to do something,
+            // you can update the code here and the 'currentDebugId' value and this will run once.
+
+            // Something
+
+            this.lastDebugId = currentDebugId
+        }
+    }
+
 
     private fun testParticles(context: CommandContext<ServerCommandSource>) {
         val file = File("particle.particle.json")
