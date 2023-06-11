@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryMutationOfferEvent
 import com.cobblemon.mod.common.api.events.berry.BerryMutationResultEvent
+import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
 import net.minecraft.block.*
@@ -57,12 +58,19 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
     override fun hasRandomTicks(state: BlockState) = !this.isMaxAge(state)
 
+    /*
     @Deprecated("Deprecated in Java")
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+        val lowerLimit = this.berry()?.growthTime!!.first
         if (world.random.nextInt(5) == 0 && this.canGrow(world, random, pos, state)) {
             this.grow(world, random, pos, state)
         }
     }
+    */
+
+    //override fun tick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+
+    //}
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
         val newAge = state.get(AGE) + 1

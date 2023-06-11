@@ -37,7 +37,9 @@ import java.awt.Color
  *
  * @property identifier The [Identifier] of this berry.
  * @property baseYield The [IntRange] possible for the berry tree before [bonusYield] is calculated.
- * @property lifeCycles The [IntRange] possible for the berry to live for between harvests.
+ * @property growthTime The [IntRange] possible in minutes for how long the berry tree takes to grow.
+ * @property refreshRate The [IntRange] possible in minutes for how long the berry tree takes to regrow its berries once it has been harvested.
+ * @depreciated @property lifeCycles The [IntRange] possible for the berry to live for between harvests.
  * @property growthFactors An array of [GrowthFactor]s that will affect this berry. The client is not aware of these.
  * @property mutations A map of the partner berry as the key and the value as the resulting mutation with this berry.
  * @property interactions A collection of [PokemonEntityInteraction]s this berry will have in item form. The client is not aware of these.
@@ -56,7 +58,9 @@ import java.awt.Color
 class Berry(
     identifier: Identifier,
     val baseYield: IntRange,
-    val lifeCycles: IntRange,
+    //val lifeCycles: IntRange,
+    val growthTime: IntRange,
+    val refreshRate: IntRange,
     val growthFactors: Collection<GrowthFactor>,
     val interactions: Collection<PokemonEntityInteraction>,
     val growthPoints: Array<GrowthPoint>,
@@ -198,9 +202,17 @@ class Berry(
         if (this.baseYield.first < 0 || this.baseYield.last < 0) {
             throw IllegalArgumentException("A berry base yield must be a positive range")
         }
+        if (this.growthTime.first < 0 || this.growthTime.last < 0) {
+            throw IllegalArgumentException("The growth time must be a positive range")
+        }
+        if (this.refreshRate.first < 0 || this.refreshRate.last < 0) {
+            throw IllegalArgumentException("The refresh rate must be a positive range")
+        }
+        /*
         if (this.lifeCycles.first < 0 || this.lifeCycles.last < 0) {
             throw IllegalArgumentException("A berry life cycle must be a positive range")
         }
+         */
         this.growthFactors.forEach { it.validateArguments() }
         val maxYield = this.maxYield()
         if (this.growthPoints.size < maxYield) {
@@ -216,8 +228,12 @@ class Berry(
         buffer.writeIdentifier(this.identifier)
         buffer.writeInt(this.baseYield.first)
         buffer.writeInt(this.baseYield.last)
-        buffer.writeInt(this.lifeCycles.first)
-        buffer.writeInt(this.lifeCycles.last)
+        //buffer.writeInt(this.lifeCycles.first)
+        //buffer.writeInt(this.lifeCycles.last)
+        buffer.writeInt(this.growthTime.first)
+        buffer.writeInt(this.growthTime.last)
+        buffer.writeInt(this.refreshRate.first)
+        buffer.writeInt(this.refreshRate.last)
         buffer.writeCollection(this.growthPoints.toList())  { writer, value ->
             writer.writeDouble(value.position.x)
             writer.writeDouble(value.position.y)
@@ -276,7 +292,9 @@ class Berry(
         internal fun decode(buffer: PacketByteBuf): Berry {
             val identifier = buffer.readIdentifier()
             val baseYield = IntRange(buffer.readInt(), buffer.readInt())
-            val lifeCycles = IntRange(buffer.readInt(), buffer.readInt())
+            //val lifeCycles = IntRange(buffer.readInt(), buffer.readInt())
+            val growthTime = IntRange(buffer.readInt(), buffer.readInt())
+            val refreshRate = IntRange(buffer.readInt(), buffer.readInt())
             val growthPoints = buffer.readList { reader ->
                 GrowthPoint(Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble()), reader.readFloat())
             }.toTypedArray()
@@ -289,7 +307,7 @@ class Berry(
             val flowerTexture = buffer.readIdentifier()
             val fruitModelIdentifier = buffer.readIdentifier()
             val fruitTexture = buffer.readIdentifier()
-            return Berry(identifier, baseYield, lifeCycles, emptyList(), emptyList(), growthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
+            return Berry(identifier, baseYield, growthTime, refreshRate, emptySet(), emptySet(), growthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
         }
 
     }
