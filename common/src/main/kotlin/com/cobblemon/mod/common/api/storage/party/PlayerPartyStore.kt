@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -84,7 +84,7 @@ open class PlayerPartyStore(
                     pokemon.faintedTimer -= 1
                     if (pokemon.faintedTimer <= -1) {
                         pokemon.currentHealth = (pokemon.hp * Cobblemon.config.faintAwakenHealthPercent).toInt()
-                        player.sendMessage(Text.translatable("cobblemon.party.faintRecover", pokemon.species.translatedName))
+                        player.sendMessage(Text.translatable("cobblemon.party.faintRecover", pokemon.getDisplayName()))
                     }
                 }
                 // Passive healing while less than full health
@@ -118,7 +118,7 @@ open class PlayerPartyStore(
                 this.secondsSinceFriendshipUpdate = 0
                 this.forEach { pokemon ->
                     if (pokemon.friendship < 160) {
-                        if (pokemon.entity != null) {
+                        if (pokemon.entity != null || pokemon.state is ShoulderedState) {
                             pokemon.incrementFriendship(1)
                         }
                     }

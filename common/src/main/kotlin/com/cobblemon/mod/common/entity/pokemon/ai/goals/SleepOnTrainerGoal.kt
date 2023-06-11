@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,8 +14,8 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import net.minecraft.block.BedBlock
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.registry.tag.BlockTags
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -61,6 +61,9 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
 
     val boxNumber: Int
         get() = this.pc.boxes.indexOf(this)
+
+    val unoccupiedSlots: Int
+        get() = POKEMON_PER_BOX - this.pokemon.filterNotNull().count()
 
     fun getFirstAvailablePosition(): PCPosition? {
         for (index in 0 until POKEMON_PER_BOX) {

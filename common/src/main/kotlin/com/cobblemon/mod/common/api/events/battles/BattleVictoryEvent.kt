@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
  * @since November 3rd, 2022
  */
 data class BattleVictoryEvent (
-    val battle: PokemonBattle,
-    val winners : List<BattleActor>
-)
+    override val battle: PokemonBattle,
+    val winners : List<BattleActor>,
+    val losers : List<BattleActor>
+) : BattleEvent

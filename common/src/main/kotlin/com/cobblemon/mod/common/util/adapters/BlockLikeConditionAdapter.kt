@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,11 +14,11 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import com.cobblemon.mod.common.registry.BlockIdentifierCondition
 import com.cobblemon.mod.common.registry.BlockTagCondition
 import net.minecraft.block.Block
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.RegistryKeys
 
 object BlockLikeConditionAdapter : RegistryLikeAdapter<Block> {
     override val registryLikeConditions = mutableListOf(
-        RegistryLikeTagCondition.resolver(Registry.BLOCK_KEY, ::BlockTagCondition),
+        RegistryLikeTagCondition.resolver(RegistryKeys.BLOCK, ::BlockTagCondition),
         RegistryLikeIdentifierCondition.resolver(::BlockIdentifierCondition)
     )
 }

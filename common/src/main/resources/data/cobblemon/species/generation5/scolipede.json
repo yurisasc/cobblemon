@@ -95,16 +95,27 @@
     "tm:swagger",
     "tm:swordsdance",
     "tm:throatchop",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:venomdrench",
     "tm:venoshock",
     "tm:xscissor",
     "tutor:aquatail",
+    "tutor:bugbite",
     "tutor:endeavor",
+    "tutor:irondefense",
+    "tutor:irontail",
+    "tutor:poisontail",
     "tutor:signalbeam",
     "tutor:skittersmack",
+    "tutor:sleeptalk",
     "tutor:snatch",
-    "tutor:steelroller"
+    "tutor:snore",
+    "tutor:steelroller",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:throatchop",
+    "tutor:toxicspikes"
   ],
   "labels": [
     "gen5"

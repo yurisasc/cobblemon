@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Dhelmise",
   "nationalPokedexNumber": 781,
   "primaryType": "ghost",
@@ -14,6 +15,25 @@
     "special_defence": 90,
     "speed": 40
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.2,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "catchRate": 25,
   "maleRatio": -1,
   "shoulderMountable": false,
@@ -23,6 +43,21 @@
   "eggGroups": [
     "mineral"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:kelp",
+        "quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "1-2",
+        "percentage": 66
+      }
+    ]
+  },
   "moves": [
     "1:absorb",
     "1:rapidspin",
@@ -98,12 +133,18 @@
     "tm:thief",
     "tm:toxic",
     "tm:whirlpool",
+    "tutor:allyswitch",
     "tutor:block",
+    "tutor:gigadrain",
     "tutor:grassyglide",
+    "tutor:helpinghand",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:knockoff",
     "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:roleplay",
+    "tutor:snore",
     "tutor:spite",
     "tutor:steelroller",
     "tutor:synthesis",
@@ -116,10 +157,10 @@
     "cobblemon.species.dhelmise.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2.5,
+    "height": 4,
     "fixed": false
   },
   "baseFriendship": 50,

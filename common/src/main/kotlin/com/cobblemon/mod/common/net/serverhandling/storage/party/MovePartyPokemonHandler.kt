@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,14 +8,14 @@
 
 package com.cobblemon.mod.common.net.serverhandling.storage.party
 
-import com.cobblemon.mod.common.CobblemonNetwork.NetworkContext
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.server.storage.party.MovePartyPokemonPacket
-import com.cobblemon.mod.common.net.serverhandling.ServerPacketHandler
 import com.cobblemon.mod.common.util.party
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-object MovePartyPokemonHandler : ServerPacketHandler<MovePartyPokemonPacket> {
-    override fun invokeOnServer(packet: MovePartyPokemonPacket, ctx: NetworkContext, player: ServerPlayerEntity) {
+object MovePartyPokemonHandler : ServerNetworkPacketHandler<MovePartyPokemonPacket> {
+    override fun handle(packet: MovePartyPokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val party = player.party()
         val pokemon = party[packet.oldPosition] ?: return
         if (pokemon.uuid != packet.pokemonID) {

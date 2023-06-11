@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
@@ -21,22 +22,15 @@ import net.minecraft.util.Identifier
  * @author Hiroku
  * @since July 2nd, 2022
  */
-class BattleCaptureStartPacket() : NetworkPacket {
-    lateinit var pokeBallType: Identifier
-    lateinit var targetPNX: String
-
-    constructor(pokeBallType: Identifier, targetPNX: String): this() {
-        this.pokeBallType = pokeBallType
-        this.targetPNX = targetPNX
-    }
-
+class BattleCaptureStartPacket(val pokeBallType: Identifier, val aspects: Set<String>, val targetPNX: String) : NetworkPacket<BattleCaptureStartPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(pokeBallType)
+        buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect) }
         buffer.writeString(targetPNX)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        pokeBallType = buffer.readIdentifier()
-        targetPNX = buffer.readString()
+    companion object {
+        val ID = cobblemonResource("battle_capture_start")
+        fun decode(buffer: PacketByteBuf) = BattleCaptureStartPacket(buffer.readIdentifier(), buffer.readList { it.readString() }.toSet(), buffer.readString())
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -183,7 +183,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         val world = blockPlaceContext.world
         if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
             return defaultState
-                .with(HorizontalFacingBlock.FACING, blockPlaceContext.playerFacing)
+                .with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
                 .with(PART, PCPart.BOTTOM)
         }
 
@@ -249,14 +249,14 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         OpenPCPacket(pc.uuid).sendToPlayer(player)
         world.playSoundServer(
             position = blockPos.toVec3d(),
-            sound = CobblemonSounds.PC_ON.get(),
+            sound = CobblemonSounds.PC_ON,
             volume = 1F,
             pitch = 1F
         )
         return ActionResult.SUCCESS
     }
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) =  checkType(BlockWithEntityType, CobblemonBlockEntities.PC.get(), PCBlockEntity.TICKER::tick)
+    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) =  checkType(BlockWithEntityType, CobblemonBlockEntities.PC, PCBlockEntity.TICKER::tick)
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(blockState: BlockState): BlockRenderType {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.drop.DropTable
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
@@ -34,6 +35,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import net.minecraft.util.InvalidIdentifierException
 
 class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var name: String = "Bulbasaur"
@@ -101,7 +103,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var forms = mutableListOf<FormData>()
         private set
 
-    val standardForm by lazy { FormData().initialize(this) }
+    val standardForm by lazy { FormData(_evolutions = this.evolutions).initialize(this) }
 
     internal var labels = hashSetOf<String>()
         private set
@@ -116,6 +118,9 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     @Transient
     lateinit var resourceIdentifier: Identifier
 
+    val types: Iterable<ElementalType>
+        get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
+
     fun initialize() {
         Cobblemon.statProvider.provide(this)
         this.forms.forEach { it.initialize(this) }
@@ -126,6 +131,17 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.preEvolution?.species
         this.preEvolution?.form
         this.evolutions.size
+    }
+
+    // Ran after initialize due to us creating a Pokémon here which requires all the properties in #initialize to be present for both this and the results, this is the easiest way to quickly resolve species + form
+    internal fun resolveEvolutionMoves() {
+        this.evolutions.forEach { evolution ->
+            if (evolution.learnableMoves.isNotEmpty() && evolution.result.species != null) {
+                val pokemon = evolution.result.create()
+                pokemon.form.moves.evolutionMoves += evolution.learnableMoves
+            }
+        }
+        this.forms.forEach(FormData::resolveEvolutionMoves)
     }
 
     fun create(level: Int = 10) = Pokemon().apply {
@@ -148,7 +164,6 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     }
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeIdentifier(this.resourceIdentifier)
         buffer.writeBoolean(this.implemented)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
@@ -159,21 +174,22 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         // ToDo remake once we have custom typing support
         buffer.writeString(this.primaryType.name)
         buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeString(this.experienceGroup.name)
+        buffer.writeFloat(this.height)
+        buffer.writeFloat(this.weight)
+        buffer.writeFloat(this.baseScale)
+        // Hitbox start
+        buffer.writeFloat(this.hitbox.width)
+        buffer.writeFloat(this.hitbox.height)
+        buffer.writeBoolean(this.hitbox.fixed)
+        // Hitbox end
+        this.moves.encode(buffer)
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
-        buffer.writeString(this.experienceGroup.name)
-        this.moves.encode(buffer)
-        buffer.writeFloat(baseScale)
-        // Hitbox start
-        buffer.writeFloat(hitbox.width)
-        buffer.writeFloat(hitbox.height)
-        buffer.writeBoolean(hitbox.fixed)
-        // Hitbox end
     }
 
     override fun decode(buffer: PacketByteBuf) {
         this.implemented = buffer.readBoolean()
-        // identifier is decoded in the sync packet for easier debug log
         this.name = buffer.readString()
         this.nationalPokedexNumber = buffer.readInt()
         this.baseStats.putAll(buffer.readMap(
@@ -182,14 +198,17 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         )
         this.primaryType = ElementalTypes.getOrException(buffer.readString())
         this.secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }
+        this.experienceGroup = ExperienceGroups.findByName(buffer.readString())!!
+        this.height = buffer.readFloat()
+        this.weight = buffer.readFloat()
+        this.baseScale = buffer.readFloat()
+        this.hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
+        this.moves.decode(buffer)
         this.pokedex.clear()
         this.pokedex += buffer.readList { pb -> pb.readString() }
         this.forms.clear()
         this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
-        this.experienceGroup = ExperienceGroups.findByName(buffer.readString())!!
-        this.moves.decode(buffer)
-        this.baseScale = buffer.readFloat()
-        this.hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
+        this.initialize()
     }
 
     override fun shouldSynchronize(other: Species): Boolean {

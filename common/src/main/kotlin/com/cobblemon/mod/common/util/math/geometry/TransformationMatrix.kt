@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,8 @@ package com.cobblemon.mod.common.util.math.geometry
 
 import com.cobblemon.mod.common.util.collections.ImmutableArray
 import com.cobblemon.mod.common.util.collections.immutableArrayOf
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.Vec3d
+import org.joml.Vector3f
 
 /**
  * A 4x4 matrix that is used to represent transformations in three dimensional space.
@@ -27,6 +28,7 @@ data class TransformationMatrix internal constructor(val values: ImmutableArray<
     operator fun times(right: TransformationMatrix): TransformationMatrix = combine(this, right)
     operator fun times(point: GeometricPoint): GeometricPoint = transform(this, point)
     operator fun times(normal: GeometricNormal): GeometricNormal = transform(this, normal)
+    operator fun times(point: Vec3d): Vec3d = transform(this, GeometricPoint(point)).toVec3d()
 
     override fun toString(): String {
         return """
@@ -53,7 +55,7 @@ data class TransformationMatrix internal constructor(val values: ImmutableArray<
             arrayOf(0f, 0f, 0f, 1f)
         )
 
-        fun of(translation: GeometricPoint, rotation: Vec3f): TransformationMatrix {
+        fun of(translation: GeometricPoint, rotation: Vector3f): TransformationMatrix {
             return translate(translation) * rotate(rotation)
         }
 
@@ -105,7 +107,7 @@ data class TransformationMatrix internal constructor(val values: ImmutableArray<
          *
          * @return a new transformation matrix for the given rotations
          */
-        fun rotate(angles: Vec3f, matrix: TransformationMatrix? = null): TransformationMatrix {
+        fun rotate(angles: Vector3f, matrix: TransformationMatrix? = null): TransformationMatrix {
             val rotationX = Axis.X_AXIS.getRotationMatrix(angles.x)
             val rotationY = Axis.Y_AXIS.getRotationMatrix(angles.y)
             val rotationZ = Axis.Z_AXIS.getRotationMatrix(angles.z)

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.spawning.spawner
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.SpawnerManager
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -26,10 +27,11 @@ open class FixedAreaSpawner(
     name: String,
     spawns: SpawnPool,
     manager: SpawnerManager,
-    val world: World,
+    val world: ServerWorld,
     val position: BlockPos,
     val horizontalRadius: Int,
-    val verticalRadius: Int
+    val verticalRadius: Int,
+    override var ticksBetweenSpawns: Float = 20F
 ) : AreaSpawner(name, spawns, manager) {
     override fun getArea(cause: SpawnCause): SpawningArea? {
         val basePos = position.add(-horizontalRadius, -verticalRadius, -horizontalRadius)

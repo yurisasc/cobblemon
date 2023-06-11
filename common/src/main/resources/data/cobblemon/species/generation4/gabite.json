@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Gabite",
   "nationalPokedexNumber": 444,
   "primaryType": "dragon",
@@ -25,6 +26,15 @@
     "monster",
     "dragon"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:dragonbreath",
     "1:dragonrage",
@@ -32,10 +42,19 @@
     "1:sandattack",
     "1:sandtomb",
     "1:tackle",
+    "7:dragonrage",
+    "13:sandstorm",
+    "15:takedown",
     "18:bulldoze",
+    "19:sandtomb",
+    "24:dualchop",
     "27:bite",
+    "28:slash",
+    "33:dragonclaw",
     "34:slash",
+    "40:dig",
     "42:dragonclaw",
+    "49:dragonrush",
     "50:dig",
     "58:sandstorm",
     "66:takedown",
@@ -85,6 +104,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowclaw",
@@ -102,12 +122,23 @@
     "tm:terablast",
     "tm:thunderfang",
     "tm:toxic",
+    "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:dualchop",
+    "tutor:earthpower",
     "tutor:furycutter",
     "tutor:headbutt",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:laserfocus",
     "tutor:mudslap",
+    "tutor:outrage",
     "tutor:scaleshot",
     "tutor:scorchingsands",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:swift",
     "tutor:twister"
   ],
   "labels": [
@@ -134,10 +165,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 1.2,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 50,

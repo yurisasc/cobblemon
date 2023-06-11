@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,6 +33,8 @@ class BattleOptionTile(
         const val  OPTION_WIDTH = 90
         const val OPTION_HEIGHT = 26
     }
+
+    private var focused = false
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         val opacity = CobblemonClient.battleOverlay.opacityRatio
@@ -71,8 +73,19 @@ class BattleOptionTile(
         return true
     }
 
+    override fun setFocused(focused: Boolean) {
+        this.focused = focused
+    }
+
+    override fun isFocused() = focused
+
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX > x && mouseY > y && mouseX < x + OPTION_WIDTH && mouseY < y + OPTION_HEIGHT
 
-    override fun appendNarrations(builder: NarrationMessageBuilder) = builder.put(NarrationPart.TITLE, text)
+    override fun appendNarrations(builder: NarrationMessageBuilder) {
+        builder.put(NarrationPart.TITLE, text)
+    }
+
     override fun getType() = HOVERED
+
+
 }

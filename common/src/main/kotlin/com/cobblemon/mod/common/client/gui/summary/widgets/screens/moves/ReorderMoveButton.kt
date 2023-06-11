@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@ class ReorderMoveButton(
     val pX: Int, val pY: Int,
     private val isUp: Boolean,
     onPress: PressAction
-): ButtonWidget((pX - OFFSET_X).toInt(), (pY + (if (isUp) OFFSET_Y_UP else OFFSET_Y_DOWN)), (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal(""), onPress) {
+): ButtonWidget((pX - OFFSET_X).toInt(), (pY + (if (isUp) OFFSET_Y_UP else OFFSET_Y_DOWN)), (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal(""), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 8
@@ -30,8 +30,8 @@ class ReorderMoveButton(
         private const val OFFSET_Y_UP = 6
         private const val OFFSET_Y_DOWN = 13
         private const val SCALE = 0.5F
-        private val moveReorderUpResource = cobblemonResource("ui/summary/summary_move_reorder_up.png")
-        private val moveReorderDownResource = cobblemonResource("ui/summary/summary_move_reorder_down.png")
+        private val moveReorderUpResource = cobblemonResource("textures/gui/summary/summary_move_reorder_up.png")
+        private val moveReorderDownResource = cobblemonResource("textures/gui/summary/summary_move_reorder_down.png")
         private var blocked = false
     }
 
@@ -67,7 +67,7 @@ class ReorderMoveButton(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
     fun isHovered(mouseX: Double, mouseY: Double, offsetY: Float) = mouseX.toFloat() in ((pX - OFFSET_X)..((pX - OFFSET_X) + (WIDTH * SCALE))) && mouseY.toFloat() in ((pY + offsetY)..((pY + offsetY) + (HEIGHT * SCALE) - 0.5F))

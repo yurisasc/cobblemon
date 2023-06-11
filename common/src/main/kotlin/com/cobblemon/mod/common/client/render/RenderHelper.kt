@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,17 +14,25 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.*
+import net.minecraft.client.render.DiffuseLighting
+import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.Tessellator
+import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.model.json.ModelTransformation
+import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Matrix3f
-import net.minecraft.util.math.Matrix4f
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Matrix3f
+import org.joml.Matrix4f
 
 fun renderImage(texture: Identifier, x: Double, y: Double, height: Double, width: Double) {
     val textureManager = MinecraftClient.getInstance().textureManager
@@ -53,7 +61,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
     val modelViewStack = matrixStack ?: RenderSystem.getModelViewStack()
     modelViewStack.push()
-    modelViewStack.translate(x, y, (zTranslation + itemRenderer.zOffset).toDouble())
+    modelViewStack.translate(x, y, (zTranslation + 0).toDouble())
     modelViewStack.translate(8.0 * scale, 8.0 * scale, 0.0)
     modelViewStack.scale(1.0F, -1.0F, 1.0F)
     modelViewStack.scale(16.0F * scale.toFloat(), 16.0F * scale.toFloat(), 16.0F * scale.toFloat())
@@ -66,7 +74,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
 
     itemRenderer.renderItem(
         itemStack,
-        ModelTransformation.Mode.GUI,
+        ModelTransformationMode.GUI,
         false,
         stack,
         immediate,
@@ -191,7 +199,7 @@ fun renderBeaconBeam(
     val i = yOffset + height
     val beamRotation = Math.floorMod(totalLevelTime, 40).toFloat() + partialTicks
     matrixStack.push()
-    matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(beamRotation * 2.25f - 45.0f))
+    matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(beamRotation * 2.25f - 45.0f))
     var f9 = -beamRadius
     val f12 = -beamRadius
     renderPart(

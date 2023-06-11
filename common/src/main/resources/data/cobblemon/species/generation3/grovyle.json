@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Grovyle",
   "nationalPokedexNumber": 253,
   "primaryType": "grass",
@@ -14,6 +15,14 @@
     "special_defence": 65,
     "speed": 95
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -24,6 +33,20 @@
     "monster",
     "dragon"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:stick",
+        "quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:absorb",
     "1:energyball",
@@ -40,6 +63,7 @@
     "18:pursuit",
     "20:assurance",
     "25:gigadrain",
+    "28:agility",
     "30:slam",
     "35:doubleteam",
     "40:leafblade",
@@ -59,6 +83,7 @@
     "tm:crunch",
     "tm:cut",
     "tm:dig",
+    "tm:doubleteam",
     "tm:drainpunch",
     "tm:endure",
     "tm:energyball",
@@ -66,6 +91,7 @@
     "tm:falseswipe",
     "tm:flash",
     "tm:fling",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
@@ -107,17 +133,35 @@
     "tm:toxic",
     "tm:workup",
     "tm:xscissor",
+    "tutor:bodyslam",
     "tutor:counter",
     "tutor:doubleedge",
+    "tutor:drainpunch",
     "tutor:dynamicpunch",
+    "tutor:endeavor",
+    "tutor:endure",
     "tutor:focuspunch",
+    "tutor:furycutter",
+    "tutor:gigadrain",
     "tutor:grasspledge",
     "tutor:grassyglide",
     "tutor:headbutt",
+    "tutor:irontail",
+    "tutor:lowkick",
+    "tutor:megakick",
+    "tutor:megapunch",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:seedbomb",
     "tutor:seismictoss",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:swordsdance",
     "tutor:synthesis",
+    "tutor:thunderpunch",
     "tutor:worryseed"
   ],
   "labels": [
@@ -147,7 +191,7 @@
   "baseScale": 1,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.6,
     "fixed": false
   },
   "baseFriendship": 50,

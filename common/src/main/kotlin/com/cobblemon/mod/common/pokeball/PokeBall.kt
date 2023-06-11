@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.pokeball.catching.CaptureEffect
 import com.cobblemon.mod.common.api.pokeball.catching.CatchRateModifier
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
-import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 
@@ -31,14 +31,14 @@ open class PokeBall(
     val name: Identifier,
     val catchRateModifier: CatchRateModifier = CatchRateModifier.DUMMY,
     val effects: List<CaptureEffect> = listOf(),
-    val model2d: String,
-    val model3d: String
+    val model2d: Identifier,
+    val model3d: Identifier
 ) {
 
     // This gets attached during item registry
-    internal lateinit var itemSupplier: RegistrySupplier<PokeBallItem>
+    internal lateinit var item: PokeBallItem
 
-    fun item(): PokeBallItem = this.itemSupplier.get()
+    fun item(): PokeBallItem = this.item
 
     fun stack(count: Int = 1): ItemStack = ItemStack(this.item(), count)
 

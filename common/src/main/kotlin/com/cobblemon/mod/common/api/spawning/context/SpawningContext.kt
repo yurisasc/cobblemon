@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,11 +16,18 @@ import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
 import net.minecraft.fluid.Fluid
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.entry.RegistryEntry
+import net.minecraft.registry.tag.TagKey
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.registry.Registry
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.StructureAccessor
+import net.minecraft.world.gen.structure.Structure
 
 /**
  * A context upon which spawning is being attempted. This supplies all the information that can be used to asynchronously
@@ -49,8 +56,8 @@ abstract class SpawningContext {
     abstract val cause: SpawnCause
     val spawner: Spawner
         get() = cause.spawner
-    /** The [World] the spawning context exists in. */
-    abstract val world: World
+    /** The [ServerWorld] the spawning context exists in. */
+    abstract val world: ServerWorld
     /** The location of the spawning attempt. */
     abstract val position: BlockPos
     /** The light level at this location. */
@@ -59,17 +66,73 @@ abstract class SpawningContext {
     abstract val canSeeSky: Boolean
     /** A list of [SpawningInfluence]s that apply due to this specific context. */
     abstract val influences: MutableList<SpawningInfluence>
+    /** Gets a cache of structures by block coordinates, grouped by chunk. */
+    abstract fun getStructureCache(pos: BlockPos): StructureChunkCache
+
     /** The current phase of the moon at this location. */
     val moonPhase: Int by lazy { world.moonPhase }
     /** The biome of this location. */
     val biome: Biome by lazy { world.getBiome(position).value() }
 
-    val biomeRegistry: Registry<Biome> by lazy { world.registryManager.get(Registry.BIOME_KEY) }
-    val blockRegistry: Registry<Block> by lazy { world.registryManager.get(Registry.BLOCK_KEY) }
-    val fluidRegistry: Registry<Fluid> by lazy { world.registryManager.get(Registry.FLUID_KEY)}
+    val biomeRegistry: Registry<Biome> by lazy { world.registryManager.get(RegistryKeys.BIOME) }
+    val blockRegistry: Registry<Block> by lazy { world.registryManager.get(RegistryKeys.BLOCK) }
+    val fluidRegistry: Registry<Fluid> by lazy { world.registryManager.get(RegistryKeys.FLUID)}
 
     val biomeName: Identifier
         get() = this.biomeRegistry.getId(biome)!!
+
+    class StructureChunkCache {
+        val missingTags = mutableSetOf<TagKey<Structure>>()
+        val foundTags = mutableSetOf<TagKey<Structure>>()
+
+        val foundIdentifiers = mutableSetOf<Identifier>()
+
+        var loadedStructures = false
+        val structures = mutableSetOf<RegistryEntry<Structure>>()
+
+        fun loadStructures(structureAccess: StructureAccessor, pos: BlockPos) {
+            val registry = structureAccess.registryManager.get(RegistryKeys.STRUCTURE)
+            structureAccess.getStructureStarts(ChunkPos(pos)) { structure ->
+                val entry = registry.getEntry(structure) ?: return@getStructureStarts true
+                structures.add(entry)
+                foundIdentifiers.add(entry.key.get().value)
+                false
+            }
+            loadedStructures = true
+        }
+
+        fun check(structureAccess: StructureAccessor, pos: BlockPos, tagKey: TagKey<Structure>): Boolean {
+
+            if (!loadedStructures) {
+                loadStructures(structureAccess, pos)
+            }
+
+            if (tagKey in missingTags) {
+                return false
+            } else if (tagKey in foundTags) {
+                return true
+            }
+
+            structures.forEach { structure ->
+                if (structure.isIn(tagKey)) {
+                    foundTags.add(tagKey)
+                    return true
+                }
+            }
+
+            missingTags.add(tagKey)
+
+            return false
+        }
+
+        fun check(structureAccess: StructureAccessor, pos: BlockPos, id: Identifier): Boolean {
+            if (!loadedStructures) {
+                loadStructures(structureAccess, pos)
+            }
+
+            return id in foundIdentifiers
+        }
+    }
 
     /**
      * Filters a spawning detail by some extra condition defined by the context itself. This is for API purposes.

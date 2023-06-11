@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,8 +18,11 @@ import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.util.Merger
 import com.cobblemon.mod.common.util.math.orMax
 import com.cobblemon.mod.common.util.math.orMin
+import com.mojang.datafixers.util.Either
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.structure.Structure
 
 /**
  * The root of spawning conditions that can be applied to a spawning context. What type
@@ -54,6 +57,7 @@ abstract class SpawningCondition<T : SpawningContext> {
     var timeRange: TimeRange? = null
     var labels: MutableList<String>? = null
     var labelMode = ANY
+    var structures: MutableList<Either<Identifier, TagKey<Structure>>>? = null
 
     @Transient
     var appendages = mutableListOf<AppendageCondition>()
@@ -78,7 +82,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (dimensions != null && dimensions!!.isNotEmpty() && ctx.world.dimension.effects !in dimensions!!) {
             return false
-        } else if (moonPhase != null && ctx.moonPhase in moonPhase!!) {
+        } else if (moonPhase != null && ctx.moonPhase !in moonPhase!!) {
             return false
         } else if (biomes != null && biomes!!.isNotEmpty() && biomes!!.none { condition -> condition.fits(ctx.biome, ctx.biomeRegistry) }) {
             return false
@@ -101,6 +105,16 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (appendages.any { !it.fits(ctx, detail) }) {
             return false
+        } else if (structures != null && structures!!.isNotEmpty() &&
+            structures!!.let { structures ->
+                val structureAccess = ctx.world.structureAccessor
+                val cache = ctx.getStructureCache(ctx.position)
+                return@let structures.none {
+                    it.map({ cache.check(structureAccess, ctx.position, it) }, { cache.check(structureAccess, ctx.position, it) })
+                }
+            }
+        ) {
+            return false
         }
 
         return true
@@ -121,5 +135,6 @@ abstract class SpawningCondition<T : SpawningContext> {
         minLight = merger.mergeSingle(minLight, other.minLight)
         maxLight = merger.mergeSingle(maxLight, other.maxLight)
         timeRange = merger.mergeSingle(timeRange, other.timeRange)
+        structures = merger.merge(structures, other.structures)?.toMutableList()
     }
 }

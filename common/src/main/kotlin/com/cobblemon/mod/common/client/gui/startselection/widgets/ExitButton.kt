@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@ class ExitButton(
     companion object {
         private const val EXIT_BUTTON_WIDTH = 15.95F
         private const val EXIT_BUTTON_HEIGHT = 11.95F
-        private val exitButtonResource = cobblemonResource("ui/starterselection/starterselection_exit.png")
+        private val exitButtonResource = cobblemonResource("textures/gui/starterselection/starterselection_exit.png")
     }
 
     override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

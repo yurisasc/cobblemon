@@ -41,10 +41,14 @@
     "40:ragepowder",
     "44:solarbeam",
     "48:spore",
+    "egg:bodyslam",
     "egg:defensecurl",
+    "egg:endure",
     "egg:gastroacid",
+    "egg:growth",
     "egg:poisonpowder",
     "egg:rollout",
+    "egg:stunspore",
     "egg:worryseed",
     "tm:attract",
     "tm:bodyslam",
@@ -81,9 +85,17 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:terablast",
+    "tm:toxic",
     "tm:venoshock",
     "tutor:afteryou",
-    "tutor:gastroacid"
+    "tutor:foulplay",
+    "tutor:gastroacid",
+    "tutor:gigadrain",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:synthesis",
+    "tutor:worryseed"
   ],
   "labels": [
     "gen5"

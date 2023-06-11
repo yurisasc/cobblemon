@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,7 @@ class ClientBattle(
     fun getFirstUnansweredRequest() = pendingActionRequests.firstOrNull { it.response == null }
     fun checkForFinishedChoosing() {
         if (getFirstUnansweredRequest() == null) {
-            CobblemonNetwork.sendToServer(
+            CobblemonNetwork.sendPacketToServer(
                 BattleSelectActionsPacket(
                     battleId = battleId,
                     pendingActionRequests.map { it.response!! }

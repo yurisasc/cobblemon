@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,26 +16,27 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
+import org.joml.Quaternionf
+import org.joml.Vector3f
 
 open class StorageSlot(
     x: Int, y: Int,
     private val parent: StorageWidget,
     onPress: PressAction
-) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("StorageSlot"), onPress) {
+) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("StorageSlot"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         const val SIZE = 25
 
-        private val genderIconMale = cobblemonResource("ui/pc/gender_icon_male.png")
-        private val genderIconFemale = cobblemonResource("ui/pc/gender_icon_female.png")
-        private val selectPointerResource = cobblemonResource("ui/pc/pc_pointer.png")
+        private val genderIconMale = cobblemonResource("textures/gui/pc/gender_icon_male.png")
+        private val genderIconFemale = cobblemonResource("textures/gui/pc/gender_icon_female.png")
+        private val selectPointerResource = cobblemonResource("textures/gui/pc/pc_pointer.png")
     }
 
     override fun playDownSound(soundManager: SoundManager) {
@@ -64,7 +65,7 @@ open class StorageSlot(
         drawProfilePokemon(
             renderablePokemon = pokemon.asRenderablePokemon(),
             matrixStack = matrices,
-            rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
+            rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
             state = null,
             scale = 4.5F
         )
@@ -98,7 +99,7 @@ open class StorageSlot(
         }
         matrices.pop()
 
-        if (isSelected()) {
+        if (isSelected) {
             blitk(
                 matrixStack = matrices,
                 texture = selectPointerResource,
@@ -127,7 +128,7 @@ open class StorageSlot(
         return null
     }
 
-    open fun isSelected(): Boolean {
+    override fun isSelected(): Boolean {
         return getPokemon() == parent.pcGui.previewPokemon
     }
 

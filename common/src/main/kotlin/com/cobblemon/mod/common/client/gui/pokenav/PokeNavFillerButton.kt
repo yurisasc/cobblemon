@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,7 +45,7 @@ class PokeNavFillerButton(
         const val BLUE = .30980
         const val ALPHA = .9
 
-        private val FILLER = cobblemonResource("ui/pokenav/pokenav_filler.png")
+        private val FILLER = cobblemonResource("textures/gui/pokenav/pokenav_filler.png")
 
     }
 

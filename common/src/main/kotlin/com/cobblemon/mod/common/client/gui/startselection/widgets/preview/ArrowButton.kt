@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,8 +24,8 @@ class ArrowButton(
     texture, onPress) {
 
     companion object {
-        private val RIGHT_ARROW_BUTTON_RESOURCE = cobblemonResource("ui/starterselection/starterselection_arrow_right.png")
-        private val LEFT_ARROW_BUTTON_RESOURCE = cobblemonResource("ui/starterselection/starterselection_arrow_left.png")
+        private val RIGHT_ARROW_BUTTON_RESOURCE = cobblemonResource("textures/gui/starterselection/starterselection_arrow_right.png")
+        private val LEFT_ARROW_BUTTON_RESOURCE = cobblemonResource("textures/gui/starterselection/starterselection_arrow_left.png")
 
         private const val ARROW_BUTTON_WIDTH = 9f
         private const val ARROW_BUTTON_HEIGHT = 14f

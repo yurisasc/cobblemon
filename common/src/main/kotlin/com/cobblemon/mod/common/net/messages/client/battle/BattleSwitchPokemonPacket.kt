@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 
@@ -21,23 +22,20 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 6th, 2022
  */
-class BattleSwitchPokemonPacket() : NetworkPacket {
-    lateinit var pnx: String
-    lateinit var newPokemon: BattleInitializePacket.ActiveBattlePokemonDTO
+class BattleSwitchPokemonPacket(val pnx: String, val newPokemon: BattleInitializePacket.ActiveBattlePokemonDTO, val isAlly: Boolean) : NetworkPacket<BattleSwitchPokemonPacket> {
 
-    constructor(pnx: String, newPokemon: BattlePokemon): this() {
-        this.pnx = pnx
-        this.newPokemon = BattleInitializePacket.ActiveBattlePokemonDTO.fromPokemon(newPokemon)
-    }
+    override val id = ID
+
+    constructor(pnx: String, newPokemon: BattlePokemon, isAlly: Boolean) : this(pnx, BattleInitializePacket.ActiveBattlePokemonDTO.fromPokemon(newPokemon, isAlly), isAlly)
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(pnx)
         newPokemon.saveToBuffer(buffer)
+        buffer.writeBoolean(isAlly)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        pnx = buffer.readString()
-        newPokemon = BattleInitializePacket.ActiveBattlePokemonDTO.loadFromBuffer(buffer)
+    companion object {
+        val ID = cobblemonResource("battle_switch_pokemon")
+        fun decode(buffer: PacketByteBuf) = BattleSwitchPokemonPacket(buffer.readString(), BattleInitializePacket.ActiveBattlePokemonDTO.loadFromBuffer(buffer), buffer.readBoolean())
     }
-
 }

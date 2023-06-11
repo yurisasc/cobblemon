@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.util
 
-import com.cobblemon.mod.common.CobblemonEntities.POKEMON
+import com.cobblemon.mod.common.CobblemonEntities
 import net.minecraft.nbt.NbtCompound
 
 fun NbtCompound.isPokemonEntity() : Boolean {
-    return this.getString("id").equals(POKEMON.id.toString())
+    return this.getString("id").equals(CobblemonEntities.POKEMON_KEY.toString())
 }

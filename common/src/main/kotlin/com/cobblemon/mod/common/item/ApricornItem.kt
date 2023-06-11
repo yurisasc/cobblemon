@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,10 +12,9 @@ import com.cobblemon.mod.common.block.ApricornBlock
 import net.minecraft.block.BlockState
 import net.minecraft.block.ComposterBlock
 import net.minecraft.item.AliasedBlockItem
-import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemPlacementContext
 
-class ApricornItem(block: ApricornBlock) : AliasedBlockItem(block, Settings().group(ItemGroup.MISC)) {
+class ApricornItem(block: ApricornBlock) : AliasedBlockItem(block, Settings()) {
 
     init {
         // 65% to raise composter level

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -31,12 +31,13 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         const val OPTION_ROOT_X = 12
         const val OPTION_VERTICAL_OFFSET = 85
 
-        val fightResource = cobblemonResource("ui/battle/battle_menu_fight.png")
-        val bagResource = cobblemonResource("ui/battle/battle_menu_bag.png")
-        val switchResource = cobblemonResource("ui/battle/battle_menu_switch.png")
-        val runResource = cobblemonResource("ui/battle/battle_menu_run.png")
+        val fightResource = cobblemonResource("textures/gui/battle/battle_menu_fight.png")
+        val bagResource = cobblemonResource("textures/gui/battle/battle_menu_bag.png")
+        val switchResource = cobblemonResource("textures/gui/battle/battle_menu_switch.png")
+        val runResource = cobblemonResource("textures/gui/battle/battle_menu_run.png")
     }
 
+    private lateinit var messagePane: BattleMessagePane
     var opacity = 0F
     val actor = CobblemonClient.battle?.side1?.actors?.find { it.uuid == MinecraftClient.getInstance().player?.uuid }
 
@@ -44,7 +45,8 @@ class BattleGUI : Screen(battleLang("gui.title")) {
 
     override fun init() {
         super.init()
-        addDrawableChild(BattleMessagePane(CobblemonClient.battle!!.messages))
+        messagePane = BattleMessagePane(CobblemonClient.battle!!.messages)
+        addDrawableChild(messagePane)
     }
 
     fun changeActionSelection(newSelection: BattleActionSelection?) {
@@ -58,6 +60,12 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     }
 
     fun getCurrentActionSelection() = children().filterIsInstance<BattleActionSelection>().firstOrNull()
+
+    fun removeInvalidBattleActionSelection() {
+        children().filterIsInstance<BattleActionSelection>().firstOrNull()?.let {
+            children().remove(it)
+        }
+    }
 
     fun selectAction(request: SingleActionRequest, response: ShowdownActionResponse) {
         val battle = CobblemonClient.battle ?: return
@@ -128,10 +136,16 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         CobblemonClient.battle?.minimised = true
     }
 
+    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
+        if (this::messagePane.isInitialized) messagePane.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+    }
+
     override fun charTyped(chr: Char, modifiers: Int): Boolean {
-        if (chr.toString() == PartySendBinding.boundKey().localizedText.string && CobblemonClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY) {
+        if (chr.toString() == PartySendBinding.boundKey().localizedText.string && CobblemonClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY && PartySendBinding.canAction()) {
             val battle = CobblemonClient.battle ?: return false
             battle.minimised = !battle.minimised
+            PartySendBinding.actioned()
             return true
         }
         return super.charTyped(chr, modifiers)

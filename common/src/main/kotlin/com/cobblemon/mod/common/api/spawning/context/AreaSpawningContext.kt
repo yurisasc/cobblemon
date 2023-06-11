@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,9 @@ import com.cobblemon.mod.common.api.spawning.WorldSlice
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
 
 /**
@@ -24,7 +26,7 @@ import net.minecraft.world.World
  */
 open class AreaSpawningContext(
     override val cause: SpawnCause,
-    override val world: World,
+    override val world: ServerWorld,
     override val position: BlockPos,
     override val light: Int,
     override val canSeeSky: Boolean,
@@ -37,4 +39,8 @@ open class AreaSpawningContext(
     val slice: WorldSlice
 ) : SpawningContext() {
     val nearbyBlockTypes: List<Block> by lazy { nearbyBlocks.mapNotNull { it.block }.distinct() }
+
+    override fun getStructureCache(pos: BlockPos): StructureChunkCache {
+        return slice.getStructureCache(pos)
+    }
 }

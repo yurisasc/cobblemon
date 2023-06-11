@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,6 +29,7 @@ fun interface LearnsetQuery {
                     || learnset.tutorMoves.contains(move)
                     || learnset.tmMoves.contains(move)
                     || learnset.formChangeMoves.contains(move)
+                    || learnset.evolutionMoves.contains(move)
         }
 
         fun level(level: Int) = LearnsetQuery { move, learnset -> learnset.getLevelUpMovesUpTo(level).contains(move) }
@@ -42,6 +43,8 @@ fun interface LearnsetQuery {
         val TM_MOVE = LearnsetQuery { move, learnset -> learnset.tmMoves.contains(move) }
 
         val FORM_CHANGE = LearnsetQuery { move, learnset -> learnset.formChangeMoves.contains(move) }
+
+        val EVOLUTION = LearnsetQuery { move, learnset -> learnset.evolutionMoves.contains(move) }
 
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,12 +15,17 @@ import com.cobblemon.mod.common.api.pokeball.catching.calculators.CriticalCaptur
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.PokedexProgressCaptureMultiplierProvider
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.status.statuses.*
-import net.minecraft.entity.LivingEntity
-import net.minecraft.server.network.ServerPlayerEntity
+import com.cobblemon.mod.common.pokemon.status.statuses.BurnStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.FrozenStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.ParalysisStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.PoisonBadlyStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.PoisonStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.SleepStatus
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import net.minecraft.entity.LivingEntity
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * An implementation of the capture calculator used in the generation 6 games.
@@ -66,7 +71,7 @@ object Gen6CaptureCalculator : CaptureCalculator, CriticalCaptureProvider, Poked
             rate = catchRate
             ballBonus = if (validModifier) pokeBall.catchRateModifier.value(thrower, target).roundToInt() else 1
         }
-        val modifiedCatchRate = (pokeBall.catchRateModifier.behavior(thrower, target).mutator((3F * target.hp - 2F * target.currentHealth) * 4096F * darkGrass * rate, ballBonus.toFloat()) / 3F * target.hp) * bonusStatus
+        val modifiedCatchRate = (pokeBall.catchRateModifier.behavior(thrower, target).mutator((3F * target.hp - 2F * target.currentHealth) * darkGrass * rate, ballBonus.toFloat()) / (3F * target.hp)) * bonusStatus
         val critical = if (thrower is ServerPlayerEntity) this.shouldHaveCriticalCapture(thrower, modifiedCatchRate) else false
         val shakeProbability = (65536F / (255F / modifiedCatchRate).pow(0.1875F)).roundToInt()
         var shakes = 0

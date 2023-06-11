@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Baltoy",
   "nationalPokedexNumber": 343,
   "primaryType": "ground",
@@ -23,6 +24,19 @@
   "eggGroups": [
     "mineral"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "percentage": 50
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:harden",
     "1:mudslap",
@@ -57,6 +71,7 @@
     "tm:earthquake",
     "tm:eerieimpulse",
     "tm:endure",
+    "tm:explosion",
     "tm:facade",
     "tm:flash",
     "tm:frustration",
@@ -76,6 +91,7 @@
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
+    "tm:recycle",
     "tm:reflect",
     "tm:rest",
     "tm:return",
@@ -98,22 +114,46 @@
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:telekinesis",
     "tm:toxic",
     "tm:trick",
     "tm:trickroom",
     "tm:wonderroom",
     "tm:zenheadbutt",
+    "tutor:allyswitch",
+    "tutor:ancientpower",
     "tutor:doubleedge",
+    "tutor:dreameater",
+    "tutor:drillrun",
+    "tutor:earthpower",
+    "tutor:endure",
     "tutor:expandingforce",
+    "tutor:explosion",
     "tutor:gravity",
     "tutor:headbutt",
     "tutor:magiccoat",
     "tutor:mimic",
+    "tutor:mudslap",
+    "tutor:psybeam",
+    "tutor:psychup",
+    "tutor:rapidspin",
     "tutor:recycle",
     "tutor:refresh",
+    "tutor:rockslide",
+    "tutor:rocktomb",
     "tutor:scorchingsands",
+    "tutor:selfdestruct",
     "tutor:signalbeam",
-    "tutor:telekinesis"
+    "tutor:skillswap",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen3"

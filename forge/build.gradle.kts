@@ -1,5 +1,6 @@
 plugins {
     id("cobblemon.platform-conventions")
+    id("cobblemon.publish-conventions")
 }
 
 architectury {
@@ -10,23 +11,26 @@ architectury {
 loom {
     forge {
         convertAccessWideners.set(true)
+        mixinConfig("mixins.cobblemon-forge.json")
         mixinConfig("mixins.cobblemon-common.json")
     }
 }
 
 repositories {
-    maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    maven(url = "${rootProject.projectDir}/deps")
+    maven(url = "https://thedarkcolour.github.io/KotlinForForge/")
+    mavenLocal()
 }
 
 dependencies {
     forge(libs.forge)
-    modApi(libs.architecturyForge)
 
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
+    implementation(libs.kotlinForForge)
     "developmentForge"(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
@@ -36,19 +40,11 @@ dependencies {
     testImplementation(project(":common", configuration = "namedElements"))
 
     listOf(
-        libs.stdlib,
-        libs.reflect,
-        libs.jetbrainsAnnotations,
-        libs.serializationCore,
-        libs.serializationJson,
         libs.graal,
-        libs.molang,
-        libs.mclib
+        libs.molang
     ).forEach {
         forgeRuntimeLibrary(it)
-        bundle(it) {
-            //exclude("com.ibm.icu", "icu4j")
-        }
+        bundle(it)
     }
 }
 
@@ -61,9 +57,13 @@ tasks {
 
     processResources {
         inputs.property("version", rootProject.version)
+        inputs.property("minecraft_version", rootProject.property("mc_version").toString())
 
         filesMatching("META-INF/mods.toml") {
-            expand("version" to rootProject.version)
+            expand(
+                "version" to rootProject.version,
+                "minecraft_version" to rootProject.property("mc_version").toString()
+            )
         }
     }
 }

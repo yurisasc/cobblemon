@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,6 +25,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.text.Text
 
 /** Handles purely server logic for a Pokémon */
 class PokemonServerDelegate : PokemonSideDelegate {
@@ -91,6 +92,10 @@ class PokemonServerDelegate : PokemonSideDelegate {
             }
         }
 
+        if (entity.ownerUuid != null && entity.pokemon.storeCoordinates.get() == null) {
+            entity.discard()
+        }
+
         if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
             entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
         }
@@ -121,6 +126,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
         }
         if (entity.pokemon.species.resourceIdentifier.toString() != entity.species.get()) {
             entity.species.set(entity.pokemon.species.resourceIdentifier.toString())
+        }
+        if (entity.nickname.get() != entity.pokemon.nickname) {
+            entity.nickname.set(entity.pokemon.nickname ?: Text.empty())
         }
         if (entity.aspects.get() != entity.pokemon.aspects) {
             entity.aspects.set(entity.pokemon.aspects)
@@ -172,16 +180,16 @@ class PokemonServerDelegate : PokemonSideDelegate {
         }
         ++entity.deathTime
 
-        if (entity.deathTime == 60) {
+        if (entity.deathTime == 30) {
             val owner = entity.owner
             if (owner != null) {
-                entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL.get(), volume = 0.2F)
+                entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.2F)
                 entity.phasingTargetId.set(owner.id)
                 entity.beamModeEmitter.set(2)
             }
         }
 
-        if (entity.deathTime == 120) {
+        if (entity.deathTime == 60) {
             if (entity.owner == null) {
                 entity.world.sendEntityStatus(entity, 60.toByte()) // Sends smoke effect
                 (entity.drops ?: entity.pokemon.form.drops).drop(entity, entity.world as ServerWorld, entity.pos, entity.killer)

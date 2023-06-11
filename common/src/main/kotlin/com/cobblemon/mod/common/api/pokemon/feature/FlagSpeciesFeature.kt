@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.substitute
 import com.google.gson.JsonObject
 import kotlin.random.Random
 import net.minecraft.nbt.NbtCompound
@@ -75,7 +74,7 @@ open class FlagSpeciesFeature(override val name: String) : SpeciesFeature, Custo
 class FlagSpeciesFeatureProvider : SpeciesFeatureProvider<FlagSpeciesFeature>, CustomPokemonPropertyType<FlagSpeciesFeature>, AspectProvider {
     override val keys: List<String>
     override val needsKey get() = true
-    val default: String? = null
+    var default: String? = null
     val isAspect = true
 
     override fun examples() = setOf("true", "false")
@@ -86,6 +85,11 @@ class FlagSpeciesFeatureProvider : SpeciesFeatureProvider<FlagSpeciesFeature>, C
 
     constructor(keys: List<String>) {
         this.keys = keys
+    }
+
+    constructor(keys: List<String>, default: Boolean) {
+        this.keys = keys
+        this.default = default.toString()
     }
 
     constructor(vararg keys: String) : this(keys.toList())

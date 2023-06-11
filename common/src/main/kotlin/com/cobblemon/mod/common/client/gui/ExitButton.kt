@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,14 +18,14 @@ import net.minecraft.text.Text
 class ExitButton(
     pX: Int, pY: Int,
     onPress: PressAction
-): ButtonWidget(pX, pY, WIDTH.toInt(), HEIGHT.toInt(), Text.literal("Exit"), onPress) {
+): ButtonWidget(pX, pY, WIDTH.toInt(), HEIGHT.toInt(), Text.literal("Exit"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 26F
         private const val HEIGHT = 13F
         private const val SCALE = 0.5F
-        private val buttonResource = cobblemonResource("ui/common/back_button.png")
-        private val iconResource = cobblemonResource("ui/common/back_button_icon.png")
+        private val buttonResource = cobblemonResource("textures/gui/common/back_button.png")
+        private val iconResource = cobblemonResource("textures/gui/common/back_button_icon.png")
     }
 
     override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

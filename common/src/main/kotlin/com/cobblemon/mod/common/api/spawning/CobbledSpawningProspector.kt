@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.api.spawning.spawner.SpawningArea
 import net.minecraft.block.Blocks
 import net.minecraft.block.Material
+import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.ChunkSectionPos.getSectionCoord
@@ -61,11 +62,12 @@ object CobblemonSpawningProspector : SpawningProspector {
             area.cause.entity,
             Box.of(
                 Vec3d(area.baseX + area.length / 2.0, baseY + height / 2.0, area.baseZ + area.width / 2.0),
-                area.length / 2.0 + minimumDistanceBetweenEntities,
-                height / 2.0 + minimumDistanceBetweenEntities,
-                area.width / 2.0 + minimumDistanceBetweenEntities
+                area.length + minimumDistanceBetweenEntities,
+                height + minimumDistanceBetweenEntities,
+                area.width + minimumDistanceBetweenEntities
             )
-        ).map { it.pos }
+        ).filterIsInstance<LivingEntity>()
+            .map { it.pos }
 
         val defaultState = Blocks.STONE.defaultState
         val defaultBlockData = WorldSlice.BlockData(defaultState, 0)

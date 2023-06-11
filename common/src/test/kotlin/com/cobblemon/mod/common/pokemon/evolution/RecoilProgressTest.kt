@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,8 +10,8 @@ package com.cobblemon.mod.common.pokemon.evolution
 
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
-import org.junit.jupiter.api.Test
 import kotlin.math.roundToInt
+import org.junit.jupiter.api.Test
 
 internal class RecoilProgressTest {
 

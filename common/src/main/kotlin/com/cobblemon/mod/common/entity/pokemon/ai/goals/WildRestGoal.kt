@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,12 +9,11 @@
 package com.cobblemon.mod.common.entity.pokemon.ai.goals
 
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.entity.pokemon.PokemonBehaviourFlag.EXCITED
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import java.util.EnumSet
 import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.RegistryKeys
 
 /**
  * AI goal for sleeping in the wild.
@@ -26,31 +25,14 @@ class WildRestGoal(private val pokemonEntity: PokemonEntity) : Goal() {
     override fun getControls(): EnumSet<Control> = EnumSet.allOf(Control::class.java)
     override fun canStart(): Boolean {
         val rest = pokemonEntity.behaviour.resting
-
-        if (!pokemonEntity.pokemon.isWild() || pokemonEntity.random.nextFloat() < 1 - rest.sleepChance || !canSleep() || pokemonEntity.isBusy || rest.depth.canSleep(pokemonEntity)) {
+        if (!pokemonEntity.pokemon.isWild() || pokemonEntity.random.nextFloat() < 1 - rest.sleepChance || !pokemonEntity.canSleep() || pokemonEntity.isBusy || !rest.depth.canSleep(pokemonEntity)) {
             return false
         }
-
         return true
     }
 
-    private fun canSleep(): Boolean {
-        val rest = pokemonEntity.behaviour.resting
-        val worldTime = (pokemonEntity.world.timeOfDay % 24000).toInt()
-        val light = pokemonEntity.world.getLightLevel(pokemonEntity.blockPos)
-        val block = pokemonEntity.world.getBlockState(pokemonEntity.blockPos).block
-        val biome = pokemonEntity.world.getBiome(pokemonEntity.blockPos).value()
-
-        return rest.canSleep &&
-                !pokemonEntity.getBehaviourFlag(EXCITED) &&
-                worldTime in pokemonEntity.behaviour.resting.times &&
-                light in rest.light &&
-                (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, pokemonEntity.world.registryManager.get(Registry.BLOCK_KEY)) }) &&
-                (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, pokemonEntity.world.registryManager.get(Registry.BIOME_KEY)) })
-    }
-
     override fun shouldContinue(): Boolean {
-        return if (canSleep() && !pokemonEntity.behaviour.resting.depth.shouldWake(pokemonEntity)) {
+        return if (pokemonEntity.canSleep() && !pokemonEntity.behaviour.resting.depth.shouldWake(pokemonEntity)) {
             true
         } else {
             wake()

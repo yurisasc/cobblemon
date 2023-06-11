@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,8 +9,6 @@
 package com.cobblemon.mod.common.api.pokemon.feature
 
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
-import com.cobblemon.mod.common.pokemon.Species
-import com.google.common.collect.HashBiMap
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
 

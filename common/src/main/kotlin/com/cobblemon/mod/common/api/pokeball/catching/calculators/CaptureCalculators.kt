@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,7 +9,16 @@
 package com.cobblemon.mod.common.api.pokeball.catching.calculators
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.pokeball.catching.calculators.*
+import com.cobblemon.mod.common.pokeball.catching.calculators.CobblemonCaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.DebugCaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen1CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen2CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen3And4CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen5CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen6CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen7CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen8CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen9CaptureCalculator
 
 object CaptureCalculators {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -51,6 +51,11 @@ class ClientStorageManager {
         }
     }
 
+    fun switchToPokemon(pokemon: UUID) {
+        selectedPokemon = pokemon
+        selectedSlot = myParty.indexOf(myParty.findByUUID(pokemon))
+    }
+
     fun checkSelectedPokemon() {
         if (selectedSlot == -1) {
             val pokemon = myParty.firstOrNull { it != null } ?: return
@@ -77,7 +82,7 @@ class ClientStorageManager {
     }
 
     fun locatePokemon(storeID: UUID, pokemonID: UUID): Pokemon? {
-        partyStores[storeID]?.let { return it.findByUUID(pokemonID) } ?: return pcStores[storeID]?.findByUUID(pokemonID)
+        return partyStores[storeID]?.findByUUID(pokemonID) ?: pcStores[storeID]?.findByUUID(pokemonID)
     }
 
     fun createParty(mine: Boolean, uuid: UUID, slots: Int) {

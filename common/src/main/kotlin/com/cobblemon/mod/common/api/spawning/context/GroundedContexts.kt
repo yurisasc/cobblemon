@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.WorldSlice
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.block.BlockState
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -23,7 +24,7 @@ import net.minecraft.world.World
  */
 abstract class FlooredSpawningContext(
     cause: SpawnCause,
-    world: World,
+    world: ServerWorld,
     position: BlockPos,
     light: Int,
     canSeeSky: Boolean,
@@ -45,7 +46,7 @@ abstract class FlooredSpawningContext(
  */
 open class GroundedSpawningContext(
     cause: SpawnCause,
-    world: World,
+    world: ServerWorld,
     position: BlockPos,
     light: Int,
     canSeeSky: Boolean,
@@ -64,7 +65,7 @@ open class GroundedSpawningContext(
  */
 open class SeafloorSpawningContext(
     cause: SpawnCause,
-    world: World,
+    world: ServerWorld,
     position: BlockPos,
     light: Int,
     canSeeSky: Boolean,
@@ -83,7 +84,7 @@ open class SeafloorSpawningContext(
  */
 open class LavafloorSpawningContext(
     cause: SpawnCause,
-    world: World,
+    world: ServerWorld,
     position: BlockPos,
     light: Int,
     canSeeSky: Boolean,
@@ -96,7 +97,7 @@ open class LavafloorSpawningContext(
 
 open class SurfaceSpawningContext(
     cause: SpawnCause,
-    world: World,
+    world: ServerWorld,
     position: BlockPos,
     light: Int,
     canSeeSky: Boolean,

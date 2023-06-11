@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,9 +33,9 @@ class MoveSlotWidget(
 ): SoundlessWidget(pX, pY, MOVE_WIDTH, MOVE_HEIGHT, Text.literal(move.name)) {
 
     companion object {
-        private val moveResource = cobblemonResource("ui/summary/summary_move.png")
-        private val moveOverlayResource = cobblemonResource("ui/summary/summary_move_overlay.png")
-        private val moveSelectedOverlayResource = cobblemonResource("ui/summary/summary_move_selected_overlay.png")
+        private val moveResource = cobblemonResource("textures/gui/summary/summary_move.png")
+        private val moveOverlayResource = cobblemonResource("textures/gui/summary/summary_move_overlay.png")
+        private val moveSelectedOverlayResource = cobblemonResource("textures/gui/summary/summary_move_selected_overlay.png")
 
         const val MOVE_WIDTH = 108
         const val MOVE_HEIGHT = 22
@@ -65,7 +65,7 @@ class MoveSlotWidget(
         addWidget(this)
     }
 
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
 
         val moveTemplate = Moves.getByNameOrDummy(move.name)

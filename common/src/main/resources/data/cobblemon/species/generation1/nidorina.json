@@ -16,6 +16,14 @@
     "special_defence": 55,
     "speed": 56
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 120,
   "maleRatio": 0,
   "shoulderMountable": false,
@@ -25,6 +33,15 @@
   "eggGroups": [
     "undiscovered"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:growl",
     "1:poisonsting",
@@ -46,6 +63,7 @@
     "tm:beatup",
     "tm:blizzard",
     "tm:bodyslam",
+    "tm:captivate",
     "tm:charm",
     "tm:confide",
     "tm:crunch",
@@ -69,25 +87,32 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:rocksmash",
     "tm:round",
     "tm:secretpower",
     "tm:shadowclaw",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:snore",
     "tm:stompingtantrum",
+    "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:thief",
     "tm:thunder",
     "tm:thunderbolt",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:venomdrench",
     "tm:venoshock",
+    "tm:waterpulse",
+    "tutor:attract",
     "tutor:bide",
     "tutor:bite",
     "tutor:blizzard",
+    "tutor:bodyslam",
     "tutor:bubblebeam",
     "tutor:counter",
     "tutor:crunch",
@@ -98,6 +123,7 @@
     "tutor:doubleedge",
     "tutor:doublekick",
     "tutor:doubleteam",
+    "tutor:endure",
     "tutor:facade",
     "tutor:frustration",
     "tutor:furyswipes",
@@ -114,6 +140,7 @@
     "tutor:poisonsting",
     "tutor:protect",
     "tutor:rage",
+    "tutor:raindance",
     "tutor:reflect",
     "tutor:rest",
     "tutor:return",
@@ -121,14 +148,19 @@
     "tutor:scratch",
     "tutor:shockwave",
     "tutor:skullbash",
+    "tutor:sleeptalk",
     "tutor:sludgebomb",
+    "tutor:snore",
+    "tutor:stompingtantrum",
     "tutor:strength",
     "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:superfang",
     "tutor:swagger",
     "tutor:tackle",
     "tutor:tailwhip",
     "tutor:takedown",
+    "tutor:thief",
     "tutor:thunder",
     "tutor:thunderbolt",
     "tutor:toxic",

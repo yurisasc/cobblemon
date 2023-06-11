@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,24 +13,30 @@ import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.green
-import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.block.HealingMachineBlock
+import com.cobblemon.mod.common.pokeball.PokeBall
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.toVec3d
 import java.util.UUID
+import kotlin.math.floor
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import kotlin.math.floor
 
 class HealingMachineBlockEntity(
     val blockPos: BlockPos,
     val blockState: BlockState
-) : BlockEntity(CobblemonBlockEntities.HEALING_MACHINE.get(), blockPos, blockState) {
+) : BlockEntity(CobblemonBlockEntities.HEALING_MACHINE, blockPos, blockState) {
     var currentUser: UUID? = null
         private set
     var pokeBalls: MutableList<PokeBall> = mutableListOf()
@@ -44,7 +50,10 @@ class HealingMachineBlockEntity(
     var currentSignal = 0
         private set
 
+    var maxCharge: Float = 6F
+
     init {
+        maxCharge = (Cobblemon.config.maxHealerCharge).coerceAtLeast(6F)
         this.updateRedstoneSignal()
         this.updateBlockChargeLevel()
     }
@@ -72,14 +81,15 @@ class HealingMachineBlockEntity(
     }
 
     fun activate(player: ServerPlayerEntity) {
-        if (!Cobblemon.config.infiniteHealerCharge) {
+        if (!Cobblemon.config.infiniteHealerCharge && this.healingCharge != maxCharge) {
             val neededHealthPercent = player.party().getHealingRemainderPercent()
-            this.healingCharge -= neededHealthPercent
+            this.healingCharge = (healingCharge - neededHealthPercent).coerceIn(0F..maxCharge)
             this.updateRedstoneSignal()
         }
         this.setUser(player.uuid)
+        alreadyHealing.add(player.uuid)
         updateBlockChargeLevel(HealingMachineBlock.MAX_CHARGE_LEVEL + 1)
-        if (world != null && !world!!.isClient) world!!.playSoundServer(position = blockPos.toVec3d(), sound = CobblemonSounds.HEALING_MACHINE_ACTIVE.get(), volume = 1F, pitch = 1F)
+        if (world != null && !world!!.isClient) world!!.playSoundServer(position = blockPos.toVec3d(), sound = CobblemonSounds.HEALING_MACHINE_ACTIVE, volume = 1F, pitch = 1F)
     }
 
     fun completeHealing() {
@@ -92,7 +102,8 @@ class HealingMachineBlockEntity(
         clearData()
     }
 
-    private fun clearData() {
+    internal fun clearData() {
+        this.currentUser?.let(alreadyHealing::remove)
         this.currentUser = null
         this.pokeBalls.clear()
         this.healTimeLeft = 0
@@ -125,7 +136,7 @@ class HealingMachineBlockEntity(
             this.healTimeLeft = compoundTag.getInt(DataKeys.HEALER_MACHINE_TIME_LEFT)
         }
         if (compoundTag.contains(DataKeys.HEALER_MACHINE_CHARGE)) {
-            this.healingCharge = compoundTag.getFloat(DataKeys.HEALER_MACHINE_CHARGE)
+            this.healingCharge = compoundTag.getFloat(DataKeys.HEALER_MACHINE_CHARGE).coerceIn(0F..maxCharge)
         }
         if (compoundTag.contains(DataKeys.HEALER_MACHINE_INFINITE)) {
             this.infinite = compoundTag.getBoolean(DataKeys.HEALER_MACHINE_INFINITE)
@@ -173,14 +184,16 @@ class HealingMachineBlockEntity(
         if (Cobblemon.config.infiniteHealerCharge || this.infinite) {
             this.currentSignal = MAX_REDSTONE_SIGNAL
         }
-        val remainder = ((this.healingCharge / Cobblemon.config.maxHealerCharge) * 100).toInt() / 10
+        val remainder = ((this.healingCharge / maxCharge) * 100).toInt() / 10
         this.currentSignal = remainder.coerceAtMost(MAX_REDSTONE_SIGNAL)
     }
 
     private fun updateBlockChargeLevel(level: Int? = null) {
         if (world != null && !world!!.isClient) {
-            val chargeLevel = level ?: if (Cobblemon.config.infiniteHealerCharge || this.infinite) HealingMachineBlock.MAX_CHARGE_LEVEL
-                else floor((healingCharge / Cobblemon.config.maxHealerCharge) * HealingMachineBlock.MAX_CHARGE_LEVEL).toInt()
+            val chargeLevel = (level ?:
+                if (Cobblemon.config.infiniteHealerCharge || this.infinite) HealingMachineBlock.MAX_CHARGE_LEVEL
+                else floor((healingCharge / maxCharge) * HealingMachineBlock.MAX_CHARGE_LEVEL).toInt()
+            ).coerceIn(0..HealingMachineBlock.MAX_CHARGE_LEVEL + 1)
 
             val state = world!!.getBlockState(blockPos)
             if (state != null && state.block is HealingMachineBlock) {
@@ -191,6 +204,7 @@ class HealingMachineBlockEntity(
     }
 
     companion object {
+        private val alreadyHealing = hashSetOf<UUID>()
         const val MAX_REDSTONE_SIGNAL = 10
 
         internal val TICKER = BlockEntityTicker<HealingMachineBlockEntity> { world, _, _, blockEntity ->
@@ -205,14 +219,17 @@ class HealingMachineBlockEntity(
                 }
             } else {
                 // Recharging
-                val maxCharge = Cobblemon.config.maxHealerCharge
-                if (blockEntity.healingCharge < maxCharge) {
-                    blockEntity.healingCharge = (blockEntity.healingCharge + Cobblemon.config.chargeGainedPerTick).coerceAtMost(maxCharge)
+                if (blockEntity.healingCharge < blockEntity.maxCharge) {
+                    val chargePerTick = (Cobblemon.config.chargeGainedPerTick).coerceAtLeast(0F)
+                    blockEntity.healingCharge = (blockEntity.healingCharge + chargePerTick).coerceIn(0F..blockEntity.maxCharge)
                     blockEntity.updateBlockChargeLevel()
                     blockEntity.updateRedstoneSignal()
                     blockEntity.markUpdated()
                 }
             }
         }
+
+        fun isUsingHealer(player: PlayerEntity) = this.alreadyHealing.contains(player.uuid)
+
     }
 }

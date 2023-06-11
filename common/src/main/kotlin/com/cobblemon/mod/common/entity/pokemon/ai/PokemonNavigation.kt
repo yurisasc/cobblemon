@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@ import net.minecraft.entity.ai.pathing.Path
 import net.minecraft.entity.ai.pathing.PathNode
 import net.minecraft.entity.ai.pathing.PathNodeNavigator
 import net.minecraft.entity.ai.pathing.PathNodeType
-import net.minecraft.tag.FluidTags
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -63,7 +63,8 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         val e = abs(entity.y - targetVec3d.y)
         val f = abs(entity.z - targetVec3d.z)
         val bl = d < nodeReachProximity.toDouble() && f < this.nodeReachProximity.toDouble() && e < 1.0
-        if (bl || entity.canJumpToNextPathNode(currentPath!!.currentNode.type) && shouldJumpToNextNode(vec3d)) {
+
+        if (bl || entity.navigation.canJumpToNext(currentPath!!.currentNode.type) && shouldJumpToNextNode(vec3d)) {
             currentPath!!.next()
         }
 
@@ -77,7 +78,8 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
 
     override fun tick() {
         super.tick()
-        val node = getCurrentPath()?.lastNode
+        val currentPath = getCurrentPath()
+        val node = if (currentPath == null || currentPath.isFinished) null else currentPath.lastNode
 
         val isFlying = pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
         val canWalk = pokemonEntity.behaviour.moving.walk.canWalk

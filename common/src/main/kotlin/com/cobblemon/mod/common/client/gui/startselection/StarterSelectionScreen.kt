@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -50,13 +50,13 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
         private const val BASE_HEIGHT = 175
 
         // Resources
-        private val base = cobblemonResource("ui/starterselection/starterselection_base.png")
-        private val baseUnderlay = cobblemonResource("ui/starterselection/starterselection_base_underlay.png")
-        private val baseFrame = cobblemonResource("ui/starterselection/starterselection_base_frame.png")
+        private val base = cobblemonResource("textures/gui/starterselection/starterselection_base.png")
+        private val baseUnderlay = cobblemonResource("textures/gui/starterselection/starterselection_base_underlay.png")
+        private val baseFrame = cobblemonResource("textures/gui/starterselection/starterselection_base_frame.png")
 
         // Type Backgrounds
-        private val singleTypeBackground = cobblemonResource("ui/starterselection/starterselection_type_slot1.png")
-        private val doubleTypeBackground = cobblemonResource("ui/starterselection/starterselection_type_slot2.png")
+        private val singleTypeBackground = cobblemonResource("textures/gui/starterselection/starterselection_type_slot1.png")
+        private val doubleTypeBackground = cobblemonResource("textures/gui/starterselection/starterselection_type_slot2.png")
     }
 
     lateinit var categories: List<RenderableStarterCategory>
@@ -137,7 +137,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
             pX = x + 106, pY = y + 124,
             pWidth = SelectionButton.BUTTON_WIDTH, pHeight = SelectionButton.BUTTON_HEIGHT
         ) {
-            CobblemonNetwork.sendToServer(
+            CobblemonNetwork.sendPacketToServer(
                 SelectStarterPacket(
                     categoryName = currentCategory.name,
                     selected = currentSelection
@@ -149,21 +149,26 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
         addDrawableChild(selectionButton)
 
         starterRoundaboutCenter = StarterRoundabout(
-            pX = x + 119, pY = height / 2 + 86,
+            pX = x + 119, pY = height / 2 + 84,
             pWidth = StarterRoundabout.MODEL_WIDTH, pHeight = StarterRoundabout.MODEL_HEIGHT,
-            pokemon = currentPokemon
+            pokemon = currentPokemon,
+            rotationVector = this.modelWidget.rotVec
         )
 
         starterRoundaboutLeft = StarterRoundabout(
-            pX = x + 89, pY = height / 2 + 86,
+            pX = x + 89, pY = height / 2 + 84,
             pWidth = StarterRoundabout.MODEL_WIDTH, pHeight = StarterRoundabout.MODEL_HEIGHT,
-            pokemon = currentCategory.pokemon[leftOfCurrentSelection()]
+            pokemon = currentCategory.pokemon[leftOfCurrentSelection()],
+            clickAction = { _, _ -> this.left()  },
+            rotationVector = this.modelWidget.rotVec
         )
 
         starterRoundaboutRight = StarterRoundabout(
-            pX = x + 149, pY = height / 2 + 86,
+            pX = x + 149, pY = height / 2 + 84,
             pWidth = StarterRoundabout.MODEL_WIDTH, pHeight = StarterRoundabout.MODEL_HEIGHT,
-            pokemon = currentCategory.pokemon[rightOfCurrentSelection()]
+            pokemon = currentCategory.pokemon[rightOfCurrentSelection()],
+            clickAction = { _, _ -> this.right()  },
+            rotationVector = this.modelWidget.rotVec
         )
 
         addDrawableChild(starterRoundaboutLeft)

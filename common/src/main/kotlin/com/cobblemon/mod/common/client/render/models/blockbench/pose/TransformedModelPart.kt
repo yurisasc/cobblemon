@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,20 +32,38 @@ class TransformedModelPart(
 
     val initialPosition = floatArrayOf(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ)
     val initialRotation = floatArrayOf(modelPart.pitch, modelPart.yaw, modelPart.roll)
+    val initialScale = floatArrayOf(modelPart.xScale, modelPart.yScale, modelPart.zScale)
 
     var position = floatArrayOf(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ)
     var rotation = floatArrayOf(modelPart.pitch, modelPart.yaw, modelPart.roll)
+    val scale = floatArrayOf(modelPart.xScale, modelPart.yScale, modelPart.zScale)
+
+    var originalVisibility = true
+    var visibility = originalVisibility
 
     /** Applies the transformation to the model part. */
     fun apply() {
         modelPart.setPivot(position[0], position[1], position[2])
         modelPart.setAngles(rotation[0], rotation[1], rotation[2])
+        modelPart.xScale = scale[0]
+        modelPart.yScale = scale[1]
+        modelPart.zScale = scale[2]
+        modelPart.visible = visibility
     }
 
     /** Sets the part back to its original location, prior to this transformation. */
     fun applyDefaults() {
         modelPart.setPivot(initialPosition[0], initialPosition[1], initialPosition[2])
         modelPart.setAngles(initialRotation[0], initialRotation[1], initialRotation[2])
+        modelPart.xScale = initialScale[0]
+        modelPart.yScale = initialScale[1]
+        modelPart.zScale = initialScale[2]
+        visibility = originalVisibility
+    }
+
+    fun withVisibility(visibility: Boolean): TransformedModelPart {
+        this.visibility = visibility
+        return this
     }
 
     var xPos: Float
@@ -117,11 +135,28 @@ class TransformedModelPart(
         return addRotation(X_AXIS, pitch.toFloat().toRadians()).addRotation(Y_AXIS, yaw.toFloat().toRadians()).addRotation(Z_AXIS, roll.toFloat().toRadians())
     }
 
+    fun multiplyScale(axis: Int, scale: Number): TransformedModelPart {
+        return withScale(axis, scale.toFloat() * this.scale[axis])
+    }
+
+    fun multiplyScale(scaleX: Number, scaleY: Number, scaleZ: Number): TransformedModelPart {
+        return multiplyScale(X_AXIS, scaleX).multiplyScale(Y_AXIS, scaleY).multiplyScale(Z_AXIS, scaleZ)
+    }
+
     fun withRotationDegrees(pitch: Number, yaw: Number, roll: Number): TransformedModelPart {
         return withRotation(pitch.toFloat().toRadians(), yaw.toFloat().toRadians(), roll.toFloat().toRadians())
     }
 
     fun addRotationDegrees(axis: Int, angle: Number): TransformedModelPart {
         return addRotation(axis, rotation[axis] + angle.toFloat().toRadians() * changeFactor)
+    }
+
+    fun withScale(axis: Int, scale: Number): TransformedModelPart {
+        this.scale[axis] = scale.toFloat()
+        return this
+    }
+
+    fun withScale(scaleX: Number, scaleY: Number, scaleZ: Number): TransformedModelPart {
+        return withScale(X_AXIS, scaleX).withScale(Y_AXIS, scaleY).withScale(Z_AXIS, scaleZ)
     }
 }

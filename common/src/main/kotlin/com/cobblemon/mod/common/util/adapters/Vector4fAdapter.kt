@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,7 +15,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
-import net.minecraft.util.math.Vector4f
+import org.joml.Vector4f
 
 object Vector4fAdapter : JsonDeserializer<Vector4f>, JsonSerializer<Vector4f> {
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Vector4f {

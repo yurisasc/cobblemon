@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,12 +43,24 @@ interface Spawner {
     fun copyInfluences() = influences.filter { !it.isExpired() }.toMutableList()
     fun chooseBucket(): SpawnBucket {
         val buckets = Cobblemon.bestSpawner.config.buckets
-        val weightSum = buckets.sumOf { it.weight.toDouble() }.toFloat()
+        val influences = this.copyInfluences()
+        val weightMap = mutableMapOf<SpawnBucket, Float>()
+
+        for (bucket in buckets) {
+            var weight = bucket.weight
+            for (influence in influences) {
+                weight = influence.affectBucketWeight(bucket, weight)
+            }
+            weightMap[bucket] = weight
+        }
+
+        val weightSum = weightMap.values.sum()
+
         // Make the 0 exclusive and the weightSum inclusive on the random
         val chosenSum = weightSum - Random().nextFloat(weightSum)
         var sum = 0F
         for (bucket in buckets) {
-            sum += bucket.weight
+            sum += weightMap[bucket]!!
             if (sum >= chosenSum) {
                 return bucket
             }

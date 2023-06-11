@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,8 +16,8 @@ import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequi
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.registry.ItemIdentifierCondition
 import net.minecraft.item.Item
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
 /**
@@ -48,7 +48,7 @@ open class ItemInteractionEvolution(
     )
 
     override fun testContext(pokemon: Pokemon, context: ItemInteractionContext): Boolean {
-        return this.requiredContext.fits(context.item, context.world.registryManager.get(Registry.ITEM_KEY))
+        return this.requiredContext.fits(context.item, context.world.registryManager.get(RegistryKeys.ITEM))
     }
 
     override fun equals(other: Any?) = other is ItemInteractionEvolution && other.id.equals(this.id, true)

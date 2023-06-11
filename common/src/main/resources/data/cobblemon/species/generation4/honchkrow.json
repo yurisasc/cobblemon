@@ -32,6 +32,19 @@
   "eggGroups": [
     "flying"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "1-3",
+        "percentage": 75
+      },
+      {
+        "item": "minecraft:chicken"
+      }
+    ]
+  },
   "moves": [
     "1:astonish",
     "1:haze",
@@ -43,8 +56,12 @@
     "25:swagger",
     "35:nastyplot",
     "45:foulplay",
+    "45:nightslash",
     "55:darkpulse",
+    "55:nightslash",
     "65:comeuppance",
+    "65:quash",
+    "75:darkpulse",
     "tm:acrobatics",
     "tm:aerialace",
     "tm:aircutter",
@@ -57,6 +74,7 @@
     "tm:confide",
     "tm:confuseray",
     "tm:darkpulse",
+    "tm:defog",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:embargo",
@@ -83,6 +101,7 @@
     "tm:protect",
     "tm:psychic",
     "tm:psychup",
+    "tm:quash",
     "tm:raindance",
     "tm:rest",
     "tm:retaliate",
@@ -94,9 +113,11 @@
     "tm:shadowball",
     "tm:sleeptalk",
     "tm:snarl",
+    "tm:snatch",
     "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:tailwind",
     "tm:takedown",
     "tm:taunt",
@@ -106,15 +127,25 @@
     "tm:torment",
     "tm:toxic",
     "tm:uturn",
+    "tutor:aircutter",
+    "tutor:darkpulse",
     "tutor:defog",
+    "tutor:foulplay",
+    "tutor:heatwave",
+    "tutor:icywind",
+    "tutor:mudslap",
+    "tutor:nightslash",
     "tutor:ominouswind",
+    "tutor:roost",
     "tutor:skyattack",
-    "tutor:skyattack",
+    "tutor:sleeptalk",
     "tutor:snatch",
     "tutor:snore",
     "tutor:spite",
+    "tutor:suckerpunch",
     "tutor:superpower",
     "tutor:swift",
+    "tutor:tailwind",
     "tutor:twister",
     "tutor:uproar"
   ],
@@ -126,10 +157,10 @@
   ],
   "preEvolution": "murkrow",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.3,
   "hitbox": {
-    "width": 0.8,
-    "height": 1,
+    "width": 1,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 35,

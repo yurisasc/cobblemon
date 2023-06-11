@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.storage.pc
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.net.IntSize
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
@@ -25,17 +26,11 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 18th, 2022
  */
-class InitializePCPacket() : NetworkPacket {
-    lateinit var storeID: UUID
-    var boxCount = 0
-    /* Might be useful to know this in case we want the option to restore the overflow as a button in PC GUI. */
-    var hasOverflowed = false
+class InitializePCPacket internal constructor(val storeID: UUID, val boxCount: Int, val hasOverflowed: Boolean) : NetworkPacket<InitializePCPacket> {
 
-    constructor(pc: PCStore): this() {
-        this.storeID = pc.uuid
-        this.boxCount = pc.boxes.size
-        this.hasOverflowed = pc.backupStore.any()
-    }
+    override val id = ID
+
+    constructor(pc: PCStore): this(pc.uuid, pc.boxes.size, pc.backupStore.any())
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(storeID)
@@ -43,9 +38,8 @@ class InitializePCPacket() : NetworkPacket {
         buffer.writeBoolean(hasOverflowed)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        storeID = buffer.readUuid()
-        boxCount = buffer.readSizedInt(IntSize.U_BYTE)
-        hasOverflowed = buffer.readBoolean()
+    companion object {
+        val ID = cobblemonResource("initialize_pc")
+        fun decode(buffer: PacketByteBuf) = InitializePCPacket(buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE), buffer.readBoolean())
     }
 }

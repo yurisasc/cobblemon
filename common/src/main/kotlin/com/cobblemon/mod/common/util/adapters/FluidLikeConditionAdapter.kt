@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,11 +14,11 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import com.cobblemon.mod.common.registry.FluidIdentifierCondition
 import com.cobblemon.mod.common.registry.FluidTagCondition
 import net.minecraft.fluid.Fluid
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.RegistryKeys
 
 object FluidLikeConditionAdapter : RegistryLikeAdapter<Fluid> {
     override val registryLikeConditions = mutableListOf(
-        RegistryLikeTagCondition.resolver(Registry.FLUID_KEY, ::FluidTagCondition),
+        RegistryLikeTagCondition.resolver(RegistryKeys.FLUID, ::FluidTagCondition),
         RegistryLikeIdentifierCondition.resolver(::FluidIdentifierCondition)
     )
 }

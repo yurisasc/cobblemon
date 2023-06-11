@@ -55,7 +55,6 @@
         "grass",
         "dragon"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -133,6 +132,7 @@
     "tm:terablast",
     "tm:trailblaze",
     "tm:uturn",
+    "tutor:dracometeor",
     "tutor:dualwingbeat",
     "tutor:grassyglide"
   ],

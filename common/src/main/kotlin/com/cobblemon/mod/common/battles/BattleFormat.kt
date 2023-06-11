@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,20 +22,21 @@ import net.minecraft.network.PacketByteBuf
 data class BattleFormat(
     val mod: String = "cobblemon",
     val battleType: BattleType = BattleTypes.SINGLES,
-    val ruleSet: Set<String> = setOf()
+    val ruleSet: Set<String> = setOf(),
+    val gen: Int = 9
 ) {
     companion object {
-        val GEN_8_SINGLES = BattleFormat(
+        val GEN_9_SINGLES = BattleFormat(
             battleType = BattleTypes.SINGLES,
             ruleSet = setOf(BattleRules.OBTAINABLE)
         )
 
-        val GEN_8_DOUBLES = BattleFormat(
+        val GEN_9_DOUBLES = BattleFormat(
             battleType = BattleTypes.DOUBLES,
             ruleSet = setOf(BattleRules.OBTAINABLE)
         )
 
-        val GEN_8_MULTI = BattleFormat(
+        val GEN_9_MULTI = BattleFormat(
             battleType = BattleTypes.MULTI,
             ruleSet = setOf(BattleRules.OBTAINABLE)
         )
@@ -66,7 +67,9 @@ data class BattleFormat(
             {
                 "mod": "$mod",
                 "gameType": "${battleType.name}",
-                "ruleset": [${ruleSet.joinToString { "\"$it\"" }}]
+                "gen": $gen,
+                "ruleset": [${ruleSet.joinToString { "\"$it\"" }}],
+                "effectType": "Format"
             }
         """.trimIndent().replace("\n", "")
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,11 +12,16 @@ import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.status.statuses.*
-import net.minecraft.entity.LivingEntity
+import com.cobblemon.mod.common.pokemon.status.statuses.BurnStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.FrozenStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.ParalysisStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.PoisonBadlyStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.PoisonStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.SleepStatus
 import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import net.minecraft.entity.LivingEntity
 
 /**
  * An implementation of the capture calculator used in the generation 1 games.
@@ -43,7 +48,7 @@ class Gen2CaptureCalculator(val bugsFixed: Boolean) : CaptureCalculator {
             this.bugsFixed && (status is ParalysisStatus || status is BurnStatus || status is PoisonStatus || status is PoisonBadlyStatus) -> 5
             else -> 1
         }
-        val modifiedCatchRate = max((((3F * target.hp - 2F * target.currentHealth) * modifiedRate) / 3F * target.hp) + bonusStatus, 1F).coerceAtMost(255F).roundToInt()
+        val modifiedCatchRate = max((((3F * target.hp - 2F * target.currentHealth) * modifiedRate) / (3F * target.hp)) + bonusStatus, 1F).coerceAtMost(255F).roundToInt()
         if (Random.nextInt(256) <= modifiedCatchRate) {
             return CaptureContext.successful()
         }

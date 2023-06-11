@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -19,7 +20,11 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since May 22nd, 2022
  */
-class BattleMakeChoicePacket : NetworkPacket {
+class BattleMakeChoicePacket : NetworkPacket<BattleMakeChoicePacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {}
-    override fun decode(buffer: PacketByteBuf) {}
+    companion object {
+        val ID = cobblemonResource("battle_make_choice")
+        fun decode(buffer: PacketByteBuf) = BattleMakeChoicePacket()
+    }
 }

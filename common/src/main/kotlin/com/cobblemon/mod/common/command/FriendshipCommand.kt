@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,7 @@ object FriendshipCommand {
 
     private fun execute(source: ServerCommandSource, target: ServerPlayerEntity, pokemon: Pokemon) : Int {
         if (!target.world.isClient) {
-            val feedback = commandLang("friendship", pokemon.displayName, pokemon.friendship)
+            val feedback = commandLang("friendship", pokemon.getDisplayName(), pokemon.friendship)
             source.sendFeedback(feedback, true)
         }
         return Command.SINGLE_SUCCESS

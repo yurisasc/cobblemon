@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePCPokemonToPartyHandler
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -28,29 +29,15 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 20th, 2022
  */
-class MovePCPokemonToPartyPacket() : NetworkPacket {
-    lateinit var pokemonID: UUID
-    lateinit var pcPosition: PCPosition
-    var partyPosition: PartyPosition? = null
-
-    constructor(pokemonID: UUID, pcPosition: PCPosition, partyPosition: PartyPosition?): this() {
-        this.pokemonID = pokemonID
-        this.pcPosition = pcPosition
-        this.partyPosition = partyPosition
-    }
-
+class MovePCPokemonToPartyPacket(val pokemonID: UUID, val pcPosition: PCPosition, val partyPosition: PartyPosition?) : NetworkPacket<MovePCPokemonToPartyPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writePCPosition(pcPosition)
-        buffer.writeBoolean(partyPosition != null)
-        partyPosition?.let { buffer.writePartyPosition(it) }
+        buffer.writeNullable(partyPosition) { pb, value -> pb.writePartyPosition(value) }
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        pokemonID = buffer.readUuid()
-        pcPosition = buffer.readPCPosition()
-        if (buffer.readBoolean()) {
-            partyPosition = buffer.readPartyPosition()
-        }
+    companion object {
+        val ID = cobblemonResource("move_pc_pokemon_to_party")
+        fun decode(buffer: PacketByteBuf) = MovePCPokemonToPartyPacket(buffer.readUuid(), buffer.readPCPosition(), buffer.readNullable { it.readPartyPosition() })
     }
 }

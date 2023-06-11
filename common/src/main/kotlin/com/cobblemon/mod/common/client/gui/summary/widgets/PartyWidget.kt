@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,9 +18,9 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import java.security.InvalidParameterException
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.sound.PositionedSoundInstance
-import java.security.InvalidParameterException
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
@@ -38,10 +38,10 @@ class PartyWidget(
         const val HEIGHT = 113
         private const val SCALE = 0.5F
 
-        private val backgroundResource = cobblemonResource("ui/summary/summary_party_background.png")
-        private val swapButtonResource = cobblemonResource("ui/summary/summary_party_swap.png")
-        private val swapButtonActiveResource = cobblemonResource("ui/summary/summary_party_swap_active.png")
-        private val swapButtonIconResource = cobblemonResource("ui/summary/summary_party_swap_icon.png")
+        private val backgroundResource = cobblemonResource("textures/gui/summary/summary_party_background.png")
+        private val swapButtonResource = cobblemonResource("textures/gui/summary/summary_party_swap.png")
+        private val swapButtonActiveResource = cobblemonResource("textures/gui/summary/summary_party_swap_active.png")
+        private val swapButtonIconResource = cobblemonResource("textures/gui/summary/summary_party_swap_icon.png")
     }
 
     var swapEnabled: Boolean = false
@@ -99,7 +99,7 @@ class PartyWidget(
         }
     }
 
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         blitk(
             matrixStack = pMatrixStack,
             texture = backgroundResource,
@@ -163,7 +163,7 @@ class PartyWidget(
                         index = -1,
                         isClientPartyMember = isParty
                     )
-                    playSound(CobblemonSounds.PC_GRAB.get())
+                    playSound(CobblemonSounds.PC_GRAB)
                 }
             }
         }
@@ -179,7 +179,7 @@ class PartyWidget(
                 }
                 swapSource = null
                 draggedSlot = null
-                playSound(CobblemonSounds.PC_DROP.get())
+                playSound(CobblemonSounds.PC_DROP)
             }
         }
         return super.mouseReleased(pMouseX, pMouseY, pButton)

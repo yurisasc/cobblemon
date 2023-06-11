@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,6 +30,7 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
+import java.util.function.Supplier
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -48,7 +49,17 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
             .disableHtmlEscaping()
             .registerTypeAdapter(Vec3d::class.java, Vec3dAdapter)
             .setExclusionStrategies(JsonModelExclusion)
-            .registerTypeAdapter(TypeToken.getParameterized(StatefulAnimation::class.java, PokemonEntity::class.java, ModelFrame::class.java).type, StatefulAnimationAdapter)
+            .registerTypeAdapter(
+                TypeToken.getParameterized(
+                    Supplier::class.java,
+                    TypeToken.getParameterized(
+                        StatefulAnimation::class.java,
+                        PokemonEntity::class.java,
+                        ModelFrame::class.java
+                    ).type
+                ).type,
+                StatefulAnimationAdapter
+            )
             .registerTypeAdapter(Pose::class.java, PoseAdapter)
             .registerTypeAdapter(JsonPokemonPoseableModel::class.java, JsonPokemonPoseableModelAdapter)
             .create()
@@ -82,9 +93,11 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
     override val profileTranslation
         get() = _profileTranslation ?: Vec3d(0.0, 0.0, 0.0)
 
-    val faint: StatefulAnimation<PokemonEntity, ModelFrame>? = null
 
-    override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint
+
+    val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
+
+    override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint?.get()
 
 
     object JsonModelExclusion: ExclusionStrategy {
@@ -102,14 +115,14 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
 
     }
 
-    object StatefulAnimationAdapter : JsonDeserializer<StatefulAnimation<PokemonEntity, ModelFrame>> {
-        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): StatefulAnimation<PokemonEntity, ModelFrame> {
+    object StatefulAnimationAdapter : JsonDeserializer<Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>> {
+        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Supplier<StatefulAnimation<PokemonEntity, ModelFrame>> {
             json as JsonPrimitive
             val animString = json.asString
             val splits = animString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)
             val file = splits[0]
             val animation = splits[1]
-            return JsonPokemonPoseableModelAdapter.model!!.bedrockStateful(file, animation)
+            return Supplier { JsonPokemonPoseableModelAdapter.model!!.bedrockStateful(file, animation) }
         }
     }
 
@@ -135,13 +148,27 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
             } ?: emptyList()) + if (obj.get("allPoseTypes")?.asBoolean == true) PoseType.values().toList() else emptyList()
             val transformTicks = obj.get("transformTicks")?.asInt ?: 10
 
+            val conditionsList = mutableListOf<(PokemonEntity) -> Boolean>()
+
+            val mustBeInBattle = json.get("isBattle")?.asBoolean
+            if (mustBeInBattle != null) {
+                conditionsList.add { mustBeInBattle == it.battleId.get().isPresent }
+            }
+            val mustBeTouchingWater = json.get("isTouchingWater")?.asBoolean
+            if (mustBeTouchingWater != null) {
+                conditionsList.add { mustBeTouchingWater == it.isTouchingWater }
+            }
+
+            val poseCondition: (PokemonEntity) -> Boolean = if (conditionsList.isEmpty()) { { true } } else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
+
             val transformedParts = obj.get("transformedParts")?.asJsonArray?.map {
                 it as JsonObject
                 val partName = it.get("part").asString
                 val part = model.getPart(partName)
                 val rotation = it.get("rotation")?.asJsonArray?.let { Vec3d(it[0].asDouble, it[1].asDouble, it[2].asDouble) } ?: Vec3d.ZERO
                 val position = it.get("position")?.asJsonArray?.let { Vec3d(it[0].asDouble, it[1].asDouble, it[2].asDouble) } ?: Vec3d.ZERO
-                return@map part.withPosition(position.x, position.y, position.z).withRotationDegrees(rotation.x, rotation.y, rotation.z)
+                val isVisible = it.get("isVisible")?.asBoolean ?: true
+                return@map part.withPosition(position.x, position.y, position.z).withRotationDegrees(rotation.x, rotation.y, rotation.z).withVisibility(isVisible)
             }?.toTypedArray() ?: arrayOf()
 
             val idleAnimations = (obj.get("animations")?.asJsonArray ?: JsonArray()).asJsonArray.mapNotNull {
@@ -155,14 +182,38 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
                 return@mapNotNull null
             }.toTypedArray()
 
+            val quirks = (obj.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
+                json as JsonObject
+                val name = json.get("name").asString
+                val animations: (state: PoseableEntityState<PokemonEntity>) -> List<StatefulAnimation<PokemonEntity, *>> = { _ ->
+                    (json.get("animations")?.asJsonArray ?: JsonArray()).map { animJson ->
+                        val split =
+                            animJson.asString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)
+                        return@map model.bedrockStateful(animationGroup = split[0], animation = split[1]).setPreventsIdle(false)
+                    }
+                }
+
+                val loopTimes = json.get("loopTimes")?.asInt ?: 1
+                val minSeconds = json.get("minSecondsBetweenOccurrences")?.asFloat ?: 8F
+                val maxSeconds = json.get("maxSecondsBetweenOccurrences")?.asFloat ?: 30F
+
+                model.quirkMultiple(
+                    name = name,
+                    secondsBetweenOccurrences = minSeconds to maxSeconds,
+                    condition = { true },
+                    loopTimes = 1..loopTimes,
+                    animations = animations
+                )
+            }
+
             return Pose(
                 poseName = poseName,
                 poseTypes = poseTypes.toSet(),
-                condition = { true },
+                condition = poseCondition,
                 transformTicks =  transformTicks,
                 idleAnimations = idleAnimations,
                 transformedParts = transformedParts,
-                quirks = arrayOf()
+                quirks = quirks.toTypedArray()
             )
         }
     }

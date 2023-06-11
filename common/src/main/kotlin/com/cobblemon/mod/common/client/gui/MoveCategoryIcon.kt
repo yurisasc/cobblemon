@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -24,7 +24,7 @@ class MoveCategoryIcon(
         private const val HEIGHT = 16
         private const val SCALE = 0.5F
 
-        private val categoriesResource = cobblemonResource("ui/categories.png")
+        private val categoriesResource = cobblemonResource("textures/gui/categories.png")
     }
 
     fun render(pMatrixStack: MatrixStack) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,12 +8,17 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.battles.runner.GraalShowdown
+import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeExpiredPacket
+import com.cobblemon.mod.common.util.getPlayer
 import com.google.gson.GsonBuilder
 import java.time.Instant
 import java.util.Optional
@@ -24,6 +29,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 object BattleRegistry {
 
     class BattleChallenge(
+        val challengeId: UUID,
         val challengedPlayerUUID: UUID,
         var expiryTimeSeconds: Int = 60
     ) {
@@ -33,7 +39,7 @@ object BattleRegistry {
 
     val gson = GsonBuilder().disableHtmlEscaping().create()
     private val battleMap = ConcurrentHashMap<UUID, PokemonBattle>()
-    // Challenger to challenged
+    // Challenger to challenge
     val pvpChallenges = mutableMapOf<UUID, BattleChallenge>()
 
     fun onServerStarted() {
@@ -41,8 +47,21 @@ object BattleRegistry {
         pvpChallenges.clear()
     }
 
+    fun removeChallenge(challengerId: UUID, challengeId: UUID? = null) {
+        val existing = pvpChallenges[challengerId] ?: return
+        if (existing.challengeId != challengeId) {
+            return
+        }
+        pvpChallenges.remove(challengerId)
+        existing.challengedPlayerUUID.getPlayer()?.sendPacket(BattleChallengeExpiredPacket(existing.challengeId))
+    }
+
     /**
      * Packs a team into the showdown format
+     *
+     * Example from https://gitlab.com/cable-mc/cobblemon-showdown/-/blob/master/sim/TEAMS.md#packed-format
+     *  NICKNAME|SPECIES|ITEM|ABILITY|MOVES|NATURE|EVS|GENDER|IVS|SHINY|LEVEL|HAPPINESS,POKEBALL,HIDDENPOWERTYPE,GIGANTAMAX,DYNAMAXLEVEL,TERATYPE
+     *
      * @return a string of the packed team
      */
     fun List<BattlePokemon>.packTeam() : String {
@@ -68,8 +87,7 @@ object BattleRegistry {
             }
 
             // Held item, empty if none
-            pokemon.heldItemManager = HeldItemProvider.provide(pokemon)
-            val heldItemID = pokemon.heldItemManager.showdownId(pokemon) ?: ""
+            val heldItemID = HeldItemProvider.provideShowdownId(pokemon) ?: ""
             packedTeamBuilder.append("$heldItemID|")
             // Ability, our showdown has edits here to trust whatever we tell it, this was needed to support more than 4 abilities.
             packedTeamBuilder.append("${pk.ability.name.replace("_", "")}|")
@@ -86,7 +104,8 @@ object BattleRegistry {
                 }|"
             )
             // Nature
-            packedTeamBuilder.append("${pk.nature.name.path}|")
+            val battleNature = pk.mintedNature ?: pk.nature
+            packedTeamBuilder.append("${battleNature.name.path}|")
             // EVs
             val evsInOrder = Stats.PERMANENT.map { pk.evs.getOrDefault(it) }.joinToString(separator = ",")
             packedTeamBuilder.append("$evsInOrder|")
@@ -99,14 +118,22 @@ object BattleRegistry {
             packedTeamBuilder.append("${if (pk.shiny) "S" else ""}|")
             // Level
             packedTeamBuilder.append("${pk.level}|")
+
+            // Misc
             // Happiness
-            packedTeamBuilder.append("${pk.friendship}|")
+            packedTeamBuilder.append("${pk.friendship},")
             // Caught Ball
             // This is safe to do as all our pokeballs that have showdown item equivalents are the same IDs they use for the pokeball attribute
             val pokeball = pokemon.effectedPokemon.caughtBall.name.path.replace("_", "")
-            packedTeamBuilder.append("$pokeball|")
+            packedTeamBuilder.append("$pokeball,")
             // Hidden Power Type
-            packedTeamBuilder.append("|")
+            packedTeamBuilder.append(",")
+            // Gigantamax
+            packedTeamBuilder.append(",")
+            // DynamaxLevel
+            packedTeamBuilder.append(",")
+            // Teratype
+            packedTeamBuilder.append(",")
 
             team.add(packedTeamBuilder.toString())
         }
@@ -172,7 +199,8 @@ object BattleRegistry {
         }
 
         // Compiles the request and sends it off
-        GraalShowdown.startBattle(battle, messages.toTypedArray())
+        ShowdownService.get().startBattle(battle, messages.toTypedArray())
+        CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedPostEvent(battle))
         return battle
     }
 

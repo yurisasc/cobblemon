@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,8 +46,9 @@ open class SpawnerManager {
     open fun onServerTick() {
         // Disables spawning
         if (!Cobblemon.config.enableSpawning) {
-            return;
+            return
         }
+        influences.removeIf { it.isExpired() }
         getSpawnersOfType<TickingSpawner>().forEach(TickingSpawner::tick)
     }
 }

@@ -27,6 +27,7 @@
   ],
   "moves": [
     "1:honeclaws",
+    "1:horndrill",
     "1:mudslap",
     "1:mudsport",
     "1:rapidspin",
@@ -63,6 +64,7 @@
     "tm:gigaimpact",
     "tm:hiddenpower",
     "tm:highhorsepower",
+    "tm:honeclaws",
     "tm:hyperbeam",
     "tm:irondefense",
     "tm:ironhead",
@@ -92,9 +94,17 @@
     "tm:swordsdance",
     "tm:toxic",
     "tm:xscissor",
+    "tutor:drillrun",
+    "tutor:earthpower",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:magnetrise",
     "tutor:scorchingsands",
-    "tutor:steelbeam"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:steelbeam",
+    "tutor:stompingtantrum"
   ],
   "labels": [
     "gen5"

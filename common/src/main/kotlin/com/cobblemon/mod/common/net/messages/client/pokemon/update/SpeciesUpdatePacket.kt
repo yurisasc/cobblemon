@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,15 +11,26 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
-import net.minecraft.util.Identifier
+import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.PacketByteBuf
 
-class SpeciesUpdatePacket() : StringUpdatePacket() {
-    constructor(pokemon: Pokemon, species: Species): this() {
-        setTarget(pokemon)
-        value = species.resourceIdentifier.toString()
+class SpeciesUpdatePacket(pokemon: Pokemon, value: Species) : SingleUpdatePacket<Species, SpeciesUpdatePacket>(pokemon, value) {
+    override val id = ID
+    override fun encodeValue(buffer: PacketByteBuf) {
+        buffer.writeIdentifier(this.value.resourceIdentifier)
     }
 
-    // TODO: Proper check
-    override fun set(pokemon: Pokemon, value: String) { pokemon.species = PokemonSpecies.getByIdentifier(Identifier(value))!! }
+    override fun set(pokemon: Pokemon, value: Species) {
+        pokemon.species = value
+    }
+
+    companion object {
+        val ID = cobblemonResource("species_update")
+        fun decode(buffer: PacketByteBuf): SpeciesUpdatePacket {
+            val pokemon = decodePokemon(buffer)
+            val species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
+            return SpeciesUpdatePacket(pokemon, species)
+        }
+    }
 
 }

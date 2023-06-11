@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Joltik",
   "nationalPokedexNumber": 595,
   "primaryType": "bug",
@@ -18,16 +19,33 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
+  "shoulderEffects": [
+    "haste"
+  ],
   "baseExperienceYield": 64,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "bug"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:spider_eye",
+        "percentage": 50
+      }
+    ]
+  },
   "moves": [
     "1:absorb",
     "1:furycutter",
+    "1:leechlife",
     "1:spiderweb",
     "4:electroweb",
     "8:bugbite",
@@ -43,11 +61,13 @@
     "44:gastroacid",
     "48:bugbuzz",
     "egg:camouflage",
+    "egg:crosspoison",
     "egg:disable",
     "egg:doubleteam",
     "egg:feintattack",
     "egg:infestation",
     "egg:lunge",
+    "egg:pinmissile",
     "egg:poisonsting",
     "egg:pursuit",
     "egg:rockclimb",
@@ -60,6 +80,7 @@
     "tm:confide",
     "tm:crosspoison",
     "tm:cut",
+    "tm:doubleteam",
     "tm:electroball",
     "tm:electroweb",
     "tm:endure",
@@ -69,6 +90,7 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:hiddenpower",
+    "tm:infestation",
     "tm:leechlife",
     "tm:lightscreen",
     "tm:pinmissile",
@@ -83,6 +105,7 @@
     "tm:sleeptalk",
     "tm:snore",
     "tm:speedswap",
+    "tm:strugglebug",
     "tm:substitute",
     "tm:swagger",
     "tm:swift",
@@ -93,11 +116,18 @@
     "tm:voltswitch",
     "tm:wildcharge",
     "tm:xscissor",
+    "tutor:bounce",
+    "tutor:bugbite",
+    "tutor:electroweb",
+    "tutor:gastroacid",
+    "tutor:gigadrain",
     "tutor:magnetrise",
     "tutor:risingvoltage",
     "tutor:shockwave",
     "tutor:signalbeam",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore"
   ],
   "labels": [
     "gen5"
@@ -122,10 +152,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.4,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 0.6,
     "fixed": false
   },
   "baseFriendship": 50,

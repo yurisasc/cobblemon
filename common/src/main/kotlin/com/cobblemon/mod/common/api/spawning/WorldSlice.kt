@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,13 +8,20 @@
 
 package com.cobblemon.mod.common.api.spawning
 
+import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
 import kotlin.math.max
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.registry.tag.TagKey
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.gen.StructureAccessor
+import net.minecraft.world.gen.structure.Structure
 
 /**
  * A slice of the world that can be accessed safely from an async thread. This includes all of the information
@@ -27,7 +34,7 @@ import net.minecraft.world.World
  */
 class WorldSlice(
     val cause: SpawnCause,
-    val world: World,
+    val world: ServerWorld,
     val baseX: Int,
     val baseY: Int,
     val baseZ: Int,
@@ -43,6 +50,12 @@ class WorldSlice(
     val length = blocks.size
     val height = blocks[0].size
     val width = blocks[0][0].size
+
+    private val structureChunkCaches = mutableMapOf<ChunkPos, SpawningContext.StructureChunkCache>()
+
+    fun getStructureCache(pos: BlockPos): SpawningContext.StructureChunkCache {
+        return structureChunkCaches.getOrPut(ChunkPos(pos), SpawningContext::StructureChunkCache)
+    }
 
     companion object {
         val stoneState = Blocks.STONE.defaultState

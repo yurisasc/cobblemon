@@ -26,6 +26,7 @@
     "field"
   ],
   "moves": [
+    "1:agility",
     "1:laserfocus",
     "1:leer",
     "1:mudslap",
@@ -44,6 +45,7 @@
     "43:swordsdance",
     "48:earthquake",
     "53:superfang",
+    "54:facade",
     "58:hammerarm",
     "tm:agility",
     "tm:attract",
@@ -112,14 +114,29 @@
     "tm:uturn",
     "tm:wildcharge",
     "tm:workup",
+    "tutor:bounce",
+    "tutor:earthpower",
     "tutor:endeavor",
+    "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:foulplay",
     "tutor:gastroacid",
+    "tutor:gunkshot",
+    "tutor:icepunch",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:knockoff",
     "tutor:lastresort",
+    "tutor:lowkick",
     "tutor:recycle",
     "tutor:scorchingsands",
-    "tutor:snatch"
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superfang",
+    "tutor:superpower",
+    "tutor:thunderpunch",
+    "tutor:uproar"
   ],
   "labels": [
     "gen6"

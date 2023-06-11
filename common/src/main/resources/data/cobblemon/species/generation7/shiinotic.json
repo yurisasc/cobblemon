@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Shiinotic",
   "nationalPokedexNumber": 756,
   "primaryType": "grass",
@@ -25,6 +26,16 @@
   "eggGroups": [
     "grass"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:brown_mushroom",
+        "quantityRange": "1-2",
+        "percentage": 66
+      }
+    ]
+  },
   "moves": [
     "1:absorb",
     "1:astonish",
@@ -49,6 +60,7 @@
     "tm:doubleteam",
     "tm:drainingkiss",
     "tm:drainpunch",
+    "tm:dreameater",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -81,10 +93,15 @@
     "tm:weatherball",
     "tm:wonderroom",
     "tutor:afteryou",
+    "tutor:gigadrain",
     "tutor:magiccoat",
+    "tutor:magicroom",
     "tutor:recycle",
+    "tutor:seedbomb",
     "tutor:signalbeam",
+    "tutor:snore",
     "tutor:synthesis",
+    "tutor:wonderroom",
     "tutor:worryseed"
   ],
   "labels": [
@@ -95,10 +112,10 @@
   ],
   "preEvolution": "morelull",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.75,
+    "height": 0.75,
     "fixed": false
   },
   "baseFriendship": 50,

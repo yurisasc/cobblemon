@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,15 +33,9 @@ fun ModelPart.setRotation(axis: Int, angleInRadians: Float): ModelPart {
 }
 fun ModelPart.setPosition(axis: Int, position: Float): ModelPart {
     when (axis) {
-        X_AXIS -> {
-            pivotX = position
-        }
-        Y_AXIS -> {
-            pivotY = position
-        }
-        else -> {
-            pivotZ = position
-        }
+        X_AXIS -> { pivotX = position }
+        Y_AXIS -> { pivotY = position }
+        else -> { pivotZ = position }
     }
     return this
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
@@ -21,7 +22,7 @@ import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
@@ -36,59 +37,75 @@ import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
+import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
-import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
+import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
-import dev.architectury.extensions.network.EntitySpawnExtension
-import dev.architectury.networking.NetworkManager
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import kotlin.math.round
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.Shearable
 import net.minecraft.entity.ai.control.MoveControl
+import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.pathing.PathNodeType
+import net.minecraft.entity.attribute.DefaultAttributeContainer
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.damage.DamageTypes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.item.ItemStack
+import net.minecraft.item.ItemUsage
+import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
-import net.minecraft.tag.FluidTags
 import net.minecraft.text.Text
+import net.minecraft.text.TextContent
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.EntityView
 import net.minecraft.world.World
-import kotlin.math.round
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
+import net.minecraft.world.event.GameEvent
 
 class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
-    type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON.get(),
-) : TameableShoulderEntity(type, world), EntitySpawnExtension, Poseable {
+    type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
+) : TameableShoulderEntity(type, world), Poseable, Shearable {
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
     val subscriptions = mutableListOf<ObservableSubscription<*>>()
@@ -128,6 +145,9 @@ class PokemonEntity(
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val species = addEntityProperty(SPECIES, pokemon.species.resourceIdentifier.toString())
+    val nickname = addEntityProperty(NICKNAME, pokemon.nickname ?: Text.empty())
+    val nicknameVisible = addEntityProperty(NICKNAME_VISIBLE, true)
+    val shouldRenderName = addEntityProperty(SHOULD_RENDER_NAME, true)
     val isMoving = addEntityProperty(MOVING, false)
     val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
@@ -187,6 +207,9 @@ class PokemonEntity(
 
     companion object {
         val SPECIES = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.STRING)
+        val NICKNAME = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.TEXT_COMPONENT)
+        val NICKNAME_VISIBLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        val SHOULD_RENDER_NAME = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val MOVING = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val BEHAVIOUR_FLAGS = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
         val PHASING_TARGET_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
@@ -198,6 +221,10 @@ class PokemonEntity(
         val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         const val BATTLE_LOCK = "battle"
+
+        fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
+
     }
 
     override fun canWalkOnFluid(state: FluidState): Boolean {
@@ -214,6 +241,11 @@ class PokemonEntity(
 //        }
 //
 //        return super.canWalkOnFluid(state)
+    }
+
+    override fun handleStatus(status: Byte) {
+        delegate.handleStatus(status)
+        super.handleStatus(status)
     }
 
     override fun tick() {
@@ -245,7 +277,7 @@ class PokemonEntity(
      * Prevents fire type Pokémon from taking fire damage.
      */
     override fun isFireImmune(): Boolean {
-        return FIRE in pokemon.types || behaviour.moving.swim.canSwimInLava
+        return FIRE in pokemon.types || !behaviour.moving.swim.hurtByLava
     }
 
     /**
@@ -259,14 +291,18 @@ class PokemonEntity(
         }
     }
 
-    override fun saveNbt(nbt: NbtCompound): Boolean {
-//        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
-        return super.saveNbt(nbt)
-    }
-
     override fun isInvulnerableTo(damageSource: DamageSource): Boolean {
         // If the entity is busy, it cannot be hurt.
         if (busyLocks.isNotEmpty()) {
+            return true
+        }
+
+        // Owned Pokémon cannot be hurt by players or suffocation
+        if (ownerUuid != null && (damageSource.attacker is PlayerEntity || damageSource.isOf(DamageTypes.IN_WALL))) {
+            return true
+        }
+
+        if (!Cobblemon.config.playerDamagePokemon && damageSource.attacker is PlayerEntity) {
             return true
         }
 
@@ -277,7 +313,7 @@ class PokemonEntity(
         val owner = owner
         val future = CompletableFuture<Pokemon>()
         if (phasingTargetId.get() == -1 && owner != null) {
-            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL.get(), volume = 0.2F)
+            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.2F)
             phasingTargetId.set(owner.id)
             beamModeEmitter.set(2)
             afterOnMain(seconds = SEND_OUT_DURATION) {
@@ -318,6 +354,7 @@ class PokemonEntity(
         }
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
+        nickname.set(pokemon.nickname ?: Text.empty())
         labelLevel.set(pokemon.level)
         val savedBattleId = if (nbt.containsUuid(DataKeys.POKEMON_BATTLE_ID)) nbt.getUuid(DataKeys.POKEMON_BATTLE_ID) else null
         if (savedBattleId != null) {
@@ -329,6 +366,7 @@ class PokemonEntity(
         poseType.set(PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
         behaviourFlags.set(nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
         this.setBehaviourFlag(PokemonBehaviourFlag.EXCITED, true)
+
         CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(
             event = PokemonEntityLoadEvent(this, nbt),
             ifSucceeded = {},
@@ -336,7 +374,7 @@ class PokemonEntity(
         )
     }
 
-    override fun createSpawnPacket() = NetworkManager.createAddEntityPacket(this)
+    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokemonPacket(this, super.createSpawnPacket() as EntitySpawnS2CPacket))
 
     override fun getPathfindingPenalty(nodeType: PathNodeType): Float {
         return if (nodeType == PathNodeType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
@@ -347,10 +385,19 @@ class PokemonEntity(
         if (pokemon != null) {
             moveControl = PokemonMoveControl(this)
             navigation = PokemonNavigation(world, this)
-            goalSelector.clear()
+            goalSelector.clear { true }
             goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
             goalSelector.add(0, object : Goal() {
                 override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get()
+                override fun shouldContinue(): Boolean {
+                    if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
+                        pokemon.status = null
+                        return false
+                    } else if (pokemon.status?.status == Statuses.SLEEP || isBusy) {
+                        return true
+                    }
+                    return false
+                }
                 override fun getControls() = EnumSet.allOf(Control::class.java)
             })
 
@@ -360,9 +407,30 @@ class PokemonEntity(
             goalSelector.add(4, PokemonMoveIntoFluidGoal(this))
             goalSelector.add(5, SleepOnTrainerGoal(this))
             goalSelector.add(5, WildRestGoal(this))
+
+            if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) != null) {
+                goalSelector.add(5, EatGrassGoal(this))
+            }
+
             goalSelector.add(6, PokemonWanderAroundGoal(this))
             goalSelector.add(7, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
+            goalSelector.add(8, PokemonPointAtSpawnGoal(this))
         }
+    }
+
+    fun canSleep(): Boolean {
+        val rest = behaviour.resting
+        val worldTime = (world.timeOfDay % 24000).toInt()
+        val light = world.getLightLevel(blockPos)
+        val block = world.getBlockState(blockPos).block
+        val biome = world.getBiome(blockPos).value()
+
+        return rest.canSleep &&
+                !this.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) &&
+                worldTime in this.behaviour.resting.times &&
+                light in rest.light &&
+                (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, this.world.registryManager.get(RegistryKeys.BLOCK)) }) &&
+                (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(RegistryKeys.BIOME)) })
     }
 
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
@@ -382,6 +450,31 @@ class PokemonEntity(
     }
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
+        val itemStack = player.getStackInHand(hand)
+        if (player is ServerPlayerEntity) {
+            if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
+                this.sheared(SoundCategory.PLAYERS)
+                this.emitGameEvent(GameEvent.SHEAR, player)
+                itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
+                return ActionResult.SUCCESS
+            }
+            else if (itemStack.isOf(Items.BUCKET)) {
+                if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
+                    world.playSoundFromEntity(
+                        null,
+                        this,
+                        SoundEvents.ENTITY_GOAT_MILK,
+                        SoundCategory.PLAYERS,
+                        1.0F,
+                        1.0F
+                    )
+                    val milkBucket = ItemUsage.exchangeStack(itemStack, player, ItemStack(Items.MILK_BUCKET))
+                    player.setStackInHand(hand, milkBucket)
+                    return ActionResult.SUCCESS
+                }
+            }
+        }
+
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
                 InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer).sendToPlayer(player)
@@ -409,31 +502,6 @@ class PokemonEntity(
             }
             true
         } else false
-    }
-
-    override fun saveAdditionalSpawnData(buffer: PacketByteBuf) {
-        buffer.writeFloat(pokemon.scaleModifier)
-        buffer.writeIdentifier(pokemon.species.resourceIdentifier)
-        buffer.writeString(pokemon.form.formOnlyShowdownId())
-        buffer.writeInt(phasingTargetId.get())
-        buffer.writeByte(beamModeEmitter.get().toInt())
-        buffer.writeCollection(pokemon.aspects, PacketByteBuf::writeString)
-        buffer.writeInt(if (Cobblemon.config.displayEntityLevelLabel) this.labelLevel.get() else -1)
-    }
-
-    override fun loadAdditionalSpawnData(buffer: PacketByteBuf) {
-        if (this.world.isClient) {
-            pokemon.scaleModifier = buffer.readFloat()
-            // TODO exception handling
-            pokemon.species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
-            // TODO exception handling
-            val formId = buffer.readString()
-            pokemon.form = pokemon.species.forms.find { form -> form.formOnlyShowdownId() == formId } ?: pokemon.species.standardForm
-            phasingTargetId.set(buffer.readInt())
-            beamModeEmitter.set(buffer.readByte())
-            this.aspects.set(buffer.readList(PacketByteBuf::readString).toSet())
-            labelLevel.set(buffer.readInt())
-        }
     }
 
     override fun shouldSave(): Boolean {
@@ -522,7 +590,7 @@ class PokemonEntity(
                             if (!player.isCreative) {
                                 stack.decrement(1)
                             }
-                            this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+                            this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE, volume = 1F, pitch = 1F)
                             return true
                         }
                     }
@@ -530,7 +598,14 @@ class PokemonEntity(
             shouldSave()
             (stack.item as? PokemonEntityInteraction)?.let {
                 if (it.onInteraction(player, this, stack)) {
-                    this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+                    it.sound?.let {
+                        this.world.playSoundServer(
+                            position = this.pos,
+                            sound = it,
+                            volume = 1F,
+                            pitch = 1F
+                        )
+                    }
                     return true
                 }
             }
@@ -549,18 +624,17 @@ class PokemonEntity(
             return false
         }
         if (ItemStack.areEqual(giving, possibleReturn)) {
-            player.sendMessage(lang("held_item.already_holding", this.pokemon.displayName, stack.name))
+            player.sendMessage(lang("held_item.already_holding", this.pokemon.getDisplayName(), stack.name))
             return true
         }
         val returned = this.pokemon.swapHeldItem(stack, !player.isCreative)
         val text = when {
-            giving.isEmpty -> lang("held_item.take", returned.name, this.pokemon.displayName)
-            returned.isEmpty -> lang("held_item.give", this.pokemon.displayName, giving.name)
-            else -> lang("held_item.replace", returned.name, this.pokemon.displayName, giving.name)
+            giving.isEmpty -> lang("held_item.take", returned.name, this.pokemon.getDisplayName())
+            returned.isEmpty -> lang("held_item.give", this.pokemon.getDisplayName(), giving.name)
+            else -> lang("held_item.replace", returned.name, this.pokemon.getDisplayName(), giving.name)
         }
-        player.giveItemStack(returned)
+        player.giveOrDropItemStack(returned)
         player.sendMessage(text)
-        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
         return true
     }
 
@@ -616,8 +690,20 @@ class PokemonEntity(
     }
 
     override fun updatePostDeath() {
-        super.updatePostDeath()
+        // Do not invoke super we need to keep a tight lid on this due to the Thorium mod forcing the ticks to a max of 20 on server side if we invoke a field update here
+        // Client delegate is mimicking expected behavior on client end.
         delegate.updatePostDeath()
+    }
+
+    override fun onEatingGrass() {
+        super.onEatingGrass()
+
+        val feature = pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED)
+        if (feature != null) {
+            feature.enabled = false
+            pokemon.markFeatureDirty(feature)
+            pokemon.updateAspects()
+        }
     }
 
     override fun travel(movementInput: Vec3d) {
@@ -655,11 +741,110 @@ class PokemonEntity(
     fun getIsSubmerged() = isInLava || isSubmergedInWater
     override fun getPoseType(): PoseType = this.poseType.get()
 
+    /**
+     * Returns the [Species.translatedName] of the backing [pokemon].
+     *
+     * @return The [Species.translatedName] of the backing [pokemon].
+     */
     override fun getDefaultName(): Text = this.pokemon.species.translatedName
 
-    // This should be a check if the pokemon display name is a nickname once the feature is implemented.
-    override fun hasCustomName(): Boolean = true
+    /**
+     * If this Pokémon has a nickname, then the nickname is returned.
+     * Otherwise, [getDefaultName] is returned
+     *
+     * @return The current display name of this entity.
+     */
+    override fun getName(): Text {
+        if (!nicknameVisible.get()) return defaultName
+        return nickname.get()?.takeIf { it.content != TextContent.EMPTY } ?: pokemon.getDisplayName()
+    }
 
-    override fun getCustomName(): Text? = this.pokemon.displayName
+    /**
+     * Returns the custom name of this entity, in the context of Cobblemon it is the [Pokemon.nickname].
+     *
+     * @return The nickname of the backing [pokemon].
+     */
+    override fun getCustomName(): Text? = pokemon.nickname
 
+    /**
+     * Sets the custom name of this entity.
+     * In the context of a Pokémon entity this affects the [Pokemon.nickname].
+     *
+     * @param name The new name being set, if null the [Pokemon.nickname] is removed.
+     */
+    override fun setCustomName(name: Text?) {
+        // We do this as a compromise to keep as much compatibility as possible with other mods expecting this entity to act like a vanilla one
+        this.pokemon.nickname = Text.literal(name?.string)
+    }
+
+    /**
+     * Checks if the backing [pokemon] has a non-null [Pokemon.nickname].
+     *
+     * @return If the backing [pokemon] has a non-null [Pokemon.nickname].
+     */
+    override fun hasCustomName(): Boolean = pokemon.nickname != null && pokemon.nickname?.content != TextContent.EMPTY
+
+    /**
+     * This method toggles the visibility of the entity name,
+     * Unlike the vanilla implementation in our context it changes between displaying the species name or nickname of the Pokémon.
+     *
+     * @param visible The state of custom name visibility.
+     */
+    override fun setCustomNameVisible(visible: Boolean) {
+        // We do this as a compromise to keep as much compatibility as possible with other mods expecting this entity to act like a vanilla one
+        nicknameVisible.set(visible)
+    }
+
+    /**
+     * In the context of a Pokémon entity this checks if the Pokémon is currently set to displaying its nickname.
+     *
+     * @return If the custom name of this entity should display, in this case the [getCustomName] is the nickname but if null the [getDefaultName] will be used.
+     */
+    override fun isCustomNameVisible(): Boolean = nicknameVisible.get()
+
+    /**
+     * Returns whether the entity is currently set to having its name displayed.
+     *
+     * @return If this entity should render the name label.
+     */
+    override fun shouldRenderName(): Boolean = shouldRenderName.get()
+
+    /**
+     * Sets the entity to having its name hidden.
+     */
+    fun hideNameRendering() { shouldRenderName.set(false) }
+
+    override fun isBreedingItem(stack: ItemStack): Boolean = false
+
+    override fun canBreedWith(other: AnimalEntity): Boolean = false
+
+    override fun breed(world: ServerWorld, other: AnimalEntity) {}
+
+    override fun method_48926(): EntityView {
+        return this.getWorld()
+    }
+
+    override fun sheared(shearedSoundCategory: SoundCategory) {
+        this.world.playSoundFromEntity(null, this,SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0F, 1.0F)
+        val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return
+        feature.enabled = true
+        this.pokemon.markFeatureDirty(feature)
+        this.pokemon.updateAspects()
+        val i = this.random.nextInt(3)
+        for (j in 0 until i) {
+            val itemEntity = this.dropItem(Items.WHITE_WOOL, 1) ?: return
+            itemEntity.velocity = itemEntity.velocity.add(
+                ((this.random.nextFloat() - this.random.nextFloat()) * 0.1f).toDouble(),
+                (this.random.nextFloat() * 0.05f).toDouble(),
+                ((this.random.nextFloat() - this.random.nextFloat()) * 0.1f).toDouble()
+            )
+        }
+    }
+
+    override fun isShearable(): Boolean {
+        val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return false
+        return !this.isBusy && !this.pokemon.isFainted() && !feature.enabled
+    }
+
+    override fun canUsePortals() = false
 }

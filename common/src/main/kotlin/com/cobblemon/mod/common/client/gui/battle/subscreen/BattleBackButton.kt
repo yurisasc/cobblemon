@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,7 +21,7 @@ class BattleBackButton(val x: Float, val y: Float) {
     fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             matrixStack = matrices,
-            texture = cobblemonResource("ui/battle/battle_back.png"),
+            texture = cobblemonResource("textures/gui/battle/battle_back.png"),
             x = x * 2,
             y = y * 2,
             height = HEIGHT,

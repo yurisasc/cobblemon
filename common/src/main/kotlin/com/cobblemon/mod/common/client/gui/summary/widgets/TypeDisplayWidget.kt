@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ class TypeDisplayWidget {
 
     companion object {
 
-        private val TYPES_RESOURCE = cobblemonResource("ui/types.png")
+        private val TYPES_RESOURCE = cobblemonResource("textures/gui/types.png")
 
     }
 

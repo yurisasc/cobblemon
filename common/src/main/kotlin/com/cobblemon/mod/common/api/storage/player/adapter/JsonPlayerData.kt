@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,8 @@ import com.cobblemon.mod.common.api.storage.player.PlayerAdvancementData
 import com.cobblemon.mod.common.api.storage.player.PlayerData
 import com.cobblemon.mod.common.api.storage.player.PlayerDataExtension
 import com.cobblemon.mod.common.util.fromJson
+import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.removeIf
 import com.google.gson.GsonBuilder
 import java.io.BufferedReader
 import java.io.FileReader
@@ -20,6 +22,7 @@ import java.nio.file.Path
 import java.util.UUID
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.WorldSavePath
+
 class JsonPlayerData: PlayerDataFileStoreAdapter {
 
     companion object {
@@ -69,7 +72,7 @@ class JsonPlayerData: PlayerDataFileStoreAdapter {
 
     fun saveCache() {
         cache.forEach { (_, pd) -> save(pd)}
-        cache.clear()
+        cache.removeIf { (uuid, _) -> uuid.getPlayer() == null }
     }
 
     override fun save(playerData: PlayerData) {

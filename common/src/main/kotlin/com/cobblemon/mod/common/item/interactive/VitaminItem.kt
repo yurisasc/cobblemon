@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,20 +8,16 @@
 
 package com.cobblemon.mod.common.item.interactive
 
-import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.CobblemonItemGroups
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
-import java.util.*
 
-class VitaminItem(
-    val stat: Stat
-) : PokemonEntityInteraction, CobblemonItem(Settings().group(CobblemonItemGroups.MEDICINE_ITEM_GROUP)) {
+class VitaminItem(val stat: Stat) : PokemonInteractiveItem(Settings(), Ownership.OWNER) {
 
-    override val accepted: Set<PokemonEntityInteraction.Ownership> = EnumSet.of(PokemonEntityInteraction.Ownership.OWNER)
+    companion object {
+        const val EV_YIELD = 10
+    }
 
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon
@@ -31,9 +27,5 @@ class VitaminItem(
             return true
         }
         return false
-    }
-
-    companion object {
-        const val EV_YIELD = 10
     }
 }

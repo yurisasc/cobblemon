@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,10 +27,10 @@ class BeedrillModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     override val rightWing = getPart("wing_right")
 
     override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(0.05, 0.12, 0.0)
+    override val portraitTranslation = Vec3d(0.05, 0.9, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override val profileScale = 0.8F
+    override val profileTranslation = Vec3d(-0.1, 0.9, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

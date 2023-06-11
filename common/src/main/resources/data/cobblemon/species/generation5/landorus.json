@@ -34,6 +34,7 @@
     "undiscovered"
   ],
   "moves": [
+    "1:mudshot",
     "1:rockthrow",
     "1:sandtomb",
     "1:smackdown",
@@ -42,6 +43,7 @@
     "10:block",
     "15:bulldoze",
     "20:rocktomb",
+    "25:swordsdance",
     "30:imprison",
     "35:rockslide",
     "40:earthpower",
@@ -95,12 +97,14 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:secretpower",
     "tm:selfdestruct",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:sludgewave",
+    "tm:smackdown",
     "tm:snore",
     "tm:stealthrock",
     "tm:stompingtantrum",
@@ -117,10 +121,30 @@
     "tm:toxic",
     "tm:uturn",
     "tm:weatherball",
+    "tutor:block",
+    "tutor:bulldoze",
     "tutor:defog",
+    "tutor:earthpower",
+    "tutor:earthquake",
+    "tutor:extrasensory",
+    "tutor:fissure",
+    "tutor:focusblast",
     "tutor:gravity",
+    "tutor:irontail",
     "tutor:knockoff",
-    "tutor:roleplay"
+    "tutor:mudshot",
+    "tutor:outrage",
+    "tutor:rockslide",
+    "tutor:rocktomb",
+    "tutor:roleplay",
+    "tutor:sandstorm",
+    "tutor:sandtomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:superpower",
+    "tutor:swordsdance",
+    "tutor:uturn"
   ],
   "labels": [
     "gen5",
@@ -165,7 +189,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen5",
         "legendary"

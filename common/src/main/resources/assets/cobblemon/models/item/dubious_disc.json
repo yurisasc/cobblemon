@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cobblemon:items/evolution/dubious_disc"
+    "layer0": "cobblemon:item/evolution/dubious_disc"
   }
 }

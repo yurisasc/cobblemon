@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,19 +9,21 @@
 package com.cobblemon.mod.common.net.serverhandling.storage
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
-import com.cobblemon.mod.common.net.serverhandling.ServerPacketHandler
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.util.toVec3d
 import com.cobblemon.mod.common.util.traceBlockCollision
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 
-const val SEND_OUT_DURATION = 1.5F
-object SendOutPokemonHandler : ServerPacketHandler<SendOutPokemonPacket> {
-    override fun invokeOnServer(packet: SendOutPokemonPacket, ctx: CobblemonNetwork.NetworkContext, player: ServerPlayerEntity) {
+object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> {
+
+    const val SEND_OUT_DURATION = 1.5F
+
+    override fun handle(packet: SendOutPokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val slot = packet.slot.takeIf { it >= 0 } ?: return
         val party = Cobblemon.storage.getParty(player)
         val pokemon = party.get(slot) ?: return

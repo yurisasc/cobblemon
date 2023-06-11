@@ -70,6 +70,7 @@
     "tm:retaliate",
     "tm:return",
     "tm:reversal",
+    "tm:roar",
     "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
@@ -95,7 +96,16 @@
     "tm:workup",
     "tutor:afteryou",
     "tutor:covet",
-    "tutor:shockwave"
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:ironhead",
+    "tutor:lastresort",
+    "tutor:shockwave",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:uproar"
   ],
   "labels": [
     "gen5"

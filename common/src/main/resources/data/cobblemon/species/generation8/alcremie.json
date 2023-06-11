@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Alcremie",
   "nationalPokedexNumber": 869,
   "primaryType": "fairy",
@@ -14,9 +15,17 @@
     "special_defence": 121,
     "speed": 64
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 100,
   "maleRatio": 0,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "forms": [
     {
       "name": "Gmax",
@@ -51,7 +60,6 @@
         "fairy",
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -73,6 +81,20 @@
     "fairy",
     "amorphous"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:sugar",
+        "quantityRange": "1-3",
+        "percentage": 75
+      },
+      {
+        "item": "minecraft:cake",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:aromaticmist",
     "1:sweetkiss",
@@ -133,10 +155,10 @@
   ],
   "preEvolution": "milcery",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.5,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import com.cobblemon.mod.common.battles.interpreter.ContextManager
+import net.minecraft.text.Text
 
 /**
  * Unlike the Showdown side.ts, this can represent multiple actors.
@@ -22,5 +24,10 @@ class BattleSide(vararg val actors: BattleActor) {
         get() = actors.flatMap { it.activePokemon }
 
     lateinit var battle: PokemonBattle
+    val contextManager = ContextManager()
     fun getOppositeSide() = if (this == battle.side1) battle.side2 else battle.side1
+
+    fun broadcastChatMessage(component: Text) {
+        return this.actors.forEach { it.sendMessage(component) }
+    }
 }

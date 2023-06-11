@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,8 +15,8 @@ import com.cobblemon.mod.common.api.storage.factory.PokemonStoreFactory
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
-import com.cobblemon.mod.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cobblemon.mod.common.block.entity.PCBlockEntity
+import com.cobblemon.mod.common.net.messages.client.storage.party.SetPartyReferencePacket
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -96,5 +96,11 @@ open class PokemonStoreManager {
         parties.forEach { party -> party.sendTo(player) }
         getPCs(player.uuid).forEach { pc -> pc.sendTo(player) }
         player.sendPacket(SetPartyReferencePacket(parties.first().uuid))
+    }
+
+    open fun onPlayerDisconnect(player: ServerPlayerEntity) {
+        for (factory in factories) {
+            factory.onPlayerDisconnect(player.uuid)
+        }
     }
 }

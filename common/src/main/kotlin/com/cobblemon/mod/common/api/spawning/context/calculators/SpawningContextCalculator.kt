@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import net.minecraft.block.BlockState
 import net.minecraft.block.Material
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.world.World
 
 /**
@@ -29,11 +30,8 @@ import net.minecraft.world.World
  */
 interface SpawningContextCalculator<I : SpawningContextInput, O : SpawningContext> {
     companion object {
-        var foliageMaterials = mutableListOf(
-            Material.LEAVES
-        )
-        val isAirCondition: (BlockState) -> Boolean = { it.isAir || it.material in foliageMaterials }
-        val isSolidCondition: (BlockState) -> Boolean = { it.material.isSolid }
+        val isAirCondition: (BlockState) -> Boolean = { it.isAir || (!it.material.isSolid && !it.material.isLiquid) }
+        val isSolidCondition: (BlockState) -> Boolean = { it.material.isSolid && it.material != Material.LEAVES }
         val isWaterCondition: (BlockState) -> Boolean = { it.material == Material.WATER && it.fluidState.isStill  }
         val isLavaCondition: (BlockState) -> Boolean = { it.material == Material.LAVA && it.fluidState.isStill }
 
@@ -64,5 +62,5 @@ open class SpawningContextInput(
     /** What caused the spawn context, as a [SpawnCause]. */
     val cause: SpawnCause,
     /** The [Level] the spawning context exists in. */
-    val world: World
+    val world: ServerWorld
 )

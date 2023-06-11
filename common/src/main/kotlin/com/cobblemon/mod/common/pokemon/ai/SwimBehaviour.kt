@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,11 +9,12 @@
 package com.cobblemon.mod.common.pokemon.ai
 
 import net.minecraft.fluid.Fluid
-import net.minecraft.tag.FluidTags
-import net.minecraft.tag.TagKey
+import net.minecraft.registry.tag.FluidTags
+import net.minecraft.registry.tag.TagKey
 
 class SwimBehaviour {
     val avoidsWater = false
+    val hurtByLava = true
     val canSwimInWater = true
     val canSwimInLava = true
     val swimSpeed = 0.3F

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.closestPosition
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.fluid.Fluid
-import net.minecraft.tag.FluidTags
-import net.minecraft.tag.TagKey
+import net.minecraft.registry.tag.FluidTags
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 
@@ -45,7 +45,7 @@ class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
     override fun start() {
         val appropriateFluids = mutableListOf<TagKey<Fluid>>()
         val swim = mob.behaviour.moving.swim
-        if (swim.canSwimInLava) {
+        if (swim.canSwimInLava && !swim.hurtByLava) {
             appropriateFluids.add(FluidTags.LAVA)
         }
         if (swim.canSwimInWater) {

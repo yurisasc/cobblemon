@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -19,21 +20,25 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 1st, 2022
  */
-class AbilityUpdatePacket() : SingleUpdatePacket<AbilityTemplate>(Abilities.first()) {
-    constructor(pokemon: Pokemon, ability: AbilityTemplate): this() {
-        setTarget(pokemon)
-        value = ability
-    }
+class AbilityUpdatePacket(pokemon: Pokemon, ability: AbilityTemplate) : SingleUpdatePacket<AbilityTemplate, AbilityUpdatePacket>(pokemon, ability) {
 
-    override fun encodeValue(buffer: PacketByteBuf, value: AbilityTemplate) {
-        buffer.writeString(value.name)
-    }
+    override val id = ID
 
-    override fun decodeValue(buffer: PacketByteBuf): AbilityTemplate {
-        return Abilities.get(buffer.readString())!!
+    override fun encodeValue(buffer: PacketByteBuf) {
+        buffer.writeString(this.value.name)
     }
 
     override fun set(pokemon: Pokemon, value: AbilityTemplate) {
         pokemon.ability = value.create()
     }
+
+    companion object {
+        val ID = cobblemonResource("ability_update")
+        fun decode(buffer: PacketByteBuf): AbilityUpdatePacket {
+            val pokemon = decodePokemon(buffer)
+            val ability = Abilities.get(buffer.readString())!!
+            return AbilityUpdatePacket(pokemon, ability)
+        }
+    }
+
 }

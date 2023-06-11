@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,7 +43,7 @@ class CategoryList(
         private const val CATEGORY_BUTTON_WIDTH = 51.5f
         private const val CATEGORY_BUTTON_HEIGHT = 16f
         private const val ENTRY_X_OFFSET = 10f
-        private val categoryResource = cobblemonResource("ui/starterselection/starterselection_slot.png")
+        private val categoryResource = cobblemonResource("textures/gui/starterselection/starterselection_slot.png")
     }
 
     init {

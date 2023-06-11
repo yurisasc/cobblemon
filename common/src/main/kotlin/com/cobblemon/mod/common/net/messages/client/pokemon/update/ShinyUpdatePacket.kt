@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,11 +9,14 @@
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
-class ShinyUpdatePacket() : BooleanUpdatePacket() {
-    constructor(pokemon: Pokemon, value: Boolean): this() {
-        this.setTarget(pokemon)
-        this.value = value
-    }
+import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.PacketByteBuf
 
+class ShinyUpdatePacket(pokemon: Pokemon, value: Boolean) : BooleanUpdatePacket<ShinyUpdatePacket>(pokemon, value) {
+    override val id = ID
     override fun set(pokemon: Pokemon, value: Boolean) { pokemon.shiny = value }
+    companion object {
+        val ID = cobblemonResource("shiny_update")
+        fun decode(buffer: PacketByteBuf) = ShinyUpdatePacket(decodePokemon(buffer), buffer.readBoolean())
+    }
 }

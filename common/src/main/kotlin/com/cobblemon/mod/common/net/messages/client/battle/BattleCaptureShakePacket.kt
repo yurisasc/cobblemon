@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -19,22 +20,14 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since July 3rd, 2022
  */
-class BattleCaptureShakePacket() : NetworkPacket {
-    lateinit var targetPNX: String
-    var direction = true
-
-    constructor(targetPNX: String, direction: Boolean): this() {
-        this.targetPNX = targetPNX
-        this.direction = direction
-    }
-
+class BattleCaptureShakePacket(val targetPNX: String, val direction: Boolean) : NetworkPacket<BattleCaptureShakePacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(targetPNX)
         buffer.writeBoolean(direction)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        targetPNX = buffer.readString()
-        direction = buffer.readBoolean()
+    companion object {
+        val ID = cobblemonResource("battle_capture_shake")
+        fun decode(buffer: PacketByteBuf) = BattleCaptureShakePacket(buffer.readString(), buffer.readBoolean())
     }
 }

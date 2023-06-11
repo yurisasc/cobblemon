@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -36,6 +36,10 @@ class PokemonItem : CobblemonItem(Settings().maxCount(1)) {
         }
     }
 
+    fun getSpeciesAndAspects(stack: ItemStack): Pair<Species, Set<String>>? {
+        return (species(stack) ?: return null) to (aspects(stack) ?: setOf())
+    }
+
     fun asRenderablePokemon(stack: ItemStack): RenderablePokemon? = this.asPokemon(stack)?.asRenderablePokemon()
 
     private fun species(stack: ItemStack): Species? {
@@ -57,21 +61,24 @@ class PokemonItem : CobblemonItem(Settings().maxCount(1)) {
             return null
         }
         return nbt.getList(DataKeys.POKEMON_ITEM_ASPECTS, NbtElement.STRING_TYPE.toInt())
-            .filterIsInstance<NbtString>()
             .map { it.asString() }
             .toSet()
     }
 
     companion object {
 
+        @JvmStatic
         fun from(pokemon: Pokemon, count: Int = 1): ItemStack = from(pokemon.species, pokemon.aspects, count)
 
+        @JvmStatic
         fun from(properties: PokemonProperties, count: Int = 1): ItemStack = from(properties.create(), count)
 
+        @JvmStatic
         fun from(species: Species, vararg aspects: String, count: Int = 1): ItemStack = from(species, aspects.toSet(), count)
 
+        @JvmStatic
         fun from(species: Species, aspects: Set<String>, count: Int = 1): ItemStack {
-            val stack = ItemStack(CobblemonItems.POKEMON_MODEL.get(), count)
+            val stack = ItemStack(CobblemonItems.POKEMON_MODEL, count)
             stack.orCreateNbt.apply {
                 putString(DataKeys.POKEMON_ITEM_SPECIES, species.resourceIdentifier.toString())
                 val list = NbtList()

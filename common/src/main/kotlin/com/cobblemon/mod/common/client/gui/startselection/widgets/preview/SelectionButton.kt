@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,10 +21,10 @@ class SelectionButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     onPress: PressAction
-): ButtonWidget(pX, pY, pWidth, pHeight, Text.literal("SelectionButton"), onPress) {
+): ButtonWidget(pX, pY, pWidth, pHeight, Text.literal("SelectionButton"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
-        private val buttonTexture = cobblemonResource("ui/starterselection/starterselection_button.png")
+        private val buttonTexture = cobblemonResource("textures/gui/starterselection/starterselection_button.png")
         const val BUTTON_WIDTH = 56
         const val BUTTON_HEIGHT = 12
         private const val SCALE = 0.7f

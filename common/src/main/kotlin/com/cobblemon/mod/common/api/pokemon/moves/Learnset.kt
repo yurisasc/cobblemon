@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,7 +40,6 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
     }
 
     companion object {
-        private val laMoves = setOf("ragingfury", "chloroblast", "barbbarrage", "infernalparade", "esperwing", "powershift", "victorydance", "bittermalice", "mountaingale", "shelter", "triplearrows", "direclaw")
         val tmInterpreter = Interpreter.parseFromPrefixIntoList("tm") { it.tmMoves }
         val eggInterpreter = Interpreter.parseFromPrefixIntoList("egg") { it.eggMoves }
         val tutorInterpreter = Interpreter.parseFromPrefixIntoList("tutor") { it.tutorMoves }
@@ -56,10 +55,6 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
 
             val level = splits[0].toInt()
             val moveName = splits[1]
-            // ToDo remove me once the moves are implemented
-            if (laMoves.contains(moveName.lowercase())) {
-                return@Interpreter true
-            }
             val move = Moves.getByName(moveName) ?: return@Interpreter false
 
             val levelLearnset = learnset.levelUpMoves.getOrPut(level) { mutableListOf() }
@@ -84,6 +79,11 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
     val eggMoves = mutableListOf<MoveTemplate>()
     val tutorMoves = mutableListOf<MoveTemplate>()
     val tmMoves = mutableListOf<MoveTemplate>()
+    /**
+     * Moves the species/form will have learnt when evolving into itself.
+     * These are dynamically resolved each boot.
+     */
+    val evolutionMoves = mutableSetOf<MoveTemplate>()
     val formChangeMoves = mutableListOf<MoveTemplate>()
 
     fun getLevelUpMovesUpTo(level: Int) = levelUpMoves
@@ -102,8 +102,7 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
             val level = buffer.readSizedInt(IntSize.U_SHORT)
             val moves = mutableListOf<MoveTemplate>()
             repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
-                val move = Moves.getByNumericalId(buffer.readSizedInt(IntSize.U_SHORT))
-                moves.add(move)
+                Moves.getByNumericalId(buffer.readInt())?.let(moves::add)
             }
             levelUpMoves[level] = moves
         }
@@ -115,7 +114,7 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
             buffer.writeSizedInt(IntSize.U_SHORT, level)
             buffer.writeSizedInt(IntSize.U_BYTE, moves.size)
             for (move in moves) {
-                buffer.writeSizedInt(IntSize.U_SHORT, move.id)
+                buffer.writeInt(move.num)
             }
         }
     }

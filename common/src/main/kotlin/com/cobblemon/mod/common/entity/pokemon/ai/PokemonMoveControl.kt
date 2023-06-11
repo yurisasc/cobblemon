@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,14 +15,16 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.getWaterAndLavaIn
 import com.cobblemon.mod.common.util.math.geometry.toDegrees
 import com.cobblemon.mod.common.util.math.geometry.toRadians
+import com.cobblemon.mod.common.util.toVec3d
+import net.minecraft.command.argument.EntityAnchorArgumentType
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.sqrt
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.tag.BlockTags
-import net.minecraft.tag.FluidTags
+import net.minecraft.registry.tag.BlockTags
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -37,6 +39,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             pokemonEntity.upwardSpeed = 0F
             return
         }
+
         val behaviour = pokemonEntity.behaviour
         val mediumSpeed = if (pokemonEntity.getPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
             behaviour.moving.fly.flySpeedHorizontal
@@ -82,7 +85,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             if (!closeHorizontally) {
                 val angleToTarget = MathHelper.atan2(zDist, xDist).toDegrees() - 90.0f
                 val currentMovingAngle = entity.yaw
-                val steppedAngle = MathHelper.stepUnwrappedAngleTowards(currentMovingAngle, angleToTarget,  if (entity.isOnGround) 20F else 5F)
+                val steppedAngle = MathHelper.stepUnwrappedAngleTowards(currentMovingAngle, angleToTarget,  100 * mediumSpeed)
                 entity.yaw = steppedAngle
             }
 

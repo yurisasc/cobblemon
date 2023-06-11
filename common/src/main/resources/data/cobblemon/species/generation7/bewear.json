@@ -27,6 +27,7 @@
   ],
   "moves": [
     "1:babydolleyes",
+    "1:bind",
     "1:leer",
     "1:payback",
     "1:tackle",
@@ -95,10 +96,23 @@
     "tm:toxic",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:babydolleyes",
+    "tutor:bind",
+    "tutor:brutalswing",
     "tutor:coaching",
+    "tutor:drainpunch",
     "tutor:dualchop",
     "tutor:focuspunch",
-    "tutor:roleplay"
+    "tutor:icepunch",
+    "tutor:ironhead",
+    "tutor:lowkick",
+    "tutor:painsplit",
+    "tutor:roleplay",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:thunderpunch",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen7"

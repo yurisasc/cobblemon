@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -65,7 +65,7 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
     abstract fun isValidPosition(position: T): Boolean
 
     /** Sends the given packet to all observing players. */
-    open fun sendPacketToObservers(packet: NetworkPacket) = getObservingPlayers().forEach { it.sendPacket(packet) }
+    open fun sendPacketToObservers(packet: NetworkPacket<*>) = getObservingPlayers().forEach { it.sendPacket(packet) }
 
     /** Adds the given [Pokemon] to the first available space. Returns false if there is no space. */
     open fun add(pokemon: Pokemon): Boolean {

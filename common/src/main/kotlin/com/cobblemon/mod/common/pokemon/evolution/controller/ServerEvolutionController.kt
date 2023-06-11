@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,18 +8,20 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.controller
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
+import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressFactory
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.convertToDisplay
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.encode
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.EvolutionUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressFactory
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.toJsonArray
 import com.google.gson.JsonArray
@@ -31,6 +33,7 @@ import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.sound.SoundCategory
 
 class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionController<Evolution> {
 
@@ -156,11 +159,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         if (!toClient) {
             return
         }
-        buffer.writeInt(this.size)
-        this.evolutions.forEach { evolution ->
-            val display = EvolutionUpdatePacket.createSending(this.pokemon, evolution)
-            EvolutionUpdatePacket.encodeSending(display, buffer)
-        }
+        buffer.writeCollection(this.evolutions) { pb, value -> value.convertToDisplay(this.pokemon).encode(pb) }
     }
 
     override fun loadFromBuffer(buffer: PacketByteBuf) {
@@ -169,8 +168,9 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
 
     override fun add(element: Evolution): Boolean {
         if (this.evolutions.add(element)) {
-            this.pokemon.getOwnerPlayer()?.sendMessage("cobblemon.ui.evolve.hint".asTranslated(pokemon.displayName).green())
+            this.pokemon.getOwnerPlayer()?.sendMessage("cobblemon.ui.evolve.hint".asTranslated(pokemon.getDisplayName()).green())
             this.pokemon.notify(AddEvolutionPacket(this.pokemon, element))
+            this.pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.CAN_EVOLVE, SoundCategory.NEUTRAL, 1F, 1F)
             return true
         }
         return false
