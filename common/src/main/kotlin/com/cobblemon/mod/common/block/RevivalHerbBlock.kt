@@ -29,8 +29,8 @@ import net.minecraft.world.WorldView
 
 class RevivalHerbBlock(settings: Settings) : PlantBlock(settings), Fertilizable {
     companion object {
-        const val MIN_AGE = 1
-        const val MAX_AGE = 9
+        const val MIN_AGE = 0
+        const val MAX_AGE = 8
         val AGE = IntProperty.of("age", MIN_AGE, MAX_AGE)
         val IS_WILD = BooleanProperty.of("is_wild")
 
