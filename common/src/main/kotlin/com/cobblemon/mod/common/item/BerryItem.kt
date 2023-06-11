@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.util.tooltipLang
-import com.cobblemon.mod.common.world.block.BerryBlock
+import com.cobblemon.mod.common.block.BerryBlock
 import net.minecraft.block.ComposterBlock
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.AliasedBlockItem
@@ -22,7 +22,7 @@ import net.minecraft.text.Text
 import net.minecraft.world.World
 import java.util.*
 
-class BerryItem(private val berryBlock: BerryBlock) : AliasedBlockItem(berryBlock, Settings().group(CobblemonItemGroups.PLANTS)), PokemonEntityInteraction {
+class BerryItem(private val berryBlock: BerryBlock) : AliasedBlockItem(berryBlock, Settings()), PokemonEntityInteraction {
 
     init {
         // 65% to raise composter level

@@ -133,10 +133,4 @@ object CobblemonEvents {
     val BERRY_YIELD = EventObservable<BerryYieldCalculationEvent>()
     @JvmField
     val LEFTOVERS_CREATED = CancelableObservable<LeftoversCreatedEvent>()
-
-    // Berries
-    val BERRY_HARVEST = EventObservable<BerryHarvestEvent>()
-    val BERRY_MUTATION_OFFER = EventObservable<BerryMutationOfferEvent>()
-    val BERRY_MUTATION_RESULT = EventObservable<BerryMutationResultEvent>()
-    val BERRY_YIELD = EventObservable<BerryYieldCalculationEvent>()
 }

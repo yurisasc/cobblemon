@@ -11,9 +11,9 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
-import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.ApricornItem
 import com.cobblemon.mod.common.item.ApricornSeedItem
+import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.MintLeafItem
 import com.cobblemon.mod.common.item.PokeBallItem
@@ -26,20 +26,20 @@ import com.cobblemon.mod.common.item.interactive.VitaminItem
 import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.registry.CompletableRegistry
-import com.cobblemon.mod.common.world.block.BerryBlock
-import dev.architectury.registry.registries.RegistrySupplier
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.block.BerryBlock
 import net.minecraft.block.Block
 import net.minecraft.block.ComposterBlock
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
-import net.minecraft.util.Identifier
 import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.util.Identifier
 
 object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<Item>>, Item>() {
     override val registry: Registry<Item> = Registries.ITEM
@@ -111,7 +111,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val MASTER_BALL = pokeBallItem(PokeBalls.MASTER_BALL)
     @JvmField
     val CHERISH_BALL = pokeBallItem(PokeBalls.CHERISH_BALL)
-    private val berries = hashMapOf<Identifier, RegistrySupplier<BerryItem>>()
 
     @JvmField
     val RED_APRICORN = create("red_apricorn", ApricornItem(CobblemonBlocks.RED_APRICORN))
@@ -223,74 +222,75 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     // ToDo enable me when malicious armor goes in the game
     //@JvmField val AUSPICIOUS_ARMOR = heldItem("auspicious_armor")
 
+    private val berries = mutableMapOf<Identifier, BerryItem>()
     // Plants
-    val AGUAV_BERRY = berryItem("aguav", CobblemonBlocks.AGUAV_BERRY)
-    val APICOT_BERRY = berryItem("apicot", CobblemonBlocks.APICOT_BERRY)
-    val ASPEAR_BERRY = berryItem("aspear", CobblemonBlocks.ASPEAR_BERRY)
-    val BABIRI_BERRY = berryItem("babiri", CobblemonBlocks.BABIRI_BERRY)
-    val BELUE_BERRY = berryItem("belue", CobblemonBlocks.BELUE_BERRY)
-    val BLUK_BERRY = berryItem("bluk", CobblemonBlocks.BLUK_BERRY)
-    val CHARTI_BERRY = berryItem("charti", CobblemonBlocks.CHARTI_BERRY)
-    val CHERI_BERRY = berryItem("cheri", CobblemonBlocks.CHERI_BERRY)
-    val CHESTO_BERRY = berryItem("chesto", CobblemonBlocks.CHESTO_BERRY)
-    val CHILAN_BERRY = berryItem("chilan", CobblemonBlocks.CHILAN_BERRY)
-    val CHOPLE_BERRY = berryItem("chople", CobblemonBlocks.CHOPLE_BERRY)
-    val COBA_BERRY = berryItem("coba", CobblemonBlocks.COBA_BERRY)
-    val COLBUR_BERRY = berryItem("colbur", CobblemonBlocks.COLBUR_BERRY)
-    val CORNN_BERRY = berryItem("cornn", CobblemonBlocks.CORNN_BERRY)
-    val CUSTAP_BERRY = berryItem("custap", CobblemonBlocks.CUSTAP_BERRY)
-    val DURIN_BERRY = berryItem("durin", CobblemonBlocks.DURIN_BERRY)
-    val ENIGMA_BERRY = berryItem("enigma", CobblemonBlocks.ENIGMA_BERRY)
-    val FIGY_BERRY = berryItem("figy", CobblemonBlocks.FIGY_BERRY)
-    val GANLON_BERRY = berryItem("ganlon", CobblemonBlocks.GANLON_BERRY)
-    val GREPA_BERRY = berryItem("grepa", CobblemonBlocks.GREPA_BERRY)
-    val HABAN_BERRY = berryItem("haban", CobblemonBlocks.HABAN_BERRY)
-    val HONDEW_BERRY = berryItem("hondew", CobblemonBlocks.HONDEW_BERRY)
-    val HOPO_BERRY = berryItem("hopo", CobblemonBlocks.HOPO_BERRY)
-    val IAPAPA_BERRY = berryItem("iapapa", CobblemonBlocks.IAPAPA_BERRY)
-    val JABOCA_BERRY = berryItem("jaboca", CobblemonBlocks.JABOCA_BERRY)
-    val KASIB_BERRY = berryItem("kasib", CobblemonBlocks.KASIB_BERRY)
-    val KEBIA_BERRY = berryItem("kebia", CobblemonBlocks.KEBIA_BERRY)
-    val KEE_BERRY = berryItem("kee", CobblemonBlocks.KEE_BERRY)
-    val KELPSY_BERRY = berryItem("kelpsy", CobblemonBlocks.KELPSY_BERRY)
-    val LANSAT_BERRY = berryItem("lansat", CobblemonBlocks.LANSAT_BERRY)
-    val LEPPA_BERRY = berryItem("leppa", CobblemonBlocks.LEPPA_BERRY)
-    val LIECHI_BERRY = berryItem("liechi", CobblemonBlocks.LIECHI_BERRY)
-    val LUM_BERRY = berryItem("lum", CobblemonBlocks.LUM_BERRY)
-    val MAGO_BERRY = berryItem("mago", CobblemonBlocks.MAGO_BERRY)
-    val MAGOST_BERRY = berryItem("magost", CobblemonBlocks.MAGOST_BERRY)
-    val MARANGA_BERRY = berryItem("maranga", CobblemonBlocks.MARANGA_BERRY)
-    val MICLE_BERRY = berryItem("micle", CobblemonBlocks.MICLE_BERRY)
-    val NANAB_BERRY = berryItem("nanab", CobblemonBlocks.NANAB_BERRY)
-    val OCCA_BERRY = berryItem("occa", CobblemonBlocks.OCCA_BERRY)
-    val ORAN_BERRY = berryItem("oran", CobblemonBlocks.ORAN_BERRY)
-    val PAMTRE_BERRY = berryItem("pamtre", CobblemonBlocks.PAMTRE_BERRY)
-    val PASSHO_BERRY = berryItem("passho", CobblemonBlocks.PASSHO_BERRY)
-    val PAYAPA_BERRY = berryItem("payapa", CobblemonBlocks.PAYAPA_BERRY)
-    val PECHA_BERRY = berryItem("pecha", CobblemonBlocks.PECHA_BERRY)
-    val PERSIM_BERRY = berryItem("persim", CobblemonBlocks.PERSIM_BERRY)
-    val PETAYA_BERRY = berryItem("petaya", CobblemonBlocks.PETAYA_BERRY)
-    val PINAP_BERRY = berryItem("pinap", CobblemonBlocks.PINAP_BERRY)
-    val POMEG_BERRY = berryItem("pomeg", CobblemonBlocks.POMEG_BERRY)
-    val QUALOT_BERRY = berryItem("qualot", CobblemonBlocks.QUALOT_BERRY)
-    val RABUTA_BERRY = berryItem("rabuta", CobblemonBlocks.RABUTA_BERRY)
-    val RAWST_BERRY = berryItem("rawst", CobblemonBlocks.RAWST_BERRY)
-    val RAZZ_BERRY = berryItem("razz", CobblemonBlocks.RAZZ_BERRY)
-    val RINDO_BERRY = berryItem("rindo", CobblemonBlocks.RINDO_BERRY)
-    val ROSELI_BERRY = berryItem("roseli", CobblemonBlocks.ROSELI_BERRY)
-    val ROWAP_BERRY = berryItem("rowap", CobblemonBlocks.ROWAP_BERRY)
-    val SALAC_BERRY = berryItem("salac", CobblemonBlocks.SALAC_BERRY)
-    val SHUCA_BERRY = berryItem("shuca", CobblemonBlocks.SHUCA_BERRY)
-    val SITRUS_BERRY = berryItem("sitrus", CobblemonBlocks.SITRUS_BERRY)
-    val SPELON_BERRY = berryItem("spelon", CobblemonBlocks.SPELON_BERRY)
-    val STARF_BERRY = berryItem("starf", CobblemonBlocks.STARF_BERRY)
-    val TAMATO_BERRY = berryItem("tamato", CobblemonBlocks.TAMATO_BERRY)
-    val TANGA_BERRY = berryItem("tanga", CobblemonBlocks.TANGA_BERRY)
-    val WACAN_BERRY = berryItem("wacan", CobblemonBlocks.WACAN_BERRY)
-    val WATMEL_BERRY = berryItem("watmel", CobblemonBlocks.WATMEL_BERRY)
-    val WEPEAR_BERRY = berryItem("wepear", CobblemonBlocks.WEPEAR_BERRY)
-    val WIKI_BERRY = berryItem("wiki", CobblemonBlocks.WIKI_BERRY)
-    val YACHE_BERRY = berryItem("yache", CobblemonBlocks.YACHE_BERRY)
+    @JvmField val AGUAV_BERRY = berryItem("aguav", CobblemonBlocks.AGUAV_BERRY)
+    @JvmField val APICOT_BERRY = berryItem("apicot", CobblemonBlocks.APICOT_BERRY)
+    @JvmField val ASPEAR_BERRY = berryItem("aspear", CobblemonBlocks.ASPEAR_BERRY)
+    @JvmField val BABIRI_BERRY = berryItem("babiri", CobblemonBlocks.BABIRI_BERRY)
+    @JvmField val BELUE_BERRY = berryItem("belue", CobblemonBlocks.BELUE_BERRY)
+    @JvmField val BLUK_BERRY = berryItem("bluk", CobblemonBlocks.BLUK_BERRY)
+    @JvmField val CHARTI_BERRY = berryItem("charti", CobblemonBlocks.CHARTI_BERRY)
+    @JvmField val CHERI_BERRY = berryItem("cheri", CobblemonBlocks.CHERI_BERRY)
+    @JvmField val CHESTO_BERRY = berryItem("chesto", CobblemonBlocks.CHESTO_BERRY)
+    @JvmField val CHILAN_BERRY = berryItem("chilan", CobblemonBlocks.CHILAN_BERRY)
+    @JvmField val CHOPLE_BERRY = berryItem("chople", CobblemonBlocks.CHOPLE_BERRY)
+    @JvmField val COBA_BERRY = berryItem("coba", CobblemonBlocks.COBA_BERRY)
+    @JvmField val COLBUR_BERRY = berryItem("colbur", CobblemonBlocks.COLBUR_BERRY)
+    @JvmField val CORNN_BERRY = berryItem("cornn", CobblemonBlocks.CORNN_BERRY)
+    @JvmField val CUSTAP_BERRY = berryItem("custap", CobblemonBlocks.CUSTAP_BERRY)
+    @JvmField val DURIN_BERRY = berryItem("durin", CobblemonBlocks.DURIN_BERRY)
+    @JvmField val ENIGMA_BERRY = berryItem("enigma", CobblemonBlocks.ENIGMA_BERRY)
+    @JvmField val FIGY_BERRY = berryItem("figy", CobblemonBlocks.FIGY_BERRY)
+    @JvmField val GANLON_BERRY = berryItem("ganlon", CobblemonBlocks.GANLON_BERRY)
+    @JvmField val GREPA_BERRY = berryItem("grepa", CobblemonBlocks.GREPA_BERRY)
+    @JvmField val HABAN_BERRY = berryItem("haban", CobblemonBlocks.HABAN_BERRY)
+    @JvmField val HONDEW_BERRY = berryItem("hondew", CobblemonBlocks.HONDEW_BERRY)
+    @JvmField val HOPO_BERRY = berryItem("hopo", CobblemonBlocks.HOPO_BERRY)
+    @JvmField val IAPAPA_BERRY = berryItem("iapapa", CobblemonBlocks.IAPAPA_BERRY)
+    @JvmField val JABOCA_BERRY = berryItem("jaboca", CobblemonBlocks.JABOCA_BERRY)
+    @JvmField val KASIB_BERRY = berryItem("kasib", CobblemonBlocks.KASIB_BERRY)
+    @JvmField val KEBIA_BERRY = berryItem("kebia", CobblemonBlocks.KEBIA_BERRY)
+    @JvmField val KEE_BERRY = berryItem("kee", CobblemonBlocks.KEE_BERRY)
+    @JvmField val KELPSY_BERRY = berryItem("kelpsy", CobblemonBlocks.KELPSY_BERRY)
+    @JvmField val LANSAT_BERRY = berryItem("lansat", CobblemonBlocks.LANSAT_BERRY)
+    @JvmField val LEPPA_BERRY = berryItem("leppa", CobblemonBlocks.LEPPA_BERRY)
+    @JvmField val LIECHI_BERRY = berryItem("liechi", CobblemonBlocks.LIECHI_BERRY)
+    @JvmField val LUM_BERRY = berryItem("lum", CobblemonBlocks.LUM_BERRY)
+    @JvmField val MAGO_BERRY = berryItem("mago", CobblemonBlocks.MAGO_BERRY)
+    @JvmField val MAGOST_BERRY = berryItem("magost", CobblemonBlocks.MAGOST_BERRY)
+    @JvmField val MARANGA_BERRY = berryItem("maranga", CobblemonBlocks.MARANGA_BERRY)
+    @JvmField val MICLE_BERRY = berryItem("micle", CobblemonBlocks.MICLE_BERRY)
+    @JvmField val NANAB_BERRY = berryItem("nanab", CobblemonBlocks.NANAB_BERRY)
+    @JvmField val OCCA_BERRY = berryItem("occa", CobblemonBlocks.OCCA_BERRY)
+    @JvmField val ORAN_BERRY = berryItem("oran", CobblemonBlocks.ORAN_BERRY)
+    @JvmField val PAMTRE_BERRY = berryItem("pamtre", CobblemonBlocks.PAMTRE_BERRY)
+    @JvmField val PASSHO_BERRY = berryItem("passho", CobblemonBlocks.PASSHO_BERRY)
+    @JvmField val PAYAPA_BERRY = berryItem("payapa", CobblemonBlocks.PAYAPA_BERRY)
+    @JvmField val PECHA_BERRY = berryItem("pecha", CobblemonBlocks.PECHA_BERRY)
+    @JvmField val PERSIM_BERRY = berryItem("persim", CobblemonBlocks.PERSIM_BERRY)
+    @JvmField val PETAYA_BERRY = berryItem("petaya", CobblemonBlocks.PETAYA_BERRY)
+    @JvmField val PINAP_BERRY = berryItem("pinap", CobblemonBlocks.PINAP_BERRY)
+    @JvmField val POMEG_BERRY = berryItem("pomeg", CobblemonBlocks.POMEG_BERRY)
+    @JvmField val QUALOT_BERRY = berryItem("qualot", CobblemonBlocks.QUALOT_BERRY)
+    @JvmField val RABUTA_BERRY = berryItem("rabuta", CobblemonBlocks.RABUTA_BERRY)
+    @JvmField val RAWST_BERRY = berryItem("rawst", CobblemonBlocks.RAWST_BERRY)
+    @JvmField val RAZZ_BERRY = berryItem("razz", CobblemonBlocks.RAZZ_BERRY)
+    @JvmField val RINDO_BERRY = berryItem("rindo", CobblemonBlocks.RINDO_BERRY)
+    @JvmField val ROSELI_BERRY = berryItem("roseli", CobblemonBlocks.ROSELI_BERRY)
+    @JvmField val ROWAP_BERRY = berryItem("rowap", CobblemonBlocks.ROWAP_BERRY)
+    @JvmField val SALAC_BERRY = berryItem("salac", CobblemonBlocks.SALAC_BERRY)
+    @JvmField val SHUCA_BERRY = berryItem("shuca", CobblemonBlocks.SHUCA_BERRY)
+    @JvmField val SITRUS_BERRY = berryItem("sitrus", CobblemonBlocks.SITRUS_BERRY)
+    @JvmField val SPELON_BERRY = berryItem("spelon", CobblemonBlocks.SPELON_BERRY)
+    @JvmField val STARF_BERRY = berryItem("starf", CobblemonBlocks.STARF_BERRY)
+    @JvmField val TAMATO_BERRY = berryItem("tamato", CobblemonBlocks.TAMATO_BERRY)
+    @JvmField val TANGA_BERRY = berryItem("tanga", CobblemonBlocks.TANGA_BERRY)
+    @JvmField val WACAN_BERRY = berryItem("wacan", CobblemonBlocks.WACAN_BERRY)
+    @JvmField val WATMEL_BERRY = berryItem("watmel", CobblemonBlocks.WATMEL_BERRY)
+    @JvmField val WEPEAR_BERRY = berryItem("wepear", CobblemonBlocks.WEPEAR_BERRY)
+    @JvmField val WIKI_BERRY = berryItem("wiki", CobblemonBlocks.WIKI_BERRY)
+    @JvmField val YACHE_BERRY = berryItem("yache", CobblemonBlocks.YACHE_BERRY)
 
     // Medicine
     @JvmField
@@ -550,10 +550,11 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         }
     )
 
-    private fun berryItem(name: String, berryBlock: RegistrySupplier<BerryBlock>): RegistrySupplier<BerryItem> {
-        val supplier = this.queue("${name}_berry") { BerryItem(berryBlock.get()) }
-        this.berries[supplier.id] = supplier
-        return supplier
+    private fun berryItem(name: String, berryBlock: BerryBlock): BerryItem {
+        val finalName = "${name}_berry"
+        val item = this.create(finalName, BerryItem(berryBlock))
+        this.berries[cobblemonResource(finalName)] = item
+        return item
     }
 
     fun registerToItemGroups(consumer: (ItemGroup, Item) -> Unit) {
@@ -572,11 +573,12 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, ELECTIRIZER)
             consumer(group, MAGMARIZER)
             consumer(group, UPGRADE)
-            consumer(group, KINGS_ROCK)
+            consumer(group, METAL_COAT)
             consumer(group, RAZOR_CLAW)
             consumer(group, RAZOR_FANG)
             consumer(group, DUBIOUS_DISC)
             consumer(group, CHIPPED_POT)
+            consumer(group, CRACKED_POT)
             consumer(group, BERRY_SWEET)
             consumer(group, CLOVER_SWEET)
             consumer(group, FLOWER_SWEET)
@@ -589,6 +591,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, WHIPPED_DREAM)
             consumer(group, PEAT_BLOCK)
             consumer(group, REAPER_CLOTH)
+            consumer(group, PRISM_SCALE)
             consumer(group, SACHET)
             consumer(group, DEEP_SEA_SCALE)
             consumer(group, DEEP_SEA_TOOTH)
@@ -627,6 +630,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, LIGHT_CLAY)
             consumer(group, LUCKY_EGG)
             consumer(group, MAGNET)
+            consumer(group, METAL_COAT)
             consumer(group, MIRACLE_SEED)
             consumer(group, MUSCLE_BAND)
             consumer(group, MYSTIC_WATER)

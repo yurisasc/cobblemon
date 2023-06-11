@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.api.events.berry
 
 import com.cobblemon.mod.common.api.berry.Berry
-import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
+import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import net.minecraft.block.BlockState
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity

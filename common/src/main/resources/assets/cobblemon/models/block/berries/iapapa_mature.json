@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "cobblemon:blocks/leaf",
+		"1": "cobblemon:block/leaf",
 		"2": "block/oak_leaves",
 		"3": "block/stripped_jungle_log",
 		"particle": "block/stripped_jungle_log"

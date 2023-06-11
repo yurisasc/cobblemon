@@ -10,12 +10,16 @@ package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class BerryRegistrySyncPacket(registryEntries: Collection<Berry>) : DataRegistrySyncPacket<Berry>(registryEntries) {
+class BerryRegistrySyncPacket(berries: Collection<Berry>) : DataRegistrySyncPacket<Berry, BerryRegistrySyncPacket>(berries) {
+    companion object {
+        val ID = cobblemonResource("berry_sync")
+        fun decode(buffer: PacketByteBuf) = BerryRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
+    }
 
-    constructor() : this(emptyList())
-
+    override val id = ID
     override fun encodeEntry(buffer: PacketByteBuf, entry: Berry) {
         entry.encode(buffer)
     }
@@ -25,5 +29,4 @@ class BerryRegistrySyncPacket(registryEntries: Collection<Berry>) : DataRegistry
     override fun synchronizeDecoded(entries: Collection<Berry>) {
         Berries.reload(entries.associateBy { it.identifier })
     }
-
 }

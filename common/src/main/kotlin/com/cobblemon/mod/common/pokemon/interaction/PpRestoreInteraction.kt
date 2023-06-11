@@ -24,7 +24,7 @@ import java.util.*
  * @author Licious
  * @since January 19th, 2022
  */
-class PpRestoreInteraction() : PokemonEntityInteraction {
+class PpRestoreInteraction : PokemonEntityInteraction {
 
     override val accepted: Set<PokemonEntityInteraction.Ownership> = EnumSet.of(PokemonEntityInteraction.Ownership.OWNER)
 

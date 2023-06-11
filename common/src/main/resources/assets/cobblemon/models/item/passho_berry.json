@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cobblemon:items/berries/passho_berry"
+    "layer0": "cobblemon:item/berries/passho_berry"
   }
 }

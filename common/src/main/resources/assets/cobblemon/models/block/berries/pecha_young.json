@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "block/acacia_log",
-		"2": "cobblemon:blocks/berry_leaf",
+		"2": "cobblemon:block/berry_leaf",
 		"particle": "block/acacia_log"
 	},
 	"elements": [

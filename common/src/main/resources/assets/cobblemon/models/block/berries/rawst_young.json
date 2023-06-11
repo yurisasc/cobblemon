@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "cobblemon:blocks/rawst_tree",
-		"particle": "cobblemon:blocks/rawst_tree"
+		"0": "cobblcmon:block/rawst_tree",
+		"particle": "cobblcmon:block/rawst_tree"
 	},
 	"elements": [
 		{

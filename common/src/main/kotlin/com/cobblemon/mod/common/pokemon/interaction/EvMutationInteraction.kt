@@ -45,7 +45,7 @@ class EvMutationInteraction(
         val result = entity.pokemon.evs.add(this.stat, this.amount)
         if (result != 0) {
             val subKey = if (result > 0) "add" else "deduct"
-            player.sendMessage(lang("interaction.ev.$subKey", entity.pokemon.displayName, this.stat.displayName, result))
+            player.sendMessage(lang("interaction.ev.$subKey", entity.pokemon.getDisplayName(), this.stat.displayName, result))
             return true
         }
         return false

@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"3": "cobblemon:blocks/coba_tree",
-		"particle": "cobblemon:blocks/coba_tree"
+		"3": "cobblcmon:block/coba_tree",
+		"particle": "cobblcmon:block/coba_tree"
 	},
 	"elements": [
 		{

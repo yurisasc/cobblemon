@@ -14,8 +14,6 @@ import com.cobblemon.mod.common.block.ApricornSaplingBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
 import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.PCBlock
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.world.block.BerryBlock
 import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
@@ -23,6 +21,8 @@ import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.StairsBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.TrapdoorBlockInvoker
 import com.cobblemon.mod.common.platform.PlatformRegistry
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.block.BerryBlock
 import net.minecraft.block.*
 import net.minecraft.entity.EntityType
 import net.minecraft.registry.Registries
@@ -207,7 +207,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     private fun apricornBlock(name: String, apricorn: Apricorn): ApricornBlock = this.create(name, ApricornBlock(AbstractBlock.Settings.of(Material.PLANT, apricorn.mapColor()).ticksRandomly().strength(Blocks.OAK_LOG.hardness, Blocks.OAK_LOG.blastResistance).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn))
 
-    private val berries = hashMapOf<Identifier, RegistrySupplier<BerryBlock>>()
+    private val berries = mutableMapOf<Identifier, BerryBlock>()
 
     val AGUAV_BERRY = this.berryBlock("aguav")
     val APICOT_BERRY = this.berryBlock("apicot")
@@ -279,15 +279,11 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     fun berries() = this.berries.toMap()
 
-    private fun registerApricornBlock(id: String, apricorn: Apricorn): RegistrySupplier<ApricornBlock> {
-        return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn) }
-    }
-
-    private fun berryBlock(name: String): RegistrySupplier<BerryBlock> {
+    private fun berryBlock(name: String): BerryBlock {
         val identifier = cobblemonResource("${name}_berry")
-        val supplier = queue(identifier.path) { BerryBlock(identifier, AbstractBlock.Settings.of(Material.PLANT).dynamicBounds().ticksRandomly().sounds(BlockSoundGroup.CROP)) }
-        this.berries[supplier.id] = supplier
-        return supplier
+        val block = this.create(identifier.path, BerryBlock(identifier, AbstractBlock.Settings.of(Material.PLANT).dynamicBounds().ticksRandomly().sounds(BlockSoundGroup.CROP)))
+        this.berries[identifier] = block
+        return block
     }
 
     /**

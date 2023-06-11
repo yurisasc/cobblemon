@@ -7,6 +7,8 @@
     "min": 3,
     "max": 3
   },
+  "refreshRate": { "min": 1, "max": 3 },
+  "growthTime": { "min": 1, "max": 3 },
   "growthFactors": [
     {
       "variant": "cobblemon:biome_temperature",
@@ -158,7 +160,7 @@
     "SWEET": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#686898"
   },
   "flowerModel": "cobblemon:pecha_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/pecha.png",

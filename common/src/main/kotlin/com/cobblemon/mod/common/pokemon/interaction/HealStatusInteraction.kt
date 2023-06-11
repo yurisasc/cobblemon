@@ -39,7 +39,7 @@ class HealStatusInteraction(
         if (status in this.status) {
             entity.pokemon.status = null
             this.consumeItem(player, stack)
-            player.sendMessage(lang("interaction.status.cure", entity.pokemon.displayName))
+            player.sendMessage(lang("interaction.status.cure", entity.pokemon.getDisplayName()))
             return true
         }
         return false

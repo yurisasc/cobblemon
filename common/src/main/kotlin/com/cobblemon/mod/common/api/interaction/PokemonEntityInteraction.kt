@@ -23,8 +23,9 @@ interface PokemonEntityInteraction : EntityInteraction<PokemonEntity> {
     /**
      * The accepted [Ownership] for the Pokémon entity in order for the interaction to fire.
      */
-    private val accepted = accepted.toSet()
-    open val sound: SoundEvent? = CobblemonSounds.ITEM_USE
+    val accepted: Set<Ownership>
+    val sound: SoundEvent?
+        get() = CobblemonSounds.ITEM_USE
 
     override fun onInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon

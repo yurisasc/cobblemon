@@ -8,8 +8,7 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.registry.CompletableRegistry
-import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
+import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.block.entity.PCBlockEntity
 import com.cobblemon.mod.common.platform.PlatformRegistry
@@ -28,10 +27,5 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
     val HEALING_MACHINE: BlockEntityType<HealingMachineBlockEntity> = this.create("healing_machine", BlockEntityType.Builder.create(::HealingMachineBlockEntity, CobblemonBlocks.HEALING_MACHINE).build(null))
     @JvmField
     val PC: BlockEntityType<PCBlockEntity> = this.create("pc", BlockEntityType.Builder.create(::PCBlockEntity, CobblemonBlocks.PC).build(null))
-    val BERRY = register("berry") {
-        BlockEntityType.Builder.create(
-            ::BerryBlockEntity,
-            *CobblemonBlocks.berries().values.map { it.get() }.toTypedArray()
-        ).build(null)
-    }
+    val BERRY = this.create("berry", BlockEntityType.Builder.create(::BerryBlockEntity, *CobblemonBlocks.berries().values.toTypedArray()).build(null))
 }

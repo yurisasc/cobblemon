@@ -16,8 +16,9 @@ import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.util.readBox
 import com.cobblemon.mod.common.util.writeBox
-import com.cobblemon.mod.common.world.block.BerryBlock
+import com.cobblemon.mod.common.block.BerryBlock
 import com.google.gson.annotations.SerializedName
+import java.awt.Color
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.client.model.ModelPart
@@ -30,7 +31,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.World
-import java.awt.Color
 
 /**
  * Represents the data behind a berry.
@@ -59,7 +59,7 @@ class Berry(
     identifier: Identifier,
     val baseYield: IntRange,
     //val lifeCycles: IntRange,
-    val growthTime: IntRange,
+    val growthTime: IntRange = 1..2,
     val refreshRate: IntRange,
     val growthFactors: Collection<GrowthFactor>,
     val interactions: Collection<PokemonEntityInteraction>,
@@ -112,14 +112,14 @@ class Berry(
      *
      * @return The [BerryItem] if existing.
      */
-    fun item(): BerryItem? = CobblemonItems.berries()[this.identifier]?.get()
+    fun item(): BerryItem? = CobblemonItems.berries()[this.identifier]
 
     /**
      * Finds the [BerryBlock] that uses this berry for data.
      *
      * @return The [BerryBlock] if existing.
      */
-    fun block(): BerryBlock? = CobblemonBlocks.berries()[this.identifier]?.get()
+    fun block(): BerryBlock? = CobblemonBlocks.berries()[this.identifier]
 
     /**
      * Query the value of a certain flavor.

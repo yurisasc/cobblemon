@@ -38,7 +38,7 @@ class BiomeDownfallGrowthFactor(
 
     override fun isValid(world: WorldView, state: BlockState, pos: BlockPos): Boolean {
         val biome = world.getBiome(pos).value()
-        return this.range.test(biome.downfall.toDouble())
+        return this.range.test(biome.weather.downfall.toDouble())
     }
 
     override fun yield() = this.bonusYield.random()

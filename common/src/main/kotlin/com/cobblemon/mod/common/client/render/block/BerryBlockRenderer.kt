@@ -9,14 +9,14 @@
 package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
-import com.cobblemon.mod.common.world.block.BerryBlock
-import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
+import com.cobblemon.mod.common.block.BerryBlock
+import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
 
@@ -56,7 +56,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
              */
             matrices.translate(growthPoint.position.x / 16.0, -(growthPoint.position.y / 16.0) - 1.5, growthPoint.position.z / 16.0)
             matrices.push()
-            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(growthPoint.rotation))
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(growthPoint.rotation))
             model.render(matrices, vertexConsumer, light, overlay)
             matrices.pop()
             matrices.pop()

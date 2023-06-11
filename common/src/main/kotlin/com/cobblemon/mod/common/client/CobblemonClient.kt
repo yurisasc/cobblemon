@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
-import com.cobblemon.mod.common.client.net.ClientPacketRegistrar
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
@@ -33,11 +32,12 @@ import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
-import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
+import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.platform.events.PlatformEvents
+import java.awt.Color
 import net.minecraft.client.color.block.BlockColorProvider
+import net.minecraft.client.color.block.BlockColors
 import net.minecraft.client.color.item.ItemColorProvider
-import net.minecraft.client.color.world.BiomeColors
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -85,7 +85,7 @@ object CobblemonClient {
         PlatformEvents.CLIENT_PLAYER_LOGOUT.subscribe { onLogout() }
 
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
-        BlockEntityRendererRegistry.register(CobblemonBlockEntities.BERRY.get(), ::BerryBlockRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
 
         registerBlockRenderTypes()
         registerColors()
@@ -102,11 +102,10 @@ object CobblemonClient {
             return@ItemColorProvider 0x71c219
         }, CobblemonItems.APRICORN_LEAVES)
 
-        // Berry trees don't have an item representation
         CobblemonBlocks.berries().values.forEach { berry ->
-            ColorHandlerRegistry.registerBlockColors({ _, blockAndTintGetter, blockPos, tintIndex ->
-                (blockAndTintGetter?.getBlockEntity(blockPos) as? BerryBlockEntity)?.berry()?.tintIndexes?.get(tintIndex)?.rgb ?: -1
-            }, berry.get())
+            this.implementation.registerBlockColors(BlockColorProvider { _, _, _, tintIndex ->
+                return@BlockColorProvider (berry.berry()?.tintIndexes?.get(tintIndex) ?: Color.BLACK).rgb
+            }, berry)
         }
     }
 
@@ -135,7 +134,7 @@ object CobblemonClient {
             CobblemonBlocks.PINK_MINT,
             CobblemonBlocks.GREEN_MINT,
             CobblemonBlocks.WHITE_MINT,
-            *CobblemonBlocks.berries().values.map { it.get() }.toTypedArray()
+            *CobblemonBlocks.berries().values.toTypedArray()
         )
     }
 

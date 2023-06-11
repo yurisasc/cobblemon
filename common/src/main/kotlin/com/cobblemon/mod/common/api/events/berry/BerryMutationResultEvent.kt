@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.api.events.berry
 
 import com.cobblemon.mod.common.api.berry.Berry
-import com.cobblemon.mod.common.world.block.BerryBlock
+import com.cobblemon.mod.common.block.BerryBlock
 import net.minecraft.block.BlockState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
