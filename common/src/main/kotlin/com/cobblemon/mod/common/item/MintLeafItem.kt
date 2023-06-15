@@ -8,17 +8,6 @@
 
 package com.cobblemon.mod.common.item
 
-import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.mint.MintType
-import com.cobblemon.mod.common.util.asTranslated
-import net.minecraft.client.item.TooltipContext
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.text.Text
-import net.minecraft.world.World
 
-class MintLeafItem(val mintType: MintType) : Item(Settings()) {
-    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        tooltip.add("$translationKey.tooltip".asTranslated().gray())
-    }
-}
+class MintLeafItem(val mintType: MintType) : CobblemonItem(Settings())

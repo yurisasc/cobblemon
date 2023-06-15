@@ -8,12 +8,10 @@
 
 package com.cobblemon.mod.common.client
 
+import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.CobblemonBlockEntities
-import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.CobblemonClientImplementation
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
+import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
@@ -31,7 +29,10 @@ import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
+import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.platform.events.PlatformEvents
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.asTranslated
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.render.RenderLayer
@@ -41,7 +42,9 @@ import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
+import net.minecraft.util.Language
 
 object CobblemonClient {
     lateinit var implementation: CobblemonClientImplementation
@@ -87,6 +90,27 @@ object CobblemonClient {
         PlatformEvents
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
+
+        PlatformEvents.CLIENT_ITEM_TOOLTIP.subscribe { event ->
+            val stack = event.stack
+            val lines = event.lines
+            if (stack.item.registryEntry.key.isPresent && stack.item.registryEntry.key.get().value.namespace == Cobblemon.MODID) {
+                if (stack.nbt?.getBoolean(DataKeys.HIDE_TOOLTIP) == true) {
+                    return@subscribe
+                }
+                val language = Language.getInstance()
+                val key = this.baseLangKeyForItem(stack)
+                if (language.hasTranslation(key)) {
+                    lines.add(key.asTranslated().gray())
+                }
+                var i = 1
+                var listKey = "${key}_$i"
+                while(language.hasTranslation(listKey)) {
+                    lines.add(listKey.asTranslated().gray())
+                    listKey = "${key}_${++i}"
+                }
+            }
+        }
     }
 
     fun registerColors() {
@@ -167,4 +191,13 @@ object CobblemonClient {
     fun endBattle() {
         battle = null
     }
+
+    private fun baseLangKeyForItem(stack: ItemStack): String {
+        if (stack.item is PokeBallItem) {
+            val asPokeball = stack.item as PokeBallItem
+            return "item.${asPokeball.pokeBall.name.namespace}.${asPokeball.pokeBall.name.path}.tooltip"
+        }
+        return "${stack.translationKey}.tooltip"
+    }
+
 }
