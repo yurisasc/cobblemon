@@ -40,6 +40,7 @@
 - Fixed deepslate water stone ore items looking like deepslate fire stone ores.
 - Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
 - Fixed a crash when wild Pokémon have to struggle under specific circumstances.
+- Fixed being locked out of healing machines if it is blown up during use.
 
 ### Developer
 - Added SpawnEvent
