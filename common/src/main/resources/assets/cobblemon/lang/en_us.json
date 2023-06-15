@@ -262,6 +262,8 @@
   "cobblemon.ui.starter.alreadyselected": "You already selected a starter!",
   "cobblemon.ui.starter.cannotchoose": "You cannot choose a starter right now.",
   "cobblemon.ui.starter.hasalreadychosen": "%1$s has already chosen a starter.",
+  "cobblemon.ui.starter.choose_starter_title": "Choose your starter!",
+  "cobblemon.ui.starter.choose_starter_description": "Press the \"%1$s\" key",
   "cobblemon.ui.starter.chooseyourstarter": "Press %1$s to choose your Pokémon and begin your journey!",
   "cobblemon.ui.moves": "Moves",
   "cobblemon.ui.moves.switch": "Switch Move",
