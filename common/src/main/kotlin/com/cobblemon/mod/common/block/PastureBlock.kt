@@ -47,6 +47,8 @@ import java.util.*
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
 import net.minecraft.entity.LivingEntity
+import net.minecraft.fluid.FluidState
+import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemStack
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.EnumProperty
@@ -60,6 +62,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
     companion object {
         val PART = EnumProperty.of("part", PasturePart::class.java)
         val ON = BooleanProperty.of("on")
+        val WATERLOGGED = BooleanProperty.of("waterlogged")
 
         private val SOUTH_AABB_TOP = buildCollider(top = true, Direction.NORTH)
         private val NORTH_AABB_TOP = buildCollider(top = true, Direction.SOUTH)
@@ -136,6 +139,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
             return defaultState
                 .with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
                 .with(PART, PasturePart.BOTTOM)
+                .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
         }
 
         return null
@@ -169,6 +173,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
         builder.add(HorizontalFacingBlock.FACING)
         builder.add(PART)
         builder.add(ON)
+        builder.add(WATERLOGGED)
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
@@ -191,7 +196,10 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
     }
 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
-        world.setBlockState(pos.up(), state.with(PART, PasturePart.TOP) as BlockState, 3)
+        world.setBlockState(pos.up(), state
+            .with(PART, PasturePart.TOP)
+            .with(WATERLOGGED, world.getFluidState((pos.up())).fluid == Fluids.WATER
+            ) as BlockState, 3)
         world.updateNeighbors(pos, Blocks.AIR)
         state.updateNeighbors(world, pos, 3)
     }
@@ -282,5 +290,25 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
     @Deprecated("Deprecated in Java")
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos?, newState: BlockState, moved: Boolean) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
+    }
+
+    override fun getFluidState(state: BlockState): FluidState? {
+        return if (state.get(WATERLOGGED)) {
+            Fluids.WATER.getStill(false)
+        } else super.getFluidState(state)
+    }
+
+    override fun getStateForNeighborUpdate(
+        state: BlockState,
+        direction: Direction?,
+        neighborState: BlockState?,
+        world: WorldAccess,
+        pos: BlockPos?,
+        neighborPos: BlockPos?
+    ): BlockState? {
+        if (state.get(WATERLOGGED)) {
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
+        }
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
 }
