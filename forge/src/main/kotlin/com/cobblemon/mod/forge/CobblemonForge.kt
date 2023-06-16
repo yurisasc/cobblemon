@@ -10,6 +10,7 @@ package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
+import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
@@ -20,8 +21,6 @@ import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import com.cobblemon.mod.forge.worldgen.CobblemonForgeBlockPredicateType
 import com.mojang.brigadier.arguments.ArgumentType
-import java.util.*
-import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.command.argument.ArgumentTypes
@@ -42,10 +41,7 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
-import net.minecraftforge.event.AddReloadListenerEvent
-import net.minecraftforge.event.CreativeModeTabEvent
-import net.minecraftforge.event.OnDatapackSyncEvent
-import net.minecraftforge.event.RegisterCommandsEvent
+import net.minecraftforge.event.*
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
@@ -60,6 +56,8 @@ import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegisterEvent
 import net.minecraftforge.server.ServerLifecycleHooks
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import java.util.*
+import kotlin.reflect.KClass
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {

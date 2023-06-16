@@ -6,5 +6,8 @@
   "client": [
   ],
   "mixins": [
+    "LootManagerMixin",
+    "accessor.LootTableAccessor",
+    "accessor.LootTableBuilderAccessor"
   ]
 }
