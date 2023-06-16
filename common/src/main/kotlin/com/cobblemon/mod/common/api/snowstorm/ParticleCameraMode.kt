@@ -11,8 +11,6 @@ package com.cobblemon.mod.common.api.snowstorm
 import com.cobblemon.mod.common.api.codec.CodecMapped
 import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.client.render.MatrixWrapper
-import com.cobblemon.mod.common.util.math.geometry.Axis
-import com.cobblemon.mod.common.util.math.geometry.toDegrees
 import com.cobblemon.mod.common.util.math.hamiltonProduct
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
@@ -22,7 +20,6 @@ import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.pow
 import kotlin.math.sqrt
-import kotlin.random.Random
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
@@ -30,11 +27,7 @@ import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 import org.joml.AxisAngle4d
 import org.joml.Quaternionf
-import org.joml.Quaternionfc
-import org.joml.Vector3d
 import org.joml.Vector3f
-import org.joml.Vector3fc
-import org.joml.Vector4f
 
 interface ParticleCameraMode : CodecMapped {
     companion object : ArbitrarilyMappedSerializableCompanion<ParticleCameraMode, ParticleCameraModeType>(
@@ -456,38 +449,29 @@ class LookAtDirection : ParticleCameraMode {
         cameraPitch: Float,
         viewDirection: Vec3d
     ): Quaternionf {
-        val fixedParticlePos = particlePosition.withAxis(Direction.Axis.Y, cameraPosition.y)
-        val turnVec = fixedParticlePos.subtract(cameraPosition).normalize()
-        val y = atan2(turnVec.x, turnVec.z)
-        val i = if (angle == 0.0f) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
-        val q = Quaternionf().rotateTo(
-            Vector3f(1F, 0F, 0F),
-            viewDirection.let { Vector3f(it.x.toFloat(), it.y.toFloat(), it.z.toFloat()) }
-        )
-            .hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(y.toDegrees()))
-//            .hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(i))
-        return q
-//
-//        val toParticle = fixedParticlePos.subtract(cameraPosition).let { Vector3f(it.x.toFloat(), it.y.toFloat(), it.z.toFloat()) }
-////        q.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(Random.Default.nextFloat() * 360))
-////        val y = atan2(viewDirection.x, viewDirection.z)
-//        val z = atan2(viewDirection.y, sqrt(viewDirection.x.pow(2.0) + viewDirection.z.pow(2.0)))
-//        q.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(y.toFloat()))
-//        q.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(z.toFloat()))
-//        return q
-//
-//
-//        val v = matrixWrapper.transformPosition(viewDirection).add(matrixWrapper.position)
-///*
-//        val vec = matrixWrapper.getOrigin().add(particlePosition)
-//        val v = cameraPosition.withAxis(Direction.Axis.Y, vec.y)
-//*/
-//        val i = if (angle == 0F) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
-//        val rotation = Quaternionf(0F, 0F, 0F, 1F)
-//        rotation.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees((viewDirection.x * -cameraYaw).toFloat()))
-//        rotation.hamiltonProduct(RotationAxis.POSITIVE_X.rotationDegrees((viewDirection.y * cameraPitch).toFloat()))
-//        rotation.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees((viewDirection.z * i).toFloat()))
-//        return rotation
+        val particleAngle = if (angle == 0.0f) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
+
+        // Next 4 lines are my (bad) attempts at calculating a rotation to supply on #471 based on camera displacement from particle.
+        val flattenedParticlePos = particlePosition.withAxis(Direction.Axis.Y, cameraPosition.y)
+        val directionToParticleXZ = flattenedParticlePos.subtract(cameraPosition).normalize().toVector3f()
+        val viewDirectionFloats = Vector3f(viewDirection.x.toFloat(), viewDirection.y.toFloat(), viewDirection.z.toFloat())
+        val yRot = atan2(directionToParticleXZ.z, directionToParticleXZ.x)
+
+        val rotation = Quaternionf()
+
+        // look_at_direction is meant to align X(?) with the view direction but only +/-Y seems to do it right. Weird.
+        rotation.rotateTo(Vector3f(0F, -1F, 0F), viewDirectionFloats.mul(-1F))
+        // Spin backwards 90 degrees about Z to address us using X earlier. Maybe need to spin forwards 90 degrees. Later problem.
+        rotation.hamiltonProduct(RotationAxis.POSITIVE_Z.rotation(-(PI/2).toFloat()))
+        // Apply particle rotation, not really relevant to my issue and is working :D
+        rotation.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(particleAngle))
+        // This rotation is wrong, but around the right axis. I feel like this could be the problem area but also maybe wrong entirely.
+        // Is it even possible to figure out what angle to use?
+
+        // What's being asked is that we rotate local Y such that it is perpendicular to the camera plane. Cross product?
+
+        rotation.hamiltonProduct(RotationAxis.POSITIVE_Y.rotation(yRot))
+        return rotation
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
