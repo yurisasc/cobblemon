@@ -31,7 +31,7 @@ class TaillowModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val head = getPart("head")
 
     override val portraitScale = 3.5F
-    override val portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
+    override val portraitTranslation = Vec3d(-0.2, -2.5, 0.0)
 
     override val profileScale = 1.2F
     override val profileTranslation = Vec3d(0.0, -0.01, 0.0)

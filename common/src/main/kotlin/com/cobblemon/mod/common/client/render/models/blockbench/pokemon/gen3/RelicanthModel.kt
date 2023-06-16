@@ -20,10 +20,10 @@ class RelicanthModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val head = getPart("body")
 
     override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.3, -0.5, 0.0)
+    override val portraitTranslation = Vec3d(-0.4, -1.5, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

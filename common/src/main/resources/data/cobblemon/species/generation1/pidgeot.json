@@ -214,10 +214,10 @@
   ],
   "preEvolution": "pidgeotto",
   "evolutions": [],
-  "baseScale": 1.7,
+  "baseScale": 1.25,
   "hitbox": {
-    "width": 0.8,
-    "height": 1,
+    "width": 0.75,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 70,

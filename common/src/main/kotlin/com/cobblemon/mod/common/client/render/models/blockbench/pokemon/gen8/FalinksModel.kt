@@ -26,6 +26,7 @@ class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
     lateinit var standing: PokemonPose
     lateinit var battlestanding: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var uipose: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("falinks", "blink").setPreventsIdle(false) }
@@ -47,7 +48,7 @@ class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
 
         battlestanding = registerPose(
             poseName = "battlestanding",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
@@ -62,6 +63,15 @@ class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("falinks", "ground_walk")
+            )
+        )
+
+        uipose = registerPose(
+            poseName = "uipose",
+            poseTypes = PoseType.UI_POSES,
+            quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
+            idleAnimations = arrayOf(
+                bedrock("falinks", "summary_idle")
             )
         )
     }
