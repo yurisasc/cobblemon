@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
-import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
@@ -61,33 +60,26 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
     }
 
     override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
-        val itemID = battleMessage.argumentAt(1)?.lowercase()?.replace(" ", "") ?: run {
-            battle.broadcastChatMessage(Text.literal("Failed to handle '-item' action: ${battleMessage.rawMessage}").red())
-            Cobblemon.LOGGER.error("Failed to handle '-item' action: ${battleMessage.rawMessage}")
+        val itemID = battleMessage.effectAt(1)?.id ?: return
+        if (battleMessage.hasOptionalArgument("silent")) {
+            this.take(pokemon, itemID)
             return
         }
         val effect = battleMessage.effect()
         val battlerName = pokemon.getName()
-        // The only item using the null effect gimmick
-        if (effect == null && itemID == "airballoon") {
-            battle.broadcastChatMessage(battleLang("item.air_balloon.start", battlerName))
+        // Airballoon is the only item using the null effect gimmick
+        if (effect == null) {
+            battle.broadcastChatMessage(battleLang("item.$itemID.start", battlerName))
             return
         }
-        val source = battleMessage.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon
+        val sourceName = battleMessage.getSourceBattlePokemon(battle)?.getName() ?: Text.of("UNKNOWN")
         val itemName = this.nameOf(itemID)
-        val sourceName = source?.getName() ?: Text.of("UNKNOWN")
-        val effectId = effect?.id?.lowercase() ?: ""
+        val effectId = effect.id
         val text = when (effectId) {
-            "pickup", "recycle" -> battleLang("item.recycle_or_pickup.start", battlerName, itemName)
-            "frisk" -> battleLang("item.frisk.start", sourceName, battlerName, itemName)
-            // The "source" is actually the target here
-            "magician", "pickpocket", "covet", "thief" -> battleLang("item.take_item.start", battlerName, sourceName, itemName)
-            "harvest" -> battleLang("item.harvest.start", battlerName, itemName)
-            "bestow" -> battleLang("item.bestow.start", battlerName, itemName, sourceName)
-            "switcheroo", "trick" -> battleLang("item.tricked.start", battlerName)
-            else -> Text.literal("Cannot interpret ${battleMessage.rawMessage}").red().also {
-                Cobblemon.LOGGER.error("Failed to handle '-item' action: ${battleMessage.rawMessage}")
-            }
+            "magician", "pickpocket", "covet", "thief" -> battleLang("item.thief", battlerName, itemName, sourceName) // The "source" is actually the target here
+            "pickup", "recycle" -> battleLang("item.recycle", battlerName, itemName)
+            "switcheroo", "trick" -> battleLang("item.trick", battlerName, itemName)
+            else -> battleLang("item.$effectId", battlerName, itemName, sourceName)
         }
         if (this.giveItemEffect.contains(effectId)) {
             this.give(pokemon, itemID)
@@ -99,11 +91,7 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
     }
 
     override fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
-        val itemID = battleMessage.argumentAt(1)?.lowercase()?.replace(" ", "") ?: run {
-            battle.broadcastChatMessage(Text.literal("Failed to handle '-enditem' action: ${battleMessage.rawMessage}").red())
-            Cobblemon.LOGGER.error("Failed to handle '-enditem' action: ${battleMessage.rawMessage}")
-            return
-        }
+        val itemID = battleMessage.effectAt(1)?.id ?: return
         // These are sent when showdown wants the client to animate something but not produce any text
         if (battleMessage.hasOptionalArgument("silent")) {
             this.take(pokemon, itemID)
@@ -112,32 +100,17 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
         val battlerName = pokemon.getName()
         val itemName = this.nameOf(itemID)
         if (battleMessage.hasOptionalArgument("eat")) {
-            battle.broadcastChatMessage(battleLang("item.eat.end", battlerName, itemName))
+            battle.broadcastChatMessage(battleLang("item.eat", battlerName, itemName))
             this.take(pokemon, itemID)
             return
         }
-        val source = battleMessage.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon
-        val sourceName = source?.getName() ?: Text.of("UNKNOWN")
+        val sourceName = battleMessage.getSourceBattlePokemon(battle)?.getName() ?: return  // there MUST be a source
         val effect = battleMessage.effect()
-        val text = when (effect?.id?.lowercase() ?: "") {
-            "fling" -> battleLang("item.fling.end", battlerName, itemName)
-            "knockoff" -> battleLang("item.knock_off.end", sourceName, battlerName, itemName)
-            "gem" -> battleLang("item.gem.end", itemName, battlerName)
-            "incinerate" -> battleLang("item.incinerate.end", battlerName, itemName)
-            "stealeat" -> battleLang("item.steal_eat.end", sourceName, battlerName, itemName)
+        val text = when {
+            effect?.id != null -> battleLang("enditem.${effect.id}", battlerName, itemName, sourceName)
             else -> when (itemID) {
-                "airballoon" -> battleLang("item.air_balloon.end", battlerName)
-                "focussash" -> battleLang("item.hung_on.end", battlerName, itemName)
-                "redcard" -> battleLang("item.red_card.end", battlerName, sourceName)
-                "berryjuice" -> battleLang("item.berry_juice.end", battlerName)
-                "boosterenergy", "electricseed", "grassyseed", "mistyseed", "psychicseed", "roomservice" -> battleLang("item.item.used_its.end", battlerName, itemName)
-                "mentalherb" -> battleLang("item.mental_herb.end", battlerName)
-                "powerherb" -> battleLang("item.power_herb.end", battlerName)
-                "mirrorherb" -> battleLang("item.mirror_herb.end", battlerName)
-                "whiteherb" -> battleLang("item.white_herb.end", battlerName)
-                else -> Text.literal("Cannot interpret ${battleMessage.rawMessage}").red().also {
-                    Cobblemon.LOGGER.error("Failed to handle '-enditem' action: ${battleMessage.rawMessage}")
-                }
+                "boosterenergy", "electricseed", "grassyseed", "mistyseed", "psychicseed", "roomservice" -> battleLang("enditem.generic", battlerName, itemName)
+                else -> battleLang("enditem.$itemID", battlerName)
             }
         }
         this.take(pokemon, itemID)
