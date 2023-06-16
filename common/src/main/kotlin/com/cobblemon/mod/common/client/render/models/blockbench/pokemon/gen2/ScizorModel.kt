@@ -30,7 +30,7 @@ class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val rightLeg = getPart("right_leg_joint")
 
     override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.2, 1.6, 0.0)
+    override val portraitTranslation = Vec3d(-0.2, 1.0, 0.0)
 
     override val profileScale = 0.64F
     override val profileTranslation = Vec3d(0.0, 0.76, 0.0)

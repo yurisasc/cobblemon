@@ -31,6 +31,11 @@ class GlimmetModel (root: ModelPart) : PokemonPoseableModel() {
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("glimmet", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("glimmet", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
@@ -50,17 +55,7 @@ class GlimmetModel (root: ModelPart) : PokemonPoseableModel() {
                 bedrock("glimmet", "ground_walk")
             )
         )
-
-        sleep = registerPose(
-            poseName = "sleep",
-            poseType = PoseType.SLEEP,
-            transformTicks = 10,
-            idleAnimations = arrayOf(
-                bedrock("glimmet", "sleep")
-            )
-        )
     }
-
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>

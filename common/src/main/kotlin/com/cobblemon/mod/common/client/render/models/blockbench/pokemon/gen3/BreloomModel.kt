@@ -46,6 +46,7 @@ class BreloomModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -78,10 +79,10 @@ class BreloomModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("breloom", "ground_idle"),
                 bedrock("breloom", "ground_walk")
             )
         )

@@ -25,8 +25,8 @@ class FarfetchdModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.35, -1.0, 0.0)
+    override val portraitScale = 2.6F
+    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
 
     override val profileScale = 1.1F
     override val profileTranslation = Vec3d(-0.1, 0.1, 0.0)

@@ -151,6 +151,8 @@
 - Squawkabilly
 - Glimmet
 - Glimmora
+- Added cries for Gen 5 starters, Gen 6 starters, Gen 7 starters
+- Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
 
 ### Changes
 - Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgeotto, Pidgeot, Scyther, Scizor,and Kleavor.
@@ -160,6 +162,8 @@
 - Wild Pokémon now heal if you are defeated by them or flee from them.
 - Doubled the default time between ambient Pokémon cries (they have cries if you're using a resource pack to add them)
 - Moved spawn attempts per tick to a config option (ticksBetweenSpawnAttempts)
+- PCs can now be waterlogged
+- Cobblemon items can now all have their own tooltips via resourcepacks, to add a tooltip simply add a lang entry like "item.cobblemon.{item_id}.tooltip", if you want to add multiple tooltip lines you can do so with "item.cobblemon.{item_id}.tooltip_1" and upwards.
 - Updated model and textures of Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey, Pidgey, Pidgeotto, Pidgeot, Spearow, Fearow, Drowzee, Hypno, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
 - Updated model Sceptile.
 - Updated texture of Weedle.
@@ -182,11 +186,12 @@
 - Fixed deepslate water stone ore items looking like deepslate fire stone ores.
 - Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
 - Fixed a crash when wild Pokémon have to struggle under specific circumstances.
+- Fixed being locked out of healing machines if it is blown up during use.
 - Fixed uncolored pixels on Yanma's shiny texture.
 
 ### Developer
 - Added SpawnEvent
-- Added persistent NBT property inside Pokemon to store quick, simple data.
+- Added persistent NBT property inside Pokemon to store quick and simple data.
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 

@@ -30,7 +30,7 @@ class CutieflyModel(root: ModelPart) : PokemonPoseableModel(){
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
 
-    lateinit var idle: PokemonPose
+    lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
@@ -41,8 +41,8 @@ class CutieflyModel(root: ModelPart) : PokemonPoseableModel(){
             idleAnimations = arrayOf(bedrock("cutiefly", "sleep"))
         )
 
-       idle = registerPose(
-            poseName = "idle",
+       standing = registerPose(
+            poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(
                 bedrock("cutiefly", "ground_idle")
@@ -59,9 +59,8 @@ class CutieflyModel(root: ModelPart) : PokemonPoseableModel(){
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, -12F))
         )
     }
-
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(idle, walk)) bedrockStateful("cutiefly", "faint") else null
+        override fun getFaintAnimation(
+            pokemonEntity: PokemonEntity,
+            state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("cutiefly", "faint") else null
 }

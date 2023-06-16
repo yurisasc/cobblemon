@@ -31,6 +31,11 @@ class GlimmoraModel (root: ModelPart) : PokemonPoseableModel() {
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("glimmora", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("glimmora", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
@@ -50,17 +55,7 @@ class GlimmoraModel (root: ModelPart) : PokemonPoseableModel() {
                 bedrock("glimmora", "ground_walk")
             )
         )
-
-        sleep = registerPose(
-            poseName = "sleep",
-            poseType = PoseType.SLEEP,
-            transformTicks = 10,
-            idleAnimations = arrayOf(
-                bedrock("glimmora", "sleep")
-            )
-        )
     }
-
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>

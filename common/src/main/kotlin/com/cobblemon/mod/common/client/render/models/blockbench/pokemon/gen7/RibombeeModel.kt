@@ -29,7 +29,7 @@ class RibombeeModel(root: ModelPart) : PokemonPoseableModel(){
     override val profileScale = 0.5F
     override val profileTranslation = Vec3d(0.1, 1.4, 0.0)
 
-    lateinit var idle: PokemonPose
+    lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
@@ -40,13 +40,12 @@ class RibombeeModel(root: ModelPart) : PokemonPoseableModel(){
             idleAnimations = arrayOf(bedrock("ribombee", "sleep"))
         )
 
-       idle = registerPose(
+       standing = registerPose(
             poseName = "idle",
             poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(
                 bedrock("ribombee", "ground_idle")
-            ),
-           transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -12F))
+            )
         )
 
         walk = registerPose(
@@ -54,13 +53,11 @@ class RibombeeModel(root: ModelPart) : PokemonPoseableModel(){
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
                 bedrock("ribombee", "ground_walk")
-            ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -12F))
+            )
         )
     }
-
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(idle, walk)) bedrockStateful("ribombee", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("ribombee", "faint") else null
 }
