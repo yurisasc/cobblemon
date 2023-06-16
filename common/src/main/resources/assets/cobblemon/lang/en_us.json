@@ -251,6 +251,8 @@
   "cobblemon.your_pc": "Your PC",
   "cobblemon.command.pokespawn.invalid-pokemon": "Invalid Pokémon name",
   "cobblemon.command.pokespawn.invalid-move": "Invalid move name",
+  "cobblemon.command.clearparty.nonethere": "There are no Pokémon in %1$s's party.",
+  "cobblemon.command.clearparty.cleared": "Cleared %1$s's party.",
 
   "cobblemon.ui.generic.yes": "Yes",
   "cobblemon.ui.generic.no": "No",
