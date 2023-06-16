@@ -10,12 +10,9 @@ package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
+import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
-import com.cobblemon.mod.common.platform.events.ChangeDimensionEvent
-import com.cobblemon.mod.common.platform.events.PlatformEvents
-import com.cobblemon.mod.common.platform.events.ServerEvent
-import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
-import com.cobblemon.mod.common.platform.events.ServerTickEvent
+import com.cobblemon.mod.common.platform.events.*
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
@@ -23,12 +20,10 @@ import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import com.mojang.brigadier.arguments.ArgumentType
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
-import kotlin.reflect.KClass
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents
@@ -41,6 +36,7 @@ import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
@@ -51,6 +47,7 @@ import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
@@ -61,11 +58,15 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Identifier
+import net.minecraft.util.Language
 import net.minecraft.util.profiler.Profiler
 import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import kotlin.reflect.KClass
 
 object CobblemonFabric : CobblemonImplementation {
     override val modAPI = ModAPI.FABRIC
@@ -151,6 +152,9 @@ object CobblemonFabric : CobblemonImplementation {
             )
 
             return@register ActionResult.PASS
+        }
+        LootTableEvents.MODIFY.register { _, lootManager, id, tableBuilder, _ ->
+            LootInjector.attemptInjection(id, lootManager, tableBuilder::pool)
         }
 
         CommandRegistrationCallback.EVENT.register(CobblemonCommands::register)

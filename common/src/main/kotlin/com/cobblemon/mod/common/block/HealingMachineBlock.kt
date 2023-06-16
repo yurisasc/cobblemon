@@ -43,6 +43,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.explosion.Explosion
 
 class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     companion object {
@@ -178,11 +179,13 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
-        val blockEntity = world.getBlockEntity(pos)
-        if (blockEntity is HealingMachineBlockEntity) {
-            blockEntity.clearData()
-        }
+        this.handleBreak(world, pos)
         super.onBreak(world, pos, state, player)
+    }
+
+    override fun onDestroyedByExplosion(world: World, pos: BlockPos, explosion: Explosion) {
+        this.handleBreak(world, pos)
+        super.onDestroyedByExplosion(world, pos, explosion)
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
@@ -214,4 +217,12 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip1".asTranslated().gray())
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip2".asTranslated().gray())
     }
+
+    private fun handleBreak(world: World, pos: BlockPos) {
+        val blockEntity = world.getBlockEntity(pos)
+        if (blockEntity is HealingMachineBlockEntity) {
+            blockEntity.clearData()
+        }
+    }
+
 }
