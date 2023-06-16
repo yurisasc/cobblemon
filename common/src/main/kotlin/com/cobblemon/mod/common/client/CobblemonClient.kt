@@ -115,10 +115,10 @@ object CobblemonClient {
 
     fun registerColors() {
         this.implementation.registerBlockColors(BlockColorProvider { _, _, _, _ ->
-            return@BlockColorProvider 0x71c219
+            return@BlockColorProvider 0xe1b552
         }, CobblemonBlocks.APRICORN_LEAVES)
         this.implementation.registerItemColors(ItemColorProvider { _, _ ->
-            return@ItemColorProvider 0x71c219
+            return@ItemColorProvider 0xe1b552
         }, CobblemonItems.APRICORN_LEAVES)
     }
 
