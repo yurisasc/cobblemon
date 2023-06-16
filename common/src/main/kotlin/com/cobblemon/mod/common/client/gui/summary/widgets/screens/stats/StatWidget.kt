@@ -92,7 +92,7 @@ class StatWidget(
         bufferBuilder.vertex(v1.x.toDouble(), v1.y.toDouble(), 10.0).next()
         bufferBuilder.vertex(v2.x.toDouble(), v2.y.toDouble(), 10.0).next()
         bufferBuilder.vertex(v3.x.toDouble(), v3.y.toDouble(), 10.0).next()
-        BufferRenderer.draw(bufferBuilder.end())
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
     }
 
     private fun drawStatHexagon(stats: Map<Stat, Int>, colour: Vector3f, maximum: Int) {
@@ -161,7 +161,7 @@ class StatWidget(
         // 9-o'clock
         drawTriangle(colour, specialDefencePoint, centerPoint, specialAttackPoint)
         // 11-o'clock
-        drawTriangle(colour, hpPoint, specialAttackPoint, centerPoint)
+        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)
 
 
 //        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)

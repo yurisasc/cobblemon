@@ -104,4 +104,8 @@ object DataKeys {
 
     // Persistent Data
     const val POKEMON_PERSISTENT_DATA = "PersistentData"
+
+    // Item Tooltips
+    const val HIDE_TOOLTIP = "HideTooltip"
+
 }

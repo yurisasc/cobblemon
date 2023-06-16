@@ -14,14 +14,19 @@
 - Added support for jump keyframes (i.e. pre and post keyframes)
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
-- Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Lucario, Mime Jr, Mimikyu, Pangoro, Quagsire, Quilladin, Riolu, Wooper
+- Added cries for Gen 5 starters, Gen 6 starters, Gen 7 starters
+- Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
 
 ### Changes
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
 - Updated textures for apricorn doors and all the evolution stone ores.
+- Updated Apricorn Leaves color.
 - Wild Pokémon now heal if you are defeated by them or flee from them.
 - Doubled the default time between ambient Pokémon cries (they have cries if you're using a resource pack to add them)
 - Moved spawn attempts per tick to a config option (ticksBetweenSpawnAttempts)
+- PCs can now be waterlogged
+- Starter selection prompt now appears as a tutorial-esc toast instead of plain text
+- Cobblemon items can now all have their own tooltips via resourcepacks, to add a tooltip simply add a lang entry like "item.cobblemon.{item_id}.tooltip", if you want to add multiple tooltip lines you can do so with "item.cobblemon.{item_id}.tooltip_1" and upwards.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -30,7 +35,7 @@
 - Fixed super sized Pumpkaboo not having any moves.
 - Fixed Infernape look animation.
 - Fixed Garchomp t-posing while swimming.
-- Fixed a bug that caused sleeping pokemon to stay asleep.
+- Fixed a bug that caused sleeping Pokémon to stay asleep.
 - Fixed a bug that would freeze a battle when a Pokémon gets trapped due to an ability.
 - Fixed the Poké Ball close animation canceling whenever colliding with a block.
 - Fixed faint animations not working properly in add-ons.
@@ -39,10 +44,13 @@
 - Fixed deepslate water stone ore items looking like deepslate fire stone ores.
 - Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
 - Fixed a crash when wild Pokémon have to struggle under specific circumstances.
+- Fixed being locked out of healing machines if it is blown up during use.
+- Fixed apricorn tree leaves looking gross on Fast graphics mode.
+- Fixed hoes not breaking apricorn tree leaves any faster.
 
 ### Developer
 - Added SpawnEvent
-- Added persistent NBT property inside Pokemon to store quick, simple data.
+- Added persistent NBT property inside Pokemon to store quick and simple data.
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
