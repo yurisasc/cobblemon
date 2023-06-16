@@ -43,6 +43,8 @@
 - Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
 - Fixed a crash when wild Pokémon have to struggle under specific circumstances.
 - Fixed being locked out of healing machines if it is blown up during use.
+- Fixed apricorn tree leaves looking gross on Fast graphics mode.
+- Fixed hoes not breaking apricorn tree leaves any faster.
 
 ### Developer
 - Added SpawnEvent
