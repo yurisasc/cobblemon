@@ -3,7 +3,6 @@
 ### Additions
 - Added nicknaming.
 - Added mints.
-- Added trading between players. Press R while looking at another player, you'll figure it out.
 - Added the `/teststore <player> <store> <properties>` command allowing command block/mcfunction users to query a party, PC or both for Pokémon matching specific properties and returning the match count, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.teststore` if a permission mod is present.
 - Added the `/querylearnset <player> <slot> <move>` command allowing command block/mcfunction users to query a party slot and check if the Pokémon can learn a specific move returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.querylearnset` if a permission mod is present.
 - Added the `/testpcslot <player> <slot> <properties>` command allowing command block/mcfunction users to query a pc slot and check if the Pokémon matches specific properties returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.testpcslot` if a permission mod is present.
@@ -14,7 +13,8 @@
 - Added support for jump keyframes (i.e. pre and post keyframes)
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
-- Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Lucario, Mime Jr, Mimikyu, Pangoro, Quagsire, Quilladin, Riolu, Wooper
+- Added cries for Gen 5 starters, Gen 6 starters, Gen 7 starters
+- Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
 
 ### Changes
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
@@ -45,7 +45,6 @@
 
 ### Developer
 - Added SpawnEvent
-- Added persistent NBT property inside Pokemon to store quick, simple data.
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
