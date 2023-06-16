@@ -26,8 +26,7 @@
             "id": "cleffa-2",
             "pokemon": "cleffa",
             "presets": [
-                "underground",
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -25,8 +25,7 @@
             "id": "golem-2",
             "pokemon": "golem",
             "presets": [
-                "underground",
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
