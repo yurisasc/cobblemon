@@ -8,8 +8,12 @@
 
 package com.cobblemon.mod.common.client
 
-import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonClientImplementation
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
@@ -114,16 +118,20 @@ object CobblemonClient {
     }
 
     fun registerColors() {
-        this.implementation.registerBlockColors(BlockColorProvider { _, _, _, _ ->
-            return@BlockColorProvider 0x71c219
+        this.implementation.registerBlockColors(BlockColorProvider { _, _, _, tintIndex ->
+            return@BlockColorProvider 0xe1b552
         }, CobblemonBlocks.APRICORN_LEAVES)
         this.implementation.registerItemColors(ItemColorProvider { _, _ ->
-            return@ItemColorProvider 0x71c219
+            return@ItemColorProvider 0xe1b552
         }, CobblemonItems.APRICORN_LEAVES)
     }
 
     private fun registerBlockRenderTypes() {
-        this.implementation.registerBlockRenderType(RenderLayer.getCutout(),
+
+        this.implementation.registerBlockRenderType(RenderLayer.getCutoutMipped(), CobblemonBlocks.APRICORN_LEAVES)
+
+        this.implementation.registerBlockRenderType(
+            RenderLayer.getCutout(),
             CobblemonBlocks.APRICORN_DOOR,
             CobblemonBlocks.APRICORN_TRAPDOOR,
             CobblemonBlocks.BLACK_APRICORN_SAPLING,
