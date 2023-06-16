@@ -126,6 +126,7 @@ object CobblemonClient {
             CobblemonBlocks.GREEN_MINT,
             CobblemonBlocks.WHITE_MINT,
             CobblemonBlocks.ENERGY_ROOT,
+            CobblemonBlocks.BIG_ROOT,
             CobblemonBlocks.REVIVAL_HERB
         )
     }

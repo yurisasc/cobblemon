@@ -28,7 +28,7 @@ object CobblemonConfiguredFeatures {
     @JvmField
     val MEDICINAL_LEEKS_KEY = of("medicinal_leek")
     @JvmField
-    val ENERGY_ROOTS_KEY = of("energy_root")
+    val BIG_ROOTS_KEY = of("big_root")
 
     val REVIVAL_HERBS_KEY = of("revival_herb")
 

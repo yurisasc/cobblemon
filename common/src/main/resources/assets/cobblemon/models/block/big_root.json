@@ -1,19 +1,19 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "cobblemon:block/energy_root",
-		"particle": "cobblemon:block/energy_root"
+		"0": "cobblemon:block/big_root",
+		"particle": "cobblemon:block/big_root"
 	},
 	"elements": [
 		{
-			"from": [8, 1, 4],
+			"from": [8, 3, 4],
 			"to": [8, 16, 12],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
 				"north": {"uv": [16, 16, 16, 16], "texture": "#0"},
-				"east": {"uv": [0, 0, 8, 15], "texture": "#0"},
+				"east": {"uv": [0, 0, 8, 13], "texture": "#0"},
 				"south": {"uv": [16, 16, 16, 16], "texture": "#0"},
-				"west": {"uv": [8, 0, 0, 15], "texture": "#0"},
+				"west": {"uv": [8, 0, 0, 13], "texture": "#0"},
 				"up": {"uv": [16, 16, 16, 16], "texture": "#0"},
 				"down": {"uv": [16, 16, 16, 16], "texture": "#0"}
 			}
@@ -127,7 +127,7 @@
 	},
 	"groups": [
 		{
-			"name": "energy_root",
+			"name": "big_root",
 			"origin": [8, 8, 8],
 			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6, 7]

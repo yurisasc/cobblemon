@@ -31,63 +31,15 @@ class EnergyRootBlock(settings: Settings) : Block(settings), Fertilizable {
         this.defaultState = stateManager.defaultState
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        super.appendProperties(builder)
-    }
-
-    override fun appendTooltip(stack: ItemStack, world: BlockView?, tooltip: MutableList<Text>, options: TooltipContext) {
-        tooltip.add("block.cobblemon.energy_root.tooltip".asTranslated())
-    }
-
-    override fun hasRandomTicks(state: BlockState) = true
-    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        // Check for propagation
-        if (random.nextDouble() < 0.01 && world.getLightLevel(pos) < 12) {
-            spreadFrom(world, pos, random)
-        }
-    }
-
-    override fun getPlacementState(context: ItemPlacementContext): BlockState? {
-        return defaultState/*.with(HorizontalFacingBlock.FACING, context.horizontalPlayerFacing)*/
-    }
-
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         val canPlace = world.getBlockState(pos.up()).isIn(BlockTags.DIRT) && world.isAir(pos)
         return canPlace
     }
 
-    fun getPropagatingBlockState(random: Random): BlockState {
-        return if (random.nextFloat() < 0.03) {
-            // TODO big root instead
-            defaultState/*.with(HorizontalFacingBlock.FACING, Direction.fromHorizontal(random.nextInt(4)))*/
-        } else {
-            defaultState/*.with(HorizontalFacingBlock.FACING, Direction.fromHorizontal(random.nextInt(4)))*/
-        }
-    }
-
-    fun spreadFrom(world: ServerWorld, pos: BlockPos, random: Random) {
-        for (xDiff in -1..1) {
-            for (zDiff in -1..1) {
-                if (xDiff == 0 && zDiff == 0) {
-                    continue
-                }
-
-                for (yDiff in -1..1) {
-                    val adjacent = pos.add(xDiff, yDiff, zDiff)
-                    if (canPlaceAt(world.getBlockState(adjacent), world, adjacent)) {
-                        world.setBlockState(adjacent, getPropagatingBlockState(random), NOTIFY_LISTENERS)
-                        return
-                    }
-                }
-            }
-        }
-    }
-
-    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = true
+    //  Maybe turn into Giant Root? idk
+    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = false
     override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = true
-    override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
-        spreadFrom(world, pos, random)
-    }
+    override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {}
 
     override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
 }

@@ -392,7 +392,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val ASSAULT_VEST = heldItem("assault_vest")
     @JvmField
-    val BIG_ROOT = heldItem("big_root")
+    val BIG_ROOT = create("big_root", BigRoot(CobblemonBlocks.BIG_ROOT))
     @JvmField
     val BLACK_BELT = heldItem("black_belt")
     @JvmField
@@ -639,6 +639,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, WHITE_MINT_SEEDS)
             consumer(group, WHITE_MINT_LEAF)
             consumer(group, ENERGY_ROOT)
+            consumer(group, BIG_ROOT)
 
             consumer(group, REVIVAL_HERB)
             consumer(group, PEP_UP_FLOWER)
