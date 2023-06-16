@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Transformed
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.ALL_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cobblemon.mod.common.entity.PoseType.Companion.SHOULDER_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -53,7 +54,7 @@ class ChinglingModel(root: ModelPart) : PokemonPoseableModel() {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
+            poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES + SHOULDER_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("chingling", "ground_idle")

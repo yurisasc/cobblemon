@@ -20,6 +20,7 @@ object CobblemonCommands {
         GivePokemon.register(dispatcher)
         TakePokemon.register(dispatcher)
         ChangeScaleAndSize.register(dispatcher)
+        ChangeWalkSpeed.register(dispatcher)
         TestCommand.register(dispatcher)
         ReloadShowdownCommand.register(dispatcher)
         ClickTextCommand.register(dispatcher)
@@ -42,5 +43,6 @@ object CobblemonCommands {
         QueryLearnsetCommand.register(dispatcher)
         TestPcSlotCommand.register(dispatcher)
         TestPartySlotCommand.register(dispatcher)
+        ClearPartyCommand.register(dispatcher)
     }
 }
