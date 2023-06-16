@@ -20,6 +20,7 @@ object CobblemonCommands {
         GivePokemon.register(dispatcher)
         TakePokemon.register(dispatcher)
         ChangeScaleAndSize.register(dispatcher)
+        ChangeWalkSpeed.register(dispatcher)
         TestCommand.register(dispatcher)
         ClickTextCommand.register(dispatcher)
         PokemonEditCommand.register(dispatcher)
