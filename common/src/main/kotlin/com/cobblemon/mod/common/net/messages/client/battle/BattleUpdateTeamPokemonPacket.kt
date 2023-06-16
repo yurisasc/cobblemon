@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -23,18 +24,14 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since August 27th, 2022
  */
-class BattleUpdateTeamPokemonPacket internal constructor() : NetworkPacket {
-    lateinit var pokemon: PokemonDTO
-
-    constructor(pokemon: Pokemon): this() {
-        this.pokemon = PokemonDTO(pokemon, toClient = true)
-    }
-
+class BattleUpdateTeamPokemonPacket(val pokemon: PokemonDTO) : NetworkPacket<BattleUpdateTeamPokemonPacket> {
+    override val id = ID
+    constructor(pokemon: Pokemon) : this(PokemonDTO(pokemon, true))
     override fun encode(buffer: PacketByteBuf) {
         pokemon.encode(buffer)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        pokemon = PokemonDTO().also { it.decode(buffer) }
+    companion object {
+        val ID = cobblemonResource("battle_update_team")
+        fun decode(buffer: PacketByteBuf) = BattleUpdateTeamPokemonPacket(PokemonDTO().also { it.decode(buffer) })
     }
 }

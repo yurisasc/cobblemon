@@ -13,6 +13,7 @@ object DataKeys {
     const val POKEMON = "Pokemon"
     const val POKEMON_UUID = "UUID"
     const val POKEMON_SPECIES_IDENTIFIER = "Species"
+    const val POKEMON_NICKNAME = "Nickname"
     const val POKEMON_FORM_ID = "FormId"
     const val POKEMON_LEVEL = "Level"
     const val POKEMON_GENDER = "Gender"
@@ -42,6 +43,7 @@ object DataKeys {
     const val POKEMON_HEALING_TIMER = "HealingTimer"
     const val POKEMON_DATA = "PokemonData"
     const val POKEMON_NATURE = "Nature"
+    const val POKEMON_MINTED_NATURE = "MintedNature"
     const val HELD_ITEM = "HeldItem"
 
     const val POKEMON_STATE = "State"
@@ -97,5 +99,13 @@ object DataKeys {
     const val POKEMON_ITEM_ASPECTS = "aspects"
 
     // Features
+    const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
+
+    // Persistent Data
+    const val POKEMON_PERSISTENT_DATA = "PersistentData"
+
+    // Item Tooltips
+    const val HIDE_TOOLTIP = "HideTooltip"
+
 }

@@ -24,6 +24,15 @@
   "eggGroups": [
     "mineral"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:iron_sword",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:autotomize",
     "1:furycutter",
@@ -40,6 +49,7 @@
     "44:powertrick",
     "50:swordsdance",
     "56:sacredsword",
+    "tm:aerialace",
     "tm:attract",
     "tm:brickbreak",
     "tm:brutalswing",
@@ -78,9 +88,12 @@
     "tm:swordsdance",
     "tm:toxic",
     "tutor:afteryou",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:laserfocus",
     "tutor:magnetrise",
     "tutor:shockwave",
+    "tutor:snore",
     "tutor:spite",
     "tutor:steelbeam"
   ],

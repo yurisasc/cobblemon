@@ -19,8 +19,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Vec3f.POSITIVE_Y
+import net.minecraft.util.math.RotationAxis
 
 class PokeBallRenderer(context: EntityRendererFactory.Context) : EntityRenderer<EmptyPokeBallEntity>(context) {
 
@@ -32,7 +31,7 @@ class PokeBallRenderer(context: EntityRendererFactory.Context) : EntityRenderer<
         val model = PokeBallModelRepository.getPoser(entity.pokeBall.name, entity.aspects.get())
         poseStack.push()
         poseStack.translate(0.0, 1.5 * 0.7F, 0.0)
-        poseStack.multiply(POSITIVE_Y.getDegreesQuaternion(yaw))
+        poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw))
         poseStack.scale(0.7F, -0.7F, -0.7F)
         val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, model.getLayer(getTexture(entity)), false, false)
 

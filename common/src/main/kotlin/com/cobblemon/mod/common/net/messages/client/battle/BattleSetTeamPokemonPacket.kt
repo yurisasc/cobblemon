@@ -9,11 +9,9 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 
@@ -26,23 +24,17 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 6th, 2022
  */
-class BattleSetTeamPokemonPacket() : NetworkPacket {
-    val team = mutableListOf<PokemonDTO>()
+class BattleSetTeamPokemonPacket(val team: List<PokemonDTO>) : NetworkPacket<BattleSetTeamPokemonPacket> {
 
-    constructor(team: List<Pokemon>): this() {
-        this.team.addAll(team.map { PokemonDTO(it, toClient = true) })
-    }
+    override val id = ID
+
+    constructor(team: Collection<Pokemon>) : this(team.map { PokemonDTO(it, true) })
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeSizedInt(IntSize.U_BYTE, team.size)
-        for (pokemon in team) {
-            pokemon.encode(buffer)
-        }
+        buffer.writeCollection(this.team) { pb, value -> value.encode(pb) }
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
-            team.add(PokemonDTO().also { it.decode(buffer) })
-        }
+    companion object {
+        val ID = cobblemonResource("battle_set_team")
+        fun decode(buffer: PacketByteBuf) = BattleSetTeamPokemonPacket(buffer.readList { PokemonDTO().apply { decode(it) } })
     }
 }

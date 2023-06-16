@@ -7,8 +7,8 @@
             "id": "voltorb-1",
             "pokemon": "voltorb",
             "presets": [
-                "urban",
-                "natural"
+                "natural",
+				"urban"
             ],
             "type": "pokemon",
             "context": "grounded",

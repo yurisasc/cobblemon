@@ -35,13 +35,25 @@
         "swimSpeed": 0.1,
         "canSwimInWater": true,
         "canBreatheUnderwater": true
-      },
-      "wanderChance": 1
+      }
     }
+  },
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:salmon"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5
+      }
+    ]
   },
   "moves": [
     "1:tailwhip",
     "1:watergun",
+    "3:uproar",
     "4:tackle",
     "8:flail",
     "11:chipaway",
@@ -58,9 +70,17 @@
     "48:thrash",
     "52:doubleedge",
     "56:headsmash",
+    "egg:agility",
+    "egg:brine",
     "egg:bubblebeam",
     "egg:endeavor",
+    "egg:headsmash",
+    "egg:muddywater",
+    "egg:mudshot",
     "egg:rage",
+    "egg:revenge",
+    "egg:swift",
+    "egg:whirlpool",
     "tm:agility",
     "tm:assurance",
     "tm:attract",
@@ -115,8 +135,20 @@
     "tm:waterpulse",
     "tm:whirlpool",
     "tm:zenheadbutt",
+    "tutor:agility",
+    "tutor:aquatail",
+    "tutor:bounce",
+    "tutor:endeavor",
     "tutor:flipturn",
-    "tutor:scaleshot"
+    "tutor:headbutt",
+    "tutor:icywind",
+    "tutor:liquidation",
+    "tutor:scaleshot",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:superpower",
+    "tutor:uproar",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"
@@ -176,7 +208,6 @@
       "eggGroups": [
         "water_2"
       ],
-      "moves": [],
       "labels": [
         "gen5"
       ],
@@ -207,7 +238,7 @@
       },
       "catchRate": 25,
       "maleRatio": 0.5,
-      "baseExperienceYield": 0,
+      "baseExperienceYield": 161,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,

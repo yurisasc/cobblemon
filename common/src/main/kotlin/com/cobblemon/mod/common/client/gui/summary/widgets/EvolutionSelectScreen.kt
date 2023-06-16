@@ -21,10 +21,11 @@ import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
+import org.joml.Quaternionf
+import org.joml.Vector3f
 
 class EvolutionSelectScreen(
     x: Int,
@@ -41,8 +42,8 @@ class EvolutionSelectScreen(
         const val SLOT_SPACING = 5
         const val PORTRAIT_DIAMETER = 25
 
-        private val slotResource = cobblemonResource("ui/summary/summary_evolve_slot.png")
-        private val buttonResource = cobblemonResource("ui/summary/summary_evolve_select_button.png")
+        private val slotResource = cobblemonResource("textures/gui/summary/summary_evolve_slot.png")
+        private val buttonResource = cobblemonResource("textures/gui/summary/summary_evolve_select_button.png")
     }
 
     private var entriesCreated = false
@@ -69,7 +70,7 @@ class EvolutionSelectScreen(
             buttonHeight = 10,
             clickAction = {
                 MinecraftClient.getInstance().player?.closeScreen()
-                MinecraftClient.getInstance().player?.sendMessage(lang("ui.evolve.into", pokemon.displayName, evolution.species.translatedName))
+                MinecraftClient.getInstance().player?.sendMessage(lang("ui.evolve.into", pokemon.getDisplayName(), evolution.species.translatedName))
                 pokemon.evolutionProxy.client().start(this.evolution)
             },
             text = lang("ui.evolve"),
@@ -136,7 +137,7 @@ class EvolutionSelectScreen(
                 species = this.evolution.species,
                 aspects = this.evolution.aspects,
                 matrixStack = poseStack,
-                rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
+                rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
                 state = null,
                 scale = 6F
             )

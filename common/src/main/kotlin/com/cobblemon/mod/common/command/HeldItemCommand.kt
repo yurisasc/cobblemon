@@ -18,7 +18,8 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandRegistryAccess
 import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.command.argument.ItemStackArgumentType
-import net.minecraft.server.command.CommandManager.*
+import net.minecraft.server.command.CommandManager.argument
+import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 
 object HeldItemCommand {

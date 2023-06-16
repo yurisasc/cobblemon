@@ -1,7 +1,7 @@
 {
 	"texture_size": [64, 32],
 	"textures": {
-		"layer0": "cobblemon:items/poke_balls/models/poke_ball"
+		"layer0": "cobblemon:item/poke_balls/models/poke_ball"
 	},
 	"elements": [
 		{
@@ -98,10 +98,6 @@
 		"ground": {
 			"translation": [4.5, 3, 4.5],
 			"scale": [0.6, 0.6, 0.6]
-		},
-		"gui": {
-			"rotation": [25, 140, 0],
-			"translation": [-1, 8.25, -3]
 		},
 		"head": {
 			"translation": [14.5, 7.5, 14.5],

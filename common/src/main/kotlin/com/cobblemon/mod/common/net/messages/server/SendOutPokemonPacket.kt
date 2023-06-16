@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.server
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
@@ -24,18 +25,14 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since December 2nd, 2021
  */
-class SendOutPokemonPacket() : NetworkPacket {
-    var slot = -1
-
-    constructor(slot: Int): this() {
-        this.slot = slot
-    }
-
+class SendOutPokemonPacket(val slot: Int) : NetworkPacket<SendOutPokemonPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeSizedInt(IntSize.U_BYTE, slot)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        slot = buffer.readSizedInt(IntSize.U_BYTE)
+    companion object {
+        val ID = cobblemonResource("send_out_pokemon")
+        fun decode(buffer: PacketByteBuf) = SendOutPokemonPacket(buffer.readSizedInt(IntSize.U_BYTE))
     }
 }

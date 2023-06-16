@@ -9,10 +9,10 @@
 package com.cobblemon.mod.common.api.conditional
 
 import com.google.gson.JsonElement
-import net.minecraft.tag.TagKey
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
-import net.minecraft.util.registry.RegistryKey
 
 /**
  * A condition for some registry type that asserts that the entry must be inside the given [TagKey]. This is presented
@@ -40,11 +40,11 @@ open class RegistryLikeTagCondition<T>(val tag: TagKey<T>) : RegistryLikeConditi
     }
 
     override fun fits(t: T, registry: Registry<T>): Boolean {
-        val registryHasTag = registry.containsTag(tag)
-        if (!registryHasTag) {
-//            LOGGER.warn("No tag in registry: ${tag.id}")
-            return false
-        }
+//        val registryHasTag = registry.containsTag(tag)
+//        if (!registryHasTag) {
+////            LOGGER.warn("No tag in registry: ${tag.id}")
+//            return false
+//        }
 
         return registry.getKey(t)
             .flatMap(registry::getEntry)

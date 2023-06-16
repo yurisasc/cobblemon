@@ -38,6 +38,7 @@
     "38:razorwind",
     "42:airslash",
     "50:roost",
+    "55:facade",
     "58:tailwind",
     "66:skyattack",
     "tm:aerialace",
@@ -64,6 +65,7 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
@@ -71,6 +73,7 @@
     "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:swift",
     "tm:taunt",
     "tm:toxic",
@@ -78,7 +81,14 @@
     "tm:uturn",
     "tm:workup",
     "tutor:defog",
-    "tutor:dualwingbeat"
+    "tutor:dualwingbeat",
+    "tutor:heatwave",
+    "tutor:roost",
+    "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:tailwind",
+    "tutor:uproar"
   ],
   "labels": [
     "gen5"

@@ -7,8 +7,7 @@
             "id": "dratini-1",
             "pokemon": "dratini",
             "presets": [
-                "underground",
-				"water_surface"
+                "water_surface"
             ],
             "type": "pokemon",
             "bucket": "rare",
@@ -16,6 +15,7 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
+				"maxY": 32,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
@@ -25,8 +25,7 @@
             "id": "dratini-2",
             "pokemon": "dratini",
             "presets": [
-                "underwater",
-                "underground"
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",
@@ -35,6 +34,7 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
+				"maxY": 32,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]

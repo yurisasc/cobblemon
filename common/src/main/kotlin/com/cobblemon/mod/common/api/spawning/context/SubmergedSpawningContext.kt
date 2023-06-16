@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.WorldSlice
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.block.BlockState
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -23,7 +24,7 @@ import net.minecraft.world.World
  */
 open class SubmergedSpawningContext(
     cause: SpawnCause,
-    world: World,
+    world: ServerWorld,
     position: BlockPos,
     light: Int,
     canSeeSky: Boolean,

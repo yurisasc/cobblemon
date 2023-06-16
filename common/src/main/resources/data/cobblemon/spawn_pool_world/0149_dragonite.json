@@ -17,6 +17,7 @@
             "weight": 0.1,
             "condition": {
                 "canSeeSky": false,
+				"maxY": 32,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],

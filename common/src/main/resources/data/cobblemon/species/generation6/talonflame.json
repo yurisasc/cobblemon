@@ -76,11 +76,13 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
     "tm:solarbeam",
+    "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -97,7 +99,10 @@
     "tm:workup",
     "tutor:defog",
     "tutor:dualwingbeat",
-    "tutor:snatch"
+    "tutor:heatwave",
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:tailwind"
   ],
   "labels": [
     "gen6"

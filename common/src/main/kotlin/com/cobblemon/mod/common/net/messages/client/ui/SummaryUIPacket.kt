@@ -11,29 +11,22 @@ package com.cobblemon.mod.common.net.messages.client.ui
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-class SummaryUIPacket internal constructor(): NetworkPacket {
-    constructor(vararg pokemon: Pokemon, editable: Boolean = true) : this() {
-        pokemonArray.addAll(pokemon.map { PokemonDTO(it, toClient = true) })
-        this.editable = editable
-    }
 
-    val pokemonArray = mutableListOf<PokemonDTO>()
-    var editable = true
+class SummaryUIPacket internal constructor(val pokemon: List<PokemonDTO>, val editable: Boolean): NetworkPacket<SummaryUIPacket> {
+
+    override val id = ID
+
+    constructor(vararg pokemon: Pokemon, editable: Boolean = true) : this(pokemon.map { PokemonDTO(it, true) }, editable)
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(editable)
-        buffer.writeInt(pokemonArray.size)
-        pokemonArray.forEach {
-            it.encode(buffer)
-        }
+        buffer.writeCollection(this.pokemon) { pb, value -> value.encode(pb) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        editable = buffer.readBoolean()
-        val amount = buffer.readInt()
-        for (i in 0 until amount) {
-            pokemonArray.add(PokemonDTO().also { it.decode(buffer) })
-        }
+    companion object {
+        val ID = cobblemonResource("summary_ui")
+        fun decode(buffer: PacketByteBuf) = SummaryUIPacket(buffer.readList { PokemonDTO().apply { decode(it) } }, buffer.readBoolean())
     }
 }

@@ -8,8 +8,12 @@
 
 package com.cobblemon.mod.common.client.keybind
 
-import com.cobblemon.mod.common.client.keybind.keybinds.*
-import dev.architectury.event.events.client.ClientTickEvent
+import com.cobblemon.mod.common.client.keybind.keybinds.DownShiftPartyBinding
+import com.cobblemon.mod.common.client.keybind.keybinds.HidePartyBinding
+import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
+import com.cobblemon.mod.common.client.keybind.keybinds.SummaryBinding
+import com.cobblemon.mod.common.client.keybind.keybinds.UpShiftPartyBinding
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import net.minecraft.client.option.KeyBinding
 
 /**
@@ -21,7 +25,7 @@ import net.minecraft.client.option.KeyBinding
 object CobblemonKeyBinds {
 
     init {
-        ClientTickEvent.CLIENT_POST.register { this.onTick() }
+        PlatformEvents.CLIENT_TICK_POST.subscribe { this.onTick() }
     }
 
     private val keyBinds = arrayListOf<CobblemonKeyBinding>()

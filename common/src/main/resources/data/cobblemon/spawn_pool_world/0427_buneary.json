@@ -18,7 +18,8 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_forest",
-                    "#cobblemon:is_hills"
+                    "#cobblemon:is_hills",
+					"#cobblemon:is_snowy"
                 ]
             }
         }

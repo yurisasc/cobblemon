@@ -17,6 +17,14 @@
     "special_defence": 50,
     "speed": 35
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 190,
   "maleRatio": -1,
   "shoulderMountable": false,
@@ -100,18 +108,33 @@
     "tm:substitute",
     "tm:superpower",
     "tm:swagger",
+    "tm:telekinesis",
     "tm:thief",
     "tm:thunderpunch",
     "tm:toxic",
+    "tutor:allyswitch",
     "tutor:block",
+    "tutor:drainpunch",
+    "tutor:earthpower",
+    "tutor:firepunch",
     "tutor:focuspunch",
     "tutor:gravity",
+    "tutor:icepunch",
+    "tutor:icywind",
+    "tutor:irondefense",
+    "tutor:lowkick",
     "tutor:magiccoat",
     "tutor:poltergeist",
+    "tutor:rollout",
     "tutor:scorchingsands",
     "tutor:shockwave",
     "tutor:signalbeam",
-    "tutor:telekinesis"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:superpower",
+    "tutor:telekinesis",
+    "tutor:thunderpunch"
   ],
   "labels": [
     "gen5"

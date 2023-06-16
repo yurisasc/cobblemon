@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
 import com.cobblemon.mod.common.api.pokemon.experience.CandyExperienceSource
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.item.CobblemonItemGroups
 import com.cobblemon.mod.common.item.interactive.CandyItem.Calculator
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.item.ItemStack
@@ -27,9 +26,7 @@ import net.minecraft.server.network.ServerPlayerEntity
  * @author Licious
  * @since May 5th, 2022
  */
-class CandyItem(
-    val calculator: Calculator
-) : PokemonInteractiveItem(Settings().group(CobblemonItemGroups.MEDICINE_ITEM_GROUP), Ownership.OWNER) {
+class CandyItem(val calculator: Calculator) : PokemonInteractiveItem(Settings(), Ownership.OWNER) {
 
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon
@@ -73,13 +70,10 @@ class CandyItem(
     }
 
     companion object {
-
         const val DEFAULT_XS_CANDY_YIELD = 100
         const val DEFAULT_S_CANDY_YIELD = 800
         const val DEFAULT_M_CANDY_YIELD = 3000
         const val DEFAULT_L_CANDY_YIELD = 10000
         const val DEFAULT_XL_CANDY_YIELD = 30000
-
     }
-
 }

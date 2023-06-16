@@ -21,11 +21,11 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.server.RequestMoveSwapPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
 class MovesWidget(
     pX: Int, pY: Int,
@@ -41,10 +41,10 @@ class MovesWidget(
             it.roundingMode = RoundingMode.CEILING
         }
 
-        private val movesBaseResource = cobblemonResource("ui/summary/summary_moves_base.png")
-        val movesPowerIconResource = cobblemonResource("ui/summary/summary_moves_icon_power.png")
-        val movesAccuracyIconResource = cobblemonResource("ui/summary/summary_moves_icon_accuracy.png")
-        val movesEffectIconResource = cobblemonResource("ui/summary/summary_moves_icon_effect.png")
+        private val movesBaseResource = cobblemonResource("textures/gui/summary/summary_moves_base.png")
+        val movesPowerIconResource = cobblemonResource("textures/gui/summary/summary_moves_icon_power.png")
+        val movesAccuracyIconResource = cobblemonResource("textures/gui/summary/summary_moves_icon_accuracy.png")
+        val movesEffectIconResource = cobblemonResource("textures/gui/summary/summary_moves_icon_effect.png")
     }
 
     var selectedMove: Move? = null
@@ -62,7 +62,7 @@ class MovesWidget(
         addWidget(it)
     }
 
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         blitk(
             matrixStack = pMatrixStack,
             texture = movesBaseResource,
@@ -200,7 +200,7 @@ class MovesWidget(
                 targetSlot = 0
         }
 
-        CobblemonNetwork.sendToServer(
+        CobblemonNetwork.sendPacketToServer(
             RequestMoveSwapPacket(
                 move1 = movePos,
                 move2 = targetSlot,

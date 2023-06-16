@@ -9,25 +9,23 @@
 package com.cobblemon.mod.common.net.serverhandling.storage
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonNetwork.NetworkContext
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.net.messages.client.storage.pc.ClosePCPacket
 import com.cobblemon.mod.common.net.messages.server.storage.SwapPCPartyPokemonPacket
-import com.cobblemon.mod.common.net.serverhandling.ServerPacketHandler
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-object SwapPCPartyPokemonHandler : ServerPacketHandler<SwapPCPartyPokemonPacket> {
-    override fun invokeOnServer(packet: SwapPCPartyPokemonPacket, ctx: NetworkContext, player: ServerPlayerEntity) {
+object SwapPCPartyPokemonHandler : ServerNetworkPacketHandler<SwapPCPartyPokemonPacket> {
+    override fun handle(packet: SwapPCPartyPokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val party = Cobblemon.storage.getParty(player)
-        val pc = PCLinkManager.getPC(player) ?: return run { ClosePCPacket().sendToPlayer(player) }
-
+        val pc = PCLinkManager.getPC(player) ?: return run { ClosePCPacket(null).sendToPlayer(player) }
         val partyPokemon = party[packet.partyPosition] ?: return
         val pcPokemon = pc[packet.pcPosition] ?: return
 
         if (partyPokemon.uuid != packet.partyPokemonID || pcPokemon.uuid != packet.pcPokemonID) {
             return
         }
-
         party[packet.partyPosition] = pcPokemon
         pc[packet.pcPosition] = partyPokemon
     }

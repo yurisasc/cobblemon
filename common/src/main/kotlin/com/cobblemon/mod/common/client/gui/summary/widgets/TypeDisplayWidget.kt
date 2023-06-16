@@ -13,7 +13,7 @@ class TypeDisplayWidget {
 
     companion object {
 
-        private val TYPES_RESOURCE = cobblemonResource("ui/types.png")
+        private val TYPES_RESOURCE = cobblemonResource("textures/gui/types.png")
 
     }
 

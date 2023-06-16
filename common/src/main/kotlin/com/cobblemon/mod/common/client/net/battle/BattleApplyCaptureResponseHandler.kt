@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.client.net.battle
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.battles.BallActionResponse
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyCaptureResponsePacket
 import net.minecraft.client.MinecraftClient
 
-object BattleApplyCaptureResponseHandler : ClientPacketHandler<BattleApplyCaptureResponsePacket> {
-    override fun invokeOnClient(packet: BattleApplyCaptureResponsePacket, ctx: CobblemonNetwork.NetworkContext) {
+object BattleApplyCaptureResponseHandler : ClientNetworkPacketHandler<BattleApplyCaptureResponsePacket> {
+    override fun handle(packet: BattleApplyCaptureResponsePacket, client: MinecraftClient) {
         val battle = CobblemonClient.battle ?: return
         val req = battle.pendingActionRequests.firstOrNull { it.response == null } ?: return
         val res = BallActionResponse()

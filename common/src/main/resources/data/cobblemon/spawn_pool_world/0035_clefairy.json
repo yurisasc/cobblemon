@@ -43,6 +43,9 @@
         {
             "id": "clefairy-3",
             "pokemon": "clefairy",
+			"presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
@@ -60,6 +63,9 @@
         {
             "id": "clefairy-4",
             "pokemon": "clefairy",
+			"presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

@@ -47,7 +47,8 @@ import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.MathHelper.ceil
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Vector3f
 
 class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
     companion object {
@@ -69,11 +70,11 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
 
         private val PROMPT_TEXT_OPACITY_CURVE = sineFunction(period = 4F, verticalShift = 0.5F, amplitude = 0.5F)
 
-        val battleInfoBase = cobblemonResource("ui/battle/battle_info_base.png")
-        val battleInfoBaseFlipped = cobblemonResource("ui/battle/battle_info_base_flipped.png")
-        val battleInfoRole = cobblemonResource("ui/battle/battle_info_role.png")
-        val battleInfoRoleFlipped = cobblemonResource("ui/battle/battle_info_role_flipped.png")
-        val battleInfoUnderlay = cobblemonResource("ui/battle/battle_info_underlay.png")
+        val battleInfoBase = cobblemonResource("textures/gui/battle/battle_info_base.png")
+        val battleInfoBaseFlipped = cobblemonResource("textures/gui/battle/battle_info_base_flipped.png")
+        val battleInfoRole = cobblemonResource("textures/gui/battle/battle_info_role.png")
+        val battleInfoRoleFlipped = cobblemonResource("textures/gui/battle/battle_info_role_flipped.png")
+        val battleInfoUnderlay = cobblemonResource("textures/gui/battle/battle_info_underlay.png")
     }
 
     var opacity = MIN_OPACITY
@@ -272,7 +273,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             val statusWidth = 37
             blitk(
                 matrixStack = matrices,
-                texture = cobblemonResource("ui/battle/battle_status_" + status.showdownName + ".png"),
+                texture = cobblemonResource("textures/gui/battle/battle_status_" + status.showdownName + ".png"),
                 x = x + if (reversed) 56 else 38,
                 y = y + 28,
                 height = 7,
@@ -384,8 +385,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val renderType = model.getLayer(texture)
 
         RenderSystem.applyModelViewMatrix()
-        val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F * if (reversed) -1F else 1F)
-        val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
+        val quaternion1 = RotationAxis.POSITIVE_Y.rotationDegrees(-32F * if (reversed) -1F else 1F)
+        val quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(5F)
 
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
@@ -400,14 +401,14 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         matrixStack.multiply(quaternion1)
         matrixStack.multiply(quaternion2)
 
-        val light1 = Vec3f(0.2F, 1.0F, -1.0F)
-        val light2 = Vec3f(0.1F, -1.0F, 2.0F)
+        val light1 = Vector3f(0.2F, 1.0F, -1.0F)
+        val light2 = Vector3f(0.1F, -1.0F, 2.0F)
         RenderSystem.setShaderLights(light1, light2)
         quaternion1.conjugate()
 
         val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
         val buffer = immediate.getBuffer(renderType)
-        val packedLight = LightmapTextureManager.pack(8, 4)
+        val packedLight = LightmapTextureManager.pack(11, 7)
         model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
 
         immediate.draw()

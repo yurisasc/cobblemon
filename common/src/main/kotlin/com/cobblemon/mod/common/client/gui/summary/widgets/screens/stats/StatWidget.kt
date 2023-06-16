@@ -30,7 +30,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.util.math.Vec2f
-import net.minecraft.util.math.Vec3f
+import org.joml.Vector3f
 
 class StatWidget(
     pX: Int, pY: Int,
@@ -55,13 +55,13 @@ class StatWidget(
         private const val BLUE = 0x00548BFB
         private const val RED = 0x00FB5454
 
-        private val statsBaseResource = cobblemonResource("ui/summary/summary_stats_chart_base.png")
-        private val statsChartResource = cobblemonResource("ui/summary/summary_stats_chart.png")
-        private val statsOtherBaseResource = cobblemonResource("ui/summary/summary_stats_other_base.png")
-        private val friendshipOverlayResource = cobblemonResource("ui/summary/summary_stats_friendship_overlay.png")
-        private val tabMarkerResource = cobblemonResource("ui/summary/summary_stats_tab_marker.png")
-        private val statIncreaseResource = cobblemonResource("ui/summary/summary_stats_icon_increase.png")
-        private val statDecreaseResource = cobblemonResource("ui/summary/summary_stats_icon_decrease.png")
+        private val statsBaseResource = cobblemonResource("textures/gui/summary/summary_stats_chart_base.png")
+        private val statsChartResource = cobblemonResource("textures/gui/summary/summary_stats_chart.png")
+        private val statsOtherBaseResource = cobblemonResource("textures/gui/summary/summary_stats_other_base.png")
+        private val friendshipOverlayResource = cobblemonResource("textures/gui/summary/summary_stats_friendship_overlay.png")
+        private val tabMarkerResource = cobblemonResource("textures/gui/summary/summary_stats_tab_marker.png")
+        private val statIncreaseResource = cobblemonResource("textures/gui/summary/summary_stats_icon_increase.png")
+        private val statDecreaseResource = cobblemonResource("textures/gui/summary/summary_stats_icon_decrease.png")
 
         private val statsLabel = lang("ui.stats")
         private val baseLabel = lang("ui.stats.base")
@@ -80,7 +80,7 @@ class StatWidget(
     var statTabIndex = tabIndex
 
     private fun drawTriangle(
-        colour: Vec3f,
+        colour: Vector3f,
         v1: Vec2f,
         v2: Vec2f,
         v3: Vec2f
@@ -92,10 +92,10 @@ class StatWidget(
         bufferBuilder.vertex(v1.x.toDouble(), v1.y.toDouble(), 10.0).next()
         bufferBuilder.vertex(v2.x.toDouble(), v2.y.toDouble(), 10.0).next()
         bufferBuilder.vertex(v3.x.toDouble(), v3.y.toDouble(), 10.0).next()
-        BufferRenderer.drawWithShader(bufferBuilder.end())
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
     }
 
-    private fun drawStatHexagon(stats: Map<Stat, Int>, colour: Vec3f, maximum: Int) {
+    private fun drawStatHexagon(stats: Map<Stat, Int>, colour: Vector3f, maximum: Int) {
         val hexLeftX = x + 25.5
         val hexTopY = y + 22
         val hexAttackY = hexTopY + 24.5
@@ -161,14 +161,14 @@ class StatWidget(
         // 9-o'clock
         drawTriangle(colour, specialDefencePoint, centerPoint, specialAttackPoint)
         // 11-o'clock
-        drawTriangle(colour, hpPoint, specialAttackPoint, centerPoint)
+        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)
 
 
 //        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)
     }
 
 
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val renderChart = statTabIndex != OTHER
 
         // Background
@@ -204,22 +204,22 @@ class StatWidget(
                     Stats.SPECIAL_DEFENCE to pokemon.specialDefence,
                     Stats.SPEED to pokemon.speed
                 ),
-                colour = Vec3f(50F/255, 215F/255F, 1F),
+                colour = Vector3f(50F/255, 215F/255F, 1F),
                 maximum = 400
             )
             BASE -> drawStatHexagon(
                 pokemon.form.baseStats,
-                colour = Vec3f(1F, 107F/255, 50F/255),
+                colour = Vector3f(1F, 107F/255, 50F/255),
                 maximum = 200
             )
             IV -> drawStatHexagon(
                 pokemon.ivs.associate { it.key to it.value },
-                colour = Vec3f(216F/255, 100F/255, 1F),
+                colour = Vector3f(216F/255, 100F/255, 1F),
                 maximum = 31
             )
             EV -> drawStatHexagon(
                 pokemon.evs.associate { it.key to it.value },
-                colour = Vec3f(1F, 1F, 100F/255),
+                colour = Vector3f(1F, 1F, 100F/255),
                 maximum = 252
             )
         }
@@ -311,8 +311,9 @@ class StatWidget(
 
             // Nature-modified Stat Icons
             if (statTabIndex == STATS) {
-                renderModifiedStatIcon(pMatrixStack, pokemon.nature.increasedStat, true)
-                renderModifiedStatIcon(pMatrixStack, pokemon.nature.decreasedStat, false)
+                val nature = pokemon.mintedNature ?: pokemon.nature
+                renderModifiedStatIcon(pMatrixStack, nature.increasedStat, true)
+                renderModifiedStatIcon(pMatrixStack, nature.decreasedStat, false)
             }
         } else {
             // Friendship
@@ -417,8 +418,10 @@ class StatWidget(
 
     private fun getModifiedStatColour(stat: Stat, enableColour: Boolean): Int {
         if (statTabIndex == STATS && enableColour) {
-            if (pokemon.nature.increasedStat == stat) return RED
-            if (pokemon.nature.decreasedStat == stat) return BLUE
+            val nature = pokemon.mintedNature ?: pokemon.nature
+
+            if (nature.increasedStat == stat) return RED
+            if (nature.decreasedStat == stat) return BLUE
         }
         return WHITE
     }

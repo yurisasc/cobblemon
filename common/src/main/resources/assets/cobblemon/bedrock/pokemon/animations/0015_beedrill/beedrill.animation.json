@@ -217,8 +217,21 @@
 				},
 				"foot_left": {
 					"rotation": [-23.77147, -4.66627, 72.10481]
+				},
+				"eye_right_open": {
+					"position": [2, 0, 0]
+				},
+				"eye_left_open": {
+					"position": [-1, 0, 0]
+				},
+				"eye_right_closed": {
+					"position": [-1, 0, 0]
+				},
+				"eye_left_closed": {
+					"position": [1, 0, 0]
 				}
 			}
 		}
-	}
+	},
+	"geckolib_format_version": 2
 }

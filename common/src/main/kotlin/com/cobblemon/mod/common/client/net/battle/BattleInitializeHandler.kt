@@ -8,19 +8,18 @@
 
 package com.cobblemon.mod.common.client.net.battle
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ActiveClientBattlePokemon
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.battle.ClientBattleActor
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
 import net.minecraft.client.MinecraftClient
 
-object BattleInitializeHandler : ClientPacketHandler<BattleInitializePacket> {
-    override fun invokeOnClient(packet: BattleInitializePacket, ctx: CobblemonNetwork.NetworkContext) {
+object BattleInitializeHandler : ClientNetworkPacketHandler<BattleInitializePacket> {
+    override fun handle(packet: BattleInitializePacket, client: MinecraftClient) {
         val playerUUID = MinecraftClient.getInstance().player?.uuid
         CobblemonClient.battle = ClientBattle(
             packet.battleId,

@@ -25,6 +25,15 @@
     "water_1",
     "field"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:growl",
     "1:pound",
@@ -42,10 +51,13 @@
     "33:moonblast",
     "36:hydropump",
     "39:captivate",
+    "egg:amnesia",
     "egg:aquaring",
     "egg:aromaticmist",
+    "egg:charm",
     "egg:lifedew",
     "egg:perishsong",
+    "egg:wonderroom",
     "tm:acrobatics",
     "tm:amnesia",
     "tm:attract",
@@ -91,9 +103,16 @@
     "tutor:aquatail",
     "tutor:covet",
     "tutor:flipturn",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icywind",
+    "tutor:irontail",
+    "tutor:snore",
     "tutor:tripleaxel",
+    "tutor:uproar",
     "tutor:waterpledge",
-    "tutor:waterpulse"
+    "tutor:waterpulse",
+    "tutor:wonderroom"
   ],
   "labels": [
     "gen7"

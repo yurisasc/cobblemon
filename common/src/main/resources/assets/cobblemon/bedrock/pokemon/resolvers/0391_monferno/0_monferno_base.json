@@ -7,10 +7,20 @@
       "poser": "cobblemon:monferno",
       "model": "cobblemon:monferno.geo",
       "texture": "cobblemon:textures/pokemon/0391_monferno/monferno.png",
-      "layers": []
+      "layers": [
+        {
+          "name": "emissive",
+          "emissive": true,
+          "texture": "cobblemon:textures/pokemon/0391_monferno/monferno_emissive.png",
+          "translucent": true
+        }
+      ]
     },
     {
-      "aspects": []
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0391_monferno/monferno_shiny.png"
     }
   ]
 }

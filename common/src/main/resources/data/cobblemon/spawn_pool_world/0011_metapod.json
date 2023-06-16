@@ -7,8 +7,8 @@
             "id": "metapod-1",
             "pokemon": "metapod",
             "presets": [
-                "treetop",
-                "natural"
+                "natural",
+                "treetop"
             ],
             "type": "pokemon",
             "context": "grounded",

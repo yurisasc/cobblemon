@@ -42,6 +42,8 @@
     ]
   },
   "moves": [
+    "1:poisonsting",
+    "1:stringshot",
     "9:bugbite",
     "tutor:bugbite",
     "tutor:electroweb",

@@ -7,8 +7,8 @@
             "id": "wartortle-1",
             "pokemon": "wartortle",
             "presets": [
-                "river",
-                "natural"
+                "natural",
+				"river"
             ],
             "type": "pokemon",
             "context": "grounded",

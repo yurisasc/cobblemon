@@ -9,11 +9,12 @@
 package com.cobblemon.mod.common.pokemon.ai
 
 import net.minecraft.fluid.Fluid
-import net.minecraft.tag.FluidTags
-import net.minecraft.tag.TagKey
+import net.minecraft.registry.tag.FluidTags
+import net.minecraft.registry.tag.TagKey
 
 class SwimBehaviour {
     val avoidsWater = false
+    val hurtByLava = true
     val canSwimInWater = true
     val canSwimInLava = true
     val swimSpeed = 0.3F

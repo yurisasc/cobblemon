@@ -28,7 +28,7 @@ abstract class PokeBallPoseableState : PoseableEntityState<EmptyPokeBallEntity>(
                         val model = this.currentModel!!
                         val state = model.currentState!!
                         after(seconds = 0.2F) {
-                            if (model is PokeBallModel) {
+                            if (model is PokeBallModel && stateEmitter.get() == EmptyPokeBallEntity.CaptureState.HIT) {
                                 doLater latest@{
                                     val entity = model.currentEntity ?: return@latest
                                     model.moveToPose(entity, this, model.open)

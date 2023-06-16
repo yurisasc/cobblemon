@@ -26,6 +26,14 @@
     "monster",
     "mineral"
   ],
+  "behaviour": {
+    "swim": {
+      "swimSpeed": 0.1,
+      "canSwimInWater": true,
+      "canBreatheUnderwater": true,
+      "canWalkOnWater": true
+    }
+  },
   "moves": [
     "1:harden",
     "1:rapidspin",
@@ -49,6 +57,7 @@
     "egg:barrier",
     "egg:mirrorcoat",
     "egg:mist",
+    "egg:recover",
     "tm:attract",
     "tm:avalanche",
     "tm:blizzard",
@@ -96,6 +105,9 @@
     "tm:terablast",
     "tm:toxic",
     "tutor:afteryou",
+    "tutor:icywind",
+    "tutor:irondefense",
+    "tutor:snore",
     "tutor:waterpulse"
   ],
   "labels": [

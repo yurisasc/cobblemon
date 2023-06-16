@@ -7,8 +7,8 @@
             "id": "yanma-1",
             "pokemon": "yanma",
             "presets": [
-                "freshwater",
-                "water_surface"
+                "water_surface",
+                "freshwater"
             ],
             "type": "pokemon",
             "bucket": "common",

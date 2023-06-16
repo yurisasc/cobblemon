@@ -16,19 +16,9 @@ import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
 
 class SnowstormParticleEffect(val effect: BedrockParticleEffect) : ParticleEffect {
-
-    override fun getType(): ParticleType<*> {
-        return CobblemonParticles.SNOWSTORM_PARTICLE
-    }
-
-    override fun write(buf: PacketByteBuf) {
-        effect.writeToBuffer(buf)
-    }
-
-    override fun asString(): String {
-        return ""
-    }
-
+    override fun getType() = CobblemonParticles.SNOWSTORM_PARTICLE_TYPE
+    override fun write(buf: PacketByteBuf) = effect.writeToBuffer(buf)
+    override fun asString() = ""
     companion object {
         val PARAMETERS_FACTORY: ParticleEffect.Factory<SnowstormParticleEffect> = object : ParticleEffect.Factory<SnowstormParticleEffect> {
             @Throws(CommandSyntaxException::class)
@@ -46,11 +36,7 @@ class SnowstormParticleEffect(val effect: BedrockParticleEffect) : ParticleEffec
             override fun read(
                 particleType: ParticleType<SnowstormParticleEffect?>,
                 packetByteBuf: PacketByteBuf
-            ): SnowstormParticleEffect {
-                return SnowstormParticleEffect(
-                    BedrockParticleEffect().also { it.readFromBuffer(packetByteBuf) }
-                )
-            }
+            ) = SnowstormParticleEffect(BedrockParticleEffect().also { it.readFromBuffer(packetByteBuf) })
         }
     }
 }

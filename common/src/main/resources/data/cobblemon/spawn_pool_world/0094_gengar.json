@@ -7,8 +7,7 @@
             "id": "gengar-1",
             "pokemon": "gengar",
             "presets": [
-                "underground",
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,8 +25,7 @@
             "id": "gengar-2",
             "pokemon": "gengar",
             "presets": [
-                "underground",
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -36,6 +34,7 @@
             "weight": 0.1,
             "condition": {
                 "canSeeSky": false,
+				"maxLight": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
@@ -46,12 +45,29 @@
                 ]
             }
         },
-        {
+		{
             "id": "gengar-3",
             "pokemon": "gengar",
             "presets": [
-                "natural",
                 "derelict"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "41-50",
+            "weight": 0.06,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
+        },
+        {
+            "id": "gengar-4",
+            "pokemon": "gengar",
+            "presets": [
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -60,17 +76,17 @@
             "weight": 0.1,
             "condition": {
                 "canSeeSky": true,
+				"maxLight": 0,
                 "biomes": [
                     "#cobblemon:is_spooky"
                 ]
             }
         },
         {
-            "id": "gengar-4",
+            "id": "gengar-5",
             "pokemon": "gengar",
             "presets": [
-                "natural",
-                "derelict"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

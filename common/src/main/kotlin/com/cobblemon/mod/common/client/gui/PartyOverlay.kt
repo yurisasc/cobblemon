@@ -8,12 +8,16 @@
 
 package com.cobblemon.mod.common.client.gui
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
+import com.cobblemon.mod.common.api.text.darkGray
+import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
+import com.cobblemon.mod.common.client.gui.toast.CobblemonToast
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.HidePartyBinding
 import com.cobblemon.mod.common.client.keybind.keybinds.SummaryBinding
@@ -23,13 +27,14 @@ import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import kotlin.math.roundToInt
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.toast.Toast
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.MathHelper
 
 class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
 
@@ -40,20 +45,32 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
         private const val PORTRAIT_DIAMETER = 21
         private const val SCALE = 0.5F
 
-        private val partySlot = cobblemonResource("ui/party/party_slot.png")
-        private val partySlotActive = cobblemonResource("ui/party/party_slot_active.png")
-        private val partySlotFainted = cobblemonResource("ui/party/party_slot_fainted.png")
-        private val partySlotFaintedActive = cobblemonResource("ui/party/party_slot_fainted_active.png")
-        private val partySlotCollapsed = cobblemonResource("ui/party/party_slot_collapsed.png")
-        private val genderIconMale = cobblemonResource("ui/party/party_gender_male.png")
-        private val genderIconFemale = cobblemonResource("ui/party/party_gender_female.png")
-        private val portraitBackground = cobblemonResource("ui/party/party_slot_portrait_background.png")
+        private val partySlot = cobblemonResource("textures/gui/party/party_slot.png")
+        private val partySlotActive = cobblemonResource("textures/gui/party/party_slot_active.png")
+        private val partySlotFainted = cobblemonResource("textures/gui/party/party_slot_fainted.png")
+        private val partySlotFaintedActive = cobblemonResource("textures/gui/party/party_slot_fainted_active.png")
+        private val partySlotCollapsed = cobblemonResource("textures/gui/party/party_slot_collapsed.png")
+        private val genderIconMale = cobblemonResource("textures/gui/party/party_gender_male.png")
+        private val genderIconFemale = cobblemonResource("textures/gui/party/party_gender_female.png")
+        private val portraitBackground = cobblemonResource("textures/gui/party/party_slot_portrait_background.png")
     }
 
     private val screenExemptions: List<Class<out Screen>> = listOf(
         ChatScreen::class.java,
         BattleGUI::class.java
     )
+
+    private val starterToast = CobblemonToast(
+        MathHelper.randomUuid(),
+        CobblemonItems.POKE_BALL.defaultStack,
+        lang("ui.starter.choose_starter_title", SummaryBinding.boundKey().localizedText).red(),
+        lang("ui.starter.choose_starter_description", SummaryBinding.boundKey().localizedText).darkGray(),
+        Toast.TEXTURE,
+        -1F,
+        0
+    )
+
+    private var attachedToast = false
 
     override fun render(matrixStack: MatrixStack, partialDeltaTicks: Float) {
         val minecraft = MinecraftClient.getInstance()
@@ -79,7 +96,11 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 !CobblemonClient.clientPlayerData.starterSelected &&
                 !CobblemonClient.checkedStarterScreen
             ) {
-                // ToDo replace back to PokeNav once reimplemented
+                if (!this.attachedToast) {
+                    minecraft.toastManager.add(this.starterToast)
+                    this.attachedToast = true
+                }
+                /*
                 drawScaledText(
                     matrixStack = matrixStack,
                     text = lang("ui.starter.chooseyourstarter", SummaryBinding.boundKey().localizedText),
@@ -88,8 +109,12 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                     centered = true,
                     shadow = true
                 )
+                 */
             }
             return
+        }
+        if (this.starterToast.nextVisibility != Toast.Visibility.HIDE) {
+            this.starterToast.nextVisibility = Toast.Visibility.HIDE
         }
 
         val totalHeight = party.slots.size * SLOT_HEIGHT
@@ -189,7 +214,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
 
                 drawScaledText(
                     matrixStack = matrixStack,
-                    text = pokemon.displayName,
+                    text = pokemon.getDisplayName(),
                     x = panelX + selectedOffsetX + 2.5F,
                     y = indexY + 25,
                     scale = SCALE
@@ -249,7 +274,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                     blue = 0.84
                 )
 
-                val ballIcon = cobblemonResource("ui/ball/" + pokemon.caughtBall.name.path + ".png")
+                val ballIcon = cobblemonResource("textures/gui/ball/" + pokemon.caughtBall.name.path + ".png")
                 val ballHeight = 22
                 blitk(
                     matrixStack = matrixStack,
@@ -268,7 +293,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                     val statusName = status.showdownName
                     blitk(
                         matrixStack = matrixStack,
-                        texture = cobblemonResource("ui/party/status_$statusName.png"),
+                        texture = cobblemonResource("textures/gui/party/status_$statusName.png"),
                         x = panelX + selectedOffsetX + 51,
                         y = indexY + 8,
                         height = 14,

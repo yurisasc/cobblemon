@@ -7,8 +7,8 @@
             "id": "squirtle-1",
             "pokemon": "squirtle",
             "presets": [
-                "river",
-                "natural"
+                "natural",
+				"river"
             ],
             "type": "pokemon",
             "context": "grounded",

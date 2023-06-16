@@ -84,6 +84,7 @@
     "tm:rest",
     "tm:return",
     "tm:round",
+    "tm:safeguard",
     "tm:scald",
     "tm:secretpower",
     "tm:shadowball",
@@ -99,9 +100,18 @@
     "tm:waterfall",
     "tm:waterpulse",
     "tm:zenheadbutt",
+    "tutor:aquaring",
+    "tutor:bounce",
+    "tutor:helpinghand",
+    "tutor:icywind",
     "tutor:knockoff",
+    "tutor:liquidation",
     "tutor:magiccoat",
-    "tutor:snore"
+    "tutor:mirrorcoat",
+    "tutor:painsplit",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen5"

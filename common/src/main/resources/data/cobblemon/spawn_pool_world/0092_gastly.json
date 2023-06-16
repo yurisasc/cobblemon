@@ -7,8 +7,7 @@
             "id": "gastly-1",
             "pokemon": "gastly",
             "presets": [
-                "underground",
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,8 +25,7 @@
             "id": "gastly-2",
             "pokemon": "gastly",
             "presets": [
-                "underground",
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -36,10 +34,10 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
+				"maxLight": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ],
-				"maxLight": 0
+                ]
             },
             "anticondition": {
                 "biomes": [
@@ -47,12 +45,29 @@
                 ]
             }
         },
-        {
+		{
             "id": "gastly-3",
             "pokemon": "gastly",
             "presets": [
-                "natural",
                 "derelict"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "8-31",
+            "weight": 5.4,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
+        },
+        {
+            "id": "gastly-4",
+            "pokemon": "gastly",
+            "presets": [
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -61,18 +76,17 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
+				"maxLight": 0,
                 "biomes": [
                     "#cobblemon:is_spooky"
-                ],
-				"maxLight": 0
+                ]
             }
         },
         {
-            "id": "gastly-4",
+            "id": "gastly-5",
             "pokemon": "gastly",
             "presets": [
-                "natural",
-                "derelict"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

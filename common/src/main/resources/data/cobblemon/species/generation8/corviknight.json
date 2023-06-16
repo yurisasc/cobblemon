@@ -54,7 +54,6 @@
       "eggGroups": [
         "flying"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -125,9 +124,11 @@
     "tm:reversal",
     "tm:round",
     "tm:scaryface",
+    "tm:screech",
     "tm:sleeptalk",
     "tm:snore",
     "tm:steelbeam",
+    "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swift",
@@ -138,7 +139,8 @@
     "tm:thief",
     "tm:uturn",
     "tm:workup",
-    "tutor:dualwingbeat"
+    "tutor:dualwingbeat",
+    "tutor:steelbeam"
   ],
   "labels": [
     "gen8"

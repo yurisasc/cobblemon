@@ -25,6 +25,7 @@
     "field"
   ],
   "moves": [
+    "1:agility",
     "1:leer",
     "1:mudslap",
     "3:tackle",
@@ -42,8 +43,10 @@
     "33:swordsdance",
     "36:earthquake",
     "39:superfang",
+    "47:facade",
     "egg:defensecurl",
     "egg:rollout",
+    "egg:spikes",
     "tm:agility",
     "tm:attract",
     "tm:bounce",
@@ -93,9 +96,14 @@
     "tm:uturn",
     "tm:wildcharge",
     "tm:workup",
+    "tutor:bounce",
     "tutor:endeavor",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:lastresort",
-    "tutor:recycle"
+    "tutor:recycle",
+    "tutor:snore",
+    "tutor:superfang"
   ],
   "labels": [
     "gen6"

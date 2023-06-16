@@ -9,24 +9,18 @@
 package com.cobblemon.mod.common.net.messages.server
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-class SelectStarterPacket internal constructor() : NetworkPacket {
 
-    var categoryName: String = ""
-    var selected: Int = -1
-
-    constructor(categoryName: String, selected: Int) : this() {
-        this.categoryName = categoryName
-        this.selected = selected
-    }
-
+class SelectStarterPacket(val categoryName: String, val selected: Int) : NetworkPacket<SelectStarterPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeString(categoryName)
-        buffer.writeInt(selected)
+        buffer.writeString(this.categoryName)
+        buffer.writeInt(this.selected)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        categoryName = buffer.readString()
-        selected = buffer.readInt()
+    companion object {
+        val ID = cobblemonResource("select_starter")
+        fun decode(buffer: PacketByteBuf): SelectStarterPacket = SelectStarterPacket(buffer.readString(), buffer.readInt())
     }
 }

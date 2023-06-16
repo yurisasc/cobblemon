@@ -1,7 +1,13 @@
 {
   "condition": {
     "neededBaseBlocks": [
-      "#minecraft:animals_spawnable_on",
+      "minecraft:big_dripleaf",
+	  "minecraft:lily_pad",
+	  "minecraft:moss_block",
+	  "minecraft:moss_carpet",
+	  "minecraft:sculk",
+	  "minecraft:snow_block",
+	  "#minecraft:animals_spawnable_on",
 	  "#minecraft:crystal_sound_blocks",
 	  "#minecraft:base_stone_nether",
 	  "#minecraft:base_stone_overworld",

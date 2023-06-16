@@ -31,8 +31,9 @@ import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Matrix4f
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Matrix4f
+import org.joml.Vector3f
 
 fun blitk(
     matrixStack: MatrixStack,
@@ -53,7 +54,7 @@ fun blitk(
     blend: Boolean = true,
     scale: Float = 1F
 ) {
-    RenderSystem.setShader { GameRenderer.getPositionTexShader() }
+    RenderSystem.setShader { GameRenderer.getPositionTexProgram() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
     if (blend) {
         RenderSystem.enableBlend()
@@ -71,6 +72,7 @@ fun blitk(
         vOffset.toFloat() / textureHeight.toFloat(), (vOffset.toFloat() + height.toFloat()) / textureHeight.toFloat()
     )
     matrixStack.pop()
+    RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
 }
 
 fun drawRectangle(
@@ -93,7 +95,7 @@ fun drawRectangle(
     bufferbuilder.vertex(matrix, x, y, blitOffset).texture(minU, minV).next()
     // TODO: Figure out if this is correct replacement.
     // OLD: BufferRenderer.draw(bufferbuilder)
-    BufferRenderer.drawWithShader(bufferbuilder.end())
+    BufferRenderer.drawWithGlobalProgram(bufferbuilder.end())
 }
 
 fun drawCenteredText(
@@ -195,8 +197,8 @@ fun drawPortraitPokemon(
     val renderType = model.getLayer(texture)
 
     RenderSystem.applyModelViewMatrix()
-    val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F * if (reversed) -1F else 1F)
-    val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
+    val quaternion1 = RotationAxis.POSITIVE_Y.rotationDegrees(-32F * if (reversed) -1F else 1F)
+    val quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(5F)
 
     if (state == null) {
         model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
@@ -215,14 +217,14 @@ fun drawPortraitPokemon(
     matrixStack.multiply(quaternion1)
     matrixStack.multiply(quaternion2)
 
-    val light1 = Vec3f(0.2F, 1.0F, -1.0F)
-    val light2 = Vec3f(0.1F, 0.0F, 8.0F)
+    val light1 = Vector3f(0.2F, 1.0F, -1.0F)
+    val light2 = Vector3f(0.1F, 0.0F, 8.0F)
     RenderSystem.setShaderLights(light1, light2)
     quaternion1.conjugate()
 
     val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
     val buffer = immediate.getBuffer(renderType)
-    val packedLight = LightmapTextureManager.pack(8, 4)
+    val packedLight = LightmapTextureManager.pack(11, 7)
 
     model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
         model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)

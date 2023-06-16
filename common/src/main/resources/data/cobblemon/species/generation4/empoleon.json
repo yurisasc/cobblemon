@@ -26,8 +26,22 @@
     "water_1",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "drops": {
-    "amount": "2",
+    "amount": "3",
     "entries": [
       {
         "item": "minecraft:feather",
@@ -36,6 +50,10 @@
       },
       {
         "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 20
       }
     ]
   },
@@ -47,10 +65,13 @@
     "1:tackle",
     "11:swordsdance",
     "15:peck",
+    "16:metalclaw",
     "19:bubblebeam",
+    "19:swagger",
     "24:swagger",
     "28:furyattack",
     "33:brine",
+    "36:aquajet",
     "39:whirlpool",
     "46:mist",
     "52:drillpeck",
@@ -60,10 +81,12 @@
     "tm:avalanche",
     "tm:blizzard",
     "tm:brickbreak",
+    "tm:brine",
     "tm:bulldoze",
     "tm:captivate",
     "tm:confide",
     "tm:cut",
+    "tm:defog",
     "tm:dig",
     "tm:dive",
     "tm:doubleteam",
@@ -98,6 +121,7 @@
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:sleeptalk",
+    "tm:stealthrock",
     "tm:steelwing",
     "tm:strength",
     "tm:substitute",
@@ -106,12 +130,19 @@
     "tm:swordsdance",
     "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
+    "tm:whirlpool",
     "tm:workup",
+    "tutor:aquajet",
     "tutor:covet",
     "tutor:defog",
+    "tutor:dive",
     "tutor:furycutter",
+    "tutor:grassknot",
     "tutor:headbutt",
     "tutor:hydrocannon",
+    "tutor:hydropump",
+    "tutor:icebeam",
     "tutor:icywind",
     "tutor:irondefense",
     "tutor:knockoff",
@@ -119,6 +150,7 @@
     "tutor:liquidation",
     "tutor:mudslap",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stealthrock",
     "tutor:throatchop",

@@ -8,12 +8,13 @@
 
 package com.cobblemon.mod.common.net.messages.client.storage.party
 
+import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPartyPosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.net.messages.PokemonDTO
-import com.cobblemon.mod.common.net.messages.client.storage.SetPokemonPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -26,17 +27,21 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 29th, 2021
 */
-class SetPartyPokemonPacket : SetPokemonPacket<PartyPosition> {
-    constructor() {
-        this.pokemon = PokemonDTO()
+class SetPartyPokemonPacket internal constructor(val storeID: UUID, val storePosition: PartyPosition, val pokemonDTO: PokemonDTO) : NetworkPacket<SetPartyPokemonPacket> {
+
+    override val id = ID
+
+    constructor(storeID: UUID, storePosition: PartyPosition, pokemon: Pokemon) : this(storeID, storePosition, PokemonDTO(pokemon, true))
+
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeUuid(this.storeID)
+        buffer.writePartyPosition(this.storePosition)
+        this.pokemonDTO.encode(buffer)
     }
 
-    constructor(storeID: UUID, storePosition: PartyPosition, pokemon: Pokemon) {
-        this.storeID = storeID
-        this.storePosition = storePosition
-        this.pokemon = PokemonDTO(pokemon, toClient = true)
+    companion object {
+        val ID = cobblemonResource("set_party_pokemon")
+        fun decode(buffer: PacketByteBuf) = SetPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), PokemonDTO().apply { decode(buffer) })
     }
 
-    override fun encodePosition(buffer: PacketByteBuf) = buffer.writePartyPosition(storePosition)
-    override fun decodePosition(buffer: PacketByteBuf) = buffer.readPartyPosition()
 }

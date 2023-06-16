@@ -53,7 +53,6 @@
         "field",
         "dragon"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -92,6 +91,7 @@
     "tm:attract",
     "tm:bodypress",
     "tm:bodyslam",
+    "tm:brutalswing",
     "tm:bulldoze",
     "tm:dig",
     "tm:drillrun",
@@ -117,6 +117,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:screech",
     "tm:sleeptalk",

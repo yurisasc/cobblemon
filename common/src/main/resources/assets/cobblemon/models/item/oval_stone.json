@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cobblemon:items/evolution/oval_stone"
+    "layer0": "cobblemon:item/evolution/oval_stone"
   }
 }

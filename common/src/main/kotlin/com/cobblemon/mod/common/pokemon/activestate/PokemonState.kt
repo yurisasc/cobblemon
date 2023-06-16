@@ -21,10 +21,10 @@ import com.google.gson.JsonObject
 import java.util.UUID
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.registry.RegistryKey
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
 
 sealed class PokemonState {
@@ -79,7 +79,7 @@ class SentOutState() : ActivePokemonState() {
         this.dimension = entity.world.registryKey
     }
 
-    override fun getIcon(pokemon: Pokemon) = cobblemonResource("ui/party/party_icon_released.png")
+    override fun getIcon(pokemon: Pokemon) = cobblemonResource("textures/gui/party/party_icon_released.png")
     override fun writeToNBT(nbt: NbtCompound) = null
     override fun writeToJSON(json: JsonObject) = null
 
@@ -121,7 +121,7 @@ class ShoulderedState() : ActivePokemonState() {
 
     override fun getIcon(pokemon: Pokemon): Identifier {
         val suffix = if (isLeftShoulder) "left" else "right"
-        return cobblemonResource("ui/party/party_icon_shoulder_$suffix.png")
+        return cobblemonResource("textures/gui/party/party_icon_shoulder_$suffix.png")
     }
     override fun writeToNBT(nbt: NbtCompound): NbtCompound {
         super.writeToNBT(nbt)

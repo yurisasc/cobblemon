@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import java.lang.Float.min
 import kotlin.math.abs
 import net.minecraft.entity.Entity
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
@@ -48,10 +49,14 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             entity.pokemon.species = PokemonSpecies.getByIdentifier(Identifier(it))!! // TODO exception handling
         })
 
+//        entity.subscriptions.add(entity.nickname.subscribeIncludingCurrent {
+//            entity.pokemon.nickname = it?.copy()
+//        })
+
         entity.subscriptions.add(entity.deathEffectsStarted.subscribe {
             if (it) {
                 val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
-                val animation = model.getFaintAnimation(entity, this) ?: return@subscribe
+                val animation = try { model.getFaintAnimation(entity, this) } catch (e: Exception) { e.printStackTrace(); null } ?: return@subscribe
                 statefulAnimations.add(animation)
             }
         })
@@ -113,10 +118,24 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             }
         }
 
+        updateLocatorPosition(entity.pos)
+
         previousVerticalVelocity = entity.velocity.y.toFloat()
     }
 
     fun setPhaseTarget(targetId: Int) {
         this.phaseTarget = entity.world.getEntityById(targetId)
+    }
+
+    override fun handleStatus(status: Byte) {
+        if (status == 10.toByte()) {
+            val model = (currentModel ?: return) as PokemonPoseableModel
+            val animation = model.getEatAnimation(entity, this) ?: return
+            statefulAnimations.add(animation)
+        }
+    }
+
+    override fun updatePostDeath() {
+        ++entity.deathTime
     }
 }

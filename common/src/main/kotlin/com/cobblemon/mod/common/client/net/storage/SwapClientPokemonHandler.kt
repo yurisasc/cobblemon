@@ -8,13 +8,13 @@
 
 package com.cobblemon.mod.common.client.net.storage
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.storage.SwapClientPokemonPacket
+import net.minecraft.client.MinecraftClient
 
-object SwapClientPokemonHandler : ClientPacketHandler<SwapClientPokemonPacket> {
-    override fun invokeOnClient(packet: SwapClientPokemonPacket, ctx: CobblemonNetwork.NetworkContext) {
+object SwapClientPokemonHandler : ClientNetworkPacketHandler<SwapClientPokemonPacket> {
+    override fun handle(packet: SwapClientPokemonPacket, client: MinecraftClient) {
         if (packet.storeIsParty) {
             CobblemonClient.storage.swapInParty(packet.storeID, packet.pokemonID1, packet.pokemonID2)
         } else {

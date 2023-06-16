@@ -34,7 +34,7 @@
       },
       "catchRate": 10,
       "maleRatio": -1,
-      "baseExperienceYield": 360,
+      "baseExperienceYield": 335,
       "baseFriendship": 0,
       "evYield": {
         "hp": 0,
@@ -145,7 +145,14 @@
     "tm:trailblaze",
     "tm:wildcharge",
     "tm:workup",
-    "tutor:coaching"
+    "tutor:closecombat",
+    "tutor:coaching",
+    "tutor:crunch",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:slash",
+    "tutor:steelbeam",
+    "tutor:wideguard"
   ],
   "labels": [
     "gen8",

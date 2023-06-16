@@ -15,8 +15,8 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Material
 import net.minecraft.entity.ai.goal.WanderAroundGoal
 import net.minecraft.fluid.Fluid
-import net.minecraft.tag.FluidTags
-import net.minecraft.tag.TagKey
+import net.minecraft.registry.tag.FluidTags
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 

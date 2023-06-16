@@ -32,9 +32,18 @@ open class Ability internal constructor(var template: AbilityTemplate, var force
     val description: String
         get() = template.description
 
+    /**
+     * This represents the last known index of this backing ability in the species data.
+     * If -1 the ability will attempt to find the correct index or reroll itself, this is done in order to be compatible with existing data
+     * The value can be mutated however this is not recommended by API users.
+     */
     var index: Int = -1
 
-    var priority = Priority.HIGHEST
+    /**
+     * The last known priority of this ability in the species data.
+     * The value can be mutated however this is not recommended by API users.
+     */
+    var priority = Priority.LOWEST
 
     open fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putString(DataKeys.POKEMON_ABILITY_NAME, name)

@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.net.messages.client.storage.party.MoveClientPart
 import com.cobblemon.mod.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.getServer
+import com.cobblemon.mod.common.util.server
 import com.google.gson.JsonObject
 import java.util.UUID
 import net.minecraft.nbt.NbtCompound
@@ -86,8 +86,13 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return position.slot in (0 until slots.size)
     }
 
-    override fun getObservingPlayers() = getServer()?.playerManager?.playerList?.filter { it.uuid in observerUUIDs } ?: emptyList()
+    override fun getObservingPlayers() = server()?.playerManager?.playerList?.filter { it.uuid in observerUUIDs } ?: emptyList()
+
+    /** The total amount of slots in the party. */
     fun size() = slots.size
+
+    /** The amount of party slots that are occupied by a [Pokemon]. */
+    fun occupied() = slots.filterNotNull().count()
 
     override fun sendTo(player: ServerPlayerEntity) {
         player.sendPacket(InitializePartyPacket(false, uuid, slots.size))
@@ -141,6 +146,11 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         }
     }
 
+    fun toGappyList() = slots.toList()
+
+    /** Maps the slots of the party using the giving mapper function, but preserving the nulls in the party at the right spots. */
+    fun <T : Any> mapNullPreserving(mapper: (Pokemon) -> T): List<T?> = toGappyList().map { it?.let(mapper) }
+
     override fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putInt(DataKeys.STORE_SLOT_COUNT, slots.size)
         for (slot in slots.indices) {
@@ -162,6 +172,9 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
                 slots[slot] = Pokemon().loadFromNBT(pokemonNBT)
             }
         }
+
+        removeDuplicates()
+
         return this
     }
 
@@ -186,7 +199,23 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
                 slots[slot] = Pokemon().loadFromJSON(json.get(key).asJsonObject)
             }
         }
+
+        removeDuplicates()
+
         return this
+    }
+
+    fun removeDuplicates() {
+        val knownUUIDs = mutableListOf<UUID>()
+        for (slot in 0 until this.slots.size) {
+            val pokemon = get(slot) ?: continue
+            if (pokemon.uuid !in knownUUIDs) {
+                knownUUIDs.add(pokemon.uuid)
+            } else {
+                slots[slot] = null
+                anyChangeObservable.emit(Unit)
+            }
+        }
     }
 
     override fun loadPositionFromNBT(nbt: NbtCompound): StoreCoordinates<PartyPosition> {

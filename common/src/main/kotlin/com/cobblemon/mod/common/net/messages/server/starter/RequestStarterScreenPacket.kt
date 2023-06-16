@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.server.starter
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -18,7 +19,12 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since August 1st, 2022
  */
-class RequestStarterScreenPacket internal constructor() : NetworkPacket {
+class RequestStarterScreenPacket : NetworkPacket<RequestStarterScreenPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {}
-    override fun decode(buffer: PacketByteBuf) {}
+
+    companion object {
+        val ID = cobblemonResource("request_starter_screen")
+        fun decode(buffer: PacketByteBuf): RequestStarterScreenPacket = RequestStarterScreenPacket()
+    }
 }

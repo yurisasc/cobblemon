@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.pokemon.feature
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.SeasonResolver
 import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature
-import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
+import com.cobblemon.mod.common.pokemon.Pokemon
 import java.util.EnumSet
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldAccess
@@ -38,9 +38,13 @@ const val SEASON = "season"
 
 object SeasonFeatureHandler {
     fun updateSeason(pokemon: Pokemon, world: WorldAccess, pos: BlockPos) {
+        updateSeason(pokemon, Cobblemon.seasonResolver(world, pos))
+    }
+
+    fun updateSeason(pokemon: Pokemon, season: CobblemonSeason?) {
         val feature = pokemon.getFeature<StringSpeciesFeature>(SEASON) ?: return
         val currentSeason = feature.value
-        val newSeason = Cobblemon.seasonResolver(world, pos)?.name?.lowercase()
+        val newSeason = season?.name?.lowercase()
         if (currentSeason != newSeason && newSeason != null) {
             feature.value = newSeason
             pokemon.updateAspects()

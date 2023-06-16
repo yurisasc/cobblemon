@@ -7,8 +7,7 @@
             "id": "haunter-1",
             "pokemon": "haunter",
             "presets": [
-                "underground",
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,8 +25,7 @@
             "id": "haunter-2",
             "pokemon": "haunter",
             "presets": [
-                "underground",
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -36,10 +34,10 @@
             "weight": 0.9,
             "condition": {
                 "canSeeSky": false,
+				"maxLight": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ],
-				"maxLight": 0
+                ]
             },
             "anticondition": {
                 "biomes": [
@@ -47,12 +45,29 @@
                 ]
             }
         },
-        {
+		{
             "id": "haunter-3",
             "pokemon": "haunter",
             "presets": [
-                "natural",
                 "derelict"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "25-40",
+            "weight": 0.54,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
+        },
+        {
+            "id": "haunter-4",
+            "pokemon": "haunter",
+            "presets": [
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -61,18 +76,17 @@
             "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
+                "maxLight": 0,
                 "biomes": [
                     "#cobblemon:is_spooky"
-                ],
-                "maxLight": 0
+                ]
             }
         },
         {
-            "id": "haunter-4",
+            "id": "haunter-5",
             "pokemon": "haunter",
             "presets": [
-                "natural",
-                "derelict"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

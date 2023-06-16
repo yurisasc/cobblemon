@@ -8,13 +8,13 @@
 
 package com.cobblemon.mod.common.client.net.battle
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureShakePacket
+import net.minecraft.client.MinecraftClient
 
-object BattleCaptureShakeHandler : ClientPacketHandler<BattleCaptureShakePacket> {
-    override fun invokeOnClient(packet: BattleCaptureShakePacket, ctx: CobblemonNetwork.NetworkContext) {
+object BattleCaptureShakeHandler : ClientNetworkPacketHandler<BattleCaptureShakePacket> {
+    override fun handle(packet: BattleCaptureShakePacket, client: MinecraftClient) {
         val battle = CobblemonClient.battle ?: return
         val (_, activeBattlePokemon) = battle.getPokemonFromPNX(packet.targetPNX)
         val ballState = activeBattlePokemon.ballCapturing ?: return

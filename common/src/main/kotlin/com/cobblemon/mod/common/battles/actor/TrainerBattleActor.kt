@@ -14,8 +14,9 @@ import com.cobblemon.mod.common.api.battles.model.ai.BattleAI
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.battleLang
-import net.minecraft.text.MutableText
 import java.util.UUID
+import net.minecraft.text.MutableText
+
 class TrainerBattleActor(
     val trainerName: String,
     uuid: UUID,

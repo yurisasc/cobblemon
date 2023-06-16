@@ -7,8 +7,8 @@
             "id": "bibarel-1",
             "pokemon": "bibarel",
 			"presets": [
-                "freshwater",
-                "natural"
+                "natural",
+				"freshwater"
             ],
             "type": "pokemon",
             "context": "grounded",

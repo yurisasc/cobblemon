@@ -7,8 +7,8 @@
             "id": "hypno-1",
             "pokemon": "hypno",
             "presets": [
-                "urban",
-                "natural"
+                "natural",
+				"urban"
             ],
             "type": "pokemon",
             "context": "grounded",

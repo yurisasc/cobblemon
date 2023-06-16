@@ -175,7 +175,7 @@ class FormData(
 
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution>
-        get() = _evolutions ?: species.evolutions
+        get() = _evolutions ?: mutableSetOf()
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)
@@ -200,6 +200,15 @@ class FormData(
         this.preEvolution?.form
         this.evolutions.size
         return this
+    }
+
+    internal fun resolveEvolutionMoves() {
+        this.evolutions.forEach { evolution ->
+            if (evolution.learnableMoves.isNotEmpty() && evolution.result.species != null) {
+                val pokemon = evolution.result.create()
+                pokemon.form.moves.evolutionMoves += evolution.learnableMoves
+            }
+        }
     }
 
     override fun equals(other: Any?): Boolean = other is FormData && other.showdownId() == this.showdownId()
