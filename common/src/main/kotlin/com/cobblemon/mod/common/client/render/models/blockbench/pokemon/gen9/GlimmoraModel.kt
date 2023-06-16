@@ -8,9 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -25,7 +27,7 @@ class GlimmoraModel (root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
-//    lateinit var sleep: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("glimmora", "blink").setPreventsIdle(false) }
@@ -45,9 +47,22 @@ class GlimmoraModel (root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("glimmora", "ground_idle"),
-//                bedrock("glimmora", "ground_walk")
+                bedrock("glimmora", "ground_walk")
+            )
+        )
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("glimmora", "sleep")
             )
         )
     }
+
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("glimmora", "faint") else null
 }
