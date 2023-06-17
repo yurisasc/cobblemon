@@ -10,7 +10,7 @@ stages:
 build:
   stage: build
   only:
-    - .*@cable-mc/cobblemon
+    - branches@cable-mc/cobblemon
   script:
     - export GRADLE_OPTS="-Xmx4G -Xms4G"
     - chmod +x ./gradlew
@@ -24,6 +24,8 @@ build:
 
 publish:
   stage: deploy
+  dependencies:
+    - build
   cache:
     key: "CI_COMMIT_REF_NAME"
     policy: pull
@@ -40,6 +42,8 @@ publish:
 # Separate step to deploy the artifacts, save Norry the headache of keeping even more shit around
 deploy:
   stage: deploy
+  dependencies:
+    - build
   when: manual
   cache:
     key: "$CI_COMMIT_REF_NAME"
