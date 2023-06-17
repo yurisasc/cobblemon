@@ -9,6 +9,8 @@ stages:
 
 build:
   stage: build
+  only:
+    - .*@cable-mc/cobblemon
   script:
     - export GRADLE_OPTS="-Xmx4G -Xms4G"
     - chmod +x ./gradlew
