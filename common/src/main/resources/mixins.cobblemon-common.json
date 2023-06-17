@@ -15,6 +15,7 @@
     "accessor.MusicTrackerAccessor"
   ],
   "mixins": [
+    "BrewingStandScreenHandlerMixin",
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
     "PointedDripstoneBlockMixin",

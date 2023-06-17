@@ -9,6 +9,7 @@
 package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
@@ -27,6 +28,8 @@ import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.item.ItemStack
+import net.minecraft.recipe.Ingredient
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -43,6 +46,7 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry
 import net.minecraftforge.event.*
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
@@ -79,6 +83,7 @@ class CobblemonForge : CobblemonImplementation {
             Cobblemon.preInitialize(this@CobblemonForge)
             addListener(CobblemonBiomeModifiers::register)
             addListener(this@CobblemonForge::registryLoad)
+            addListener(this@CobblemonForge::on)
         }
         with(MinecraftForge.EVENT_BUS) {
             addListener(this@CobblemonForge::onDataPackSync)
@@ -108,7 +113,17 @@ class CobblemonForge : CobblemonImplementation {
         Cobblemon.initialize()
     }
 
-    fun registryLoad(event: RegisterEvent) {
+    fun on(event: RegisterEvent) {
+        event.register(RegistryKeys.POTION) {
+            BrewingRecipes.registerPotionTypes()
+            BrewingRecipes.getPotionRecipes().forEach { (input, ingredient, output) ->
+                BrewingRecipeRegistry.addRecipe(Ingredient.ofItems(input), ingredient, ItemStack(output))
+            }
+            BrewingRecipes.getItemRecipes().forEach { (input, ingredient, output) ->
+                BrewingRecipeRegistry.addRecipe(Ingredient.ofItems(input), ingredient, ItemStack(output))
+            }
+        }
+
         event.register(RegistryKeys.BLOCK_PREDICATE_TYPE) {
             CobblemonBlockPredicates.touch()
         }
