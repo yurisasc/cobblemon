@@ -8,41 +8,51 @@
 
 package com.cobblemon.mod.common.block
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.world.BigRootPropagatedEvent
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.Fertilizable
+import net.minecraft.block.ShapeContext
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
+import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldView
 
 class BigRootBlock(settings: Settings) : Block(settings), Fertilizable {
+    companion object {
+        const val MAX_PROPAGATING_LIGHT_LEVEL = 11
+        private val AABB = VoxelShapes.cuboid(0.2, 0.3, 0.2, 0.8, 1.0, 0.8)
+    }
+
     init {
         this.defaultState = stateManager.defaultState
     }
 
+    override fun getOutlineShape(
+        state: BlockState,
+        world: BlockView,
+        pos: BlockPos,
+        context: ShapeContext
+    ) = AABB
+
     override fun hasRandomTicks(state: BlockState) = true
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         // Check for propagation
-        if (random.nextDouble() < 0.01 && world.getLightLevel(pos) < 12) {
+        if (random.nextDouble() < Cobblemon.config.bigRootPropagationChance && world.getLightLevel(pos) < MAX_PROPAGATING_LIGHT_LEVEL) {
             spreadFrom(world, pos, random)
         }
     }
 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         return world.getBlockState(pos.up()).isIn(BlockTags.DIRT) && world.isAir(pos)
-    }
-
-    fun getPropagatingBlockState(random: Random): BlockState {
-        return if (random.nextFloat() < 0.03) {
-            CobblemonBlocks.ENERGY_ROOT.defaultState
-        } else {
-            defaultState
-        }
     }
 
     fun spreadFrom(world: ServerWorld, pos: BlockPos, random: Random) {
@@ -52,12 +62,28 @@ class BigRootBlock(settings: Settings) : Block(settings), Fertilizable {
                     continue
                 }
 
-                for (yDiff in -1..1) {
-                    val adjacent = pos.add(xDiff, yDiff, zDiff)
-                    if (canPlaceAt(world.getBlockState(adjacent), world, adjacent)) {
-                        world.setBlockState(adjacent, getPropagatingBlockState(random), NOTIFY_LISTENERS)
-                        return
-                    }
+                val adjacent = pos.add(xDiff, 0, zDiff)
+                if (canPlaceAt(world.getBlockState(adjacent), world, adjacent)) {
+                    val isEnergyRoot = random.nextFloat() < Cobblemon.config.energyRootChance
+                    val event = BigRootPropagatedEvent(
+                        world = world,
+                        pos = pos,
+                        newRootPosition = adjacent,
+                        isEnergyRoot = isEnergyRoot
+                    )
+
+                    CobblemonEvents.BIG_ROOT_PROPAGATED.postThen(
+                        event = event,
+                        ifCanceled = {},
+                        ifSucceeded = { ev ->
+                            world.setBlockState(
+                                ev.newRootPosition,
+                                if (ev.isEnergyRoot) CobblemonBlocks.ENERGY_ROOT.defaultState else defaultState
+                            )
+                        }
+                    )
+
+                    return
                 }
             }
         }

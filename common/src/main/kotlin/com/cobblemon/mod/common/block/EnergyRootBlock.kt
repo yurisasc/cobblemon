@@ -8,33 +8,39 @@
 
 package com.cobblemon.mod.common.block
 
-import com.cobblemon.mod.common.util.asTranslated
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.Fertilizable
-import net.minecraft.client.item.TooltipContext
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
+import net.minecraft.block.ShapeContext
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.state.StateManager
-import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldView
 
 class EnergyRootBlock(settings: Settings) : Block(settings), Fertilizable {
+    companion object {
+        private val AABB = VoxelShapes.cuboid(0.2, 0.1, 0.2, 0.8, 1.0, 0.8)
+    }
+
     init {
         this.defaultState = stateManager.defaultState
     }
 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
-        val canPlace = world.getBlockState(pos.up()).isIn(BlockTags.DIRT) && world.isAir(pos)
-        return canPlace
+        return world.getBlockState(pos.up()).isIn(BlockTags.DIRT) && world.isAir(pos)
     }
+
+    override fun getOutlineShape(
+        state: BlockState,
+        world: BlockView,
+        pos: BlockPos,
+        context: ShapeContext
+    ) = AABB
 
     //  Maybe turn into Giant Root? idk
     override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = false
