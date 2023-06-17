@@ -253,6 +253,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val REVIVAL_HERB = create("revival_herb", RevivalHerbItem(CobblemonBlocks.REVIVAL_HERB))
     @JvmField
     val PEP_UP_FLOWER = create("pep_up_flower", PepUpFlowerItem(Item.Settings()))
+    @JvmField
+    val MEDICINAL_BREW = create("medicinal_brew", Item(Item.Settings()))
 
     @JvmField
     val RED_MINT_SEEDS = blockItem("red_mint_seeds", MintType.RED.getCropBlock())
@@ -574,6 +576,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, WISE_GLASSES)
         }
         CobblemonItemGroups.MEDICINE.group().let { group ->
+            consumer(group, MEDICINAL_BREW)
             consumer(group, RARE_CANDY)
             consumer(group, EXPERIENCE_CANDY_XS)
             consumer(group, EXPERIENCE_CANDY_S)
