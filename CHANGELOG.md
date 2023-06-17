@@ -17,6 +17,8 @@
 - Added structure spawn conditions
 - Added cries for Gen 5 starters, Gen 6 starters, Gen 7 starters
 - Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
+- Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
+- Added loot table for Revival Herb plant
 
 ### Changes
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
@@ -28,6 +30,7 @@
 - PCs can now be waterlogged
 - Starter selection prompt now appears as a tutorial-esc toast instead of plain text
 - Cobblemon items can now all have their own tooltips via resourcepacks, to add a tooltip simply add a lang entry like "item.cobblemon.{item_id}.tooltip", if you want to add multiple tooltip lines you can do so with "item.cobblemon.{item_id}.tooltip_1" and upwards.
+- Reorganised the advancements\recipes folder
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
