@@ -16,6 +16,13 @@
     "special_defence": 95,
     "speed": 50
   },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    }
+  },
   "catchRate": 30,
   "maleRatio": 0.5,
   "shoulderMountable": false,
