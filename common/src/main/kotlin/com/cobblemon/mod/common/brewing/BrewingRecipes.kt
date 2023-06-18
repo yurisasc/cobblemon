@@ -19,7 +19,7 @@ import net.minecraft.recipe.Ingredient
 object BrewingRecipes {
     // Put things here if you want them to be add-able to the bottom of the brewing stand (like where potions go)
     @JvmField
-    val brewableItems = mutableListOf<Item>(
+    val brewableItems = mutableListOf(
         CobblemonItems.MEDICINAL_BREW,
         CobblemonItems.ZINC
     )

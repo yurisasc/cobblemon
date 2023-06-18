@@ -10,6 +10,7 @@
         {
             "item": "minecraft:sugar"
         }
+    ],
     "result": {
         "item": "cobblemon:revive"
     }

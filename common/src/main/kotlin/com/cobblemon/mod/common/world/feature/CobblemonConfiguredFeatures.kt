@@ -15,12 +15,19 @@ import net.minecraft.world.gen.feature.ConfiguredFeatures
 
 object CobblemonConfiguredFeatures {
 
+    @JvmField
     val BLACK_APRICORN_TREE_KEY = of("black_apricorn_tree")
+    @JvmField
     val BLUE_APRICORN_TREE_KEY = of("blue_apricorn_tree")
+    @JvmField
     val GREEN_APRICORN_TREE_KEY = of("green_apricorn_tree")
+    @JvmField
     val PINK_APRICORN_TREE_KEY = of("pink_apricorn_tree")
+    @JvmField
     val RED_APRICORN_TREE_KEY = of("red_apricorn_tree")
+    @JvmField
     val WHITE_APRICORN_TREE_KEY = of("white_apricorn_tree")
+    @JvmField
     val YELLOW_APRICORN_TREE_KEY = of("yellow_apricorn_tree")
 
     @JvmField
@@ -29,7 +36,7 @@ object CobblemonConfiguredFeatures {
     val MEDICINAL_LEEKS_KEY = of("medicinal_leek")
     @JvmField
     val BIG_ROOTS_KEY = of("big_root")
-
+    @JvmField
     val REVIVAL_HERBS_KEY = of("revival_herb")
 
     private fun of(id: String): RegistryKey<ConfiguredFeature<*, *>> = ConfiguredFeatures.of("${Cobblemon.MODID}:$id")

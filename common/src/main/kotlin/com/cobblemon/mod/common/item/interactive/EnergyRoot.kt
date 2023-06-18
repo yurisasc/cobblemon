@@ -9,6 +9,13 @@
 package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.block.EnergyRootBlock
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.item.AliasedBlockItem
+import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 
-class EnergyRoot(block: EnergyRootBlock) : AliasedBlockItem(block, Settings())
+class EnergyRoot(block: EnergyRootBlock) : AliasedBlockItem(block, Settings()), InteractiveItem<PokemonEntity> {
+    override fun onInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
+        TODO("Not yet implemented")
+    }
+}
