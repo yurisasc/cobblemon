@@ -19,10 +19,10 @@ import net.minecraft.util.math.Vec3d
 class DuskullModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("duskull")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.11, -0.77, 0.0)
+    override val portraitScale = 1.6F
+    override val portraitTranslation = Vec3d(-0.25, -0.77, 0.0)
 
-    override val profileScale = 0.9F
+    override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var hover: PokemonPose

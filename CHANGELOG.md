@@ -19,8 +19,10 @@
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
 - Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Lucario, Mime Jr, Mimikyu, Pangoro, Quagsire, Quilladin, Riolu, Wooper
+- Added cries for Gen 5 starters, Gen 6 starters, Gen 7 starters
 - Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
 - Added flying placeholder animations to Pidgey, Pidgeotto, Pidgeot, Golbat, Crobat, Scyther, Scizor, Zapdos, Moltres, Articuno, Dragonite, Rowlet, Dartrix, and Decidueye.
+
 
 ### Pokémon Added
 #### Gen 2
@@ -30,10 +32,10 @@
 - Shuckle
 - Chinchou
 - Lanturn
-- Aipom
+- Aipom (Planned)
 - Gligar
-- Hoothoot
-- Noctowl
+- Hoothoot (Planned)
+- Noctowl (Planned)
 - Mareep
 - Flaaffy
 - Ampharos
@@ -52,8 +54,8 @@
 - Cacturne
 - Poochyena
 - Mightyenna
-- Wingull 
-- Pelipper
+- Wingull (Planned)
+- Pelipper (Planned)
 - Numel
 - Camerupt
 - Clamperl
@@ -67,13 +69,13 @@
 
 #### Gen 4
 
-- Cherubi
-- Cherrim
+- Cherubi (Planned)
+- Cherrim (Planned)
 - Carnivine
-- Shinx
-- Luxio
-- Luxray
-- Ambipom
+- Shinx (Planned)
+- Luxio (Planned)
+- Luxray (Planned)
+- Ambipom (Planned)
 - Gliscor
 - Dusknoir
 - Chingling
@@ -85,14 +87,14 @@
 #### Gen 5
 
 - Bouffolant
-- Roggenrola
-- Boldore
-- Gigalith
+- Roggenrola (Planned)
+- Boldore (Planned)
+- Gigalith (Planned)
 - Venepede
 - Whirlpede
 - Scolipede
-- Yamask
-- Cofagrigus
+- Yamask (Planned)
+- Cofagrigus (Planned)
 - Patrat
 - Watchog
 - Lillipup
@@ -104,14 +106,14 @@
 - Scatterbug
 - Spewpa
 - Vivillion
-- Skrelp
-- Dragalge
-- Bunnelby
-- Diggersby
+- Skrelp (Planned)
+- Dragalge (Planned)
+- Bunnelby (Planned)
+- Diggersby (Planned)
 
 #### Gen 7
 
-- Wishiwashi
+- Wishiwashi (Planned)
 - Cutiefly
 - Ribombee
 - Stufful
@@ -121,8 +123,8 @@
 
 #### Gen 8
 
-- Arrokuda
-- Barraskewda
+- Arrokuda (Planned)
+- Barraskewda (Planned)
 - Nickit
 - Thievul
 - Falinks
@@ -146,17 +148,16 @@
 - Ceruledge
 - Cetoddle
 - Cetitan
-- Shroodle
-- Grafaiai
+- Shroodle (Planned)
+- Grafaiai (Planned)
 - Tandemaus
 - Maushold
 - Varoom
 - Revavroom
-- Squawkabilly
+- Squawkabilly (Planned)
 - Glimmet
 - Glimmora
-- Added cries for Gen 5 starters, Gen 6 starters, Gen 7 starters
-- Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
+
 
 ### Changes
 - Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgeotto, Pidgeot, Scyther, Scizor,and Kleavor.
@@ -174,7 +175,7 @@
 - Updated model Sceptile.
 - Updated texture of Weedle.
 - Updated shiny texture of Dwebble and Crustle.
-- Updated Animations for Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
+- Updated Animations for Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -196,6 +197,7 @@
 - Fixed uncolored pixels on Yanma's shiny texture.
 - Fixed apricorn tree leaves looking gross on Fast graphics mode.
 - Fixed hoes not breaking apricorn tree leaves any faster.
+- Fixed Shiftry's PC model position.
 
 ### Developer
 - Added SpawnEvent

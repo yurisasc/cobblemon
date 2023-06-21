@@ -177,10 +177,10 @@
   ],
   "preEvolution": "combee",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.7,
     "fixed": false
   },
   "baseFriendship": 50,

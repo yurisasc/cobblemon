@@ -32,11 +32,11 @@ class LickilickyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightArm = getPart("right_upper_arm")
 
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.2, 0.8, 0.0)
+    override val portraitScale = 1.4F
+    override val portraitTranslation = Vec3d(-0.2, 1.8, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.61, 0.0)
+    override val profileScale = 0.5F
+    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

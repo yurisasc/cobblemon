@@ -21,11 +21,11 @@ import net.minecraft.util.math.Vec3d
 class MagnezoneModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("magnezone")
 
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3d(-0.1, -0.38, 0.0)
+    override val portraitScale = 1.4F
+    override val portraitTranslation = Vec3d(-0.35, -0.28, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(-0.1, 0.5, 0.0)
+    override val profileScale = 0.6F
+    override val profileTranslation = Vec3d(-0.1, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
