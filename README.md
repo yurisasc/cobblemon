@@ -20,4 +20,4 @@ If you're interested in contributing to the project, you can simply fork the rep
 [here](https://gitlab.com/cable-mc/cobblemon/-/issues?scope=all&state=opened&label_name[]=accepted&assignee_id=None).
 
 If you want a more involved role in the project, involving branches on the main repository instead of forking and involvement
-in design discussions, you can either apply in the `application-box` forum of our Discord or add and message Hiroku#4373 on our Discord here: https://discord.gg/cobblemon.
+in design discussions, you can either apply in the `application-box` forum of our Discord or add and message Hiroku (`hiroku_dev`) on our Discord here: https://discord.gg/cobblemon.
