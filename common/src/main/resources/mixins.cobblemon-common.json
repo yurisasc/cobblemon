@@ -8,11 +8,12 @@
     "EntityRenderDispatcherMixin",
     "GameRendererMixin",
     "PartyScrollMixin",
-    "accessor.KeyBindingAccessor",
-    "pokeball.ItemRendererMixin",
     "SoundManagerMixin",
     "SoundSystemMixin",
-    "accessor.MusicTrackerAccessor"
+    "accessor.KeyBindingAccessor",
+    "accessor.MusicTrackerAccessor",
+    "pokeball.ItemRendererMixin",
+    "PotionSlotMixin"
   ],
   "mixins": [
     "MinecraftDedicatedServerMixin",
@@ -21,10 +22,10 @@
     "ServerChunkManagerMixin",
     "ShearsDispenserBehaviorMixin",
     "accessor.AccessorEntity",
-    "invoker.ClientPlayNetworkHandlerInvoker",
     "entity.TameableEntityMixin",
     "invoker.BooleanRuleInvoker",
     "invoker.ButtonBlockInvoker",
+    "invoker.ClientPlayNetworkHandlerInvoker",
     "invoker.DoorBlockInvoker",
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",

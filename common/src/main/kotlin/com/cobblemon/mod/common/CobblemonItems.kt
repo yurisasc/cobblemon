@@ -11,6 +11,7 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.ApricornItem
 import com.cobblemon.mod.common.item.ApricornSeedItem
 import com.cobblemon.mod.common.item.CobblemonItem
@@ -19,8 +20,10 @@ import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.item.interactive.CandyItem
+import com.cobblemon.mod.common.item.interactive.EnergyRoot
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.MintItem
+import com.cobblemon.mod.common.item.interactive.RemedyItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
 import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.platform.PlatformRegistry
@@ -29,9 +32,11 @@ import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import net.minecraft.block.Block
 import net.minecraft.block.ComposterBlock
 import net.minecraft.item.BlockItem
+import net.minecraft.item.FoodComponent
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.Items
+import net.minecraft.item.StewItem
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -243,6 +248,36 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val PROTEIN = create("protein", VitaminItem(Stats.ATTACK))
     @JvmField
     val ZINC = create("zinc", VitaminItem(Stats.SPECIAL_DEFENCE))
+    @JvmField
+    val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK_CROP))
+    @JvmField
+    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(2).build())))
+    @JvmField
+    val ENERGY_ROOT = create("energy_root", EnergyRoot(CobblemonBlocks.ENERGY_ROOT))
+    @JvmField
+    val REVIVAL_HERB = create("revival_herb", RevivalHerbItem(CobblemonBlocks.REVIVAL_HERB))
+    @JvmField
+    val PEP_UP_FLOWER = create("pep_up_flower", PepUpFlowerItem(Item.Settings()))
+    @JvmField
+    val MEDICINAL_BREW = create("medicinal_brew", Item(Item.Settings()))
+    @JvmField
+    val REMEDY = create("remedy", RemedyItem(RemedyItem.NORMAL))
+    @JvmField
+    val FINE_REMEDY = create("fine_remedy", RemedyItem(RemedyItem.FINE))
+    @JvmField
+    val SUPERB_REMEDY = create("superb_remedy", RemedyItem(RemedyItem.SUPERB))
+
+    @JvmField
+    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(4).build())))
+    @JvmField
+    val REVIVE = create("revive", Item(Item.Settings()))
+    @JvmField
+    val MAX_REVIVE = create("max_revive", Item(Item.Settings()))
+    @JvmField
+    val PP_UP = create("pp_up", Item(Item.Settings()))
+    @JvmField
+    val PP_MAX = create("pp_max", Item(Item.Settings()))
+
 
     @JvmField
     val RED_MINT_SEEDS = blockItem("red_mint_seeds", MintType.RED.getCropBlock())
@@ -382,7 +417,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val ASSAULT_VEST = heldItem("assault_vest")
     @JvmField
-    val BIG_ROOT = heldItem("big_root")
+    val BIG_ROOT = create("big_root", BigRoot(CobblemonBlocks.BIG_ROOT))
     @JvmField
     val BLACK_BELT = heldItem("black_belt")
     @JvmField
@@ -564,6 +599,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, WISE_GLASSES)
         }
         CobblemonItemGroups.MEDICINE.group().let { group ->
+            consumer(group, MEDICINAL_BREW)
             consumer(group, RARE_CANDY)
             consumer(group, EXPERIENCE_CANDY_XS)
             consumer(group, EXPERIENCE_CANDY_S)
@@ -596,6 +632,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, HASTY_MINT)
             consumer(group, JOLLY_MINT)
             consumer(group, SERIOUS_MINT)
+            consumer(group, MEDICINAL_LEEK)
+            consumer(group, ENERGY_ROOT)
+            consumer(group, REVIVAL_HERB)
         }
         CobblemonItemGroups.PLANTS.group().let { group ->
             consumer(group, RED_APRICORN)
@@ -625,6 +664,11 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, GREEN_MINT_LEAF)
             consumer(group, WHITE_MINT_SEEDS)
             consumer(group, WHITE_MINT_LEAF)
+            consumer(group, ENERGY_ROOT)
+            consumer(group, BIG_ROOT)
+
+            consumer(group, REVIVAL_HERB)
+            consumer(group, PEP_UP_FLOWER)
         }
         CobblemonItemGroups.BUILDING_BLOCKS.group().let { group ->
             consumer(group, APRICORN_LOG)

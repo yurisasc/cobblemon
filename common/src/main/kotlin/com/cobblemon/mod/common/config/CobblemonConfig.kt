@@ -184,4 +184,10 @@ class CobblemonConfig {
 
     @NodeCategory(Category.World)
     var appleLeftoversChance = 0.025
+
+    @NodeCategory(Category.World)
+    var bigRootPropagationChance = 0.1
+
+    @NodeCategory(Category.World)
+    var energyRootChance = 0.25
 }

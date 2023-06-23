@@ -10,10 +10,12 @@ package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.item.CobblemonItem
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 
-class VitaminItem(val stat: Stat) : PokemonInteractiveItem(Settings(), Ownership.OWNER) {
+class VitaminItem(val stat: Stat) : CobblemonItem(Settings()), PokemonInteractiveItem {
+    override val accepted = setOf(PokemonInteractiveItem.Ownership.OWNER)
 
     companion object {
         const val EV_YIELD = 10
