@@ -1,8 +1,17 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common
 
 import com.bedrockk.molang.Expression
 import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.mechanics.RemediesMechanic
 import com.cobblemon.mod.common.util.adapters.ExpressionAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
@@ -21,12 +30,12 @@ object CobblemonMechanics : DataRegistry {
         .registerTypeAdapter(Expression::class.java, ExpressionAdapter)
         .create()
 
-    var remedies = mutableMapOf<String, Expression>()
+    var remedies = RemediesMechanic()
 
     override fun sync(player: ServerPlayerEntity) {}
     override fun reload(manager: ResourceManager) {
-        manager.getResourceOrThrow(cobblemonResource("remedies")).inputStream.use {
-            remedies = gson.fromJson(it.reader(), TypeToken.getParameterized(MutableMap::class.java, String::class.java, Expression::class.java).type)
+        manager.getResourceOrThrow(cobblemonResource("mechanics/remedies.json")).inputStream.use {
+            remedies = gson.fromJson(it.reader(), RemediesMechanic::class.java)
         }
     }
 }

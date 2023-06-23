@@ -267,6 +267,14 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val SUPERB_REMEDY = create("superb_remedy", RemedyItem(RemedyItem.SUPERB))
 
+
+    @JvmField
+    val HEAL_POWDER = create("heal_powder", Item(Item.Settings()))
+
+    // Remove me when Momo's vivichoke work is done
+    @JvmField
+    val VIVICHOKE = create("vivichoke", Item(Item.Settings()))
+
     @JvmField
     val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(4).build())))
     @JvmField
