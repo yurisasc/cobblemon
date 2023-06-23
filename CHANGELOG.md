@@ -54,6 +54,7 @@
 - Fixed being locked out of healing machines if it is blown up during use.
 - Fixed apricorn tree leaves looking gross on Fast graphics mode.
 - Fixed hoes not breaking apricorn tree leaves any faster.
+- Fixed the /pc command not playing the opening sound.
 
 ### Developer
 - Added SpawnEvent
