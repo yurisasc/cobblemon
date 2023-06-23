@@ -46,9 +46,6 @@
   "item.cobblemon.red_apricorn": "Red Apricorn",
   "item.cobblemon.white_apricorn": "White Apricorn",
   "item.cobblemon.yellow_apricorn": "Yellow Apricorn",
-  "item.cobblemon.medicinal_leek": "Medicinal Leek",
-  "item.cobblemon.pep_up_flower": "Pep-Up Flower",
-  "item.cobblemon.revival_herb": "Revival Herb",
 
   "itemGroup.cobblemon.evolution_item": "Evolution Items",
   "item.cobblemon.link_cable": "Link Cable",
@@ -106,9 +103,6 @@
   "item.cobblemon.iron": "Iron",
   "item.cobblemon.protein": "Protein",
   "item.cobblemon.zinc": "Zinc",
-  "item.cobblemon.energy_root": "Energy Root",
-  "item.cobblemon.energy_root.tooltip": "Smelt to make a Remedy",
-  "item.cobblemon.medicinal_brew": "Medicinal Brew",
 
   "item.cobblemon.red_mint_leaf": "Red Mint Leaf",
   "item.cobblemon.red_mint_leaf.tooltip": "Capable of influencing a Pokémon's attack stat",
@@ -238,7 +232,6 @@
   "block.cobblemon.red_apricorn_sapling": "Red Apricorn Sapling",
   "block.cobblemon.white_apricorn_sapling": "White Apricorn Sapling",
   "block.cobblemon.yellow_apricorn_sapling": "Yellow Apricorn Sapling",
-  "block.cobblemon.medicinal_leek_crop": "Medicinal Leek Crop",
   "block.cobblemon.apricorn_door": "Apricorn Door",
   "block.cobblemon.apricorn_trapdoor": "Apricorn Trapdoor",
   "block.cobblemon.healing_machine": "Healing Machine",
@@ -251,7 +244,6 @@
   "block.cobblemon.pink_mint": "Pink Mint Seeds",
   "block.cobblemon.green_mint": "Green Mint Seeds",
   "block.cobblemon.white_mint": "White Mint Seeds",
-  "block.cobblemon.energy_root": "Energy Root",
 
   "cobblemon.overflow_no_pc": "Your party was full and you don't have a PC!",
   "cobblemon.overflow_no_space": "Your party was full and so was %1$s!",
@@ -501,7 +493,8 @@
   "cobblemon.battle.start.autotomize": "%1$s became nimble!",
   "cobblemon.battle.start.attract": "%1$s fell in love!",
   "cobblemon.battle.start.focusenergy": "%1$s is getting pumped!",
-  
+  "cobblemon.battle.start.uproar": "%1$s caused an uproar!",
+
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.fieldstart.grassyterrain": "Grass grew to cover the battlefield!",
   "cobblemon.battle.fieldstart.gravity": "Gravity intensified!",
@@ -584,6 +577,8 @@
   "cobblemon.battle.activate.trick":"%1$s switched items with its target!",
   "cobblemon.battle.activate.quickclaw": "%1$s can act faster than normal, thanks to its Quick Claw!",
   "cobblemon.battle.activate.focusband": "%1$s hung on using its %2$s!",
+  "cobblemon.battle.activate.forewarn": "%1$s's %2$s was revealed!",
+  "cobblemon.battle.activate.disguise": "It's disguise served it as a decoy!",
 
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
@@ -640,6 +635,7 @@
   "cobblemon.battle.damage.lifeorb": "%1$s lost some of its HP!",
   "cobblemon.battle.damage.rockyhelmet": "%1$s was hurt by %2$s's Rocky Helmet!",
   "cobblemon.battle.damage.generic": "%1$s was hurt!",
+  "cobblemon.battle.damage.pokemonmimikyubusted": "%1$s's disguise was busted!",
 
   "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
   "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
