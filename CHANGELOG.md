@@ -55,6 +55,7 @@
 - Fixed apricorn tree leaves looking gross on Fast graphics mode.
 - Fixed hoes not breaking apricorn tree leaves any faster.
 - Fixed the /pc command not playing the opening sound.
+- Fixed a few missing battle messages. (Uproar, Forewarn, Disguise)
 
 ### Developer
 - Added SpawnEvent
