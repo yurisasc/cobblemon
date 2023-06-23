@@ -9,12 +9,14 @@
 package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.platform.events.*
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
+import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
@@ -46,6 +48,7 @@ import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.recipe.BrewingRecipeRegistry
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -81,6 +84,14 @@ object CobblemonFabric : CobblemonImplementation {
         Cobblemon.initialize()
 
         CobblemonBlockPredicates.touch()
+        CobblemonPlacementModifierTypes.touch()
+        BrewingRecipes.registerPotionTypes()
+        BrewingRecipes.getPotionRecipes().forEach { (input, ingredient, output) ->
+            BrewingRecipeRegistry.POTION_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
+        }
+        BrewingRecipes.getItemRecipes().forEach { (input, ingredient, output) ->
+            BrewingRecipeRegistry.ITEM_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
+        }
         /*
         if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
             Cobblemon.permissionValidator = LuckPermsPermissionValidator()

@@ -1,0 +1,32 @@
+{
+  "feature": "cobblemon:revival_herb",
+  "placement": [
+    {
+      "type": "count",
+      "count": 3
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "cobblemon:beneath_heightmap",
+      "heightmap": "OCEAN_FLOOR",
+      "offset": -1
+    },
+    {
+      "type": "minecraft:biome"
+    },
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "Name": "cobblemon:revival_herb",
+          "Properties": {
+            "is_wild": "true"
+          }
+        }
+      }
+    }
+  ]
+}
