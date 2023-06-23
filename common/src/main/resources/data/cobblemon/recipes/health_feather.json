@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:feather"
+        },
+        {
+            "item": "cobblemon:pomeg_berry"
+        },
+        {
+            "item": "cobblemon:white_mint_leaf"
+        }
+    ],
+    "result": {
+        "item": "cobblemon:health_feather"
+    }
+}

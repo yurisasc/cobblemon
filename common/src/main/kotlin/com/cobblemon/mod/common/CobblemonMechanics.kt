@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.mechanics.RemediesMechanic
 import com.cobblemon.mod.common.util.adapters.ExpressionAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity

@@ -2,7 +2,10 @@
 ## [1.4.0](#1-4-0)
 ### Additions
 - Added nicknaming.
-- Added mints.
+- Added mints, found on mountains.
+- Added revival herbs, with pep-up flowers if fully grown, growing in lush caves.
+- Added medicinal leeks, growing on the surface of rivers and ponds. It is a potion ingredient!
+- Added big roots, generating from cave ceiling dirt and sometimes spreading into energy roots.
 - Added trading between players. Press R while looking at another player, you'll figure it out.
 - Added the `/teststore <player> <store> <properties>` command allowing command block/mcfunction users to query a party, PC or both for Pokémon matching specific properties and returning the match count, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.teststore` if a permission mod is present.
 - Added the `/querylearnset <player> <slot> <move>` command allowing command block/mcfunction users to query a party slot and check if the Pokémon can learn a specific move returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.querylearnset` if a permission mod is present.
@@ -30,7 +33,7 @@
 - PCs can now be waterlogged
 - Starter selection prompt now appears as a tutorial-esc toast instead of plain text
 - Cobblemon items can now all have their own tooltips via resourcepacks, to add a tooltip simply add a lang entry like "item.cobblemon.{item_id}.tooltip", if you want to add multiple tooltip lines you can do so with "item.cobblemon.{item_id}.tooltip_1" and upwards.
-- Reorganised the advancements\recipes folder
+- Reorganised the advancements recipes folder
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -51,10 +54,12 @@
 - Fixed being locked out of healing machines if it is blown up during use.
 - Fixed apricorn tree leaves looking gross on Fast graphics mode.
 - Fixed hoes not breaking apricorn tree leaves any faster.
+- Fixed the /pc command not playing the opening sound.
 
 ### Developer
 - Added SpawnEvent
 - Added persistent NBT property inside Pokemon to store quick and simple data.
+- Species and FormData have had their evolutions, pre-evolution and labels property exposed. It is still recommended to work using a Pokémon instance when possible.
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 

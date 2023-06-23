@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "#M#",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:coarse_dirt"
+        },
+        "M": {
+            "item": "cobblemon:mulch_base"
+        }
+    },
+    "result":
+    {
+        "item": "cobblemon:coarse_mulch"
+    }
+}
