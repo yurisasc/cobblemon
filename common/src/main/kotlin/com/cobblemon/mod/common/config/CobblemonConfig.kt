@@ -190,4 +190,8 @@ class CobblemonConfig {
 
     @NodeCategory(Category.World)
     var energyRootChance = 0.25
+
+    @NodeCategory(Category.Pokemon)
+    @LastChangedVersion("1.4.0")
+    var consumeHeldItems = true
 }

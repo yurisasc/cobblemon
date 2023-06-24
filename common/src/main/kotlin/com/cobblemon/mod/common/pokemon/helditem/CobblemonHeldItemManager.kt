@@ -16,7 +16,9 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
+import java.util.function.Function
 
 /**
  * The Cobblemon implementation of [HeldItemManager].
@@ -41,16 +43,27 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
     /** Remappings of [Item] to showdownId strings. */
     private val remaps = mutableMapOf<Item, String>()
 
+    /** Remappings of [ItemStack] to showdownId strings. */
+    private val stackRemaps = mutableListOf<Function<ItemStack, String?>>()
+
     override fun load() {
         super.load()
         Cobblemon.LOGGER.info("Imported {} held item IDs from showdown", this.loadedItemCount())
     }
 
     override fun showdownId(pokemon: BattlePokemon): String? {
-        val item = pokemon.effectedPokemon.heldItemNoCopy().item
-        if (remaps.containsKey(item)) {
-            return remaps[item]
+        val itemStack = pokemon.effectedPokemon.heldItemNoCopy()
+        if (remaps.containsKey(itemStack.item)) {
+            return remaps[itemStack.item]
         }
+
+        for (remap in stackRemaps) {
+            val id = remap.apply(itemStack)
+            if (id != null) {
+                return id
+            }
+        }
+
         val original = super.showdownId(pokemon)
         if (original == null && pokemon.effectedPokemon.heldItemNoCopy().isEmpty) {
             // This will allow interactions such as thief to occur, we want this when there is no item only instead of overwriting other stacks that aren't held items.
@@ -60,9 +73,12 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
     }
 
     override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
+        val consumeHeldItems = Cobblemon.config.consumeHeldItems
         val itemID = battleMessage.effectAt(1)?.id ?: return
         if (battleMessage.hasOptionalArgument("silent")) {
-            this.take(pokemon, itemID)
+            if (consumeHeldItems) {
+                this.take(pokemon, itemID)
+            }
             return
         }
         val effect = battleMessage.effect()
@@ -81,13 +97,17 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
             "switcheroo", "trick" -> battleLang("item.trick", battlerName, itemName)
             else -> battleLang("item.$effectId", battlerName, itemName, sourceName)
         }
+        battle.broadcastChatMessage(text)
+        // If it's a take and give effect, we don't want to follow through if we are not consuming held items
+        if (this.takeItemEffect.contains(effectId) && this.giveItemEffect.contains(effectId) && !consumeHeldItems) {
+            return
+        }
         if (this.giveItemEffect.contains(effectId)) {
             this.give(pokemon, itemID)
         }
         if (this.takeItemEffect.contains(effectId)) {
             battleMessage.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.let { this.take(it, itemID) }
         }
-        battle.broadcastChatMessage(text)
     }
 
     override fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
@@ -125,5 +145,14 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
      */
     fun registerRemap(item: Item, showdownId: String) {
         this.remaps[item] = showdownId
+    }
+
+    /**
+     * Registers a custom mapping from [ItemStack] to showdown ID string.
+     *
+     * @param remap A function that takes an [ItemStack] and returns the showdown name of this item or null if there was no match.
+     */
+    fun registerStackRemap(remap: Function<ItemStack, String?>) {
+        this.stackRemaps.add(remap)
     }
 }
