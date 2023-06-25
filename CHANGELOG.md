@@ -35,6 +35,7 @@
 - Starter selection prompt now appears as a tutorial-esc toast instead of plain text
 - Cobblemon items can now all have their own tooltips via resourcepacks, to add a tooltip simply add a lang entry like "item.cobblemon.{item_id}.tooltip", if you want to add multiple tooltip lines you can do so with "item.cobblemon.{item_id}.tooltip_1" and upwards.
 - Reorganised the advancements recipes folder
+- Reorganised creative categories
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
