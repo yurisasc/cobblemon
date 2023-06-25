@@ -22,6 +22,7 @@
 - Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
 - Added loot table for Revival Herb plant
+- Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
 - Added a shoulder mount for Mimikyu
 
 ### Changes
@@ -35,6 +36,7 @@
 - Starter selection prompt now appears as a tutorial-esc toast instead of plain text
 - Cobblemon items can now all have their own tooltips via resourcepacks, to add a tooltip simply add a lang entry like "item.cobblemon.{item_id}.tooltip", if you want to add multiple tooltip lines you can do so with "item.cobblemon.{item_id}.tooltip_1" and upwards.
 - Reorganised the advancements recipes folder
+- Pokeedit command now supports IVs and EVs.
 - Reorganised creative categories
 
 ### Fixes
@@ -112,7 +114,7 @@
 - Fixed console spam when rendering Pokémon model items.
 - Fixed battle messages for 50+ moves and abilities and items.
 - Fixed the possible duplicate when capturing Pokémon (probably, this one's hard to reproduce to confirm it's fixed).
-  - Previously duplicated Pokémon are cleaned from PCs and parties on restart. 
+  - Previously duplicated Pokémon are cleaned from PCs and parties on restart.
 - Fixed an issue with some particle effects applying after a Pokémon has died or on top of the wrong Pokémon when using specific mods.
 - Fixed Pokémon not looking at each other in battle.
 - Fixed Experience Candy and Experience Share attempting to bring Pokémon above level cap causing crashes.
@@ -148,7 +150,7 @@
 - Fixed instantly fleeing from Pokémon set to be unfleeable.
 - Fixed Pumpkaboo line forms not working. (Currently sizes aren't visual but check base stats to see which size you have.)
 - Fixed a bug that caused already interpreted messages for moves to be mistaken as uninterpreted.
-- Fixed a Pokémon spawner bug that caused Pokémon to not spawn due to dropped item entities. 
+- Fixed a Pokémon spawner bug that caused Pokémon to not spawn due to dropped item entities.
 - Fixed a bug that causes Pokémon model items to be invisible.
 
 ### Developer
@@ -218,7 +220,7 @@
   - ``generation_9`` Sets the calculator to the generation 9 implementation.
   - ``cobblemon`` Sets the calculator to the custom Cobblemon implementation. This is the default value.
   - ``debug`` Sets the calculator to the debug/cheat implementation, every attempt will be a successful critical capture.
- 
+
 ### Changes
 - Pokémon now save to the world by default, meaning the same Pokémon will remain in the world and not disappear after you log out and log back in. They still despawn over time though.
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -295,7 +297,7 @@
 - Fixed ambient sound file path for Porygon2.
 - Fixed forms not being able to unset the secondary type of a Pokémon in the stat JSON.
 - Fixed moves that haven't carried over from generation 8 onwards having the description they did in the generation 8 games instead of their last valid one.
-- Fixed shoulder mounted pokemon not returning to party on healer use and on evolution 
+- Fixed shoulder mounted pokemon not returning to party on healer use and on evolution
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
@@ -307,7 +309,7 @@
 ### Localization
 - Added complete translations for French, German, Simplified Mandarin, Brazilian Portuguese, and Pirate English.
 - Added partial translations for Traditional Mandarin, Italian, and Spanish. We'd love more help with this!
-- Thank you to all of the fantastic volunteer translators for taking the time to help with this! 
+- Thank you to all of the fantastic volunteer translators for taking the time to help with this!
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
@@ -345,7 +347,7 @@
 - Fixed stat calculations for everything except HP. HP was fine though :).
 - Fixed a randomized Pokémon spawning in mountains that corrupted the data of whatever party or PC it got into. Yikes.
 - Fixed a rare crash involving literally random number generation. A random crash involving random numbers.
-- Fixed all regular Mewtwo having the stats and types of Mega Mewtwo X - same deal with many other Pokémon. 
+- Fixed all regular Mewtwo having the stats and types of Mega Mewtwo X - same deal with many other Pokémon.
 - Fixed the framing of many Pokémon in GUIs.
 - Fixed texture glitches with Rattata and Nidoqueen (again!).
 - Fixed dropped item forms of all Pokéballs and the Healing Machine, and slightly adjusted all other display settings
