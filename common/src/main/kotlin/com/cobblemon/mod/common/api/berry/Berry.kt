@@ -59,7 +59,7 @@ class Berry(
     identifier: Identifier,
     val baseYield: IntRange,
     //val lifeCycles: IntRange,
-    val growthTime: IntRange = 1..2,
+    val growthTime: IntRange,
     val refreshRate: IntRange,
     val growthFactors: Collection<GrowthFactor>,
     val interactions: Collection<PokemonEntityInteraction>,

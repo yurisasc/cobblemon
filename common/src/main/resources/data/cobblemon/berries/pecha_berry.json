@@ -3,9 +3,13 @@
     "min": 3,
     "max": 6
   },
-  "lifeCycles": {
-    "min": 3,
-    "max": 3
+  "growthTime": {
+    "min": 45,
+    "max": 55
+  },
+  "refreshRate": {
+    "min": 16,
+    "max": 24
   },
   "growthFactors": [
     {
