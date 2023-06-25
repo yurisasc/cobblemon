@@ -423,6 +423,7 @@
   "advancements.cobblemon.healing_machine": "Healing Power",
   "advancements.cobblemon.healing_machine.description": "Wait long enough for a Healing Machine to charge, and then heal your party",
 
+  "cobblemon.battle.crash": "A battle error has occurred. If playing single-player, report this to the mod team. Otherwise, report this to the servers administrator.",
   "cobblemon.battle.damage_dealt": "%1$s took %2$s damage!",
   "cobblemon.battle.used_move": "%1$s used %2$s!",
   "cobblemon.battle.used_move_on": "%1$s used %2$s on %3$s!",

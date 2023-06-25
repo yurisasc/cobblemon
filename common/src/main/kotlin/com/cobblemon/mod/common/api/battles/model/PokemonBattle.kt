@@ -45,6 +45,9 @@ import com.cobblemon.mod.common.util.getPlayer
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.text.Text
+import java.io.File
+import kotlin.io.path.Path
+import kotlin.io.path.writeLines
 
 /**
  * Individual battle instance
@@ -84,6 +87,7 @@ open class PokemonBattle(
     val battleId = UUID.randomUUID()
 
     val showdownMessages = mutableListOf<String>()
+    val battleLog = mutableListOf<String>()
     var started = false
     var ended = false
     // TEMP battle showcase stuff
@@ -244,6 +248,24 @@ open class PokemonBattle(
         if (!mute) {
             LOGGER.info(message)
         }
+        battleLog.add(message)
+    }
+
+    fun saveBattleLog() {
+        val battleLogsDir = File("./battle_logs/")
+        if (!battleLogsDir.exists()) {
+            battleLogsDir.mkdirs()
+        }
+
+        val logFile = File(battleLogsDir, "$battleId.txt")
+        logFile.bufferedWriter().use { out ->
+            battleLog.forEach {
+                out.write(it)
+                out.newLine()
+            }
+        }
+
+        LOGGER.info("Saved battle log as $battleId.txt")
     }
 
     fun sendUpdate(packet: NetworkPacket<*>) {
@@ -316,14 +338,23 @@ open class PokemonBattle(
     }
 
     fun tick() {
-        while (dispatchResult.canProceed()) {
-            val dispatch = dispatches.poll() ?: break
-            dispatchResult = dispatch(this)
-        }
+        try {
+            while (dispatchResult.canProceed()) {
+                val dispatch = dispatches.poll() ?: break
+                dispatchResult = dispatch(this)
+            }
 
-        if (dispatches.isEmpty()) {
-            afterDispatches.toList().forEach { it() }
-            afterDispatches.clear()
+            if (dispatches.isEmpty()) {
+                afterDispatches.toList().forEach { it() }
+                afterDispatches.clear()
+            }
+        } catch (e: Exception) {
+            LOGGER.error("Exception while ticking a battle. Saving battle log.", e)
+            val message = battleLang("crash").red()
+            this.actors.filterIsInstance<PlayerBattleActor>().forEach { it.entity?.sendMessage(message) }
+            this.saveBattleLog()
+            this.stop()
+            return
         }
 
         if (started && isPvW && !ended && dispatches.isEmpty()) {
