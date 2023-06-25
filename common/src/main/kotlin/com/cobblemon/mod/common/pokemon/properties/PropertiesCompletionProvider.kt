@@ -13,10 +13,13 @@ import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
+import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
+import com.cobblemon.mod.common.pokemon.EVs
 import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.brigadier.suggestion.Suggestions
@@ -132,6 +135,12 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("pokeball"), PokeBalls.all().map { if (it.name.namespace == Cobblemon.MODID) it.name.path else it.name.toString() })
         this.inject(setOf("nature"), Natures.all().map { if (it.name.namespace == Cobblemon.MODID) it.name.path else it.name.toString() })
         this.inject(setOf("ability"), Abilities.all().map { if (it.name.asIdentifierDefaultingNamespace().namespace == Cobblemon.MODID) it.name.asIdentifierDefaultingNamespace().path else it.name })
+
+        Stats.PERMANENT.forEach{ stat ->
+            val statName = stat.displayName.string.lowercase()
+            this.inject(setOf("${statName}_iv"), setOf("0", IVs.MAX_VALUE.toString()))
+            this.inject(setOf("${statName}_ev"), setOf("0", EVs.MAX_STAT_VALUE.toString()))
+        }
     }
 
     private fun addCustom() {

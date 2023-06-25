@@ -22,5 +22,11 @@ object SetClientPlayerDataHandler : ClientNetworkPacketHandler<SetClientPlayerDa
             starterSelected = packet.starterSelected,
             starterUUID = packet.starterUUID
         )
+        packet.resetStarterPrompt.let {
+            if (it == true) {
+                CobblemonClient.checkedStarterScreen = false
+                CobblemonClient.overlay.resetAttachedToast()
+            }
+        }
     }
 }

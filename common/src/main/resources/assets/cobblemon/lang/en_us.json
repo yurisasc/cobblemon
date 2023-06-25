@@ -421,6 +421,7 @@
   "cobblemon.command.pokebox.box_is_full": "That Player's box %1$s is full.",
   "cobblemon.command.pokebox.storage_is_full": "That Player's storage is full.",
   "cobblemon.command.pokebox.last_pokemon": "Did not send that Player's last Pokémon to the PC.",
+  "cobblemon.command.pokemonrestart": "Cleared %1$s's party and PC.",
 
   "advancements.cobblemon.root": "The World of Cobblemon!",
   "advancements.cobblemon.obtain_leftovers": "Reduce, Reuse, Recycle!",
