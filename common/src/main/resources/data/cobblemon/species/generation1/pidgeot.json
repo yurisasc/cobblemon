@@ -214,7 +214,7 @@
   ],
   "preEvolution": "pidgeotto",
   "evolutions": [],
-  "baseScale": 1.25,
+  "baseScale": 1.4,
   "hitbox": {
     "width": 0.75,
     "height": 1.5,

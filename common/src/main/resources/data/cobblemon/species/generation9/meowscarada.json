@@ -116,7 +116,7 @@
   "weight": 312,
   "preEvolution": "floragato",
   "evolutions": [],
-  "baseScale": 0.6,
+  "baseScale": 0.67,
   "hitbox": {
     "width": 1,
     "height": 3.0,

@@ -25,7 +25,7 @@
     },
     "moving": {
       "walk": {
-        "walkSpeed": 0.2
+        "walkSpeed": 0.23
       }
     }
   },
@@ -33,7 +33,7 @@
   "maleRatio": 0.5,
   "baseExperienceYield": 263,
   "baseFriendship": 20,
-  "baseScale": 0.82,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 0.9,
     "height": 2.1,

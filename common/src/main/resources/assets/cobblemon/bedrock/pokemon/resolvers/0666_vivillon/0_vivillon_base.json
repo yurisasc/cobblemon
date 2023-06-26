@@ -176,7 +176,7 @@
       "layers": [
         {
           "name": "wings",
-          "texture": "cobblemon:textures/pokemon/0666_vivillon/vivillon_wings_poke_ball.png"
+          "texture": "cobblemon:textures/pokemon/0666_vivillon/vivillon_wings_pokeball.png"
         }
       ]
     },

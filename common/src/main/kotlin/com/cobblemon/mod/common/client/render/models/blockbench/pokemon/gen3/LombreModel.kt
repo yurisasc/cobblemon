@@ -9,11 +9,13 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -35,10 +37,14 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileTranslation = Vec3d(0.0, 0.44, 0.0)
 
     lateinit var standing: PokemonPose
+    lateinit var waterstanding: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var waterwalk: PokemonPose
     lateinit var floating: PokemonPose
     lateinit var swim: PokemonPose
     lateinit var sleep: PokemonPose
+
+    val wateroffset = 1
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("lombre", "blink").setPreventsIdle(false) }
@@ -46,9 +52,23 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("lombre", "ground_idle")
+            )
+        )
+
+        waterstanding = registerPose(
+            poseName = "waterstanding",
+            poseType = PoseType.STAND,
+            quirks = arrayOf(blink),
+            condition = { it.isTouchingWater },
+            idleAnimations = arrayOf(
+                bedrock("lombre", "water_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
             )
         )
 
@@ -56,11 +76,26 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("lombre", "ground_walk"),
             )
         )
+
+        waterwalk = registerPose(
+            poseName = "waterwalk",
+            poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
+            condition = { it.isTouchingWater },
+            idleAnimations = arrayOf(
+                bedrock("lombre", "water_swim")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+            )
+        )
+
         floating = registerPose(
             poseName = "floating",
             poseType = PoseType.FLOAT,

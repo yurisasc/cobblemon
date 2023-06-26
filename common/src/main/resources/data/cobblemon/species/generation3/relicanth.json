@@ -161,7 +161,7 @@
     "cobblemon.species.relicanth.desc"
   ],
   "evolutions": [],
-  "baseScale": 0.8,
+  "baseScale": 1.7,
   "hitbox": {
     "width": 0.8,
     "height": 0.8,

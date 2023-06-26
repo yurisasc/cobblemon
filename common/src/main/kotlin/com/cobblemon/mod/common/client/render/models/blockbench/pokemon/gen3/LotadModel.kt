@@ -34,33 +34,61 @@ class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
     lateinit var standing: PokemonPose
+    lateinit var waterstanding: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var waterwalk: PokemonPose
     lateinit var floating: PokemonPose
     lateinit var swim: PokemonPose
     lateinit var sleep: PokemonPose
 
-    val wateroffset = -1
+    val wateroffset = -2
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("charmander", "blink").setPreventsIdle(false) }
 
         standing = registerPose(
             poseName = "standing",
-            quirks = arrayOf(blink),
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
-            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("lotad", "ground_idle")
             )
         )
 
+        waterstanding = registerPose(
+            poseName = "waterstanding",
+            poseType = PoseType.STAND,
+            quirks = arrayOf(blink),
+            condition = { it.isTouchingWater },
+            idleAnimations = arrayOf(
+                bedrock("lotad", "water_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+            )
+        )
+
         walk = registerPose(
             poseName = "walk",
-            quirks = arrayOf(blink),
             poseType = PoseType.WALK,
-            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("lotad", "ground_walk"),
+            )
+        )
+
+        waterwalk = registerPose(
+            poseName = "waterwalk",
+            poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
+            condition = { it.isTouchingWater },
+            idleAnimations = arrayOf(
+                bedrock("lotad", "water_swim")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
             )
         )
 
