@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "WRW",
+        "LBL",
+		"LWL"
+    ],
+    "key": {
+        "W": {
+            "item": "minecraft:white_wool"
+        },
+        "B": {
+            "item": "cobblemon:eject_button"
+        },
+        "L": {
+            "item": "minecraft:leather"
+        }
+        "R": {
+            "item": "minecraft:redstone"
+        }
+    },
+    "result": {
+        "item": "cobblemon:eject_pack"
+    }
+}

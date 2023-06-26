@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " S ",
+        "BIF",
+		" P "
+    ],
+    "key": {
+        "S": {
+            "item": "minecraft:fermented_spider_eye"
+        },
+        "B": {
+            "item": "minecraft:blue_dye"
+        },
+        "I": {
+            "item": "minecraft:ink_sac"
+        },
+        "F": {
+            "item": "minecraft:feather"
+        },
+        "P": {
+            "item": "minecraft:paper"
+        }
+    },
+    "result": {
+        "item": "cobblemon:weakness_policy"
+    }
+}

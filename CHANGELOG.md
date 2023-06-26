@@ -21,6 +21,7 @@
 - Added cries for Gen 5 starters, Gen 6 starters, Gen 7 starters
 - Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
+- Added recipes for Ability Shield, Air Balloon, Amulet Coin, Binding Band, Blunder Policy, Cell Battery, Clear Amulet, Covert Cloak, Destiny Knot, Eject Button, Eject Pack, Expert Belt, Flame Orb, Focus Sash, Lagging Tail, Life Orb, Loaded Dice, Luminous Moss, Metronome, Pink Bow, Power Anklet, Power Band, Power Belt, Power Bracer, Power Lens, Power Weight, Protective Pads, Punching Glove, Red Card, Ring Target, Room Service, Scope Lens, Shell Bell, Soothe Bell, Terrain Extender, Throat Spray, Toxic Orb, Utility Umbrella, Weakness Policy, Heat Rock, Damp Rock, Icy Rock, Smooth Rock, Wide Lens, Zoom Lens, Iron Ball, and Bright Powder
 - Added loot table for Revival Herb plant
 - Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
 - Added a shoulder mount for Mimikyu

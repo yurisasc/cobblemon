@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " WW",
+        "IDW",
+		"WI "
+    ],
+    "key": {
+        "W": {
+            "item": "minecraft:blue_wool"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "D": {
+            "item": "minecraft:diamond"
+        }
+    },
+    "result": {
+        "item": "cobblemon:protective_pads"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "TD",
+        "CH"
+    ],
+    "key": {
+        "T": {
+            "item": "minecraft:tuff"
+        },
+		"D": {
+            "item": "minecraft:cobbled_deepslate"
+        },
+        "C": {
+            "item": "minecraft:cobblestone"
+        },
+        "H": {
+            "item": "cobblemon:hard_stone"
+        }
+    },
+    "result": {
+        "item": "cobblemon:lagging_tail"
+    }
+}

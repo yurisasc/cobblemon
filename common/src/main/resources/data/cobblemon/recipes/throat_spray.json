@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "LIL",
+        "IGI",
+		"IBI"
+    ],
+    "key": {
+        "L": {
+            "item": "minecraft:leather"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "G": {
+            "item": "minecraft:glass_bottle"
+        },
+        "B": {
+            "item": "minecraft:milk_bucket"
+        }
+    "result": {
+        "item": "cobblemon:throat_spray"
+    }
+}

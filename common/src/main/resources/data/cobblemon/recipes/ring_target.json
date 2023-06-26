@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " S ",
+        "STS",
+		" S "
+    ],
+    "key": {
+        "S": {
+            "tag": "minecraft:wooden_slabs"
+        },
+        "T": {
+            "item": "minecraft:target"
+        }
+    },
+    "result": {
+        "item": "cobblemon:ring_target"
+    }
+}

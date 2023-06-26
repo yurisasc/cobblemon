@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "IW ",
+        "WNI",
+		" II"
+    ],
+    "key": {
+        "W": {
+            "item": "minecraft:red_wool"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "N": {
+            "item": "minecraft:iron_nugget"
+        }
+    "result": {
+        "item": "cobblemon:soothe_bell"
+    }
+}

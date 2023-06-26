@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "P  ",
+        "WCW",
+		"  P"
+    ],
+    "key": {
+        "W": {
+            "item": "minecraft:red_wool"
+        },
+        "C": {
+            "item": "minecraft:copper_ingot"
+        },
+        "P": {
+            "item": "minecraft:blaze_powder"
+        }
+    },
+    "result": {
+        "item": "cobblemon:focus_sash"
+    }
+}
