@@ -17,11 +17,11 @@ import net.minecraft.util.math.Vec3d
 class WhiscashModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("whiscash")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.3, -0.5, 0.0)
+    override val portraitScale = 0.6F
+    override val portraitTranslation = Vec3d(-0.15, 0.5, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override val profileScale = 0.4F
+    override val profileTranslation = Vec3d(0.1, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

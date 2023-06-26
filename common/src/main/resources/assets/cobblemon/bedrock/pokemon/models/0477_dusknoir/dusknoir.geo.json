@@ -7,8 +7,8 @@
 				"texture_width": 128,
 				"texture_height": 128,
 				"visible_bounds_width": 8,
-				"visible_bounds_height": 4.5,
-				"visible_bounds_offset": [0, 1.75, 0]
+				"visible_bounds_height": 6.5,
+				"visible_bounds_offset": [0, 2.75, 0]
 			},
 			"bones": [
 				{
@@ -286,7 +286,7 @@
 				{
 					"name": "eye",
 					"parent": "head",
-					"pivot": [0, 34.45, -7.29],
+					"pivot": [0, 34.45, -5.29],
 					"cubes": [
 						{"origin": [1.5, 32.95, -8.79], "size": [0, 3, 3], "uv": [57, 95]},
 						{"origin": [-1.5, 32.95, -8.79], "size": [0, 3, 3], "uv": [51, 95]},
@@ -309,11 +309,11 @@
 					"parent": "head",
 					"pivot": [0, 34.5, -5],
 					"cubes": [
-						{"origin": [3.5, 32, -9.5], "size": [0, 4, 4], "uv": [0, 89]},
-						{"origin": [-3.5, 32, -9.5], "size": [0, 4, 4], "uv": [0, 93]},
-						{"origin": [-3.5, 36, -9.5], "size": [7, 0, 4], "uv": [-4, 78]},
-						{"origin": [-3.5, 32, -9.49], "size": [7, 0, 4], "uv": [-4, 82]},
-						{"origin": [-3.5, 32, -5.5], "size": [7, 4, 0], "uv": [0, 101]}
+						{"origin": [3.5, 32, -9.5], "size": [0, 4, 5], "pivot": [3.5, 34, -9.5], "rotation": [0, -7.5, 0], "uv": [0, 88]},
+						{"origin": [-3.5, 32, -9.5], "size": [0, 4, 5], "pivot": [-3.5, 34, -9.5], "rotation": [0, 7.5, 0], "uv": [0, 92]},
+						{"origin": [-3.5, 36, -9.5], "size": [7, 0, 5], "uv": [-5, 78]},
+						{"origin": [-3.5, 32, -9.49], "size": [7, 0, 5], "uv": [-5, 81]},
+						{"origin": [-3.5, 32, -4.5], "size": [7, 4, 0], "uv": [0, 101]}
 					]
 				},
 				{

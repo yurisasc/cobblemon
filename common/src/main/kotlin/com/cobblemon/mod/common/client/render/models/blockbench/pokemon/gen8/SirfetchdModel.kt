@@ -25,10 +25,10 @@ class SirfetchdModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.35, -1.0, 0.0)
+    override val portraitTranslation = Vec3d(-0.35, -0.5, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(-0.1, 0.1, 0.0)
+    override val profileScale = 0.9F
+    override val profileTranslation = Vec3d(-0.1, 0.42, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
