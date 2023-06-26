@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "IBI",
+        "YPY",
+		"IRI"
+    ],
+    "key": {
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "B": {
+            "tag": "minecraft:buttons"
+        },
+        "Y": {
+            "item": "minecraft:yellow_dye"
+        },
+        "P": {
+            "item": "minecraft:piston"
+        },
+        "R": {
+            "item": "minecraft:redstone"
+        }
+    },
+    "result": {
+        "item": "cobblemon:eject_button"
+    }
+}

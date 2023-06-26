@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " SW",
+        "SBS",
+		"WS "
+    ],
+    "key": {
+        "B": {
+            "item": "minecraft:slime_ball"
+        },
+        "W": {
+            "item": "minecraft:brown_wool"
+        },
+        "S": {
+            "item": "minecraft:string"
+        }
+    },
+    "result": {
+        "item": "cobblemon:binding_band"
+    }
+}

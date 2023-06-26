@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "DS",
+        "HD"
+    ],
+    "key": {
+        "S": {
+            "item": "cobblemon:soft_sand"
+        },
+		"D": {
+            "item": "minecraft:dripstone"
+        },
+        "H": {
+            "item": "cobblemon:hard_stone"
+        }
+    },
+    "result": {
+        "item": "cobblemon:smooth_rock"
+    }
+}

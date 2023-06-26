@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " SS",
+        "IBS",
+		"BI "
+    ],
+    "key": {
+        "I": {
+            "item": "minecraft:gold_ingot"
+        },
+        "B": {
+            "item": "minecraft:gold_block"
+        },
+        "S": {
+            "item": "minecraft:string"
+        }
+    },
+    "result": {
+        "item": "cobblemon:amulet_coin"
+    }
+}

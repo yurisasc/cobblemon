@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " W ",
+        "WMW",
+		"WRW"
+    ],
+    "key": {
+        "W": {
+            "item": "minecraft:gray_wool"
+        },
+        "M": {
+            "item": "minecraft:phantom_membrane"
+        },
+        "R": {
+            "item": "minecraft:rabbit_foot"
+        }
+    },
+    "result": {
+        "item": "cobblemon:covert_cloak"
+    }
+}

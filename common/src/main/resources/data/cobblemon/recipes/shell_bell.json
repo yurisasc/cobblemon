@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " W ",
+        "WCS",
+		" SS"
+    ],
+    "key": {
+        "W": {
+            "item": "minecraft:light_gray_wool"
+        },
+        "C": {
+            "item": "minecraft:prismarine_crystals"
+        },
+        "S": {
+            "item": "minecraft:nautilus_shell"
+        }
+    "result": {
+        "item": "cobblemon:shell_bell"
+    }
+}

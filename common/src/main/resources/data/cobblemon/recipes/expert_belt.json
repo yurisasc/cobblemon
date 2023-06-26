@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "P  ",
+        "WBW",
+		"  P"
+    ],
+    "key": {
+        "W": {
+            "item": "minecraft:black_wool"
+        },
+        "B": {
+            "item": "cobblemon:black_belt"
+        },
+        "P": {
+            "item": "minecraft:blaze_powder"
+        }
+    },
+    "result": {
+        "item": "cobblemon:expert_belt"
+    }
+}
