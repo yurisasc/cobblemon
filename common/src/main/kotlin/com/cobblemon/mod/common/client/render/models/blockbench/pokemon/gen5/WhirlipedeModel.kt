@@ -26,6 +26,7 @@ class WhirlipedeModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("whirlipede", "blink").setPreventsIdle(false) }
@@ -34,6 +35,7 @@ class WhirlipedeModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("whirlipede", "ground_idle")
             )
@@ -42,9 +44,7 @@ class WhirlipedeModel (root: ModelPart) : PokemonPoseableModel() {
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(
-                    bedrock("whirlipede", "sleep"),
-                    bedrock("particles", "sleeping_zzz"),
-                    bedrock("particles", "sleeping_bubbles")
+                    bedrock("whirlipede", "sleep")
                 )
         )
 
@@ -55,6 +55,18 @@ class WhirlipedeModel (root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(
                 bedrock("whirlipede", "ground_walk")
             )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("whirlipede", "battle_idle")
+            )
+
         )
     }
 

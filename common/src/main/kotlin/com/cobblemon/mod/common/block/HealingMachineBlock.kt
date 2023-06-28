@@ -130,37 +130,37 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         }
 
         if (blockEntity.isInUse) {
-            player.sendMessage(lang("healingmachine.alreadyinuse").red())
+            player.sendMessage(lang("healingmachine.alreadyinuse").red(), true)
             return ActionResult.SUCCESS
         }
 
         val serverPlayerEntity = player as ServerPlayerEntity
         if (serverPlayerEntity.isInBattle()) {
-            player.sendMessage(lang("healingmachine.inbattle").red())
+            player.sendMessage(lang("healingmachine.inbattle").red(), true)
             return ActionResult.SUCCESS
         }
         val party = serverPlayerEntity.party()
         if (party.none()) {
-            player.sendMessage(lang("healingmachine.nopokemon").red())
+            player.sendMessage(lang("healingmachine.nopokemon").red(), true)
             return ActionResult.SUCCESS
         }
 
         if (party.none { pokemon -> pokemon.canBeHealed() }) {
-            player.sendMessage(lang("healingmachine.alreadyhealed").red())
+            player.sendMessage(lang("healingmachine.alreadyhealed").red(), true)
             return ActionResult.SUCCESS
         }
 
         if (HealingMachineBlockEntity.isUsingHealer(player)) {
-            player.sendMessage(lang("healingmachine.alreadyhealing").red())
+            player.sendMessage(lang("healingmachine.alreadyhealing").red(), true)
             return ActionResult.SUCCESS
         }
 
         if (blockEntity.canHeal(player)) {
             blockEntity.activate(player)
-            player.sendMessage(lang("healingmachine.healing").green())
+            player.sendMessage(lang("healingmachine.healing").green(), true)
         } else {
             val neededCharge = player.party().getHealingRemainderPercent() - blockEntity.healingCharge
-            player.sendMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red())
+            player.sendMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red(), true)
         }
         party.forEach { it.tryRecallWithAnimation() }
         return ActionResult.CONSUME

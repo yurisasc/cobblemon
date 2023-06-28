@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionDisplayEve
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
 import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.events.storage.ReleasePokemonEvent
+import com.cobblemon.mod.common.api.events.world.BigRootPropagatedEvent
 import com.cobblemon.mod.common.api.reactive.CancelableObservable
 import com.cobblemon.mod.common.api.reactive.EventObservable
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
@@ -118,4 +119,6 @@ object CobblemonEvents {
     val APRICORN_HARVESTED = EventObservable<ApricornHarvestEvent>()
     @JvmField
     val LEFTOVERS_CREATED = CancelableObservable<LeftoversCreatedEvent>()
+    @JvmField
+    val BIG_ROOT_PROPAGATED = CancelableObservable<BigRootPropagatedEvent>()
 }

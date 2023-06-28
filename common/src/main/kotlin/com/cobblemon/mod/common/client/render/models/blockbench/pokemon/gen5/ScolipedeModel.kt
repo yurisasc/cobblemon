@@ -26,6 +26,7 @@ class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("scolipede", "blink").setPreventsIdle(false) }
@@ -33,6 +34,7 @@ class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("scolipede", "ground_idle")
@@ -42,9 +44,7 @@ class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(
-                    bedrock("scolipede", "sleep"),
-                    bedrock("particles", "sleeping_zzz"),
-                    bedrock("particles", "sleeping_bubbles")
+                    bedrock("scolipede", "sleep")
                 )
         )
 
@@ -55,6 +55,18 @@ class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(
                 bedrock("scolipede", "ground_walk")
             )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("scolipede", "battle_idle")
+            )
+
         )
     }
 

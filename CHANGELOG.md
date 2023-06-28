@@ -20,6 +20,11 @@
 - Added structure spawn conditions
 - Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Lucario, Mime Jr, Mimikyu, Pangoro, Quagsire, Quilladin, Riolu, Wooper
 - Added cries for Gen 5 starters, Gen 6 starters, Gen 7 starters
+- Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
+- Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
+- Added loot table for Revival Herb plant
+- Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
+- Added a shoulder mount for Mimikyu
 - Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
 - Added flying placeholder animations to Pidgey, Pidgeotto, Pidgeot, Golbat, Crobat, Scyther, Scizor, Zapdos, Moltres, Articuno, Dragonite, Rowlet, Dartrix, and Decidueye.
 
@@ -176,10 +181,13 @@
 - Updated texture of Weedle.
 - Updated shiny texture of Dwebble and Crustle.
 - Updated Animations for Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
+- Reorganised the advancements recipes folder
+- Pokeedit command now supports IVs and EVs.
+- Reorganised creative categories
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
-- Fixed messages for entry hazards, screens, Tailwind, Perish Song, Destiny Bond, Shed Skin, and Yawn
+- Fixed messages for entry hazards, screens, Tailwind, Perish Song, Destiny Bond, Shed Skin, Uproar, Forewarn, Disguise, Arena Trap and Yawn
 - Fixed Porygon not evolving with an Upgrade.
 - Fixed super sized Pumpkaboo not having any moves.
 - Fixed Infernape look animation.
@@ -198,6 +206,7 @@
 - Fixed apricorn tree leaves looking gross on Fast graphics mode.
 - Fixed hoes not breaking apricorn tree leaves any faster.
 - Fixed Shiftry's PC model position.
+- Fixed the /pc command not playing the opening sound.
 
 ### Developer
 - Added SpawnEvent
@@ -253,7 +262,7 @@
 - Fixed console spam when rendering Pokémon model items.
 - Fixed battle messages for 50+ moves and abilities and items.
 - Fixed the possible duplicate when capturing Pokémon (probably, this one's hard to reproduce to confirm it's fixed).
-  - Previously duplicated Pokémon are cleaned from PCs and parties on restart. 
+- Previously duplicated Pokémon are cleaned from PCs and parties on restart.
 - Fixed an issue with some particle effects applying after a Pokémon has died or on top of the wrong Pokémon when using specific mods.
 - Fixed Pokémon not looking at each other in battle.
 - Fixed Experience Candy and Experience Share attempting to bring Pokémon above level cap causing crashes.
@@ -289,7 +298,7 @@
 - Fixed instantly fleeing from Pokémon set to be unfleeable.
 - Fixed Pumpkaboo line forms not working. (Currently sizes aren't visual but check base stats to see which size you have.)
 - Fixed a bug that caused already interpreted messages for moves to be mistaken as uninterpreted.
-- Fixed a Pokémon spawner bug that caused Pokémon to not spawn due to dropped item entities. 
+- Fixed a Pokémon spawner bug that caused Pokémon to not spawn due to dropped item entities.
 - Fixed a bug that causes Pokémon model items to be invisible.
 
 ### Developer
@@ -359,7 +368,7 @@
   - ``generation_9`` Sets the calculator to the generation 9 implementation.
   - ``cobblemon`` Sets the calculator to the custom Cobblemon implementation. This is the default value.
   - ``debug`` Sets the calculator to the debug/cheat implementation, every attempt will be a successful critical capture.
- 
+
 ### Changes
 - Pokémon now save to the world by default, meaning the same Pokémon will remain in the world and not disappear after you log out and log back in. They still despawn over time though.
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -436,7 +445,7 @@
 - Fixed ambient sound file path for Porygon2.
 - Fixed forms not being able to unset the secondary type of a Pokémon in the stat JSON.
 - Fixed moves that haven't carried over from generation 8 onwards having the description they did in the generation 8 games instead of their last valid one.
-- Fixed shoulder mounted pokemon not returning to party on healer use and on evolution 
+- Fixed shoulder mounted pokemon not returning to party on healer use and on evolution
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
@@ -448,7 +457,7 @@
 ### Localization
 - Added complete translations for French, German, Simplified Mandarin, Brazilian Portuguese, and Pirate English.
 - Added partial translations for Traditional Mandarin, Italian, and Spanish. We'd love more help with this!
-- Thank you to all of the fantastic volunteer translators for taking the time to help with this! 
+- Thank you to all of the fantastic volunteer translators for taking the time to help with this!
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
@@ -486,7 +495,7 @@
 - Fixed stat calculations for everything except HP. HP was fine though :).
 - Fixed a randomized Pokémon spawning in mountains that corrupted the data of whatever party or PC it got into. Yikes.
 - Fixed a rare crash involving literally random number generation. A random crash involving random numbers.
-- Fixed all regular Mewtwo having the stats and types of Mega Mewtwo X - same deal with many other Pokémon. 
+- Fixed all regular Mewtwo having the stats and types of Mega Mewtwo X - same deal with many other Pokémon.
 - Fixed the framing of many Pokémon in GUIs.
 - Fixed texture glitches with Rattata and Nidoqueen (again!).
 - Fixed dropped item forms of all Pokéballs and the Healing Machine, and slightly adjusted all other display settings

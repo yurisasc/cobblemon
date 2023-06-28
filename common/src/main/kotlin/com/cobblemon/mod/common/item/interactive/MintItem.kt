@@ -10,13 +10,15 @@ package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 
-class MintItem(val nature: Nature) : PokemonInteractiveItem(Settings(), Ownership.OWNER) {
-    override val sound = CobblemonSounds.MINT_USE
+class MintItem(val nature: Nature) : CobblemonItem(Settings()), PokemonInteractiveItem {
+    override fun getSound() = CobblemonSounds.MINT_USE
+    override val accepted = setOf(PokemonInteractiveItem.Ownership.OWNER)
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         consumeItem(player, stack)
         if ((entity.pokemon.mintedNature ?: entity.pokemon.nature) == nature) {
