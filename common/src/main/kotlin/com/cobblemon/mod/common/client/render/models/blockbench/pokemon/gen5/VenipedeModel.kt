@@ -41,14 +41,11 @@ class VenipedeModel (root: ModelPart) : PokemonPoseableModel() {
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
+            poseType = PoseType.SLEEP,
             quirks = arrayOf(twitch),
-                idleAnimations = arrayOf(
-                    bedrock("venipede", "ground_idle"),
-                    bedrock("venipede", "sleep"),
-                    bedrock("particles", "sleeping_zzz"),
-                    bedrock("particles", "sleeping_bubbles")
-                )
+            idleAnimations = arrayOf(
+                bedrock("venipede", "sleep"),
+            )
         )
 
         walk = registerPose(

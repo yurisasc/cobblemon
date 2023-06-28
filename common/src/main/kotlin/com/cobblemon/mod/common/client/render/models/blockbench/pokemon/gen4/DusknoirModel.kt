@@ -87,7 +87,6 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("dusknoir", "battle_idle")
             )
 

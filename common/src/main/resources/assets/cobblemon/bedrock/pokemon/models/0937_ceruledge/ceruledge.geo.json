@@ -18,7 +18,7 @@
 				{
 					"name": "body",
 					"parent": "ceruledge",
-					"pivot": [0, 28.2, 0]
+					"pivot": [0, 23.2, 0]
 				},
 				{
 					"name": "torso",
@@ -147,6 +147,14 @@
 					]
 				},
 				{
+					"name": "passive_blade_left",
+					"parent": "arm_left3",
+					"pivot": [12, 28.6, -0.2],
+					"cubes": [
+						{"origin": [10, 28.6, -6.7], "size": [32, 0, 13], "uv": [-13, 102]}
+					]
+				},
+				{
 					"name": "arm_right",
 					"parent": "arms",
 					"pivot": [-3, 29.6, -0.3],
@@ -191,6 +199,14 @@
 					"pivot": [-12, 28.6, -0.2],
 					"cubes": [
 						{"origin": [-42, 28.6, -6.7], "size": [32, 0, 13], "uv": [-13, 86], "mirror": true}
+					]
+				},
+				{
+					"name": "passive_blade_right",
+					"parent": "arm_right3",
+					"pivot": [-12, 28.6, -0.2],
+					"cubes": [
+						{"origin": [-42, 28.6, -6.7], "size": [32, 0, 13], "uv": [-13, 115], "mirror": true}
 					]
 				},
 				{
@@ -289,7 +305,7 @@
 					"parent": "head_flame",
 					"pivot": [0, 31.45, 4.5],
 					"cubes": [
-						{"origin": [0, 30.45, 4.5], "size": [0, 7, 4], "uv": [10, 10]}
+						{"origin": [0, 30.45, 4.5], "size": [0, 7, 4], "inflate": 0.01, "uv": [10, 10]}
 					]
 				},
 				{

@@ -34,6 +34,8 @@ class CeruledgeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     val bladeright = getPart("blade_right")
     val bladeleft = getPart("blade_left")
+    val passivebladeright = getPart("passive_blade_right")
+    val passivebladeleft = getPart("passive_blade_left")
 
     override val portraitScale = 1.8F
     override val portraitTranslation = Vec3d(-0.2, 1.9, 0.0)
@@ -50,6 +52,12 @@ class CeruledgeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         val blink = quirk("blink") { bedrockStateful("ceruledge", "blink").setPreventsIdle(false) }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
+            transformedParts = arrayOf(
+                bladeright.asTransformed().withVisibility(visibility = false),
+                bladeleft.asTransformed().withVisibility(visibility = false),
+                passivebladeright.asTransformed().withVisibility(visibility = true),
+                passivebladeleft.asTransformed().withVisibility(visibility = true)
+            ),
             idleAnimations = arrayOf(bedrock("ceruledge", "sleep"))
         )
 
@@ -61,7 +69,9 @@ class CeruledgeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             condition = { !it.isBattling },
             transformedParts = arrayOf(
                 bladeright.asTransformed().withVisibility(visibility = false),
-                bladeleft.asTransformed().withVisibility(visibility = false)
+                bladeleft.asTransformed().withVisibility(visibility = false),
+                passivebladeright.asTransformed().withVisibility(visibility = true),
+                passivebladeleft.asTransformed().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -77,7 +87,9 @@ class CeruledgeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             condition = { !it.isBattling },
             transformedParts = arrayOf(
                 bladeright.asTransformed().withVisibility(visibility = false),
-                bladeleft.asTransformed().withVisibility(visibility = false)
+                bladeleft.asTransformed().withVisibility(visibility = false),
+                passivebladeright.asTransformed().withVisibility(visibility = true),
+                passivebladeleft.asTransformed().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -93,7 +105,9 @@ class CeruledgeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             condition = { it.isBattling },
             transformedParts = arrayOf(
                 bladeright.asTransformed().withVisibility(visibility = true),
-                bladeleft.asTransformed().withVisibility(visibility = true)
+                bladeleft.asTransformed().withVisibility(visibility = true),
+                passivebladeright.asTransformed().withVisibility(visibility = false),
+                passivebladeleft.asTransformed().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -104,5 +118,5 @@ class CeruledgeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("ceruledge", "faint") else null
+    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("ceruledge", "faint2") else null
 }

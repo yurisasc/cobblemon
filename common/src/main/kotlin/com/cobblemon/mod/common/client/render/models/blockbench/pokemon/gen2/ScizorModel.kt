@@ -22,7 +22,7 @@ import net.minecraft.util.math.Vec3d
 
 class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("scizor")
-    override val head = getPart("head")
+    override val head = getPart("head_pivot")
 
     override val leftArm = getPart("left_upper_arm")
     override val rightArm = getPart("right_upper_arm")
