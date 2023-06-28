@@ -921,6 +921,11 @@ object ShowdownInterpreter {
                     battle.activePokemon.mapNotNull { it.battlePokemon?.uuid }.forEach { battle.minorBattleActions[it] = message }
                     battleLang("activate.destinybond", pokemonName)
                 }
+                // Includes revealed move
+                "forewarn" -> {
+                    val moveName = message.argumentAt(2)?.let { Moves.getByName(it)?.displayName } ?: Text.EMPTY
+                    battleLang("activate.forewarn", sourceName, moveName)
+                }
                 "focussash", "focusband" -> battleLang("activate.focusband", pokemonName, message.effectAt(1)!!.typelessData)
                 else -> battleLang("activate.${effect.id}", pokemonName, sourceName)
             }

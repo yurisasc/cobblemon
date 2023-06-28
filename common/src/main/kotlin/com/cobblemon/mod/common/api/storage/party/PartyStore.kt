@@ -256,5 +256,12 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
             BattlePokemon(it)
         }
     }.sortedBy { if (it.uuid == leadingPokemon) 0 else (indexOf(it.originalPokemon) + 1) }
+
+    fun clearParty() {
+        forEach {
+            it.tryRecallWithAnimation()
+            remove(it)
+        }
+    }
 }
 

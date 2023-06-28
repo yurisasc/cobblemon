@@ -96,13 +96,17 @@ class VaryingRenderableResolver<E : Entity, M : PoseableEntityModel<E>>(
         this.repository = repository
         posers.clear()
         getAllModels().forEach { identifier ->
-            models[identifier] = repository.texturedModels[identifier]!!.create().createModel()
+            try {
+                models[identifier] = repository.texturedModels[identifier]!!.create().createModel()
+            } catch (e: Exception) {
+                throw IllegalStateException("Unable to load model $identifier for $name", e)
+            }
         }
     }
 
     fun getPoser(aspects: Set<String>): M {
         val poserName = getResolvedPoser(aspects)
-        val poserSupplier = repository.posers[poserName] ?: throw IllegalStateException("No poser found for name: $poserName")
+        val poserSupplier = repository.posers[poserName] ?: throw IllegalStateException("No poser found for name: $poserName for $name")
         val modelName = getResolvedModel(aspects)
         val existingEntityModel = posers[poserName to modelName]
         return if (existingEntityModel != null) {

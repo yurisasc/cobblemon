@@ -1,5 +1,4 @@
 {
-  "itemGroup.cobblemon.pokeball": "Poké Balls",
   "item.cobblemon.poke_ball": "Poké Ball",
   "item.cobblemon.slate_ball": "Slate Ball",
   "item.cobblemon.azure_ball": "Azure Ball",
@@ -47,7 +46,6 @@
   "item.cobblemon.white_apricorn": "White Apricorn",
   "item.cobblemon.yellow_apricorn": "Yellow Apricorn",
 
-  "itemGroup.cobblemon.evolution_item": "Evolution Items",
   "item.cobblemon.link_cable": "Link Cable",
   "item.cobblemon.dragon_scale": "Dragon Scale",
   "item.cobblemon.kings_rock": "Kings Rock",
@@ -90,7 +88,6 @@
   "item.cobblemon.thunder_stone": "Thunder Stone",
   "item.cobblemon.water_stone": "Water Stone",
 
-  "itemGroup.cobblemon.medicine": "Medicine",
   "item.cobblemon.rare_candy": "Rare Candy",
   "item.cobblemon.exp_candy_xs": "Exp. Candy XS",
   "item.cobblemon.exp_candy_s": "Exp. Candy S",
@@ -137,7 +134,6 @@
   "item.cobblemon.jolly_mint": "Jolly Mint",
   "item.cobblemon.naive_mint": "Naive Mint",
   "item.cobblemon.serious_mint": "Serious Mint",
-  "itemGroup.cobblemon.held_item": "Held Items",
   "item.cobblemon.assault_vest": "Assault Vest",
   "item.cobblemon.auspicious_armor": "Auspicious Armor",
   "item.cobblemon.big_root": "Big Root",
@@ -208,9 +204,45 @@
   "item.cobblemon.dream_ball.tooltip": "4× on sleeping Pokémon",
   "item.cobblemon.beast_ball.tooltip": "5× on Ultra Beasts, 0.1× otherwise",
 
-  "itemGroup.cobblemon.building_blocks": "Building Blocks",
-  "itemGroup.cobblemon.machines": "Machines",
-  "itemGroup.cobblemon.plants": "Plants",
+  "item.cobblemon.mulch_base": "Mulch",
+  "item.cobblemon.coarse_mulch": "Coarse Mulch",
+  "item.cobblemon.growth_mulch": "Growth Mulch",
+  "item.cobblemon.humid_mulch": "Humid Mulch",
+  "item.cobblemon.loamy_mulch": "Loamy Mulch",
+  "item.cobblemon.peat_mulch": "Peat Mulch",
+  "item.cobblemon.rich_mulch": "Rich Mulch",
+  "item.cobblemon.sandy_mulch": "Sandy Mulch",
+  "item.cobblemon.surprise_mulch": "Surprise Mulch",
+
+  "item.cobblemon.medicinal_leek": "Medicinal Leek",
+  "item.cobblemon.energy_root": "Energy Root",
+  "item.cobblemon.revival_herb": "Revival Herb",
+  "item.cobblemon.pep_up_flower": "Pep-Up Flower",
+  "item.cobblemon.roasted_leek": "Roasted Leek",
+  "item.cobblemon.leek_and_potato_stew": "Leek and Potato Stew",
+  "item.cobblemon.remedy": "Remedy",
+  "item.cobblemon.fine_remedy": "Fine Remedy",
+  "item.cobblemon.superb_remedy": "Superb Remedy",
+  "item.cobblemon.heal_powder": "Heal Powder",
+  "item.cobblemon.medicinal_brew": "Medicinal Brew",
+  "item.cobblemon.revive": "Revive",
+  "item.cobblemon.max_revive": "Max Revive",
+  "item.cobblemon.pp_up": "PP Up",
+  "item.cobblemon.pp_max": "PP Max",
+
+  "item.cobblemon.x_attack": "X Attack",
+  "item.cobblemon.x_defense": "X Defense",
+  "item.cobblemon.x_accuracy": "X Accuracy",
+  "item.cobblemon.x_speed": "X Speed",
+  "item.cobblemon.x_sp_def": "X Special Defense",
+  "item.cobblemon.x_sp_atk": "X Special Attack",
+
+  "itemGroup.cobblemon.blocks": "Blocks",
+  "itemGroup.cobblemon.pokeball": "Poké Balls",
+  "itemGroup.cobblemon.agriculture": "Agriculture",
+  "itemGroup.cobblemon.consumables": "Consumables",
+  "itemGroup.cobblemon.held_item": "Held Items",
+  "itemGroup.cobblemon.evolution_item": "Evolution Items",
 
   "block.cobblemon.apricorn_log": "Apricorn Log",
   "block.cobblemon.stripped_apricorn_log": "Stripped Apricorn Log",
@@ -389,6 +421,7 @@
   "cobblemon.command.pokebox.box_is_full": "That Player's box %1$s is full.",
   "cobblemon.command.pokebox.storage_is_full": "That Player's storage is full.",
   "cobblemon.command.pokebox.last_pokemon": "Did not send that Player's last Pokémon to the PC.",
+  "cobblemon.command.pokemonrestart": "Cleared %1$s's party and PC.",
 
   "advancements.cobblemon.root": "The World of Cobblemon!",
   "advancements.cobblemon.obtain_leftovers": "Reduce, Reuse, Recycle!",
@@ -423,6 +456,7 @@
   "advancements.cobblemon.healing_machine": "Healing Power",
   "advancements.cobblemon.healing_machine.description": "Wait long enough for a Healing Machine to charge, and then heal your party",
 
+  "cobblemon.battle.crash": "A battle error has occurred. If playing single-player, report this to the mod team. Otherwise, report this to the servers administrator.",
   "cobblemon.battle.damage_dealt": "%1$s took %2$s damage!",
   "cobblemon.battle.used_move": "%1$s used %2$s!",
   "cobblemon.battle.used_move_on": "%1$s used %2$s on %3$s!",
@@ -493,7 +527,8 @@
   "cobblemon.battle.start.autotomize": "%1$s became nimble!",
   "cobblemon.battle.start.attract": "%1$s fell in love!",
   "cobblemon.battle.start.focusenergy": "%1$s is getting pumped!",
-  
+  "cobblemon.battle.start.uproar": "%1$s caused an uproar!",
+
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.fieldstart.grassyterrain": "Grass grew to cover the battlefield!",
   "cobblemon.battle.fieldstart.gravity": "Gravity intensified!",
@@ -576,6 +611,8 @@
   "cobblemon.battle.activate.trick":"%1$s switched items with its target!",
   "cobblemon.battle.activate.quickclaw": "%1$s can act faster than normal, thanks to its Quick Claw!",
   "cobblemon.battle.activate.focusband": "%1$s hung on using its %2$s!",
+  "cobblemon.battle.activate.forewarn": "%1$s's %2$s was revealed!",
+  "cobblemon.battle.activate.disguise": "It's disguise served it as a decoy!",
 
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
@@ -632,6 +669,7 @@
   "cobblemon.battle.damage.lifeorb": "%1$s lost some of its HP!",
   "cobblemon.battle.damage.rockyhelmet": "%1$s was hurt by %2$s's Rocky Helmet!",
   "cobblemon.battle.damage.generic": "%1$s was hurt!",
+  "cobblemon.battle.damage.pokemonmimikyubusted": "%1$s's disguise was busted!",
 
   "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
   "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
