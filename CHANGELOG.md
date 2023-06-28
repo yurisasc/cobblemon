@@ -59,7 +59,7 @@
 - Fixed apricorn tree leaves looking gross on Fast graphics mode.
 - Fixed hoes not breaking apricorn tree leaves any faster.
 - Fixed the /pc command not playing the opening sound.
-
+- Fixed Shedinja not being able to recover naturally.
 ### Developer
 - Added SpawnEvent
 - Added persistent NBT property inside Pokemon to store quick and simple data.

@@ -24,6 +24,7 @@ import kotlin.random.Random
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
+import kotlin.math.ceil
 
 /**
  * A [PartyStore] used for a single player. This uses the player's UUID as the store's UUID, and is declared as its own
@@ -83,7 +84,8 @@ open class PlayerPartyStore(
                 if (pokemon.isFainted()) {
                     pokemon.faintedTimer -= 1
                     if (pokemon.faintedTimer <= -1) {
-                        pokemon.currentHealth = (pokemon.hp * Cobblemon.config.faintAwakenHealthPercent).toInt()
+                        val php = ceil(pokemon.hp * Cobblemon.config.faintAwakenHealthPercent)
+                        pokemon.currentHealth = php.toInt()
                         player.sendMessage(Text.translatable("cobblemon.party.faintRecover", pokemon.getDisplayName()))
                     }
                 }
@@ -93,7 +95,7 @@ open class PlayerPartyStore(
                     if (pokemon.healTimer <= -1) {
                         pokemon.healTimer = Cobblemon.config.healTimer
                         val healAmount = 1.0.coerceAtLeast(pokemon.hp.toDouble() * Cobblemon.config.healPercent)
-                        pokemon.currentHealth = pokemon.currentHealth + round(healAmount).toInt();
+                        pokemon.currentHealth = pokemon.currentHealth + round(healAmount).toInt()
                     }
                 }
 
