@@ -20,7 +20,7 @@ import net.minecraft.util.math.Vec3d
 
 class NaclstackModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("naclstack")
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
