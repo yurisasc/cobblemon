@@ -151,13 +151,14 @@
     }
   ],
   "flavors": {
-    "SWEET": 10
+    "SPICY": 30,
+	"DRY": 10
   },
   "tintIndexes": {
     "1": "#686898"
   },
-  "flowerModel": "cobblemon:pecha_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/pecha.png",
-  "fruitModel": "cobblemon:pecha_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/pecha.png"
+  "flowerModel": "cobblemon:spelon_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/spelon.png",
+  "fruitModel": "cobblemon:spelon_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/spelon.png"
 }

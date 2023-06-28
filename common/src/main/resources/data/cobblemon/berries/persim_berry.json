@@ -113,7 +113,7 @@
   "mutations": {
     "cobblemon:cheri": "cobblemon:figy",
     "cobblemon:chesto": "cobblemon:wiki",
-	"cobblemon:pecha": "cobblemon:mago",
+	"cobblemon:persim": "cobblemon:mago",
 	"cobblemon:rawst": "cobblemon:aguav",
 	"cobblemon:aspear": "cobblemon:iapapa"
   },
@@ -154,13 +154,17 @@
     }
   ],
   "flavors": {
-    "SWEET": 10
+	"SPICY": 10,
+	"DRY": 10,
+    "SWEET": 10,
+	"BITTER": 10,
+	"SOUR": 10
   },
   "tintIndexes": {
     "1": "#686898"
   },
-  "flowerModel": "cobblemon:pecha_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/pecha.png",
-  "fruitModel": "cobblemon:pecha_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/pecha.png"
+  "flowerModel": "cobblemon:persim_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/persim.png",
+  "fruitModel": "cobblemon:persim_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/persim.png"
 }
