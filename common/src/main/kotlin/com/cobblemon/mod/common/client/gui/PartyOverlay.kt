@@ -72,6 +72,13 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
 
     private var attachedToast = false
 
+    fun resetAttachedToast() {
+        val minecraft = MinecraftClient.getInstance()
+        minecraft.toastManager.clear()
+        starterToast.nextVisibility = Toast.Visibility.SHOW
+        attachedToast = false
+    }
+
     override fun render(matrixStack: MatrixStack, partialDeltaTicks: Float) {
         val minecraft = MinecraftClient.getInstance()
 

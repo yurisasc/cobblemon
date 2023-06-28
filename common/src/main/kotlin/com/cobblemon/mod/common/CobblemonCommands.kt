@@ -44,5 +44,6 @@ object CobblemonCommands {
         TestPcSlotCommand.register(dispatcher)
         TestPartySlotCommand.register(dispatcher)
         ClearPartyCommand.register(dispatcher)
+        PokemonRestartCommand.register(dispatcher)
     }
 }

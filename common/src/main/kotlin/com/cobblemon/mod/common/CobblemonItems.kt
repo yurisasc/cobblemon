@@ -11,6 +11,7 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.ApricornItem
 import com.cobblemon.mod.common.item.ApricornSeedItem
 import com.cobblemon.mod.common.item.CobblemonItem
@@ -19,8 +20,10 @@ import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.item.interactive.CandyItem
+import com.cobblemon.mod.common.item.interactive.EnergyRoot
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.MintItem
+import com.cobblemon.mod.common.item.interactive.RemedyItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
 import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.platform.PlatformRegistry
@@ -29,9 +32,11 @@ import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import net.minecraft.block.Block
 import net.minecraft.block.ComposterBlock
 import net.minecraft.item.BlockItem
+import net.minecraft.item.FoodComponent
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.Items
+import net.minecraft.item.StewItem
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -243,6 +248,44 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val PROTEIN = create("protein", VitaminItem(Stats.ATTACK))
     @JvmField
     val ZINC = create("zinc", VitaminItem(Stats.SPECIAL_DEFENCE))
+    @JvmField
+    val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK_CROP))
+    @JvmField
+    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(2).build())))
+    @JvmField
+    val ENERGY_ROOT = create("energy_root", EnergyRoot(CobblemonBlocks.ENERGY_ROOT))
+    @JvmField
+    val REVIVAL_HERB = create("revival_herb", RevivalHerbItem(CobblemonBlocks.REVIVAL_HERB))
+    @JvmField
+    val PEP_UP_FLOWER = create("pep_up_flower", PepUpFlowerItem(Item.Settings()))
+    @JvmField
+    val MEDICINAL_BREW = create("medicinal_brew", Item(Item.Settings()))
+    @JvmField
+    val REMEDY = create("remedy", RemedyItem(RemedyItem.NORMAL))
+    @JvmField
+    val FINE_REMEDY = create("fine_remedy", RemedyItem(RemedyItem.FINE))
+    @JvmField
+    val SUPERB_REMEDY = create("superb_remedy", RemedyItem(RemedyItem.SUPERB))
+
+
+    @JvmField
+    val HEAL_POWDER = create("heal_powder", Item(Item.Settings()))
+
+    // Remove me when Momo's vivichoke work is done
+    @JvmField
+    val VIVICHOKE = create("vivichoke", Item(Item.Settings()))
+
+    @JvmField
+    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(4).build())))
+    @JvmField
+    val REVIVE = create("revive", Item(Item.Settings()))
+    @JvmField
+    val MAX_REVIVE = create("max_revive", Item(Item.Settings()))
+    @JvmField
+    val PP_UP = create("pp_up", Item(Item.Settings()))
+    @JvmField
+    val PP_MAX = create("pp_max", Item(Item.Settings()))
+
 
     @JvmField
     val RED_MINT_SEEDS = blockItem("red_mint_seeds", MintType.RED.getCropBlock())
@@ -311,6 +354,13 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val NAIVE_MINT = create("naive_mint", MintItem(Natures.NAIVE))
     @JvmField
     val SERIOUS_MINT = create("serious_mint", MintItem(Natures.SERIOUS))
+
+    @JvmField val X_ACCURACY = create("x_accuracy", CobblemonItem(Item.Settings()))
+    @JvmField val X_ATTACK = create("x_attack", CobblemonItem(Item.Settings()))
+    @JvmField val X_DEFENSE = create("x_defense", CobblemonItem(Item.Settings()))
+    @JvmField val X_SP_ATK = create("x_sp_atk", CobblemonItem(Item.Settings()))
+    @JvmField val X_SP_DEF = create("x_sp_def", CobblemonItem(Item.Settings()))
+    @JvmField val X_SPEED = create("x_speed", CobblemonItem(Item.Settings()))
 
     /**
      * Evolution Ores and Stones
@@ -382,7 +432,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val ASSAULT_VEST = heldItem("assault_vest")
     @JvmField
-    val BIG_ROOT = heldItem("big_root")
+    val BIG_ROOT = create("big_root", BigRoot(CobblemonBlocks.BIG_ROOT))
     @JvmField
     val BLACK_BELT = heldItem("black_belt")
     @JvmField
@@ -446,6 +496,26 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val WISE_GLASSES = heldItem("wise_glasses")
 
+    // Mulch
+    @JvmField
+    val MULCH_BASE = mulchItem("mulch_base")
+    @JvmField
+    val COARSE_MULCH = mulchItem("coarse_mulch")
+    @JvmField
+    val GROWTH_MULCH = mulchItem("growth_mulch")
+    @JvmField
+    val HUMID_MULCH = mulchItem("humid_mulch")
+    @JvmField
+    val LOAMY_MULCH = mulchItem("loamy_mulch")
+    @JvmField
+    val PEAT_MULCH = mulchItem("peat_mulch")
+    @JvmField
+    val RICH_MULCH = mulchItem("rich_mulch")
+    @JvmField
+    val SANDY_MULCH = mulchItem("sandy_mulch")
+    @JvmField
+    val SURPRISE_MULCH = mulchItem("surprise_mulch")
+
     // Misc
     @JvmField
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
@@ -474,130 +544,62 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         }
     )
 
+    private fun mulchItem(name: String): CobblemonItem = this.create(name, CobblemonItem(Item.Settings()))
+
+    // USE THIS TO DETERMINE WHAT ITEMS GO WHERE
+    // https://docs.google.com/spreadsheets/d/1QgaIlW-S9A-Blqhc-5G7OO3igaQdEAiYQqVEPnEBFmc/edit#gid=978365418
+
     fun registerToItemGroups(consumer: (ItemGroup, Item) -> Unit) {
-        pokeBalls.forEach { item -> consumer(CobblemonItemGroups.POKE_BALLS.group(), item) }
-        CobblemonItemGroups.MACHINES.group().let { group ->
-            consumer(group, HEALING_MACHINE)
+
+        CobblemonItemGroups.BLOCKS.group().let { group ->
             consumer(group, PC)
+            consumer(group, HEALING_MACHINE)
+            consumer(group, APRICORN_LOG)
+            consumer(group, APRICORN_WOOD)
+            consumer(group, STRIPPED_APRICORN_LOG)
+            consumer(group, STRIPPED_APRICORN_WOOD)
+            consumer(group, APRICORN_PLANKS)
+            consumer(group, APRICORN_STAIRS)
+            consumer(group, APRICORN_SLAB)
+            consumer(group, APRICORN_FENCE)
+            consumer(group, APRICORN_FENCE_GATE)
+            consumer(group, APRICORN_DOOR)
+            consumer(group, APRICORN_TRAPDOOR)
+            consumer(group, APRICORN_BUTTON)
+            consumer(group, APRICORN_PRESSURE_PLATE)
+            consumer(group, APRICORN_LEAVES)
+            consumer(group, DAWN_STONE_ORE)
+            consumer(group, DEEPSLATE_DAWN_STONE_ORE)
+            consumer(group, DUSK_STONE_ORE)
+            consumer(group, DEEPSLATE_DUSK_STONE_ORE)
+            consumer(group, FIRE_STONE_ORE)
+            consumer(group, DEEPSLATE_FIRE_STONE_ORE)
+            consumer(group, ICE_STONE_ORE)
+            consumer(group, DEEPSLATE_ICE_STONE_ORE)
+            consumer(group, LEAF_STONE_ORE)
+            consumer(group, DEEPSLATE_LEAF_STONE_ORE)
+            consumer(group, MOON_STONE_ORE)
+            consumer(group, DEEPSLATE_MOON_STONE_ORE)
+            consumer(group, DRIPSTONE_MOON_STONE_ORE)
+            consumer(group, SHINY_STONE_ORE)
+            consumer(group, DEEPSLATE_SHINY_STONE_ORE)
+            consumer(group, SUN_STONE_ORE)
+            consumer(group, DEEPSLATE_SUN_STONE_ORE)
+            consumer(group, THUNDER_STONE_ORE)
+            consumer(group, DEEPSLATE_THUNDER_STONE_ORE)
+            consumer(group, WATER_STONE_ORE)
+            consumer(group, DEEPSLATE_WATER_STONE_ORE)
         }
-        CobblemonItemGroups.EVOLUTION_ITEMS.group().let { group ->
-            consumer(group, LINK_CABLE)
-            consumer(group, KINGS_ROCK)
-            consumer(group, BLACK_AUGURITE)
-            consumer(group, PROTECTOR)
-            consumer(group, OVAL_STONE)
-            consumer(group, DRAGON_SCALE)
-            consumer(group, ELECTIRIZER)
-            consumer(group, MAGMARIZER)
-            consumer(group, UPGRADE)
-            consumer(group, KINGS_ROCK)
-            consumer(group, RAZOR_CLAW)
-            consumer(group, RAZOR_FANG)
-            consumer(group, DUBIOUS_DISC)
-            consumer(group, CHIPPED_POT)
-            consumer(group, BERRY_SWEET)
-            consumer(group, CLOVER_SWEET)
-            consumer(group, FLOWER_SWEET)
-            consumer(group, LOVE_SWEET)
-            consumer(group, RIBBON_SWEET)
-            consumer(group, STAR_SWEET)
-            consumer(group, STRAWBERRY_SWEET)
-            consumer(group, SWEET_APPLE)
-            consumer(group, TART_APPLE)
-            consumer(group, WHIPPED_DREAM)
-            consumer(group, PEAT_BLOCK)
-            consumer(group, REAPER_CLOTH)
-            consumer(group, SACHET)
-            consumer(group, DEEP_SEA_SCALE)
-            consumer(group, DEEP_SEA_TOOTH)
-            consumer(group, GALARICA_CUFF)
-            consumer(group, GALARICA_WREATH)
-            consumer(group, DAWN_STONE)
-            consumer(group, DUSK_STONE)
-            consumer(group, FIRE_STONE)
-            consumer(group, ICE_STONE)
-            consumer(group, LEAF_STONE)
-            consumer(group, MOON_STONE)
-            consumer(group, SHINY_STONE)
-            consumer(group, SUN_STONE)
-            consumer(group, THUNDER_STONE)
-            consumer(group, WATER_STONE)
-        }
-        CobblemonItemGroups.HELD_ITEMS.group().let { group ->
-            consumer(group, ASSAULT_VEST)
+
+        pokeBalls.forEach { item -> consumer(CobblemonItemGroups.POKE_BALLS.group(), item) }
+
+        CobblemonItemGroups.AGRICULTURE.group().let { group ->
+            consumer(group, MEDICINAL_LEEK)
             consumer(group, BIG_ROOT)
-            consumer(group, BLACK_BELT)
-            consumer(group, BLACK_GLASSES)
-            consumer(group, BLACK_SLUDGE)
-            consumer(group, CHARCOAL)
-            consumer(group, CHOICE_BAND)
-            consumer(group, CHOICE_SCARF)
-            consumer(group, CHOICE_SPECS)
-            consumer(group, DEEP_SEA_SCALE)
-            consumer(group, DEEP_SEA_TOOTH)
-            consumer(group, DRAGON_FANG)
-            consumer(group, EXP_SHARE)
-            consumer(group, FOCUS_BAND)
-            consumer(group, HARD_STONE)
-            consumer(group, HEAVY_DUTY_BOOTS)
-            consumer(group, KINGS_ROCK)
-            consumer(group, LEFTOVERS)
-            consumer(group, LIGHT_CLAY)
-            consumer(group, LUCKY_EGG)
-            consumer(group, MAGNET)
-            consumer(group, MIRACLE_SEED)
-            consumer(group, MUSCLE_BAND)
-            consumer(group, MYSTIC_WATER)
-            consumer(group, NEVER_MELT_ICE)
-            consumer(group, POISON_BARB)
-            consumer(group, QUICK_CLAW)
-            consumer(group, RAZOR_CLAW)
-            consumer(group, RAZOR_FANG)
-            consumer(group, ROCKY_HELMET)
-            consumer(group, SAFETY_GOGGLES)
-            consumer(group, SHARP_BEAK)
-            consumer(group, SILK_SCARF)
-            consumer(group, SILVER_POWDER)
-            consumer(group, SOFT_SAND)
-            consumer(group, SPELL_TAG)
-            consumer(group, TWISTED_SPOON)
-            consumer(group, WISE_GLASSES)
-        }
-        CobblemonItemGroups.MEDICINE.group().let { group ->
-            consumer(group, RARE_CANDY)
-            consumer(group, EXPERIENCE_CANDY_XS)
-            consumer(group, EXPERIENCE_CANDY_S)
-            consumer(group, EXPERIENCE_CANDY_M)
-            consumer(group, EXPERIENCE_CANDY_L)
-            consumer(group, EXPERIENCE_CANDY_XL)
-            consumer(group, HP_UP)
-            consumer(group, PROTEIN)
-            consumer(group, IRON)
-            consumer(group, CALCIUM)
-            consumer(group, ZINC)
-            consumer(group, CARBOS)
-            consumer(group, LONELY_MINT)
-            consumer(group, ADAMANT_MINT)
-            consumer(group, NAUGHTY_MINT)
-            consumer(group, BRAVE_MINT)
-            consumer(group, BOLD_MINT)
-            consumer(group, IMPISH_MINT)
-            consumer(group, LAX_MINT)
-            consumer(group, RELAXED_MINT)
-            consumer(group, MODEST_MINT)
-            consumer(group, MILD_MINT)
-            consumer(group, RASH_MINT)
-            consumer(group, QUIET_MINT)
-            consumer(group, CALM_MINT)
-            consumer(group, GENTLE_MINT)
-            consumer(group, CAREFUL_MINT)
-            consumer(group, SASSY_MINT)
-            consumer(group, TIMID_MINT)
-            consumer(group, HASTY_MINT)
-            consumer(group, JOLLY_MINT)
-            consumer(group, SERIOUS_MINT)
-        }
-        CobblemonItemGroups.PLANTS.group().let { group ->
+            consumer(group, ENERGY_ROOT)
+            consumer(group, REVIVAL_HERB)
+            consumer(group, PEP_UP_FLOWER)
+
             consumer(group, RED_APRICORN)
             consumer(group, YELLOW_APRICORN)
             consumer(group, GREEN_APRICORN)
@@ -626,43 +628,107 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, WHITE_MINT_SEEDS)
             consumer(group, WHITE_MINT_LEAF)
         }
-        CobblemonItemGroups.BUILDING_BLOCKS.group().let { group ->
-            consumer(group, APRICORN_LOG)
-            consumer(group, STRIPPED_APRICORN_LOG)
-            consumer(group, APRICORN_WOOD)
-            consumer(group, STRIPPED_APRICORN_WOOD)
-            consumer(group, APRICORN_PLANKS)
-            consumer(group, APRICORN_LEAVES)
-            consumer(group, APRICORN_DOOR)
-            consumer(group, APRICORN_TRAPDOOR)
-            consumer(group, APRICORN_FENCE)
-            consumer(group, APRICORN_FENCE_GATE)
-            consumer(group, APRICORN_BUTTON)
-            consumer(group, APRICORN_PRESSURE_PLATE)
-            // consumer(group, APRICORN_SIGN)
-            consumer(group, APRICORN_SLAB)
-            consumer(group, APRICORN_STAIRS)
-            consumer(group, DAWN_STONE_ORE)
-            consumer(group, DEEPSLATE_DAWN_STONE_ORE)
-            consumer(group, DUSK_STONE_ORE)
-            consumer(group, DEEPSLATE_DUSK_STONE_ORE)
-            consumer(group, FIRE_STONE_ORE)
-            consumer(group, DEEPSLATE_FIRE_STONE_ORE)
-            consumer(group, ICE_STONE_ORE)
-            consumer(group, DEEPSLATE_ICE_STONE_ORE)
-            consumer(group, LEAF_STONE_ORE)
-            consumer(group, DEEPSLATE_LEAF_STONE_ORE)
-            consumer(group, MOON_STONE_ORE)
-            consumer(group, DEEPSLATE_MOON_STONE_ORE)
-            consumer(group, DRIPSTONE_MOON_STONE_ORE)
-            consumer(group, SHINY_STONE_ORE)
-            consumer(group, DEEPSLATE_SHINY_STONE_ORE)
-            consumer(group, SUN_STONE_ORE)
-            consumer(group, DEEPSLATE_SUN_STONE_ORE)
-            consumer(group, THUNDER_STONE_ORE)
-            consumer(group, DEEPSLATE_THUNDER_STONE_ORE)
-            consumer(group, WATER_STONE_ORE)
-            consumer(group, DEEPSLATE_WATER_STONE_ORE)
+
+        CobblemonItemGroups.CONSUMABLES.group().let { group ->
+            consumer(group, ROASTED_LEEK)
+            consumer(group, LEEK_AND_POTATO_STEW)
+            consumer(group, REMEDY)
+            consumer(group, FINE_REMEDY)
+            consumer(group, SUPERB_REMEDY)
+            consumer(group, HEAL_POWDER)
+            consumer(group, MEDICINAL_BREW)
+            consumer(group, REVIVE)
+            consumer(group, MAX_REVIVE)
+
+            consumer(group, X_ATTACK)
+            consumer(group, X_DEFENSE)
+            consumer(group, X_SP_ATK)
+            consumer(group, X_SP_DEF)
+            consumer(group, X_SPEED)
+            consumer(group, X_ACCURACY)
+
+            consumer(group, HP_UP)
+            consumer(group, PROTEIN)
+            consumer(group, IRON)
+            consumer(group, CALCIUM)
+            consumer(group, ZINC)
+            consumer(group, CARBOS)
+            consumer(group, PP_UP)
+            consumer(group, PP_MAX)
+            consumer(group, EXPERIENCE_CANDY_XS)
+            consumer(group, EXPERIENCE_CANDY_S)
+            consumer(group, EXPERIENCE_CANDY_M)
+            consumer(group, EXPERIENCE_CANDY_L)
+            consumer(group, EXPERIENCE_CANDY_XL)
+            consumer(group, RARE_CANDY)
+
+            consumer(group, LONELY_MINT)
+            consumer(group, ADAMANT_MINT)
+            consumer(group, NAUGHTY_MINT)
+            consumer(group, BRAVE_MINT)
+            consumer(group, BOLD_MINT)
+            consumer(group, IMPISH_MINT)
+            consumer(group, LAX_MINT)
+            consumer(group, RELAXED_MINT)
+            consumer(group, MODEST_MINT)
+            consumer(group, MILD_MINT)
+            consumer(group, RASH_MINT)
+            consumer(group, QUIET_MINT)
+            consumer(group, CALM_MINT)
+            consumer(group, GENTLE_MINT)
+            consumer(group, CAREFUL_MINT)
+            consumer(group, SASSY_MINT)
+            consumer(group, TIMID_MINT)
+            consumer(group, HASTY_MINT)
+            consumer(group, JOLLY_MINT)
+            consumer(group, NAIVE_MINT)
+            consumer(group, SERIOUS_MINT)
+        }
+
+        CobblemonItemGroups.EVOLUTION_ITEMS.group().let { group ->
+            consumer(group, FIRE_STONE)
+            consumer(group, WATER_STONE)
+            consumer(group, THUNDER_STONE)
+            consumer(group, LEAF_STONE)
+            consumer(group, MOON_STONE)
+            consumer(group, SUN_STONE)
+            consumer(group, SHINY_STONE)
+            consumer(group, DUSK_STONE)
+            consumer(group, DAWN_STONE)
+            consumer(group, ICE_STONE)
+            consumer(group, LINK_CABLE)
+            consumer(group, KINGS_ROCK)
+            consumer(group, GALARICA_CUFF)
+            consumer(group, GALARICA_WREATH)
+            consumer(group, METAL_COAT)
+            consumer(group, BLACK_AUGURITE)
+            consumer(group, PROTECTOR)
+            consumer(group, OVAL_STONE)
+            consumer(group, DRAGON_SCALE)
+            consumer(group, ELECTIRIZER)
+            consumer(group, MAGMARIZER)
+            consumer(group, UPGRADE)
+            consumer(group, DUBIOUS_DISC)
+            consumer(group, RAZOR_FANG)
+            consumer(group, RAZOR_CLAW)
+            consumer(group, PEAT_BLOCK)
+            consumer(group, PRISM_SCALE)
+            consumer(group, REAPER_CLOTH)
+            consumer(group, DEEP_SEA_TOOTH)
+            consumer(group, DEEP_SEA_SCALE)
+            consumer(group, SACHET)
+            consumer(group, WHIPPED_DREAM)
+            consumer(group, TART_APPLE)
+            consumer(group, SWEET_APPLE)
+            consumer(group, CRACKED_POT)
+            consumer(group, CHIPPED_POT)
+            consumer(group, STRAWBERRY_SWEET)
+            consumer(group, LOVE_SWEET)
+            consumer(group, BERRY_SWEET)
+            consumer(group, CLOVER_SWEET)
+            consumer(group, FLOWER_SWEET)
+            consumer(group, STAR_SWEET)
+            consumer(group, RIBBON_SWEET)
         }
     }
 }
