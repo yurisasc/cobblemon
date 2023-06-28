@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class GolemModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("golem")
     override val head = getPart("head")
@@ -35,7 +36,7 @@ class GolemModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("golem", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("golem", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

@@ -22,7 +22,7 @@ class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val rootPart = root.registerChildWithAllChildren("arcanine")
     override val head = getPart("head")
 
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right1")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right1")

@@ -26,7 +26,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
-import java.util.*
 
 // Stuff like getting their party
 fun ServerPlayerEntity.party() = Cobblemon.storage.getParty(this)

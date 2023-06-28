@@ -22,7 +22,7 @@ class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val rootPart = root.registerChildWithAllChildren("slowpoke")
     override val head = getPart("head")
 
-    override val foreLeftLeg = getPart("leftfrontleg")
+    override val foreLeftLeg= getPart("leftfrontleg")
     override val foreRightLeg = getPart("rightfrontleg")
     override val hindLeftLeg = getPart("leftbackleg")
     override val hindRightLeg = getPart("rightbackleg")
