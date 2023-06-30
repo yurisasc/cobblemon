@@ -15,9 +15,8 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LanturnModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class LanturnModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("lanturn")
-    override val head = getPart("body")
 
     override val portraitScale = 1.7F
     override val portraitTranslation = Vec3d(-0.65, -0.7, 0.0)
@@ -35,7 +34,6 @@ class LanturnModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
-                        singleBoneLook(),
                         bedrock("lanturn", "ground_idle")
                 )
         )
