@@ -41,8 +41,8 @@ class MudsdaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                //bedrock("mudsdale", "ground_idle")
+                singleBoneLook(),
+                bedrock("mudsdale", "ground_idle")
             )
         )
 
@@ -52,6 +52,7 @@ class MudsdaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                bedrock("mudsdale", "ground_idle"),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.7F)
                 //bedrock("mudsdale", "ground_walk")
             )
