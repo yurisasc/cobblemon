@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.common.client
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
+import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
@@ -24,16 +26,21 @@ import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererR
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.VaryingModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
+import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.platform.events.PlatformEvents
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.asTranslated
 import java.awt.Color
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.block.BlockColors
@@ -45,7 +52,9 @@ import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
+import net.minecraft.util.Language
 
 object CobblemonClient {
     lateinit var implementation: CobblemonClientImplementation
@@ -89,17 +98,38 @@ object CobblemonClient {
 
         registerBlockRenderTypes()
         registerColors()
-        PlatformEvents
+
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
+
+        PlatformEvents.CLIENT_ITEM_TOOLTIP.subscribe { event ->
+            val stack = event.stack
+            val lines = event.lines
+            if (stack.item.registryEntry.key.isPresent && stack.item.registryEntry.key.get().value.namespace == Cobblemon.MODID) {
+                if (stack.nbt?.getBoolean(DataKeys.HIDE_TOOLTIP) == true) {
+                    return@subscribe
+                }
+                val language = Language.getInstance()
+                val key = this.baseLangKeyForItem(stack)
+                if (language.hasTranslation(key)) {
+                    lines.add(key.asTranslated().gray())
+                }
+                var i = 1
+                var listKey = "${key}_$i"
+                while(language.hasTranslation(listKey)) {
+                    lines.add(listKey.asTranslated().gray())
+                    listKey = "${key}_${++i}"
+                }
+            }
+        }
     }
 
     fun registerColors() {
         this.implementation.registerBlockColors(BlockColorProvider { _, _, _, _ ->
-            return@BlockColorProvider 0x71c219
+            return@BlockColorProvider 0xe1b552
         }, CobblemonBlocks.APRICORN_LEAVES)
         this.implementation.registerItemColors(ItemColorProvider { _, _ ->
-            return@ItemColorProvider 0x71c219
+            return@ItemColorProvider 0xe1b552
         }, CobblemonItems.APRICORN_LEAVES)
 
         CobblemonBlocks.berries().values.forEach { berry ->
@@ -110,7 +140,11 @@ object CobblemonClient {
     }
 
     private fun registerBlockRenderTypes() {
-        this.implementation.registerBlockRenderType(RenderLayer.getCutout(),
+
+        this.implementation.registerBlockRenderType(RenderLayer.getCutoutMipped(), CobblemonBlocks.APRICORN_LEAVES)
+
+        this.implementation.registerBlockRenderType(
+            RenderLayer.getCutout(),
             CobblemonBlocks.APRICORN_DOOR,
             CobblemonBlocks.APRICORN_TRAPDOOR,
             CobblemonBlocks.BLACK_APRICORN_SAPLING,
@@ -128,12 +162,17 @@ object CobblemonClient {
             CobblemonBlocks.WHITE_APRICORN,
             CobblemonBlocks.YELLOW_APRICORN,
             CobblemonBlocks.HEALING_MACHINE,
+            CobblemonBlocks.MEDICINAL_LEEK_CROP,
+            CobblemonBlocks.HEALING_MACHINE,
             CobblemonBlocks.RED_MINT,
             CobblemonBlocks.BLUE_MINT,
             CobblemonBlocks.CYAN_MINT,
             CobblemonBlocks.PINK_MINT,
             CobblemonBlocks.GREEN_MINT,
             CobblemonBlocks.WHITE_MINT,
+            CobblemonBlocks.ENERGY_ROOT,
+            CobblemonBlocks.BIG_ROOT,
+            CobblemonBlocks.REVIVAL_HERB,
             *CobblemonBlocks.berries().values.toTypedArray()
         )
     }
@@ -179,4 +218,13 @@ object CobblemonClient {
     fun endBattle() {
         battle = null
     }
+
+    private fun baseLangKeyForItem(stack: ItemStack): String {
+        if (stack.item is PokeBallItem) {
+            val asPokeball = stack.item as PokeBallItem
+            return "item.${asPokeball.pokeBall.name.namespace}.${asPokeball.pokeBall.name.path}.tooltip"
+        }
+        return "${stack.translationKey}.tooltip"
+    }
+
 }

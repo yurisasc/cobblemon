@@ -595,10 +595,9 @@ class PokemonEntity(
                         }
                     }
             }
-            shouldSave()
             (stack.item as? PokemonEntityInteraction)?.let {
                 if (it.onInteraction(player, this, stack)) {
-                    it.sound?.let {
+                    it.getSound()?.let {
                         this.world.playSoundServer(
                             position = this.pos,
                             sound = it,

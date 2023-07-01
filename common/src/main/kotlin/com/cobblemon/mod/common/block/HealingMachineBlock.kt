@@ -43,6 +43,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.explosion.Explosion
 
 class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     companion object {
@@ -129,37 +130,37 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         }
 
         if (blockEntity.isInUse) {
-            player.sendMessage(lang("healingmachine.alreadyinuse").red())
+            player.sendMessage(lang("healingmachine.alreadyinuse").red(), true)
             return ActionResult.SUCCESS
         }
 
         val serverPlayerEntity = player as ServerPlayerEntity
         if (serverPlayerEntity.isInBattle()) {
-            player.sendMessage(lang("healingmachine.inbattle").red())
+            player.sendMessage(lang("healingmachine.inbattle").red(), true)
             return ActionResult.SUCCESS
         }
         val party = serverPlayerEntity.party()
         if (party.none()) {
-            player.sendMessage(lang("healingmachine.nopokemon").red())
+            player.sendMessage(lang("healingmachine.nopokemon").red(), true)
             return ActionResult.SUCCESS
         }
 
         if (party.none { pokemon -> pokemon.canBeHealed() }) {
-            player.sendMessage(lang("healingmachine.alreadyhealed").red())
+            player.sendMessage(lang("healingmachine.alreadyhealed").red(), true)
             return ActionResult.SUCCESS
         }
 
         if (HealingMachineBlockEntity.isUsingHealer(player)) {
-            player.sendMessage(lang("healingmachine.alreadyhealing").red())
+            player.sendMessage(lang("healingmachine.alreadyhealing").red(), true)
             return ActionResult.SUCCESS
         }
 
         if (blockEntity.canHeal(player)) {
             blockEntity.activate(player)
-            player.sendMessage(lang("healingmachine.healing").green())
+            player.sendMessage(lang("healingmachine.healing").green(), true)
         } else {
             val neededCharge = player.party().getHealingRemainderPercent() - blockEntity.healingCharge
-            player.sendMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red())
+            player.sendMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red(), true)
         }
         party.forEach { it.tryRecallWithAnimation() }
         return ActionResult.CONSUME
@@ -178,11 +179,13 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
-        val blockEntity = world.getBlockEntity(pos)
-        if (blockEntity is HealingMachineBlockEntity) {
-            blockEntity.clearData()
-        }
+        this.handleBreak(world, pos)
         super.onBreak(world, pos, state, player)
+    }
+
+    override fun onDestroyedByExplosion(world: World, pos: BlockPos, explosion: Explosion) {
+        this.handleBreak(world, pos)
+        super.onDestroyedByExplosion(world, pos, explosion)
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
@@ -214,4 +217,12 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip1".asTranslated().gray())
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip2".asTranslated().gray())
     }
+
+    private fun handleBreak(world: World, pos: BlockPos) {
+        val blockEntity = world.getBlockEntity(pos)
+        if (blockEntity is HealingMachineBlockEntity) {
+            blockEntity.clearData()
+        }
+    }
+
 }

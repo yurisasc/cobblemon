@@ -10,15 +10,12 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.*
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
@@ -29,13 +26,7 @@ import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.RenderPhase
-import net.minecraft.client.render.VertexConsumer
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
+import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
@@ -68,8 +59,10 @@ abstract class PoseableEntityModel<T : Entity>(
 
     @Transient
     var currentLayers: Iterable<ModelLayer> = listOf()
+
     @Transient
     var bufferProvider: VertexConsumerProvider? = null
+
     @Transient
     var currentState: PoseableEntityState<T>? = null
 
@@ -82,13 +75,19 @@ abstract class PoseableEntityModel<T : Entity>(
 
     /** Registers the different poses this model is capable of ahead of time. Should use [registerPose] religiously. */
     abstract fun registerPoses()
+
     /** Gets the [PoseableEntityState] for an entity. */
     abstract fun getState(entity: T): PoseableEntityState<T>
 
-    fun getChangeFactor(part: ModelPart) = relevantParts.find { it.modelPart == part }?.changeFactor ?: 1F
+    fun getChangeFactor(part: ModelPart) = relevantParts.find { it.modelPart === part }?.changeFactor ?: 1F
     fun scaleForPart(part: ModelPart, value: Float) = getChangeFactor(part) * value
 
-    fun withLayerContext(buffer: VertexConsumerProvider, state: PoseableEntityState<T>?, layers: Iterable<ModelLayer>, action: () -> Unit) {
+    fun withLayerContext(
+        buffer: VertexConsumerProvider,
+        state: PoseableEntityState<T>?,
+        layers: Iterable<ModelLayer>,
+        action: () -> Unit
+    ) {
         setLayerContext(buffer, state, layers)
         action()
         resetLayerContext()
@@ -123,7 +122,16 @@ abstract class PoseableEntityModel<T : Entity>(
         transformedParts: Array<TransformedModelPart> = emptyArray(),
         quirks: Array<ModelQuirk<T, *>> = emptyArray()
     ): Pose<T, F> {
-        return Pose(poseType.name, setOf(poseType), condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts, quirks).also {
+        return Pose(
+            poseType.name,
+            setOf(poseType),
+            condition,
+            onTransitionedInto,
+            transformTicks,
+            idleAnimations,
+            transformedParts,
+            quirks
+        ).also {
             poses[poseType.name] = it
         }
     }
@@ -138,7 +146,16 @@ abstract class PoseableEntityModel<T : Entity>(
         transformedParts: Array<TransformedModelPart> = emptyArray(),
         quirks: Array<ModelQuirk<T, *>> = emptyArray()
     ): Pose<T, F> {
-        return Pose(poseName, poseTypes, condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts, quirks).also {
+        return Pose(
+            poseName,
+            poseTypes,
+            condition,
+            onTransitionedInto,
+            transformTicks,
+            idleAnimations,
+            transformedParts,
+            quirks
+        ).also {
             poses[poseName] = it
         }
     }
@@ -153,20 +170,29 @@ abstract class PoseableEntityModel<T : Entity>(
         transformedParts: Array<TransformedModelPart> = emptyArray(),
         quirks: Array<ModelQuirk<T, *>> = emptyArray()
     ): Pose<T, F> {
-        return Pose(poseName, setOf(poseType), condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts, quirks).also {
+        return Pose(
+            poseName,
+            setOf(poseType),
+            condition,
+            onTransitionedInto,
+            transformTicks,
+            idleAnimations,
+            transformedParts,
+            quirks
+        ).also {
             poses[poseName] = it
         }
     }
 
     fun ModelPart.registerChildWithAllChildren(name: String): ModelPart {
-        val child = getChild(name)!!
+        val child = this.getChild(name)!!
         registerRelevantPart(name to child)
         loadAllNamedChildren(child)
         return child
     }
 
     fun ModelPart.registerChildWithSpecificChildren(name: String, nameList: Iterable<String>): ModelPart {
-        val child = getChild(name)!!
+        val child = getChild(name)
         registerRelevantPart(name to child)
         loadSpecificNamedChildren(child, nameList)
         return child
@@ -189,6 +215,10 @@ abstract class PoseableEntityModel<T : Entity>(
         }
     }
 
+    fun loadAllNamedChildren(bone: Bone) {
+        if (bone is ModelPart) loadAllNamedChildren(bone)
+    }
+
     fun loadAllNamedChildren(modelPart: ModelPart) {
         for ((name, child) in modelPart.children.entries) {
             val transformed = child.asTransformed()
@@ -207,8 +237,27 @@ abstract class PoseableEntityModel<T : Entity>(
 
     fun registerRelevantPart(pairing: Pair<String, ModelPart>) = registerRelevantPart(pairing.first, pairing.second)
 
-    override fun render(stack: MatrixStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
-        renderModel(stack, buffer, packedLight, OverlayTexture.DEFAULT_UV, red * r, green * g, blue * b, alpha * a)
+    override fun render(
+        stack: MatrixStack,
+        buffer: VertexConsumer,
+        packedLight: Int,
+        packedOverlay: Int,
+        r: Float,
+        g: Float,
+        b: Float,
+        a: Float
+    ) {
+        renderModel(
+            currentEntity,
+            stack,
+            buffer,
+            packedLight,
+            OverlayTexture.DEFAULT_UV,
+            red * r,
+            green * g,
+            blue * b,
+            alpha * a
+        )
 
         val animationSeconds = currentState?.animationSeconds ?: 0F
         val provider = bufferProvider
@@ -218,14 +267,34 @@ abstract class PoseableEntityModel<T : Entity>(
                 val renderLayer = getLayer(texture, layer.emissive, layer.translucent)
                 val consumer = provider.getBuffer(renderLayer)
                 stack.push()
-                renderModel(stack, consumer, packedLight, OverlayTexture.DEFAULT_UV, layer.tint.x, layer.tint.y, layer.tint.z, layer.tint.w)
+                renderModel(
+                    currentEntity,
+                    stack,
+                    consumer,
+                    packedLight,
+                    OverlayTexture.DEFAULT_UV,
+                    layer.tint.x,
+                    layer.tint.y,
+                    layer.tint.z,
+                    layer.tint.w
+                )
                 stack.pop()
             }
         }
     }
 
-    fun renderModel(stack: MatrixStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
-        rootPart.render(stack, buffer, packedLight, packedOverlay, r, g, b, a)
+    fun renderModel(
+        currentEntity: T?,
+        stack: MatrixStack,
+        buffer: VertexConsumer,
+        packedLight: Int,
+        packedOverlay: Int,
+        r: Float,
+        g: Float,
+        b: Float,
+        a: Float
+    ) {
+        rootPart.render(currentEntity, stack, buffer, packedLight, packedOverlay, r, g, b, a)
     }
 
     fun makeLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
@@ -264,6 +333,7 @@ abstract class PoseableEntityModel<T : Entity>(
     fun applyPose(pose: String) = getPose(pose)?.transformedParts?.forEach { it.apply() }
     fun getPose(pose: PoseType) = poses.values.firstOrNull { pose in it.poseTypes }
     fun getPose(name: String) = poses[name]
+
     /** Puts the model back to its original location and rotations. */
     fun setDefault() = relevantParts.forEach { it.applyDefaults() }
 
@@ -273,7 +343,14 @@ abstract class PoseableEntityModel<T : Entity>(
      * Sets up the angles and positions for the model knowing that there is no state. Is given a pose type to use,
      * and optionally things like limb swinging and head rotations.
      */
-    fun setupAnimStateless(poseType: PoseType, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, ageInTicks: Float = 0F) {
+    fun setupAnimStateless(
+        poseType: PoseType,
+        limbSwing: Float = 0F,
+        limbSwingAmount: Float = 0F,
+        headYaw: Float = 0F,
+        headPitch: Float = 0F,
+        ageInTicks: Float = 0F
+    ) {
         setupAnimStateless(setOf(poseType), limbSwing, limbSwingAmount, headYaw, headPitch, ageInTicks)
     }
 
@@ -281,15 +358,30 @@ abstract class PoseableEntityModel<T : Entity>(
      * Sets up the angles and positions for the model knowing that there is no state. Is given a list of pose types,
      * and it will use the first of these that is defined for the model.
      */
-    fun setupAnimStateless(poseTypes: Set<PoseType>, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, ageInTicks: Float = 0F) {
+    fun setupAnimStateless(
+        poseTypes: Set<PoseType>,
+        limbSwing: Float = 0F,
+        limbSwingAmount: Float = 0F,
+        headYaw: Float = 0F,
+        headPitch: Float = 0F,
+        ageInTicks: Float = 0F
+    ) {
         currentEntity = null
         setDefault()
-        val pose = poseTypes.firstNotNullOfOrNull { getPose(it)  } ?: poses.values.first()
+        val pose = poseTypes.firstNotNullOfOrNull { getPose(it) } ?: poses.values.first()
         pose.transformedParts.forEach { it.apply() }
         pose.idleStateless(this, null, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
 
-    fun setupAnimStateful(entity: T?, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    fun setupAnimStateful(
+        entity: T?,
+        state: PoseableEntityState<T>,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        ageInTicks: Float,
+        headYaw: Float,
+        headPitch: Float
+    ) {
         currentEntity = entity
         state.currentModel = this
         setDefault()
@@ -300,7 +392,9 @@ abstract class PoseableEntityModel<T : Entity>(
         val entityPoseType = if (entity is Poseable) entity.getPoseType() else null
 
         if (entity != null && (poseName == null || pose == null || !pose.condition(entity) || entityPoseType !in pose.poseTypes)) {
-            val desirablePose = poses.values.firstOrNull { (entityPoseType == null || entityPoseType in it.poseTypes) && it.condition(entity) }
+            val desirablePose = poses.values.firstOrNull {
+                (entityPoseType == null || entityPoseType in it.poseTypes) && it.condition(entity)
+            }
                 ?: Pose("none", setOf(PoseType.NONE), { true }, {}, 0, emptyArray(), emptyArray(), emptyArray())
 
             // If this condition matches then it just no longer fits this pose
@@ -321,18 +415,38 @@ abstract class PoseableEntityModel<T : Entity>(
             // Remove any quirk animations that don't exist in our current pose
             state.quirks.keys.filterNot(currentPose.quirks::contains).forEach(state.quirks::remove)
             // Tick all the quirks
-            currentPose.quirks.forEach { it.tick(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch) }
+            currentPose.quirks.forEach {
+                it.tick(
+                    entity,
+                    this,
+                    state,
+                    limbSwing,
+                    limbSwingAmount,
+                    ageInTicks,
+                    headYaw,
+                    headPitch
+                )
+            }
         }
 
-        val removedStatefuls = state.statefulAnimations.toList().filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch) }
+        val removedStatefuls = state.statefulAnimations.toList()
+            .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch) }
         state.statefulAnimations.removeAll(removedStatefuls)
-        state.currentPose?.let { getPose(it) }?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+        state.currentPose?.let { getPose(it) }
+            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         state.applyAdditives(entity, this, state)
         relevantParts.forEach { it.changeFactor = 1F }
         updateLocators(state)
     }
 
-    override fun setAngles(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override fun setAngles(
+        entity: T,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        ageInTicks: Float,
+        headYaw: Float,
+        headPitch: Float
+    ) {
         setupAnimStateful(entity, getState(entity), limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
 
@@ -373,7 +487,8 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
-            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            val scale =
+                entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))

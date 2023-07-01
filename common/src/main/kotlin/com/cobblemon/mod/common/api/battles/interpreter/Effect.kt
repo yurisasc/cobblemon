@@ -36,6 +36,9 @@ interface Effect {
      */
     val rawData: String
 
+    val typelessData: String
+        get() = rawData.substringAfter(type.prefix).trim()
+
     /**
      * Represents the type of the [Effect].
      *

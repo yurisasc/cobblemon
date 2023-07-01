@@ -19,13 +19,20 @@ object CobblemonItemGroups {
 
     private val ALL = arrayListOf<ItemGroupProvider>()
 
-    val BUILDING_BLOCKS = this.create("building_blocks") { ItemStack(CobblemonItems.APRICORN_PLANKS) }
+    /* val BUILDING_BLOCKS = this.create("building_blocks") { ItemStack(CobblemonItems.APRICORN_PLANKS) }
     val MACHINES = this.create("machines") { ItemStack(CobblemonItems.HEALING_MACHINE) }
     val POKE_BALLS = this.create("pokeball") { ItemStack(CobblemonItems.POKE_BALL) }
     val EVOLUTION_ITEMS = this.create("evolution_item") { ItemStack(CobblemonItems.BLACK_AUGURITE) }
     val MEDICINE = this.create("medicine") { ItemStack(CobblemonItems.RARE_CANDY) }
     val HELD_ITEMS = this.create("held_item") { ItemStack(CobblemonItems.EXP_SHARE) }
-    val PLANTS = this.create("plants") { ItemStack(CobblemonItems.RED_APRICORN) }
+    val PLANTS = this.create("plants") { ItemStack(CobblemonItems.RED_APRICORN) } */
+
+    val BLOCKS = this.create("blocks") { ItemStack(CobblemonItems.PC) }
+    val POKE_BALLS = this.create("pokeball") { ItemStack(CobblemonItems.POKE_BALL) }
+    val AGRICULTURE = this.create("agriculture") { ItemStack(CobblemonItems.MEDICINAL_LEEK) }
+    val CONSUMABLES = this.create("consumables") { ItemStack(CobblemonItems.ROASTED_LEEK) }
+    val HELD_ITEMS = this.create("held_item") { ItemStack(CobblemonItems.EXP_SHARE) }
+    val EVOLUTION_ITEMS = this.create("evolution_item") { ItemStack(CobblemonItems.BLACK_AUGURITE) }
 
     fun register(consumer: (provider: ItemGroupProvider) -> ItemGroup) {
         ALL.forEach { provider -> provider.assign(consumer.invoke(provider)) }

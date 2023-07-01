@@ -145,7 +145,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                         amplitude = 0.4F
                     ),
                     oscillationsScalar = 24F,
-                    head = rootPart,
+                    head = rootPart as ModelPart,
                     rotationAxis = X_AXIS,
                     motionAxis = Y_AXIS,
                     headLength = 4F,
