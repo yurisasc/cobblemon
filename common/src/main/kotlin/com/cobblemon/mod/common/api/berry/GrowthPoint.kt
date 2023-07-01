@@ -14,12 +14,12 @@ import net.minecraft.util.math.Vec3d
  * Represents a position in a berry tree where a berry will flower then fruit.
  *
  * @property position The coordinates of the berry in the tree block.
- * @property rotation The degree value for the rotation on the Y plane.
+ * @property rotation The degree value for the rotation each axis.
  *
  * @author Licious
  * @since December 19th, 2022
  */
 data class GrowthPoint(
     val position: Vec3d,
-    val rotation: Float
+    val rotation: Vec3d
 )

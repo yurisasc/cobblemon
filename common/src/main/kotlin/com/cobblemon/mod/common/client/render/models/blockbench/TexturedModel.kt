@@ -19,7 +19,7 @@ class TexturedModel {
     @SerializedName("minecraft:geometry")
     val geometry: List<ModelGeometry>? = null
 
-    fun create() : TexturedModelData {
+    fun create(isForLivingEntityRenderer: Boolean) : TexturedModelData {
         val modelData = ModelData()
         val parts = HashMap<String, ModelPartData>()
         val bones = HashMap<String, ModelBone>()
@@ -57,7 +57,7 @@ class TexturedModel {
                 when {
                     bone.parent == null -> {
                         // The root part always has a 24 Y offset. One of life's great mysteries.
-                        modelTransform = ModelTransform.pivot(0F, 24F, 0F)
+                        modelTransform = ModelTransform.pivot(0F, if (isForLivingEntityRenderer) 24F else 0F, 0F)
                     }
                     boneRotation != null -> {
                         modelTransform = ModelTransform.of(

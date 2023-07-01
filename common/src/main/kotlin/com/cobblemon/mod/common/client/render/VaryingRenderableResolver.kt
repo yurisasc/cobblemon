@@ -96,7 +96,7 @@ class VaryingRenderableResolver<E : Entity, M : PoseableEntityModel<E>>(
         this.repository = repository
         posers.clear()
         getAllModels().forEach { identifier ->
-            models[identifier] = repository.texturedModels[identifier]!!.create().createModel()
+            models[identifier] = repository.texturedModels[identifier]!!.create(repository.isForLivingEntityRenderer).createModel()
         }
     }
 

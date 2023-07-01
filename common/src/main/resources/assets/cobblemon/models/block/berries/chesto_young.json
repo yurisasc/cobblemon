@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "block/stripped_spruce_log",
+		"1": "stripped_spruce_log",
 		"2": "block/dark_oak_leaves",
-		"particle": "block/stripped_spruce_log"
+		"particle": "stripped_spruce_log"
 	},
 	"elements": [
 		{

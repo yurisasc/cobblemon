@@ -238,7 +238,9 @@ class Berry(
             writer.writeDouble(value.position.x)
             writer.writeDouble(value.position.y)
             writer.writeDouble(value.position.z)
-            writer.writeFloat(value.rotation)
+            writer.writeDouble(value.rotation.x)
+            writer.writeDouble(value.rotation.y)
+            writer.writeDouble(value.rotation.z)
         }
         buffer.writeMap(this.mutations, { writer, key -> writer.writeIdentifier(key) }, { writer, value -> writer.writeIdentifier(value) })
         buffer.writeCollection(this.sproutShapeBoxes) { writer, value ->
@@ -296,7 +298,7 @@ class Berry(
             val growthTime = IntRange(buffer.readInt(), buffer.readInt())
             val refreshRate = IntRange(buffer.readInt(), buffer.readInt())
             val growthPoints = buffer.readList { reader ->
-                GrowthPoint(Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble()), reader.readFloat())
+                GrowthPoint(Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble()), Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble()))
             }.toTypedArray()
             val mutations = buffer.readMap({ reader -> reader.readIdentifier() }, { reader -> reader.readIdentifier() })
             val sproutShapeBoxes = buffer.readList { it.readBox() }

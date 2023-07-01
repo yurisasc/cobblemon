@@ -1,7 +1,7 @@
 {
   "baseYield": {
-    "min": 3,
-    "max": 6
+    "min": 1,
+    "max": 2
   },
   "growthTime": {
     "min": 45,
@@ -20,7 +20,7 @@
       },
       "bonusYield": {
         "min": 1,
-        "max": 2
+        "max": 1
       }
     },
     {
@@ -47,67 +47,51 @@
   "growthPoints": [
     {
       "position": {
-        "x": 4.5,
-        "y": 10.5,
+        "x": 8,
+        "y": 16,
+        "z": 15
+      },
+      "rotation": {
+        "x": -17.5,
+        "y": 27.5,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 12.5,
+        "y": 21,
+        "z": 13
+      },
+      "rotation": {
+        "x": -12.5,
+        "y": 5,
+        "z": 10
+      }
+    },
+    {
+      "position": {
+        "x": 3,
+        "y": 13,
+        "z": 13
+      },
+      "rotation": {
+        "x": 3,
+        "y": 40.5,
+        "z": -6.5
+      }
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": 17,
         "z": 7.5
       },
-      "rotation": 0
-    },
-    {
-      "position": {
-        "x": 10.6,
-        "y": 12.4,
-        "z": 4
-      },
-      "rotation": 0
-    },
-    {
-      "position": {
-        "x": 13,
-        "y": 14.4,
-        "z": 9.6
-      },
-      "rotation": 0
-    },
-    {
-      "position": {
-        "x": 5,
-        "y": 16.4,
-        "z": 12.6
-      },
-      "rotation": 0
-    },
-    {
-      "position": {
-        "x": 5,
-        "y": 23.7,
-        "z": 10.6
-      },
-      "rotation": 0
-    },
-    {
-      "position": {
-        "x": 12,
-        "y": 24.7,
-        "z": 11
-      },
-      "rotation": 0
-    },
-    {
-      "position": {
-        "x": 10.5,
-        "y": 20.7,
-        "z": 4
-      },
-      "rotation": 0
-    },
-    {
-      "position": {
-        "x": 4,
-        "y": 20.7,
-        "z": 5.5
-      },
-      "rotation": 0
+      "rotation": {
+        "x": 0.0,
+        "y": -90,
+        "z": -25
+      }
     }
   ],
   "mutations": {

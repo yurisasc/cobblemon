@@ -38,6 +38,8 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     abstract val modelDirectories: List<String>
     abstract val animationDirectories: List<String>
     abstract val fallback: Identifier
+    /** When using the living entity renderer in Java Edition, a root joint 24F (1.5) Y offset is necessary. I've no fucking idea why. */
+    abstract val isForLivingEntityRenderer: Boolean
 
     abstract fun loadJsonPoser(json: String): (ModelPart) -> M
 

@@ -39,7 +39,7 @@ object BerryModelRepository : JsonDataRegistry<TexturedModel> {
     override fun reload(data: Map<Identifier, TexturedModel>) {
         this.models.clear()
         data.forEach { (identifier, model) ->
-            this.models[identifier] = model.create().createModel()
+            this.models[identifier] = model.create(isForLivingEntityRenderer = false).createModel()
         }
         Cobblemon.LOGGER.info("Loaded {} berry models", this.models.size)
     }

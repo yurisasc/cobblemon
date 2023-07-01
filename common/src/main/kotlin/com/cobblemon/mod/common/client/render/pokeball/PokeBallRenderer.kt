@@ -30,7 +30,6 @@ class PokeBallRenderer(context: EntityRendererFactory.Context) : EntityRenderer<
     override fun render(entity: EmptyPokeBallEntity, yaw: Float, partialTicks: Float, poseStack: MatrixStack, buffer: VertexConsumerProvider, packedLight: Int) {
         val model = PokeBallModelRepository.getPoser(entity.pokeBall.name, entity.aspects.get())
         poseStack.push()
-        poseStack.translate(0.0, 1.5 * 0.7F, 0.0)
         poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw))
         poseStack.scale(0.7F, -0.7F, -0.7F)
         val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, model.getLayer(getTexture(entity)), false, false)

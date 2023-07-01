@@ -35,7 +35,28 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
 class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.BERRY, pos, state) {
+    lateinit var berryIdentifier: Identifier
+
+    constructor(pos: BlockPos, state: BlockState, berryIdentifier: Identifier): this(pos, state) {
+        this.berryIdentifier = berryIdentifier
+        loadBerryProperties()
+    }
+
+    fun loadBerryProperties() {
+        val berry = Berries.getByIdentifier(berryIdentifier)!!
+        val lowerGrowthLimit = berry.growthTime.first * ticksPerMinute / BerryBlock.FRUIT_AGE
+        val upperGrowthLimit = berry.growthTime.last * ticksPerMinute / BerryBlock.FRUIT_AGE
+        val growthRange = lowerGrowthLimit..upperGrowthLimit
+        growthTimer = growthRange.random()
+
+        val lowerRefreshLimit = berry.growthTime.first * ticksPerMinute
+        val upperRefreshLimit = berry.growthTime.last * ticksPerMinute
+        val refreshRange: IntRange = lowerRefreshLimit..upperRefreshLimit
+        refreshTimer = refreshRange.random()
+    }
+
     private val ticksPerMinute = 1200
+
     /**
      * The number of life cycles on this plant.
      * @throws IllegalArgumentException if the cycles are set to less than 0.
@@ -54,11 +75,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         }
     */
 
-    private val lowerGrowthLimit = this.berry()!!.growthTime.first * ticksPerMinute / BerryBlock.FRUIT_AGE
-    private val upperGrowthLimit = this.berry()!!.growthTime.last * ticksPerMinute / BerryBlock.FRUIT_AGE
-    private val growthRange: IntRange = lowerGrowthLimit..upperGrowthLimit
-
-    var growthTimer: Int = growthRange.random() ?: 72000
+    var growthTimer: Int = 72000
         set(value) {
             if (value < 0) {
                 throw IllegalArgumentException("You cannot set the growth time to less than zero")
@@ -69,11 +86,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             field = value
         }
 
-    private val lowerRefreshLimit = this.berry()!!.growthTime.first * ticksPerMinute
-    private val upperRefreshLimit = this.berry()!!.growthTime.last * ticksPerMinute
-    private val refreshRange: IntRange = lowerRefreshLimit..upperRefreshLimit
-
-    var refreshTimer: Int = refreshRange.random() ?: 24000
+    var refreshTimer: Int = 24000
         set(value) {
             if (value < 0) {
                 throw IllegalArgumentException("You cannot set the refresh time to less than zero")
@@ -90,19 +103,12 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     private var wasLoading = false
 
     /**
-     * Returns the [BerryBlock] behind this entity.
-     *
-     * @return The [BerryBlock].
-     */
-    fun berryBlock() = this.cachedState.block as BerryBlock
-
-    /**
      * Returns the [Berry] behind this entity,
      * This will be null if it doesn't exist in the [Berries] registry.
      *
      * @return The [Berry] if existing.
      */
-    fun berry() = this.berryBlock().berry()
+    fun berry() = Berries.getByIdentifier(berryIdentifier)
 
     /**
      * Generates a random amount of growth points for this tree.
@@ -161,6 +167,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     }
 
     override fun readNbt(nbt: NbtCompound) {
+        this.berryIdentifier = Identifier(nbt.getString(BERRY).takeIf { it.isNotBlank() } ?: "cobblemon:pecha")
         this.wasLoading = true
         this.growthPoints.clear()
         this.growthTimer = nbt.getInt(GROWTH_TIMER).coerceAtLeast(0)
@@ -183,6 +190,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         val list = NbtList()
         list += this.growthPoints.map { NbtString.of(it.toString()) }
         nbt.put(GROWTH_POINTS, list)
+        nbt.putString(BERRY, berryIdentifier.toString())
     }
 
     override fun markDirty() {
@@ -256,7 +264,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         private const val GROWTH_POINTS = "growth_points"
         private const val GROWTH_TIMER = "growth_timer"
         private const val REFRESH_TIMER = "refresh_timer"
-
+        private const val BERRY = "berry"
     }
 
 }
