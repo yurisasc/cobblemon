@@ -18,8 +18,9 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart: ModelPart = root.registerChildWithAllChildren("dugtrio")
+    override val rootPart = root.registerChildWithAllChildren("dugtrio")
 
     override val portraitScale = 1.3F
     override val portraitTranslation = Vec3d(0.0, -0.4, 0.0)

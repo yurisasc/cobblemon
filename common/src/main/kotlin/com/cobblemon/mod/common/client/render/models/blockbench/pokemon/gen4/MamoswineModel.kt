@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -24,7 +23,7 @@ class MamoswineModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
 
     override val hindLeftLeg = getPart("leftbackleg")
     override val hindRightLeg = getPart("rightbackleg")
-    override val foreLeftLeg = getPart("leftfrontleg")
+    override val foreLeftLeg= getPart("leftfrontleg")
     override val foreRightLeg = getPart("rightfrontleg")
 
     override val portraitScale = 2.0F

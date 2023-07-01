@@ -32,7 +32,7 @@ class MewtwoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mewtwo", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("mewtwo", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

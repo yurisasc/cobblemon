@@ -184,6 +184,7 @@
 - Reorganised the advancements recipes folder
 - Pokeedit command now supports IVs and EVs.
 - Reorganised creative categories
+- Pokeballs now despawn after 30 seconds
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -207,7 +208,7 @@
 - Fixed hoes not breaking apricorn tree leaves any faster.
 - Fixed Shiftry's PC model position.
 - Fixed the /pc command not playing the opening sound.
-
+- Fixed Shedinja not being able to recover naturally.
 ### Developer
 - Added SpawnEvent
 - Added persistent NBT property inside Pokemon to store quick and simple data.
