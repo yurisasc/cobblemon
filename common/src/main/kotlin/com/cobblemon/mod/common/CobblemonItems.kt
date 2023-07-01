@@ -710,6 +710,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, GREEN_MINT_LEAF)
             consumer(group, WHITE_MINT_SEEDS)
             consumer(group, WHITE_MINT_LEAF)
+
+            berries.values.forEach { consumer(group, it) }
         }
 
         CobblemonItemGroups.CONSUMABLES.group().let { group ->
