@@ -300,6 +300,9 @@
   "cobblemon.ui.pc.box.title": "Box %1$s",
   "cobblemon.ui.pc.release": "Release",
 
+  "cobblemon.ui.pasture": "Pasture",
+  "cobblemon.ui.pasture.recall_all": "Recall All",
+
   "key.cobblemon.upshiftparty": "Party Shift Up",
   "key.cobblemon.downshiftparty": "Party Shift Down",
   "key.cobblemon.hideparty": "Hide Party Overlay",

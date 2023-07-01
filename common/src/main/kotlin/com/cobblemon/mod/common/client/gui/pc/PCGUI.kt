@@ -44,7 +44,7 @@ class PCGUI(
         const val BASE_WIDTH = 349
         const val BASE_HEIGHT = 205
         const val RIGHT_PANEL_WIDTH = 82
-        const val RIGHT_PANEL_HEIGHT = 176
+        const val RIGHT_PANEL_HEIGHT = 169
         const val TYPE_SPACER_WIDTH = 128
         const val TYPE_SPACER_HEIGHT = 12
         const val PC_SPACER_WIDTH = 342
@@ -53,7 +53,6 @@ class PCGUI(
         const val SCALE = 0.5F
 
         private val baseResource = cobblemonResource("textures/gui/pc/pc_base.png")
-        private val partyPanelResource = cobblemonResource("textures/gui/pc/party_panel.png")
         private val portraitBackgroundResource = cobblemonResource("textures/gui/pc/portrait_background.png")
         private val topSpacerResource = cobblemonResource("textures/gui/pc/pc_spacer_top.png")
         private val bottomSpacerResource = cobblemonResource("textures/gui/pc/pc_spacer_bottom.png")
@@ -137,18 +136,6 @@ class PCGUI(
             width = BASE_WIDTH,
             height = BASE_HEIGHT
         )
-
-        if (configuration.showParty) {
-            // Render Base Resource
-            blitk(
-                matrixStack = matrices,
-                texture = partyPanelResource,
-                x = x + 267, y = y,
-                width = RIGHT_PANEL_WIDTH,
-                height = RIGHT_PANEL_HEIGHT
-            )
-
-        }
 
         // Render Info Labels
         drawScaledText(
@@ -424,6 +411,16 @@ class PCGUI(
         if (unlink) {
             UnlinkPlayerFromPCPacket().sendToServer()
         }
+    }
+
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
+        if (storageWidget.pastureWidget != null) storageWidget.pastureWidget!!.pastureScrollList.mouseScrolled(mouseX, mouseY, amount)
+        return children().any { it.mouseScrolled(mouseX, mouseY, amount) }
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
+        if (storageWidget.pastureWidget != null) storageWidget.pastureWidget!!.pastureScrollList.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
     }
 
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {

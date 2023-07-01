@@ -8,38 +8,52 @@
 
 package com.cobblemon.mod.common.client.gui.pasture
 
+import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.bold
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
+import com.cobblemon.mod.common.client.gui.drawProfilePokemon
+import com.cobblemon.mod.common.client.gui.pc.StorageSlot
+import com.cobblemon.mod.common.client.gui.summary.widgets.PartySlotWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
+import com.cobblemon.mod.common.net.messages.server.pasture.UnpasturePokemonPacket
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.MutableText
+import org.joml.Quaternionf
+import org.joml.Vector3f
 
 class PasturePokemonScrollList(
     val x: Int,
     val y: Int,
-    val label: MutableText,
-    slotHeight: Int
-) : AlwaysSelectedEntryListWidget<PasturePokemonEntry>(
+    val parent: PastureWidget
+) : AlwaysSelectedEntryListWidget<PasturePokemonScrollList.PastureSlot>(
     MinecraftClient.getInstance(),
     WIDTH, // width
     HEIGHT, // height
     0, // top
     HEIGHT, // bottom
-    slotHeight
+    SLOT_HEIGHT + SLOT_SPACING
 ) {
     companion object {
-        const val WIDTH = 108
-        const val HEIGHT = 114
-        const val SLOT_WIDTH = 91
+        const val WIDTH = 70
+        const val HEIGHT = 120
+        const val SLOT_WIDTH = 62
+        const val SLOT_HEIGHT = 25
+        const val SLOT_SPACING = 3
+        const val SCALE = 0.5F
 
-//        private val backgroundResource = cobblemonResource("textures/gui/summary/summary_scroll_background.png")
-//        private val scrollOverlayResource = cobblemonResource("textures/gui/summary/summary_scroll_overlay.png")
+        private val scrollOverlayResource = cobblemonResource("textures/gui/pasture/pasture_scroll_overlay.png")
+        private val slotResource = cobblemonResource("textures/gui/pasture/pasture_slot.png")
     }
 
     private var scrolling = false
+    private var entriesCreated = false
 
     override fun getRowWidth(): Int {
         return SLOT_WIDTH
@@ -56,24 +70,15 @@ class PasturePokemonScrollList(
         return left + width - 3
     }
 
-    public override fun addEntry(entry: PasturePokemonEntry): Int {
+    public override fun addEntry(entry: PastureSlot): Int {
         return super.addEntry(entry)
     }
-    public override fun removeEntry(entry: PasturePokemonEntry): Boolean  {
+    public override fun removeEntry(entry: PastureSlot): Boolean  {
         return super.removeEntry(entry)
     }
 
     override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
-
-//        blitk(
-//            matrixStack = poseStack,
-//            texture = backgroundResource,
-//            x = left,
-//            y = top,
-//            height = HEIGHT,
-//            width = WIDTH
-//        )
 
         DrawableHelper.enableScissor(
             left,
@@ -81,29 +86,33 @@ class PasturePokemonScrollList(
             left + width,
             top + 1 + height
         )
+
+        if (!entriesCreated) {
+            entriesCreated = true
+            parent.pasturePCGUIConfiguration.pasturedPokemon.get().map { PastureSlot(it, parent) }.forEach { entry -> this.addEntry(entry) }
+        }
+
         super.render(poseStack, mouseX, mouseY, partialTicks)
         DrawableHelper.disableScissor()
 
         // Scroll Overlay
-        val scrollOverlayOffset = 4
-//        blitk(
-//            matrixStack = poseStack,
-//            texture = scrollOverlayResource,
-//            x = left,
-//            y = top - (scrollOverlayOffset / 2),
-//            height = HEIGHT + scrollOverlayOffset,
-//            width = WIDTH
-//        )
+        blitk(
+            matrixStack = poseStack,
+            texture = scrollOverlayResource,
+            x = left,
+            y = top - 12,
+            height = 131,
+            width = WIDTH
+        )
 
-        // Label
+        // TODO: Get pasture limit, get count of pastured pokemon
         drawScaledText(
             matrixStack = poseStack,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = label.bold(),
-            x = left + 32.5,
-            y = top - 13.5,
-            centered = true,
-            shadow = true
+            text = "16/16".text().bold(),
+            x = x + (WIDTH / 2),
+            y = y - 9,
+            centered = true
         )
     }
 
@@ -116,6 +125,10 @@ class PasturePokemonScrollList(
         return super.mouseClicked(mouseX, mouseY, button)
     }
 
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
+        return super.mouseScrolled(mouseX, mouseY, amount)
+    }
+
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
         if (scrolling) {
             if (mouseY < top) {
@@ -123,7 +136,7 @@ class PasturePokemonScrollList(
             } else if (mouseY > bottom) {
                 scrollAmount = maxScroll.toDouble()
             } else {
-                scrollAmount = scrollAmount + deltaY
+                scrollAmount += deltaY
             }
         }
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
@@ -139,5 +152,128 @@ class PasturePokemonScrollList(
     private fun correctSize() {
         updateSize(WIDTH, HEIGHT, y + 1, (y + 1) + (HEIGHT - 2))
         setLeftPos(x)
+    }
+
+    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + WIDTH)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + HEIGHT))
+
+    class PastureSlot(private val pokemon: OpenPasturePacket.PasturePokemonDataDTO, private val parent: PastureWidget) : Entry<PastureSlot>() {
+        val client: MinecraftClient = MinecraftClient.getInstance()
+        private val moveButton: PastureSlotIconButton = PastureSlotIconButton(
+            xPos = 0,
+            yPos = 0,
+            onPress = {
+                // TODO: Unpasture this pokemon
+                CobblemonNetwork.sendToServer(UnpasturePokemonPacket(
+                    pastureId = parent.pasturePCGUIConfiguration.pastureId,
+                    pokemonId = pokemon.pokemonId)
+                )
+            }
+        )
+
+        override fun getNarration() = pokemon.name
+
+        override fun render(
+            poseStack: MatrixStack,
+            index: Int,
+            rowTop: Int,
+            rowLeft: Int,
+            rowWidth: Int,
+            rowHeight: Int,
+            mouseX: Int,
+            mouseY: Int,
+            isHovered: Boolean,
+            partialTicks: Float
+        ) {
+            val x = rowLeft - 4
+            val y = rowTop
+
+            blitk(
+                matrixStack = poseStack,
+                texture = slotResource,
+                x = x,
+                y = y,
+                height = SLOT_HEIGHT,
+                width = rowWidth,
+                vOffset = if (isHovered) SLOT_HEIGHT else 0,
+                textureHeight = SLOT_HEIGHT * 2
+            )
+
+            // Render Pokémon
+            poseStack.push()
+            poseStack.translate(x + 11 + (StorageSlot.SIZE / 2.0), y - 5.0, 0.0)
+            poseStack.scale(2.5F, 2.5F, 1F)
+            drawProfilePokemon(
+                species = pokemon.species,
+                aspects = pokemon.aspects,
+                matrixStack = poseStack,
+                rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
+                state = null,
+                scale = 4.5F
+            )
+            poseStack.pop()
+
+            // TODO: Get held item from pokemon
+//            val heldItem = pokemon.heldItemNoCopy()
+//            if (!heldItem.isEmpty) {
+//                renderScaledGuiItemIcon(
+//                    itemStack = heldItem,
+//                    x = x + 23.5,
+//                    y = y + 9.0,
+//                    scale = 0.5,
+//                    matrixStack = poseStack
+//                )
+//            }
+
+            // TODO: Get level from pokemon
+//            drawScaledText(
+//                matrixStack = poseStack,
+//                text = lang("ui.lv.number", pokemon.level),
+//                x = x + 46,
+//                y = y + 13,
+//                shadow = true,
+//                scale = SCALE
+//            )
+
+            drawScaledText(
+                matrixStack = poseStack,
+                text = pokemon.name.copy(),
+                x = x + 11,
+                y = y + 20,
+                scale = SCALE
+            )
+
+            // TODO: Get gender from pokemon
+//            if (pokemon.gender != Gender.GENDERLESS) {
+//                blitk(
+//                    matrixStack = poseStack,
+//                    texture = if (pokemon.gender == Gender.MALE) PartySlotWidget.genderIconMale else PartySlotWidget.genderIconFemale,
+//                    x = (x + 56.5) / SCALE,
+//                    y = (y + 20) / SCALE,
+//                    height = 7,
+//                    width = 5,
+//                    scale = SCALE
+//                )
+//            }
+                blitk(
+                    matrixStack = poseStack,
+                    texture = PartySlotWidget.genderIconMale,
+                    x = (x + 56.5) / SCALE,
+                    y = (y + 20) / SCALE,
+                    height = 7,
+                    width = 5,
+                    scale = SCALE
+                )
+
+            moveButton.setPos(x + 2, y + 9)
+            moveButton.render(poseStack, mouseX, mouseY, partialTicks)
+        }
+
+        override fun mouseClicked(mouseX: Double, mouseY: Double, delta: Int): Boolean {
+            if (moveButton.isHovered(mouseX, mouseY)) {
+                moveButton.onPress()
+                return true
+            }
+            return false
+        }
     }
 }

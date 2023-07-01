@@ -21,6 +21,10 @@ class GrabbedStorageSlot(
         renderSlot(matrices, mouseX - (width / 2), mouseY - (height / 2))
     }
 
+    override fun isStationary(): Boolean {
+        return false
+    }
+
     override fun getPokemon(): Pokemon? {
         return pokemon
     }

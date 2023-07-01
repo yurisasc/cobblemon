@@ -60,6 +60,7 @@ class StorageWidget(
         const val BOX_SLOT_PADDING = 2
         const val PARTY_SLOT_PADDING = 6
 
+        private val partyPanelResource = cobblemonResource("textures/gui/pc/party_panel.png")
         private val screenOverlayResource = cobblemonResource("textures/gui/pc/pc_screen_overlay.png")
     }
 
@@ -68,6 +69,8 @@ class StorageWidget(
     private val releaseButton: ReleaseButton
     private val releaseYesButton: ReleaseConfirmButton
     private val releaseNoButton: ReleaseConfirmButton
+
+    var pastureWidget: PastureWidget? = null
 
     var displayConfirmRelease = false
     var screenLoaded = false
@@ -138,7 +141,7 @@ class StorageWidget(
         )
 
         if (pcGui.configuration is PasturePCGUIConfiguration) {
-            addWidget(PastureWidget(pcGui.configuration, x + PCGUI.BASE_WIDTH - PastureWidget.WIDTH, y))
+            this.pastureWidget = PastureWidget(pcGui.configuration, x + 182, y - 19)
         }
     }
 
@@ -216,6 +219,15 @@ class StorageWidget(
     override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         // Party  Label
         if (pcGui.configuration.showParty) {
+            blitk(
+                matrixStack = matrices,
+                texture = partyPanelResource,
+                x = x + 182,
+                y = y - 19,
+                width = PCGUI.RIGHT_PANEL_WIDTH,
+                height = PCGUI.RIGHT_PANEL_HEIGHT
+            )
+
             drawScaledText(
                 matrixStack = matrices,
                 font = CobblemonResources.DEFAULT_LARGE,
@@ -265,12 +277,18 @@ class StorageWidget(
             if (pcGui.ticksElapsed >= 10)  screenLoaded = true
         }
 
-        this.partySlots.forEach { slot ->
-            slot.render(matrices, mouseX, mouseY, delta)
-            val pokemon = slot.getPokemon()
-            if (grabbedSlot == null && slot.isHovered(mouseX, mouseY)
-                && pokemon != null && pokemon != pcGui.previewPokemon) pcGui.setPreviewPokemon(pokemon)
+        // Party slots
+        if (pcGui.configuration.showParty) {
+            this.partySlots.forEach { slot ->
+                slot.render(matrices, mouseX, mouseY, delta)
+                val pokemon = slot.getPokemon()
+                if (grabbedSlot == null && slot.isHovered(mouseX, mouseY)
+                    && pokemon != null && pokemon != pcGui.previewPokemon
+                ) pcGui.setPreviewPokemon(pokemon)
+            }
         }
+
+        pastureWidget?.renderButton(matrices, mouseX, mouseY, delta)
 
         grabbedSlot?.render(matrices, mouseX, mouseY, delta)
     }
@@ -283,6 +301,7 @@ class StorageWidget(
             if (releaseButton.isHovered(pMouseX, pMouseY)) releaseButton.mouseClicked(pMouseX, pMouseY, pButton)
         }
 
+        pastureWidget?.mouseClicked(pMouseX, pMouseY, pButton)
         return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 
@@ -299,7 +318,6 @@ class StorageWidget(
     }
 
     private fun onStorageSlotClicked(button: ButtonWidget) {
-
         // Check if storage slot
         val clickedPosition = when(button) {
             is BoxStorageSlot -> button.position

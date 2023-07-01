@@ -19,17 +19,16 @@ import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
-class UnpastureButton(
+class RecallButton(
     x: Int, y: Int,
-    val configuration: PasturePCGUIConfiguration,
     onPress: PressAction
 ) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("Retrieve"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
-        private const val WIDTH = 58
-        private const val HEIGHT = 16
+        private const val WIDTH = 70
+        private const val HEIGHT = 17
 
-        private val buttonResource = cobblemonResource("textures/gui/pasture/pasture_deploy_button.png")
+        private val buttonResource = cobblemonResource("textures/gui/pasture/pasture_button.png")
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -44,12 +43,13 @@ class UnpastureButton(
             textureHeight = HEIGHT * 2
         )
 
+        // Render Text
         drawScaledText(
             matrixStack = matrices,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = lang("ui.pasture.retrieve").bold(),
+            text = lang("ui.pasture.recall_all").bold(),
             x = x + (WIDTH / 2),
-            y = y + 3.5,
+            y = y + 4,
             centered = true,
             shadow = true
         )
