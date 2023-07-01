@@ -38,6 +38,7 @@
 - Reorganised the advancements recipes folder
 - Pokeedit command now supports IVs and EVs.
 - Reorganised creative categories
+- Pokeballs now despawn after 30 seconds
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
