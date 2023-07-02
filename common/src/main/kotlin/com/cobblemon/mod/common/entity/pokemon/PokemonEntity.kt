@@ -633,7 +633,7 @@ class PokemonEntity(
             }
             (stack.item as? PokemonInteractiveItem)?.let {
                 if (it.onInteraction(player, this, stack)) {
-                    it.sound?.let {
+                    it.getSound()?.let {
                         this.world.playSoundServer(
                             position = this.pos,
                             sound = it,

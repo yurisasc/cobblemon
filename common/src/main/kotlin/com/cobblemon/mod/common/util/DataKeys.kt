@@ -112,4 +112,11 @@ object DataKeys {
     // Features
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
+
+    // Persistent Data
+    const val POKEMON_PERSISTENT_DATA = "PersistentData"
+
+    // Item Tooltips
+    const val HIDE_TOOLTIP = "HideTooltip"
+
 }

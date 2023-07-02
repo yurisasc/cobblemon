@@ -185,6 +185,16 @@ class CobblemonConfig {
     var appleLeftoversChance = 0.025
 
     @NodeCategory(Category.World)
+    var bigRootPropagationChance = 0.1
+
+    @NodeCategory(Category.World)
+    var energyRootChance = 0.25
+
+    @NodeCategory(Category.Pokemon)
+    @LastChangedVersion("1.4.0")
+    var consumeHeldItems = true
+
+    @NodeCategory(Category.World)
     var defaultPasturedPokemonLimit = 16
 
     @NodeCategory(Category.World)

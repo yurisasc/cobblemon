@@ -68,8 +68,6 @@ tasks {
         into(generatedResources)
     }
 
-    shadowJar {}
-
     processResources {
         dependsOn(copyAccessWidener)
         inputs.property("version", rootProject.version)

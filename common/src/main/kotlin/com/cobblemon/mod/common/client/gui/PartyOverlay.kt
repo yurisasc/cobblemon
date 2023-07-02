@@ -8,12 +8,16 @@
 
 package com.cobblemon.mod.common.client.gui
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
+import com.cobblemon.mod.common.api.text.darkGray
+import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
+import com.cobblemon.mod.common.client.gui.toast.CobblemonToast
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.HidePartyBinding
 import com.cobblemon.mod.common.client.keybind.keybinds.SummaryBinding
@@ -28,7 +32,9 @@ import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.toast.Toast
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.MathHelper
 
 class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
 
@@ -54,6 +60,25 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
         BattleGUI::class.java
     )
 
+    private val starterToast = CobblemonToast(
+        MathHelper.randomUuid(),
+        CobblemonItems.POKE_BALL.defaultStack,
+        lang("ui.starter.choose_starter_title", SummaryBinding.boundKey().localizedText).red(),
+        lang("ui.starter.choose_starter_description", SummaryBinding.boundKey().localizedText).darkGray(),
+        Toast.TEXTURE,
+        -1F,
+        0
+    )
+
+    private var attachedToast = false
+
+    fun resetAttachedToast() {
+        val minecraft = MinecraftClient.getInstance()
+        minecraft.toastManager.clear()
+        starterToast.nextVisibility = Toast.Visibility.SHOW
+        attachedToast = false
+    }
+
     override fun render(matrixStack: MatrixStack, partialDeltaTicks: Float) {
         val minecraft = MinecraftClient.getInstance()
 
@@ -78,7 +103,11 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 !CobblemonClient.clientPlayerData.starterSelected &&
                 !CobblemonClient.checkedStarterScreen
             ) {
-                // ToDo replace back to PokeNav once reimplemented
+                if (!this.attachedToast) {
+                    minecraft.toastManager.add(this.starterToast)
+                    this.attachedToast = true
+                }
+                /*
                 drawScaledText(
                     matrixStack = matrixStack,
                     text = lang("ui.starter.chooseyourstarter", SummaryBinding.boundKey().localizedText),
@@ -87,8 +116,12 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                     centered = true,
                     shadow = true
                 )
+                 */
             }
             return
+        }
+        if (this.starterToast.nextVisibility != Toast.Visibility.HIDE) {
+            this.starterToast.nextVisibility = Toast.Visibility.HIDE
         }
 
         val totalHeight = party.slots.size * SLOT_HEIGHT

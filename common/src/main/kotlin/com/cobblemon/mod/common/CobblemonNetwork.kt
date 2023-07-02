@@ -34,6 +34,14 @@ import com.cobblemon.mod.common.client.net.storage.party.MoveClientPartyPokemonH
 import com.cobblemon.mod.common.client.net.storage.party.SetPartyPokemonHandler
 import com.cobblemon.mod.common.client.net.storage.party.SetPartyReferenceHandler
 import com.cobblemon.mod.common.client.net.storage.pc.*
+import com.cobblemon.mod.common.client.net.trade.TradeAcceptanceChangedHandler
+import com.cobblemon.mod.common.client.net.trade.TradeCancelledHandler
+import com.cobblemon.mod.common.client.net.trade.TradeCompletedHandler
+import com.cobblemon.mod.common.client.net.trade.TradeOfferExpiredHandler
+import com.cobblemon.mod.common.client.net.trade.TradeOfferNotificationHandler
+import com.cobblemon.mod.common.client.net.trade.TradeStartedHandler
+import com.cobblemon.mod.common.client.net.trade.TradeUpdatedHandler
+import com.cobblemon.mod.common.client.net.toast.ToastPacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.net.messages.client.data.*
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
@@ -59,6 +67,14 @@ import com.cobblemon.mod.common.net.messages.client.storage.party.MoveClientPart
 import com.cobblemon.mod.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cobblemon.mod.common.net.messages.client.storage.pc.*
+import com.cobblemon.mod.common.net.messages.client.trade.TradeAcceptanceChangedPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeCancelledPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeCompletedPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferExpiredPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
+import com.cobblemon.mod.common.net.messages.client.trade.TradeUpdatedPacket
+import com.cobblemon.mod.common.net.messages.client.toast.ToastPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
 import com.cobblemon.mod.common.net.messages.server.*
@@ -75,6 +91,11 @@ import com.cobblemon.mod.common.net.messages.server.storage.party.MovePartyPokem
 import com.cobblemon.mod.common.net.messages.server.storage.party.ReleasePartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.party.SwapPartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.pc.*
+import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPacket
+import com.cobblemon.mod.common.net.messages.server.trade.CancelTradePacket
+import com.cobblemon.mod.common.net.messages.server.trade.ChangeTradeAcceptancePacket
+import com.cobblemon.mod.common.net.messages.server.trade.OfferTradePacket
+import com.cobblemon.mod.common.net.messages.server.trade.UpdateTradeOfferPacket
 import com.cobblemon.mod.common.net.serverhandling.ChallengeHandler
 import com.cobblemon.mod.common.net.serverhandling.battle.BattleSelectActionsHandler
 import com.cobblemon.mod.common.net.serverhandling.evolution.AcceptEvolutionHandler
@@ -93,6 +114,11 @@ import com.cobblemon.mod.common.net.serverhandling.storage.party.MovePartyPokemo
 import com.cobblemon.mod.common.net.serverhandling.storage.party.ReleasePCPokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.storage.party.SwapPartyPokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.*
+import com.cobblemon.mod.common.net.serverhandling.trade.AcceptTradeRequestHandler
+import com.cobblemon.mod.common.net.serverhandling.trade.CancelTradeHandler
+import com.cobblemon.mod.common.net.serverhandling.trade.ChangeTradeAcceptanceHandler
+import com.cobblemon.mod.common.net.serverhandling.trade.OfferTradeHandler
+import com.cobblemon.mod.common.net.serverhandling.trade.UpdateTradeOfferHandler
 import com.cobblemon.mod.common.util.server
 import kotlin.reflect.KClass
 import net.minecraft.network.PacketByteBuf
@@ -102,7 +128,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
 /**
- * Registers Cobblemon packets.
+ * Registers Cobblemon network packets.
  *
  * This class also contains short functions for dispatching our packets to a player, all players, or to the entire server.
  *
@@ -182,11 +208,15 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(BattleCaptureEndPacket.ID, BattleCaptureEndPacket::decode, BattleCaptureEndHandler)
         this.createClientBound(BattleCaptureShakePacket.ID, BattleCaptureShakePacket::decode, BattleCaptureShakeHandler)
         this.createClientBound(BattleApplyCaptureResponsePacket.ID, BattleApplyCaptureResponsePacket::decode, BattleApplyCaptureResponseHandler)
-        this.createClientBound(ChallengeNotificationPacket.ID, ChallengeNotificationPacket::decode, ChallengeNotificationHandler)
+        this.createClientBound(BattleChallengeNotificationPacket.ID, BattleChallengeNotificationPacket::decode, BattleChallengeNotificationHandler)
         this.createClientBound(BattleUpdateTeamPokemonPacket.ID, BattleUpdateTeamPokemonPacket::decode, BattleUpdateTeamPokemonHandler)
         this.createClientBound(BattlePersistentStatusPacket.ID, BattlePersistentStatusPacket::decode, BattlePersistentStatusHandler)
         this.createClientBound(BattleMadeInvalidChoicePacket.ID, BattleMadeInvalidChoicePacket::decode, BattleMadeInvalidChoiceHandler)
         this.createClientBound(BattleMusicPacket.ID, BattleMusicPacket::decode, BattleMusicHandler)
+        this.createClientBound(BattleChallengeExpiredPacket.ID, BattleChallengeExpiredPacket::decode, BattleChallengeExpiredHandler)
+
+
+
         // Settings packets
         this.createClientBound(ServerSettingsPacket.ID, ServerSettingsPacket::decode, ServerSettingsPacketHandler)
 
@@ -204,6 +234,16 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(UnvalidatedPlaySoundS2CPacket.ID, UnvalidatedPlaySoundS2CPacket::decode, UnvalidatedPlaySoundS2CPacketHandler)
         this.createClientBound(SpawnPokemonPacket.ID, SpawnPokemonPacket::decode, SpawnExtraDataEntityHandler())
         this.createClientBound(SpawnPokeballPacket.ID, SpawnPokeballPacket::decode, SpawnExtraDataEntityHandler())
+        this.createClientBound(ToastPacket.ID, ToastPacket::decode, ToastPacketHandler)
+
+        // Trade packets
+        this.createClientBound(TradeAcceptanceChangedPacket.ID, TradeAcceptanceChangedPacket::decode, TradeAcceptanceChangedHandler)
+        this.createClientBound(TradeCancelledPacket.ID, TradeCancelledPacket::decode, TradeCancelledHandler)
+        this.createClientBound(TradeCompletedPacket.ID, TradeCompletedPacket::decode, TradeCompletedHandler)
+        this.createClientBound(TradeUpdatedPacket.ID, TradeUpdatedPacket::decode, TradeUpdatedHandler)
+        this.createClientBound(TradeOfferNotificationPacket.ID, TradeOfferNotificationPacket::decode, TradeOfferNotificationHandler)
+        this.createClientBound(TradeOfferExpiredPacket.ID, TradeOfferExpiredPacket::decode, TradeOfferExpiredHandler)
+        this.createClientBound(TradeStartedPacket.ID, TradeStartedPacket::decode, TradeStartedHandler)
 
         // Pasture
         this.createClientBound(OpenPasturePacket.ID, OpenPasturePacket::decode, OpenPastureHandler)
@@ -248,6 +288,13 @@ object CobblemonNetwork : NetworkManager {
 
         // Battle packets
         this.createServerBound(BattleSelectActionsPacket.ID, BattleSelectActionsPacket::decode, BattleSelectActionsHandler)
+
+        // Trade
+        this.createServerBound(AcceptTradeRequestPacket.ID, AcceptTradeRequestPacket::decode, AcceptTradeRequestHandler)
+        this.createServerBound(CancelTradePacket.ID, CancelTradePacket::decode, CancelTradeHandler)
+        this.createServerBound(ChangeTradeAcceptancePacket.ID, ChangeTradeAcceptancePacket::decode, ChangeTradeAcceptanceHandler)
+        this.createServerBound(OfferTradePacket.ID, OfferTradePacket::decode, OfferTradeHandler)
+        this.createServerBound(UpdateTradeOfferPacket.ID, UpdateTradeOfferPacket::decode, UpdateTradeOfferHandler)
 
         // Pasture
         this.createServerBound(PasturePokemonPacket.ID, PasturePokemonPacket::decode, PasturePokemonHandler)

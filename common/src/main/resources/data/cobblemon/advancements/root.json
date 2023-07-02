@@ -10,7 +10,7 @@
     "description": {
       "translate": "advancements.cobblemon.root.description"
     },
-    "background": "cobblemon:gui/advancements/backgrounds/cobblemon.png"
+    "background": "cobblemon:textures/gui/advancements/backgrounds/cobblemon.png"
   },
   "criteria": {
     "picked_starter": {

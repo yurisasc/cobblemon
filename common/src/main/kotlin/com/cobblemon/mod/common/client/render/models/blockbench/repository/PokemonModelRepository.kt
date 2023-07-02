@@ -19,9 +19,9 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.model.ModelPart
 
 object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPoseableModel>() {
     override val title = "Pokémon"
@@ -392,7 +392,7 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
 
     }
 
-    override fun loadJsonPoser(json: String): (ModelPart) -> PokemonPoseableModel {
+    override fun loadJsonPoser(json: String): (Bone) -> PokemonPoseableModel {
         return {
             JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
             JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)

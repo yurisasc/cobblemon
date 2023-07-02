@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -20,7 +19,7 @@ import net.minecraft.util.math.Vec3d
 class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("lotad")
 
-    override val foreLeftLeg = getPart("leg_left")
+    override val foreLeftLeg= getPart("leg_left")
     override val foreRightLeg = getPart("leg_right")
     override val hindLeftLeg = getPart("leg_left2")
     override val hindRightLeg = getPart("leg_right2")

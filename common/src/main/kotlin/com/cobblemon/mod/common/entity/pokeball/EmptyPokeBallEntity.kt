@@ -247,11 +247,16 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
         super.tick()
         delegate.tick(this)
         entityProperties.forEach { it.checkForUpdate() }
+
         if (world.isServerSide()) {
             capturingPokemon?.let {
                 if (hitTargetPosition.get() != it.pos && !it.isInvisible) {
                     hitTargetPosition.set(it.pos)
                 }
+            }
+
+            if(this.age > 600 && this.capturingPokemon == null) {
+                this.remove(RemovalReason.DISCARDED)
             }
 
             if (owner == null || !owner!!.isAlive || (captureState.get() != CaptureState.NOT.ordinal.toByte() && capturingPokemon?.isAlive != true)) {

@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("dodrio")
 
@@ -33,9 +34,9 @@ class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink1") { bedrockStateful("dodrio", "blink1").setPreventsIdle(false)}
-        val blink2 = quirk("blink2") { bedrockStateful("dodrio", "blink2").setPreventsIdle(false)}
-        val blink3 = quirk("blink3") { bedrockStateful("dodrio", "blink3").setPreventsIdle(false)}
+        val blink1 = quirk("blink1") { bedrockStateful("dodrio", "blink1").setPreventsIdle(false) }
+        val blink2 = quirk("blink2") { bedrockStateful("dodrio", "blink2").setPreventsIdle(false) }
+        val blink3 = quirk("blink3") { bedrockStateful("dodrio", "blink3").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

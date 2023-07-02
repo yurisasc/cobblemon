@@ -25,7 +25,7 @@ class LittenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
 
     override val hindLeftLeg = getPart("leg_back_left1")
     override val hindRightLeg = getPart("leg_back_right1")
-    override val foreLeftLeg = getPart("leg_front_left1")
+    override val foreLeftLeg= getPart("leg_front_left1")
     override val foreRightLeg = getPart("leg_front_right1")
 
     override val portraitScale = 2.2F

@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val accessWidenerFile = "src/main/resources/cobblemon-common.accesswidener"
 
 plugins {
+    java
     `java-library`
     id("org.cadixdev.licenser")
     id("dev.architectury.loom")

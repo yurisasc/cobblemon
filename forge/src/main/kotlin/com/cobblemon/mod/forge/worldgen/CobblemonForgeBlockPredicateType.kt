@@ -9,10 +9,13 @@
 package com.cobblemon.mod.forge.worldgen
 
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
+import net.minecraft.registry.RegistryKeys
 import net.minecraftforge.registries.RegisterEvent
 
 object CobblemonForgeBlockPredicateType {
     fun register(event: RegisterEvent) {
-        CobblemonBlockPredicates.touch()
+        event.register(RegistryKeys.BLOCK_PREDICATE_TYPE) {
+            CobblemonBlockPredicates.touch()
+        }
     }
 }

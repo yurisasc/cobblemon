@@ -60,6 +60,13 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.brewing.BrewingRecipes
+import com.cobblemon.mod.common.command.argument.MoveArgumentType
+import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
+import com.cobblemon.mod.common.command.argument.PokemonArgumentType
+import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
+import com.cobblemon.mod.common.command.argument.SpawnBucketArgumentType
 import com.cobblemon.mod.common.command.argument.*
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.LastChangedVersion
@@ -85,6 +92,7 @@ import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.ifDedicatedServer
 import com.cobblemon.mod.common.util.isLaterVersion
@@ -182,6 +190,7 @@ object Cobblemon {
             PCLinkManager.removeLink(it.player.uuid)
             BattleRegistry.getBattleByParticipatingPlayer(it.player)?.stop()
             storage.onPlayerDisconnect(it.player)
+            TradeManager.onLogoff(it.player)
         }
         PlatformEvents.PLAYER_DEATH.subscribe {
             PCLinkManager.removeLink(it.player.uuid)

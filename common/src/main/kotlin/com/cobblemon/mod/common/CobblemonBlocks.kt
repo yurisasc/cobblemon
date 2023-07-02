@@ -11,9 +11,13 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
+import com.cobblemon.mod.common.block.BigRootBlock
+import com.cobblemon.mod.common.block.EnergyRootBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
+import com.cobblemon.mod.common.block.MedicinalLeekBlock
 import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.PCBlock
+import com.cobblemon.mod.common.block.RevivalHerbBlock
 import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.block.PastureBlock
 import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
@@ -31,6 +35,7 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.intprovider.UniformIntProvider
+
 
 object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<Block>>, Block>() {
 
@@ -133,6 +138,16 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val WHITE_APRICORN_SAPLING = this.create("white_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.WHITE))
     @JvmField
     val YELLOW_APRICORN_SAPLING = this.create("yellow_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.YELLOW))
+
+    @JvmField
+    val MEDICINAL_LEEK_CROP = this.create("medicinal_leek_crop", MedicinalLeekBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val ENERGY_ROOT = this.create("energy_root", EnergyRootBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.ROOTS)))
+    @JvmField
+    val BIG_ROOT = this.create("big_root", BigRootBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.ROOTS)))
+
+    @JvmField
+    val REVIVAL_HERB = this.create("revival_herb", RevivalHerbBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.CROP)))
 
     @JvmField
     val BLACK_APRICORN = apricornBlock("black_apricorn", Apricorn.BLACK)

@@ -79,6 +79,7 @@ import com.cobblemon.mod.common.util.toBlockPos
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import com.mojang.serialization.Dynamic
 import com.mojang.serialization.JsonOps
 import java.util.Optional
 import java.util.UUID
@@ -94,6 +95,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtString
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -153,7 +155,7 @@ open class Pokemon : ShowdownIdentifiable {
             _nickname.emit(value)
         }
 
-    fun getDisplayName(): MutableText = nickname?.takeIf { it.content != TextContent.EMPTY } ?: species.translatedName
+    fun getDisplayName(): MutableText = nickname?.copy()?.takeIf { it.content != TextContent.EMPTY } ?: species.translatedName.copy()
 
     var level = 1
         set(value) {
@@ -367,6 +369,9 @@ open class Pokemon : ShowdownIdentifiable {
 
     val customProperties = mutableListOf<CustomPokemonProperty>()
 
+    var persistentData: NbtCompound = NbtCompound()
+        private set
+
     /**
      * The [ItemStack] this Pokémon is holding.
      */
@@ -578,6 +583,7 @@ open class Pokemon : ShowdownIdentifiable {
         if (!this.heldItem.isEmpty) {
             nbt.put(DataKeys.HELD_ITEM, this.heldItem.writeNbt(NbtCompound()))
         }
+        nbt.put(DataKeys.POKEMON_PERSISTENT_DATA, persistentData)
         if (tetheringId != null) {
             nbt.putUuid(DataKeys.TETHERING_ID, tetheringId)
         }
@@ -645,6 +651,7 @@ open class Pokemon : ShowdownIdentifiable {
         if (nbt.contains(DataKeys.HELD_ITEM)) {
             this.heldItem = ItemStack.fromNbt(nbt.getCompound(DataKeys.HELD_ITEM))
         }
+        this.persistentData = nbt.getCompound(DataKeys.POKEMON_PERSISTENT_DATA)
         tetheringId = if (nbt.containsUuid(DataKeys.TETHERING_ID)) nbt.getUuid(DataKeys.TETHERING_ID) else null
         return this
     }
@@ -681,6 +688,7 @@ open class Pokemon : ShowdownIdentifiable {
         if (!this.heldItem.isEmpty) {
             ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, this.heldItem).result().ifPresent { json.add(DataKeys.HELD_ITEM, it) }
         }
+        json.add(DataKeys.POKEMON_PERSISTENT_DATA, Dynamic.convert(NbtOps.INSTANCE, JsonOps.INSTANCE, this.persistentData))
         val tetheringId = tetheringId
         if (tetheringId != null) {
             json.addProperty(DataKeys.TETHERING_ID, tetheringId.toString())
@@ -751,6 +759,8 @@ open class Pokemon : ShowdownIdentifiable {
                 this.heldItem = it.first
             }
         }
+        // This cast should be fine as we gave it a NbtCompound
+        this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as NbtCompound
         if (json.has(DataKeys.TETHERING_ID)) {
             tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
         }
@@ -1007,9 +1017,9 @@ open class Pokemon : ShowdownIdentifiable {
         if (result.experienceAdded <= 0) {
             return result
         }
-        player.sendMessage(lang("experience.gained", getDisplayName(), xp))
+        player.sendMessage(lang("experience.gained", getDisplayName(), xp), true)
         if (result.oldLevel != result.newLevel) {
-            player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
+            player.sendMessage(lang("experience.level_up", getDisplayName(), result.newLevel))
             val repeats = result.newLevel - result.oldLevel
             // Someone can technically trigger a "delevel"
             if (repeats >= 1) {
