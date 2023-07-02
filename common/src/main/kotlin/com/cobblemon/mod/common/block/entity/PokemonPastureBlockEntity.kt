@@ -117,8 +117,8 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         val bottom = pos.toVec3d().multiply(1.0, 0.0, 1.0)
 
         val pokemonWithinPastureWander = player.getWorld().getEntitiesByClass(PokemonEntity::class.java, Box.of(bottom, radius, 99999.0, radius)) { true }.count()
-        val chunkRadius = radius / 16
-        if (pokemonWithinPastureWander >= Cobblemon.config.pastureMaxPerChunk * chunkRadius * chunkRadius) {
+        val chunkDiameter = (radius / 16) * 2 // Diameter
+        if (pokemonWithinPastureWander >= Cobblemon.config.pastureMaxPerChunk * chunkDiameter * chunkDiameter) {
             player.sendPacket(ClosePasturePacket())
             player.sendMessage(lang("pasture.too_many_nearby").red(), true)
             return false
