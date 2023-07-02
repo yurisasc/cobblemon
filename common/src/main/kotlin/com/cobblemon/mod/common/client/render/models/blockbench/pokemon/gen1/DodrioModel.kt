@@ -54,7 +54,7 @@ class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2, blink3),
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
+                BipedWalkAnimation(this, amplitudeMultiplier = 0.9F),
                 bedrock("dodrio", "ground_idle")
 //                singleBoneLook()
                 //bedrock("dodrio", "ground_walk")

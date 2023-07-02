@@ -70,5 +70,5 @@ class EmboarModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("emboar", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("emboar", "faint") else null
 }

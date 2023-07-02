@@ -35,4 +35,8 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    testLogging {
+        setEvents(listOf("failed"))
+        setExceptionFormat("full")
+    }
 }

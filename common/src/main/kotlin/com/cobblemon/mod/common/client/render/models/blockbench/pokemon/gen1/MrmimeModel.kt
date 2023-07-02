@@ -22,7 +22,7 @@ class MrmimeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val head = getPart("head")
 
     override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.1, 1.15, 0.0)
+    override val portraitTranslation = Vec3d(-0.15, 1.25, 0.0)
 
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
@@ -31,14 +31,14 @@ class MrmimeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mrmime", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("mr_mime", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("mrmime", "ground_idle")
+                bedrock("mr_mime", "ground_idle")
             )
         )
 
@@ -48,7 +48,7 @@ class MrmimeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("mrmime", "ground_idle")
+                bedrock("mr_mime", "ground_idle")
             )
         )
     }

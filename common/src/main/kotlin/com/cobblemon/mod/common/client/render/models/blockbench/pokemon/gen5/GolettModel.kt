@@ -73,6 +73,6 @@ class GolettModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
     ): StatefulAnimation<PokemonEntity, ModelFrame>? {
-        return if (state.isNotPosedIn(sleep)) bedrockStateful("golett", "faint") else null
+        return if (state.isNotPosedIn(sleep, standing, walk)) bedrockStateful("golett", "faint") else null
     }
 }

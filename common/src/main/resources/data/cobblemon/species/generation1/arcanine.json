@@ -305,7 +305,7 @@
   ],
   "preEvolution": "growlithe",
   "evolutions": [],
-  "baseScale": 1.2,
+  "baseScale": 1.5,
   "hitbox": {
     "width": 1.2,
     "height": 1.7,
