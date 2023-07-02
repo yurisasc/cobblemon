@@ -9,12 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -33,14 +37,26 @@ class FarfetchdModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var fly: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("farfetchd", "blink").setPreventsIdle(false) }
+        val leakflipidle = quirk("leakflipidle") { bedrockStateful("farfetchd", "quirk_leakflip_idle").setPreventsIdle(false) }
+        val leakflipwalk = quirk("leakflipwalk") { bedrockStateful("farfetchd", "quirk_leakflip_walk").setPreventsIdle(false) }
+        val wink = quirk("wink") { bedrockStateful("farfetchd", "quirk_wink").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("farfetchd", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + UI_POSES - PoseType.HOVER,
             transformTicks = 10,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, leakflipidle, wink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("farfetchd", "ground_idle")
@@ -49,13 +65,30 @@ class FarfetchdModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformTicks = 5,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, leakflipwalk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("farfetchd", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
+                bedrock("farfetchd", "ground_walk")
+            )
+        )
+
+        hover = registerPose(
+            poseName = "hover",
+            poseType = PoseType.HOVER,
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("farfetchd", "air_idle")
+            )
+        )
+
+        fly = registerPose(
+            poseName = "fly",
+            poseType = PoseType.FLY,
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("farfetchd", "air_fly")
             )
         )
     }

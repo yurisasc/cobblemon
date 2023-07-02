@@ -59,6 +59,7 @@ class ExeggcuteModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
+                bedrock("exeggcute", "ground_idle"),
                 bedrock("exeggcute", "ground_walk")
             )
         )

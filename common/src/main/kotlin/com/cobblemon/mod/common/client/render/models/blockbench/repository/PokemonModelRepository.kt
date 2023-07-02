@@ -463,7 +463,22 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("venipede", ::VenipedeModel)
         inbuilt("whirlipede", ::WhirlipedeModel)
         inbuilt("scolipede", ::ScolipedeModel)
-
+        inbuilt("aipom", ::AipomModel)
+        inbuilt("ambipom", ::AmbipomModel)
+        inbuilt("hoothoot", ::HoothootModel)
+        inbuilt("noctowl", ::NoctowlModel)
+        inbuilt("wingull", ::WingullModel)
+        inbuilt("pelipper", ::PelipperModel)
+        inbuilt("shinx", ::ShinxModel)
+        inbuilt("luxio", ::LuxioModel)
+        inbuilt("luxray", ::LuxrayModel)
+        inbuilt("numel", ::NumelModel)
+        inbuilt("camerupt", ::CameruptModel)
+        inbuilt("vulpix_alolan", ::VulpixAlolanModel)
+        inbuilt("ninetales_alolan", ::NinetalesAlolanModel)
+        inbuilt("roggenrola", ::RoggenrolaModel)
+        inbuilt("boldore", ::BoldoreModel)
+        inbuilt("gigalith", ::GigalithModel)
 
         // Unhooked because the families are not completed
 //        inbuilt("fuecoco", :: FuecocoModel)

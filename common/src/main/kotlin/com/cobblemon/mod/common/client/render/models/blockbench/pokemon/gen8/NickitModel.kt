@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -34,14 +36,27 @@ class NickitModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("nickit", "blink").setPreventsIdle(false)}
+        val glanceleft = quirk("glanceleft") { bedrockStateful("nickit", "quirk_shiftyglance_left").setPreventsIdle(false)}
+        val glanceright = quirk("glanceright") { bedrockStateful("nickit", "quirk_shiftyglance_right").setPreventsIdle(false)}
+        val eartwitchleft = quirk("eartwitchleft") { bedrockStateful("nickit", "quirk_eartwitch_left").setPreventsIdle(false)}
+        val eartwitchright = quirk("eartwitchright") { bedrockStateful("nickit", "quirk_eartwitch_right").setPreventsIdle(false)}
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("nickit", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, glanceleft, glanceright, eartwitchleft, eartwitchright),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("nickit", "ground_idle")
@@ -52,18 +67,28 @@ class NickitModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, eartwitchleft, eartwitchright),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                QuadrupedWalkAnimation(this),
-                bedrock("nickit", "ground_idle")
-                //bedrock("nickit", "ground_walk")
+                bedrock("nickit", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, glanceleft, glanceright, eartwitchleft, eartwitchright),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("nickit", "battle_idle")
             )
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("nickit", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk, sleep, battleidle)) bedrockStateful("nickit", "faint") else null
 }
