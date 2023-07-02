@@ -57,5 +57,5 @@ class KlinkModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("klink", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("klink", "faint") else null
 }

@@ -22,8 +22,8 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("raichu")
     override val head = getPart("head")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(0.1, 0.6, 0.0)
+    override val portraitScale = 2.3F
+    override val portraitTranslation = Vec3d(-0.2, 0.1, 0.0)
 
     override val profileScale = 0.65F
     override val profileTranslation = Vec3d(0.0, 0.75, 0.0)
@@ -31,6 +31,7 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("raichu", "blink").setPreventsIdle(false) }
@@ -39,6 +40,7 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("raichu", "ground_idle")
@@ -47,7 +49,7 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("raichu", "sleep"))
+                idleAnimations = arrayOf(bedrock("raichu", "ground_sleep"))
         )
 
         walk = registerPose(
@@ -55,10 +57,22 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("raichu", "ground_walk")
-                //bedrock("raichu", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("raichu", "battle_idle")
             )
         )
     }
@@ -66,5 +80,5 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("raichu", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk, battleidle, sleep)) bedrockStateful("raichu", "faint") else null
 }

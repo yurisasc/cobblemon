@@ -18,14 +18,155 @@
 - Added support for jump keyframes (i.e. pre and post keyframes)
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
+- Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Lucario, Mime Jr, Mimikyu, Pangoro, Quagsire, Quilladin, Riolu, Wooper
 - Added cries for Gen 5 starters, Gen 6 starters, Gen 7 starters
 - Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
 - Added loot table for Revival Herb plant
 - Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
 - Added a shoulder mount for Mimikyu
+- Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
+- Added flying placeholder animations to Pidgey, Pidgeotto, Pidgeot, Golbat, Crobat, Scyther, Scizor, Zapdos, Moltres, Articuno, Dragonite, Rowlet, Dartrix, and Decidueye.
+
+
+### Pokémon Added
+#### Gen 2
+
+- Spinarak
+- Ariados
+- Shuckle
+- Chinchou
+- Lanturn
+- Aipom
+- Gligar
+- Hoothoot
+- Noctowl
+- Mareep
+- Flaaffy
+- Ampharos
+- Sudowoodo
+
+#### Gen 3
+
+- Taillow
+- Swellow
+- Relicanth
+- Duskull
+- Dusclops
+- Shroomish
+- Breloom
+- Cacnea
+- Cacturne
+- Poochyena
+- Mightyenna
+- Wingull
+- Pelipper
+- Numel
+- Camerupt
+- Clamperl
+- Huntail
+- Gorebyss
+- Surskit
+- Masquerain
+- Chimecho
+- Barboach
+- Whiscash
+
+#### Gen 4
+
+- Cherubi (Planned)
+- Cherrim (Planned)
+- Carnivine
+- Shinx
+- Luxio
+- Luxray
+- Ambipom
+- Gliscor
+- Dusknoir
+- Chingling
+- Bonsly
+- Chatot
+- Combee
+- Vespiquen
+
+#### Gen 5
+
+- Bouffolant
+- Roggenrola
+- Boldore
+- Gigalith
+- Venepede
+- Whirlpede
+- Scolipede
+- Yamask (Planned)
+- Cofagrigus (Planned)
+- Patrat (Planned)
+- Watchog (Planned)
+- Lillipup
+- Herdier
+- Stoutland
+
+#### Gen 6
+
+- Scatterbug
+- Spewpa
+- Vivillion
+- Skrelp (Planned)
+- Dragalge (Planned)
+- Bunnelby (Planned)
+- Diggersby (Planned)
+
+#### Gen 7
+
+- Wishiwashi (Planned)
+- Cutiefly
+- Ribombee
+- Stufful
+- Bewear
+- Comfey
+- Alolan Exeggutor
+
+#### Gen 8
+
+- Arrokuda (Planned)
+- Barraskewda (Planned)
+- Nickit
+- Thievul
+- Falinks
+- Galarian Farfetch'd
+- Sirfetch'd
+- Rookidee
+- Corvisquire
+- Corviknight
+
+#### Gen 9
+
+- Sprigatitto
+- Floragato
+- Meowscarada
+- Flittle
+- Espathra
+- Garganacl
+- Fidough
+- Dachsbun
+- Armarouge
+- Ceruledge
+- Cetoddle
+- Cetitan
+- Shroodle (Planned)
+- Grafaiai (Planned)
+- Tandemaus
+- Maushold
+- Varoom
+- Revavroom
+- Squawkabilly (Planned)
+- Glimmet
+- Glimmora
+
 
 ### Changes
+- Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey, Pidgey, Pidgeotto, Pidgeot, Spearow, Fearow, Drowzee, Hypno, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
+- Updated models of Sceptile and Shuckle.
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
 - Updated textures for apricorn doors and all the evolution stone ores.
 - Updated Apricorn Leaves color.
@@ -33,8 +174,11 @@
 - Doubled the default time between ambient Pokémon cries (they have cries if you're using a resource pack to add them)
 - Moved spawn attempts per tick to a config option (ticksBetweenSpawnAttempts)
 - PCs can now be waterlogged
-- Starter selection prompt now appears as a tutorial-esc toast instead of plain text
+- Starter selection prompt now appears as a tutorial-esque toast instead of plain text
 - Cobblemon items can now all have their own tooltips via resourcepacks, to add a tooltip simply add a lang entry like "item.cobblemon.{item_id}.tooltip", if you want to add multiple tooltip lines you can do so with "item.cobblemon.{item_id}.tooltip_1" and upwards.
+- Updated texture of Weedle.
+- Updated shiny texture of Dwebble and Crustle.
+- Updated Animations for Piplup, Prinplup, Empoleon, Drowzee, Hypno, Farfetch'd, Exeggcute, Exeggutor, Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
 - Reorganised the advancements recipes folder
 - Pokeedit command now supports IVs and EVs.
 - Reorganised creative categories
@@ -57,8 +201,10 @@
 - Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
 - Fixed a crash when wild Pokémon have to struggle under specific circumstances.
 - Fixed being locked out of healing machines if it is blown up during use.
+- Fixed uncolored pixels on Yanma's shiny texture.
 - Fixed apricorn tree leaves looking gross on Fast graphics mode.
 - Fixed hoes not breaking apricorn tree leaves any faster.
+- Fixed Shiftry's PC model position.
 - Fixed the /pc command not playing the opening sound.
 - Fixed Shedinja not being able to recover naturally.
 ### Developer
@@ -115,7 +261,7 @@
 - Fixed console spam when rendering Pokémon model items.
 - Fixed battle messages for 50+ moves and abilities and items.
 - Fixed the possible duplicate when capturing Pokémon (probably, this one's hard to reproduce to confirm it's fixed).
-  - Previously duplicated Pokémon are cleaned from PCs and parties on restart.
+- Previously duplicated Pokémon are cleaned from PCs and parties on restart.
 - Fixed an issue with some particle effects applying after a Pokémon has died or on top of the wrong Pokémon when using specific mods.
 - Fixed Pokémon not looking at each other in battle.
 - Fixed Experience Candy and Experience Share attempting to bring Pokémon above level cap causing crashes.

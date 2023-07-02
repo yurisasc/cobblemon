@@ -100,5 +100,5 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("charizard", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("charizard", "faint") else null
 }

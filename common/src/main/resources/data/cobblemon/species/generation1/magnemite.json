@@ -28,14 +28,17 @@
   ],
   "behaviour": {
     "moving": {
-      "swim": {
-        "canWalkOnWater": true
-      },
       "fly": {
         "canFly": true
       },
       "walk": {
         "canWalk": false
+      },
+      "resting": {
+        "canSleep": true,
+        "willSleepOnBed": false,
+        "depth": "normal",
+        "light": "0-4"
       }
     }
   },

@@ -18,6 +18,13 @@
     "speed": 30
   },
   "behaviour": {
+    "moving": {
+      "canLook": false,
+      "wanderChance": 20,
+      "walking": {
+        "walkSpeed": 0.45
+      }
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": false,

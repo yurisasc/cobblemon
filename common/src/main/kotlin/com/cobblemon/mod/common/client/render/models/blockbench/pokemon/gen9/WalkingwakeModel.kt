@@ -9,13 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import net.minecraft.client.model.ModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.DataKeys
+import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
@@ -36,8 +39,13 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    lateinit var waterstanding: PokemonPose
+    lateinit var waterwalk: PokemonPose
+
     //lateinit var shearedstanding: PokemonPose
     //lateinit var shearedwalk: PokemonPose
+    val wateroffset = -6
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -50,13 +58,32 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-/*          condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
-            transformedParts = arrayOf(
-                hair.asTransformed().withVisibility(visibility = true)
-            ), */
+            condition = { !it.isTouchingWater },
+            /*          condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                        transformedParts = arrayOf(
+                            hair.asTransformed().withVisibility(visibility = true)
+                        ), */
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("walkingwake", "ground_idle")
+            )
+        )
+
+        waterstanding = registerPose(
+            poseName = "waterstanding",
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.isTouchingWater },
+            /*          condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                        transformedParts = arrayOf(
+                            hair.asTransformed().withVisibility(visibility = true)
+                        ), */
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("walkingwake", "ground_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
             )
         )
 
@@ -64,13 +91,32 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-/*          condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
-            transformedParts = arrayOf(
-                hair.asTransformed().withVisibility(visibility = true)
-            ), */
+            condition = { !it.isTouchingWater },
+            /*          condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                        transformedParts = arrayOf(
+                            hair.asTransformed().withVisibility(visibility = true)
+                        ), */
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("walkingwake", "ground_walk"),
+            )
+        )
+
+        waterwalk = registerPose(
+            poseName = "waterwalk",
+            poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.isTouchingWater },
+            /*          condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                        transformedParts = arrayOf(
+                            hair.asTransformed().withVisibility(visibility = true)
+                        ), */
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("walkingwake", "ground_walk"),
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
             )
         )
 /*        shearedstanding = registerPose(

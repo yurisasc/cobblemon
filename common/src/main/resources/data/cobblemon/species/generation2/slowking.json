@@ -56,6 +56,13 @@
         "monster",
         "water_1"
       ],
+      "behaviour": {
+        "moving": {
+          "walk": {
+            "walkSpeed": 0.23
+          }
+        }
+      },
       "moves": [
         "1:acid",
         "1:chillyreception",

@@ -136,7 +136,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, shearedwalk, shearedstanding)) bedrockStateful("dubwool", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, shearedwalk, shearedstanding, sleep)) bedrockStateful("dubwool", "faint") else null
 
     override fun getEatAnimation(
         pokemonEntity: PokemonEntity,
