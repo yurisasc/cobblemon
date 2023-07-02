@@ -72,6 +72,8 @@ object DataKeys {
     const val STORE_BOX_COUNT_LOCKED = "BoxCountLocked"
     const val STORE_BACKUP = "BackupStore"
 
+    const val TETHER_OWNER_ID = "TetherOwnerId"
+    const val TETHER_OWNER_NAME = "TetherOwnerName"
     const val TETHERING_ID = "TetheringId"
     const val TETHER_POKEMON = "TetherPokemon"
     const val TETHER_MIN_ROAM_POS = "TetherMinRoamPos"

@@ -15,6 +15,8 @@ import com.cobblemon.mod.common.api.pasture.PastureLink
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
+import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
+import com.cobblemon.mod.common.net.messages.client.pasture.PokemonPasturedPacket
 import com.cobblemon.mod.common.net.messages.server.pasture.PasturePokemonPacket
 import com.cobblemon.mod.common.util.distanceTo
 import net.minecraft.block.HorizontalFacingBlock
@@ -24,7 +26,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 object PasturePokemonHandler : ServerNetworkPacketHandler<PasturePokemonPacket> {
     override fun handle(packet: PasturePokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val pastureLink = PastureLinkManager.getLinkByPlayer(player) ?: return
-        if (pastureLink.pos != packet.pasturePos) {
+        if (pastureLink.linkId != packet.pastureId) {
             return player.sendPacket(ClosePasturePacket())
         }
         val pc = Cobblemon.storage.getPC(pastureLink.pcId)
@@ -37,6 +39,10 @@ object PasturePokemonHandler : ServerNetworkPacketHandler<PasturePokemonPacket> 
         if (pokemon.tetheringId != null) {
             return
         }
-        pastureBlockEntity.tether(player, pokemon, direction)
+
+        val maxPerPlayer = pastureLink.permissions.maxPokemon
+        if (pastureBlockEntity.canAddPokemon(player, maxPerPlayer)) {
+            pastureBlockEntity.tether(player, pokemon, direction)
+        }
     }
 }

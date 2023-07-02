@@ -64,6 +64,8 @@ import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
 import com.cobblemon.mod.common.net.messages.server.*
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cobblemon.mod.common.net.messages.server.pasture.PasturePokemonPacket
+import com.cobblemon.mod.common.net.messages.server.pasture.UnpastureAllPokemonPacket
+import com.cobblemon.mod.common.net.messages.server.pasture.UnpasturePokemonPacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.SetNicknamePacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
@@ -77,6 +79,8 @@ import com.cobblemon.mod.common.net.serverhandling.ChallengeHandler
 import com.cobblemon.mod.common.net.serverhandling.battle.BattleSelectActionsHandler
 import com.cobblemon.mod.common.net.serverhandling.evolution.AcceptEvolutionHandler
 import com.cobblemon.mod.common.net.serverhandling.pasture.PasturePokemonHandler
+import com.cobblemon.mod.common.net.serverhandling.pasture.UnpastureAllPokemonHandler
+import com.cobblemon.mod.common.net.serverhandling.pasture.UnpasturePokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.pokemon.interact.InteractPokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.pokemon.update.SetNicknameHandler
 import com.cobblemon.mod.common.net.serverhandling.starter.RequestStarterScreenHandler
@@ -247,6 +251,8 @@ object CobblemonNetwork : NetworkManager {
 
         // Pasture
         this.createServerBound(PasturePokemonPacket.ID, PasturePokemonPacket::decode, PasturePokemonHandler)
+        this.createServerBound(UnpasturePokemonPacket.ID, UnpasturePokemonPacket::decode, UnpasturePokemonHandler)
+        this.createServerBound(UnpastureAllPokemonPacket.ID, UnpastureAllPokemonPacket::decode, UnpastureAllPokemonHandler)
     }
 
     private inline fun <reified T : NetworkPacket<T>> createClientBound(identifier: Identifier, noinline decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>) {

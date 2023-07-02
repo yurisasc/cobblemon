@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.gui.pasture
 
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.pasture.PasturePermissions
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.client.gui.pc.PCGUIConfiguration
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
@@ -18,17 +19,15 @@ import net.minecraft.util.math.BlockPos
 
 class PasturePCGUIConfiguration(
     val pastureId: UUID,
-    val pasturePos: BlockPos,
-    val pasturedPokemon: SettableObservable<List<OpenPasturePacket.PasturePokemonDataDTO>>
+    val limit: Int,
+    val pasturedPokemon: SettableObservable<List<OpenPasturePacket.PasturePokemonDataDTO>>,
+    var permissions: PasturePermissions
 ) : PCGUIConfiguration(
     exitFunction = { it.closeNormally(unlink = true) },
     showParty = false,
     selectOverride = { pcGui, position, pokemon ->
-        if (pokemon != null && pokemon.tetheringId == null) {
-            pcGui.closeNormally(unlink = false)
-            CobblemonNetwork.sendToServer(PasturePokemonPacket(pokemonId = pokemon.uuid, pasturePos = pasturePos))
+        if (pokemon != null && pokemon.tetheringId == null && permissions.canPasture) {
+            CobblemonNetwork.sendToServer(PasturePokemonPacket(pokemonId = pokemon.uuid, pastureId = pastureId))
         }
     }
-) {
-
-}
+)

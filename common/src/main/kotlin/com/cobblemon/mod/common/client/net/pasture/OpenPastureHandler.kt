@@ -24,8 +24,9 @@ object OpenPastureHandler : ClientNetworkPacketHandler<OpenPasturePacket> {
     override fun handle(packet: OpenPasturePacket, client: MinecraftClient) {
 
         val pcConfiguration = PasturePCGUIConfiguration(
-            pastureId = UUID.randomUUID(),
-            pasturePos = packet.pasturePos,
+            pastureId = packet.pastureId,
+            limit = packet.limit,
+            permissions = packet.permissions,
             pasturedPokemon = SettableObservable(packet.tetheredPokemon)
         )
 

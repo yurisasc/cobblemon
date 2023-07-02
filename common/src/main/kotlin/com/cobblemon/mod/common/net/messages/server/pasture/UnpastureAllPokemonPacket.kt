@@ -12,26 +12,21 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.util.math.BlockPos
 
 /**
- * Packet sent to the server to pasture a Pokémon.
- *
- * Handled by [com.cobblemon.mod.common.net.serverhandling.pasture.PasturePokemonHandler]
+ * Packet sent to the server to indicate that all pastured Pokémon should be removed.
  *
  * @author Hiroku
- * @since April 9th, 2023
+ * @since July 2nd, 2023
  */
-class PasturePokemonPacket(val pokemonId: UUID, val pastureId: UUID) : NetworkPacket<PasturePokemonPacket> {
+class UnpastureAllPokemonPacket(val pastureId: UUID) : NetworkPacket<UnpastureAllPokemonPacket> {
     companion object {
-        val ID = cobblemonResource("pasture_pokemon")
-
-        fun decode(buffer: PacketByteBuf) = PasturePokemonPacket(buffer.readUuid(), buffer.readUuid())
+        val ID = cobblemonResource("unpasture_all_pokemon")
+        fun decode(buffer: PacketByteBuf) = UnpastureAllPokemonPacket(buffer.readUuid())
     }
 
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeUuid(pokemonId)
         buffer.writeUuid(pastureId)
     }
 }

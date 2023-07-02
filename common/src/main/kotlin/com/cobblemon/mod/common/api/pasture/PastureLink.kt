@@ -13,6 +13,6 @@ import java.util.UUID
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 
-class PastureLink(val linkId: UUID, val pcId: UUID, val dimension: Identifier, val pos: BlockPos) {
+class PastureLink(val linkId: UUID, val pcId: UUID, val dimension: Identifier, val pos: BlockPos, val permissions: PasturePermissions) {
     fun getPC() = Cobblemon.storage.getPC(pcId)
 }

@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.pc.PCGUI
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.net.messages.server.pasture.UnpastureAllPokemonPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.util.math.MatrixStack
@@ -34,7 +35,7 @@ class PastureWidget(
         x = x + 6,
         y = y + 153
     ) {
-        // TODO: Unpasture all pokemon
+        UnpastureAllPokemonPacket(pasturePCGUIConfiguration.pastureId).sendToServer()
     }
 
     val pastureScrollList = PasturePokemonScrollList(

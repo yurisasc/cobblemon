@@ -11,13 +11,20 @@ package com.cobblemon.mod.common.block.entity
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.block.PastureBlock
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
+import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
+import com.cobblemon.mod.common.net.messages.client.pasture.PokemonPasturedPacket
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.toVec3d
 import java.util.UUID
 import kotlin.math.ceil
 import net.minecraft.block.BlockState
@@ -41,10 +48,33 @@ import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
 
 class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEntity(CobblemonBlockEntities.PASTURE, pos, state) {
-    open class Tethering(val minRoamPos: BlockPos, val maxRoamPos: BlockPos, val playerId: UUID, val tetheringId: UUID, val pokemonId: UUID, val pcId: UUID, val entityId: Int) {
+    open class Tethering(
+        val minRoamPos: BlockPos,
+        val maxRoamPos: BlockPos,
+        val playerId: UUID,
+        val playerName: String,
+        val tetheringId: UUID,
+        val pokemonId: UUID,
+        val pcId: UUID,
+        val entityId: Int
+    ) {
         fun getPokemon() = Cobblemon.storage.getPC(pcId)[pokemonId]
         val box = Box(minRoamPos, maxRoamPos)
         open fun canRoamTo(pos: BlockPos) = box.contains(pos.toCenterPos())
+
+        fun toDTO(player: ServerPlayerEntity): OpenPasturePacket.PasturePokemonDataDTO? {
+            val pokemon = getPokemon() ?: return null
+            return OpenPasturePacket.PasturePokemonDataDTO(
+                pokemonId = pokemonId,
+                playerId = playerId,
+                displayName = if (playerId == player.uuid) pokemon.getDisplayName() else lang("ui.pasture.owned_name", pokemon.getDisplayName(), playerName),
+                species = pokemon.species.resourceIdentifier,
+                aspects = pokemon.aspects,
+                heldItem = pokemon.heldItem(),
+                level = pokemon.level,
+                entityKnown = (player.getWorld().getEntityById(entityId) as? PokemonEntity)?.tethering?.tetheringId == tetheringId
+            )
+        }
     }
 
     companion object {
@@ -62,6 +92,8 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
     val tetheredPokemon = mutableListOf<Tethering>()
     var minRoamPos: BlockPos
     var maxRoamPos: BlockPos
+    var ownerId: UUID? = null
+    var ownerName: String = ""
 
     init {
         val radius = Cobblemon.config.pastureMaxWanderDistance
@@ -70,6 +102,31 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
     }
 
     fun getMaxTethered() = Cobblemon.config.defaultPasturedPokemonLimit
+
+    fun canAddPokemon(player: ServerPlayerEntity, maxPerPlayer: Int): Boolean {
+        val forThisPlayer = tetheredPokemon.count { it.playerId == player.uuid }
+        if (forThisPlayer >= maxPerPlayer) {
+            // Shouldn't be possible, client should've prevented it
+            return false
+        } else if (tetheredPokemon.size >= getMaxTethered()) {
+            // As above
+            return false
+        }
+
+        val radius = Cobblemon.config.pastureMaxWanderDistance.toDouble()
+        val bottom = pos.toVec3d().multiply(1.0, 0.0, 1.0)
+
+        val pokemonWithinPastureWander = player.getWorld().getEntitiesByClass(PokemonEntity::class.java, Box.of(bottom, radius, 99999.0, radius)) { true }.count()
+        val chunkRadius = radius / 16
+        if (pokemonWithinPastureWander >= Cobblemon.config.pastureMaxPerChunk * chunkRadius * chunkRadius) {
+            player.sendPacket(ClosePasturePacket())
+            player.sendMessage(lang("pasture.too_many_nearby").red(), true)
+            return false
+        }
+
+        return true
+    }
+
 
     fun tether(player: ServerPlayerEntity, pokemon: Pokemon, directionToBehind: Direction): Boolean {
         val world = world ?: return false
@@ -95,6 +152,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                         minRoamPos = minRoamPos,
                         maxRoamPos = maxRoamPos,
                         playerId = player.uuid,
+                        playerName = player.gameProfile.name,
                         tetheringId = UUID.randomUUID(),
                         pokemonId = pokemon.uuid,
                         pcId = pc.uuid,
@@ -103,6 +161,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                     pokemon.tetheringId = tethering.tetheringId
                     tetheredPokemon.add(tethering)
                     entity.tethering = tethering
+                    tethering.toDTO(player)?.let { player.sendPacket(PokemonPasturedPacket(it)) }
                     markDirty()
                     return true
                 } else {
@@ -217,6 +276,18 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         markDirty()
     }
 
+    fun releaseAllPokemon(playerId: UUID): List<UUID> {
+        val unpastured = mutableListOf<UUID>()
+        println("How manyt? ${tetheredPokemon.size}")
+        tetheredPokemon.filter { it.playerId == playerId }.forEach {
+            it.getPokemon()?.tetheringId = null
+            tetheredPokemon.remove(it)
+            unpastured.add(it.pokemonId)
+        }
+        markDirty()
+        return unpastured
+    }
+
     private fun getInRangeViewerCount(world: World, pos: BlockPos, range: Double = 5.0): Int {
         val box = Box(
             pos.x.toDouble() - range,
@@ -238,6 +309,8 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
         val list = nbt.getList(DataKeys.TETHER_POKEMON, NbtCompound.COMPOUND_TYPE.toInt())
+        this.ownerId = if (nbt.containsUuid(DataKeys.TETHER_OWNER_ID)) nbt.getUuid(DataKeys.TETHER_OWNER_ID) else null
+        this.ownerName = nbt.getString(DataKeys.TETHER_OWNER_NAME).takeIf { it.isNotEmpty() } ?: ""
         for (tetheringNBT in list) {
             tetheringNBT as NbtCompound
             val tetheringId = tetheringNBT.getUuid(DataKeys.TETHERING_ID)
@@ -245,7 +318,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
             val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
             val playerId = tetheringNBT.getUuid(DataKeys.TETHERING_PLAYER_ID)
             val entityId = tetheringNBT.getInt(DataKeys.TETHERING_ENTITY_ID)
-            tetheredPokemon.add(Tethering(minRoamPos = minRoamPos, maxRoamPos = maxRoamPos, playerId = playerId, tetheringId = tetheringId, pokemonId = pokemonId, pcId = pcId, entityId = entityId))
+            tetheredPokemon.add(Tethering(minRoamPos = minRoamPos, maxRoamPos = maxRoamPos, playerId = playerId, playerName = ownerName, tetheringId = tetheringId, pokemonId = pokemonId, pcId = pcId, entityId = entityId))
         }
         this.minRoamPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.TETHER_MIN_ROAM_POS))
         this.maxRoamPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.TETHER_MAX_ROAM_POS))
@@ -266,5 +339,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         nbt.put(DataKeys.TETHER_POKEMON, list)
         nbt.put(DataKeys.TETHER_MIN_ROAM_POS, NbtHelper.fromBlockPos(minRoamPos))
         nbt.put(DataKeys.TETHER_MAX_ROAM_POS, NbtHelper.fromBlockPos(maxRoamPos))
+        ownerId?.let { nbt.putUuid(DataKeys.TETHER_OWNER_ID, it) }
+        ownerName?.let { nbt.putString(DataKeys.TETHER_OWNER_NAME, it) }
     }
 }

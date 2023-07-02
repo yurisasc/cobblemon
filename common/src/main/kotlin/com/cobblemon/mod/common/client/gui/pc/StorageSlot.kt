@@ -118,6 +118,8 @@ open class StorageSlot(
         // Ensure overlay elements are on top
         matrices.push()
         matrices.translate(0.0, 0.0, 500.0)
+
+        val config = parent.pcGui.configuration
         if (pokemon.tetheringId != null) {
             if (isStationary()) {
                 blitk(
@@ -130,10 +132,7 @@ open class StorageSlot(
                 )
             }
 
-            val opacity = if (
-                parent.pcGui.configuration is PasturePCGUIConfiguration
-                // TODO: Another conditional, if pokemon is in another pasture block
-            ) 0.5F else 1F
+            val opacity = if (config is PasturePCGUIConfiguration && config.pasturedPokemon.get().none { it.pokemonId == pokemon.uuid }) 0.5F else 1F
 
             blitk(
                 matrixStack = matrices,
@@ -149,7 +148,7 @@ open class StorageSlot(
 
         if (isSelected) {
             // If pasture UI and slot is not in pasture
-            if (parent.pcGui.configuration is PasturePCGUIConfiguration && pokemon.tetheringId == null && isStationary()) {
+            if (config is PasturePCGUIConfiguration && pokemon.tetheringId == null && isStationary() && config.permissions.canPasture) {
                 blitk(
                     matrixStack = matrices,
                     x = posX,

@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.client.net.pasture
 
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
+import com.cobblemon.mod.common.client.gui.pasture.PasturePCGUIConfiguration
+import com.cobblemon.mod.common.client.gui.pc.PCGUI
 import com.cobblemon.mod.common.net.messages.client.pasture.PokemonUnpasturedPacket
 import net.minecraft.client.MinecraftClient
 
@@ -21,6 +23,7 @@ import net.minecraft.client.MinecraftClient
 object PokemonUnpasturedHandler: ClientNetworkPacketHandler<PokemonUnpasturedPacket> {
 
     override fun handle(packet: PokemonUnpasturedPacket, client: MinecraftClient) {
-        // TODO PASTURE functionality
+        val pastureGuiConfiguration = (MinecraftClient.getInstance().currentScreen as? PCGUI)?.configuration as? PasturePCGUIConfiguration
+        pastureGuiConfiguration?.pasturedPokemon?.set(pastureGuiConfiguration.pasturedPokemon.get().filterNot { it.pokemonId == packet.pokemonId })
     }
 }

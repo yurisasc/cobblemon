@@ -377,6 +377,7 @@ class PokemonEntity(
                     minRoamPos = minRoamPos,
                     maxRoamPos = maxRoamPos,
                     playerId = playerId,
+                    playerName = "",
                     tetheringId = tetheringId,
                     pokemonId = pokemonId,
                     pcId = pcId,
@@ -512,7 +513,7 @@ class PokemonEntity(
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
-                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer).sendToPlayer(player)
+                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer && pokemon in player.party()).sendToPlayer(player)
             } else {
                 // TODO #105
                 if (this.attemptItemInteraction(player, player.getStackInHand(hand))) return ActionResult.SUCCESS

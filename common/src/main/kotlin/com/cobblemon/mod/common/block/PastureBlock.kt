@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pasture.PastureLink
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
+import com.cobblemon.mod.common.api.pasture.PasturePermissionControllers
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
@@ -50,6 +51,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemStack
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.BlockMirror
@@ -57,6 +59,7 @@ import net.minecraft.util.BlockRotation
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.explosion.Explosion
 
 class PastureBlock(properties: Settings): BlockWithEntity(properties) {
     companion object {
@@ -196,12 +199,20 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
     }
 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
-        world.setBlockState(pos.up(), state
-            .with(PART, PasturePart.TOP)
-            .with(WATERLOGGED, world.getFluidState((pos.up())).fluid == Fluids.WATER
-            ) as BlockState, 3)
+        world.setBlockState(
+            pos.up(),
+            state.with(PART, PasturePart.TOP).with(WATERLOGGED, world.getFluidState((pos.up())).fluid == Fluids.WATER) as BlockState,
+            3
+        )
         world.updateNeighbors(pos, Blocks.AIR)
         state.updateNeighbors(world, pos, 3)
+
+        if (world is ServerWorld && placer is ServerPlayerEntity) {
+            val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
+            blockEntity.ownerId = placer.uuid
+            blockEntity.ownerName = placer.gameProfile.name
+            blockEntity.markDirty()
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -224,27 +235,21 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties) {
 
 
             val pcId = Cobblemon.storage.getPC(player.uuid).uuid
+            val linkId = UUID.randomUUID()
 
+            val perms = PasturePermissionControllers.permit(player, baseEntity)
             CobblemonNetwork.sendPacketToPlayer(
                 player = player,
                 packet = OpenPasturePacket(
                     pcId = pcId,
-                    pasturePos = pos,
-                    totalTethered = baseEntity.tetheredPokemon.size,
-                    tetheredPokemon = baseEntity.tetheredPokemon.filter { it.playerId == player.uuid }.mapNotNull {
-                        val pokemon = it.getPokemon() ?: return@mapNotNull null
-                        OpenPasturePacket.PasturePokemonDataDTO(
-                            pokemonId = it.pokemonId,
-                            name = pokemon.getDisplayName(),
-                            species = pokemon.species.resourceIdentifier,
-                            aspects = pokemon.aspects,
-                            entityKnown = (player.world.getEntityById(it.entityId) as? PokemonEntity)?.tethering?.tetheringId == it.tetheringId
-                        )
-                    }
+                    pastureId = linkId,
+                    permissions = perms,
+                    limit = baseEntity.getMaxTethered(),
+                    tetheredPokemon = baseEntity.tetheredPokemon.mapNotNull { it.toDTO(player) }
                 )
             )
 
-            PastureLinkManager.createLink(player.uuid, PastureLink(UUID.randomUUID(), pcId, world.dimensionKey.value, pos))
+            PastureLinkManager.createLink(player.uuid, PastureLink(linkId, pcId, world.dimensionKey.value, getBasePosition(state, pos), perms))
 
             world.playSoundServer(
                 position = pos.toVec3d(),

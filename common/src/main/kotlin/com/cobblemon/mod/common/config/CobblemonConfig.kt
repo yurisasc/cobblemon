@@ -185,11 +185,14 @@ class CobblemonConfig {
     var appleLeftoversChance = 0.025
 
     @NodeCategory(Category.World)
-    var defaultPasturedPokemonLimit = 10
+    var defaultPasturedPokemonLimit = 16
 
     @NodeCategory(Category.World)
     var pastureBlockUpdateTicks = 40
 
     @NodeCategory(Category.World)
     var pastureMaxWanderDistance = 64
+
+    @NodeCategory(Category.World)
+    var pastureMaxPerChunk = 4F
 }
