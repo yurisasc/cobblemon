@@ -31,7 +31,6 @@
 			"avoidsLand": true
 		  },
 		  "swim": {
-			"swimSpeed": 0.11,
 			"canSwimInWater": true,
 			"canBreatheUnderwater": true
 		  }

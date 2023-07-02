@@ -10,8 +10,8 @@ package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.PokeBallModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
-import net.minecraft.client.model.ModelPart
 
 object PokeBallModelRepository : VaryingModelRepository<EmptyPokeBallEntity, PokeBallModel>() {
     override val title = "Poké Ball"
@@ -23,7 +23,7 @@ object PokeBallModelRepository : VaryingModelRepository<EmptyPokeBallEntity, Pok
 
     override val fallback = PokeBalls.POKE_BALL.name
 
-    override fun loadJsonPoser(json: String): (ModelPart) -> PokeBallModel {
+    override fun loadJsonPoser(json: String): (Bone) -> PokeBallModel {
         TODO("Not yet implemented")
     }
 

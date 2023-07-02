@@ -54,10 +54,10 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("ekans", "sleep"))
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("ekans", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("ekans", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("ekans", "blink").setPreventsIdle(false) }
         registerPose(
             poseName = "normal",
             poseTypes = STATIONARY_POSES + MOVING_POSES,
@@ -101,6 +101,6 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
+        state: PoseableEntityState<PokemonEntity>,
     ) = bedrockStateful("ekans", "faint")
 }

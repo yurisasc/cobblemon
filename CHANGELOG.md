@@ -100,8 +100,8 @@
 - Scolipede
 - Yamask (Planned)
 - Cofagrigus (Planned)
-- Patrat
-- Watchog
+- Patrat (Planned)
+- Watchog (Planned)
 - Lillipup
 - Herdier
 - Stoutland
@@ -165,7 +165,7 @@
 
 
 ### Changes
-- Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgeotto, Pidgeot, Scyther, Scizor,and Kleavor.
+- Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey, Pidgey, Pidgeotto, Pidgeot, Spearow, Fearow, Drowzee, Hypno, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
 - Updated models of Sceptile and Shuckle.
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
 - Updated textures for apricorn doors and all the evolution stone ores.
@@ -176,14 +176,13 @@
 - PCs can now be waterlogged
 - Starter selection prompt now appears as a tutorial-esque toast instead of plain text
 - Cobblemon items can now all have their own tooltips via resourcepacks, to add a tooltip simply add a lang entry like "item.cobblemon.{item_id}.tooltip", if you want to add multiple tooltip lines you can do so with "item.cobblemon.{item_id}.tooltip_1" and upwards.
-- Updated model and textures of Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey, Pidgey, Pidgeotto, Pidgeot, Spearow, Fearow, Drowzee, Hypno, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
-- Updated model Sceptile.
 - Updated texture of Weedle.
 - Updated shiny texture of Dwebble and Crustle.
 - Updated Animations for Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
 - Reorganised the advancements recipes folder
 - Pokeedit command now supports IVs and EVs.
 - Reorganised creative categories
+- Pokeballs now despawn after 30 seconds
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -207,7 +206,7 @@
 - Fixed hoes not breaking apricorn tree leaves any faster.
 - Fixed Shiftry's PC model position.
 - Fixed the /pc command not playing the opening sound.
-
+- Fixed Shedinja not being able to recover naturally.
 ### Developer
 - Added SpawnEvent
 - Added persistent NBT property inside Pokemon to store quick and simple data.

@@ -20,7 +20,7 @@ class XerneasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val rootPart = root.registerChildWithAllChildren("xerneas")
     override val head = getPart("head")
 
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")

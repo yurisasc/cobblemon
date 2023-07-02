@@ -158,7 +158,7 @@
   ],
   "preEvolution": "corvisquire",
   "evolutions": [],
-  "baseScale": 0.9,
+  "baseScale": 1.1,
   "hitbox": {
     "width": 2.0,
     "height": 4.4,

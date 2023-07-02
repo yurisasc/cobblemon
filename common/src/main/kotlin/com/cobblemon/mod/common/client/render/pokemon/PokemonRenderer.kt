@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.pokemon
 
 import com.cobblemon.mod.common.api.text.add
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
@@ -30,9 +29,6 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.tan
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.LightmapTextureManager
@@ -44,7 +40,6 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
@@ -53,6 +48,9 @@ import net.minecraft.util.math.RotationAxis
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import org.joml.Vector4f
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.tan
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context

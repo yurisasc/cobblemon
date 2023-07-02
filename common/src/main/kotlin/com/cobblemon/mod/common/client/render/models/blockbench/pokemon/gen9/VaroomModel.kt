@@ -29,6 +29,11 @@ class VaroomModel (root: ModelPart) : PokemonPoseableModel() {
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("varoom", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("varoom", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
