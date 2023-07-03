@@ -125,10 +125,6 @@ class PasturePokemonScrollList(
         return super.mouseClicked(mouseX, mouseY, button)
     }
 
-    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
-        return super.mouseScrolled(mouseX, mouseY, amount)
-    }
-
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
         if (scrolling) {
             if (mouseY < top) {
