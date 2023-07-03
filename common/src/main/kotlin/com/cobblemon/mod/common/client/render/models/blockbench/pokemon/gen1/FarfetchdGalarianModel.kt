@@ -25,8 +25,8 @@ class FarfetchdGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFr
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.35, -1.0, 0.0)
+    override val portraitScale = 2.6F
+    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
 
     override val profileScale = 1.1F
     override val profileTranslation = Vec3d(-0.1, 0.1, 0.0)
@@ -35,7 +35,7 @@ class FarfetchdGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFr
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("farfetchd", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("farfetchd_galar", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + UI_POSES,
@@ -43,7 +43,7 @@ class FarfetchdGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFr
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("farfetchd", "ground_idle")
+                bedrock("farfetchd_galar", "ground_idle")
             )
         )
 
@@ -54,7 +54,7 @@ class FarfetchdGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFr
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("farfetchd", "ground_idle"),
+                bedrock("farfetchd_galar", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
             )
         )
@@ -63,5 +63,5 @@ class FarfetchdGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFr
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("farfetchd", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("farfetchd_galar", "faint") else null
 }

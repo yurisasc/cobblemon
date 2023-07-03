@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Pelipper",
   "nationalPokedexNumber": 279,
   "primaryType": "water",
@@ -26,6 +27,13 @@
     "water_1",
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:agility",
     "1:airslash",

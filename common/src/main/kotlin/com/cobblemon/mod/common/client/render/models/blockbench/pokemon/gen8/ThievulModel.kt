@@ -34,14 +34,25 @@ class ThievulModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("thievul", "blink").setPreventsIdle(false)}
+        val sleepquirk = quirk("sleepquirk") { bedrockStateful("thievul", "quirk_sleep").setPreventsIdle(false)}
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            quirks = arrayOf(sleepquirk),
+            idleAnimations = arrayOf(bedrock("thievul", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("thievul", "ground_idle")
@@ -55,9 +66,19 @@ class ThievulModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                QuadrupedWalkAnimation(this),
-                bedrock("thievul", "ground_idle")
-                //bedrock("thievul", "ground_walk")
+                bedrock("thievul", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("thievul", "battle_idle")
             )
         )
     }
@@ -65,5 +86,5 @@ class ThievulModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("thievul", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk, sleep, battleidle)) bedrockStateful("thievul", "faint") else null
 }

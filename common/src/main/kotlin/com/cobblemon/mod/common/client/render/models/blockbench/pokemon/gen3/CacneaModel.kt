@@ -29,19 +29,29 @@ class CacneaModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame, Bip
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.7, 1.11, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override val profileScale = 0.85F
+    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("cacnea", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("cacnea", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("cacnea", "ground_idle")
@@ -51,12 +61,21 @@ class CacneaModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame, Bip
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this),
-                BimanualSwingAnimation(this),
-                bedrock("cacnea", "ground_idle")
-                //bedrock("cacnea", "ground_walk")
+                bedrock("cacnea", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("cacnea", "battle_idle")
             )
         )
     }

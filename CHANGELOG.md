@@ -37,10 +37,10 @@
 - Shuckle
 - Chinchou
 - Lanturn
-- Aipom (Planned)
+- Aipom
 - Gligar
-- Hoothoot (Planned)
-- Noctowl (Planned)
+- Hoothoot
+- Noctowl
 - Mareep
 - Flaaffy
 - Ampharos
@@ -59,8 +59,8 @@
 - Cacturne
 - Poochyena
 - Mightyenna
-- Wingull (Planned)
-- Pelipper (Planned)
+- Wingull
+- Pelipper
 - Numel
 - Camerupt
 - Clamperl
@@ -77,10 +77,10 @@
 - Cherubi (Planned)
 - Cherrim (Planned)
 - Carnivine
-- Shinx (Planned)
-- Luxio (Planned)
-- Luxray (Planned)
-- Ambipom (Planned)
+- Shinx
+- Luxio
+- Luxray
+- Ambipom
 - Gliscor
 - Dusknoir
 - Chingling
@@ -92,9 +92,9 @@
 #### Gen 5
 
 - Bouffolant
-- Roggenrola (Planned)
-- Boldore (Planned)
-- Gigalith (Planned)
+- Roggenrola
+- Boldore
+- Gigalith
 - Venepede
 - Whirlpede
 - Scolipede
@@ -178,7 +178,7 @@
 - Cobblemon items can now all have their own tooltips via resourcepacks, to add a tooltip simply add a lang entry like "item.cobblemon.{item_id}.tooltip", if you want to add multiple tooltip lines you can do so with "item.cobblemon.{item_id}.tooltip_1" and upwards.
 - Updated texture of Weedle.
 - Updated shiny texture of Dwebble and Crustle.
-- Updated Animations for Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
+- Updated Animations for Piplup, Prinplup, Empoleon, Drowzee, Hypno, Farfetch'd, Exeggcute, Exeggutor, Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
 - Reorganised the advancements recipes folder
 - Pokeedit command now supports IVs and EVs.
 - Reorganised creative categories

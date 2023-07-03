@@ -25,10 +25,10 @@ class KleavorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val rightLeg = getPart("right_upper_leg")
 
     override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.85, 0.5, 0.0)
+    override val portraitTranslation = Vec3d(-0.85, 1.3, 0.0)
 
     override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(-0.1, 0.6, 0.0)
+    override val profileTranslation = Vec3d(-0.1, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

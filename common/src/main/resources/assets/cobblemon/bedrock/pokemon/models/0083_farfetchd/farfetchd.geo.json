@@ -144,16 +144,6 @@
 					]
 				},
 				{
-					"name": "leak",
-					"parent": "wing_left2",
-					"pivot": [10, 7.75, -0.5],
-					"cubes": [
-						{"origin": [9.5, 7.25, -6.75], "size": [1, 1, 11], "uv": [0, 0]},
-						{"origin": [9.5, 7.25, -9.75], "size": [1, 1, 3], "inflate": -0.02, "pivot": [10.5, 7.75, -6.75], "rotation": [0, 17.5, 0], "uv": [36, 7]},
-						{"origin": [9.5, 7.25, -9.75], "size": [1, 1, 3], "inflate": -0.01, "pivot": [9.5, 7.75, -6.75], "rotation": [0, -17.5, 0], "uv": [36, 3]}
-					]
-				},
-				{
 					"name": "wing_left3",
 					"parent": "wing_left2",
 					"pivot": [11, 8.25, -3.75]
@@ -220,6 +210,38 @@
 					"pivot": [13, 8.25, 0.25],
 					"cubes": [
 						{"origin": [12.98, 8.25, 0.25], "size": [1, 0, 2], "inflate": -0.01, "uv": [6, 9]}
+					]
+				},
+				{
+					"name": "leak_wing_left",
+					"parent": "torso",
+					"pivot": [3, 8.25, -0.75]
+				},
+				{
+					"name": "leak_wing_left2",
+					"parent": "leak_wing_left",
+					"pivot": [7, 8.25, 2.25]
+				},
+				{
+					"name": "leak_neck",
+					"parent": "leak_wing_left2",
+					"pivot": [0, 9, -1.75],
+					"rotation": [-17.5, 0, 0]
+				},
+				{
+					"name": "leak_head",
+					"parent": "leak_neck",
+					"pivot": [0, 13.5, 0.5],
+					"rotation": [-5, 0, 0]
+				},
+				{
+					"name": "leak",
+					"parent": "leak_head",
+					"pivot": [10, 7.75, -0.5],
+					"cubes": [
+						{"origin": [9.5, 7.25, -6.75], "size": [1, 1, 11], "uv": [0, 0]},
+						{"origin": [9.5, 7.25, -9.75], "size": [1, 1, 3], "inflate": -0.02, "pivot": [10.5, 7.75, -6.75], "rotation": [0, 17.5, 0], "uv": [36, 7]},
+						{"origin": [9.5, 7.25, -9.75], "size": [1, 1, 3], "inflate": -0.01, "pivot": [9.5, 7.75, -6.75], "rotation": [0, -17.5, 0], "uv": [36, 3]}
 					]
 				},
 				{
