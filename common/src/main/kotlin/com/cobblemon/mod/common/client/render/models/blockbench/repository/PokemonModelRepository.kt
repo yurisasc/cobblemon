@@ -463,6 +463,8 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("venipede", ::VenipedeModel)
         inbuilt("whirlipede", ::WhirlipedeModel)
         inbuilt("scolipede", ::ScolipedeModel)
+        inbuilt("yamask", ::YamaskModel)
+        inbuilt("cofagrigus", ::CofagrigusModel)
 
 
         // Unhooked because the families are not completed

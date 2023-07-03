@@ -1,0 +1,19 @@
+{
+  "species": "cobblemon:yamask",
+  "order": 0,
+  "variations": [
+    {
+      "aspects": [],
+      "poser": "cobblemon:yamask",
+      "model": "cobblemon:yamask.geo",
+      "texture": "cobblemon:textures/pokemon/0562_yamask/yamask.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0562_yamask/yamask_shiny.png"
+    }
+  ]
+}
