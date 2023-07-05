@@ -20,6 +20,11 @@
       "willSleepOnBed": true,
       "depth": "normal",
       "light": "0-4"
+    },
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
     }
   },
   "catchRate": 90,

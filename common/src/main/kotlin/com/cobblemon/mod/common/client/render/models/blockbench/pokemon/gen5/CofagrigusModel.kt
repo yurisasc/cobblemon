@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
@@ -11,14 +19,15 @@ import net.minecraft.util.math.Vec3d
 class CofagrigusModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("cofagrigus")
 
-    override val portraitScale = 4.2F
-    override val portraitTranslation = Vec3d(0.0, -4.7, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(0.0, 2.8, 0.0)
 
-    override val profileScale = 1.25F
-    override val profileTranslation = Vec3d(0.0, -0.15, 0.0)
+    override val profileScale = 0.35F
+    override val profileTranslation = Vec3d(0.0, 1.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
@@ -41,12 +50,22 @@ class CofagrigusModel (root: ModelPart) : PokemonPoseableModel() {
 
         walk = registerPose(
                 poseName = "walk",
-                poseTypes = PoseType.MOVING_POSES,
+                poseTypes = PoseType.MOVING_POSES - PoseType.FLYING_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
                         bedrock("cofagrigus", "ground_walk")
                 )
+        )
+
+        fly = registerPose(
+            poseName = "flying",
+            poseTypes = PoseType.FLYING_POSES - PoseType.HOVER,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("cofagrigus", "ground_run")
+            )
         )
     }
 

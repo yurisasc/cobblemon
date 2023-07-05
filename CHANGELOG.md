@@ -74,8 +74,6 @@
 
 #### Gen 4
 
-- Cherubi (Planned)
-- Cherrim (Planned)
 - Carnivine
 - Shinx
 - Luxio
@@ -98,10 +96,10 @@
 - Venepede
 - Whirlpede
 - Scolipede
-- Yamask (Planned)
-- Cofagrigus (Planned)
-- Patrat (Planned)
-- Watchog (Planned)
+- Yamask
+- Cofagrigus
+- Patrat
+- Watchog
 - Lillipup
 - Herdier
 - Stoutland
@@ -118,7 +116,6 @@
 
 #### Gen 7
 
-- Wishiwashi (Planned)
 - Cutiefly
 - Ribombee
 - Stufful
@@ -165,7 +162,7 @@
 
 
 ### Changes
-- Updated model and textures of Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey, Pidgey, Pidgeotto, Pidgeot, Spearow, Fearow, Drowzee, Hypno, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
+- Updated model and textures of Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey, Pidgey, Pidgeotto, Pidgeot, Spearow, Fearow, Drowzee, Hypno, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Farfetchd, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, and Gengar.
 - Updated models of Sceptile and Shuckle.
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
 - Updated textures for apricorn doors and all the evolution stone ores.
@@ -183,6 +180,7 @@
 - Pokeedit command now supports IVs and EVs.
 - Reorganised creative categories
 - Pokeballs now despawn after 30 seconds
+- Made Wooloo and Dubwool smaller.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong

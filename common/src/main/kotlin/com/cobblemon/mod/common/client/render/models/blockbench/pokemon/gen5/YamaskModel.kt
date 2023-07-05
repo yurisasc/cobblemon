@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
@@ -10,18 +18,17 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class YamaskModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BimanualFrame {
+class YamaskModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("yamask")
-    override val head = getPart("head")
 
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 3.0F
+    override val portraitScale = 2.5F
     override val portraitTranslation = Vec3d(-0.15, -0.45, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override val profileScale = 0.7F
+    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -41,8 +48,7 @@ class YamaskModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("yamask", "ground_idle")
+                    bedrock("yamask", "ground_idle")
                 )
         )
 
@@ -52,8 +58,7 @@ class YamaskModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
                 transformTicks = 5,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("yamask", "ground_walk")
+                    bedrock("yamask", "ground_walk")
                 )
         )
     }

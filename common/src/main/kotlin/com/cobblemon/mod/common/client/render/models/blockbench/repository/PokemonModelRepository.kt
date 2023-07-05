@@ -481,6 +481,13 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("gigalith", ::GigalithModel)
         inbuilt("yamask", ::YamaskModel)
         inbuilt("cofagrigus", ::CofagrigusModel)
+        inbuilt("mareep", ::MareepModel)
+        inbuilt("flaaffy", ::FlaaffyModel)
+        inbuilt("ampharos", ::AmpharosModel)
+        inbuilt("patrat", ::PatratModel)
+        inbuilt("watchog", ::WatchogModel)
+        inbuilt("skrelp", ::SkrelpModel)
+        inbuilt("dragalge", ::DragalgeModel)
 
 
         // Unhooked because the families are not completed

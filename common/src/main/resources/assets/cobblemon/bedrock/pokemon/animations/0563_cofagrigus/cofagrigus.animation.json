@@ -1124,6 +1124,12 @@
 				"body": {
 					"rotation": [-90, 0, 0],
 					"position": [0, -18, 2.75]
+				},
+				"finger_bottomright_middle2": {
+					"position": [0.25, 0, 0]
+				},
+				"finger_bottomleft_middle2": {
+					"position": [-0.25, 0, 0]
 				}
 			}
 		},

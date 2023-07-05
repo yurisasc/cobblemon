@@ -26,6 +26,14 @@
     "water_1",
     "dragon"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:smokescreen",
     "1:tackle",
@@ -135,10 +143,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 50,
