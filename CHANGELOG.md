@@ -205,10 +205,12 @@
 - Fixed Shiftry's PC model position.
 - Fixed the /pc command not playing the opening sound.
 - Fixed Shedinja not being able to recover naturally.
+- Fixed different forms of Pokémon not being able to appear as different sizes.
+
 ### Developer
 - Added SpawnEvent
 - Added persistent NBT property inside Pokemon to store quick and simple data.
-- Species and FormData have had their evolutions, pre-evolution and labels property exposed. It is still recommended to work using a Pokémon instance when possible.
+- Species and FormData have had their evolutions, pre-evolution and labels properties exposed. It is still recommended to work using a Pokémon instance when possible.
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
