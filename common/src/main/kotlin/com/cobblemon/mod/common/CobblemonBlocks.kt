@@ -16,9 +16,9 @@ import com.cobblemon.mod.common.block.EnergyRootBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
 import com.cobblemon.mod.common.block.MedicinalLeekBlock
 import com.cobblemon.mod.common.block.MintBlock
+import com.cobblemon.mod.common.block.MintBlock.MintType
 import com.cobblemon.mod.common.block.PCBlock
 import com.cobblemon.mod.common.block.RevivalHerbBlock
-import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker

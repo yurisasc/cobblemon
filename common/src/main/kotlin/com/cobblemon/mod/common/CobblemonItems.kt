@@ -11,13 +11,8 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.block.MintBlock.MintType
 import com.cobblemon.mod.common.item.*
-import com.cobblemon.mod.common.item.ApricornItem
-import com.cobblemon.mod.common.item.ApricornSeedItem
-import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.MintLeafItem
-import com.cobblemon.mod.common.item.PokeBallItem
-import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.EnergyRoot
@@ -25,7 +20,6 @@ import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.MintItem
 import com.cobblemon.mod.common.item.interactive.RemedyItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
-import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
