@@ -540,7 +540,9 @@ object ShowdownInterpreter {
             battle.broadcastChatMessage(battleLang("win", winnersText).gold())
 
             battle.end()
-            CobblemonEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, winners, losers))
+
+            val wasCaught = battle.showdownMessages.any { "capture" in it }
+            CobblemonEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, winners, losers, wasCaught))
 
             this.lastCauser.remove(battle.battleId)
         }

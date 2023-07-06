@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.advancement.criterion.CountablePokemonTypeContext
 import com.cobblemon.mod.common.advancement.criterion.trigger
+import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
@@ -24,6 +25,7 @@ object AdvancementHandler {
         val playerData = Cobblemon.playerData.get(event.player)
         val advancementData = playerData.advancementData
         advancementData.updateTotalCaptureCount()
+        advancementData.updateAspectsCollected(event.player, event.pokemon)
         CobblemonCriteria.CATCH_POKEMON.trigger(event.player, CountablePokemonTypeContext(advancementData.totalCaptureCount, "any"))
         event.pokemon.types.forEach {
             advancementData.updateTotalTypeCaptureCount(it)
@@ -33,6 +35,7 @@ object AdvancementHandler {
             advancementData.updateTotalShinyCaptureCount()
             CobblemonCriteria.CATCH_SHINY_POKEMON.trigger(event.player, advancementData.totalShinyCaptureCount)
         }
+        CobblemonCriteria.COLLECT_ASPECT.trigger(event.player, advancementData.aspectsCollected)
         Cobblemon.playerData.saveSingle(playerData)
     }
 
@@ -55,18 +58,37 @@ object AdvancementHandler {
     }
 
     fun onWinBattle(event: BattleVictoryEvent) {
-        if (event.battle.isPvW) {
-            return
-        }
-
-        event.winners
-            .flatMap { it.getPlayerUUIDs().mapNotNull(UUID::getPlayer) }
-            .forEach { player ->
-                val playerData = Cobblemon.playerData.get(player)
-                val advancementData = playerData.advancementData
-                advancementData.updateTotalBattleVictoryCount()
-                Cobblemon.playerData.saveSingle(playerData)
-                CobblemonCriteria.WIN_BATTLE.trigger(player, advancementData.totalBattleVictoryCount)
+        if(!event.wasWildCapture) {
+            if (event.battle.isPvW) {
+                event.winners
+                    .flatMap { it.getPlayerUUIDs().mapNotNull(UUID::getPlayer) }
+                    .forEach { player ->
+                        val playerData = Cobblemon.playerData.get(player)
+                        val advancementData = playerData.advancementData
+                        event.battle.actors.forEach { battleActor ->
+                            if (!event.winners.contains(battleActor) && battleActor.type == ActorType.WILD) {
+                                battleActor.pokemonList.forEach { battlePokemon ->
+                                    battlePokemon.entity?.pokemon?.let {
+                                        advancementData.updateTotalDefeatedCount(it)
+                                    }
+                                }
+                            }
+                        }
+                        Cobblemon.playerData.saveSingle(playerData)
+                        CobblemonCriteria.DEFEAT_POKEMON.trigger(player, advancementData.totalBattleVictoryCount)
+                    }
+                return
             }
+
+            event.winners
+                .flatMap { it.getPlayerUUIDs().mapNotNull(UUID::getPlayer) }
+                .forEach { player ->
+                    val playerData = Cobblemon.playerData.get(player)
+                    val advancementData = playerData.advancementData
+                    advancementData.updateTotalBattleVictoryCount()
+                    Cobblemon.playerData.saveSingle(playerData)
+                    CobblemonCriteria.WIN_BATTLE.trigger(player, advancementData.totalBattleVictoryCount)
+                }
+        }
     }
 }
