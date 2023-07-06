@@ -184,6 +184,7 @@
 - Reorganised the advancements recipes folder
 - Pokeedit command now supports IVs and EVs.
 - Reorganised creative categories
+- Pokemon can now wander into non-solid blocks such as foliage
 - Pokeballs now despawn after 30 seconds
 
 ### Fixes
