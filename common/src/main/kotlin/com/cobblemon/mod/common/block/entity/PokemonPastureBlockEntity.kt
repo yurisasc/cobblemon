@@ -278,7 +278,6 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
 
     fun releaseAllPokemon(playerId: UUID): List<UUID> {
         val unpastured = mutableListOf<UUID>()
-        println("How manyt? ${tetheredPokemon.size}")
         tetheredPokemon.filter { it.playerId == playerId }.forEach {
             it.getPokemon()?.tetheringId = null
             tetheredPokemon.remove(it)
