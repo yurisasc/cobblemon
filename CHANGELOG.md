@@ -25,6 +25,7 @@
 - Added loot table for Revival Herb plant
 - Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
 - Added a shoulder mount for Mimikyu
+- Added Advancement trigger for defeating Pokémon and collecting varieties of Pokémon.
 - Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
 - Added flying placeholder animations to Pidgey, Pidgeotto, Pidgeot, Golbat, Crobat, Scyther, Scizor, Zapdos, Moltres, Articuno, Dragonite, Rowlet, Dartrix, and Decidueye.
 
@@ -213,6 +214,8 @@
 - Added SpawnEvent
 - Added persistent NBT property inside Pokemon to store quick and simple data.
 - Species and FormData have had their evolutions, pre-evolution and labels properties exposed. It is still recommended to work using a Pokémon instance when possible.
+- Added capture check to BattleVictoryEvent
+- Added ThownPokeballHitEvent
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 

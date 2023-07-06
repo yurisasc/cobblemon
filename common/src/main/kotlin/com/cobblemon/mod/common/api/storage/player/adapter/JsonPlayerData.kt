@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.storage.player.adapter
 import com.cobblemon.mod.common.api.storage.player.PlayerAdvancementData
 import com.cobblemon.mod.common.api.storage.player.PlayerData
 import com.cobblemon.mod.common.api.storage.player.PlayerDataExtension
+import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.fromJson
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.removeIf
@@ -21,6 +22,7 @@ import java.io.PrintWriter
 import java.nio.file.Path
 import java.util.UUID
 import net.minecraft.server.MinecraftServer
+import net.minecraft.util.Identifier
 import net.minecraft.util.WorldSavePath
 
 class JsonPlayerData: PlayerDataFileStoreAdapter {
@@ -30,6 +32,7 @@ class JsonPlayerData: PlayerDataFileStoreAdapter {
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .registerTypeAdapter(PlayerDataExtension::class.java, PlayerDataExtensionAdapter)
+            .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
             .create()
     }
 
