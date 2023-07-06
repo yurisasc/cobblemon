@@ -126,6 +126,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         defaultState = this.stateManager.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
             .with(PART, PCPart.BOTTOM)
             .with(ON, false)
+            .with(WATERLOGGED, false)
     }
 
     override fun createBlockEntity(blockPos: BlockPos, blockState: BlockState) = if (blockState.get(PART) == PCPart.BOTTOM) PCBlockEntity(blockPos, blockState) else null
