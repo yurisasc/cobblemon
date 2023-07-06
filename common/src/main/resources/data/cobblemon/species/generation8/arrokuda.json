@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Arrokuda",
   "nationalPokedexNumber": 846,
   "primaryType": "water",
@@ -23,6 +24,18 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 1.0,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:aquajet",
     "1:peck",
@@ -96,10 +109,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 0.5,
     "fixed": false
   },
   "baseFriendship": 50,

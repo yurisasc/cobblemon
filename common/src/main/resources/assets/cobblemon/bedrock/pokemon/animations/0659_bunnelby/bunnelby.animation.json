@@ -1,0 +1,126 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.bunnelby.ground_idle": {
+			"loop": true,
+			"bones": {
+				"upper_torso": {
+					"rotation": [7.5, 0, 0]
+				},
+				"head": {
+					"rotation": [-15, 0, 0]
+				},
+				"left_ear": {
+					"rotation": [-10, 0, 0]
+				},
+				"left_ear2": {
+					"rotation": [5, 0, 0]
+				},
+				"left_ear3": {
+					"rotation": [7.5, 0, 0]
+				},
+				"left_ear_tufts": {
+					"rotation": [10, 0, 0]
+				},
+				"right_ear": {
+					"rotation": [-10, 0, 0]
+				},
+				"left_whiskers": {
+					"rotation": [0, -7.5, 0]
+				},
+				"right_whiskers": {
+					"rotation": [0, 7.5, 0]
+				},
+				"right_ear2": {
+					"rotation": [5, 0, 0]
+				},
+				"right_ear3": {
+					"rotation": [7.5, 0, 0]
+				},
+				"right_ear_tufts": {
+					"rotation": [10, 0, 0]
+				},
+				"torso": {
+					"rotation": [7.5, 0, 0],
+					"scale": 1
+				},
+				"left_foot": {
+					"rotation": [-5.019, -4.98093, 0.43688]
+				},
+				"left_leg": {
+					"rotation": [5.12076, -12.45167, -1.10693]
+				},
+				"right_leg": {
+					"rotation": [5.12076, 12.45167, 1.10693]
+				},
+				"right_foot": {
+					"rotation": [-5.019, 4.98093, -0.43688]
+				},
+				"left_lower_arm": {
+					"rotation": [0, 27.5, 0]
+				},
+				"left_upper_arm": {
+					"rotation": [67.80427, 43.69175, 64.35389],
+					"position": [0, 0, -0.5]
+				},
+				"right_upper_arm": {
+					"rotation": [67.80427, -43.69175, -64.35389],
+					"position": [0, 0, -0.5]
+				},
+				"right_lower_arm": {
+					"rotation": [0, -27.5, 0]
+				},
+				"neck_fluff": {
+					"rotation": [-10, 0, 0]
+				},
+				"tail": {
+					"rotation": [27.5, 0, 0]
+				},
+				"left_ear_tuft_outer": {
+					"rotation": [0, 0, 0]
+				}
+			}
+		},
+		"animation.bunnelby.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"closed": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.bunnelby.cry": {
+			"animation_length": 1.25,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [-7.5, 0, 0],
+						"1.0": [-7.5, 0, 0],
+						"1.25": [0, 0, 0]
+					}
+				},
+				"snout": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [2.5, 0, 0],
+						"1.0": [2.5, 0, 0],
+						"1.25": [0, 0, 0]
+					}
+				},
+				"mouth": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.25": [0, -0.1, 0],
+						"1.0": [0, -0.1, 0],
+						"1.25": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}
