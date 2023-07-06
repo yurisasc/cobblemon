@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.pokeball.ThrownPokeballHitEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
@@ -253,6 +254,14 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
                 if (hitTargetPosition.get() != it.pos && !it.isInvisible) {
                     hitTargetPosition.set(it.pos)
                 }
+                CobblemonEvents.THROWN_POKEBALL_HIT.postThen(
+                    event = ThrownPokeballHitEvent(this, it),
+                    ifSucceeded = {},
+                    ifCanceled = {
+                        drop()
+                        return
+                    }
+                )
             }
 
             if(this.age > 600 && this.capturingPokemon == null) {

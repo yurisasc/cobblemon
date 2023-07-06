@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -17,6 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -34,13 +36,23 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var shoulderRight: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var swim: PokemonPose
 
     val shoulderOffset = 2.5
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("wooper", "blink").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("wooper", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
+            poseTypes = STATIONARY_POSES + UI_POSES - PoseType.FLOAT,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -50,12 +62,29 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
+            poseTypes = MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("wooper", "ground_idle")
-                //bedrock("wooper", "ground_walk")
+                bedrock("wooper", "ground_walk")
+            )
+        )
+
+        float = registerPose(
+            poseType = PoseType.FLOAT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("wooper", "water_idle")
+            )
+        )
+
+        swim = registerPose(
+            poseType = PoseType.SWIM,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("wooper", "water_swim")
             )
         )
 
@@ -84,8 +113,8 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("wooper", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("wooper", "faint") else null
 }

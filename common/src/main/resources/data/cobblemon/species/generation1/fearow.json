@@ -31,7 +31,7 @@
         "canFly": true
       },
       "walk": {
-        "canWalk": false
+        "canWalk": true
       }
     },
     "resting": {
@@ -170,7 +170,7 @@
   ],
   "preEvolution": "spearow",
   "evolutions": [],
-  "baseScale": 2,
+  "baseScale": 1.3,
   "hitbox": {
     "width": 1,
     "height": 0.7,
