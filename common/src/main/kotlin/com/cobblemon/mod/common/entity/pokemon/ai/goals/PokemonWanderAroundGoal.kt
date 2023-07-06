@@ -71,7 +71,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
             val maxSteps = 16
             var steps = 0
             var good = false
-            if (blockState.isAir) {
+            if (!blockState.material.isSolid && !blockState.material.isLiquid) {
                 pos.move(0, -1, 0)
                 var previousWasAir = true
                 while (steps++ < maxSteps && pos.y > entity.world.bottomY) {
