@@ -159,6 +159,7 @@ object CobblemonClient {
             CobblemonBlocks.PINK_MINT,
             CobblemonBlocks.GREEN_MINT,
             CobblemonBlocks.WHITE_MINT,
+            CobblemonBlocks.PASTURE,
             CobblemonBlocks.ENERGY_ROOT,
             CobblemonBlocks.BIG_ROOT,
             CobblemonBlocks.REVIVAL_HERB

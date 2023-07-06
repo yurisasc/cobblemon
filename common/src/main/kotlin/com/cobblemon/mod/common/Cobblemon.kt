@@ -256,7 +256,7 @@ object Cobblemon {
             PlatformEvents.SERVER_TICK_POST.subscribe { ScheduledTaskTracker.update() }
         }
 
-        PlatformEvents.SERVER_STARTED.subscribe { event ->
+        PlatformEvents.SERVER_STARTING.subscribe { event ->
             val server = event.server
             playerData = PlayerDataStoreManager().also { it.setup(server) }
             val pokemonStoreRoot = server.getSavePath(WorldSavePath.ROOT).resolve("pokemon").toFile()

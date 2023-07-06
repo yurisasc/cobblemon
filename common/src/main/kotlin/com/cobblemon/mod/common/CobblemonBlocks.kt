@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.MintBlock.MintType
 import com.cobblemon.mod.common.block.PCBlock
 import com.cobblemon.mod.common.block.RevivalHerbBlock
+import com.cobblemon.mod.common.block.PastureBlock
 import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker
@@ -206,6 +207,19 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val GREEN_MINT = create("green_mint", MintBlock(MintType.GREEN, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
     @JvmField
     val WHITE_MINT = create("white_mint", MintBlock(MintType.WHITE, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+
+    @JvmField
+    val PASTURE = create(
+        "pasture",
+        PastureBlock(
+            AbstractBlock.Settings
+                .of(Material.WOOD, MapColor.BROWN)
+                .sounds(BlockSoundGroup.WOOD)
+                .strength(2F)
+                .nonOpaque()
+                .luminance { if ((it.get(PastureBlock.ON) as Boolean) && (it.get(PastureBlock.PART) == PastureBlock.PasturePart.TOP)) 10 else 0 }
+        )
+    )
 
     /**
      * Returns a map of all the blocks that can be stripped with an axe in the format of input - output.

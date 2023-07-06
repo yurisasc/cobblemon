@@ -72,6 +72,12 @@ fun BlockView.getBlockStates(box: Box): Iterable<BlockState> {
     return states
 }
 
+fun BlockView.getBlockStatesWithPos(box: Box): Iterable<Pair<BlockState, BlockPos>> {
+    val states = mutableListOf<Pair<BlockState, BlockPos>>()
+    doForAllBlocksIn(box, useMutablePos = true) { state, pos -> states.add(state to pos) }
+    return states
+}
+
 fun BlockView.getWaterAndLavaIn(box: Box): Pair<Boolean, Boolean> {
     var hasWater = false
     var hasLava = false

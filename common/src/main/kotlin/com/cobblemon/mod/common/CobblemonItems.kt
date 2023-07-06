@@ -179,6 +179,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val HEALING_MACHINE = blockItem("healing_machine", CobblemonBlocks.HEALING_MACHINE)
     @JvmField
     val PC = blockItem("pc", CobblemonBlocks.PC)
+    @JvmField
+    val PASTURE = blockItem("pasture", CobblemonBlocks.PASTURE)
 
     // Evolution items
     @JvmField val LINK_CABLE = create("link_cable", LinkCableItem())
@@ -548,6 +550,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         CobblemonItemGroups.BLOCKS.group().let { group ->
             consumer(group, PC)
             consumer(group, HEALING_MACHINE)
+            consumer(group, PASTURE)
             consumer(group, APRICORN_LOG)
             consumer(group, APRICORN_WOOD)
             consumer(group, STRIPPED_APRICORN_LOG)

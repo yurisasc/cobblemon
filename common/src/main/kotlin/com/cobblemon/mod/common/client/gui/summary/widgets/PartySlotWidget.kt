@@ -46,8 +46,8 @@ class PartySlotWidget(
         private val slotResource = cobblemonResource("textures/gui/summary/summary_party_slot.png")
         private val slotFaintedResource = cobblemonResource("textures/gui/summary/summary_party_slot_fainted.png")
         private val slotEmptyResource = cobblemonResource("textures/gui/summary/summary_party_slot_empty.png")
-        private val genderIconMale = cobblemonResource("textures/gui/party/party_gender_male.png")
-        private val genderIconFemale = cobblemonResource("textures/gui/party/party_gender_female.png")
+        val genderIconMale = cobblemonResource("textures/gui/party/party_gender_male.png")
+        val genderIconFemale = cobblemonResource("textures/gui/party/party_gender_female.png")
     }
 
     private fun getSlotTexture(pokemon: Pokemon?): Identifier {
@@ -153,7 +153,7 @@ class PartySlotWidget(
             matrices.translate(x + (PORTRAIT_DIAMETER / 2.0), y - 3.0, 0.0)
             matrices.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
-                species = slotPokemon.species,
+                species = slotPokemon.species.resourceIdentifier,
                 aspects = slotPokemon.aspects.toSet(),
                 matrixStack = matrices,
                 rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),

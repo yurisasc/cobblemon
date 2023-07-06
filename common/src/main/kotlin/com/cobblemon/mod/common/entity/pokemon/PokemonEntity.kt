@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -80,6 +81,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtHelper
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
@@ -137,6 +139,8 @@ class PokemonEntity(
 
     var drops: DropTable? = null
 
+    var tethering: PokemonPastureBlockEntity.Tethering? = null
+
     /**
      * The amount of steps this entity has taken.
      */
@@ -154,7 +158,7 @@ class PokemonEntity(
     val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
-    val poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
+    val poseType = addEntityProperty(POSE_TYPE, PoseType.STAND)
     internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
 
     /**
@@ -329,12 +333,19 @@ class PokemonEntity(
     }
 
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
-        val ownerId = ownerUuid
-        if (ownerId != null) {
-            nbt.putUuid(DataKeys.POKEMON_OWNER_ID, ownerId)
+        val tethering = this.tethering
+        if (tethering != null) {
+            val tetheringNbt = NbtCompound()
+            tetheringNbt.putUuid(DataKeys.TETHERING_ID, tethering.tetheringId)
+            tetheringNbt.putUuid(DataKeys.POKEMON_UUID, tethering.pokemonId)
+            tetheringNbt.putUuid(DataKeys.POKEMON_OWNER_ID, tethering.playerId)
+            tetheringNbt.putUuid(DataKeys.PC_ID, tethering.pcId)
+            tetheringNbt.put(DataKeys.TETHER_MIN_ROAM_POS, NbtHelper.fromBlockPos(tethering.minRoamPos))
+            tetheringNbt.put(DataKeys.TETHER_MAX_ROAM_POS, NbtHelper.fromBlockPos(tethering.maxRoamPos))
+            nbt.put(DataKeys.TETHERING, tetheringNbt)
+        } else {
+            nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
         }
-
-        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
         val battleIdToSave = battleId.get().orElse(null)
         if (battleIdToSave != null) {
             nbt.putUuid(DataKeys.POKEMON_BATTLE_ID, battleIdToSave)
@@ -349,10 +360,34 @@ class PokemonEntity(
 
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
-        if (nbt.containsUuid(DataKeys.POKEMON_OWNER_ID)) {
-            ownerUuid = nbt.getUuid(DataKeys.POKEMON_OWNER_ID)
+        if (nbt.contains(DataKeys.TETHERING)) {
+            val tetheringNBT = nbt.getCompound(DataKeys.TETHERING)
+            val tetheringId = tetheringNBT.getUuid(DataKeys.TETHERING_ID)
+            val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
+            val pokemonId = tetheringNBT.getUuid(DataKeys.POKEMON_UUID)
+            val playerId = tetheringNBT.getUuid(DataKeys.POKEMON_OWNER_ID)
+            val minRoamPos = NbtHelper.toBlockPos(tetheringNBT.getCompound(DataKeys.TETHER_MIN_ROAM_POS))
+            val maxRoamPos = NbtHelper.toBlockPos(tetheringNBT.getCompound(DataKeys.TETHER_MAX_ROAM_POS))
+
+            val loadedPokemon = Cobblemon.storage.getPC(pcId)[pokemonId]
+            if (loadedPokemon != null && loadedPokemon.tetheringId == tetheringId) {
+                pokemon = loadedPokemon
+                tethering = PokemonPastureBlockEntity.Tethering(
+                    minRoamPos = minRoamPos,
+                    maxRoamPos = maxRoamPos,
+                    playerId = playerId,
+                    playerName = "",
+                    tetheringId = tetheringId,
+                    pokemonId = pokemonId,
+                    pcId = pcId,
+                    entityId = id // Doesn't really matter on the entity
+                )
+            } else {
+                pokemon = Pokemon()
+            }
+        } else {
+            pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         }
-        pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
         nickname.set(pokemon.nickname ?: Text.empty())
         labelLevel.set(pokemon.level)
@@ -477,7 +512,7 @@ class PokemonEntity(
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
-                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer).sendToPlayer(player)
+                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer && pokemon in player.party()).sendToPlayer(player)
             } else {
                 // TODO #105
                 if (this.attemptItemInteraction(player, player.getStackInHand(hand))) return ActionResult.SUCCESS
@@ -510,7 +545,7 @@ class PokemonEntity(
                 return true
             }
         }
-        return false
+        return tethering != null
     }
 
     override fun checkDespawn() {
@@ -662,7 +697,7 @@ class PokemonEntity(
         return false
     }
 
-    override fun remove(reason: RemovalReason?) {
+    override fun remove(reason: RemovalReason) {
         val stateEntity = (pokemon.state as? ActivePokemonState)?.entity
         super.remove(reason)
         if (stateEntity == this) {
@@ -670,6 +705,10 @@ class PokemonEntity(
         }
         subscriptions.forEach(ObservableSubscription<*>::unsubscribe)
         removalObservable.emit(reason)
+
+        if (reason.shouldDestroy() && pokemon.tetheringId != null) {
+            pokemon.tetheringId = null
+        }
     }
 
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
