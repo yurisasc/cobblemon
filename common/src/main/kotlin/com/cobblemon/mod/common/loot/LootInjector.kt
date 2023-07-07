@@ -32,7 +32,7 @@ object LootInjector {
 
     /**
      * Attempts to inject a Cobblemon injection loot table to a loot table being loaded.
-     * This will automatically query the existance of an injection.
+     * This will automatically query the existence of an injection.
      *
      * @param id The [Identifier] of the loot table being loaded.
      * @param provider The job invoked if the injection is possible, this is what the platform needs to do to append the loot table.

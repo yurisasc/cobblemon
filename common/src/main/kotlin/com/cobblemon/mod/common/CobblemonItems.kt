@@ -12,12 +12,6 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.item.*
-import com.cobblemon.mod.common.item.ApricornItem
-import com.cobblemon.mod.common.item.ApricornSeedItem
-import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.MintLeafItem
-import com.cobblemon.mod.common.item.PokeBallItem
-import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.EnergyRoot
@@ -29,6 +23,7 @@ import com.cobblemon.mod.common.mint.MintType
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import net.minecraft.block.Block
 import net.minecraft.block.ComposterBlock
 import net.minecraft.item.BlockItem
@@ -41,6 +36,9 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.village.TradeOffers
+import net.minecraft.village.TradeOffers.SellItemFactory
+import net.minecraft.village.VillagerProfession
 
 object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<Item>>, Item>() {
     override val registry: Registry<Item> = Registries.ITEM
@@ -112,6 +110,12 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val MASTER_BALL = pokeBallItem(PokeBalls.MASTER_BALL)
     @JvmField
     val CHERISH_BALL = pokeBallItem(PokeBalls.CHERISH_BALL)
+
+    @JvmField
+    val VIVICHOKE = create("vivichoke", Item(Item.Settings()))
+
+    @JvmField
+    val VIVICHOKE_SEEDS = create("vivichoke_seeds", VivichokeItem(CobblemonBlocks.VIVICHOKE_SEEDS))
 
     @JvmField
     val RED_APRICORN = create("red_apricorn", ApricornItem(CobblemonBlocks.RED_APRICORN))
@@ -272,10 +276,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     @JvmField
     val HEAL_POWDER = create("heal_powder", Item(Item.Settings()))
-
-    // Remove me when Momo's vivichoke work is done
-    @JvmField
-    val VIVICHOKE = create("vivichoke", Item(Item.Settings()))
 
     @JvmField
     val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(4).build())))
@@ -602,6 +602,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, ENERGY_ROOT)
             consumer(group, REVIVAL_HERB)
             consumer(group, PEP_UP_FLOWER)
+            consumer(group, VIVICHOKE)
+            consumer(group, VIVICHOKE_SEEDS)
 
             consumer(group, RED_APRICORN)
             consumer(group, YELLOW_APRICORN)
@@ -732,6 +734,24 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
             consumer(group, FLOWER_SWEET)
             consumer(group, STAR_SWEET)
             consumer(group, RIBBON_SWEET)
+        }
+    }
+
+    fun addToTradeOffers() {
+        val tradeOffers = TradeOffers.WANDERING_TRADER_TRADES
+        val vivichokeTrade = SellItemFactory(VIVICHOKE_SEEDS, 32, 1, 1, 6)
+        // As long as nothing's gone weird, it should be an OpenHashMap which is mutable and we're safe to use .put.
+        // In theory if some other mod fucks with the trade offers they could replace the map entirely with an
+        // immutable one and suddenly our loot would not appear, but we'd have every right to bark up their tree
+        // about it because that'd be dumb for them to do. - Hiro
+
+        if (tradeOffers is Int2ObjectOpenHashMap) {
+            tradeOffers.put(1, tradeOffers.get(1) + vivichokeTrade)
+        }
+
+        val villagerTradeTiers = TradeOffers.PROFESSION_TO_LEVELED_TRADE[VillagerProfession.FARMER]
+        if (villagerTradeTiers is Int2ObjectOpenHashMap) {
+            villagerTradeTiers.put(3, villagerTradeTiers.get(3) + vivichokeTrade)
         }
     }
 }
