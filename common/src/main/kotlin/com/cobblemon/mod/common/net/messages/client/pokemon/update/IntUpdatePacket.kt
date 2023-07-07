@@ -22,7 +22,7 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 28th, 2021
  */
-abstract class IntUpdatePacket<T : NetworkPacket<T>>(pokemon: Pokemon, value: Int) : SingleUpdatePacket<Int, T>(pokemon, value) {
+abstract class IntUpdatePacket<T : NetworkPacket<T>>(pokemon: () -> Pokemon, value: Int) : SingleUpdatePacket<Int, T>(pokemon, value) {
 
     abstract fun getSize(): IntSize
 

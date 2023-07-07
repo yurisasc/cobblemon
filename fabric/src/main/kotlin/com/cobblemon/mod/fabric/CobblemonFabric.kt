@@ -198,6 +198,7 @@ object CobblemonFabric : CobblemonImplementation {
                 .build()
         }
         CobblemonItems.registerToItemGroups { group, item -> ItemGroupEvents.modifyEntriesEvent(group).register { entries -> entries.add(item) } }
+        CobblemonItems.addToTradeOffers()
     }
 
     override fun registerBlocks() {

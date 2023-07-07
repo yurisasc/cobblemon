@@ -9,16 +9,9 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.apricorn.Apricorn
-import com.cobblemon.mod.common.block.ApricornBlock
-import com.cobblemon.mod.common.block.ApricornSaplingBlock
-import com.cobblemon.mod.common.block.BigRootBlock
-import com.cobblemon.mod.common.block.EnergyRootBlock
-import com.cobblemon.mod.common.block.HealingMachineBlock
-import com.cobblemon.mod.common.block.MedicinalLeekBlock
-import com.cobblemon.mod.common.block.MintBlock
-import com.cobblemon.mod.common.block.PCBlock
-import com.cobblemon.mod.common.block.RevivalHerbBlock
+import com.cobblemon.mod.common.block.*
 import com.cobblemon.mod.common.mint.MintType
+import com.cobblemon.mod.common.block.PastureBlock
 import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker
@@ -207,6 +200,22 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val WHITE_MINT = create("white_mint", MintBlock(MintType.WHITE, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
 
+    @JvmField
+    val PASTURE = create(
+        "pasture",
+        PastureBlock(
+            AbstractBlock.Settings
+                .of(Material.WOOD, MapColor.BROWN)
+                .sounds(BlockSoundGroup.WOOD)
+                .strength(2F)
+                .nonOpaque()
+                .luminance { if ((it.get(PastureBlock.ON) as Boolean) && (it.get(PastureBlock.PART) == PastureBlock.PasturePart.TOP)) 10 else 0 }
+        )
+    )
+
+    @JvmField
+    val VIVICHOKE_SEEDS = this.create("vivichoke_seeds", VivichokeBlock(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+
     /**
      * Returns a map of all the blocks that can be stripped with an axe in the format of input - output.
      *
@@ -218,6 +227,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     )
 
     private fun apricornBlock(name: String, apricorn: Apricorn): ApricornBlock = this.create(name, ApricornBlock(AbstractBlock.Settings.of(Material.PLANT, apricorn.mapColor()).ticksRandomly().strength(Blocks.OAK_LOG.hardness, Blocks.OAK_LOG.blastResistance).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn))
+
 
     /**
      * Helper method for creating logs

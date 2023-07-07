@@ -27,6 +27,7 @@ object CobblemonPlacedFeatures {
     val WHITE_APRICORN_TREE_PLACED_FEATURE = of("white_apricorn_tree")
     val YELLOW_APRICORN_TREE_PLACED_FEATURE = of("yellow_apricorn_tree")
 
+
     val APRICORN_TREES = of("apricorn_trees")
 
     val MINTS = of("mints")

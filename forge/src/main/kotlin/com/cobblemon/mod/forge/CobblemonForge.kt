@@ -211,6 +211,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener<RegisterEvent> { event ->
                 event.register(CobblemonItems.registryKey) { helper ->
                     CobblemonItems.register { identifier, item -> helper.register(identifier, item) }
+                    CobblemonItems.addToTradeOffers()
                 }
             }
             // ToDo sort out ordering being insertion

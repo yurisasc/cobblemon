@@ -94,8 +94,8 @@ class EvolutionSelectScreen(
             isHovered: Boolean,
             partialTicks: Float
         ) {
-            var x = rowLeft - 3
-            var y = rowTop
+            val x = rowLeft - 3
+            val y = rowTop
 
             blitk(
                 matrixStack = poseStack,
@@ -134,7 +134,7 @@ class EvolutionSelectScreen(
             poseStack.translate(x + (PORTRAIT_DIAMETER / 2) + 65.0, y - 5.0, 0.0)
             poseStack.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
-                species = this.evolution.species,
+                species = this.evolution.species.resourceIdentifier,
                 aspects = this.evolution.aspects,
                 matrixStack = poseStack,
                 rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
