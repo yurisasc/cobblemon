@@ -45,6 +45,8 @@
   "item.cobblemon.red_apricorn": "Red Apricorn",
   "item.cobblemon.white_apricorn": "White Apricorn",
   "item.cobblemon.yellow_apricorn": "Yellow Apricorn",
+  "item.cobblemon.vivichoke_seeds": "Vivichoke Seeds",
+  "item.cobblemon.vivichoke": "Vivichoke",
 
   "item.cobblemon.link_cable": "Link Cable",
   "item.cobblemon.dragon_scale": "Dragon Scale",
@@ -276,6 +278,7 @@
   "block.cobblemon.pink_mint": "Pink Mint Seeds",
   "block.cobblemon.green_mint": "Green Mint Seeds",
   "block.cobblemon.white_mint": "White Mint Seeds",
+  "block.cobblemon.vivichoke_seeds": "Vivichoke Seeds",
 
   "cobblemon.overflow_no_pc": "Your party was full and you don't have a PC!",
   "cobblemon.overflow_no_space": "Your party was full and so was %1$s!",
