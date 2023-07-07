@@ -22,11 +22,7 @@ import com.cobblemon.mod.common.util.isInBattle
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
 import com.cobblemon.mod.common.util.voxelShape
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.BlockWithEntity
-import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
@@ -45,8 +41,6 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 import java.util.*
-import net.minecraft.block.Blocks
-import net.minecraft.block.ShapeContext
 import net.minecraft.entity.LivingEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
@@ -61,7 +55,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.explosion.Explosion
 
-class PastureBlock(properties: Settings): BlockWithEntity(properties) {
+class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterloggable {
     companion object {
         val PART = EnumProperty.of("part", PasturePart::class.java)
         val ON = BooleanProperty.of("on")
