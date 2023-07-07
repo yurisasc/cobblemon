@@ -1183,33 +1183,25 @@
 				"foot_left": {
 					"rotation": [46.08822, -13.66644, -10.70849]
 				},
-				"eyelid_right": {
-					"position": {
-						"0.0": [0, 0, -0.1],
-						"0.125": [0, 0, -0.1],
-						"0.1667": [0, 0, -0.1]
-					}
-				},
 				"eyelid_left": {
-					"position": {
-						"0.0": [0, 0, -0.1],
-						"0.125": [0, 0, -0.1],
-						"0.1667": [0, 0, -0.1]
-					}
+					"position": [0, 0, -0.1]
+				},
+				"eyelid_right": {
+					"position": [0, 0, -0.1]
 				}
 			}
 		},
 		"animation.mankey.blink": {
 			"animation_length": 0.16667,
 			"bones": {
-				"eyelid_right": {
+				"eyelid_left": {
 					"position": {
 						"0.0": [0, 0, -0.1],
 						"0.125": [0, 0, -0.1],
 						"0.1667": [0, 0, 0]
 					}
 				},
-				"eyelid_left": {
+				"eyelid_right": {
 					"position": {
 						"0.0": [0, 0, -0.1],
 						"0.125": [0, 0, -0.1],

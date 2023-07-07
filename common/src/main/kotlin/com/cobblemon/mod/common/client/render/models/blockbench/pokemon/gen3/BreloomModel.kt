@@ -91,7 +91,7 @@ class BreloomModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("breloom", "faint") else
+    ) = if (state.isPosedIn(standing, walk, sleeping)) bedrockStateful("breloom", "faint") else
         if (state.isPosedIn(battling)) bedrockStateful("breloom", "battle_faint")
         else null
 }
