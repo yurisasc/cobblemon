@@ -178,11 +178,12 @@
 - Updated texture of Weedle.
 - Updated shiny texture of Dwebble and Crustle.
 - Reorganised the advancements recipes folder
-- Pokeedit command now supports IVs and EVs.
+- Pokéedit command now supports IVs and EVs.
 - Reorganised creative categories
-- Pokemon can now wander into non-solid blocks such as foliage
-- Pokeballs now despawn after 30 seconds
+- Pokémon can now wander into non-solid blocks such as foliage
+- Pokéballs now despawn after 30 seconds
 - Made Wooloo and Dubwool smaller.
+- Removed shoulder effects, system is broken and needs reworked.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong

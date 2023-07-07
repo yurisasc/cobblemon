@@ -20,9 +20,6 @@
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    "slow_fall"
-  ],
   "baseExperienceYield": 146,
   "baseFriendship": 50,
   "evYield": {
