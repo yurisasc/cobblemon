@@ -83,7 +83,6 @@ class ArmarougeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 singleBoneLook(),
                 bedrock("armarouge", "battle_idle")
             )
-
         )
     }
     override fun getFaintAnimation(
