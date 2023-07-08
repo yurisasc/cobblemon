@@ -102,7 +102,7 @@ object PokeboxCommand {
         // Operate in reverse so that the party "lead" pokemon would be kept
         pokemons.reversed().forEach { pokemon ->
             if (ServerSettings.preventCompletePartyDeposit && playerParty.occupied() == 1) {
-                context.source.sendFeedback(LAST_POKE_MESSAGE.red(), false)
+                context.source.sendFeedback({ LAST_POKE_MESSAGE.red() }, false)
                 return pokemons.size - 1
             }
 

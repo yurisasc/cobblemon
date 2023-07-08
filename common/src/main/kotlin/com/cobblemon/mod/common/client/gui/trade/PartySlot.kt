@@ -14,11 +14,10 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.pokemon.Gender
-import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -46,7 +45,8 @@ open class PartySlot(
     override fun playDownSound(soundManager: SoundManager) {
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        val matrices = context.matrices
         if (!isOpposing && isHovered(mouseX, mouseY)) {
             blitk(
                 matrixStack = matrices,
@@ -59,7 +59,7 @@ open class PartySlot(
         }
 
         if (pokemon != null) {
-            DrawableHelper.enableScissor(
+            context.enableScissor(
                 x - 2,
                 y + 2,
                 x + SIZE + 4,
@@ -79,14 +79,14 @@ open class PartySlot(
             )
             matrices.pop()
 
-            DrawableHelper.disableScissor()
+            context.disableScissor()
 
             // Ensure elements are not hidden behind Pokémon render
             matrices.push()
             matrices.translate(0.0, 0.0, 100.0)
             // Level
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = lang("ui.lv.number", pokemon.level),
                 x = x + 1,
                 y = y + 1,

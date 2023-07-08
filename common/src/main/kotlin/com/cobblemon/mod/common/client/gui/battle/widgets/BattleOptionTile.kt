@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.render.drawScaledText
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.Drawable
 import net.minecraft.client.gui.Element
 import net.minecraft.client.gui.Selectable
@@ -36,13 +37,13 @@ class BattleOptionTile(
 
     private var focused = false
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val opacity = CobblemonClient.battleOverlay.opacityRatio
         if (opacity < 0.1) {
             return
         }
         blitk(
-            matrixStack = matrices,
+            matrixStack = context.matrices,
             texture = resource,
             x = x,
             y = y,
@@ -55,7 +56,7 @@ class BattleOptionTile(
 
         val scale = 1F
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = text,
             x = x + 6,
             y = y + 8,

@@ -8,6 +8,6 @@
 
 package com.cobblemon.mod.common.item
 
-import com.cobblemon.mod.common.mint.MintType
+import com.cobblemon.mod.common.block.MintBlock
 
-class MintLeafItem(val mintType: MintType) : CobblemonItem(Settings())
+class MintLeafItem(val mintType: MintBlock.MintType) : CobblemonItem(Settings())

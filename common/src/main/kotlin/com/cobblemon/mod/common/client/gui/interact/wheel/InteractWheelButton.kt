@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.gui.interact.wheel
 
 import com.cobblemon.mod.common.api.gui.blitk
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -35,7 +36,8 @@ class InteractWheelButton(
         const val ICON_OFFSET = 26.5
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        val matrices = context.matrices
         blitk(
             matrixStack = matrices,
             texture = buttonResource,

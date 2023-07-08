@@ -19,7 +19,7 @@
 - Added support for jump keyframes (i.e. pre and post keyframes)
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
-- Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Lucario, Mime Jr, Mimikyu, Pangoro, Wooper, Quagsire, Quilladin, and Riolu.
+- Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Lucario, Mime Jr, Mimikyu, Pangoro, Wooper, Quagsire, Pidgey, Pidgeotto, Pidgeot Quilladin, and Riolu.
 - Added cries for Gen 1-8 starters
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
 - Added loot table for Revival Herb plant
@@ -117,6 +117,7 @@
 
 #### Gen 7
 
+- Wishiwashi (Planned)
 - Cutiefly
 - Ribombee
 - Stufful
@@ -184,6 +185,7 @@
 - Pokéballs now despawn after 30 seconds
 - Made Wooloo and Dubwool smaller.
 - Removed shoulder effects, system is broken and needs reworked.
+- Dive Balls will now have the same motion speed underwater as if they were thrown in the air.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -201,7 +203,6 @@
 - Fixed deepslate water stone ore items looking like deepslate fire stone ores.
 - Fixed a bunch of client-side logging errors when Pokémon are shoulder mounted.
 - Fixed a crash when wild Pokémon have to struggle under specific circumstances.
-- Fixed being locked out of healing machines if it is blown up during use.
 - Fixed uncolored pixels on Yanma's shiny texture.
 - Fixed apricorn tree leaves looking gross on Fast graphics mode.
 - Fixed hoes not breaking apricorn tree leaves any faster.
@@ -209,6 +210,7 @@
 - Fixed the /pc command not playing the opening sound.
 - Fixed Shedinja not being able to recover naturally.
 - Fixed different forms of Pokémon not being able to appear as different sizes.
+- Fixed the Healing Machine soft locking you from using others when removed by non-players.
 
 ### Developer
 - Added SpawnEvent
@@ -252,6 +254,7 @@
 - Changed the recipes for Mystic Water, Miracle Seed, and Charcoal Stick to utilise the evolution stones, as well as Never-Melt Ice having an alternate recipe using the Ice Stone.
 - Replaced the `Failed to handle` battle messages to `Missing interpretation` to make it more clear that mechanics do work just still pending dedicated messages.
 - Healing Machine and PC are now mine-able with pickaxes and Apricorn leaves are mine-able using hoes.
+- Updated Pokéball, UI and evolution sounds.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game. Dodrio will never look the same to us.

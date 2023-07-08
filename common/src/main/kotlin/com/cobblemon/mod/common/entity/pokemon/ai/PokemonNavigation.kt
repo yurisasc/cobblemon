@@ -119,11 +119,11 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
             target = blockPos
         }
 
-        val path = if (!this.world.getBlockState(target).material.isSolid) {
+        val path = if (!this.world.getBlockState(target).isSolid) {
             findPath(target, distance)
         } else {
             blockPos = target.up()
-            while (blockPos.y < this.world.topY && this.world.getBlockState(blockPos).material.isSolid) {
+            while (blockPos.y < this.world.topY && this.world.getBlockState(blockPos).isSolid) {
                 blockPos = blockPos.up()
             }
             findPath(blockPos, distance)

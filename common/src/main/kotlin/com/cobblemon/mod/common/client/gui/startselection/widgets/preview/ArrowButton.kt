@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui.startselection.widgets.preview
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
@@ -31,11 +32,11 @@ class ArrowButton(
         private const val ARROW_BUTTON_HEIGHT = 14f
     }
 
-    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height
         if (isHovered) {
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 x = x + 2.4F, y = y - 0.0F,
                 texture = texture,
                 width = ARROW_BUTTON_WIDTH, height = ARROW_BUTTON_HEIGHT,
@@ -43,7 +44,7 @@ class ArrowButton(
             )
         } else {
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 x = x + 2.4F, y = y - 0.0F,
                 texture = texture,
                 width = ARROW_BUTTON_WIDTH, height = ARROW_BUTTON_HEIGHT

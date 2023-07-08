@@ -128,7 +128,7 @@ fun <T : Entity> PlayerEntity.traceEntityCollision(
 fun PlayerEntity.traceBlockCollision(
     maxDistance: Float = 10F,
     stepDistance: Float = 0.05F,
-    blockFilter: (BlockState) -> Boolean = { it.material.isSolid }
+    blockFilter: (BlockState) -> Boolean = { it.isSolid }
 ): TraceResult? {
     var step = stepDistance
     val startPos = eyePos

@@ -9,9 +9,7 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.util.commandLang
-import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.Command
@@ -51,7 +49,7 @@ object ClearPartyCommand {
 
         if (context.source.entity != target) {
             if (context.source.entity is ServerPlayerEntity) {
-                context.source.sendFeedback(commandLang("$NAME.cleared", target.displayName), true)
+                context.source.sendFeedback({ commandLang("$NAME.cleared", target.displayName) }, true)
                 return Command.SINGLE_SUCCESS
             }
         }
