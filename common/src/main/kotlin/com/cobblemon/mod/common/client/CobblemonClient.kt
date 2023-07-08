@@ -25,10 +25,8 @@ import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererR
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.VaryingModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
@@ -162,7 +160,8 @@ object CobblemonClient {
             CobblemonBlocks.PASTURE,
             CobblemonBlocks.ENERGY_ROOT,
             CobblemonBlocks.BIG_ROOT,
-            CobblemonBlocks.REVIVAL_HERB
+            CobblemonBlocks.REVIVAL_HERB,
+            CobblemonBlocks.VIVICHOKE_SEEDS,
         )
     }
 

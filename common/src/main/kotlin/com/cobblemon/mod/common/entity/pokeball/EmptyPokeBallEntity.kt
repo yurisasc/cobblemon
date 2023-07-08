@@ -321,7 +321,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
                 captureState.set((if (captureResult.isCriticalCapture) CaptureState.CAPTURED_CRITICAL else CaptureState.CAPTURED).ordinal.toByte())
                 // Do a capture
                 world.sendParticlesServer(ParticleTypes.CRIT, pos, 10, Vec3d(0.1, -0.5, 0.1), 0.2)
-                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED, volume = 0.3F, pitch = 1F)
+                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED, volume = 1F, pitch = 1F)
                 val pokemon = capturingPokemon ?: return
                 val player = this.owner as? ServerPlayerEntity ?: return
 
@@ -394,7 +394,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
             // Start beaming them up.
             velocity = Vec3d.ZERO
             setNoGravity(true)
-            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED, volume = 0.2F)
+            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED, volume = 1F)
             pokemonEntity.beamModeEmitter.set(2.toByte())
         }
 

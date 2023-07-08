@@ -19,7 +19,6 @@
 - Added support for jump keyframes (i.e. pre and post keyframes)
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
-- Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Lucario, Mime Jr, Mimikyu, Pangoro, Quagsire, Quilladin, Riolu, Wooper
 - Added cries for Gen 1-8 starters
 - Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
@@ -29,6 +28,7 @@
 - Added Advancement trigger for defeating Pokémon and collecting varieties of Pokémon.
 - Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
 - Added flying placeholder animations to Pidgey, Pidgeotto, Pidgeot, Golbat, Crobat, Scyther, Scizor, Zapdos, Moltres, Articuno, Dragonite, Rowlet, Dartrix, and Decidueye.
+- Added loot to various vanilla chest loot tables (Link Cable in Ancient Cities, Woodland Mansions, End Cities, and Igloos, Vivichoke Seeds in Jungle Temples, Dungeons, and Plains, Savanna, Snowy, and Taiga Villages, and all 7 Apricorn Sprouts in Desert, Plains, Savanna, Snowy, and Taiga Villages, as well as the Bonus Chest)
 
 
 ### Pokémon Added
@@ -254,6 +254,7 @@
 - Changed the recipes for Mystic Water, Miracle Seed, and Charcoal Stick to utilise the evolution stones, as well as Never-Melt Ice having an alternate recipe using the Ice Stone.
 - Replaced the `Failed to handle` battle messages to `Missing interpretation` to make it more clear that mechanics do work just still pending dedicated messages.
 - Healing Machine and PC are now mine-able with pickaxes and Apricorn leaves are mine-able using hoes.
+- Updated Pokéball sounds.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game. Dodrio will never look the same to us.

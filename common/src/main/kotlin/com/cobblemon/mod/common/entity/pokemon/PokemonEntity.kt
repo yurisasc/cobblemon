@@ -317,7 +317,7 @@ class PokemonEntity(
         val owner = owner
         val future = CompletableFuture<Pokemon>()
         if (phasingTargetId.get() == -1 && owner != null) {
-            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.2F)
+            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 1F)
             phasingTargetId.set(owner.id)
             beamModeEmitter.set(2)
             afterOnMain(seconds = SEND_OUT_DURATION) {
