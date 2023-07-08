@@ -20,7 +20,7 @@
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
 - Added cries for Gen 1-8 starters
-- Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper
+- Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Pidgey, Pidgeotto, Pidgeot
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
 - Added loot table for Revival Herb plant
 - Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
@@ -254,7 +254,7 @@
 - Changed the recipes for Mystic Water, Miracle Seed, and Charcoal Stick to utilise the evolution stones, as well as Never-Melt Ice having an alternate recipe using the Ice Stone.
 - Replaced the `Failed to handle` battle messages to `Missing interpretation` to make it more clear that mechanics do work just still pending dedicated messages.
 - Healing Machine and PC are now mine-able with pickaxes and Apricorn leaves are mine-able using hoes.
-- Updated Pokéball sounds.
+- Updated Pokéball, UI and evolution sounds.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game. Dodrio will never look the same to us.
