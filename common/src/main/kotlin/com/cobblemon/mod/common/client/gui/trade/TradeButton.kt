@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -36,14 +37,14 @@ class TradeButton(
         private val buttonActiveResource = cobblemonResource("textures/gui/trade/trade_button_active.png")
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val enabled = parent.offeredPokemon != null && parent.opposingOfferedPokemon != null && parent.protectiveTicks <= 0
         val active = parent.trade.acceptedOppositeOffer && !parent.trade.oppositeAcceptedMyOffer.get()
 
         val texture = if (!enabled) buttonDisabledResource
             else (if (active) buttonActiveResource else buttonResource)
         blitk(
-            matrixStack = matrices,
+            matrixStack = context.matrices,
             texture = texture,
             x = x,
             y = y,
@@ -56,7 +57,7 @@ class TradeButton(
 
         val label = if (active) ".".repeat(parent.readyProgress).text() else lang("ui.trade")
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = label.bold(),
             x = x + (WIDTH / 2),

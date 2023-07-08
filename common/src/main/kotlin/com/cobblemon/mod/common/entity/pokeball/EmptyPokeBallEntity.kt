@@ -66,7 +66,7 @@ import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
+class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
     enum class CaptureState {
         NOT,
         HIT,
@@ -422,4 +422,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
     override fun canUsePortals() = false
 
     override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokeballPacket(this.pokeBall, this.aspects.get(), super.createSpawnPacket() as EntitySpawnS2CPacket))
+
+    override fun waterDrag(): Float = this.pokeBall.waterDragValue
+
 }

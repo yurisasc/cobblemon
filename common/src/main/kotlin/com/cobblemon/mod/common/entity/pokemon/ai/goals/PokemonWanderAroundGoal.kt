@@ -12,9 +12,9 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.canFit
 import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.block.BlockState
-import net.minecraft.block.Material
 import net.minecraft.entity.ai.goal.WanderAroundGoal
 import net.minecraft.fluid.Fluid
+import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
@@ -31,6 +31,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
         chance = entity.behaviour.moving.wanderChance
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun canMove(): Boolean {
         val moving = entity.behaviour.moving
         return moving.walk.canWalk || moving.fly.canFly || (moving.swim.canBreatheUnderwater && mob.isSubmergedIn(FluidTags.WATER))
@@ -58,6 +59,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
         return getLandTarget()
     }
 
+    @Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
     fun getLandTarget(): Vec3d? {
         val roamDistanceCondition: (BlockPos) -> Boolean = { entity.tethering?.canRoamTo(it) != false }
         val iterable: Iterable<BlockPos> = BlockPos.iterateRandomly(entity.random, 30, entity.blockX - 10, entity.blockY, entity.blockZ - 10, entity.blockX + 10, entity.blockY, entity.blockZ + 10)
@@ -71,7 +73,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
             val maxSteps = 16
             var steps = 0
             var good = false
-            if (!blockState.material.isSolid && !blockState.material.isLiquid) {
+            if (!blockState.isSolid && !blockState.isLiquid) {
                 pos.move(0, -1, 0)
                 var previousWasAir = true
                 while (steps++ < maxSteps && pos.y > entity.world.bottomY) {
@@ -79,7 +81,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
                         continue@position
                     }
                     blockState = entity.world.getBlockState(pos)
-                    if (blockState.material.isSolid && blockState.material != Material.LEAVES && previousWasAir) {
+                    if (blockState.isSolid && !blockState.isIn(BlockTags.LEAVES) && previousWasAir) {
                         pos.move(0, 1, 0)
                         blockState = entity.world.getBlockState(pos)
                         good = true
@@ -90,7 +92,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
                     pos.move(0, -1, 0)
                 }
             } else {
-                var previousWasSolid = blockState.material.isSolid && blockState.material != Material.LEAVES
+                var previousWasSolid = blockState.isSolid && !blockState.isIn(BlockTags.LEAVES)
                 pos.move(0, 1, 0)
                 while (steps++ < maxSteps) {
                     if (pos.y >= entity.world.topY) {
@@ -101,7 +103,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
                         good = true
                         break
                     }
-                    previousWasSolid = blockState.material.isSolid && blockState.material != Material.LEAVES
+                    previousWasSolid = blockState.isSolid && !blockState.isIn(BlockTags.LEAVES)
                     pos.move(0, 1, 0)
                 }
             }
@@ -114,6 +116,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
         return null
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun getFluidTarget(fluidTag: TagKey<Fluid>): Vec3d? {
         val roamDistanceCondition: (BlockPos) -> Boolean = { entity.tethering?.canRoamTo(it) != false }
         val walksOnFloor = !entity.behaviour.moving.swim.canSwimInFluid(fluidTag)

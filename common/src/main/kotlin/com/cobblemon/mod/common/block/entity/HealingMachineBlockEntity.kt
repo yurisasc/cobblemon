@@ -52,6 +52,8 @@ class HealingMachineBlockEntity(
 
     var maxCharge: Float = 6F
 
+    private var dataSnapshot: DataSnapshot? = null
+
     init {
         maxCharge = (Cobblemon.config.maxHealerCharge).coerceAtLeast(6F)
         this.updateRedstoneSignal()
@@ -100,14 +102,6 @@ class HealingMachineBlockEntity(
         player.sendMessage(lang("healingmachine.healed").green(), true)
         updateBlockChargeLevel()
         clearData()
-    }
-
-    internal fun clearData() {
-        this.currentUser?.let(alreadyHealing::remove)
-        this.currentUser = null
-        this.pokeBalls.clear()
-        this.healTimeLeft = 0
-        markUpdated()
     }
 
     override fun readNbt(compoundTag: NbtCompound) {
@@ -175,9 +169,14 @@ class HealingMachineBlockEntity(
         return super.createNbtWithIdentifyingData()
     }
 
-    private fun markUpdated() {
-        this.markDirty()
-        world!!.updateListeners(pos, this.cachedState, this.cachedState, 3)
+    override fun markRemoved() {
+        this.snapshotAndClearData()
+        super.markRemoved()
+    }
+
+    override fun cancelRemoval() {
+        this.restoreSnapshot()
+        super.cancelRemoval()
     }
 
     private fun updateRedstoneSignal() {
@@ -202,6 +201,42 @@ class HealingMachineBlockEntity(
             }
         }
     }
+
+    private fun markUpdated() {
+        this.markDirty()
+        world!!.updateListeners(pos, this.cachedState, this.cachedState, 3)
+    }
+
+    private fun snapshotAndClearData() {
+        this.dataSnapshot = DataSnapshot(
+            this.currentUser,
+            this.pokeBalls,
+            this.healTimeLeft
+        )
+        this.clearData()
+    }
+
+    private fun clearData() {
+        this.currentUser?.let(alreadyHealing::remove)
+        this.currentUser = null
+        this.pokeBalls.clear()
+        this.healTimeLeft = 0
+        markUpdated()
+    }
+
+    private fun restoreSnapshot() {
+        this.dataSnapshot?.let {
+            currentUser = it.currentUser
+            pokeBalls = it.pokeballs
+            healTimeLeft = it.healTimeLeft
+        }
+    }
+
+    private data class DataSnapshot(
+        val currentUser: UUID?,
+        val pokeballs: MutableList<PokeBall>,
+        val healTimeLeft: Int
+    )
 
     companion object {
         private val alreadyHealing = hashSetOf<UUID>()

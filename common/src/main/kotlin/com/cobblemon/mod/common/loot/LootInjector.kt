@@ -45,7 +45,7 @@ object LootInjector {
         }
         val resulting = this.convertToPotentialInjected(id)
         // Defaults to LootTable.EMPTY instead of null
-        if (lootManager.getTable(resulting) != LootTable.EMPTY) {
+        if (lootManager.getLootTable(resulting) != LootTable.EMPTY) {
             provider(this.injectLootPool(resulting))
             return true
         }

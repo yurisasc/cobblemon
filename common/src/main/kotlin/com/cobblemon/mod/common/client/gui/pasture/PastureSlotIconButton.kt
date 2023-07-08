@@ -10,9 +10,9 @@ package com.cobblemon.mod.common.client.gui.pasture
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 class PastureSlotIconButton(
@@ -27,9 +27,9 @@ class PastureSlotIconButton(
         private val baseResource = cobblemonResource("textures/gui/pasture/pasture_slot_icon_move.png")
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
-            matrixStack = matrices,
+            matrixStack = context.matrices,
             x = xPos / SCALE,
             y = yPos / SCALE,
             width = SIZE,

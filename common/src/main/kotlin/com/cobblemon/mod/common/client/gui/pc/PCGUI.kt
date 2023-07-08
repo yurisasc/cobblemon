@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
@@ -109,8 +110,9 @@ class PCGUI(
         super.init()
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        renderBackground(matrices)
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        val matrices = context.matrices
+        renderBackground(context)
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
@@ -126,7 +128,7 @@ class PCGUI(
         )
 
         // Render Model Portrait
-        modelWidget?.render(matrices, mouseX, mouseY, delta)
+        modelWidget?.render(context, mouseX, mouseY, delta)
 
         // Render Base Resource
         blitk(
@@ -139,7 +141,7 @@ class PCGUI(
 
         // Render Info Labels
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.info.nature").bold(),
             x = x + 39,
             y = y + 129.5,
@@ -148,7 +150,7 @@ class PCGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.info.ability").bold(),
             x = x + 39,
             y = y + 146.5,
@@ -157,7 +159,7 @@ class PCGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.moves").bold(),
             x = x + 39,
             y = y + 163.5,
@@ -193,7 +195,7 @@ class PCGUI(
                 )
 
                 drawScaledText(
-                    matrixStack = matrices,
+                    context = context,
                     font = CobblemonResources.DEFAULT_LARGE,
                     text = lang("ui.status.$statusName").bold(),
                     x = x + 39,
@@ -203,7 +205,7 @@ class PCGUI(
 
             // Level
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = lang("ui.lv").bold(),
                 x = x + 6,
@@ -212,7 +214,7 @@ class PCGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = pokemon.level.toString().text().bold(),
                 x = x + 19,
@@ -233,7 +235,7 @@ class PCGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = pokemon.getDisplayName().bold(),
                 x = x + 12,
@@ -245,7 +247,7 @@ class PCGUI(
                 val isMale = pokemon.gender == Gender.MALE
                 val textSymbol = if (isMale) "♂".text().bold() else "♀".text().bold()
                 drawScaledText(
-                    matrixStack = matrices,
+                    context = context,
                     font = CobblemonResources.DEFAULT_LARGE,
                     text = textSymbol,
                     x = x + 69, // 64 when tag icon is implemented
@@ -260,12 +262,12 @@ class PCGUI(
             val itemX = x + 3
             val itemY = y + 98
             if (!heldItem.isEmpty) {
-                MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(matrices, heldItem, itemX, itemY)
-                MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(matrices, MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+                context.drawItem(heldItem, itemX, itemY)
+                context.drawItemInSlot(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
             }
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = lang("held_item"),
                 x = x + 27,
                 y = y + 108.5,
@@ -304,11 +306,11 @@ class PCGUI(
                 secondaryOffset = 10F,
                 small = true,
                 centeredX = true
-            ).render(matrices)
+            ).render(context)
 
             // Nature
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.nature.displayName.asTranslated(),
                 x = x + 39,
                 y = y + 137,
@@ -319,7 +321,7 @@ class PCGUI(
 
             // Ability
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.ability.displayName.asTranslated(),
                 x = x + 39,
                 y = y + 154,
@@ -332,7 +334,7 @@ class PCGUI(
             val moves = pokemon.moveSet.getMoves()
             for (i in moves.indices) {
                 drawScaledText(
-                    matrixStack = matrices,
+                    context = context,
                     text = moves[i].displayName,
                     x = x + 39,
                     y = y + 170.5 + (7 * i),
@@ -356,7 +358,7 @@ class PCGUI(
 
         // Box Label
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = Text.translatable("cobblemon.ui.pc.box.title", (this.storageWidget.box + 1).toString()).bold(),
             x = x + 172,
@@ -394,14 +396,14 @@ class PCGUI(
             scale = SCALE
         )
 
-        super.render(matrices, mouseX, mouseY, delta)
+        super.render(context, mouseX, mouseY, delta)
 
         // Item Tooltip
         if (pokemon != null && !pokemon.heldItemNoCopy().isEmpty) {
             val itemX = x + 3
             val itemY = y + 98
             val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) renderTooltip(matrices, pokemon.heldItemNoCopy(), mouseX, mouseY)
+            if (itemHovered) context.drawItemTooltip(MinecraftClient.getInstance().textRenderer, pokemon.heldItemNoCopy(), mouseX, mouseY)
         }
     }
 

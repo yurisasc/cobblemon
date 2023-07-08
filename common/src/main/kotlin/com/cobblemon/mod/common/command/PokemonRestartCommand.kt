@@ -11,11 +11,6 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.storage.party.PartyStore
-import com.cobblemon.mod.common.api.storage.pc.PCPosition
-import com.cobblemon.mod.common.client.CobblemonClient
-import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
-import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
 import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cobblemon.mod.common.net.messages.client.storage.pc.InitializePCPacket
@@ -24,7 +19,6 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.context.CommandContext
-import com.sun.jdi.connect.Connector.BooleanArgument
 import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
@@ -76,7 +70,7 @@ object PokemonRestartCommand {
 
     private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity, resetStarters: Boolean): Int {
         resetPlayerPokemonData(player, resetStarters)
-        context.source.sendFeedback(commandLang(NAME, player.name), true)
+        context.source.sendFeedback({ commandLang(NAME, player.name) }, true)
         return Command.SINGLE_SUCCESS
     }
 

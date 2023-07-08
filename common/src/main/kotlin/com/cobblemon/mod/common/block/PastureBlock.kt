@@ -16,7 +16,6 @@ import com.cobblemon.mod.common.api.pasture.PastureLink
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
 import com.cobblemon.mod.common.api.pasture.PasturePermissionControllers
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
 import com.cobblemon.mod.common.util.isInBattle
 import com.cobblemon.mod.common.util.playSoundServer
@@ -31,8 +30,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.state.StateManager
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
+import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -53,13 +51,13 @@ import net.minecraft.util.BlockRotation
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.explosion.Explosion
 
+@Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterloggable {
     companion object {
-        val PART = EnumProperty.of("part", PasturePart::class.java)
-        val ON = BooleanProperty.of("on")
-        val WATERLOGGED = BooleanProperty.of("waterlogged")
+        val PART: EnumProperty<PasturePart> = EnumProperty.of("part", PasturePart::class.java)
+        val ON: BooleanProperty = BooleanProperty.of("on")
+        val WATERLOGGED: BooleanProperty = BooleanProperty.of("waterlogged")
 
         private val SOUTH_AABB_TOP = buildCollider(top = true, Direction.NORTH)
         private val NORTH_AABB_TOP = buildCollider(top = true, Direction.SOUTH)
@@ -164,8 +162,8 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
 
     private fun isBase(state: BlockState): Boolean = state.get(PART) == PasturePart.BOTTOM
 
-    @Deprecated("Deprecated in Java")
     override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType) = false
+
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
         builder.add(PART)
@@ -277,16 +275,12 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun rotate(blockState: BlockState, rotation: BlockRotation) =
-        blockState.with(HorizontalFacingBlock.FACING, rotation.rotate(blockState.get(HorizontalFacingBlock.FACING)))
+    override fun rotate(blockState: BlockState, rotation: BlockRotation): BlockState = blockState.with(HorizontalFacingBlock.FACING, rotation.rotate(blockState.get(HorizontalFacingBlock.FACING)))
 
-    @Deprecated("Deprecated in Java")
     override fun mirror(blockState: BlockState, mirror: BlockMirror): BlockState {
         return blockState.rotate(mirror.getRotation(blockState.get(HorizontalFacingBlock.FACING)))
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos?, newState: BlockState, moved: Boolean) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
@@ -310,4 +304,5 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
         }
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
+
 }

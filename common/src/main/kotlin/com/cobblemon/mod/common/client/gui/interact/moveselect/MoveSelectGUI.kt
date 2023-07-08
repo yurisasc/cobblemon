@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
@@ -62,12 +63,12 @@ class MoveSelectGUI(
         super.init()
     }
 
-    override fun render(matrixStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         val x = (width - WIDTH) / 2
         val y = (height - HEIGHT) / 2
 
         blitk(
-            matrixStack = matrixStack,
+            matrixStack = context.matrices,
             texture = baseBackgroundResource,
             x = x,
             y = y,
@@ -76,7 +77,7 @@ class MoveSelectGUI(
         )
 
         // Render all added Widgets
-        super.render(matrixStack, mouseX, mouseY, partialTicks)
+        super.render(context, mouseX, mouseY, partialTicks)
     }
 
     private fun onPress(move: Move) {

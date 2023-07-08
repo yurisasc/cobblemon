@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -69,9 +70,9 @@ class PartySlotWidget(
         return 0
     }
 
-    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-
+        val matrices = context.matrices
         val isDraggedSlot = partyWidget.swapEnabled && partyWidget.swapSource == index
         val slotPokemon = if (isDraggedSlot) null else pokemon
         val isSelected = this.isClientPartyMember && this.summary.selectedPokemon.uuid == slotPokemon?.uuid
@@ -163,7 +164,7 @@ class PartySlotWidget(
             matrices.pop()
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = slotPokemon.getDisplayName(),
                 x = x + 4,
                 y = y + 20,
@@ -183,7 +184,7 @@ class PartySlotWidget(
             }
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = lang("ui.lv.number", slotPokemon.level),
                 x = x + 31,
                 y = y + 13,
