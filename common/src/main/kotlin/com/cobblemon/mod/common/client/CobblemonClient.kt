@@ -39,6 +39,7 @@ import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -165,11 +166,11 @@ object CobblemonClient {
         )
     }
 
-    fun beforeChatRender(matrixStack: MatrixStack, partialDeltaTicks: Float) {
+    fun beforeChatRender(context: DrawContext, partialDeltaTicks: Float) {
         if (battle == null) {
-            overlay.render(matrixStack, partialDeltaTicks)
+            overlay.render(context, partialDeltaTicks)
         } else {
-            battleOverlay.render(matrixStack, partialDeltaTicks)
+            battleOverlay.render(context, partialDeltaTicks)
         }
     }
 

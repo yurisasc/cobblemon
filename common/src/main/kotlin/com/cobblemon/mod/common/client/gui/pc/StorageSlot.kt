@@ -18,8 +18,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -47,16 +47,16 @@ open class StorageSlot(
     override fun playDownSound(soundManager: SoundManager) {
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (shouldRender()) {
-            renderSlot(matrices, x, y)
+            renderSlot(context, x, y)
         }
     }
 
-    fun renderSlot(matrices: MatrixStack, posX: Int, posY: Int) {
+    fun renderSlot(context: DrawContext, posX: Int, posY: Int) {
         val pokemon = getPokemon() ?: return
-
-        DrawableHelper.enableScissor(
+        val matrices = context.matrices
+        context.enableScissor(
             posX - 2,
             posY + 2,
             posX + SIZE + 4,
@@ -76,14 +76,14 @@ open class StorageSlot(
         )
         matrices.pop()
 
-        DrawableHelper.disableScissor()
+        context.disableScissor()
 
         // Ensure elements are not hidden behind Pokémon render
         matrices.push()
         matrices.translate(0.0, 0.0, 100.0)
         // Level
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.lv.number", pokemon.level),
             x = posX + 1,
             y = posY + 1,

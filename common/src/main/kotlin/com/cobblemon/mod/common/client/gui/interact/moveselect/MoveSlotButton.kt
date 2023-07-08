@@ -21,8 +21,8 @@ import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper
 
@@ -41,14 +41,14 @@ class MoveSlotButton(
         const val HEIGHT = 22
     }
 
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun render(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
 
         val moveTemplate = Moves.getByNameOrDummy(move.name)
         val rgb = moveTemplate.elementalType.hue.toRGB()
-
+        val matrices = context.matrices
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = moveResource,
             x = x,
             y = y,
@@ -62,7 +62,7 @@ class MoveSlotButton(
         )
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = moveOverlayResource,
             x = x,
             y = y,
@@ -77,7 +77,7 @@ class MoveSlotButton(
         }
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = movePPText,
             x = x + 93,
@@ -90,18 +90,18 @@ class MoveSlotButton(
             x = x + 2,
             y = y + 2,
             type = moveTemplate.elementalType
-        ).render(pMatrixStack)
+        ).render(context)
 
         // Move Category
         MoveCategoryIcon(
             x = x + 66,
             y = y + 13.5,
             category = move.damageCategory
-        ).render(pMatrixStack)
+        ).render(context)
 
         // Move Name
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = move.displayName.bold(),
             x = x + 28,

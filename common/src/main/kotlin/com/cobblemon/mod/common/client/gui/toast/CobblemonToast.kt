@@ -9,13 +9,11 @@
 package com.cobblemon.mod.common.client.gui.toast
 
 import com.cobblemon.mod.common.net.messages.client.toast.ToastPacket
-import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.toast.Toast
 import net.minecraft.client.toast.ToastManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -40,16 +38,16 @@ class CobblemonToast(
     private var lastTime = 0L
     internal var nextVisibility: Toast.Visibility = Toast.Visibility.SHOW
 
-    override fun draw(matrices: MatrixStack, manager: ToastManager, startTime: Long): Toast.Visibility {
-        RenderSystem.setShaderTexture(0, this.frameTexture)
-        DrawableHelper.drawTexture(matrices, 0, 0, 0, 32, this.width, this.height)
-        manager.client.textRenderer.draw(matrices, this.title, 30F, 7F, this.title.style.color?.rgb ?: -1)
-        manager.client.textRenderer.draw(matrices, this.description, 30F, 18F, this.description.style.color?.rgb ?: -1)
-        manager.client.itemRenderer.renderInGui(matrices, this.icon, 8, 8)
+    override fun draw(context: DrawContext, manager: ToastManager, startTime: Long): Toast.Visibility {
+        context.drawTexture(this.frameTexture, 0, 0, 0, 32, this.width, this.height)
+        val textRenderer = manager.client.textRenderer
+        context.drawText(textRenderer, this.title, 30, 7, this.title.style.color?.rgb ?: -1, false)
+        context.drawText(textRenderer, this.description, 30, 18, this.description.style.color?.rgb ?: -1, false)
+        context.drawItemWithoutEntity(this.icon, 8, 8)
         if (this.hasProgressBar()) {
-            DrawableHelper.fill(matrices, 3, 28, 157, 29, -1)
+            context.fill(3, 28, 157, 29, -1)
             val f = MathHelper.clampedLerp(this.lastProgress, this.progress, (startTime - this.lastTime).toFloat() / 100F)
-            DrawableHelper.fill(matrices, 3, 28, (3F + 154F * f).toInt(), 29, this.progressColor)
+            context.fill(3, 28, (3F + 154F * f).toInt(), 29, this.progressColor)
             this.lastProgress = f
         }
         this.lastTime = startTime

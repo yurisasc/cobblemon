@@ -43,8 +43,8 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
-import net.minecraft.world.explosion.Explosion
 
+@Suppress("DEPRECATED", "OVERRIDE_DEPRECATION")
 class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     companion object {
         private val NORTH_SOUTH_AABB = VoxelShapes.union(
@@ -93,7 +93,6 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         return this.defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
     }
 
-    @Deprecated("Deprecated in Java")
     override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType): Boolean {
         return false
     }
@@ -103,22 +102,19 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         builder.add(*arrayOf<Property<*>>(CHARGE_LEVEL))
     }
 
-    @Deprecated("Deprecated in Java")
     override fun rotate(blockState: BlockState, rotation: BlockRotation): BlockState {
         return blockState.with(HorizontalFacingBlock.FACING, rotation.rotate(blockState.get(HorizontalFacingBlock.FACING)))
     }
 
-    @Deprecated("Deprecated in Java")
     override fun mirror(blockState: BlockState, mirror: BlockMirror): BlockState {
         return blockState.rotate(mirror.getRotation(blockState.get(HorizontalFacingBlock.FACING)))
     }
 
-    @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos?, newState: BlockState, moved: Boolean) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onUse(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, interactionHand: Hand, blockHitResult: BlockHitResult): ActionResult {
         if (world.isClient || interactionHand == Hand.OFF_HAND) {
             return ActionResult.SUCCESS
@@ -178,16 +174,6 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         }
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
-        this.handleBreak(world, pos)
-        super.onBreak(world, pos, state, player)
-    }
-
-    override fun onDestroyedByExplosion(world: World, pos: BlockPos, explosion: Explosion) {
-        this.handleBreak(world, pos)
-        super.onDestroyedByExplosion(world, pos, explosion)
-    }
-
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity !is HealingMachineBlockEntity) return
@@ -200,15 +186,12 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         }
     }
 
-    @Deprecated("Deprecated in Java")
     override fun hasComparatorOutput(state: BlockState) = true
 
-    @Deprecated("Deprecated in Java")
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int = (world.getBlockEntity(pos) as? HealingMachineBlockEntity)?.currentSignal ?: 0
 
     override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = checkType(blockWithEntityType, CobblemonBlockEntities.HEALING_MACHINE, HealingMachineBlockEntity.TICKER::tick)
 
-    @Deprecated("Deprecated in Java")
     override fun getRenderType(blockState: BlockState): BlockRenderType {
         return BlockRenderType.MODEL
     }
@@ -216,13 +199,6 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     override fun appendTooltip(stack: ItemStack?, world: BlockView?, tooltip: MutableList<Text>, options: TooltipContext?) {
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip1".asTranslated().gray())
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip2".asTranslated().gray())
-    }
-
-    private fun handleBreak(world: World, pos: BlockPos) {
-        val blockEntity = world.getBlockEntity(pos)
-        if (blockEntity is HealingMachineBlockEntity) {
-            blockEntity.clearData()
-        }
     }
 
 }

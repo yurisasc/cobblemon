@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.gui.pasture
 
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.reactive.Observable.Companion.emitWhile
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
@@ -23,12 +22,9 @@ import com.cobblemon.mod.common.net.messages.server.pasture.UnpasturePokemonPack
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import com.mojang.authlib.GameProfileRepository
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.server.MinecraftServer
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -81,22 +77,22 @@ class PasturePokemonScrollList(
     public override fun addEntry(entry: PastureSlot) = super.addEntry(entry)
     public override fun removeEntry(entry: PastureSlot) = super.removeEntry(entry)
 
-    override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
 
-        DrawableHelper.enableScissor(
+        context.enableScissor(
             left,
             top + 1,
             left + width,
             top + 1 + height
         )
 
-        super.render(poseStack, mouseX, mouseY, partialTicks)
-        DrawableHelper.disableScissor()
+        super.render(context, mouseX, mouseY, partialTicks)
+        context.disableScissor()
 
         // Scroll Overlay
         blitk(
-            matrixStack = poseStack,
+            matrixStack = context.matrices,
             texture = scrollOverlayResource,
             x = left,
             y = top - 12,
@@ -107,7 +103,7 @@ class PasturePokemonScrollList(
         val config = parent.pasturePCGUIConfiguration
 
         drawScaledText(
-            matrixStack = poseStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = "${children().count { it.isOwned() }}/${config.permissions.maxPokemon.takeIf { it >= 0 } ?: config.limit }".text().bold(),
             x = x + (WIDTH / 2),
@@ -172,7 +168,7 @@ class PasturePokemonScrollList(
         override fun getNarration() = pokemon.displayName
 
         override fun render(
-            poseStack: MatrixStack,
+            context: DrawContext,
             index: Int,
             rowTop: Int,
             rowLeft: Int,
@@ -185,9 +181,9 @@ class PasturePokemonScrollList(
         ) {
             val x = rowLeft - 4
             val y = rowTop
-
+            val matrixStack = context.matrices
             blitk(
-                matrixStack = poseStack,
+                matrixStack = matrixStack,
                 texture = slotResource,
                 x = x,
                 y = y,
@@ -198,18 +194,18 @@ class PasturePokemonScrollList(
             )
 
             // Render Pokémon
-            poseStack.push()
-            poseStack.translate(x + 11 + (StorageSlot.SIZE / 2.0), y - 5.0, 0.0)
-            poseStack.scale(2.5F, 2.5F, 1F)
+            matrixStack.push()
+            matrixStack.translate(x + 11 + (StorageSlot.SIZE / 2.0), y - 5.0, 0.0)
+            matrixStack.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
                 species = pokemon.species,
                 aspects = pokemon.aspects,
-                matrixStack = poseStack,
+                matrixStack = matrixStack,
                 rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
                 state = null,
                 scale = 4.5F
             )
-            poseStack.pop()
+            matrixStack.pop()
 
             val heldItem = pokemon.heldItem
             if (!heldItem.isEmpty) {
@@ -218,12 +214,12 @@ class PasturePokemonScrollList(
                     x = x + 23.5,
                     y = y + 9.0,
                     scale = 0.5,
-                    matrixStack = poseStack
+                    matrixStack = matrixStack
                 )
             }
 
             drawScaledText(
-                matrixStack = poseStack,
+                context = context,
                 text = lang("ui.lv.number", pokemon.level),
                 x = x + 46,
                 y = y + 13,
@@ -232,7 +228,7 @@ class PasturePokemonScrollList(
             )
 
             drawScaledText(
-                matrixStack = poseStack,
+                context = context,
                 text = pokemon.displayName.copy(),
                 x = x + 11,
                 y = y + 20,
@@ -242,7 +238,7 @@ class PasturePokemonScrollList(
 
             if ("male" in pokemon.aspects || "female" in pokemon.aspects) {
                 blitk(
-                    matrixStack = poseStack,
+                    matrixStack = matrixStack,
                     texture = if ("male" in pokemon.aspects) PartySlotWidget.genderIconMale else PartySlotWidget.genderIconFemale,
                     x = (x + 56.5) / SCALE,
                     y = (y + 20) / SCALE,
@@ -254,7 +250,7 @@ class PasturePokemonScrollList(
 
             if (canUnpasture()) {
                 moveButton.setPos(x + 2, y + 9)
-                moveButton.render(poseStack, mouseX, mouseY, partialTicks)
+                moveButton.render(context, mouseX, mouseY, partialTicks)
             }
         }
 

@@ -16,5 +16,6 @@
     "picked_starter": {
       "trigger": "cobblemon:pick_starter"
     }
-  }
+  },
+  "sends_telemetry_event": false
 }

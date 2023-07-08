@@ -9,8 +9,8 @@
 package com.cobblemon.mod.fabric.mixin;
 
 import com.cobblemon.mod.common.client.CobblemonClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -36,11 +36,11 @@ public class GuiMixin {
             slice = @Slice(
                 from = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/hud/InGameHud;renderScoreboardSidebar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/scoreboard/ScoreboardObjective;)V"
+                    target = "Lnet/minecraft/client/gui/hud/InGameHud;renderScoreboardSidebar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/scoreboard/ScoreboardObjective;)V"
                 )
             )
     )
-    private void beforeChatHook(MatrixStack poseStack, float f, CallbackInfo ci) {
-        CobblemonClient.INSTANCE.beforeChatRender(poseStack, f);
+    private void beforeChatHook(DrawContext context, float f, CallbackInfo ci) {
+        CobblemonClient.INSTANCE.beforeChatRender(context, f);
     }
 }
