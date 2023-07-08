@@ -10,7 +10,7 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.block.*
-import com.cobblemon.mod.common.block.PastureBlock
+import com.cobblemon.mod.common.block.MintBlock.MintType
 import com.cobblemon.mod.common.mixin.invoker.ButtonBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker
