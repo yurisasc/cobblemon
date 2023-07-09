@@ -29,37 +29,39 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
     private val playerCache = hashMapOf<UUID, ShoulderCache>()
 
     override fun render(
-        pMatrixStack: MatrixStack,
-        pBuffer: VertexConsumerProvider,
-        pPackedLight: Int,
-        pLivingEntity: T,
-        pLimbSwing: Float,
-        pLimbSwingAmount: Float,
-        pPartialTicks: Float,
-        pAgeInTicks: Float,
-        pNetHeadYaw: Float,
-        pHeadPitch: Float
+        matrixStack: MatrixStack,
+        buffer: VertexConsumerProvider,
+        packedLight: Int,
+        livingEntity: T,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        partialTicks: Float,
+        ageInTicks: Float,
+        netHeadYaw: Float,
+        headPitch: Float
     ) {
-        this.render(pMatrixStack, pBuffer, pPackedLight, pLivingEntity, pLimbSwing, pLimbSwingAmount, pNetHeadYaw, pHeadPitch, true)
-        this.render(pMatrixStack, pBuffer, pPackedLight, pLivingEntity, pLimbSwing, pLimbSwingAmount, pNetHeadYaw, pHeadPitch, false)
+        this.render(matrixStack, buffer, packedLight, livingEntity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, true)
+        this.render(matrixStack, buffer, packedLight, livingEntity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, false)
     }
 
     private fun render(
-        pMatrixStack: MatrixStack,
-        pBuffer: VertexConsumerProvider,
-        pPackedLight: Int,
-        pLivingEntity: T,
-        pLimbSwing: Float,
-        pLimbSwingAmount: Float,
-        pNetHeadYaw: Float,
-        pHeadPitch: Float,
+        matrixStack: MatrixStack,
+        buffer: VertexConsumerProvider,
+        packedLight: Int,
+        livingEntity: T,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        partialTicks: Float,
+        ageInTicks: Float,
+        netHeadYaw: Float,
+        headPitch: Float,
         pLeftShoulder: Boolean
     ) {
-        val compoundTag = if (pLeftShoulder) pLivingEntity.shoulderEntityLeft else pLivingEntity.shoulderEntityRight
+        val compoundTag = if (pLeftShoulder) livingEntity.shoulderEntityLeft else livingEntity.shoulderEntityRight
         if (compoundTag.isPokemonEntity()) {
-            pMatrixStack.push()
+            matrixStack.push()
             val uuid = compoundTag.getCompound(DataKeys.POKEMON).getUuid(DataKeys.POKEMON_UUID)
-            val cache = this.playerCache.getOrPut(pLivingEntity.uuid) { ShoulderCache() }
+            val cache = this.playerCache.getOrPut(livingEntity.uuid) { ShoulderCache() }
             val pokemon: Pokemon
             if (pLeftShoulder && cache.lastKnownLeft?.uuid != uuid) {
                 pokemon = Pokemon().also { it.isClient = true }.loadFromNBT(compoundTag.getCompound(DataKeys.POKEMON))
@@ -76,17 +78,17 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             val scale = pokemon.form.baseScale * pokemon.scaleModifier
             val width = pokemon.form.hitbox.width
             val offset = width / 2 - 0.7
-            pMatrixStack.translate(
+            matrixStack.translate(
                 if (pLeftShoulder) -offset else offset,
-                (if (pLivingEntity.isSneaking) -1.3 else -1.5) * scale,
+                (if (livingEntity.isSneaking) -1.3 else -1.5) * scale,
                 0.0
             )
-            pMatrixStack.scale(scale, scale, scale)
+            matrixStack.scale(scale, scale, scale)
             val model = PokemonModelRepository.getPoser(pokemon.species.resourceIdentifier, pokemon.aspects)
             val state = PokemonFloatingState()
-            state.animationSeconds = pLivingEntity.age.toFloat() / 20F
-            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(pokemon.species.resourceIdentifier, pokemon.aspects, state)))
-            val i = LivingEntityRenderer.getOverlay(pLivingEntity, 0.0f)
+            state.updatePartialTicks(livingEntity.age.toFloat() * 20 + partialTicks)
+            val vertexConsumer = buffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(pokemon.species.resourceIdentifier, pokemon.aspects, state)))
+            val i = LivingEntityRenderer.getOverlay(livingEntity, 0.0f)
 
             val pose = model.poses.values
                 .firstOrNull { (if (pLeftShoulder) PoseType.SHOULDER_LEFT else PoseType.SHOULDER_RIGHT) in it.poseTypes  }
@@ -96,17 +98,17 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             model.setupAnimStateful(
                 entity = null,
                 state = state,
-                headYaw = pNetHeadYaw,
-                headPitch = pHeadPitch,
-                limbSwing = pLimbSwing,
-                limbSwingAmount = pLimbSwingAmount,
-                ageInTicks = pLivingEntity.age.toFloat()
+                headYaw = netHeadYaw,
+                headPitch = headPitch,
+                limbSwing = limbSwing,
+                limbSwingAmount = limbSwingAmount,
+                ageInTicks = livingEntity.age.toFloat()
             )
-            model.render(pMatrixStack, vertexConsumer, pPackedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)
-            model.withLayerContext(pBuffer, state, PokemonModelRepository.getLayers(pokemon.species.resourceIdentifier, pokemon.aspects)) {
-                model.render(pMatrixStack, vertexConsumer, pPackedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+            model.render(matrixStack, vertexConsumer, packedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)
+            model.withLayerContext(buffer, state, PokemonModelRepository.getLayers(pokemon.species.resourceIdentifier, pokemon.aspects)) {
+                model.render(matrixStack, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
             }
-            pMatrixStack.pop();
+            matrixStack.pop();
         }
     }
 

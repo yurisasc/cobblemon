@@ -40,7 +40,8 @@ class ModelWidget(
             renderablePokemon = pokemon,
             matrixStack = matrices,
             rotation = Quaternionf().fromEulerXYZDegrees(rotVec),
-            state = state
+            state = state,
+            partialTicks = delta
         )
 
         matrices.pop()

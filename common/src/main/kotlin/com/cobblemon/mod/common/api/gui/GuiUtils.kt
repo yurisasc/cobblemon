@@ -175,7 +175,8 @@ fun drawPortraitPokemon(
     matrixStack: MatrixStack,
     scale: Float = 13F,
     reversed: Boolean = false,
-    state: PoseableEntityState<PokemonEntity>? = null
+    state: PoseableEntityState<PokemonEntity>? = null,
+    partialTicks: Float
 ) {
     val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
     val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state)
@@ -191,6 +192,7 @@ fun drawPortraitPokemon(
     } else {
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
+        state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     }
 

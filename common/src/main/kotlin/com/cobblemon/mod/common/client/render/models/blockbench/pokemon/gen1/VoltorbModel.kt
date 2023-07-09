@@ -43,7 +43,7 @@ class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            onTransitionedInto = { it?.animationSeconds = 0F },
+            onTransitionedInto = { it?.reset() },
             transformTicks = 0,
             idleAnimations = arrayOf(
                 bedrock("voltorb", "ground_walk")
