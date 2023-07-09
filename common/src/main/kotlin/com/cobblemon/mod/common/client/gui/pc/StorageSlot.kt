@@ -18,11 +18,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -153,6 +152,7 @@ open class StorageSlot(
                 && pokemon.tetheringId == null
                 && isStationary()
                 && config.permissions.canPasture
+                && config.canSelect(pokemon)
                 && config.pasturedPokemon.get().size < config.limit
                 && config.pasturedPokemon.get().count { it.playerId == MinecraftClient.getInstance().player!!.uuid } < config.permissions.maxPokemon
             ) {

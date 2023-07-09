@@ -103,20 +103,16 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
 
     fun getMaxTethered() = Cobblemon.config.defaultPasturedPokemonLimit
 
-    fun canAddPokemon(player: ServerPlayerEntity, maxPerPlayer: Int): Boolean {
+    fun canAddPokemon(player: ServerPlayerEntity, pokemon: Pokemon, maxPerPlayer: Int): Boolean {
         val forThisPlayer = tetheredPokemon.count { it.playerId == player.uuid }
-        if (forThisPlayer >= maxPerPlayer) {
-            // Shouldn't be possible, client should've prevented it
-            return false
-        } else if (tetheredPokemon.size >= getMaxTethered()) {
-            // As above
+        // Shouldn't be possible, client should've prevented it
+        if (forThisPlayer >= maxPerPlayer || tetheredPokemon.size >= getMaxTethered() || pokemon.isFainted()) {
             return false
         }
-
         val radius = Cobblemon.config.pastureMaxWanderDistance.toDouble()
         val bottom = pos.toVec3d().multiply(1.0, 0.0, 1.0)
 
-        val pokemonWithinPastureWander = player.getWorld().getEntitiesByClass(PokemonEntity::class.java, Box.of(bottom, radius, 99999.0, radius)) { true }.count()
+        val pokemonWithinPastureWander = player.world.getEntitiesByClass(PokemonEntity::class.java, Box.of(bottom, radius, 99999.0, radius)) { true }.count()
         val chunkDiameter = (radius / 16) * 2 // Diameter
         if (pokemonWithinPastureWander >= Cobblemon.config.pastureMaxPerChunk * chunkDiameter * chunkDiameter) {
             player.sendPacket(ClosePasturePacket())
@@ -339,6 +335,6 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         nbt.put(DataKeys.TETHER_MIN_ROAM_POS, NbtHelper.fromBlockPos(minRoamPos))
         nbt.put(DataKeys.TETHER_MAX_ROAM_POS, NbtHelper.fromBlockPos(maxRoamPos))
         ownerId?.let { nbt.putUuid(DataKeys.TETHER_OWNER_ID, it) }
-        ownerName?.let { nbt.putString(DataKeys.TETHER_OWNER_NAME, it) }
+        nbt.putString(DataKeys.TETHER_OWNER_NAME, this.ownerName)
     }
 }
