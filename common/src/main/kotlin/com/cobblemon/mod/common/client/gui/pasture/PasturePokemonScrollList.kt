@@ -203,6 +203,7 @@ class PasturePokemonScrollList(
                 matrixStack = matrixStack,
                 rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
                 state = null,
+                partialTicks = partialTicks,
                 scale = 4.5F
             )
             matrixStack.pop()

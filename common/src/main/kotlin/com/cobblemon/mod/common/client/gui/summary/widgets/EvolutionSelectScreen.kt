@@ -140,7 +140,8 @@ class EvolutionSelectScreen(
                 matrixStack = matrices,
                 rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
                 state = null,
-                scale = 6F
+                scale = 6F,
+                partialTicks = partialTicks
             )
             matrices.pop()
         }

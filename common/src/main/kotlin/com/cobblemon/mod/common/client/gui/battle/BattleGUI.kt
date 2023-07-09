@@ -145,7 +145,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     }
 
     override fun charTyped(chr: Char, modifiers: Int): Boolean {
-        if (chr.toString() == PartySendBinding.boundKey().localizedText.string && CobblemonClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY && PartySendBinding.canAction()) {
+        if (chr.toString().equals(PartySendBinding.boundKey().localizedText.string, ignoreCase = true) && CobblemonClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY && PartySendBinding.canAction()) {
             val battle = CobblemonClient.battle ?: return false
             battle.minimised = !battle.minimised
             PartySendBinding.actioned()

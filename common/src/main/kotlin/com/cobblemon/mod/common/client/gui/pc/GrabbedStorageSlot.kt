@@ -19,18 +19,10 @@ class GrabbedStorageSlot(
 ) : StorageSlot(x, y, parent, {}) {
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        renderSlot(context, mouseX - (width / 2), mouseY - (height / 2))
+        renderSlot(context = context, posX = mouseX - (width / 2), posY = mouseY - (height / 2), partialTicks = delta)
     }
 
-    override fun isStationary(): Boolean {
-        return false
-    }
-
-    override fun getPokemon(): Pokemon? {
-        return pokemon
-    }
-
-    override fun isSelected(): Boolean {
-        return true
-    }
+    override fun isStationary() = false
+    override fun getPokemon() = pokemon
+    override fun isSelected() = true
 }

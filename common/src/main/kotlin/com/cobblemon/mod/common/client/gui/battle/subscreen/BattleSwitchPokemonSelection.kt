@@ -72,7 +72,8 @@ class BattleSwitchPokemonSelection(
                 isFlatHealth = true,
                 state = null,
                 colour = null,
-                opacity = selection.opacity
+                opacity = selection.opacity,
+                partialTicks = deltaTicks
             )
         }
     }

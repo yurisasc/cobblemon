@@ -48,11 +48,11 @@ open class StorageSlot(
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (shouldRender()) {
-            renderSlot(context, x, y)
+            renderSlot(context, x, y, delta)
         }
     }
 
-    fun renderSlot(context: DrawContext, posX: Int, posY: Int) {
+    fun renderSlot(context: DrawContext, posX: Int, posY: Int, partialTicks: Float) {
         val pokemon = getPokemon() ?: return
         val matrices = context.matrices
         context.enableScissor(
@@ -71,6 +71,7 @@ open class StorageSlot(
             matrixStack = matrices,
             rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
             state = null,
+            partialTicks = partialTicks,
             scale = 4.5F
         )
         matrices.pop()

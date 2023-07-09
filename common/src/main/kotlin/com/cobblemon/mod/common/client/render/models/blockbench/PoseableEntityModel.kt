@@ -256,11 +256,10 @@ abstract class PoseableEntityModel<T : Entity>(
             alpha * a
         )
 
-        val animationSeconds = currentState?.animationSeconds ?: 0F
         val provider = bufferProvider
         if (provider != null) {
             for (layer in currentLayers) {
-                val texture = layer.texture?.invoke(animationSeconds) ?: continue
+                val texture = layer.texture?.invoke(currentState?.animationSeconds ?: 0F) ?: continue
                 val renderLayer = getLayer(texture, layer.emissive, layer.translucent)
                 val consumer = provider.getBuffer(renderLayer)
                 stack.push()

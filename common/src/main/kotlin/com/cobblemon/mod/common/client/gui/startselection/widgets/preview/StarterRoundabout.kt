@@ -70,7 +70,8 @@ class StarterRoundabout(
             matrixStack = matrices,
             rotation = Quaternionf().fromEulerXYZDegrees(rotationVector),
             state = null,
-            scale = 18F
+            scale = 18F,
+            partialTicks = delta
         )
 
         context.disableScissor()

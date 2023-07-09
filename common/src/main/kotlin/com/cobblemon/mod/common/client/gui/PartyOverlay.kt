@@ -160,7 +160,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                     0.0
                 )
 
-                drawPortraitPokemon(pokemon.species, pokemon.aspects, matrices)
+                drawPortraitPokemon(pokemon.species, pokemon.aspects, matrices, partialTicks = partialDeltaTicks)
                 matrices.pop()
                 context.disableScissor()
             }
