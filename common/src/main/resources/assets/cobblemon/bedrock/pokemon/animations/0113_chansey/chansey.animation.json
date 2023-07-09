@@ -7,20 +7,20 @@
 				"righthand": {
 					"rotation": [0, -30, 10]
 				},
-				"lefthand": {
-					"rotation": [0, 30, -10]
+				"hand_left": {
+					"rotation": [0, 35, -15]
 				},
 				"tail": {
 					"rotation": [30, 0, 0]
 				},
-				"lefthair": {
-					"rotation": [0, 0, 30]
+				"hair_left1": {
+					"rotation": [0, 12.5, 32.5]
 				},
-				"lefthair2": {
-					"rotation": [0, 0, 25]
+				"hair_left2": {
+					"rotation": [0, 0, 22.5]
 				},
-				"lefthair3": {
-					"rotation": [0, 0, 30]
+				"hair_left3": {
+					"rotation": [0, -12.5, 12.5]
 				},
 				"righthair": {
 					"rotation": [0, 0, -30]
@@ -30,6 +30,21 @@
 				},
 				"righthair3": {
 					"rotation": [0, 0, -30]
+				},
+				"hair_right1": {
+					"rotation": [0, -12.5, -32.5]
+				},
+				"hair_right2": {
+					"rotation": [0, 0, -22.5]
+				},
+				"hair_right3": {
+					"rotation": [0, 12.5, -12.5]
+				},
+				"hand_right": {
+					"rotation": [0, -35, 15]
+				},
+				"tail2": {
+					"rotation": [27.5, 0, 0]
 				}
 			}
 		},

@@ -83,6 +83,7 @@ class BreloomModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                bedrock("breloom", "ground_idle"),
                 bedrock("breloom", "ground_walk")
             )
         )

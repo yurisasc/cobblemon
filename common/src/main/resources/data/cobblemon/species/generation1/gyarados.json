@@ -80,6 +80,9 @@
         "canWalk": true,
         "avoidsLand": true
       },
+      "fly": {
+        "canFly": true
+      },
       "swim": {
         "swimSpeed": 0.1,
         "canSwimInWater": true,

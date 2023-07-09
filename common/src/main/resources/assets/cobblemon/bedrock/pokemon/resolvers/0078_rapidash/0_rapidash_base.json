@@ -9,7 +9,7 @@
       "texture": "cobblemon:textures/pokemon/0078_rapidash/rapidash.png",
       "layers": [
         {
-          "name": "fire",
+          "name": "emissive",
           "texture": "cobblemon:textures/pokemon/0078_rapidash/rapidash_emissive.png",
           "emissive": "true"
         }
@@ -22,7 +22,7 @@
       "texture": "cobblemon:textures/pokemon/0078_rapidash/rapidash_shiny.png",
       "layers": [
         {
-          "name": "fire",
+          "name": "emissive",
           "texture": "cobblemon:textures/pokemon/0078_rapidash/rapidash_shiny_emissive.png",
           "emissive": "true"
         }

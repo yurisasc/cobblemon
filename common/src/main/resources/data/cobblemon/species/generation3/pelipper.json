@@ -31,6 +31,11 @@
     "moving": {
       "fly": {
         "canFly": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
       }
     },
     "resting": {

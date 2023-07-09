@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -16,8 +18,10 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HappinyModel(root: ModelPart) : PokemonPoseableModel() {
+class HappinyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("happiny")
+    override val leftLeg = getPart("leftfoot")
+    override val rightLeg = getPart("rightfoot")
 
     override val portraitScale = 2.3F
     override val portraitTranslation = Vec3d(0.0, -1.3, 0.0)

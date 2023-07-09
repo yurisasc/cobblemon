@@ -496,6 +496,11 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("grafaiai", ::GrafaiaiModel)
         inbuilt("squawkabilly", ::SquawkabillyModel)
         inbuilt("annihilape", ::AnnihilapeModel)
+        inbuilt("ponyta_galarian", ::PonytaGalarianModel)
+        inbuilt("rapidash_galarian", ::RapidashGalarianModel)
+        inbuilt("volbeat", ::VolbeatModel)
+        inbuilt("illumise", ::IllumiseModel)
+
 
 
         // Unhooked because the families are not completed

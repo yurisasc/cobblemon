@@ -1,0 +1,195 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.illumise.ground_idle": {
+			"loop": true,
+			"bones": {
+				"left_arm": {
+					"rotation": [0, 0, 17.5]
+				},
+				"left_wing": {
+					"rotation": [0, 0, -15]
+				},
+				"right_wing": {
+					"rotation": [0, 0, 15]
+				},
+				"left_shoulder_ring": {
+					"rotation": [0, 0, 5]
+				},
+				"left_thigh_ring": {
+					"rotation": [0, 0, 0]
+				},
+				"right_shoulder_ring": {
+					"rotation": [0, 0, -5]
+				},
+				"right_arm": {
+					"rotation": [0, 0, -17.5]
+				},
+				"left_antenna2": {
+					"rotation": [-25, 0, 0]
+				},
+				"right_antenna2": {
+					"rotation": [-25, 0, 0]
+				}
+			}
+		},
+		"animation.illumise.air_idle": {
+			"loop": true,
+			"bones": {
+				"head": {
+					"rotation": [5, 0, 0]
+				},
+				"torso": {
+					"rotation": [-2.5, 0, 0]
+				},
+				"butt_lights": {
+					"rotation": [-7.5, 0, 0]
+				},
+				"left_wing": {
+					"rotation": [35.34506, -5.83184, -5.29503]
+				},
+				"right_wing": {
+					"rotation": [35.34506, 5.83184, 5.29503]
+				},
+				"left_shoulder_ring": {
+					"rotation": [0, 2.5, 5]
+				},
+				"left_arm": {
+					"rotation": [0, 7.5, 17.5]
+				},
+				"right_shoulder_ring": {
+					"rotation": [0, -2.5, -5]
+				},
+				"right_arm": {
+					"rotation": [0, -7.5, -17.5]
+				},
+				"left_thigh_ring": {
+					"rotation": [-9.96316, 0.86024, 4.88502]
+				},
+				"left_leg": {
+					"rotation": [-5, 0, -17.5]
+				},
+				"right_thigh_ring": {
+					"rotation": [-9.96316, -0.86024, -4.88502]
+				},
+				"right_leg": {
+					"rotation": [-5, 0, 17.5]
+				},
+				"left_antenna2": {
+					"rotation": [-25, 0, 0]
+				},
+				"right_antenna2": {
+					"rotation": [-25, 0, 0]
+				}
+			}
+		},
+		"animation.illumise.air_fly": {
+			"loop": true,
+			"bones": {
+				"head": {
+					"rotation": [-40, 0, 0],
+					"position": [0, 0, -1]
+				},
+				"body": {
+					"rotation": [55, 0, 0],
+					"position": [0, 1, 4]
+				},
+				"torso": {
+					"rotation": [-2.5, 0, 0]
+				},
+				"left_wing": {
+					"rotation": [12.24464, 3.7219, 27.62663]
+				},
+				"right_wing": {
+					"rotation": [12.24464, -3.7219, -27.62663]
+				},
+				"left_shoulder_ring": {
+					"rotation": [-19.54184, 1.60606, 15.15348]
+				},
+				"left_arm": {
+					"rotation": [-7.12909, 11.14548, 12.94319]
+				},
+				"right_shoulder_ring": {
+					"rotation": [-19.54184, -1.60606, -15.15348]
+				},
+				"right_arm": {
+					"rotation": [-7.12909, -11.14548, -12.94319]
+				},
+				"left_thigh_ring": {
+					"rotation": [-4.96316, 0.86024, 4.88502]
+				},
+				"left_leg": {
+					"rotation": [15, 0, -17.5]
+				},
+				"right_thigh_ring": {
+					"rotation": [-4.96316, -0.86024, -4.88502]
+				},
+				"right_leg": {
+					"rotation": [15, 0, 17.5]
+				},
+				"left_antenna2": {
+					"rotation": [-45, 0, 0]
+				},
+				"right_antenna2": {
+					"rotation": [-45, 0, 0]
+				}
+			}
+		},
+		"animation.illumise.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"left_eyelid": {
+					"position": {
+						"0.0": [0.1, 0, -0.1],
+						"0.125": [0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"right_eyelid": {
+					"position": {
+						"0.0": [-0.1, 0, -0.1],
+						"0.125": [-0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.illumise.cry": {
+			"animation_length": 1.25,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [-5, 0, 0],
+						"1.0": [-5, 0, 0],
+						"1.25": [0, 0, 0]
+					}
+				},
+				"mouth_open": {
+					"position": {
+						"0.2083": [0, 0, 0],
+						"0.25": [0, -0.1, -0.1],
+						"1.0": [0, -0.1, -0.1],
+						"1.0417": [0, 0, 0]
+					}
+				},
+				"butt_lights_glowing": {
+					"position": {
+						"0.0417": [0, 0, 0],
+						"0.0833": [0, -0.1, 0.1],
+						"0.2917": [0, -0.1, 0.1],
+						"0.3333": [0, 0, 0],
+						"0.4583": [0, 0, 0],
+						"0.5": [0, -0.1, 0.1],
+						"0.75": [0, -0.1, 0.1],
+						"0.7917": [0, 0, 0],
+						"0.9167": [0, 0, 0],
+						"0.9583": [0, -0.1, 0.1],
+						"1.1667": [0, -0.1, 0.1],
+						"1.2083": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

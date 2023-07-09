@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -18,14 +20,16 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BlisseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
+class BlisseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("blissey")
 
     override val portraitScale = 1.9F
     override val portraitTranslation = Vec3d(-0.3, -0.17, 0.0)
 
-    override val leftLeg = getPart("leftfoot")
-    override val rightLeg = getPart("rightfoot")
+    override val leftLeg = getPart("foot_left")
+    override val rightLeg = getPart("foot_right")
+    override val leftArm = getPart("arm_left")
+    override val rightArm = getPart("arm_right")
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.2, 0.0)
@@ -47,7 +51,8 @@ class BlisseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
                 bedrock("blissey", "ground_idle"),
-                BipedWalkAnimation(this, amplitudeMultiplier = 0.6F, periodMultiplier = 1F)
+                BipedWalkAnimation(this),
+                BimanualSwingAnimation(this)
                 //bedrock("blissey", "ground_walk")
             )
         )

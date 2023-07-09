@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Volbeat",
   "nationalPokedexNumber": 313,
   "primaryType": "bug",
@@ -25,6 +26,13 @@
     "bug",
     "human_like"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:flash",
     "1:tackle",
@@ -139,10 +147,10 @@
     "cobblemon.species.volbeat.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.1,
     "fixed": false
   },
   "baseFriendship": 70,

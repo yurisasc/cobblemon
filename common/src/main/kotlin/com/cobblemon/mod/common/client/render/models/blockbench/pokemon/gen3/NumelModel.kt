@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3d
 
 class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("numel")
-    override val head = getPart("neck")
+    override val head = getPart("head")
 
     override val foreLeftLeg = getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")

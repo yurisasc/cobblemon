@@ -31,6 +31,11 @@
     "moving": {
       "fly": {
         "canFly": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
       }
     },
     "resting": {
@@ -172,7 +177,7 @@
   "baseScale": 0.65,
   "hitbox": {
     "width": 0.7,
-    "height": 0.6,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

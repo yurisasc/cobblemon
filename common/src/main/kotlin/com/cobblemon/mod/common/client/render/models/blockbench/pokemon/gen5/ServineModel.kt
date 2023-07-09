@@ -44,7 +44,7 @@ class ServineModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -55,7 +55,7 @@ class ServineModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
         walk = registerPose(
             poseName = "walking",
-            poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
+            poseTypes =  PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

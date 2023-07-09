@@ -43,7 +43,7 @@ class PonytaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("ponyta", "blink").setPreventsIdle(false) }
-        val quirk = quirk("quirk") { bedrockStateful("ponyta", "quirk1").setPreventsIdle(false) }
+        val quirk = quirk("quirk", secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("ponyta", "quirk1").setPreventsIdle(false) }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

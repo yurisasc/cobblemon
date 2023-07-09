@@ -1,0 +1,199 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.volbeat.ground_idle": {
+			"loop": true,
+			"bones": {
+				"left_wing": {
+					"rotation": [0, 0, -15]
+				},
+				"right_wing": {
+					"rotation": [0, 0, 15]
+				},
+				"left_shoulder_ring": {
+					"rotation": [0, 0, 5]
+				},
+				"left_arm": {
+					"rotation": [0, 0, 17.5]
+				},
+				"right_shoulder_ring": {
+					"rotation": [0, 0, -5]
+				},
+				"right_arm": {
+					"rotation": [0, 0, -17.5]
+				},
+				"left_thigh_ring": {
+					"rotation": [0, 0, 0]
+				},
+				"butt_lights_glowing": {
+					"scale": 0.9
+				}
+			}
+		},
+		"animation.volbeat.air_idle": {
+			"loop": true,
+			"bones": {
+				"left_wing": {
+					"rotation": [35.34506, -5.83184, -5.29503]
+				},
+				"right_wing": {
+					"rotation": [35.34506, 5.83184, 5.29503]
+				},
+				"left_shoulder_ring": {
+					"rotation": [0, 2.5, 5]
+				},
+				"left_arm": {
+					"rotation": [0, 7.5, 17.5]
+				},
+				"right_shoulder_ring": {
+					"rotation": [0, -2.5, -5]
+				},
+				"right_arm": {
+					"rotation": [0, -7.5, -17.5]
+				},
+				"left_thigh_ring": {
+					"rotation": [-9.96316, 0.86024, 4.88502]
+				},
+				"butt_lights_glowing": {
+					"rotation": [-10, 0, 0],
+					"scale": 0.9
+				},
+				"torso": {
+					"rotation": [-2.5, 0, 0]
+				},
+				"butt_lights": {
+					"rotation": [-7.5, 0, 0]
+				},
+				"head": {
+					"rotation": [5, 0, 0]
+				},
+				"left_leg": {
+					"rotation": [-5, 0, -17.5]
+				},
+				"right_thigh_ring": {
+					"rotation": [-9.96316, -0.86024, -4.88502]
+				},
+				"right_leg": {
+					"rotation": [-5, 0, 17.5]
+				}
+			}
+		},
+		"animation.volbeat.air_fly": {
+			"loop": true,
+			"bones": {
+				"left_wing": {
+					"rotation": [12.24464, 3.7219, 27.62663]
+				},
+				"right_wing": {
+					"rotation": [12.24464, -3.7219, -27.62663]
+				},
+				"left_shoulder_ring": {
+					"rotation": [-19.54184, 1.60606, 15.15348]
+				},
+				"left_arm": {
+					"rotation": [-7.12909, 11.14548, 12.94319]
+				},
+				"right_shoulder_ring": {
+					"rotation": [-19.54184, -1.60606, -15.15348]
+				},
+				"right_arm": {
+					"rotation": [-7.12909, -11.14548, -12.94319]
+				},
+				"left_thigh_ring": {
+					"rotation": [-4.96316, 0.86024, 4.88502]
+				},
+				"butt_lights_glowing": {
+					"rotation": [-22.5, 0, 0],
+					"scale": 0.9
+				},
+				"torso": {
+					"rotation": [-2.5, 0, 0]
+				},
+				"butt_lights": {
+					"rotation": [-22.5, 0, 0]
+				},
+				"head": {
+					"rotation": [-40, 0, 0],
+					"position": [0, 0, -1.5]
+				},
+				"left_leg": {
+					"rotation": [15, 0, -17.5]
+				},
+				"right_thigh_ring": {
+					"rotation": [-4.96316, -0.86024, -4.88502]
+				},
+				"right_leg": {
+					"rotation": [15, 0, 17.5]
+				},
+				"body": {
+					"rotation": [55, 0, 0],
+					"position": [0, 1, 4]
+				}
+			}
+		},
+		"animation.volbeat.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"left_eyelid": {
+					"position": {
+						"0.0": [0.1, 0, -0.1],
+						"0.125": [0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"right_eyelid": {
+					"position": {
+						"0.0": [-0.1, 0, -0.1],
+						"0.125": [-0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.volbeat.cry": {
+			"animation_length": 1.25,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [-5, 0, 0],
+						"1.0": [-5, 0, 0],
+						"1.25": [0, 0, 0]
+					}
+				},
+				"mouth": {
+					"position": {
+						"0.2083": [0, 0, 0],
+						"0.25": [0, 0, 0.1],
+						"1.0": [0, 0, 0.1],
+						"1.0417": [0, 0, 0]
+					}
+				},
+				"mouth_open": {
+					"position": {
+						"0.2083": [0, 0, 0],
+						"0.25": [0, -0.1, -0.2],
+						"1.0": [0, -0.1, -0.2],
+						"1.0417": [0, 0, 0]
+					}
+				},
+				"butt_lights_glowing": {
+					"scale": {
+						"0.0417": [1, 1, 1],
+						"0.0833": [1.11, 1.11, 1.11],
+						"0.2917": [1.11, 1.11, 1.11],
+						"0.3333": [1, 1, 1],
+						"0.4583": [1, 1, 1],
+						"0.5": [1.11, 1.11, 1.11],
+						"0.75": [1.11, 1.11, 1.11],
+						"0.7917": [1, 1, 1],
+						"0.9167": [1, 1, 1],
+						"0.9583": [1.11, 1.11, 1.11],
+						"1.1667": [1.11, 1.11, 1.11],
+						"1.2083": [1, 1, 1]
+					}
+				}
+			}
+		}
+	}
+}

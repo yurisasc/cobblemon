@@ -43,9 +43,9 @@ class FarfetchdModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("farfetchd", "blink").setPreventsIdle(false) }
-        val leakflipidle = quirk("leakflipidle") { bedrockStateful("farfetchd", "quirk_leakflip_idle").setPreventsIdle(false) }
-        val leakflipwalk = quirk("leakflipwalk") { bedrockStateful("farfetchd", "quirk_leakflip_walk").setPreventsIdle(false) }
-        val wink = quirk("wink") { bedrockStateful("farfetchd", "quirk_wink").setPreventsIdle(false) }
+        val leakflipidle = quirk("leakflipidle", secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("farfetchd", "quirk_leakflip_idle").setPreventsIdle(false) }
+        val leakflipwalk = quirk("leakflipwalk", secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("farfetchd", "quirk_leakflip_walk").setPreventsIdle(false) }
+        val wink = quirk("wink", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("farfetchd", "quirk_wink").setPreventsIdle(false) }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

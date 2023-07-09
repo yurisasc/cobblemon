@@ -72,6 +72,8 @@
 - Chimecho
 - Barboach
 - Whiscash
+- Volbeat
+- Illumise
 
 #### Gen 4
 
@@ -137,6 +139,8 @@
 - Rookidee
 - Corvisquire
 - Corviknight
+- Galarian Ponyta
+- Galarian Rapidash
 
 #### Gen 9
 
@@ -164,7 +168,7 @@
 - Annihilape
 
 ### Changes
-- Updated model and textures of Riolu, Lucario, Haunter, Mankey, Primeape, Mew, Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper, Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgey, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey.
+- Updated model and textures of Riolu, Lucario, Haunter, Mankey, Primeape, Mew, Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper, Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgey, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey and Blissey.
 - Updated Animations for Ponyta, Rapidash, Piplup, Prinplup, Empoleon, Drowzee, Hypno, Farfetch'd, Exeggcute, Exeggutor, Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
 - Updated models of Sceptile and Shuckle.
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
