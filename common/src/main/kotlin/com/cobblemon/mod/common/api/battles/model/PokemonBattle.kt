@@ -221,7 +221,7 @@ open class PokemonBattle(
                         if (experience > 0) {
                             opponent.awardExperience(opponentPokemon, experience)
                         }
-                        Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
+                        Cobblemon.evYieldCalculator.calculate(opponentPokemon, faintedPokemon).forEach { (stat, amount) ->
                             pokemon.evs.add(stat, amount)
                         }
                     }
