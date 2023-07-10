@@ -23,7 +23,7 @@ object ShoulderEffectAdapter: JsonDeserializer<ShoulderEffect> {
         } else {
             json.asJsonObject.get("type").asString to json.asJsonObject
         }
-
-        return context.deserialize(obj, ShoulderEffectRegistry.get(typeId))
+        val effect = ShoulderEffectRegistry.get(typeId) ?: throw IllegalArgumentException("Cannot find shoulder effect with type '$typeId'")
+        return context.deserialize(obj, effect)
     }
 }

@@ -28,6 +28,7 @@ import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 
+@Suppress("unused")
 object TestCommand {
 
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
@@ -37,6 +38,7 @@ object TestCommand {
         dispatcher.register(command)
     }
 
+    @Suppress("SameReturnValue")
     private fun execute(context: CommandContext<ServerCommandSource>): Int {
         if (context.source.entity !is ServerPlayerEntity) {
             return Command.SINGLE_SUCCESS
@@ -114,6 +116,7 @@ object TestCommand {
             .build()
     }
 
+    @Suppress("UNUSED_VARIABLE")
     private fun testUpdate() {
         val trade = this.trade ?: return
         val dummy = trade.player2 as DummyTradeParticipant
