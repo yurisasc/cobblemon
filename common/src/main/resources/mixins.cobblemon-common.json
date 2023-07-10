@@ -17,12 +17,14 @@
     "pokeball.ItemRendererMixin"
   ],
   "mixins": [
+    "LivingEntityMixin",
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
     "ServerChunkManagerMixin",
     "ShearsDispenserBehaviorMixin",
     "accessor.AccessorEntity",
+    "accessor.StatusEffectInstanceAccessor",
     "entity.TameableEntityMixin",
     "invoker.BlocksInvoker",
     "invoker.BooleanRuleInvoker",
