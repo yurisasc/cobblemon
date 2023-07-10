@@ -419,8 +419,14 @@ class PokemonEntity(
         return if (nodeType == PathNodeType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
     }
 
+    @Suppress("SENSELESS_COMPARISON")
     public override fun initGoals() {
-        // It is capable of being null in specific cases, dw about it
+        // DO NOT REMOVE
+        // LivingEntity#getActiveEyeHeight is called in the constructor of Entity
+        // Pokémon param is not available yet
+        if (this.pokemon == null) {
+            return
+        }
         moveControl = PokemonMoveControl(this)
         navigation = PokemonNavigation(world, this)
         goalSelector.clear { true }
