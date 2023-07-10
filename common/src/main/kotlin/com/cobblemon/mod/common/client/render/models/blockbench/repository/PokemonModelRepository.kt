@@ -500,7 +500,11 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("rapidash_galarian", ::RapidashGalarianModel)
         inbuilt("volbeat", ::VolbeatModel)
         inbuilt("illumise", ::IllumiseModel)
-
+        inbuilt("yamper", ::YamperModel)
+        inbuilt("boltund", ::BoltundModel)
+        inbuilt("tinkatink", ::TinkatinkModel)
+        inbuilt("tinkatuff", ::TinkatuffModel)
+        inbuilt("tinkaton", ::TinkatonModel)
 
 
         // Unhooked because the families are not completed

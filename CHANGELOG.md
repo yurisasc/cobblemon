@@ -141,6 +141,8 @@
 - Corviknight
 - Galarian Ponyta
 - Galarian Rapidash
+- Yamper
+- Boltund
 
 #### Gen 9
 
@@ -166,6 +168,9 @@
 - Glimmet
 - Glimmora
 - Annihilape
+- Tinkatink
+- Tinkatuff
+- Tinkaton
 
 ### Changes
 - Updated model and textures of Riolu, Lucario, Haunter, Mankey, Primeape, Mew, Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper, Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgey, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey and Blissey.
