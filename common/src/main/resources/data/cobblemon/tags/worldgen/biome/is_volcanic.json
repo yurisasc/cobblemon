@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     {
-      "id": "terralith:mantle_caves",
+      "id": "terralith:cave/mantle_caves",
       "required": false
     },
 	{

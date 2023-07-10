@@ -220,6 +220,8 @@
 - Fixed Shedinja not being able to recover naturally.
 - Fixed different forms of Pokémon not being able to appear as different sizes.
 - Fixed the Healing Machine soft locking you from using others when removed by non-players.
+- Fixed animations being sped up when using the Replay Mod.
+- Fixed particle animations not running when a Pokémon is off-screen.
 
 ### Developer
 - Added SpawnEvent

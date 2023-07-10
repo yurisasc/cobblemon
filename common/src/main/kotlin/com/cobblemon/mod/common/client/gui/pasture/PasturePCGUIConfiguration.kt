@@ -14,8 +14,7 @@ import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.client.gui.pc.PCGUIConfiguration
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
 import com.cobblemon.mod.common.net.messages.server.pasture.PasturePokemonPacket
-import java.util.UUID
-import net.minecraft.util.math.BlockPos
+import java.util.*
 
 class PasturePCGUIConfiguration(
     val pastureId: UUID,
@@ -26,8 +25,9 @@ class PasturePCGUIConfiguration(
     exitFunction = { it.closeNormally(unlink = true) },
     showParty = false,
     selectOverride = { pcGui, position, pokemon ->
-        if (pokemon != null && pokemon.tetheringId == null && permissions.canPasture) {
+        if (pokemon != null && !pokemon.isFainted() && pokemon.tetheringId == null && permissions.canPasture) {
             CobblemonNetwork.sendToServer(PasturePokemonPacket(pokemonId = pokemon.uuid, pastureId = pastureId))
         }
-    }
+    },
+    canSelect = { pokemon -> !pokemon.isFainted() && pokemon.tetheringId == null }
 )

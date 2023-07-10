@@ -75,7 +75,8 @@ open class PartySlot(
                 matrixStack = matrices,
                 rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
                 state = null,
-                scale = 4.5F
+                scale = 4.5F,
+                partialTicks = delta
             )
             matrices.pop()
 

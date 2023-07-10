@@ -32,18 +32,17 @@ class ModelWidget(
     }
 
     var state = PokemonFloatingState()
-    private val minecraft = MinecraftClient.getInstance()
     val rotVec = Vector3f(13F, rotationY, 0F)
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, partialTicks: Float) {
         if (!render) {
             return
         }
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
-        renderPKM(context)
+        renderPKM(context, partialTicks)
     }
 
-    private fun renderPKM(context: DrawContext) {
+    private fun renderPKM(context: DrawContext, partialTicks: Float) {
         val matrices = context.matrices
         matrices.push()
 
@@ -62,7 +61,8 @@ class ModelWidget(
             renderablePokemon = pokemon,
             matrixStack = matrices,
             rotation = Quaternionf().fromEulerXYZDegrees(rotVec),
-            state = state
+            state = state,
+            partialTicks = partialTicks
         )
 
         matrices.pop()

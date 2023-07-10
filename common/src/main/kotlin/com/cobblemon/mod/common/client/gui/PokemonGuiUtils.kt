@@ -29,14 +29,16 @@ fun drawProfilePokemon(
     matrixStack: MatrixStack,
     rotation: Quaternionf,
     state: PoseableEntityState<PokemonEntity>?,
+    partialTicks: Float,
     scale: Float = 20F
 ) = drawProfilePokemon(
-    renderablePokemon.species.resourceIdentifier,
-    renderablePokemon.aspects,
-    matrixStack,
-    rotation,
-    state,
-    scale
+    species = renderablePokemon.species.resourceIdentifier,
+    aspects = renderablePokemon.aspects,
+    matrixStack = matrixStack,
+    rotation = rotation,
+    state = state,
+    partialTicks = partialTicks,
+    scale = scale
 )
 
 fun drawProfilePokemon(
@@ -45,6 +47,7 @@ fun drawProfilePokemon(
     matrixStack: MatrixStack,
     rotation: Quaternionf,
     state: PoseableEntityState<PokemonEntity>?,
+    partialTicks: Float,
     scale: Float = 20F
 ) {
     val model = PokemonModelRepository.getPoser(species, aspects)
@@ -58,6 +61,7 @@ fun drawProfilePokemon(
     if (state != null) {
         model.getPose(PoseType.PROFILE)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
+        state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     } else {
         model.setupAnimStateless(PoseType.PROFILE)

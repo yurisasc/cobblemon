@@ -161,6 +161,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             context = context,
             x = x,
             y = y.toFloat(),
+            partialTicks = tickDelta,
             reversed = !left,
             species = battlePokemon.species,
             level = battlePokemon.level,
@@ -182,6 +183,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         context: DrawContext,
         x: Float,
         y: Float,
+        partialTicks: Float,
         reversed: Boolean,
         species: Species,
         level: Int,
@@ -227,6 +229,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             drawPokeBall(
                 state = ballState,
                 matrixStack = matrixStack,
+                partialTicks = partialTicks
             )
         } else {
             matrixStack.push()
@@ -236,7 +239,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
                 matrixStack = matrixStack,
                 scale = 18F * (ballState?.scale ?: 1F),
                 reversed = reversed,
-                state = state
+                state = state,
+                partialTicks = partialTicks
             )
             matrixStack.pop()
         }
@@ -379,6 +383,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         state: ClientBallDisplay,
         matrixStack: MatrixStack,
         scale: Float = 5F,
+        partialTicks: Float,
         reversed: Boolean = false
     ) {
         val model = PokeBallModelRepository.getPoser(state.pokeBall.name, state.aspects)
@@ -391,6 +396,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
 
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
+        state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
 
         matrixStack.scale(scale, scale, -scale)
