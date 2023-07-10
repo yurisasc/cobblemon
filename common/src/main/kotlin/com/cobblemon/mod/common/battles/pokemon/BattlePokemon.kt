@@ -27,13 +27,15 @@ import net.minecraft.text.MutableText
 
 open class BattlePokemon(
     val originalPokemon: Pokemon,
-    val effectedPokemon: Pokemon = originalPokemon
+    val effectedPokemon: Pokemon = originalPokemon,
+    val postBattleEntityOperation: (PokemonEntity) -> Unit = {}
 ) {
     lateinit var actor: BattleActor
     companion object {
         fun safeCopyOf(pokemon: Pokemon): BattlePokemon = BattlePokemon(
             originalPokemon = pokemon,
-            effectedPokemon = pokemon.clone()
+            effectedPokemon = pokemon.clone(),
+            postBattleEntityOperation = { entity -> entity.discard() }
         )
     }
 
