@@ -42,6 +42,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
+import net.minecraft.entity.Entity
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.text.Text
@@ -234,6 +235,11 @@ open class PokemonBattle(
             .mapNotNull { it.entity }
             .filterIsInstance<PokemonEntity>()
             .forEach{it.pokemon.heal()}
+        actors.forEach { actor ->
+            actor.pokemonList.forEach { battlePokemon ->
+                battlePokemon.entity?.let { entity -> battlePokemon.postBattleEntityOperation(entity) }
+            }
+        }
         sendUpdate(BattleEndPacket())
         sendUpdate(BattleMusicPacket(null))
         BattleRegistry.closeBattle(this)

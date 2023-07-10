@@ -8,8 +8,16 @@
 
 package com.cobblemon.mod.common.command
 
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
+import com.cobblemon.mod.common.battles.BattleFormat
+import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.battles.BattleSide
+import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
+import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.particle.SnowstormParticleReader
@@ -17,6 +25,7 @@ import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
 import com.cobblemon.mod.common.util.fromJson
+import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toPokemon
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -27,6 +36,8 @@ import java.io.File
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
+import net.minecraft.util.math.Box
 
 @Suppress("unused")
 object TestCommand {
@@ -45,7 +56,8 @@ object TestCommand {
         }
 
         try {
-            testTrade(context.source.player!!)
+            this.testClosestBattle(context)
+            //testTrade(context.source.player!!)
 //            testParticles(context)
 //            extractMovesData()
 //            // Player variables
@@ -88,6 +100,24 @@ object TestCommand {
 
     var trade: ActiveTrade? = null
     var lastDebugId = 0
+
+    private fun testClosestBattle(context: CommandContext<ServerCommandSource>) {
+        val player = context.source.playerOrThrow
+        val cloneTeam = player.party().toBattleTeam(true)
+        cloneTeam.forEach { it.effectedPokemon.level = 100 }
+        val scanBox = Box.of(player.pos, 9.0, 9.0, 9.0)
+        val results = player.world.getEntitiesByType(CobblemonEntities.POKEMON, scanBox) { entityPokemon -> entityPokemon.pokemon.isWild() }
+        val pokemonEntity = results.firstOrNull()
+        if (pokemonEntity == null) {
+            context.source.sendError(Text.literal("Cannot find any wild Pokémon in a 9x9x9 area"))
+            return
+        }
+        BattleRegistry.startBattle(
+            BattleFormat.GEN_9_SINGLES,
+            BattleSide(PlayerBattleActor(player.uuid, cloneTeam)),
+            BattleSide(PokemonBattleActor(pokemonEntity.pokemon.uuid, BattlePokemon(pokemonEntity.pokemon), Cobblemon.config.defaultFleeDistance))
+        )
+    }
 
     private fun testTrade(playerEntity: ServerPlayerEntity) {
         val trade = ActiveTrade(
