@@ -30,6 +30,7 @@ import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
+import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -61,6 +62,7 @@ import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Shearable
+import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -81,6 +83,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtString
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
@@ -103,6 +106,7 @@ import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
+@Suppress("unused")
 class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
@@ -171,7 +175,7 @@ class PokemonEntity(
 
     val delegate = if (world.isClient) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
-        com.cobblemon.mod.common.client.entity.PokemonClientDelegate()
+        PokemonClientDelegate()
     } else {
         PokemonServerDelegate()
     }
@@ -415,42 +419,46 @@ class PokemonEntity(
         return if (nodeType == PathNodeType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
     }
 
+    @Suppress("SENSELESS_COMPARISON")
     public override fun initGoals() {
-        // It is capable of being null in specific cases, dw about it
-        if (pokemon != null) {
-            moveControl = PokemonMoveControl(this)
-            navigation = PokemonNavigation(world, this)
-            goalSelector.clear { true }
-            goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
-            goalSelector.add(0, object : Goal() {
-                override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get()
-                override fun shouldContinue(): Boolean {
-                    if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
-                        pokemon.status = null
-                        return false
-                    } else if (pokemon.status?.status == Statuses.SLEEP || isBusy) {
-                        return true
-                    }
-                    return false
-                }
-                override fun getControls() = EnumSet.allOf(Control::class.java)
-            })
-
-            goalSelector.add(1, PokemonBreatheAirGoal(this))
-            goalSelector.add(2, PokemonFloatToSurfaceGoal(this))
-            goalSelector.add(3, PokemonFollowOwnerGoal(this, 1.0, 8F, 2F, false))
-            goalSelector.add(4, PokemonMoveIntoFluidGoal(this))
-            goalSelector.add(5, SleepOnTrainerGoal(this))
-            goalSelector.add(5, WildRestGoal(this))
-
-            if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) != null) {
-                goalSelector.add(5, EatGrassGoal(this))
-            }
-
-            goalSelector.add(6, PokemonWanderAroundGoal(this))
-            goalSelector.add(7, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
-            goalSelector.add(8, PokemonPointAtSpawnGoal(this))
+        // DO NOT REMOVE
+        // LivingEntity#getActiveEyeHeight is called in the constructor of Entity
+        // Pokémon param is not available yet
+        if (this.pokemon == null) {
+            return
         }
+        moveControl = PokemonMoveControl(this)
+        navigation = PokemonNavigation(world, this)
+        goalSelector.clear { true }
+        goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
+        goalSelector.add(0, object : Goal() {
+            override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get()
+            override fun shouldContinue(): Boolean {
+                if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
+                    pokemon.status = null
+                    return false
+                } else if (pokemon.status?.status == Statuses.SLEEP || isBusy) {
+                    return true
+                }
+                return false
+            }
+            override fun getControls() = EnumSet.allOf(Control::class.java)
+        })
+
+        goalSelector.add(1, PokemonBreatheAirGoal(this))
+        goalSelector.add(2, PokemonFloatToSurfaceGoal(this))
+        goalSelector.add(3, PokemonFollowOwnerGoal(this, 1.0, 8F, 2F, false))
+        goalSelector.add(4, PokemonMoveIntoFluidGoal(this))
+        goalSelector.add(5, SleepOnTrainerGoal(this))
+        goalSelector.add(5, WildRestGoal(this))
+
+        if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) != null) {
+            goalSelector.add(5, EatGrassGoal(this))
+        }
+
+        goalSelector.add(6, PokemonWanderAroundGoal(this))
+        goalSelector.add(7, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
+        goalSelector.add(8, PokemonPointAtSpawnGoal(this))
     }
 
     fun canSleep(): Boolean {
@@ -556,7 +564,11 @@ class PokemonEntity(
 
     override fun getEyeHeight(pose: EntityPose): Float = this.pokemon.form.eyeHeight(this)
 
-    override fun getActiveEyeHeight(pose: EntityPose?, dimensions: EntityDimensions?): Float {
+    @Suppress("SENSELESS_COMPARISON")
+    override fun getActiveEyeHeight(pose: EntityPose, dimensions: EntityDimensions): Float {
+        // DO NOT REMOVE
+        // LivingEntity#getActiveEyeHeight is called in the constructor of Entity
+        // Pokémon param is not available yet
         if (this.pokemon == null) {
             return super.getActiveEyeHeight(pose, dimensions)
         }
@@ -569,6 +581,7 @@ class PokemonEntity(
 
     fun getBehaviourFlag(flag: PokemonBehaviourFlag): Boolean = getBitForByte(behaviourFlags.get(), flag.bit)
 
+    @Suppress("UNUSED_PARAMETER")
     fun canBattle(player: PlayerEntity): Boolean {
         if (isBusy) {
             return false
@@ -695,6 +708,23 @@ class PokemonEntity(
             }
         }
         return false
+    }
+
+    override fun mountOnto(player: ServerPlayerEntity): Boolean {
+        if (!super.mountOnto(player)) {
+            return false
+        }
+        val nbt = when {
+            player.shoulderEntityRight.isPokemonEntity() && player.shoulderEntityRight.getCompound(DataKeys.POKEMON).getUuid(DataKeys.POKEMON_UUID) == this.pokemon.uuid -> player.shoulderEntityRight
+            player.shoulderEntityLeft.isPokemonEntity() && player.shoulderEntityLeft.getCompound(DataKeys.POKEMON).getUuid(DataKeys.POKEMON_UUID) == this.pokemon.uuid -> player.shoulderEntityLeft
+            else -> return true
+        }
+        nbt.putUuid(DataKeys.SHOULDER_UUID, this.pokemon.uuid)
+        nbt.putString(DataKeys.SHOULDER_SPECIES, this.pokemon.species.resourceIdentifier.toString())
+        nbt.putString(DataKeys.SHOULDER_FORM, this.pokemon.form.name)
+        nbt.put(DataKeys.SHOULDER_ASPECTS, this.pokemon.aspects.map(NbtString::of).toNbtList())
+        nbt.putFloat(DataKeys.SHOULDER_SCALE_MODIFIER, this.pokemon.scaleModifier)
+        return true
     }
 
     override fun remove(reason: RemovalReason) {
@@ -859,7 +889,7 @@ class PokemonEntity(
     override fun breed(world: ServerWorld, other: AnimalEntity) {}
 
     override fun method_48926(): EntityView {
-        return this.getWorld()
+        return this.world
     }
 
     override fun sheared(shearedSoundCategory: SoundCategory) {

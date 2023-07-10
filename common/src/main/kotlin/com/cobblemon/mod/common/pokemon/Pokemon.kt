@@ -1217,5 +1217,14 @@ open class Pokemon : ShowdownIdentifiable {
          */
         var LEVEL_UP_FRIENDSHIP_CALCULATOR = FriendshipMutationCalculator.SWORD_AND_SHIELD_LEVEL_UP
         internal val SHEDINJA = cobblemonResource("shedinja")
+
+        fun loadFromNBT(compound: NbtCompound): Pokemon {
+            return Pokemon().loadFromNBT(compound)
+        }
+
+        fun loadFromJSON(json: JsonObject): Pokemon {
+            return Pokemon().loadFromJSON(json)
+        }
+        
     }
 }

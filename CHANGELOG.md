@@ -195,6 +195,7 @@
 - Made Wooloo and Dubwool smaller.
 - Removed shoulder effects, system is broken and needs reworked.
 - Dive Balls will now have the same motion speed underwater as if they were thrown in the air.
+- Hardcoded potion shoulder effects have been removed, you can now use any potion vanilla or otherwise with the parameters you'd like, for more information see the [Datapack & Resourcepack Creators](#datapack-&-resourcepack-creators) section.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -222,6 +223,8 @@
 - Fixed the Healing Machine soft locking you from using others when removed by non-players.
 - Fixed animations being sped up when using the Replay Mod.
 - Fixed particle animations not running when a Pokémon is off-screen.
+- Fixed Pokémon variants and layers not rendering correctly when shouldered and playing on a dedicated server, existing shoulders affected will need to be retrieved and shouldered again.
+- Shoulder effects will now stay applied through situations that remove potion effects such as drinking milk.
 
 ### Developer
 - Added SpawnEvent
@@ -229,6 +232,20 @@
 - Species and FormData have had their evolutions, pre-evolution and labels properties exposed. It is still recommended to work using a Pokémon instance when possible.
 - Added capture check to BattleVictoryEvent
 - Added ThownPokeballHitEvent
+- The various hardcoded potion shoulder effects have been removed, make use of PotionBaseEffect.
+
+### Datapack & Resourcepack Creators
+- All potion related shoulder effects have had their IDs changed, they now all share the same type being `potion_effect` and use the vanilla Potion data [parameters](https://minecraft.fandom.com/wiki/Potion#Item_data), take for example the default Pidgey asset:
+  - ```json
+    {
+      "type": "potion_effect",
+      "effect": "minecraft:slow_falling",
+      "amplifier": 0,
+      "ambient": true,
+      "showParticles": false,
+      "showIcon": false
+    }
+    ```
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
