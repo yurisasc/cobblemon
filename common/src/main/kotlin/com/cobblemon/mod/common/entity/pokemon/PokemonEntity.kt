@@ -558,7 +558,16 @@ class PokemonEntity(
 
     override fun getEyeHeight(pose: EntityPose): Float = this.pokemon.form.eyeHeight(this)
 
-    override fun getActiveEyeHeight(pose: EntityPose?, dimensions: EntityDimensions?): Float = this.pokemon.form.eyeHeight(this)
+    @Suppress("SENSELESS_COMPARISON")
+    override fun getActiveEyeHeight(pose: EntityPose, dimensions: EntityDimensions): Float {
+        // DO NOT REMOVE
+        // LivingEntity#getActiveEyeHeight is called in the constructor of Entity
+        // Pokémon param is not available yet
+        if (this.pokemon == null) {
+            return super.getActiveEyeHeight(pose, dimensions)
+        }
+        return this.pokemon.form.eyeHeight(this)
+    }
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
         behaviourFlags.set(setBitForByte(behaviourFlags.get(), flag.bit, on))
