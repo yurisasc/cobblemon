@@ -1,0 +1,200 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.quaquaval.idle": {
+			"loop": true,
+			"bones": {
+				"chest": {
+					"rotation": [-5, 0, 0]
+				},
+				"neck": {
+					"rotation": [7.5, 0, 0]
+				},
+				"head": {
+					"rotation": [5.12116, 17.48281, 0.78795]
+				},
+				"feather_head_top3": {
+					"rotation": [-5, 0, 0]
+				},
+				"feather_head_top4": {
+					"rotation": [-15, 0, 0]
+				},
+				"feather_head_top5": {
+					"rotation": [-17.5, 0, 0]
+				},
+				"eyebrow_right": {
+					"rotation": [0, 0, 17.5]
+				},
+				"eyebrow_right2": {
+					"rotation": [0, 0, -12.5]
+				},
+				"eyebrow_right3": {
+					"rotation": [0, 0, 7.5]
+				},
+				"eyebrow_left": {
+					"rotation": [0, 0, -17.5]
+				},
+				"eyebrow_left2": {
+					"rotation": [0, 0, 12.5]
+				},
+				"eyebrow_left3": {
+					"rotation": [0, 0, -7.5]
+				},
+				"arm_right": {
+					"rotation": [66.86198, 20.1839, -33.26905]
+				},
+				"arm_right2": {
+					"rotation": [-18.65135, -68.77549, 20.9444]
+				},
+				"hand_right": {
+					"rotation": [-24.13518, -5.49835, -19.22438]
+				},
+				"finger_index_right": {
+					"rotation": [0, 0, -15]
+				},
+				"finger_index_right2": {
+					"rotation": [0, 0, -25]
+				},
+				"finger_middle_right": {
+					"rotation": [0, 0, -5]
+				},
+				"finger_middle_right2": {
+					"rotation": [0, 0, -20]
+				},
+				"finger_ring_right": {
+					"rotation": [0, 0, -7.5]
+				},
+				"finger_ring_right2": {
+					"rotation": [0, 0, -12.5]
+				},
+				"arm_left": {
+					"rotation": [37.55174, 17.25489, 36.68082]
+				},
+				"arm_left2": {
+					"rotation": [-24.75948, 41.92831, -34.61432]
+				},
+				"hand_left": {
+					"rotation": [19.80978, 5.10113, 40.10271]
+				},
+				"finger_index_left": {
+					"rotation": [0, 5, 5]
+				},
+				"finger_index_left2": {
+					"rotation": [0, 0, 22.5]
+				},
+				"finger_middle_left": {
+					"rotation": [0, 0, 2.5]
+				},
+				"finger_middle_left2": {
+					"rotation": [0, 0, -30]
+				},
+				"finger_ring_left": {
+					"rotation": [-3.17805, -4.86121, 8.42236]
+				},
+				"finger_ring_left2": {
+					"rotation": [0, 0, -27.5]
+				},
+				"leg_right": {
+					"rotation": [-2.5, 7.5, 0]
+				},
+				"leg_right2": {
+					"rotation": [2.5, 0, 0]
+				},
+				"toe_right": {
+					"rotation": [22.5, 0, 0]
+				},
+				"toe_right_end": {
+					"rotation": [-22.5, 0, 0]
+				},
+				"toe_right2": {
+					"rotation": [19.54319, 1.20274, 1.75578]
+				},
+				"toe_right_end2": {
+					"rotation": [-17.5, 0, 0]
+				},
+				"toe_right3": {
+					"rotation": [22.5, 0, 0]
+				},
+				"toe_right_end3": {
+					"rotation": [-22.5, 0, 0]
+				},
+				"toe_back_right": {
+					"rotation": [-40, 0, 0]
+				},
+				"toe_back_right_end": {
+					"rotation": [32.5, 0, 0]
+				},
+				"leg_left": {
+					"rotation": [-22.5, -27.5, 0]
+				},
+				"leg_left2": {
+					"rotation": [37.5, 0, 0]
+				},
+				"ankle_left": {
+					"rotation": [5, 0, 0]
+				},
+				"left_foot": {
+					"rotation": [-7.5, 0, 0]
+				},
+				"toe_left": {
+					"rotation": [37.94901, -7.78692, 1.24661]
+				},
+				"toe_left_end": {
+					"rotation": [-37.5, 0, 0]
+				},
+				"toe_left2": {
+					"rotation": [30, 0, 0]
+				},
+				"toe_left_end2": {
+					"rotation": [-25, 0, 0]
+				},
+				"toe_left3": {
+					"rotation": [43.14962, 8.16625, -1.81922]
+				},
+				"toe_left_end3": {
+					"rotation": [-42.5, 0, 0]
+				},
+				"toe_back_left": {
+					"rotation": [-55, 0, 0]
+				},
+				"toe_back_left_end": {
+					"rotation": [22.5, 0, 0]
+				},
+				"feather_head_top2": {
+					"rotation": [5, 0, 0]
+				},
+				"tail_feather_right2": {
+					"rotation": [0, -12.5, 0]
+				},
+				"tail_feather_right3": {
+					"rotation": [0, -15, 0]
+				},
+				"tail_feather_left2": {
+					"rotation": [0, 15, 0]
+				},
+				"tail_feather_left3": {
+					"rotation": [0, 17.5, 0]
+				}
+			}
+		},
+		"animation.quaquaval.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_right": {
+					"position": {
+						"0.0": [-0.1, 0, -0.1],
+						"0.125": [-0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_left": {
+					"position": {
+						"0.0": [0.1, 0, -0.1],
+						"0.125": [0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

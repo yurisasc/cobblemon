@@ -505,12 +505,12 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("tinkatink", ::TinkatinkModel)
         inbuilt("tinkatuff", ::TinkatuffModel)
         inbuilt("tinkaton", ::TinkatonModel)
-
-
-        // Unhooked because the families are not completed
-//        inbuilt("fuecoco", :: FuecocoModel)
-//        inbuilt("quaxly", :: QuaxlyModel)
-
+        inbuilt("fuecoco", :: FuecocoModel)
+        inbuilt("crocalor", :: CrocalorModel)
+        inbuilt("skeledirge", :: SkeledirgeModel)
+        inbuilt("quaxly", :: QuaxlyModel)
+        inbuilt("quaxwell", :: QuaxwellModel)
+        inbuilt("quaquaval", :: QuaquavalModel)
     }
 
     override fun loadJsonPoser(json: String): (Bone) -> PokemonPoseableModel {

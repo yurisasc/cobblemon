@@ -193,7 +193,6 @@
 - Pokémon can now wander into non-solid blocks such as foliage
 - Pokéballs now despawn after 30 seconds
 - Made Wooloo and Dubwool smaller.
-- Removed shoulder effects, system is broken and needs reworked.
 - Dive Balls will now have the same motion speed underwater as if they were thrown in the air.
 - Hardcoded potion shoulder effects have been removed, you can now use any potion vanilla or otherwise with the parameters you'd like, for more information see the [Datapack & Resourcepack Creators](#datapack-&-resourcepack-creators) section.
 
