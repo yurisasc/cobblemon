@@ -34,6 +34,7 @@ import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
@@ -606,7 +607,7 @@ class PokemonEntity(
     }
 
     override fun playAmbientSound() {
-        if (!this.isSilent) {
+        if (!this.isSilent || this.busyLocks.filterIsInstance<EmptyPokeBallEntity>().isEmpty()) {
             val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
             // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
             UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
