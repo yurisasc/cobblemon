@@ -17,6 +17,7 @@
     "pokeball.ItemRendererMixin"
   ],
   "mixins": [
+    "FenceBlockMixin",
     "LivingEntityMixin",
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
