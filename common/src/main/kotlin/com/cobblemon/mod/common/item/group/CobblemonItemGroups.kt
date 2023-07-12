@@ -160,6 +160,7 @@ object CobblemonItemGroups {
     private fun consumableEntries(displayContext: DisplayContext, entries: Entries) {
         entries.add(CobblemonItems.ROASTED_LEEK)
         entries.add(CobblemonItems.LEEK_AND_POTATO_STEW)
+        entries.add(CobblemonItems.BRAISED_VIVICHOKE)
         entries.add(CobblemonItems.REMEDY)
         entries.add(CobblemonItems.FINE_REMEDY)
         entries.add(CobblemonItems.SUPERB_REMEDY)
@@ -311,8 +312,8 @@ object CobblemonItemGroups {
     private fun foodInjections(displayContext: DisplayContext): List<Item> = arrayListOf(
         CobblemonItems.ROASTED_LEEK,
         CobblemonItems.LEEK_AND_POTATO_STEW,
+        CobblemonItems.BRAISED_VIVICHOKE,
         /*
-        CobblemonItems.BRAISED_VIVICHOKE.
         CobblemonItems.VIVICHOKE_DIP
          */
     )

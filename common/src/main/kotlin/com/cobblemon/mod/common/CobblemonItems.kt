@@ -250,7 +250,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK_CROP))
     @JvmField
-    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(2).build())))
+    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(3).saturationModifier(0.2f).build())))
+    @JvmField
+    val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().food(FoodComponent.Builder().hunger(6).saturationModifier(0.6f).build())))
     @JvmField
     val ENERGY_ROOT = create("energy_root", EnergyRoot(CobblemonBlocks.ENERGY_ROOT))
     @JvmField
@@ -268,7 +270,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val HEAL_POWDER = create("heal_powder", Item(Item.Settings()))
     @JvmField
-    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(4).build())))
+    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(8).saturationModifier(0.6f).build())))
     @JvmField
     val REVIVE = create("revive", Item(Item.Settings()))
     @JvmField
