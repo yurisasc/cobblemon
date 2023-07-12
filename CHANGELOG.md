@@ -188,6 +188,7 @@
 - Pokeballs now despawn after 30 seconds
 - Dive Balls will now have the same motion speed underwater as if they were thrown in the air.
 - Hardcoded potion shoulder effects have been removed, you can now use any potion vanilla or otherwise with the parameters you'd like, for more information see the [Datapack & Resourcepack Creators](#datapack-&-resourcepack-creators) section.
+- Clicking categories of the Stat sub-section of the Summary will now produce a sound like other clicks on the Summary.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
