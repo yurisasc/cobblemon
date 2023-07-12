@@ -4,7 +4,7 @@
 	"ambientocclusion": false,
 	"textures": {
 		"0": "cobblemon:block/pasture",
-		"particle": "cobblemon:block/pasture"
+		"particle": "cobblemon:block/pasture_particle"
 	},
 	"elements": [
 		{
