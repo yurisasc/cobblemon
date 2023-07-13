@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.block.HealingMachineBlock
 import com.cobblemon.mod.common.pokeball.PokeBall
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.lang
@@ -33,14 +34,17 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 class HealingMachineBlockEntity(
     val blockPos: BlockPos,
     val blockState: BlockState
 ) : BlockEntity(CobblemonBlockEntities.HEALING_MACHINE, blockPos, blockState) {
     var currentUser: UUID? = null
         private set
-    var pokeBalls: MutableList<PokeBall> = mutableListOf()
-        private set
+
+    @Deprecated("This property will be removed in the future", ReplaceWith("pokeBalls()"))
+    val pokeBalls: MutableList<PokeBall>
+        get() = this.pokeBalls().values.toMutableList()
     var healTimeLeft: Int = 0
     var healingCharge: Float = 0.0F
     val isInUse: Boolean
@@ -53,6 +57,12 @@ class HealingMachineBlockEntity(
     var maxCharge: Float = 6F
 
     private var dataSnapshot: DataSnapshot? = null
+    // TODO: Rename me when the deprecated field is removed
+    /**
+     * Represents the PokéBalls occupying this entity.
+     * The key is the equivalent party slot in index form.
+     */
+    private val pokeBallMap: MutableMap<Int, PokeBall> = hashMapOf()
 
     init {
         maxCharge = (Cobblemon.config.maxHealerCharge).coerceAtLeast(6F)
@@ -60,14 +70,27 @@ class HealingMachineBlockEntity(
         this.updateBlockChargeLevel()
     }
 
+    /**
+     * Resolves the currently occupying PokéBalls.
+     * The key is the equivalent party index of the [currentUser].
+     * The value is the [Pokemon.caughtBall] of the Pokémon in said party index.
+     *
+     * @return The PokéBalls in this healing machine.
+     */
+    fun pokeBalls(): Map<Int, PokeBall> = this.pokeBallMap
+
     fun setUser(user: UUID) {
         this.clearData()
 
         val player = user.getPlayer() ?: return
         val party = player.party()
 
-        pokeBalls.clear()
-        pokeBalls.addAll(party.map { it.caughtBall })
+        this.pokeBallMap.clear()
+        party.toGappyList().forEachIndexed { index, pokemon ->
+            if (pokemon != null) {
+                this.pokeBallMap[index] = pokemon.caughtBall
+            }
+        }
         this.currentUser = user
         this.healTimeLeft = 60
 
@@ -107,23 +130,26 @@ class HealingMachineBlockEntity(
     override fun readNbt(compoundTag: NbtCompound) {
         super.readNbt(compoundTag)
 
-        this.pokeBalls.clear()
+        this.pokeBallMap.clear()
 
         if (compoundTag.containsUuid(DataKeys.HEALER_MACHINE_USER)) {
             this.currentUser = compoundTag.getUuid(DataKeys.HEALER_MACHINE_USER)
         }
         if (compoundTag.contains(DataKeys.HEALER_MACHINE_POKEBALLS)) {
             val pokeBallsTag = compoundTag.getCompound(DataKeys.HEALER_MACHINE_POKEBALLS)
+            // Keep around for compat with old format
+            var index = 0
             for (key in pokeBallsTag.keys) {
                 val pokeBallId = pokeBallsTag.getString(key)
                 if (pokeBallId.isEmpty()) {
                     continue
                 }
-
+                val actualIndex = key.toIntOrNull() ?: index
                 val pokeBall = PokeBalls.getPokeBall(Identifier(pokeBallId))
                 if (pokeBall != null) {
-                    this.pokeBalls.add(pokeBall)
+                    this.pokeBallMap[actualIndex] = pokeBall
                 }
+                index++
             }
         }
         if (compoundTag.contains(DataKeys.HEALER_MACHINE_TIME_LEFT)) {
@@ -146,13 +172,10 @@ class HealingMachineBlockEntity(
             compoundTag.remove(DataKeys.HEALER_MACHINE_USER)
         }
 
-        if (pokeBalls.isNotEmpty()) {
+        if (this.pokeBalls().isNotEmpty()) {
             val pokeBallsTag = NbtCompound()
-            var ballIndex = 1
-
-            for (pokeBall in this.pokeBalls) {
-                pokeBallsTag.putString("Pokeball$ballIndex", pokeBall.name.toString())
-                ballIndex++
+            this.pokeBalls().forEach { (index, pokeBall) ->
+                pokeBallsTag.putString(index.toString(), pokeBall.name.toString())
             }
             compoundTag.put(DataKeys.HEALER_MACHINE_POKEBALLS, pokeBallsTag)
         } else {
@@ -164,7 +187,7 @@ class HealingMachineBlockEntity(
         compoundTag.putBoolean(DataKeys.HEALER_MACHINE_INFINITE, this.infinite)
     }
 
-    override fun toUpdatePacket() =  BlockEntityUpdateS2CPacket.create(this)
+    override fun toUpdatePacket(): BlockEntityUpdateS2CPacket =  BlockEntityUpdateS2CPacket.create(this)
     override fun toInitialChunkDataNbt(): NbtCompound {
         return super.createNbtWithIdentifyingData()
     }
@@ -210,7 +233,7 @@ class HealingMachineBlockEntity(
     private fun snapshotAndClearData() {
         this.dataSnapshot = DataSnapshot(
             this.currentUser,
-            this.pokeBalls,
+            this.pokeBalls(),
             this.healTimeLeft
         )
         this.clearData()
@@ -219,22 +242,23 @@ class HealingMachineBlockEntity(
     private fun clearData() {
         this.currentUser?.let(alreadyHealing::remove)
         this.currentUser = null
-        this.pokeBalls.clear()
+        this.pokeBallMap.clear()
         this.healTimeLeft = 0
         markUpdated()
     }
 
     private fun restoreSnapshot() {
         this.dataSnapshot?.let {
+            pokeBallMap.clear()
             currentUser = it.currentUser
-            pokeBalls = it.pokeballs
+            pokeBallMap.putAll(it.pokeBalls)
             healTimeLeft = it.healTimeLeft
         }
     }
 
     private data class DataSnapshot(
         val currentUser: UUID?,
-        val pokeballs: MutableList<PokeBall>,
+        val pokeBalls: Map<Int, PokeBall>,
         val healTimeLeft: Int
     )
 
