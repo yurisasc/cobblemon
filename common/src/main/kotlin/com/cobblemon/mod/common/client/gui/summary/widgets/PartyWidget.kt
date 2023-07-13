@@ -63,6 +63,7 @@ class PartyWidget(
                 swapSource = null
                 draggedSlot = null
             }
+            MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
         }
     )
 
