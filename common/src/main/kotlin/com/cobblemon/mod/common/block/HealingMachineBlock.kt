@@ -141,12 +141,10 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
             return ActionResult.SUCCESS
         }
 
-        /*
         if (party.none { pokemon -> pokemon.canBeHealed() }) {
             player.sendMessage(lang("healingmachine.alreadyhealed").red(), true)
             return ActionResult.SUCCESS
         }
-         */
 
         if (HealingMachineBlockEntity.isUsingHealer(player)) {
             player.sendMessage(lang("healingmachine.alreadyhealing").red(), true)
