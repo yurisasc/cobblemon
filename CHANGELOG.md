@@ -149,6 +149,12 @@
 - Sprigatitto
 - Floragato
 - Meowscarada
+- Fuecoco
+- Crocalor
+- Skeledirge
+- Quaxly
+- Quaxwell
+- Quaquaval
 - Flittle
 - Espathra
 - Garganacl

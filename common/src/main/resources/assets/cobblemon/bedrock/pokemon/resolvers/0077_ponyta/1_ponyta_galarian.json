@@ -24,7 +24,7 @@
       "layers": [
         {
           "name": "emissive",
-          "texture": "cobblemon:textures/pokemon/0077_ponyta/ponyta_galar_emissive.png",
+          "texture": "cobblemon:textures/pokemon/0077_ponyta/ponyta_galar_emissive_shiny.png",
           "emissive": "true"
         }
       ]

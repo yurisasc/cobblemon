@@ -511,6 +511,11 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("quaxly", :: QuaxlyModel)
         inbuilt("quaxwell", :: QuaxwellModel)
         inbuilt("quaquaval", :: QuaquavalModel)
+        inbuilt("snubbull", :: SnubbullModel)
+        inbuilt("granbull", :: GranbullModel)
+        inbuilt("maschiff", :: MaschiffModel)
+        inbuilt("mabosstiff", :: MabosstiffModel)
+
     }
 
     override fun loadJsonPoser(json: String): (Bone) -> PokemonPoseableModel {

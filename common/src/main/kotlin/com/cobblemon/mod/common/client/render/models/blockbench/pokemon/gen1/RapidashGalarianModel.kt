@@ -26,10 +26,10 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFr
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 2.5F
+    override val portraitScale = 2.0F
     override val portraitTranslation = Vec3d(-0.7, 1.11, 0.0)
 
-    override val profileScale = 0.75F
+    override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var standing: PokemonPose
