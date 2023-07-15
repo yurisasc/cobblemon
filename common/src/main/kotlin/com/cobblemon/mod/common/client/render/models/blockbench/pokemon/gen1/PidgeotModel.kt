@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -28,13 +29,13 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val rightWing = getPart("wing_right")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
-    override val head = getPart("head")
+    override val head = getPart("neck")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.15, -0.8, 0.0)
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.05, 0.0)
+    override val portraitScale = 2.2F
+    override val portraitTranslation = Vec3d(-0.6, 0.15, 0.0)
+    override val profileScale = 0.9F
+    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
 
@@ -47,7 +48,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         val blink = quirk("blink") { bedrockStateful("pidgeot", "blink").setPreventsIdle(false)}
         registerPose(
             poseName = "stand",
-            poseTypes = UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -57,7 +58,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 
         registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -142,7 +143,12 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgeot", "air_idle")
+                bedrock("pidgeot", "air_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Z_AXIS
+                )
             )
         )
 
@@ -152,7 +158,12 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgeot", "air_fly")
+                bedrock("pidgeot", "air_fly"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Z_AXIS
+                )
             )
         )
     }

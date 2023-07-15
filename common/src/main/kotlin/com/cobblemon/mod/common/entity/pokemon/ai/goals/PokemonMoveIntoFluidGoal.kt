@@ -60,6 +60,9 @@ class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
             MathHelper.floor(mob.z + 2.0)
         )
         val blockPos = mob.closestPosition(iterable) { pos ->
+            if (mob.tethering?.canRoamTo(pos) == false) {
+                return@closestPosition false
+            }
             val fluid = mob.world.getFluidState(pos)
             return@closestPosition appropriateFluids.any { fluid.isIn(it) } && mob.world.isSpaceEmpty(mob.boundingBox.offset(pos.subtract(mob.blockPos)))
         }

@@ -59,7 +59,7 @@ object GivePokemon {
             val pokemon = pokemonProperties.create()
             val party = Cobblemon.storage.getParty(player)
             party.add(pokemon)
-            context.source.sendFeedback(commandLang("${NAME}.give", pokemon.species.translatedName, player.name), true)
+            context.source.sendFeedback({ commandLang("${NAME}.give", pokemon.species.translatedName, player.name) }, true)
         } catch (e: Exception) {
             e.printStackTrace()
         }

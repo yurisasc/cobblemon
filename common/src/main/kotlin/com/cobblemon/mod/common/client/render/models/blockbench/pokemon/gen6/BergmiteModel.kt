@@ -21,7 +21,7 @@ class BergmiteModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
 
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
     override val portraitScale = 2.4F

@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("voltorb")
 
@@ -42,7 +43,7 @@ class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            onTransitionedInto = { it?.animationSeconds = 0F },
+            onTransitionedInto = { it?.reset() },
             transformTicks = 0,
             idleAnimations = arrayOf(
                 bedrock("voltorb", "ground_walk")

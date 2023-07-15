@@ -32,9 +32,11 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     var phaseTarget: Entity? = null
     var entityScaleModifier = 1F
 
-    var animTick = 0F
-    var previousVerticalVelocity = 0F
+    override fun updatePartialTicks(partialTicks: Float) {
+        this.currentPartialTicks = partialTicks
+    }
 
+    var previousVerticalVelocity = 0F
     var beamStartTime = System.currentTimeMillis()
 
     val secondsSinceBeamEffectStarted: Float
@@ -103,6 +105,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
 
     override fun initialize(entity: PokemonEntity) {
         this.entity = entity
+        this.age = entity.age
     }
 
     override fun tick(entity: PokemonEntity) {
@@ -119,8 +122,9 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         }
 
         updateLocatorPosition(entity.pos)
-
         previousVerticalVelocity = entity.velocity.y.toFloat()
+
+        incrementAge(entity)
     }
 
     fun setPhaseTarget(targetId: Int) {

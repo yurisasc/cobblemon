@@ -9,12 +9,13 @@
 package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 
-class LinkCableItem : PokemonInteractiveItem(Settings(), Ownership.OWNER) {
-
+class LinkCableItem : CobblemonItem(Settings()), PokemonInteractiveItem {
+    override val accepted = setOf(PokemonInteractiveItem.Ownership.OWNER)
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon
         pokemon.evolutions.filterIsInstance<TradeEvolution>().forEach { evolution ->

@@ -17,12 +17,29 @@
     "special_defence": 75,
     "speed": 84
   },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      },
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "11-15"
+    }
+  },
   "catchRate": 60,
   "maleRatio": 0.5,
   "shoulderMountable": false,
   "forms": [
     {
       "name": "Small",
+      "baseScale": 0.43,
       "primaryType": "ghost",
       "secondaryType": "grass",
       "abilities": [
@@ -59,7 +76,7 @@
         "gen6"
       ],
       "aspects": [
-        "small"
+        "pumpkin-size-small"
       ],
       "height": 7,
       "weight": 95,
@@ -70,6 +87,7 @@
     },
     {
       "name": "Large",
+      "baseScale": 0.7,
       "primaryType": "ghost",
       "secondaryType": "grass",
       "abilities": [
@@ -106,7 +124,7 @@
         "gen6"
       ],
       "aspects": [
-        "large"
+        "pumpkin-size-large"
       ],
       "height": 11,
       "weight": 140,
@@ -117,6 +135,7 @@
     },
     {
       "name": "Super",
+      "baseScale": 1,
       "primaryType": "ghost",
       "secondaryType": "grass",
       "abilities": [
@@ -153,7 +172,7 @@
         "gen6"
       ],
       "aspects": [
-        "super"
+        "pumpkin-size-super"
       ],
       "height": 17,
       "weight": 390,
@@ -285,10 +304,10 @@
   ],
   "preEvolution": "pumpkaboo",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.57,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 1.6,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -302,6 +321,8 @@
   },
   "height": 9,
   "weight": 125,
-  "aspects": [],
+  "aspects": [
+    "pumpkin-size-average"
+  ],
   "cannotDynamax": false
 }

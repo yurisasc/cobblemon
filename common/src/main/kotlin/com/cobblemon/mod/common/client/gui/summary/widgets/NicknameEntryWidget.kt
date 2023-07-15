@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.SetNicknamePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.TextFieldWidget
 import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
@@ -65,11 +66,11 @@ class NicknameEntryWidget(
         }
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (cursor != text.length) setCursorToEnd()
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = Text.translatable(if (isFocused) "$text|" else text).bold(),
             x = x,

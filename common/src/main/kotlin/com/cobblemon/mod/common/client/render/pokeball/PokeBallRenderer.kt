@@ -36,6 +36,7 @@ class PokeBallRenderer(context: EntityRendererFactory.Context) : EntityRenderer<
         val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, model.getLayer(getTexture(entity)), false, false)
 
         val state = entity.delegate as EmptyPokeBallClientDelegate
+        state.updatePartialTicks(partialTicks)
         model.setLayerContext(buffer, state, PokemonModelRepository.getLayers(entity.pokeBall.name, entity.aspects.get()))
         model.setAngles(entity, 0f, 0f, entity.age + partialTicks, 0F, 0F)
         model.render(poseStack, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f)

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Stoutland",
   "nationalPokedexNumber": 508,
   "primaryType": "normal",
@@ -117,8 +118,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.4,
+    "height": 1.8,
     "fixed": false
   },
   "baseFriendship": 50,

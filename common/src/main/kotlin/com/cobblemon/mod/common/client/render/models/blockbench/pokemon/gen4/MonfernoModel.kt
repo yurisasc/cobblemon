@@ -8,14 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -34,6 +37,7 @@ class MonfernoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("monferno", "blink").setPreventsIdle(false) }
@@ -43,7 +47,7 @@ class MonfernoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("monferno", "idle")
+                        bedrock("monferno", "ground_idle")
                 )
         )
 
@@ -53,15 +57,26 @@ class MonfernoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("monferno", "idle"),
-                        BipedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 0.8F)
-                        //bedrock("monferno", "ground_walk")
+                        bedrock("monferno", "ground_walk")
                 )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("monferno", "battle_idle")
+            )
+
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("monferno", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk, battleidle)) bedrockStateful("monferno", "faint") else null
 }

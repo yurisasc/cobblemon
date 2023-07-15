@@ -7,28 +7,34 @@
     "BuiltinModelItemRendererMixin",
     "EntityRenderDispatcherMixin",
     "GameRendererMixin",
+    "ModelPartMixin",
     "PartyScrollMixin",
-    "accessor.KeyBindingAccessor",
-    "pokeball.ItemRendererMixin",
+    "PotionSlotMixin",
     "SoundManagerMixin",
     "SoundSystemMixin",
-    "accessor.MusicTrackerAccessor"
+    "accessor.KeyBindingAccessor",
+    "accessor.MusicTrackerAccessor",
+    "pokeball.ItemRendererMixin"
   ],
   "mixins": [
+    "FenceBlockMixin",
+    "LivingEntityMixin",
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
     "ServerChunkManagerMixin",
     "ShearsDispenserBehaviorMixin",
     "accessor.AccessorEntity",
-    "invoker.ClientPlayNetworkHandlerInvoker",
+    "accessor.StatusEffectInstanceAccessor",
     "entity.TameableEntityMixin",
+    "invoker.BlocksInvoker",
     "invoker.BooleanRuleInvoker",
-    "invoker.ButtonBlockInvoker",
+    "invoker.ClientPlayNetworkHandlerInvoker",
     "invoker.DoorBlockInvoker",
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",
-    "invoker.TrapdoorBlockInvoker"
+    "invoker.TrapdoorBlockInvoker",
+    "pokeball.ThrownEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

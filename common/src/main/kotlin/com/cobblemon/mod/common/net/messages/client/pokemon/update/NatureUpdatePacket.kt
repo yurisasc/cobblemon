@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class NatureUpdatePacket(pokemon: Pokemon, val nature: Nature?, val minted: Boolean) : PokemonUpdatePacket<NatureUpdatePacket>(pokemon) {
+class NatureUpdatePacket(pokemon: () -> Pokemon, val nature: Nature?, val minted: Boolean) : PokemonUpdatePacket<NatureUpdatePacket>(pokemon) {
 
     override val id = ID
 
@@ -28,7 +28,7 @@ class NatureUpdatePacket(pokemon: Pokemon, val nature: Nature?, val minted: Bool
     override fun applyToPokemon() {
         // Check for removing mint
         if (minted && nature == null) {
-            pokemon.mintedNature = null
+            pokemon().mintedNature = null
             return
         } else {
             // Validate the nature locally
@@ -39,9 +39,9 @@ class NatureUpdatePacket(pokemon: Pokemon, val nature: Nature?, val minted: Bool
 
             // Check which nature to modify
             if (!minted) {
-                pokemon.nature = nature
+                pokemon().nature = nature
             } else {
-                pokemon.mintedNature = nature
+                pokemon().mintedNature = nature
             }
         }
     }

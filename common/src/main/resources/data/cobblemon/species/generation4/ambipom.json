@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Ambipom",
   "nationalPokedexNumber": 424,
   "primaryType": "normal",
@@ -127,10 +128,10 @@
   ],
   "preEvolution": "aipom",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 2.0,
     "fixed": false
   },
   "baseFriendship": 100,

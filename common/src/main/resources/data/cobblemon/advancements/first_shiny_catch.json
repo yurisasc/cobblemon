@@ -19,5 +19,6 @@
 				"count": 1
 			}
 		}
-	}
+	},
+  "sends_telemetry_event": false
 }

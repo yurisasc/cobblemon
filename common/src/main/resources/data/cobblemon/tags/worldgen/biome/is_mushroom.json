@@ -4,7 +4,7 @@
     "minecraft:dark_forest",
     "minecraft:mushroom_fields",
     {
-      "id": "terralith:fungal_caves",
+      "id": "terralith:cave/fungal_caves",
       "required": false
     },
 	{

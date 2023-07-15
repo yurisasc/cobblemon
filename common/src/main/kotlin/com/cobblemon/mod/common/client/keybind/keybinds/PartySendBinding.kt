@@ -32,13 +32,16 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
     InputUtil.GLFW_KEY_R,
     KeybindCategories.COBBLEMON_CATEGORY
 ) {
+    var canApplyChange = true
     var secondsSinceActioned = 0F
 
     fun actioned() {
+        canApplyChange = false
         secondsSinceActioned = 0F
+        wasDown = false
     }
 
-    fun canAction() = secondsSinceActioned > 0.75
+    fun canAction() = canApplyChange
 
     override fun onTick() {
         if (secondsSinceActioned < 100) {
@@ -49,10 +52,14 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
     }
 
     override fun onRelease() {
-        if (!canAction() || timeDown > 1F) {
+        wasDown = false
+
+        if (!canAction()) {
+            canApplyChange = true
             return
         }
 
+        canApplyChange = true
         val player = MinecraftClient.getInstance().player ?: return
 
         val battle = CobblemonClient.battle
@@ -60,7 +67,6 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
             battle.minimised = !battle.minimised
             if (!battle.minimised) {
                 MinecraftClient.getInstance().setScreen(BattleGUI())
-                actioned()
             }
             return
         }
@@ -69,13 +75,12 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
             val pokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (pokemon != null && pokemon.currentHealth > 0) {
                 val targetEntity = player.traceFirstEntityCollision(entityClass = LivingEntity::class.java, ignoreEntity = player)
-                if (targetEntity == null) {
+                if (targetEntity == null || (targetEntity is PokemonEntity && targetEntity.ownerUuid == player.uuid)) {
                     sendPacketToServer(SendOutPokemonPacket(CobblemonClient.storage.selectedSlot))
                 }
                 else {
                     processEntityTarget(player, pokemon, targetEntity)
                 }
-                actioned()
             }
         }
     }
@@ -93,6 +98,5 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
     }
 
     override fun onPress() {
-
     }
 }

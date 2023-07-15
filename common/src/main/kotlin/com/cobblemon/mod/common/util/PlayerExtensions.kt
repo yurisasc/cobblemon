@@ -26,7 +26,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
-import java.util.*
 
 // Stuff like getting their party
 fun ServerPlayerEntity.party() = Cobblemon.storage.getParty(this)
@@ -129,7 +128,7 @@ fun <T : Entity> PlayerEntity.traceEntityCollision(
 fun PlayerEntity.traceBlockCollision(
     maxDistance: Float = 10F,
     stepDistance: Float = 0.05F,
-    blockFilter: (BlockState) -> Boolean = { it.material.isSolid }
+    blockFilter: (BlockState) -> Boolean = { it.isSolid }
 ): TraceResult? {
     var step = stepDistance
     val startPos = eyePos

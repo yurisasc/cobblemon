@@ -20,7 +20,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
 import java.util.concurrent.ConcurrentLinkedQueue
-import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.Vec3d
 
@@ -38,16 +37,35 @@ abstract class PoseableEntityState<T : Entity> {
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
-    var timeEnteredPose = 0F
-    var previousAnimationSeconds = 0F
-    var animationSeconds = 0F
-    var deltaSeconds = 0F
-    var timeLastRendered = System.currentTimeMillis()
-    var wasPaused = false
     val poseParticles = mutableListOf<BedrockParticleKeyframe>()
     val runtime = MoLangRuntime().also {
         it.environment.structs["query"] = it.environment.structs["variable"]
     }
+
+    val allStatefulAnimations: List<StatefulAnimation<T, *>> get() = statefulAnimations + quirks.flatMap { it.value.animations }
+
+    protected var age = 0
+    protected var currentPartialTicks = 0F
+
+    fun getPartialTicks() = currentPartialTicks
+    open fun updateAge(age: Int) {
+        this.age = age
+    }
+
+    open fun incrementAge(entity: T) {
+        val previousAge = age
+        updateAge(age + 1)
+        runEffects(entity, previousAge, age)
+    }
+
+    abstract fun updatePartialTicks(partialTicks: Float)
+    open fun reset() {
+        updateAge(0)
+    }
+
+    val animationSeconds: Float get() = (age + getPartialTicks()) / 20F
+
+    var timeEnteredPose = 0F
 
     val locatorStates = mutableMapOf<String, MatrixWrapper>()
 
@@ -57,26 +75,6 @@ abstract class PoseableEntityState<T : Entity> {
     fun isNotPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.none { it.poseName == currentPose }
 
     fun preRender() {
-        val now = System.currentTimeMillis()
-        var deltaMillis = now - timeLastRendered
-
-        if (wasPaused) {
-            deltaMillis = 0L
-        }
-
-        if (MinecraftClient.getInstance().isPaused) {
-            if (!wasPaused) {
-                wasPaused = true
-            }
-        } else if (wasPaused) {
-            wasPaused = false
-        }
-
-        timeLastRendered = now
-        deltaSeconds = deltaMillis / 1000F
-        previousAnimationSeconds = animationSeconds
-        animationSeconds += deltaSeconds
-
         while (renderQueue.peek() != null) {
             val action = renderQueue.poll()
             action()
@@ -98,7 +96,6 @@ abstract class PoseableEntityState<T : Entity> {
             val poseImpl = model.getPose(pose) ?: return
             poseParticles.removeIf { it !in poseImpl.idleAnimations.filterIsInstance<BedrockStatelessAnimation<*>>().flatMap { it.particleKeyFrames } }
             poseImpl.onTransitionedInto(this)
-            timeEnteredPose = animationSeconds
         }
     }
 
@@ -113,5 +110,16 @@ abstract class PoseableEntityState<T : Entity> {
 
     fun updateLocatorPosition(position: Vec3d) {
         locatorStates.values.toList().forEach { it.updatePosition(position) }
+    }
+
+    fun runEffects(entity: T, previousAge: Int, newAge: Int) {
+        val previousSeconds = previousAge / 20F
+        val currentSeconds = newAge / 20F
+
+        currentModel?.let { model ->
+            val pose = currentPose?.let(model::getPose)
+            allStatefulAnimations.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
+            pose?.getApplicableIdleAnimations(entity, this)?.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
+        }
     }
 }

@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -28,9 +29,9 @@ class ExitButton(
         private val iconResource = cobblemonResource("textures/gui/common/back_button_icon.png")
     }
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             texture = buttonResource,
             x = x,
             y = y,
@@ -41,7 +42,7 @@ class ExitButton(
         )
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             texture = iconResource,
             x = (x + 7) / SCALE,
             y = (y + 4) / SCALE,
