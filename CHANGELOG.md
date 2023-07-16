@@ -46,6 +46,10 @@
 - Flaaffy
 - Ampharos
 - Sudowoodo
+- Snubbull
+- Granbull
+- Phanpy
+- Donphan
 
 #### Gen 3
 
@@ -74,6 +78,8 @@
 - Whiscash
 - Volbeat
 - Illumise
+- Zigzagoon
+- Linoone
 
 #### Gen 4
 
@@ -89,6 +95,8 @@
 - Chatot
 - Combee
 - Vespiquen
+- Buizel
+- Floatzel
 
 #### Gen 5
 
@@ -106,6 +114,8 @@
 - Lillipup
 - Herdier
 - Stoutland
+- Cottonee
+- Whimsicott
 
 #### Gen 6
 
@@ -177,6 +187,8 @@
 - Tinkatink
 - Tinkatuff
 - Tinkaton
+- Maschiff
+- Mabosstiff
 
 ### Changes
 - Updated model and textures of Riolu, Lucario, Haunter, Mankey, Primeape, Mew, Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper, Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgey, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey and Blissey.
