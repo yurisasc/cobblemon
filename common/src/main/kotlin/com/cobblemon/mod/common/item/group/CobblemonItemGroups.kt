@@ -114,6 +114,16 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.WHITE_MINT_SEEDS)
         entries.add(CobblemonItems.WHITE_MINT_LEAF)
 
+        entries.add(CobblemonItems.GROWTH_MULCH)
+        entries.add(CobblemonItems.RICH_MULCH)
+        entries.add(CobblemonItems.SURPRISE_MULCH)
+        entries.add(CobblemonItems.LOAMY_MULCH)
+        entries.add(CobblemonItems.COARSE_MULCH)
+        entries.add(CobblemonItems.PEAT_MULCH)
+        entries.add(CobblemonItems.HUMID_MULCH)
+        entries.add(CobblemonItems.SANDY_MULCH)
+        entries.add(CobblemonItems.MULCH_BASE)
+
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
