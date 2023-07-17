@@ -21,6 +21,9 @@
     "moving": {
       "fly": {
         "canFly": true
+      },
+      "walk": {
+        "walkSpeed": 0.28
       }
     },
     "resting": {

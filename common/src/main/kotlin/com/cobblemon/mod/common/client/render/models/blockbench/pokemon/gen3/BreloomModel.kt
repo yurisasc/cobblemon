@@ -79,7 +79,6 @@ class BreloomModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

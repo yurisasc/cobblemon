@@ -29,6 +29,7 @@
 - Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
 - Added flying placeholder animations to Pidgey, Pidgeotto, Pidgeot, Golbat, Crobat, Scyther, Scizor, Zapdos, Moltres, Articuno, Dragonite, Rowlet, Dartrix, and Decidueye.
 - Added loot to various vanilla chest loot tables (Link Cable in Ancient Cities, Woodland Mansions, End Cities, and Igloos, Vivichoke Seeds in Jungle Temples, Dungeons, and Plains, Savanna, Snowy, and Taiga Villages, and all 7 Apricorn Sprouts in Desert, Plains, Savanna, Snowy, and Taiga Villages, as well as the Bonus Chest)
+- Added animations for Wailord.
 
 ### Pokémon Added
 #### Gen 2
@@ -129,7 +130,7 @@
 
 #### Gen 7
 
-- Wishiwashi (Planned)
+- Wishiwashi (Schooling form will spawn for now.)
 - Cutiefly
 - Ribombee
 - Stufful
@@ -153,6 +154,9 @@
 - Galarian Rapidash
 - Yamper
 - Boltund
+- Galarian Zigzagoon
+- Galarian Linoone
+- Obstagoon
 
 #### Gen 9
 
@@ -192,8 +196,8 @@
 
 ### Changes
 - Updated model and textures of Riolu, Lucario, Haunter, Mankey, Primeape, Mew, Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper, Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgey, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey and Blissey.
-- Updated Animations for Ponyta, Rapidash, Piplup, Prinplup, Empoleon, Drowzee, Hypno, Farfetch'd, Exeggcute, Exeggutor, Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
-- Updated models of Sceptile and Shuckle.
+- Updated animations for Turtwig, Grotle, Torterra, Ponyta, Rapidash, Piplup, Prinplup, Empoleon, Drowzee, Hypno, Farfetch'd, Exeggcute, Exeggutor, Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
+- Updated only models of Turtwig, Grotle, Torterra, Sceptile and Shuckle.
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
 - Updated textures for apricorn doors and all the evolution stone ores.
 - Updated Apricorn Leaves color.

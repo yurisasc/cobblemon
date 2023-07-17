@@ -16,6 +16,9 @@
     "special_defence": 41,
     "speed": 60
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 255,
   "maleRatio": 0.5,
   "shoulderMountable": true,
@@ -128,7 +131,7 @@
       "weight": 175,
       "evolutions": [
         {
-          "id": "zigzagoon_linoone",
+          "id": "galarian_zigzagoon_linoone",
           "variant": "level_up",
           "result": "linoone form=galar",
           "consumeHeldItem": false,
@@ -143,6 +146,12 @@
           ]
         }
       ],
+      "baseScale": 0.8,
+      "hitbox": {
+        "width": 0.6,
+        "height": 0.4,
+        "fixed": false
+      },
       "cannotDynamax": false,
       "battleOnly": false
     }

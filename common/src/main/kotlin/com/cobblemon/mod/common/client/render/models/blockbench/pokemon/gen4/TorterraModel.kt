@@ -8,11 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -63,4 +65,8 @@ class TorterraModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             )
         )
     }
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("torterra", "faint") else null
 }

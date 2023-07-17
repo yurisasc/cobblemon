@@ -41,15 +41,22 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("volbeat", "blink").setPreventsIdle(false) }
 
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("volbeat", "sleep"))
+        )
+
         stand = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "ground_idle")
@@ -63,12 +70,7 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("volbeat", "air_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 10F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("volbeat", "air_idle")
             )
         )
 
@@ -79,12 +81,7 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("volbeat", "air_fly"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 3F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("volbeat", "air_fly")
             )
         )
 
@@ -95,8 +92,19 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("volbeat", "ground_idle"),
-                BipedWalkAnimation(this)
+                bedrock("volbeat", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("volbeat", "battle_idle")
             )
         )
     }

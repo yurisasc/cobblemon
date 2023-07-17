@@ -41,14 +41,21 @@ class IllumiseModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("illumise", "blink").setPreventsIdle(false) }
 
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("illumise", "sleep"))
+        )
+
         stand = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -63,12 +70,7 @@ class IllumiseModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("illumise", "air_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 10F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("illumise", "air_idle")
             )
         )
 
@@ -79,12 +81,7 @@ class IllumiseModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("illumise", "air_fly"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 3F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("illumise", "air_fly")
             )
         )
 
@@ -95,8 +92,19 @@ class IllumiseModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("illumise", "ground_idle"),
-                BipedWalkAnimation(this)
+                bedrock("illumise", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("illumise", "battle_idle")
             )
         )
     }

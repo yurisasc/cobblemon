@@ -30,10 +30,16 @@
         "avoidsLand": true
       },
       "swim": {
-        "swimSpeed": 1.3,
+        "swimSpeed": 1.2,
         "canSwimInWater": true,
         "canBreatheUnderwater": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [

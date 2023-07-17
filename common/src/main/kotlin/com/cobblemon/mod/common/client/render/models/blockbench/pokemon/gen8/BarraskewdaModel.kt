@@ -25,22 +25,89 @@ class BarraskewdaModel (root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var floating: PokemonPose
+    lateinit var swimming: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var watersleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+    lateinit var waterbattleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("barraskewda", "blink").setPreventsIdle(false)}
+        sleep = registerPose(
+            poseName = "sleeping",
+            transformTicks = 10,
+            poseType = PoseType.SLEEP,
+            condition = { !it.isTouchingWater },
+            idleAnimations = arrayOf(bedrock("barraskewda", "sleep"))
+        )
+
+        watersleep = registerPose(
+            poseName = "water_sleeping",
+            transformTicks = 10,
+            poseType = PoseType.SLEEP,
+            condition = { it.isTouchingWater },
+            idleAnimations = arrayOf(bedrock("barraskewda", "water_sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                bedrock("barraskewda", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                bedrock("barraskewda", "ground_walk")
+            )
+        )
+
+        floating = registerPose(
+            poseName = "floating",
+            poseTypes = PoseType.UI_POSES + PoseType.FLOAT,
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("barraskewda", "water_idle")
+            )
+        )
+
+        swimming = registerPose(
+            poseName = "swimming",
+            poseType = PoseType.SWIM,
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("barraskewda", "water_swim"),
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling && !it.isTouchingWater },
+            idleAnimations = arrayOf(
+                bedrock("barraskewda", "battle_idle")
+            )
+        )
+
+        waterbattleidle = registerPose(
+            poseName = "water_battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling && it.isTouchingWater },
+            idleAnimations = arrayOf(
+                bedrock("barraskewda", "water_battle_idle")
             )
         )
     }
