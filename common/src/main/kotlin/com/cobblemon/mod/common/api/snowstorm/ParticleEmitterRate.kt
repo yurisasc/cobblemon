@@ -99,22 +99,31 @@ class SteadyParticleEmitterRate(
     override val type = ParticleEmitterRateType.STEADY
 
     override fun getEmitCount(runtime: MoLangRuntime, started: Boolean, currentlyActive: Int): Int {
+        // The emitting rates are all per second, but this runs every tick. Presents some difficulties.
+
         val max = runtime.resolveDouble(maximum).toInt()
         val variables = runtime.environment.structs["variable"] as VariableStruct
-        var currentOverflow = variables.map[OVERFLOW_VARIABLE]?.asDouble() ?: 0.0
+
+        /*
+         * The strategy is that per tick it might be calculated to be 1.2 particles. We can't spawn a fifth
+         * of a particle, so we consider the .2 to be overflow which will be added to the next total. If the
+         * next tick we end up with 1.9, the overflow from last time will bring it to 2.1, so 2 particles with
+         * 0.1 overflow for the next tick.
+         */
+
+        val currentOverflow = variables.map[OVERFLOW_VARIABLE]?.asDouble() ?: 0.0
         if (currentlyActive >= max) {
             return 0
         }
 
         val perSecond = runtime.resolveDouble(rate)
+
         val trySpawn = perSecond / 20.0 + currentOverflow
 
-        val intComponent = trySpawn.toInt()
-        val doubleComponent = trySpawn - intComponent
+        val intComponent = trySpawn.toInt() // round down
+        val doubleComponent = trySpawn - intComponent // decimal portion (the overflow)
 
-        currentOverflow = doubleComponent
-
-        variables.map[OVERFLOW_VARIABLE] = DoubleValue(currentOverflow)
+        variables.map[OVERFLOW_VARIABLE] = DoubleValue(doubleComponent)
         return min(intComponent, max - currentlyActive)
     }
 

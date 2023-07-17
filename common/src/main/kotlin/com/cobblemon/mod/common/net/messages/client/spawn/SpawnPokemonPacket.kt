@@ -48,7 +48,7 @@ class SpawnPokemonPacket(
         entity.beamModeEmitter.get(),
         entity.pokemon.nickname,
         if (Cobblemon.config.displayEntityLevelLabel) entity.labelLevel.get() else -1,
-        entity.getPoseType(),
+        entity.poseType.get(),
         vanillaSpawnPacket
     )
 

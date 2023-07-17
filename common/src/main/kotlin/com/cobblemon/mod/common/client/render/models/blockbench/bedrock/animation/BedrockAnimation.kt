@@ -52,7 +52,6 @@ class BedrockParticleKeyframe(
     override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
         val world = entity.world as ClientWorld
         val matrixWrapper = state.locatorStates[locator] ?: state.locatorStates["root"]!!
-        val effect = effect
 
         if (this in state.poseParticles) {
             return
@@ -64,7 +63,8 @@ class BedrockParticleKeyframe(
             world = world,
             sourceVelocity = { entity.velocity },
             sourceAlive = { !entity.isRemoved && this in state.poseParticles },
-            sourceVisible = { !entity.isInvisible }
+            sourceVisible = { !entity.isInvisible },
+            entity = entity
         )
 
         state.poseParticles.add(this)

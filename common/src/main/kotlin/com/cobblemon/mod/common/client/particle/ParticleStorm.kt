@@ -15,9 +15,7 @@ import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.particle.SnowstormParticleEffect
-import com.cobblemon.mod.common.util.math.geometry.getOrigin
 import com.cobblemon.mod.common.util.math.geometry.transformDirection
-import com.cobblemon.mod.common.util.math.geometry.transformPosition
 import kotlin.random.Random
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.NoRenderParticle
@@ -38,9 +36,15 @@ class ParticleStorm(
     val sourceVelocity: () -> Vec3d = { Vec3d.ZERO },
     val sourceAlive: () -> Boolean = { true },
     val sourceVisible: () -> Boolean = { true },
-    val runtime: MoLangRuntime = MoLangRuntime()
+    val runtime: MoLangRuntime = MoLangRuntime(),
+    val entity: Entity? = null
 ): NoRenderParticle(world, matrixWrapper.getOrigin().x, matrixWrapper.getOrigin().y, matrixWrapper.getOrigin().z) {
     fun spawn() {
+        if (entity != null) {
+            // TODO replace with a generified call to if (entity is MoLangEntity) entity.applyVariables(env) or w/e
+            runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.xLength))
+            runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.yLength))
+        }
         MinecraftClient.getInstance().particleManager.addParticle(this)
     }
 
@@ -55,8 +59,6 @@ class ParticleStorm(
     val particles = mutableListOf<SnowstormParticle>()
     var started = false
     var stopped = false
-
-    var entity: Entity? = null
 
     companion object {
         var contextStorm: ParticleStorm? = null
@@ -102,24 +104,16 @@ class ParticleStorm(
         runtime.environment.setSimpleVariable("emitter_age", DoubleValue(age / 20.0))
         runtime.execute(effect.emitter.updateExpressions)
 
-        // curves
-
-        var toEmit = 0
-
         when (effect.emitter.lifetime.getAction(runtime, started, age / 20.0)) {
             ParticleEmitterAction.GO -> {
-                toEmit = effect.emitter.rate.getEmitCount(runtime, started, particles.size)
+                effect.curves.forEach { it.apply(runtime) }
+                val toEmit = effect.emitter.rate.getEmitCount(runtime, started, particles.size)
                 started = true
+                repeat(times = toEmit) { spawnParticle() }
             }
             ParticleEmitterAction.NOTHING -> {}
             ParticleEmitterAction.STOP -> stopped = true
             ParticleEmitterAction.RESET -> started = false
-        }
-
-        effect.curves.forEach { it.apply(runtime) }
-
-        repeat(times = toEmit) {
-            spawnParticle()
         }
     }
 

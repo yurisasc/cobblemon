@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.generic
 
 import com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate
@@ -28,6 +36,7 @@ class GenericBedrockRenderer(context: EntityRendererFactory.Context) : EntityRen
         val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, model.getLayer(getTexture(entity)), false, false)
 
         val state = entity.delegate as GenericBedrockClientDelegate
+        state.updatePartialTicks(partialTicks)
         model.setLayerContext(buffer, state, PokemonModelRepository.getLayers(entity.category, entity.aspects))
         model.setAngles(entity, 0f, 0f, entity.age + partialTicks, 0F, 0F)
         model.render(poseStack, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f)

@@ -12,7 +12,6 @@ import com.bedrockk.molang.Expression
 import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.ast.NumberExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
-import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.codec.CodecMapped
 import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.util.asExpression
@@ -151,7 +150,6 @@ class LoopingEmitterLifetime(var activeTime: Expression = 1.0.asExpression(), va
     }
 
     override fun writeToBuffer(buffer: PacketByteBuf) {
-        val activeTimeString =
         buffer.writeString(activeTime.getString())
         buffer.writeString(sleepTime.getString())
     }

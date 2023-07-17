@@ -1,11 +1,17 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
-import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.InstanceCreator
@@ -19,7 +25,7 @@ import java.util.function.Supplier
 import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
 
-abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: ModelPart) : PoseableEntityModel<T>() {
+abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: Bone) : PoseableEntityModel<T>() {
     override fun registerPoses() {}
 
     object JsonModelExclusion: ExclusionStrategy {

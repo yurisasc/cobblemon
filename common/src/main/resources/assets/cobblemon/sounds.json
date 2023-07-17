@@ -54,6 +54,9 @@
   "pokemon.can_evolve": {
     "sounds": [ "cobblemon:pokemon/evolution_notification"]
   },
+  "evolution.evolve": {
+    "sounds": ["cobblemon:evolve"]
+  },
   "pokemon.evolving": {
     "sounds": [ "cobblemon:pokemon/evolving"]
   },

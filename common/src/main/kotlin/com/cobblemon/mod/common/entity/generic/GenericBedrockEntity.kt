@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.entity.generic
 
 import com.cobblemon.mod.common.CobblemonEntities
@@ -36,33 +44,6 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
     var savesToWorld = false
     var poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
 
-    override fun initDataTracker() {
-        this.dataTracker.startTracking(CATEGORY, cobblemonResource("generic"))
-        this.dataTracker.startTracking(ASPECTS, emptySet())
-        this.dataTracker.startTracking(SCALE, 1F)
-    }
-
-    override fun readCustomDataFromNbt(nbt: NbtCompound) {
-        this.category = Identifier(nbt.getString(DataKeys.GENERIC_BEDROCK_CATEGORY))
-        this.aspects = nbt.getList(DataKeys.GENERIC_BEDROCK_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
-        this.poseType.set(PoseType.values()[nbt.getByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE).toInt()])
-        this.scale = nbt.getFloat(DataKeys.GENERIC_BEDROCK_SCALE)
-        this.colliderWidth = nbt.getFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_WIDTH)
-        this.colliderHeight = nbt.getFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_HEIGHT)
-    }
-
-    override fun writeCustomDataToNbt(nbt: NbtCompound) {
-        nbt.putString(DataKeys.GENERIC_BEDROCK_CATEGORY, category.toString())
-        nbt.put(DataKeys.GENERIC_BEDROCK_ASPECTS, NbtList().also { it.addAll(aspects.map(NbtString::of)) })
-        nbt.putByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE, getCurrentPoseType().ordinal.toByte())
-        nbt.putFloat(DataKeys.GENERIC_BEDROCK_SCALE, scale)
-        nbt.putFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_WIDTH, colliderWidth)
-        nbt.putFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_HEIGHT, colliderHeight)
-    }
-
-    override fun canHit() = true
-    override fun isCollidable() = true
-
     val delegate = if (world.isClient) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
         com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate()
@@ -100,6 +81,33 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
             field = value
             calculateDimensions()
         }
+
+    override fun initDataTracker() {
+        this.dataTracker.startTracking(CATEGORY, cobblemonResource("generic"))
+        this.dataTracker.startTracking(ASPECTS, emptySet())
+        this.dataTracker.startTracking(SCALE, 1F)
+    }
+
+    override fun readCustomDataFromNbt(nbt: NbtCompound) {
+        this.category = Identifier(nbt.getString(DataKeys.GENERIC_BEDROCK_CATEGORY))
+        this.aspects = nbt.getList(DataKeys.GENERIC_BEDROCK_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
+        this.poseType.set(PoseType.values()[nbt.getByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE).toInt()])
+        this.scale = nbt.getFloat(DataKeys.GENERIC_BEDROCK_SCALE)
+        this.colliderWidth = nbt.getFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_WIDTH)
+        this.colliderHeight = nbt.getFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_HEIGHT)
+    }
+
+    override fun writeCustomDataToNbt(nbt: NbtCompound) {
+        nbt.putString(DataKeys.GENERIC_BEDROCK_CATEGORY, category.toString())
+        nbt.put(DataKeys.GENERIC_BEDROCK_ASPECTS, NbtList().also { it.addAll(aspects.map(NbtString::of)) })
+        nbt.putByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE, getCurrentPoseType().ordinal.toByte())
+        nbt.putFloat(DataKeys.GENERIC_BEDROCK_SCALE, scale)
+        nbt.putFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_WIDTH, colliderWidth)
+        nbt.putFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_HEIGHT, colliderHeight)
+    }
+
+    override fun canHit() = true
+    override fun isCollidable() = true
 
     override fun shouldSave() = super.shouldSave() && this.savesToWorld
     override fun getDimensions(pose: EntityPose) = EntityDimensions.changing(colliderWidth, colliderHeight).scaled(scale)

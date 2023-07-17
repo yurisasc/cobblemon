@@ -10,7 +10,11 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.*
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
@@ -26,7 +30,13 @@ import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.render.*
+import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderPhase
+import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
@@ -383,7 +393,9 @@ abstract class PoseableEntityModel<T : Entity>(
         state.currentModel = this
         setDefault()
         state.preRender()
-        updateLocators(state)
+        if (entity != null) {
+            updateLocators(entity, state)
+        }
         var poseName = state.getPose()
         var pose = poseName?.let { getPose(it) }
         val entityPoseType = if (entity is Poseable) entity.getCurrentPoseType() else null
@@ -433,7 +445,9 @@ abstract class PoseableEntityModel<T : Entity>(
             ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         state.applyAdditives(entity, this, state)
         relevantParts.forEach { it.changeFactor = 1F }
-        updateLocators(state)
+        if (entity != null) {
+            updateLocators(entity, state)
+        }
     }
 
     override fun setAngles(
@@ -476,16 +490,14 @@ abstract class PoseableEntityModel<T : Entity>(
      * Figures out where all of this model's locators are in real space, so that they can be
      * found and used from other client-side systems.
      */
-    fun updateLocators(state: PoseableEntityState<T>) {
-        val entity = currentEntity ?: return
+    fun updateLocators(entity: T, state: PoseableEntityState<T>) {
         val matrixStack = MatrixStack()
         // We could improve this to be generalized for other entities
         if (entity is PokemonEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
-            val scale =
-                entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
@@ -493,6 +505,7 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.scale(1F, -1F, -1F)
             matrixStack.scale(0.7F, 0.7F, 0.7F)
         }
+
         // Standard living entity offset, only God knows why Mojang did this.
         matrixStack.translate(0.0, -1.5, 0.0)
 

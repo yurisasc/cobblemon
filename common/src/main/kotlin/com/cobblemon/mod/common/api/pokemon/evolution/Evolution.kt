@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.api.pokemon.evolution
 
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.moves.BenchedMove
@@ -113,7 +112,11 @@ interface Evolution : EvolutionLike {
             .forEach { evolution ->
                 evolution.attemptEvolution(pokemon)
             }
-        pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
+        if (pokemon.entity == null) {
+            pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
+        } else {
+            // TODO play animation and evolve after 12 seconds
+        }
         CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
     }
 

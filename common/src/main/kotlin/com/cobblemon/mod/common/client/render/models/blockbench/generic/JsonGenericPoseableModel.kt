@@ -1,9 +1,18 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.models.blockbench.generic
 
 import com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
@@ -12,13 +21,12 @@ import com.google.gson.InstanceCreator
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import java.util.function.Supplier
-import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class JsonGenericPoseableModel(override val rootPart: ModelPart) : JsonPoseableEntityModel<GenericBedrockEntity>(rootPart) {
+class JsonGenericPoseableModel(override val rootPart: Bone) : JsonPoseableEntityModel<GenericBedrockEntity>(rootPart) {
 
     object JsonGenericPoseableModelAdapter : InstanceCreator<JsonGenericPoseableModel> {
-        var modelPart: ModelPart? = null
+        var modelPart: Bone? = null
         var model: JsonGenericPoseableModel? = null
         override fun createInstance(type: Type): JsonGenericPoseableModel {
             return JsonGenericPoseableModel(modelPart!!).also {
