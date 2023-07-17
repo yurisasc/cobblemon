@@ -42,6 +42,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
+import net.minecraft.entity.Entity
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.text.Text
@@ -221,7 +222,7 @@ open class PokemonBattle(
                         if (experience > 0) {
                             opponent.awardExperience(opponentPokemon, experience)
                         }
-                        Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
+                        Cobblemon.evYieldCalculator.calculate(opponentPokemon, faintedPokemon).forEach { (stat, amount) ->
                             pokemon.evs.add(stat, amount)
                         }
                     }
@@ -234,6 +235,11 @@ open class PokemonBattle(
             .mapNotNull { it.entity }
             .filterIsInstance<PokemonEntity>()
             .forEach{it.pokemon.heal()}
+        actors.forEach { actor ->
+            actor.pokemonList.forEach { battlePokemon ->
+                battlePokemon.entity?.let { entity -> battlePokemon.postBattleEntityOperation(entity) }
+            }
+        }
         sendUpdate(BattleEndPacket())
         sendUpdate(BattleMusicPacket(null))
         BattleRegistry.closeBattle(this)

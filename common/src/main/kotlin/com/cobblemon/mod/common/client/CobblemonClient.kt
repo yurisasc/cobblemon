@@ -26,10 +26,8 @@ import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererR
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.VaryingModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
@@ -45,6 +43,7 @@ import java.awt.Color
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.block.BlockColors
 import net.minecraft.client.color.item.ItemColorProvider
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -126,10 +125,10 @@ object CobblemonClient {
 
     fun registerColors() {
         this.implementation.registerBlockColors(BlockColorProvider { _, _, _, _ ->
-            return@BlockColorProvider 0xe1b552
+            return@BlockColorProvider 0xE0A33A
         }, CobblemonBlocks.APRICORN_LEAVES)
         this.implementation.registerItemColors(ItemColorProvider { _, _ ->
-            return@ItemColorProvider 0xe1b552
+            return@ItemColorProvider 0xE0A33A
         }, CobblemonItems.APRICORN_LEAVES)
 
         CobblemonBlocks.berries().values.forEach { berry ->
@@ -170,18 +169,21 @@ object CobblemonClient {
             CobblemonBlocks.PINK_MINT,
             CobblemonBlocks.GREEN_MINT,
             CobblemonBlocks.WHITE_MINT,
+            CobblemonBlocks.PASTURE,
             CobblemonBlocks.ENERGY_ROOT,
             CobblemonBlocks.BIG_ROOT,
+            CobblemonBlocks.REVIVAL_HERB,
+            CobblemonBlocks.VIVICHOKE_SEEDS,
             CobblemonBlocks.REVIVAL_HERB,
             *CobblemonBlocks.berries().values.toTypedArray()
         )
     }
 
-    fun beforeChatRender(matrixStack: MatrixStack, partialDeltaTicks: Float) {
+    fun beforeChatRender(context: DrawContext, partialDeltaTicks: Float) {
         if (battle == null) {
-            overlay.render(matrixStack, partialDeltaTicks)
+            overlay.render(context, partialDeltaTicks)
         } else {
-            battleOverlay.render(matrixStack, partialDeltaTicks)
+            battleOverlay.render(context, partialDeltaTicks)
         }
     }
 

@@ -1,6 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "group": "misc",
+  "group": "roasted_leek",
   "ingredient": {
     "item": "cobblemon:medicinal_leek"
   },

@@ -32,7 +32,7 @@ object LootInjector {
 
     /**
      * Attempts to inject a Cobblemon injection loot table to a loot table being loaded.
-     * This will automatically query the existance of an injection.
+     * This will automatically query the existence of an injection.
      *
      * @param id The [Identifier] of the loot table being loaded.
      * @param provider The job invoked if the injection is possible, this is what the platform needs to do to append the loot table.
@@ -45,7 +45,7 @@ object LootInjector {
         }
         val resulting = this.convertToPotentialInjected(id)
         // Defaults to LootTable.EMPTY instead of null
-        if (lootManager.getTable(resulting) != LootTable.EMPTY) {
+        if (lootManager.getLootTable(resulting) != LootTable.EMPTY) {
             provider(this.injectLootPool(resulting))
             return true
         }

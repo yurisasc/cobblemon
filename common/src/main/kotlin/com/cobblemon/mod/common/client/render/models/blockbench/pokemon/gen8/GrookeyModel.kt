@@ -60,7 +60,6 @@ class GrookeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling },
             transformedParts = arrayOf(
                 stick.asTransformed().withVisibility(visibility = false),
                 stick_hair.asTransformed().withVisibility(visibility = true)

@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
@@ -39,11 +40,11 @@ class ReorderMoveButton(
         return false
     }
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val offsetY = if (isUp) OFFSET_Y_UP else OFFSET_Y_DOWN
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             x = (pX - OFFSET_X) / SCALE,
             y = (pY + offsetY) / SCALE,
             texture = if (isUp) moveReorderUpResource else moveReorderDownResource,

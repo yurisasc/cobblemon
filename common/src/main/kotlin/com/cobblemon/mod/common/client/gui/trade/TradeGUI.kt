@@ -32,7 +32,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import java.util.UUID
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
@@ -227,9 +227,10 @@ class TradeGUI(
         setOfferedPokemon(pokemon = opposingOfferedPokemon, isOpposing = true)
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
+        val matrices = context.matrices
 
         // Render Background Resource
         val backgroundX = x + 68
@@ -244,15 +245,15 @@ class TradeGUI(
         )
 
         // Render Model Portraits
-        DrawableHelper.enableScissor(
+        context.enableScissor(
             backgroundX,
             backgroundY,
             backgroundX + BASE_BACKGROUND_WIDTH,
             backgroundY +  BASE_BACKGROUND_HEIGHT
         )
-        offeredPokemonModel?.render(matrices, mouseX, mouseY, delta)
-        opposingOfferedPokemonModel?.render(matrices, mouseX, mouseY, delta)
-        DrawableHelper.disableScissor()
+        offeredPokemonModel?.render(context, mouseX, mouseY, delta)
+        opposingOfferedPokemonModel?.render(context, mouseX, mouseY, delta)
+        context.disableScissor()
 
         // Render Base Resource
         blitk(
@@ -263,10 +264,10 @@ class TradeGUI(
             height = BASE_HEIGHT
         )
 
-        renderInfoLabels(matrices, x, y)
+        renderInfoLabels(context, x, y)
 
-        renderPokemonInfo(offeredPokemon, false, matrices, x, y)
-        renderPokemonInfo(opposingOfferedPokemon, true, matrices, x, y)
+        renderPokemonInfo(offeredPokemon, false, context, x, y)
+        renderPokemonInfo(opposingOfferedPokemon, true, context, x, y)
 
         if (trade.acceptedOppositeOffer) {
             blitk(
@@ -318,7 +319,7 @@ class TradeGUI(
 
         // Render usernames
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = MinecraftClient.getInstance().session.username.text().bold(),
             x = x + 57,
@@ -328,7 +329,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = traderName.bold(),
             x = x + 237,
@@ -337,21 +338,21 @@ class TradeGUI(
             shadow = true
         )
 
-        super.render(matrices, mouseX, mouseY, delta)
+        super.render(context, mouseX, mouseY, delta)
 
         // Item Tooltip
         if (offeredPokemon != null && !offeredPokemon!!.heldItemNoCopy().isEmpty) {
             val itemX = x + 50
             val itemY = y + 125
             val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) renderTooltip(matrices, offeredPokemon!!.heldItemNoCopy(), mouseX, mouseY)
+            if (itemHovered) context.drawItemTooltip(MinecraftClient.getInstance().textRenderer, offeredPokemon!!.heldItemNoCopy(), mouseX, mouseY)
         }
 
         if (opposingOfferedPokemon != null && !opposingOfferedPokemon!!.heldItemNoCopy().isEmpty) {
             val itemX = x + 227
             val itemY = y + 125
             val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) renderTooltip(matrices, opposingOfferedPokemon!!.heldItemNoCopy(), mouseX, mouseY)
+            if (itemHovered) context.drawItemTooltip(MinecraftClient.getInstance().textRenderer, opposingOfferedPokemon!!.heldItemNoCopy(), mouseX, mouseY)
         }
     }
 
@@ -421,12 +422,13 @@ class TradeGUI(
         MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 
-    private fun renderPokemonInfo(pokemon: Pokemon?, isOpposing: Boolean, matrices: MatrixStack, x: Int, y: Int) {
+    private fun renderPokemonInfo(pokemon: Pokemon?, isOpposing: Boolean, context: DrawContext, x: Int, y: Int) {
         if (pokemon != null) {
+            val matrices = context.matrices
             // Level
             val levelXOffset = if (isOpposing) 117 else 0
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = lang("ui.lv").bold(),
                 x = x + 76 + levelXOffset,
@@ -435,7 +437,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = pokemon.level.toString().text().bold(),
                 x = x + 89 + levelXOffset,
@@ -447,7 +449,7 @@ class TradeGUI(
             val nameXOffset = if (isOpposing) 75 else 0
             val ballResource = cobblemonResource("textures/item/poke_balls/" + pokemon.caughtBall.name.path + ".png")
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 texture = ballResource,
                 x = (x + 73.5 + nameXOffset) / SCALE,
                 y = (y + 12) / SCALE,
@@ -457,7 +459,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = pokemon.getDisplayName().bold(),
                 x = x + 82 + nameXOffset,
@@ -469,7 +471,7 @@ class TradeGUI(
                 val isMale = pokemon.gender == Gender.MALE
                 val textSymbol = if (isMale) "♂".text().bold() else "♀".text().bold()
                 drawScaledText(
-                    matrixStack = matrices,
+                    context = context,
                     font = CobblemonResources.DEFAULT_LARGE,
                     text = textSymbol,
                     x = x + 139 + nameXOffset,
@@ -484,8 +486,9 @@ class TradeGUI(
             val itemX = x + (if (isOpposing) 227 else 50)
             val itemY = y + 125
             if (!heldItem.isEmpty) {
-                MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(matrices, heldItem, itemX, itemY)
-                MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(matrices, MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+                val textRenderer = MinecraftClient.getInstance().textRenderer
+                context.drawItem(heldItem, itemX, itemY)
+                context.drawItemInSlot(textRenderer, heldItem, itemX, itemY)
             }
 
             // Shiny Icon
@@ -522,13 +525,13 @@ class TradeGUI(
                 secondaryOffset = 10F,
                 small = true,
                 centeredX = true
-            ).render(matrices)
+            ).render(context)
 
             val labelXOffset = if (isOpposing) 77 else 0
 
             // Nature
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.nature.displayName.asTranslated(),
                 x = x + 108 + labelXOffset,
                 y = y + 146.5,
@@ -539,7 +542,7 @@ class TradeGUI(
 
             // Ability
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.ability.displayName.asTranslated(),
                 x = x + 108 + labelXOffset,
                 y = y + 163.5,
@@ -552,7 +555,7 @@ class TradeGUI(
             val moves = pokemon.moveSet.getMoves()
             for (i in moves.indices) {
                 drawScaledText(
-                    matrixStack = matrices,
+                    context = context,
                     text = moves[i].displayName,
                     x = x + 108 + labelXOffset,
                     y = y + 180.5 + (7 * i),
@@ -565,7 +568,7 @@ class TradeGUI(
             // IVs
             val ivXOffset = if (isOpposing) 205 else -13
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.ivs.getOrDefault(Stats.HP).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 155.5,
@@ -574,7 +577,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.ivs.getOrDefault(Stats.ATTACK).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 163.5,
@@ -583,7 +586,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.ivs.getOrDefault(Stats.DEFENCE).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 171.5,
@@ -592,7 +595,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.ivs.getOrDefault(Stats.SPECIAL_ATTACK).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 179.5,
@@ -601,7 +604,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.ivs.getOrDefault(Stats.SPECIAL_DEFENCE).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 187.5,
@@ -610,7 +613,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.ivs.getOrDefault(Stats.SPEED).toString().text(),
                 x = x + 60 + ivXOffset,
                 y = y + 195.5,
@@ -621,7 +624,7 @@ class TradeGUI(
             // EVs
             val evXOffset = if (isOpposing) 221 else 3
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.evs.getOrDefault(Stats.HP).toString().text(),
                 x = x + 60 + evXOffset,
                 y = y + 155.5,
@@ -630,7 +633,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.evs.getOrDefault(Stats.ATTACK).toString().text(),
                 x = x + 60 + evXOffset,
                 y = y + 163.5,
@@ -639,7 +642,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.evs.getOrDefault(Stats.DEFENCE).toString().text(),
                 x = x + 60 + evXOffset,
                 y = y + 171.5,
@@ -648,7 +651,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.evs.getOrDefault(Stats.SPECIAL_ATTACK).toString().text(),
                 x = x + 60 + evXOffset,
                 y = y + 179.5,
@@ -657,7 +660,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.evs.getOrDefault(Stats.SPECIAL_DEFENCE).toString().text(),
                 x = x + 60 + evXOffset,
                 y = y + 187.5,
@@ -666,7 +669,7 @@ class TradeGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.evs.getOrDefault(Stats.SPEED).toString().text(),
                 x = x + 60 + evXOffset,
                 y = y + 195.5,
@@ -675,7 +678,7 @@ class TradeGUI(
             )
         } else {
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 texture = typeSpacerResource,
                 x = (x + (if (isOpposing) 153 else 73)) / SCALE,
                 y = (y + 113.5) / SCALE,
@@ -688,9 +691,9 @@ class TradeGUI(
         }
     }
 
-    private fun renderInfoLabels(matrices: MatrixStack, x: Int, y: Int) {
+    private fun renderInfoLabels(context: DrawContext, x: Int, y: Int) {
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.party").bold(),
             x = x + 25.5,
@@ -699,7 +702,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.info.nature").bold(),
             x = x + 108,
             y = y + 139.5,
@@ -708,7 +711,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.info.ability").bold(),
             x = x + 108,
             y = y + 156.5,
@@ -717,7 +720,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.moves").bold(),
             x = x + 108,
             y = y + 173.5,
@@ -726,7 +729,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("held_item"),
             x = x + 22.5,
             y = y + 135.5,
@@ -735,7 +738,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.ivs").bold(),
             x = x + 47,
             y = y + 147.5,
@@ -744,7 +747,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.evs").bold(),
             x = x + 62.5,
             y = y + 147.5,
@@ -753,7 +756,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.hp"),
             x = x + 9.5,
             y = y + 155.5,
@@ -761,7 +764,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.atk"),
             x = x + 9.5,
             y = y + 163.5,
@@ -769,7 +772,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.def"),
             x = x + 9.5,
             y = y + 171.5,
@@ -777,7 +780,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.sp_atk"),
             x = x + 9.5,
             y = y + 179.5,
@@ -785,7 +788,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.sp_def"),
             x = x + 9.5,
             y = y + 187.5,
@@ -793,7 +796,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.speed"),
             x = x + 9.5,
             y = y + 195.5,
@@ -802,7 +805,7 @@ class TradeGUI(
 
         // Opposing
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.info.nature").bold(),
             x = x + 185,
             y = y + 139.5,
@@ -811,7 +814,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.info.ability").bold(),
             x = x + 185,
             y = y + 156.5,
@@ -820,7 +823,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.moves").bold(),
             x = x + 185,
             y = y + 173.5,
@@ -829,7 +832,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("held_item"),
             x = x + 270.5,
             y = y + 135.5,
@@ -838,7 +841,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.ivs").bold(),
             x = x + 265,
             y = y + 148,
@@ -847,7 +850,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.evs").bold(),
             x = x + 280.5,
             y = y + 148,
@@ -856,7 +859,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.hp"),
             x = x + 227.5,
             y = y + 155.5,
@@ -864,7 +867,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.atk"),
             x = x + 227.5,
             y = y + 163.5,
@@ -872,7 +875,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.def"),
             x = x + 227.5,
             y = y + 171.5,
@@ -880,7 +883,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.sp_atk"),
             x = x + 227.5,
             y = y + 179.5,
@@ -888,7 +891,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.sp_def"),
             x = x + 227.5,
             y = y + 187.5,
@@ -896,7 +899,7 @@ class TradeGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.stats.speed"),
             x = x + 227.5,
             y = y + 195.5,

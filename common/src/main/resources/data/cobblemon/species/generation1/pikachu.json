@@ -15,11 +15,25 @@
     "special_defence": 50,
     "speed": 90
   },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.42
+      }
+    }
+  },
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": true,
   "shoulderEffects": [
-    "speed"
+    {
+      "type": "potion_effect",
+      "effect": "minecraft:speed",
+      "amplifier": 0,
+      "ambient": true,
+      "showParticles": false,
+      "showIcon": false
+    }
   ],
   "forms": [
     {

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Armarouge",
   "nationalPokedexNumber": 936,
   "primaryType": "fire",
@@ -15,10 +16,29 @@
     "special_defence": 80,
     "speed": 75
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.23
+      }
+    }
+  },
   "catchRate": 25,
   "maleRatio": 0.5,
   "baseExperienceYield": 263,
   "baseFriendship": 20,
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.9,
+    "height": 2.1,
+    "fixed": false
+  },
   "evYield": {
     "hp": 0,
     "attack": 0,

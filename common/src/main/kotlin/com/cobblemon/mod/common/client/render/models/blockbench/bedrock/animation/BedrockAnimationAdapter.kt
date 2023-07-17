@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 import com.bedrockk.molang.MoLang
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
+import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonArray
 import com.google.gson.JsonDeserializationContext
@@ -32,7 +33,7 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
             val animationLength = json["animation_length"]?.asDouble ?: -1.0
             val shouldLoop = animationLength > 0 && json["loop"]?.asBoolean == true
             val boneTimelines = mutableMapOf<String, BedrockBoneTimeline>()
-            val particleEffects = mutableListOf<BedrockParticleKeyframe>()
+            val effects = mutableListOf<BedrockEffectKeyframe>()
             json["bones"]?.asJsonObject?.entrySet()?.forEach { (boneName, timeline) ->
                 boneTimelines[boneName] = deserializeBoneTimeline(timeline.asJsonObject)
             }
@@ -53,14 +54,46 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
                 }
 
                 if (effectJson is JsonObject) {
-                    particleEffects.add(resolveEffect(effectJson))
+                    effects.add(resolveEffect(effectJson))
                 } else if (effectJson is JsonArray) {
                     for (effectJsonElement in effectJson) {
-                        particleEffects.add(resolveEffect(effectJsonElement as JsonObject))
+                        effects.add(resolveEffect(effectJsonElement as JsonObject))
                     }
                 }
             }
-            return BedrockAnimation(shouldLoop, animationLength, particleEffects, boneTimelines)
+            json["sound_effects"]?.asJsonObject?.entrySet()?.forEach { (frame, effectJson) ->
+                fun resolveEffect(jsonObject: JsonObject): BedrockSoundKeyframe {
+                    val effectId = jsonObject.get("effect").asString.asIdentifierDefaultingNamespace()
+                    val seconds = frame.toFloat()
+                    return BedrockSoundKeyframe(
+                        seconds = seconds,
+                        sound = effectId,
+                    )
+                }
+
+                if (effectJson is JsonObject) {
+                    effects.add(resolveEffect(effectJson))
+                } else if (effectJson is JsonArray) {
+                    for (effectJsonElement in effectJson) {
+                        effects.add(resolveEffect(effectJsonElement as JsonObject))
+                    }
+                }
+            }
+
+            json["timeline"]?.asJsonObject?.entrySet()?.forEach { (frame, effectJson) ->
+                effects.add(
+                    BedrockInstructionKeyframe(
+                        seconds = frame.toFloat(),
+                        expressions = if (effectJson is JsonArray) {
+                            effectJson.asJsonArray.map { it.asString.let { if (it.endsWith(";")) it.substring(0, it.length - 1) else it }.asExpression() }
+                        } else {
+                            listOf(effectJson.asString.asExpression())
+                        }
+                    )
+                )
+            }
+
+            return BedrockAnimation(shouldLoop, animationLength, effects, boneTimelines)
         }
         else {
             throw IllegalStateException("animation json could not be parsed")

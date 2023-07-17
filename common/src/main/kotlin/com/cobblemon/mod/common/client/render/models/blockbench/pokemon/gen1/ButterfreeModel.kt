@@ -51,7 +51,8 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         )
 
         registerPose(
-            poseType = PoseType.WALK,
+            poseName = "walking",
+            poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("butterfree", "air_fly")

@@ -106,6 +106,8 @@ class PokemonRenderer(
             renderBeam(poseMatrix, partialTicks, entity, phaseTarget, lightColour, buffer)
         }
 
+        clientDelegate.updatePartialTicks(partialTicks)
+
         modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects.get()))
 
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)

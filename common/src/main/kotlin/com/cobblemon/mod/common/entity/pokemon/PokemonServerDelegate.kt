@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -19,6 +20,7 @@ import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.util.playSoundServer
 import java.util.Optional
+import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
@@ -96,6 +98,11 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.discard()
         }
 
+        val tethering = entity.tethering
+        if (tethering != null && entity.pokemon.tetheringId != tethering.tetheringId) {
+            entity.discard()
+        }
+
         if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
             entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
         }
@@ -121,7 +128,12 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.ownerUuid != entity.pokemon.getOwnerUUID()) {
             entity.ownerUuid = entity.pokemon.getOwnerUUID()
         }
-        if (entity.ownerUuid != null && entity.owner == null) {
+
+        if (entity.ownerUuid == null && tethering != null) {
+            entity.ownerUuid = tethering.playerId
+        }
+
+        if (entity.ownerUuid != null && entity.owner == null && entity.tethering == null) {
             entity.remove(Entity.RemovalReason.DISCARDED)
         }
         if (entity.pokemon.species.resourceIdentifier.toString() != entity.species.get()) {
@@ -183,7 +195,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.deathTime == 30) {
             val owner = entity.owner
             if (owner != null) {
-                entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.2F)
+                entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 1F)
                 entity.phasingTargetId.set(owner.id)
                 entity.beamModeEmitter.set(2)
             }

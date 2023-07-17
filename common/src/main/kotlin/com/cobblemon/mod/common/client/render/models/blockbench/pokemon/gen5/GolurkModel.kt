@@ -39,6 +39,7 @@ class GolurkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            transformTicks = 20,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -49,6 +50,7 @@ class GolurkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
+            transformTicks = 20,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -58,6 +60,7 @@ class GolurkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         sleep = registerPose(
             poseName = "sleep",
+            transformTicks = 20,
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("golurk", "sleep"))
         )

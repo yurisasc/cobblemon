@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import org.joml.Quaternionf
@@ -29,7 +30,8 @@ class ModelWidget(
     var state = PokemonFloatingState()
     private var rotVec = Vector3f(13F, rotationY, 0F)
 
-    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        val matrices = context.matrices
         matrices.push()
         matrices.translate(x + width * 0.5, y.toDouble() + offsetY, 0.0)
         matrices.scale(baseScale, baseScale, baseScale)
@@ -38,7 +40,8 @@ class ModelWidget(
             renderablePokemon = pokemon,
             matrixStack = matrices,
             rotation = Quaternionf().fromEulerXYZDegrees(rotVec),
-            state = state
+            state = state,
+            partialTicks = delta
         )
 
         matrices.pop()

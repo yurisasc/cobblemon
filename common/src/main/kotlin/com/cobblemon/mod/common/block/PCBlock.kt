@@ -126,6 +126,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         defaultState = this.stateManager.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
             .with(PART, PCPart.BOTTOM)
             .with(ON, false)
+            .with(WATERLOGGED, false)
     }
 
     override fun createBlockEntity(blockPos: BlockPos, blockState: BlockState) = if (blockState.get(PART) == PCPart.BOTTOM) PCBlockEntity(blockPos, blockState) else null
@@ -253,7 +254,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         }
 
         val pc = Cobblemon.storage.getPCForPlayer(player, baseEntity) ?: return ActionResult.SUCCESS
-        // TODO add event to check if they can open this PC?
+        // TODO add event to check if they can open this PC? (answer: the getPCForPlayer should be where we do that)
         PCLinkManager.addLink(ProximityPCLink(pc, player.uuid, baseEntity))
         OpenPCPacket(pc.uuid).sendToPlayer(player)
         world.playSoundServer(

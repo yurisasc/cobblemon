@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Chimecho",
   "nationalPokedexNumber": 358,
   "primaryType": "psychic",
@@ -22,6 +23,22 @@
   "eggGroups": [
     "amorphous"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "canWalk": false
+      },
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:confusion",
@@ -133,6 +150,13 @@
     "tutor:wrap",
     "tutor:zenheadbutt"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "labels": [
     "gen3"
   ],
@@ -141,10 +165,10 @@
   ],
   "preEvolution": "chingling",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.4,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 70,

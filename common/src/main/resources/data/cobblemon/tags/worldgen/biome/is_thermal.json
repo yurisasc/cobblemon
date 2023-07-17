@@ -6,7 +6,7 @@
       "required": false
     },
 	{
-      "id": "terralith:thermal_caves",
+      "id": "terralith:cave/thermal_caves",
       "required": false
     },
 	{

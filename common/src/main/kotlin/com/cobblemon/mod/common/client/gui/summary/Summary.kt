@@ -39,6 +39,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.Drawable
 import net.minecraft.client.gui.Element
 import net.minecraft.client.gui.Selectable
@@ -46,7 +47,6 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 
@@ -400,15 +400,16 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         }
     }
 
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        renderBackground(pMatrixStack)
+    override fun render(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        renderBackground(context)
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
+        val matrices = context.matrices
 
         // Render Portrait Background
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = portraitBackgroundResource,
             x = x + 6,
             y = y + 32,
@@ -416,11 +417,11 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             height = PORTRAIT_SIZE
         )
 
-        modelWidget.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+        modelWidget.render(context, pMouseX, pMouseY, pPartialTicks)
 
         // Render Base Resource
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = baseResource,
             x = x,
             y = y,
@@ -433,7 +434,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         if (selectedPokemon.isFainted() || status != null) {
             val statusName = if (selectedPokemon.isFainted()) "fnt" else status?.showdownName
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = cobblemonResource("textures/gui/battle/battle_status_$statusName.png"),
                 x = x + 34,
                 y = y + 4,
@@ -444,7 +445,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             )
 
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = cobblemonResource("textures/gui/summary/status_trim.png"),
                 x = x + 34,
                 y = y + 5,
@@ -453,7 +454,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             )
 
             drawScaledText(
-                matrixStack = pMatrixStack,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = lang("ui.status.$statusName").bold(),
                 x = x + 39,
@@ -464,7 +465,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         // Poké Ball
         val ballResource = cobblemonResource("textures/item/poke_balls/" + selectedPokemon.caughtBall.name.path + ".png")
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = ballResource,
             x = (x + 3.5) / SCALE,
             y = (y + 15) / SCALE,
@@ -477,7 +478,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             val isMale = selectedPokemon.gender == Gender.MALE
             val textSymbol = if (isMale) "♂".text().bold() else "♀".text().bold()
             drawScaledText(
-                matrixStack = pMatrixStack,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = textSymbol,
                 x = x + 69, // 64 when tag icon is implemented
@@ -488,7 +489,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         }
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.lv").bold(),
             x = x + 6,
@@ -497,7 +498,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = selectedPokemon.level.toString().text().bold(),
             x = x + 19,
@@ -508,7 +509,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         // Shiny Icon
         if (selectedPokemon.shiny) {
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = iconShinyResource,
                 x = (x + 63.5) / SCALE,
                 y = (y + 33.5) / SCALE,
@@ -520,7 +521,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
 
         // Type Icon(s)
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = if (selectedPokemon.secondaryType != null) typeSpacerDoubleResource else typeSpacerResource,
             x = (x + 5.5) / SCALE,
             y = (y + 126) / SCALE,
@@ -534,12 +535,12 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         val itemX = x + 3
         val itemY = y + 104
         if (!heldItem.isEmpty) {
-            MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(pMatrixStack, heldItem, itemX, itemY)
-            MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(pMatrixStack, MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+            context.drawItem(heldItem, itemX, itemY)
+            context.drawItemInSlot(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
         }
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = lang("held_item"),
             x = x + 27,
             y = y + 114.5,
@@ -552,10 +553,10 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             type = selectedPokemon.primaryType,
             secondaryType = selectedPokemon.secondaryType,
             centeredX = true
-        ).render(pMatrixStack)
+        ).render(context)
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = sideSpacerResource,
             x = (x + 217) / SCALE,
             y = (y + 141) / SCALE,
@@ -565,12 +566,12 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         )
 
         // Render all added Widgets
-        super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+        super.render(context, pMouseX, pMouseY, pPartialTicks)
 
         // Render Item Tooltip
         if (!heldItem.isEmpty) {
             val itemHovered = pMouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && pMouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) renderTooltip(pMatrixStack, heldItem, pMouseX, pMouseY)
+            if (itemHovered) context.drawItemTooltip(MinecraftClient.getInstance().textRenderer, heldItem, pMouseX, pMouseY)
         }
     }
 

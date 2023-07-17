@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.gui.summary.widgets.screens.stats
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
@@ -20,10 +21,13 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
+import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
@@ -168,12 +172,13 @@ class StatWidget(
     }
 
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val renderChart = statTabIndex != OTHER
+        val matrices = context.matrices
 
         // Background
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = if (renderChart) statsBaseResource else statsOtherBaseResource,
             x= x,
             y = y,
@@ -184,7 +189,7 @@ class StatWidget(
         // Chart
         if (renderChart) {
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = statsChartResource,
                 x= (x + 25.5) / SCALE,
                 y = (y + 22) / SCALE,
@@ -225,7 +230,7 @@ class StatWidget(
         }
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = statsLabel.bold(),
             x = x + 29,
             y = y + 143,
@@ -235,7 +240,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = ivLabel.bold(),
             x = x + 48,
             y = y + 143,
@@ -245,7 +250,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = evLabel.bold(),
             x = x + 67,
             y = y + 143,
@@ -255,7 +260,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = baseLabel.bold(),
             x = x + 86,
             y = y + 143,
@@ -265,7 +270,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = otherLabel.bold(),
             x = x + 105,
             y = y + 143,
@@ -275,7 +280,7 @@ class StatWidget(
         )
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             texture = tabMarkerResource,
             x= (x + 27 + (statTabIndex * 19)) / SCALE,
             y = (y + 140) / SCALE,
@@ -287,7 +292,7 @@ class StatWidget(
         if (renderChart) {
             // Stat Labels
             renderTextAtVertices(
-                pMatrixStack = pMatrixStack,
+                context = context,
                 hp = hpLabel.bold(),
                 spAtk = spAtkLabel.bold(),
                 atk = atkLabel.bold(),
@@ -298,7 +303,7 @@ class StatWidget(
 
             // Stat Values
             renderTextAtVertices(
-                pMatrixStack = pMatrixStack,
+                context = context,
                 offsetY = 5.5,
                 enableColour = false,
                 hp = getStatValueAsText(Stats.HP),
@@ -312,8 +317,8 @@ class StatWidget(
             // Nature-modified Stat Icons
             if (statTabIndex == STATS) {
                 val nature = pokemon.mintedNature ?: pokemon.nature
-                renderModifiedStatIcon(pMatrixStack, nature.increasedStat, true)
-                renderModifiedStatIcon(pMatrixStack, nature.decreasedStat, false)
+                renderModifiedStatIcon(matrices, nature.increasedStat, true)
+                renderModifiedStatIcon(matrices, nature.decreasedStat, false)
             }
         } else {
             // Friendship
@@ -321,7 +326,7 @@ class StatWidget(
             val friendshipRatio = pokemon.friendship / 255F
             val friendshipBarWidth = ceil(friendshipRatio * friendshipBarWidthMax)
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = CobblemonResources.WHITE,
                 x = x + 13,
                 y = y + 27,
@@ -333,7 +338,7 @@ class StatWidget(
             )
 
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = friendshipOverlayResource,
                 x = (x + 5) / SCALE,
                 y = (y + 26) / SCALE,
@@ -344,7 +349,7 @@ class StatWidget(
 
             // Label
             drawScaledText(
-                matrixStack = pMatrixStack,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = lang("ui.stats.friendship").bold(),
                 x = x + 67,
@@ -354,7 +359,7 @@ class StatWidget(
             )
 
             drawScaledText(
-                matrixStack = pMatrixStack,
+                context = context,
                 text = pokemon.friendship.toString().text(),
                 x = x + 16,
                 y = y + 16,
@@ -363,7 +368,7 @@ class StatWidget(
             )
 
             drawScaledText(
-                matrixStack = pMatrixStack,
+                context = context,
                 text = "${floor(friendshipRatio * 100)}%".text(),
                 x = x + 118,
                 y = y + 16,
@@ -375,7 +380,11 @@ class StatWidget(
 
     override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
         val index = getTabIndexFromPos(pMouseX, pMouseY)
-        if (index in 0..4) statTabIndex = index
+        // Only play sound here as the rest of the widget is meant to be silent
+        if (index in 0..4) {
+            statTabIndex = index
+            MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+        }
         return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 
@@ -427,7 +436,7 @@ class StatWidget(
     }
 
     private fun renderTextAtVertices(
-        pMatrixStack: MatrixStack,
+        context: DrawContext,
         offsetY: Double = 0.0,
         enableColour: Boolean = true,
         hp: MutableText,
@@ -438,7 +447,7 @@ class StatWidget(
         speed: MutableText
     ) {
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = hp,
             x = x + 67,
             y = y + 10.5 + offsetY,
@@ -448,7 +457,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = spAtk,
             x = x + 12,
             y = y + 42.5 + offsetY,
@@ -458,7 +467,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = atk,
             x = x + 122,
             y = y + 42.5 + offsetY,
@@ -468,7 +477,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = spDef,
             x = x + 12,
             y = y + 93.5 + offsetY,
@@ -478,7 +487,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = def,
             x = x + 122,
             y = y + 93.5 + offsetY,
@@ -488,7 +497,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = speed,
             x = x + 67,
             y = y + 124.5 + offsetY,

@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.sound.PositionedSoundInstance
@@ -54,9 +55,9 @@ class BattleSwitchPokemonSelection(
         val showdownPokemon: ShowdownPokemon
     ) {
         fun isHovered(mouseX: Double, mouseY: Double) = mouseX in x..(x + SWITCH_TILE_WIDTH) && mouseY in (y..(y + SWITCH_TILE_HEIGHT))
-        fun render(matrices: MatrixStack, mouseX: Double, mouseY: Double, deltaTicks: Float) {
+        fun render(context: DrawContext, mouseX: Double, mouseY: Double, deltaTicks: Float) {
             CobblemonClient.battleOverlay.drawBattleTile(
-                matrices = matrices,
+                context = context,
                 x = x,
                 y = y,
                 reversed = false,
@@ -71,7 +72,8 @@ class BattleSwitchPokemonSelection(
                 isFlatHealth = true,
                 state = null,
                 colour = null,
-                opacity = selection.opacity
+                opacity = selection.opacity,
+                partialTicks = deltaTicks
             )
         }
     }
@@ -100,12 +102,12 @@ class BattleSwitchPokemonSelection(
         }
     }
 
-    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (opacity <= 0.05F) {
             return
         }
-        tiles.forEach { it.render(matrices, mouseX.toDouble(), mouseY.toDouble(), delta) }
-        backButton.render(matrices, mouseX, mouseY, delta)
+        tiles.forEach { it.render(context, mouseX.toDouble(), mouseY.toDouble(), delta) }
+        backButton.render(context.matrices, mouseX, mouseY, delta)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

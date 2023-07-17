@@ -8,7 +8,8 @@
 
 package com.cobblemon.mod.common.block
 
-import com.cobblemon.mod.common.mint.MintType
+import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonItems
 import kotlin.math.min
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -16,6 +17,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.Fertilizable
 import net.minecraft.block.PlantBlock
 import net.minecraft.block.ShapeContext
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
@@ -68,6 +70,48 @@ class MintBlock(private val mintType: MintType, settings: Settings) : PlantBlock
             return true
         }
         return floor.isOf(Blocks.FARMLAND)
+    }
+
+    enum class MintType {
+        RED,
+        BLUE,
+        CYAN,
+        PINK,
+        GREEN,
+        WHITE;
+
+        fun getSeed(): Item {
+            return when (this) {
+                RED -> CobblemonItems.RED_MINT_SEEDS
+                BLUE -> CobblemonItems.BLUE_MINT_SEEDS
+                CYAN -> CobblemonItems.CYAN_MINT_SEEDS
+                PINK -> CobblemonItems.PINK_MINT_SEEDS
+                GREEN -> CobblemonItems.GREEN_MINT_SEEDS
+                WHITE -> CobblemonItems.WHITE_MINT_SEEDS
+            }
+        }
+
+        fun getLeaf(): Item {
+            return when (this) {
+                RED -> CobblemonItems.RED_MINT_LEAF
+                BLUE -> CobblemonItems.BLUE_MINT_LEAF
+                CYAN -> CobblemonItems.CYAN_MINT_LEAF
+                PINK -> CobblemonItems.PINK_MINT_LEAF
+                GREEN -> CobblemonItems.GREEN_MINT_LEAF
+                WHITE -> CobblemonItems.WHITE_MINT_LEAF
+            }
+        }
+
+        fun getCropBlock(): Block {
+            return when (this) {
+                RED -> CobblemonBlocks.RED_MINT
+                BLUE -> CobblemonBlocks.BLUE_MINT
+                CYAN -> CobblemonBlocks.CYAN_MINT
+                PINK -> CobblemonBlocks.PINK_MINT
+                GREEN -> CobblemonBlocks.GREEN_MINT
+                WHITE -> CobblemonBlocks.WHITE_MINT
+            }
+        }
     }
 
     companion object {

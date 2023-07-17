@@ -62,7 +62,6 @@ class RillaboomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling },
             transformedParts = arrayOf(
                 drums.asTransformed().withVisibility(visibility = false),
                 stick_left.asTransformed().withVisibility(visibility = true),
