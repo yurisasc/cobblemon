@@ -27,7 +27,6 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Direction
 import net.minecraft.util.math.intprovider.UniformIntProvider
 
 @Suppress("SameParameterValue", "HasPlatformType", "MemberVisibilityCanBePrivate")
@@ -300,7 +299,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     private fun berryBlock(name: String): BerryBlock {
         val identifier = cobblemonResource("${name}_berry")
-        val block = this.create(identifier.path, BerryBlock(identifier, AbstractBlock.Settings.of(Material.PLANT).dynamicBounds().ticksRandomly().sounds(BlockSoundGroup.CROP)))
+        val block = this.create(identifier.path, BerryBlock(identifier, AbstractBlock.Settings.copy(Blocks.WHEAT).dynamicBounds().ticksRandomly().sounds(BlockSoundGroup.CROP)))
         this.berries[identifier] = block
         return block
     }

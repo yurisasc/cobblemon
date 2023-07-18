@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.block
 
+import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -20,7 +22,9 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.item.ShovelItem
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.util.ActionResult
@@ -57,15 +61,12 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
     override fun hasRandomTicks(state: BlockState) = !this.isMaxAge(state)
 
-    /*
     @Deprecated("Deprecated in Java")
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        val lowerLimit = this.berry()?.growthTime!!.first
         if (world.random.nextInt(5) == 0 && this.canGrow(world, random, pos, state)) {
             this.grow(world, random, pos, state)
         }
     }
-    */
 
     //override fun tick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
 
@@ -98,8 +99,34 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         world.setBlockState(pos, state.with(AGE, newAge), Block.NOTIFY_LISTENERS)
     }
 
+    private fun useMulch(type: Int, world: World, pos: BlockPos, state: BlockState, player: PlayerEntity, hand: Hand): ActionResult {
+        if(state.get(MULCH) == type) { return ActionResult.PASS }
+        world.setBlockState(pos, state.with(MULCH, type), Block.NOTIFY_LISTENERS)
+        if (!player.isCreative) { player.getStackInHand(hand).decrement(1) }
+        world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS)
+        return ActionResult.SUCCESS
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+
+        when(player.getStackInHand(hand).item) {
+            CobblemonItems.GROWTH_MULCH -> return useMulch(GROWTH_MULCH, world, pos, state, player, hand)
+            CobblemonItems.RICH_MULCH -> return useMulch(RICH_MULCH, world, pos, state, player, hand)
+            CobblemonItems.SURPRISE_MULCH -> return useMulch(SURPRISE_MULCH, world, pos, state, player, hand)
+            CobblemonItems.LOAMY_MULCH -> return useMulch(LOAMY_MULCH, world, pos, state, player, hand)
+            CobblemonItems.COARSE_MULCH -> return useMulch(COARSE_MULCH, world, pos, state, player, hand)
+            CobblemonItems.PEAT_MULCH -> return useMulch(PEAT_MULCH, world, pos, state, player, hand)
+            CobblemonItems.HUMID_MULCH -> return useMulch(HUMID_MULCH, world, pos, state, player, hand)
+            CobblemonItems.SANDY_MULCH -> return useMulch(SANDY_MULCH, world, pos, state, player, hand)
+        }
+
+        if(player.getStackInHand(hand).item is ShovelItem && state.get(MULCH) != NO_MULCH) {
+            world.setBlockState(pos, state.with(MULCH, NO_MULCH), Block.NOTIFY_LISTENERS)
+            world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS)
+            return ActionResult.SUCCESS
+        }
+
         if (player.getStackInHand(hand).isOf(Items.BONE_MEAL)) {
             return ActionResult.PASS
         }
@@ -132,6 +159,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(AGE)
+        builder.add(MULCH)
     }
 
     override fun getPickStack(world: BlockView?, pos: BlockPos?, state: BlockState?): ItemStack {
@@ -156,6 +184,17 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         const val FLOWER_AGE = 4
         const val FRUIT_AGE = 5
         val AGE: IntProperty = IntProperty.of("age", 0, FRUIT_AGE)
+
+        const val NO_MULCH = 0
+        const val GROWTH_MULCH = 1
+        const val RICH_MULCH = 2
+        const val SURPRISE_MULCH = 3
+        const val LOAMY_MULCH = 4
+        const val COARSE_MULCH = 5
+        const val PEAT_MULCH = 6
+        const val HUMID_MULCH = 7
+        const val SANDY_MULCH = 8
+        val MULCH: IntProperty = IntProperty.of("mulch_type", 0, 8)
 
     }
 }

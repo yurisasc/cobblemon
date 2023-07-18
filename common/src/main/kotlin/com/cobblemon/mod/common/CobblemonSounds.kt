@@ -70,6 +70,11 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     @JvmField
     val MINT_USE = this.create("mint.use")
 
+    @JvmField
+    val MULCH_PLACE = this.create("mulch.place")
+    @JvmField
+    val MULCH_REMOVE = this.create("mulch.remove")
+
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }
