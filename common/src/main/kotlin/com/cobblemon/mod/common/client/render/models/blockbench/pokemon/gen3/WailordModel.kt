@@ -59,6 +59,7 @@ class WailordModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                bedrock("wailord", "ground_idle"),
                 bedrock("wailord", "ground_walk")
             ),
             transformedParts = arrayOf(

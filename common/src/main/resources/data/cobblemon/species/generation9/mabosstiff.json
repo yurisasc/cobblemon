@@ -92,6 +92,12 @@
   "weight": 610,
   "preEvolution": "maschiff",
   "evolutions": [],
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 1.6,
+    "height": 1.9,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.mabosstiff.desc"

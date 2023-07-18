@@ -43,7 +43,7 @@ class AvaluggModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, H
     lateinit var water_surface_idle: PokemonPose
     lateinit var water_surface_swim: PokemonPose
 
-    val wateroffset = -9
+    val wateroffset = -3.5
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("avalugg", "blink").setPreventsIdle(false) }
@@ -54,9 +54,9 @@ class AvaluggModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, H
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
             transformTicks = 10,
-            condition = { !it.isBattling && !it.isTouchingWater},
+            condition = { !it.isBattling && !it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -66,8 +66,9 @@ class AvaluggModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, H
 
         walking = registerPose(
             poseName = "walking",
-            poseTypes = PoseType.MOVING_POSES,
+            poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             transformTicks = 10,
+            condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -91,8 +92,8 @@ class AvaluggModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, H
         water_surface_swim = registerPose(
             poseName = "surface_swim",
             poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink),
             condition = { it.isTouchingWater },
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("avalugg", "water_swim"),
             ),
@@ -116,5 +117,5 @@ class AvaluggModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, H
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("avalugg", "faint") else null
+    ) = if (state.isPosedIn(standing, walking, battleidle, sleep, water_surface_idle, water_surface_swim)) bedrockStateful("avalugg", "faint") else null
 }

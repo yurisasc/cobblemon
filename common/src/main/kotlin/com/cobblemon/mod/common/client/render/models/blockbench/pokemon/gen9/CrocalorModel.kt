@@ -45,7 +45,7 @@ class CrocalorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame{
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(disableY = true),
                 bedrock("crocalor", "ground_idle")
             )
         )
@@ -56,7 +56,7 @@ class CrocalorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame{
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(disableY = true),
                 bedrock("crocalor", "ground_walk")
             )
         )
@@ -68,7 +68,7 @@ class CrocalorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame{
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(disableY = true),
                 bedrock("crocalor", "battle_idle")
             )
         )

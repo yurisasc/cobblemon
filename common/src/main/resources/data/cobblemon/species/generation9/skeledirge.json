@@ -116,7 +116,7 @@
   "evolutions": [],
   "baseScale": 0.75,
   "hitbox": {
-    "width": 1.5,
+    "width": 2.4,
     "height": 1.8,
     "fixed": false
   },

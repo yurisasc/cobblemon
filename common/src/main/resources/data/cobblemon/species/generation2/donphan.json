@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Donphan",
   "nationalPokedexNumber": 232,
   "primaryType": "ground",
@@ -167,7 +168,7 @@
   ],
   "preEvolution": "phanpy",
   "evolutions": [],
-  "baseScale": 0.7,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1.3,
     "height": 1.5,

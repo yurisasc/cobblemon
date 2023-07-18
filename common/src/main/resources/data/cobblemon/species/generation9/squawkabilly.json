@@ -100,7 +100,7 @@
   "height": 6,
   "weight": 24,
   "evolutions": [],
-  "baseScale": 0.65,
+  "baseScale": 0.55,
   "hitbox": {
     "width": 0.5,
     "height": 1.1,

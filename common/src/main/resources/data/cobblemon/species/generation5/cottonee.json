@@ -27,6 +27,13 @@
     "fairy",
     "grass"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:absorb",
     "1:helpinghand",

@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+import kotlin.random.Random
 
 class PorygonzModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("porygon_z")
@@ -34,6 +35,7 @@ class PorygonzModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    val random = Random(System.currentTimeMillis())
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("porygonz", "blink").setPreventsIdle(false) }
         val twitch1 = quirk("twitch1") { bedrockStateful("porygonz", "twitch1").setPreventsIdle(false) }
@@ -74,5 +76,6 @@ class PorygonzModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("porygonz", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, sleep) && (random.nextBoolean())) bedrockStateful("porygonz", "faint")
+        else bedrockStateful("porygonz", "faint2")
 }
