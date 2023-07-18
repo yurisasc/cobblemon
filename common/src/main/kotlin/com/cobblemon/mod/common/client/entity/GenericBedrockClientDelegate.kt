@@ -24,7 +24,7 @@ class GenericBedrockClientDelegate : EntitySideDelegate<GenericBedrockEntity>, P
         if (pose != null) {
             setPose(pose.poseName)
         }
-//        this.currentModel!!.updateLocators(entity, this)
+        this.currentModel!!.updateLocators(entity, this)
 //        entity.poseType.subscribe {
 //            this.setPose()
 //        }
