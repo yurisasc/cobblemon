@@ -43,6 +43,9 @@ abstract class BattleActor(
     var expectingCaptureActions = 0
     var mustChoose = false
 
+    /** For when battles start, it's the number of Pokémon that are still in the process of being sent out (animation wise) */
+    var stillSendingOutCount = 0
+
     abstract val type: ActorType
 
     fun getSide() = if (this in battle.side1.actors) battle.side1 else battle.side2

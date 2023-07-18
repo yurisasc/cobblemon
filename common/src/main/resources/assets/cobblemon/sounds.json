@@ -117,6 +117,9 @@
   "pokemon.pidgeot.ambient": {
     "sounds": [ "cobblemon:pokemon/pidgeot/pidgeot_ambient" ]
   },
+  "pokemon.pidgeot.cry": {
+    "sounds": [ "cobblemon:pokemon/pidgeot/pidgeot_cry" ]
+  },
   "pokemon.rattata.ambient": {
     "sounds": [ "cobblemon:pokemon/rattata/rattata_ambient" ]
   },
@@ -818,6 +821,9 @@
   },
   "pokemon.treecko.ambient": {
     "sounds": [ "cobblemon:pokemon/treecko/treecko_ambient" ]
+  },
+  "pokemon.treecko.cry": {
+    "sounds": [ "cobblemon:pokemon/treecko/treecko_cry" ]
   },
   "pokemon.grovyle.ambient": {
     "sounds": [ "cobblemon:pokemon/grovyle/grovyle_ambient" ]

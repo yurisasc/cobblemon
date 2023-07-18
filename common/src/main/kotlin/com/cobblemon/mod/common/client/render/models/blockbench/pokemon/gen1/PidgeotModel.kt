@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFl
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -38,6 +39,8 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidgeot", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         sleep = registerPose(
