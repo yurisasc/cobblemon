@@ -70,6 +70,18 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
     ): StatefulAnimation<PokemonEntity, ModelFrame>? = null
+
+    open val cryAnimation: CryProvider = CryProvider { _, _ -> null }
+//
+//    open fun getCryAnimation(
+//        pokemonEntity: PokemonEntity,
+//        state: PoseableEntityState<PokemonEntity>
+//    ): StatefulAnimation<PokemonEntity, ModelFrame>? = null
 }
 
 typealias PokemonPose = Pose<PokemonEntity, ModelFrame>
+
+@FunctionalInterface
+fun interface CryProvider {
+    operator fun invoke(entity: PokemonEntity, state: PoseableEntityState<PokemonEntity>): StatefulAnimation<PokemonEntity, ModelFrame>?
+}

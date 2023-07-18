@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.entity.pokemon
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
@@ -39,6 +40,7 @@ import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
 import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem
+import com.cobblemon.mod.common.net.messages.client.sound.PokemonCryPacket
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
@@ -58,11 +60,6 @@ import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 import net.minecraft.block.BlockState
-import net.minecraft.entity.EntityDimensions
-import net.minecraft.entity.EntityPose
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.Shearable
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
@@ -84,8 +81,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtString
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.nbt.NbtString
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
@@ -94,7 +91,6 @@ import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.text.TextContent
@@ -102,6 +98,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
@@ -602,9 +599,7 @@ class PokemonEntity(
      *
      * @return The level that should be displayed, if equal or lesser than 0 the level is not intended to be displayed.
      */
-    fun labelLevel(): Int {
-        return this.labelLevel.get()
-    }
+    fun labelLevel() = this.labelLevel.get()
 
     override fun playAmbientSound() {
         if (!this.isSilent || this.busyLocks.filterIsInstance<EmptyPokeBallEntity>().isEmpty()) {
@@ -617,13 +612,8 @@ class PokemonEntity(
 
     // We never want to allow an actual sound event here, we do not register our sounds to the sound registry as species are loaded by the time the registry is frozen.
     // Super call would do the same but might as well future-proof.
-    override fun getAmbientSound(): SoundEvent? {
-        return null
-    }
-
-    override fun getMinAmbientSoundDelay(): Int {
-        return Cobblemon.config.ambientPokemonCryTicks
-    }
+    override fun getAmbientSound() = null
+    override fun getMinAmbientSoundDelay() = Cobblemon.config.ambientPokemonCryTicks
 
     private fun attemptItemInteraction(player: PlayerEntity, stack: ItemStack): Boolean {
         if (player !is ServerPlayerEntity || this.isBusy) {
@@ -749,6 +739,13 @@ class PokemonEntity(
                 && player.isOnGround
                 && !player.isTouchingWater
                 && !player.inPowderSnow
+    }
+
+    fun cry() {
+        val pkt = PokemonCryPacket(id)
+        world.getEntitiesByClass(ServerPlayerEntity::class.java, Box.of(pos, 64.0, 64.0, 64.0), { true }).forEach {
+            it.sendPacket(pkt)
+        }
     }
 
     override fun drop(source: DamageSource?) {
