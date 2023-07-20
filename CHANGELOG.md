@@ -20,8 +20,8 @@
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
 - Added Pokémon cry system for battles and sending out.
-- Added cries for Gen 1-8 starters
-- Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Lucario, Mime Jr, Mimikyu, Pangoro, Wooper, Quagsire, Pidgey, Pidgeotto, Pidgeot Quilladin, and Riolu.
+- Added cries for Gen 1-9 starters and their evolutions.
+- Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Pidgey, Pidgeotto, Pidgeot, Rattata, Raticate, Cleffa, Clefairy, Clefable, Tauros, Miltank, Buneary, Lopunny, Wooloo, Dubwool.
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
 - Added loot table for Revival Herb plant
 - Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
@@ -218,6 +218,7 @@
 - Dive Balls will now have the same motion speed underwater as if they were thrown in the air.
 - Hardcoded potion shoulder effects have been removed, you can now use any potion vanilla or otherwise with the parameters you'd like, for more information see the [Datapack & Resourcepack Creators](#datapack-&-resourcepack-creators) section.
 - Clicking categories of the Stat sub-section or the party reorder button in the Summary screen will now produce a click sound.
+- Updated PC Recipe.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
