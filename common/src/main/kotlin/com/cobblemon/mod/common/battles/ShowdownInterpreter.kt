@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
@@ -472,6 +473,15 @@ object ShowdownInterpreter {
                 actor.sendUpdate(BattleSetTeamPokemonPacket(actor.pokemonList.map { it.effectedPokemon }))
                 val req = actor.request ?: return@forEach
                 actor.sendUpdate(BattleQueueRequestPacket(req))
+            }
+
+            battle.dispatch {
+                DispatchResult { !battle.side1.stillSendingOut() && !battle.side2.stillSendingOut() }
+            }
+
+            battle.dispatchGo {
+                battle.side1.playCries()
+                after(seconds = 1.0F) { battle.side2.playCries() }
             }
         }
 
@@ -1241,12 +1251,16 @@ object ShowdownInterpreter {
                     idealPos
                 } ?: entity.pos
 
+                actor.stillSendingOutCount++
                 pokemon.effectedPokemon.sendOutWithAnimation(
                     source = entity,
                     battleId = battle.battleId,
                     level = entity.world as ServerWorld,
+                    doCry = false,
                     position = targetPos
-                )
+                ).thenApply {
+                    actor.stillSendingOutCount--
+                }
             }
         } else {
             battle.dispatchInsert {
@@ -1289,6 +1303,7 @@ object ShowdownInterpreter {
             activePokemon.battlePokemon = newPokemon
             battle.sendSidedUpdate(actor, BattleSwitchPokemonPacket(pnx, newPokemon, true), BattleSwitchPokemonPacket(pnx, newPokemon, false))
             if (newPokemon.entity != null) {
+                newPokemon.entity?.cry()
                 sendOutFuture.complete(Unit)
             } else {
                 val lastPosition = activePokemon.position

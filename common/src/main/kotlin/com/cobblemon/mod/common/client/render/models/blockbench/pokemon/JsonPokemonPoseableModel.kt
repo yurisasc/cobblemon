@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
@@ -21,9 +22,9 @@ import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
 import com.google.gson.*
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
-import net.minecraft.util.math.Vec3d
 import java.lang.reflect.Type
 import java.util.function.Supplier
+import net.minecraft.util.math.Vec3d
 
 /**
  * The goal of this is to allow a PokemonPoseableModel to be constructed from a JSON instead of being
@@ -93,9 +94,10 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
 
     val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
+    val cry: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
 
     override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint?.get()
-
+    override val cryAnimation = CryProvider { _, _ -> cry?.get()?.also { if (it is BedrockStatefulAnimation) it.setPreventsIdle(false) } }
 
     object JsonModelExclusion: ExclusionStrategy {
         override fun shouldSkipField(f: FieldAttributes): Boolean {

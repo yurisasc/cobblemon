@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.client.net.pasture.PokemonPasturedHandler
 import com.cobblemon.mod.common.client.net.pasture.PokemonUnpasturedHandler
 import com.cobblemon.mod.common.client.net.pokemon.update.PokemonUpdatePacketHandler
 import com.cobblemon.mod.common.client.net.settings.ServerSettingsPacketHandler
+import com.cobblemon.mod.common.client.net.sound.PokemonCryHandler
 import com.cobblemon.mod.common.client.net.sound.UnvalidatedPlaySoundS2CPacketHandler
 import com.cobblemon.mod.common.client.net.spawn.SpawnExtraDataEntityHandler
 import com.cobblemon.mod.common.client.net.starter.StarterUIPacketHandler
@@ -33,7 +34,13 @@ import com.cobblemon.mod.common.client.net.storage.party.InitializePartyHandler
 import com.cobblemon.mod.common.client.net.storage.party.MoveClientPartyPokemonHandler
 import com.cobblemon.mod.common.client.net.storage.party.SetPartyPokemonHandler
 import com.cobblemon.mod.common.client.net.storage.party.SetPartyReferenceHandler
-import com.cobblemon.mod.common.client.net.storage.pc.*
+import com.cobblemon.mod.common.client.net.storage.pc.ClosePCHandler
+import com.cobblemon.mod.common.client.net.storage.pc.InitializePCHandler
+import com.cobblemon.mod.common.client.net.storage.pc.MoveClientPCPokemonHandler
+import com.cobblemon.mod.common.client.net.storage.pc.OpenPCHandler
+import com.cobblemon.mod.common.client.net.storage.pc.SetPCBoxPokemonHandler
+import com.cobblemon.mod.common.client.net.storage.pc.SetPCPokemonHandler
+import com.cobblemon.mod.common.client.net.toast.ToastPacketHandler
 import com.cobblemon.mod.common.client.net.trade.TradeAcceptanceChangedHandler
 import com.cobblemon.mod.common.client.net.trade.TradeCancelledHandler
 import com.cobblemon.mod.common.client.net.trade.TradeCompletedHandler
@@ -41,10 +48,12 @@ import com.cobblemon.mod.common.client.net.trade.TradeOfferExpiredHandler
 import com.cobblemon.mod.common.client.net.trade.TradeOfferNotificationHandler
 import com.cobblemon.mod.common.client.net.trade.TradeStartedHandler
 import com.cobblemon.mod.common.client.net.trade.TradeUpdatedHandler
-import com.cobblemon.mod.common.client.net.toast.ToastPacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.*
-import com.cobblemon.mod.common.net.messages.client.data.*
+import com.cobblemon.mod.common.net.messages.client.data.AbilityRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.data.MovesRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
@@ -55,6 +64,7 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.Add
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
+import com.cobblemon.mod.common.net.messages.client.sound.PokemonCryPacket
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
@@ -66,7 +76,13 @@ import com.cobblemon.mod.common.net.messages.client.storage.party.InitializePart
 import com.cobblemon.mod.common.net.messages.client.storage.party.MoveClientPartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.storage.party.SetPartyReferencePacket
-import com.cobblemon.mod.common.net.messages.client.storage.pc.*
+import com.cobblemon.mod.common.net.messages.client.storage.pc.ClosePCPacket
+import com.cobblemon.mod.common.net.messages.client.storage.pc.InitializePCPacket
+import com.cobblemon.mod.common.net.messages.client.storage.pc.MoveClientPCPokemonPacket
+import com.cobblemon.mod.common.net.messages.client.storage.pc.OpenPCPacket
+import com.cobblemon.mod.common.net.messages.client.storage.pc.SetPCBoxPokemonPacket
+import com.cobblemon.mod.common.net.messages.client.storage.pc.SetPCPokemonPacket
+import com.cobblemon.mod.common.net.messages.client.toast.ToastPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeAcceptanceChangedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeCancelledPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeCompletedPacket
@@ -74,10 +90,13 @@ import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferExpiredPacke
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeUpdatedPacket
-import com.cobblemon.mod.common.net.messages.client.toast.ToastPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
-import com.cobblemon.mod.common.net.messages.server.*
+import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
+import com.cobblemon.mod.common.net.messages.server.BenchMovePacket
+import com.cobblemon.mod.common.net.messages.server.RequestMoveSwapPacket
+import com.cobblemon.mod.common.net.messages.server.SelectStarterPacket
+import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cobblemon.mod.common.net.messages.server.pasture.PasturePokemonPacket
 import com.cobblemon.mod.common.net.messages.server.pasture.UnpastureAllPokemonPacket
@@ -90,7 +109,12 @@ import com.cobblemon.mod.common.net.messages.server.storage.SwapPCPartyPokemonPa
 import com.cobblemon.mod.common.net.messages.server.storage.party.MovePartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.party.ReleasePartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.party.SwapPartyPokemonPacket
-import com.cobblemon.mod.common.net.messages.server.storage.pc.*
+import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonPacket
+import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonToPartyPacket
+import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
+import com.cobblemon.mod.common.net.messages.server.storage.pc.ReleasePCPokemonPacket
+import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket
+import com.cobblemon.mod.common.net.messages.server.storage.pc.UnlinkPlayerFromPCPacket
 import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPacket
 import com.cobblemon.mod.common.net.messages.server.trade.CancelTradePacket
 import com.cobblemon.mod.common.net.messages.server.trade.ChangeTradeAcceptancePacket
@@ -113,7 +137,12 @@ import com.cobblemon.mod.common.net.serverhandling.storage.SwapPCPartyPokemonHan
 import com.cobblemon.mod.common.net.serverhandling.storage.party.MovePartyPokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.storage.party.ReleasePCPokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.storage.party.SwapPartyPokemonHandler
-import com.cobblemon.mod.common.net.serverhandling.storage.pc.*
+import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePCPokemonHandler
+import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePCPokemonToPartyHandler
+import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePartyPokemonToPCHandler
+import com.cobblemon.mod.common.net.serverhandling.storage.pc.ReleasePartyPokemonHandler
+import com.cobblemon.mod.common.net.serverhandling.storage.pc.SwapPCPokemonHandler
+import com.cobblemon.mod.common.net.serverhandling.storage.pc.UnlinkPlayerFromPCHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.AcceptTradeRequestHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.CancelTradeHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.ChangeTradeAcceptanceHandler
@@ -250,6 +279,9 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(ClosePasturePacket.ID, ClosePasturePacket::decode, ClosePastureHandler)
         this.createClientBound(PokemonPasturedPacket.ID, PokemonPasturedPacket::decode, PokemonPasturedHandler)
         this.createClientBound(PokemonUnpasturedPacket.ID, PokemonUnpasturedPacket::decode, PokemonUnpasturedHandler)
+
+        // Behaviours
+        this.createClientBound(PokemonCryPacket.ID, PokemonCryPacket::decode, PokemonCryHandler)
     }
 
     override fun registerServerBound() {

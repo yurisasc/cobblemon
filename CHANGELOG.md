@@ -19,8 +19,9 @@
 - Added support for jump keyframes (i.e. pre and post keyframes)
 - Made Nosepass point towards world spawn while idle.
 - Added structure spawn conditions
-- Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Lucario, Mime Jr, Mimikyu, Pangoro, Wooper, Quagsire, Pidgey, Pidgeotto, Pidgeot Quilladin, and Riolu.
+- Added Pokémon cry system for battles and sending out.
 - Added cries for Gen 1-8 starters
+- Added cries for Braixen, Chatot, Chespin, Conkeldurr, Darmanitan, Darumaka, Delphox, Drowzee, Fennekin, Gurdurr, Kricketune, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Lucario, Mime Jr, Mimikyu, Pangoro, Wooper, Quagsire, Pidgey, Pidgeotto, Pidgeot Quilladin, and Riolu.
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
 - Added loot table for Revival Herb plant
 - Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
@@ -197,7 +198,7 @@
 ### Changes
 - Updated model and textures of Riolu, Lucario, Haunter, Mankey, Primeape, Mew, Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper, Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgey, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey and Blissey.
 - Updated animations for Turtwig, Grotle, Torterra, Ponyta, Rapidash, Piplup, Prinplup, Empoleon, Drowzee, Hypno, Farfetch'd, Exeggcute, Exeggutor, Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
-- Updated only models of Turtwig, Grotle, Torterra, Sceptile and Shuckle.
+- Updated models of Turtwig, Grotle, Torterra, Sceptile and Shuckle.
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
 - Updated textures for apricorn doors and all the evolution stone ores.
 - Updated Apricorn Leaves color.
@@ -214,7 +215,6 @@
 - Reorganised creative categories
 - Pokémon can now wander into non-solid blocks such as foliage
 - Pokéballs now despawn after 30 seconds
-- Made Wooloo and Dubwool smaller.
 - Dive Balls will now have the same motion speed underwater as if they were thrown in the air.
 - Hardcoded potion shoulder effects have been removed, you can now use any potion vanilla or otherwise with the parameters you'd like, for more information see the [Datapack & Resourcepack Creators](#datapack-&-resourcepack-creators) section.
 - Clicking categories of the Stat sub-section or the party reorder button in the Summary screen will now produce a click sound.
