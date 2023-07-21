@@ -292,6 +292,7 @@ object Cobblemon {
                     val properties = event.evolution.result.copy()
                     properties.species = Pokemon.SHEDINJA.toString()
                     val product = pokemon.clone()
+                    product.removeHeldItem()
                     properties.apply(product)
                     product.caughtBall = (pokeball as PokeBallItem).pokeBall
                     pokemon.storeCoordinates.get()?.store?.add(product)
