@@ -92,6 +92,15 @@ class StarterConfig {
                 PokemonProperties.parse("Scorbunny level=10"),
                 PokemonProperties.parse("Sobble level=10"),
             )
+        ),
+        StarterCategory(
+            name = "Paldea",
+            displayName = "cobblemon.starterselection.category.paldea",
+            pokemon = mutableListOf(
+                PokemonProperties.parse("Sprigatito level=10"),
+                PokemonProperties.parse("Fuecoco level=10"),
+                PokemonProperties.parse("Quaxly level=10"),
+            )
         )
     //,
 //            StarterCategory(

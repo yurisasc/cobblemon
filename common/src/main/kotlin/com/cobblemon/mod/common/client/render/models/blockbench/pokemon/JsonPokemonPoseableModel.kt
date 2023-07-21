@@ -148,7 +148,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
             val mustBeInBattle = json.get("isBattle")?.asBoolean
             if (mustBeInBattle != null) {
-                conditionsList.add { mustBeInBattle == it.battleId.get().isPresent }
+                conditionsList.add { mustBeInBattle == it.isBattling }
             }
             val mustBeTouchingWater = json.get("isTouchingWater")?.asBoolean
             if (mustBeTouchingWater != null) {

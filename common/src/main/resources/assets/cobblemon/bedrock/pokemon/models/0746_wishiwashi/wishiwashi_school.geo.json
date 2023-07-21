@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "wishiwashi",
+					"name": "wishiwashi_school",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "wishiwashi",
+					"parent": "wishiwashi_school",
 					"pivot": [0, 17, 11]
 				},
 				{
