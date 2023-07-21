@@ -219,7 +219,7 @@
 - Fixed particle animations not running when a Pokémon is off-screen.
 - Fixed Pokémon variants and layers not rendering correctly when shouldered and playing on a dedicated server, existing shoulders affected will need to be retrieved and shouldered again.
 - Shoulder effects will now stay applied through situations that remove potion effects such as drinking milk.
-- Fixed Shedninja evolving to use the consumed Pokeball.
+- Fixed Shedninja evolving to use the consumed Pokeball and removed the held item.
 
 ### Developer
 - Added SpawnEvent
