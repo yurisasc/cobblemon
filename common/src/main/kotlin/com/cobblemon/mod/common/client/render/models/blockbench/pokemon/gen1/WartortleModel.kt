@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -48,6 +49,8 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
     lateinit var swimIdle: PokemonPose
     lateinit var swim: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wartortle", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("wartortle", "blink").setPreventsIdle(false)}

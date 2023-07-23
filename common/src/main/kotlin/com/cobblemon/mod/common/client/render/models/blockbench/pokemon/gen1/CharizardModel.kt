@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
@@ -45,6 +46,8 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
     lateinit var flyIdle: PokemonPose
     lateinit var fly: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charizard", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
 //        val blink = quirk("blink") { bedrockStateful("charizard", "blink").setPreventsIdle(false)}

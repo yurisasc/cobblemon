@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.RangeOfMotion
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
@@ -42,6 +43,8 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rattata", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         sleep = registerPose(

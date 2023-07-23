@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
@@ -33,6 +34,8 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val profileTranslation = Vec3d(0.1, 0.8, 0.0)
 
     lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("butterfree", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         sleep = registerPose(

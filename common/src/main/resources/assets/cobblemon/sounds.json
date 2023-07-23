@@ -2811,8 +2811,8 @@
   "pokemon.oinkologne.ambient": {
     "sounds": [ "cobblemon:pokemon/oinkologne/oinkologne_ambient" ]
   },
-  "pokemon.dundunsparce.ambient": {
-    "sounds": [ "cobblemon:pokemon/dundunsparce/dundunsparce_ambient" ]
+  "pokemon.dudunsparce.ambient": {
+    "sounds": [ "cobblemon:pokemon/dudunsparce/dudunsparce_ambient" ]
   },
   "pokemon.tarountula.ambient": {
     "sounds": [ "cobblemon:pokemon/tarountula/tarountula_ambient" ]
@@ -2877,8 +2877,8 @@
   "pokemon.capsakid.ambient": {
     "sounds": [ "cobblemon:pokemon/capsakid/capsakid_ambient" ]
   },
-  "pokemon.scovillian.ambient": {
-    "sounds": [ "cobblemon:pokemon/scovillian/scovillian_ambient" ]
+  "pokemon.scovillain.ambient": {
+    "sounds": [ "cobblemon:pokemon/scovillain/scovillain_ambient" ]
   },
   "pokemon.tadbulb.ambient": {
     "sounds": [ "cobblemon:pokemon/tadbulb/tadbulb_ambient" ]
@@ -5841,8 +5841,8 @@
   "pokemon.oinkologne.cry": {
     "sounds": [ "cobblemon:pokemon/oinkologne/oinkologne_cry" ]
   },
-  "pokemon.dundunsparce.cry": {
-    "sounds": [ "cobblemon:pokemon/dundunsparce/dundunsparce_cry" ]
+  "pokemon.dudunsparce.cry": {
+    "sounds": [ "cobblemon:pokemon/dudunsparce/dudunsparce_cry" ]
   },
   "pokemon.tarountula.cry": {
     "sounds": [ "cobblemon:pokemon/tarountula/tarountula_cry" ]
@@ -5907,8 +5907,8 @@
   "pokemon.capsakid.cry": {
     "sounds": [ "cobblemon:pokemon/capsakid/capsakid_cry" ]
   },
-  "pokemon.scovillian.cry": {
-    "sounds": [ "cobblemon:pokemon/scovillian/scovillian_cry" ]
+  "pokemon.scovillain.cry": {
+    "sounds": [ "cobblemon:pokemon/scovillain/scovillain_cry" ]
   },
   "pokemon.tadbulb.cry": {
     "sounds": [ "cobblemon:pokemon/tadbulb/tadbulb_cry" ]

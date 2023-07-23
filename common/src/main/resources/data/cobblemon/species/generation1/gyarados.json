@@ -81,7 +81,7 @@
         "avoidsLand": true
       },
       "fly": {
-        "canFly": true
+        "canFly": false
       },
       "swim": {
         "swimSpeed": 0.1,

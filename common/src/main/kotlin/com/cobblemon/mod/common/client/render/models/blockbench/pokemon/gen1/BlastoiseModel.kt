@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -40,6 +41,8 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     override val profileScale = 0.63F
     override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("blastoise", "cry").setPreventsIdle(false) }
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
