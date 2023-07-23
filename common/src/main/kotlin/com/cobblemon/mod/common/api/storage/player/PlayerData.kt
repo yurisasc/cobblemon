@@ -29,7 +29,8 @@ data class PlayerData(
     }
 
     companion object {
-        fun default(forPlayer: UUID) = PlayerData(
+        @JvmStatic
+        fun defaultData(forPlayer: UUID) = PlayerData(
             uuid = forPlayer,
             starterPrompted = false,
             starterLocked = !Cobblemon.starterConfig.allowStarterOnJoin,
