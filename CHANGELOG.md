@@ -193,7 +193,7 @@
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
-- Fixed messages for entry hazards, screens, Tailwind, Perish Song, Destiny Bond, Shed Skin, Uproar, Forewarn, Disguise, Arena Trap and Yawn
+- Fixed messages for entry hazards, screens, Tailwind, Perish Song, Destiny Bond, Shed Skin, Uproar, Forewarn, Disguise, Arena Trap, Yawn, Curse, Clamp, Whirlpool, Liquid Ooze, Miracle Eye and Safeguard.
 - Fixed Porygon not evolving with an Upgrade.
 - Fixed super sized Pumpkaboo not having any moves.
 - Fixed Infernape look animation.
