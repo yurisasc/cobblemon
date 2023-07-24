@@ -62,7 +62,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
     @Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
     fun getLandTarget(): Vec3d? {
         val roamDistanceCondition: (BlockPos) -> Boolean = { entity.tethering?.canRoamTo(it) != false }
-        val iterable: Iterable<BlockPos> = BlockPos.iterateRandomly(entity.random, 30, entity.blockX - 10, entity.blockY, entity.blockZ - 10, entity.blockX + 10, entity.blockY, entity.blockZ + 10)
+        val iterable: Iterable<BlockPos> = BlockPos.iterateRandomly(entity.random, 64, entity.blockX - 10, entity.blockY, entity.blockZ - 10, entity.blockX + 10, entity.blockY, entity.blockZ + 10)
         val condition: (BlockState, BlockPos) -> Boolean = { _, pos -> entity.canFit(pos) && roamDistanceCondition(pos) }
         val iterator = iterable.iterator()
         position@
