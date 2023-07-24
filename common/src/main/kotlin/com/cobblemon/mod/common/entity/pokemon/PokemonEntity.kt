@@ -417,6 +417,10 @@ class PokemonEntity(
         return if (nodeType == PathNodeType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
     }
 
+    override fun getNavigation(): PokemonNavigation {
+        return navigation as PokemonNavigation
+    }
+
     @Suppress("SENSELESS_COMPARISON")
     public override fun initGoals() {
         // DO NOT REMOVE
