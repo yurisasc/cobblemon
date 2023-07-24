@@ -64,7 +64,7 @@ class BattleSwitchPokemonSelection(
                 species = pokemon.species,
                 level = pokemon.level,
                 aspects = pokemon.aspects,
-                displayName = pokemon.species.translatedName,
+                displayName = pokemon.getDisplayName(),
                 gender = pokemon.gender,
                 status = pokemon.status?.status,
                 maxHealth = pokemon.hp,
