@@ -67,5 +67,7 @@ abstract class SpawnDetail : ModDependant {
         return true
     }
 
+    open fun isValid(): Boolean = isModDependencySatisfied()
+
     abstract fun doSpawn(ctx: SpawningContext): SpawnAction<*>
 }
