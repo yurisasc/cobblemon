@@ -1041,8 +1041,8 @@
 				}
 			},
 			"sound_effects": {
-				"0.125": {
-					"effect": "torterra_ambient"
+				"0.1667": {
+					"effect": "pokemon.torterra.cry"
 				}
 			}
 		}

@@ -891,8 +891,8 @@
 				}
 			},
 			"sound_effects": {
-				"0.25": {
-					"effect": "grotle_cry"
+				"0.2083": {
+					"effect": "pokemon.grotle.cry"
 				}
 			}
 		},
@@ -968,5 +968,6 @@
 				}
 			}
 		}
-	}
+	},
+	"geckolib_format_version": 2
 }
