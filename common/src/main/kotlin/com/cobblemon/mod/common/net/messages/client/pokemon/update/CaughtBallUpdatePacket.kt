@@ -9,18 +9,27 @@
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.util.Identifier
-class CaughtBallUpdatePacket() : StringUpdatePacket() {
-    constructor(pokemon: Pokemon, value: String): this() {
-        this.setTarget(pokemon)
-        this.value = value
+import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.PacketByteBuf
+
+class CaughtBallUpdatePacket(pokemon: () -> Pokemon, value: PokeBall): SingleUpdatePacket<PokeBall, CaughtBallUpdatePacket>(pokemon, value) {
+    override val id = ID
+    override fun encodeValue(buffer: PacketByteBuf) {
+        buffer.writeIdentifier(this.value.name)
     }
 
-    override fun set(pokemon: Pokemon, value: String) {
-        val pokeBall = PokeBalls.getPokeBall(Identifier(value))
-        if (pokeBall != null) {
-            pokemon.caughtBall = pokeBall
+    override fun set(pokemon: Pokemon, value: PokeBall) {
+        pokemon.caughtBall = value
+    }
+
+    companion object {
+        val ID = cobblemonResource("caught_ball_update")
+        fun decode(buffer: PacketByteBuf): CaughtBallUpdatePacket {
+            val pokemon = decodePokemon(buffer)
+            val pokeBall = PokeBalls.getPokeBall(buffer.readIdentifier()) ?: PokeBalls.POKE_BALL
+            return CaughtBallUpdatePacket(pokemon, pokeBall)
         }
     }
 }

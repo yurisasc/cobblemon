@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Falinks",
   "nationalPokedexNumber": 870,
   "primaryType": "fighting",
@@ -13,6 +14,14 @@
     "special_attack": 70,
     "special_defence": 60,
     "speed": 75
+  },
+  "behaviour": {
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "walkSpeed": 0.25
+      }
+    }
   },
   "catchRate": 45,
   "maleRatio": -1,
@@ -51,11 +60,13 @@
     "tm:facade",
     "tm:falseswipe",
     "tm:focusblast",
+    "tm:focusenergy",
     "tm:gigaimpact",
     "tm:helpinghand",
     "tm:hyperbeam",
     "tm:irondefense",
     "tm:ironhead",
+    "tm:megahorn",
     "tm:payback",
     "tm:poisonjab",
     "tm:protect",
@@ -91,8 +102,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2,
+    "height": 0.8,
     "fixed": false
   },
   "baseFriendship": 50,

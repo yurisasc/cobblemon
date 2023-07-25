@@ -91,5 +91,6 @@
 	["level_ball"],
 	["fast_ball"],
 	["moon_ball"]
-  ]
+  ],
+  "sends_telemetry_event": false
 }

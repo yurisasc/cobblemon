@@ -127,7 +127,7 @@
       },
       "catchRate": 30,
       "maleRatio": -1,
-      "baseExperienceYield": 154,
+      "baseExperienceYield": 175,
       "baseFriendship": 70,
       "evYield": {
         "hp": 0,
@@ -142,7 +142,6 @@
       "eggGroups": [
         "mineral"
       ],
-      "moves": [],
       "labels": [
         "gen7"
       ],

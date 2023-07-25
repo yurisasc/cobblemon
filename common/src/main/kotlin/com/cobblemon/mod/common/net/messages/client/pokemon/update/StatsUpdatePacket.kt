@@ -8,45 +8,11 @@
 
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
-import com.cobblemon.mod.common.api.pokemon.stats.Stats
-import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.EVs
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.PokemonStats
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-
-/**
- * Base packet class for things extending [PokemonStats].
- *
- * @author Hiroku
- * @since November 23rd, 2022
- */
-abstract class StatsUpdatePacket<T : PokemonStats>(value: T) : SingleUpdatePacket<T>(value) {
-    override fun encodeValue(buffer: PacketByteBuf, value: T) {
-        for (stat in Stats.PERMANENT.filterIsInstance<Stats>()) {
-            buffer.writeSizedInt(IntSize.U_BYTE, value[stat] ?: 0)
-        }
-    }
-
-    override fun decodeValue(buffer: PacketByteBuf): T {
-        for (stat in Stats.PERMANENT.filterIsInstance<Stats>()) {
-            value[stat] = buffer.readSizedInt(IntSize.U_BYTE)
-        }
-        return value
-    }
-
-    abstract fun getStatContainer(pokemon: Pokemon): T
-
-    override fun set(pokemon: Pokemon, value: T) {
-        val stats = getStatContainer(pokemon)
-        for ((stat, ev) in value) {
-            stats[stat] = ev
-        }
-    }
-}
 
 /**
  * Packet used for when EVs have changed.
@@ -54,11 +20,19 @@ abstract class StatsUpdatePacket<T : PokemonStats>(value: T) : SingleUpdatePacke
  * @author Hiroku
  * @since November 23rd, 2022
  */
-class EVsUpdatePacket() : StatsUpdatePacket<EVs>(EVs()) {
-    override fun getStatContainer(pokemon: Pokemon) = pokemon.evs
-    constructor(pokemon: Pokemon, evs: EVs) : this() {
-        this.setTarget(pokemon)
-        this.value = evs
+class EVsUpdatePacket(pokemon: () -> Pokemon, eVs: EVs) : SingleUpdatePacket<EVs, EVsUpdatePacket>(pokemon, eVs) {
+    override val id = ID
+    override fun encodeValue(buffer: PacketByteBuf) {
+        this.value.saveToBuffer(buffer)
+    }
+    override fun set(pokemon: Pokemon, value: EVs) {
+        value.forEach { (stat, value) ->
+            pokemon.evs[stat] = value
+        }
+    }
+    companion object {
+        val ID = cobblemonResource("ev_update")
+        fun decode(buffer: PacketByteBuf) = EVsUpdatePacket(decodePokemon(buffer), EVs().apply { loadFromBuffer(buffer) })
     }
 }
 
@@ -68,10 +42,18 @@ class EVsUpdatePacket() : StatsUpdatePacket<EVs>(EVs()) {
  * @author Hiroku
  * @since November 23rd, 2022
  */
-class IVsUpdatePacket() : StatsUpdatePacket<IVs>(IVs()) {
-    override fun getStatContainer(pokemon: Pokemon) = pokemon.ivs
-    constructor(pokemon: Pokemon, ivs: IVs) : this() {
-        this.setTarget(pokemon)
-        this.value = ivs
+class IVsUpdatePacket(pokemon: () -> Pokemon, iVs: IVs) : SingleUpdatePacket<IVs, IVsUpdatePacket>(pokemon, iVs) {
+    override val id = ID
+    override fun encodeValue(buffer: PacketByteBuf) {
+        this.value.saveToBuffer(buffer)
+    }
+    override fun set(pokemon: Pokemon, value: IVs) {
+        value.forEach { (stat, value) ->
+            pokemon.ivs[stat] = value
+        }
+    }
+    companion object {
+        val ID = cobblemonResource("iv_update")
+        fun decode(buffer: PacketByteBuf) = IVsUpdatePacket(decodePokemon(buffer), IVs().apply { loadFromBuffer(buffer) })
     }
 }

@@ -24,6 +24,7 @@
     "field"
   ],
   "moves": [
+    "1:aerialace",
     "1:earthquake",
     "1:growth",
     "1:tackle",
@@ -97,9 +98,15 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:bounce",
+    "tutor:gigadrain",
     "tutor:irontail",
+    "tutor:seedbomb",
     "tutor:snore",
-    "tutor:superpower"
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:synthesis",
+    "tutor:worryseed",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6"

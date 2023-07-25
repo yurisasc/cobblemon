@@ -15,8 +15,8 @@ import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.google.common.collect.HashBiMap
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.text.Text
-import net.minecraft.util.registry.Registry
 
 /**
  * The base Cobblemon implementation of an [HeldItemManager].
@@ -36,8 +36,8 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
         for (i in 0 until itemsJson.size()) {
             showdownIds += itemsJson[i].asString
         }
-        Registry.ITEM.forEach { item ->
-            val identifier = Registry.ITEM.getId(item)
+        Registries.ITEM.forEach { item ->
+            val identifier = Registries.ITEM.getId(item)
             if (identifier.namespace == Cobblemon.MODID) {
                 val formattedPath = identifier.path.replace("_", "")
                 if (showdownIds.contains(formattedPath)) {
@@ -78,7 +78,7 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
      * @return The literal Showdown ID if any.
      */
     private fun showdownIdOf(item: Item): String? {
-        val identifier = Registry.ITEM.getId(item)
+        val identifier = Registries.ITEM.getId(item)
         val formattedPath = identifier.path.replace("_", "")
         if (this.itemIds.containsKey(formattedPath)) {
             return formattedPath

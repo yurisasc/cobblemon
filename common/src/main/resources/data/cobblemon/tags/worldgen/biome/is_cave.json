@@ -4,35 +4,35 @@
     "minecraft:dripstone_caves",
     "minecraft:lush_caves",
     {
-      "id": "terralith:andesite_caves",
+      "id": "terralith:cave/andesite_caves",
       "required": false 
     },
     {
-      "id": "terralith:desert_caves",
+      "id": "terralith:cave/desert_caves",
       "required": false 
     },
     {
-      "id": "terralith:diorite_caves",
+      "id": "terralith:cave/diorite_caves",
       "required": false 
     },
     {
-      "id": "terralith:fungal_caves",
+      "id": "terralith:cave/fungal_caves",
       "required": false 
     },
     {
-      "id": "terralith:granite_caves",
+      "id": "terralith:cave/granite_caves",
       "required": false 
     },
     {
-      "id": "terralith:infested_caves",
+      "id": "terralith:cave/infested_caves",
       "required": false 
     },
     {
-      "id": "terralith:thermal_caves",
+      "id": "terralith:cave/thermal_caves",
       "required": false 
     },
     {
-      "id": "terralith:underground_jungle",
+      "id": "terralith:cave/underground_jungle",
       "required": false 
     }
   ]

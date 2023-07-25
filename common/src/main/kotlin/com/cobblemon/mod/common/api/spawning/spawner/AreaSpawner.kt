@@ -108,7 +108,7 @@ abstract class AreaSpawner(
         return true
     }
 
-    private fun constrainArea(area: SpawningArea): SpawningArea? {
+    fun constrainArea(area: SpawningArea): SpawningArea? {
         val basePos = BlockPos.Mutable(area.baseX, area.baseY, area.baseZ)
         val originalY = area.baseY
 
@@ -136,16 +136,18 @@ abstract class AreaSpawner(
         if (valid) {
             val min = area.world.squeezeWithinBounds(basePos)
             val max = area.world.squeezeWithinBounds(basePos.add(area.length, area.height, area.width))
-            if (area.world.canSetBlock(min) && area.world.canSetBlock(max) && min.y != max.y) {
+            if (area.world.canSetBlock(min) && area.world.canSetBlock(max) &&
+                min.x < max.x && min.y < max.y && min.z < max.z
+            ) {
                 return SpawningArea(
                     cause = area.cause,
                     world = area.world,
                     baseX = min.x,
                     baseY = min.y,
                     baseZ = min.z,
-                    length = area.length,
+                    length = max.x - min.x,
                     height = max.y - min.y,
-                    width = area.width
+                    width = max.z - min.z
                 )
             }
         }

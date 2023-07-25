@@ -10,11 +10,12 @@
     "description": {
       "translate": "advancements.cobblemon.root.description"
     },
-    "background": "cobblemon:textures/blocks/apricorn_planks.png"
+    "background": "cobblemon:textures/gui/advancements/backgrounds/cobblemon.png"
   },
   "criteria": {
     "picked_starter": {
       "trigger": "cobblemon:pick_starter"
     }
-  }
+  },
+  "sends_telemetry_event": false
 }

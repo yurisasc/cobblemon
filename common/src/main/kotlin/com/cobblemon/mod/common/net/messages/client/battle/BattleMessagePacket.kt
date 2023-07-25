@@ -9,9 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.Text
 
@@ -21,20 +19,18 @@ import net.minecraft.text.Text
  * @author Hiroku
  * @since May 22nd, 2022
  */
-class BattleMessagePacket() : NetworkPacket {
-    val messages = mutableListOf<Text>()
-    constructor(vararg messages: Text): this() {
-        this.messages.addAll(messages)
-    }
+class BattleMessagePacket(val messages: List<Text>) : NetworkPacket<BattleMessagePacket> {
+
+    override val id = ID
+
+    constructor(vararg messages: Text): this(messages.toList())
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeSizedInt(IntSize.U_BYTE, messages.size)
-        messages.forEach(buffer::writeText)
+        buffer.writeCollection(this.messages) { pb, value -> pb.writeText(value) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
-            messages.add(buffer.readText())
-        }
+    companion object {
+        val ID = cobblemonResource("battle_message")
+        fun decode(buffer: PacketByteBuf) = BattleMessagePacket(buffer.readList { it.readText() })
     }
 }

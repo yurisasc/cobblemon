@@ -9,8 +9,9 @@
 package com.cobblemon.mod.common.api.tags
 
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.tag.TagKey
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 
 /**
  * A collection of the Cobblemon [TagKey]s related to the [Registry.BIOME_KEY].
@@ -126,6 +127,8 @@ object CobblemonBiomeTags {
     val HAS_APRICORNS_NORMAL = create("has_feature/apricorns_normal")
     @JvmField
     val HAS_APRICORNS_SPARSE = create("has_feature/apricorns_sparse")
+    @JvmField
+    val HAS_REVIVAL_HERBS = create("has_feature/revival_herbs")
 
     // Has Ore tags
     @JvmField
@@ -182,5 +185,5 @@ object CobblemonBiomeTags {
     @JvmField
     val IS_UNDERGROUND = create("is_underground")
 
-    private fun create(path: String) = TagKey.of(Registry.BIOME_KEY, cobblemonResource(path))
+    private fun create(path: String) = TagKey.of(RegistryKeys.BIOME, cobblemonResource(path))
 }

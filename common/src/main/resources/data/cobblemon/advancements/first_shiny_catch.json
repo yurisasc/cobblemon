@@ -2,7 +2,7 @@
 	"display": {
 		"icon": {
 			"item": "cobblemon:pokemon_model",
-			"nbt": "{\"species\":\"cobblemon:charizard\",\"aspects\":[\"shiny\"]}"
+			"nbt": "{\"species\":\"cobblemon:gyarados\",\"aspects\":[\"shiny\"]}"
 		},
 		"title": {
 			"translate": "advancements.cobblemon.first_shiny_catch"
@@ -19,5 +19,6 @@
 				"count": 1
 			}
 		}
-	}
+	},
+  "sends_telemetry_event": false
 }

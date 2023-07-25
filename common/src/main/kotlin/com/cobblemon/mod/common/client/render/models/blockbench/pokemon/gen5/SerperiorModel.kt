@@ -17,7 +17,7 @@ import net.minecraft.util.math.Vec3d
 
 class SerperiorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("serperior")
-    override val head = getPart("head")
+    override val head = getPart("head_ai")
 
     override val portraitScale = 2.5F
     override val portraitTranslation = Vec3d(-0.3, 1.25, 0.0)
@@ -33,7 +33,7 @@ class SerperiorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             idleAnimations = arrayOf(
-//                singleBoneLook(),
+                singleBoneLook(),
                 bedrock("serperior", "ground_idle")
             )
         )
@@ -42,7 +42,7 @@ class SerperiorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
-//                singleBoneLook(),
+                singleBoneLook(),
                 bedrock("serperior", "ground_walk")
             )
         )

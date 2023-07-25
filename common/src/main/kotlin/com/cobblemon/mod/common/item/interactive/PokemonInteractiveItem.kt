@@ -8,21 +8,24 @@
 
 package com.cobblemon.mod.common.item.interactive
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem.Ownership
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.sound.SoundEvent
 
 /**
  * An [InteractiveItem] targeting [PokemonEntity]s.
  *
  * @param accepted The [Ownership] variants for this interaction to fire [PokemonInteractiveItem.processInteraction].
  */
-abstract class PokemonInteractiveItem(properties: Settings, vararg accepted: Ownership) : InteractiveItem<PokemonEntity>(properties) {
+interface PokemonInteractiveItem : InteractiveItem<PokemonEntity> {
 
-    private val accepted = accepted.toSet()
+    val accepted: Set<Ownership>
+    fun getSound(): SoundEvent? = CobblemonSounds.ITEM_USE
 
-    final override fun onInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
+    override fun onInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon
         val storeCoordinates = pokemon.storeCoordinates.get()
         val ownership = when {
@@ -45,7 +48,7 @@ abstract class PokemonInteractiveItem(properties: Settings, vararg accepted: Own
      * @param stack The [ItemStack] used in this interaction. [ItemStack.getItem] will always be of the same type as this [InteractiveItem].
      * @return true if the interaction was successful and no further interactions should be processed.
      */
-    abstract fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean
+    fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean
 
     /**
      * Decreases the stack size by a given amount.
@@ -56,7 +59,7 @@ abstract class PokemonInteractiveItem(properties: Settings, vararg accepted: Own
      * @param stack The [ItemStack] being mutated.
      * @param amount The amount to deduct from the stack, default is 1.
      */
-    protected fun consumeItem(player: ServerPlayerEntity, stack: ItemStack, amount: Int = 1) {
+    fun consumeItem(player: ServerPlayerEntity, stack: ItemStack, amount: Int = 1) {
         if (!player.isCreative) {
             stack.decrement(amount)
         }

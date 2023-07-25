@@ -18,7 +18,8 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandRegistryAccess
 import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.command.argument.ItemStackArgumentType
-import net.minecraft.server.command.CommandManager.*
+import net.minecraft.server.command.CommandManager.argument
+import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 
 object HeldItemCommand {
@@ -47,7 +48,7 @@ object HeldItemCommand {
         val stackArgument = ItemStackArgumentType.getItemStackArgument(ctx, ITEM)
         val stack = stackArgument.createStack(1, false)
         pokemon.swapHeldItem(stack)
-        ctx.source.sendFeedback(commandLang(NAME, player.name, pokemon.species.translatedName, stack.name), true)
+        ctx.source.sendFeedback({ commandLang(NAME, player.name, pokemon.species.translatedName, stack.name) }, true)
         return Command.SINGLE_SUCCESS
     }
 

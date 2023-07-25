@@ -11,6 +11,7 @@ architectury {
 loom {
     forge {
         convertAccessWideners.set(true)
+
         mixinConfig("mixins.cobblemon-forge.json")
         mixinConfig("mixins.cobblemon-common.json")
     }
@@ -24,8 +25,6 @@ repositories {
 
 dependencies {
     forge(libs.forge)
-    modApi(libs.architecturyForge)
-//    modApi(libs.kotlinForForge)
 
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
@@ -48,29 +47,40 @@ dependencies {
         forgeRuntimeLibrary(it)
         bundle(it)
     }
-
-    listOf(
-        libs.stdlib,
-        libs.serializationCore,
-        libs.serializationJson,
-        libs.reflect
-    ).forEach(::forgeRuntimeLibrary)
 }
 
 tasks {
     shadowJar {
         exclude("architectury-common.accessWidener")
+        exclude("architectury.common.json")
+
         relocate ("com.ibm.icu", "com.cobblemon.mod.relocations.ibm.icu")
     }
 
     processResources {
         inputs.property("version", rootProject.version)
+        inputs.property("minecraft_version", rootProject.property("mc_version").toString())
 
         filesMatching("META-INF/mods.toml") {
-            expand("version" to rootProject.version)
+            expand(
+                "version" to rootProject.version,
+                "minecraft_version" to rootProject.property("mc_version").toString()
+            )
         }
     }
 }
+
+tasks {
+    sourcesJar {
+        val depSources = project(":common").tasks.sourcesJar
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        dependsOn(depSources)
+        from(depSources.get().archiveFile.map { zipTree(it) }) {
+            exclude("architectury.accessWidener")
+        }
+    }
+}
+
 
 //jar {
 //    classifier("dev")

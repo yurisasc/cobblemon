@@ -46,7 +46,6 @@ class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { !it.isBattling },
                 idleAnimations = arrayOf(bedrock("froakie", "sleep"))
         )
 
@@ -115,5 +114,5 @@ class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float)) bedrockStateful("froakie", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float, sleep)) bedrockStateful("froakie", "faint") else null
 }

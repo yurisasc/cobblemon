@@ -9,11 +9,14 @@
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
-class ShinyUpdatePacket() : BooleanUpdatePacket() {
-    constructor(pokemon: Pokemon, value: Boolean): this() {
-        this.setTarget(pokemon)
-        this.value = value
-    }
+import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.PacketByteBuf
 
+class ShinyUpdatePacket(pokemon: () -> Pokemon, value: Boolean) : BooleanUpdatePacket<ShinyUpdatePacket>(pokemon, value) {
+    override val id = ID
     override fun set(pokemon: Pokemon, value: Boolean) { pokemon.shiny = value }
+    companion object {
+        val ID = cobblemonResource("shiny_update")
+        fun decode(buffer: PacketByteBuf) = ShinyUpdatePacket(decodePokemon(buffer), buffer.readBoolean())
+    }
 }

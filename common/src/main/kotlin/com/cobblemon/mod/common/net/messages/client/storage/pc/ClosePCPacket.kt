@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.storage.pc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -21,21 +22,16 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 20th, 2022
  */
-class ClosePCPacket() : NetworkPacket {
-    var storeID: UUID? = null
+class ClosePCPacket(val storeID: UUID?) : NetworkPacket<ClosePCPacket> {
 
-    constructor(storeID: UUID?): this() {
-        this.storeID = storeID
-    }
+    override val id = ID
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeBoolean(storeID != null)
-        storeID?.let(buffer::writeUuid)
+        buffer.writeNullable(this.storeID) { pb, value -> pb.writeUuid(value) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        if (buffer.readBoolean()) {
-            storeID = buffer.readUuid()
-        }
+    companion object {
+        val ID = cobblemonResource("close_pc")
+        fun decode(buffer: PacketByteBuf): ClosePCPacket = ClosePCPacket(buffer.readNullable { it.readUuid() })
     }
 }

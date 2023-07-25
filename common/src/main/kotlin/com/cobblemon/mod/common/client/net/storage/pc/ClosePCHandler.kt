@@ -8,12 +8,27 @@
 
 package com.cobblemon.mod.common.client.net.storage.pc
 
-import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
+import com.cobblemon.mod.common.client.gui.pc.PCGUI
 import com.cobblemon.mod.common.net.messages.client.storage.pc.ClosePCPacket
+import net.minecraft.client.MinecraftClient
 
-object ClosePCHandler : ClientPacketHandler<ClosePCPacket> {
-    override fun invokeOnClient(packet: ClosePCPacket, ctx: CobblemonNetwork.NetworkContext) {
-        // TODO close the PC GUI if the UUID of the opened PC matches packet.storeID
+/**
+ * Handles the request to close the PC GUI.
+ *
+ * @author Deltric
+ * @since May 17th, 2023
+ */
+object ClosePCHandler : ClientNetworkPacketHandler<ClosePCPacket> {
+    override fun handle(packet: ClosePCPacket, client: MinecraftClient) {
+        if (client.currentScreen !is PCGUI) {
+            return
+        }
+
+        val pc = client.currentScreen as PCGUI
+        if (pc.pc.uuid != packet.storeID) {
+            return
+        }
+        pc.configuration.exitFunction.invoke(pc)
     }
 }

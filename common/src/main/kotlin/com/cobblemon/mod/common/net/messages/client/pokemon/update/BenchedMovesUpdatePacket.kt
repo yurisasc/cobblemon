@@ -10,23 +10,28 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.api.moves.BenchedMoves
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-class BenchedMovesUpdatePacket() : SingleUpdatePacket<BenchedMoves>(BenchedMoves()) {
-    constructor(pokemon: Pokemon, value: BenchedMoves) : this() {
-        setTarget(pokemon)
-        this.value = value
-    }
 
-    override fun encodeValue(buffer: PacketByteBuf, value: BenchedMoves) {
-        value.saveToBuffer(buffer)
+class BenchedMovesUpdatePacket(pokemon: () -> Pokemon, value: BenchedMoves): SingleUpdatePacket<BenchedMoves, BenchedMovesUpdatePacket>(pokemon, value) {
+    override val id = ID
+    override fun encodeValue(buffer: PacketByteBuf) {
+        this.value.saveToBuffer(buffer)
     }
-
-    override fun decodeValue(buffer: PacketByteBuf) = value.loadFromBuffer(buffer)
 
     override fun set(pokemon: Pokemon, value: BenchedMoves) {
         pokemon.benchedMoves.doThenEmit {
             pokemon.benchedMoves.clear()
             pokemon.benchedMoves.addAll(value)
+        }
+    }
+
+    companion object {
+        val ID = cobblemonResource("benched_moves_update")
+        fun decode(buffer: PacketByteBuf): BenchedMovesUpdatePacket {
+            val pokemon = decodePokemon(buffer)
+            val benchedMoves = BenchedMoves().apply { loadFromBuffer(buffer) }
+            return BenchedMovesUpdatePacket(pokemon, benchedMoves)
         }
     }
 }

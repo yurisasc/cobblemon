@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Gigalith",
   "nationalPokedexNumber": 526,
   "primaryType": "rock",
@@ -47,6 +48,7 @@
     "tm:earthpower",
     "tm:earthquake",
     "tm:endure",
+    "tm:explosion",
     "tm:facade",
     "tm:flashcannon",
     "tm:frustration",
@@ -72,6 +74,7 @@
     "tm:secretpower",
     "tm:selfdestruct",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:solarbeam",
     "tm:stealthrock",
@@ -85,9 +88,18 @@
     "tm:toxic",
     "tm:weatherball",
     "tutor:block",
+    "tutor:earthpower",
     "tutor:gravity",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:laserfocus",
-    "tutor:meteorbeam"
+    "tutor:meteorbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:throatchop"
   ],
   "labels": [
     "gen5"
@@ -97,10 +109,10 @@
   ],
   "preEvolution": "boldore",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.4,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.4,
+    "height": 1.8,
     "fixed": false
   },
   "baseFriendship": 50,

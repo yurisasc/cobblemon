@@ -21,11 +21,22 @@ class EmptyPokeBallClientDelegate : PokeBallPoseableState(), EntitySideDelegate<
     override val stateEmitter: SettableObservable<CaptureState> = SettableObservable(NOT)
     override val shakeEmitter = SimpleObservable<Unit>()
 
+    override fun updatePartialTicks(partialTicks: Float) {
+        this.currentPartialTicks = partialTicks
+    }
+
     override fun initialize(entity: EmptyPokeBallEntity) {
+        age = entity.age
         initSubscriptions()
         entity.captureState.subscribe {
             stateEmitter.set(CaptureState.values()[it.toInt()])
         }
         entity.shakeEmitter.subscribe { shakeEmitter.emit(Unit) }
+    }
+
+    override fun tick(entity: EmptyPokeBallEntity) {
+        super.tick(entity)
+        updateLocatorPosition(entity.pos)
+        incrementAge(entity)
     }
 }

@@ -84,14 +84,22 @@
     "tm:toxic",
     "tm:trailblaze",
     "tm:zenheadbutt",
+    "tutor:bounce",
     "tutor:covet",
     "tutor:doubleslap",
     "tutor:endeavor",
+    "tutor:gigadrain",
     "tutor:grassyglide",
+    "tutor:helpinghand",
     "tutor:knockoff",
+    "tutor:magicalleaf",
+    "tutor:seedbomb",
+    "tutor:snore",
+    "tutor:sweetscent",
     "tutor:synthesis",
     "tutor:tripleaxel",
-    "tutor:worryseed"
+    "tutor:worryseed",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen7"

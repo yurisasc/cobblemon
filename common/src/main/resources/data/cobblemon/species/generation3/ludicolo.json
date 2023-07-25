@@ -27,12 +27,27 @@
     "water_1",
     "grass"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.3,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "drops": {
     "amount": "1",
     "entries": [
       {
         "item": "minecraft:lily_pad",
-		"quantityRange": "1-3",
+        "quantityRange": "1-3",
         "percentage": 75
       }
     ]
@@ -76,6 +91,7 @@
     "tm:flash",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigadrain",
     "tm:gigaimpact",
@@ -96,6 +112,7 @@
     "tm:muddywater",
     "tm:mudshot",
     "tm:naturalgift",
+    "tm:naturepower",
     "tm:poweruppunch",
     "tm:protect",
     "tm:raindance",
@@ -121,20 +138,48 @@
     "tm:toxic",
     "tm:uproar",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:weatherball",
     "tm:whirlpool",
     "tm:zenheadbutt",
+    "tutor:bodyslam",
     "tutor:counter",
+    "tutor:dive",
     "tutor:doubleedge",
+    "tutor:drainpunch",
     "tutor:dynamicpunch",
+    "tutor:endure",
+    "tutor:fakeout",
+    "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:gigadrain",
     "tutor:grassyglide",
     "tutor:headbutt",
+    "tutor:hydropump",
+    "tutor:hypervoice",
+    "tutor:icebeam",
+    "tutor:icepunch",
+    "tutor:icywind",
+    "tutor:knockoff",
+    "tutor:megakick",
+    "tutor:megapunch",
+    "tutor:metronome",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:scald",
+    "tutor:seedbomb",
     "tutor:seismictoss",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:sunnyday",
+    "tutor:swagger",
+    "tutor:swordsdance",
     "tutor:synthesis",
-    "tutor:waterpulse"
+    "tutor:thunderpunch",
+    "tutor:uproar",
+    "tutor:waterpulse",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen3"

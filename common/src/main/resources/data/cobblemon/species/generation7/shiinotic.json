@@ -31,7 +31,7 @@
     "entries": [
       {
         "item": "minecraft:brown_mushroom",
-		"quantityRange": "1-2",
+        "quantityRange": "1-2",
         "percentage": 66
       }
     ]
@@ -60,6 +60,7 @@
     "tm:doubleteam",
     "tm:drainingkiss",
     "tm:drainpunch",
+    "tm:dreameater",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -92,10 +93,15 @@
     "tm:weatherball",
     "tm:wonderroom",
     "tutor:afteryou",
+    "tutor:gigadrain",
     "tutor:magiccoat",
+    "tutor:magicroom",
     "tutor:recycle",
+    "tutor:seedbomb",
     "tutor:signalbeam",
+    "tutor:snore",
     "tutor:synthesis",
+    "tutor:wonderroom",
     "tutor:worryseed"
   ],
   "labels": [

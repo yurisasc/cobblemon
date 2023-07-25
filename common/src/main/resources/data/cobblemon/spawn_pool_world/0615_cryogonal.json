@@ -17,7 +17,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_snowy"
+                    "#cobblemon:is_freezing"
                 ],
                 "isRaining": true
             }

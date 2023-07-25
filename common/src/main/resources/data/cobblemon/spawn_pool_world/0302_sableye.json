@@ -7,15 +7,18 @@
             "id": "sableye-1",
             "pokemon": "sableye",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "15-38",
-            "weight": 10.0,
+            "weight": 2.0,
             "condition": {
                 "canSeeSky": false,
+				"biomes": [
+                    "#cobblemon:is_overworld"
+                ],
 				"neededNearbyBlocks": [
                     "minecraft:amethyst_block",
 					"minecraft:budding_amethyst",

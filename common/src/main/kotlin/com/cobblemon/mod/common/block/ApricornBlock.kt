@@ -12,9 +12,11 @@ import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.farming.ApricornHarvestEvent
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
+import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.block.*
+import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
@@ -79,6 +81,14 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
         }
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun getCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
+        if (context is EntityShapeContext && (context.entity as? ItemEntity)?.stack?.isIn(CobblemonItemTags.APRICORNS) == true) {
+            return VoxelShapes.empty()
+        }
+        return super.getCollisionShape(state, world, pos, context)
+    }
+
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         var blockState = defaultState
         val worldView = ctx.world
@@ -100,7 +110,7 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
             else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
 
-    override fun isFertilizable(world: BlockView, pos: BlockPos, state: BlockState, isClient: Boolean) = state.get(AGE) < MAX_AGE
+    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = state.get(AGE) < MAX_AGE
 
     override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = true
 

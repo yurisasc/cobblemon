@@ -7,7 +7,7 @@
             "id": "exploud-1",
             "pokemon": "exploud",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",

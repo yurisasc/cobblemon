@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -62,8 +63,8 @@ class BattleMoveSelection(
             it.roundingMode = RoundingMode.CEILING
         }
 
-        val moveTexture = cobblemonResource("ui/battle/battle_move.png")
-        val moveOverlayTexture = cobblemonResource("ui/battle/battle_move_overlay.png")
+        val moveTexture = cobblemonResource("textures/gui/battle/battle_move.png")
+        val moveOverlayTexture = cobblemonResource("textures/gui/battle/battle_move_overlay.png")
         val moveDescriptionTexture = cobblemonResource("ui/battle/battle_move_desc.png")
     }
 
@@ -86,13 +87,13 @@ class BattleMoveSelection(
         val moveTemplate = Moves.getByNameOrDummy(move.id)
         val rgb = moveTemplate.elementalType.hue.toRGB()
 
-        fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+        fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
 
             val unselectable = move.disabled
             val selectConditionOpacity = moveSelection.opacity * if (unselectable) 0.5F else 1F
 
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 texture = moveTexture,
                 x = x,
                 y = y,
@@ -107,7 +108,7 @@ class BattleMoveSelection(
             )
 
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 texture = moveOverlayTexture,
                 x = x,
                 y = y,
@@ -122,7 +123,7 @@ class BattleMoveSelection(
                 y = y + 2,
                 type = moveTemplate.elementalType,
                 opacity = moveSelection.opacity
-            ).render(matrices)
+            ).render(context)
 
             // Move Category
             MoveCategoryIcon(
@@ -130,10 +131,10 @@ class BattleMoveSelection(
                 y = y + 14.5,
                 category = moveTemplate.damageCategory,
                 opacity = moveSelection.opacity
-            ).render(matrices)
+            ).render(context)
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = moveTemplate.displayName.bold(),
                 x = x + 17,
@@ -153,7 +154,7 @@ class BattleMoveSelection(
             }
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = movePPText,
                 x = x + 75,
@@ -181,12 +182,12 @@ class BattleMoveSelection(
         }
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         moveTiles.forEach {
-            it.render(matrices, mouseX, mouseY, delta)
+            it.render(context, mouseX, mouseY, delta)
         }
 
-        backButton.render(matrices, mouseX, mouseY, delta)
+        backButton.render(context.matrices, mouseX, mouseY, delta)
 
         // Move Description
         val moveTile = moveTiles.find { it.isHovered(mouseX.toDouble(), mouseY.toDouble()) } ?: return
@@ -318,7 +319,7 @@ class BattleMoveSelection(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
     private fun format(input: Double): String {

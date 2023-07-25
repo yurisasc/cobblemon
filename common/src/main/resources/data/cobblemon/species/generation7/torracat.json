@@ -49,6 +49,7 @@
     "40:flamethrower",
     "45:thrash",
     "50:flareblitz",
+    "55:outrage",
     "tm:acrobatics",
     "tm:attract",
     "tm:bodyslam",
@@ -76,6 +77,7 @@
     "tm:rest",
     "tm:return",
     "tm:revenge",
+    "tm:roar",
     "tm:round",
     "tm:scaryface",
     "tm:shadowclaw",
@@ -83,6 +85,7 @@
     "tm:snore",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:swordsdance",
     "tm:taunt",
     "tm:torment",
@@ -93,7 +96,10 @@
     "tutor:covet",
     "tutor:dualchop",
     "tutor:endeavor",
-    "tutor:firepledge"
+    "tutor:firepledge",
+    "tutor:heatwave",
+    "tutor:outrage",
+    "tutor:snore"
   ],
   "labels": [
     "gen7"
@@ -119,10 +125,10 @@
       ]
     }
   ],
-  "baseScale": 0.6,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.1,
     "fixed": false
   },
   "baseFriendship": 50,

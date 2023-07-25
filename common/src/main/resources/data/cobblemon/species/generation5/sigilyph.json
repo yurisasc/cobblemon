@@ -18,6 +18,11 @@
     "speed": 97
   },
   "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": false,
@@ -64,8 +69,12 @@
     "55:skyattack",
     "60:skillswap",
     "egg:ancientpower",
+    "egg:futuresight",
     "egg:psychoshift",
     "egg:roost",
+    "egg:skillswap",
+    "egg:steelwing",
+    "egg:storedpower",
     "tm:aerialace",
     "tm:airslash",
     "tm:attract",
@@ -105,6 +114,7 @@
     "tm:reflect",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:safeguard",
     "tm:secretpower",
@@ -120,19 +130,35 @@
     "tm:substitute",
     "tm:swagger",
     "tm:swift",
+    "tm:telekinesis",
     "tm:thief",
     "tm:thunderwave",
     "tm:toxic",
     "tm:trick",
     "tm:trickroom",
     "tm:zenheadbutt",
+    "tutor:darkpulse",
     "tutor:defog",
     "tutor:dualwingbeat",
     "tutor:expandingforce",
+    "tutor:gravity",
+    "tutor:heatwave",
+    "tutor:hypnosis",
+    "tutor:icywind",
     "tutor:magiccoat",
+    "tutor:magicroom",
+    "tutor:roost",
     "tutor:shockwave",
     "tutor:signalbeam",
-    "tutor:telekinesis"
+    "tutor:skillswap",
+    "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:storedpower",
+    "tutor:tailwind",
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

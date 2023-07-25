@@ -54,7 +54,6 @@
       "eggGroups": [
         "mineral"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -106,6 +105,7 @@
     "tm:flareblitz",
     "tm:gigaimpact",
     "tm:gyroball",
+    "tm:heatcrash",
     "tm:heatwave",
     "tm:heavyslam",
     "tm:highhorsepower",

@@ -2,13 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "C",
-    "C",
+    "S",
     "C"
   ],
   "key": {
     "C": {
       "item": "minecraft:charcoal"
-    }
+    },
+	"S": {
+		"item": "cobblemon:fire_stone"
+	}
   },
   "result": {
     "item": "cobblemon:charcoal_stick"

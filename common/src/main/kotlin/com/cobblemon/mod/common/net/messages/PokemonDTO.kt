@@ -28,9 +28,11 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import io.netty.buffer.Unpooled
-import net.minecraft.item.ItemStack
 import java.util.UUID
+import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 /**
@@ -45,6 +47,7 @@ class PokemonDTO : Encodable, Decodable {
     var toClient = false
     var uuid = UUID.randomUUID()
     lateinit var species: Identifier
+    var nickname: MutableText? = null
     var form = ""
     var level = 1
     var experience = 1
@@ -64,13 +67,16 @@ class PokemonDTO : Encodable, Decodable {
     var aspects = setOf<String>()
     lateinit var evolutionBuffer: PacketByteBuf
     lateinit var nature: Identifier
+    var mintNature: Identifier? = null
     var heldItem: ItemStack = ItemStack.EMPTY
+    var tetheringId: UUID? = null
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
         this.toClient = toClient
         this.uuid = pokemon.uuid
         this.species = pokemon.species.resourceIdentifier
+        this.nickname = pokemon.nickname
         this.form = pokemon.form.name
         this.level = pokemon.level
         this.experience = pokemon.experience
@@ -86,17 +92,21 @@ class PokemonDTO : Encodable, Decodable {
         this.status = pokemon.status?.status?.name
         this.state = pokemon.state
         this.caughtBall = pokemon.caughtBall.name
+        this.benchedMoves = pokemon.benchedMoves
         this.aspects = pokemon.aspects
         evolutionBuffer = PacketByteBuf(Unpooled.buffer())
         pokemon.evolutionProxy.saveToBuffer(evolutionBuffer, toClient)
         this.nature = pokemon.nature.name
+        this.mintNature = pokemon.mintedNature?.name
         this.heldItem = pokemon.heldItemNoCopy()
+        this.tetheringId = pokemon.tetheringId
     }
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(toClient)
         buffer.writeUuid(uuid)
         buffer.writeIdentifier(species)
+        buffer.writeNullable(nickname) { _, v -> buffer.writeText(v) }
         buffer.writeString(form)
         buffer.writeInt(experience)
         buffer.writeSizedInt(IntSize.U_SHORT, level)
@@ -120,13 +130,16 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeBytes(evolutionBuffer)
         evolutionBuffer.release()
         buffer.writeIdentifier(nature)
+        buffer.writeNullable(mintNature) { _, v -> buffer.writeIdentifier(v) }
         buffer.writeItemStack(this.heldItem)
+        buffer.writeNullable(tetheringId) { _, v -> buffer.writeUuid(v) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
         toClient = buffer.readBoolean()
         uuid = buffer.readUuid()
         species = buffer.readIdentifier()
+        nickname = buffer.readNullable { buffer.readText().copy() }
         form = buffer.readString()
         experience = buffer.readInt()
         level = buffer.readSizedInt(IntSize.U_SHORT)
@@ -151,7 +164,9 @@ class PokemonDTO : Encodable, Decodable {
         val bytesToRead = buffer.readSizedInt(IntSize.U_SHORT)
         evolutionBuffer = PacketByteBuf(buffer.readBytes(bytesToRead))
         nature = buffer.readIdentifier()
+        mintNature = buffer.readNullable { buffer.readIdentifier() }
         heldItem = buffer.readItemStack()
+        tetheringId = buffer.readNullable { buffer.readUuid() }
     }
 
     fun create(): Pokemon {
@@ -159,6 +174,7 @@ class PokemonDTO : Encodable, Decodable {
             it.isClient = toClient
             it.uuid = uuid
             it.species = PokemonSpecies.getByIdentifier(species)!!
+            it.nickname = nickname
             it.form = it.species.forms.find { it.name == form } ?: it.species.standardForm
             it.experience = experience
             it.level = level
@@ -189,7 +205,9 @@ class PokemonDTO : Encodable, Decodable {
             it.evolutionProxy.loadFromBuffer(evolutionBuffer)
             evolutionBuffer.release()
             it.nature = Natures.getNature(nature)!!
+            it.mintedNature = mintNature?.let { id -> Natures.getNature(id)!! }
             it.swapHeldItem(heldItem, false)
+            it.tetheringId = tetheringId
         }
     }
 }

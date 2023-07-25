@@ -38,7 +38,7 @@
     "entries": [
       {
         "item": "minecraft:porkchop",
-		"quantityRange": "1-3",
+        "quantityRange": "1-3",
         "percentage": 75
       },
       {
@@ -115,6 +115,7 @@
     "tutor:helpinghand",
     "tutor:irontail",
     "tutor:lowkick",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stompingtantrum",
     "tutor:superpower",

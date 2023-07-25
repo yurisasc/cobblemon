@@ -34,7 +34,7 @@
       },
       "catchRate": 10,
       "maleRatio": -1,
-      "baseExperienceYield": 360,
+      "baseExperienceYield": 335,
       "baseFriendship": 0,
       "evYield": {
         "hp": 0,
@@ -141,7 +141,13 @@
     "tm:thunderfang",
     "tm:trailblaze",
     "tm:wildcharge",
-    "tm:workup"
+    "tm:workup",
+    "tutor:crunch",
+    "tutor:ironhead",
+    "tutor:playrough",
+    "tutor:sacredsword",
+    "tutor:steelbeam",
+    "tutor:swordsdance"
   ],
   "labels": [
     "gen8",

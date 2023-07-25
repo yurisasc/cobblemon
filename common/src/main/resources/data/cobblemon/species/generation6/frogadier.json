@@ -43,7 +43,7 @@
     "entries": [
       {
         "item": "minecraft:pearlescent_froglight",
-		"quantityRange": "1-2",
+        "quantityRange": "1-2",
         "percentage": 66
       },
       {
@@ -78,6 +78,7 @@
     "tm:darkpulse",
     "tm:dig",
     "tm:dive",
+    "tm:doubleteam",
     "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
@@ -104,9 +105,11 @@
     "tm:rockslide",
     "tm:rocksmash",
     "tm:rocktomb",
+    "tm:round",
     "tm:scald",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snowscape",
     "tm:spikes",
     "tm:strength",
@@ -127,10 +130,17 @@
     "tm:waterpledge",
     "tm:waterpulse",
     "tm:workup",
+    "tutor:bounce",
+    "tutor:gunkshot",
+    "tutor:icepunch",
+    "tutor:icywind",
+    "tutor:lowkick",
     "tutor:roleplay",
     "tutor:snatch",
     "tutor:snore",
-    "tutor:spite"
+    "tutor:spite",
+    "tutor:waterpledge",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen6"

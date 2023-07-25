@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.gui.pokenav
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.util.math.MatrixStack
 class PokeNavFillerButton(
     posX: Int, posY: Int,
@@ -20,14 +21,14 @@ class PokeNavFillerButton(
     pTextureWidth: Int, pTextureHeight: Int
 ): PokeNavImageButton(posX, posY, pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, FILLER, pTextureWidth, pTextureHeight, {}, "".text()) {
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        this.applyBlitk(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
-        pMatrixStack.push()
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        this.applyBlitk(context.matrices, pMouseX, pMouseY, pPartialTicks)
+        context.matrices.push()
     }
 
-    override fun applyBlitk(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun applyBlitk(matrices: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = FILLER,
             x = x, y = y + 0.25,
             width = width, height = height,
@@ -45,7 +46,7 @@ class PokeNavFillerButton(
         const val BLUE = .30980
         const val ALPHA = .9
 
-        private val FILLER = cobblemonResource("ui/pokenav/pokenav_filler.png")
+        private val FILLER = cobblemonResource("textures/gui/pokenav/pokenav_filler.png")
 
     }
 

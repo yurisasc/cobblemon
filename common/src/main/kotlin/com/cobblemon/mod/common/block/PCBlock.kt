@@ -26,6 +26,8 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.fluid.FluidState
+import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
@@ -40,12 +42,14 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
-class PCBlock(properties: Settings): BlockWithEntity(properties) {
+class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable {
     companion object {
         val PART = EnumProperty.of("part", PCPart::class.java)
         val ON = BooleanProperty.of("on")
+        val WATERLOGGED = BooleanProperty.of("waterlogged")
 
         private val NORTH_AABB_TOP = VoxelShapes.union(
             VoxelShapes.cuboid(0.1875, 0.0, 0.0, 0.8125, 0.875, 0.125),
@@ -122,6 +126,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         defaultState = this.stateManager.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
             .with(PART, PCPart.BOTTOM)
             .with(ON, false)
+            .with(WATERLOGGED, false)
     }
 
     override fun createBlockEntity(blockPos: BlockPos, blockState: BlockState) = if (blockState.get(PART) == PCPart.BOTTOM) PCBlockEntity(blockPos, blockState) else null
@@ -173,7 +178,10 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
     }
 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
-        world.setBlockState(pos.up(), state.with(PART, PCPart.TOP) as BlockState, 3)
+        world.setBlockState(pos.up(), state
+            .with(PART, PCPart.TOP)
+            .with(WATERLOGGED, world.getFluidState((pos.up())).fluid == Fluids.WATER)
+                as BlockState, 3)
         world.updateNeighbors(pos, Blocks.AIR)
         state.updateNeighbors(world, pos, 3)
     }
@@ -183,8 +191,9 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         val world = blockPlaceContext.world
         if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
             return defaultState
-                .with(HorizontalFacingBlock.FACING, blockPlaceContext.playerFacing)
+                .with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
                 .with(PART, PCPart.BOTTOM)
+                .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
         }
 
         return null
@@ -203,6 +212,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         builder.add(HorizontalFacingBlock.FACING)
         builder.add(PART)
         builder.add(ON)
+        builder.add(WATERLOGGED)
     }
 
     @Deprecated("Deprecated in Java")
@@ -244,22 +254,42 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         }
 
         val pc = Cobblemon.storage.getPCForPlayer(player, baseEntity) ?: return ActionResult.SUCCESS
-        // TODO add event to check if they can open this PC?
+        // TODO add event to check if they can open this PC? (answer: the getPCForPlayer should be where we do that)
         PCLinkManager.addLink(ProximityPCLink(pc, player.uuid, baseEntity))
         OpenPCPacket(pc.uuid).sendToPlayer(player)
         world.playSoundServer(
             position = blockPos.toVec3d(),
-            sound = CobblemonSounds.PC_ON.get(),
+            sound = CobblemonSounds.PC_ON,
             volume = 1F,
             pitch = 1F
         )
         return ActionResult.SUCCESS
     }
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) =  checkType(BlockWithEntityType, CobblemonBlockEntities.PC.get(), PCBlockEntity.TICKER::tick)
+    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) =  checkType(BlockWithEntityType, CobblemonBlockEntities.PC, PCBlockEntity.TICKER::tick)
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(blockState: BlockState): BlockRenderType {
         return BlockRenderType.MODEL
+    }
+
+    override fun getFluidState(state: BlockState): FluidState? {
+        return if (state.get(WATERLOGGED)) {
+            Fluids.WATER.getStill(false)
+        } else super.getFluidState(state)
+    }
+
+    override fun getStateForNeighborUpdate(
+        state: BlockState,
+        direction: Direction?,
+        neighborState: BlockState?,
+        world: WorldAccess,
+        pos: BlockPos?,
+        neighborPos: BlockPos?
+    ): BlockState? {
+        if (state.get(WATERLOGGED)) {
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
+        }
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
 }

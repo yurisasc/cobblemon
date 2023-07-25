@@ -9,11 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -23,14 +19,9 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GolurkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class GolurkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("golurk")
     override val head = getPart("head")
-
-    override val leftArm = getPart("arm_left")
-    override val rightArm = getPart("arm_right")
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 3.0F
     override val portraitTranslation = Vec3d(-0.3, 5.4, 0.0)
@@ -48,6 +39,7 @@ class GolurkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            transformTicks = 20,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -58,6 +50,7 @@ class GolurkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
+            transformTicks = 20,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -67,6 +60,7 @@ class GolurkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 
         sleep = registerPose(
             poseName = "sleep",
+            transformTicks = 20,
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("golurk", "sleep"))
         )

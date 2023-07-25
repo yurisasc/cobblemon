@@ -49,9 +49,15 @@
     "30:flamethrower",
     "33:thrash",
     "36:flareblitz",
+    "46:outrage",
+    "egg:bodyslam",
+    "egg:crunch",
     "egg:fakeout",
+    "egg:heatwave",
+    "egg:nastyplot",
     "egg:partingshot",
     "egg:powertrip",
+    "egg:revenge",
     "tm:acrobatics",
     "tm:attract",
     "tm:bodyslam",
@@ -79,6 +85,7 @@
     "tm:rest",
     "tm:return",
     "tm:revenge",
+    "tm:roar",
     "tm:round",
     "tm:scaryface",
     "tm:shadowclaw",
@@ -86,6 +93,7 @@
     "tm:snore",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:swordsdance",
     "tm:taunt",
     "tm:torment",
@@ -95,7 +103,10 @@
     "tm:workup",
     "tutor:covet",
     "tutor:endeavor",
-    "tutor:firepledge"
+    "tutor:firepledge",
+    "tutor:heatwave",
+    "tutor:outrage",
+    "tutor:snore"
   ],
   "labels": [
     "gen7"

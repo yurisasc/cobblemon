@@ -68,7 +68,8 @@ data class BattleFormat(
                 "mod": "$mod",
                 "gameType": "${battleType.name}",
                 "gen": $gen,
-                "ruleset": [${ruleSet.joinToString { "\"$it\"" }}]
+                "ruleset": [${ruleSet.joinToString { "\"$it\"" }}],
+                "effectType": "Format"
             }
         """.trimIndent().replace("\n", "")
     }

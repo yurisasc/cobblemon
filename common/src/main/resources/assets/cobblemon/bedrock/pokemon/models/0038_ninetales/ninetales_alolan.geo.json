@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "ninetales",
+					"name": "ninetales_alolan",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "ninetales",
+					"parent": "ninetales_alolan",
 					"pivot": [0, 0, 0]
 				},
 				{

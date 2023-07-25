@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Pelipper",
   "nationalPokedexNumber": 279,
   "primaryType": "water",
@@ -26,6 +27,13 @@
     "water_1",
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:agility",
     "1:airslash",
@@ -38,7 +46,9 @@
     "1:watergun",
     "1:watersport",
     "15:wingattack",
+    "19:payback",
     "20:waterpulse",
+    "22:brine",
     "28:spitup",
     "28:stockpile",
     "28:swallow",
@@ -60,6 +70,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
     "tm:echoedvoice",
     "tm:endure",
@@ -85,10 +96,12 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:scald",
     "tm:secretpower",
     "tm:seedbomb",
+    "tm:shockwave",
     "tm:skydrop",
     "tm:sleeptalk",
     "tm:snore",
@@ -109,16 +122,31 @@
     "tm:waterpulse",
     "tm:weatherball",
     "tm:whirlpool",
+    "tutor:aircutter",
     "tutor:defog",
     "tutor:doubleedge",
     "tutor:dualwingbeat",
+    "tutor:endure",
+    "tutor:gunkshot",
+    "tutor:icywind",
     "tutor:knockoff",
+    "tutor:liquidation",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:roost",
+    "tutor:seedbomb",
     "tutor:shockwave",
     "tutor:skyattack",
-    "tutor:twister"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:tailwind",
+    "tutor:twister",
+    "tutor:uproar",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"

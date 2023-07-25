@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -24,19 +25,19 @@ class ReleaseConfirmButton(
     private val parent: StorageWidget,
     private val subKey: String,
     onPress: PressAction
-) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("ReleaseConfirm"), onPress) {
+) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("ReleaseConfirm"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 30
         private const val HEIGHT = 13
 
-        private val buttonResource = cobblemonResource("ui/pc/pc_release_button_confirm.png")
+        private val buttonResource = cobblemonResource("textures/gui/pc/pc_release_button_confirm.png")
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (parent.canDeleteSelected() && parent.displayConfirmRelease) {
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 texture = buttonResource,
                 x = x,
                 y = y,
@@ -47,7 +48,7 @@ class ReleaseConfirmButton(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = lang(subKey).bold(),
                 x = x + (WIDTH / 2),

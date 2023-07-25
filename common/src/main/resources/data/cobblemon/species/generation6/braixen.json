@@ -32,7 +32,7 @@
       },
       {
         "item": "minecraft:blaze_powder",
-		"quantityRange": "1-2",
+        "quantityRange": "1-2",
         "percentage": 66
       },
       {
@@ -124,15 +124,25 @@
     "tm:zenheadbutt",
     "tutor:allyswitch",
     "tutor:covet",
+    "tutor:firepledge",
+    "tutor:firepunch",
+    "tutor:foulplay",
+    "tutor:heatwave",
     "tutor:irontail",
     "tutor:laserfocus",
+    "tutor:lowkick",
     "tutor:magiccoat",
+    "tutor:magicroom",
     "tutor:recycle",
     "tutor:shockwave",
+    "tutor:skillswap",
     "tutor:snatch",
     "tutor:snore",
     "tutor:telekinesis",
-    "tutor:wonderroom"
+    "tutor:thunderpunch",
+    "tutor:trick",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6"

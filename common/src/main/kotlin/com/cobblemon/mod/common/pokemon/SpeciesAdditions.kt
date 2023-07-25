@@ -16,14 +16,14 @@ import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
-import net.minecraft.resource.ResourceType
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
 import java.lang.reflect.Type
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.javaType
 import kotlin.reflect.jvm.isAccessible
+import net.minecraft.resource.ResourceType
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.Identifier
 
 internal object SpeciesAdditions : JsonDataRegistry<SpeciesAdditions.AdditionParameter> {
 

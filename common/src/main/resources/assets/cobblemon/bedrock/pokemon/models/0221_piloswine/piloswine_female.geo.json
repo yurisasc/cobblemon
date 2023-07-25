@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "piloswine_male",
+					"name": "piloswine",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "piloswine_male",
+					"parent": "piloswine",
 					"pivot": [0, 7.25, -0.5]
 				},
 				{
@@ -26,6 +26,14 @@
 					"pivot": [0, 7.25, -0.5],
 					"cubes": [
 						{"origin": [-4.5, 0.75, -1], "size": [9, 15, 9], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "bottom_pelt_back",
+					"parent": "torso_back",
+					"pivot": [0, 1.04799, 7.93027],
+					"cubes": [
+						{"origin": [-5.5, 0.54799, 7.93027], "size": [11, 0, 3], "pivot": [0, 0.54799, 9.43027], "rotation": [-20, 0, 0], "uv": [27, 34]}
 					]
 				},
 				{
@@ -114,14 +122,6 @@
 					"pivot": [3.90713, 1.14763, 0],
 					"cubes": [
 						{"origin": [3.90713, 0.64763, -8], "size": [4, 0, 17], "pivot": [5.90713, 0.64763, 1], "rotation": [0, 0, 17.5], "uv": [19, 17]}
-					]
-				},
-				{
-					"name": "bottom_pelt_back",
-					"parent": "body",
-					"pivot": [0, 1.04799, 7.93027],
-					"cubes": [
-						{"origin": [-5.5, 0.54799, 7.93027], "size": [11, 0, 3], "pivot": [0, 0.54799, 9.43027], "rotation": [-20, 0, 0], "uv": [27, 34]}
 					]
 				},
 				{

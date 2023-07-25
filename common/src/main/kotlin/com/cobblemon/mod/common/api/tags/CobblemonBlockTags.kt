@@ -9,8 +9,9 @@
 package com.cobblemon.mod.common.api.tags
 
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.tag.TagKey
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 
 /**
  * A collection of the Cobblemon [TagKey]s related to the [Registry.BLOCK].
@@ -77,6 +78,6 @@ object CobblemonBlockTags {
     @JvmField
     val WOODEN_STAIRS = createTag("wooden_stairs")
 
-    private fun createTag(name: String) = TagKey.of(Registry.BLOCK_KEY, cobblemonResource(name))
+    private fun createTag(name: String) = TagKey.of(RegistryKeys.BLOCK, cobblemonResource(name))
 
 }

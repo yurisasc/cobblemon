@@ -105,6 +105,21 @@
 				{
 					"name": "head",
 					"parent": "neck",
+					"pivot": [0, 38.25, 0]
+				},
+				{
+					"name": "head_correction",
+					"parent": "head",
+					"pivot": [0, 38.25, 0]
+				},
+				{
+					"name": "head_ai",
+					"parent": "head_correction",
+					"pivot": [0, 38.25, 0]
+				},
+				{
+					"name": "head_angle",
+					"parent": "head_ai",
 					"pivot": [0, 38.25, 0],
 					"cubes": [
 						{"origin": [-5, 38.25, -5], "size": [10, 7, 8], "uv": [0, 0]}
@@ -112,7 +127,7 @@
 				},
 				{
 					"name": "eyes",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [-0.5, 43.15, -4.5]
 				},
 				{
@@ -151,7 +166,7 @@
 				},
 				{
 					"name": "eyebrows",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [0, 42.1, -5.95],
 					"rotation": [-2.5, 0, 0],
 					"cubes": [
@@ -161,7 +176,7 @@
 				},
 				{
 					"name": "muzzle",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [0, 42.25, -5],
 					"rotation": [10, 0, 0],
 					"cubes": [
@@ -179,13 +194,13 @@
 					"parent": "muzzle",
 					"pivot": [0, 39, -5],
 					"cubes": [
-						{"origin": [-4, 38.25, -7.25], "size": [8, 1, 3], "uv": [59, 14]},
+						{"origin": [-4, 38.25, -7.25], "size": [8, 1, 3], "uv": [60, 14]},
 						{"origin": [-3.5, 38.25, -8.25], "size": [7, 1, 1], "uv": [91, 0]}
 					]
 				},
 				{
 					"name": "head_ruff_right",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [-3, 45.75, -5],
 					"rotation": [-40, 15, -50],
 					"cubes": [
@@ -194,7 +209,7 @@
 				},
 				{
 					"name": "head_ruff_front",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [0, 45.25, -5],
 					"rotation": [-20, 0, 0],
 					"cubes": [
@@ -203,7 +218,7 @@
 				},
 				{
 					"name": "head_ruff_left",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [3, 45.75, -5],
 					"rotation": [-40, -15, 50],
 					"cubes": [
@@ -212,7 +227,7 @@
 				},
 				{
 					"name": "head_ruff_right_side",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [-5, 38.5, -3.75],
 					"rotation": [5, -55, 0],
 					"cubes": [
@@ -221,7 +236,7 @@
 				},
 				{
 					"name": "head_ruff_right_side2",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [-4.25, 42.25, -3],
 					"rotation": [35, -30, 0],
 					"cubes": [
@@ -230,7 +245,7 @@
 				},
 				{
 					"name": "head_ruff_left_side",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [5, 38.5, -3.75],
 					"rotation": [5, 55, 0],
 					"cubes": [
@@ -239,7 +254,7 @@
 				},
 				{
 					"name": "head_ruff_left_side2",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [4.25, 42.25, -3],
 					"rotation": [35, 30, 0],
 					"cubes": [
@@ -248,7 +263,7 @@
 				},
 				{
 					"name": "ear_right",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [-4.5, 41.5, -3.25],
 					"rotation": [-25, -50, 0],
 					"cubes": [
@@ -257,7 +272,7 @@
 				},
 				{
 					"name": "ear_left",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [4.5, 41.5, -3.25],
 					"rotation": [-25, 50, 0],
 					"cubes": [
@@ -266,7 +281,7 @@
 				},
 				{
 					"name": "fire",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [0, 44.5, -2.5],
 					"cubes": [
 						{"origin": [-4.5, 44.25, -3], "size": [9, 5, 3], "uv": [0, 47]}
@@ -332,7 +347,7 @@
 				},
 				{
 					"name": "spike_back_right",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [-1.25, 39, 3],
 					"rotation": [15, -20, 0],
 					"cubes": [
@@ -341,7 +356,7 @@
 				},
 				{
 					"name": "spike_back_left",
-					"parent": "head",
+					"parent": "head_angle",
 					"pivot": [1.25, 39, 3],
 					"rotation": [15, 20, 0],
 					"cubes": [
@@ -521,7 +536,7 @@
 					"parent": "arm_left2",
 					"pivot": [24, 34.5, 0],
 					"cubes": [
-						{"origin": [24, 33.5, -2], "size": [3, 2, 4], "inflate": 0.01, "uv": [78, 11]}
+						{"origin": [24, 33.5, -2], "size": [3, 2, 4], "inflate": 0.01, "uv": [79, 11]}
 					]
 				},
 				{

@@ -21,11 +21,11 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.server.RequestMoveSwapPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.Text
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.text.Text
 
 class MovesWidget(
     pX: Int, pY: Int,
@@ -41,10 +41,10 @@ class MovesWidget(
             it.roundingMode = RoundingMode.CEILING
         }
 
-        private val movesBaseResource = cobblemonResource("ui/summary/summary_moves_base.png")
-        val movesPowerIconResource = cobblemonResource("ui/summary/summary_moves_icon_power.png")
-        val movesAccuracyIconResource = cobblemonResource("ui/summary/summary_moves_icon_accuracy.png")
-        val movesEffectIconResource = cobblemonResource("ui/summary/summary_moves_icon_effect.png")
+        private val movesBaseResource = cobblemonResource("textures/gui/summary/summary_moves_base.png")
+        val movesPowerIconResource = cobblemonResource("textures/gui/summary/summary_moves_icon_power.png")
+        val movesAccuracyIconResource = cobblemonResource("textures/gui/summary/summary_moves_icon_accuracy.png")
+        val movesEffectIconResource = cobblemonResource("textures/gui/summary/summary_moves_icon_effect.png")
     }
 
     var selectedMove: Move? = null
@@ -62,9 +62,10 @@ class MovesWidget(
         addWidget(it)
     }
 
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        val matrices = context.matrices
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = movesBaseResource,
             x= x,
             y = y,
@@ -73,12 +74,12 @@ class MovesWidget(
         )
 
         moves.forEach {
-            it.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+            it.render(context, pMouseX, pMouseY, pPartialTicks)
         }
 
         // Move icons
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = movesPowerIconResource,
             x= (x + 7) / SCALE,
             y = (y + 114.5) / SCALE,
@@ -88,7 +89,7 @@ class MovesWidget(
         )
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = movesAccuracyIconResource,
             x= (x + 7) / SCALE,
             y = (y + 125.5) / SCALE,
@@ -98,7 +99,7 @@ class MovesWidget(
         )
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = movesEffectIconResource,
             x= (x + 7) / SCALE,
             y = (y + 136.5) / SCALE,
@@ -108,7 +109,7 @@ class MovesWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = lang("ui.power"),
             x = x + 14,
             y = y + 115,
@@ -117,7 +118,7 @@ class MovesWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = lang("ui.accuracy"),
             x = x + 14,
             y = y + 126,
@@ -126,7 +127,7 @@ class MovesWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = lang("ui.effect"),
             x = x + 14,
             y = y + 137,
@@ -137,7 +138,7 @@ class MovesWidget(
         val mcFont = MinecraftClient.getInstance().textRenderer
         val movePower = if (selectedMove != null && selectedMove!!.power.toInt() > 0) selectedMove!!.power.toInt().toString().text() else "—".text()
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = movePower,
             x = (x + 62.5) - (mcFont.getWidth(movePower) * SCALE),
             y = y + 115,
@@ -147,7 +148,7 @@ class MovesWidget(
 
         val moveAccuracy = if (selectedMove != null) format(selectedMove!!.accuracy).text() else "—".text()
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = moveAccuracy,
             x = (x + 62.5) - (mcFont.getWidth(moveAccuracy) * SCALE),
             y = y + 126,
@@ -157,7 +158,7 @@ class MovesWidget(
 
         val moveEffect = if (selectedMove != null) format(selectedMove!!.effectChances.firstOrNull() ?: 0.0).text() else "—".text()
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = moveEffect,
             x = (x + 62.5) - (mcFont.getWidth(moveEffect) * SCALE),
             y = y + 137,
@@ -166,21 +167,21 @@ class MovesWidget(
         )
 
         if (selectedMove != null) {
-            pMatrixStack.push()
-            pMatrixStack.scale(SCALE, SCALE, 1F)
+            matrices.push()
+            matrices.scale(SCALE, SCALE, 1F)
             MultiLineLabelK.create(
                 component = selectedMove!!.description,
                 width = 57 / SCALE,
                 maxLines = 5
             ).renderLeftAligned(
-                poseStack = pMatrixStack,
+                context = context,
                 x = (x + 70) / SCALE,
                 y = (y + 115) / SCALE,
                 ySpacing = 5.5 / SCALE,
                 colour = ColourLibrary.WHITE,
                 shadow = true
             )
-            pMatrixStack.pop()
+            matrices.pop()
         }
     }
 
@@ -200,7 +201,7 @@ class MovesWidget(
                 targetSlot = 0
         }
 
-        CobblemonNetwork.sendToServer(
+        CobblemonNetwork.sendPacketToServer(
             RequestMoveSwapPacket(
                 move1 = movePos,
                 move2 = targetSlot,

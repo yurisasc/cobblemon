@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.pokeball.catching.CaptureEffect
 import com.cobblemon.mod.common.api.pokeball.catching.CatchRateModifier
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 
@@ -24,6 +23,7 @@ import net.minecraft.util.Identifier
  * @property name the poke ball registry name
  * @property catchRateModifier The [CatchRateModifier] of this Pokéball.
  * @property effects list of all [CaptureEffect]s applicable to the Pokéball
+ * @property waterDragValue The value of the water drag modifier when the entity travels, default is 0.8.
  * @property model2d The identifier for the resource this Pokéball will use for the 2d model.
  * @property model3d The identifier for the resource this Pokéball will use for the 3d model.
  */
@@ -31,14 +31,15 @@ open class PokeBall(
     val name: Identifier,
     val catchRateModifier: CatchRateModifier = CatchRateModifier.DUMMY,
     val effects: List<CaptureEffect> = listOf(),
-    val model2d: String,
-    val model3d: String
+    val waterDragValue: Float,
+    val model2d: Identifier,
+    val model3d: Identifier
 ) {
 
     // This gets attached during item registry
-    internal lateinit var itemSupplier: RegistrySupplier<PokeBallItem>
+    internal lateinit var item: PokeBallItem
 
-    fun item(): PokeBallItem = this.itemSupplier.get()
+    fun item(): PokeBallItem = this.item
 
     fun stack(count: Int = 1): ItemStack = ItemStack(this.item(), count)
 

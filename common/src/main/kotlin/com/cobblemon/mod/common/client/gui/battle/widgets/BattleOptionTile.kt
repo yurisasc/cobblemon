@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.render.drawScaledText
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.Drawable
 import net.minecraft.client.gui.Element
 import net.minecraft.client.gui.Selectable
@@ -34,13 +35,15 @@ class BattleOptionTile(
         const val OPTION_HEIGHT = 26
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    private var focused = false
+
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val opacity = CobblemonClient.battleOverlay.opacityRatio
         if (opacity < 0.1) {
             return
         }
         blitk(
-            matrixStack = matrices,
+            matrixStack = context.matrices,
             texture = resource,
             x = x,
             y = y,
@@ -53,7 +56,7 @@ class BattleOptionTile(
 
         val scale = 1F
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = text,
             x = x + 6,
             y = y + 8,
@@ -71,8 +74,19 @@ class BattleOptionTile(
         return true
     }
 
+    override fun setFocused(focused: Boolean) {
+        this.focused = focused
+    }
+
+    override fun isFocused() = focused
+
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX > x && mouseY > y && mouseX < x + OPTION_WIDTH && mouseY < y + OPTION_HEIGHT
 
-    override fun appendNarrations(builder: NarrationMessageBuilder) = builder.put(NarrationPart.TITLE, text)
+    override fun appendNarrations(builder: NarrationMessageBuilder) {
+        builder.put(NarrationPart.TITLE, text)
+    }
+
     override fun getType() = HOVERED
+
+
 }

@@ -50,7 +50,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen5",
         "mythical",
@@ -97,7 +96,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen5",
         "mythical",
@@ -144,7 +142,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen5",
         "mythical",
@@ -191,7 +188,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen5",
         "mythical",
@@ -225,10 +221,12 @@
     "35:metalsound",
     "40:signalbeam",
     "42:xscissor",
+    "44:triattack",
     "49:magnetrise",
     "56:bugbuzz",
     "63:simplebeam",
     "70:zapcannon",
+    "73:hyperbeam",
     "77:lockon",
     "84:technoblast",
     "91:selfdestruct",
@@ -247,6 +245,7 @@
     "tm:energyball",
     "tm:explosion",
     "tm:facade",
+    "tm:flamecharge",
     "tm:flamethrower",
     "tm:flash",
     "tm:flashcannon",
@@ -290,21 +289,35 @@
     "tm:uturn",
     "tm:xscissor",
     "tm:zenheadbutt",
+    "tutor:allyswitch",
+    "tutor:blazekick",
     "tutor:bugbite",
+    "tutor:darkpulse",
+    "tutor:electroweb",
     "tutor:extremespeed",
     "tutor:fellstinger",
+    "tutor:gigadrain",
     "tutor:gravity",
+    "tutor:gunkshot",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:lastresort",
     "tutor:magiccoat",
+    "tutor:magnetbomb",
+    "tutor:magnetrise",
     "tutor:metalclaw",
     "tutor:recycle",
     "tutor:shiftgear",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:solarbeam",
     "tutor:steelbeam",
     "tutor:technoblast",
     "tutor:telekinesis",
-    "tutor:xscissor"
+    "tutor:xscissor",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5",

@@ -39,7 +39,7 @@ open class PokemonBattleActor(
         // to an entity perishing -> which is grounds for flee triggering.
         val ownerPlayer = pokemon.effectedPokemon.getOwnerPlayer()
         if (ownerPlayer != null) {
-            return ownerPlayer.getWorld() to ownerPlayer.pos
+            return ownerPlayer.serverWorld to ownerPlayer.pos
         }
 
         val entity = this.entity ?: return null
@@ -47,7 +47,7 @@ open class PokemonBattleActor(
         return world to entity.pos
     }
 
-    override fun sendUpdate(packet: NetworkPacket) {
+    override fun sendUpdate(packet: NetworkPacket<*>) {
         super.sendUpdate(packet)
         if (packet is BattleEndPacket) {
             // Do some shit

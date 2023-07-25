@@ -8,10 +8,8 @@
 
 package com.cobblemon.mod.common.api.storage.adapter.flatifle
 
-import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.StorePosition
-import java.io.EOFException
 import java.io.File
 import java.util.UUID
 import net.minecraft.nbt.NbtCompound

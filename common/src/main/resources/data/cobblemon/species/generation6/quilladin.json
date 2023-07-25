@@ -130,15 +130,27 @@
     "tm:trailblaze",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:drainpunch",
     "tutor:dualchop",
     "tutor:endeavor",
     "tutor:focuspunch",
+    "tutor:gigadrain",
+    "tutor:grasspledge",
+    "tutor:helpinghand",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:irontail",
+    "tutor:lowkick",
+    "tutor:painsplit",
+    "tutor:seedbomb",
     "tutor:snore",
+    "tutor:stompingtantrum",
     "tutor:superfang",
     "tutor:superpower",
     "tutor:synthesis",
-    "tutor:worryseed"
+    "tutor:thunderpunch",
+    "tutor:worryseed",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6"

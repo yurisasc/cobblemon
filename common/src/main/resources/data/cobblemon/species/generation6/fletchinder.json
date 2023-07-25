@@ -37,6 +37,7 @@
     "29:agility",
     "31:naturalgift",
     "36:aerialace",
+    "38:flamecharge",
     "43:tailwind",
     "46:mefirst",
     "50:steelwing",
@@ -69,10 +70,12 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -89,7 +92,10 @@
     "tm:workup",
     "tutor:defog",
     "tutor:dualwingbeat",
-    "tutor:snatch"
+    "tutor:heatwave",
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:tailwind"
   ],
   "labels": [
     "gen6"

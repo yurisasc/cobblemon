@@ -52,7 +52,6 @@
         "field",
         "human_like"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -79,8 +78,8 @@
     "entries": [
       {
         "item": "minecraft:rabbit_hide",
-		"quantityRange": "1-3",
-		"percentage": 75
+        "quantityRange": "1-3",
+        "percentage": 75
       },
       {
         "item": "minecraft:rabbit_foot",
@@ -114,6 +113,7 @@
     "tm:batonpass",
     "tm:blastburn",
     "tm:blazekick",
+    "tm:bounce",
     "tm:bulkup",
     "tm:electroball",
     "tm:endure",
@@ -162,7 +162,9 @@
     "tm:willowisp",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:blastburn",
     "tutor:coaching",
+    "tutor:firepledge",
     "tutor:scorchingsands"
   ],
   "labels": [

@@ -20,6 +20,7 @@ object CobblemonCommands {
         GivePokemon.register(dispatcher)
         TakePokemon.register(dispatcher)
         ChangeScaleAndSize.register(dispatcher)
+        ChangeWalkSpeed.register(dispatcher)
         TestCommand.register(dispatcher)
         ReloadShowdownCommand.register(dispatcher)
         ClickTextCommand.register(dispatcher)
@@ -35,5 +36,14 @@ object CobblemonCommands {
         FriendshipCommand.register(dispatcher)
         GiveAllPokemon.register(dispatcher)
         HeldItemCommand.register(dispatcher, registry)
+        PcCommand.register(dispatcher)
+        SpawnPokemonFromPool.register(dispatcher)
+        PokeboxCommand.register(dispatcher)
+        TestStoreCommand.register(dispatcher)
+        QueryLearnsetCommand.register(dispatcher)
+        TestPcSlotCommand.register(dispatcher)
+        TestPartySlotCommand.register(dispatcher)
+        ClearPartyCommand.register(dispatcher)
+        PokemonRestartCommand.register(dispatcher)
     }
 }

@@ -19,7 +19,7 @@ class PoisonStatus : PersistentStatus(
     name = cobblemonResource("poison"),
     showdownName = "psn",
     applyMessage = "cobblemon.status.poison.apply",
-    removeMessage = null,
+    removeMessage = "cobblemon.status.poison.cure",
     defaultDuration = IntRange(180, 300)
 ) {
     override fun onSecondPassed(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {

@@ -26,7 +26,7 @@
             "id": "clefable-2",
             "pokemon": "clefable",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",

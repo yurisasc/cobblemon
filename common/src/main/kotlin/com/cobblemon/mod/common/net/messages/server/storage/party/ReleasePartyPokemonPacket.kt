@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPartyPosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.ReleasePartyPokemonHandler
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -24,22 +25,14 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since October 31st, 2022
  */
-class ReleasePartyPokemonPacket() : NetworkPacket {
-    lateinit var pokemonID: UUID
-    lateinit var position: PartyPosition
-
-    constructor(pokemonID: UUID, position: PartyPosition): this() {
-        this.pokemonID = pokemonID
-        this.position = position
-    }
-
+class ReleasePartyPokemonPacket(val pokemonID: UUID, val position: PartyPosition) : NetworkPacket<ReleasePartyPokemonPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writePartyPosition(position)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        pokemonID = buffer.readUuid()
-        position = buffer.readPartyPosition()
+    companion object {
+        val ID = cobblemonResource("release_party_pokemon")
+        fun decode(buffer: PacketByteBuf) = ReleasePartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition())
     }
 }

@@ -13,19 +13,27 @@ import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.api.spawning.CobblemonWorldSpawnerManager
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.spawner.SpawningArea
-import com.cobblemon.mod.common.api.text.*
+import com.cobblemon.mod.common.api.text.add
+import com.cobblemon.mod.common.api.text.green
+import com.cobblemon.mod.common.api.text.lightPurple
+import com.cobblemon.mod.common.api.text.plus
+import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.api.text.underline
+import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.command.argument.SpawnBucketArgumentType
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
+import java.text.DecimalFormat
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.MathHelper
-import java.text.DecimalFormat
 
 object CheckSpawnsCommand {
     const val PURPLE_THRESHOLD = 0.01F
@@ -56,7 +64,7 @@ object CheckSpawnsCommand {
             spawner = spawner,
             area = SpawningArea(
                 cause = cause,
-                world = player.world,
+                world = player.world as ServerWorld,
                 baseX = MathHelper.ceil(player.x - config.worldSliceDiameter / 2F),
                 baseY = MathHelper.ceil(player.y - config.worldSliceHeight / 2F),
                 baseZ = MathHelper.ceil(player.z - config.worldSliceDiameter / 2F),

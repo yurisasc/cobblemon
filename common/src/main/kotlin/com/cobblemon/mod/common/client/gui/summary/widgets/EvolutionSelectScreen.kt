@@ -21,10 +21,11 @@ import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
+import net.minecraft.client.gui.DrawContext
+import org.joml.Quaternionf
+import org.joml.Vector3f
 
 class EvolutionSelectScreen(
     x: Int,
@@ -41,8 +42,8 @@ class EvolutionSelectScreen(
         const val SLOT_SPACING = 5
         const val PORTRAIT_DIAMETER = 25
 
-        private val slotResource = cobblemonResource("ui/summary/summary_evolve_slot.png")
-        private val buttonResource = cobblemonResource("ui/summary/summary_evolve_select_button.png")
+        private val slotResource = cobblemonResource("textures/gui/summary/summary_evolve_slot.png")
+        private val buttonResource = cobblemonResource("textures/gui/summary/summary_evolve_select_button.png")
     }
 
     private var entriesCreated = false
@@ -51,12 +52,12 @@ class EvolutionSelectScreen(
         return super.addEntry(entry)
     }
 
-    override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         if (!entriesCreated) {
             entriesCreated = true
             pokemon.evolutionProxy.client().map { EvolveSlot(pokemon, it) }.forEach { entry -> this.addEntry(entry) }
         }
-        super.render(poseStack, mouseX, mouseY, partialTicks)
+        super.render(context, mouseX, mouseY, partialTicks)
     }
 
     class EvolveSlot(private val pokemon: Pokemon, private val evolution: EvolutionDisplay) : Entry<EvolveSlot>() {
@@ -69,7 +70,7 @@ class EvolutionSelectScreen(
             buttonHeight = 10,
             clickAction = {
                 MinecraftClient.getInstance().player?.closeScreen()
-                MinecraftClient.getInstance().player?.sendMessage(lang("ui.evolve.into", pokemon.displayName, evolution.species.translatedName))
+                MinecraftClient.getInstance().player?.sendMessage(lang("ui.evolve.into", pokemon.getDisplayName(), evolution.species.translatedName))
                 pokemon.evolutionProxy.client().start(this.evolution)
             },
             text = lang("ui.evolve"),
@@ -82,7 +83,7 @@ class EvolutionSelectScreen(
         override fun getNarration() = evolution.species.translatedName
 
         override fun render(
-            poseStack: MatrixStack,
+            context: DrawContext,
             index: Int,
             rowTop: Int,
             rowLeft: Int,
@@ -93,11 +94,12 @@ class EvolutionSelectScreen(
             isHovered: Boolean,
             partialTicks: Float
         ) {
-            var x = rowLeft - 3
-            var y = rowTop
+            val x = rowLeft - 3
+            val y = rowTop
+            val matrices = context.matrices
 
             blitk(
-                matrixStack = poseStack,
+                matrixStack = matrices,
                 texture = slotResource,
                 x = x,
                 y = y,
@@ -106,7 +108,7 @@ class EvolutionSelectScreen(
             )
 
             drawScaledText(
-                matrixStack = poseStack,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = evolution.species.translatedName.bold(),
                 x = x + 4,
@@ -123,24 +125,25 @@ class EvolutionSelectScreen(
                 secondaryOffset = 9.5F,
                 small = true,
                 centeredX = true
-            ).render(poseStack)
+            ).render(context)
 
             selectButton.setPosFloat(x + 23F, y + 13F)
-            selectButton.render(poseStack, mouseX, mouseY, partialTicks)
+            selectButton.render(context, mouseX, mouseY, partialTicks)
 
             // Render Pokémon
-            poseStack.push()
-            poseStack.translate(x + (PORTRAIT_DIAMETER / 2) + 65.0, y - 5.0, 0.0)
-            poseStack.scale(2.5F, 2.5F, 1F)
+            matrices.push()
+            matrices.translate(x + (PORTRAIT_DIAMETER / 2) + 65.0, y - 5.0, 0.0)
+            matrices.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
-                species = this.evolution.species,
+                species = this.evolution.species.resourceIdentifier,
                 aspects = this.evolution.aspects,
-                matrixStack = poseStack,
-                rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
+                matrixStack = matrices,
+                rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
                 state = null,
-                scale = 6F
+                scale = 6F,
+                partialTicks = partialTicks
             )
-            poseStack.pop()
+            matrices.pop()
         }
 
         override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {

@@ -18,10 +18,10 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.sound.PositionedSoundInstance
 import java.security.InvalidParameterException
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 
@@ -38,10 +38,10 @@ class PartyWidget(
         const val HEIGHT = 113
         private const val SCALE = 0.5F
 
-        private val backgroundResource = cobblemonResource("ui/summary/summary_party_background.png")
-        private val swapButtonResource = cobblemonResource("ui/summary/summary_party_swap.png")
-        private val swapButtonActiveResource = cobblemonResource("ui/summary/summary_party_swap_active.png")
-        private val swapButtonIconResource = cobblemonResource("ui/summary/summary_party_swap_icon.png")
+        private val backgroundResource = cobblemonResource("textures/gui/summary/summary_party_background.png")
+        private val swapButtonResource = cobblemonResource("textures/gui/summary/summary_party_swap.png")
+        private val swapButtonActiveResource = cobblemonResource("textures/gui/summary/summary_party_swap_active.png")
+        private val swapButtonIconResource = cobblemonResource("textures/gui/summary/summary_party_swap_icon.png")
     }
 
     var swapEnabled: Boolean = false
@@ -63,6 +63,7 @@ class PartyWidget(
                 swapSource = null
                 draggedSlot = null
             }
+            MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
         }
     )
 
@@ -99,9 +100,10 @@ class PartyWidget(
         }
     }
 
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        val matrices = context.matrices
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = backgroundResource,
             x = x,
             y = y,
@@ -111,7 +113,7 @@ class PartyWidget(
 
         // Label
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.party").bold(),
             x = x + 32.5,
@@ -120,10 +122,10 @@ class PartyWidget(
             shadow = true
         )
 
-        swapButton.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+        swapButton.render(context, pMouseX, pMouseY, pPartialTicks)
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = swapButtonIconResource,
             x = (x + 90) / SCALE,
             y = (y - 6) / SCALE,
@@ -132,13 +134,13 @@ class PartyWidget(
             scale = SCALE
         )
 
-        partySlots.forEach { it.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks) }
+        partySlots.forEach { it.render(context, pMouseX, pMouseY, pPartialTicks) }
 
         if (draggedSlot != null) {
-            pMatrixStack.push()
-            pMatrixStack.translate(0.0, 0.0, 500.0)
-            draggedSlot!!.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
-            pMatrixStack.pop()
+            matrices.push()
+            matrices.translate(0.0, 0.0, 500.0)
+            draggedSlot!!.render(context, pMouseX, pMouseY, pPartialTicks)
+            matrices.pop()
         }
     }
 
@@ -163,7 +165,7 @@ class PartyWidget(
                         index = -1,
                         isClientPartyMember = isParty
                     )
-                    playSound(CobblemonSounds.PC_GRAB.get())
+                    playSound(CobblemonSounds.PC_GRAB)
                 }
             }
         }
@@ -179,7 +181,7 @@ class PartyWidget(
                 }
                 swapSource = null
                 draggedSlot = null
-                playSound(CobblemonSounds.PC_DROP.get())
+                playSound(CobblemonSounds.PC_DROP)
             }
         }
         return super.mouseReleased(pMouseX, pMouseY, pButton)

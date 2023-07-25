@@ -4,7 +4,7 @@ plugins {
 }
 
 architectury {
-    common()
+    common("forge", "fabric")
 }
 
 repositories {
@@ -17,7 +17,6 @@ dependencies {
     implementation(libs.reflect)
 
     modImplementation(libs.fabricLoader)
-    modApi(libs.architectury)
     modApi(libs.molang)
 
     // For Showdown
@@ -31,10 +30,13 @@ dependencies {
     testImplementation(libs.junitParams)
     testImplementation(libs.mockito)
     testImplementation(libs.mockk)
-
-    compileOnly("net.luckperms:api:${rootProject.property("luckperms_version")}")
+    testImplementation(libs.classgraph)
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    testLogging {
+        setEvents(listOf("failed"))
+        setExceptionFormat("full")
+    }
 }

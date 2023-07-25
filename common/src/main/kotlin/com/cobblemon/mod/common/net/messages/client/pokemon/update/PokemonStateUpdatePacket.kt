@@ -9,15 +9,27 @@
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-class PokemonStateUpdatePacket(): SingleUpdatePacket<PokemonState>(InactivePokemonState()) {
-    constructor(pokemon: Pokemon, state: PokemonState): this() {
-        setTarget(pokemon)
-        value = state
+
+class PokemonStateUpdatePacket(pokemon: () -> Pokemon, value: PokemonState): SingleUpdatePacket<PokemonState, PokemonStateUpdatePacket>(pokemon, value) {
+
+    override val id = ID
+
+    override fun encodeValue(buffer: PacketByteBuf) {
+        value.writeToBuffer(buffer)
     }
-    override fun encodeValue(buffer: PacketByteBuf, value: PokemonState) { value.writeToBuffer(buffer) }
-    override fun decodeValue(buffer: PacketByteBuf) = PokemonState.fromBuffer(buffer)
+
     override fun set(pokemon: Pokemon, value: PokemonState) { pokemon.state = value }
+
+    companion object {
+        val ID = cobblemonResource("state_update")
+        fun decode(buffer: PacketByteBuf): PokemonStateUpdatePacket {
+            val pokemon = decodePokemon(buffer)
+            val state = PokemonState.fromBuffer(buffer)
+            return PokemonStateUpdatePacket(pokemon, state)
+        }
+    }
+
 }

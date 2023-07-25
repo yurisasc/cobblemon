@@ -39,9 +39,9 @@
     "entries": [
       {
         "item": "minecraft:raw_porkchop",
-		"quantityRange": "1-2"
+        "quantityRange": "1-2"
       },
-	  {
+      {
         "item": "minecraft:brown_wool",
         "quantityRange": "1-2"
       }
@@ -61,6 +61,7 @@
     "15:iceshard",
     "18:mudbomb",
     "20:mist",
+    "24:icefang",
     "25:endure",
     "30:icywind",
     "37:amnesia",
@@ -102,6 +103,7 @@
     "tm:return",
     "tm:roar",
     "tm:rockslide",
+    "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
@@ -113,26 +115,51 @@
     "tm:stealthrock",
     "tm:stompingtantrum",
     "tm:stoneedge",
+    "tm:strength",
     "tm:substitute",
     "tm:superpower",
     "tm:swagger",
     "tm:toxic",
+    "tutor:amnesia",
+    "tutor:ancientpower",
+    "tutor:attract",
+    "tutor:blizzard",
+    "tutor:bodyslam",
     "tutor:curse",
     "tutor:defensecurl",
     "tutor:detect",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:earthpower",
+    "tutor:earthquake",
     "tutor:endeavor",
+    "tutor:endure",
     "tutor:frustration",
     "tutor:furyattack",
     "tutor:headbutt",
     "tutor:hiddenpower",
+    "tutor:hyperbeam",
+    "tutor:icywind",
     "tutor:mimic",
+    "tutor:mist",
+    "tutor:mudslap",
+    "tutor:powdersnow",
+    "tutor:protect",
+    "tutor:raindance",
+    "tutor:rest",
     "tutor:return",
     "tutor:roar",
+    "tutor:rockslide",
     "tutor:rocksmash",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
     "tutor:strength",
+    "tutor:substitute",
+    "tutor:superpower",
     "tutor:swagger",
+    "tutor:takedown",
     "tutor:toxic"
   ],
   "labels": [
@@ -157,7 +184,7 @@
       ]
     }
   ],
-  "baseScale": 1.1,
+  "baseScale": 1.4,
   "hitbox": {
     "width": 1,
     "height": 1,

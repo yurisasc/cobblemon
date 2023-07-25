@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Floragato",
   "nationalPokedexNumber": 907,
   "primaryType": "grass",
@@ -16,7 +17,7 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 144,
   "baseFriendship": 50,
   "evYield": {
     "hp": 0,
@@ -109,6 +110,12 @@
       ]
     }
   ],
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 1,
+    "height": 1.9,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.floragato.desc"

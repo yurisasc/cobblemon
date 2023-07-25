@@ -52,7 +52,6 @@
         "field",
         "grass"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -79,7 +78,7 @@
     "entries": [
       {
         "item": "minecraft:stick",
-		"maxSelectableTimes": 2
+        "maxSelectableTimes": 2
       },
       {
         "item": "cobblemon:miracle_seed",
@@ -144,6 +143,7 @@
     "tm:rest",
     "tm:round",
     "tm:scaryface",
+    "tm:screech",
     "tm:seedbomb",
     "tm:sleeptalk",
     "tm:snarl",
@@ -161,8 +161,11 @@
     "tm:terablast",
     "tm:thief",
     "tm:trailblaze",
+    "tm:uproar",
     "tm:uturn",
     "tm:workup",
+    "tutor:frenzyplant",
+    "tutor:grasspledge",
     "tutor:grassyglide"
   ],
   "labels": [

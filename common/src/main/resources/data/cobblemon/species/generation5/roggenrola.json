@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Roggenrola",
   "nationalPokedexNumber": 524,
   "primaryType": "rock",
@@ -41,8 +42,10 @@
     "egg:autotomize",
     "egg:curse",
     "egg:gravity",
+    "egg:heavyslam",
     "egg:lockon",
     "egg:magnitude",
+    "egg:rocktomb",
     "egg:takedown",
     "egg:wideguard",
     "tm:attract",
@@ -53,6 +56,7 @@
     "tm:earthpower",
     "tm:earthquake",
     "tm:endure",
+    "tm:explosion",
     "tm:facade",
     "tm:flashcannon",
     "tm:frustration",
@@ -73,6 +77,7 @@
     "tm:sandtomb",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:stealthrock",
     "tm:stoneedge",
@@ -81,7 +86,13 @@
     "tm:swagger",
     "tm:toxic",
     "tutor:block",
-    "tutor:meteorbeam"
+    "tutor:earthpower",
+    "tutor:gravity",
+    "tutor:irondefense",
+    "tutor:meteorbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock"
   ],
   "labels": [
     "gen5"
@@ -106,10 +117,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.8,
     "fixed": false
   },
   "baseFriendship": 50,

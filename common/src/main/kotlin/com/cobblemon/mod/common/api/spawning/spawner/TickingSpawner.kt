@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.api.spawning.spawner
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.SpawnerManager
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
@@ -49,7 +48,7 @@ abstract class TickingSpawner(
 
     var lastSpawnTime = 0L
     var ticksUntilNextSpawn = 100F
-    var ticksBetweenSpawns = 20F
+    abstract var ticksBetweenSpawns: Float
     var tickTimerMultiplier = 1F
 
     @Volatile
@@ -72,6 +71,7 @@ abstract class TickingSpawner(
         val scheduledSpawn = scheduledSpawn
         if (scheduledSpawn != null) {
             performSpawn(scheduledSpawn)
+            this.scheduledSpawn = null
         }
 
         ticksUntilNextSpawn -= tickTimerMultiplier
@@ -97,8 +97,11 @@ abstract class TickingSpawner(
     fun performSpawn(spawnAction: SpawnAction<*>) {
         spawnAction.entity.subscribe { afterSpawn(it) }
         spawnAction.run()
-        this.scheduledSpawn = null
     }
 
     open fun getCauseEntity(): Entity? = null
+
+    fun getAllInfluences() = this.influences + manager.influences
+
+    override fun copyInfluences() = this.getAllInfluences().toMutableList()
 }

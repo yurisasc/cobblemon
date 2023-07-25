@@ -17,12 +17,13 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
-import net.minecraft.client.render.model.json.ModelTransformation
+import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
 
 
+@Suppress("UNUSED_PARAMETER")
 class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Context): BlockEntityRenderer<T> {
     companion object {
         private val offsets = listOf(
@@ -41,19 +42,20 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Con
         poseStack.push()
 
         val blockState = if (blockEntity.world != null) blockEntity.cachedState
-            else (CobblemonBlocks.HEALING_MACHINE.get().defaultState.with(HorizontalFacingBlock.FACING, Direction.SOUTH) as BlockState)
+            else (CobblemonBlocks.HEALING_MACHINE.defaultState.with(HorizontalFacingBlock.FACING, Direction.SOUTH) as BlockState)
         val yRot = blockState.get(HorizontalFacingBlock.FACING).asRotation()
 
         // Position Poké Balls
         poseStack.translate(0.5, 0.5, 0.5)
-        poseStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-yRot))
+
+        poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
         poseStack.scale(0.65F, 0.65F, 0.65F)
 
-        for ((index, pokeBall) in blockEntity.pokeBalls.withIndex()) {
+        blockEntity.pokeBalls().forEach { (index, pokeBall) ->
             poseStack.push()
             val offset = offsets[index]
             poseStack.translate(offset.first, 0.4, offset.second)
-            MinecraftClient.getInstance().itemRenderer.renderItem(pokeBall.stack(), ModelTransformation.Mode.GROUND, light, overlay, poseStack, multiBufferSource, 0)
+            MinecraftClient.getInstance().itemRenderer.renderItem(pokeBall.stack(), ModelTransformationMode.GROUND, light, overlay, poseStack, multiBufferSource, blockEntity.world, 0)
             poseStack.pop()
         }
         poseStack.pop()

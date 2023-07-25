@@ -7,7 +7,7 @@
             "id": "dugtrio-1",
             "pokemon": "dugtrio",
             "presets": [
-                "natural"
+                "underground"
             ],
             "type": "pokemon",
             "context": "grounded",

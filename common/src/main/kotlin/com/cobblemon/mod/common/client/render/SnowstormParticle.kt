@@ -31,8 +31,8 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.Vec3f
 import net.minecraft.util.shape.VoxelShapes
+import org.joml.Vector3f
 
 class SnowstormParticle(
     val storm: ParticleStorm,
@@ -64,6 +64,8 @@ class SnowstormParticle(
 
     val uvDetails = UVDetails()
 
+    var viewDirection = Vec3d.ZERO
+
     fun getSpriteFromAtlas(): Sprite {
         val atlas = MinecraftClient.getInstance().particleManager.particleAtlasTexture
 
@@ -72,7 +74,6 @@ class SnowstormParticle(
 //        val map = field.get(atlas) as Map<Identifier, Sprite>
 //        println(map.keys.joinToString { it.toString() })
         val sprite = atlas.getSprite(storm.effect.particle.texture)
-//        println(sprite.id)
 //        println(storm.effect.particle.texture)
         return sprite
     }
@@ -124,18 +125,26 @@ class SnowstormParticle(
         val f = (MathHelper.lerp(tickDelta.toDouble(), prevPosX, x) - vec3d.getX()).toFloat()
         val g = (MathHelper.lerp(tickDelta.toDouble(), prevPosY, y) - vec3d.getY()).toFloat()
         val h = (MathHelper.lerp(tickDelta.toDouble(), prevPosZ, z) - vec3d.getZ()).toFloat()
-        val quaternion = storm.effect.particle.cameraMode.getRotation(prevAngle, angle, tickDelta, camera.rotation, camera.yaw, camera.pitch)
+        val quaternion = storm.effect.particle.cameraMode.getRotation(
+            matrixWrapper = storm.matrixWrapper,
+            prevAngle = prevAngle,
+            angle = angle,
+            deltaTicks = tickDelta,
+            cameraAngle = camera.rotation,
+            cameraYaw = camera.yaw,
+            cameraPitch = camera.pitch,
+            viewDirection = viewDirection
+        )
 
         val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat() / 2
         val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat() / 2
 
         val particleVertices = arrayOf(
-            Vec3f(-xSize, -ySize, 0.0f),
-            Vec3f(-xSize, ySize, 0.0f),
-            Vec3f(xSize, ySize, 0.0f),
-            Vec3f(xSize, -ySize, 0.0f)
+            Vector3f(-xSize, -ySize, 0.0f),
+            Vector3f(-xSize, ySize, 0.0f),
+            Vector3f(xSize, ySize, 0.0f),
+            Vector3f(xSize, -ySize, 0.0f)
         )
-
 
         for (k in 0..3) {
             val vertex = particleVertices[k]
@@ -205,6 +214,12 @@ class SnowstormParticle(
             prevAngle = angle
             angle = prevAngle + angularVelocity.toFloat()
         }
+
+        viewDirection = storm.effect.particle.viewDirection.getDirection(
+            runtime = storm.runtime,
+            lastDirection = viewDirection,
+            currentVelocity = Vec3d(velocityX, velocityY, velocityZ)
+        ).normalize()
 
         prevPosX = x
         prevPosY = y

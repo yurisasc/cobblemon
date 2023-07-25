@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.util.math.geometry
 import com.cobblemon.mod.common.util.collections.ImmutableArray
 import com.cobblemon.mod.common.util.collections.immutableArrayOf
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.Vec3f
+import org.joml.Vector3f
 
 /**
  * A 4x4 matrix that is used to represent transformations in three dimensional space.
@@ -55,7 +55,7 @@ data class TransformationMatrix internal constructor(val values: ImmutableArray<
             arrayOf(0f, 0f, 0f, 1f)
         )
 
-        fun of(translation: GeometricPoint, rotation: Vec3f): TransformationMatrix {
+        fun of(translation: GeometricPoint, rotation: Vector3f): TransformationMatrix {
             return translate(translation) * rotate(rotation)
         }
 
@@ -107,7 +107,7 @@ data class TransformationMatrix internal constructor(val values: ImmutableArray<
          *
          * @return a new transformation matrix for the given rotations
          */
-        fun rotate(angles: Vec3f, matrix: TransformationMatrix? = null): TransformationMatrix {
+        fun rotate(angles: Vector3f, matrix: TransformationMatrix? = null): TransformationMatrix {
             val rotationX = Axis.X_AXIS.getRotationMatrix(angles.x)
             val rotationY = Axis.Y_AXIS.getRotationMatrix(angles.y)
             val rotationZ = Axis.Z_AXIS.getRotationMatrix(angles.z)

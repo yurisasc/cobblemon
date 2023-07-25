@@ -8,24 +8,39 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+
+class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("scizor")
-    override val head = getPart("head")
+    override val head = getPart("head_pivot")
+
+    override val leftWing = getPart("left_wing")
+    override val rightWing = getPart("right_wing")
+    override val leftArm = getPart("left_upper_arm")
+    override val rightArm = getPart("right_upper_arm")
+    override val leftLeg = getPart("left_leg_joint")
+    override val rightLeg = getPart("right_leg_joint")
 
     override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.2, 1.6, 0.0)
+    override val portraitTranslation = Vec3d(-0.28, 2.9, 0.0)
 
-    override val profileScale = 0.64F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override val profileScale = 0.55F
+    override val profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -50,6 +65,8 @@ class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F),
+                BimanualSwingAnimation (this, amplitudeMultiplier = 0.85F),
                 bedrock("scizor", "ground_idle")
             )
         )
@@ -60,7 +77,12 @@ class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("scizor", "air_idle")
+                bedrock("scizor", "air_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Y_AXIS
+                )
             )
         )
 
@@ -70,7 +92,12 @@ class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("scizor", "air_fly")
+                bedrock("scizor", "air_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Y_AXIS
+                )
             )
         )
     }

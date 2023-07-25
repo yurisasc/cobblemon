@@ -14,11 +14,11 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import com.cobblemon.mod.common.registry.BlockIdentifierCondition
 import com.cobblemon.mod.common.registry.BlockTagCondition
 import net.minecraft.block.Block
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.RegistryKeys
 
 object BlockLikeConditionAdapter : RegistryLikeAdapter<Block> {
     override val registryLikeConditions = mutableListOf(
-        RegistryLikeTagCondition.resolver(Registry.BLOCK_KEY, ::BlockTagCondition),
+        RegistryLikeTagCondition.resolver(RegistryKeys.BLOCK, ::BlockTagCondition),
         RegistryLikeIdentifierCondition.resolver(::BlockIdentifierCondition)
     )
 }

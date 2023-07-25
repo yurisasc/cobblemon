@@ -43,7 +43,7 @@
       {
         "item": "minecraft:chicken"
       },
-	  {
+      {
         "item": "cobblemon:miracle_seed",
         "percentage": 10
       }
@@ -88,6 +88,7 @@
     "tm:grassyterrain",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:leafblade",
     "tm:leafstorm",
     "tm:lightscreen",
     "tm:magicalleaf",
@@ -120,8 +121,13 @@
     "tutor:covet",
     "tutor:defog",
     "tutor:dualwingbeat",
+    "tutor:gigadrain",
+    "tutor:grasspledge",
     "tutor:grassyglide",
+    "tutor:seedbomb",
     "tutor:skyattack",
+    "tutor:snore",
+    "tutor:synthesis",
     "tutor:worryseed"
   ],
   "labels": [

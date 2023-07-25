@@ -27,14 +27,10 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isLookingAt
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
-import com.cobblemon.mod.common.util.math.geometry.getOrigin
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
-import java.util.Vector
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.tan
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
@@ -44,14 +40,17 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.particle.ParticleTypes
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
-import net.minecraft.util.math.Vector4f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Quaternionf
+import org.joml.Vector3f
+import org.joml.Vector4f
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.tan
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
@@ -107,6 +106,8 @@ class PokemonRenderer(
             renderBeam(poseMatrix, partialTicks, entity, phaseTarget, lightColour, buffer)
         }
 
+        clientDelegate.updatePartialTicks(partialTicks)
+
         modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects.get()))
 
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
@@ -151,8 +152,7 @@ class PokemonRenderer(
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val pokemonPosition = entity.pos.add(0.0, entity.height / 2.0 * clientDelegate.entityScaleModifier.toDouble(), 0.0)
         val beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
-            (beamTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.matrix?.getOrigin() ?: beamTarget.pos
-//            beamTarget.pos.let { it.add(pokemonPosition.subtract(it).normalize().multiply(0.4, 0.0, 0.4)) }
+            (beamTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: beamTarget.pos
         } else {
             beamTarget as PlayerEntity
             if (beamTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
@@ -168,7 +168,7 @@ class PokemonRenderer(
             return
         }
 
-        val direction = Vec3f(pokemonPosition.subtract(beamSourcePosition))
+        val direction = pokemonPosition.subtract(beamSourcePosition).let { Vector3f(it.x.toFloat(), it.y.toFloat(), it.z.toFloat()) }
 
         matrixStack.push()
         with(beamSourcePosition.subtract(entity.pos)) { matrixStack.translate(x, y, z) }
@@ -184,12 +184,10 @@ class PokemonRenderer(
 
         direction.normalize()
 
-        val yAxis = Vec3f.POSITIVE_Y.copy()
+        val yAxis = Vector3f(0F, 1F, 0F)
         val dot = direction.dot(yAxis)
-        val cross = yAxis.copy()
-        cross.cross(direction)
-        val q = Quaternion(cross.x, cross.y, cross.z, 1 + dot)
-        q.normalize()
+        val cross = yAxis.cross(direction)
+        val q = Quaternionf(cross.x, cross.y, cross.z, 1 + dot).normalize()
         matrixStack.multiply(q)
 
         renderBeaconBeam(
@@ -245,17 +243,17 @@ class PokemonRenderer(
             val pose = matrixStack.peek().positionMatrix
 
             val newStack = MatrixStack()
-            newStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(ray1YRot + (it + 1) * PI / 2))
+            newStack.multiply(RotationAxis.POSITIVE_Y.rotation(ray1YRot + (it + 1) * PI / 2))
             val nearTop = Vector4f(startX, startY2, 0F, 1F)
             val nearBottom = Vector4f(startX, startY1, 0F, 1F)
             val farTop = Vector4f(endX, endY2, 0F, 1F)
             val farBottom = Vector4f(endX, endY1, 0F, 1F)
 
             val poseM = newStack.peek().positionMatrix
-            nearTop.transform(poseM)
-            nearBottom.transform(poseM)
-            farTop.transform(poseM)
-            farBottom.transform(poseM)
+            nearTop.mul(poseM)
+            nearBottom.mul(poseM)
+            farTop.mul(poseM)
+            farBottom.mul(poseM)
 
             // "Why are you drawing two quads?" because for some weird reason, a specific vertex order
             // only shows a visible quad for 180 degrees, and which 180 degrees changes with the order.
@@ -308,24 +306,23 @@ class PokemonRenderer(
             matrices.scale((-0.025*sizeScale).toFloat(), (-0.025*sizeScale).toFloat(), 1 * sizeScale.toFloat())
             val matrix4f = matrices.peek().positionMatrix
             val opacity = (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25f) * 255.0f).toInt() shl 24
-            var label = entity.pokemon.species.translatedName
+            var label = entity.name.copy()
             if (ServerSettings.displayEntityLevelLabel && entity.labelLevel() > 0) {
                 val levelLabel = lang("label.lv", entity.labelLevel())
                 label = label.add(" ").append(levelLabel)
             }
             var h = (-textRenderer.getWidth(label) / 2).toFloat()
             val y = 0F
-            val seeThrough = true
             val packedLight = LightmapTextureManager.pack(15, 15)
-            textRenderer.draw(label, h, y, 0x20FFFFFF, false, matrix4f, vertexConsumers, seeThrough, opacity, packedLight)
-            textRenderer.draw(label, h, y, -1, false, matrix4f, vertexConsumers, false, 0, packedLight)
+            textRenderer.draw(label, h, y, 0x20FFFFFF, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.SEE_THROUGH, opacity, packedLight)
+            textRenderer.draw(label, h, y, -1, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, packedLight)
 
             if (entity.canBattle(player)) {
                 val sendOutBinding = PartySendBinding.boundKey().localizedText
                 val battlePrompt = lang("challenge_label", sendOutBinding)
                 h = (-textRenderer.getWidth(battlePrompt) / 2).toFloat()
-                textRenderer.draw(battlePrompt, h, y + 10, 0x20FFFFFF, false, matrix4f, vertexConsumers, seeThrough, opacity, packedLight)
-                textRenderer.draw(battlePrompt, h, y + 10, -1, false, matrix4f, vertexConsumers, false, 0, packedLight)
+                textRenderer.draw(battlePrompt, h, y + 10, 0x20FFFFFF, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.SEE_THROUGH, opacity, packedLight)
+                textRenderer.draw(battlePrompt, h, y + 10, -1, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, packedLight)
             }
             matrices.pop()
         }

@@ -9,8 +9,9 @@
 package com.cobblemon.mod.common.api.tags
 
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.tag.TagKey
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 
 /**
  * A collection of the Cobblemon [TagKey]s related to the [Registry.ITEM].
@@ -40,6 +41,10 @@ object CobblemonItemTags {
     val EVOLUTION_STONES = create("evolution_stones")
     @JvmField
     val EVOLUTION_ITEMS = create("evolution_items")
+    @JvmField
+    val MINTS = create("mints")
+    @JvmField
+    val MINT_LEAVES = create("mint_leaves")
 
     /**
      * This tag is only used for a Torterra aspect based easter egg evolution at the moment.
@@ -47,6 +52,6 @@ object CobblemonItemTags {
      */
     val AZALEA_TREE = create("azalea_tree")
 
-    private fun create(path: String) = TagKey.of(Registry.ITEM_KEY, cobblemonResource(path))
+    private fun create(path: String) = TagKey.of(RegistryKeys.ITEM, cobblemonResource(path))
 
 }
