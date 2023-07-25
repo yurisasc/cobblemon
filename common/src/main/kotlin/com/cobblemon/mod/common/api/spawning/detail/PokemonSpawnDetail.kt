@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.spawning.detail
 
+import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.Cobblemon.config
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
@@ -79,6 +80,12 @@ class PokemonSpawnDetail : SpawnDetail() {
         } else {
             levelRange
         }
+    }
+
+    override fun isValid(): Boolean {
+        val isValidSpecies = pokemon.species != null
+        if (!isValidSpecies) LOGGER.error("Invalid species for spawn detail: $id")
+        return super.isValid() && isValidSpecies
     }
 
     override fun doSpawn(ctx: SpawningContext): SpawnAction<*> {
