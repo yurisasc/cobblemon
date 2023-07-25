@@ -33,7 +33,7 @@ import net.minecraft.util.math.MathHelper.ceil
  */
 class PlayerSpawner(player: ServerPlayerEntity, spawns: SpawnPool, manager: SpawnerManager) : AreaSpawner(player.name.string, spawns, manager) {
     val uuid: UUID = player.uuid
-
+    override var ticksBetweenSpawns = config.ticksBetweenSpawnAttempts
     override fun getCauseEntity() = uuid.getPlayer()
     override fun getArea(cause: SpawnCause): SpawningArea? {
         val player = uuid.getPlayer() ?: return null

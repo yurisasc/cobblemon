@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("dodrio")
 
@@ -33,9 +34,9 @@ class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink1") { bedrockStateful("dodrio", "blink1").setPreventsIdle(false)}
-        val blink2 = quirk("blink2") { bedrockStateful("dodrio", "blink2").setPreventsIdle(false)}
-        val blink3 = quirk("blink3") { bedrockStateful("dodrio", "blink3").setPreventsIdle(false)}
+        val blink1 = quirk("blink1") { bedrockStateful("dodrio", "blink1").setPreventsIdle(false) }
+        val blink2 = quirk("blink2") { bedrockStateful("dodrio", "blink2").setPreventsIdle(false) }
+        val blink3 = quirk("blink3") { bedrockStateful("dodrio", "blink3").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
@@ -53,7 +54,7 @@ class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2, blink3),
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
+                BipedWalkAnimation(this, amplitudeMultiplier = 0.9F),
                 bedrock("dodrio", "ground_idle")
 //                singleBoneLook()
                 //bedrock("dodrio", "ground_walk")

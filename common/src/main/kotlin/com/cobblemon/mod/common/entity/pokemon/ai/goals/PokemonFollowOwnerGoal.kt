@@ -25,6 +25,11 @@ class PokemonFollowOwnerGoal(
     leavesAllowed: Boolean
 ) : FollowOwnerGoal(entity, speed, minDistance, maxDistance, leavesAllowed) {
     fun canMove() = entity.behaviour.moving.walk.canWalk || entity.behaviour.moving.fly.canFly// TODO probably depends on whether we're underwater or not
-    override fun canStart() = super.canStart() && canMove()
-    override fun shouldContinue() = super.shouldContinue() && canMove()
+    override fun canStart() = super.canStart()
+            && canMove()
+            && entity.tethering == null
+    override fun shouldContinue() = super.shouldContinue()
+            && canMove()
+            && entity.tethering == null
+            && (entity.owner?.distanceTo(entity) ?: 0F) > minDistance / 2
 }

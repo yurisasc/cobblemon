@@ -6,6 +6,7 @@
       "aspects": [
         "alolan"
       ],
+      "poser": "cobblemon:ninetales_alolan",
       "model": "cobblemon:ninetales_alolan.geo",
       "texture": "cobblemon:textures/pokemon/0038_ninetales/ninetales_alolan.png"
     },

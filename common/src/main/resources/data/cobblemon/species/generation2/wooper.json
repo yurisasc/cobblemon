@@ -21,7 +21,14 @@
   "maleRatio": 0.5,
   "shoulderMountable": true,
   "shoulderEffects": [
-    "water_breathing"
+    {
+      "type": "potion_effect",
+      "effect": "minecraft:water_breathing",
+      "amplifier": 0,
+      "ambient": true,
+      "showParticles": false,
+      "showIcon": false
+    }
   ],
   "forms": [
     {
@@ -167,6 +174,12 @@
         "canSwimInWater": true,
         "canBreatheUnderwater": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "drops": {

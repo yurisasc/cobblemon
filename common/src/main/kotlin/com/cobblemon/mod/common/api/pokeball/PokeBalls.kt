@@ -143,7 +143,7 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         createDefault("moon_ball", CatchRateModifiers.MOON_PHASES)
         createDefault("sport_ball", MultiplierModifier(1.5F))
         createDefault("net_ball", CatchRateModifiers.typeBoosting(3F, ElementalTypes.BUG, ElementalTypes.WATER))
-        createDefault("dive_ball", CatchRateModifiers.SUBMERGED_IN_WATER)
+        createDefault("dive_ball", CatchRateModifiers.SUBMERGED_IN_WATER, waterDragValue = 0.99F)
         createDefault("nest_ball", CatchRateModifiers.NEST)
         // ToDo implement effect once pokedex is implemented, we have a custom multiplier of 2.5 instead of the official pokeball
         createDefault("repeat_ball")
@@ -189,12 +189,13 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         name: String,
         modifier: CatchRateModifier = MultiplierModifier(1F) { _, _ -> true },
         effects: List<CaptureEffect> = emptyList(),
+        waterDragValue: Float = 0.8F,
         model2d: Identifier = cobblemonResource(name),
         model3d: Identifier = cobblemonResource("${name}_model")
     ): PokeBall {
         val identifier = cobblemonResource(name)
         //val finalModifiers = if (appendUltraBeastPenalty) modifiers + listOf(LabelModifier(0.1F, true, CobblemonPokemonLabels.ULTRA_BEAST)) else modifiers
-        val pokeball = PokeBall(identifier, modifier, effects, model2d, model3d)
+        val pokeball = PokeBall(identifier, modifier, effects, waterDragValue, model2d, model3d)
         this.defaults[identifier] = pokeball
         return pokeball
     }

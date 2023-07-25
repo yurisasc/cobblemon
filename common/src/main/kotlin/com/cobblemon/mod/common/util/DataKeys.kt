@@ -64,14 +64,25 @@ object DataKeys {
 
     const val BENCHED_MOVES = "BenchedMoves"
 
-    const val OWNED_BY_PLAYER = "OwnedByPlayer"
-    const val STORE_IS_PARTY = "IsParty"
+    const val PC_ID = "PCId"
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
     const val STORE_BOX = "Box"
     const val STORE_BOX_COUNT = "BoxCount"
     const val STORE_BOX_COUNT_LOCKED = "BoxCountLocked"
     const val STORE_BACKUP = "BackupStore"
+
+    const val TETHER_OWNER_ID = "TetherOwnerId"
+    const val TETHER_OWNER_NAME = "TetherOwnerName"
+    const val TETHERING_ID = "TetheringId"
+    const val TETHER_POKEMON = "TetherPokemon"
+    const val TETHER_MIN_ROAM_POS = "TetherMinRoamPos"
+    const val TETHER_MAX_ROAM_POS = "TetherMaxRoamPos"
+    const val TETHER_COUNT = "TetherCount"
+    const val TETHERING = "Tethering"
+    const val TETHERING_POS = "Pos"
+    const val TETHERING_PLAYER_ID = "PlayerId"
+    const val TETHERING_ENTITY_ID = "EntityId"
 
     /* Form stuff */
     const val ALOLAN = "alolan"
@@ -101,4 +112,19 @@ object DataKeys {
     // Features
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
+
+    // Persistent Data
+    const val POKEMON_PERSISTENT_DATA = "PersistentData"
+
+    // Item Tooltips
+    const val HIDE_TOOLTIP = "HideTooltip"
+
+
+    // Shoulder Mount
+    const val SHOULDER_UUID = "shoulder_uuid"
+    const val SHOULDER_SPECIES = "shoulder_species"
+    const val SHOULDER_FORM = "shoulder_form"
+    const val SHOULDER_ASPECTS = "shoulder_aspects"
+    const val SHOULDER_SCALE_MODIFIER = "shoulder_scale"
+
 }

@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 
-class HeldItemUpdatePacket(pokemon: Pokemon, value: ItemStack): SingleUpdatePacket<ItemStack, HeldItemUpdatePacket>(pokemon, value) {
+class HeldItemUpdatePacket(pokemon: () -> Pokemon, value: ItemStack): SingleUpdatePacket<ItemStack, HeldItemUpdatePacket>(pokemon, value) {
 
     override val id = ID
 

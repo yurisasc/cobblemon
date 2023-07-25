@@ -20,8 +20,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import java.lang.Float.min
 import kotlin.math.abs
 import net.minecraft.entity.Entity
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
         const val BEAM_SHRINK_TIME = 0.8F
@@ -32,9 +32,11 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     var phaseTarget: Entity? = null
     var entityScaleModifier = 1F
 
-    var animTick = 0F
-    var previousVerticalVelocity = 0F
+    override fun updatePartialTicks(partialTicks: Float) {
+        this.currentPartialTicks = partialTicks
+    }
 
+    var previousVerticalVelocity = 0F
     var beamStartTime = System.currentTimeMillis()
 
     val secondsSinceBeamEffectStarted: Float
@@ -105,6 +107,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
 
     override fun initialize(entity: PokemonEntity) {
         this.entity = entity
+        this.age = entity.age
     }
 
     override fun tick(entity: PokemonEntity) {
@@ -121,8 +124,9 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         }
 
         updateLocatorPosition(entity.pos)
-
         previousVerticalVelocity = entity.velocity.y.toFloat()
+
+        incrementAge(entity)
     }
 
     fun setPhaseTarget(targetId: Int) {
@@ -139,5 +143,13 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
 
     override fun updatePostDeath() {
         ++entity.deathTime
+    }
+
+    fun cry() {
+        val model = currentModel ?: return
+        if (model is PokemonPoseableModel) {
+            val animation = model.cryAnimation(entity, this) ?: return
+            statefulAnimations.add(animation)
+        }
     }
 }

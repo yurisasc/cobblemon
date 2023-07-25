@@ -27,11 +27,22 @@
     "field"
   ],
   "behaviour": {
+  "moving": {
+    "walk": {
+      "walkSpeed": 0.28
+    },
     "swim": {
-      "swimSpeed": 0.1,
+      "swimSpeed": 0.17,
       "canSwimInWater": true,
       "canBreatheUnderwater": true,
       "canWalkOnWater": true
+    }
+  },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "drops": {

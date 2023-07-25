@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.gui.startselection
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.gui.ColourLibrary
 import com.cobblemon.mod.common.api.gui.MultiLineLabelK
@@ -32,6 +33,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
@@ -83,7 +85,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
         val y = (height - BASE_HEIGHT) / 2
 
         if (categories.isEmpty()) {
-            println("Empty category list while opening StarterSelectionUI")
+            Cobblemon.LOGGER.warn("Empty category list while opening StarterSelectionUI")
             return
         }
 
@@ -186,7 +188,8 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
         )
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        val matrices = context.matrices
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
         // Render Underlay
@@ -216,7 +219,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
         )
         // Render Text
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.starter.title").bold(),
             x = x + 125, y = y + 3F,
@@ -230,7 +233,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
         val pokemonName = currentPokemon.species.translatedName
         val scale = 0.8F
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = pokemonName,
             centered = true,
             scale = scale,
@@ -251,7 +254,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
             width = 127,
             maxLines = 4
         ).renderLeftAligned(
-            poseStack = matrices,
+            context = context,
             x = (x + 119) / scale2 + 4, y = (y + 18) / scale2 + 4.0,
             ySpacing = (8.0 / scale2) - 1.25,
             colour = ColourLibrary.WHITE, shadow = false
@@ -266,9 +269,9 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
             width = currentPokemon.form.secondaryType?.let { 35.25 } ?: 19, height = 19.25
         )
         // Render the type widget
-        typeWidget.render(matrices, mouseX, mouseY, delta)
+        typeWidget.render(context, mouseX, mouseY, delta)
         // Render the rest
-        super.render(matrices, mouseX, mouseY, delta)
+        super.render(context, mouseX, mouseY, delta)
     }
 
     fun changeCategory(category: RenderableStarterCategory) {

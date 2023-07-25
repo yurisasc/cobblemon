@@ -12,15 +12,8 @@
       "type": "minecraft:biome"
     },
     {
-      "type": "minecraft:surface_water_depth_filter",
-      "max_water_depth": 0
-    },
-    {
       "type": "minecraft:heightmap",
-      "heightmap": "OCEAN_FLOOR"
-    },
-    {
-      "type": "minecraft:biome"
+      "heightmap": "WORLD_SURFACE"
     }
   ]
 }

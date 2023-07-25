@@ -26,6 +26,13 @@
   "eggGroups": [
     "bug"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.4
+      }
+    }
+  },
   "drops": {
     "amount": "2",
     "entries": [

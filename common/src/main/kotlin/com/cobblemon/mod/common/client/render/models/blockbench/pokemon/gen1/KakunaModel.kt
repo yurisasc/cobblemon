@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.ALL_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class KakunaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("kakuna")
     override val head = getPart("head")
@@ -47,6 +48,6 @@ class KakunaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
+        state: PoseableEntityState<PokemonEntity>,
     ) = if (state.isPosedIn(standing)) bedrockStateful("kakuna", "faint") else null
 }

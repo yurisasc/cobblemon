@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
 
 class InfoWidget(
@@ -36,10 +36,11 @@ class InfoWidget(
         private val infoBaseResource = cobblemonResource("textures/gui/summary/summary_info_base.png")
     }
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        val matrices = context.matrices
         // Base texture
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = infoBaseResource,
             x= x,
             y = y,
@@ -49,7 +50,7 @@ class InfoWidget(
 
         // Pokédex Number
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.info.pokedex_number").bold(),
             x = x + 8,
@@ -64,7 +65,7 @@ class InfoWidget(
         }
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = dexNo.text().bold(),
             x = x + 53,
@@ -74,7 +75,7 @@ class InfoWidget(
 
         // Species
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.info.species").bold(),
             x = x + 8,
@@ -83,7 +84,7 @@ class InfoWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = pokemon.species.translatedName.bold(),
             x = x + 53,
@@ -93,7 +94,7 @@ class InfoWidget(
 
         // Type
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.info.type").bold(),
             x = x + 8,
@@ -104,7 +105,7 @@ class InfoWidget(
         val type = pokemon.types.map { it.displayName.copy() }.reduce { acc, next -> acc.plus("/").plus(next) }
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = type.bold(),
             x = x + 53,
@@ -114,7 +115,7 @@ class InfoWidget(
 
         // OT
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.info.original_trainer").bold(),
             x = x + 8,
@@ -125,7 +126,7 @@ class InfoWidget(
         if (pokemon.isPlayerOwned() && pokemon.getOwnerPlayer() != null) {
             pokemon.getOwnerPlayer()?.displayName?.copy()?.let {
                 drawScaledText(
-                    matrixStack = pMatrixStack,
+                    context = context,
                     font = CobblemonResources.DEFAULT_LARGE,
                     text = it.bold(),
                     x = x + 53,
@@ -137,7 +138,7 @@ class InfoWidget(
 
         // Nature
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.info.nature").bold(),
             x = x + 8,
@@ -146,7 +147,7 @@ class InfoWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = pokemon.nature.displayName.asTranslated().bold(),
             x = x + 53,
@@ -156,7 +157,7 @@ class InfoWidget(
 
         // Ability
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.info.ability").bold(),
             x = x + 8,
@@ -165,7 +166,7 @@ class InfoWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = pokemon.ability.displayName.asTranslated().bold(),
             x = x + 53,
@@ -175,24 +176,24 @@ class InfoWidget(
 
         val smallTextScale = 0.5F
 
-        pMatrixStack.push()
-        pMatrixStack.scale(smallTextScale, smallTextScale, 1F)
+        matrices.push()
+        matrices.scale(smallTextScale, smallTextScale, 1F)
         MultiLineLabelK.create(
             component = pokemon.ability.description.asTranslated(),
             width = 117 / smallTextScale,
             maxLines = 3
         ).renderLeftAligned(
-            poseStack = pMatrixStack,
+            context = context,
             x = (x + 8) / smallTextScale,
             y = (y + 94.5) / smallTextScale,
             ySpacing = 5.5 / smallTextScale,
             colour = ColourLibrary.WHITE,
             shadow = true
         )
-        pMatrixStack.pop()
+        matrices.pop()
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = lang("ui.info.experience_points"),
             x = x + 72.5,
             y = y + 125,
@@ -201,7 +202,7 @@ class InfoWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = lang("ui.info.to_next_level"),
             x = x + 72.5,
             y = y + 137,
@@ -215,7 +216,7 @@ class InfoWidget(
         val experienceToNext = pokemon.experienceGroup.getExperience(pokemon.level + 1) - pokemon.experienceGroup.getExperience(pokemon.level)
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = experience,
             x = (x + 127) - (mcFont.getWidth(experience) * smallTextScale),
             y = y + 125,
@@ -224,7 +225,7 @@ class InfoWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = experienceToNext.toString().text(),
             x = (x + 127) - (mcFont.getWidth(experienceToNext.toString().text()) * smallTextScale),
             y = y + 137,
@@ -237,7 +238,7 @@ class InfoWidget(
         val expBarWidth = expRatio * expBarWidthMax
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = CobblemonResources.WHITE,
             x = x + 72,
             y = y + 131,

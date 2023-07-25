@@ -96,9 +96,14 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.discard()
         }
 
-        if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
-            entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
+        val tethering = entity.tethering
+        if (tethering != null && entity.pokemon.tetheringId != tethering.tetheringId) {
+            entity.discard()
         }
+
+//        if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
+//            entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
+//        }
 
         val battleId = entity.battleId.get().orElse(null)
         if (battleId != null && BattleRegistry.getBattle(battleId).let { it == null || it.ended }) {
@@ -121,7 +126,12 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.ownerUuid != entity.pokemon.getOwnerUUID()) {
             entity.ownerUuid = entity.pokemon.getOwnerUUID()
         }
-        if (entity.ownerUuid != null && entity.owner == null) {
+
+        if (entity.ownerUuid == null && tethering != null) {
+            entity.ownerUuid = tethering.playerId
+        }
+
+        if (entity.ownerUuid != null && entity.owner == null && entity.tethering == null) {
             entity.remove(Entity.RemovalReason.DISCARDED)
         }
         if (entity.pokemon.species.resourceIdentifier.toString() != entity.species.get()) {
@@ -165,7 +175,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.deathTime == 30) {
             val owner = entity.owner
             if (owner != null) {
-                entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.2F)
+                entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 1F)
                 entity.phasingTargetId.set(owner.id)
                 entity.beamModeEmitter.set(2)
             }

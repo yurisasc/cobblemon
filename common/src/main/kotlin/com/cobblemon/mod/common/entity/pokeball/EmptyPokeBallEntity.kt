@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.pokeball.ThrownPokeballHitEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
@@ -65,7 +66,7 @@ import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
+class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
     enum class CaptureState {
         NOT,
         HIT,
@@ -247,11 +248,24 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
         super.tick()
         delegate.tick(this)
         entityProperties.forEach { it.checkForUpdate() }
+
         if (world.isServerSide()) {
             capturingPokemon?.let {
                 if (hitTargetPosition.get() != it.pos && !it.isInvisible) {
                     hitTargetPosition.set(it.pos)
                 }
+                CobblemonEvents.THROWN_POKEBALL_HIT.postThen(
+                    event = ThrownPokeballHitEvent(this, it),
+                    ifSucceeded = {},
+                    ifCanceled = {
+                        drop()
+                        return
+                    }
+                )
+            }
+
+            if(this.age > 600 && this.capturingPokemon == null) {
+                this.remove(RemovalReason.DISCARDED)
             }
 
             if (owner == null || !owner!!.isAlive || (captureState.get() != CaptureState.NOT.ordinal.toByte() && capturingPokemon?.isAlive != true)) {
@@ -307,7 +321,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
                 captureState.set((if (captureResult.isCriticalCapture) CaptureState.CAPTURED_CRITICAL else CaptureState.CAPTURED).ordinal.toByte())
                 // Do a capture
                 world.sendParticlesServer(ParticleTypes.CRIT, pos, 10, Vec3d(0.1, -0.5, 0.1), 0.2)
-                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED, volume = 0.3F, pitch = 1F)
+                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED, volume = 1F, pitch = 1F)
                 val pokemon = capturingPokemon ?: return
                 val player = this.owner as? ServerPlayerEntity ?: return
 
@@ -380,7 +394,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
             // Start beaming them up.
             velocity = Vec3d.ZERO
             setNoGravity(true)
-            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED, volume = 0.2F)
+            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED, volume = 1F)
             pokemonEntity.beamModeEmitter.set(2.toByte())
         }
 
@@ -408,4 +422,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable {
     override fun canUsePortals() = false
 
     override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokeballPacket(this.pokeBall, this.aspects.get(), super.createSpawnPacket() as EntitySpawnS2CPacket))
+
+    override fun waterDrag(): Float = this.pokeBall.waterDragValue
+
 }

@@ -57,5 +57,5 @@ class KlangModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("klang", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("klang", "faint") else null
 }
