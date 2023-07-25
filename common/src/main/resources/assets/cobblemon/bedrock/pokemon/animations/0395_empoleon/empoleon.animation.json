@@ -285,6 +285,38 @@
 				}
 			}
 		},
+		"animation.empoleon.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"position": [0, -6, 0]
+				},
+				"torso": {
+					"rotation": ["5+math.sin(q.anim_time*90*0.7)*2", 0, 0]
+				},
+				"head": {
+					"rotation": ["5+math.sin(q.anim_time*90*0.7-30)*2", 0, 0]
+				},
+				"eyelid_left": {
+					"position": [0.1, 0, -0.1]
+				},
+				"eyelid_right": {
+					"position": [-0.1, 0, -0.1]
+				},
+				"wing_left": {
+					"rotation": ["37.5+math.sin(q.anim_time*90*0.7-30)*2", "0-math.sin(q.anim_time*90*0.7-60)*2", "52.5+math.sin(q.anim_time*90*0.7-30)*2"]
+				},
+				"wing_right": {
+					"rotation": ["37.5+math.sin(q.anim_time*90*0.7-30)*2", "0+math.sin(q.anim_time*90*0.7-60)*2", "-52.5-math.sin(q.anim_time*90*0.7-30)*2"]
+				},
+				"leg_left": {
+					"rotation": [-78.53, -23.02, 0.16]
+				},
+				"leg_right": {
+					"rotation": [-78.53, 23.02, -0.16]
+				}
+			}
+		},
 		"animation.empoleon.cry": {
 			"animation_length": 1.5,
 			"bones": {
@@ -310,8 +342,11 @@
 				"jaw": {
 					"rotation": {
 						"0.0": [0, 0, 0],
-						"0.25": [40, 0, 0],
-						"1.25": [40, 0, 0],
+						"0.0833": [50, 0, 0],
+						"0.1667": [50, 0, 0],
+						"0.25": [25, 0, 0],
+						"0.3333": [50, 0, 0],
+						"1.25": [50, 0, 0],
 						"1.5": [0, 0, 0]
 					}
 				},
@@ -387,37 +422,10 @@
 						"1.5": [0, 0, 0]
 					}
 				}
-			}
-		},
-		"animation.empoleon.sleep": {
-			"loop": true,
-			"bones": {
-				"body": {
-					"position": [0, -6, 0]
-				},
-				"torso": {
-					"rotation": ["5+math.sin(q.anim_time*90*0.7)*2", 0, 0]
-				},
-				"head": {
-					"rotation": ["5+math.sin(q.anim_time*90*0.7-30)*2", 0, 0]
-				},
-				"eyelid_left": {
-					"position": [0.1, 0, -0.1]
-				},
-				"eyelid_right": {
-					"position": [-0.1, 0, -0.1]
-				},
-				"wing_left": {
-					"rotation": ["37.5+math.sin(q.anim_time*90*0.7-30)*2", "0-math.sin(q.anim_time*90*0.7-60)*2", "52.5+math.sin(q.anim_time*90*0.7-30)*2"]
-				},
-				"wing_right": {
-					"rotation": ["37.5+math.sin(q.anim_time*90*0.7-30)*2", "0+math.sin(q.anim_time*90*0.7-60)*2", "-52.5-math.sin(q.anim_time*90*0.7-30)*2"]
-				},
-				"leg_left": {
-					"rotation": [-78.53, -23.02, 0.16]
-				},
-				"leg_right": {
-					"rotation": [-78.53, 23.02, -0.16]
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "pokemon.empoleon.cry"
 				}
 			}
 		}
