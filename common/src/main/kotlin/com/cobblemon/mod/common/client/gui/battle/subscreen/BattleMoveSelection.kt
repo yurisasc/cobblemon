@@ -30,15 +30,14 @@ import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.toRGB
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper.floor
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
 class BattleMoveSelection(
     battleGUI: BattleGUI,
@@ -65,7 +64,7 @@ class BattleMoveSelection(
 
         val moveTexture = cobblemonResource("textures/gui/battle/battle_move.png")
         val moveOverlayTexture = cobblemonResource("textures/gui/battle/battle_move_overlay.png")
-        val moveDescriptionTexture = cobblemonResource("ui/battle/battle_move_desc.png")
+        val moveDescriptionTexture = cobblemonResource("textures/gui/battle/battle_move_desc.png")
     }
 
     val moveSet = request.moveSet!!
@@ -189,6 +188,8 @@ class BattleMoveSelection(
 
         backButton.render(context.matrices, mouseX, mouseY, delta)
 
+        val matrices = context.matrices
+
         // Move Description
         val moveTile = moveTiles.find { it.isHovered(mouseX.toDouble(), mouseY.toDouble()) } ?: return
         blitk(
@@ -232,7 +233,7 @@ class BattleMoveSelection(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.power"),
             x = mouseX + 14,
             y = mouseY + 7,
@@ -241,7 +242,7 @@ class BattleMoveSelection(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.accuracy"),
             x = mouseX + 14,
             y = mouseY + 18,
@@ -250,7 +251,7 @@ class BattleMoveSelection(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.effect"),
             x = mouseX + 14,
             y = mouseY + 29,
@@ -261,7 +262,7 @@ class BattleMoveSelection(
         val mcFont = MinecraftClient.getInstance().textRenderer
         val movePower = if (moveTile.moveTemplate.power.toInt() > 0) moveTile.moveTemplate.power.toInt().toString().text() else "—".text()
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = movePower,
             x = (mouseX + 62.5) - (mcFont.getWidth(movePower) * MOVE_DESC_SCALE),
             y = mouseY + 7,
@@ -271,7 +272,7 @@ class BattleMoveSelection(
 
         val moveAccuracy = format(moveTile.moveTemplate.accuracy).text()
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = moveAccuracy,
             x = (mouseX + 62.5) - (mcFont.getWidth(moveAccuracy) * MOVE_DESC_SCALE),
             y = mouseY + 18,
@@ -281,7 +282,7 @@ class BattleMoveSelection(
 
         val moveEffect = format(moveTile.moveTemplate.effectChances.firstOrNull() ?: 0.0).text()
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = moveEffect,
             x = (mouseX + 62.5) - (mcFont.getWidth(moveEffect) * MOVE_DESC_SCALE),
             y = mouseY + 29,
@@ -296,7 +297,7 @@ class BattleMoveSelection(
             width = 57 / MOVE_DESC_SCALE,
             maxLines = 5
         ).renderLeftAligned(
-            poseStack = matrices,
+            context = context,
             x = (mouseX + 70) / MOVE_DESC_SCALE,
             y = (mouseY + 7) / MOVE_DESC_SCALE,
             ySpacing = 5.5 / MOVE_DESC_SCALE,
