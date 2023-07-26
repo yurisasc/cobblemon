@@ -473,7 +473,7 @@
 			},
 			"sound_effects": {
 				"0.0": {
-					"effect": "crocalor_ambient"
+					"effect": "pokemon.crocalor.cry"
 				}
 			}
 		},

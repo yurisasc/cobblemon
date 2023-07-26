@@ -2790,8 +2790,8 @@
   "pokemon.fuecoco.ambient": {
     "sounds": [ "cobblemon:pokemon/fuecoco/fuecoco_ambient" ]
   },
-  "pokemon.crocalar.ambient": {
-    "sounds": [ "cobblemon:pokemon/crocalar/crocalar_ambient" ]
+  "pokemon.crocalor.ambient": {
+    "sounds": [ "cobblemon:pokemon/crocalor/crocalor_ambient" ]
   },
   "pokemon.skeledirge.ambient": {
     "sounds": [ "cobblemon:pokemon/skeledirge/skeledirge_ambient" ]
@@ -5820,8 +5820,8 @@
   "pokemon.fuecoco.cry": {
     "sounds": [ "cobblemon:pokemon/fuecoco/fuecoco_cry" ]
   },
-  "pokemon.crocalar.cry": {
-    "sounds": [ "cobblemon:pokemon/crocalar/crocalar_cry" ]
+  "pokemon.crocalor.cry": {
+    "sounds": [ "cobblemon:pokemon/crocalor/crocalor_cry" ]
   },
   "pokemon.skeledirge.cry": {
     "sounds": [ "cobblemon:pokemon/skeledirge/skeledirge_cry" ]
