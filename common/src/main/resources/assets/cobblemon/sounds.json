@@ -3327,6 +3327,12 @@
   "pokemon.rapidash.cry": {
     "sounds": [ "cobblemon:pokemon/rapidash/rapidash_cry" ]
   },
+  "pokemon.ponyta_galar.cry": {
+    "sounds": [ "cobblemon:pokemon/ponyta/galarian_ponyta_cry" ]
+  },
+  "pokemon.rapidash_galar.cry": {
+    "sounds": [ "cobblemon:pokemon/rapidash/galarian_rapidash_cry" ]
+  },
   "pokemon.slowpoke.cry": {
     "sounds": [ "cobblemon:pokemon/slowpoke/slowpoke_cry" ]
   },
@@ -3341,6 +3347,9 @@
   },
   "pokemon.farfetchd.cry": {
     "sounds": [ "cobblemon:pokemon/farfetchd/farfetchd_cry" ]
+  },
+  "pokemon.farfetchd_galar.cry": {
+    "sounds": [ "cobblemon:pokemon/farfetchd/galarian_farfetchd_cry" ]
   },
   "pokemon.doduo.cry": {
     "sounds": [ "cobblemon:pokemon/doduo/doduo_cry" ]
@@ -3401,6 +3410,9 @@
   },
   "pokemon.exeggutor.cry": {
     "sounds": [ "cobblemon:pokemon/exeggutor/exeggutor_cry" ]
+  },
+  "pokemon.exeggutor_alolan.cry": {
+    "sounds": [ "cobblemon:pokemon/exeggutor/alolan_exeggutor_cry" ]
   },
   "pokemon.cubone.cry": {
     "sounds": [ "cobblemon:pokemon/cubone/cubone_cry" ]

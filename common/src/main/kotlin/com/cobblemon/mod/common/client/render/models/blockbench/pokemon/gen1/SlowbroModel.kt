@@ -50,7 +50,7 @@ class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "walk",
             poseType = PoseType.WALK,
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.7F),
+                BipedWalkAnimation(this),
                 singleBoneLook(),
                 bedrock("slowbro", "ground_idle")
                 //bedrock("slowbro", "ground_walk")
@@ -71,6 +71,7 @@ class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseType = PoseType.SWIM,
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                BipedWalkAnimation(this),
                 bedrock("slowbro", "water_swim")
             )
         )

@@ -34,7 +34,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("arrokuda", "blink").setPreventsIdle(false)}
-        val flop = quirk("flop") { bedrockStateful("arrokuda", "ground_quirk").setPreventsIdle(true)}
+        val flop = quirk("flop") { bedrockStateful("arrokuda", "ground_quirk").setPreventsIdle(false)}
 
         sleep = registerPose(
             poseName = "sleeping",
@@ -52,7 +52,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, flop),
@@ -64,7 +64,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             transformTicks = 10,
-            poseTypes = PoseType.MOVING_POSES,
+            poseType = PoseType.WALK,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("arrokuda", "ground_walk")
@@ -74,7 +74,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
         floating = registerPose(
             poseName = "floating",
             transformTicks = 10,
-            poseTypes = PoseType.UI_POSES + PoseType.FLOAT,
+            poseType = PoseType.FLOAT,
             idleAnimations = arrayOf(
                 bedrock("arrokuda", "water_idle")
             )

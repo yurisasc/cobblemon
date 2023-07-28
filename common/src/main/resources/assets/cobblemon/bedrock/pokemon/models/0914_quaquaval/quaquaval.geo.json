@@ -704,7 +704,7 @@
 				{
 					"name": "water_feather",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, -12],
+					"pivot": [0, 0.5, -12],
 					"cubes": [
 						{"origin": [-3.5, 0, -12], "size": [7, 13, 0], "uv": [14, 85]}
 					]
@@ -712,7 +712,7 @@
 				{
 					"name": "water_feather2",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, -10],
+					"pivot": [0, 0.5, -10],
 					"cubes": [
 						{"origin": [-3.5, 0, -10], "size": [7, 13, 0], "uv": [84, 73]}
 					]
@@ -720,7 +720,7 @@
 				{
 					"name": "water_feather3",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, -8],
+					"pivot": [0, 0.5, -8],
 					"cubes": [
 						{"origin": [-3.5, 0, -8], "size": [7, 13, 0], "uv": [79, 5]}
 					]
@@ -728,7 +728,7 @@
 				{
 					"name": "water_feather4",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, -6],
+					"pivot": [0, 0.5, -6],
 					"cubes": [
 						{"origin": [-3.5, 0, -6], "size": [7, 13, 0], "uv": [78, 21]}
 					]
@@ -736,7 +736,7 @@
 				{
 					"name": "water_feather5",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, -4],
+					"pivot": [0, 0.5, -4],
 					"cubes": [
 						{"origin": [-3.5, 0, -4], "size": [7, 13, 0], "uv": [0, 78]}
 					]
@@ -744,7 +744,7 @@
 				{
 					"name": "water_feather6",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, -2],
+					"pivot": [0, 0.5, -2],
 					"cubes": [
 						{"origin": [-3.5, 0, -2], "size": [7, 13, 0], "uv": [75, 60]}
 					]
@@ -752,7 +752,7 @@
 				{
 					"name": "water_feather7",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, 0],
+					"pivot": [0, 0.5, 0],
 					"cubes": [
 						{"origin": [-3.5, 0, 0], "size": [7, 13, 0], "uv": [70, 73]}
 					]
@@ -760,7 +760,7 @@
 				{
 					"name": "water_feather8",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, 2],
+					"pivot": [0, 0.5, 2],
 					"cubes": [
 						{"origin": [-3.5, 0, 2], "size": [7, 13, 0], "uv": [56, 73]}
 					]
@@ -768,7 +768,7 @@
 				{
 					"name": "water_feather9",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, 4],
+					"pivot": [0, 0.5, 4],
 					"cubes": [
 						{"origin": [-3.5, 0, 4], "size": [7, 13, 0], "uv": [42, 73]}
 					]
@@ -776,7 +776,7 @@
 				{
 					"name": "water_feather10",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, 6],
+					"pivot": [0, 0.5, 6],
 					"cubes": [
 						{"origin": [-3.5, 0, 6], "size": [7, 13, 0], "uv": [72, 47]}
 					]
@@ -784,7 +784,7 @@
 				{
 					"name": "water_feather11",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, 8],
+					"pivot": [0, 0.5, 8],
 					"cubes": [
 						{"origin": [-3.5, 0, 8], "size": [7, 13, 0], "uv": [28, 72]}
 					]
@@ -792,7 +792,7 @@
 				{
 					"name": "water_feather12",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, 10],
+					"pivot": [0, 0.5, 10],
 					"cubes": [
 						{"origin": [-3.5, 0, 10], "size": [7, 13, 0], "uv": [14, 72]}
 					]
@@ -800,7 +800,7 @@
 				{
 					"name": "water_feather13",
 					"parent": "water_feathers",
-					"pivot": [0, 6.5, 12],
+					"pivot": [0, 0.5, 12],
 					"cubes": [
 						{"origin": [-3.5, 0, 12], "size": [7, 13, 0], "uv": [0, 65]}
 					]

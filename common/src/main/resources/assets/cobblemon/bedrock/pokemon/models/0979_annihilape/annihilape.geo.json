@@ -6,7 +6,7 @@
 				"identifier": "geometry.annihilape",
 				"texture_width": 128,
 				"texture_height": 64,
-				"visible_bounds_width": 5,
+				"visible_bounds_width": 3,
 				"visible_bounds_height": 3.5,
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
@@ -26,9 +26,16 @@
 					"pivot": [0, 9, 1.5],
 					"cubes": [
 						{"origin": [-5.5, 8, -5], "size": [11, 11, 10], "uv": [0, 0]},
-						{"origin": [-1.5, 13.5, -6], "size": [3, 2, 1], "uv": [48, 0]},
 						{"origin": [0.75, 16.25, -5.03], "size": [2, 2, 0], "inflate": 0.01, "pivot": [2, 17, -5.03], "rotation": [0, 0, 15], "uv": [0, 0]},
 						{"origin": [-4.5, 16.5, -5.03], "size": [2, 2, 0], "inflate": 0.01, "pivot": [-3, 17, -5.03], "rotation": [0, 0, -45], "uv": [0, 2], "mirror": true}
+					]
+				},
+				{
+					"name": "nose",
+					"parent": "torso",
+					"pivot": [0, 14.5, -5],
+					"cubes": [
+						{"origin": [-1.5, 13.5, -6], "size": [3, 2, 1], "uv": [48, 0]}
 					]
 				},
 				{
@@ -559,8 +566,13 @@
 					]
 				},
 				{
-					"name": "floating_hair",
+					"name": "floating_hair_root",
 					"parent": "torso",
+					"pivot": [0, 19, -2]
+				},
+				{
+					"name": "floating_hair",
+					"parent": "floating_hair_root",
 					"pivot": [0, 32.5, -6.5],
 					"cubes": [
 						{"origin": [0, 32.5, -7.5], "size": [0, 3, 2], "uv": [100, -2]}
@@ -575,8 +587,13 @@
 					]
 				},
 				{
-					"name": "floating_hair_left",
+					"name": "floating_hair_left_root",
 					"parent": "torso",
+					"pivot": [0, 19, -2]
+				},
+				{
+					"name": "floating_hair_left",
+					"parent": "floating_hair_left_root",
 					"pivot": [7, 32.5, -2.5],
 					"rotation": [0, 0, 20],
 					"cubes": [
@@ -592,8 +609,13 @@
 					]
 				},
 				{
-					"name": "floating_hair_right",
+					"name": "floating_hair_right_root",
 					"parent": "torso",
+					"pivot": [0, 19, -2]
+				},
+				{
+					"name": "floating_hair_right",
+					"parent": "floating_hair_right_root",
 					"pivot": [-7, 32.5, -2.5],
 					"rotation": [0, 0, -20],
 					"cubes": [

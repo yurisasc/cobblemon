@@ -2196,7 +2196,7 @@
 			},
 			"sound_effects": {
 				"0.1667": {
-					"effect": "rapidash_ambient"
+					"effect": "pokemon.rapidash.cry"
 				}
 			}
 		}

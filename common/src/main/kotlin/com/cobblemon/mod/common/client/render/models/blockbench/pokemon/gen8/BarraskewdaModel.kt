@@ -52,7 +52,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPoseableModel() {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.UI_POSES + PoseType.STAND,
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
@@ -63,7 +63,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPoseableModel() {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+            poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -73,7 +73,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPoseableModel() {
 
         floating = registerPose(
             poseName = "floating",
-            poseTypes = PoseType.UI_POSES + PoseType.FLOAT,
+            poseType = PoseType.FLOAT,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("barraskewda", "water_idle")
