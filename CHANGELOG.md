@@ -8,13 +8,6 @@
 - Added big roots, generating from cave ceiling dirt and sometimes spreading into energy roots.
 - Added trading between players. Press R while looking at another player, you'll figure it out.
 - Added pasture blocks, used to let your PC Pokémon roam around your base.
-- Added the `/teststore <player> <store> <properties>` command allowing command block/mcfunction users to query a party, PC or both for Pokémon matching specific properties and returning the match count, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.teststore` if a permission mod is present.
-- Added the `/querylearnset <player> <slot> <move>` command allowing command block/mcfunction users to query a party slot and check if the Pokémon can learn a specific move returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.querylearnset` if a permission mod is present.
-- Added the `/testpcslot <player> <slot> <properties>` command allowing command block/mcfunction users to query a pc slot and check if the Pokémon matches specific properties returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.testpcslot` if a permission mod is present.
-- Added the `/testpartyslot <player> <slot> <properties>` command allowing command block/mcfunction users to query a party slot and check if the Pokémon matches a specific properties returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.testpartyslot` if a permission mod is present.
-- Added the `/clearparty <player>` command for emptying a player's party.
-- Added support for "isBattle" and "isTouchingWater" properties on resource pack Pokémon poses. This allows your custom Pokémon to be posed differently when in battle.
-- Added support for "isVisible" on a transformed part on resource pack Pokémon poses. This allows your custom Pokémon to have bones disappear in specific poses, such as hiding Greninja's throwing star when not in a battle pose.
 - Added support for scale in animations.
 - Added support for jump keyframes (i.e. pre and post keyframes)
 - Made Nosepass point towards world spawn while idle.
@@ -23,13 +16,19 @@
 - Added cries for Gen 1-9 starters and their evolutions.
 - Added cries for Caterpie, Metapod,  Butterfree, Weedle, Kakuna, Beedrill, Pidgey, Pidgeotto, Pidgeot, Rattata, Raticate, Clefairy, Clefable, Tauros, Eevee, Vaporeon, Flareon, Jolteon, 
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
-- Added loot table for Revival Herb plant
-- Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
 - Added a shoulder mount for Mimikyu
 - Added Advancement trigger for defeating Pokémon and collecting varieties of Pokémon.
 - Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
 - Added flying placeholder animations to Pidgey, Pidgeotto, Pidgeot, Golbat, Crobat, Scyther, Scizor, Zapdos, Moltres, Articuno, Dragonite, Rowlet, Dartrix, and Decidueye.
 - Added loot to various vanilla chest loot tables (Link Cable in Ancient Cities, Woodland Mansions, End Cities, and Igloos, Vivichoke Seeds in Jungle Temples, Dungeons, and Plains, Savanna, Snowy, and Taiga Villages, and all 7 Apricorn Sprouts in Desert, Plains, Savanna, Snowy, and Taiga Villages, as well as the Bonus Chest)
+- Added the `/teststore <player> <store> <properties>` command allowing command block/mcfunction users to query a party, PC or both for Pokémon matching specific properties and returning the match count, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.teststore` if a permission mod is present.
+- Added the `/querylearnset <player> <slot> <move>` command allowing command block/mcfunction users to query a party slot and check if the Pokémon can learn a specific move returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.querylearnset` if a permission mod is present.
+- Added the `/testpcslot <player> <slot> <properties>` command allowing command block/mcfunction users to query a pc slot and check if the Pokémon matches specific properties returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.testpcslot` if a permission mod is present.
+- Added the `/testpartyslot <player> <slot> <properties>` command allowing command block/mcfunction users to query a party slot and check if the Pokémon matches a specific properties returning a 1 if yes otherwise 0, this will be a cheat command in the Minecraft permission system or use the permission `cobblemon.command.testpartyslot` if a permission mod is present.
+- Added the `/clearparty <player>` command for emptying a player's party.
+- Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
+- Added support for "isBattle" and "isTouchingWater" properties on resource pack Pokémon poses. This allows your custom Pokémon to be posed differently when in battle.
+- Added support for "isVisible" on a transformed part on resource pack Pokémon poses. This allows your custom Pokémon to have bones disappear in specific poses, such as hiding Greninja's throwing star when not in a battle pose.
 - Added animations for Wailord.
 
 ### Pokémon Added
@@ -219,10 +218,11 @@
 - Hardcoded potion shoulder effects have been removed, you can now use any potion vanilla or otherwise with the parameters you'd like, for more information see the [Datapack & Resourcepack Creators](#datapack-&-resourcepack-creators) section.
 - Clicking categories of the Stat sub-section or the party reorder button in the Summary screen will now produce a click sound.
 - Updated PC Recipe.
+- Improved Pokémon AI and movement.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
-- Fixed messages for entry hazards, screens, Tailwind, Perish Song, Destiny Bond, Shed Skin, Uproar, Forewarn, Disguise, Arena Trap and Yawn
+- Fixed messages for entry hazards, screens, Tailwind, Perish Song, Destiny Bond, Shed Skin, Uproar, Forewarn, Disguise, Arena Trap, Yawn, Curse, Clamp, Whirlpool, Liquid Ooze, Miracle Eye and Safeguard.
 - Fixed Porygon not evolving with an Upgrade.
 - Fixed super sized Pumpkaboo not having any moves.
 - Fixed Infernape look animation.
@@ -249,6 +249,7 @@
 - Fixed Pokémon variants and layers not rendering correctly when shouldered and playing on a dedicated server, existing shoulders affected will need to be retrieved and shouldered again.
 - Shoulder effects will now stay applied through situations that remove potion effects such as drinking milk.
 - Fixed Shedninja evolving to use the consumed Pokeball and removed the held item.
+- Fixed non-existent species in spawn pool file causing random species to spawn
 
 ### Developer
 - Added SpawnEvent

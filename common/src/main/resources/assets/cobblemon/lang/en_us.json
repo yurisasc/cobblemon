@@ -537,6 +537,8 @@
   "cobblemon.battle.start.attract": "%1$s fell in love!",
   "cobblemon.battle.start.focusenergy": "%1$s is getting pumped!",
   "cobblemon.battle.start.uproar": "%1$s caused an uproar!",
+  "cobblemon.battle.start.curse": "%1$s cut its own HP and put a curse on %2$s!",
+  "cobblemon.battle.start.miracleeye": "%1$s was identified!",
 
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.fieldstart.grassyterrain": "Grass grew to cover the battlefield!",
@@ -570,6 +572,7 @@
   "cobblemon.battle.sidestart.lightscreen": "Light Screen made %1$s team stronger against special moves!",
   "cobblemon.battle.sidestart.auroraveil": "Aurora Veil made %1$s team stronger against physical and special moves!",
   "cobblemon.battle.sidestart.tailwind": "The Tailwind blew from behind %1$s team!",
+  "cobblemon.battle.sidestart.safeguard": "%1$s's team cloaked itself in a mystical veil!",
 
   "cobblemon.battle.sideend.stealthrock": "The pointed stones disappeared from around %1$s team!",
   "cobblemon.battle.sideend.spikes": "The spikes disappeared from the ground around %1$s team!",
@@ -579,6 +582,7 @@
   "cobblemon.battle.sideend.lightscreen": "%1$s team's Light Screen wore off!",
   "cobblemon.battle.sideend.auroraveil": "%1$s team's Aurora Veil wore off!",
   "cobblemon.battle.sideend.tailwind": "%1$s team's Tailwind petered out!",
+  "cobblemon.battle.sideend.safeguard": "%1$s's team is no longer protected by Safeguard!",
 
   "cobblemon.battle.cant.generic": "%1$s can't use %2$s!",
   "cobblemon.battle.cant.truant": "%1$s is loafing around!",
@@ -622,6 +626,9 @@
   "cobblemon.battle.activate.focusband": "%1$s hung on using its %2$s!",
   "cobblemon.battle.activate.forewarn": "%1$s's %2$s was revealed!",
   "cobblemon.battle.activate.disguise": "It's disguise served it as a decoy!",
+  "cobblemon.battle.activate.liquidooze": "%1$s sucked up the liquid ooze!",
+  "cobblemon.battle.activate.whirlpool": "%1$s became trapped in the vortex!",
+  "cobblemon.battle.activate.clamp": "%2$s clamped down on %1$s!",
 
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
@@ -679,6 +686,9 @@
   "cobblemon.battle.damage.rockyhelmet": "%1$s was hurt by %2$s's Rocky Helmet!",
   "cobblemon.battle.damage.generic": "%1$s was hurt!",
   "cobblemon.battle.damage.pokemonmimikyubusted": "%1$s's disguise was busted!",
+  "cobblemon.battle.damage.whirlpool": "%1$s was hurt by Whirlpool!",
+  "cobblemon.battle.damage.clamp": "%1$s was hurt by Clamp!",
+  "cobblemon.battle.damage.curse": "%1$s was afflicted by the curse!",
 
   "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
   "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
@@ -688,6 +698,8 @@
   "cobblemon.battle.end.firespin": "%1$s was freed from Fire Spin!",
   "cobblemon.battle.end.bide": "%1$s unleashed its energy!",
   "cobblemon.battle.end.confusion": "%1$s snapped out of its confusion!",
+  "cobblemon.battle.end.whirlpool": "%1$s was freed from the vortex!",
+  "cobblemon.battle.end.clamp": "%1$s was freed from Clamp!",
 
   "cobblemon.battle.sethp.painsplit": "The battlers shared their pain!",
 

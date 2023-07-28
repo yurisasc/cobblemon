@@ -9,9 +9,9 @@
 package com.cobblemon.mod.common.api.storage.player.adapter
 
 import com.cobblemon.mod.common.api.storage.player.PlayerData
-import java.util.UUID
+import java.util.*
 
-interface PlayerDataFileStoreAdapter {
+interface PlayerDataStoreAdapter {
     fun load(uuid: UUID): PlayerData
     fun save(playerData: PlayerData)
 }
