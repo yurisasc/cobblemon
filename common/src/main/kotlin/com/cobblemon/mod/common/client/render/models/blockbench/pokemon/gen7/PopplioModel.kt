@@ -9,9 +9,12 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -34,6 +37,12 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
+    lateinit var shoulderLeft: PokemonPose
+    lateinit var shoulderRight: PokemonPose
+
+    val shoulderOffset = 1
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("popplio", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("popplio", "blink").setPreventsIdle(false) }
@@ -48,8 +57,8 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
-                    singleBoneLook(),
-                    bedrock("popplio", "ground_idle")
+                singleBoneLook(),
+                bedrock("popplio", "ground_idle")
             )
         )
 
@@ -59,8 +68,8 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
-                    singleBoneLook(),
-                    bedrock("popplio", "ground_walk")
+                singleBoneLook(),
+                bedrock("popplio", "ground_walk")
             )
         )
 
@@ -69,8 +78,8 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                    singleBoneLook(),
-                    bedrock("popplio", "water_idle")
+                singleBoneLook(),
+                bedrock("popplio", "water_idle")
             )
         )
 
@@ -79,8 +88,8 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                    singleBoneLook(),
-                    bedrock("popplio", "water_swim")
+                singleBoneLook(),
+                bedrock("popplio", "water_swim")
             )
         )
 
@@ -94,7 +103,30 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("popplio", "battle_idle")
             )
+        )
 
+        shoulderLeft = registerPose(
+            poseType = PoseType.SHOULDER_LEFT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("popplio", "shoulder_left")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+            )
+        )
+
+        shoulderRight = registerPose(
+            poseType = PoseType.SHOULDER_RIGHT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("popplio", "shoulder_right")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+            )
         )
     }
 

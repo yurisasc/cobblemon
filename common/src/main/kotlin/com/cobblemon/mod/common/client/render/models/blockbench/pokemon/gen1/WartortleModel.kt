@@ -38,7 +38,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftEarJoint = EarJoint(leftEar, TransformedModelPart.Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
     override val rightEarJoint = EarJoint(rightEar, TransformedModelPart.Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
-    override val portraitScale = 2.2F
+    override val portraitScale = 2.0F
     override val portraitTranslation = Vec3d(-0.3, 0.44, 0.0)
 
     override val profileScale = 0.7F

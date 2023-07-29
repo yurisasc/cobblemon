@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
@@ -66,77 +67,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeot", "ground_idle"),
-                rootPart.translation(
-                    function = parabolaFunction(
-                        peak = -4F,
-                        period = 0.4F
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Y_AXIS
-                ),
-                head.translation(
-                    function = sineFunction(
-                        amplitude = (-20F).toRadians(),
-                        period = 1F,
-                        verticalShift = (-10F).toRadians()
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { state, _, _ -> state?.animationSeconds }
-                ),
-                leftLeg.rotation(
-                    function = parabolaFunction(
-                        tightness = -20F,
-                        phaseShift = 0F,
-                        verticalShift = (30F).toRadians()
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                rightLeg.rotation(
-                    function = parabolaFunction(
-                        tightness = -20F,
-                        phaseShift = 0F,
-                        verticalShift = (30F).toRadians()
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                tail.rotation(
-                    function = sineFunction(
-                        amplitude = (-5F).toRadians(),
-                        period = 1F
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                wingFlap(
-                    flapFunction = sineFunction(
-                        amplitude = (-5F).toRadians(),
-                        period = 0.4F,
-                        phaseShift = 0.00F,
-                        verticalShift = (-20F).toRadians()
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Z_AXIS
-                ),
-                rightWing.translation(
-                    function = parabolaFunction(
-                        tightness = -10F,
-                        phaseShift = 30F,
-                        verticalShift = (25F).toRadians()
-                    ),
-                    axis = TransformedModelPart.Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                leftWing.translation(
-                    function = parabolaFunction(
-                        tightness = -10F,
-                        phaseShift = 30F,
-                        verticalShift = (25F).toRadians()
-                    ),
-                    axis = TransformedModelPart.Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
+                BipedWalkAnimation(this)
             )
         )
 

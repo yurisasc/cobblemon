@@ -6,18 +6,18 @@
 				"identifier": "geometry.ambipom_female",
 				"texture_width": 128,
 				"texture_height": 128,
-				"visible_bounds_width": 5,
+				"visible_bounds_width": 8,
 				"visible_bounds_height": 4.5,
 				"visible_bounds_offset": [0, 1.75, 0]
 			},
 			"bones": [
 				{
-					"name": "aipom",
+					"name": "ambipom",
 					"pivot": [0, -1, 0]
 				},
 				{
 					"name": "body",
-					"parent": "aipom",
+					"parent": "ambipom",
 					"pivot": [0, -1, 0]
 				},
 				{

@@ -35,7 +35,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 2.2F
+    override val portraitScale = 1.9F
     override val portraitTranslation = Vec3d(-0.5, 1.4, 0.0)
 
     override val profileScale = 0.55F
