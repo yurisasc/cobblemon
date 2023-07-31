@@ -194,6 +194,7 @@ open class Pokemon : ShowdownIdentifiable {
 
             if (value <= 0) {
                 entity?.health = 0F
+                status = null
             }
             field = max(min(hp, value), 0)
             _currentHealth.emit(field)
@@ -466,6 +467,10 @@ open class Pokemon : ShowdownIdentifiable {
         this.healTimer = -1
         val entity = entity
         entity?.heal(entity.maxHealth - entity.health)
+    }
+
+    fun isFullHealth(): Boolean {
+        return this.currentHealth == this.hp
     }
 
     fun didSleep() {

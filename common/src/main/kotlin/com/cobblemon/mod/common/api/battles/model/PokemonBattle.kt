@@ -34,8 +34,8 @@ import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
@@ -49,6 +49,7 @@ import net.minecraft.text.Text
 import java.io.File
 import kotlin.io.path.Path
 import kotlin.io.path.writeLines
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Individual battle instance
@@ -150,6 +151,11 @@ open class PokemonBattle(
     }
 
     /**
+     * Gets the first battle actor whom the given player controls, or null if there is no such actor.
+     */
+    fun getActor(player: ServerPlayerEntity) = actors.firstOrNull { it.isForPlayer(player) }
+
+    /**
      * Gets a BattleActor and an [ActiveBattlePokemon] from a pnx key, e.g. p2a
      *
      * Returns null if either the pn or x is invalid.
@@ -181,7 +187,7 @@ open class PokemonBattle(
 
     fun writeShowdownAction(vararg messages: String) {
         log(messages.joinToString("\n"))
-        ShowdownService.get().send(battleId, messages.toList().toTypedArray())
+        ShowdownService.service.send(battleId, messages.toList().toTypedArray())
     }
 
     fun turn(newTurnNumber: Int) {

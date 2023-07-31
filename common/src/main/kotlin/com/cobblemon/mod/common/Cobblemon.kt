@@ -54,6 +54,7 @@ import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
+import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
@@ -301,7 +302,7 @@ object Cobblemon {
             }
         }
 
-        PokemonSpecies.observable.subscribe {
+        BagItems.observable.subscribe {
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
             battleRegistry.startBattle(
                 BattleFormat.GEN_9_SINGLES,
