@@ -29,12 +29,13 @@ import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleTypes
+import com.cobblemon.mod.common.battles.ForcePassActionResponse
 import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyCaptureResponsePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyPassResponsePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
@@ -192,29 +193,23 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
                         return drop()
                     }
 
-                    val request = throwerActor.request?.takeIf { throwerActor.mustChoose } ?: run {
+                    val canFitForcedAction = throwerActor.canFitForcedAction()
+                    if (!canFitForcedAction) {
                         owner.sendMessage(lang("capture.not_your_turn").red())
                         return drop()
                     }
 
-                    val countMovable = (request.active?.count() ?: 0) - request.forceSwitch.count { it }
-                    if (countMovable > throwerActor.expectingCaptureActions) {
-                        throwerActor.expectingCaptureActions++
-                        battle.captureActions.add(BattleCaptureAction(battle, hitBattlePokemon, this).also { it.attach() })
-                        battle.broadcastChatMessage(
-                            lang(
-                                "capture.attempted_capture",
-                                throwerActor.getName(),
-                                pokeBall.item().name,
-                                pokemonEntity.pokemon.species.translatedName
-                            ).yellow()
-                        )
-                        battle.sendUpdate(BattleCaptureStartPacket(pokeBall.name, aspects.get(), hitBattlePokemon.getPNX()))
-                        throwerActor.sendUpdate(BattleApplyCaptureResponsePacket())
-                    } else {
-                        owner.sendMessage(lang("capture.not_your_turn").red())
-                        return drop()
-                    }
+                    battle.captureActions.add(BattleCaptureAction(battle, hitBattlePokemon, this).also { it.attach() })
+                    battle.broadcastChatMessage(
+                        lang(
+                            "capture.attempted_capture",
+                            throwerActor.getName(),
+                            pokeBall.item().name,
+                            pokemonEntity.pokemon.species.translatedName
+                        ).yellow()
+                    )
+                    battle.sendUpdate(BattleCaptureStartPacket(pokeBall.name, aspects.get(), hitBattlePokemon.getPNX()))
+                    throwerActor.forceChoose(ForcePassActionResponse())
                 } else if (pokemonEntity.isBusy) {
                     owner?.sendMessage(lang("capture.busy", pokemonEntity.pokemon.species.translatedName).red())
                     return drop()

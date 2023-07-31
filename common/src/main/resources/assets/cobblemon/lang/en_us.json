@@ -102,6 +102,11 @@
   "item.cobblemon.iron": "Iron",
   "item.cobblemon.protein": "Protein",
   "item.cobblemon.zinc": "Zinc",
+  "item.cobblemon.potion": "Potion",
+  "item.cobblemon.super_potion": "Super Potion",
+  "item.cobblemon.hyper_potion": "Hyper Potion",
+  "item.cobblemon.max_potion": "Max Potion",
+  "item.cobblemon.full_restore": "Full Restore",
 
   "item.cobblemon.red_mint_leaf": "Red Mint Leaf",
   "item.cobblemon.red_mint_leaf.tooltip": "Capable of influencing a Pokémon's attack stat",
@@ -234,11 +239,25 @@
   "item.cobblemon.pp_max": "PP Max",
 
   "item.cobblemon.x_attack": "X Attack",
-  "item.cobblemon.x_defense": "X Defense",
+  "item.cobblemon.x_defence": "X Defense",
   "item.cobblemon.x_accuracy": "X Accuracy",
   "item.cobblemon.x_speed": "X Speed",
-  "item.cobblemon.x_sp_def": "X Special Defense",
-  "item.cobblemon.x_sp_atk": "X Special Attack",
+  "item.cobblemon.x_special_defence": "X Special Defense",
+  "item.cobblemon.x_special_attack": "X Special Attack",
+  "item.cobblemon.dire_hit": "Dire Hit",
+  "item.cobblemon.guard_spec": "Guard Spec",
+
+  "item.cobblemon.full_heal": "Full Heal",
+  "item.cobblemon.antidote": "Antidote",
+  "item.cobblemon.awakening": "Awakening",
+  "item.cobblemon.burn_heal": "Burn Heal",
+  "item.cobblemon.ice_heal": "Ice Heal",
+  "item.cobblemon.paralyze_heal": "Paralyze Heal",
+
+  "item.cobblemon.ether": "Ether",
+  "item.cobblemon.max_ether": "Max Ether",
+  "item.cobblemon.elixir": "Elixir",
+  "item.cobblemon.max_elixir": "Max Elixir",
 
   "itemGroup.cobblemon.blocks": "Blocks",
   "itemGroup.cobblemon.pokeball": "Poké Balls",
@@ -757,8 +776,14 @@
   "cobblemon.battle.heal.item": "%1$s restored HP using its %2$s!",
   "cobblemon.battle.heal.raindish": "%1$s restored HP from Rain Dish!",
   "cobblemon.battle.heal.generic": "%1$s restored its HP.",
+  "cobblemon.battle.heal.bagitempotion": "It restored %1$s's HP",
 
   "cobblemon.battle.curestatus.naturalcure": "%1$s is cured by its Natural Cure!",
+
+
+  "cobblemon.battle.bagitem.use": "%1$s used a %2$s on %3$s!",
+  "cobblemon.battle.bagitem.cannot": "You cannot use items right now.",
+  "cobblemon.battle.bagitem.invalid": "This item would not work.",
 
   "cobblemon.experience.gained": "%1$s received %2$s experience.",
   "cobblemon.experience.level_up": "%1$s is now level %2$s!",

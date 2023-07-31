@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -52,6 +54,16 @@ fun ServerPlayerEntity.didSleep(): Boolean {
 }
 
 fun ServerPlayerEntity.isInBattle() = BattleRegistry.getBattleByParticipatingPlayer(this) != null
+fun ServerPlayerEntity.getBattleState(): Pair<PokemonBattle, BattleActor>? {
+    val battle = BattleRegistry.getBattleByParticipatingPlayer(this)
+    if (battle != null) {
+        val actor = battle.getActor(this)
+        if (actor != null) {
+            return battle to actor
+        }
+    }
+    return null
+}
 
 // TODO Player extension for queueing next login?
 class TraceResult(
@@ -249,3 +261,4 @@ fun PlayerEntity.giveOrDropItemStack(stack: ItemStack, playSound: Boolean = true
         }
     }
 }
+

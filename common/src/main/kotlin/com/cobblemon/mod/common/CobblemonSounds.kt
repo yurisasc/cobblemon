@@ -68,7 +68,13 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val PVW_BATTLE = this.create("battle.pvw.default")
 
     @JvmField
-    val MINT_USE = this.create("mint.use")
+    val MEDICINE_HERB_USE = this.create("medicine_herb.use")
+    @JvmField
+    val MEDICINE_LIQUID_USE = this.create("medicine_liquid.use")
+    @JvmField
+    val MEDICINE_PILLS_USE = this.create("medicine_pills.use")
+    @JvmField
+    val MEDICINE_SPRAY_USE = this.create("medicine_spray.use")
 
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))

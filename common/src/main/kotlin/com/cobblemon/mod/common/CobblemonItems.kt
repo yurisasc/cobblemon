@@ -11,22 +11,23 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.block.MintBlock.MintType
 import com.cobblemon.mod.common.item.*
-import com.cobblemon.mod.common.item.group.CobblemonItemGroups
-import com.cobblemon.mod.common.item.interactive.CandyItem
-import com.cobblemon.mod.common.item.interactive.EnergyRoot
-import com.cobblemon.mod.common.item.interactive.LinkCableItem
-import com.cobblemon.mod.common.item.interactive.MintItem
-import com.cobblemon.mod.common.item.interactive.RemedyItem
-import com.cobblemon.mod.common.item.interactive.VitaminItem
+import com.cobblemon.mod.common.item.battle.DireHitItem
+import com.cobblemon.mod.common.item.battle.GuardSpecItem
+import com.cobblemon.mod.common.item.battle.XStatItem
 import com.cobblemon.mod.common.item.interactive.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import net.minecraft.block.Block
 import net.minecraft.block.ComposterBlock
-import net.minecraft.item.*
+import net.minecraft.item.BlockItem
+import net.minecraft.item.FoodComponent
+import net.minecraft.item.Item
+import net.minecraft.item.Items
+import net.minecraft.item.StewItem
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -267,18 +268,30 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val FINE_REMEDY = create("fine_remedy", RemedyItem(RemedyItem.FINE))
     @JvmField
     val SUPERB_REMEDY = create("superb_remedy", RemedyItem(RemedyItem.SUPERB))
+
     @JvmField
-    val HEAL_POWDER = create("heal_powder", Item(Item.Settings()))
+    val POTION = create("potion", PotionItem(PotionType.POTION))
+    @JvmField
+    val SUPER_POTION = create("super_potion", PotionItem(PotionType.SUPER_POTION))
+    @JvmField
+    val HYPER_POTION = create("hyper_potion", PotionItem(PotionType.HYPER_POTION))
+    @JvmField
+    val MAX_POTION = create("max_potion", PotionItem(PotionType.MAX_POTION))
+    @JvmField
+    val FULL_RESTORE = create("full_restore", PotionItem(PotionType.FULL_RESTORE))
+
+    @JvmField
+    val HEAL_POWDER = create("heal_powder", HealPowderItem())
     @JvmField
     val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(8).saturationModifier(0.6f).build())))
     @JvmField
-    val REVIVE = create("revive", Item(Item.Settings()))
+    val REVIVE = create("revive", ReviveItem(max = false))
     @JvmField
-    val MAX_REVIVE = create("max_revive", Item(Item.Settings()))
+    val MAX_REVIVE = create("max_revive", ReviveItem(max = true))
     @JvmField
-    val PP_UP = create("pp_up", Item(Item.Settings()))
+    val PP_UP = create("pp_up", PPUpItem(1))
     @JvmField
-    val PP_MAX = create("pp_max", Item(Item.Settings()))
+    val PP_MAX = create("pp_max", PPUpItem(3))
 
     @JvmField
     val RED_MINT_SEEDS = blockItem("red_mint_seeds", MintType.RED.getCropBlock())
@@ -348,12 +361,28 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val SERIOUS_MINT = create("serious_mint", MintItem(Natures.SERIOUS))
 
-    @JvmField val X_ACCURACY = create("x_accuracy", CobblemonItem(Item.Settings()))
-    @JvmField val X_ATTACK = create("x_attack", CobblemonItem(Item.Settings()))
-    @JvmField val X_DEFENSE = create("x_defense", CobblemonItem(Item.Settings()))
-    @JvmField val X_SP_ATK = create("x_sp_atk", CobblemonItem(Item.Settings()))
-    @JvmField val X_SP_DEF = create("x_sp_def", CobblemonItem(Item.Settings()))
-    @JvmField val X_SPEED = create("x_speed", CobblemonItem(Item.Settings()))
+    @JvmField val X_ACCURACY = create("x_${Stats.ACCURACY.identifier.path}", XStatItem(Stats.ACCURACY))
+    @JvmField val X_ATTACK = create("x_${Stats.ATTACK.identifier.path}", XStatItem(Stats.ATTACK))
+    @JvmField val X_DEFENSE = create("x_${Stats.DEFENCE.identifier.path}", XStatItem(Stats.DEFENCE))
+    @JvmField val X_SP_ATK = create("x_${Stats.SPECIAL_ATTACK.identifier.path}", XStatItem(Stats.SPECIAL_ATTACK))
+    @JvmField val X_SP_DEF = create("x_${Stats.SPECIAL_DEFENCE.identifier.path}", XStatItem(Stats.SPECIAL_DEFENCE))
+    @JvmField val X_SPEED = create("x_${Stats.SPEED.identifier.path}", XStatItem(Stats.SPEED))
+
+    @JvmField val DIRE_HIT = create("dire_hit", DireHitItem())
+    @JvmField val GUARD_SPEC = create("guard_spec", GuardSpecItem())
+
+    @JvmField val BURN_HEAL = create("burn_heal", StatusCureItem("item.cobblemon.burn_heal", Statuses.BURN))
+    @JvmField val PARALYZE_HEAL = create("paralyze_heal", StatusCureItem("item.cobblemon.paralyze_heal", Statuses.PARALYSIS))
+    @JvmField val ICE_HEAL = create("ice_heal", StatusCureItem("item.cobblemon.ice_heal", Statuses.FROZEN))
+    @JvmField val ANTIDOTE = create("antidote", StatusCureItem("item.cobblemon.antidote", Statuses.POISON, Statuses.POISON_BADLY))
+    @JvmField val AWAKENING = create("awakening", StatusCureItem("item.cobblemon.awakening", Statuses.SLEEP))
+
+    @JvmField val FULL_HEAL = create("full_heal", StatusCureItem("item.cobblemon.full_heal"))
+
+    @JvmField val ETHER = create("ether", EtherItem(max = false))
+    @JvmField val MAX_ETHER = create("max_ether", EtherItem(max = true))
+    @JvmField val ELIXIR = create("elixir", ElixirItem(max = false))
+    @JvmField val MAX_ELIXIR = create("max_elixir", ElixirItem(max = true))
 
     /**
      * Evolution Ores and Stones

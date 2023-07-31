@@ -115,12 +115,14 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         SpeciesAdditions.observable.subscribe {
             this.species.forEach(Species::initialize)
             this.species.forEach(Species::resolveEvolutionMoves)
-            Cobblemon.showdownThread.queue { ShowdownService.get().registerSpecies() }
-            // Reload this with the mod
-            CobblemonEmptyHeldItemManager.load()
-            CobblemonHeldItemManager.load()
-            Cobblemon.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
-            this.observable.emit(this)
+            Cobblemon.showdownThread.queue {
+                it.registerSpecies()
+                it.indicateSpeciesInitialized()
+                // Reload this with the mod
+                CobblemonHeldItemManager.load()
+                Cobblemon.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
+                this.observable.emit(this)
+            }
         }
     }
 
