@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import java.util.UUID
 
 /**
  * A class responsible for parsing a raw simulator protocol message received from Showdown.
@@ -25,7 +26,6 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
  * @since December 31st, 2022
  */
 class BattleMessage(rawMessage: String) {
-
     /**
      * The ID of the action received in the message.
      */
@@ -52,11 +52,6 @@ class BattleMessage(rawMessage: String) {
      * Pattern to match the start of an optional argument.
      */
     private val optionalArgumentMatcher = Regex("^\\$OPTIONAL_ARG_START([^]]+)$OPTIONAL_ARG_END")
-
-    /**
-     * Pattern to match a Showdown position.
-     */
-    private val pnxMatcher = Regex("p\\d[a-c]")
 
     init {
         this.parse(rawMessage)
@@ -122,6 +117,10 @@ class BattleMessage(rawMessage: String) {
         return this
     }
 
+    fun pokemonByUuid(index: Int, battle: PokemonBattle): BattlePokemon? {
+        return this.argumentAt(index)?.let { UUID.fromString(it) }?.let { uuid -> battle.actors.flatMap { it.pokemonList }.find { it.uuid == uuid } }
+    }
+
     /**
      * Queries an argument at the given [index] for a 'pnx' that will be parsed into a [BattleActor] and [ActiveBattlePokemon].
      *
@@ -165,11 +164,13 @@ class BattleMessage(rawMessage: String) {
      * @return A 'pnx' String representing position and a 'uuid' String representing the unique Pokemon if parsed correctly, otherwise null.
      */
     fun pnxAndUuid(index: Int): Pair<String, String>? {
-        val argument = this.argumentAt(index)?.takeIf { it.length >= 3 }?.split(":")?.takeIf { it.size == 2 } ?: return null
-        val pnx = argument[0].takeIf { it.matches(pnxMatcher) } ?: return null
+        val argument = this.argumentAt(index)?.takeIf { it.length >= 2 }?.split(":")?.takeIf { it.size == 2 } ?: return null
+        val pnx = argument[0].takeIf { it.matches(PNX_MATCHER) } ?: return null
         val uuid = argument[1].trim()
         return pnx to uuid
     }
+
+
 
     /**
      * Attempts to parse an [Effect] from an argument at the given [index].
@@ -238,6 +239,14 @@ class BattleMessage(rawMessage: String) {
         private const val OPTIONAL_ARG_START = "["
         private const val OPTIONAL_ARG_END = "]"
 
-    }
+        /**
+         * Pattern to match a Showdown position e.g. p2a, p1b
+         */
+        val PNX_MATCHER = Regex("p\\d[a-c]")
 
+        /**
+         * Pattern to match a Showdown side position e.g. p2, p1
+         */
+        val PN_MATCHER = Regex("p\\d")
+    }
 }

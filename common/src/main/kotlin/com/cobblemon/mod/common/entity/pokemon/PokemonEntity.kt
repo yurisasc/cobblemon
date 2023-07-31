@@ -27,8 +27,11 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
+import com.cobblemon.mod.common.battles.BagItemActionResponse
+import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
@@ -620,36 +623,53 @@ class PokemonEntity(
     override fun getMinAmbientSoundDelay() = Cobblemon.config.ambientPokemonCryTicks
 
     private fun attemptItemInteraction(player: PlayerEntity, stack: ItemStack): Boolean {
+        if (stack.isEmpty) {
+            return false
+        }
+
+        if (player is ServerPlayerEntity && isBattling) {
+            val battle = battleId.get().orElse(null)?.let(BattleRegistry::getBattle) ?: return false
+
+            val bagItemConvertible = BagItems.getConvertibleForStack(stack) ?: return false
+
+            val battlePokemon = battle.actors.flatMap { it.pokemonList }.find { it.effectedPokemon.uuid == pokemon.uuid } ?: return false // Shouldn't be possible but anyway
+            if (battlePokemon.actor.getSide().actors.none { it.isForPlayer(player)}) {
+                return true
+            }
+
+            return bagItemConvertible.handleInteraction(player, battlePokemon, stack)
+        }
         if (player !is ServerPlayerEntity || this.isBusy) {
             return false
         }
-        if (!stack.isEmpty) {
-            if (pokemon.getOwnerPlayer() == player) {
-                val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
-                pokemon.evolutions
-                    .filterIsInstance<ItemInteractionEvolution>()
-                    .forEach { evolution ->
-                        if (evolution.attemptEvolution(pokemon, context)) {
-                            if (!player.isCreative) {
-                                stack.decrement(1)
-                            }
-                            this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE, volume = 1F, pitch = 1F)
-                            return true
+
+        // Check evolution item interaction
+        if (pokemon.getOwnerPlayer() == player) {
+            val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
+            pokemon.evolutions
+                .filterIsInstance<ItemInteractionEvolution>()
+                .forEach { evolution ->
+                    if (evolution.attemptEvolution(pokemon, context)) {
+                        if (!player.isCreative) {
+                            stack.decrement(1)
                         }
+                        this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE, volume = 1F, pitch = 1F)
+                        return true
                     }
-            }
-            (stack.item as? PokemonInteractiveItem)?.let {
-                if (it.onInteraction(player, this, stack)) {
-                    it.getSound()?.let {
-                        this.world.playSoundServer(
-                            position = this.pos,
-                            sound = it,
-                            volume = 1F,
-                            pitch = 1F
-                        )
-                    }
-                    return true
                 }
+        }
+
+        (stack.item as? PokemonInteractiveItem)?.let {
+            if (it.onInteraction(player, this, stack)) {
+                it.getSound()?.let {
+                    this.world.playSoundServer(
+                        position = this.pos,
+                        sound = it,
+                        volume = 1F,
+                        pitch = 1F
+                    )
+                }
+                return true
             }
         }
         return false

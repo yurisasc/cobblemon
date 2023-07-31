@@ -15,16 +15,16 @@ import net.minecraft.network.PacketByteBuf
 /**
  * Tells a specific player that they should choose a battle capture response for the next Pokémon request in their queue.
  *
- * Handled by [com.cobblemon.mod.common.client.net.battle.BattleApplyCaptureResponseHandler].
+ * Handled by [com.cobblemon.mod.common.client.net.battle.BattleApplyPassResponseHandler].
  *
  * @author Hiroku
  * @since July 3rd, 2022
  */
-class BattleApplyCaptureResponsePacket() : NetworkPacket<BattleApplyCaptureResponsePacket> {
+class BattleApplyPassResponsePacket : NetworkPacket<BattleApplyPassResponsePacket> {
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {}
     companion object {
-        val ID = cobblemonResource("battle_apply_capture_response")
-        fun decode(buffer: PacketByteBuf) = BattleApplyCaptureResponsePacket()
+        val ID = cobblemonResource("battle_apply_pass_response")
+        fun decode(buffer: PacketByteBuf) = BattleApplyPassResponsePacket()
     }
 }
