@@ -33,7 +33,6 @@ class EspeonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("espeon", "cry").setPreventsIdle(false) }
 
-
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("espeon", "blink").setPreventsIdle(false)}
         standing = registerPose(
