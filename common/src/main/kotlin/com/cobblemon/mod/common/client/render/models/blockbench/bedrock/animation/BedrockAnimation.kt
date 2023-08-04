@@ -27,8 +27,8 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
 import net.minecraft.util.crash.CrashException
 import net.minecraft.util.crash.CrashReport
@@ -78,8 +78,7 @@ class BedrockSoundKeyframe(
     val sound: Identifier
 ): BedrockEffectKeyframe(seconds) {
     override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
-        val registry = entity.world.registryManager.get(RegistryKeys.SOUND_EVENT)
-        val soundEvent = registry.get(sound)
+        val soundEvent = SoundEvent.of(sound) // Means we don't need to setup a sound registry entry for every single thing
         if (soundEvent != null) {
             MinecraftClient.getInstance().soundManager.play(
                 PositionedSoundInstance(

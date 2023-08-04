@@ -13,9 +13,12 @@ import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.*
+import com.cobblemon.mod.common.pokemon.status.PersistentStatus
+import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.isInt
@@ -81,6 +84,7 @@ open class PokemonProperties {
             props.pokeball = parseIdentifierOfRegistry(keyPairs, listOf("pokeball")) { identifier -> PokeBalls.getPokeBall(identifier)?.name?.toString() }
             props.nature = parseIdentifierOfRegistry(keyPairs, listOf("nature")) { identifier -> Natures.getNature(identifier)?.name?.toString() }
             props.ability = parseStringOfRegistry(keyPairs, listOf("ability")) { Abilities.get(it)?.name }
+            props.status = parseStringOfRegistry(keyPairs, listOf("status")) { (Statuses.getStatus(it) ?: Statuses.getStatus(it.asIdentifierDefaultingNamespace()))?.showdownName }
             props.nickname = parseText(keyPairs, listOf("nickname", "nick"))
 
             val maybeIVs = IVs()
@@ -241,6 +245,7 @@ open class PokemonProperties {
     var nature: String? = null
     var ability: String? = null
     var aspects: Set<String> = emptySet()
+    var status: String? = null
 
     var ivs: IVs? = null
     var evs: EVs? = null
@@ -278,6 +283,7 @@ open class PokemonProperties {
         pokeball?.let { PokeBalls.getPokeBall(it.asIdentifierDefaultingNamespace())?.let { pokeball -> pokemon.caughtBall = pokeball } }
         nature?.let  { Natures.getNature(it.asIdentifierDefaultingNamespace())?.let { nature -> pokemon.nature = nature } }
         ability?.let { Abilities.getOrException(it).create(true).let { ability -> pokemon.ability = ability } }
+        status?.let { Statuses.getStatus(it)?.let { pokemon.applyStatus(it as PersistentStatus) } }
         customProperties.forEach { it.apply(pokemon) }
         ivs?.let { ivs ->
             ivs.forEach { stat ->
@@ -312,6 +318,7 @@ open class PokemonProperties {
         pokeball?.let { PokeBalls.getPokeBall(it.asIdentifierDefaultingNamespace())?.let { pokeball -> pokemonEntity.pokemon.caughtBall = pokeball } }
         nature?.let { Natures.getNature(it.asIdentifierDefaultingNamespace())?.let { nature -> pokemonEntity.pokemon.nature = nature } }
         ability?.let { Abilities.getOrException(it).create(true).let { ability -> pokemonEntity.pokemon.ability = ability } }
+        status?.let { Statuses.getStatus(it)?.let { pokemonEntity.pokemon.applyStatus(it as PersistentStatus) } }
         customProperties.forEach { it.apply(pokemonEntity) }
         ivs?.let { ivs ->
             ivs.forEach { stat ->
@@ -348,7 +355,8 @@ open class PokemonProperties {
         friendship?.takeIf { it != pokemon.friendship }?.let { return false }
         pokeball?.takeIf { it != pokemon.caughtBall.name.toString() }?.let { return false }
         nature?.takeIf { it != pokemon.nature.name.toString() }?.let { return false }
-        ability?.takeIf { it != pokemon.ability.name }?. let { return false }
+        ability?.takeIf { it != pokemon.ability.name }?.let { return false }
+        status?.takeIf { it != pokemon.status?.status?.showdownName }?.let { return false }
         ivs?.forEach{ stat ->
             if (stat.value != pokemon.ivs[stat.key]) { return false }
         }
@@ -379,7 +387,8 @@ open class PokemonProperties {
         friendship?.takeIf { it != pokemonEntity.pokemon.friendship }?.let { return false }
         pokeball?.takeIf { it != pokemonEntity.pokemon.caughtBall.name.toString() }?.let { return false }
         nature?.takeIf { it != pokemonEntity.pokemon.nature.name.toString() }?.let { return false }
-        ability?.takeIf { it != pokemonEntity.pokemon.ability.name }?. let { return false }
+        ability?.takeIf { it != pokemonEntity.pokemon.ability.name }?.let { return false }
+        status?.takeIf { it != pokemonEntity.pokemon.status?.status?.showdownName }?.let { return false }
         ivs?.forEach{ stat ->
             if (stat.value != pokemonEntity.pokemon.ivs[stat.key]) { return false }
         }
@@ -410,7 +419,8 @@ open class PokemonProperties {
         friendship?.takeIf { it != properties.friendship }?.let { return false }
         pokeball?.takeIf { it != properties.pokeball }?.let { return false }
         nature?.takeIf { it != properties.nature }?.let { return false }
-        ability?.takeIf { it != properties.ability }?. let { return false }
+        ability?.takeIf { it != properties.ability }?.let { return false }
+        status?.takeIf { it != properties.status }?.let { return false }
         ivs?.let{ ivs ->
             ivs.forEach{ stat ->
                 //If the potential subset has IV and the main set does not then it cant be a subset
@@ -460,6 +470,7 @@ open class PokemonProperties {
         pokeball?.let { nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, it) }
         nature?.let { nbt.putString(DataKeys.POKEMON_NATURE, it) }
         ability?.let { nbt.putString(DataKeys.POKEMON_ABILITY, it) }
+        status?.let { nbt.putString(DataKeys.POKEMON_STATUS_NAME, it) }
         ivs?.let { nbt.put(DataKeys.POKEMON_IVS, it.saveToNBT(NbtCompound())) }
         evs?.let { nbt.put(DataKeys.POKEMON_EVS, it.saveToNBT(NbtCompound())) }
         val custom = NbtList()
@@ -480,6 +491,7 @@ open class PokemonProperties {
         pokeball = if (tag.contains(DataKeys.POKEMON_CAUGHT_BALL)) tag.getString(DataKeys.POKEMON_CAUGHT_BALL) else null
         nature = if (tag.contains(DataKeys.POKEMON_NATURE)) tag.getString(DataKeys.POKEMON_NATURE) else null
         ability = if (tag.contains(DataKeys.POKEMON_ABILITY)) tag.getString(DataKeys.POKEMON_ABILITY) else null
+        status = if (tag.contains(DataKeys.POKEMON_STATUS_NAME)) tag.getString(DataKeys.POKEMON_STATUS_NAME) else null
         ivs = if (tag.contains(DataKeys.POKEMON_IVS)) ivs?.loadFromNBT(tag.getCompound(DataKeys.POKEMON_IVS)) as IVs? else null
         evs = if (tag.contains(DataKeys.POKEMON_EVS)) evs?.loadFromNBT(tag.getCompound(DataKeys.POKEMON_EVS)) as EVs? else null
         val custom = tag.getList(DataKeys.POKEMON_PROPERTIES_CUSTOM, NbtElement.STRING_TYPE.toInt())
@@ -502,6 +514,7 @@ open class PokemonProperties {
         pokeball?.let { json.addProperty(DataKeys.POKEMON_CAUGHT_BALL, it) }
         nature?.let { json.addProperty(DataKeys.POKEMON_NATURE, it) }
         ability?.let { json.addProperty(DataKeys.POKEMON_ABILITY, it) }
+        status?.let { json.addProperty(DataKeys.POKEMON_STATUS_NAME, it) }
         ivs?.let { json.add(DataKeys.POKEMON_IVS, it.saveToJSON(JsonObject())) }
         evs?.let { json.add(DataKeys.POKEMON_EVS, it.saveToJSON(JsonObject())) }
         val custom = JsonArray()
@@ -523,6 +536,7 @@ open class PokemonProperties {
         pokeball = json.get(DataKeys.POKEMON_CAUGHT_BALL)?.asString
         nature = json.get(DataKeys.POKEMON_NATURE)?.asString
         ability = json.get(DataKeys.POKEMON_ABILITY)?.asString
+        status = json.get(DataKeys.POKEMON_STATUS_NAME)?.asString
         ivs?.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
         evs?.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_EVS))
         val custom = json.get(DataKeys.POKEMON_PROPERTIES_CUSTOM)?.asJsonArray
@@ -544,6 +558,7 @@ open class PokemonProperties {
         pokeball?.let { pieces.add("pokeball=$it") }
         nature?.let { pieces.add("nature=$it") }
         ability?.let { pieces.add("ability=$it") }
+        status?.let { pieces.add("status=$it") }
         ivs?.forEach{ stat ->
             pieces.add("${stat.key}_iv=${stat.value}")
         }

@@ -6,12 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.storage.player.adapter
-
-import com.cobblemon.mod.common.api.storage.player.PlayerData
-import java.util.UUID
-
-interface PlayerDataFileStoreAdapter {
-    fun load(uuid: UUID): PlayerData
-    fun save(playerData: PlayerData)
+{
+    use(battle, pokemon, itemId, data) {
+        var amount = pokemon.heal(parseInt(data[0]));
+        if (amount) {
+            battle.add('-heal', pokemon, pokemon.getHealth, '[from] bagitem: ' + itemId);
+        }
+    }
 }

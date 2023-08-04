@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.spawning.detail
 
+import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
@@ -30,6 +31,7 @@ class PokemonSpawnAction(
     var props: PokemonProperties = detail.pokemon.copy()
 ) : SpawnAction<PokemonEntity>(ctx, detail) {
     override fun createEntity(): PokemonEntity {
+        if (props.species == null) LOGGER.error("PokemonSpawnAction run with null species - Spawn detail: ${detail.id}")
         if (props.level == null) {
             props.level = detail.getDerivedLevelRange().random()
         }

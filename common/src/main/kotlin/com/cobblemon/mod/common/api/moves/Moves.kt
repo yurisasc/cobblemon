@@ -38,7 +38,7 @@ object Moves : DataRegistry {
     override fun reload(manager: ResourceManager) {
         this.allMoves.clear()
         this.idMapping.clear()
-        val movesJson = ShowdownService.get().getMoves()
+        val movesJson = ShowdownService.service.getMoves()
         for (i in 0 until movesJson.size()) {
             val jsMove = movesJson[i].asJsonObject
             val id = jsMove.get("id").asString

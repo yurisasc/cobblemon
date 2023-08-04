@@ -52,6 +52,7 @@ interface Effect {
         ABILITY("ability:"),
         ITEM("item:"),
         MOVE("move:"),
+        BAGITEM("bagitem:"),
         PURE(""),
 
     }

@@ -17,7 +17,14 @@ import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
-import com.cobblemon.mod.common.api.events.pokemon.*
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPostEvent
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent
+import com.cobblemon.mod.common.api.events.pokemon.FriendshipUpdatedEvent
+import com.cobblemon.mod.common.api.events.pokemon.LevelUpEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonFaintedEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonRecalledEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonSentPostEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonSentPreEvent
 import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.BenchedMoves
 import com.cobblemon.mod.common.api.moves.Move
@@ -187,6 +194,7 @@ open class Pokemon : ShowdownIdentifiable {
 
             if (value <= 0) {
                 entity?.health = 0F
+                status = null
             }
             field = max(min(hp, value), 0)
             _currentHealth.emit(field)
@@ -409,7 +417,14 @@ open class Pokemon : ShowdownIdentifiable {
         return null;
     }
 
-    fun sendOutWithAnimation(source: LivingEntity, level: ServerWorld, position: Vec3d, battleId: UUID? = null, mutation: (PokemonEntity) -> Unit = {}): CompletableFuture<PokemonEntity> {
+    fun sendOutWithAnimation(
+        source: LivingEntity,
+        level: ServerWorld,
+        position: Vec3d,
+        battleId: UUID? = null,
+        doCry: Boolean = true,
+        mutation: (PokemonEntity) -> Unit = {}
+    ): CompletableFuture<PokemonEntity> {
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
             level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 1F)
@@ -422,6 +437,9 @@ open class Pokemon : ShowdownIdentifiable {
                 it.beamModeEmitter.set(0)
                 future.complete(it)
                 CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
+                if (doCry) {
+                    it.cry()
+                }
             }
 
             mutation(it)
@@ -449,6 +467,10 @@ open class Pokemon : ShowdownIdentifiable {
         this.healTimer = -1
         val entity = entity
         entity?.heal(entity.maxHealth - entity.health)
+    }
+
+    fun isFullHealth(): Boolean {
+        return this.currentHealth == this.hp
     }
 
     fun didSleep() {

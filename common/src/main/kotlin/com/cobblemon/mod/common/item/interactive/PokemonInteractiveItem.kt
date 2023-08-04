@@ -21,7 +21,6 @@ import net.minecraft.sound.SoundEvent
  * @param accepted The [Ownership] variants for this interaction to fire [PokemonInteractiveItem.processInteraction].
  */
 interface PokemonInteractiveItem : InteractiveItem<PokemonEntity> {
-
     val accepted: Set<Ownership>
     fun getSound(): SoundEvent? = CobblemonSounds.ITEM_USE
 

@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Pokem
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
-import com.cobblemon.mod.common.pokemon.Species
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.DiffuseLighting
@@ -67,7 +66,7 @@ fun drawProfilePokemon(
         model.setupAnimStateless(PoseType.PROFILE)
     }
     matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
-    matrixStack.scale(model.profileScale, model.profileScale, 0.1F)
+    matrixStack.scale(model.profileScale, model.profileScale, 1 / model.profileScale)
 
     matrixStack.multiply(rotation)
     DiffuseLighting.method_34742()
