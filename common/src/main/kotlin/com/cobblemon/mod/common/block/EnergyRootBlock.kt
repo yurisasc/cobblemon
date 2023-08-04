@@ -8,62 +8,29 @@
 
 package com.cobblemon.mod.common.block
 
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
+import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonItems
 import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
-import net.minecraft.block.Fertilizable
 import net.minecraft.block.ShapeContext
-import net.minecraft.registry.tag.BlockTags
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
+import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
 
-class EnergyRootBlock(settings: Settings) : Block(settings), Fertilizable {
+@Suppress("OVERRIDE_DEPRECATION")
+class EnergyRootBlock(settings: Settings) : RootBlock(settings) {
+
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = AABB
+
+    override fun shearedResultingState(): BlockState = CobblemonBlocks.BIG_ROOT.defaultState
+
+    override fun shearedDrop(): ItemStack = CobblemonItems.ENERGY_ROOT.defaultStack
+
     companion object {
+
         private val AABB = VoxelShapes.cuboid(0.2, 0.1, 0.2, 0.8, 1.0, 0.8)
+
     }
 
-    init {
-        this.defaultState = stateManager.defaultState
-    }
-
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
-        return world.getBlockState(pos.up()).isIn(BlockTags.DIRT) && world.isAir(pos)
-    }
-
-    override fun getStateForNeighborUpdate(
-        state: BlockState,
-        direction: Direction,
-        neighborState: BlockState,
-        world: WorldAccess,
-        pos: BlockPos,
-        neighborPos: BlockPos
-    ): BlockState {
-        return if (!world.getBlockState(pos.up()).isIn(BlockTags.DIRT)) {
-            Blocks.AIR.defaultState
-        } else {
-            super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-        }
-    }
-
-    override fun getOutlineShape(
-        state: BlockState,
-        world: BlockView,
-        pos: BlockPos,
-        context: ShapeContext
-    ) = AABB
-
-    //  Maybe turn into Giant Root? idk
-    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = false
-    override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = true
-    override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {}
-
-    override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
 }
