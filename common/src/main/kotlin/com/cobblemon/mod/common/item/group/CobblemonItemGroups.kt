@@ -83,6 +83,10 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.ENERGY_ROOT)
         entries.add(CobblemonItems.REVIVAL_HERB)
         entries.add(CobblemonItems.PEP_UP_FLOWER)
+        entries.add(CobblemonItems.MENTAL_HERB)
+        entries.add(CobblemonItems.MIRROR_HERB)
+        entries.add(CobblemonItems.POWER_HERB)
+        entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.VIVICHOKE)
         entries.add(CobblemonItems.VIVICHOKE_SEEDS)
 
@@ -123,7 +127,6 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.HUMID_MULCH)
         entries.add(CobblemonItems.SANDY_MULCH)
         entries.add(CobblemonItems.MULCH_BASE)
-
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
@@ -171,6 +174,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.ROASTED_LEEK)
         entries.add(CobblemonItems.LEEK_AND_POTATO_STEW)
         entries.add(CobblemonItems.BRAISED_VIVICHOKE)
+        entries.add(CobblemonItems.VIVICHOKE_DIP)
         entries.add(CobblemonItems.REMEDY)
         entries.add(CobblemonItems.FINE_REMEDY)
         entries.add(CobblemonItems.SUPERB_REMEDY)
@@ -222,8 +226,6 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.JOLLY_MINT)
         entries.add(CobblemonItems.NAIVE_MINT)
         entries.add(CobblemonItems.SERIOUS_MINT)
-
-
     }
 
     private fun evolutionItemEntries(displayContext: DisplayContext, entries: Entries) {
@@ -270,8 +272,6 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.FLOWER_SWEET)
         entries.add(CobblemonItems.STAR_SWEET)
         entries.add(CobblemonItems.RIBBON_SWEET)
-
-
     }
 
     private fun heldItemEntries(displayContext: DisplayContext, entries: Entries) {
@@ -296,11 +296,14 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.LIGHT_CLAY)
         entries.add(CobblemonItems.LUCKY_EGG)
         entries.add(CobblemonItems.MAGNET)
+        entries.add(CobblemonItems.MENTAL_HERB)
         entries.add(CobblemonItems.MIRACLE_SEED)
+        entries.add(CobblemonItems.MIRROR_HERB)
         entries.add(CobblemonItems.MUSCLE_BAND)
         entries.add(CobblemonItems.MYSTIC_WATER)
         entries.add(CobblemonItems.NEVER_MELT_ICE)
         entries.add(CobblemonItems.POISON_BARB)
+        entries.add(CobblemonItems.POWER_HERB)
         entries.add(CobblemonItems.QUICK_CLAW)
         entries.add(CobblemonItems.RAZOR_CLAW)
         entries.add(CobblemonItems.RAZOR_FANG)
@@ -312,6 +315,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.SOFT_SAND)
         entries.add(CobblemonItems.SPELL_TAG)
         entries.add(CobblemonItems.TWISTED_SPOON)
+        entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
     }
 
@@ -323,9 +327,7 @@ object CobblemonItemGroups {
         CobblemonItems.ROASTED_LEEK,
         CobblemonItems.LEEK_AND_POTATO_STEW,
         CobblemonItems.BRAISED_VIVICHOKE,
-        /*
         CobblemonItems.VIVICHOKE_DIP
-         */
     )
 
 }
