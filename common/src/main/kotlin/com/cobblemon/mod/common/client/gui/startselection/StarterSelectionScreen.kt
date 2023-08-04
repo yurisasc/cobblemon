@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui.startselection
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.ColourLibrary
 import com.cobblemon.mod.common.api.gui.MultiLineLabelK
 import com.cobblemon.mod.common.api.gui.blitk
@@ -35,6 +36,7 @@ import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
@@ -184,6 +186,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
                 pXTexStart = 0, pYTexStart = 0, pYDiffText = 0
             ) {
                 MinecraftClient.getInstance().setScreen(null)
+                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
             }
         )
     }
@@ -281,6 +284,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
     }
 
     private fun right() {
+        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
         currentSelection = rightOfCurrentSelection()
         updateSelection()
     }
@@ -288,6 +292,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
     private fun rightOfCurrentSelection() : Int = if (currentSelection + 1 <= currentCategory.pokemon.size - 1) currentSelection + 1 else 0
 
     private fun left() {
+        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
         currentSelection = leftOfCurrentSelection()
         updateSelection()
     }

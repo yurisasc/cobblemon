@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.TexturedButtonWidget
+import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 class ExitButton(
     pX: Int, pY: Int,
@@ -37,5 +38,7 @@ class ExitButton(
             )
         }
     }
+
+    override fun playDownSound(soundManager: SoundManager) { }
 
 }
