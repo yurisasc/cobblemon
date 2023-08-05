@@ -5,13 +5,8 @@
     {
       "aspects": [],
       "poser": "cobblemon:eiscue",
-      "model": "cobblemon:eiscue.geo",
+      "model": "cobblemon:eiscue_ice.geo",
       "texture": "cobblemon:textures/pokemon/0875_eiscue/eiscue.png",
-      "layers": []
-    },
-    {
-      "aspects": ["no_ice"],
-      "texture": "cobblemon:textures/pokemon/0875_eiscue/eiscue_no_ice.png",
       "layers": []
     },
     {
@@ -19,12 +14,6 @@
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0875_eiscue/eiscue_shiny.png"
-    },
-    {
-      "aspects": [
-        "shiny", "no_ice"
-      ],
-      "texture": "cobblemon:textures/pokemon/0875_eiscue/eiscue_no_ice_shiny.png"
     }
   ]
 }

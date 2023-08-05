@@ -9,10 +9,7 @@
 package com.cobblemon.mod.common.advancement
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.advancement.criterion.CaughtPokemonCriterionCondition
-import com.cobblemon.mod.common.advancement.criterion.PickStarterCriterionCondition
-import com.cobblemon.mod.common.advancement.criterion.SimpleCountableCriterionCondition
-import com.cobblemon.mod.common.advancement.criterion.SimpleCriterionTrigger
+import com.cobblemon.mod.common.advancement.criterion.*
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.advancement.criterion.Criterion
 
@@ -57,6 +54,20 @@ object CobblemonCriteria {
         SimpleCriterionTrigger(
             cobblemonResource("battles_won"),
             SimpleCountableCriterionCondition::class.java
+        )
+    )
+
+    val DEFEAT_POKEMON = this.create(
+        SimpleCriterionTrigger(
+            cobblemonResource("pokemon_defeated"),
+            SimpleCountableCriterionCondition::class.java
+        )
+    )
+
+    val COLLECT_ASPECT = this.create(
+        AspectCriterionTrigger(
+            cobblemonResource("aspects_collected"),
+            AspectCriterionCondition::class.java
         )
     )
 

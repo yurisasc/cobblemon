@@ -146,6 +146,11 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         }
     }
 
+    fun toGappyList() = slots.toList()
+
+    /** Maps the slots of the party using the giving mapper function, but preserving the nulls in the party at the right spots. */
+    fun <T : Any> mapNullPreserving(mapper: (Pokemon) -> T): List<T?> = toGappyList().map { it?.let(mapper) }
+
     override fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putInt(DataKeys.STORE_SLOT_COUNT, slots.size)
         for (slot in slots.indices) {
@@ -242,14 +247,18 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
 
     fun toBattleTeam(clone: Boolean = false, checkHealth: Boolean = true, leadingPokemon: UUID? = null) = mapNotNull {
         // TODO Other 'able to battle' checks
-        if (checkHealth && it.currentHealth <= 0) {
-            return@mapNotNull null
-        }
         return@mapNotNull if (clone) {
             BattlePokemon.safeCopyOf(it)
         } else {
             BattlePokemon(it)
         }
     }.sortedBy { if (it.uuid == leadingPokemon) 0 else (indexOf(it.originalPokemon) + 1) }
+
+    fun clearParty() {
+        forEach {
+            it.tryRecallWithAnimation()
+            remove(it)
+        }
+    }
 }
 

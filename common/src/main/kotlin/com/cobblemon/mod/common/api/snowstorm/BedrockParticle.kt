@@ -20,6 +20,7 @@ import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.Vec3d
 
 /**
  * Effect details for the actual particles of a particle effect.
@@ -39,6 +40,7 @@ class BedrockParticle(
     var renderExpressions: MutableList<Expression> = mutableListOf(),
     var motion: ParticleMotion = StaticParticleMotion(),
     var rotation: ParticleRotation = DynamicParticleRotation(),
+    var viewDirection: ParticleViewDirection = FromMotionViewDirection(),
     var cameraMode: ParticleCameraMode = RotateXYZCameraMode(),
     var tinting: ParticleTinting = ExpressionParticleTinting(),
     var collision: ParticleCollision = ParticleCollision(),
@@ -59,13 +61,14 @@ class BedrockParticle(
                 ListCodec(EXPRESSION_CODEC).fieldOf("renderExpressions").forGetter { it.renderExpressions },
                 ParticleMotion.codec.fieldOf("motion").forGetter { it.motion },
                 ParticleRotation.codec.fieldOf("rotation").forGetter { it.rotation },
+                ParticleViewDirection.codec.fieldOf("viewDirection").forGetter { it.viewDirection },
                 ParticleCameraMode.codec.fieldOf("cameraMode").forGetter { it.cameraMode },
                 ParticleTinting.codec.fieldOf("tinting").forGetter { it.tinting },
                 ParticleCollision.CODEC.fieldOf("collision").forGetter { it.collision },
                 PrimitiveCodec.BOOL.fieldOf("environmentLighting").forGetter { it.environmentLighting }
             ).apply(instance) {
                     texture, materialStr, uvMode, sizeX, sizeY, maxAge, killExpression, updateExpressions,
-                    renderExpressions, motion, rotation, cameraMode, tinting, collision, environmentLighting ->
+                    renderExpressions, motion, rotation, viewDirection, cameraMode, tinting, collision, environmentLighting ->
                 BedrockParticle(
                     texture = texture,
                     material = ParticleMaterial.valueOf(materialStr),
@@ -78,6 +81,7 @@ class BedrockParticle(
                     renderExpressions = renderExpressions,
                     motion = motion,
                     rotation = rotation,
+                    viewDirection = viewDirection,
                     cameraMode = cameraMode,
                     tinting = tinting,
                     collision = collision,
@@ -86,7 +90,6 @@ class BedrockParticle(
             }
         }
     }
-
 
     fun writeToBuffer(buffer: PacketByteBuf) {
         buffer.writeIdentifier(texture)
@@ -100,6 +103,7 @@ class BedrockParticle(
         buffer.writeCollection(renderExpressions) { pb, expression -> pb.writeString(expression.getString()) }
         ParticleMotion.writeToBuffer(buffer, motion)
         ParticleRotation.writeToBuffer(buffer, rotation)
+        ParticleViewDirection.writeToBuffer(buffer, viewDirection)
         ParticleCameraMode.writeToBuffer(buffer, cameraMode)
         ParticleTinting.writeToBuffer(buffer, tinting)
         collision.writeToBuffer(buffer)
@@ -118,6 +122,7 @@ class BedrockParticle(
         renderExpressions = buffer.readList { MoLang.createParser(it.readString()).parseExpression() }
         motion = ParticleMotion.readFromBuffer(buffer)
         rotation = ParticleRotation.readFromBuffer(buffer)
+        viewDirection = ParticleViewDirection.readFromBuffer(buffer)
         cameraMode = ParticleCameraMode.readFromBuffer(buffer)
         tinting = ParticleTinting.readFromBuffer(buffer)
         collision.readFromBuffer(buffer)

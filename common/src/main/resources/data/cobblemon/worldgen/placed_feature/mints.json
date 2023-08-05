@@ -3,7 +3,7 @@
   "placement": [
     {
       "type": "minecraft:rarity_filter",
-      "chance": 14
+      "chance": 50
     },
     {
       "type": "minecraft:in_square"
@@ -15,8 +15,17 @@
     {
       "type": "minecraft:block_predicate_filter",
       "predicate": {
-        "type": "cobblemon:altitude",
-        "min": 100
+        "type": "minecraft:all_of",
+        "predicates": [
+          {
+            "type": "cobblemon:altitude",
+            "min": 100
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "blocks": "#minecraft:dirt"
+          }
+        ]
       }
     }
   ]

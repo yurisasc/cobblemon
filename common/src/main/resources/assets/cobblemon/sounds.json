@@ -26,6 +26,9 @@
   "pc.release": {
     "sounds": [ "cobblemon:pc/pc_release" ]
   },
+  "pc.click": {
+    "sounds": [ "cobblemon:pc/pc_click" ]
+  },
   "poke_ball.capture_started": {
     "sounds": [ "cobblemon:pokeball/capture_started" ]
   },
@@ -60,9 +63,19 @@
   "gui.click": {
     "sounds": [ "cobblemon:click" ]
   },
-  "mint.use": {
-    "sounds": [ "cobblemon:mint" ]
+  "medicine_herb.use": {
+    "sounds": [ "cobblemon:medicine_herb_use" ]
   },
+  "medicine_liquid.use": {
+    "sounds": [ "cobblemon:medicine_liquid_use" ]
+  },
+  "medicine_pills.use": {
+    "sounds": [ "cobblemon:medicine_pills_use" ]
+  },
+  "medicine_spray.use": {
+    "sounds": [ "cobblemon:medicine_spray_use" ]
+  },
+
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },
@@ -116,6 +129,9 @@
   },
   "pokemon.pidgeot.ambient": {
     "sounds": [ "cobblemon:pokemon/pidgeot/pidgeot_ambient" ]
+  },
+  "pokemon.pidgeot.cry": {
+    "sounds": [ "cobblemon:pokemon/pidgeot/pidgeot_cry" ]
   },
   "pokemon.rattata.ambient": {
     "sounds": [ "cobblemon:pokemon/rattata/rattata_ambient" ]
@@ -818,6 +834,9 @@
   },
   "pokemon.treecko.ambient": {
     "sounds": [ "cobblemon:pokemon/treecko/treecko_ambient" ]
+  },
+  "pokemon.treecko.cry": {
+    "sounds": [ "cobblemon:pokemon/treecko/treecko_cry" ]
   },
   "pokemon.grovyle.ambient": {
     "sounds": [ "cobblemon:pokemon/grovyle/grovyle_ambient" ]

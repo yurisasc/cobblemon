@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Dusclops",
   "nationalPokedexNumber": 356,
   "primaryType": "ghost",
@@ -23,6 +24,19 @@
   "eggGroups": [
     "amorphous"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:bind",
@@ -178,10 +192,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.85,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.2,
+    "height": 2.0,
     "fixed": false
   },
   "baseFriendship": 35,

@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -26,7 +28,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
-import java.util.*
 
 // Stuff like getting their party
 fun ServerPlayerEntity.party() = Cobblemon.storage.getParty(this)
@@ -53,6 +54,16 @@ fun ServerPlayerEntity.didSleep(): Boolean {
 }
 
 fun ServerPlayerEntity.isInBattle() = BattleRegistry.getBattleByParticipatingPlayer(this) != null
+fun ServerPlayerEntity.getBattleState(): Pair<PokemonBattle, BattleActor>? {
+    val battle = BattleRegistry.getBattleByParticipatingPlayer(this)
+    if (battle != null) {
+        val actor = battle.getActor(this)
+        if (actor != null) {
+            return battle to actor
+        }
+    }
+    return null
+}
 
 // TODO Player extension for queueing next login?
 class TraceResult(
@@ -129,7 +140,7 @@ fun <T : Entity> PlayerEntity.traceEntityCollision(
 fun PlayerEntity.traceBlockCollision(
     maxDistance: Float = 10F,
     stepDistance: Float = 0.05F,
-    blockFilter: (BlockState) -> Boolean = { it.material.isSolid }
+    blockFilter: (BlockState) -> Boolean = { it.isSolid }
 ): TraceResult? {
     var step = stepDistance
     val startPos = eyePos
@@ -250,3 +261,4 @@ fun PlayerEntity.giveOrDropItemStack(stack: ItemStack, playSound: Boolean = true
         }
     }
 }
+

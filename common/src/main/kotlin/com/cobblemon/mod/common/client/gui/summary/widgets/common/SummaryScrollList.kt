@@ -14,9 +14,8 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 
 abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
@@ -58,11 +57,11 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         return left + width - 3
     }
 
-    override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+        val matrices = context.matrices
         correctSize()
-
         blitk(
-            matrixStack = poseStack,
+            matrixStack = matrices,
             texture = backgroundResource,
             x = left,
             y = top,
@@ -70,19 +69,19 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
             width = WIDTH
         )
 
-        DrawableHelper.enableScissor(
+        context.enableScissor(
             left,
             top + 1,
             left + width,
             top + 1 + height
         )
-        super.render(poseStack, mouseX, mouseY, partialTicks)
-        DrawableHelper.disableScissor()
+        super.render(context, mouseX, mouseY, partialTicks)
+        context.disableScissor()
 
         // Scroll Overlay
         val scrollOverlayOffset = 4
         blitk(
-            matrixStack = poseStack,
+            matrixStack = matrices,
             texture = scrollOverlayResource,
             x = left,
             y = top - (scrollOverlayOffset / 2),
@@ -92,7 +91,7 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
 
         // Label
         drawScaledText(
-            matrixStack = poseStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = label.bold(),
             x = left + 32.5,

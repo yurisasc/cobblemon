@@ -34,15 +34,22 @@ import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
+import net.minecraft.entity.Entity
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.text.Text
+import java.io.File
+import kotlin.io.path.Path
+import kotlin.io.path.writeLines
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Individual battle instance
@@ -82,6 +89,7 @@ open class PokemonBattle(
     val battleId = UUID.randomUUID()
 
     val showdownMessages = mutableListOf<String>()
+    val battleLog = mutableListOf<String>()
     var started = false
     var ended = false
     // TEMP battle showcase stuff
@@ -143,6 +151,11 @@ open class PokemonBattle(
     }
 
     /**
+     * Gets the first battle actor whom the given player controls, or null if there is no such actor.
+     */
+    fun getActor(player: ServerPlayerEntity) = actors.firstOrNull { it.isForPlayer(player) }
+
+    /**
      * Gets a BattleActor and an [ActiveBattlePokemon] from a pnx key, e.g. p2a
      *
      * Returns null if either the pn or x is invalid.
@@ -164,12 +177,17 @@ open class PokemonBattle(
     }
 
     fun broadcastChatMessage(component: Text) {
+        spectators.forEach { spectatorId ->
+            spectatorId.getPlayer()?.let {
+                CobblemonNetwork.sendPacketToPlayer(it, BattleMessagePacket(component))
+            }
+        }
         return actors.forEach { it.sendMessage(component) }
     }
 
     fun writeShowdownAction(vararg messages: String) {
         log(messages.joinToString("\n"))
-        ShowdownService.get().send(battleId, messages.toList().toTypedArray())
+        ShowdownService.service.send(battleId, messages.toList().toTypedArray())
     }
 
     fun turn(newTurnNumber: Int) {
@@ -210,11 +228,22 @@ open class PokemonBattle(
                         if (experience > 0) {
                             opponent.awardExperience(opponentPokemon, experience)
                         }
-                        Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
+                        Cobblemon.evYieldCalculator.calculate(opponentPokemon, faintedPokemon).forEach { (stat, amount) ->
                             pokemon.evs.add(stat, amount)
                         }
                     }
                 }
+            }
+        }
+        // Heal Mon if wild
+        actors.filter { it.type == ActorType.WILD }
+            .filterIsInstance<EntityBackedBattleActor<*>>()
+            .mapNotNull { it.entity }
+            .filterIsInstance<PokemonEntity>()
+            .forEach{it.pokemon.heal()}
+        actors.forEach { actor ->
+            actor.pokemonList.forEach { battlePokemon ->
+                battlePokemon.entity?.let { entity -> battlePokemon.postBattleEntityOperation(entity) }
             }
         }
         sendUpdate(BattleEndPacket())
@@ -231,6 +260,24 @@ open class PokemonBattle(
         if (!mute) {
             LOGGER.info(message)
         }
+        battleLog.add(message)
+    }
+
+    fun saveBattleLog() {
+        val battleLogsDir = File("./battle_logs/")
+        if (!battleLogsDir.exists()) {
+            battleLogsDir.mkdirs()
+        }
+
+        val logFile = File(battleLogsDir, "$battleId.txt")
+        logFile.bufferedWriter().use { out ->
+            battleLog.forEach {
+                out.write(it)
+                out.newLine()
+            }
+        }
+
+        LOGGER.info("Saved battle log as $battleId.txt")
     }
 
     fun sendUpdate(packet: NetworkPacket<*>) {
@@ -303,14 +350,23 @@ open class PokemonBattle(
     }
 
     fun tick() {
-        while (dispatchResult.canProceed()) {
-            val dispatch = dispatches.poll() ?: break
-            dispatchResult = dispatch(this)
-        }
+        try {
+            while (dispatchResult.canProceed()) {
+                val dispatch = dispatches.poll() ?: break
+                dispatchResult = dispatch(this)
+            }
 
-        if (dispatches.isEmpty()) {
-            afterDispatches.toList().forEach { it() }
-            afterDispatches.clear()
+            if (dispatches.isEmpty()) {
+                afterDispatches.toList().forEach { it() }
+                afterDispatches.clear()
+            }
+        } catch (e: Exception) {
+            LOGGER.error("Exception while ticking a battle. Saving battle log.", e)
+            val message = battleLang("crash").red()
+            this.actors.filterIsInstance<PlayerBattleActor>().forEach { it.entity?.sendMessage(message) }
+            this.saveBattleLog()
+            this.stop()
+            return
         }
 
         if (started && isPvW && !ended && dispatches.isEmpty()) {
@@ -337,8 +393,13 @@ open class PokemonBattle(
                     nearestPlayerActorDistance != null && nearestPlayerActorDistance < pokemonActor.fleeDistance
                 }
             }
-
         if (wildPokemonOutOfRange) {
+            // Heal Wild Pokemon
+            actors.filter { it.type == ActorType.WILD }
+                .filterIsInstance<EntityBackedBattleActor<*>>()
+                .mapNotNull { it.entity }
+                .filterIsInstance<PokemonEntity>()
+                .forEach{it.pokemon.heal()}
             CobblemonEvents.BATTLE_FLED.post(BattleFledEvent(this, actors.asSequence().filterIsInstance<PlayerBattleActor>().iterator().next()))
             actors.filterIsInstance<EntityBackedBattleActor<*>>().mapNotNull { it.entity }.forEach { it.sendMessage(battleLang("flee").yellow()) }
             stop()
