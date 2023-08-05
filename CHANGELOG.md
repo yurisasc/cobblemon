@@ -220,7 +220,8 @@
 - Fixed Pokémon variants and layers not rendering correctly when shouldered and playing on a dedicated server, existing shoulders affected will need to be retrieved and shouldered again.
 - Shoulder effects will now stay applied through situations that remove potion effects such as drinking milk.
 - Fixed Shedninja evolving to use the consumed Pokeball and removed the held item.
-- Fixed non-existent species in spawn pool file causing random species to spawn
+- Fixed non-existent species in spawn pool file causing random species to spawn.
+- Fixed shearing Pokémon dropping 0-2 wool instead of 1-3.
 
 ### Developer
 - Added SpawnEvent
