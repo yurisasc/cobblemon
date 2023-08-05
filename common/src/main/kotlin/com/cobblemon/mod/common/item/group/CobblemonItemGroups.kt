@@ -124,6 +124,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.SANDY_MULCH)
         entries.add(CobblemonItems.MULCH_BASE)
 
+        CobblemonItems.berries().values.forEach(entries::add)
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
@@ -222,8 +223,6 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.JOLLY_MINT)
         entries.add(CobblemonItems.NAIVE_MINT)
         entries.add(CobblemonItems.SERIOUS_MINT)
-
-        CobblemonItems.berries().values.forEach(entries::add)
     }
 
     private fun evolutionItemEntries(displayContext: DisplayContext, entries: Entries) {
