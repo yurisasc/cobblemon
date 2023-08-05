@@ -183,6 +183,8 @@ class FormData(
    val labels: Set<String>
         get() = _labels ?: species.labels
 
+    val riding: RidingProperties
+        get() = _riding ?: species.riding
     /**
      * Contains the evolutions of this form.
      * Do not access this property immediately after a species is loaded, it requires all species in the game to be loaded.

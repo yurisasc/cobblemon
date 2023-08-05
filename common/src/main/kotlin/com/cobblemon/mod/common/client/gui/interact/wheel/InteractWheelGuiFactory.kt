@@ -16,18 +16,18 @@ import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPack
 import com.cobblemon.mod.common.net.messages.server.trade.OfferTradePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import java.util.UUID
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
-import java.util.*
 import org.joml.Vector3f
 
-fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean): InteractWheelGUI {
+fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean, canRide: Boolean): InteractWheelGUI {
     val mountShoulder = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_shoulder.png"),
         onPress = {
             if (canMountShoulder) {
-                InteractPokemonPacket(pokemonID, true).sendToServer()
+                InteractPokemonPacket(pokemonID, true, false).sendToServer()
                 closeGUI()
             }
         }
@@ -35,13 +35,25 @@ fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean): Intera
     val giveItem = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_held_item.png"),
         onPress = {
-            InteractPokemonPacket(pokemonID, false).sendToServer()
+            InteractPokemonPacket(pokemonID, false, false).sendToServer()
             closeGUI()
         }
     )
+
+    val ride = InteractWheelOption(
+        iconResource = cobblemonResource("textures/gui/interact/icon_held_item.png"),
+        onPress = {
+            if (canRide) {
+                InteractPokemonPacket(pokemonID, false, true).sendToServer()
+                closeGUI()
+            }
+        }
+    )
+
     val options = mutableMapOf(
         Orientation.TOP_LEFT to mountShoulder,
         Orientation.TOP_RIGHT to giveItem,
+        Orientation.BOTTOM_LEFT to ride
     )
     return InteractWheelGUI(options, Text.translatable("cobblemon.ui.interact.pokemon"))
 }

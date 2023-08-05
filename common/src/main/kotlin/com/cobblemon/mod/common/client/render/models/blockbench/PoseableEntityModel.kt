@@ -10,7 +10,11 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.*
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
@@ -26,7 +30,13 @@ import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.render.*
+import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderPhase
+import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
@@ -76,7 +86,7 @@ abstract class PoseableEntityModel<T : Entity>(
     /** Gets the [PoseableEntityState] for an entity. */
     abstract fun getState(entity: T): PoseableEntityState<T>
 
-    fun getChangeFactor(part: ModelPart) = relevantParts.find { it.modelPart === part }?.changeFactor ?: 1F
+    fun getChangeFactor(part: Bone) = relevantParts.find { it.modelPart === part }?.changeFactor ?: 1F
     fun scaleForPart(part: ModelPart, value: Float) = getChangeFactor(part) * value
 
     fun withLayerContext(

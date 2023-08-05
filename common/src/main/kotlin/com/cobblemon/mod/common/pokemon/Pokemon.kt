@@ -393,6 +393,7 @@ open class Pokemon : ShowdownIdentifiable {
         storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) this.tetheringId = null }
     }
 
+
     open fun getStat(stat: Stat) = Cobblemon.statProvider.getStatForPokemon(this, stat)
 
     /**
@@ -1251,6 +1252,6 @@ open class Pokemon : ShowdownIdentifiable {
         fun loadFromJSON(json: JsonObject): Pokemon {
             return Pokemon().loadFromJSON(json)
         }
-        
+
     }
 }

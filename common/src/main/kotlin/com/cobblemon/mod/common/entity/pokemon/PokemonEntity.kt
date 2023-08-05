@@ -550,7 +550,7 @@ class PokemonEntity(
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
-                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer && pokemon in player.party()).sendToPlayer(player)
+                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer && pokemon in player.party(), this.canStartRiding(player)).sendToPlayer(player)
             } else {
                 // TODO #105
                 if (this.attemptItemInteraction(player, player.getStackInHand(hand))) return ActionResult.SUCCESS
@@ -972,8 +972,8 @@ class PokemonEntity(
         return false
     }
 
-    override fun tickControlled(controllingPassenger: LivingEntity, movementInput: Vec3d) {
-        super.tickControlled(controllingPassenger, movementInput)
+    override fun tickControlled(controllingPlayer: PlayerEntity, movementInput: Vec3d) {
+        super.tickControlled(controllingPlayer, movementInput)
         this.momentum.tick(movementInput)
 
         if (movementInput != Vec3d.ZERO) {
@@ -989,7 +989,7 @@ class PokemonEntity(
             this.seatUpdater.set(this.seats.map { it.toDTO() })
         }
 
-        val vec2f: Vec2f = this.getControlledRotation(controllingPassenger)
+        val vec2f: Vec2f = this.getControlledRotation(controllingPlayer)
         setRotation(vec2f.y, vec2f.x)
         this.headYaw = this.yaw
         this.bodyYaw = this.yaw
@@ -1002,13 +1002,13 @@ class PokemonEntity(
         return Vec2f(controllingPassenger.pitch * 0.5f, controllingPassenger.yaw)
     }
 
-    override fun updatePassengerPosition(passenger: Entity) {
+    override fun updatePassengerPosition(passenger: Entity, positionUpdater: PositionUpdater) {
         if (this.hasPassenger(passenger)) {
             val seat = this.seats.firstOrNull { it.occupant() == passenger }
             if (seat != null) {
                 val offset = seat.properties.offset.rotateY(-this.bodyYaw * (Math.PI.toFloat() / 180))
-                passenger.setPosition(this.pos.add(offset))
-                if(passenger is LivingEntity) {
+                positionUpdater.accept(passenger, offset.x + passenger.x, offset.y + passenger.y, offset.z + passenger.z)
+                if (passenger is LivingEntity) {
                     passenger.bodyYaw = this.bodyYaw
                 }
             }
@@ -1026,16 +1026,16 @@ class PokemonEntity(
         return null
     }
 
-    override fun updatePassengerForDismount(passenger: LivingEntity?): Vec3d {
+    override fun updatePassengerForDismount(passenger: LivingEntity): Vec3d {
         val seat = this.seats.firstOrNull { it.occupant() == passenger }
         seat?.dismount()
         return super.updatePassengerForDismount(passenger)
     }
 
-    override fun getControlledMovementInput(controllingPassenger: LivingEntity?, movementInput: Vec3d?): Vec3d {
-        super.getControlledMovementInput(controllingPassenger, movementInput)
-        val f = controllingPassenger!!.sidewaysSpeed * 0.2f
-        var g = controllingPassenger.forwardSpeed * 0.5f
+    override fun getControlledMovementInput(controllingPlayer: PlayerEntity, movementInput: Vec3d): Vec3d {
+        super.getControlledMovementInput(controllingPlayer, movementInput)
+        val f = controllingPlayer.sidewaysSpeed * 0.2f
+        var g = controllingPlayer.forwardSpeed * 0.5f
         if (g <= 0.0f) {
             g *= 0.25f
         }
@@ -1043,7 +1043,7 @@ class PokemonEntity(
         return Vec3d(f.toDouble(), 0.0, g.toDouble())
     }
 
-    override fun getSaddledSpeed(controllingPassenger: LivingEntity): Float {
+    override fun getSaddledSpeed(controllingPlayer: PlayerEntity): Float {
 //        val speed = this.capabilities.capability(this)
 //            ?.attribute(RidingAttributeOption.SPEED)
 //            ?.apply()

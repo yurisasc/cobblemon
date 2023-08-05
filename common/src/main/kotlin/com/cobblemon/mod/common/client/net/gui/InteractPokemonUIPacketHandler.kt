@@ -15,6 +15,6 @@ import net.minecraft.client.MinecraftClient
 
 object InteractPokemonUIPacketHandler: ClientNetworkPacketHandler<InteractPokemonUIPacket> {
     override fun handle(packet: InteractPokemonUIPacket, client: MinecraftClient) {
-        client.setScreen(createPokemonInteractGui(packet.pokemonID, packet.canMountShoulder))
+        client.setScreen(createPokemonInteractGui(packet.pokemonID, packet.canMountShoulder, packet.canRide))
     }
 }
