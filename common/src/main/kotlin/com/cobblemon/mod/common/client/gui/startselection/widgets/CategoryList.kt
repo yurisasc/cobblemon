@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.gui.startselection.widgets
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen
 import com.cobblemon.mod.common.client.render.drawScaledText
@@ -16,6 +17,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
+import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
@@ -131,6 +133,7 @@ class CategoryList(
 
         override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
             starterSelectionScreen.changeCategory(category = category)
+            minecraft.soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
             return true
         }
 

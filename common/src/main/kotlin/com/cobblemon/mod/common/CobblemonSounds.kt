@@ -34,6 +34,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val PC_DROP = this.create("pc.drop")
     @JvmField
     val PC_RELEASE = this.create("pc.release")
+    @JvmField
+    val PC_CLICK = this.create("pc.click")
 
     @JvmField
     val HEALING_MACHINE_ACTIVE = this.create("healing_machine.active")
