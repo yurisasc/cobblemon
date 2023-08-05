@@ -78,7 +78,9 @@
   "medicine_spray.use": {
     "sounds": [ "cobblemon:medicine_spray_use" ]
   },
-
+  "berry.eat": {
+    "sounds": [ "cobblemon:berry_eat" ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },

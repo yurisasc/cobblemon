@@ -886,6 +886,7 @@
   "cobblemon.battle.item.harvest": "%1$s harvested one %2$s!",
   "cobblemon.battle.item.bestow": "%1$s received %2$s from %3$s!",
   "cobblemon.battle.item.trick": "%1$s obtained one %2$s.",
+  "cobblemon.battle.item.eat": "%1$s ate its %2$s.",
 
   "cobblemon.battle.enditem.eat":"%1$s ate its %2$s!",
   "cobblemon.battle.enditem.fling":"%1$s flung its %2$s!",

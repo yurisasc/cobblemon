@@ -223,7 +223,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.NAIVE_MINT)
         entries.add(CobblemonItems.SERIOUS_MINT)
 
-
+        CobblemonItems.berries().values.forEach(entries::add)
     }
 
     private fun evolutionItemEntries(displayContext: DisplayContext, entries: Entries) {

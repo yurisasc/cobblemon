@@ -12,11 +12,11 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
-import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
+import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.item.BerryItem
+import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.util.readBox
 import com.cobblemon.mod.common.util.writeBox
-import com.cobblemon.mod.common.block.BerryBlock
 import com.google.gson.annotations.SerializedName
 import java.awt.Color
 import net.minecraft.block.Block
@@ -42,7 +42,6 @@ import net.minecraft.world.World
  * @depreciated @property lifeCycles The [IntRange] possible for the berry to live for between harvests.
  * @property growthFactors An array of [GrowthFactor]s that will affect this berry. The client is not aware of these.
  * @property mutations A map of the partner berry as the key and the value as the resulting mutation with this berry.
- * @property interactions A collection of [PokemonEntityInteraction]s this berry will have in item form. The client is not aware of these.
  * @property growthPoints A collection of [GrowthPoint]s for the berry flowers and fruit.
  * @property sproutShapeBoxes A collection of [Box]es that make up the tree [VoxelShape] during the sprouting stages.
  * @property matureShapeBoxes A collection of [Box]es that make up the tree [VoxelShape] during the mature stages.
@@ -62,7 +61,6 @@ class Berry(
     val growthTime: IntRange,
     val refreshRate: IntRange,
     val growthFactors: Collection<GrowthFactor>,
-    val interactions: Collection<PokemonEntityInteraction>,
     val growthPoints: Array<GrowthPoint>,
     private val mutations: Map<Identifier, Identifier>,
     @SerializedName("sproutShape")
@@ -128,6 +126,11 @@ class Berry(
      * @return The value if any or 0.
      */
     fun flavor(flavor: Flavor): Int = this.flavors[flavor] ?: 0
+
+    fun dislikedBy(nature: Nature): Boolean {
+        val dislikedFlavor = nature.dislikedFlavor ?: return false
+        return flavor(dislikedFlavor) > 0
+    }
 
     /**
      * Calculates the yield for a berry tree being planted or replanted after a life cycle.
@@ -309,7 +312,7 @@ class Berry(
             val flowerTexture = buffer.readIdentifier()
             val fruitModelIdentifier = buffer.readIdentifier()
             val fruitTexture = buffer.readIdentifier()
-            return Berry(identifier, baseYield, growthTime, refreshRate, emptySet(), emptySet(), growthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
+            return Berry(identifier, baseYield, growthTime, refreshRate, emptySet(), growthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
         }
 
     }

@@ -35,15 +35,6 @@
       }
     }
   ],
-  "interactions": [
-    {
-      "variant": "cobblemon:heal_status",
-      "status": [
-        "cobblemon:poison",
-        "cobblemon:poisonbadly"
-      ]
-    }
-  ],
   "growthPoints": [
     {
       "position": {

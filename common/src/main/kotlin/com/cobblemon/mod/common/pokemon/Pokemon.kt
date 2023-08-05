@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.pokemon
 
+import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToPlayers
 import com.cobblemon.mod.common.CobblemonSounds
@@ -414,7 +416,7 @@ open class Pokemon : ShowdownIdentifiable {
             state = SentOutState(entity)
             return entity
         }
-        return null;
+        return null
     }
 
     fun sendOutWithAnimation(
@@ -469,9 +471,7 @@ open class Pokemon : ShowdownIdentifiable {
         entity?.heal(entity.maxHealth - entity.health)
     }
 
-    fun isFullHealth(): Boolean {
-        return this.currentHealth == this.hp
-    }
+    fun isFullHealth() = this.currentHealth == this.hp
 
     fun didSleep() {
         this.currentHealth = min((currentHealth + (hp / 2)), hp)
@@ -1176,6 +1176,19 @@ open class Pokemon : ShowdownIdentifiable {
     fun getAllObservables() = observables.asIterable()
     /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
     fun getChangeObservable(): Observable<Pokemon> = anyChangeObservable
+
+    fun writeVariables(struct: VariableStruct) {
+        struct.setDirectly("level", DoubleValue(level.toDouble()))
+        struct.setDirectly("max_hp", DoubleValue(hp.toDouble()))
+        struct.setDirectly("current_hp", DoubleValue(currentHealth.toDouble()))
+        struct.setDirectly("friendship", DoubleValue(friendship.toDouble()))
+        struct.setDirectly("shiny", DoubleValue(shiny))
+        for (stat in Stats.PERMANENT) {
+            struct.setDirectly("ev_${stat.showdownId}", DoubleValue(evs.getOrDefault(stat).toDouble()))
+            struct.setDirectly("iv_${stat.showdownId}", DoubleValue(ivs.getOrDefault(stat).toDouble()))
+            struct.setDirectly("stat_${stat.showdownId}", DoubleValue(getStat(stat).toDouble()))
+        }
+    }
 
     private fun findAndLearnFormChangeMoves() {
         this.form.moves.formChangeMoves.forEach { move ->
