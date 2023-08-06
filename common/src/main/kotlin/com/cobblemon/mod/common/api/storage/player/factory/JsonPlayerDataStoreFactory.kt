@@ -24,10 +24,15 @@ class JsonPlayerDataStoreFactory : PlayerDataStoreFactory {
     fun setup(server: MinecraftServer) {
         adapter.setup(server);
     }
+
     override fun load(uuid: UUID): PlayerData {
-        if(cache.contains(uuid))
-            return cache[uuid]!!;
-        return adapter.load(uuid);
+        return if(cache.contains(uuid))
+            cache[uuid]!!;
+        else {
+            val data = adapter.load(uuid);
+            cache[uuid] = data
+            data
+        }
     }
 
     override fun save(data: PlayerData) {
