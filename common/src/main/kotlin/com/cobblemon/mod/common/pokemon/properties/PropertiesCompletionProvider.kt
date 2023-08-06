@@ -137,7 +137,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("ability"), Abilities.all().map { if (it.name.asIdentifierDefaultingNamespace().namespace == Cobblemon.MODID) it.name.asIdentifierDefaultingNamespace().path else it.name })
 
         Stats.PERMANENT.forEach{ stat ->
-            val statName = stat.displayName.string.lowercase()
+            val statName = stat.toString().lowercase()
             this.inject(setOf("${statName}_iv"), setOf("0", IVs.MAX_VALUE.toString()))
             this.inject(setOf("${statName}_ev"), setOf("0", EVs.MAX_STAT_VALUE.toString()))
         }

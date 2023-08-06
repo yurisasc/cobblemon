@@ -35,6 +35,8 @@ import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.util.math.Vec2f
 import org.joml.Vector3f
+import kotlin.math.cos
+import kotlin.math.sin
 
 class StatWidget(
     pX: Int, pY: Int,
@@ -108,45 +110,49 @@ class StatWidget(
         val hexRightX = x + 108.5
         val hexCenterX = (hexLeftX + hexRightX) / 2
         val hexCenterY = (hexTopY + hexBottomY) / 2
+        val minTriangleSize = 8F
+        val minXTriangleLen = sin(Math.toRadians(60.0)).toFloat() * minTriangleSize
+        val minYTriangleLen = cos(Math.toRadians(60.0)).toFloat() * minTriangleSize
 
-        val triangleWidth = (hexCenterX - hexLeftX).toFloat()
-        val triangleHeight = ((hexBottomY - hexTopY) / 2).toFloat()
+        val triangleLongEdge = (hexCenterY - hexTopY - minTriangleSize).toFloat()
+        val triangleMediumEdge = (triangleLongEdge * sin(Math.toRadians(60.0))).toFloat()
+        val triangleShortEdge = (triangleLongEdge * cos(Math.toRadians(60.0))).toFloat()
 
-        val hpRatio = (stats.getOrDefault(Stats.HP, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val atkRatio = (stats.getOrDefault(Stats.ATTACK, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val defRatio = (stats.getOrDefault(Stats.DEFENCE, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val spAtkRatio = (stats.getOrDefault(Stats.SPECIAL_ATTACK, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val spDefRatio = (stats.getOrDefault(Stats.SPECIAL_DEFENCE, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val spdRatio = (stats.getOrDefault(Stats.SPEED, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
+        val hpRatio = (stats.getOrDefault(Stats.HP, 0).toFloat() / maximum).coerceIn(0F, 1F)
+        val atkRatio = (stats.getOrDefault(Stats.ATTACK, 0).toFloat() / maximum).coerceIn(0F, 1F)
+        val defRatio = (stats.getOrDefault(Stats.DEFENCE, 0).toFloat() / maximum).coerceIn(0F, 1F)
+        val spAtkRatio = (stats.getOrDefault(Stats.SPECIAL_ATTACK, 0).toFloat() / maximum).coerceIn(0F, 1F)
+        val spDefRatio = (stats.getOrDefault(Stats.SPECIAL_DEFENCE, 0).toFloat() / maximum).coerceIn(0F, 1F)
+        val spdRatio = (stats.getOrDefault(Stats.SPEED, 0).toFloat() / maximum).coerceIn(0F, 1F)
 
         val hpPoint = Vec2f(
             hexCenterX.toFloat(),
-            hexCenterY.toFloat() - hpRatio * triangleHeight
+            hexCenterY.toFloat() - minTriangleSize - hpRatio * triangleLongEdge
         )
 
         val attackPoint = Vec2f(
-            hexCenterX.toFloat() + atkRatio * triangleWidth,
-            hexCenterY.toFloat() - atkRatio * triangleHeight / 2
+            hexCenterX.toFloat() + minXTriangleLen + atkRatio * triangleMediumEdge,
+            hexCenterY.toFloat() - minYTriangleLen - atkRatio * triangleShortEdge
         )
 
         val defencePoint = Vec2f(
-            hexCenterX.toFloat() + defRatio * triangleWidth,
-            hexCenterY.toFloat() + defRatio * triangleHeight / 2
+            hexCenterX.toFloat() + minXTriangleLen + defRatio * triangleMediumEdge,
+            hexCenterY.toFloat() + minYTriangleLen + defRatio * triangleShortEdge
         )
 
         val specialAttackPoint = Vec2f(
-            hexCenterX.toFloat() - spAtkRatio * triangleWidth,
-            hexCenterY.toFloat() - spAtkRatio * triangleHeight / 2
+            hexCenterX.toFloat() - minXTriangleLen - spAtkRatio * triangleMediumEdge,
+            hexCenterY.toFloat() - minYTriangleLen - spAtkRatio * triangleShortEdge
         )
 
         val specialDefencePoint = Vec2f(
-            hexCenterX.toFloat() - spDefRatio * triangleWidth,
-            hexCenterY.toFloat() + spDefRatio * triangleHeight / 2
+            hexCenterX.toFloat() - minXTriangleLen - spDefRatio * triangleMediumEdge,
+            hexCenterY.toFloat() + minYTriangleLen + spDefRatio * triangleShortEdge
         )
 
         val speedPoint = Vec2f(
             hexCenterX.toFloat(),
-            hexCenterY.toFloat() + spdRatio * triangleHeight
+            hexCenterY.toFloat() + minTriangleSize + spdRatio * triangleLongEdge
         )
 
         val centerPoint = Vec2f(
