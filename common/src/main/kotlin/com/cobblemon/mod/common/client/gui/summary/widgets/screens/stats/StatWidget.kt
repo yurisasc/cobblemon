@@ -99,6 +99,7 @@ class StatWidget(
         bufferBuilder.vertex(v2.x.toDouble(), v2.y.toDouble(), 10.0).next()
         bufferBuilder.vertex(v3.x.toDouble(), v3.y.toDouble(), 10.0).next()
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
     }
 
     private fun drawStatHexagon(stats: Map<Stat, Int>, colour: Vector3f, maximum: Int) {
