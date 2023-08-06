@@ -21,6 +21,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
+import kotlin.math.cos
+import kotlin.math.sin
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.BufferRenderer
@@ -35,8 +37,6 @@ import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.util.math.Vec2f
 import org.joml.Vector3f
-import kotlin.math.cos
-import kotlin.math.sin
 
 class StatWidget(
     pX: Int, pY: Int,
@@ -111,12 +111,12 @@ class StatWidget(
         val hexCenterX = (hexLeftX + hexRightX) / 2
         val hexCenterY = (hexTopY + hexBottomY) / 2
         val minTriangleSize = 8F
-        val minXTriangleLen = sin(Math.toRadians(60.0)).toFloat() * minTriangleSize
+        val minXTriangleLen = sin(Math.toRadians(61.0)).toFloat() * minTriangleSize * 0.95F
         val minYTriangleLen = cos(Math.toRadians(60.0)).toFloat() * minTriangleSize
 
         val triangleLongEdge = (hexCenterY - hexTopY - minTriangleSize).toFloat()
-        val triangleMediumEdge = (triangleLongEdge * sin(Math.toRadians(60.0))).toFloat()
-        val triangleShortEdge = (triangleLongEdge * cos(Math.toRadians(60.0))).toFloat()
+        val triangleMediumEdge = (triangleLongEdge * sin(Math.toRadians(61.0))).toFloat()
+        val triangleShortEdge = (triangleLongEdge * cos(Math.toRadians(61.0))).toFloat()
 
         val hpRatio = (stats.getOrDefault(Stats.HP, 0).toFloat() / maximum).coerceIn(0F, 1F)
         val atkRatio = (stats.getOrDefault(Stats.ATTACK, 0).toFloat() / maximum).coerceIn(0F, 1F)

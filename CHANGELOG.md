@@ -190,6 +190,7 @@
 - Clicking categories of the Stat sub-section or the party reorder button in the Summary screen will now produce a click sound.
 - Updated PC Recipe.
 - Improved Pokémon AI and movement.
+- Friendship will slowly increase when Pokémon are shoulder-mounted.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -222,6 +223,7 @@
 - Fixed Shedninja evolving to use the consumed Pokeball and removed the held item.
 - Fixed non-existent species in spawn pool file causing random species to spawn.
 - Fixed shearing Pokémon dropping 0-2 wool instead of 1-3.
+- Fixed some alignment issues in the stat hexagon of the summary menu.
 
 ### Developer
 - Added SpawnEvent
