@@ -190,6 +190,9 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.X_SPEED)
         entries.add(CobblemonItems.X_ACCURACY)
 
+        entries.add(CobblemonItems.DIRE_HIT)
+        entries.add(CobblemonItems.GUARD_SPEC)
+
         entries.add(CobblemonItems.HP_UP)
         entries.add(CobblemonItems.PROTEIN)
         entries.add(CobblemonItems.IRON)
