@@ -38,6 +38,10 @@ object CobblemonItemTags {
     @JvmField
     val LUCKY_EGG = create("held/lucky_egg")
     @JvmField
+    val DESTINY_KNOT = create("held/destiny_knot")
+    @JvmField
+    val EVERSTONE = create("held/everstone")
+    @JvmField
     val EVOLUTION_STONES = create("evolution_stones")
     @JvmField
     val EVOLUTION_ITEMS = create("evolution_items")
