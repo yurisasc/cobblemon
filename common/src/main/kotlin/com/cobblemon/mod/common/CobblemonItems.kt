@@ -534,6 +534,16 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val POWER_HERB = heldItem("power_herb")
     @JvmField
     val WHITE_HERB = heldItem("white_herb")
+    @JvmField
+    val BRIGHT_POWDER = heldItem("bright_powder")
+    @JvmField
+    val METAL_POWDER = heldItem("metal_powder")
+    @JvmField
+    val QUICK_POWDER = heldItem("quick_powder")
+    @JvmField
+    val DESTINY_KNOT = heldItem("destiny_knot")
+    @JvmField
+    val EVERSTONE = heldItem("everstone")
 
     // Mulch
     @JvmField
