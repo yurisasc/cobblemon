@@ -8,128 +8,82 @@
     "max": 60
   },
   "refreshRate": {
-    "min": 20,
-    "max": 23
+    "min": 16,
+    "max": 26
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_jungle",
+        "#cobblemon:is_temperate",
+        "#cobblemon:is_lush"
+      ],
       "bonusYield": {
         "min": 1,
         "max": 2
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
       }
     }
   ],
   "growthPoints": [
     {
       "position": {
-        "x": 4.5,
-        "y": 10.5,
-        "z": 7.5
+        "x": 11.5,
+        "y": 25.1,
+        "z": 0.9
+      },
+      "rotation": {
+        "x": 153.4,
+        "y": 84.4,
+        "z": 153.5
+      }
+    },
+    {
+      "position": {
+        "x": 2.75,
+        "y": 27.4,
+        "z": 0.9
       },
       "rotation": {
         "x": 0.0,
+        "y": -90.0,
+        "z": 42.5
+      }
+    },
+    {
+      "position": {
+        "x": 1.0,
+        "y": 22.25,
+        "z": 9.1
+      },
+      "rotation": {
+        "x": 65.0,
         "y": 0.0,
         "z": 0.0
       }
     },
     {
       "position": {
-        "x": 10.6,
-        "y": 12.4,
-        "z": 4
+        "x": 1.0,
+        "y": 26.8,
+        "z": 6.2
       },
       "rotation": {
-        "x": 0.0,
+        "x": -97.5,
         "y": 0.0,
         "z": 0.0
       }
     },
     {
       "position": {
-        "x": 13,
-        "y": 14.4,
-        "z": 9.6
+        "x": 6.0,
+        "y": 27.4,
+        "z": 15.0
       },
       "rotation": {
         "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 5,
-        "y": 16.4,
-        "z": 12.6
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 5,
-        "y": 23.7,
-        "z": 10.6
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 12,
-        "y": 24.7,
-        "z": 11
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 10.5,
-        "y": 20.7,
-        "z": 4
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 4,
-        "y": 20.7,
-        "z": 5.5
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "y": -90.0,
+        "z": -32.5
       }
     }
   ],
@@ -175,7 +129,7 @@
   ],
   "flavors": {
     "SPICY": 10,
-	"BITTER": 15
+    "BITTER": 15
   },
   "tintIndexes": {
     "1": "#686898"

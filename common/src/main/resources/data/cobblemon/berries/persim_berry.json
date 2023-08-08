@@ -7,31 +7,19 @@
     "min": 45,
     "max": 55
   },
-  "lifeCycles": {
-    "min": 16,
-    "max": 24
+  "refreshRate": {
+    "min": 15,
+    "max": 25
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_arid"
+      ],
       "bonusYield": {
         "min": 1,
         "max": 2
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
       }
     }
   ],
@@ -40,7 +28,7 @@
       "position": {
         "x": 1.5,
         "y": 12.25,
-        "z": 6
+        "z": 6.0
       },
       "rotation": {
         "x": 5.0,
@@ -50,9 +38,9 @@
     },
     {
       "position": {
-        "x": 0.5,
+        "x": 2.0,
         "y": 11.25,
-        "z": 11
+        "z": 11.0
       },
       "rotation": {
         "x": 0.0,
@@ -88,7 +76,7 @@
       "position": {
         "x": 14.75,
         "y": 12.5,
-        "z": 10
+        "z": 10.0
       },
       "rotation": {
         "x": -2.5,
@@ -99,13 +87,13 @@
     {
       "position": {
         "x": 14.25,
-        "y": 12,
-        "z": 5
+        "y": 12.0,
+        "z": 5.0
       },
       "rotation": {
         "x": -2.5,
         "y": 12.5,
-        "z": 5
+        "z": 5.0
       }
     },
     {
@@ -136,9 +124,9 @@
   "mutations": {
     "cobblemon:cheri": "cobblemon:figy",
     "cobblemon:chesto": "cobblemon:wiki",
-	"cobblemon:persim": "cobblemon:mago",
-	"cobblemon:rawst": "cobblemon:aguav",
-	"cobblemon:aspear": "cobblemon:iapapa"
+    "cobblemon:pecha": "cobblemon:mago",
+    "cobblemon:rawst": "cobblemon:aguav",
+    "cobblemon:aspear": "cobblemon:iapapa"
   },
   "sproutShape": [
     {
@@ -177,11 +165,11 @@
     }
   ],
   "flavors": {
-	"SPICY": 10,
-	"DRY": 10,
+    "SPICY": 10,
+    "DRY": 10,
     "SWEET": 10,
-	"BITTER": 10,
-	"SOUR": 10
+    "BITTER": 10,
+    "SOUR": 10
   },
   "tintIndexes": {
     "1": "#686898"

@@ -4,34 +4,23 @@
     "max": 4
   },
   "growthTime": {
-    "min": 50,
-    "max": 70
+    "min": 55,
+    "max": 65
   },
   "refreshRate": {
-    "min": 16,
-    "max": 24
+    "min": 15,
+    "max": 25
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_jungle",
+        "#cobblemon:is_swamp"
+      ],
       "bonusYield": {
         "min": 1,
         "max": 2
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
       }
     }
   ],
@@ -40,7 +29,7 @@
       "position": {
         "x": 7.75,
         "y": 18.5,
-        "z": 8
+        "z": 8.0
       },
       "rotation": {
         "x": 175.0,
@@ -57,14 +46,14 @@
       "rotation": {
         "x": 37.5,
         "y": -30.0,
-        "z": 117.50
+        "z": 117.5
       }
     },
     {
       "position": {
-        "x": 8,
+        "x": 8.0,
         "y": 19.25,
-        "z": 8
+        "z": 8.0
       },
       "rotation": {
         "x": -125.0,
@@ -76,7 +65,7 @@
       "position": {
         "x": 8.25,
         "y": 21.5,
-        "z": 8
+        "z": 8.0
       },
       "rotation": {
         "x": 145.0,
@@ -87,7 +76,7 @@
     {
       "position": {
         "x": 7.75,
-        "y": 22,
+        "y": 22.0,
         "z": 7.5
       },
       "rotation": {
@@ -98,9 +87,9 @@
     },
     {
       "position": {
-        "x": 8,
+        "x": 8.0,
         "y": 21.75,
-        "z": 8
+        "z": 8.0
       },
       "rotation": {
         "x": -157.5,

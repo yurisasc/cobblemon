@@ -4,31 +4,19 @@
     "max": 2
   },
   "growthTime": {
-    "min": 80,
-    "max": 120
+    "min": 95,
+    "max": 105
   },
   "refreshRate": {
-    "min": 21,
-    "max": 29
+    "min": 20,
+    "max": 30
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_plains"
+      ],
       "bonusYield": {
         "min": 1,
         "max": 1
@@ -38,98 +26,38 @@
   "growthPoints": [
     {
       "position": {
-        "x": 4.5,
-        "y": 10.5,
-        "z": 7.5
+        "x": 11.8,
+        "y": 26.9,
+        "z": 1.4
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": 4.0,
+        "y": -7.4,
+        "z": 2.5
       }
     },
     {
       "position": {
-        "x": 10.6,
-        "y": 12.4,
-        "z": 4
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 13,
-        "y": 14.4,
-        "z": 9.6
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 5,
-        "y": 16.4,
-        "z": 12.6
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 5,
+        "x": 14.6,
         "y": 23.7,
-        "z": 10.6
+        "z": 11.5
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": -3.5,
+        "y": -21.7,
+        "z": 16.1
       }
     },
     {
       "position": {
-        "x": 12,
-        "y": 24.7,
-        "z": 11
+        "x": 2.0,
+        "y": 22.3,
+        "z": 13.75
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 10.5,
-        "y": 20.7,
-        "z": 4
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 4,
-        "y": 20.7,
-        "z": 5.5
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": -19.5,
+        "y": 30.6,
+        "z": -26.3
       }
     }
   ],
@@ -175,7 +103,7 @@
   ],
   "flavors": {
     "SPICY": 20,
-	"DRY": 10
+    "DRY": 10
   },
   "tintIndexes": {
     "1": "#686898"

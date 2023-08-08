@@ -1,61 +1,49 @@
 {
   "baseYield": {
-    "min": 1,
-    "max": 2
+    "min": 3,
+    "max": 6
   },
   "growthTime": {
     "min": 45,
     "max": 55
   },
   "refreshRate": {
-    "min": 16,
-    "max": 24
+    "min": 15,
+    "max": 25
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_plains"
+      ],
       "bonusYield": {
         "min": 1,
-        "max": 1
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
+        "max": 2
       }
     }
   ],
-  "growthPoints": [	
+  "growthPoints": [
     {
       "position": {
-        "x": 12,
+        "x": 12.0,
         "y": 25.25,
-        "z": 9
+        "z": 9.0
       },
       "rotation": {
         "x": 7.5,
-        "y": -110,
+        "y": -110.0,
         "z": 0.0
       }
     },
     {
       "position": {
-        "x": 12.75,
+        "x": 13.75,
         "y": 16.5,
         "z": 6.0
       },
       "rotation": {
-        "x": -5,
+        "x": -5.0,
         "y": 97.5,
         "z": 0.0
       }
@@ -67,8 +55,8 @@
         "z": 2.25
       },
       "rotation": {
-        "x": 5,
-        "y": 25,
+        "x": 5.0,
+        "y": 25.0,
         "z": 0.0
       }
     },
@@ -80,11 +68,11 @@
       },
       "rotation": {
         "x": 0.0,
-        "y": -75,
+        "y": -75.0,
         "z": 0.0
       }
     },
-	{
+    {
       "position": {
         "x": 5.5,
         "y": 25.25,
@@ -96,7 +84,7 @@
         "z": -5.0
       }
     },
-	{
+    {
       "position": {
         "x": 9.0,
         "y": 24.75,
@@ -108,7 +96,7 @@
         "z": 0.0
       }
     },
-	{
+    {
       "position": {
         "x": 2.75,
         "y": 24.75,
@@ -120,7 +108,7 @@
         "z": 0.0
       }
     },
-	{
+    {
       "position": {
         "x": 9.5,
         "y": 16.75,

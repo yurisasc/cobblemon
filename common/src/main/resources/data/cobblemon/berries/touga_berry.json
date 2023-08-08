@@ -1,11 +1,11 @@
 {
   "baseYield": {
-    "min": 1,
-    "max": 3
+    "min": 2,
+    "max": 4
   },
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 55,
+    "max": 65
   },
   "refreshRate": {
     "min": 15,
@@ -15,67 +15,91 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_arid"
+        "#cobblemon:is_forest"
       ],
       "bonusYield": {
         "min": 1,
-        "max": 1
+        "max": 2
       }
     }
   ],
   "growthPoints": [
     {
       "position": {
-        "x": 7.4,
-        "y": 5.6,
-        "z": 8.6
+        "x": 5.9,
+        "y": 3.8,
+        "z": 8.35
       },
       "rotation": {
-        "x": -32.8,
-        "y": -31.7,
-        "z": -131.4
+        "x": 75.6,
+        "y": -15.4,
+        "z": -41.7
       }
     },
     {
       "position": {
-        "x": 8.7,
-        "y": 5.5,
-        "z": 7.3
+        "x": 9.7,
+        "y": 5.3,
+        "z": 8.6
       },
       "rotation": {
-        "x": 142.7,
-        "y": -46.4,
-        "z": -1.1
+        "x": 94.8,
+        "y": -16.3,
+        "z": -113.5
+      }
+    },
+    {
+      "position": {
+        "x": 7.7,
+        "y": 6.3,
+        "z": 7.45
+      },
+      "rotation": {
+        "x": -81.7,
+        "y": 14.3,
+        "z": -72.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.5,
+        "y": 2.8,
+        "z": 12.75
+      },
+      "rotation": {
+        "x": 104.0,
+        "y": 87.3,
+        "z": 36.5
       }
     },
     {
       "position": {
         "x": 7.5,
-        "y": 5.4,
-        "z": 7.4
+        "y": 1.9,
+        "z": 3.2
       },
       "rotation": {
-        "x": 143.8,
-        "y": 40.5,
-        "z": -1.1
+        "x": 3.1,
+        "y": -2.1,
+        "z": 68.0
       }
     },
     {
       "position": {
-        "x": 8.7,
-        "y": 5.6,
-        "z": 8.7
+        "x": 9.7,
+        "y": 2.6,
+        "z": 7.7
       },
       "rotation": {
-        "x": -142.8,
-        "y": 46.0,
-        "z": -1.8
+        "x": -76.5,
+        "y": 19.4,
+        "z": -61.6
       }
     }
   ],
   "mutations": {
-    "cobblemon:tamato": "cobblemon:salac",
-    "cobblemon:chople": "cobblemon:lansat"
+    "cobblemon:occa": "cobblemon:tamato",
+    "cobblemon:colbur": "cobblemon:spelon"
   },
   "sproutShape": [
     {
@@ -114,14 +138,13 @@
     }
   ],
   "flavors": {
-    "SPICY": 30,
-    "DRY": 10
+    "SPICY": 40
   },
   "tintIndexes": {
     "1": "#686898"
   },
-  "flowerModel": "cobblemon:spelon_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/spelon.png",
-  "fruitModel": "cobblemon:spelon_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/spelon.png"
+  "flowerModel": "cobblemon:touga_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/touga.png",
+  "fruitModel": "cobblemon:touga_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/touga.png"
 }

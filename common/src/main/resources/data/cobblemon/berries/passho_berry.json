@@ -8,128 +8,83 @@
     "max": 60
   },
   "refreshRate": {
-    "min": 20,
-    "max": 23
+    "min": 16,
+    "max": 26
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_coast",
+        "#cobblemon:is_freshwater",
+        "#cobblemon:is_island",
+        "#cobblemon:is_ocean"
+      ],
       "bonusYield": {
         "min": 1,
         "max": 2
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
       }
     }
   ],
   "growthPoints": [
     {
       "position": {
-        "x": 4.5,
-        "y": 10.5,
-        "z": 7.5
+        "x": 5.5,
+        "y": 17.8,
+        "z": 5.4
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": -115.6,
+        "y": -71.7,
+        "z": -77.5
       }
     },
     {
       "position": {
-        "x": 10.6,
-        "y": 12.4,
-        "z": 4
+        "x": 10.75,
+        "y": 17.8,
+        "z": 5.4
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": -166.8,
+        "y": -8.7,
+        "z": 15.0
       }
     },
     {
       "position": {
-        "x": 13,
-        "y": 14.4,
-        "z": 9.6
+        "x": 5.7,
+        "y": 17.4,
+        "z": 10.25
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 5,
-        "y": 16.4,
-        "z": 12.6
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 5,
-        "y": 23.7,
-        "z": 10.6
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 12,
-        "y": 24.7,
-        "z": 11
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": 17.2,
+        "y": 2.7,
+        "z": 167.8
       }
     },
     {
       "position": {
         "x": 10.5,
-        "y": 20.7,
-        "z": 4
+        "y": 17.5,
+        "z": 10.4
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": 70.3,
+        "y": 74.8,
+        "z": -94.9
       }
     },
     {
       "position": {
-        "x": 4,
-        "y": 20.7,
-        "z": 5.5
+        "x": 8.0,
+        "y": 18.0,
+        "z": 10.8
       },
       "rotation": {
-        "x": 0.0,
+        "x": -17.5,
         "y": 0.0,
-        "z": 0.0
+        "z": -180.0
       }
     }
   ],
@@ -175,7 +130,7 @@
   ],
   "flavors": {
     "DRY": 15,
-	"BITTER": 10
+    "BITTER": 10
   },
   "tintIndexes": {
     "1": "#686898"

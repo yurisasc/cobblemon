@@ -4,34 +4,22 @@
     "max": 6
   },
   "growthTime": {
-    "min": 36,
-    "max": 44
+    "min": 35,
+    "max": 45
   },
   "refreshRate": {
-    "min": 15,
-    "max": 20
+    "min": 12,
+    "max": 22
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_temperate"
+      ],
       "bonusYield": {
         "min": 1,
         "max": 2
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
       }
     }
   ],
@@ -123,7 +111,7 @@
     {
       "position": {
         "x": 5.7,
-        "y": 9,
+        "y": 9.0,
         "z": 3.9
       },
       "rotation": {
@@ -131,43 +119,19 @@
         "y": 7.1,
         "z": -2.6
       }
-    },
-	{
-      "position": {
-        "x": 4.7,
-        "y": 21.3,
-        "z": 4.7
-      },
-      "rotation": {
-        "x": 11.2,
-        "y": -41.3,
-        "z": -16.7
-      }
-    },
-	{
-      "position": {
-        "x": 12.2,
-        "y": 14.1,
-        "z": 9.6
-      },
-      "rotation": {
-        "x": -10,
-        "y": 0,
-        "z": 41.5
-      }
     }
   ],
   "mutations": {
     "cobblemon:cheri": "cobblemon:lum",
-	"cobblemon:chesto": "cobblemon:lum",
-	"cobblemon:pecha": "cobblemon:lum",
-	"cobblemon:rawst": "cobblemon:lum",
-	"cobblemon:aspear": "cobblemon:lum",
+    "cobblemon:chesto": "cobblemon:lum",
+    "cobblemon:pecha": "cobblemon:lum",
+    "cobblemon:rawst": "cobblemon:lum",
+    "cobblemon:aspear": "cobblemon:lum",
     "cobblemon:razz": "cobblemon:leppa",
-	"cobblemon:bluk": "cobblemon:leppa",
-	"cobblemon:nanab": "cobblemon:leppa",
-	"cobblemon:wepear": "cobblemon:leppa",
-	"cobblemon:pinap": "cobblemon:leppa"
+    "cobblemon:bluk": "cobblemon:leppa",
+    "cobblemon:nanab": "cobblemon:leppa",
+    "cobblemon:wepear": "cobblemon:leppa",
+    "cobblemon:pinap": "cobblemon:leppa"
   },
   "sproutShape": [
     {
@@ -207,10 +171,10 @@
   ],
   "flavors": {
     "SPICY": 10,
-	"DRY": 10,
-	"SWEET": 10,
-	"BITTER": 10,
-	"SOUR": 10
+    "DRY": 10,
+    "SWEET": 10,
+    "BITTER": 10,
+    "SOUR": 10
   },
   "tintIndexes": {
     "1": "#686898"

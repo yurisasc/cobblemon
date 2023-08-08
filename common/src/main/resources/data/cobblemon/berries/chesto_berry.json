@@ -1,46 +1,34 @@
 {
   "baseYield": {
-    "min": 1,
-    "max": 2
+    "min": 3,
+    "max": 6
   },
   "growthTime": {
     "min": 45,
     "max": 55
   },
   "refreshRate": {
-    "min": 16,
-    "max": 24
+    "min": 15,
+    "max": 25
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_forest"
+      ],
       "bonusYield": {
         "min": 1,
-        "max": 1
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
+        "max": 2
       }
     }
   ],
   "growthPoints": [
     {
       "position": {
-        "x": 8,
-        "y": 16,
-        "z": 15
+        "x": 8.0,
+        "y": 16.0,
+        "z": 15.0
       },
       "rotation": {
         "x": -17.5,
@@ -52,108 +40,84 @@
       "position": {
         "x": 12.25,
         "y": 21.0,
-        "z": 13
+        "z": 13.0
       },
       "rotation": {
         "x": -12.5,
-        "y": 5,
-        "z": 0
+        "y": 5.0,
+        "z": 0.0
       }
     },
     {
       "position": {
-        "x": 3,
-        "y": 13,
-        "z": 13
+        "x": 3.0,
+        "y": 13.0,
+        "z": 13.0
       },
       "rotation": {
-        "x": 5,
-        "y": 40,
+        "x": 5.0,
+        "y": 40.0,
         "z": -7.5
       }
     },
     {
       "position": {
-        "x": 1,
-        "y": 17,
+        "x": 1.0,
+        "y": 17.0,
         "z": 7.5
       },
       "rotation": {
-        "x": 0,
-        "y": -90,
-        "z": -25
+        "x": 0.0,
+        "y": -90.0,
+        "z": -25.0
       }
     },
-	{
+    {
       "position": {
         "x": 3.75,
-        "y": 23,
+        "y": 23.0,
         "z": 13.75
       },
       "rotation": {
         "x": -12.5,
-        "y": -60,
-        "z": 0
+        "y": -60.0,
+        "z": 0.0
       }
     },
-	{
+    {
       "position": {
-        "x": 8,
-        "y": 17,
+        "x": 8.0,
+        "y": 17.0,
         "z": 0.75
       },
       "rotation": {
         "x": 12.5,
-        "y": 25,
-        "z": 0
+        "y": 25.0,
+        "z": 0.0
       }
     },
-	{
+    {
       "position": {
-        "x": 3,
-        "y": 21,
-        "z": 3
+        "x": 3.0,
+        "y": 21.0,
+        "z": 3.0
       },
       "rotation": {
         "x": 12.5,
-        "y": 35,
-        "z": 0
+        "y": 35.0,
+        "z": 0.0
       }
     },
-	{
+    {
       "position": {
         "x": 15.5,
-        "y": 17,
+        "y": 17.0,
         "z": 7.75
       },
       "rotation": {
         "x": 7.5,
-        "y": -90,
-        "z": 0
-      }
-    },
-	{
-      "position": {
-        "x": 12.5,
-        "y": 24,
-        "z": 2.75
-      },
-      "rotation": {
-        "x": 17.5,
-        "y": -60,
-        "z": 0
-      }
-    },
-	{
-      "position": {
-        "x": 13.75,
-        "y": 13,
-        "z": 3
-      },
-      "rotation": {
-        "x": 7.5,
-        "y": -17.5,
-        "z": 0
+        "y": -90.0,
+        "z": 0.0
       }
     }
   ],

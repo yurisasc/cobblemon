@@ -4,138 +4,103 @@
     "max": 4
   },
   "growthTime": {
-    "min": 50,
-    "max": 70
+    "min": 55,
+    "max": 65
   },
   "refreshRate": {
-    "min": 16,
-    "max": 24
+    "min": 15,
+    "max": 25
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_mountain",
+        "#cobblemon:is_taiga"
+      ],
       "bonusYield": {
         "min": 1,
         "max": 2
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
       }
     }
   ],
   "growthPoints": [
     {
       "position": {
-        "x": 4.5,
-        "y": 10.5,
-        "z": 7.5
+        "x": 8.1,
+        "y": 4.3,
+        "z": 8.0
       },
       "rotation": {
         "x": 0.0,
         "y": 0.0,
-        "z": 0.0
+        "z": -65.0
       }
     },
     {
       "position": {
-        "x": 10.6,
-        "y": 12.4,
-        "z": 4
+        "x": 8.0,
+        "y": 6.8,
+        "z": 7.7
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": 96.2,
+        "y": -43.4,
+        "z": -132.6
       }
     },
     {
       "position": {
-        "x": 13,
-        "y": 14.4,
-        "z": 9.6
+        "x": 8.2,
+        "y": 4.3,
+        "z": 8.25
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": -54.9,
+        "y": -21.7,
+        "z": 76.2
       }
     },
     {
       "position": {
-        "x": 5,
-        "y": 16.4,
-        "z": 12.6
+        "x": 8.0,
+        "y": 4.4,
+        "z": 8.4
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": -58.1,
+        "y": -13.7,
+        "z": -37.5
       }
     },
     {
       "position": {
-        "x": 5,
-        "y": 23.7,
-        "z": 10.6
+        "x": 8.0,
+        "y": 4.4,
+        "z": 7.9
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": 61.4,
+        "y": 23.8,
+        "z": 76.2
       }
     },
     {
       "position": {
-        "x": 12,
-        "y": 24.7,
-        "z": 11
+        "x": 8.1,
+        "y": 4.1,
+        "z": 7.9
       },
       "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 10.5,
-        "y": 20.7,
-        "z": 4
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 4,
-        "y": 20.7,
-        "z": 5.5
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": 5.7,
+        "y": -55.6,
+        "z": 71.6
       }
     }
   ],
   "mutations": {
-    "cobblemon:payapa": "cobblemon:belue",
-	"cobblemon:yache": "cobblemon:grepa"
+    "cobblemon:yache": "cobblemon:grepa",
+    "cobblemon:payapa": "cobblemon:belue"
   },
   "sproutShape": [
     {
@@ -175,7 +140,7 @@
   ],
   "flavors": {
     "SPICY": 10,
-	"SOUR": 20
+    "SOUR": 20
   },
   "tintIndexes": {
     "1": "#686898"

@@ -4,34 +4,22 @@
     "max": 4
   },
   "growthTime": {
-    "min": 50,
-    "max": 70
+    "min": 55,
+    "max": 65
   },
   "refreshRate": {
-    "min": 16,
-    "max": 24
+    "min": 15,
+    "max": 25
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_forest"
+      ],
       "bonusYield": {
         "min": 1,
         "max": 2
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
       }
     }
   ],
@@ -79,7 +67,7 @@
         "z": 9.25
       },
       "rotation": {
-        "x": -160.5,
+        "x": -160.0,
         "y": 70.0,
         "z": 165.0
       }
@@ -98,7 +86,7 @@
     },
     {
       "position": {
-        "x": 12,
+        "x": 12.0,
         "y": 23.5,
         "z": 12.75
       },

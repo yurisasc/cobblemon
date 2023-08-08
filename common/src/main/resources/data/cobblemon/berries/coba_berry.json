@@ -8,134 +8,88 @@
     "max": 60
   },
   "refreshRate": {
-    "min": 20,
-    "max": 23
+    "min": 16,
+    "max": 26
   },
   "growthFactors": [
     {
-      "variant": "cobblemon:biome_temperature",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
+      "variant": "cobblemon:biome",
+      "biomeTags": [
+        "#cobblemon:is_peak",
+        "#cobblemon:is_temperate",
+        "#cobblemon:is_sky"
+      ],
       "bonusYield": {
         "min": 1,
         "max": 2
-      }
-    },
-    {
-      "variant": "cobblemon:biome_downfall",
-      "range": {
-        "min": 0.8,
-        "max": 1.0
-      },
-      "bonusYield": {
-        "min": 1,
-        "max": 1
       }
     }
   ],
   "growthPoints": [
     {
       "position": {
-        "x": 4.5,
-        "y": 10.5,
-        "z": 7.5
+        "x": 8.8,
+        "y": 1.2,
+        "z": 8.0
       },
       "rotation": {
         "x": 0.0,
+        "y": 0.0,
+        "z": 140.0
+      }
+    },
+    {
+      "position": {
+        "x": 7.1,
+        "y": 1.2,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -142.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 1.2,
+        "z": 7.1
+      },
+      "rotation": {
+        "x": 35.0,
+        "y": 0.0,
+        "z": -180.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 1.2,
+        "z": 8.9
+      },
+      "rotation": {
+        "x": -145.0,
         "y": 0.0,
         "z": 0.0
       }
     },
     {
       "position": {
-        "x": 10.6,
-        "y": 12.4,
-        "z": 4
+        "x": 8.0,
+        "y": 2.3,
+        "z": 8.0
       },
       "rotation": {
         "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 13,
-        "y": 14.4,
-        "z": 9.6
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 5,
-        "y": 16.4,
-        "z": 12.6
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 5,
-        "y": 23.7,
-        "z": 10.6
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 12,
-        "y": 24.7,
-        "z": 11
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 10.5,
-        "y": 20.7,
-        "z": 4
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": 4,
-        "y": 20.7,
-        "z": 5.5
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "y": 42.5,
+        "z": -180.0
       }
     }
   ],
   "mutations": {
-    "cobblemon:belue": "cobblemon:rowap",
-    "cobblemon:sitrus": "cobblemon:enigma"
+    "cobblemon:sitrus": "cobblemon:enigma",
+    "cobblemon:belue": "cobblemon:rowap"
   },
   "sproutShape": [
     {
@@ -175,7 +129,7 @@
   ],
   "flavors": {
     "DRY": 10,
-	"BITTER": 15
+    "BITTER": 15
   },
   "tintIndexes": {
     "1": "#686898"
