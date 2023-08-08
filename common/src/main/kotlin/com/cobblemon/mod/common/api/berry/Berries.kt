@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.berry
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
@@ -26,6 +27,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.biome.Biome
 import java.awt.Color
 
 /**
@@ -53,6 +55,7 @@ object Berries : JsonDataRegistry<Berry> {
         .registerTypeAdapter(IntRange::class.java, VerboseIntRangeAdapter)
         .registerTypeAdapter(Color::class.java, LiteralHexColorAdapter)
         .registerTypeAdapter(Stat::class.java, CobblemonStatTypeAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
         .create()
     override val typeToken: TypeToken<Berry> = TypeToken.get(Berry::class.java)
     override val resourcePath = "berries"
