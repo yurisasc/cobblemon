@@ -180,6 +180,11 @@
   "item.cobblemon.mirror_herb": "Mirror Herb",
   "item.cobblemon.power_herb": "Power Herb",
   "item.cobblemon.white_herb": "White Herb",
+  "item.cobblemon.bright_powder": "Bright Powder",
+  "item.cobblemon.metal_powder": "Metal Powder",
+  "item.cobblemon.quick_powder": "Quick Powder",
+  "item.cobblemon.destiny_knot": "Destiny Knot",
+  "item.cobblemon.everstone": "Everstone",
 
   "item.cobblemon.poke_ball.tooltip": "1× catch rate",
   "item.cobblemon.slate_ball.tooltip": "1× catch rate",
