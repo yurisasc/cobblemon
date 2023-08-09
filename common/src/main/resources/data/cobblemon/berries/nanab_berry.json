@@ -167,7 +167,7 @@
     "BITTER": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#d58d6e"
   },
   "flowerModel": "cobblemon:nanab_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/nanab.png",

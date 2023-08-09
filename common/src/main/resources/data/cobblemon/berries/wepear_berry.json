@@ -166,7 +166,7 @@
     "SOUR": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#996259"
   },
   "flowerModel": "cobblemon:wepear_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/wepear.png",
