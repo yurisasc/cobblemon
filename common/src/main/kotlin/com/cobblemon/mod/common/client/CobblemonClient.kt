@@ -43,6 +43,7 @@ import java.awt.Color
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.block.BlockColors
 import net.minecraft.client.color.item.ItemColorProvider
+import net.minecraft.client.color.world.BiomeColors
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.EntityRenderer
@@ -132,8 +133,8 @@ object CobblemonClient {
         }, CobblemonItems.APRICORN_LEAVES)
 
         CobblemonBlocks.berries().values.forEach { berry ->
-            this.implementation.registerBlockColors(BlockColorProvider { _, _, _, tintIndex ->
-                return@BlockColorProvider (berry.berry()?.tintIndexes?.get(tintIndex) ?: Color.BLACK).rgb
+            this.implementation.registerBlockColors(BlockColorProvider { _, view, pos, tintIndex ->
+                return@BlockColorProvider (berry.berry()?.tintIndexes?.get(tintIndex)?.rgb ?: BiomeColors.getFoliageColor(view, pos))
             }, berry)
         }
     }
