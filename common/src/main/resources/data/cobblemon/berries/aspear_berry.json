@@ -166,7 +166,7 @@
     "SOUR": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#c10432"
   },
   "flowerModel": "cobblemon:aspear_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/aspear.png",
