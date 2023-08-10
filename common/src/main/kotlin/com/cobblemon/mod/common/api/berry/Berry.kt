@@ -143,14 +143,14 @@ class Berry(
      * @return The total berry stack count.
      */
     fun calculateYield(world: World, state: BlockState, pos: BlockPos, placer: LivingEntity? = null): Int {
-        val base = this.baseYield.random()
-        val bonus = this.bonusYield(world, state, pos)
-        var yield = base + bonus.first
-        val event = BerryYieldCalculationEvent(this, world, state, pos, placer, yield, bonus.second)
-        CobblemonEvents.BERRY_YIELD.post(event) { yield = it.yield }
-        return yield
+        //val base = this.baseYield.random()
+        //val bonus = this.bonusYield(world, state, pos)
+        //var yield = base + bonus.first
+        //val event = BerryYieldCalculationEvent(this, world, state, pos, placer, yield, bonus.second)
+        //CobblemonEvents.BERRY_YIELD.post(event) { yield = it.yield }
+        //return 1
         //Just for testing the renderer
-        //return growthPoints.size
+        return growthPoints.size
     }
 
     /**
