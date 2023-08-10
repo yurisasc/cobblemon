@@ -37,9 +37,16 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             matrices.scale(1F, -1F, 1F)
             matrices.translate(growthPoint.position.x / 16.0, -(growthPoint.position.y / 16.0), growthPoint.position.z / 16.0)
             matrices.push()
-            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(growthPoint.rotation.z.toFloat()))
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(growthPoint.rotation.y.toFloat()))
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(growthPoint.rotation.x.toFloat()))
+            if ((growthPoint.position.x > 8 && growthPoint.position.z > 8) || (growthPoint.position.x < 8 && growthPoint.position.z < 8)) {
+                matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-1 * growthPoint.rotation.z.toFloat()))
+                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-1 * growthPoint.rotation.y.toFloat()))
+                matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(growthPoint.rotation.x.toFloat()))
+            }
+            else {
+                matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees( growthPoint.rotation.z.toFloat()))
+                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-1 * growthPoint.rotation.y.toFloat()))
+                matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-1 * growthPoint.rotation.x.toFloat()))
+            }
             matrices.push()
             model.render(matrices, vertexConsumer, light, overlay)
             matrices.pop()

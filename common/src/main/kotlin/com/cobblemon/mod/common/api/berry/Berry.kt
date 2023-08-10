@@ -149,6 +149,8 @@ class Berry(
         val event = BerryYieldCalculationEvent(this, world, state, pos, placer, yield, bonus.second)
         CobblemonEvents.BERRY_YIELD.post(event) { yield = it.yield }
         return yield
+        //Just for testing the renderer
+        //return growthPoints.size
     }
 
     /**
