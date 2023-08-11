@@ -98,7 +98,7 @@ class StorageWidget(
             onPress = {
                 if (!displayConfirmRelease) {
                     displayConfirmRelease = true
-                    playSound(CobblemonSounds.GUI_CLICK)
+                    playSound(CobblemonSounds.PC_CLICK)
                 }
             }
         )
