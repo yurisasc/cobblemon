@@ -142,7 +142,7 @@
     "SOUR": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#7a7aa6"
   },
   "flowerModel": "cobblemon:rabuta_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/rabuta.png",

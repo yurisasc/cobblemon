@@ -118,7 +118,7 @@
     "DRY": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#efb588"
   },
   "flowerModel": "cobblemon:spelon_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/spelon.png",

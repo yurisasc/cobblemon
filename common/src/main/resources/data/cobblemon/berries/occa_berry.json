@@ -133,7 +133,7 @@
     "SWEET": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#6ed6b6"
   },
   "flowerModel": "cobblemon:occa_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/occa.png",

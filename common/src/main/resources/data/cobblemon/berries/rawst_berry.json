@@ -164,9 +164,7 @@
   "flavors": {
     "BITTER": 10
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:rawst_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/rawst.png",
   "fruitModel": "cobblemon:rawst_berry.geo",

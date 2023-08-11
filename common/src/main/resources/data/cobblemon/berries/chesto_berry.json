@@ -165,7 +165,7 @@
     "DRY": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#cb6c7c"
   },
   "flowerModel": "cobblemon:chesto_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/chesto.png",

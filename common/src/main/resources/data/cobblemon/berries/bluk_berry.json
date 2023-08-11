@@ -167,7 +167,7 @@
     "SWEET": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#e68b8b"
   },
   "flowerModel": "cobblemon:bluk_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/bluk.png",

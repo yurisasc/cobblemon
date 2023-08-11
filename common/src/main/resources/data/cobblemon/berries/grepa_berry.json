@@ -107,7 +107,7 @@
     "SOUR": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#f06078"
   },
   "flowerModel": "cobblemon:grepa_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/grepa.png",

@@ -132,9 +132,7 @@
     "DRY": 10,
     "SWEET": 20
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:kasib_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/kasib.png",
   "fruitModel": "cobblemon:kasib_berry.geo",

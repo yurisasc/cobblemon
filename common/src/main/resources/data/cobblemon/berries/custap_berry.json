@@ -114,9 +114,7 @@
     "SWEET": 40,
     "BITTER": 10
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:custap_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/custap.png",
   "fruitModel": "cobblemon:custap_berry.geo",

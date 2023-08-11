@@ -108,7 +108,7 @@
     "SOUR": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#448c44"
   },
   "flowerModel": "cobblemon:qualot_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/qualot.png",

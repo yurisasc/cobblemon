@@ -131,9 +131,7 @@
     "DRY": 15,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:kebia_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/kebia.png",
   "fruitModel": "cobblemon:kebia_berry.geo",

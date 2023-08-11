@@ -117,9 +117,7 @@
     "BITTER": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:kee_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/kee.png",
   "fruitModel": "cobblemon:kee_berry.geo",

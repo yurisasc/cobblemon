@@ -143,7 +143,7 @@
     "SOUR": 20
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#4bba36"
   },
   "flowerModel": "cobblemon:nomel_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/nomel.png",

@@ -119,7 +119,7 @@
     "SWEET": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#e997a6"
   },
   "flowerModel": "cobblemon:pamtre_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/pamtre.png",

@@ -130,9 +130,7 @@
     "DRY": 10,
     "SOUR": 15
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:yache_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/yache.png",
   "fruitModel": "cobblemon:yache_berry.geo",

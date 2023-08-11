@@ -1,12 +1,15 @@
 #Make sure to pip install openpyxl, also have all spreadsheets in current working directory
+#Also make sure to pip install requests
 from openpyxl import Workbook, load_workbook
 import json
+import requests
 
 def stuff():
 	berry_data_wb = load_workbook(filename = "Cobblemon Berry Data.xlsx", data_only=True)
 	berry_dict = {}
 	berry_file_name = ""
 	for row in berry_data_wb.active.iter_rows(2):
+		berry_num = int(row[0].value)
 		berry_name = row[1].value
 		berry_prefix = berry_name[:-6].lower()
 		berry_file_name = berry_name.lower().replace(" ", "_") + ".json"
@@ -94,9 +97,7 @@ def stuff():
 		if sourVal > 0:
 			flavorDict["SOUR"] = sourVal
 		berry_dict["flavors"] = flavorDict
-		berry_dict["tintIndexes"] = {
-			"1": "#686898"
-		}
+		berry_dict["tintIndexes"] = get_tints(berry_num, berry_prefix)
 		berry_dict["flowerModel"] = f"cobblemon:{berry_prefix}_flower.geo"
 		berry_dict["flowerTexture"] = f"cobblemon:textures/berries/{berry_prefix}.png"
 		berry_dict["fruitModel"] = f"cobblemon:{berry_prefix}_berry.geo"
@@ -141,6 +142,18 @@ def get_mutations(berry_name):
 			result[other_berry] = result_berry
 	return result
 
+def get_tints(berry_num, berry_name):
+	preceding_zero = "0" if berry_num < 10 else ""
+	url = f"https://gitlab.com/cable-mc/cobblemon-assets/-/raw/master/blockbench/berry_trees/{preceding_zero}{berry_num}_{berry_name}/{berry_name}_tints.json?ref_type=heads"
+	req = requests.get(url)
+	result = {}
+	if req.status_code == 200:
+		tint_list = req.json()
+		for i,x in enumerate(tint_list):
+			result[str(i)] = x
+	else:
+		print(f"Couldn't get tintIndexes for {berry_name} berry")
+	return result
 
 if __name__ == "__main__":
 	stuff()

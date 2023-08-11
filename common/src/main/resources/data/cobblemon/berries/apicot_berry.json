@@ -116,9 +116,7 @@
     "DRY": 30,
     "SOUR": 30
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:apicot_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/apicot.png",
   "fruitModel": "cobblemon:apicot_berry.geo",

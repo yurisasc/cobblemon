@@ -114,9 +114,7 @@
     "BITTER": 40,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:jaboca_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/jaboca.png",
   "fruitModel": "cobblemon:jaboca_berry.geo",

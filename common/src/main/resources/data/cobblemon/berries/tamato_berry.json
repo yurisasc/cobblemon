@@ -106,7 +106,7 @@
     "DRY": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#8fbfef"
   },
   "flowerModel": "cobblemon:tamato_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/tamato.png",

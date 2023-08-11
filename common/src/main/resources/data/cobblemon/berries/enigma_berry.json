@@ -130,9 +130,7 @@
     "SPICY": 40,
     "DRY": 10
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:enigma_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/enigma.png",
   "fruitModel": "cobblemon:enigma_berry.geo",

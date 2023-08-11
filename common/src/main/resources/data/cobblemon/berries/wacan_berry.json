@@ -131,9 +131,7 @@
     "SWEET": 15,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:wacan_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/wacan.png",
   "fruitModel": "cobblemon:wacan_berry.geo",

@@ -118,9 +118,7 @@
     "BITTER": 10,
     "SOUR": 30
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:lansat_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/lansat.png",
   "fruitModel": "cobblemon:lansat_berry.geo",

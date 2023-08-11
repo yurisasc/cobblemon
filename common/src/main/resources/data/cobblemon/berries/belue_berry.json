@@ -119,7 +119,7 @@
     "SOUR": 40
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#9fced6"
   },
   "flowerModel": "cobblemon:belue_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/belue.png",

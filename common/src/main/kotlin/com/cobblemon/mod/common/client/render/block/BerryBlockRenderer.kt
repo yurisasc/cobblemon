@@ -41,6 +41,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(growthPoint.rotation.y.toFloat()))
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(growthPoint.rotation.x.toFloat()))
             matrices.push()
+            matrices.scale(-1f, 1f, -1f)
             model.render(matrices, vertexConsumer, light, overlay)
             matrices.pop()
             matrices.pop()

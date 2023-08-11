@@ -142,7 +142,7 @@
     "SWEET": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#d46e7e"
   },
   "flowerModel": "cobblemon:cornn_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/cornn.png",

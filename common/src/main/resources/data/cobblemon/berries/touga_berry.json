@@ -140,9 +140,7 @@
   "flavors": {
     "SPICY": 40
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:touga_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/touga.png",
   "fruitModel": "cobblemon:touga_berry.geo",

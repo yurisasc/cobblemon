@@ -115,9 +115,7 @@
     "SPICY": 10,
     "SOUR": 40
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:rowap_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/rowap.png",
   "fruitModel": "cobblemon:rowap_berry.geo",

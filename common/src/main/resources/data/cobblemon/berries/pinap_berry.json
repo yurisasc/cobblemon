@@ -166,7 +166,7 @@
     "SOUR": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#917332"
   },
   "flowerModel": "cobblemon:pinap_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/pinap.png",

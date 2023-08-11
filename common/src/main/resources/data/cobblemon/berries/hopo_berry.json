@@ -100,9 +100,7 @@
     }
   ],
   "flavors": {},
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:hopo_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/hopo.png",
   "fruitModel": "cobblemon:hopo_berry.geo",

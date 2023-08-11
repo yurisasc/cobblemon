@@ -131,9 +131,7 @@
     "BITTER": 10,
     "SOUR": 20
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:colbur_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/colbur.png",
   "fruitModel": "cobblemon:colbur_berry.geo",

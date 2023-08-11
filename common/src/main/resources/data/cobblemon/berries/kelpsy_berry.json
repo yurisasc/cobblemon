@@ -108,7 +108,7 @@
     "SOUR": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#a54f71"
   },
   "flowerModel": "cobblemon:kelpsy_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/kelpsy.png",

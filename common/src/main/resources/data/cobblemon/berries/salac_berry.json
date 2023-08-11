@@ -115,9 +115,7 @@
     "BITTER": 10,
     "SOUR": 30
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:salac_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/salac.png",
   "fruitModel": "cobblemon:salac_berry.geo",

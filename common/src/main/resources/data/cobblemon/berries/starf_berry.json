@@ -117,9 +117,7 @@
     "BITTER": 10,
     "SOUR": 30
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:starf_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/starf.png",
   "fruitModel": "cobblemon:starf_berry.geo",

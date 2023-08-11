@@ -119,7 +119,7 @@
     "BITTER": 10
   },
   "tintIndexes": {
-    "1": "#686898"
+    "0": "#a88870"
   },
   "flowerModel": "cobblemon:watmel_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/watmel.png",

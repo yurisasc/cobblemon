@@ -118,9 +118,7 @@
     "BITTER": 30,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:maranga_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/maranga.png",
   "fruitModel": "cobblemon:maranga_berry.geo",

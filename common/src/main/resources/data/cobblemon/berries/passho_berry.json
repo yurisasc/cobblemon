@@ -132,9 +132,7 @@
     "DRY": 15,
     "BITTER": 10
   },
-  "tintIndexes": {
-    "1": "#686898"
-  },
+  "tintIndexes": {},
   "flowerModel": "cobblemon:passho_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/passho.png",
   "fruitModel": "cobblemon:passho_berry.geo",
