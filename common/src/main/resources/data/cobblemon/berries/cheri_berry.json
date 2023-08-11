@@ -165,7 +165,7 @@
     "SPICY": 10
   },
   "tintIndexes": {
-    "0": "#70b800"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:cheri_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/cheri.png",

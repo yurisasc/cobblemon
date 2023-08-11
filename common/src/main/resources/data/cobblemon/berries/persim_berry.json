@@ -172,7 +172,7 @@
     "SOUR": 10
   },
   "tintIndexes": {
-    "0": "#90c0f0"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:persim_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/persim.png",

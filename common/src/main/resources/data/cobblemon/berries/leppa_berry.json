@@ -120,7 +120,7 @@
     "SOUR": 10
   },
   "tintIndexes": {
-    "0": "#f8cead"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:leppa_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/leppa.png",

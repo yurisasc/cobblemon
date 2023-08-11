@@ -141,7 +141,7 @@
     "SWEET": 15
   },
   "tintIndexes": {
-    "0": "#d0896a"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:mago_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/mago.png",

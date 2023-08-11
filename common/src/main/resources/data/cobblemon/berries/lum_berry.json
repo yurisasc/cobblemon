@@ -126,7 +126,7 @@
     "SOUR": 10
   },
   "tintIndexes": {
-    "0": "#afafc7"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:lum_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/lum.png",

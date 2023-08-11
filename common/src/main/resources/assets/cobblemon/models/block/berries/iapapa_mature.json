@@ -8,15 +8,15 @@
 	},
 	"elements": [
 		{
-			"from": [6, 5, 6],
-			"to": [10, 7, 10],
+			"from": [6, -1, 6],
+			"to": [10, 0, 10],
 			"faces": {
-				"north": {"uv": [0, 0, 4, 2], "texture": "#3", "tintindex": 0},
-				"east": {"uv": [12, 2, 16, 4], "texture": "#3", "tintindex": 0},
-				"south": {"uv": [12, 0, 16, 2], "texture": "#3", "tintindex": 0},
-				"west": {"uv": [0, 2, 4, 4], "texture": "#3", "tintindex": 0},
-				"up": {"uv": [8, 0, 12, 4], "texture": "#3", "tintindex": 0},
-				"down": {"uv": [4, 0, 8, 4], "texture": "#3", "tintindex": 0}
+				"north": {"uv": [3, 2, 7, 3], "texture": "#3", "tintindex": 0},
+				"east": {"uv": [0, 2, 4, 3], "texture": "#3", "tintindex": 0},
+				"south": {"uv": [9, 2, 13, 3], "texture": "#3", "tintindex": 0},
+				"west": {"uv": [6, 2, 10, 3], "texture": "#3", "tintindex": 0},
+				"up": {"uv": [3, 2, 7, 6], "texture": "#3", "tintindex": 0},
+				"down": {"uv": [7, 2, 11, 6], "texture": "#3", "tintindex": 0}
 			}
 		},
 		{
@@ -29,18 +29,6 @@
 				"west": {"uv": [6, 10, 9, 16], "texture": "#3", "tintindex": 0},
 				"up": {"uv": [3, 0, 6, 3], "texture": "#3", "tintindex": 0},
 				"down": {"uv": [3, 0, 6, 3], "texture": "#3", "tintindex": 0}
-			}
-		},
-		{
-			"from": [6, -1, 6],
-			"to": [10, 0, 10],
-			"faces": {
-				"north": {"uv": [3, 2, 7, 3], "texture": "#3", "tintindex": 0},
-				"east": {"uv": [0, 2, 4, 3], "texture": "#3", "tintindex": 0},
-				"south": {"uv": [9, 2, 13, 3], "texture": "#3", "tintindex": 0},
-				"west": {"uv": [6, 2, 10, 3], "texture": "#3", "tintindex": 0},
-				"up": {"uv": [3, 2, 7, 6], "texture": "#3", "tintindex": 0},
-				"down": {"uv": [7, 2, 11, 6], "texture": "#3", "tintindex": 0}
 			}
 		},
 		{
@@ -78,6 +66,18 @@
 				"west": {"uv": [6, 10, 9, 16], "texture": "#2", "tintindex": 0},
 				"up": {"uv": [3, 0, 6, 3], "texture": "#2", "tintindex": 0},
 				"down": {"uv": [3, 0, 6, 3], "texture": "#2", "tintindex": 0}
+			}
+		},
+		{
+			"from": [6, 5, 6],
+			"to": [10, 7, 10],
+			"faces": {
+				"north": {"uv": [0, 0, 4, 2], "texture": "#3", "tintindex": 0},
+				"east": {"uv": [12, 2, 16, 4], "texture": "#3", "tintindex": 0},
+				"south": {"uv": [12, 0, 16, 2], "texture": "#3", "tintindex": 0},
+				"west": {"uv": [0, 2, 4, 4], "texture": "#3", "tintindex": 0},
+				"up": {"uv": [8, 0, 12, 4], "texture": "#3", "tintindex": 0},
+				"down": {"uv": [4, 0, 8, 4], "texture": "#3", "tintindex": 0}
 			}
 		},
 		{
@@ -137,21 +137,7 @@
 			"name": "iapapa_mature",
 			"origin": [4.5, 16, 11.5],
 			"color": 0,
-			"children": [
-				{
-					"name": "Stem",
-					"origin": [0, 0, 0],
-					"color": 0,
-					"children": [0, 1, 2]
-				},
-				3,
-				4,
-				5,
-				6,
-				7,
-				8,
-				9
-			]
+			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 		}
 	]
 }

@@ -166,7 +166,7 @@
     "SWEET": 10
   },
   "tintIndexes": {
-    "0": "#686898"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:pecha_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/pecha.png",

@@ -141,7 +141,7 @@
     "SPICY": 15
   },
   "tintIndexes": {
-    "0": "#de5861"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:figy_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/figy.png",

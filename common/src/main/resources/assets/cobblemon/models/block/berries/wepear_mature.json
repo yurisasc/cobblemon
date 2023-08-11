@@ -1,23 +1,23 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "cobblemon:block/leaf",
+		"0": "cobblemon:leaf",
 		"1": "block/spruce_leaves",
 		"3": "block/stripped_spruce_log",
-		"particle": "cobblemon:block/leaf"
+		"particle": "cobblemon:leaf"
 	},
 	"elements": [
 		{
-			"from": [7.5, 13, 7.5],
-			"to": [8.5, 24, 8.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [6.5, 13, 6.5]},
+			"from": [6, -1, 6],
+			"to": [10, 0, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 7]},
 			"faces": {
-				"north": {"uv": [0, 0, 1, 11], "texture": "#3"},
-				"east": {"uv": [0, 0, 1, 11], "texture": "#3"},
-				"south": {"uv": [0, 0, 1, 11], "texture": "#3"},
-				"west": {"uv": [0, 0, 1, 11], "texture": "#3"},
-				"up": {"uv": [0, 0, 1, 1], "texture": "#3"},
-				"down": {"uv": [0, 0, 1, 1], "texture": "#3"}
+				"north": {"uv": [0, 0, 4, 1], "texture": "#3"},
+				"east": {"uv": [0, 0, 4, 1], "texture": "#3"},
+				"south": {"uv": [0, 0, 4, 1], "texture": "#3"},
+				"west": {"uv": [0, 0, 4, 1], "texture": "#3"},
+				"up": {"uv": [0, 0, 4, 4], "texture": "#3"},
+				"down": {"uv": [0, 0, 4, 4], "texture": "#3"}
 			}
 		},
 		{
@@ -31,19 +31,6 @@
 				"west": {"uv": [0, 0, 2, 13], "texture": "#3"},
 				"up": {"uv": [0, 0, 2, 2], "texture": "#3"},
 				"down": {"uv": [0, 0, 2, 2], "texture": "#3"}
-			}
-		},
-		{
-			"from": [6, -1, 6],
-			"to": [10, 0, 10],
-			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 7]},
-			"faces": {
-				"north": {"uv": [0, 0, 4, 1], "texture": "#3"},
-				"east": {"uv": [0, 0, 4, 1], "texture": "#3"},
-				"south": {"uv": [0, 0, 4, 1], "texture": "#3"},
-				"west": {"uv": [0, 0, 4, 1], "texture": "#3"},
-				"up": {"uv": [0, 0, 4, 4], "texture": "#3"},
-				"down": {"uv": [0, 0, 4, 4], "texture": "#3"}
 			}
 		},
 		{
@@ -177,6 +164,19 @@
 			}
 		},
 		{
+			"from": [7.5, 13, 7.5],
+			"to": [8.5, 24, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [6.5, 13, 6.5]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 11], "texture": "#3"},
+				"east": {"uv": [0, 0, 1, 11], "texture": "#3"},
+				"south": {"uv": [0, 0, 1, 11], "texture": "#3"},
+				"west": {"uv": [0, 0, 1, 11], "texture": "#3"},
+				"up": {"uv": [0, 0, 1, 1], "texture": "#3"},
+				"down": {"uv": [0, 0, 1, 1], "texture": "#3"}
+			}
+		},
+		{
 			"from": [9, 16, 1],
 			"to": [15, 16, 7],
 			"rotation": {"angle": 22.5, "axis": "x", "origin": [9, 16, 7]},
@@ -299,33 +299,7 @@
 			"name": "wepear_mature",
 			"origin": [8, 24.3, 8],
 			"color": 0,
-			"children": [
-				{
-					"name": "Stem",
-					"origin": [0, 0, 7],
-					"color": 0,
-					"children": [0, 1, 2]
-				},
-				3,
-				4,
-				5,
-				6,
-				7,
-				8,
-				9,
-				10,
-				11,
-				12,
-				13,
-				14,
-				15,
-				16,
-				17,
-				18,
-				19,
-				20,
-				21
-			]
+			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
 		}
 	]
 }

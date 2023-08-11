@@ -141,7 +141,7 @@
     "SOUR": 15
   },
   "tintIndexes": {
-    "0": "#eb8e40"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:iapapa_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/iapapa.png",

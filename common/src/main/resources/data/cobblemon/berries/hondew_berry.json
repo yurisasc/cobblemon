@@ -107,7 +107,7 @@
     "BITTER": 10
   },
   "tintIndexes": {
-    "0": "#b45686"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:hondew_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/hondew.png",

@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "cobblemon:block/vines",
+		"2": "block/vines",
 		"3": "cobblemon:block/leaf"
 	},
 	"elements": [

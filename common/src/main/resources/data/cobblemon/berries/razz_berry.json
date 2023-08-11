@@ -166,7 +166,7 @@
     "DRY": 10
   },
   "tintIndexes": {
-    "0": "#9697b4"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:razz_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/razz.png",

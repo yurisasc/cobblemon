@@ -142,7 +142,7 @@
     "BITTER": 15
   },
   "tintIndexes": {
-    "0": "#c8c8d8"
+    "1": "#686898"
   },
   "flowerModel": "cobblemon:aguav_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/aguav.png",
