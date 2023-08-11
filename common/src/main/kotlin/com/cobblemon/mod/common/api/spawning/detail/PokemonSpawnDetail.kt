@@ -15,9 +15,11 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.lang
 import com.google.gson.annotations.SerializedName
+import kotlin.math.ceil
 import net.minecraft.text.MutableText
 
 /**
@@ -37,6 +39,10 @@ class PokemonSpawnDetail : SpawnDetail() {
     var levelRange: IntRange? = null
     val drops: DropTable? = null
     val heldItems: MutableList<PossibleHeldItem>? = null
+
+    private val pokemonExample: Pokemon by lazy { pokemon.create() }
+
+    // Calculate the size based off the hitbox unless it's been explicitly set
 
     /* todo breadcrumbing, ai */
 
@@ -68,6 +74,14 @@ class PokemonSpawnDetail : SpawnDetail() {
                     species.secondaryType?.let { listOf(species.primaryType.name.lowercase(), it.name.lowercase()) }
                     ?: listOf(species.primaryType.name.lowercase())
                 )
+
+                if (height == -1) {
+                    height = ceil(pokemonExample.form.hitbox.height * pokemonExample.form.baseScale).toInt()
+                }
+
+                if (width == -1) {
+                    width = ceil(pokemonExample.form.hitbox.width * pokemonExample.form.baseScale).toInt()
+                }
             }
         }
     }

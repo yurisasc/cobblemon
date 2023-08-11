@@ -12,9 +12,9 @@ import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.WorldSlice
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.block.BlockState
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
 
 /**
  * A type of area based spawning context with a floor.
@@ -29,11 +29,10 @@ abstract class FlooredSpawningContext(
     light: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
-    width: Int,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : AreaSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice) {
+) : AreaSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice) {
     /** The block that the spawning is occurring on. */
     val baseBlock = slice.getBlockState(position.x, position.y, position.z)
 }
@@ -51,11 +50,10 @@ open class GroundedSpawningContext(
     light: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
-    width: Int,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice)
 
 /**
  * A spawning context that occurs at the bottom of a body of water.
@@ -70,11 +68,12 @@ open class SeafloorSpawningContext(
     light: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
-    width: Int,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice) {
+    override fun isSafeSpace(world: ServerWorld, pos: BlockPos, state: BlockState) = state.fluidState.isIn(FluidTags.WATER)
+}
 
 /**
  * A spawning context that occurs at the bottom of bodies of lava.
@@ -89,11 +88,12 @@ open class LavafloorSpawningContext(
     light: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
-    width: Int,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice) {
+    override fun isSafeSpace(world: ServerWorld, pos: BlockPos, state: BlockState) = state.fluidState.isIn(FluidTags.LAVA)
+}
 
 open class SurfaceSpawningContext(
     cause: SpawnCause,
@@ -102,9 +102,8 @@ open class SurfaceSpawningContext(
     light: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
-    width: Int,
     height: Int,
     val depth: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice)

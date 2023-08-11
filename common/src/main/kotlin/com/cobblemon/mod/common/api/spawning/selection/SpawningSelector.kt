@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 
 /**
- * Interface responsible for taking all of the potential spawns across many contexts, and applying some kind of
+ * Interface responsible for taking all the potential spawns across many contexts, and applying some kind of
  * selection process to choose one. It is also responsible for generating a name to percentage probability for the given
  * spawn information for checking spawns under specific conditions.
  *

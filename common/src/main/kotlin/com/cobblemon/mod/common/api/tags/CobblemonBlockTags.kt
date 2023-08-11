@@ -34,6 +34,7 @@ object CobblemonBlockTags {
     @JvmField val MINTS = createTag("mints")
     @JvmField val ROOTS_SPREADABLE = createTag("roots_spreadable")
     @JvmField val SMALL_FLOWERS = createTag("small_flowers")
+    @JvmField val SEES_SKY = createTag("sees_sky")
 
     private fun createTag(name: String) = TagKey.of(RegistryKeys.BLOCK, cobblemonResource(name))
 
