@@ -83,6 +83,10 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.ENERGY_ROOT)
         entries.add(CobblemonItems.REVIVAL_HERB)
         entries.add(CobblemonItems.PEP_UP_FLOWER)
+        entries.add(CobblemonItems.MENTAL_HERB)
+        entries.add(CobblemonItems.MIRROR_HERB)
+        entries.add(CobblemonItems.POWER_HERB)
+        entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.VIVICHOKE)
         entries.add(CobblemonItems.VIVICHOKE_SEEDS)
 
@@ -172,6 +176,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.ROASTED_LEEK)
         entries.add(CobblemonItems.LEEK_AND_POTATO_STEW)
         entries.add(CobblemonItems.BRAISED_VIVICHOKE)
+        entries.add(CobblemonItems.VIVICHOKE_DIP)
         entries.add(CobblemonItems.REMEDY)
         entries.add(CobblemonItems.FINE_REMEDY)
         entries.add(CobblemonItems.SUPERB_REMEDY)
@@ -186,6 +191,9 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.X_SP_DEF)
         entries.add(CobblemonItems.X_SPEED)
         entries.add(CobblemonItems.X_ACCURACY)
+
+        entries.add(CobblemonItems.DIRE_HIT)
+        entries.add(CobblemonItems.GUARD_SPEC)
 
         entries.add(CobblemonItems.HP_UP)
         entries.add(CobblemonItems.PROTEIN)
@@ -269,8 +277,6 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.FLOWER_SWEET)
         entries.add(CobblemonItems.STAR_SWEET)
         entries.add(CobblemonItems.RIBBON_SWEET)
-
-
     }
 
     private fun heldItemEntries(displayContext: DisplayContext, entries: Entries) {
@@ -279,13 +285,16 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.BLACK_BELT)
         entries.add(CobblemonItems.BLACK_GLASSES)
         entries.add(CobblemonItems.BLACK_SLUDGE)
+        entries.add(CobblemonItems.BRIGHT_POWDER)
         entries.add(CobblemonItems.CHARCOAL)
         entries.add(CobblemonItems.CHOICE_BAND)
         entries.add(CobblemonItems.CHOICE_SCARF)
         entries.add(CobblemonItems.CHOICE_SPECS)
         entries.add(CobblemonItems.DEEP_SEA_SCALE)
         entries.add(CobblemonItems.DEEP_SEA_TOOTH)
+        entries.add(CobblemonItems.DESTINY_KNOT)
         entries.add(CobblemonItems.DRAGON_FANG)
+        entries.add(CobblemonItems.EVERSTONE)
         entries.add(CobblemonItems.EXP_SHARE)
         entries.add(CobblemonItems.FOCUS_BAND)
         entries.add(CobblemonItems.HARD_STONE)
@@ -295,12 +304,17 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.LIGHT_CLAY)
         entries.add(CobblemonItems.LUCKY_EGG)
         entries.add(CobblemonItems.MAGNET)
+        entries.add(CobblemonItems.MENTAL_HERB)
+        entries.add(CobblemonItems.METAL_POWDER)
         entries.add(CobblemonItems.MIRACLE_SEED)
+        entries.add(CobblemonItems.MIRROR_HERB)
         entries.add(CobblemonItems.MUSCLE_BAND)
         entries.add(CobblemonItems.MYSTIC_WATER)
         entries.add(CobblemonItems.NEVER_MELT_ICE)
         entries.add(CobblemonItems.POISON_BARB)
+        entries.add(CobblemonItems.POWER_HERB)
         entries.add(CobblemonItems.QUICK_CLAW)
+        entries.add(CobblemonItems.QUICK_POWDER)
         entries.add(CobblemonItems.RAZOR_CLAW)
         entries.add(CobblemonItems.RAZOR_FANG)
         entries.add(CobblemonItems.ROCKY_HELMET)
@@ -311,6 +325,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.SOFT_SAND)
         entries.add(CobblemonItems.SPELL_TAG)
         entries.add(CobblemonItems.TWISTED_SPOON)
+        entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
     }
 
@@ -322,9 +337,7 @@ object CobblemonItemGroups {
         CobblemonItems.ROASTED_LEEK,
         CobblemonItems.LEEK_AND_POTATO_STEW,
         CobblemonItems.BRAISED_VIVICHOKE,
-        /*
         CobblemonItems.VIVICHOKE_DIP
-         */
     )
 
 }

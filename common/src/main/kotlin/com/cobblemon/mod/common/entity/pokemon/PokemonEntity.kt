@@ -918,7 +918,7 @@ class PokemonEntity(
         feature.enabled = true
         this.pokemon.markFeatureDirty(feature)
         this.pokemon.updateAspects()
-        val i = this.random.nextInt(3)
+        val i = this.random.nextInt(3) + 1
         for (j in 0 until i) {
             val itemEntity = this.dropItem(Items.WHITE_WOOL, 1) ?: return
             itemEntity.velocity = itemEntity.velocity.add(

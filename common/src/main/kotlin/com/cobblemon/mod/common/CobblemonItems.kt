@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
@@ -25,17 +26,16 @@ import com.cobblemon.mod.common.item.berry.PortionHealingBerryItem
 import com.cobblemon.mod.common.item.berry.StatusCuringBerryItem
 import com.cobblemon.mod.common.item.berry.VolatileCuringBerryItem
 import com.cobblemon.mod.common.item.interactive.*
+import com.cobblemon.mod.common.item.interactive.PotionItem
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.Block
 import net.minecraft.block.ComposterBlock
-import net.minecraft.item.BlockItem
-import net.minecraft.item.FoodComponent
-import net.minecraft.item.Item
-import net.minecraft.item.Items
-import net.minecraft.item.StewItem
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.item.*
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -328,17 +328,26 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val ZINC = create("zinc", VitaminItem(Stats.SPECIAL_DEFENCE))
     @JvmField
-    val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK_CROP))
+    val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().hunger(1).saturationModifier(0.2f).build())))
     @JvmField
-    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(3).saturationModifier(0.2f).build())))
+    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(3).saturationModifier(0.3f).build())))
     @JvmField
-    val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().food(FoodComponent.Builder().hunger(6).saturationModifier(0.6f).build())))
+    val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().maxCount(1).food(FoodComponent.Builder().hunger(6).saturationModifier(0.6f).build())))
     @JvmField
-    val ENERGY_ROOT = create("energy_root", EnergyRoot(CobblemonBlocks.ENERGY_ROOT))
+    val VIVICHOKE_DIP = create("vivichoke_dip", StewItem(Item.Settings().maxCount(1)
+        .food(FoodComponent.Builder()
+            .hunger(10)
+            .saturationModifier(1.2F)
+            .statusEffect(StatusEffectInstance(StatusEffects.ABSORPTION, 600, 0), 1F)
+            .build()
+        )
+    ))
+    @JvmField
+    val ENERGY_ROOT = create("energy_root", EnergyRootItem(CobblemonBlocks.ENERGY_ROOT, Item.Settings().food(FoodComponent.Builder().hunger(1).snack().saturationModifier(0.2f).build())))
     @JvmField
     val REVIVAL_HERB = create("revival_herb", RevivalHerbItem(CobblemonBlocks.REVIVAL_HERB))
     @JvmField
-    val PEP_UP_FLOWER = create("pep_up_flower", PepUpFlowerItem(Item.Settings()))
+    val PEP_UP_FLOWER = blockItem("pep_up_flower", CobblemonBlocks.PEP_UP_FLOWER)
     @JvmField
     val MEDICINAL_BREW = create("medicinal_brew", Item(Item.Settings()))
     @JvmField
@@ -362,7 +371,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val HEAL_POWDER = create("heal_powder", HealPowderItem())
     @JvmField
-    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(8).saturationModifier(0.6f).build())))
+    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(8).saturationModifier(0.6f).build()).maxCount(1)))
     @JvmField
     val REVIVE = create("revive", ReviveItem(max = false))
     @JvmField
@@ -533,7 +542,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val ASSAULT_VEST = heldItem("assault_vest")
     @JvmField
-    val BIG_ROOT = create("big_root", BigRoot(CobblemonBlocks.BIG_ROOT))
+    val BIG_ROOT = blockItem("big_root", CobblemonBlocks.BIG_ROOT)
     @JvmField
     val BLACK_BELT = heldItem("black_belt")
     @JvmField
@@ -596,26 +605,44 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val TWISTED_SPOON = heldItem("twisted_spoon")
     @JvmField
     val WISE_GLASSES = heldItem("wise_glasses")
+    @JvmField
+    val MENTAL_HERB = heldItem("mental_herb")
+    @JvmField
+    val MIRROR_HERB = heldItem("mirror_herb")
+    @JvmField
+    val POWER_HERB = heldItem("power_herb")
+    @JvmField
+    val WHITE_HERB = heldItem("white_herb")
+    @JvmField
+    val BRIGHT_POWDER = heldItem("bright_powder")
+    @JvmField
+    val METAL_POWDER = heldItem("metal_powder")
+    @JvmField
+    val QUICK_POWDER = heldItem("quick_powder")
+    @JvmField
+    val DESTINY_KNOT = heldItem("destiny_knot")
+    @JvmField
+    val EVERSTONE = heldItem("everstone")
 
     // Mulch
     @JvmField
     val MULCH_BASE = noSettingsItem("mulch_base")
     @JvmField
-    val COARSE_MULCH = noSettingsItem("coarse_mulch")
+    val COARSE_MULCH = mulchItem("coarse_mulch", MulchVariant.COARSE)
     @JvmField
-    val GROWTH_MULCH = noSettingsItem("growth_mulch")
+    val GROWTH_MULCH = mulchItem("growth_mulch", MulchVariant.GROWTH)
     @JvmField
-    val HUMID_MULCH = noSettingsItem("humid_mulch")
+    val HUMID_MULCH = mulchItem("humid_mulch", MulchVariant.HUMID)
     @JvmField
-    val LOAMY_MULCH = noSettingsItem("loamy_mulch")
+    val LOAMY_MULCH = mulchItem("loamy_mulch", MulchVariant.LOAMY)
     @JvmField
-    val PEAT_MULCH = noSettingsItem("peat_mulch")
+    val PEAT_MULCH = mulchItem("peat_mulch", MulchVariant.PEAT)
     @JvmField
-    val RICH_MULCH = noSettingsItem("rich_mulch")
+    val RICH_MULCH = mulchItem("rich_mulch", MulchVariant.RICH)
     @JvmField
-    val SANDY_MULCH = noSettingsItem("sandy_mulch")
+    val SANDY_MULCH = mulchItem("sandy_mulch", MulchVariant.SANDY)
     @JvmField
-    val SURPRISE_MULCH = noSettingsItem("surprise_mulch")
+    val SURPRISE_MULCH = mulchItem("surprise_mulch", MulchVariant.SURPRISE)
 
     // Misc
     @JvmField
@@ -626,6 +653,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     private fun noSettingsItem(name: String): CobblemonItem = this.create(name, CobblemonItem(Item.Settings()))
 
     fun berries() = this.berries.toMap()
+
+    private fun mulchItem(name: String, mulchVariant: MulchVariant): MulchItem = this.create(name, MulchItem(mulchVariant))
 
     private fun pokeBallItem(pokeBall: PokeBall): PokeBallItem {
         val item = create(pokeBall.name.path, PokeBallItem(pokeBall))

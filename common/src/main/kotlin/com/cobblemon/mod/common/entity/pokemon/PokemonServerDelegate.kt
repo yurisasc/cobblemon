@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.util.Optional
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.PathNodeType
@@ -202,7 +203,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.deathTime == 60) {
             if (entity.owner == null) {
                 entity.world.sendEntityStatus(entity, 60.toByte()) // Sends smoke effect
-                (entity.drops ?: entity.pokemon.form.drops).drop(entity, entity.world as ServerWorld, entity.pos, entity.killer)
+                if(entity.world.gameRules.getBoolean(CobblemonGameRules.DO_POKEMON_LOOT)) {
+                    (entity.drops ?: entity.pokemon.form.drops).drop(entity, entity.world as ServerWorld, entity.pos, entity.killer)
+                }
             }
 
             entity.remove(Entity.RemovalReason.KILLED)

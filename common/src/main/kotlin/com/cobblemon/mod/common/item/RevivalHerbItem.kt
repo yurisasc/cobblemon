@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.block.RevivalHerbBlock
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import kotlin.math.ceil
+import net.minecraft.block.ComposterBlock
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.AliasedBlockItem
 import net.minecraft.item.ItemStack
@@ -30,7 +31,14 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 
 class RevivalHerbItem(block: RevivalHerbBlock) : AliasedBlockItem(block, Settings()), PokemonSelectingItem {
+
+    init {
+        // 65% to raise composter level
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE[this] = .65F
+    }
+
     private val runtime = MoLangRuntime()
+
     override val bagItem = object : BagItem {
         override val itemName = "item.cobblemon.revival_herb"
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) = target.health <= 0

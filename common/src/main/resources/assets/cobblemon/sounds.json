@@ -32,6 +32,9 @@
   "pc.release": {
     "sounds": [ "cobblemon:pc/pc_release" ]
   },
+  "pc.click": {
+    "sounds": [ "cobblemon:pc/pc_click" ]
+  },
   "poke_ball.capture_started": {
     "sounds": [ "cobblemon:pokeball/capture_started" ]
   },

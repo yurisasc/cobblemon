@@ -92,7 +92,7 @@ class HealingMachineBlockEntity(
             }
         }
         this.currentUser = user
-        this.healTimeLeft = 60
+        this.healTimeLeft = 24
 
         markUpdated()
     }
