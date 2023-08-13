@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
+import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.status.Status
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
@@ -45,6 +46,7 @@ object Berries : JsonDataRegistry<Berry> {
     override val gson = GsonBuilder()
         .disableHtmlEscaping()
         .setPrettyPrinting()
+        .registerTypeAdapter(MulchVariant::class.java, MulchVariantAdapter)
         .registerTypeAdapter(NumberRange.FloatRange::class.java, FloatNumberRangeAdapter)
         .registerTypeAdapter(PokemonEntityInteraction::class.java, CobblemonPokemonEntityInteractionTypeAdapter)
         .registerTypeAdapter(Status::class.java, StatusAdapter)

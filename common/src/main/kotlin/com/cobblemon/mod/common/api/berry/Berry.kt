@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
+import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.pokemon.Nature
@@ -31,6 +32,8 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.World
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Represents the data behind a berry.
@@ -60,6 +63,7 @@ class Berry(
     //val lifeCycles: IntRange,
     val growthTime: IntRange,
     val refreshRate: IntRange,
+    val favoriteMulches: EnumSet<MulchVariant>,
     val growthFactors: Collection<GrowthFactor>,
     val growthPoints: Array<GrowthPoint>,
     private val mutations: Map<Identifier, Identifier>,
@@ -143,14 +147,18 @@ class Berry(
      * @return The total berry stack count.
      */
     fun calculateYield(world: World, state: BlockState, pos: BlockPos, placer: LivingEntity? = null): Int {
-        //val base = this.baseYield.random()
-        //val bonus = this.bonusYield(world, state, pos)
-        //var yield = base + bonus.first
-        //val event = BerryYieldCalculationEvent(this, world, state, pos, placer, yield, bonus.second)
-        //CobblemonEvents.BERRY_YIELD.post(event) { yield = it.yield }
-        //return 1
+        val base = this.baseYield.random()
+        val bonus = this.bonusYield(world, state, pos)
+        var yield = base + bonus.first
+        val event = BerryYieldCalculationEvent(this, world, state, pos, placer, yield, bonus.second)
+        val hasRichMulch = state.get(BerryBlock.MULCH_TYPE).equals(MulchVariant.RICH) and (state.get(BerryBlock.MULCH_DURATION) > 0)
+        if (hasRichMulch) {
+            yield = yield.times(1.2).coerceAtMost(maxYield().toDouble()).toInt()
+        }
+        CobblemonEvents.BERRY_YIELD.post(event) { yield = it.yield }
+        return yield
         //Just for testing the renderer
-        return growthPoints.size
+        //return growthPoints.size
     }
 
     /**
@@ -233,6 +241,7 @@ class Berry(
         buffer.writeIdentifier(this.identifier)
         buffer.writeInt(this.baseYield.first)
         buffer.writeInt(this.baseYield.last)
+        buffer.writeEnumSet(favoriteMulches, MulchVariant::class.java)
         //buffer.writeInt(this.lifeCycles.first)
         //buffer.writeInt(this.lifeCycles.last)
         buffer.writeInt(this.growthTime.first)
@@ -273,10 +282,14 @@ class Berry(
     private fun bonusYield(world: World, state: BlockState, pos: BlockPos): Pair<Int, Collection<GrowthFactor>> {
         var bonus = 0
         val passed = arrayListOf<GrowthFactor>()
+        val hasBiomeMulch = favoriteMulches.contains(state.get(BerryBlock.MULCH_TYPE))
         this.growthFactors.forEach { factor ->
             if (factor.isValid(world, state, pos)) {
                 bonus += factor.yield()
                 passed += factor
+            }
+            else if (hasBiomeMulch) {
+                bonus += factor.yield()
             }
         }
         return bonus to passed
@@ -299,6 +312,7 @@ class Berry(
         internal fun decode(buffer: PacketByteBuf): Berry {
             val identifier = buffer.readIdentifier()
             val baseYield = IntRange(buffer.readInt(), buffer.readInt())
+            val favMulchs = buffer.readEnumSet(MulchVariant::class.java)
             //val lifeCycles = IntRange(buffer.readInt(), buffer.readInt())
             val growthTime = IntRange(buffer.readInt(), buffer.readInt())
             val refreshRate = IntRange(buffer.readInt(), buffer.readInt())
@@ -314,7 +328,7 @@ class Berry(
             val flowerTexture = buffer.readIdentifier()
             val fruitModelIdentifier = buffer.readIdentifier()
             val fruitTexture = buffer.readIdentifier()
-            return Berry(identifier, baseYield, growthTime, refreshRate, emptySet(), growthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
+            return Berry(identifier, baseYield, growthTime, refreshRate, favMulchs, emptySet(), growthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
         }
 
     }

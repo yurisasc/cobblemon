@@ -30,6 +30,8 @@ def stuff():
 			"min": refreshRate - refreshRateVar,
 			"max": refreshRate + refreshRateVar
 		}
+		fav_mulches = [i.lower() for i in row[3].value.split(", ")]
+		berry_dict["favoriteMulches"] = fav_mulches
 		biomeTags = row[2].value.split(", ")
 		betterYields = row[5].value.split("-")
 		berry_dict["growthFactors"] = [
@@ -137,14 +139,14 @@ def get_mutations(berry_name):
 				add_mutation = True
 				berryIndex = i
 		if add_mutation:
-			other_berry = "cobblemon:" + (row[2].value.lower() if berryIndex == 0 else row[0].value.lower())
-			result_berry = "cobblemon:" + (row[4].value.lower())
+			other_berry = "cobblemon:" + (row[2].value.lower() if berryIndex == 0 else row[0].value.lower()) + "_berry"
+			result_berry = "cobblemon:" + (row[4].value.lower()) + "_berry"
 			result[other_berry] = result_berry
 	return result
 
 def get_tints(berry_num, berry_name):
 	preceding_zero = "0" if berry_num < 10 else ""
-	url = f"https://gitlab.com/cable-mc/cobblemon-assets/-/raw/master/blockbench/berry_trees/{preceding_zero}{berry_num}_{berry_name}/{berry_name}_tints.json?ref_type=heads"
+	url = f"https://gitlab.com/Apion/cobblemon-assets/-/raw/tint36/blockbench/berry_trees/{preceding_zero}{berry_num}_{berry_name}/{berry_name}_tints.json?ref_type=heads"
 	req = requests.get(url)
 	result = {}
 	if req.status_code == 200:

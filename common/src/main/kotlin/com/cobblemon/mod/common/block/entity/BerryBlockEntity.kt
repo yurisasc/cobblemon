@@ -144,7 +144,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         //    this.consumeLife(world, pos, state, player)
         //    return drops
         //}
-        refresh(world, pos, state, player)
         val unique = this.growthPoints.groupingBy { it }.eachCount()
         unique.forEach { (identifier, amount) ->
             val berryItem = Berries.getByIdentifier(identifier)?.item()
@@ -162,6 +161,18 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
                 CobblemonEvents.BERRY_HARVEST.post(BerryHarvestEvent(berry, player, world, pos, state, this, drops))
             }
         }
+        val hasBiomeMulch = state.get(BerryBlock.MULCH_TYPE).isBiomeMulch
+        var newState = state
+        if (!hasBiomeMulch && state.get(BerryBlock.HAS_MULCH)) {
+            val curDuration = state.get(BerryBlock.MULCH_DURATION)
+            newState = state.with(BerryBlock.MULCH_DURATION, (curDuration - 1).coerceAtLeast(0))
+            if (curDuration - 1 == 0)  {
+                newState = newState.with(BerryBlock.HAS_MULCH, false)
+            }
+            world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
+        }
+        //Since refresh overwrites any state changes we do in this method, pass newState
+        refresh(world, pos, newState, player)
         //this.consumeLife(world, pos, state, player)
         return drops
     }

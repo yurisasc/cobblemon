@@ -8,12 +8,8 @@
 
 package com.cobblemon.mod.common.client
 
-import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.CobblemonBlockEntities
-import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.CobblemonClientImplementation
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
@@ -176,7 +172,7 @@ object CobblemonClient {
             CobblemonBlocks.REVIVAL_HERB,
             CobblemonBlocks.VIVICHOKE_SEEDS,
             CobblemonBlocks.PEP_UP_FLOWER,
-            CobblemonBlocks.POTTED_PEP_UP_FLOWER
+            CobblemonBlocks.POTTED_PEP_UP_FLOWER,
             CobblemonBlocks.REVIVAL_HERB,
             *CobblemonBlocks.berries().values.toTypedArray()
         )
