@@ -63,7 +63,6 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.riding.attributes.MomentumAttribute
 import com.cobblemon.mod.common.util.*
 import java.util.*
-import java.util.concurrent.CompletableFuture
 import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
@@ -1005,7 +1004,7 @@ class PokemonEntity(
             val seat = this.seats.firstOrNull { it.occupant() == passenger }
             if (seat != null) {
                 val offset = seat.properties.offset.rotateY(-this.bodyYaw * (Math.PI.toFloat() / 180))
-                positionUpdater.accept(passenger, offset.x + passenger.x, offset.y + passenger.y, offset.z + passenger.z)
+                positionUpdater.accept(passenger, this.x + offset.x, this.y + offset.y, this.z + offset.z)
                 if (passenger is LivingEntity) {
                     passenger.bodyYaw = this.bodyYaw
                 }

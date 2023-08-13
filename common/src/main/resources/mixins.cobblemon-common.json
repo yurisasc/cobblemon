@@ -11,12 +11,8 @@
     "PartyScrollMixin",
     "PotionSlotMixin",
     "SoundManagerMixin",
-    "riding.JetMixin"
-    "SoundSystemMixin",
-    "accessor.KeyBindingAccessor",
-    "accessor.MusicTrackerAccessor",
-    "pokeball.ItemRendererMixin",
     "riding.JetMixin",
+    "SoundSystemMixin",
     "accessor.KeyBindingAccessor",
     "accessor.MusicTrackerAccessor",
     "pokeball.ItemRendererMixin"
