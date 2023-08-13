@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.block
 
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.berry.Berries
@@ -19,7 +21,11 @@ import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.mulch.Mulchable
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
+import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import net.minecraft.block.*
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -63,25 +69,30 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
     override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = !this.isMaxAge(state)
 
-    override fun hasRandomTicks(state: BlockState) = !this.isMaxAge(state)
+    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = checkType(blockWithEntityType, CobblemonBlockEntities.BERRY, BerryBlockEntity.TICKER)
 
-    @Deprecated("Deprecated in Java")
-    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        if (world.random.nextInt(5) == 0 && this.canGrow(world, random, pos, state)) {
-            this.grow(world, random, pos, state)
-        }
+    init {
+        defaultState = this.stateManager.defaultState
+            .with(HAS_MULCH, false)
     }
 
-    //override fun tick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-
-    //}
-
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
-        val newAge = state.get(AGE) + 1
-        if (newAge - 1 == MATURE_AGE) {
+        val curAge = state.get(AGE)
+        val newAge = curAge + 1
+        if (newAge > FRUIT_AGE) return
+        var newState = state.with(AGE, newAge)
+        if (curAge == MATURE_AGE) {
             determineMutation(world, random, pos, state)
+            if (state.get(MULCH_TYPE) == MulchVariant.SURPRISE) {
+                val duration = state.get(MULCH_DURATION)
+                if (duration > 0) {
+                    newState = newState.with(MULCH_DURATION, duration - 1)
+                }
+            }
         }
-        world.setBlockState(pos, state.with(AGE, newAge), Block.NOTIFY_LISTENERS)
+        world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
+        val entity = world.getBlockEntity(pos)
+        (entity as BerryBlockEntity).goToNextStageTimer(FRUIT_AGE - curAge)
     }
 
     fun determineMutation(world: World, random: Random, pos: BlockPos, state: BlockState) {
@@ -98,8 +109,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             CobblemonEvents.BERRY_MUTATION_OFFER.post(BerryMutationOfferEvent(berry, world, state, pos, mutations)) { berryMutationOffer ->
                 if (berryMutationOffer.mutations.isNotEmpty()) {
                     var mutateChance = 125
-                    if (state.get(MULCH_TYPE) == MulchVariant.SURPRISE && state.get(
-                            MULCH_DURATION) > 0) {
+                    if (state.get(MULCH_TYPE) == MulchVariant.SURPRISE && state.get(MULCH_DURATION) > 0) {
                         mutateChance *= 4
                     }
                     val mutation = if (random.nextInt(1000) < mutateChance) mutations.random() else null
@@ -200,7 +210,6 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     override fun getRenderType(blockState: BlockState) = BlockRenderType.MODEL
 
     companion object {
-
         const val MATURE_AGE = 3
         const val FLOWER_AGE = 4
         const val FRUIT_AGE = 5
