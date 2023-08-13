@@ -18,6 +18,10 @@
                 "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ],
+                "neededNearbyBlocks": [
+                    "#c:redstone_ores",
+                    "minecraft:rail"
                 ]
             },
             "anticondition": {

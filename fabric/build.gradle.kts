@@ -66,10 +66,7 @@ tasks {
     val copyAccessWidener by registering(Copy::class) {
         from(loom.accessWidenerPath)
         into(generatedResources)
-    }
-
-    shadowJar {
-        exclude("architectury.common.json")
+        dependsOn(checkLicenseMain)
     }
 
     processResources {
@@ -85,5 +82,9 @@ tasks {
                 "minecraft_version" to rootProject.property("mc_version").toString()
             )
         }
+    }
+
+    sourcesJar {
+        dependsOn(copyAccessWidener)
     }
 }

@@ -127,6 +127,8 @@ object CobblemonBiomeTags {
     val HAS_APRICORNS_NORMAL = create("has_feature/apricorns_normal")
     @JvmField
     val HAS_APRICORNS_SPARSE = create("has_feature/apricorns_sparse")
+    @JvmField
+    val HAS_REVIVAL_HERBS = create("has_feature/revival_herbs")
 
     // Has Ore tags
     @JvmField

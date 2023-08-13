@@ -14,7 +14,7 @@ object CobblemonPermissions {
     private val permissions = arrayListOf<Permission>()
 
     val CHANGE_SCALE_AND_SIZE = this.create("${COMMAND_PREFIX}changescaleandsize", PermissionLevel.ALL_COMMANDS)
-
+    val CHANGE_WALK_SPEED = this.create("${COMMAND_PREFIX}changewalkspeed", PermissionLevel.ALL_COMMANDS)
     val CHECKSPAWNS = this.create("${COMMAND_PREFIX}checkspawns", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
     val GET_NBT = this.create("${COMMAND_PREFIX}getnbt", PermissionLevel.ALL_COMMANDS)
@@ -63,6 +63,8 @@ object CobblemonPermissions {
 
     val TEST_PC_SLOT = this.create("${COMMAND_PREFIX}testpcslot", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
     val TEST_PARTY_SLOT = this.create("${COMMAND_PREFIX}testpartyslot", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+
+    val CLEAR_PARTY = this.create("${COMMAND_PREFIX}clearparty", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
     fun all(): Iterable<Permission> = this.permissions
 

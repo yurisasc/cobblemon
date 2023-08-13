@@ -52,14 +52,15 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.item.Item
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.Registries
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
-import kotlin.reflect.KProperty
 
 object PokemonSpecies : JsonDataRegistry<Species> {
 
@@ -93,6 +94,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Item::class.java).type, ItemLikeConditionAdapter)
         .registerTypeAdapter(EggGroup::class.java, EggGroupAdapter)
+        .registerTypeAdapter(StatusEffect::class.java, RegistryElementAdapter<StatusEffect> { Registries.STATUS_EFFECT })
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()
         .create()
@@ -113,12 +115,14 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         SpeciesAdditions.observable.subscribe {
             this.species.forEach(Species::initialize)
             this.species.forEach(Species::resolveEvolutionMoves)
-            Cobblemon.showdownThread.queue { ShowdownService.get().registerSpecies() }
-            // Reload this with the mod
-            CobblemonEmptyHeldItemManager.load()
-            CobblemonHeldItemManager.load()
-            Cobblemon.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
-            this.observable.emit(this)
+            Cobblemon.showdownThread.queue {
+                it.registerSpecies()
+                it.indicateSpeciesInitialized()
+                // Reload this with the mod
+                CobblemonHeldItemManager.load()
+                Cobblemon.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
+                this.observable.emit(this)
+            }
         }
     }
 
@@ -191,6 +195,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
      * @param species The [Species] being converted or the base species if the form is not null.
      * @param form The [FormData] being converted int o species (Showdown considers them species) will be null when dealing with the base form.
      */
+    @Suppress("unused")
     internal class ShowdownSpecies(species: Species, form: FormData?) {
         val num = species.nationalPokedexNumber
         val name = if (form != null) "${createShowdownName(species)}-${form.name}" else createShowdownName(species)
@@ -232,7 +237,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         )
         val heightm = form?.height ?: species.height
         val weightkg = form?.weight ?: species.weight
-        // This is ugly but we already have it hardcoded in the mod anyway
+        // This is ugly, but we already have it hardcoded in the mod anyway
         val maxHp = if (species.showdownId() == "shedinja") 1 else null
         val canGigantamax: String? = if (form?.gigantamaxMove != null) form.gigantamaxMove.name else null
         val cannotDynamax = form?.dynamaxBlocked ?: species.dynamaxBlocked

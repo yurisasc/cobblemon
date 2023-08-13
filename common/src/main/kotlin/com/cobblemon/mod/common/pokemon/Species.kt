@@ -35,7 +35,6 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.InvalidIdentifierException
 
 class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var name: String = "Bulbasaur"
@@ -105,14 +104,20 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     val standardForm by lazy { FormData(_evolutions = this.evolutions).initialize(this) }
 
-    internal var labels = hashSetOf<String>()
+    var labels = hashSetOf<String>()
         private set
 
-    // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
-    internal var evolutions: MutableSet<Evolution> = hashSetOf()
+    /**
+     * Contains the evolutions of this species.
+     * If you're trying to find out the possible evolutions of a Pokémon you should always work with their [FormData].
+     * The base species is the [standardForm].
+     * Do not access this property immediately after a species is loaded, it requires all species in the game to be loaded.
+     * To be aware of this gamestage subscribe to [PokemonSpecies.observable].
+     */
+    var evolutions: MutableSet<Evolution> = hashSetOf()
         private set
 
-    internal var preEvolution: PreEvolution? = null
+    var preEvolution: PreEvolution? = null
         private set
 
     @Transient

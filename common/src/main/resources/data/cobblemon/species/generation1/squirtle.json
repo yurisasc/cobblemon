@@ -33,6 +33,11 @@
       "light": "0-4"
     },
     "moving": {
+      "moving" : {
+        "walk": {
+          "walkSpeed": 0.29
+        }
+      },
       "swim": {
         "canSwimInWater": true,
         "canBreatheUnderwater": true

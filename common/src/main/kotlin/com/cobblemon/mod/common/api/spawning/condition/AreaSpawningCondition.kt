@@ -22,18 +22,12 @@ import net.minecraft.block.Block
  * @since February 7th, 2022
  */
 abstract class AreaTypeSpawningCondition<T : AreaSpawningContext> : SpawningCondition<T>() {
-    var minWidth: Int? = null
-    var maxWidth: Int? = null
     var minHeight: Int? = null
     var maxHeight: Int? = null
     var neededNearbyBlocks: MutableList<RegistryLikeCondition<Block>>? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
         if (!super.fits(ctx, detail)) {
-            return false
-        } else if (minWidth != null && ctx.width < minWidth!!) {
-            return false
-        } else if (maxWidth != null && ctx.width > maxWidth!!) {
             return false
         } else if (minHeight != null && ctx.height < minHeight!!) {
             return false
@@ -49,8 +43,6 @@ abstract class AreaTypeSpawningCondition<T : AreaSpawningContext> : SpawningCond
     override fun copyFrom(other: SpawningCondition<*>, merger: Merger) {
         super.copyFrom(other, merger)
         if (other is AreaTypeSpawningCondition) {
-            merger.mergeSingle(minWidth, other.minWidth)
-            merger.mergeSingle(maxWidth, other.maxWidth)
             merger.mergeSingle(minHeight, other.minHeight)
             merger.mergeSingle(maxHeight, other.maxHeight)
             neededNearbyBlocks = merger.merge(neededNearbyBlocks, other.neededNearbyBlocks)?.toMutableList()

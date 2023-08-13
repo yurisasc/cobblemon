@@ -38,9 +38,17 @@ object CobblemonItemTags {
     @JvmField
     val LUCKY_EGG = create("held/lucky_egg")
     @JvmField
+    val DESTINY_KNOT = create("held/destiny_knot")
+    @JvmField
+    val EVERSTONE = create("held/everstone")
+    @JvmField
     val EVOLUTION_STONES = create("evolution_stones")
     @JvmField
     val EVOLUTION_ITEMS = create("evolution_items")
+    @JvmField
+    val MINTS = create("mints")
+    @JvmField
+    val MINT_LEAVES = create("mint_leaves")
 
     /**
      * This tag is only used for a Torterra aspect based easter egg evolution at the moment.

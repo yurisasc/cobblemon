@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
+import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
 import net.minecraft.block.Block
@@ -45,6 +46,7 @@ import net.minecraftforge.client.event.RegisterParticleProvidersEvent
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import java.util.function.Supplier
@@ -57,6 +59,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
             addListener(::onKeyMappingRegister)
             addListener(::onRegisterParticleProviders)
             addListener(::register3dPokeballModels)
+            addListener(::onBuildContents)
         }
         MinecraftForge.EVENT_BUS.addListener(this::onRenderGuiOverlayEvent)
     }
@@ -78,6 +81,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
         ForgeClientPlatformEventHandler.register()
     }
 
+    @Suppress("UnstableApiUsage")
     override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
         ForgeHooksClient.registerLayerDefinition(modelLayer, supplier)
     }
@@ -86,16 +90,19 @@ object CobblemonForgeClient : CobblemonClientImplementation {
         throw UnsupportedOperationException("Forge can't store these early, use CobblemonForgeClient#onRegisterParticleProviders")
     }
 
+    @Suppress("DEPRECATION")
     override fun registerBlockRenderType(layer: RenderLayer, vararg blocks: Block) {
         blocks.forEach { block ->
             RenderLayers.setRenderLayer(block, layer)
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun registerItemColors(provider: ItemColorProvider, vararg items: Item) {
         MinecraftClient.getInstance().itemColors.register(provider, *items)
     }
 
+    @Suppress("DEPRECATION")
     override fun registerBlockColors(provider: BlockColorProvider, vararg blocks: Block) {
         MinecraftClient.getInstance().blockColors.registerColorProvider(provider, *blocks)
     }
@@ -115,17 +122,25 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     }
 
     private fun onRegisterParticleProviders(event: RegisterParticleProvidersEvent) {
-        event.register(CobblemonParticles.SNOWSTORM_PARTICLE_TYPE, SnowstormParticleType::Factory)
+        event.registerSpriteSet(CobblemonParticles.SNOWSTORM_PARTICLE_TYPE, SnowstormParticleType::Factory)
     }
 
     private fun onRenderGuiOverlayEvent(event: RenderGuiOverlayEvent.Pre) {
         if (event.overlay.id == VanillaGuiOverlay.CHAT_PANEL.id()) {
-            CobblemonClient.beforeChatRender(event.poseStack, event.partialTick)
+            CobblemonClient.beforeChatRender(event.guiGraphics, event.partialTick)
         }
     }
 
     internal fun registerResourceReloader(reloader: ResourceReloader) {
         (MinecraftClient.getInstance().resourceManager as ReloadableResourceManagerImpl).registerReloader(reloader)
+    }
+
+    private fun onBuildContents(e: BuildCreativeModeTabContentsEvent) {
+        CobblemonItemGroups.inject { injector ->
+            if (e.tabKey == injector.key) {
+                injector.entryInjector(e.parameters).forEach(e::add)
+            }
+        }
     }
 
 }

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Dusknoir",
   "nationalPokedexNumber": 477,
   "primaryType": "ghost",
@@ -23,6 +24,19 @@
   "eggGroups": [
     "amorphous"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:bind",
@@ -178,8 +192,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2,
+    "height": 3,
     "fixed": false
   },
   "baseFriendship": 35,

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Lillipup",
   "nationalPokedexNumber": 506,
   "primaryType": "normal",
@@ -129,10 +130,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

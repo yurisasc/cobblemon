@@ -37,7 +37,7 @@ class PokemonItem : CobblemonItem(Settings().maxCount(1)) {
     }
 
     fun getSpeciesAndAspects(stack: ItemStack): Pair<Species, Set<String>>? {
-        return (species(stack) ?: return null) to (aspects(stack) ?: return null)
+        return (species(stack) ?: return null) to (aspects(stack) ?: setOf())
     }
 
     fun asRenderablePokemon(stack: ItemStack): RenderablePokemon? = this.asPokemon(stack)?.asRenderablePokemon()
@@ -61,7 +61,6 @@ class PokemonItem : CobblemonItem(Settings().maxCount(1)) {
             return null
         }
         return nbt.getList(DataKeys.POKEMON_ITEM_ASPECTS, NbtElement.STRING_TYPE.toInt())
-            .filterIsInstance<NbtString>()
             .map { it.asString() }
             .toSet()
     }

@@ -22,6 +22,9 @@
       "willSleepOnBed": false,
       "depth": "normal",
       "light": "0-4"
+    },
+    "idle": {
+      "pointsAtSpawn": true
     }
   },
   "catchRate": 255,

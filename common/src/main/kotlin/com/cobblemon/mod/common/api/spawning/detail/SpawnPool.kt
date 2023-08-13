@@ -46,7 +46,7 @@ class SpawnPool(val name: String) : JsonDataRegistry<SpawnSet>, Iterable<SpawnDe
     override fun reload(data: Map<Identifier, SpawnSet>) {
         details.clear()
         for (set in data.values) {
-            details.addAll(set.filter { it.isModDependencySatisfied() })
+            details.addAll(set.filter { it.isValid() })
         }
         precalculate()
     }

@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.gui.pc
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
@@ -31,10 +32,10 @@ class NavigationButton(
         private val backwardsButtonResource = cobblemonResource("textures/gui/pc/pc_arrow_previous.png")
     }
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val hovered = (isHovered(pMouseX.toDouble(), pMouseY.toDouble()))
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             x = x / SCALE,
             y = y / SCALE,
             texture = if (forward) forwardButtonResource else backwardsButtonResource,
@@ -47,7 +48,7 @@ class NavigationButton(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.PC_CLICK, 1.0F))
     }
 
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + (WIDTH * SCALE))) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + (HEIGHT * SCALE)))

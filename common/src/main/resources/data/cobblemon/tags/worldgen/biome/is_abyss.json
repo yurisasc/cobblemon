@@ -3,23 +3,23 @@
   "values": [
     "minecraft:deep_dark",
 	{
-      "id": "terralith:crystal_caves",
+      "id": "terralith:cave/crystal_caves",
       "required": false
     },
 	{
-      "id": "terralith:deep_caves",
+      "id": "terralith:cave/deep_caves",
       "required": false
     },
 	{
-      "id": "terralith:frostfire_caves",
+      "id": "terralith:cave/frostfire_caves",
       "required": false
     },
 	{
-      "id": "terralith:mantle_caves",
+      "id": "terralith:cave/mantle_caves",
       "required": false
     },
 	{
-      "id": "terralith:tuff_caves",
+      "id": "terralith:cave/tuff_caves",
       "required": false
     }
   ]

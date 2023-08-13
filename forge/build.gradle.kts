@@ -11,6 +11,7 @@ architectury {
 loom {
     forge {
         convertAccessWideners.set(true)
+
         mixinConfig("mixins.cobblemon-forge.json")
         mixinConfig("mixins.cobblemon-common.json")
     }
@@ -50,8 +51,8 @@ dependencies {
 
 tasks {
     shadowJar {
-        exclude("architectury.common.json")
         exclude("architectury-common.accessWidener")
+        exclude("architectury.common.json")
 
         relocate ("com.ibm.icu", "com.cobblemon.mod.relocations.ibm.icu")
     }
@@ -68,6 +69,18 @@ tasks {
         }
     }
 }
+
+tasks {
+    sourcesJar {
+        val depSources = project(":common").tasks.sourcesJar
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        dependsOn(depSources)
+        from(depSources.get().archiveFile.map { zipTree(it) }) {
+            exclude("architectury.accessWidener")
+        }
+    }
+}
+
 
 //jar {
 //    classifier("dev")

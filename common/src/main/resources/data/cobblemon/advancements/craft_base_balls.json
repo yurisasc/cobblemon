@@ -91,5 +91,6 @@
 	["roseate_ball"],
 	["slate_ball"],
 	["premier_ball"]
-  ]
+  ],
+  "sends_telemetry_event": false
 }
