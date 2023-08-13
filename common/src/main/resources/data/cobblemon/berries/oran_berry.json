@@ -11,6 +11,10 @@
     "min": 12,
     "max": 22
   },
+  "favoriteMulches": [
+    "peat",
+    "loamy"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -122,16 +126,16 @@
     }
   ],
   "mutations": {
-    "cobblemon:cheri": "cobblemon:lum",
-    "cobblemon:chesto": "cobblemon:lum",
-    "cobblemon:pecha": "cobblemon:lum",
-    "cobblemon:rawst": "cobblemon:lum",
-    "cobblemon:aspear": "cobblemon:lum",
-    "cobblemon:razz": "cobblemon:leppa",
-    "cobblemon:bluk": "cobblemon:leppa",
-    "cobblemon:nanab": "cobblemon:leppa",
-    "cobblemon:wepear": "cobblemon:leppa",
-    "cobblemon:pinap": "cobblemon:leppa"
+    "cobblemon:cheri_berry": "cobblemon:lum_berry",
+    "cobblemon:chesto_berry": "cobblemon:lum_berry",
+    "cobblemon:pecha_berry": "cobblemon:lum_berry",
+    "cobblemon:rawst_berry": "cobblemon:lum_berry",
+    "cobblemon:aspear_berry": "cobblemon:lum_berry",
+    "cobblemon:razz_berry": "cobblemon:leppa_berry",
+    "cobblemon:bluk_berry": "cobblemon:leppa_berry",
+    "cobblemon:nanab_berry": "cobblemon:leppa_berry",
+    "cobblemon:wepear_berry": "cobblemon:leppa_berry",
+    "cobblemon:pinap_berry": "cobblemon:leppa_berry"
   },
   "sproutShape": [
     {

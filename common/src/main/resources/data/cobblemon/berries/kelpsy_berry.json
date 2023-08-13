@@ -11,6 +11,9 @@
     "min": 20,
     "max": 30
   },
+  "favoriteMulches": [
+    "coarse"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -63,8 +66,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:pamtre": "cobblemon:liechi",
-    "cobblemon:pomeg": "cobblemon:starf"
+    "cobblemon:pamtre_berry": "cobblemon:liechi_berry",
+    "cobblemon:pomeg_berry": "cobblemon:starf_berry"
   },
   "sproutShape": [
     {

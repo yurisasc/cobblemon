@@ -11,6 +11,9 @@
     "min": 16,
     "max": 26
   },
+  "favoriteMulches": [
+    "coarse"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -88,8 +91,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:sitrus": "cobblemon:enigma",
-    "cobblemon:rabuta": "cobblemon:durin"
+    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
+    "cobblemon:rabuta_berry": "cobblemon:durin_berry"
   },
   "sproutShape": [
     {

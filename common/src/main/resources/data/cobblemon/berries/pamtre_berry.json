@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "humid"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -75,8 +78,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:kelpsy": "cobblemon:liechi",
-    "cobblemon:kebia": "cobblemon:micle"
+    "cobblemon:kelpsy_berry": "cobblemon:liechi_berry",
+    "cobblemon:kebia_berry": "cobblemon:micle_berry"
   },
   "sproutShape": [
     {

@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "peat"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -98,8 +101,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:occa": "cobblemon:tamato",
-    "cobblemon:colbur": "cobblemon:spelon"
+    "cobblemon:occa_berry": "cobblemon:tamato_berry",
+    "cobblemon:colbur_berry": "cobblemon:spelon_berry"
   },
   "sproutShape": [
     {

@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "loamy"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -98,8 +101,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:rindo": "cobblemon:kelpsy",
-    "cobblemon:passho": "cobblemon:pamtre"
+    "cobblemon:rindo_berry": "cobblemon:kelpsy_berry",
+    "cobblemon:passho_berry": "cobblemon:pamtre_berry"
   },
   "sproutShape": [
     {

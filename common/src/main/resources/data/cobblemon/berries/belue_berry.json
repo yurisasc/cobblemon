@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "coarse"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -75,8 +78,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:grepa": "cobblemon:apicot",
-    "cobblemon:coba": "cobblemon:rowap"
+    "cobblemon:grepa_berry": "cobblemon:apicot_berry",
+    "cobblemon:coba_berry": "cobblemon:rowap_berry"
   },
   "sproutShape": [
     {

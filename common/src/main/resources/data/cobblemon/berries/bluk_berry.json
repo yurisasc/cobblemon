@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "coarse"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -123,8 +126,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:oran": "cobblemon:leppa",
-    "cobblemon:wiki": "cobblemon:cornn"
+    "cobblemon:oran_berry": "cobblemon:leppa_berry",
+    "cobblemon:wiki_berry": "cobblemon:cornn_berry"
   },
   "sproutShape": [
     {

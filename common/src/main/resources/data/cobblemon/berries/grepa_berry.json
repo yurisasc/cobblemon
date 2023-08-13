@@ -11,6 +11,9 @@
     "min": 20,
     "max": 30
   },
+  "favoriteMulches": [
+    "peat"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -62,8 +65,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:belue": "cobblemon:apicot",
-    "cobblemon:pomeg": "cobblemon:starf"
+    "cobblemon:belue_berry": "cobblemon:apicot_berry",
+    "cobblemon:pomeg_berry": "cobblemon:starf_berry"
   },
   "sproutShape": [
     {

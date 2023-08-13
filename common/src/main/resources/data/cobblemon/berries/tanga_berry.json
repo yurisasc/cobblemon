@@ -11,6 +11,10 @@
     "min": 16,
     "max": 26
   },
+  "favoriteMulches": [
+    "humid",
+    "peat"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -88,8 +92,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:sitrus": "cobblemon:enigma",
-    "cobblemon:magost": "cobblemon:watmel"
+    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
+    "cobblemon:magost_berry": "cobblemon:watmel_berry"
   },
   "sproutShape": [
     {

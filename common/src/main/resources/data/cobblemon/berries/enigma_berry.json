@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "peat"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -86,9 +89,9 @@
     }
   ],
   "mutations": {
-    "cobblemon:haban": "cobblemon:pomeg",
-    "cobblemon:kasib": "cobblemon:kee",
-    "cobblemon:wacan": "cobblemon:maranga"
+    "cobblemon:haban_berry": "cobblemon:pomeg_berry",
+    "cobblemon:kasib_berry": "cobblemon:kee_berry",
+    "cobblemon:wacan_berry": "cobblemon:maranga_berry"
   },
   "sproutShape": [
     {

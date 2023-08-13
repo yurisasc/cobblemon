@@ -11,6 +11,9 @@
     "min": 20,
     "max": 30
   },
+  "favoriteMulches": [
+    "peat"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -62,11 +65,11 @@
     }
   ],
   "mutations": {
-    "cobblemon:kelpsy": "cobblemon:starf",
-    "cobblemon:qualot": "cobblemon:starf",
-    "cobblemon:hondew": "cobblemon:starf",
-    "cobblemon:grepa": "cobblemon:starf",
-    "cobblemon:tamato": "cobblemon:starf"
+    "cobblemon:kelpsy_berry": "cobblemon:starf_berry",
+    "cobblemon:qualot_berry": "cobblemon:starf_berry",
+    "cobblemon:hondew_berry": "cobblemon:starf_berry",
+    "cobblemon:grepa_berry": "cobblemon:starf_berry",
+    "cobblemon:tamato_berry": "cobblemon:starf_berry"
   },
   "sproutShape": [
     {

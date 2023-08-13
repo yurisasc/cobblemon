@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "sandy"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -122,11 +125,11 @@
     }
   ],
   "mutations": {
-    "cobblemon:cheri": "cobblemon:figy",
-    "cobblemon:chesto": "cobblemon:wiki",
-    "cobblemon:pecha": "cobblemon:mago",
-    "cobblemon:rawst": "cobblemon:aguav",
-    "cobblemon:aspear": "cobblemon:iapapa"
+    "cobblemon:cheri_berry": "cobblemon:figy_berry",
+    "cobblemon:chesto_berry": "cobblemon:wiki_berry",
+    "cobblemon:pecha_berry": "cobblemon:mago_berry",
+    "cobblemon:rawst_berry": "cobblemon:aguav_berry",
+    "cobblemon:aspear_berry": "cobblemon:iapapa_berry"
   },
   "sproutShape": [
     {

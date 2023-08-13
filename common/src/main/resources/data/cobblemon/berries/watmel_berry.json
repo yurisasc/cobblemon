@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "humid"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -75,8 +78,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:qualot": "cobblemon:ganlon",
-    "cobblemon:chilan": "cobblemon:custap"
+    "cobblemon:qualot_berry": "cobblemon:ganlon_berry",
+    "cobblemon:chilan_berry": "cobblemon:custap_berry"
   },
   "sproutShape": [
     {

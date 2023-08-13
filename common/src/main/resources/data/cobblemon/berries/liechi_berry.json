@@ -11,6 +11,9 @@
     "min": 18,
     "max": 28
   },
+  "favoriteMulches": [
+    "humid"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",

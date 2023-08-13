@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "humid"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -123,8 +126,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:oran": "cobblemon:lum",
-    "cobblemon:persim": "cobblemon:mago"
+    "cobblemon:oran_berry": "cobblemon:lum_berry",
+    "cobblemon:persim_berry": "cobblemon:mago_berry"
   },
   "sproutShape": [
     {

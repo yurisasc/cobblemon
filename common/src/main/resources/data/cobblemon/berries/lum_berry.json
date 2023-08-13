@@ -11,6 +11,9 @@
     "min": 17,
     "max": 27
   },
+  "favoriteMulches": [
+    "humid"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -75,12 +78,12 @@
     }
   ],
   "mutations": {
-    "cobblemon:figy": "cobblemon:sitrus",
-    "cobblemon:wiki": "cobblemon:sitrus",
-    "cobblemon:mago": "cobblemon:sitrus",
-    "cobblemon:aguav": "cobblemon:sitrus",
-    "cobblemon:iapapa": "cobblemon:sitrus",
-    "cobblemon:leppa": "cobblemon:hopo"
+    "cobblemon:figy_berry": "cobblemon:sitrus_berry",
+    "cobblemon:wiki_berry": "cobblemon:sitrus_berry",
+    "cobblemon:mago_berry": "cobblemon:sitrus_berry",
+    "cobblemon:aguav_berry": "cobblemon:sitrus_berry",
+    "cobblemon:iapapa_berry": "cobblemon:sitrus_berry",
+    "cobblemon:leppa_berry": "cobblemon:hopo_berry"
   },
   "sproutShape": [
     {

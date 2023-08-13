@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "humid"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -99,8 +102,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:roseli": "cobblemon:qualot",
-    "cobblemon:tanga": "cobblemon:watmel"
+    "cobblemon:roseli_berry": "cobblemon:qualot_berry",
+    "cobblemon:tanga_berry": "cobblemon:watmel_berry"
   },
   "sproutShape": [
     {

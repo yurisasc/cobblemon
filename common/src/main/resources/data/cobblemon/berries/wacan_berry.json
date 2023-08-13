@@ -11,6 +11,11 @@
     "min": 16,
     "max": 26
   },
+  "favoriteMulches": [
+    "coarse",
+    "loamy",
+    "sandy"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -88,8 +93,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:sitrus": "cobblemon:enigma",
-    "cobblemon:enigma": "cobblemon:maranga"
+    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
+    "cobblemon:enigma_berry": "cobblemon:maranga_berry"
   },
   "sproutShape": [
     {

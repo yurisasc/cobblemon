@@ -11,6 +11,9 @@
     "min": 17,
     "max": 27
   },
+  "favoriteMulches": [
+    "coarse"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -87,24 +90,24 @@
     }
   ],
   "mutations": {
-    "cobblemon:occa": "cobblemon:enigma",
-    "cobblemon:passho": "cobblemon:enigma",
-    "cobblemon:wacan": "cobblemon:enigma",
-    "cobblemon:rindo": "cobblemon:enigma",
-    "cobblemon:yache": "cobblemon:enigma",
-    "cobblemon:chople": "cobblemon:enigma",
-    "cobblemon:kebia": "cobblemon:enigma",
-    "cobblemon:shuca": "cobblemon:enigma",
-    "cobblemon:coba": "cobblemon:enigma",
-    "cobblemon:payapa": "cobblemon:enigma",
-    "cobblemon:tanga": "cobblemon:enigma",
-    "cobblemon:charti": "cobblemon:enigma",
-    "cobblemon:kasib": "cobblemon:enigma",
-    "cobblemon:haban": "cobblemon:enigma",
-    "cobblemon:colbur": "cobblemon:enigma",
-    "cobblemon:babiri": "cobblemon:enigma",
-    "cobblemon:chilan": "cobblemon:enigma",
-    "cobblemon:roseli": "cobblemon:enigma"
+    "cobblemon:occa_berry": "cobblemon:enigma_berry",
+    "cobblemon:passho_berry": "cobblemon:enigma_berry",
+    "cobblemon:wacan_berry": "cobblemon:enigma_berry",
+    "cobblemon:rindo_berry": "cobblemon:enigma_berry",
+    "cobblemon:yache_berry": "cobblemon:enigma_berry",
+    "cobblemon:chople_berry": "cobblemon:enigma_berry",
+    "cobblemon:kebia_berry": "cobblemon:enigma_berry",
+    "cobblemon:shuca_berry": "cobblemon:enigma_berry",
+    "cobblemon:coba_berry": "cobblemon:enigma_berry",
+    "cobblemon:payapa_berry": "cobblemon:enigma_berry",
+    "cobblemon:tanga_berry": "cobblemon:enigma_berry",
+    "cobblemon:charti_berry": "cobblemon:enigma_berry",
+    "cobblemon:kasib_berry": "cobblemon:enigma_berry",
+    "cobblemon:haban_berry": "cobblemon:enigma_berry",
+    "cobblemon:colbur_berry": "cobblemon:enigma_berry",
+    "cobblemon:babiri_berry": "cobblemon:enigma_berry",
+    "cobblemon:chilan_berry": "cobblemon:enigma_berry",
+    "cobblemon:roseli_berry": "cobblemon:enigma_berry"
   },
   "sproutShape": [
     {

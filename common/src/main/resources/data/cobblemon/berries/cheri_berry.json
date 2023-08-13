@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "loamy"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -122,8 +125,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:oran": "cobblemon:lum",
-    "cobblemon:persim": "cobblemon:figy"
+    "cobblemon:oran_berry": "cobblemon:lum_berry",
+    "cobblemon:persim_berry": "cobblemon:figy_berry"
   },
   "sproutShape": [
     {

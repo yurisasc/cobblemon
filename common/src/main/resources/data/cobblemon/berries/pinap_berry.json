@@ -11,6 +11,9 @@
     "min": 14,
     "max": 24
   },
+  "favoriteMulches": [
+    "sandy"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -122,8 +125,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:oran": "cobblemon:leppa",
-    "cobblemon:iapapa": "cobblemon:nomel"
+    "cobblemon:oran_berry": "cobblemon:leppa_berry",
+    "cobblemon:iapapa_berry": "cobblemon:nomel_berry"
   },
   "sproutShape": [
     {

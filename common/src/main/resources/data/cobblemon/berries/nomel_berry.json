@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "coarse"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -99,8 +102,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:yache": "cobblemon:grepa",
-    "cobblemon:payapa": "cobblemon:belue"
+    "cobblemon:yache_berry": "cobblemon:grepa_berry",
+    "cobblemon:payapa_berry": "cobblemon:belue_berry"
   },
   "sproutShape": [
     {

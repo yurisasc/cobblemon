@@ -11,6 +11,9 @@
     "min": 15,
     "max": 25
   },
+  "favoriteMulches": [
+    "sandy"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -98,8 +101,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:shuca": "cobblemon:hondew",
-    "cobblemon:babiri": "cobblemon:durin"
+    "cobblemon:shuca_berry": "cobblemon:hondew_berry",
+    "cobblemon:babiri_berry": "cobblemon:durin_berry"
   },
   "sproutShape": [
     {

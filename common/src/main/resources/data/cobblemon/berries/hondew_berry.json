@@ -11,6 +11,9 @@
     "min": 20,
     "max": 30
   },
+  "favoriteMulches": [
+    "sandy"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -62,8 +65,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:durin": "cobblemon:petaya",
-    "cobblemon:pomeg": "cobblemon:starf"
+    "cobblemon:durin_berry": "cobblemon:petaya_berry",
+    "cobblemon:pomeg_berry": "cobblemon:starf_berry"
   },
   "sproutShape": [
     {

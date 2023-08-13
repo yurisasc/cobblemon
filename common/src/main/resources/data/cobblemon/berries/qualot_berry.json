@@ -11,6 +11,9 @@
     "min": 20,
     "max": 30
   },
+  "favoriteMulches": [
+    "humid"
+  ],
   "growthFactors": [
     {
       "variant": "cobblemon:biome",
@@ -63,8 +66,8 @@
     }
   ],
   "mutations": {
-    "cobblemon:watmel": "cobblemon:ganlon",
-    "cobblemon:pomeg": "cobblemon:starf"
+    "cobblemon:watmel_berry": "cobblemon:ganlon_berry",
+    "cobblemon:pomeg_berry": "cobblemon:starf_berry"
   },
   "sproutShape": [
     {
