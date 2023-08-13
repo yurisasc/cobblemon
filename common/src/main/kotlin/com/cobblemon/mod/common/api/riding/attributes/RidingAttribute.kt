@@ -8,27 +8,10 @@
 
 package com.cobblemon.mod.common.api.riding.attributes
 
-import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.util.Identifier
 
-data class RidingAttribute(val id: Identifier, val value: Float) {
+interface RidingAttribute {
 
-    companion object {
+    val identifier: Identifier
 
-        @JvmStatic
-        val SPEED = cobblemonResource("speed")
-
-        @JvmStatic
-        val ACCELERATION = cobblemonResource("acceleration")
-
-        @JvmStatic
-        val HANDLING = cobblemonResource("handling")
-
-        @JvmStatic
-        val WEIGHT = cobblemonResource("weight")
-
-        @JvmStatic
-        val HEIGHT = cobblemonResource("height")
-
-    }
 }

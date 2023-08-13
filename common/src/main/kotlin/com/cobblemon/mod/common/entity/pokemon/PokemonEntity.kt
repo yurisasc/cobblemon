@@ -29,8 +29,6 @@ import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.riding.Rideable
 import com.cobblemon.mod.common.api.riding.RidingProperties
-import com.cobblemon.mod.common.api.riding.attributes.RidingAttribute
-import com.cobblemon.mod.common.api.riding.capabilities.RidingCapabilities
 import com.cobblemon.mod.common.api.riding.seats.Seat
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
@@ -60,7 +58,8 @@ import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
-import com.cobblemon.mod.common.pokemon.riding.attributes.MomentumAttribute
+import com.cobblemon.mod.common.pokemon.riding.SpeedCalculator
+import com.cobblemon.mod.common.pokemon.riding.RidingState
 import com.cobblemon.mod.common.util.*
 import java.util.*
 import kotlin.math.round
@@ -111,11 +110,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.*
 import java.util.concurrent.CompletableFuture
-import kotlin.math.round
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
 
 @Suppress("unused")
 class PokemonEntity(
@@ -179,15 +174,9 @@ class PokemonEntity(
 
     override val properties: RidingProperties
         get() = TODO("Not yet implemented")
-    override val capabilities: RidingCapabilities
-        get() = TODO("Not yet implemented")
 
+    private val ridingState = RidingState(0, 0F)
     override var seats: List<Seat> = pokemon.riding.seats().map { it.create(this) }
-
-    private val momentum = MomentumAttribute(
-        RidingAttribute(RidingAttribute.SPEED, 1F),
-        RidingAttribute(RidingAttribute.ACCELERATION, 2F)
-    )
 
     /**
      * 0 is do nothing,
@@ -971,11 +960,19 @@ class PokemonEntity(
 
     override fun tickControlled(controllingPlayer: PlayerEntity, movementInput: Vec3d) {
         super.tickControlled(controllingPlayer, movementInput)
-        this.momentum.tick(movementInput)
 
         if (movementInput != Vec3d.ZERO) {
             this.isMoving.set(true)
+            this.ridingState.momentum = SpeedCalculator.calculate(
+                ++this.ridingState.tick,
+                movementInput,
+                1F,
+                2F,
+                68F
+            )
         } else {
+            this.ridingState.tick = 0
+            this.ridingState.momentum = 0.5F
             this.isMoving.set(false)
         }
 
@@ -1047,7 +1044,7 @@ class PokemonEntity(
 
         // return speed ?? this.pokemon.form.behaviour.moving.walk.walkSpeed
 //        return this.pokemon.form.behaviour.moving.walk.walkSpeed
-        return this.momentum.momentum()
+        return this.ridingState.momentum
     }
 
     override fun setJumpStrength(strength: Int) {

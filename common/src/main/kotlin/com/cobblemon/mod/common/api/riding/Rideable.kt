@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.api.riding
 
-import com.cobblemon.mod.common.api.riding.capabilities.RidingCapabilities
 import com.cobblemon.mod.common.api.riding.seats.Seat
 import net.minecraft.entity.JumpingMount
 
@@ -25,8 +24,6 @@ interface Rideable : JumpingMount {
      * @since 1.5.0
      */
     val properties: RidingProperties
-
-    val capabilities: RidingCapabilities
 
     /**
      * Specifies a list of stateful seats which are capable of tracking an occupant.
