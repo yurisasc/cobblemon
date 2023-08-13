@@ -9,13 +9,14 @@
 package com.cobblemon.mod.common.entity.npc
 
 import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.util.cobblemonResource
+import java.util.Optional
 import net.minecraft.entity.Npc
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.data.DataTracker
@@ -28,28 +29,32 @@ import net.minecraft.world.World
 class NPCEntity : PassiveEntity, Npc, Poseable {
     companion object {
         fun createAttributes(): DefaultAttributeContainer.Builder = createMobAttributes()
+        val NPC_CLASS = DataTracker.registerData(NPCEntity::class.java, IdentifierDataSerializer)
         val ASPECTS = DataTracker.registerData(NPCEntity::class.java, StringSetDataSerializer)
         val POSE_TYPE = DataTracker.registerData(NPCEntity::class.java, PoseTypeDataSerializer)
+        val BATTLE_ID = DataTracker.registerData(NPCEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
     }
 
-    /**
-     * shape should change from id to something akin to species
-     * registry entry people can make custom ones for
-     * this mainly just controls hitbox, ends up being used as the primary
-     * resource identifier when loading the model (looks for resolver named ${shape}
-     */
-    var shape = cobblemonResource("regular")
+    var npc = NPCClasses.random()
+        set(value) {
+            _npcClass.set(value.resourceIdentifier)
+            field = value
+        }
+
     val appliedAspects = mutableSetOf<String>()
     val entityProperties = mutableListOf<EntityProperty<*>>()
+
     val delegate = if (world.isClient) {
         com.cobblemon.mod.common.client.entity.NPCClientDelegate()
     } else {
         NPCServerDelegate()
     }
 
-
+    private val _npcClass = addEntityProperty(NPC_CLASS, npc.resourceIdentifier)
     val aspects = addEntityProperty(ASPECTS, emptySet())
     val poseType = addEntityProperty(POSE_TYPE, PoseType.STAND)
+    val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
+
 
     /* TODO NPC Valuables to add:
      *
@@ -62,11 +67,12 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
      *
      * A pathing configuration. Another one that could be loaded from JSON or .js or API. Controls AI.
      *
+     * npcs should be able to sleep lol
      */
 
-    constructor(world: World): super(CobblemonEntities.NPC, world) {}
+    constructor(world: World): super(CobblemonEntities.NPC, world)
 
-    override fun createChild(world: ServerWorld, entity: PassiveEntity) = null // No lovemaking.
+    override fun createChild(world: ServerWorld, entity: PassiveEntity) = null // No lovemaking! Unless...
     override fun getPoseType() = this.poseType.get()
 
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
@@ -82,4 +88,6 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
     fun updateAspects() {
         aspects.set(appliedAspects)
     }
+
+    fun isInBattle() = battleId.get().isPresent
 }

@@ -20,7 +20,8 @@ abstract class NPCModel(override val rootPart: ModelPart) : PoseableEntityModel<
         return entity.delegate as NPCClientDelegate
     }
 
-    open fun getIdle(state: PoseableEntityState<NPCEntity>) = bedrockOrNull(name, "idle") ?: blankAnimation()
+    val blinkAnimation = TrainerAnimationProvider { state -> bedrockStatefulOrNull(name, "blink")?.setPreventsIdle(false) }
+    val idleAnimation = TrainerStatelessAnimationProvider { entity, state -> bedrockOrNull(name, "idle") ?: blankAnimation() }
     open fun getIdleBattle() = bedrockOrNull(name, "idle_battle") ?: blankAnimation()
     open fun getBattleIntro() = bedrockStatefulOrNull(name, "battle_intro")
     open fun getLose() = bedrockStatefulOrNull(name, "lose")

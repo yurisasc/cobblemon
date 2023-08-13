@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.particle.SnowstormParticleReader
@@ -56,7 +57,11 @@ object TestCommand {
         }
 
         try {
-            this.testClosestBattle(context)
+            val p = context.source.playerOrThrow
+            val entity = NPCEntity(p.world)
+            entity.setPos(p.pos.x, p.pos.y, p.pos.z)
+            p.world.spawnEntity(entity)
+//            this.testClosestBattle(context)
             //testTrade(context.source.player!!)
 //            testParticles(context)
 //            extractMovesData()

@@ -9,10 +9,10 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
 import com.cobblemon.mod.common.client.render.models.blockbench.npc.NPCModel
-import com.cobblemon.mod.common.client.render.models.blockbench.npc.RegularNPCModel
+import com.cobblemon.mod.common.client.render.models.blockbench.npc.StandardNPCModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.model.ModelPart
 
 object NPCModelRepository : VaryingModelRepository<NPCEntity, NPCModel>() {
     override val title = "NPC"
@@ -24,11 +24,11 @@ object NPCModelRepository : VaryingModelRepository<NPCEntity, NPCModel>() {
 
     override val fallback = cobblemonResource("npc")
 
-    override fun loadJsonPoser(json: String): (ModelPart) -> NPCModel {
+    override fun loadJsonPoser(json: String): (Bone) -> NPCModel {
         TODO("JSON poser for NPCs. This really must be implemented, custom NPC stuff will be insanely prevalent on release")
     }
 
     override fun registerInBuiltPosers() {
-        inbuilt("regular", ::RegularNPCModel)
+        inbuilt("standard", ::StandardNPCModel)
     }
 }

@@ -22,7 +22,7 @@ import net.minecraft.util.Identifier
 
 class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, NPCModel>(context, null, 0.5f) {
     override fun getTexture(entity: NPCEntity): Identifier {
-        return NPCModelRepository.getTexture(entity.shape, entity.aspects.get(), entity.delegate as NPCClientDelegate)
+        return NPCModelRepository.getTexture(entity.npc.resourceIdentifier, entity.aspects.get(), entity.delegate as NPCClientDelegate)
     }
 
     override fun render(
@@ -34,12 +34,12 @@ class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, NPCModel>(
         packedLight: Int
     ) {
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
-        model = NPCModelRepository.getPoser(entity.shape, entity.aspects.get())
+        model = NPCModelRepository.getPoser(entity.npc.resourceIdentifier, entity.aspects.get())
 
         val clientDelegate = entity.delegate as NPCClientDelegate
         val modelNow = model as PoseableEntityModel<NPCEntity>
 
-        modelNow.setLayerContext(buffer, clientDelegate, NPCModelRepository.getLayers(entity.shape, entity.aspects.get()))
+        modelNow.setLayerContext(buffer, clientDelegate, NPCModelRepository.getLayers(entity.npc.resourceIdentifier, entity.aspects.get()))
 
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
 

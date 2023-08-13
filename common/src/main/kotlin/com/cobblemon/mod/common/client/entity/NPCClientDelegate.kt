@@ -14,10 +14,16 @@ import com.cobblemon.mod.common.entity.npc.NPCEntity
 
 class NPCClientDelegate : PoseableEntityState<NPCEntity>(), EntitySideDelegate<NPCEntity> {
     override fun initialize(entity: NPCEntity) {
+        this.age = entity.age
     }
 
     override fun tick(entity: NPCEntity) {
         super.tick(entity)
         updateLocatorPosition(entity.pos)
+        incrementAge(entity)
+    }
+
+    override fun updatePartialTicks(partialTicks: Float) {
+        this.currentPartialTicks = partialTicks
     }
 }
