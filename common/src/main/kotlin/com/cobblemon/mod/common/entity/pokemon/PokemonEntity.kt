@@ -33,10 +33,8 @@ import com.cobblemon.mod.common.api.riding.attributes.RidingAttribute
 import com.cobblemon.mod.common.api.riding.capabilities.RidingCapabilities
 import com.cobblemon.mod.common.api.riding.seats.Seat
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
-import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
-import com.cobblemon.mod.common.battles.BagItemActionResponse
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
@@ -945,7 +943,7 @@ class PokemonEntity(
         feature.enabled = true
         this.pokemon.markFeatureDirty(feature)
         this.pokemon.updateAspects()
-        val i = this.random.nextInt(3)
+        val i = this.random.nextInt(3) + 1
         for (j in 0 until i) {
             val itemEntity = this.dropItem(Items.WHITE_WOOL, 1) ?: return
             itemEntity.velocity = itemEntity.velocity.add(

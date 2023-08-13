@@ -90,7 +90,7 @@ open class PokemonProperties {
             val maybeIVs = IVs()
             val maybeEVs = EVs()
             Stats.PERMANENT.forEach{ stat ->
-                val statName = stat.displayName.string.lowercase()
+                val statName = stat.toString().lowercase()
                 parseIntProperty(keyPairs, listOf("${statName}_iv"))?.coerceIn(0, IVs.MAX_VALUE)?.let { maybeIVs[stat] = it }
                 parseIntProperty(keyPairs, listOf("${statName}_ev"))?.coerceIn(0, EVs.MAX_STAT_VALUE)?.let { maybeEVs[stat] = it }
             }

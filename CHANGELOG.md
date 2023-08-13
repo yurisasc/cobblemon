@@ -29,6 +29,7 @@
 - Added the `/pokemonrestart <reset_starters>` and the `/pokemonrestartother <player> <reset_starters>` command allowing command block/mcfunction users to reset a players Pokémon data.
 - Added support for "isBattle" and "isTouchingWater" properties on resource pack Pokémon poses. This allows your custom Pokémon to be posed differently when in battle.
 - Added support for "isVisible" on a transformed part on resource pack Pokémon poses. This allows your custom Pokémon to have bones disappear in specific poses, such as hiding Greninja's throwing star when not in a battle pose.
+- Added the `doPokemonLoot` gamerule to toggle Pokémon dropping items/exp on death.
 
 ### Pokémon Added
 #### Gen 2
@@ -190,9 +191,11 @@
 - Clicking categories of the Stat sub-section or the party reorder button in the Summary screen will now produce a click sound.
 - Updated PC Recipe.
 - Improved Pokémon AI and movement.
+- Friendship will slowly increase when Pokémon are shoulder-mounted.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
+- Fixed large Pokémon spawning partially inside walls where they suffocate.
 - Fixed messages for entry hazards, screens, Tailwind, Perish Song, Destiny Bond, Shed Skin, Uproar, Forewarn, Disguise, Arena Trap, Yawn, Curse, Clamp, Whirlpool, Liquid Ooze, Miracle Eye and Safeguard.
 - Fixed Porygon not evolving with an Upgrade.
 - Fixed super sized Pumpkaboo not having any moves.
@@ -220,7 +223,9 @@
 - Fixed Pokémon variants and layers not rendering correctly when shouldered and playing on a dedicated server, existing shoulders affected will need to be retrieved and shouldered again.
 - Shoulder effects will now stay applied through situations that remove potion effects such as drinking milk.
 - Fixed Shedninja evolving to use the consumed Pokeball and removed the held item.
-- Fixed non-existent species in spawn pool file causing random species to spawn
+- Fixed non-existent species in spawn pool file causing random species to spawn.
+- Fixed shearing Pokémon dropping 0-2 wool instead of 1-3.
+- Fixed some alignment issues in the stat hexagon of the summary menu.
 
 ### Developer
 - Added SpawnEvent

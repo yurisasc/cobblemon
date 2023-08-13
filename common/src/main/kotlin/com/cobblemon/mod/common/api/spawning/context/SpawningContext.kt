@@ -24,7 +24,6 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
-import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.StructureAccessor
 import net.minecraft.world.gen.structure.Structure
@@ -142,6 +141,13 @@ abstract class SpawningContext {
         /** Returns true if none of the influences.affectSpawnable return false */
         return influences.none { !it.affectSpawnable(detail, this) }
     }
+
+    /**
+     * Filters a spawning detail by some extra, more expensive condition defined by the context itself.
+     * @return true if the [SpawnDetail] is acceptable by the context's own logic.
+     */
+    open fun postFilter(detail: SpawnDetail): Boolean = true
+
     open fun afterSpawn(entity: Entity) {
         influences.forEach { it.affectSpawn(entity) }
     }

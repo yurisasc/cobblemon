@@ -47,7 +47,6 @@ object SubmergedSpawningContextCalculator : AreaSpawningContextCalculator<Submer
             light = getLight(input),
             canSeeSky = getCanSeeSky(input),
             influences = input.spawner.copyInfluences(),
-            width = getHorizontalSpace(input, fluidCondition, config.maxHorizontalSpace),
             height = getHeight(input, fluidCondition, ceil(config.maxVerticalSpace / 2F)),
             depth = getDepth(input, fluidCondition, ceil(config.maxVerticalSpace / 2F)),
             slice = input.slice,

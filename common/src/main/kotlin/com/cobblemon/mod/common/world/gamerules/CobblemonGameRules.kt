@@ -16,5 +16,6 @@ object CobblemonGameRules {
 
     @JvmField
     val DO_POKEMON_SPAWNING: GameRules.Key<GameRules.BooleanRule> = Cobblemon.implementation.registerGameRule("doPokemonSpawning", GameRules.Category.SPAWNING, BooleanRuleInvoker.`cobblemon$create`(true))
-
+    @JvmField
+    val DO_POKEMON_LOOT: GameRules.Key<GameRules.BooleanRule> = Cobblemon.implementation.registerGameRule("doPokemonLoot", GameRules.Category.DROPS, BooleanRuleInvoker.`cobblemon$create`(true))
 }

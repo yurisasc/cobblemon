@@ -24,6 +24,7 @@ class JsonPlayerDataStoreFactory : PlayerDataStoreFactory {
     fun setup(server: MinecraftServer) {
         adapter.setup(server);
     }
+
     override fun load(uuid: UUID): PlayerData {
         return if(cache.contains(uuid))
             cache[uuid]!!;

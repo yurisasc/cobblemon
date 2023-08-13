@@ -1074,6 +1074,15 @@ open class Pokemon : ShowdownIdentifiable {
         return properties
     }
 
+    /**
+     * Copies the specified properties from this Pokémon into a new [PokemonProperties] instance.
+     *
+     * You can find a bunch of built-in extractors inside [PokemonPropertyExtractor] statically.
+     */
+    fun createPokemonProperties(extractors: MutableList<PokemonPropertyExtractor>): PokemonProperties {
+        return createPokemonProperties(*extractors.toTypedArray())
+    }
+
     fun addExperience(source: ExperienceSource, xp: Int): AddExperienceResult {
         if (xp < 0 || !this.canLevelUpFurther()) {
             return AddExperienceResult(level, level, emptySet(), 0) // no negatives!
