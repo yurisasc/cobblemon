@@ -915,6 +915,7 @@
   "block.cobblemon.pasture": "Pasture Block",
 
   "gamerule.doPokemonSpawning": "Spawn Pokémon",
+  "gamerule.doPokemonLoot": "Drop Pokémon loot",
   "cobblemon.command.checkspawns.invalid-bucket": "Invalid Spawn Bucket",
   "cobblemon.command.checkspawns.spawns": "Spawns",
   "cobblemon.command.checkspawns.nothing": "Nothing can spawn here right now.",
