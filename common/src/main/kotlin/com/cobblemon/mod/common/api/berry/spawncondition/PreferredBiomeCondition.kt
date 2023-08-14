@@ -13,11 +13,17 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.biome.Biome
+import kotlin.math.min
 
 class PreferredBiomeCondition(val minGroveSize: Int, val maxGroveSize: Int) : BerrySpawnCondition{
-    override fun canSpawn(berry: Berry, biome: RegistryEntry<Biome>, random: Random): Int {
+
+    override fun getGroveSize(random: Random): Int {
+        return random.nextBetween(minGroveSize, maxGroveSize)
+    }
+
+    override fun canSpawn(berry: Berry, biome: RegistryEntry<Biome>): Boolean {
         val preferredBiomeTags = berry.preferredBiomeTags
-        return if (preferredBiomeTags.any { biome.isIn(it)}) random.nextBetween(minGroveSize, maxGroveSize) else 0
+        return preferredBiomeTags.any {biome.isIn(it)}
     }
 
     companion object {

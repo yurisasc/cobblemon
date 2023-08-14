@@ -10,18 +10,28 @@ package com.cobblemon.mod.common.world.feature
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.BerryBlock
+import com.google.common.cache.CacheBuilder
+import com.google.common.cache.CacheLoader
+import com.google.common.cache.LoadingCache
+import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.util.math.Vec3i
+import net.minecraft.util.math.intprovider.ClampedNormalIntProvider
 import net.minecraft.world.StructureWorldAccess
+import net.minecraft.world.biome.Biome
 import net.minecraft.world.chunk.ChunkStatus
 import net.minecraft.world.gen.blockpredicate.BlockPredicate
 import net.minecraft.world.gen.feature.*
 import net.minecraft.world.gen.feature.util.FeatureContext
 import net.minecraft.world.gen.placementmodifier.BlockFilterPlacementModifier
 import net.minecraft.world.gen.stateprovider.BlockStateProvider
+import net.minecraft.world.gen.stateprovider.RandomizedIntBlockStateProvider
 import java.util.*
 
 class BerryGroveFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureConfig.CODEC){
+    val validBerryCache: LoadingCache<RegistryEntry<Biome>, List<BerryBlock>> = CacheBuilder.newBuilder()
+        .maximumSize(4)
+        .build(CACHE_LOADER)
     override fun generate(context: FeatureContext<SingleStateFeatureConfig>): Boolean {
         val worldGenLevel: StructureWorldAccess = context.world!!
         val random = context.random!!
@@ -34,19 +44,22 @@ class BerryGroveFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureCo
         val biome = worldGenLevel.getBiome(origin)
         //This basically goes through and finds the berries whose preferred biome we are in
         //Maybe cache these per biome in a map?
-        val validTrees = CobblemonBlocks.berries().values.map { berryBlock ->
-            val berry = berryBlock.berry()
-            val groveSize = berry?.spawnConditions?.sumOf { it.canSpawn(berry, biome, random) } ?: 0
-            Pair(berryBlock, groveSize).takeIf { groveSize > 0 }
-        }
+        val validTrees = validBerryCache.get(biome)
         if (validTrees.isEmpty()) return false
-        val pickedTree = validTrees.filterNotNull().random()
-        val numTreesToGen = pickedTree.second
+        val pickedTree = validTrees.random()
+        val berry = pickedTree.berry()!!
+        val numTreesToGen = pickedTree.berry()?.spawnConditions?.sumOf { cond ->
+            (cond.getGroveSize(random).takeIf { cond.canSpawn(berry, biome) } ) ?: 0
+        } ?: 0
         var numTreesLeftToGen = numTreesToGen
+        val defTreeState = BlockStateProvider.of(pickedTree.defaultState.with(BerryBlock.WAS_GENERATED, true))
+        val randomTreeStateProvider = RandomizedIntBlockStateProvider(
+            defTreeState, BerryBlock.AGE,
+            ClampedNormalIntProvider.of(3f, 1f, 1, 5))
         val blockPlaceFeature = PlacedFeatures.createEntry(
             SIMPLE_BLOCK,
             SimpleBlockFeatureConfig(
-                BlockStateProvider.of(pickedTree.first.defaultState.with(BerryBlock.WAS_GENERATED, true)),
+                randomTreeStateProvider
             ),
             BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(BlockTags.REPLACEABLE)),
             BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Vec3i(0, -1, 0), BlockTags.DIRT)),
@@ -85,5 +98,16 @@ class BerryGroveFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureCo
             }
         }
         return numTreesToGen != numTreesLeftToGen
+    }
+
+    companion object {
+        val CACHE_LOADER = object : CacheLoader<RegistryEntry<Biome>, List<BerryBlock>>() {
+            override fun load(key: RegistryEntry<Biome>): List<BerryBlock> {
+                return CobblemonBlocks.berries().values.filter { berryBlock ->
+                    val berry = berryBlock.berry()
+                    berry?.spawnConditions?.any { it.canSpawn(berry, key) } ?: false
+                }
+            }
+        }
     }
 }

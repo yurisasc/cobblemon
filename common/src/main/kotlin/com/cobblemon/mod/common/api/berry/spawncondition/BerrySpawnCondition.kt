@@ -14,5 +14,7 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.biome.Biome
 
 interface BerrySpawnCondition {
-    fun canSpawn(berry: Berry, biome: RegistryEntry<Biome>, random: Random): Int
+    fun getGroveSize(random: Random): Int
+
+    fun canSpawn(berry: Berry, biome: RegistryEntry<Biome>): Boolean
 }
