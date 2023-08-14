@@ -19,8 +19,8 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_temperate",
-        "#cobblemon:is_grassland"
+        "cobblemon:is_temperate",
+        "cobblemon:is_grassland"
       ],
       "bonusYield": {
         "min": 1,

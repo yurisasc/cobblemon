@@ -19,9 +19,9 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_forest",
-        "#cobblemon:is_jungle",
-        "#cobblemon:is_swamp"
+        "cobblemon:is_forest",
+        "cobblemon:is_jungle",
+        "cobblemon:is_swamp"
       ],
       "bonusYield": {
         "min": 1,

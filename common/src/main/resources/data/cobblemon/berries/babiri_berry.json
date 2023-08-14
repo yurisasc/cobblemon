@@ -18,9 +18,9 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_bamboo",
-        "#cobblemon:is_mountain",
-        "#cobblemon:is_taiga"
+        "cobblemon:is_bamboo",
+        "cobblemon:is_mountain",
+        "cobblemon:is_taiga"
       ],
       "bonusYield": {
         "min": 1,

@@ -20,9 +20,9 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_grassland",
-        "#cobblemon:is_hills",
-        "#cobblemon:is_sky"
+        "cobblemon:is_grassland",
+        "cobblemon:is_hills",
+        "cobblemon:is_sky"
       ],
       "bonusYield": {
         "min": 1,

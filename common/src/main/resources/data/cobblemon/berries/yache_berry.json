@@ -18,8 +18,8 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_freezing",
-        "#cobblemon:is_taiga"
+        "cobblemon:is_freezing",
+        "cobblemon:is_taiga"
       ],
       "bonusYield": {
         "min": 1,

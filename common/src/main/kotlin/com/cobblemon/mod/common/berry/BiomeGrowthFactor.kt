@@ -14,12 +14,13 @@ import com.cobblemon.mod.common.registry.BiomeIdentifierCondition
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.BlockState
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldView
 import net.minecraft.world.biome.Biome
 
 class BiomeGrowthFactor(
-    val biomeTags: MutableList<RegistryLikeCondition<Biome>>,
+    val biomeTags: List<TagKey<Biome>>,
     val bonusYield: IntRange
 ) : GrowthFactor{
     override fun validateArguments() {
@@ -31,7 +32,7 @@ class BiomeGrowthFactor(
     override fun isValid(world: WorldView, state: BlockState, pos: BlockPos): Boolean {
         val biome = world.getBiome(pos)
 
-        return biomeTags.any { it.fits(biome.value(), world.registryManager.get(RegistryKeys.BIOME)) }
+        return biomeTags.any { biome.isIn(it) }
     }
 
     override fun yield() = this.bonusYield.random()

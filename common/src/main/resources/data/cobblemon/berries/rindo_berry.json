@@ -20,9 +20,9 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_jungle",
-        "#cobblemon:is_temperate",
-        "#cobblemon:is_lush"
+        "cobblemon:is_jungle",
+        "cobblemon:is_temperate",
+        "cobblemon:is_lush"
       ],
       "bonusYield": {
         "min": 1,

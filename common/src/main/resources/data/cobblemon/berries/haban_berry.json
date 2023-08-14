@@ -19,11 +19,11 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_jungle",
-        "#cobblemon:is_magical",
-        "#cobblemon:is_mountain",
-        "#cobblemon:is_sky",
-        "#cobblemon:is_volcanic"
+        "cobblemon:is_jungle",
+        "cobblemon:is_magical",
+        "cobblemon:is_mountain",
+        "cobblemon:is_sky",
+        "cobblemon:is_volcanic"
       ],
       "bonusYield": {
         "min": 1,

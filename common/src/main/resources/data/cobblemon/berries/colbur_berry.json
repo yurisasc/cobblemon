@@ -19,9 +19,9 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_badlands",
-        "#cobblemon:is_spooky",
-        "#cobblemon:is_taiga"
+        "cobblemon:is_badlands",
+        "cobblemon:is_spooky",
+        "cobblemon:is_taiga"
       ],
       "bonusYield": {
         "min": 1,

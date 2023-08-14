@@ -19,10 +19,10 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_floral",
-        "#cobblemon:is_island",
-        "#cobblemon:is_magical",
-        "#cobblemon:is_mushroom"
+        "cobblemon:is_floral",
+        "cobblemon:is_island",
+        "cobblemon:is_magical",
+        "cobblemon:is_mushroom"
       ],
       "bonusYield": {
         "min": 1,

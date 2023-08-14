@@ -19,9 +19,9 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_peak",
-        "#cobblemon:is_temperate",
-        "#cobblemon:is_sky"
+        "cobblemon:is_peak",
+        "cobblemon:is_temperate",
+        "cobblemon:is_sky"
       ],
       "bonusYield": {
         "min": 1,

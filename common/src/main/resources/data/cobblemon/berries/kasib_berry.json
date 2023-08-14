@@ -18,10 +18,10 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_dripstone",
-        "#cobblemon:is_lush",
-        "#cobblemon:is_spooky",
-        "#cobblemon:is_swamp"
+        "cobblemon:is_dripstone",
+        "cobblemon:is_lush",
+        "cobblemon:is_spooky",
+        "cobblemon:is_swamp"
       ],
       "bonusYield": {
         "min": 1,

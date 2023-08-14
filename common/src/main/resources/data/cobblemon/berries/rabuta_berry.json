@@ -18,7 +18,7 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_arid"
+        "cobblemon:is_arid"
       ],
       "bonusYield": {
         "min": 1,

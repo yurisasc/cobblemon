@@ -19,7 +19,7 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_temperate"
+        "cobblemon:is_temperate"
       ],
       "bonusYield": {
         "min": 1,

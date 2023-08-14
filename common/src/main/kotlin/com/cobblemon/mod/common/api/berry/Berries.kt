@@ -23,6 +23,9 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import net.minecraft.predicate.NumberRange
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
+import net.minecraft.registry.tag.TagManagerLoader.RegistryTags
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -57,7 +60,7 @@ object Berries : JsonDataRegistry<Berry> {
         .registerTypeAdapter(IntRange::class.java, VerboseIntRangeAdapter)
         .registerTypeAdapter(Color::class.java, LiteralHexColorAdapter)
         .registerTypeAdapter(Stat::class.java, CobblemonStatTypeAdapter)
-        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(TagKey::class.java, Biome::class.java).type, TagKeyAdapter(RegistryKeys.BIOME))
         .create()
     override val typeToken: TypeToken<Berry> = TypeToken.get(Berry::class.java)
     override val resourcePath = "berries"

@@ -19,9 +19,9 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_mushroom",
-        "#cobblemon:is_spooky",
-        "#cobblemon:is_swamp"
+        "cobblemon:is_mushroom",
+        "cobblemon:is_spooky",
+        "cobblemon:is_swamp"
       ],
       "bonusYield": {
         "min": 1,

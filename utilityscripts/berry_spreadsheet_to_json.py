@@ -37,7 +37,7 @@ def stuff():
 		berry_dict["growthFactors"] = [
 			{
 				"variant": "cobblemon:biome",
-				"biomeTags": [f"#cobblemon:is_{x[1:].lower()}" for x in biomeTags],
+				"biomeTags": [f"cobblemon:is_{x[1:].lower()}" for x in biomeTags],
 				"bonusYield": {
 					"min": int(betterYields[0]) - int(baseYields[0]),
 					"max": int(betterYields[1]) - int(baseYields[1])

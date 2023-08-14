@@ -19,11 +19,11 @@
     {
       "variant": "cobblemon:biome",
       "biomeTags": [
-        "#cobblemon:is_desert",
-        "#cobblemon:is_floral",
-        "#cobblemon:is_magical",
-        "#cobblemon:is_savanna",
-        "#cobblemon:is_spooky"
+        "cobblemon:is_desert",
+        "cobblemon:is_floral",
+        "cobblemon:is_magical",
+        "cobblemon:is_savanna",
+        "cobblemon:is_spooky"
       ],
       "bonusYield": {
         "min": 1,
