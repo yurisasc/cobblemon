@@ -74,6 +74,8 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     init {
         defaultState = this.stateManager.defaultState
             .with(HAS_MULCH, false)
+            .with(WAS_GENERATED, false)
+            .with(AGE, 0)
     }
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
@@ -171,7 +173,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
     @Deprecated("Deprecated in Java")
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
-        return world.getBlockState(pos.down()).isIn(CobblemonBlockTags.BERRY_SOIL)
+        return state.get(WAS_GENERATED) || world.getBlockState(pos.down()).isIn(CobblemonBlockTags.BERRY_SOIL)
     }
 
     @Deprecated("Deprecated in Java")
@@ -191,6 +193,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         builder.add(HAS_MULCH)
         builder.add(MULCH_TYPE)
         builder.add(MULCH_DURATION)
+        builder.add(WAS_GENERATED)
     }
 
     override fun getPickStack(world: BlockView?, pos: BlockPos?, state: BlockState?): ItemStack {
@@ -215,6 +218,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         const val FRUIT_AGE = 5
         val AGE: IntProperty = IntProperty.of("age", 0, FRUIT_AGE)
         val HAS_MULCH: BooleanProperty = BooleanProperty.of("has_mulch")
+        val WAS_GENERATED: BooleanProperty = BooleanProperty.of("generated")
         val MULCH_TYPE: EnumProperty<MulchVariant> = EnumProperty.of("mulch_type", MulchVariant::class.java)
         val MULCH_DURATION: IntProperty = IntProperty.of("mulch_duration", 0, 3)
     }
