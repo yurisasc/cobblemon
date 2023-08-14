@@ -3,6 +3,12 @@
     "min": 2,
     "max": 3
   },
+  "preferredBiomeTags": [
+    "cobblemon:is_coast",
+    "cobblemon:is_freshwater",
+    "cobblemon:is_island",
+    "cobblemon:is_ocean"
+  ],
   "growthTime": {
     "min": 50,
     "max": 60
@@ -17,19 +23,14 @@
   ],
   "growthFactors": [
     {
-      "variant": "cobblemon:biome",
-      "biomeTags": [
-        "cobblemon:is_coast",
-        "cobblemon:is_freshwater",
-        "cobblemon:is_island",
-        "cobblemon:is_ocean"
-      ],
+      "variant": "cobblemon:preferred_biome",
       "bonusYield": {
         "min": 1,
         "max": 2
       }
     }
   ],
+  "spawnConditions": [],
   "growthPoints": [
     {
       "position": {

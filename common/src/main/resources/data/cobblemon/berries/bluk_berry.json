@@ -3,6 +3,10 @@
     "min": 3,
     "max": 6
   },
+  "preferredBiomeTags": [
+    "cobblemon:is_mountain",
+    "cobblemon:is_taiga"
+  ],
   "growthTime": {
     "min": 45,
     "max": 55
@@ -16,15 +20,18 @@
   ],
   "growthFactors": [
     {
-      "variant": "cobblemon:biome",
-      "biomeTags": [
-        "cobblemon:is_mountain",
-        "cobblemon:is_taiga"
-      ],
+      "variant": "cobblemon:preferred_biome",
       "bonusYield": {
         "min": 1,
         "max": 2
       }
+    }
+  ],
+  "spawnConditions": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "minGroveSize": 3,
+      "maxGroveSize": 5
     }
   ],
   "growthPoints": [

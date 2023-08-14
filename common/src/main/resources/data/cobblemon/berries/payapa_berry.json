@@ -3,6 +3,13 @@
     "min": 2,
     "max": 3
   },
+  "preferredBiomeTags": [
+    "cobblemon:is_desert",
+    "cobblemon:is_floral",
+    "cobblemon:is_magical",
+    "cobblemon:is_savanna",
+    "cobblemon:is_spooky"
+  ],
   "growthTime": {
     "min": 50,
     "max": 60
@@ -17,20 +24,14 @@
   ],
   "growthFactors": [
     {
-      "variant": "cobblemon:biome",
-      "biomeTags": [
-        "cobblemon:is_desert",
-        "cobblemon:is_floral",
-        "cobblemon:is_magical",
-        "cobblemon:is_savanna",
-        "cobblemon:is_spooky"
-      ],
+      "variant": "cobblemon:preferred_biome",
       "bonusYield": {
         "min": 1,
         "max": 2
       }
     }
   ],
+  "spawnConditions": [],
   "growthPoints": [
     {
       "position": {

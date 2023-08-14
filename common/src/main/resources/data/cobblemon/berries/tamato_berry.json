@@ -3,6 +3,9 @@
     "min": 1,
     "max": 2
   },
+  "preferredBiomeTags": [
+    "cobblemon:is_plains"
+  ],
   "growthTime": {
     "min": 95,
     "max": 105
@@ -16,16 +19,14 @@
   ],
   "growthFactors": [
     {
-      "variant": "cobblemon:biome",
-      "biomeTags": [
-        "cobblemon:is_plains"
-      ],
+      "variant": "cobblemon:preferred_biome",
       "bonusYield": {
         "min": 1,
         "max": 1
       }
     }
   ],
+  "spawnConditions": [],
   "growthPoints": [
     {
       "position": {

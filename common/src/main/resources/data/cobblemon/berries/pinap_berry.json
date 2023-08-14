@@ -3,6 +3,9 @@
     "min": 3,
     "max": 6
   },
+  "preferredBiomeTags": [
+    "cobblemon:is_arid"
+  ],
   "growthTime": {
     "min": 42,
     "max": 52
@@ -16,14 +19,18 @@
   ],
   "growthFactors": [
     {
-      "variant": "cobblemon:biome",
-      "biomeTags": [
-        "cobblemon:is_arid"
-      ],
+      "variant": "cobblemon:preferred_biome",
       "bonusYield": {
         "min": 1,
         "max": 2
       }
+    }
+  ],
+  "spawnConditions": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "minGroveSize": 3,
+      "maxGroveSize": 5
     }
   ],
   "growthPoints": [

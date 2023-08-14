@@ -3,6 +3,11 @@
     "min": 2,
     "max": 3
   },
+  "preferredBiomeTags": [
+    "cobblemon:is_forest",
+    "cobblemon:is_jungle",
+    "cobblemon:is_swamp"
+  ],
   "growthTime": {
     "min": 50,
     "max": 60
@@ -17,18 +22,14 @@
   ],
   "growthFactors": [
     {
-      "variant": "cobblemon:biome",
-      "biomeTags": [
-        "cobblemon:is_forest",
-        "cobblemon:is_jungle",
-        "cobblemon:is_swamp"
-      ],
+      "variant": "cobblemon:preferred_biome",
       "bonusYield": {
         "min": 1,
         "max": 2
       }
     }
   ],
+  "spawnConditions": [],
   "growthPoints": [
     {
       "position": {
