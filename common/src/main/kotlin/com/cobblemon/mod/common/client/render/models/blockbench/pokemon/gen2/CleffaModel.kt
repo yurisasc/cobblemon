@@ -54,7 +54,7 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
 
         leftShoulder = registerPose(
             poseName = "left_shoulder",
-            poseTypes = setOf(PoseType.SHOULDER_LEFT),
+            poseType = PoseType.SHOULDER_LEFT,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -67,7 +67,7 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
 
         rightShoulder = registerPose(
             poseName = "right_shoulder",
-            poseTypes = setOf(PoseType.SHOULDER_RIGHT),
+            poseType = PoseType.SHOULDER_RIGHT,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
