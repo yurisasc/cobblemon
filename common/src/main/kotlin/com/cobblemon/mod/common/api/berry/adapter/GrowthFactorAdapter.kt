@@ -6,8 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.berry
+package com.cobblemon.mod.common.api.berry.adapter
 
+import com.cobblemon.mod.common.api.berry.GrowthFactor
 import com.cobblemon.mod.common.util.adapters.CobblemonGrowthFactorAdapter
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonSerializer

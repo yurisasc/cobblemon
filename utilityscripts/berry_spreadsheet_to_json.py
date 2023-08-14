@@ -18,6 +18,8 @@ def stuff():
 			"min": int(baseYields[0]),
 			"max": int(baseYields[1])
 		}
+		biomeTags = row[2].value.split(", ")
+		berry_dict["preferredBiomeTags"] = [f"cobblemon:is_{x[1:].lower()}" for x in biomeTags]
 		baseGrowthTimes = int(row[7].value)
 		growthVar = int(row[8].value) // 2
 		berry_dict["growthTime"] = {
@@ -32,18 +34,35 @@ def stuff():
 		}
 		fav_mulches = [i.lower() for i in row[3].value.split(", ")]
 		berry_dict["favoriteMulches"] = fav_mulches
-		biomeTags = row[2].value.split(", ")
 		betterYields = row[5].value.split("-")
 		berry_dict["growthFactors"] = [
 			{
-				"variant": "cobblemon:biome",
-				"biomeTags": [f"cobblemon:is_{x[1:].lower()}" for x in biomeTags],
+				"variant": "cobblemon:preferred_biome",
 				"bonusYield": {
 					"min": int(betterYields[0]) - int(baseYields[0]),
 					"max": int(betterYields[1]) - int(baseYields[1])
 				}
 			}
 		]
+		spawn_type = row[11].value
+		if spawn_type == "PREFERRED_BIOME":
+			berry_dict["spawnConditions"] = [
+				{
+					"variant": "cobblemon:preferred_biome",
+					"minGroveSize": 3,
+					"maxGroveSize": 5
+				}
+			]
+		elif spawn_type == "ALL_BIOME":
+			berry_dict["spawnConditions"] = [
+				{
+					"variant": "cobblemon:all_biome",
+					"minGroveSize": 3,
+					"maxGroveSize": 5
+				}
+			]
+		else:
+			berry_dict["spawnConditions"] = []
 		berry_dict["growthPoints"] = get_growth_points(row[0].row)
 		berry_dict["mutations"] = get_mutations(berry_prefix)
 		berry_dict["sproutShape"] = [

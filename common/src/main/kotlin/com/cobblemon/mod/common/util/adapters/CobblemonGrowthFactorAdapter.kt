@@ -10,10 +10,10 @@ package com.cobblemon.mod.common.util.adapters
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.berry.GrowthFactor
-import com.cobblemon.mod.common.api.berry.GrowthFactorAdapter
+import com.cobblemon.mod.common.api.berry.adapter.GrowthFactorAdapter
 import com.cobblemon.mod.common.berry.BiomeDownfallGrowthFactor
-import com.cobblemon.mod.common.berry.BiomeGrowthFactor
 import com.cobblemon.mod.common.berry.BiomeTemperatureGrowthFactor
+import com.cobblemon.mod.common.berry.PreferredBiomeGrowthFactor
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
 import com.google.gson.JsonSerializationContext
@@ -35,7 +35,7 @@ object CobblemonGrowthFactorAdapter : GrowthFactorAdapter {
     init {
         this.register(BiomeDownfallGrowthFactor::class, BiomeDownfallGrowthFactor.ID)
         this.register(BiomeTemperatureGrowthFactor::class, BiomeTemperatureGrowthFactor.ID)
-        this.register(BiomeGrowthFactor::class, BiomeGrowthFactor.ID)
+        this.register(PreferredBiomeGrowthFactor::class, PreferredBiomeGrowthFactor.ID)
     }
 
     override fun register(type: KClass<out GrowthFactor>, identifier: Identifier) {

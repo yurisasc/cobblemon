@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.berry
 
 import com.cobblemon.mod.common.api.berry.GrowthFactor
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
+import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.registry.BiomeIdentifierCondition
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.BlockState
@@ -19,8 +20,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldView
 import net.minecraft.world.biome.Biome
 
-class BiomeGrowthFactor(
-    val biomeTags: List<TagKey<Biome>>,
+class PreferredBiomeGrowthFactor(
     val bonusYield: IntRange
 ) : GrowthFactor{
     override fun validateArguments() {
@@ -31,6 +31,8 @@ class BiomeGrowthFactor(
 
     override fun isValid(world: WorldView, state: BlockState, pos: BlockPos): Boolean {
         val biome = world.getBiome(pos)
+        val block = state.block as BerryBlock
+        val biomeTags = block.berry()?.preferredBiomeTags ?: emptyList()
 
         return biomeTags.any { biome.isIn(it) }
     }
@@ -43,7 +45,7 @@ class BiomeGrowthFactor(
 
     companion object {
 
-        val ID = cobblemonResource("biome")
+        val ID = cobblemonResource("preferred_biome")
 
     }
 

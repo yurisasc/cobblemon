@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.berry
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.berry.spawncondition.BerrySpawnCondition
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.mulch.MulchVariant
@@ -25,6 +26,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.LivingEntity
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
@@ -32,6 +34,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.World
+import net.minecraft.world.biome.Biome
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -40,9 +43,11 @@ import kotlin.collections.HashMap
  *
  * @property identifier The [Identifier] of this berry.
  * @property baseYield The [IntRange] possible for the berry tree before [bonusYield] is calculated.
+ * @property preferredBiomeTags The [TagKey]s of the berries preffered biomes. Determines spawning and yield
  * @property growthTime The [IntRange] possible in minutes for how long the berry tree takes to grow.
  * @property refreshRate The [IntRange] possible in minutes for how long the berry tree takes to regrow its berries once it has been harvested.
  * @depreciated @property lifeCycles The [IntRange] possible for the berry to live for between harvests.
+ * @property favoriteMulches The types of mulches that benefit this berries yield
  * @property growthFactors An array of [GrowthFactor]s that will affect this berry. The client is not aware of these.
  * @property mutations A map of the partner berry as the key and the value as the resulting mutation with this berry.
  * @property growthPoints A collection of [GrowthPoint]s for the berry flowers and fruit.
@@ -60,11 +65,13 @@ import kotlin.collections.HashMap
 class Berry(
     identifier: Identifier,
     val baseYield: IntRange,
-    //val lifeCycles: IntRange,
+    val preferredBiomeTags: List<TagKey<Biome>>,
     val growthTime: IntRange,
     val refreshRate: IntRange,
+    //val lifeCycles: IntRange,
     val favoriteMulches: EnumSet<MulchVariant>,
     val growthFactors: Collection<GrowthFactor>,
+    val spawnConditions: List<BerrySpawnCondition>,
     val growthPoints: Array<GrowthPoint>,
     private val mutations: Map<Identifier, Identifier>,
     @SerializedName("sproutShape")
@@ -328,7 +335,7 @@ class Berry(
             val flowerTexture = buffer.readIdentifier()
             val fruitModelIdentifier = buffer.readIdentifier()
             val fruitTexture = buffer.readIdentifier()
-            return Berry(identifier, baseYield, growthTime, refreshRate, favMulchs, emptySet(), growthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
+            return Berry(identifier, baseYield, emptyList(), growthTime, refreshRate, favMulchs, emptySet(), emptyList(), growthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
         }
 
     }
