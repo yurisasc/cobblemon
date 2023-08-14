@@ -41,8 +41,8 @@ class KrabbyModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                bedrock("krabby", "ground_idle")
-                //bedrock("krabby", "ground_walk")
+                bedrock("krabby", "ground_idle"),
+                bedrock("krabby", "ground_walk")
             )
         )
     }

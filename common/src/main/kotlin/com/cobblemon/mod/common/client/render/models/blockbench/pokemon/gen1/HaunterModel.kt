@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -28,6 +29,8 @@ class HaunterModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    val offsetY = -3.0
+
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("haunter", "blink").setPreventsIdle(false)}
 
@@ -37,6 +40,9 @@ class HaunterModel(root: ModelPart) : PokemonPoseableModel() {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("haunter", "ground_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
             )
         )
 
@@ -47,6 +53,9 @@ class HaunterModel(root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(
                 bedrock("haunter", "ground_idle")
                 //bedrock("haunter", "ground_walk")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
             )
         )
     }

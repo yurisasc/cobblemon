@@ -11,7 +11,8 @@
     "swamp",
     "jungle",
     "spruce",
-    "mangrove"
+    "mangrove",
+    "cherry"
   ],
   "isAspect": true,
   "aspectFormat": "tree-{{choice}}"

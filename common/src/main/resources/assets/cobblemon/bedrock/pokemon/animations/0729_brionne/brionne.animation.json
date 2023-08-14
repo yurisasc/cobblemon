@@ -170,7 +170,7 @@
 				},
 				"arm_right": {
 					"rotation": [
-						"15.5445+2*math.sin(q.anim_time*90*3)+math.clamp(2*math.sin(q.anim_time*90*3))",
+						"15.5445+2*math.sin(q.anim_time*90*3)",
 						"-51.6588-40*math.sin(q.anim_time*90*3+60)",
 						"-19.6149+25*math.sin(q.anim_time*90*3+40)"
 					],

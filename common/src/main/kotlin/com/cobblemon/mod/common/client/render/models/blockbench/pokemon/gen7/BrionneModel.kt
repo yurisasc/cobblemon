@@ -60,10 +60,9 @@ class BrionneModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling },
             idleAnimations = arrayOf(
-                    singleBoneLook(),
-                    bedrock("brionne", "ground_walk")
+                singleBoneLook(),
+                bedrock("brionne", "ground_walk")
             )
         )
 

@@ -3184,6 +3184,9 @@
   "pokemon.raichu.cry": {
     "sounds": [ "cobblemon:pokemon/raichu/raichu_cry" ]
   },
+  "pokemon.raichu_alolan.cry": {
+    "sounds": [ "cobblemon:pokemon/raichu/alolan_raichu_cry" ]
+  },
   "pokemon.sandshrew.cry": {
     "sounds": [ "cobblemon:pokemon/sandshrew/sandshrew_cry" ]
   },

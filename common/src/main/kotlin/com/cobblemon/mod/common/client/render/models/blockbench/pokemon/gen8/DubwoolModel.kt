@@ -61,7 +61,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
-                transformTicks = 0,
+                transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
                 transformedParts = arrayOf(
@@ -77,7 +77,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         walk = registerPose(
                 poseName = "walking",
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
-                transformTicks = 0,
+                transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
                 transformedParts = arrayOf(
@@ -107,7 +107,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         shearedstanding = registerPose(
                 poseName = "shearedstanding",
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
-                transformTicks = 0,
+                transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
                 transformedParts = arrayOf(
@@ -122,7 +122,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         shearedwalk = registerPose(
                 poseName = "shearedwalking",
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
-                transformTicks = 0,
+                transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
                 transformedParts = arrayOf(

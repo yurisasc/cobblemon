@@ -24,7 +24,7 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val head = getPart("head")
 
     override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.2, 0.1, 0.0)
+    override val portraitTranslation = Vec3d(-0.2, -0.1, 0.0)
 
     override val profileScale = 0.65F
     override val profileTranslation = Vec3d(0.0, 0.75, 0.0)
