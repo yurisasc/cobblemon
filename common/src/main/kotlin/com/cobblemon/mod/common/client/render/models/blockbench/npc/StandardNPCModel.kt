@@ -8,21 +8,21 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.npc
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import net.minecraft.client.model.ModelPart
 
-class StandardNPCModel(part: ModelPart) : NPCModel(part), BipedFrame, BimanualFrame {
+class StandardNPCModel(part: ModelPart) : NPCModel(part), BipedFrame, BimanualFrame, HeadedFrame {
     override val rootPart = part.registerChildWithAllChildren("model")
 
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
+    override val head = getPart("head")
 
     override val name = "trainer_generic"
 
@@ -33,9 +33,8 @@ class StandardNPCModel(part: ModelPart) : NPCModel(part), BipedFrame, BimanualFr
             poseName = "standard",
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                idleAnimation.invoke(null, null) ?: blankAnimation(),
-                BipedWalkAnimation(this),
-                BimanualSwingAnimation(this)
+                singleBoneLook(),
+                idleAnimation.invoke(null, null) ?: blankAnimation()
             )
         )
 
@@ -45,9 +44,10 @@ class StandardNPCModel(part: ModelPart) : NPCModel(part), BipedFrame, BimanualFr
             condition = NPCEntity::isInBattle,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 getIdleBattle(),
-                BipedWalkAnimation(this),
-                BimanualSwingAnimation(this)
+//                BipedWalkAnimation(this),
+//                BimanualSwingAnimation(this)
             )
         )
     }

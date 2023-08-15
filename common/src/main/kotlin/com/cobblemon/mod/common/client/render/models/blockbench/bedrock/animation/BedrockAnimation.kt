@@ -19,7 +19,6 @@ import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveDouble
 import java.util.SortedMap
@@ -152,7 +151,7 @@ data class BedrockAnimation(
         }
     }
 
-    fun run(model: PoseableEntityModel<*>, state: PoseableEntityState<*>?, animationSeconds: Float): Boolean {
+    fun run(model: PoseableEntityModel<*>, state: PoseableEntityState<*>?, animationSeconds: Float, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float): Boolean {
         var animationSeconds = animationSeconds
         if (shouldLoop) {
             animationSeconds %= animationLength.toFloat()
@@ -160,11 +159,17 @@ data class BedrockAnimation(
             return false
         }
 
+        val runtime = state?.runtime ?: sharedRuntime
+
+        runtime.environment.setSimpleVariable("limb_swing", DoubleValue(limbSwing.toDouble()))
+        runtime.environment.setSimpleVariable("limb_swing_amount", DoubleValue(limbSwingAmount.toDouble()))
+        runtime.environment.setSimpleVariable("age_in_ticks", DoubleValue(ageInTicks.toDouble()))
+
         boneTimelines.forEach { (boneName, timeline) ->
             val part = model.relevantPartsByName[boneName]
             if (part != null) {
                 if (!timeline.position.isEmpty()) {
-                    val position = timeline.position.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime).multiply(model.getChangeFactor(part.modelPart).toDouble())
+                    val position = timeline.position.resolve(animationSeconds.toDouble(), runtime).multiply(model.getChangeFactor(part.modelPart).toDouble())
                     part.modelPart.apply {
                         pivotX += position.x.toFloat()
                         pivotY += position.y.toFloat()
@@ -174,14 +179,14 @@ data class BedrockAnimation(
 
                 if (!timeline.rotation.isEmpty()) {
                     try {
-                        val rotation = timeline.rotation.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime).multiply(model.getChangeFactor(part.modelPart).toDouble())
+                        val rotation = timeline.rotation.resolve(animationSeconds.toDouble(), runtime).multiply(model.getChangeFactor(part.modelPart).toDouble())
                         part.modelPart.apply {
                             pitch += rotation.x.toFloat().toRadians()
                             yaw += rotation.y.toFloat().toRadians()
                             roll += rotation.z.toFloat().toRadians()
                         }
                     } catch (e: Exception) {
-                        val exception = IllegalStateException("Bad animation for species: ${((model.currentEntity)!! as PokemonEntity).pokemon.species.name}", e)
+                        val exception = IllegalStateException("Bad animation for entity: ${(model.currentEntity)!!.displayName.string}", e)
                         val crash = CrashReport("Cobblemon encountered an unexpected crash", exception)
                         val section = crash.addElement("Animation Details")
                         state?.let {
@@ -194,7 +199,7 @@ data class BedrockAnimation(
                 }
 
                 if (!timeline.scale.isEmpty()) {
-                    var scale = timeline.scale.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime)
+                    var scale = timeline.scale.resolve(animationSeconds.toDouble(), runtime)
                     val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0).multiply(model.getChangeFactor(part.modelPart).toDouble())
                     scale = deviation.subtract(1.0, 1.0, 1.0).multiply(-1.0)
                     val mp = part.modelPart

@@ -39,8 +39,6 @@ import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
-import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.gui.DrawContext
@@ -52,7 +50,6 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
 import net.minecraft.util.Language
 
 object CobblemonClient {
@@ -209,7 +206,7 @@ object CobblemonClient {
         BedrockParticleEffectRepository.loadEffects(resourceManager)
         BedrockAnimationRepository.loadAnimations(
             resourceManager = resourceManager,
-            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories
+            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + NPCModelRepository.animationDirectories
         )
         PokemonModelRepository.reload(resourceManager)
         PokeBallModelRepository.reload(resourceManager)

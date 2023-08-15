@@ -1,7 +1,3 @@
 {
-  "hitbox": {
-    "width": 0.6,
-    "height": 0.8,
-    "fixed": false
-  }
+  "hitbox": "player"
 }

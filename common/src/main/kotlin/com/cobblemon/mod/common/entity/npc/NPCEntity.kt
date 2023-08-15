@@ -17,7 +17,11 @@ import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import java.util.Optional
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Npc
+import net.minecraft.entity.ai.goal.LookAroundGoal
+import net.minecraft.entity.ai.goal.LookAtEntityGoal
+import net.minecraft.entity.ai.goal.WanderAroundGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
@@ -90,4 +94,11 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
     }
 
     fun isInBattle() = battleId.get().isPresent
+
+    override fun initGoals() {
+        super.initGoals()
+        goalSelector.add(5, WanderAroundGoal(this, 0.4, 30))
+        goalSelector.add(6, LookAtEntityGoal(this, LivingEntity::class.java, 8F, 0.2F))
+        goalSelector.add(6, LookAroundGoal(this))
+    }
 }

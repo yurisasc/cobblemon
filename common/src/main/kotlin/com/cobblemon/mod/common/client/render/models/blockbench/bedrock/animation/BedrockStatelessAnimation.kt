@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityMo
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PikachuModel
 import net.minecraft.entity.Entity
 
 /**
@@ -30,7 +29,7 @@ class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: Bed
     val particleKeyFrames = animation.effects.filterIsInstance<BedrockParticleKeyframe>()
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        animation.run(model, state, state?.animationSeconds ?: 0F)
+        animation.run(model, state, state?.animationSeconds ?: 0F, limbSwing, limbSwingAmount, ageInTicks)
     }
 
     override fun applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {
