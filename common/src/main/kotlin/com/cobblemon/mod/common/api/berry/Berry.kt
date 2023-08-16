@@ -73,7 +73,7 @@ class Berry(
     val growthFactors: Collection<GrowthFactor>,
     val spawnConditions: List<BerrySpawnCondition>,
     val growthPoints: Array<GrowthPoint>,
-    private val mutations: Map<Identifier, Identifier>,
+    val mutations: Map<Identifier, Identifier>,
     @SerializedName("sproutShape")
     private val sproutShapeBoxes: Collection<Box>,
     @SerializedName("matureShape")
