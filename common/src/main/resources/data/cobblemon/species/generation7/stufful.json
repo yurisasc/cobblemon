@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Stufful",
   "nationalPokedexNumber": 759,
   "primaryType": "normal",
@@ -42,9 +43,14 @@
     "44:doubleedge",
     "48:superpower",
     "egg:defensecurl",
+    "egg:endure",
     "egg:forcepalm",
+    "egg:icepunch",
+    "egg:megakick",
     "egg:rollout",
     "egg:stomp",
+    "egg:stompingtantrum",
+    "egg:thunderpunch",
     "egg:wideguard",
     "tm:aerialace",
     "tm:attract",
@@ -91,7 +97,15 @@
     "tutor:coaching",
     "tutor:dualchop",
     "tutor:focuspunch",
-    "tutor:roleplay"
+    "tutor:icepunch",
+    "tutor:ironhead",
+    "tutor:painsplit",
+    "tutor:roleplay",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:thunderpunch",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen7"
@@ -116,9 +130,9 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
+    "width": 0.9,
     "height": 1,
     "fixed": false
   },

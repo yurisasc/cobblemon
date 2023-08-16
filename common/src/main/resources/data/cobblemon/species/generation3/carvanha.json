@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Carvanha",
   "nationalPokedexNumber": 318,
   "primaryType": "water",
@@ -24,6 +25,28 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.2,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:deep_sea_tooth",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:aquajet",
     "1:leer",
@@ -31,6 +54,7 @@
     "4:rage",
     "8:focusenergy",
     "12:scaryface",
+    "15:assurance",
     "16:bite",
     "20:icefang",
     "24:screech",
@@ -40,8 +64,12 @@
     "40:liquidation",
     "44:takedown",
     "egg:ancientpower",
+    "egg:brine",
     "egg:destinybond",
     "egg:doubleedge",
+    "egg:hydropump",
+    "egg:psychicfangs",
+    "egg:swift",
     "egg:thrash",
     "egg:waterpulse",
     "tm:agility",
@@ -85,6 +113,7 @@
     "tm:snore",
     "tm:substitute",
     "tm:surf",
+    "tm:swagger",
     "tm:swift",
     "tm:taunt",
     "tm:thief",
@@ -92,16 +121,37 @@
     "tm:toxic",
     "tm:uproar",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tm:zenheadbutt",
+    "tutor:ancientpower",
+    "tutor:bite",
+    "tutor:bounce",
+    "tutor:darkpulse",
+    "tutor:dive",
+    "tutor:doubleedge",
+    "tutor:endure",
     "tutor:flipturn",
     "tutor:furycutter",
+    "tutor:hydropump",
+    "tutor:icywind",
+    "tutor:leer",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:refresh",
     "tutor:scaleshot",
+    "tutor:scaryface",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:superfang"
+    "tutor:substitute",
+    "tutor:superfang",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:thrash",
+    "tutor:uproar",
+    "tutor:waterpulse",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen3"
@@ -126,10 +176,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.1,
     "fixed": false
   },
   "baseFriendship": 35,

@@ -11,12 +11,15 @@ architectury {
 loom {
     forge {
         convertAccessWideners.set(true)
+
+        mixinConfig("mixins.cobblemon-forge.json")
         mixinConfig("mixins.cobblemon-common.json")
     }
 }
 
 repositories {
     maven(url = "${rootProject.projectDir}/deps")
+    maven(url = "https://thedarkcolour.github.io/KotlinForForge/")
     mavenLocal()
 }
 
@@ -28,6 +31,7 @@ dependencies {
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
+    implementation(libs.kotlinForForge)
     "developmentForge"(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
@@ -37,11 +41,6 @@ dependencies {
     testImplementation(project(":common", configuration = "namedElements"))
 
     listOf(
-        libs.stdlib,
-        libs.reflect,
-        libs.jetbrainsAnnotations,
-        libs.serializationCore,
-        libs.serializationJson,
         libs.graal,
         libs.molang
     ).forEach {
@@ -53,6 +52,8 @@ dependencies {
 tasks {
     shadowJar {
         exclude("architectury-common.accessWidener")
+        exclude("architectury.common.json")
+
         relocate ("com.ibm.icu", "com.cobblemon.mod.relocations.ibm.icu")
     }
 
@@ -68,6 +69,18 @@ tasks {
         }
     }
 }
+
+tasks {
+    sourcesJar {
+        val depSources = project(":common").tasks.sourcesJar
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        dependsOn(depSources)
+        from(depSources.get().archiveFile.map { zipTree(it) }) {
+            exclude("architectury.accessWidener")
+        }
+    }
+}
+
 
 //jar {
 //    classifier("dev")

@@ -44,8 +44,8 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail5Segment = WaveSegment(modelPart = tail5, length = 10F)
     val tail6Segment = WaveSegment(modelPart = tail6, length = 10F)
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-1.3, -1.8, 0.0)
+    override val portraitScale = 1.7F
+    override val portraitTranslation = Vec3d(-0.3, -0.45, 0.0)
 
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(-0.05, 0.6, 0.0)
@@ -54,10 +54,10 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("ekans", "sleep"))
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("ekans", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("ekans", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("ekans", "blink").setPreventsIdle(false) }
         registerPose(
             poseName = "normal",
             poseTypes = STATIONARY_POSES + MOVING_POSES,
@@ -101,6 +101,6 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
+        state: PoseableEntityState<PokemonEntity>,
     ) = bedrockStateful("ekans", "faint")
 }

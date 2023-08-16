@@ -128,6 +128,7 @@ class MoveSet : Iterable<Move> {
             observable.emit(this)
         }
     }
+
     fun doWithoutEmitting(action: () -> Unit) {
         val previousEmit = emit
         emit = false

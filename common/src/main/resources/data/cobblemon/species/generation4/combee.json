@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Combee",
   "nationalPokedexNumber": 415,
   "primaryType": "bug",
@@ -24,21 +25,42 @@
   "eggGroups": [
     "bug"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canWalkOnWater": true
+      },
+      "fly": {
+        "canFly": true,
+        "flySpeedHorizontal": 0.6
+      }
+    }
+  },
   "moves": [
     "1:bugbite",
     "1:gust",
     "1:strugglebug",
     "1:sweetscent",
+    "13:bugbite",
+    "29:bugbuzz",
     "tm:bugbuzz",
     "tm:sleeptalk",
     "tm:snore",
     "tm:strugglebug",
     "tm:terablast",
     "tutor:aircutter",
+    "tutor:bugbite",
     "tutor:dualwingbeat",
     "tutor:endeavor",
+    "tutor:gust",
     "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:snore",
     "tutor:stringshot",
     "tutor:swift",
     "tutor:tailwind"
@@ -62,13 +84,17 @@
         {
           "variant": "level",
           "minLevel": 21
+        },
+        {
+          "variant": "properties",
+          "target": "gender=female"
         }
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
+    "width": 0.6,
     "height": 1,
     "fixed": false
   },

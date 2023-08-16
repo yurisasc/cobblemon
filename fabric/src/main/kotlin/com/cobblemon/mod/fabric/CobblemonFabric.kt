@@ -10,35 +10,37 @@ package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.cobblemonstructures.CobblemonStructures
+import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
+import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
-import com.cobblemon.mod.common.platform.events.PlatformEvents
-import com.cobblemon.mod.common.platform.events.ServerEvent
-import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
-import com.cobblemon.mod.common.platform.events.ServerTickEvent
+import com.cobblemon.mod.common.platform.events.*
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
+import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
+import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import com.mojang.brigadier.arguments.ArgumentType
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
-import kotlin.reflect.KClass
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
+import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
+import net.fabricmc.fabric.api.`object`.builder.v1.trade.TradeOfferHelper
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -47,6 +49,8 @@ import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.recipe.BrewingRecipeRegistry
+import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
@@ -62,6 +66,9 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import kotlin.reflect.KClass
 
 object CobblemonFabric : CobblemonImplementation {
     override val modAPI = ModAPI.FABRIC
@@ -72,9 +79,19 @@ object CobblemonFabric : CobblemonImplementation {
 
     fun initialize() {
         Cobblemon.preInitialize(this)
-        this.networkManager.initServer()
+        this.networkManager.registerServerBound()
 
         Cobblemon.initialize()
+
+        CobblemonBlockPredicates.touch()
+        CobblemonPlacementModifierTypes.touch()
+        BrewingRecipes.registerPotionTypes()
+        BrewingRecipes.getPotionRecipes().forEach { (input, ingredient, output) ->
+            BrewingRecipeRegistry.POTION_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
+        }
+        BrewingRecipes.getItemRecipes().forEach { (input, ingredient, output) ->
+            BrewingRecipeRegistry.ITEM_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
+        }
         /*
         if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
             Cobblemon.permissionValidator = LuckPermsPermissionValidator()
@@ -119,7 +136,12 @@ object CobblemonFabric : CobblemonImplementation {
             return@register true
         }
 
-        UseBlockCallback.EVENT.register { player, world, hand, hitResult ->
+        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register { player, _, _ ->
+            PlatformEvents.CHANGE_DIMENSION.post(ChangeDimensionEvent(player))
+        }
+
+
+        UseBlockCallback.EVENT.register { player, _, hand, hitResult ->
             val serverPlayer = player as? ServerPlayerEntity ?: return@register ActionResult.PASS
             PlatformEvents.RIGHT_CLICK_BLOCK.postThen(
                 event = ServerPlayerEvent.RightClickBlock(serverPlayer, hitResult.blockPos, hand, hitResult.side),
@@ -127,6 +149,22 @@ object CobblemonFabric : CobblemonImplementation {
                 ifCanceled = { return@register ActionResult.FAIL }
             )
             return@register ActionResult.PASS
+        }
+
+        UseEntityCallback.EVENT.register { player, _, hand, entity, _ ->
+            val item = player.getStackInHand(hand)
+            val serverPlayer = player as? ServerPlayerEntity ?: return@register ActionResult.PASS
+
+            PlatformEvents.RIGHT_CLICK_ENTITY.postThen(
+                event = ServerPlayerEvent.RightClickEntity(serverPlayer, item, hand, entity),
+                ifSucceeded = {},
+                ifCanceled = { return@register ActionResult.FAIL }
+            )
+
+            return@register ActionResult.PASS
+        }
+        LootTableEvents.MODIFY.register { _, lootManager, id, tableBuilder, _ ->
+            LootInjector.attemptInjection(id, lootManager, tableBuilder::pool)
         }
 
         CommandRegistrationCallback.EVENT.register(CobblemonCommands::register)
@@ -152,20 +190,29 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonSounds.register { identifier, sound -> Registry.register(CobblemonSounds.registry, identifier, sound) }
     }
 
+    @Suppress("UnstableApiUsage")
     override fun registerItems() {
         CobblemonItems.register { identifier, item -> Registry.register(CobblemonItems.registry, identifier, item) }
         CobblemonItemGroups.register { provider ->
-            FabricItemGroup.builder(provider.identifier)
+            Registry.register(Registries.ITEM_GROUP, provider.key, FabricItemGroup.builder()
                 .displayName(provider.displayName)
-                .icon(provider.icon)
-                .build()
+                .icon(provider.displayIconProvider)
+                .entries(provider.entryCollector)
+                .build())
         }
-        CobblemonItems.registerToItemGroups { group, item -> ItemGroupEvents.modifyEntriesEvent(group).register { entries -> entries.add(item) } }
+        CobblemonItemGroups.inject { injector ->
+            ItemGroupEvents.modifyEntriesEvent(injector.key).register { content ->
+                injector.entryInjector(content.context).forEach(content::add)
+            }
+        }
+        CobblemonTradeOffers.tradeOffersForAll().forEach { tradeOffer -> TradeOfferHelper.registerVillagerOffers(tradeOffer.profession, tradeOffer.requiredLevel) { factories -> factories.addAll(tradeOffer.tradeOffers) } }
+        // 1 = common trades, 2 = rare, it has no concept of levels
+        CobblemonTradeOffers.resolveWanderingTradeOffers().forEach { tradeOffer -> TradeOfferHelper.registerWanderingTraderOffers(if (tradeOffer.isRareTrade) 2 else 1) { factories -> factories.addAll(tradeOffer.tradeOffers) } }
     }
 
     override fun registerBlocks() {
         CobblemonBlocks.register { identifier, item -> Registry.register(CobblemonBlocks.registry, identifier, item) }
-        CobblemonBlocks.strippedBlocks().forEach { (input, output) -> StrippableBlockRegistry.register(input, output) }
+        CobblemonBlocks.strippedBlocks().forEach(StrippableBlockRegistry::register)
     }
 
     override fun registerEntityTypes() {

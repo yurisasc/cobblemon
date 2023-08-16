@@ -8,298 +8,32 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.AbraModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.AerodactylModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.AlakazamModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ArbokModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ArcanineModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ArticunoModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.BeedrillModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.BellsproutModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.BlastoiseModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.BulbasaurModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ButterfreeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.CaterpieModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ChanseyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.CharizardModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.CharmanderModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.CharmeleonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ClefableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ClefairyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.CloysterModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.CuboneModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.DewgongModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.DiglettModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.DittoModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.DodrioModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.DoduoModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.DragonairModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.DragoniteModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.DratiniModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.DrowzeeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.DugtrioModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.EeveeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.EkansModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ElectabuzzModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ElectrodeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ExeggcuteModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ExeggutorModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.FarfetchdModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.FearowModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.FlareonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GastlyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GengarModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GeodudeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GloomModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GolbatModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GoldeenModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GolduckModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GolemModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GravelerModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GrimerModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GrowlitheModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.GyaradosModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.HaunterModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.HitmonchanModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.HitmonleeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.HorseaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.HypnoModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.IvysaurModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.JigglypuffModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.JolteonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.JynxModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.KabutoModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.KabutopsModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.KadabraModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.KakunaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.KangaskhanModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.KinglerModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.KoffingModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.KrabbyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.LaprasModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.LickitungModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MachampModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MachokeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MachopModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MagikarpModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MagmarModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MagnemiteModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MagnetonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MankeyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MarowakModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MeowthModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MetapodModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MewModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MewtwoModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MoltresModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MrmimeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.MukModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.NidokingModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.NidoqueenModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.NidoranfModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.NidoranmModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.NidorinaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.NidorinoModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.NinetalesModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.OddishModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.OmanyteModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.OmastarModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.OnixModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ParasModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ParasectModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PersianModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PidgeotModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PidgeottoModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PidgeyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PikachuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PinsirModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PoliwagModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PoliwhirlModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PoliwrathModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PonytaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PorygonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PrimeapeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.PsyduckModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.RaichuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.RapidashModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.RaticateModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.RattataModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.RhydonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.RhyhornModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.SandshrewModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.SandslashModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ScytherModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.SeadraModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.SeakingModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.SeelModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ShellderModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.SlowbroModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.SlowpokeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.SnorlaxModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.SpearowModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.SquirtleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.StarmieModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.StaryuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.TangelaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.TaurosModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.TentacoolModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.TentacruelModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.VaporeonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.VenomothModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.VenonatModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.VenusaurModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.VictreebelModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.VileplumeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.VoltorbModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.VulpixModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.WartortleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.WeedleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.WeepinbellModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.WeezingModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.WigglytuffModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ZapdosModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.ZubatModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.BellossomModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.BlisseyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.CleffaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.CrobatModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.ElekidModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.EspeonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.HitmontopModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.IgglybuffModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.KingdraModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.MagbyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.MurkrowModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.NatuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.PichuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.PiloswineModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.PolitoedModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.Porygon2Model
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.QuagsireModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.ScizorModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.SlowkingModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.SmoochumModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.SteelixModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.SwinubModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.TyrogueModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.UmbreonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.WooperModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.XatuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.YanmaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.BlazikenModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.CombuskenModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.MarshtompModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.MinunModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.MudkipModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.PlusleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.RayquazaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.SableyeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.SwampertModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.TorchicModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.WailmerModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.WailordModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.BibarelModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.BidoofModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.BunearyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.ElectivireModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.EmpoleonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.GlaceonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.GrotleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.HappinyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.HonchkrowModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.LeafeonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.LickilickyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.LopunnyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.MagmortarModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.MagnezoneModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.MamoswineModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.MimejrModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.MunchlaxModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.PachirisuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.PiplupModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.PorygonzModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.PrinplupModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.RhyperiorModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.SpiritombModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.TangrowthModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.TorterraModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.TurtwigModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.YanmegaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.BasculinModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.CrustleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.DeerlingModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.DwebbleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.EmolgaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.GalvantulaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.JoltikModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.KlangModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.KlinkModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.KlinklangModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.MaractusModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.SawsbuckModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.HonedgeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.SylveonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.XerneasModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.BounsweetModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.DartrixModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.DecidueyeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.DhelmiseModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.IncineroarModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.LittenModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.MimikyuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.MorelullModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.NaganadelModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.PoipoleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.PyukumukuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.RowletModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.ShiinoticModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.SteeneeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.TorracatModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.TsareenaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.AlcremieModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.CentiskorchModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.KleavorModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.MilceryModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.SizzlipedeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.CharcadetModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.FuecocoModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.NacliModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.NaclstackModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.QuaxlyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.SprigatitoModel
-import com.cobblemon.mod.common.client.render.pokemon.ModelLayer
-import com.cobblemon.mod.common.client.render.pokemon.RegisteredSpeciesRendering
-import com.cobblemon.mod.common.client.render.pokemon.SpeciesVariationSet
-import com.cobblemon.mod.common.client.util.exists
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.pokemon.Species
-import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.endsWith
-import com.cobblemon.mod.common.util.fromJson
-import java.io.File
-import java.nio.charset.StandardCharsets
-import net.minecraft.client.model.ModelPart
-import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
 
-object PokemonModelRepository : ModelRepository<PokemonEntity>() {
-    val posers = mutableMapOf<Identifier, (ModelPart) -> PokemonPoseableModel>()
-    val renders = mutableMapOf<Identifier, RegisteredSpeciesRendering>()
-    val texturedModels = mutableMapOf<Identifier, TexturedModel>()
+object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPoseableModel>() {
+    override val title = "Pokémon"
+    override val type = "pokemon"
+    override val variationDirectories = listOf("bedrock/$type/resolvers", "bedrock/species")
+    override val poserDirectories = listOf("bedrock/$type/posers", "bedrock/posers")
+    override val modelDirectories = listOf("bedrock/$type/models", "bedrock/models")
+    override val animationDirectories: List<String> = listOf("bedrock/animations", "bedrock/$type/animations")
 
-    fun registerPosers(resourceManager: ResourceManager) {
-        posers.clear()
-        registerInBuiltPosers()
-        registerJsonPosers(resourceManager)
-    }
+    override val fallback = cobblemonResource("substitute")
 
-    fun registerInBuiltPosers() {
+    override fun registerInBuiltPosers() {
         inbuilt("bulbasaur", ::BulbasaurModel)
         inbuilt("ivysaur", ::IvysaurModel)
         inbuilt("venusaur", ::VenusaurModel)
@@ -367,7 +101,9 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("electabuzz", ::ElectabuzzModel)
         inbuilt("exeggcute", ::ExeggcuteModel)
         inbuilt("exeggutor", ::ExeggutorModel)
+        inbuilt("exeggutor_alolan", ::ExeggutorAlolanModel)
         inbuilt("farfetchd", ::FarfetchdModel)
+        inbuilt("farfetchd_galarian", ::FarfetchdGalarianModel)
         inbuilt("fearow", ::FearowModel)
         inbuilt("flareon", ::FlareonModel)
         inbuilt("gastly", ::GastlyModel)
@@ -538,12 +274,9 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("wailord", ::WailordModel)
         inbuilt("murkrow", ::MurkrowModel)
         inbuilt("honchkrow", ::HonchkrowModel)
-        inbuilt("charcadet", ::CharcadetModel)
-        inbuilt("sprigatito", ::SprigatitoModel)
-        inbuilt("fuecoco", :: FuecocoModel)
-        inbuilt("quaxly", :: QuaxlyModel)
         inbuilt("nacli", :: NacliModel)
         inbuilt("naclstack", :: NaclstackModel)
+        inbuilt("garganacl", ::GarganaclModel)
         inbuilt("dhelmise", :: DhelmiseModel)
         inbuilt("alcremie", :: AlcremieModel)
         inbuilt("milcery", :: MilceryModel)
@@ -558,107 +291,205 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("shiinotic", :: ShiinoticModel)
         inbuilt("joltik", :: JoltikModel)
         inbuilt("galvantula", :: GalvantulaModel)
+        inbuilt("riolu", :: RioluModel)
+        inbuilt("lucario", :: LucarioModel)
+        inbuilt("treecko", :: TreeckoModel)
+        inbuilt("grovyle", :: GrovyleModel)
+        inbuilt("sceptile", :: SceptileModel)
         inbuilt("honedge", :: HonedgeModel)
         inbuilt("spiritomb", :: SpiritombModel)
+        inbuilt("baltoy", :: BaltoyModel)
+        inbuilt("claydol", :: ClaydolModel)
+        inbuilt("chespin", :: ChespinModel)
+        inbuilt("quilladin", :: QuilladinModel)
+        inbuilt("chesnaught", :: ChesnaughtModel)
+        inbuilt("elgyem", :: ElgyemModel)
+        inbuilt("beheeyem", :: BeheeyemModel)
+        inbuilt("gible", :: GibleModel)
+        inbuilt("gabite", :: GabiteModel)
+        inbuilt("garchomp", :: GarchompModel)
+        inbuilt("pineco", :: PinecoModel)
+        inbuilt("forretress", :: ForretressModel)
+        inbuilt("doublade", :: DoubladeModel)
+        inbuilt("aegislash", :: AegislashModel)
+        inbuilt("lotad", :: LotadModel)
+        inbuilt("lombre", :: LombreModel)
+        inbuilt("ludicolo", :: LudicoloModel)
+        inbuilt("golett", :: GolettModel)
+        inbuilt("golurk", :: GolurkModel)
+        inbuilt("stantler", :: StantlerModel)
+        inbuilt("wyrdeer", :: WyrdeerModel)
+        inbuilt("sneasel", :: SneaselModel)
+        inbuilt("weavile", :: WeavileModel)
+        inbuilt("bergmite", :: BergmiteModel)
+        inbuilt("avalugg", :: AvaluggModel)
+        inbuilt("misdreavus", :: MisdreavusModel)
+        inbuilt("mismagius", :: MismagiusModel)
+        inbuilt("whismur", :: WhismurModel)
+        inbuilt("loudred", :: LoudredModel)
+        inbuilt("exploud", :: ExploudModel)
+        inbuilt("luvdisc", :: LuvdiscModel)
+        inbuilt("cryogonal", :: CryogonalModel)
+        inbuilt("sigilyph", :: SigilyphModel)
+        inbuilt("pumpkaboo", :: PumpkabooModel)
+        inbuilt("gourgeist", :: GourgeistModel)
+        inbuilt("eiscue", :: EiscueModel)
+        inbuilt("tatsugiri", :: TatsugiriModel)
+        inbuilt("wooloo", :: WoolooModel)
+        inbuilt("dubwool", :: DubwoolModel)
+        inbuilt("chimchar", :: ChimcharModel)
+        inbuilt("monferno", :: MonfernoModel)
+        inbuilt("infernape", :: InfernapeModel)
+        inbuilt("popplio", :: PopplioModel)
+        inbuilt("brionne", :: BrionneModel)
+        inbuilt("primarina", ::PrimarinaModel)
+        inbuilt("spinda", ::SpindaModel)
+        inbuilt("seedot", ::SeedotModel)
+        inbuilt("nuzleaf", ::NuzleafModel)
+        inbuilt("shiftry", ::ShiftryModel)
+        inbuilt("kricketot", ::KricketotModel)
+        inbuilt("kricketune", ::KricketuneModel)
+        inbuilt("heatmor", ::HeatmorModel)
+        inbuilt("durant", ::DurantModel)
+        inbuilt("carvanha", ::CarvanhaModel)
+        inbuilt("sharpedo", ::SharpedoModel)
+        inbuilt("mawile", ::MawileModel)
+        inbuilt("walkingwake", ::WalkingwakeModel)
+        inbuilt("ironleaves", ::IronleavesModel)
+        inbuilt("miltank", ::MiltankModel)
+        inbuilt("torkoal", ::TorkoalModel)
+        inbuilt("fennekin", ::FennekinModel)
+        inbuilt("braixen", ::BraixenModel)
+        inbuilt("delphox", ::DelphoxModel)
+        inbuilt("froakie", ::FroakieModel)
+        inbuilt("frogadier", ::FrogadierModel)
+        inbuilt("greninja", ::GreninjaModel)
+        inbuilt("tepig", ::TepigModel)
+        inbuilt("pignite", ::PigniteModel)
+        inbuilt("emboar", ::EmboarModel)
+        inbuilt("grookey", ::GrookeyModel)
+        inbuilt("thwackey", ::ThwackeyModel)
+        inbuilt("rillaboom", ::RillaboomModel)
+        inbuilt("scorbunny", ::ScorbunnyModel)
+        inbuilt("raboot", ::RabootModel)
+        inbuilt("cinderace", ::CinderaceModel)
+        inbuilt("sobble", ::SobbleModel)
+        inbuilt("drizzile", ::DrizzileModel)
+        inbuilt("inteleon", ::InteleonModel)
+        inbuilt("oshawott", ::OshawottModel)
+        inbuilt("dewott", ::DewottModel)
+        inbuilt("samurott", ::SamurottModel)
+        inbuilt("snivy", ::SnivyModel)
+        inbuilt("servine", ::ServineModel)
+        inbuilt("serperior", ::SerperiorModel)
+        inbuilt("slugma", ::SlugmaModel)
+        inbuilt("magcargo", ::MagcargoModel)
+        inbuilt("nosepass", ::NosepassModel)
+        inbuilt("probopass", ::ProbopassModel)
+        inbuilt("chinchou", ::ChinchouModel)
+        inbuilt("clamperl", ::ClamperlModel)
+        inbuilt("huntail", ::HuntailModel)
+        inbuilt("gorebyss", ::GorebyssModel)
+        inbuilt("spinarak", ::SpinarakModel)
+        inbuilt("ariados", ::AriadosModel)
+        inbuilt("shuckle", ::ShuckleModel)
+        inbuilt("taillow", ::TaillowModel)
+        inbuilt("swellow", ::SwellowModel)
+        inbuilt("relicanth", ::RelicanthModel)
+        inbuilt("mudbray", ::MudbrayModel)
+        inbuilt("mudsdale", ::MudsdaleModel)
+        inbuilt("comfey", ::ComfeyModel)
+        inbuilt("tandemaus", ::TandemausModel)
+        inbuilt("maushold", ::MausholdModel)
+        inbuilt("mausholdfour", ::MausholdfourModel)
+        inbuilt("varoom", ::VaroomModel)
+        inbuilt("revavroom", ::RevavroomModel)
+        inbuilt("lanturn", ::LanturnModel)
+        inbuilt("chingling", ::ChinglingModel)
+        inbuilt("chimecho", ::ChimechoModel)
+        inbuilt("fidough", ::FidoughModel)
+        inbuilt("dachsbun", ::DachsbunModel)
+        inbuilt("chatot", ::ChatotModel)
+        inbuilt("gligar", ::GligarModel)
+        inbuilt("gliscor", ::GliscorModel)
+        inbuilt("poochyena", ::PoochyenaModel)
+        inbuilt("mightyena", ::MightyenaModel)
+        inbuilt("sprigatito", ::SprigatitoModel)
+        inbuilt("floragato", ::FloragatoModel)
+        inbuilt("meowscarada", ::MeowscaradaModel)
+        inbuilt("shroomish", ::ShroomishModel)
+        inbuilt("breloom", ::BreloomModel)
+        inbuilt("charcadet", ::CharcadetModel)
+        inbuilt("armarouge", ::ArmarougeModel)
+        inbuilt("ceruledge", ::CeruledgeModel)
+        inbuilt("flittle", ::FlittleModel)
+        inbuilt("espathra", ::EspathraModel)
+        inbuilt("surskit", ::SurskitModel)
+        inbuilt("masquerain", ::MasquerainModel)
+        inbuilt("cutiefly", ::CutieflyModel)
+        inbuilt("ribombee", ::RibombeeModel)
+        inbuilt("carnivine", ::CarnivineModel)
+        inbuilt("falinks", ::FalinksModel)
+        inbuilt("stufful", ::StuffulModel)
+        inbuilt("bewear", ::BewearModel)
+        inbuilt("scatterbug", ::ScatterbugModel)
+        inbuilt("spewpa", ::SpewpaModel)
+        inbuilt("vivillon", ::VivillonModel)
+        inbuilt("barboach", ::BarboachModel)
+        inbuilt("whiscash", ::WhiscashModel)
+        inbuilt("combee", ::CombeeModel)
+        inbuilt("vespiquen", ::VespiquenModel)
+        inbuilt("lillipup", ::LillipupModel)
+        inbuilt("herdier", ::HerdierModel)
+        inbuilt("stoutland", ::StoutlandModel)
+        inbuilt("sirfetchd", ::SirfetchdModel)
+        inbuilt("rookidee", ::RookideeModel)
+        inbuilt("corvisquire", ::CorvisquireModel)
+        inbuilt("corviknight", ::CorviknightModel)
+        inbuilt("duskull", ::DuskullModel)
+        inbuilt("dusclops", ::DusclopsModel)
+        inbuilt("dusknoir", ::DusknoirModel)
+        inbuilt("nickit", ::NickitModel)
+        inbuilt("thievul", ::ThievulModel)
+        inbuilt("cacnea", ::CacneaModel)
+        inbuilt("cacturne", ::CacturneModel)
+        inbuilt("glimmet", ::GlimmetModel)
+        inbuilt("glimmora", ::GlimmoraModel)
+        inbuilt("bonsly", ::BonslyModel)
+        inbuilt("sudowoodo", ::SudowoodoModel)
+        inbuilt("bouffalant", ::BouffalantModel)
+        inbuilt("cetoddle", ::CetoddleModel)
+        inbuilt("cetitan", ::CetitanModel)
+        inbuilt("venipede", ::VenipedeModel)
+        inbuilt("whirlipede", ::WhirlipedeModel)
+        inbuilt("scolipede", ::ScolipedeModel)
+        inbuilt("aipom", ::AipomModel)
+        inbuilt("ambipom", ::AmbipomModel)
+        inbuilt("hoothoot", ::HoothootModel)
+        inbuilt("noctowl", ::NoctowlModel)
+        inbuilt("wingull", ::WingullModel)
+        inbuilt("pelipper", ::PelipperModel)
+        inbuilt("shinx", ::ShinxModel)
+        inbuilt("luxio", ::LuxioModel)
+        inbuilt("luxray", ::LuxrayModel)
+        inbuilt("numel", ::NumelModel)
+        inbuilt("camerupt", ::CameruptModel)
+        inbuilt("vulpix_alolan", ::VulpixAlolanModel)
+        inbuilt("ninetales_alolan", ::NinetalesAlolanModel)
+        inbuilt("roggenrola", ::RoggenrolaModel)
+        inbuilt("boldore", ::BoldoreModel)
+        inbuilt("gigalith", ::GigalithModel)
+
+        // Unhooked because the families are not completed
+//        inbuilt("fuecoco", :: FuecocoModel)
+//        inbuilt("quaxly", :: QuaxlyModel)
+
     }
 
-    fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
-        posers[cobblemonResource(name)] = model
-    }
-
-
-
-    fun registerJsonPosers(resourceManager: ResourceManager) {
-        resourceManager.findResources("bedrock/posers") { path -> path.endsWith(".json") }.forEach { identifier, resource ->
-            resource.inputStream.use { stream ->
-                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                posers[resolvedIdentifier] = {
-                    JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
-                    JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
-                }
-            }
+    override fun loadJsonPoser(json: String): (Bone) -> PokemonPoseableModel {
+        return {
+            JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
+            JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
         }
-    }
-
-    fun registerSpeciesAssetResolvers(resourceManager: ResourceManager) {
-        val speciesToSpeciesVariationSets = mutableMapOf<Identifier, MutableList<SpeciesVariationSet>>()
-        resourceManager.findResources("bedrock/species") { path -> path.endsWith(".json") }.forEach { identifier, resource ->
-            resource.inputStream.use { stream ->
-                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                val speciesVariationSet = RegisteredSpeciesRendering.GSON.fromJson<SpeciesVariationSet>(json)
-                speciesToSpeciesVariationSets.getOrPut(speciesVariationSet.species) { mutableListOf() }.add(speciesVariationSet)
-            }
-        }
-
-        for ((species, speciesVariationSets) in speciesToSpeciesVariationSets) {
-            val variations = speciesVariationSets.sortedBy { it.order }.flatMap { it.variations }.toMutableList()
-            renders[species] = RegisteredSpeciesRendering(species, variations)
-        }
-
-        renders.values.forEach(RegisteredSpeciesRendering::initialize)
-    }
-
-    override fun registerAll() {
-    }
-
-    fun registerModels(resourceManager: ResourceManager) {
-        var models = 0
-        resourceManager.findResources("bedrock/models") { path -> path.endsWith(".geo.json") }.forEach { identifier, resource ->
-            resource.inputStream.use { stream ->
-                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                texturedModels[resolvedIdentifier] = TexturedModel.from(json)
-                models++
-            }
-        }
-        Cobblemon.LOGGER.info("Loaded $models Pokémon models.")
-    }
-
-    override fun reload(resourceManager: ResourceManager) {
-        Cobblemon.LOGGER.info("Loading Pokémon models...")
-        this.renders.clear()
-        this.posers.clear()
-        registerPosers(resourceManager)
-        registerModels(resourceManager)
-        registerSpeciesAssetResolvers(resourceManager)
-        initializeModelLayers()
-    }
-
-    fun getPoser(species: Species, aspects: Set<String>): PokemonPoseableModel {
-        try {
-            val poser = this.renders[species.resourceIdentifier]?.getPoser(aspects)
-            if (poser != null) {
-                return poser
-            }
-        } catch(e: IllegalStateException) {
-//            e.printStackTrace()
-        }
-        return this.renders[cobblemonResource("substitute")]!!.getPoser(aspects)
-    }
-
-    fun getTexture(species: Species, aspects: Set<String>, state: PoseableEntityState<PokemonEntity>?): Identifier {
-        try {
-            val texture = this.renders[species.resourceIdentifier]?.getTexture(aspects, state?.animationSeconds ?: 0F)
-            if (texture != null) {
-                if (texture.exists()) {
-                    return texture
-                } else if (SHINY_ASPECT.aspect in aspects) {
-                    // If the shiny texture doesn't exist, try parsing again but without the shiny - it doesn't seem to be implemented.
-                    return getTexture(species, aspects - SHINY_ASPECT.aspect, state)
-                }
-            }
-        } catch(_: IllegalStateException) { }
-        return this.renders[cobblemonResource("substitute")]!!.getTexture(aspects, state?.animationSeconds ?: 0F)
-    }
-
-    fun getLayers(species: Species, aspects: Set<String>): Iterable<ModelLayer> {
-        try {
-            val layers = this.renders[species.resourceIdentifier]?.getLayers(aspects)
-            if (layers != null) {
-                return layers
-            }
-        } catch(_: IllegalStateException) { }
-        return this.renders[cobblemonResource("substitute")]!!.getLayers(aspects)
     }
 }

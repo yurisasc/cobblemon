@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -74,13 +75,13 @@ class BattleMoveSelection(
         val moveTemplate = Moves.getByNameOrDummy(move.id)
         val rgb = moveTemplate.elementalType.hue.toRGB()
 
-        fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+        fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
 
             val unselectable = move.disabled
             val selectConditionOpacity = moveSelection.opacity * if (unselectable) 0.5F else 1F
 
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 texture = moveTexture,
                 x = x,
                 y = y,
@@ -95,7 +96,7 @@ class BattleMoveSelection(
             )
 
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 texture = moveOverlayTexture,
                 x = x,
                 y = y,
@@ -110,7 +111,7 @@ class BattleMoveSelection(
                 y = y + 2,
                 type = moveTemplate.elementalType,
                 opacity = moveSelection.opacity
-            ).render(matrices)
+            ).render(context)
 
             // Move Category
             MoveCategoryIcon(
@@ -118,10 +119,10 @@ class BattleMoveSelection(
                 y = y + 14.5,
                 category = moveTemplate.damageCategory,
                 opacity = moveSelection.opacity
-            ).render(matrices)
+            ).render(context)
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = moveTemplate.displayName.bold(),
                 x = x + 17,
@@ -141,7 +142,7 @@ class BattleMoveSelection(
             }
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = movePPText,
                 x = x + 75,
@@ -169,12 +170,12 @@ class BattleMoveSelection(
         }
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         moveTiles.forEach {
-            it.render(matrices, mouseX, mouseY, delta)
+            it.render(context, mouseX, mouseY, delta)
         }
 
-        backButton.render(matrices, mouseX, mouseY, delta)
+        backButton.render(context.matrices, mouseX, mouseY, delta)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

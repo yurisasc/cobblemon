@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("squirtle")
     override val head = getPart("head")
@@ -28,11 +29,11 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3d(0.03, 0.15, 0.0)
+    override val portraitScale = 2.5F
+    override val portraitTranslation = Vec3d(-0.1, -0.35, 0.0)
 
-    override val profileScale = 0.78F
-    override val profileTranslation = Vec3d(-0.3, 0.6, 0.0)
+    override val profileScale = 0.8F
+    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

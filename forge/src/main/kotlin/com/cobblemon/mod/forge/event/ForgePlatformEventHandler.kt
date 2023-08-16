@@ -8,14 +8,17 @@
 
 package com.cobblemon.mod.forge.event
 
+import com.cobblemon.mod.common.platform.events.ChangeDimensionEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.platform.events.ServerEvent
+import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.platform.events.ServerTickEvent
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.event.server.ServerStartedEvent
 import net.minecraftforge.event.server.ServerStartingEvent
@@ -96,4 +99,24 @@ object ForgePlatformEventHandler {
         )
     }
 
+    @SubscribeEvent
+    fun onRightClickEntity(e: PlayerInteractEvent.EntityInteract) {
+        val player = e.entity as? ServerPlayerEntity ?: return
+        val hand = e.hand
+        val item = player.getStackInHand(hand)
+        val entity = e.target
+        PlatformEvents.RIGHT_CLICK_ENTITY.postThen(
+            event = ServerPlayerEvent.RightClickEntity(player, item, hand, entity),
+            ifSucceeded = {},
+            ifCanceled = { e.isCanceled = true }
+        )
+    }
+
+    @SubscribeEvent
+    fun onChangeDimension(e: PlayerChangedDimensionEvent) {
+        val player = e.entity
+        if (player is ServerPlayerEntity) {
+            PlatformEvents.CHANGE_DIMENSION.post(ChangeDimensionEvent(player))
+        }
+    }
 }

@@ -40,6 +40,8 @@
     "36:cottonguard",
     "39:endeavor",
     "42:stickyweb",
+    "58:lightscreen",
+    "67:safeguard",
     "tm:amnesia",
     "tm:attract",
     "tm:calmmind",
@@ -85,10 +87,14 @@
     "tm:toxic",
     "tutor:afteryou",
     "tutor:covet",
+    "tutor:drainpunch",
+    "tutor:endeavor",
     "tutor:gastroacid",
     "tutor:healbell",
+    "tutor:helpinghand",
     "tutor:magiccoat",
-    "tutor:mistyexplosion"
+    "tutor:mistyexplosion",
+    "tutor:snore"
   ],
   "labels": [
     "gen6"

@@ -22,10 +22,10 @@ import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.getDepletableRedGreen
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.PokeBallModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Species
@@ -37,9 +37,8 @@ import com.mojang.blaze3d.systems.RenderSystem
 import java.lang.Double.max
 import java.lang.Double.min
 import java.util.UUID
-import kotlin.math.roundToInt
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.render.DiffuseLighting
@@ -86,7 +85,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
     var lastKnownBattle: UUID? = null
     lateinit var messagePane: BattleMessagePane
 
-    override fun render(matrices: MatrixStack, tickDelta: Float) {
+    override fun render(context: DrawContext, tickDelta: Float) {
         passedSeconds += tickDelta / 20
         if (passedSeconds > 100) {
             passedSeconds -= 100
@@ -102,13 +101,13 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val side1 = if (battle.side1.actors.any { it.uuid == playerUUID }) battle.side1 else battle.side2
         val side2 = if (side1 == battle.side1) battle.side2 else battle.side1
 
-        side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(matrices, tickDelta, activeClientBattlePokemon, true, index) }
-        side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(matrices, tickDelta, activeClientBattlePokemon, false, index) }
+        side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index) }
+        side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, index) }
 
         if (MinecraftClient.getInstance().currentScreen !is BattleGUI && battle.mustChoose) {
             val textOpacity = PROMPT_TEXT_OPACITY_CURVE(passedSeconds)
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = battleLang("ui.actions_label", PartySendBinding.boundKey().localizedText),
                 x = MinecraftClient.getInstance().window.scaledWidth / 2,
                 y = MinecraftClient.getInstance().window.scaledHeight / 5,
@@ -125,12 +124,12 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
                 messagePane = BattleMessagePane(CobblemonClient.battle!!.messages)
             }
             messagePane.opacity = 0.3F
-            messagePane.render(matrices, 0, 0, 0F)
+            messagePane.render(context, 0, 0, 0F)
         }
     }
 
 
-    fun drawTile(matrices: MatrixStack, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int) {
+    fun drawTile(context: DrawContext, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int) {
         val mc = MinecraftClient.getInstance()
 
         val battlePokemon = activeBattlePokemon.battlePokemon ?: return
@@ -159,9 +158,10 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val truePokemon = activeBattlePokemon.actor.pokemon.find { it.uuid == activeBattlePokemon.battlePokemon?.uuid }
 
         drawBattleTile(
-            matrices = matrices,
+            context = context,
             x = x,
             y = y.toFloat(),
+            partialTicks = tickDelta,
             reversed = !left,
             species = battlePokemon.species,
             level = battlePokemon.level,
@@ -180,9 +180,10 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
     }
 
     fun drawBattleTile(
-        matrices: MatrixStack,
+        context: DrawContext,
         x: Float,
         y: Float,
+        partialTicks: Float,
         reversed: Boolean,
         species: Species,
         level: Int,
@@ -198,13 +199,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         health: Float,
         isFlatHealth: Boolean
     ) {
-
-        val mc = MinecraftClient.getInstance()
-        fun scaleIt(i: Number): Int {
-            return (mc.window.scaleFactor * i.toFloat()).roundToInt()
-        }
-
         val portraitStartX = x + if (!reversed) PORTRAIT_OFFSET_X else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET_X }
+        val matrices = context.matrices
         blitk(
             matrixStack = matrices,
             texture = battleInfoUnderlay,
@@ -216,7 +212,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         )
 
         // Second render the Pokémon through the scissors
-        DrawableHelper.enableScissor(
+        context.enableScissor(
             portraitStartX.toInt(),
             (y + PORTRAIT_OFFSET_Y).toInt(),
             (portraitStartX + PORTRAIT_DIAMETER).toInt(),
@@ -229,10 +225,11 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             0.0
         )
         matrixStack.push()
-        if (ballState != null && ballState.phase == ClientBallDisplay.Phase.SHAKING) {
+        if (ballState != null && ballState.stateEmitter.get() == EmptyPokeBallEntity.CaptureState.SHAKE) {
             drawPokeBall(
                 state = ballState,
                 matrixStack = matrixStack,
+                partialTicks = partialTicks
             )
         } else {
             matrixStack.push()
@@ -242,12 +239,13 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
                 matrixStack = matrixStack,
                 scale = 18F * (ballState?.scale ?: 1F),
                 reversed = reversed,
-                state = state
+                state = state,
+                partialTicks = partialTicks
             )
             matrixStack.pop()
         }
         matrixStack.pop()
-        DrawableHelper.disableScissor()
+        context.disableScissor()
 
         // Third render the tile
         blitk(
@@ -291,7 +289,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = lang("ui.status." + status.showdownName).bold(),
                 x = x + if (reversed) 78 else 42,
@@ -303,7 +301,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         // Draw labels
         val infoBoxX = x + if (!reversed) PORTRAIT_DIAMETER + PORTRAIT_OFFSET_X + INFO_OFFSET_X else INFO_OFFSET_X
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = displayName.bold(),
             x = infoBoxX,
@@ -316,7 +314,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             val isMale = gender == Gender.MALE
             val textSymbol = if (isMale) "♂".text().bold() else "♀".text().bold()
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = textSymbol,
                 x = infoBoxX + 53,
@@ -328,7 +326,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         }
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.lv").bold(),
             x = infoBoxX + 59,
@@ -338,7 +336,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = level.toString().text().bold(),
             x = infoBoxX + 72,
@@ -370,7 +368,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         }.text()
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = text,
             x = infoBoxX + (if (!reversed) 39.5 else 44.5),
             y = y + 22,
@@ -384,11 +382,12 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
     private fun drawPokeBall(
         state: ClientBallDisplay,
         matrixStack: MatrixStack,
-        scale: Float = 6F,
+        scale: Float = 5F,
+        partialTicks: Float,
         reversed: Boolean = false
     ) {
-        val model = PokeBallModelRepository.getModel(state.pokeBall).entityModel as PokeBallModel
-        val texture = PokeBallModelRepository.getModelTexture(state.pokeBall)
+        val model = PokeBallModelRepository.getPoser(state.pokeBall.name, state.aspects)
+        val texture = PokeBallModelRepository.getTexture(state.pokeBall.name, state.aspects, state)
         val renderType = model.getLayer(texture)
 
         RenderSystem.applyModelViewMatrix()
@@ -397,11 +396,14 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
 
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
+        state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
 
-        matrixStack.scale(scale, -scale, scale)
-        matrixStack.translate(0.0, -4.5, -4.0)
-        matrixStack.scale(scale * state.scale, scale * state.scale, 0.01F)
+        matrixStack.scale(scale, scale, -scale)
+        matrixStack.translate(0.0, -2.0, -4.0)
+        matrixStack.push()
+
+        matrixStack.scale(scale * state.scale, scale * state.scale, 0.1F)
 
         matrixStack.multiply(quaternion1)
         matrixStack.multiply(quaternion2)
@@ -413,10 +415,12 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
 
         val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
         val buffer = immediate.getBuffer(renderType)
-        val packedLight = LightmapTextureManager.pack(8, 4)
+        val packedLight = LightmapTextureManager.pack(11, 7)
         model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
 
         immediate.draw()
+
+        matrixStack.pop()
 
         DiffuseLighting.enableGuiDepthLighting()
     }

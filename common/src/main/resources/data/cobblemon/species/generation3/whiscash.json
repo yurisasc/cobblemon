@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Whiscash",
   "nationalPokedexNumber": 340,
   "primaryType": "water",
@@ -25,12 +26,24 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:belch",
     "1:mudslap",
     "1:mudsport",
     "1:rest",
     "1:snore",
+    "1:thrash",
     "1:tickle",
     "1:watergun",
     "1:watersport",
@@ -61,6 +74,7 @@
     "tm:endure",
     "tm:facade",
     "tm:frustration",
+    "tm:futuresight",
     "tm:gigaimpact",
     "tm:hail",
     "tm:helpinghand",
@@ -70,6 +84,7 @@
     "tm:icebeam",
     "tm:icywind",
     "tm:liquidation",
+    "tm:muddywater",
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
@@ -88,6 +103,7 @@
     "tm:scaryface",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:snore",
     "tm:spikes",
     "tm:stealthrock",
     "tm:stompingtantrum",
@@ -107,9 +123,26 @@
     "tm:weatherball",
     "tm:whirlpool",
     "tm:zenheadbutt",
+    "tutor:aquatail",
+    "tutor:bounce",
+    "tutor:dive",
     "tutor:doubleedge",
+    "tutor:earthpower",
+    "tutor:earthquake",
+    "tutor:endure",
+    "tutor:gigaimpact",
     "tutor:headbutt",
-    "tutor:mimic"
+    "tutor:icywind",
+    "tutor:mimic",
+    "tutor:mudslap",
+    "tutor:rockslide",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:waterpulse",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen3"
@@ -121,8 +154,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2.3,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 50,

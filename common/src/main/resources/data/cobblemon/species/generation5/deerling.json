@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Deerling",
   "nationalPokedexNumber": 585,
   "primaryType": "normal",
@@ -115,9 +116,18 @@
     "tm:wildcharge",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:aromatherapy",
     "tutor:bounce",
+    "tutor:feintattack",
+    "tutor:gigadrain",
+    "tutor:jumpkick",
     "tutor:lastresort",
-    "tutor:snore"
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:synthesis",
+    "tutor:takedown",
+    "tutor:worryseed"
   ],
   "labels": [
     "gen5"

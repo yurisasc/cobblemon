@@ -20,7 +20,7 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 1st, 2022
  */
-class AbilityUpdatePacket(pokemon: Pokemon, ability: AbilityTemplate) : SingleUpdatePacket<AbilityTemplate, AbilityUpdatePacket>(pokemon, ability) {
+class AbilityUpdatePacket(pokemon: () -> Pokemon, ability: AbilityTemplate) : SingleUpdatePacket<AbilityTemplate, AbilityUpdatePacket>(pokemon, ability) {
 
     override val id = ID
 

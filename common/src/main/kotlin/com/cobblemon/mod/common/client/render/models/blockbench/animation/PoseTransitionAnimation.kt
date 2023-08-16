@@ -13,9 +13,9 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.withPosition
-import java.lang.Float.min
 import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
+import java.lang.Float.min
 
 /**
  * An animation that gradually moves any [ModelFrame] from one pose to another.
@@ -28,6 +28,8 @@ class PoseTransitionAnimation<T : Entity>(
     val afterPose: Pose<T, *>,
     durationTicks: Int = 20
 ) : StatefulAnimation<T, ModelFrame> {
+    override val isTransform = true
+
     var changedPose = false
     val transforms = mutableListOf<GradualTransform>()
     val startTime = System.currentTimeMillis()
@@ -61,7 +63,7 @@ class PoseTransitionAnimation<T : Entity>(
         val checkedParts = mutableListOf<ModelPart>()
 
         beforeTransforms.forEach { before ->
-            val destination = afterTransforms.find { it.modelPart == before.modelPart }
+            val destination = afterTransforms.find { it.modelPart === before.modelPart }
                 ?: before.modelPart
                     .withPosition(before.initialPosition[0], before.initialPosition[1], before.initialPosition[2])
                     .withRotation(before.initialRotation[0], before.initialRotation[1], before.initialRotation[2])

@@ -21,20 +21,26 @@ class GrotleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val head = getPart("head")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
     override val portraitScale = 2.2F
     override val portraitTranslation = Vec3d(-0.8, -1.0, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override val profileScale = 0.7F
+    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("grotle", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("grotle", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

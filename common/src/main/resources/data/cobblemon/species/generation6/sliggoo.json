@@ -38,7 +38,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 0,
+      "baseExperienceYield": 158,
       "baseFriendship": 35,
       "evYield": {
         "hp": 0,
@@ -170,6 +170,7 @@
     "tm:icebeam",
     "tm:infestation",
     "tm:irontail",
+    "tm:muddywater",
     "tm:mudshot",
     "tm:outrage",
     "tm:protect",
@@ -192,8 +193,14 @@
     "tm:thunderbolt",
     "tm:toxic",
     "tm:waterpulse",
+    "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:irontail",
+    "tutor:outrage",
     "tutor:shockwave",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:snore",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen6",

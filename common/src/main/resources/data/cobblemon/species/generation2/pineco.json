@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Pineco",
   "nationalPokedexNumber": 204,
   "primaryType": "bug",
@@ -14,6 +15,14 @@
     "special_defence": 35,
     "speed": 15
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -23,6 +32,15 @@
   "eggGroups": [
     "bug"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "percentage": 50
+      }
+    ]
+  },
   "moves": [
     "1:protect",
     "1:tackle",
@@ -41,11 +59,15 @@
     "42:gyroball",
     "45:doubleedge",
     "egg:counter",
+    "egg:doubleedge",
+    "egg:endure",
     "egg:flail",
     "egg:pinmissile",
     "egg:powertrick",
+    "egg:reflect",
     "egg:revenge",
     "egg:sandtomb",
+    "egg:stealthrock",
     "egg:swift",
     "egg:toxicspikes",
     "tm:attract",
@@ -59,14 +81,18 @@
     "tm:drillrun",
     "tm:earthquake",
     "tm:endure",
+    "tm:explosion",
     "tm:facade",
     "tm:frustration",
     "tm:gigadrain",
+    "tm:gyroball",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:icespinner",
     "tm:irondefense",
     "tm:lightscreen",
+    "tm:naturalgift",
+    "tm:payback",
     "tm:poisonjab",
     "tm:pounce",
     "tm:protect",
@@ -77,6 +103,7 @@
     "tm:reversal",
     "tm:rockblast",
     "tm:rockslide",
+    "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
@@ -86,6 +113,7 @@
     "tm:solarbeam",
     "tm:spikes",
     "tm:stealthrock",
+    "tm:strength",
     "tm:strugglebug",
     "tm:substitute",
     "tm:sunnyday",
@@ -98,24 +126,52 @@
     "tm:venoshock",
     "tutor:attract",
     "tutor:bide",
+    "tutor:bodyslam",
+    "tutor:bugbite",
+    "tutor:counter",
+    "tutor:curse",
     "tutor:defensecurl",
+    "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:drillrun",
+    "tutor:endure",
+    "tutor:explosion",
+    "tutor:flail",
     "tutor:frustration",
+    "tutor:gigadrain",
     "tutor:gravity",
     "tutor:headbutt",
     "tutor:hiddenpower",
+    "tutor:irondefense",
     "tutor:mimic",
     "tutor:painsplit",
+    "tutor:pinmissile",
+    "tutor:protect",
+    "tutor:rapidspin",
+    "tutor:reflect",
     "tutor:refresh",
+    "tutor:rest",
     "tutor:return",
+    "tutor:rockslide",
     "tutor:rocksmash",
+    "tutor:rollout",
+    "tutor:selfdestruct",
+    "tutor:sleeptalk",
     "tutor:snore",
-    "tutor:snore",
+    "tutor:solarbeam",
+    "tutor:spikes",
+    "tutor:stealthrock",
     "tutor:strength",
     "tutor:stringshot",
+    "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
     "tutor:sweetscent",
-    "tutor:toxic"
+    "tutor:swift",
+    "tutor:tackle",
+    "tutor:takedown",
+    "tutor:toxic",
+    "tutor:toxicspikes"
   ],
   "labels": [
     "gen2"
@@ -140,10 +196,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 0.95,
     "fixed": false
   },
   "baseFriendship": 70,

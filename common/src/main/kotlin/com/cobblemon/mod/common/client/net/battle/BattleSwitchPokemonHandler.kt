@@ -46,5 +46,7 @@ object BattleSwitchPokemonHandler : ClientNetworkPacketHandler<BattleSwitchPokem
                 }
             )
         )
+
+        CobblemonClient.storage.switchToPokemon(packet.newPokemon.uuid)
     }
 }

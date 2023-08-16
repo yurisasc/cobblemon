@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Sawsbuck",
   "nationalPokedexNumber": 586,
   "primaryType": "normal",
@@ -41,6 +42,7 @@
   "moves": [
     "1:camouflage",
     "1:growl",
+    "1:hornleech",
     "1:megahorn",
     "1:sandattack",
     "1:tackle",
@@ -115,8 +117,12 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:bounce",
+    "tutor:gigadrain",
     "tutor:lastresort",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
     "tutor:snore",
+    "tutor:stompingtantrum",
     "tutor:synthesis",
     "tutor:worryseed"
   ],

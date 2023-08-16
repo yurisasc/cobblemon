@@ -13,8 +13,9 @@ import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import net.minecraft.block.BlockState
-import net.minecraft.block.Material
-import net.minecraft.world.World
+import net.minecraft.registry.tag.BlockTags
+import net.minecraft.registry.tag.FluidTags
+import net.minecraft.server.world.ServerWorld
 
 /**
  * Calculates some kind of [SpawningContext] from a particular type of input data. This
@@ -29,13 +30,10 @@ import net.minecraft.world.World
  */
 interface SpawningContextCalculator<I : SpawningContextInput, O : SpawningContext> {
     companion object {
-        var foliageMaterials = mutableListOf(
-            Material.LEAVES
-        )
-        val isAirCondition: (BlockState) -> Boolean = { it.isAir || !it.material.isSolid }
-        val isSolidCondition: (BlockState) -> Boolean = { it.material.isSolid && it.material != Material.LEAVES }
-        val isWaterCondition: (BlockState) -> Boolean = { it.material == Material.WATER && it.fluidState.isStill  }
-        val isLavaCondition: (BlockState) -> Boolean = { it.material == Material.LAVA && it.fluidState.isStill }
+        val isAirCondition: (BlockState) -> Boolean = { it.isAir || (!it.isSolid && !it.isLiquid) }
+        val isSolidCondition: (BlockState) -> Boolean = { it.isSolid && !it.isIn(BlockTags.LEAVES) }
+        val isWaterCondition: (BlockState) -> Boolean = { it.fluidState.isIn(FluidTags.WATER) && it.fluidState.isStill  }
+        val isLavaCondition: (BlockState) -> Boolean = { it.fluidState.isIn(FluidTags.LAVA) && it.fluidState.isStill }
 
         private val calculators = PrioritizedList<SpawningContextCalculator<*, *>>()
         val prioritizedAreaCalculators: List<AreaSpawningContextCalculator<*>>
@@ -64,5 +62,5 @@ open class SpawningContextInput(
     /** What caused the spawn context, as a [SpawnCause]. */
     val cause: SpawnCause,
     /** The [Level] the spawning context exists in. */
-    val world: World
+    val world: ServerWorld
 )

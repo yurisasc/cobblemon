@@ -36,20 +36,24 @@ class TorchicModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("torchic", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook()
-                //bedrock("torchic", "ground_idle")
+                singleBoneLook(),
+                bedrock("torchic", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                bedrock("torchic", "ground_idle"),
                 BipedWalkAnimation(this, amplitudeMultiplier = 0.9F, periodMultiplier = 1F)
                 //bedrock("torchic", "ground_walk")
             )

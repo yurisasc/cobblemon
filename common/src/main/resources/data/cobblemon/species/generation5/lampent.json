@@ -84,17 +84,25 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:taunt",
+    "tm:telekinesis",
     "tm:thief",
     "tm:toxic",
     "tm:trick",
     "tm:trickroom",
     "tm:willowisp",
+    "tutor:allyswitch",
     "tutor:burningjealousy",
+    "tutor:darkpulse",
+    "tutor:heatwave",
+    "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:shockwave",
     "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:telekinesis"
+    "tutor:telekinesis",
+    "tutor:trick"
   ],
   "labels": [
     "gen5"

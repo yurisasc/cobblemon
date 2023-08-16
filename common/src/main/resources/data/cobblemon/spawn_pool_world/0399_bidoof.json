@@ -7,7 +7,8 @@
             "id": "bidoof-1",
             "pokemon": "bidoof",
 			"presets": [
-                "freshwater"
+                "natural",
+				"freshwater"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -22,11 +23,10 @@
             "id": "bidoof-2",
             "pokemon": "bidoof",
 			"presets": [
-                "freshwater",
-                "underwater"
+                "water_surface",
+                "freshwater"
             ],
             "type": "pokemon",
-            "context": "submerged",
             "bucket": "common",
             "level": "1-25",
             "weight": 9.0,

@@ -13,6 +13,7 @@ object DataKeys {
     const val POKEMON = "Pokemon"
     const val POKEMON_UUID = "UUID"
     const val POKEMON_SPECIES_IDENTIFIER = "Species"
+    const val POKEMON_NICKNAME = "Nickname"
     const val POKEMON_FORM_ID = "FormId"
     const val POKEMON_LEVEL = "Level"
     const val POKEMON_GENDER = "Gender"
@@ -31,6 +32,8 @@ object DataKeys {
     const val POKEMON_ABILITY = "Ability"
     const val POKEMON_ABILITY_NAME = "AbilityName"
     const val POKEMON_ABILITY_FORCED = "AbilityForced"
+    const val POKEMON_ABILITY_INDEX = "AbilityIndex"
+    const val POKEMON_ABILITY_PRIORITY = "AbilityPriority"
     const val POKEMON_SHINY = "Shiny"
     const val POKEMON_STATUS = "Status"
     const val POKEMON_STATUS_NAME = "StatusName"
@@ -40,6 +43,7 @@ object DataKeys {
     const val POKEMON_HEALING_TIMER = "HealingTimer"
     const val POKEMON_DATA = "PokemonData"
     const val POKEMON_NATURE = "Nature"
+    const val POKEMON_MINTED_NATURE = "MintedNature"
     const val HELD_ITEM = "HeldItem"
 
     const val POKEMON_STATE = "State"
@@ -60,14 +64,25 @@ object DataKeys {
 
     const val BENCHED_MOVES = "BenchedMoves"
 
-    const val OWNED_BY_PLAYER = "OwnedByPlayer"
-    const val STORE_IS_PARTY = "IsParty"
+    const val PC_ID = "PCId"
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
     const val STORE_BOX = "Box"
     const val STORE_BOX_COUNT = "BoxCount"
     const val STORE_BOX_COUNT_LOCKED = "BoxCountLocked"
     const val STORE_BACKUP = "BackupStore"
+
+    const val TETHER_OWNER_ID = "TetherOwnerId"
+    const val TETHER_OWNER_NAME = "TetherOwnerName"
+    const val TETHERING_ID = "TetheringId"
+    const val TETHER_POKEMON = "TetherPokemon"
+    const val TETHER_MIN_ROAM_POS = "TetherMinRoamPos"
+    const val TETHER_MAX_ROAM_POS = "TetherMaxRoamPos"
+    const val TETHER_COUNT = "TetherCount"
+    const val TETHERING = "Tethering"
+    const val TETHERING_POS = "Pos"
+    const val TETHERING_PLAYER_ID = "PlayerId"
+    const val TETHERING_ENTITY_ID = "EntityId"
 
     /* Form stuff */
     const val ALOLAN = "alolan"
@@ -93,5 +108,23 @@ object DataKeys {
     // Pokemon Item
     const val POKEMON_ITEM_SPECIES = "species"
     const val POKEMON_ITEM_ASPECTS = "aspects"
+
+    // Features
+    const val CAN_BE_MILKED = "milkable"
+    const val HAS_BEEN_SHEARED = "sheared"
+
+    // Persistent Data
+    const val POKEMON_PERSISTENT_DATA = "PersistentData"
+
+    // Item Tooltips
+    const val HIDE_TOOLTIP = "HideTooltip"
+
+
+    // Shoulder Mount
+    const val SHOULDER_UUID = "shoulder_uuid"
+    const val SHOULDER_SPECIES = "shoulder_species"
+    const val SHOULDER_FORM = "shoulder_form"
+    const val SHOULDER_ASPECTS = "shoulder_aspects"
+    const val SHOULDER_SCALE_MODIFIER = "shoulder_scale"
 
 }

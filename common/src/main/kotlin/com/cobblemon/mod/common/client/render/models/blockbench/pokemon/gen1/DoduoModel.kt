@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -17,11 +16,12 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class DoduoModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("doduo")
 
-    override val leftLeg = getPart("leftleg")
-    override val rightLeg = getPart("rightleg")
+    override val leftLeg = getPart("leg_left")
+    override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 2.0F
     override val portraitTranslation = Vec3d(-0.1, 0.35, 0.0)
@@ -39,7 +39,7 @@ class DoduoModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
 //                singleBoneLook()
-                //bedrock("doduo", "ground_idle")
+                bedrock("doduo", "ground_idle")
             )
         )
 
@@ -48,9 +48,8 @@ class DoduoModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 0.8F)
 //                singleBoneLook()
-                //bedrock("doduo", "ground_walk")
+                bedrock("doduo", "ground_walk")
             )
         )
     }

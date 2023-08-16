@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -23,7 +23,7 @@ class MamoswineModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
 
     override val hindLeftLeg = getPart("leftbackleg")
     override val hindRightLeg = getPart("rightbackleg")
-    override val foreLeftLeg = getPart("leftfrontleg")
+    override val foreLeftLeg= getPart("leftfrontleg")
     override val foreRightLeg = getPart("rightfrontleg")
 
     override val portraitScale = 2.0F
@@ -32,27 +32,32 @@ class MamoswineModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val profileScale = 0.95F
     override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("mamoswine", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("mamoswine", "sleep"))
+        )
+
+        val blink = quirk("blink") { bedrockStateful("mamoswine", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-//            quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                //bedrock("mamoswine", "ground_idle")
+                bedrock("mamoswine", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-//            quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
-                //bedrock("mamoswine", "ground_walk")
+                bedrock("mamoswine", "ground_walk")
             )
         )
     }

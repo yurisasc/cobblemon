@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Cetitan",
   "nationalPokedexNumber": 975,
   "primaryType": "ice",
@@ -17,7 +18,7 @@
   },
   "catchRate": 50,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 182,
   "baseFriendship": 50,
   "evYield": {
     "hp": 2,
@@ -90,6 +91,12 @@
   "weight": 7000,
   "preEvolution": "cetoddle",
   "evolutions": [],
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 2.8,
+    "height": 2.8,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.cetitan.desc"

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Kricketot",
   "nationalPokedexNumber": 401,
   "primaryType": "bug",
@@ -16,13 +17,22 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 39,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
   "eggGroups": [
     "bug"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:metronome",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:bide",
     "1:growl",
@@ -31,10 +41,12 @@
     "16:bugbite",
     "tm:strugglebug",
     "tm:terablast",
+    "tutor:bugbite",
     "tutor:endeavor",
     "tutor:mudslap",
     "tutor:snore",
     "tutor:stringshot",
+    "tutor:strugglebug",
     "tutor:uproar"
   ],
   "labels": [
@@ -60,10 +72,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 70,

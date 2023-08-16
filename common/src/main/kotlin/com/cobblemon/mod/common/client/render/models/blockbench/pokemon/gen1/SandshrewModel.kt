@@ -19,15 +19,16 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class SandshrewModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("sandshrew")
     override val head = getPart("head")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(0.05, -0.3, 0.0)
+    override val portraitScale = 2.3F
+    override val portraitTranslation = Vec3d(-0.01, -0.6, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override val profileScale = 0.85F
+    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

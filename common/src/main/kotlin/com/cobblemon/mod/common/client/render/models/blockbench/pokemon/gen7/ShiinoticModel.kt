@@ -24,6 +24,7 @@ class ShiinoticModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("shiinotic", "blink").setPreventsIdle(false) }
@@ -34,6 +35,15 @@ class ShiinoticModel(root: ModelPart) : PokemonPoseableModel() {
                 transformTicks = 10,
                 idleAnimations = arrayOf(
                         bedrock("shiinotic", "ground_idle")
+                )
+        )
+
+        walk = registerPose(
+                poseName = "walk",
+                poseTypes = PoseType.MOVING_POSES,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        bedrock("shiinotic", "ground_idle"),
                 )
         )
     }

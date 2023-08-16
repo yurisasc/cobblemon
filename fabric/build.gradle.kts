@@ -1,3 +1,9 @@
+configurations.all {
+    resolutionStrategy {
+        force(libs.fabricLoader)
+    }
+}
+
 plugins {
     id("cobblemon.platform-conventions")
     id("cobblemon.publish-conventions")
@@ -60,9 +66,8 @@ tasks {
     val copyAccessWidener by registering(Copy::class) {
         from(loom.accessWidenerPath)
         into(generatedResources)
+        dependsOn(checkLicenseMain)
     }
-
-    shadowJar {}
 
     processResources {
         dependsOn(copyAccessWidener)
@@ -77,5 +82,9 @@ tasks {
                 "minecraft_version" to rootProject.property("mc_version").toString()
             )
         }
+    }
+
+    sourcesJar {
+        dependsOn(copyAccessWidener)
     }
 }

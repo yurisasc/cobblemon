@@ -20,5 +20,6 @@
         "type": "any"
       }
     }
-  }
+  },
+  "sends_telemetry_event": false
 }

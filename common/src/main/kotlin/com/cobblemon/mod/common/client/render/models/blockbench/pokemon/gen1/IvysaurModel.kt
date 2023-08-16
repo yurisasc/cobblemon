@@ -20,16 +20,17 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("ivysaur")
     override val head = getPart("head")
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3d(-0.2, -0.6, 0.0)
+    override val portraitScale = 2.2F
+    override val portraitTranslation = Vec3d(-0.34, -1.35, 0.0)
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
 

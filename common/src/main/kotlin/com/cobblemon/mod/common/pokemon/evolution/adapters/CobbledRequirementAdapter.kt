@@ -10,26 +10,7 @@ package com.cobblemon.mod.common.pokemon.evolution.adapters
 
 import com.cobblemon.mod.common.api.pokemon.evolution.adapters.RequirementAdapter
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.AreaRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.AttackDefenceRatioRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.BattleCriticalHitsRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.BiomeRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.DamageTakenRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.DefeatRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.FriendshipRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.HeldItemRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.LevelRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.MoonPhaseRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.MoveSetRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.MoveTypeRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.PartyMemberRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.PokemonPropertiesRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.RecoilRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.TimeRangeRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.UseMoveRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.WalkedStepsRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.WeatherRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.WorldRequirement
+import com.cobblemon.mod.common.pokemon.evolution.requirements.*
 import com.google.common.collect.HashBiMap
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
@@ -70,6 +51,7 @@ object CobblemonRequirementAdapter : RequirementAdapter {
         this.registerType(RecoilRequirement.ADAPTER_VARIANT, RecoilRequirement::class)
         this.registerType(DefeatRequirement.ADAPTER_VARIANT, DefeatRequirement::class)
         this.registerType(WalkedStepsRequirement.ADAPTER_VARIANT, WalkedStepsRequirement::class)
+        this.registerType(AnyRequirement.ADAPTER_VARIANT, AnyRequirement::class)
     }
 
     override fun <T : EvolutionRequirement> registerType(id: String, type: KClass<T>) {

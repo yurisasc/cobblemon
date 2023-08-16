@@ -19,6 +19,12 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
  */
 interface EvCalculator {
 
+    /**
+     * TODO
+     *
+     * @param battlePokemon
+     * @return
+     */
     fun calculate(battlePokemon: BattlePokemon): Map<Stat, Int> {
         val total = hashMapOf<Stat, Int>()
         battlePokemon.facedOpponents
@@ -34,6 +40,13 @@ interface EvCalculator {
         return total
     }
 
+    /**
+     * TODO
+     *
+     * @param battlePokemon
+     * @param opponentPokemon
+     * @return
+     */
     fun calculate(battlePokemon: BattlePokemon, opponentPokemon: BattlePokemon): Map<Stat, Int>
 
 }

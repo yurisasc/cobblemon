@@ -22,13 +22,13 @@ class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val rootPart = root.registerChildWithAllChildren("slowpoke")
     override val head = getPart("head")
 
-    override val foreLeftLeg = getPart("leftfrontleg")
+    override val foreLeftLeg= getPart("leftfrontleg")
     override val foreRightLeg = getPart("rightfrontleg")
     override val hindLeftLeg = getPart("leftbackleg")
     override val hindRightLeg = getPart("rightbackleg")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.7, -1.07, 0.0)
+    override val portraitScale = 2.2F
+    override val portraitTranslation = Vec3d(-0.6, -1.6, 0.0)
 
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.52, 0.0)
@@ -52,7 +52,7 @@ class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             poseName = "walk",
             poseType = PoseType.WALK,
             idleAnimations = arrayOf(
-                QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
+                QuadrupedWalkAnimation(this, periodMultiplier = 3.6F, amplitudeMultiplier = 2.2F),
                 singleBoneLook(),
                 bedrock("slowpoke", "ground_idle")
                 //bedrock("slowpoke", "ground_walk")

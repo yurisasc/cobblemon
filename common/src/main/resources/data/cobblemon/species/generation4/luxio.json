@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Luxio",
   "nationalPokedexNumber": 404,
   "primaryType": "electric",
@@ -24,18 +25,38 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:charge",
     "1:leer",
     "1:tackle",
     "1:thundershock",
+    "9:charge",
     "12:bite",
+    "13:bite",
+    "13:spark",
+    "18:bite",
     "18:spark",
+    "23:roar",
     "24:roar",
+    "28:swagger",
     "31:voltswitch",
+    "33:crunch",
+    "33:thunderfang",
     "36:scaryface",
+    "38:crunch",
     "42:thunderwave",
+    "43:scaryface",
     "48:crunch",
+    "48:discharge",
+    "53:wildcharge",
     "54:discharge",
     "60:swagger",
     "68:wildcharge",
@@ -67,15 +88,18 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:round",
     "tm:scaryface",
     "tm:secretpower",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snarl",
     "tm:snore",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:swift",
     "tm:takedown",
     "tm:terablast",
@@ -90,11 +114,16 @@
     "tm:wildcharge",
     "tutor:furycutter",
     "tutor:headbutt",
+    "tutor:helpinghand",
+    "tutor:irontail",
     "tutor:magnetrise",
     "tutor:mudslap",
     "tutor:risingvoltage",
     "tutor:shockwave",
-    "tutor:signalbeam"
+    "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:swift"
   ],
   "labels": [
     "gen4"
@@ -120,8 +149,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 1.1,
     "fixed": false
   },
   "baseFriendship": 100,

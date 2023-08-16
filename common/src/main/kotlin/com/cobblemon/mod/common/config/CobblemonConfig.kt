@@ -43,8 +43,8 @@ class CobblemonConfig {
     @NodeCategory(Category.Pokemon)
     var defaultDropItemMethod = ItemDropMethod.ON_ENTITY
     @NodeCategory(Category.Pokemon)
-    @LastChangedVersion("1.3.0")
-    var ambientPokemonCryTicks = 360
+    @LastChangedVersion("1.4.0")
+    var ambientPokemonCryTicks = 1080
 
     @NodeCategory(Category.Storage)
     @IntConstraint(min = 1, max = 1000)
@@ -92,6 +92,9 @@ class CobblemonConfig {
 
     @NodeCategory(Category.Spawning)
     var worldSliceHeight = 16
+
+    @NodeCategory(Category.Spawning)
+    var ticksBetweenSpawnAttempts = 20F
 
     @NodeCategory(Category.Spawning)
     var minimumSliceDistanceFromPlayer = 16F
@@ -175,4 +178,31 @@ class CobblemonConfig {
     @NodeCategory(Category.Pokemon)
     var captureCalculator: CaptureCalculator = CobblemonCaptureCalculator
 
+    @NodeCategory(Category.Pokemon)
+    var playerDamagePokemon = true
+
+    @NodeCategory(Category.World)
+    var appleLeftoversChance = 0.025
+
+    @NodeCategory(Category.World)
+    var bigRootPropagationChance = 0.1
+
+    @NodeCategory(Category.World)
+    var energyRootChance = 0.25
+
+    @NodeCategory(Category.Pokemon)
+    @LastChangedVersion("1.4.0")
+    var consumeHeldItems = true
+
+    @NodeCategory(Category.World)
+    var defaultPasturedPokemonLimit = 16
+
+    @NodeCategory(Category.World)
+    var pastureBlockUpdateTicks = 40
+
+    @NodeCategory(Category.World)
+    var pastureMaxWanderDistance = 64
+
+    @NodeCategory(Category.World)
+    var pastureMaxPerChunk = 4F
 }

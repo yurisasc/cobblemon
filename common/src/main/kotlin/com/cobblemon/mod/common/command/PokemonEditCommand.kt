@@ -63,7 +63,7 @@ object PokemonEditCommand {
         val oldName = pokemon.species.translatedName
         val properties = PokemonPropertiesArgumentType.getPokemonProperties(context, PROPERTIES)
         properties.apply(pokemon)
-        context.source.sendFeedback(commandLang(NAME, oldName, player.name), true)
+        context.source.sendFeedback({ commandLang(NAME, oldName, player.name) }, true)
         return Command.SINGLE_SUCCESS
     }
 

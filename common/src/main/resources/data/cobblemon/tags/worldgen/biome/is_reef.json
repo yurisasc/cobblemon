@@ -3,7 +3,7 @@
   "values": [
     "minecraft:warm_ocean",
 	{
-      "id": "terralith:lush_stacks",
+      "id": "byg:lush_stacks",
       "required": false
     }
   ]

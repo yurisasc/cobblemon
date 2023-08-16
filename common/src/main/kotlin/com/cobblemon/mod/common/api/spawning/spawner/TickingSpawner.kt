@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.api.spawning.detail.SpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
-import com.cobblemon.mod.common.api.spawning.selection.FlatContextWeightedSelector
+import com.cobblemon.mod.common.api.spawning.selection.FlatSelector
 import com.cobblemon.mod.common.api.spawning.selection.SpawningSelector
 import net.minecraft.entity.Entity
 
@@ -32,7 +32,7 @@ abstract class TickingSpawner(
     var spawns: SpawnPool,
     val manager: SpawnerManager
 ) : Spawner {
-    private var selector: SpawningSelector = FlatContextWeightedSelector()
+    private var selector: SpawningSelector = FlatSelector()
     override val influences = mutableListOf<SpawningInfluence>()
 
     override fun canSpawn() = active
@@ -48,7 +48,7 @@ abstract class TickingSpawner(
 
     var lastSpawnTime = 0L
     var ticksUntilNextSpawn = 100F
-    var ticksBetweenSpawns = 20F
+    abstract var ticksBetweenSpawns: Float
     var tickTimerMultiplier = 1F
 
     @Volatile
@@ -71,6 +71,7 @@ abstract class TickingSpawner(
         val scheduledSpawn = scheduledSpawn
         if (scheduledSpawn != null) {
             performSpawn(scheduledSpawn)
+            this.scheduledSpawn = null
         }
 
         ticksUntilNextSpawn -= tickTimerMultiplier
@@ -96,8 +97,11 @@ abstract class TickingSpawner(
     fun performSpawn(spawnAction: SpawnAction<*>) {
         spawnAction.entity.subscribe { afterSpawn(it) }
         spawnAction.run()
-        this.scheduledSpawn = null
     }
 
     open fun getCauseEntity(): Entity? = null
+
+    fun getAllInfluences() = this.influences + manager.influences
+
+    override fun copyInfluences() = this.getAllInfluences().toMutableList()
 }

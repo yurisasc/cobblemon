@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Doublade",
   "nationalPokedexNumber": 680,
   "primaryType": "steel",
@@ -23,6 +24,15 @@
   "eggGroups": [
     "mineral"
   ],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:iron_sword",
+        "percentage": 10
+      }
+    ]
+  },
   "moves": [
     "1:autotomize",
     "1:furycutter",
@@ -39,6 +49,7 @@
     "44:powertrick",
     "50:swordsdance",
     "56:sacredsword",
+    "tm:aerialace",
     "tm:attract",
     "tm:brickbreak",
     "tm:brutalswing",
@@ -77,9 +88,12 @@
     "tm:swordsdance",
     "tm:toxic",
     "tutor:afteryou",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:laserfocus",
     "tutor:magnetrise",
     "tutor:shockwave",
+    "tutor:snore",
     "tutor:spite",
     "tutor:steelbeam"
   ],
@@ -103,10 +117,10 @@
       "requiredContext": "cobblemon:dusk_stone"
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.4,
+    "height": 1.8,
     "fixed": false
   },
   "baseFriendship": 50,

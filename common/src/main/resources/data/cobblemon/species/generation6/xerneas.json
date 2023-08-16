@@ -49,7 +49,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "legendary"
@@ -114,10 +113,12 @@
     "tm:lightscreen",
     "tm:megahorn",
     "tm:mistyterrain",
+    "tm:naturepower",
     "tm:outrage",
     "tm:playrough",
     "tm:protect",
     "tm:psychic",
+    "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
     "tm:reflect",
@@ -140,16 +141,28 @@
     "tm:toxic",
     "tm:wonderroom",
     "tm:zenheadbutt",
+    "tutor:aromatherapy",
     "tutor:block",
     "tutor:dazzlinggleam",
     "tutor:defog",
     "tutor:endeavor",
+    "tutor:focusblast",
+    "tutor:geomancy",
+    "tutor:grassknot",
+    "tutor:gravity",
     "tutor:hornleech",
+    "tutor:hypervoice",
     "tutor:ingrain",
     "tutor:laserfocus",
+    "tutor:megahorn",
     "tutor:mistyexplosion",
     "tutor:moonblast",
-    "tutor:terrainpulse"
+    "tutor:nightslash",
+    "tutor:outrage",
+    "tutor:snore",
+    "tutor:terrainpulse",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6",

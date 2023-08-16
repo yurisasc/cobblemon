@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Transformed
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithSpecificChildren("butterfree", listOf("leftwing","rightwing","leftwingback","rightwingback","body","antenna_right","antenna_right2","antenna_left","antenna_left2","leg_right","leg_left","wing_right","wing_right2","wing_left","wing_left2"))
     override val head = getPart("head")
@@ -25,11 +26,11 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     val leftWingBack = getPart("wing_left2")
     val rightWingBack = getPart("wing_right2")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(0.1, -0.15, 0.0)
+    override val portraitScale = 2.8F
+    override val portraitTranslation = Vec3d(-0.1, 0.1, 0.0)
 
     override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.1, 0.6, 0.0)
+    override val profileTranslation = Vec3d(0.1, 0.8, 0.0)
 
     lateinit var sleep: PokemonPose
 
@@ -50,7 +51,8 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         )
 
         registerPose(
-            poseType = PoseType.WALK,
+            poseName = "walking",
+            poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("butterfree", "air_fly")

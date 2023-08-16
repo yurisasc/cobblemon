@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("charmeleon")
     override val head = getPart("head")
@@ -27,8 +28,8 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(0.07, 0.65,0.0)
+    override val portraitScale = 2.2F
+    override val portraitTranslation = Vec3d(-0.16, 0.55, 0.0)
 
     override val profileScale = 0.65F
     override val profileTranslation = Vec3d(0.0, 0.79, 0.0)

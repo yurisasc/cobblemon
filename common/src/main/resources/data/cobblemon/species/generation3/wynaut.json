@@ -36,6 +36,9 @@
     "tm:charm",
     "tm:encore",
     "tm:safeguard",
+    "tutor:charm",
+    "tutor:encore",
+    "tutor:splash",
     "tutor:tickle"
   ],
   "labels": [

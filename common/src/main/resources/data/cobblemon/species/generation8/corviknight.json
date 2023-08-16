@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Corviknight",
   "nationalPokedexNumber": 823,
   "primaryType": "flying",
@@ -54,7 +55,6 @@
       "eggGroups": [
         "flying"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -75,6 +75,13 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:honeclaws",
     "1:irondefense",
@@ -125,9 +132,11 @@
     "tm:reversal",
     "tm:round",
     "tm:scaryface",
+    "tm:screech",
     "tm:sleeptalk",
     "tm:snore",
     "tm:steelbeam",
+    "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swift",
@@ -138,7 +147,8 @@
     "tm:thief",
     "tm:uturn",
     "tm:workup",
-    "tutor:dualwingbeat"
+    "tutor:dualwingbeat",
+    "tutor:steelbeam"
   ],
   "labels": [
     "gen8"
@@ -148,10 +158,10 @@
   ],
   "preEvolution": "corvisquire",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2.0,
+    "height": 4.4,
     "fixed": false
   },
   "baseFriendship": 50,

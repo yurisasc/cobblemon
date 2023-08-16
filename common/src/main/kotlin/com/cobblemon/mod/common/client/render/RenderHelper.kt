@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
@@ -22,7 +23,7 @@ import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
-import net.minecraft.client.render.model.json.ModelTransformation
+import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
@@ -60,7 +61,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
     val modelViewStack = matrixStack ?: RenderSystem.getModelViewStack()
     modelViewStack.push()
-    modelViewStack.translate(x, y, (zTranslation + itemRenderer.zOffset).toDouble())
+    modelViewStack.translate(x, y, (zTranslation + 0).toDouble())
     modelViewStack.translate(8.0 * scale, 8.0 * scale, 0.0)
     modelViewStack.scale(1.0F, -1.0F, 1.0F)
     modelViewStack.scale(16.0F * scale.toFloat(), 16.0F * scale.toFloat(), 16.0F * scale.toFloat())
@@ -73,7 +74,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
 
     itemRenderer.renderItem(
         itemStack,
-        ModelTransformation.Mode.GUI,
+        ModelTransformationMode.GUI,
         false,
         stack,
         immediate,
@@ -115,7 +116,7 @@ fun getDepletableRedGreen(
 }
 
 fun drawScaledText(
-    matrixStack: MatrixStack,
+    context: DrawContext,
     font: Identifier? = null,
     text: MutableText,
     x: Number,
@@ -134,11 +135,11 @@ fun drawScaledText(
     val textWidth = MinecraftClient.getInstance().textRenderer.getWidth(if (font != null) text.font(font) else text)
     val extraScale = if (textWidth < maxCharacterWidth) 1F else (maxCharacterWidth / textWidth.toFloat())
     val fontHeight = if (font == null) 5 else 6
-
-    matrixStack.push()
-    matrixStack.scale(scale * extraScale, scale * extraScale, 1F)
+    val matrices = context.matrices
+    matrices.push()
+    matrices.scale(scale * extraScale, scale * extraScale, 1F)
     drawText(
-        poseStack = matrixStack,
+        context = context,
         font = font,
         text = text,
         x = x.toFloat() / (scale * extraScale),
@@ -147,11 +148,11 @@ fun drawScaledText(
         colour = colour,
         shadow = shadow
     )
-    matrixStack.pop()
+    matrices.pop()
 }
 
 fun drawScaledText(
-    matrixStack: MatrixStack,
+    context: DrawContext,
     text: OrderedText,
     x: Number,
     y: Number,
@@ -165,10 +166,11 @@ fun drawScaledText(
     if (opacity.toFloat() < 0.05F) {
         return
     }
+    val matrixStack = context.matrices
     matrixStack.push()
     matrixStack.scale(scaleX, scaleY, 1F)
     drawText(
-        poseStack = matrixStack,
+        context = context,
         text = text,
         x = x.toFloat() / scaleX,
         y = y.toFloat() / scaleY,

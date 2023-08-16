@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.drop.DropTable
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
@@ -101,20 +102,29 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var forms = mutableListOf<FormData>()
         private set
 
-    val standardForm by lazy { FormData().initialize(this) }
+    val standardForm by lazy { FormData(_evolutions = this.evolutions).initialize(this) }
 
-    internal var labels = hashSetOf<String>()
+    var labels = hashSetOf<String>()
         private set
 
-    // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
-    internal var evolutions: MutableSet<Evolution> = hashSetOf()
+    /**
+     * Contains the evolutions of this species.
+     * If you're trying to find out the possible evolutions of a Pokémon you should always work with their [FormData].
+     * The base species is the [standardForm].
+     * Do not access this property immediately after a species is loaded, it requires all species in the game to be loaded.
+     * To be aware of this gamestage subscribe to [PokemonSpecies.observable].
+     */
+    var evolutions: MutableSet<Evolution> = hashSetOf()
         private set
 
-    internal var preEvolution: PreEvolution? = null
+    var preEvolution: PreEvolution? = null
         private set
 
     @Transient
     lateinit var resourceIdentifier: Identifier
+
+    val types: Iterable<ElementalType>
+        get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
 
     fun initialize() {
         Cobblemon.statProvider.provide(this)
@@ -126,6 +136,17 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.preEvolution?.species
         this.preEvolution?.form
         this.evolutions.size
+    }
+
+    // Ran after initialize due to us creating a Pokémon here which requires all the properties in #initialize to be present for both this and the results, this is the easiest way to quickly resolve species + form
+    internal fun resolveEvolutionMoves() {
+        this.evolutions.forEach { evolution ->
+            if (evolution.learnableMoves.isNotEmpty() && evolution.result.species != null) {
+                val pokemon = evolution.result.create()
+                pokemon.form.moves.evolutionMoves += evolution.learnableMoves
+            }
+        }
+        this.forms.forEach(FormData::resolveEvolutionMoves)
     }
 
     fun create(level: Int = 10) = Pokemon().apply {

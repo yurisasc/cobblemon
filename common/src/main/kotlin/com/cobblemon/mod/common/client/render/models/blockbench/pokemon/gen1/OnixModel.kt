@@ -16,12 +16,13 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class OnixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("onix")
     override val head = getPart("head")
 
     override val portraitScale = 1.1F
-    override val portraitTranslation = Vec3d(0.3, 1.4, 0.0)
+    override val portraitTranslation = Vec3d(-0.15, 1.4, 0.0)
 
     override val profileScale = 0.55F
     override val profileTranslation = Vec3d(-0.1, 0.9, 0.0)
@@ -30,7 +31,7 @@ class OnixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var ui: PokemonPose
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("onix", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("onix", "blink").setPreventsIdle(false) }
         ui = registerPose(
             poseName = "ui",
             poseTypes = UI_POSES,

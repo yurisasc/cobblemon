@@ -6,11 +6,14 @@
         {
             "id": "clefairy-1",
             "pokemon": "clefairy",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
             "level": "20-32",
-            "weight": 9.0,
+            "weight": 0.9,
             "condition": {
 				"canSeeSky": true,
                 "biomes": [
@@ -29,7 +32,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "20-32",
-            "weight": 9.0,
+            "weight": 0.9,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
@@ -40,11 +43,14 @@
         {
             "id": "clefairy-3",
             "pokemon": "clefairy",
+			"presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
             "level": "20-32",
-            "weight": 9.0,
+            "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -57,11 +63,14 @@
         {
             "id": "clefairy-4",
             "pokemon": "clefairy",
+			"presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
             "level": "20-32",
-            "weight": 9.0,
+            "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

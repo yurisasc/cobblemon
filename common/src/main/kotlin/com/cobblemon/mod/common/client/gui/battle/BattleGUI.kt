@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
 class BattleGUI : Screen(battleLang("gui.title")) {
@@ -37,6 +38,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         val runResource = cobblemonResource("textures/gui/battle/battle_menu_run.png")
     }
 
+    private lateinit var messagePane: BattleMessagePane
     var opacity = 0F
     val actor = CobblemonClient.battle?.side1?.actors?.find { it.uuid == MinecraftClient.getInstance().player?.uuid }
 
@@ -44,7 +46,8 @@ class BattleGUI : Screen(battleLang("gui.title")) {
 
     override fun init() {
         super.init()
-        addDrawableChild(BattleMessagePane(CobblemonClient.battle!!.messages))
+        messagePane = BattleMessagePane(CobblemonClient.battle!!.messages)
+        addDrawableChild(messagePane)
     }
 
     fun changeActionSelection(newSelection: BattleActionSelection?) {
@@ -59,6 +62,12 @@ class BattleGUI : Screen(battleLang("gui.title")) {
 
     fun getCurrentActionSelection() = children().filterIsInstance<BattleActionSelection>().firstOrNull()
 
+    fun removeInvalidBattleActionSelection() {
+        children().filterIsInstance<BattleActionSelection>().firstOrNull()?.let {
+            children().remove(it)
+        }
+    }
+
     fun selectAction(request: SingleActionRequest, response: ShowdownActionResponse) {
         val battle = CobblemonClient.battle ?: return
         if (request.response == null) {
@@ -68,13 +77,13 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         }
     }
 
-    override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         opacity = CobblemonClient.battleOverlay.opacityRatio.toFloat()
         children().filterIsInstance<BattleMessagePane>().forEach { it.opacity = opacity.coerceAtLeast(0.3F) }
 
         queuedActions.forEach { it() }
         queuedActions.clear()
-        super.render(poseStack, mouseX, mouseY, delta)
+        super.render(context, mouseX, mouseY, delta)
         val battle = CobblemonClient.battle
         if (battle == null) {
             close()
@@ -100,7 +109,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         val currentSelection = getCurrentActionSelection()
         if (currentSelection == null || currentSelection is BattleGeneralActionSelection ) {
             drawScaledText(
-                matrixStack = poseStack,
+                context = context,
                 text = battleLang("ui.hide_label", PartySendBinding.boundKey().localizedText),
                 x = MinecraftClient.getInstance().window.scaledWidth / 2,
                 y = (MinecraftClient.getInstance().window.scaledHeight / 5),
@@ -126,12 +135,20 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     override fun close() {
         super.close()
         CobblemonClient.battle?.minimised = true
+        PartySendBinding.canApplyChange = false
+        PartySendBinding.wasDown = true
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
+        if (this::messagePane.isInitialized) messagePane.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
     }
 
     override fun charTyped(chr: Char, modifiers: Int): Boolean {
-        if (chr.toString() == PartySendBinding.boundKey().localizedText.string && CobblemonClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY) {
+        if (chr.toString().equals(PartySendBinding.boundKey().localizedText.string, ignoreCase = true) && CobblemonClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY && PartySendBinding.canAction()) {
             val battle = CobblemonClient.battle ?: return false
             battle.minimised = !battle.minimised
+            PartySendBinding.actioned()
             return true
         }
         return super.charTyped(chr, modifiers)

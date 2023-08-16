@@ -27,14 +27,18 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
 
     override val registry: Registry<EntityType<*>> = Registries.ENTITY_TYPE
     override val registryKey: RegistryKey<Registry<EntityType<*>>> = RegistryKeys.ENTITY_TYPE
+    @JvmField
     val POKEMON_KEY = cobblemonResource("pokemon")
+    @JvmField
     val POKEMON: EntityType<PokemonEntity> = this.create(
         POKEMON_KEY.path,
         EntityType.Builder.create({ _, world -> PokemonEntity(world) }, SpawnGroup.CREATURE)
             .build(POKEMON_KEY.toString())
     )
 
+    @JvmField
     val EMPTY_POKEBALL_KEY = cobblemonResource("empty_pokeball")
+    @JvmField
     val EMPTY_POKEBALL: EntityType<EmptyPokeBallEntity> = this.create(
         EMPTY_POKEBALL_KEY.path,
         EntityType.Builder.create({ _, world -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, world) }, SpawnGroup.MISC)

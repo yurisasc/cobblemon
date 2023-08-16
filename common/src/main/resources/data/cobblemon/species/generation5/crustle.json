@@ -67,6 +67,7 @@
     "tm:rest",
     "tm:return",
     "tm:rockblast",
+    "tm:rockpolish",
     "tm:rockslide",
     "tm:rocksmash",
     "tm:rocktomb",
@@ -76,6 +77,7 @@
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:solarbeam",
     "tm:solarblade",
@@ -91,11 +93,18 @@
     "tm:toxic",
     "tm:xscissor",
     "tutor:block",
+    "tutor:bugbite",
     "tutor:counter",
+    "tutor:irondefense",
     "tutor:knockoff",
     "tutor:meteorbeam",
     "tutor:nightslash",
-    "tutor:skittersmack"
+    "tutor:rockslide",
+    "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum"
   ],
   "labels": [
     "gen5"

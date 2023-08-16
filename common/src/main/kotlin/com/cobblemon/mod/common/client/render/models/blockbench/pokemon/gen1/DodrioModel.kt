@@ -17,11 +17,12 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("dodrio")
 
-    override val leftLeg = getPart("leftleg")
-    override val rightLeg = getPart("rightleg")
+    override val leftLeg = getPart("leg_left")
+    override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 1.5F
     override val portraitTranslation = Vec3d(-0.15, 0.9, 0.0)
@@ -33,10 +34,14 @@ class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink1 = quirk("blink1") { bedrockStateful("dodrio", "blink1").setPreventsIdle(false) }
+        val blink2 = quirk("blink2") { bedrockStateful("dodrio", "blink2").setPreventsIdle(false) }
+        val blink3 = quirk("blink3") { bedrockStateful("dodrio", "blink3").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink1, blink2, blink3),
             idleAnimations = arrayOf(
 //                singleBoneLook()
                 bedrock("dodrio", "ground_idle")
@@ -47,8 +52,9 @@ class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink1, blink2, blink3),
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 0.9F),
+                BipedWalkAnimation(this, amplitudeMultiplier = 0.9F),
                 bedrock("dodrio", "ground_idle")
 //                singleBoneLook()
                 //bedrock("dodrio", "ground_walk")

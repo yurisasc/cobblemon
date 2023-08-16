@@ -24,7 +24,7 @@ import com.cobblemon.mod.common.net.messages.server.BenchMovePacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.toRGB
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 
 class MoveSwapScreen(
     x: Int,
@@ -53,7 +53,7 @@ class MoveSwapScreen(
         override fun getNarration() = move.displayName
 
         override fun render(
-            poseStack: MatrixStack,
+            context: DrawContext,
             index: Int,
             rowTop: Int,
             rowLeft: Int,
@@ -64,14 +64,15 @@ class MoveSwapScreen(
             isHovered: Boolean,
             partialTicks: Float
         ) {
-            var rowTop = rowTop - (SLOT_SPACING / 2) + 1
+            val matrices = context.matrices
+            val tweakedRowTop = rowTop - (SLOT_SPACING / 2) + 1
             val rgb = move.elementalType.hue.toRGB()
 
             blitk(
-                matrixStack = poseStack,
+                matrixStack = matrices,
                 texture = moveResource,
                 x = rowLeft,
-                y = rowTop,
+                y = tweakedRowTop,
                 height = SLOT_HEIGHT,
                 width = rowWidth,
                 vOffset = if (isHovered) SLOT_HEIGHT else 0,
@@ -82,10 +83,10 @@ class MoveSwapScreen(
             )
 
             blitk(
-                matrixStack = poseStack,
+                matrixStack = matrices,
                 texture = moveOverlayResource,
                 x = rowLeft,
-                y = rowTop,
+                y = tweakedRowTop,
                 height = SLOT_HEIGHT,
                 width = rowWidth
             )
@@ -93,52 +94,52 @@ class MoveSwapScreen(
             // Type Icon
             TypeIcon(
                 x = rowLeft - 9,
-                y = rowTop,
+                y = tweakedRowTop,
                 type = move.elementalType
-            ).render(poseStack)
+            ).render(context)
 
             // Move Category
             MoveCategoryIcon(
                 x = rowLeft + 77,
-                y = rowTop + 1.5,
+                y = tweakedRowTop + 1.5,
                 category = move.damageCategory
-            ).render(poseStack)
+            ).render(context)
 
             drawScaledText(
-                matrixStack = poseStack,
+            context = context,
                 text = move.displayName,
                 x = rowLeft + 14,
-                y = rowTop + 3.5,
+                y = tweakedRowTop + 3.5,
                 scale = MovesWidget.SCALE,
                 shadow = true
             )
 
             // Move icons
             blitk(
-                matrixStack = poseStack,
+                matrixStack = matrices,
                 texture = MovesWidget.movesPowerIconResource,
                 x= (rowLeft + 10) / MovesWidget.SCALE,
-                y = (rowTop + 11) / MovesWidget.SCALE,
+                y = (tweakedRowTop + 11) / MovesWidget.SCALE,
                 width = MovesWidget.MOVE_ICON_SIZE,
                 height = MovesWidget.MOVE_ICON_SIZE,
                 scale = MovesWidget.SCALE
             )
 
             blitk(
-                matrixStack = poseStack,
+                matrixStack = matrices,
                 texture = MovesWidget.movesAccuracyIconResource,
                 x= (rowLeft + 30) / MovesWidget.SCALE,
-                y = (rowTop + 11) / MovesWidget.SCALE,
+                y = (tweakedRowTop + 11) / MovesWidget.SCALE,
                 width = MovesWidget.MOVE_ICON_SIZE,
                 height = MovesWidget.MOVE_ICON_SIZE,
                 scale = MovesWidget.SCALE
             )
 
             blitk(
-                matrixStack = poseStack,
+                matrixStack = matrices,
                 texture = MovesWidget.movesEffectIconResource,
                 x= (rowLeft + 53.5) / MovesWidget.SCALE,
-                y = (rowTop + 11) / MovesWidget.SCALE,
+                y = (tweakedRowTop + 11) / MovesWidget.SCALE,
                 width = MovesWidget.MOVE_ICON_SIZE,
                 height = MovesWidget.MOVE_ICON_SIZE,
                 scale = MovesWidget.SCALE
@@ -146,38 +147,38 @@ class MoveSwapScreen(
 
             val movePower = if (move.power.toInt() > 0) move.power.toInt().toString().text() else "—".text()
             drawScaledText(
-                matrixStack = poseStack,
+            context = context,
                 text = movePower,
                 x = rowLeft + 16.5,
-                y = rowTop + 12,
+                y = tweakedRowTop + 12,
                 scale = MovesWidget.SCALE,
                 shadow = true
             )
 
             drawScaledText(
-                matrixStack = poseStack,
+            context = context,
                 text = pane.movesWidget.format(move.accuracy).text(),
                 x = rowLeft + 37,
-                y = rowTop + 12,
+                y = tweakedRowTop + 12,
                 scale = MovesWidget.SCALE,
                 shadow = true
             )
 
             drawScaledText(
-                matrixStack = poseStack,
+            context = context,
                 text = pane.movesWidget.format(move.effectChances.firstOrNull() ?: 0.0).text(),
                 x = rowLeft + 60.5,
-                y = rowTop + 12,
+                y = tweakedRowTop + 12,
                 scale = MovesWidget.SCALE,
                 shadow = true
             )
 
             val pp = move.pp + ppRaisedStages * move.pp / 5
             drawScaledText(
-                matrixStack = poseStack,
+            context = context,
                 text = lang("ui.moves.pp", pp),
                 x = rowLeft + 76,
-                y = rowTop + 12,
+                y = tweakedRowTop + 12,
                 scale = MovesWidget.SCALE,
                 shadow = true
             )

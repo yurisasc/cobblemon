@@ -6,6 +6,10 @@
         {
             "id": "mankey-1",
             "pokemon": "mankey",
+            "presets": [
+                "natural",
+                "treetop"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -16,8 +20,7 @@
                 "biomes": [
                     "#cobblemon:is_hills",
                     "#cobblemon:is_jungle"
-                ],
-                "timeRange": "day"
+                ]
             }
         }
     ]

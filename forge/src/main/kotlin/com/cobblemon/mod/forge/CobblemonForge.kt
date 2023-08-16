@@ -10,22 +10,32 @@ package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.cobblemonstructures.CobblemonStructures
+import com.cobblemon.mod.common.brewing.BrewingRecipes
+import com.cobblemon.mod.common.item.MedicinalLeekItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
+import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
+import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.forge.client.CobblemonForgeClient
 import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
-import java.util.*
-import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemGroups
+import net.minecraft.registry.Registries
+import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
+import net.minecraft.item.PotionItem
+import net.minecraft.potion.PotionUtil
+import net.minecraft.potion.Potions
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -38,33 +48,40 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
+import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
 import net.minecraftforge.event.AddReloadListenerEvent
-import net.minecraftforge.event.CreativeModeTabEvent
 import net.minecraftforge.event.OnDatapackSyncEvent
 import net.minecraftforge.event.RegisterCommandsEvent
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry
+import net.minecraftforge.common.brewing.IBrewingRecipe
+import net.minecraftforge.event.*
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
 import net.minecraftforge.event.level.BlockEvent
+import net.minecraftforge.event.village.VillagerTradesEvent
+import net.minecraftforge.event.village.WandererTradesEvent
+import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.event.server.ServerAboutToStartEvent
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import net.minecraftforge.fml.loading.FMLEnvironment
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegisterEvent
 import net.minecraftforge.server.ServerLifecycleHooks
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import java.util.*
+import kotlin.reflect.KClass
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
     override val modAPI = ModAPI.FORGE
     private val hasBeenSynced = hashSetOf<UUID>()
-
 
     private val commandArgumentTypes = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
     private val reloadableResources = arrayListOf<ResourceReloader>()
@@ -72,12 +89,13 @@ class CobblemonForge : CobblemonImplementation {
     override val networkManager: NetworkManager = CobblemonForgeNetworkManager
 
     init {
-        CobblemonBiomeModifiers.register()
-        with(FMLJavaModLoadingContext.get().modEventBus) {
+        with(MOD_BUS) {
             this@CobblemonForge.commandArgumentTypes.register(this)
             addListener(this@CobblemonForge::initialize)
             addListener(this@CobblemonForge::serverInit)
             Cobblemon.preInitialize(this@CobblemonForge)
+            addListener(CobblemonBiomeModifiers::register)
+            addListener(this@CobblemonForge::on)
         }
         with(MinecraftForge.EVENT_BUS) {
             addListener(this@CobblemonForge::onDataPackSync)
@@ -88,8 +106,11 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::registerCommands)
             addListener(this@CobblemonForge::onReload)
             addListener(this@CobblemonForge::addCobblemonStructures)
+            addListener(::onVillagerTradesRegistry)
+            addListener(::onWanderingTraderRegistry)
         }
         ForgePlatformEventHandler.register()
+        DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable(CobblemonForgeClient::init) }
     }
 
     fun addCobblemonStructures(event: ServerAboutToStartEvent) {
@@ -106,9 +127,44 @@ class CobblemonForge : CobblemonImplementation {
 
     fun initialize(event: FMLCommonSetupEvent) {
         Cobblemon.LOGGER.info("Initializing...")
-        this.networkManager.initClient()
-        this.networkManager.initServer()
+        this.networkManager.registerClientBound()
+        this.networkManager.registerServerBound()
         Cobblemon.initialize()
+    }
+
+    fun on(event: RegisterEvent) {
+        event.register(RegistryKeys.POTION) {
+            BrewingRecipes.registerPotionTypes()
+            BrewingRecipes.getPotionRecipes().forEach { (inputDef, ingredientDef, output) ->
+                BrewingRecipeRegistry.addRecipe(object : IBrewingRecipe {
+                    override fun isInput(arg: ItemStack) = arg.item is PotionItem && PotionUtil.getPotion(arg) == inputDef
+                    override fun isIngredient(arg: ItemStack) = ingredientDef.test(arg)
+                    override fun getOutput(input: ItemStack, ingredient: ItemStack): ItemStack {
+                        return if (inputDef == Potions.WATER && ingredient.item is MedicinalLeekItem) {
+                            ItemStack(CobblemonItems.MEDICINAL_BREW)
+                        } else if (isInput(input) && isIngredient(ingredient)) {
+                            PotionUtil.setPotion(ItemStack(Items.POTION), output)
+                        } else {
+                            ItemStack.EMPTY
+                        }
+                    }
+                })
+            }
+            BrewingRecipes.getItemRecipes().forEach { (input, ingredient, output) ->
+                BrewingRecipeRegistry.addRecipe(object : IBrewingRecipe {
+                    override fun isInput(arg: ItemStack) = arg.item === input
+                    override fun isIngredient(arg: ItemStack) = ingredient.test(arg)
+                    override fun getOutput(input: ItemStack, ingredient: ItemStack) = if (isIngredient(ingredient) && isInput(input)) ItemStack(output) else ItemStack.EMPTY
+                })
+            }
+        }
+
+        event.register(RegistryKeys.BLOCK_PREDICATE_TYPE) {
+            CobblemonBlockPredicates.touch()
+        }
+        event.register(RegistryKeys.PLACEMENT_MODIFIER_TYPE) {
+            CobblemonPlacementModifierTypes.touch()
+        }
     }
 
     fun onDataPackSync(event: OnDatapackSyncEvent) {
@@ -134,7 +190,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerSoundEvents() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonSounds.registryKey) { helper ->
                 CobblemonSounds.register { identifier, sounds -> helper.register(identifier, sounds) }
             }
@@ -142,7 +198,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerBlocks() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonBlocks.registryKey) { helper ->
                 CobblemonBlocks.register { identifier, block -> helper.register(identifier, block) }
             }
@@ -150,7 +206,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerParticles() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonParticles.registryKey) { helper ->
                 CobblemonParticles.register { identifier, particleType -> helper.register(identifier, particleType) }
             }
@@ -166,25 +222,23 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerItems() {
-        with(FMLJavaModLoadingContext.get().modEventBus) {
+        with(MOD_BUS) {
             addListener<RegisterEvent> { event ->
                 event.register(CobblemonItems.registryKey) { helper ->
                     CobblemonItems.register { identifier, item -> helper.register(identifier, item) }
                 }
             }
-            // ToDo sort out ordering being insertion
-            addListener<CreativeModeTabEvent.Register> { event ->
-                CobblemonItemGroups.register { provider ->
-                    event.registerCreativeModeTab(provider.identifier) { builder ->
-                        builder.displayName(provider.displayName)
-                        builder.icon(provider.icon)
-                    }
-                }
-            }
-            addListener<CreativeModeTabEvent.BuildContents> { event ->
-                CobblemonItems.registerToItemGroups { group, item ->
-                    if (event.tab == group) {
-                        event.add(item)
+            addListener<RegisterEvent> { event ->
+                event.register(RegistryKeys.ITEM_GROUP) { helper ->
+                    CobblemonItemGroups.register { holder ->
+                        val itemGroup = ItemGroup.builder()
+                            .displayName(holder.displayName)
+                            .icon(holder.displayIconProvider)
+                            .entries(holder.entryCollector)
+                            .withTabsBefore(*ItemGroups.getGroups().mapNotNull { Registries.ITEM_GROUP.getId(it) }.toTypedArray())
+                            .build()
+                        helper.register(holder.key, itemGroup)
+                        itemGroup
                     }
                 }
             }
@@ -192,7 +246,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerEntityTypes() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonEntities.registryKey) { helper ->
                 CobblemonEntities.register { identifier, type -> helper.register(identifier, type) }
             }
@@ -200,7 +254,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerEntityAttributes() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<EntityAttributeCreationEvent> { event ->
+        MOD_BUS.addListener<EntityAttributeCreationEvent> { event ->
             CobblemonEntities.registerAttributes { entityType, builder ->
                 builder.add(ForgeMod.ENTITY_GRAVITY.get())
                     .add(ForgeMod.NAMETAG_DISTANCE.get())
@@ -211,7 +265,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerBlockEntityTypes() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonBlockEntities.registryKey) { helper ->
                 CobblemonBlockEntities.register { identifier, type -> helper.register(identifier, type) }
             }
@@ -219,7 +273,7 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun registerWorldGenFeatures() {
-        FMLJavaModLoadingContext.get().modEventBus.addListener<RegisterEvent> { event ->
+        MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonFeatures.registryKey) { helper ->
                 CobblemonFeatures.register { identifier, feature -> helper.register(identifier, feature) }
             }
@@ -256,5 +310,18 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun server(): MinecraftServer? = ServerLifecycleHooks.getCurrentServer()
+
+    private fun onVillagerTradesRegistry(e: VillagerTradesEvent) {
+        CobblemonTradeOffers.tradeOffersFor(e.type).forEach { tradeOffer ->
+            // Will never be null between 1 n 5
+            e.trades[tradeOffer.requiredLevel]?.addAll(tradeOffer.tradeOffers)
+        }
+    }
+
+    private fun onWanderingTraderRegistry(e: WandererTradesEvent) {
+        CobblemonTradeOffers.resolveWanderingTradeOffers().forEach { tradeOffer ->
+            if (tradeOffer.isRareTrade) e.rareTrades.addAll(tradeOffer.tradeOffers) else e.genericTrades.addAll(tradeOffer.tradeOffers)
+        }
+    }
 
 }

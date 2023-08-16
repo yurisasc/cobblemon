@@ -26,7 +26,7 @@ class YanmegaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val head = getPart("head")
 
     override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.9, -0.95, 0.0)
+    override val portraitTranslation = Vec3d(-0.9, -0.35, 0.0)
 
     override val profileScale = 0.6F
     override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
@@ -54,12 +54,12 @@ class YanmegaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("yanmega", "ground_idle"),
                 wingFrame1.wingFlap(
-                    flapFunction = triangleFunction(period = 0.3F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
                     axis = TransformedModelPart.Z_AXIS
                 ),
                 wingFrame2.wingFlap(
-                    flapFunction = triangleFunction(period = 0.3F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
                     axis = TransformedModelPart.Z_AXIS
                 )
@@ -76,12 +76,12 @@ class YanmegaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("yanmega", "ground_idle"),
                 wingFrame1.wingFlap(
-                    flapFunction = triangleFunction(period = 0.3F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
                     axis = TransformedModelPart.Z_AXIS
                 ),
                 wingFrame2.wingFlap(
-                    flapFunction = triangleFunction(period = 0.3F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
                     axis = TransformedModelPart.Z_AXIS
                 )

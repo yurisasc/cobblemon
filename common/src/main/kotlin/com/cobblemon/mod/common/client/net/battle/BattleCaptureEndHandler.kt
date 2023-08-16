@@ -21,8 +21,7 @@ object BattleCaptureEndHandler : ClientNetworkPacketHandler<BattleCaptureEndPack
         val (_, activeBattlePokemon) = battle.getPokemonFromPNX(packet.targetPNX)
         if (packet.succeeded) {
             activeBattlePokemon.animations.add(MoveTileOffscreenAnimation().also { after(seconds = it.duration) { activeBattlePokemon.ballCapturing = null } })
-        } else {
-            activeBattlePokemon.ballCapturing?.finish()
         }
+        activeBattlePokemon.ballCapturing = null
     }
 }

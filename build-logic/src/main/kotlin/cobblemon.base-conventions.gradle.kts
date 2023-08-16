@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val accessWidenerFile = "src/main/resources/cobblemon-common.accesswidener"
 
 plugins {
+    java
     `java-library`
     id("org.cadixdev.licenser")
     id("dev.architectury.loom")
@@ -38,7 +39,7 @@ loom {
 
 dependencies {
     minecraft("net.minecraft:minecraft:${rootProject.property("mc_version")}")
-    mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}")
+    mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")
 }
 
 tasks {

@@ -53,6 +53,8 @@ import com.cobblemon.mod.common.api.storage.factory.FileBackedPokemonStoreFactor
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
+import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
+import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
@@ -63,13 +65,13 @@ import com.cobblemon.mod.common.command.argument.MoveArgumentType
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
 import com.cobblemon.mod.common.command.argument.PokemonArgumentType
 import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
+import com.cobblemon.mod.common.command.argument.PokemonStoreArgumentType
 import com.cobblemon.mod.common.command.argument.SpawnBucketArgumentType
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
-import com.cobblemon.mod.common.entity.data.CobblemonTrackedDataHandlerRegistry
 import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
 import com.cobblemon.mod.common.item.PokeBallItem
@@ -88,13 +90,15 @@ import com.cobblemon.mod.common.pokemon.properties.UntradeableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
+import com.cobblemon.mod.common.trade.TradeManager
+import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.ifDedicatedServer
 import com.cobblemon.mod.common.util.isLaterVersion
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.removeAmountIf
 import com.cobblemon.mod.common.util.server
-import com.cobblemon.mod.common.world.feature.apricorn.CobblemonApricornPlacedFeatures
+import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.io.File
@@ -109,6 +113,8 @@ import kotlin.reflect.jvm.javaField
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.item.Items
+import net.minecraft.item.NameTagItem
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.WorldSavePath
 import net.minecraft.world.World
@@ -116,7 +122,7 @@ import org.apache.logging.log4j.LogManager
 
 object Cobblemon {
     const val MODID = "cobblemon"
-    const val VERSION = "1.3.0"
+    const val VERSION = "1.4.0"
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER = LogManager.getLogger()
 
@@ -146,6 +152,7 @@ object Cobblemon {
     var seasonResolver: SeasonResolver = TagSeasonResolver
 
     fun preInitialize(implementation: CobblemonImplementation) {
+        this.implementation = implementation
         implementation.registerPermissionValidator()
         implementation.registerSoundEvents()
         implementation.registerBlocks()
@@ -163,15 +170,13 @@ object Cobblemon {
         CaptureCalculators.registerDefaults()
 
         this.loadConfig()
-        this.implementation = implementation
+//        CobblemonBlockPredicates.touch()
         CobblemonOrePlacedFeatures.register()
-        CobblemonApricornPlacedFeatures.register()
+        CobblemonPlacedFeatures.register()
         this.registerArgumentTypes()
 
         CobblemonCriteria // Init the fields and register the criteria
         CobblemonGameRules // Init fields and register
-
-        CobblemonTrackedDataHandlerRegistry.register()
 
         ShoulderEffectRegistry.register()
 
@@ -184,12 +189,20 @@ object Cobblemon {
         PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe {
             PCLinkManager.removeLink(it.player.uuid)
             BattleRegistry.getBattleByParticipatingPlayer(it.player)?.stop()
+            storage.onPlayerDisconnect(it.player)
+            playerData.onPlayerDisconnect(it.player)
+            TradeManager.onLogoff(it.player)
         }
         PlatformEvents.PLAYER_DEATH.subscribe {
             PCLinkManager.removeLink(it.player.uuid)
             battleRegistry.getBattleByParticipatingPlayer(it.player)?.stop()
         }
 
+        PlatformEvents.RIGHT_CLICK_ENTITY.subscribe { event ->
+            if (event.player.getStackInHand(event.hand).item is NameTagItem && event.entity.type.isIn(CobblemonEntityTypeTags.CANNOT_HAVE_NAME_TAG)) {
+                event.cancel()
+            }
+        }
         PlatformEvents.RIGHT_CLICK_BLOCK.subscribe { event ->
             val player = event.player
             val block = player.world.getBlockState(event.pos).block
@@ -201,6 +214,11 @@ object Cobblemon {
                     }
             }
         }
+
+        PlatformEvents.CHANGE_DIMENSION.subscribe {
+            it.player.party().forEach { pokemon -> pokemon.entity?.recallWithAnimation() }
+        }
+
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
@@ -220,6 +238,13 @@ object Cobblemon {
         SpeciesFeatures.types["choice"] = ChoiceSpeciesFeatureProvider::class.java
         SpeciesFeatures.types["flag"] = FlagSpeciesFeatureProvider::class.java
 
+        SpeciesFeatures.register(
+            DataKeys.CAN_BE_MILKED,
+            FlagSpeciesFeatureProvider(keys = listOf(DataKeys.CAN_BE_MILKED), default = true))
+        SpeciesFeatures.register(
+            DataKeys.HAS_BEEN_SHEARED,
+            FlagSpeciesFeatureProvider(keys = listOf(DataKeys.HAS_BEEN_SHEARED), default = false))
+
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)
         CustomPokemonProperty.register(PokemonFlagProperty)
@@ -230,7 +255,7 @@ object Cobblemon {
             PlatformEvents.SERVER_TICK_POST.subscribe { ScheduledTaskTracker.update() }
         }
 
-        PlatformEvents.SERVER_STARTED.subscribe { event ->
+        PlatformEvents.SERVER_STARTING.subscribe { event ->
             val server = event.server
             playerData = PlayerDataStoreManager().also { it.setup(server) }
             val pokemonStoreRoot = server.getSavePath(WorldSavePath.ROOT).resolve("pokemon").toFile()
@@ -268,20 +293,30 @@ object Cobblemon {
             if (this.config.ninjaskCreatesShedinja && pokemon.species.resourceIdentifier == ninjaskIdentifier && PokemonSpecies.getByIdentifier(Pokemon.SHEDINJA) != null) {
                 val player = pokemon.getOwnerPlayer() ?: return@subscribe
                 if (player.inventory.containsAny { it.item is PokeBallItem }) {
+                    var pokeball = Items.AIR
+                    player.inventory.combinedInventory.forEach {
+                        it.forEach {
+                            itemStack -> if (itemStack.item is PokeBallItem && pokeball == Items.AIR) {
+                                pokeball = itemStack.item as PokeBallItem
+                            }
+                        }
+                    }
                     player.inventory.removeAmountIf(1) { it.item is PokeBallItem }
                     val properties = event.evolution.result.copy()
                     properties.species = Pokemon.SHEDINJA.toString()
                     val product = pokemon.clone()
+                    product.removeHeldItem()
                     properties.apply(product)
+                    product.caughtBall = (pokeball as PokeBallItem).pokeBall
                     pokemon.storeCoordinates.get()?.store?.add(product)
                 }
             }
         }
 
-        PokemonSpecies.observable.subscribe {
+        BagItems.observable.subscribe {
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
             battleRegistry.startBattle(
-                BattleFormat.GEN_8_SINGLES,
+                BattleFormat.GEN_9_SINGLES,
                 BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
                 BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
             ).apply { mute = true }
@@ -388,6 +423,7 @@ object Cobblemon {
         this.implementation.registerCommandArgument(cobblemonResource("spawn_bucket"), SpawnBucketArgumentType::class, ConstantArgumentSerializer.of(SpawnBucketArgumentType::spawnBucket))
         this.implementation.registerCommandArgument(cobblemonResource("move"), MoveArgumentType::class, ConstantArgumentSerializer.of(MoveArgumentType::move))
         this.implementation.registerCommandArgument(cobblemonResource("party_slot"), PartySlotArgumentType::class, ConstantArgumentSerializer.of(PartySlotArgumentType::partySlot))
+        this.implementation.registerCommandArgument(cobblemonResource("pokemon_store"), PokemonStoreArgumentType::class, ConstantArgumentSerializer.of(PokemonStoreArgumentType::pokemonStore))
     }
 
 }

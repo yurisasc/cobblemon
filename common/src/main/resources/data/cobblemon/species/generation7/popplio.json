@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Popplio",
   "nationalPokedexNumber": 728,
   "primaryType": "water",
@@ -24,6 +25,32 @@
     "water_1",
     "field"
   ],
+  "behaviour": {
+    "moving" : {
+      "walk": {
+        "walkSpeed": 0.17
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5
+      }
+    ]
+  },
   "moves": [
     "1:growl",
     "1:pound",
@@ -41,10 +68,13 @@
     "33:moonblast",
     "36:hydropump",
     "39:captivate",
+    "egg:amnesia",
     "egg:aquaring",
     "egg:aromaticmist",
+    "egg:charm",
     "egg:lifedew",
     "egg:perishsong",
+    "egg:wonderroom",
     "tm:acrobatics",
     "tm:amnesia",
     "tm:attract",
@@ -90,9 +120,16 @@
     "tutor:aquatail",
     "tutor:covet",
     "tutor:flipturn",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icywind",
+    "tutor:irontail",
+    "tutor:snore",
     "tutor:tripleaxel",
+    "tutor:uproar",
     "tutor:waterpledge",
-    "tutor:waterpulse"
+    "tutor:waterpulse",
+    "tutor:wonderroom"
   ],
   "labels": [
     "gen7"
@@ -115,10 +152,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 0.75,
     "fixed": false
   },
   "baseFriendship": 50,

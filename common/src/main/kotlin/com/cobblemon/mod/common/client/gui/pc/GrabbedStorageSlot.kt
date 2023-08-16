@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.gui.pc
 
 import com.cobblemon.mod.common.pokemon.Pokemon
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.util.math.MatrixStack
 
 class GrabbedStorageSlot(
@@ -17,15 +18,11 @@ class GrabbedStorageSlot(
     private val pokemon: Pokemon
 ) : StorageSlot(x, y, parent, {}) {
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        renderSlot(matrices, mouseX - (width / 2), mouseY - (height / 2))
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        renderSlot(context = context, posX = mouseX - (width / 2), posY = mouseY - (height / 2), partialTicks = delta)
     }
 
-    override fun getPokemon(): Pokemon? {
-        return pokemon
-    }
-
-    override fun isSelected(): Boolean {
-        return true
-    }
+    override fun isStationary() = false
+    override fun getPokemon() = pokemon
+    override fun isSelected() = true
 }
