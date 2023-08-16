@@ -27,6 +27,11 @@ public class CobblemonStructures {
     public static void registerJigsaws(MinecraftServer server) {
         Registry<StructurePool> templatePoolRegistry = server.getRegistryManager().get(RegistryKeys.TEMPLATE_POOL);
         Registry<StructureProcessorList> processorListRegistry = server.getRegistryManager().get(RegistryKeys.PROCESSOR_LIST);
+        var plainsFarmProcessor = processorListRegistry.get(StructureProcessorLists.FARM_PLAINS).getList();
+        var desertFarmProcessor = processorListRegistry.get(StructureProcessorLists.FARM_DESERT).getList();
+        var savannahFarmProcessor = processorListRegistry.get(StructureProcessorLists.FARM_SAVANNA).getList();
+        var taigaFarmProcessor = processorListRegistry.get(StructureProcessorLists.FARM_TAIGA).getList();
+        var idkFarmProcessor = processorListRegistry.get(StructureProcessorLists.FARM_SNOWY).getList();
 
         addPokecenters(templatePoolRegistry, processorListRegistry);
         addLongPaths(templatePoolRegistry, processorListRegistry);

@@ -36,7 +36,8 @@
     "invoker.TrapdoorBlockInvoker",
     "pokeball.ThrownEntityMixin",
     "StructurePoolGeneratorMixin",
-    "StructurePoolAccessor"
+    "StructurePoolAccessor",
+    "StructureProcessorListsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
