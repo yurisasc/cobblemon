@@ -61,6 +61,10 @@ transitive-accessible field net/minecraft/advancement/PlayerAdvancementTracker p
 transitive-accessible field net/minecraft/entity/ai/goal/FollowOwnerGoal minDistance F
 transitive-accessible field net/minecraft/entity/ai/goal/FollowOwnerGoal maxDistance F
 
+accessible field net/minecraft/structure/pool/SinglePoolElement location Lcom/mojang/datafixers/util/Either;
+accessible class net/minecraft/structure/pool/StructurePoolBasedGenerator$StructurePoolGenerator
+accessible class net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece
+accessible field net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece piece Lnet/minecraft/structure/PoolStructurePiece;
 #accessible method net/minecraft/client/render/RenderLayer$MultiPhase (Ljava/lang/String;Lnet/minecraft/client/render/VertexFormat;Lnet/minecraft/client/render/VertexFormat$DrawMode;IZZLnet/minecraft/client/render/RenderLayer$MultiPhaseParameters;)Lnet/minecraft/client/render/RenderLayer$MultiPhase;
 
 #String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, MultiPhaseParameters phases

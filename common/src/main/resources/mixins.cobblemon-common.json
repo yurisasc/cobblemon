@@ -34,7 +34,10 @@
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
-    "pokeball.ThrownEntityMixin"
+    "pokeball.ThrownEntityMixin",
+    "StructurePoolGeneratorMixin",
+    "StructurePoolAccessor",
+    "StructureProcessorListMixin"
   ],
   "injectors": {
     "defaultRequire": 1
