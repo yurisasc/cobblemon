@@ -3365,7 +3365,7 @@
     "sounds": [ "cobblemon:pokemon/farfetchd/farfetchd_cry" ]
   },
   "pokemon.farfetchd_galar.cry": {
-    "sounds": [ "cobblemon:pokemon/farfetchd/galarian_farfetchd_cry" ]
+    "sounds": [ "cobblemon:pokemon/farfetchd/farfetchd_galar_cry" ]
   },
   "pokemon.doduo.cry": {
     "sounds": [ "cobblemon:pokemon/doduo/doduo_cry" ]

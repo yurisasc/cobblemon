@@ -35,7 +35,7 @@ class PerrserkerModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val portraitTranslation = Vec3d(-0.2, 0.2, 0.0)
 
     override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(-0.14, 0.28, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.54, 0.0)
 
 //    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

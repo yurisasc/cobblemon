@@ -192,35 +192,6 @@
 				}
 			}
 		},
-		"animation.rookidee.cry": {
-			"animation_length": 1.5,
-			"bones": {
-				"neck": {
-					"rotation": {
-						"0.0": [0, 0, 0],
-						"0.25": [10, 0, 0],
-						"1.25": [10, 0, 0],
-						"1.5": [0, 0, 0]
-					}
-				},
-				"head": {
-					"rotation": {
-						"0.0": [0, 0, 0],
-						"0.25": [-15, 0, 0],
-						"1.25": [-15, 0, 0],
-						"1.5": [0, 0, 0]
-					}
-				},
-				"jaw": {
-					"rotation": {
-						"0.0": [0, 0, 0],
-						"0.25": [42.5, 0, 0],
-						"1.25": [42.5, 0, 0],
-						"1.5": [0, 0, 0]
-					}
-				}
-			}
-		},
 		"animation.rookidee.blink": {
 			"animation_length": 0.1667,
 			"bones": {
@@ -565,6 +536,94 @@
 				},
 				"claw_outer_right": {
 					"rotation": [50, 0, 0]
+				}
+			}
+		},
+		"animation.rookidee.cry": {
+			"animation_length": 2,
+			"bones": {
+				"torso": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2083": {
+							"post": [-5, -2.5, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5417": {
+							"post": [-5, -1.5, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.75": {
+							"post": [5.5, 1, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.0": {
+							"post": [5.5, 8, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.2083": {
+							"post": [-6.5, 9, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.5": {
+							"post": [-6.5, -1, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.7917": {
+							"post": [0.89, -1.73, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"2.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"jaw": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.0833": {
+							"post": [-4, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2083": {
+							"post": [-4, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2917": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.375": [3.82, 0, 0],
+						"0.4583": ["32.5+math.sin(q.anim_time*90*6*5)*3", 0, 0],
+						"0.625": ["32.5+math.sin(q.anim_time*90*6*5)*3", 0, 0],
+						"0.7083": [10, 0, 0],
+						"0.7917": ["17.5+math.sin(q.anim_time*90*6*5)*20", 0, 0],
+						"1.1667": [10, 0, 0],
+						"1.25": ["35+math.sin(q.anim_time*90*6*5)*3", 0, 0],
+						"1.6667": [30, 0, 0],
+						"1.9167": {
+							"pre": [0, 0, 0],
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					},
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.1667": [0, 0, 0.1],
+						"0.5": [0, 0, 0]
+					}
+				}
+			},
+			"sound_effects": {
+				"0.375": {
+					"effect": "pokemon.rookidee.cry"
 				}
 			}
 		}

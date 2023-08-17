@@ -8,12 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -25,6 +29,8 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
+    val stick = getPart("hand_stick")
+
     override val portraitScale = 2.2F
     override val portraitTranslation = Vec3d(-0.4, 3.0, 0.0)
 
@@ -33,29 +39,69 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
+    lateinit var battlewalk: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("delphox", "blink").setPreventsIdle(false)}
         standing = registerPose(
-                poseName = "standing",
-                poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT),
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("delphox", "ground_idle")
-                )
+            poseName = "standing",
+            poseTypes = STATIONARY_POSES + UI_POSES,
+            transformTicks = 10,
+            transformedParts = arrayOf(
+                stick.asTransformed().withVisibility(visibility = false)
+            ),
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                    singleBoneLook(),
+                    bedrock("delphox", "ground_idle")
+            )
         )
 
         walk = registerPose(
-                poseName = "walk",
-                poseTypes = PoseType.MOVING_POSES,
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("delphox", "ground_walk")
-                )
+            poseName = "walk",
+            poseTypes = MOVING_POSES,
+            transformTicks = 10,
+            transformedParts = arrayOf(
+                stick.asTransformed().withVisibility(visibility = false)
+            ),
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                    singleBoneLook(),
+                    bedrock("delphox", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = STATIONARY_POSES,
+            transformTicks = 10,
+            transformedParts = arrayOf(
+                stick.asTransformed().withVisibility(visibility = true)
+            ),
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("delphox", "battle_idle")
+            )
+        )
+
+        battlewalk = registerPose(
+            poseName = "battle_walk",
+            poseTypes = MOVING_POSES,
+            transformTicks = 10,
+            transformedParts = arrayOf(
+                stick.asTransformed().withVisibility(visibility = true)
+            ),
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("delphox", "battle_walk")
+            )
         )
     }
 }

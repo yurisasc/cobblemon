@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedW
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -24,7 +25,7 @@ import net.minecraft.util.math.Vec3d
 
 class FarfetchdModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("farfetchd")
-    override val head = getPart("head")
+    override val head = getPart("neck")
 
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
@@ -41,9 +42,11 @@ class FarfetchdModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("farfetchd", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("farfetchd", "blink").setPreventsIdle(false) }
-        val leakflipidle = quirk("leakflipidle", secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("farfetchd", "quirk_leakflip_idle").setPreventsIdle(false) }
+        val leakflipidle = quirk("leakflipidle", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("farfetchd", "quirk_leakflip_idle").setPreventsIdle(false) }
         val leakflipwalk = quirk("leakflipwalk", secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("farfetchd", "quirk_leakflip_walk").setPreventsIdle(false) }
         val wink = quirk("wink", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("farfetchd", "quirk_wink").setPreventsIdle(false) }
 
