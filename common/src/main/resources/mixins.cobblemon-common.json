@@ -37,7 +37,7 @@
     "pokeball.ThrownEntityMixin",
     "StructurePoolGeneratorMixin",
     "StructurePoolAccessor",
-    "StructureProcessorListsMixin"
+    "StructureProcessorListMixin"
   ],
   "injectors": {
     "defaultRequire": 1

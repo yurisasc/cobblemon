@@ -18,6 +18,8 @@ import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
+import com.cobblemon.mod.common.world.structureprocessors.CobblemonProcessorTypes
+import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProcessorListOverrides
 import com.cobblemon.mod.forge.client.CobblemonForgeClient
 import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
@@ -115,6 +117,7 @@ class CobblemonForge : CobblemonImplementation {
 
     fun addCobblemonStructures(event: ServerAboutToStartEvent) {
         CobblemonStructures.registerJigsaws(event.server)
+        CobblemonStructureProcessorListOverrides.register(event.server)
     }
 
     fun wakeUp(event: PlayerWakeUpEvent) {
@@ -164,6 +167,10 @@ class CobblemonForge : CobblemonImplementation {
         }
         event.register(RegistryKeys.PLACEMENT_MODIFIER_TYPE) {
             CobblemonPlacementModifierTypes.touch()
+        }
+
+        event.register(RegistryKeys.PROCESSOR_LIST) {
+            CobblemonProcessorTypes.touch()
         }
     }
 

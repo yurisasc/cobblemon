@@ -19,6 +19,8 @@ import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
+import com.cobblemon.mod.common.world.structureprocessors.CobblemonProcessorTypes
+import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProcessorListOverrides
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import com.mojang.brigadier.arguments.ArgumentType
@@ -85,6 +87,7 @@ object CobblemonFabric : CobblemonImplementation {
 
         CobblemonBlockPredicates.touch()
         CobblemonPlacementModifierTypes.touch()
+        CobblemonProcessorTypes.touch()
         BrewingRecipes.registerPotionTypes()
         BrewingRecipes.getPotionRecipes().forEach { (input, ingredient, output) ->
             BrewingRecipeRegistry.POTION_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
@@ -117,6 +120,7 @@ object CobblemonFabric : CobblemonImplementation {
             this.server = server
             PlatformEvents.SERVER_STARTING.post(ServerEvent.Starting(server))
             CobblemonStructures.registerJigsaws(server)
+            CobblemonStructureProcessorListOverrides.register(server)
         }
         ServerLifecycleEvents.SERVER_STARTED.register { server -> PlatformEvents.SERVER_STARTED.post(ServerEvent.Started(server)) }
         ServerLifecycleEvents.SERVER_STOPPING.register { server -> PlatformEvents.SERVER_STOPPING.post(ServerEvent.Stopping(server)) }
