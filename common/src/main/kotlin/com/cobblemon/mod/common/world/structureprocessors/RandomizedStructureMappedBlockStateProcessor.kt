@@ -25,6 +25,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.WorldView
+import java.util.HashMap
 
 /**
  * A [StructureProcessor] that picks a number of [BlockState]s per structure to replace other blocks with
@@ -46,10 +47,12 @@ class RandomizedStructureMappedBlockStateProcessor(
 ) : StructureProcessor() {
     val CACHE_LOADER = object : CacheLoader<StructurePlacementData, List<BlockState>>() {
         override fun load(key: StructurePlacementData): List<BlockState> {
-            return targetStates.random(3)
+            return targetStates.random(numStates)
         }
     }
-    val cache = CacheBuilder.newBuilder().maximumSize(4).build(CACHE_LOADER)
+    val berryCache = CacheBuilder.newBuilder().maximumSize(4).build(CACHE_LOADER)
+    val checkedRandomMap = HashMap<StructurePlacementData, Boolean>()
+    
 
     override fun process(
         world: WorldView?,
@@ -58,17 +61,20 @@ class RandomizedStructureMappedBlockStateProcessor(
         originalBlockInfo: StructureTemplate.StructureBlockInfo?,
         currentBlockInfo: StructureTemplate.StructureBlockInfo?,
         data: StructurePlacementData?
-    ): StructureTemplate.StructureBlockInfo? {
+    ): StructureTemplate.StructureBlockInfo {
         val random = Random.create(
             MathHelper.hashCode(
                 currentBlockInfo!!.pos()
             )
         );
-        if (random.nextFloat() <= probability) {
+        if (data !in checkedRandomMap) {
+            checkedRandomMap[data!!] = random.nextFloat() <= probability
+        }
+        if (checkedRandomMap[data]!!) {
             for (rule in rules) {
                 if (rule.test(currentBlockInfo.state, random)) {
                     val index = random.nextInt(3)
-                    val targetState = cache.get(data!!)[index]
+                    val targetState = berryCache.get(data!!)[index]
                     return StructureTemplate.StructureBlockInfo(
                         currentBlockInfo.pos,
                         targetState,
@@ -81,6 +87,7 @@ class RandomizedStructureMappedBlockStateProcessor(
             }
         }
         else {
+            //Thread safe?
             data?.removeProcessor(this)
         }
         return currentBlockInfo
