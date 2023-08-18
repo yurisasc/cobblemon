@@ -1,28 +1,25 @@
 /*
+ * Copyright (C) 2023 Cobblemon Contributors
  *
- *  * Copyright (C) 2023 Cobblemon Contributors
- *  *
- *  * This Source Code Form is subject to the terms of the Mozilla Public
- *  * License, v. 2.0. If a copy of the MPL was not distributed with this
- *  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
- *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
 package com.cobblemon.mod.common.world.structureprocessors
 
-import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.api.berry.BerryHelper
+import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.bridges.StructureProcessorListBridge
-import com.cobblemon.mod.common.platform.PlatformRegistry
-import net.minecraft.block.Blocks
 import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.BlockTags
 import net.minecraft.server.MinecraftServer
 import net.minecraft.structure.processor.StructureProcessorList
 import net.minecraft.structure.processor.StructureProcessorLists
-import net.minecraft.structure.processor.StructureProcessorRule
-import net.minecraft.structure.rule.AlwaysTrueRuleTest
-import net.minecraft.structure.rule.BlockMatchRuleTest
+import net.minecraft.structure.rule.TagMatchRuleTest
+import net.minecraft.util.math.Vec3i
+import net.minecraft.world.gen.blockpredicate.BlockPredicate
 
 object CobblemonStructureProcessorListOverrides {
     val registryKey = RegistryKeys.PROCESSOR_LIST
@@ -39,10 +36,17 @@ object CobblemonStructureProcessorListOverrides {
         val savannahFarm = registry[StructureProcessorLists.FARM_SAVANNA] as StructureProcessorListBridge
         val snowyFarm = registry[StructureProcessorLists.FARM_SNOWY] as StructureProcessorListBridge
 
-        val plantMatchRuleTest = BlockMatchRuleTest(Blocks.WHEAT)
-        val plantMatchRule = StructureProcessorRule(plantMatchRuleTest, AlwaysTrueRuleTest.INSTANCE, CobblemonBlocks.VIVICHOKE_SEEDS.defaultState)
+        val naturalBerries = BerryHelper.getNaturallyGeneratingBerries().map {
+            it.defaultState.with(BerryBlock.AGE, 5).with(BerryBlock.WAS_GENERATED, true)
+        }
 
-        val processor = ProbabilityProcessor(0.3f, listOf(plantMatchRule))
+        val processor = RandomizedStructureMappedBlockStateProcessor(
+            naturalBerries,
+            3,
+            listOf(TagMatchRuleTest(BlockTags.CROPS)),
+            0.5f
+        )
+
         desertFarm.append(processor)
         plainsFarm.append(processor)
         taigaFarm.append(processor)

@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.world.feature
 
 import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.api.berry.BerryHelper
 import com.cobblemon.mod.common.block.BerryBlock
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
@@ -29,9 +30,6 @@ import net.minecraft.world.gen.stateprovider.RandomizedIntBlockStateProvider
 import java.util.*
 
 class BerryGroveFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureConfig.CODEC){
-    val validBerryCache: LoadingCache<RegistryEntry<Biome>, List<BerryBlock>> = CacheBuilder.newBuilder()
-        .maximumSize(4)
-        .build(CACHE_LOADER)
     override fun generate(context: FeatureContext<SingleStateFeatureConfig>): Boolean {
         val worldGenLevel: StructureWorldAccess = context.world!!
         val random = context.random!!
@@ -44,7 +42,7 @@ class BerryGroveFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureCo
         val biome = worldGenLevel.getBiome(origin)
         //This basically goes through and finds the berries whose preferred biome we are in
         //Maybe cache these per biome in a map?
-        val validTrees = validBerryCache.get(biome)
+        val validTrees = BerryHelper.getBerriesForBiome(biome)
         if (validTrees.isEmpty()) return false
         val pickedTree = validTrees.random()
         val berry = pickedTree.berry()!!
@@ -100,14 +98,4 @@ class BerryGroveFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureCo
         return numTreesToGen != numTreesLeftToGen
     }
 
-    companion object {
-        val CACHE_LOADER = object : CacheLoader<RegistryEntry<Biome>, List<BerryBlock>>() {
-            override fun load(key: RegistryEntry<Biome>): List<BerryBlock> {
-                return CobblemonBlocks.berries().values.filter { berryBlock ->
-                    val berry = berryBlock.berry()
-                    berry?.spawnConditions?.any { it.canSpawn(berry, key) } ?: false
-                }
-            }
-        }
-    }
 }

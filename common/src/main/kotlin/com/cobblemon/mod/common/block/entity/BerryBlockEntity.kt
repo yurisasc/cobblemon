@@ -43,6 +43,9 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     constructor(pos: BlockPos, state: BlockState, berryIdentifier: Identifier): this(pos, state) {
         this.berryIdentifier = berryIdentifier
         resetGrowTimers(pos, state)
+        if (state.get(BerryBlock.WAS_GENERATED) && state.get(BerryBlock.AGE) >= 4) {
+            generateSimpleYields()
+        }
     }
 
     fun resetGrowTimers(pos: BlockPos, state: BlockState) {
@@ -140,6 +143,14 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         }
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
         this.markDirty()
+    }
+
+    //Used for naturally spawning berries
+    fun generateSimpleYields() {
+        val numBerries = berry()?.baseYield?.random() ?: return
+        repeat(numBerries) {
+            growthPoints.add(berryIdentifier)
+        }
     }
 
     /**

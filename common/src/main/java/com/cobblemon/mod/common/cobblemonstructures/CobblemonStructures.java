@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.cobblemonstructures;
 
 import com.cobblemon.mod.common.mixin.StructurePoolAccessor;
@@ -27,14 +35,10 @@ public class CobblemonStructures {
     public static void registerJigsaws(MinecraftServer server) {
         Registry<StructurePool> templatePoolRegistry = server.getRegistryManager().get(RegistryKeys.TEMPLATE_POOL);
         Registry<StructureProcessorList> processorListRegistry = server.getRegistryManager().get(RegistryKeys.PROCESSOR_LIST);
-        var plainsFarmProcessor = processorListRegistry.get(StructureProcessorLists.FARM_PLAINS).getList();
-        var desertFarmProcessor = processorListRegistry.get(StructureProcessorLists.FARM_DESERT).getList();
-        var savannahFarmProcessor = processorListRegistry.get(StructureProcessorLists.FARM_SAVANNA).getList();
-        var taigaFarmProcessor = processorListRegistry.get(StructureProcessorLists.FARM_TAIGA).getList();
-        var idkFarmProcessor = processorListRegistry.get(StructureProcessorLists.FARM_SNOWY).getList();
 
-        addPokecenters(templatePoolRegistry, processorListRegistry);
-        addLongPaths(templatePoolRegistry, processorListRegistry);
+        //No pokecenters yet
+        //addPokecenters(templatePoolRegistry, processorListRegistry);
+        //addLongPaths(templatePoolRegistry, processorListRegistry);
     }
 
     private static void addPokecenters(Registry<StructurePool> templatePoolRegistry, Registry<StructureProcessorList> processorListRegistry) {
