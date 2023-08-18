@@ -2031,4 +2031,106 @@
 					"position": [-1.25, -9.10825, -0.78349]
 				},
 				"wing_closed_right2": {
-					"rotation": [-1.13397, 
+					"rotation": [-1.13397, -45, -1.86603]
+				},
+				"wing_closed_right3": {
+					"rotation": [1, 40, 0]
+				},
+				"armor_right": {
+					"rotation": [-35.94136, -59.69255, 39.55058],
+					"position": [-1.8, 1, 7]
+				},
+				"wing_left": {
+					"rotation": [111.32288, -62.81801, -43.49432],
+					"position": [1.25, -9.10825, -0.78349]
+				},
+				"armor_left": {
+					"rotation": [-35.94136, 59.69255, -39.55058],
+					"position": [1.8, 1, 7]
+				},
+				"wing_closed_left2": {
+					"rotation": [-1.13397, 45, 1.86603]
+				},
+				"wing_closed_left3": {
+					"rotation": [1, -40, 0]
+				},
+				"tail": {
+					"rotation": [7.5, 0, 0]
+				},
+				"tail_left": {
+					"rotation": [-25, 0, 0]
+				},
+				"tail_right": {
+					"rotation": [-25, 0, 0]
+				},
+				"tail_middle": {
+					"rotation": [-22.5, 0, 0]
+				},
+				"tail_left2": {
+					"rotation": [-27.5, 0, 0]
+				},
+				"tail_right2": {
+					"rotation": [-27.5, 0, 0]
+				},
+				"leg_right2": {
+					"rotation": [-80, 0, 0],
+					"position": [0, -5, 1]
+				},
+				"foot_right": {
+					"rotation": [17.5, 0, 0],
+					"position": [0, 0, -1]
+				},
+				"toe_right4": {
+					"rotation": [-82.5, 0, 0]
+				},
+				"claw_right4": {
+					"rotation": [-60, 0, 0]
+				},
+				"toe_right3": {
+					"rotation": [80, 0, 0]
+				},
+				"toe_right2": {
+					"rotation": [77.5, 0, 0]
+				},
+				"claw_right2": {
+					"rotation": [7.5, 0, 0]
+				},
+				"toe_right": {
+					"rotation": [70, 0, 0]
+				},
+				"claw_right": {
+					"rotation": [12.5, 0, 0]
+				},
+				"leg_left2": {
+					"rotation": [-80, 0, 0],
+					"position": [0, -5, 1]
+				},
+				"foot_left": {
+					"rotation": [17.5, 0, 0],
+					"position": [0, 0, -1]
+				},
+				"toe_left4": {
+					"rotation": [-82.5, 0, 0]
+				},
+				"claw_left4": {
+					"rotation": [-60, 0, 0]
+				},
+				"toe_left3": {
+					"rotation": [80, 0, 0]
+				},
+				"toe_left2": {
+					"rotation": [77.5, 0, 0]
+				},
+				"claw_left2": {
+					"rotation": [7.5, 0, 0]
+				},
+				"toe_left": {
+					"rotation": [70, 0, 0]
+				},
+				"claw_left": {
+					"rotation": [12.5, 0, 0]
+				}
+			}
+		}
+	}
+}

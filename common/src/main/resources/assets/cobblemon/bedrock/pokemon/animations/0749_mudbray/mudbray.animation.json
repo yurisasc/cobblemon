@@ -1052,25 +1052,7 @@
 			},
 			"sound_effects": {
 				"0.1667": {
-					"effect": "mudbray_ambient"
-				}
-			}
-		},
-		"animation.mudbray.blink": {
-			"animation_length": 0.16667,
-			"bones": {
-				"eyelid_left": {
-					"position": {
-						"0.0": [0.1, 0, 0],
-						"0.125": [0.1, 0, 0],
-						"0.1667": [0, 0, 0]
-					}
-				},
-				"eyelid_right": {
-					"position": {
-						"0.0": [-0.1, 0, 0],
-						"0.125": [-0.1, 0, 0]
-					}
+					"effect": "pokemon.mudbray.cry"
 				}
 			}
 		},
@@ -1144,6 +1126,32 @@
 				},
 				"leg_back_right3": {
 					"rotation": [22.5, 0, 0]
+				}
+			}
+		},
+		"animation.mudbray.new": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"position": [0, 0, "-q.anim_time*90*0.7"]
+				}
+			}
+		},
+		"animation.mudbray.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_left": {
+					"position": {
+						"0.0": [0.1, 0, 0],
+						"0.125": [0.1, 0, 0],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_right": {
+					"position": {
+						"0.0": [-0.1, 0, 0],
+						"0.125": [-0.1, 0, 0]
+					}
 				}
 			}
 		}

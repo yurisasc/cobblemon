@@ -2180,7 +2180,7 @@
 			},
 			"sound_effects": {
 				"0.125": {
-					"effect": "mudsdale_ambient"
+					"effect": "pokemon.mudsdale.cry"
 				}
 			}
 		}

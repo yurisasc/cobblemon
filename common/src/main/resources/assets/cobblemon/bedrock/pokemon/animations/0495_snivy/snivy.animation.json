@@ -29,7 +29,7 @@
 				"arm_right2": {
 					"rotation": [0, -5, 0]
 				},
-				"head": {
+				"head_rotation": {
 					"rotation": ["10+Math.cos((query.anim_time+0.6) * 90 * 2) * -2", 0, 0]
 				},
 				"tail": {
@@ -194,7 +194,7 @@
 				"vine_right_end": {
 					"rotation": [0, 0, -180]
 				},
-				"head": {
+				"head_rotation": {
 					"rotation": ["Math.cos((query.anim_time-0.4) * 90 * 4*2) * -3", 0, 0]
 				},
 				"tail": {
@@ -367,7 +367,7 @@
 				"vine_right_end": {
 					"rotation": [0, 0, -180]
 				},
-				"head": {
+				"head_rotation": {
 					"rotation": ["-50+Math.cos((query.anim_time-0.3) * 90 * 1) * 2", 0, 0],
 					"position": [0, -2, 0]
 				},
@@ -427,7 +427,76 @@
 					}
 				}
 			}
+		},
+		"animation.snivy.cry": {
+			"animation_length": 0.95833,
+			"bones": {
+				"torso_top2": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.125": {
+							"post": [15, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5": {
+							"post": [15, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.75": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"neck": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.125": {
+							"post": [5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5": {
+							"post": [5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.75": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"head_rotation": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.125": {
+							"post": [-30, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5": {
+							"post": [-30, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.75": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0833": {
+					"effect": "pokemon.snivy.cry"
+				}
+			}
 		}
-	},
-	"geckolib_format_version": 2
+	}
 }

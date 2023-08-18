@@ -110,7 +110,7 @@
 			},
 			"sound_effects": {
 				"0.0": {
-					"effect": "pokemon.farfetchd_galar.cry"
+					"effect": "pokemon.farfecthd_galar.cry"
 				}
 			}
 		},
@@ -154,4 +154,15 @@
 					"rotation": [0, 0, -80]
 				},
 				"wing_right_finger7": {
-					"rotation": [0, 0
+					"rotation": [0, 0, -60]
+				},
+				"wing_right_finger4": {
+					"rotation": [0, 0, -87.5]
+				},
+				"wing_right_finger8": {
+					"rotation": [0, 0, -40]
+				}
+			}
+		}
+	}
+}
