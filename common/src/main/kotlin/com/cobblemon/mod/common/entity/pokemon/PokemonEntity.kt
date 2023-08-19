@@ -966,9 +966,9 @@ class PokemonEntity(
             this.ridingState.momentum = SpeedCalculator.calculate(
                 ++this.ridingState.tick,
                 movementInput,
-                1F,
-                2F,
-                68F
+                3F,
+                3.1F,
+                44F
             )
         } else {
             this.ridingState.tick = 0
