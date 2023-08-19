@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.battles.interpreter.*
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
+import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFaintedEvent
@@ -678,7 +679,7 @@ object ShowdownInterpreter {
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
             val name = pokemon.getName()
             // Move may be null as it's not always given
-            val moveName = message.argumentAt(2)?.let { Moves.getByName(it)?.displayName } ?: Text.EMPTY
+                val moveName = message.argumentAt(2)?.let { Moves.getByName(it.replace(" ",""))?.displayName } ?: "NULL".text()
 
             val lang = when (effectID) {
                 // TODO: in the games they use a generic image because there is a popup of the ability and the sprite of the mon, it may be good to have a similar system here
@@ -949,7 +950,8 @@ object ShowdownInterpreter {
                 }
                 // Includes revealed move
                 "forewarn" -> {
-                    val moveName = message.argumentAt(2)?.let { Moves.getByName(it)?.displayName } ?: Text.EMPTY
+                    val moveName = message.argumentAt(2)?.let { Moves.getByName(it.replace(" ",""))?.displayName } ?: "".text()
+                    //val moveName = BattleMessage.argTrim()
                     battleLang("activate.forewarn", sourceName, moveName)
                 }
                 "focussash", "focusband" -> battleLang("activate.focusband", pokemonName, message.effectAt(1)!!.typelessData)
