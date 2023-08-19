@@ -12,11 +12,13 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.UUIDSetDataSerializer
 import com.cobblemon.mod.common.api.npc.NPCClasses
+import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
-import java.util.Optional
+import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Npc
 import net.minecraft.entity.ai.goal.LookAroundGoal
@@ -25,9 +27,12 @@ import net.minecraft.entity.ai.goal.WanderAroundGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.passive.PassiveEntity
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtString
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
 class NPCEntity : PassiveEntity, Npc, Poseable {
@@ -36,7 +41,7 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
         val NPC_CLASS = DataTracker.registerData(NPCEntity::class.java, IdentifierDataSerializer)
         val ASPECTS = DataTracker.registerData(NPCEntity::class.java, StringSetDataSerializer)
         val POSE_TYPE = DataTracker.registerData(NPCEntity::class.java, PoseTypeDataSerializer)
-        val BATTLE_ID = DataTracker.registerData(NPCEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
+        val BATTLE_IDS = DataTracker.registerData(NPCEntity::class.java, UUIDSetDataSerializer)
     }
 
     var npc = NPCClasses.random()
@@ -57,7 +62,9 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
     private val _npcClass = addEntityProperty(NPC_CLASS, npc.resourceIdentifier)
     val aspects = addEntityProperty(ASPECTS, emptySet())
     val poseType = addEntityProperty(POSE_TYPE, PoseType.STAND)
-    val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
+    val battleIds = addEntityProperty(BATTLE_IDS, emptySet())
+
+    var battle: NPCBattleConfiguration? = null
 
 
     /* TODO NPC Valuables to add:
@@ -93,12 +100,37 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
         aspects.set(appliedAspects)
     }
 
-    fun isInBattle() = battleId.get().isPresent
+    fun isInBattle() = battleIds.get().isNotEmpty()
+    fun getBattleConfiguration() = battle ?: npc.battleConfiguration
 
     override fun initGoals() {
         super.initGoals()
         goalSelector.add(5, WanderAroundGoal(this, 0.4, 30))
         goalSelector.add(6, LookAtEntityGoal(this, LivingEntity::class.java, 8F, 0.2F))
         goalSelector.add(6, LookAroundGoal(this))
+    }
+
+    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+        super.writeNbt(nbt)
+        nbt.putString(DataKeys.NPC_CLASS, npc.resourceIdentifier.toString())
+        nbt.put(DataKeys.NPC_ASPECTS, NbtList().also { list -> appliedAspects.forEach { list.add(NbtString.of(it)) } })
+        val battle = battle
+        if (battle != null) {
+            val battleNBT = NbtCompound()
+            battle.saveToNBT(battleNBT)
+            nbt.put(DataKeys.NPC_BATTLE_CONFIGURATION, battleNBT)
+        }
+        return nbt
+    }
+
+    override fun readNbt(nbt: NbtCompound) {
+        super.readNbt(nbt)
+        npc = NPCClasses.getByIdentifier(Identifier(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
+        appliedAspects.addAll(nbt.getList(DataKeys.NPC_ASPECTS, NbtList.STRING_TYPE.toInt()).map { it.asString() })
+        val battleNBT = nbt.getCompound(DataKeys.NPC_BATTLE_CONFIGURATION)
+        if (!battleNBT.isEmpty) {
+            battle = NPCBattleConfiguration().also { it.loadFromNBT(battleNBT) }
+        }
+        updateAspects()
     }
 }

@@ -127,4 +127,12 @@ object DataKeys {
     const val SHOULDER_ASPECTS = "shoulder_aspects"
     const val SHOULDER_SCALE_MODIFIER = "shoulder_scale"
 
+    // NPCs
+    const val NPC_CLASS = "NPCClass"
+    const val NPC_BATTLE_CONFIGURATION = "NPCBattleConfiguration"
+    const val NPC_CAN_CHALLENGE = "CanChallenge"
+    const val NPC_SIMULTANEOUS_BATTLES = "SimultaneousBattles"
+    const val NPC_PARTY = "Party"
+    const val NPC_PARTY_TYPE = "PartyType"
+    const val NPC_ASPECTS = "AppliedAspects"
 }

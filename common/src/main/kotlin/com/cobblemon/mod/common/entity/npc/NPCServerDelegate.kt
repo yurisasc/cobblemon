@@ -11,4 +11,10 @@ package com.cobblemon.mod.common.entity.npc
 import com.cobblemon.mod.common.api.entity.EntitySideDelegate
 
 class NPCServerDelegate : EntitySideDelegate<NPCEntity> {
+    override fun tick(entity: NPCEntity) {
+        super.tick(entity)
+
+
+
+    }
 }
