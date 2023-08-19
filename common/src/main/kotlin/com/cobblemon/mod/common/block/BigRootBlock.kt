@@ -8,110 +8,42 @@
 
 package com.cobblemon.mod.common.block
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.world.BigRootPropagatedEvent
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.block.Fertilizable
 import net.minecraft.block.ShapeContext
-import net.minecraft.registry.tag.BlockTags
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
+import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
 
-class BigRootBlock(settings: Settings) : Block(settings), Fertilizable {
+@Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
+class BigRootBlock(settings: Settings) : RootBlock(settings) {
+
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = AABB
+
+    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+        val stack = player.getStackInHand(hand)
+        if (stack.isOf(Items.SHEARS) && this.attemptShear(world, state, pos) { stack.damage(1, player) { affected -> affected.sendToolBreakStatus(hand) } }) {
+            return ActionResult.success(world.isClient)
+        }
+        return super.onUse(state, world, pos, player, hand, hit)
+    }
+
+    override fun shearedResultingState(): BlockState = Blocks.HANGING_ROOTS.defaultState
+
+    override fun shearedDrop(): ItemStack = Items.STRING.defaultStack
+
     companion object {
-        const val MAX_PROPAGATING_LIGHT_LEVEL = 11
+
         private val AABB = VoxelShapes.cuboid(0.2, 0.3, 0.2, 0.8, 1.0, 0.8)
+
     }
 
-    init {
-        this.defaultState = stateManager.defaultState
-    }
-
-    override fun getOutlineShape(
-        state: BlockState,
-        world: BlockView,
-        pos: BlockPos,
-        context: ShapeContext
-    ) = AABB
-
-    override fun hasRandomTicks(state: BlockState) = true
-    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        // Check for propagation
-        if (random.nextDouble() < Cobblemon.config.bigRootPropagationChance && world.getLightLevel(pos) < MAX_PROPAGATING_LIGHT_LEVEL) {
-            spreadFrom(world, pos, random)
-        }
-    }
-
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
-        return world.getBlockState(pos.up()).isIn(BlockTags.DIRT) && world.isAir(pos)
-    }
-
-    override fun getStateForNeighborUpdate(
-        state: BlockState,
-        direction: Direction,
-        neighborState: BlockState,
-        world: WorldAccess,
-        pos: BlockPos,
-        neighborPos: BlockPos
-    ): BlockState {
-        return if (!world.getBlockState(pos.up()).isIn(BlockTags.DIRT)) {
-            Blocks.AIR.defaultState
-        } else {
-            super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-        }
-    }
-
-    fun spreadFrom(world: ServerWorld, pos: BlockPos, random: Random) {
-        for (xDiff in -1..1) {
-            for (zDiff in -1..1) {
-                if (xDiff == 0 && zDiff == 0) {
-                    continue
-                }
-
-                val adjacent = pos.add(xDiff, 0, zDiff)
-                if (canPlaceAt(world.getBlockState(adjacent), world, adjacent)) {
-                    val isEnergyRoot = random.nextFloat() < Cobblemon.config.energyRootChance
-                    val event = BigRootPropagatedEvent(
-                        world = world,
-                        pos = pos,
-                        newRootPosition = adjacent,
-                        isEnergyRoot = isEnergyRoot
-                    )
-
-                    CobblemonEvents.BIG_ROOT_PROPAGATED.postThen(
-                        event = event,
-                        ifCanceled = {},
-                        ifSucceeded = { ev ->
-                            world.setBlockState(
-                                ev.newRootPosition,
-                                if (ev.isEnergyRoot) CobblemonBlocks.ENERGY_ROOT.defaultState else defaultState
-                            )
-                        }
-                    )
-
-                    return
-                }
-            }
-        }
-    }
-
-    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = true
-    override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = true
-    override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
-        spreadFrom(world, pos, random)
-    }
-
-    override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
 }

@@ -27,8 +27,8 @@ object ReloadShowdownCommand {
 
     private fun execute(context: CommandContext<ServerCommandSource>): Int {
         try {
-            ShowdownService.get().closeConnection()
-            ShowdownService.get().openConnection()
+            ShowdownService.service.closeConnection()
+            ShowdownService.service.openConnection()
             context.source.sendMessage(Text.of("Reloaded showdown"))
         } catch (e: Exception) {
             e.printStackTrace()

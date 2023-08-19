@@ -34,12 +34,12 @@ class InitializePCPacket internal constructor(val storeID: UUID, val boxCount: I
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(storeID)
-        buffer.writeSizedInt(IntSize.U_BYTE, boxCount)
+        buffer.writeSizedInt(IntSize.U_SHORT, boxCount)
         buffer.writeBoolean(hasOverflowed)
     }
 
     companion object {
         val ID = cobblemonResource("initialize_pc")
-        fun decode(buffer: PacketByteBuf) = InitializePCPacket(buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE), buffer.readBoolean())
+        fun decode(buffer: PacketByteBuf) = InitializePCPacket(buffer.readUuid(), buffer.readSizedInt(IntSize.U_SHORT), buffer.readBoolean())
     }
 }

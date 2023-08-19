@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.client.battle.ClientBattleMessageQueue
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.OrderedText
@@ -99,10 +99,10 @@ class BattleMessagePane(
         return (client.window.scaleFactor * i.toFloat()).toInt()
     }
 
-    override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
         blitk(
-            matrixStack = poseStack,
+            matrixStack = context.matrices,
             texture = if (expanded) battleMessagePaneFrameExpandedResource else battleMessagePaneFrameResource,
             x = left,
             y = appropriateY,
@@ -112,14 +112,14 @@ class BattleMessagePane(
         )
 
         val textBoxHeight = if (expanded) TEXT_BOX_HEIGHT * 2 else TEXT_BOX_HEIGHT
-        DrawableHelper.enableScissor(
+        context.enableScissor(
             left + 5,
             appropriateY + 6,
             left + 5 + width,
             appropriateY + 6 + textBoxHeight
         )
-        super.render(poseStack, mouseX, mouseY, partialTicks)
-        DrawableHelper.disableScissor()
+        super.render(context, mouseX, mouseY, partialTicks)
+        context.disableScissor()
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
@@ -160,7 +160,7 @@ class BattleMessagePane(
     class BattleMessageLine(val pane: BattleMessagePane, val line: OrderedText) : Entry<BattleMessageLine>() {
         override fun getNarration() = "".text()
         override fun render(
-            poseStack: MatrixStack,
+            context: DrawContext,
             index: Int,
             rowTop: Int,
             rowLeft: Int,
@@ -172,7 +172,7 @@ class BattleMessagePane(
             partialTicks: Float
         ) {
             drawScaledText(
-                poseStack,
+                context,
                 line,
                 rowLeft - 29,
                 rowTop - 2,

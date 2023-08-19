@@ -27,5 +27,6 @@
 		[
 			"evolve"
 		]
-	]
+	],
+  "sends_telemetry_event": false
 }

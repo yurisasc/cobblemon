@@ -17,11 +17,11 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SprigatitoModel(root:ModelPart) :PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
+class SprigatitoModel(root: ModelPart) :PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("sprigatito")
     override val head = getPart("head")
 
-    override val foreLeftLeg = getPart("leg_left")
+    override val foreLeftLeg= getPart("leg_left")
     override val foreRightLeg = getPart("leg_right")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")

@@ -9,8 +9,8 @@
 package com.cobblemon.mod.fabric.mixin;
 
 import com.cobblemon.mod.common.client.CobblemonClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,22 +25,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(InGameHud.class)
 public class GuiMixin {
+    private Long lastTimeMillis = null;
     @Inject(
             method = "render",
             at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/client/MinecraftClient;getProfiler()Lnet/minecraft/util/profiler/Profiler;",
+                target = "Lnet/minecraft/client/gui/hud/ChatHud;render(Lnet/minecraft/client/gui/DrawContext;III)V",
                 shift = At.Shift.BEFORE,
                 ordinal = 0
-            ),
-            slice = @Slice(
-                from = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/hud/InGameHud;renderScoreboardSidebar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/scoreboard/ScoreboardObjective;)V"
-                )
             )
     )
-    private void beforeChatHook(MatrixStack poseStack, float f, CallbackInfo ci) {
-        CobblemonClient.INSTANCE.beforeChatRender(poseStack, f);
+    private void beforeChatHook(DrawContext context, float f, CallbackInfo ci) {
+        if (lastTimeMillis != null) {
+            CobblemonClient.INSTANCE.beforeChatRender(context, (System.currentTimeMillis() - lastTimeMillis) / 1000F * 20);
+        }
+        lastTimeMillis = System.currentTimeMillis();
     }
 }

@@ -27,12 +27,15 @@ class GourgeistModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var hovering: PokemonPose
+    lateinit var fly: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("gourgeist", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -42,10 +45,37 @@ class GourgeistModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+            poseType = PoseType.WALK,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("gourgeist", "ground_idle")
+                bedrock("gourgeist", "ground_walk")
+            )
+        )
+
+        hovering = registerPose(
+            poseName = "hovering",
+            poseType = PoseType.HOVER,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("gourgeist", "air_idle")
+            )
+        )
+
+        fly = registerPose(
+            poseName = "fly",
+            poseType = PoseType.FLY,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("gourgeist", "air_fly")
+            )
+        )
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("gourgeist", "sleep")
             )
         )
     }

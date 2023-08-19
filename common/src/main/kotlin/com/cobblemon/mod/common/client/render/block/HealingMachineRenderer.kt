@@ -17,12 +17,13 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
-import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
 
+
+@Suppress("UNUSED_PARAMETER")
 class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Context): BlockEntityRenderer<T> {
     companion object {
         private val offsets = listOf(
@@ -50,7 +51,7 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Con
         poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
         poseStack.scale(0.65F, 0.65F, 0.65F)
 
-        for ((index, pokeBall) in blockEntity.pokeBalls.withIndex()) {
+        blockEntity.pokeBalls().forEach { (index, pokeBall) ->
             poseStack.push()
             val offset = offsets[index]
             poseStack.translate(offset.first, 0.4, offset.second)

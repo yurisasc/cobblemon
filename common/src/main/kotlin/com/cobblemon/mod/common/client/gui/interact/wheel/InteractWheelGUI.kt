@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui.interact.wheel
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
@@ -49,17 +50,17 @@ class InteractWheelGUI(private val options: Map<Orientation, InteractWheelOption
         ))
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val (x, y) = getDimensions()
         blitk(
-            matrixStack = matrices,
+            matrixStack = context.matrices,
             texture = backgroundResource,
             x = x,
             y = y,
             width = SIZE,
             height = SIZE
         )
-        super.render(matrices, mouseX, mouseY, delta)
+        super.render(context, mouseX, mouseY, delta)
     }
 
     private fun getDimensions(): Pair<Int, Int> {

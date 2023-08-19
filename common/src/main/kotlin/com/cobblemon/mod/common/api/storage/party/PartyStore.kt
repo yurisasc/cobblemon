@@ -247,9 +247,6 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
 
     fun toBattleTeam(clone: Boolean = false, checkHealth: Boolean = true, leadingPokemon: UUID? = null) = mapNotNull {
         // TODO Other 'able to battle' checks
-        if (checkHealth && it.currentHealth <= 0) {
-            return@mapNotNull null
-        }
         return@mapNotNull if (clone) {
             BattlePokemon.safeCopyOf(it)
         } else {

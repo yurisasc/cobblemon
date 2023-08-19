@@ -1,7 +1,7 @@
 {
   "parent": "cobblemon:block/mint_stage_1",
   "textures": {
-    "mint": "cobblemon:block/pink_mint_stage_1",
-    "particle": "cobblemon:block/pink_mint_stage_1"
+    "0": "cobblemon:block/pink_mint",
+    "particle": "cobblemon:block/pink_mint"
   }
 }

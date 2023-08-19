@@ -3,7 +3,7 @@
   "values": [
     "#minecraft:is_jungle",
     {
-      "id": "terralith:underground_jungle",
+      "id": "terralith:cave/underground_jungle",
       "required": false
     }
   ]

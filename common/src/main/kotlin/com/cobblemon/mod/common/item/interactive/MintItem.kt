@@ -9,24 +9,46 @@
 package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.api.item.PokemonSelectingItem
 import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.pokemon.Nature
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.lang
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.sound.SoundCategory
+import net.minecraft.util.Hand
+import net.minecraft.util.TypedActionResult
+import net.minecraft.world.World
 
-class MintItem(val nature: Nature) : CobblemonItem(Settings()), PokemonInteractiveItem {
-    override fun getSound() = CobblemonSounds.MINT_USE
-    override val accepted = setOf(PokemonInteractiveItem.Ownership.OWNER)
-    override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
-        consumeItem(player, stack)
-        if ((entity.pokemon.mintedNature ?: entity.pokemon.nature) == nature) {
-            player.sendMessage(lang("mint.same_nature", entity.pokemon.getDisplayName(), stack.name), true)
+class MintItem(val nature: Nature) : CobblemonItem(Settings()), PokemonSelectingItem {
+
+    override val bagItem = null
+    override fun canUseOnPokemon(pokemon: Pokemon) = (pokemon.mintedNature ?: pokemon.nature) != nature
+    override fun applyToPokemon(
+        player: ServerPlayerEntity,
+        stack: ItemStack,
+        pokemon: Pokemon
+    ): TypedActionResult<ItemStack> {
+        return if ((pokemon.mintedNature ?: pokemon.nature) != nature) {
+            if (!player.isCreative) {
+                stack.decrement(1)
+            }
+            player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+            pokemon.mintedNature = nature
+            player.sendMessage(lang("mint.interact", pokemon.getDisplayName(), stack.name), true)
+            TypedActionResult.success(stack)
         } else {
-            entity.pokemon.mintedNature = nature
-            player.sendMessage(lang("mint.interact", entity.pokemon.getDisplayName(), stack.name), true)
+            player.sendMessage(lang("mint.same_nature", pokemon.getDisplayName(), stack.name), true)
+            TypedActionResult.fail(stack)
         }
-        return true
+    }
+
+    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+        if (user is ServerPlayerEntity) {
+            return use(user, user.getStackInHand(hand))
+        }
+        return super<CobblemonItem>.use(world, user, hand)
     }
 }

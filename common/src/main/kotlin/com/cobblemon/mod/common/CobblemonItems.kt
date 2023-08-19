@@ -8,40 +8,32 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.block.MintBlock.MintType
 import com.cobblemon.mod.common.item.*
-import com.cobblemon.mod.common.item.ApricornItem
-import com.cobblemon.mod.common.item.ApricornSeedItem
-import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.MintLeafItem
-import com.cobblemon.mod.common.item.PokeBallItem
-import com.cobblemon.mod.common.item.PokemonItem
-import com.cobblemon.mod.common.item.group.CobblemonItemGroups
-import com.cobblemon.mod.common.item.interactive.CandyItem
-import com.cobblemon.mod.common.item.interactive.EnergyRoot
-import com.cobblemon.mod.common.item.interactive.LinkCableItem
-import com.cobblemon.mod.common.item.interactive.MintItem
-import com.cobblemon.mod.common.item.interactive.RemedyItem
-import com.cobblemon.mod.common.item.interactive.VitaminItem
-import com.cobblemon.mod.common.mint.MintType
+import com.cobblemon.mod.common.item.battle.DireHitItem
+import com.cobblemon.mod.common.item.battle.GuardSpecItem
+import com.cobblemon.mod.common.item.battle.XStatItem
+import com.cobblemon.mod.common.item.interactive.*
+import com.cobblemon.mod.common.item.interactive.PotionItem
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import net.minecraft.block.Block
 import net.minecraft.block.ComposterBlock
-import net.minecraft.item.BlockItem
-import net.minecraft.item.FoodComponent
-import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.Items
-import net.minecraft.item.StewItem
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.item.*
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 
+@Suppress("unused")
 object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<Item>>, Item>() {
     override val registry: Registry<Item> = Registries.ITEM
     override val registryKey: RegistryKey<Registry<Item>> = RegistryKeys.ITEM
@@ -112,6 +104,12 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val MASTER_BALL = pokeBallItem(PokeBalls.MASTER_BALL)
     @JvmField
     val CHERISH_BALL = pokeBallItem(PokeBalls.CHERISH_BALL)
+
+    @JvmField
+    val VIVICHOKE = create("vivichoke", Item(Item.Settings()))
+
+    @JvmField
+    val VIVICHOKE_SEEDS = create("vivichoke_seeds", VivichokeItem(CobblemonBlocks.VIVICHOKE_SEEDS))
 
     @JvmField
     val RED_APRICORN = create("red_apricorn", ApricornItem(CobblemonBlocks.RED_APRICORN))
@@ -185,41 +183,43 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val HEALING_MACHINE = blockItem("healing_machine", CobblemonBlocks.HEALING_MACHINE)
     @JvmField
     val PC = blockItem("pc", CobblemonBlocks.PC)
+    @JvmField
+    val PASTURE = blockItem("pasture", CobblemonBlocks.PASTURE)
 
     // Evolution items
     @JvmField val LINK_CABLE = create("link_cable", LinkCableItem())
-    @JvmField val DRAGON_SCALE = evolutionItem("dragon_scale")
-    @JvmField val KINGS_ROCK = evolutionItem("kings_rock")
-    @JvmField val METAL_COAT = evolutionItem("metal_coat")
-    @JvmField val UPGRADE = evolutionItem("upgrade")
-    @JvmField val DUBIOUS_DISC = evolutionItem("dubious_disc")
-    @JvmField val DEEP_SEA_SCALE = evolutionItem("deep_sea_scale")
-    @JvmField val DEEP_SEA_TOOTH = evolutionItem("deep_sea_tooth")
-    @JvmField val ELECTIRIZER = evolutionItem("electirizer")
-    @JvmField val MAGMARIZER = evolutionItem("magmarizer")
-    @JvmField val OVAL_STONE = evolutionItem("oval_stone")
-    @JvmField val PROTECTOR = evolutionItem("protector")
-    @JvmField val REAPER_CLOTH = evolutionItem("reaper_cloth")
-    @JvmField val PRISM_SCALE = evolutionItem("prism_scale")
-    @JvmField val SACHET = evolutionItem("sachet")
-    @JvmField val WHIPPED_DREAM = evolutionItem("whipped_dream")
-    @JvmField val STRAWBERRY_SWEET = evolutionItem("strawberry_sweet")
-    @JvmField val LOVE_SWEET = evolutionItem("love_sweet")
-    @JvmField val BERRY_SWEET = evolutionItem("berry_sweet")
-    @JvmField val CLOVER_SWEET = evolutionItem("clover_sweet")
-    @JvmField val FLOWER_SWEET = evolutionItem("flower_sweet")
-    @JvmField val STAR_SWEET = evolutionItem("star_sweet")
-    @JvmField val RIBBON_SWEET = evolutionItem("ribbon_sweet")
-    @JvmField val CHIPPED_POT = evolutionItem("chipped_pot")
-    @JvmField val CRACKED_POT = evolutionItem("cracked_pot")
-    @JvmField val SWEET_APPLE = evolutionItem("sweet_apple")
-    @JvmField val TART_APPLE = evolutionItem("tart_apple")
-    @JvmField val GALARICA_CUFF = evolutionItem("galarica_cuff")
-    @JvmField val GALARICA_WREATH = evolutionItem("galarica_wreath")
-    @JvmField val BLACK_AUGURITE = evolutionItem("black_augurite")
-    @JvmField val PEAT_BLOCK = evolutionItem("peat_block")
-    @JvmField val RAZOR_CLAW = evolutionItem("razor_claw")
-    @JvmField val RAZOR_FANG = evolutionItem("razor_fang")
+    @JvmField val DRAGON_SCALE = noSettingsItem("dragon_scale")
+    @JvmField val KINGS_ROCK = noSettingsItem("kings_rock")
+    @JvmField val METAL_COAT = noSettingsItem("metal_coat")
+    @JvmField val UPGRADE = noSettingsItem("upgrade")
+    @JvmField val DUBIOUS_DISC = noSettingsItem("dubious_disc")
+    @JvmField val DEEP_SEA_SCALE = noSettingsItem("deep_sea_scale")
+    @JvmField val DEEP_SEA_TOOTH = noSettingsItem("deep_sea_tooth")
+    @JvmField val ELECTIRIZER = noSettingsItem("electirizer")
+    @JvmField val MAGMARIZER = noSettingsItem("magmarizer")
+    @JvmField val OVAL_STONE = noSettingsItem("oval_stone")
+    @JvmField val PROTECTOR = noSettingsItem("protector")
+    @JvmField val REAPER_CLOTH = noSettingsItem("reaper_cloth")
+    @JvmField val PRISM_SCALE = noSettingsItem("prism_scale")
+    @JvmField val SACHET = noSettingsItem("sachet")
+    @JvmField val WHIPPED_DREAM = noSettingsItem("whipped_dream")
+    @JvmField val STRAWBERRY_SWEET = noSettingsItem("strawberry_sweet")
+    @JvmField val LOVE_SWEET = noSettingsItem("love_sweet")
+    @JvmField val BERRY_SWEET = noSettingsItem("berry_sweet")
+    @JvmField val CLOVER_SWEET = noSettingsItem("clover_sweet")
+    @JvmField val FLOWER_SWEET = noSettingsItem("flower_sweet")
+    @JvmField val STAR_SWEET = noSettingsItem("star_sweet")
+    @JvmField val RIBBON_SWEET = noSettingsItem("ribbon_sweet")
+    @JvmField val CHIPPED_POT = noSettingsItem("chipped_pot")
+    @JvmField val CRACKED_POT = noSettingsItem("cracked_pot")
+    @JvmField val SWEET_APPLE = noSettingsItem("sweet_apple")
+    @JvmField val TART_APPLE = noSettingsItem("tart_apple")
+    @JvmField val GALARICA_CUFF = noSettingsItem("galarica_cuff")
+    @JvmField val GALARICA_WREATH = noSettingsItem("galarica_wreath")
+    @JvmField val BLACK_AUGURITE = noSettingsItem("black_augurite")
+    @JvmField val PEAT_BLOCK = noSettingsItem("peat_block")
+    @JvmField val RAZOR_CLAW = noSettingsItem("razor_claw")
+    @JvmField val RAZOR_FANG = noSettingsItem("razor_fang")
     // ToDo enable me when malicious armor goes in the game
     //@JvmField val AUSPICIOUS_ARMOR = heldItem("auspicious_armor")
 
@@ -249,15 +249,26 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val ZINC = create("zinc", VitaminItem(Stats.SPECIAL_DEFENCE))
     @JvmField
-    val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK_CROP))
+    val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().hunger(1).saturationModifier(0.2f).build())))
     @JvmField
-    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(2).build())))
+    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(3).saturationModifier(0.3f).build())))
     @JvmField
-    val ENERGY_ROOT = create("energy_root", EnergyRoot(CobblemonBlocks.ENERGY_ROOT))
+    val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().maxCount(1).food(FoodComponent.Builder().hunger(6).saturationModifier(0.6f).build())))
+    @JvmField
+    val VIVICHOKE_DIP = create("vivichoke_dip", StewItem(Item.Settings().maxCount(1)
+        .food(FoodComponent.Builder()
+            .hunger(10)
+            .saturationModifier(1.2F)
+            .statusEffect(StatusEffectInstance(StatusEffects.ABSORPTION, 600, 0), 1F)
+            .build()
+        )
+    ))
+    @JvmField
+    val ENERGY_ROOT = create("energy_root", EnergyRootItem(CobblemonBlocks.ENERGY_ROOT, Item.Settings().food(FoodComponent.Builder().hunger(1).snack().saturationModifier(0.2f).build())))
     @JvmField
     val REVIVAL_HERB = create("revival_herb", RevivalHerbItem(CobblemonBlocks.REVIVAL_HERB))
     @JvmField
-    val PEP_UP_FLOWER = create("pep_up_flower", PepUpFlowerItem(Item.Settings()))
+    val PEP_UP_FLOWER = blockItem("pep_up_flower", CobblemonBlocks.PEP_UP_FLOWER)
     @JvmField
     val MEDICINAL_BREW = create("medicinal_brew", Item(Item.Settings()))
     @JvmField
@@ -267,25 +278,29 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val SUPERB_REMEDY = create("superb_remedy", RemedyItem(RemedyItem.SUPERB))
 
+    @JvmField
+    val POTION = create("potion", PotionItem(PotionType.POTION))
+    @JvmField
+    val SUPER_POTION = create("super_potion", PotionItem(PotionType.SUPER_POTION))
+    @JvmField
+    val HYPER_POTION = create("hyper_potion", PotionItem(PotionType.HYPER_POTION))
+    @JvmField
+    val MAX_POTION = create("max_potion", PotionItem(PotionType.MAX_POTION))
+    @JvmField
+    val FULL_RESTORE = create("full_restore", PotionItem(PotionType.FULL_RESTORE))
 
     @JvmField
-    val HEAL_POWDER = create("heal_powder", Item(Item.Settings()))
-
-    // Remove me when Momo's vivichoke work is done
+    val HEAL_POWDER = create("heal_powder", HealPowderItem())
     @JvmField
-    val VIVICHOKE = create("vivichoke", Item(Item.Settings()))
-
+    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(8).saturationModifier(0.6f).build()).maxCount(1)))
     @JvmField
-    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(4).build())))
+    val REVIVE = create("revive", ReviveItem(max = false))
     @JvmField
-    val REVIVE = create("revive", Item(Item.Settings()))
+    val MAX_REVIVE = create("max_revive", ReviveItem(max = true))
     @JvmField
-    val MAX_REVIVE = create("max_revive", Item(Item.Settings()))
+    val PP_UP = create("pp_up", PPUpItem(1))
     @JvmField
-    val PP_UP = create("pp_up", Item(Item.Settings()))
-    @JvmField
-    val PP_MAX = create("pp_max", Item(Item.Settings()))
-
+    val PP_MAX = create("pp_max", PPUpItem(3))
 
     @JvmField
     val RED_MINT_SEEDS = blockItem("red_mint_seeds", MintType.RED.getCropBlock())
@@ -355,12 +370,28 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val SERIOUS_MINT = create("serious_mint", MintItem(Natures.SERIOUS))
 
-    @JvmField val X_ACCURACY = create("x_accuracy", CobblemonItem(Item.Settings()))
-    @JvmField val X_ATTACK = create("x_attack", CobblemonItem(Item.Settings()))
-    @JvmField val X_DEFENSE = create("x_defense", CobblemonItem(Item.Settings()))
-    @JvmField val X_SP_ATK = create("x_sp_atk", CobblemonItem(Item.Settings()))
-    @JvmField val X_SP_DEF = create("x_sp_def", CobblemonItem(Item.Settings()))
-    @JvmField val X_SPEED = create("x_speed", CobblemonItem(Item.Settings()))
+    @JvmField val X_ACCURACY = create("x_${Stats.ACCURACY.identifier.path}", XStatItem(Stats.ACCURACY))
+    @JvmField val X_ATTACK = create("x_${Stats.ATTACK.identifier.path}", XStatItem(Stats.ATTACK))
+    @JvmField val X_DEFENSE = create("x_${Stats.DEFENCE.identifier.path}", XStatItem(Stats.DEFENCE))
+    @JvmField val X_SP_ATK = create("x_${Stats.SPECIAL_ATTACK.identifier.path}", XStatItem(Stats.SPECIAL_ATTACK))
+    @JvmField val X_SP_DEF = create("x_${Stats.SPECIAL_DEFENCE.identifier.path}", XStatItem(Stats.SPECIAL_DEFENCE))
+    @JvmField val X_SPEED = create("x_${Stats.SPEED.identifier.path}", XStatItem(Stats.SPEED))
+
+    @JvmField val DIRE_HIT = create("dire_hit", DireHitItem())
+    @JvmField val GUARD_SPEC = create("guard_spec", GuardSpecItem())
+
+    @JvmField val BURN_HEAL = create("burn_heal", StatusCureItem("item.cobblemon.burn_heal", Statuses.BURN))
+    @JvmField val PARALYZE_HEAL = create("paralyze_heal", StatusCureItem("item.cobblemon.paralyze_heal", Statuses.PARALYSIS))
+    @JvmField val ICE_HEAL = create("ice_heal", StatusCureItem("item.cobblemon.ice_heal", Statuses.FROZEN))
+    @JvmField val ANTIDOTE = create("antidote", StatusCureItem("item.cobblemon.antidote", Statuses.POISON, Statuses.POISON_BADLY))
+    @JvmField val AWAKENING = create("awakening", StatusCureItem("item.cobblemon.awakening", Statuses.SLEEP))
+
+    @JvmField val FULL_HEAL = create("full_heal", StatusCureItem("item.cobblemon.full_heal"))
+
+    @JvmField val ETHER = create("ether", EtherItem(max = false))
+    @JvmField val MAX_ETHER = create("max_ether", EtherItem(max = true))
+    @JvmField val ELIXIR = create("elixir", ElixirItem(max = false))
+    @JvmField val MAX_ELIXIR = create("max_elixir", ElixirItem(max = true))
 
     /**
      * Evolution Ores and Stones
@@ -408,31 +439,31 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val DRIPSTONE_MOON_STONE_ORE = blockItem("dripstone_moon_stone_ore", CobblemonBlocks.DRIPSTONE_MOON_STONE_ORE)
     @JvmField
-    val DAWN_STONE = evolutionItem("dawn_stone")
+    val DAWN_STONE = noSettingsItem("dawn_stone")
     @JvmField
-    val DUSK_STONE = evolutionItem("dusk_stone")
+    val DUSK_STONE = noSettingsItem("dusk_stone")
     @JvmField
-    val FIRE_STONE = evolutionItem("fire_stone")
+    val FIRE_STONE = noSettingsItem("fire_stone")
     @JvmField
-    val ICE_STONE = evolutionItem("ice_stone")
+    val ICE_STONE = noSettingsItem("ice_stone")
     @JvmField
-    val LEAF_STONE = evolutionItem("leaf_stone")
+    val LEAF_STONE = noSettingsItem("leaf_stone")
     @JvmField
-    val MOON_STONE = evolutionItem("moon_stone")
+    val MOON_STONE = noSettingsItem("moon_stone")
     @JvmField
-    val SHINY_STONE = evolutionItem("shiny_stone")
+    val SHINY_STONE = noSettingsItem("shiny_stone")
     @JvmField
-    val SUN_STONE = evolutionItem("sun_stone")
+    val SUN_STONE = noSettingsItem("sun_stone")
     @JvmField
-    val THUNDER_STONE = evolutionItem("thunder_stone")
+    val THUNDER_STONE = noSettingsItem("thunder_stone")
     @JvmField
-    val WATER_STONE = evolutionItem("water_stone")
+    val WATER_STONE = noSettingsItem("water_stone")
 
     // Held Items
     @JvmField
     val ASSAULT_VEST = heldItem("assault_vest")
     @JvmField
-    val BIG_ROOT = create("big_root", BigRoot(CobblemonBlocks.BIG_ROOT))
+    val BIG_ROOT = blockItem("big_root", CobblemonBlocks.BIG_ROOT)
     @JvmField
     val BLACK_BELT = heldItem("black_belt")
     @JvmField
@@ -495,26 +526,44 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val TWISTED_SPOON = heldItem("twisted_spoon")
     @JvmField
     val WISE_GLASSES = heldItem("wise_glasses")
+    @JvmField
+    val MENTAL_HERB = heldItem("mental_herb")
+    @JvmField
+    val MIRROR_HERB = heldItem("mirror_herb")
+    @JvmField
+    val POWER_HERB = heldItem("power_herb")
+    @JvmField
+    val WHITE_HERB = heldItem("white_herb")
+    @JvmField
+    val BRIGHT_POWDER = heldItem("bright_powder")
+    @JvmField
+    val METAL_POWDER = heldItem("metal_powder")
+    @JvmField
+    val QUICK_POWDER = heldItem("quick_powder")
+    @JvmField
+    val DESTINY_KNOT = heldItem("destiny_knot")
+    @JvmField
+    val EVERSTONE = heldItem("everstone")
 
     // Mulch
     @JvmField
-    val MULCH_BASE = mulchItem("mulch_base")
+    val MULCH_BASE = noSettingsItem("mulch_base")
     @JvmField
-    val COARSE_MULCH = mulchItem("coarse_mulch")
+    val COARSE_MULCH = mulchItem("coarse_mulch", MulchVariant.COARSE)
     @JvmField
-    val GROWTH_MULCH = mulchItem("growth_mulch")
+    val GROWTH_MULCH = mulchItem("growth_mulch", MulchVariant.GROWTH)
     @JvmField
-    val HUMID_MULCH = mulchItem("humid_mulch")
+    val HUMID_MULCH = mulchItem("humid_mulch", MulchVariant.HUMID)
     @JvmField
-    val LOAMY_MULCH = mulchItem("loamy_mulch")
+    val LOAMY_MULCH = mulchItem("loamy_mulch", MulchVariant.LOAMY)
     @JvmField
-    val PEAT_MULCH = mulchItem("peat_mulch")
+    val PEAT_MULCH = mulchItem("peat_mulch", MulchVariant.PEAT)
     @JvmField
-    val RICH_MULCH = mulchItem("rich_mulch")
+    val RICH_MULCH = mulchItem("rich_mulch", MulchVariant.RICH)
     @JvmField
-    val SANDY_MULCH = mulchItem("sandy_mulch")
+    val SANDY_MULCH = mulchItem("sandy_mulch", MulchVariant.SANDY)
     @JvmField
-    val SURPRISE_MULCH = mulchItem("surprise_mulch")
+    val SURPRISE_MULCH = mulchItem("surprise_mulch", MulchVariant.SURPRISE)
 
     // Misc
     @JvmField
@@ -522,7 +571,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 
-    private fun evolutionItem(name: String): CobblemonItem = this.create(name, CobblemonItem(Item.Settings()))
+    private fun noSettingsItem(name: String): CobblemonItem = this.create(name, CobblemonItem(Item.Settings()))
+
+    private fun mulchItem(name: String, mulchVariant: MulchVariant): MulchItem = this.create(name, MulchItem(mulchVariant))
 
     private fun pokeBallItem(pokeBall: PokeBall): PokeBallItem {
         val item = create(pokeBall.name.path, PokeBallItem(pokeBall))
@@ -530,8 +581,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         pokeBalls.add(item)
         return item
     }
-
-//    private fun heldItem(name: String): CobblemonItem = this.create(name, CobblemonItem(Item.Settings()))
 
     private fun candyItem(name: String, calculator: CandyItem.Calculator): CandyItem  = this.create(name, CandyItem(calculator))
 
@@ -544,191 +593,4 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         }
     )
 
-    private fun mulchItem(name: String): CobblemonItem = this.create(name, CobblemonItem(Item.Settings()))
-
-    // USE THIS TO DETERMINE WHAT ITEMS GO WHERE
-    // https://docs.google.com/spreadsheets/d/1QgaIlW-S9A-Blqhc-5G7OO3igaQdEAiYQqVEPnEBFmc/edit#gid=978365418
-
-    fun registerToItemGroups(consumer: (ItemGroup, Item) -> Unit) {
-
-        CobblemonItemGroups.BLOCKS.group().let { group ->
-            consumer(group, PC)
-            consumer(group, HEALING_MACHINE)
-            consumer(group, APRICORN_LOG)
-            consumer(group, APRICORN_WOOD)
-            consumer(group, STRIPPED_APRICORN_LOG)
-            consumer(group, STRIPPED_APRICORN_WOOD)
-            consumer(group, APRICORN_PLANKS)
-            consumer(group, APRICORN_STAIRS)
-            consumer(group, APRICORN_SLAB)
-            consumer(group, APRICORN_FENCE)
-            consumer(group, APRICORN_FENCE_GATE)
-            consumer(group, APRICORN_DOOR)
-            consumer(group, APRICORN_TRAPDOOR)
-            consumer(group, APRICORN_BUTTON)
-            consumer(group, APRICORN_PRESSURE_PLATE)
-            consumer(group, APRICORN_LEAVES)
-            consumer(group, DAWN_STONE_ORE)
-            consumer(group, DEEPSLATE_DAWN_STONE_ORE)
-            consumer(group, DUSK_STONE_ORE)
-            consumer(group, DEEPSLATE_DUSK_STONE_ORE)
-            consumer(group, FIRE_STONE_ORE)
-            consumer(group, DEEPSLATE_FIRE_STONE_ORE)
-            consumer(group, ICE_STONE_ORE)
-            consumer(group, DEEPSLATE_ICE_STONE_ORE)
-            consumer(group, LEAF_STONE_ORE)
-            consumer(group, DEEPSLATE_LEAF_STONE_ORE)
-            consumer(group, MOON_STONE_ORE)
-            consumer(group, DEEPSLATE_MOON_STONE_ORE)
-            consumer(group, DRIPSTONE_MOON_STONE_ORE)
-            consumer(group, SHINY_STONE_ORE)
-            consumer(group, DEEPSLATE_SHINY_STONE_ORE)
-            consumer(group, SUN_STONE_ORE)
-            consumer(group, DEEPSLATE_SUN_STONE_ORE)
-            consumer(group, THUNDER_STONE_ORE)
-            consumer(group, DEEPSLATE_THUNDER_STONE_ORE)
-            consumer(group, WATER_STONE_ORE)
-            consumer(group, DEEPSLATE_WATER_STONE_ORE)
-        }
-
-        pokeBalls.forEach { item -> consumer(CobblemonItemGroups.POKE_BALLS.group(), item) }
-
-        CobblemonItemGroups.AGRICULTURE.group().let { group ->
-            consumer(group, MEDICINAL_LEEK)
-            consumer(group, BIG_ROOT)
-            consumer(group, ENERGY_ROOT)
-            consumer(group, REVIVAL_HERB)
-            consumer(group, PEP_UP_FLOWER)
-
-            consumer(group, RED_APRICORN)
-            consumer(group, YELLOW_APRICORN)
-            consumer(group, GREEN_APRICORN)
-            consumer(group, BLUE_APRICORN)
-            consumer(group, PINK_APRICORN)
-            consumer(group, BLACK_APRICORN)
-            consumer(group, WHITE_APRICORN)
-            consumer(group, RED_APRICORN_SEED)
-            consumer(group, YELLOW_APRICORN_SEED)
-            consumer(group, GREEN_APRICORN_SEED)
-            consumer(group, BLUE_APRICORN_SEED)
-            consumer(group, PINK_APRICORN_SEED)
-            consumer(group, BLACK_APRICORN_SEED)
-            consumer(group, WHITE_APRICORN_SEED)
-
-            consumer(group, RED_MINT_SEEDS)
-            consumer(group, RED_MINT_LEAF)
-            consumer(group, BLUE_MINT_SEEDS)
-            consumer(group, BLUE_MINT_LEAF)
-            consumer(group, CYAN_MINT_SEEDS)
-            consumer(group, CYAN_MINT_LEAF)
-            consumer(group, PINK_MINT_SEEDS)
-            consumer(group, PINK_MINT_LEAF)
-            consumer(group, GREEN_MINT_SEEDS)
-            consumer(group, GREEN_MINT_LEAF)
-            consumer(group, WHITE_MINT_SEEDS)
-            consumer(group, WHITE_MINT_LEAF)
-        }
-
-        CobblemonItemGroups.CONSUMABLES.group().let { group ->
-            consumer(group, ROASTED_LEEK)
-            consumer(group, LEEK_AND_POTATO_STEW)
-            consumer(group, REMEDY)
-            consumer(group, FINE_REMEDY)
-            consumer(group, SUPERB_REMEDY)
-            consumer(group, HEAL_POWDER)
-            consumer(group, MEDICINAL_BREW)
-            consumer(group, REVIVE)
-            consumer(group, MAX_REVIVE)
-
-            consumer(group, X_ATTACK)
-            consumer(group, X_DEFENSE)
-            consumer(group, X_SP_ATK)
-            consumer(group, X_SP_DEF)
-            consumer(group, X_SPEED)
-            consumer(group, X_ACCURACY)
-
-            consumer(group, HP_UP)
-            consumer(group, PROTEIN)
-            consumer(group, IRON)
-            consumer(group, CALCIUM)
-            consumer(group, ZINC)
-            consumer(group, CARBOS)
-            consumer(group, PP_UP)
-            consumer(group, PP_MAX)
-            consumer(group, EXPERIENCE_CANDY_XS)
-            consumer(group, EXPERIENCE_CANDY_S)
-            consumer(group, EXPERIENCE_CANDY_M)
-            consumer(group, EXPERIENCE_CANDY_L)
-            consumer(group, EXPERIENCE_CANDY_XL)
-            consumer(group, RARE_CANDY)
-
-            consumer(group, LONELY_MINT)
-            consumer(group, ADAMANT_MINT)
-            consumer(group, NAUGHTY_MINT)
-            consumer(group, BRAVE_MINT)
-            consumer(group, BOLD_MINT)
-            consumer(group, IMPISH_MINT)
-            consumer(group, LAX_MINT)
-            consumer(group, RELAXED_MINT)
-            consumer(group, MODEST_MINT)
-            consumer(group, MILD_MINT)
-            consumer(group, RASH_MINT)
-            consumer(group, QUIET_MINT)
-            consumer(group, CALM_MINT)
-            consumer(group, GENTLE_MINT)
-            consumer(group, CAREFUL_MINT)
-            consumer(group, SASSY_MINT)
-            consumer(group, TIMID_MINT)
-            consumer(group, HASTY_MINT)
-            consumer(group, JOLLY_MINT)
-            consumer(group, NAIVE_MINT)
-            consumer(group, SERIOUS_MINT)
-        }
-
-        CobblemonItemGroups.EVOLUTION_ITEMS.group().let { group ->
-            consumer(group, FIRE_STONE)
-            consumer(group, WATER_STONE)
-            consumer(group, THUNDER_STONE)
-            consumer(group, LEAF_STONE)
-            consumer(group, MOON_STONE)
-            consumer(group, SUN_STONE)
-            consumer(group, SHINY_STONE)
-            consumer(group, DUSK_STONE)
-            consumer(group, DAWN_STONE)
-            consumer(group, ICE_STONE)
-            consumer(group, LINK_CABLE)
-            consumer(group, KINGS_ROCK)
-            consumer(group, GALARICA_CUFF)
-            consumer(group, GALARICA_WREATH)
-            consumer(group, METAL_COAT)
-            consumer(group, BLACK_AUGURITE)
-            consumer(group, PROTECTOR)
-            consumer(group, OVAL_STONE)
-            consumer(group, DRAGON_SCALE)
-            consumer(group, ELECTIRIZER)
-            consumer(group, MAGMARIZER)
-            consumer(group, UPGRADE)
-            consumer(group, DUBIOUS_DISC)
-            consumer(group, RAZOR_FANG)
-            consumer(group, RAZOR_CLAW)
-            consumer(group, PEAT_BLOCK)
-            consumer(group, PRISM_SCALE)
-            consumer(group, REAPER_CLOTH)
-            consumer(group, DEEP_SEA_TOOTH)
-            consumer(group, DEEP_SEA_SCALE)
-            consumer(group, SACHET)
-            consumer(group, WHIPPED_DREAM)
-            consumer(group, TART_APPLE)
-            consumer(group, SWEET_APPLE)
-            consumer(group, CRACKED_POT)
-            consumer(group, CHIPPED_POT)
-            consumer(group, STRAWBERRY_SWEET)
-            consumer(group, LOVE_SWEET)
-            consumer(group, BERRY_SWEET)
-            consumer(group, CLOVER_SWEET)
-            consumer(group, FLOWER_SWEET)
-            consumer(group, STAR_SWEET)
-            consumer(group, RIBBON_SWEET)
-        }
-    }
 }

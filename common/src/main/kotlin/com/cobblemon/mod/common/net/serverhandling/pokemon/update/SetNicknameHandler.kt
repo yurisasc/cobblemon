@@ -42,7 +42,7 @@ object SetNicknameHandler : ServerNetworkPacketHandler<SetNicknamePacket> {
                 pokemon.nickname = it.nickname
             },
             ifCanceled = {
-                player.sendPacket(NicknameUpdatePacket(pokemon, pokemon.nickname))
+                player.sendPacket(NicknameUpdatePacket({ pokemon }, pokemon.nickname))
             }
         )
     }

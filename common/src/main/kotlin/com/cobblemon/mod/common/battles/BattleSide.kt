@@ -30,4 +30,13 @@ class BattleSide(vararg val actors: BattleActor) {
     fun broadcastChatMessage(component: Text) {
         return this.actors.forEach { it.sendMessage(component) }
     }
+
+    fun stillSendingOut() = actors.any { it.stillSendingOutCount > 0 }
+
+    fun playCries() {
+        activePokemon.forEach {
+            val entity = it.battlePokemon?.entity ?: return@forEach
+            entity.cry()
+        }
+    }
 }
