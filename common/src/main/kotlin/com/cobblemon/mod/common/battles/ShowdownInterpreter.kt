@@ -678,7 +678,7 @@ object ShowdownInterpreter {
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
             val name = pokemon.getName()
             // Move may be null as it's not always given
-                val moveName = message.argumentAt(2)?.let { Moves.getByName(it.replace(" ",""))?.displayName } ?: "NULL".text()
+                val moveName = message.argumentAt(2)?.let { Moves.getByName(it.replace(" ",""))?.displayName } ?: "".text()
 
             val lang = when (effectID) {
                 // TODO: in the games they use a generic image because there is a popup of the ability and the sprite of the mon, it may be good to have a similar system here
