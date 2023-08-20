@@ -157,7 +157,6 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("onix", ::OnixModel)
         inbuilt("persian", ::PersianModel)
         inbuilt("pikachu", ::PikachuModel)
-        inbuilt("pikachu_alolan", ::PikachuAlolanModel)
         inbuilt("pinsir", ::PinsirModel)
         inbuilt("poliwag", ::PoliwagModel)
         inbuilt("poliwhirl", ::PoliwhirlModel)

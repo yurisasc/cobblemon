@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "pikachu_alolan",
+					"name": "pikachu",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "pikachu_alolan",
+					"parent": "pikachu",
 					"pivot": [0, 8, 0.5]
 				},
 				{

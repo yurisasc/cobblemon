@@ -46,8 +46,7 @@ class MisdreavusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("misdreavus", "ground_idle")
-                //bedrock("misdreavus", "ground_walk")
+                bedrock("misdreavus", "ground_walk")
             )
         )
     }
