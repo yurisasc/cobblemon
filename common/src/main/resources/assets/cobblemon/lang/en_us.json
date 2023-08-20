@@ -520,6 +520,8 @@
   "item.cobblemon.micle_berry.tooltip": "Holder's next move has 1.2x accuracy when at 1/4 max HP or less",
   "item.cobblemon.nanab_berry": "Nanab Berry",
   "item.cobblemon.nanab_berry.tooltip": "Cannot be eaten by the holder",
+  "item.cobblemon.touga_berry": "Touga Berry",
+  "item.cobblemon.touga_berry.tooltip": "Holder is cured if it is confused",
   "item.cobblemon.nomel_berry": "Nomel Berry",
   "item.cobblemon.nomel_berry.tooltip": "Cannot be eaten by the holder",
   "item.cobblemon.occa_berry": "Occa Berry",

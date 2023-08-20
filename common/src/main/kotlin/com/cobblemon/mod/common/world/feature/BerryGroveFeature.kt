@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.world.feature
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.api.berry.BerryHelper
+import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.block.BerryBlock
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
@@ -38,7 +39,6 @@ class BerryGroveFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureCo
         val isGenerating = worldGenLevel.getChunk(origin).status != ChunkStatus.FULL
 
         if (!isGenerating) return false
-
         val biome = worldGenLevel.getBiome(origin)
         //This basically goes through and finds the berries whose preferred biome we are in
         //Maybe cache these per biome in a map?
@@ -51,16 +51,20 @@ class BerryGroveFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureCo
         } ?: 0
         var numTreesLeftToGen = numTreesToGen
         val defTreeState = BlockStateProvider.of(pickedTree.defaultState.with(BerryBlock.WAS_GENERATED, true))
+
         val randomTreeStateProvider = RandomizedIntBlockStateProvider(
             defTreeState, BerryBlock.AGE,
-            ClampedNormalIntProvider.of(3f, 1f, 1, 5))
+            ClampedNormalIntProvider.of(4f, 1f, 1, 5))
         val blockPlaceFeature = PlacedFeatures.createEntry(
             SIMPLE_BLOCK,
             SimpleBlockFeatureConfig(
                 randomTreeStateProvider
             ),
             BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(BlockTags.REPLACEABLE)),
-            BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Vec3i(0, -1, 0), BlockTags.DIRT)),
+            BlockFilterPlacementModifier.of(BlockPredicate.anyOf(
+                BlockPredicate.matchingBlockTag(Vec3i(0, -1, 0), BlockTags.SAND),
+                BlockPredicate.matchingBlockTag(Vec3i(0, -1, 0), BlockTags.DIRT)
+            )),
         ).value()
         val possiblePositions = listOf(
             origin.north(),
