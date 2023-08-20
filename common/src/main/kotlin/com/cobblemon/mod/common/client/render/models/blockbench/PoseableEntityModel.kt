@@ -10,7 +10,11 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.*
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
@@ -26,7 +30,13 @@ import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.render.*
+import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderPhase
+import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
@@ -295,7 +305,14 @@ abstract class PoseableEntityModel<T : Entity>(
 
     fun makeLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
         val multiPhaseParameters: RenderLayer.MultiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
-            .program(if (emissive) RenderPhase.ENTITY_TRANSLUCENT_EMISSIVE_PROGRAM else RenderPhase.ENTITY_TRANSLUCENT_PROGRAM)
+            .program(
+                when {
+                    emissive && translucent -> RenderPhase.ENTITY_TRANSLUCENT_EMISSIVE_PROGRAM
+                    !emissive && translucent -> RenderPhase.ENTITY_TRANSLUCENT_PROGRAM
+                    !emissive && !translucent -> RenderPhase.ENTITY_CUTOUT_PROGRAM
+                    else -> RenderPhase.ENTITY_TRANSLUCENT_EMISSIVE_PROGRAM // This one should be changed to maybe a custom shader? Translucent stuffs with things
+                }
+            )
             .texture(RenderPhase.Texture(texture, false, false))
             .transparency(if (translucent) RenderPhase.TRANSLUCENT_TRANSPARENCY else RenderPhase.NO_TRANSPARENCY)
             .cull(RenderPhase.ENABLE_CULLING)
