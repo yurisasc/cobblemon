@@ -20,6 +20,8 @@ import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.entity.SpawnEvent
 import com.cobblemon.mod.common.api.events.farming.ApricornHarvestEvent
 import com.cobblemon.mod.common.api.events.item.LeftoversCreatedEvent
+import com.cobblemon.mod.common.api.events.pokeball.PokeBallCaptureCalculatedEvent
+import com.cobblemon.mod.common.api.events.pokeball.PokemonCatchRateEvent
 import com.cobblemon.mod.common.api.events.pokeball.ThrownPokeballHitEvent
 import com.cobblemon.mod.common.api.events.pokemon.*
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
@@ -58,6 +60,10 @@ object CobblemonEvents {
 
     @JvmField
     val THROWN_POKEBALL_HIT = CancelableObservable<ThrownPokeballHitEvent>()
+    @JvmField
+    val POKEMON_CATCH_RATE = EventObservable<PokemonCatchRateEvent>()
+    @JvmField
+    val POKE_BALL_CAPTURE_CALCULATED = EventObservable<PokeBallCaptureCalculatedEvent>()
     @JvmField
     val POKEMON_CAPTURED = EventObservable<PokemonCapturedEvent>()
 //    @JvmField

@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.pokeball.PokeBallCaptureCalculatedEvent
 import com.cobblemon.mod.common.api.events.pokeball.ThrownPokeballHitEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
@@ -35,10 +36,10 @@ import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyPassResponsePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
+import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.util.isServerSide
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.playSoundServer
@@ -54,8 +55,8 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity
 import net.minecraft.item.Item
-import net.minecraft.network.packet.Packet
 import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
@@ -174,6 +175,11 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
                     return drop()
                 }
 
+                if (!UncatchableProperty.isCatchable(pokemonEntity)) {
+                    owner?.sendMessage(lang("capture.cannot_be_caught").red())
+                    return drop()
+                }
+
                 if (battle != null && owner != null && owner is LivingEntity) {
                     val throwerActor = battle.getActor(owner.uuid)
                     val hitActor = battle.actors.find { it.isForPokemon(pokemonEntity) }
@@ -274,7 +280,12 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
                     // We have hit the ground, time to stop falling and start shaking! Calculate capture.
                     capturingPokemon?.setPositionSafely(pos)
                     captureState.set(CaptureState.SHAKE.ordinal.toByte())
-                    val captureResult = Cobblemon.config.captureCalculator.processCapture(owner as ServerPlayerEntity, pokeBall, capturingPokemon!!.pokemon)
+                    val thrower = owner as LivingEntity
+                    val captureResult = Cobblemon.config.captureCalculator.processCapture(thrower, this, capturingPokemon!!).let {
+                        val event = PokeBallCaptureCalculatedEvent(thrower = thrower, pokemonEntity = capturingPokemon!!, pokeBallEntity = this, captureResult = it)
+                        CobblemonEvents.POKE_BALL_CAPTURE_CALCULATED.post(event)
+                        event.captureResult
+                    }
 
                     var rollsRemaining = captureResult.numberOfShakes
                     if (rollsRemaining == 4) {
