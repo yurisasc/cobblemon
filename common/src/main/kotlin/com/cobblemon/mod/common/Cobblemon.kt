@@ -54,13 +54,8 @@ import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
-import com.cobblemon.mod.common.battles.BagItems
-import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
-import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.ShowdownThread
-import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
-import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.command.argument.MoveArgumentType
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
 import com.cobblemon.mod.common.command.argument.PokemonArgumentType
@@ -105,7 +100,6 @@ import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.io.PrintWriter
-import java.util.UUID
 import kotlin.properties.Delegates
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
@@ -311,15 +305,6 @@ object Cobblemon {
                     pokemon.storeCoordinates.get()?.store?.add(product)
                 }
             }
-        }
-
-        BagItems.observable.subscribe {
-            LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
-            battleRegistry.startBattle(
-                BattleFormat.GEN_9_SINGLES,
-                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
-                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
-            ).apply { mute = true }
         }
     }
 
