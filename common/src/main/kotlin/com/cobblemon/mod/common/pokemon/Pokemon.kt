@@ -166,20 +166,15 @@ open class Pokemon : ShowdownIdentifiable {
 
     var level = 1
         set(value) {
-            if (value < 1) {
-                throw IllegalArgumentException("Level cannot be negative")
-            }
-            if (value > Cobblemon.config.maxPokemonLevel) {
-                throw IllegalArgumentException("Cannot set level above the configured maximum of ${Cobblemon.config.maxPokemonLevel}")
-            }
+            val boundedValue = clamp(value, 1, Cobblemon.config.maxPokemonLevel)
             val hpRatio = (currentHealth / hp.toFloat()).coerceIn(0F, 1F)
             /*
              * When people set the level programmatically the experience value will become incorrect.
              * Specifically check for when there's a mismatch and update the experience.
              */
-            field = value
-            if (experienceGroup.getLevel(experience) != value || value == Cobblemon.config.maxPokemonLevel) {
-                experience = experienceGroup.getExperience(value)
+            field = boundedValue
+            if (experienceGroup.getLevel(experience) != boundedValue || value == Cobblemon.config.maxPokemonLevel) {
+                experience = experienceGroup.getExperience(boundedValue)
             }
 //            _level.emit(value)
 
