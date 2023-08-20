@@ -106,9 +106,14 @@ interface PokemonSelectingItem {
     }
 
     fun interactGeneral(player: ServerPlayerEntity, stack: ItemStack): TypedActionResult<ItemStack> {
+        val party = player.party().toList()
+        if (party.isEmpty()) {
+            return TypedActionResult.fail(stack)
+        }
+
         PartySelectCallbacks.createFromPokemon(
             player = player,
-            pokemon = player.party().toList(),
+            pokemon = party,
             canSelect = ::canUseOnPokemon,
             handler = { pk ->
                 if (stack.isHeld(player)) {
