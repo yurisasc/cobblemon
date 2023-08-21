@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.api.npc.partyproviders
 
 import com.cobblemon.mod.common.api.npc.NPCPartyProvider
@@ -8,6 +16,8 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
@@ -37,16 +47,22 @@ class SimplePartyProvider : NPCPartyProvider {
 
     override fun saveToNBT(nbt: NbtCompound) {
         for ((index, pokemon) in this.pokemon.withIndex()) {
-            val pokemonNBT = pokemon.saveToNBT()
-            nbt.put(DataKeys.POKEMON_PROPERTIES + index, pokemonNBT)
+            nbt.putString(DataKeys.NPC_PARTY_POKEMON + index, pokemon.originalString)
         }
     }
 
     override fun loadFromNBT(nbt: NbtCompound) {
         var index = 0
-        while (nbt.contains(DataKeys.POKEMON_PROPERTIES + index)) {
-            this.pokemon.add(PokemonProperties().loadFromNBT(nbt.getCompound(DataKeys.POKEMON_PROPERTIES + index)))
+        while (nbt.contains(DataKeys.NPC_PARTY_POKEMON + index)) {
+            this.pokemon.add(PokemonProperties.parse(nbt.getString(DataKeys.POKEMON_PROPERTIES + index)))
             index++
+        }
+    }
+
+    override fun loadFromJSON(json: JsonElement) {
+        json as JsonObject
+        if (json.has(DataKeys.NPC_PARTY_POKEMON.lowercase())) {
+            json.get(DataKeys.NPC_PARTY_POKEMON.lowercase()).asJsonArray.forEach { pokemon.add(PokemonProperties.parse(it.asString)) }
         }
     }
 

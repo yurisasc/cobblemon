@@ -15,6 +15,9 @@ import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.UUIDSetDataSerializer
 import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
+import com.cobblemon.mod.common.api.npc.configuration.NPCBehaviourConfiguration
+import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
+import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -28,10 +31,14 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.passive.PassiveEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
@@ -65,6 +72,8 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
     val battleIds = addEntityProperty(BATTLE_IDS, emptySet())
 
     var battle: NPCBattleConfiguration? = null
+    var interact: NPCInteractConfiguration? = null
+    var behaviour: NPCBehaviourConfiguration? = null
 
 
     /* TODO NPC Valuables to add:
@@ -132,5 +141,23 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
             battle = NPCBattleConfiguration().also { it.loadFromNBT(battleNBT) }
         }
         updateAspects()
+    }
+
+    override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
+        if (player is ServerPlayerEntity) {
+            val battle = getBattleConfiguration()
+            if (battle.canChallenge) {
+                val provider = battle.party
+                if (provider != null) {
+                    val party = provider.provide(this, listOf(player))
+                    val result = BattleBuilder.pvn(
+                        player = player,
+                        npcEntity = this
+                    )
+                    println(result)
+                }
+            }
+        }
+        return super.interactMob(player, hand)
     }
 }

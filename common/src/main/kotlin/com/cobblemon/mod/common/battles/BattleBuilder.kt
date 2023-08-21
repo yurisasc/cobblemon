@@ -17,6 +17,8 @@ import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.entity.npc.NPCBattleActor
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
@@ -133,6 +135,71 @@ object BattleBuilder {
                 )
                 if (!cloneParties) {
                     pokemonEntity.battleId.set(Optional.of(battle.battleId))
+                }
+                SuccessfulBattleStart(battle)
+            }
+            errors
+        } else {
+            errors
+        }
+    }
+
+    /**
+     * Attempts to create a PvE battle against the given Pokémon.
+     *
+     * @param player The player battling the wild Pokémon.
+     * @param pokemonEntity The Pokémon to battle.
+     * @param leadingPokemon The Pokémon in the player's party to send out first. If null, it uses the first in the party.
+     * @param battleFormat The format to use for the battle. By default it is [BattleFormat.GEN_9_SINGLES].
+     * @param cloneParties Whether the player's party should be cloned so that damage will not affect their party afterwards. Defaults to false.
+     * @param healFirst Whether the player's Pokémon should be healed before the battle starts. Defaults to false.
+     * @param fleeDistance How far away the player must get to flee the Pokémon. If the value is -1, it cannot be fled.
+     * @param party The party of the player to use for the battle. This does not need to be their actual party. Defaults to it though.
+     */
+    @JvmOverloads
+    fun pvn(
+        player: ServerPlayerEntity,
+        npcEntity: NPCEntity,
+        leadingPokemon: UUID? = null,
+        battleFormat: BattleFormat = BattleFormat.GEN_9_SINGLES,
+        cloneParties: Boolean = false,
+        healFirst: Boolean = false,
+        party: PartyStore = player.party()
+    ): BattleStartResult {
+        val playerTeam = party.toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon = leadingPokemon)
+        val playerActor = PlayerBattleActor(player.uuid, playerTeam)
+
+        val party = npcEntity.getBattleConfiguration().party?.provide(npcEntity, listOf(player)) ?: TODO("Deal with this issue!")
+        val npcActor = NPCBattleActor(npcEntity, party)
+        val errors = ErroredBattleStart()
+
+        if (playerActor.pokemonList.size < battleFormat.battleType.slotsPerActor) {
+            errors.participantErrors[playerActor] += BattleStartError.insufficientPokemon(
+                player = player,
+                requiredCount = battleFormat.battleType.slotsPerActor,
+                hadCount = playerActor.pokemonList.size
+            )
+        }
+
+        if (BattleRegistry.getBattleByParticipatingPlayer(player) != null) {
+            errors.participantErrors[playerActor] += BattleStartError.alreadyInBattle(playerActor)
+        }
+
+//        if (npcEntity.battleIds.get().isPresent) {
+//            errors.participantErrors[npcActor] += BattleStartError.alreadyInBattle(npcActor)
+//        }
+
+        return if (errors.isEmpty) {
+            CobblemonEvents.BATTLE_STARTED_PRE.postThen(
+                BattleStartedPreEvent(listOf(playerActor, npcActor), battleFormat, false, true, false))
+            {
+                val battle = BattleRegistry.startBattle(
+                    battleFormat = battleFormat,
+                    side1 = BattleSide(playerActor),
+                    side2 = BattleSide(npcActor)
+                )
+                if (!cloneParties) {
+                    npcEntity.battleIds.set(npcEntity.battleIds.get() + battle.battleId)
                 }
                 SuccessfulBattleStart(battle)
             }
