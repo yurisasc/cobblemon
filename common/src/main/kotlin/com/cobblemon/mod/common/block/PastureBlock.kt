@@ -246,7 +246,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
             world.playSoundServer(
                 position = pos.toVec3d(),
                 sound = CobblemonSounds.PC_ON,
-                volume = 1F,
+                volume = 0.5F,
                 pitch = 1F
             )
 

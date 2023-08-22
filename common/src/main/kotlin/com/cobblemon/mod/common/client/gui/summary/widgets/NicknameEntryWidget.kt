@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.TextFieldWidget
+import net.minecraft.client.util.InputUtil
 import net.minecraft.text.Text
 
 class NicknameEntryWidget(
@@ -64,16 +65,20 @@ class NicknameEntryWidget(
         text = text.trim().ifBlank { pokemonName }
         if (!focused) {
             val newNickname = if (text == pokemonName) null else text
-            if (oldText != lastSavedName && !(newNickname == null && pokemon.nickname == null)) {
-                lastSavedName = text
-                CobblemonNetwork.sendToServer(
+            updateNickname(oldText, newNickname)
+        }
+    }
+
+    private fun updateNickname(oldText: String, newNickname: String?) {
+        if (oldText != lastSavedName && !(newNickname == null && pokemon.nickname == null)) {
+            lastSavedName = text
+            CobblemonNetwork.sendToServer(
                     SetNicknamePacket(
-                        pokemonUUID = pokemon.uuid,
-                        nickname = newNickname,
-                        isParty = isParty
+                            pokemonUUID = pokemon.uuid,
+                            nickname = newNickname,
+                            isParty = isParty
                     )
-                )
-            }
+            )
         }
     }
 
@@ -88,5 +93,15 @@ class NicknameEntryWidget(
             y = y,
             shadow = true
         )
+    }
+
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        if (keyCode == InputUtil.GLFW_KEY_ESCAPE) {
+            val oldText = text.trim()
+            val pokemonName = pokemon.species.translatedName.string
+            val newNickname = if (text == pokemonName) null else text
+            updateNickname(oldText, newNickname)
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers)
     }
 }

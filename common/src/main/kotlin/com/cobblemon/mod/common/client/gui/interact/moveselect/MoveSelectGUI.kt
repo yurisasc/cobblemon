@@ -131,6 +131,7 @@ class MoveSelectGUI(
     }
 
     override fun shouldCloseOnEsc() = true
+    override fun shouldPause() = false
 
     fun playSound(soundEvent: SoundEvent) {
         MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
