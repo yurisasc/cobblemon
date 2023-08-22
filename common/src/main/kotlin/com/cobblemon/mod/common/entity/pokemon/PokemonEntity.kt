@@ -438,7 +438,6 @@ class PokemonEntity(
             override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get()
             override fun shouldContinue(): Boolean {
                 if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
-                    pokemon.status = null
                     return false
                 } else if (pokemon.status?.status == Statuses.SLEEP || isBusy) {
                     return true
