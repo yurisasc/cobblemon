@@ -13,8 +13,10 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyMoveCallbackPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.lang
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.MutableText
 
 /**
  * Used for opening a party select screen for players which routes to move selection when they choose a Pokémon.
@@ -30,6 +32,7 @@ object PartyMoveSelectCallbacks {
     @JvmOverloads
     fun create(
         player: ServerPlayerEntity,
+        partyTitle: MutableText = lang("ui.party"),
         pokemon: List<Pair<PartySelectPokemonDTO, List<MoveSelectDTO>>>,
         cancel: (ServerPlayerEntity) -> Unit = {},
         handler: (ServerPlayerEntity, pokemonIndex: Int, PartySelectPokemonDTO, moveIndex: Int, MoveSelectDTO) -> Unit
@@ -40,12 +43,13 @@ object PartyMoveSelectCallbacks {
             handler = handler
         )
         callbacks[player.uuid] = callback
-        player.sendPacket(OpenPartyMoveCallbackPacket(callback.uuid, callback.pokemon))
+        player.sendPacket(OpenPartyMoveCallbackPacket(callback.uuid, partyTitle, callback.pokemon))
     }
 
     @JvmOverloads
     fun createFromPokemon(
         player: ServerPlayerEntity,
+        partyTitle: MutableText = lang("ui.party"),
         pokemon: List<Pokemon>,
         moves: (Pokemon) -> List<Move> = { it.moveSet.getMoves() },
         canSelectPokemon: (Pokemon) -> Boolean = { true },
@@ -62,6 +66,7 @@ object PartyMoveSelectCallbacks {
 
         create(
             player = player,
+            partyTitle = partyTitle,
             pokemon = pokemonList,
             cancel = cancel,
             handler = { _, pkIndex, _, moveIndex, _ ->

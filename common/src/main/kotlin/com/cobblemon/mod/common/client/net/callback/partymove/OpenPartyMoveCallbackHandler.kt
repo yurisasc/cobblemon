@@ -52,7 +52,7 @@ object OpenPartyMoveCallbackHandler : ClientNetworkPacketHandler<OpenPartyMoveCa
         }
 
         partySelectConfiguration = PartySelectConfiguration(
-            title = "".text(),
+            title = packet.partyTitle,
             pokemon = pokemonToMoves.keys.toList(),
             onCancel = cancel,
             onBack = cancel,
