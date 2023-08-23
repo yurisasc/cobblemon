@@ -30,6 +30,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.ChunkStatus
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules.DO_POKEMON_SPAWNING
 
 /**
  * A type of [TickingSpawner] that operates within some area. When this spawner type
@@ -60,6 +61,9 @@ abstract class AreaSpawner(
 
     override fun run(cause: SpawnCause): Pair<SpawningContext, SpawnDetail>? {
         val area = getArea(cause)
+        if (area?.world?.gameRules?.getBoolean(DO_POKEMON_SPAWNING) == false) {
+            return null
+        }
         val constrainedArea = if (area != null) constrainArea(area) else null
         if (constrainedArea != null) {
             val numberNearby = constrainedArea.world.getEntitiesByClass(

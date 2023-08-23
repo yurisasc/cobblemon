@@ -422,7 +422,7 @@ open class Pokemon : ShowdownIdentifiable {
     ): CompletableFuture<PokemonEntity> {
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
-            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 1F)
+            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.8F)
             it.phasingTargetId.set(source.id)
             it.beamModeEmitter.set(1)
             it.battleId.set(Optional.ofNullable(battleId))
@@ -777,7 +777,9 @@ open class Pokemon : ShowdownIdentifiable {
             }
         }
         // This cast should be fine as we gave it a NbtCompound
-        this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as NbtCompound
+        if (json.has(DataKeys.POKEMON_PERSISTENT_DATA)) {
+            this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as NbtCompound
+        }
         if (json.has(DataKeys.TETHERING_ID)) {
             tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
         }
