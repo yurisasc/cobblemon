@@ -155,6 +155,18 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val YELLOW_APRICORN = apricornBlock("yellow_apricorn", Apricorn.YELLOW)
 
     @JvmField
+    val RESURRECTION_MACHINE = create(
+        "resurrection_machine",
+        ResurrectionMachineBlock(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.IRON_GRAY)
+                .sounds(BlockSoundGroup.METAL)
+                .pistonBehavior(PistonBehavior.IGNORE)
+                .strength(2f)
+                .nonOpaque()
+        )
+    )
+    @JvmField
     val HEALING_MACHINE = create(
         "healing_machine",
         HealingMachineBlock(

@@ -151,7 +151,7 @@ object CobblemonClient {
             CobblemonBlocks.YELLOW_APRICORN,
             CobblemonBlocks.HEALING_MACHINE,
             CobblemonBlocks.MEDICINAL_LEEK,
-            CobblemonBlocks.HEALING_MACHINE,
+            CobblemonBlocks.RESURRECTION_MACHINE,
             CobblemonBlocks.RED_MINT,
             CobblemonBlocks.BLUE_MINT,
             CobblemonBlocks.CYAN_MINT,

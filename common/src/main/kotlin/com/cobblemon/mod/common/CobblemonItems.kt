@@ -180,6 +180,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val APRICORN_STAIRS = blockItem("apricorn_stairs", CobblemonBlocks.APRICORN_STAIRS)
 
     @JvmField
+    val RESURRECTION_MACHINE = blockItem("resurrection_machine", CobblemonBlocks.RESURRECTION_MACHINE)
+    @JvmField
     val HEALING_MACHINE = blockItem("healing_machine", CobblemonBlocks.HEALING_MACHINE)
     @JvmField
     val PC = blockItem("pc", CobblemonBlocks.PC)
