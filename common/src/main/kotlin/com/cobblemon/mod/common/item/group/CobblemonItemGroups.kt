@@ -325,6 +325,12 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.TWISTED_SPOON)
         entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
+        entries.add(CobblemonItems.POWER_ANKLET)
+        entries.add(CobblemonItems.POWER_BAND)
+        entries.add(CobblemonItems.POWER_BELT)
+        entries.add(CobblemonItems.POWER_BRACER)
+        entries.add(CobblemonItems.POWER_LENS)
+        entries.add(CobblemonItems.POWER_WEIGHT)
     }
 
     private fun pokeBallEntries(displayContext: DisplayContext, entries: Entries) {
