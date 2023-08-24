@@ -20,5 +20,7 @@ interface MultiblockStructure {
         blockHitResult: BlockHitResult
     ): ActionResult
 
+    fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?)
+
     fun tick()
 }

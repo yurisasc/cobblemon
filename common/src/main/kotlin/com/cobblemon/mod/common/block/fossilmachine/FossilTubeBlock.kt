@@ -67,13 +67,14 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Water
         placer: LivingEntity?,
         itemStack: ItemStack?
     ) {
-        super.onPlaced(world, pos, state, placer, itemStack)
+        //Place the full block before we call to super to validate the multiblock
         world.setBlockState(pos.up(), state
             .with(PART, TubePart.TOP)
             .with(PCBlock.WATERLOGGED, world.getFluidState((pos.up())).fluid == Fluids.WATER)
                 as BlockState, 3)
         world.updateNeighbors(pos, Blocks.AIR)
         state.updateNeighbors(world, pos, 3)
+        super.onPlaced(world, pos, state, placer, itemStack)
     }
 
     override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {

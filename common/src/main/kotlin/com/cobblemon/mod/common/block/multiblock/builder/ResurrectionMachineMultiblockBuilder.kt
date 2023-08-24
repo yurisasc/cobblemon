@@ -6,7 +6,6 @@ import com.cobblemon.mod.common.block.entity.MultiblockEntity
 import com.cobblemon.mod.common.block.fossilmachine.FossilTubeBlock
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.condition.BlockRelativeCondition
-import com.cobblemon.mod.common.block.multiblock.condition.OrCondition
 import com.cobblemon.mod.common.util.math.geometry.blockPositionsAsList
 import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.predicate.BlockPredicate
@@ -46,14 +45,17 @@ class ResurrectionMachineMultiblockBuilder(val centerPos: BlockPos) : Multiblock
         val fossilTubePos = fossilTubePositions.random()
         val monitorEntity = world.getBlockEntity(fossilMonitorPos) as MultiblockEntity
         val compEntity = world.getBlockEntity(fossilCompPos) as MultiblockEntity
-        val tubeEntity = world.getBlockEntity(fossilTubePos) as MultiblockEntity
+        val tubeBaseEntity = world.getBlockEntity(fossilTubePos) as MultiblockEntity
+        val tubeTopEntity = world.getBlockEntity(fossilTubePos.up()) as MultiblockEntity
         val structure = FossilMultiblockStructure(fossilMonitorPos, fossilCompPos, fossilTubePos)
         compEntity.multiblockStructure = structure
-        tubeEntity.multiblockStructure = structure
+        tubeBaseEntity.multiblockStructure = structure
+        tubeTopEntity.multiblockStructure = structure
         monitorEntity.multiblockStructure = structure
         //Set these to null so the builders can be freed
         compEntity.multiblockBuilder = null
-        tubeEntity.multiblockBuilder = null
+        tubeBaseEntity.multiblockBuilder = null
+        tubeTopEntity.multiblockBuilder = null
         monitorEntity.multiblockBuilder = null
     }
 

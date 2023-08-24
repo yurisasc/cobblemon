@@ -3,6 +3,7 @@ package com.cobblemon.mod.common.block.multiblock
 import com.cobblemon.mod.common.api.fossil.FossilVariant
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.entity.MultiblockEntity
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.entity.player.PlayerEntity
@@ -13,7 +14,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class FossilMultiblockStructure(
+class FossilMultiblockStructure (
     val monitorPos: BlockPos,
     val compartmentPos: BlockPos,
     val tubeBasePos: BlockPos
@@ -48,6 +49,19 @@ class FossilMultiblockStructure(
         return ActionResult.PASS
 
     }
+
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
+        val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
+        val compartmentEntity = world.getBlockEntity(compartmentPos) as MultiblockEntity
+        val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as MultiblockEntity
+        val tubeTopEntity = world.getBlockEntity(tubeBasePos) as MultiblockEntity
+
+        monitorEntity.multiblockStructure = null
+        compartmentEntity.multiblockStructure = null
+        tubeBaseEntity.multiblockStructure = null
+        tubeTopEntity.multiblockStructure = null
+    }
+
 
     override fun tick() {
         if (timeRemaining > 0) {

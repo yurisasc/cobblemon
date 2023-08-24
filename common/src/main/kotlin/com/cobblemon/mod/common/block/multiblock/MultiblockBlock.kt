@@ -26,11 +26,11 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         placer: LivingEntity?,
         itemStack: ItemStack?
     ) {
-        super.onPlaced(world, pos, state, placer, itemStack)
         if (world is ServerWorld) {
             val multiblockEntity = world.getBlockEntity(pos) as MultiblockEntity
             multiblockEntity.multiblockBuilder?.validate(world)
         }
+        super.onPlaced(world, pos, state, placer, itemStack)
     }
 
     override fun onUse(
@@ -46,6 +46,14 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
             return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
         }
         return super.onUse(state, world, pos, player, hand, hit)
+    }
+
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
+        super.onBreak(world, pos, state, player)
+        val entity = world.getBlockEntity(pos)
+        if (entity is MultiblockEntity && entity.multiblockStructure != null) {
+            entity.multiblockStructure!!.onBreak(world, pos, state, player)
+        }
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
