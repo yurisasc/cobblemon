@@ -7,6 +7,7 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.util.math.BlockPos
 
+/*
 class ResurrectionMachineBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.RESURRECTION_MACHINE, pos, state) {
     val ticksPerMinute = 1200
     val fossilInside: FossilVariant? = null
@@ -21,3 +22,6 @@ class ResurrectionMachineBlockEntity(pos: BlockPos, state: BlockState) : BlockEn
         }
     }
 }
+
+
+ */

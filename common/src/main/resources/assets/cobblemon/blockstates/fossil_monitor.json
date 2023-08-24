@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=south": {
+      "model": "cobblemon:block/fossil_monitor"
+    },
+    "facing=west": {
+      "model": "cobblemon:block/fossil_monitor",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "cobblemon:block/fossil_monitor",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "cobblemon:block/fossil_monitor",
+      "y": 270
+    }
+  }
+}

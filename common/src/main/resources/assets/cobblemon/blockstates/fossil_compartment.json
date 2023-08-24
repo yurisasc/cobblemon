@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=south": {
+      "model": "cobblemon:block/fossil_compartment"
+    },
+    "facing=west": {
+      "model": "cobblemon:block/fossil_compartment",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "cobblemon:block/fossil_compartment",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "cobblemon:block/fossil_compartment",
+      "y": 270
+    }
+  }
+}

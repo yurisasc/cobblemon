@@ -1,8 +1,8 @@
+/*
 package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
-import com.cobblemon.mod.common.block.entity.ResurrectionMachineBlockEntity
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
@@ -18,7 +18,6 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldView
-
 class ResurrectionMachineBlock(properties: Settings) : BlockWithEntity(properties) {
 
     override fun getRenderType(state: BlockState?) = BlockRenderType.MODEL
@@ -26,6 +25,7 @@ class ResurrectionMachineBlock(properties: Settings) : BlockWithEntity(propertie
         return true
     }
 
+    /*
     override fun <T : BlockEntity?> getTicker(
         world: World?,
         state: BlockState?,
@@ -35,6 +35,7 @@ class ResurrectionMachineBlock(properties: Settings) : BlockWithEntity(propertie
         CobblemonBlockEntities.RESURRECTION_MACHINE,
         ResurrectionMachineBlockEntity.TICKER
     )
+    */
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
         return ResurrectionMachineBlockEntity(pos, state)
@@ -68,3 +69,6 @@ class ResurrectionMachineBlock(properties: Settings) : BlockWithEntity(propertie
     }
 
 }
+
+
+ */

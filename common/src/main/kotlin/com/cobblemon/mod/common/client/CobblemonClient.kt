@@ -151,7 +151,6 @@ object CobblemonClient {
             CobblemonBlocks.YELLOW_APRICORN,
             CobblemonBlocks.HEALING_MACHINE,
             CobblemonBlocks.MEDICINAL_LEEK,
-            CobblemonBlocks.RESURRECTION_MACHINE,
             CobblemonBlocks.RED_MINT,
             CobblemonBlocks.BLUE_MINT,
             CobblemonBlocks.CYAN_MINT,
@@ -164,7 +163,8 @@ object CobblemonClient {
             CobblemonBlocks.REVIVAL_HERB,
             CobblemonBlocks.VIVICHOKE_SEEDS,
             CobblemonBlocks.PEP_UP_FLOWER,
-            CobblemonBlocks.POTTED_PEP_UP_FLOWER
+            CobblemonBlocks.POTTED_PEP_UP_FLOWER,
+            CobblemonBlocks.FOSSIL_TUBE
         )
     }
 

@@ -130,7 +130,9 @@ object CobblemonItemGroups {
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
-        entries.add(CobblemonItems.RESURRECTION_MACHINE)
+        entries.add(CobblemonItems.FOSSIL_TUBE)
+        entries.add(CobblemonItems.FOSSIL_COMPARTMENT)
+        entries.add(CobblemonItems.FOSSIL_MONITOR)
         entries.add(CobblemonItems.PC)
         entries.add(CobblemonItems.HEALING_MACHINE)
         entries.add(CobblemonItems.PASTURE)
