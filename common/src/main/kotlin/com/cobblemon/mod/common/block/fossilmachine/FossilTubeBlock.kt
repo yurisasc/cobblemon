@@ -1,6 +1,9 @@
 package com.cobblemon.mod.common.block.fossilmachine
 
 import com.cobblemon.mod.common.block.PCBlock
+import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.multiblock.MultiblockBlock
+import com.cobblemon.mod.common.block.multiblock.builder.ResurrectionMachineMultiblockBuilder
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -11,6 +14,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.EnumProperty
+import net.minecraft.state.property.Properties
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -18,10 +22,10 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
-class FossilTubeBlock(properties: Settings) : HorizontalFacingBlock(properties), Waterloggable {
+class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Waterloggable {
     init {
         defaultState = defaultState
-            .with(FACING, Direction.NORTH)
+            .with(Properties.FACING, Direction.NORTH)
             .with(PART, TubePart.BOTTOM)
             .with(WATERLOGGED, false)
             .with(ON, false)
@@ -43,6 +47,8 @@ class FossilTubeBlock(properties: Settings) : HorizontalFacingBlock(properties),
         }
     }
 
+
+
     private fun isBase(state: BlockState): Boolean = state.get(PART) == TubePart.BOTTOM
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
@@ -54,7 +60,14 @@ class FossilTubeBlock(properties: Settings) : HorizontalFacingBlock(properties),
         }
     }
 
-    override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
+    override fun onPlaced(
+        world: World,
+        pos: BlockPos,
+        state: BlockState,
+        placer: LivingEntity?,
+        itemStack: ItemStack?
+    ) {
+        super.onPlaced(world, pos, state, placer, itemStack)
         world.setBlockState(pos.up(), state
             .with(PART, TubePart.TOP)
             .with(PCBlock.WATERLOGGED, world.getFluidState((pos.up())).fluid == Fluids.WATER)
@@ -63,12 +76,18 @@ class FossilTubeBlock(properties: Settings) : HorizontalFacingBlock(properties),
         state.updateNeighbors(world, pos, 3)
     }
 
+    override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {
+        return FossilMultiblockEntity(
+            pos, state, ResurrectionMachineMultiblockBuilder(pos)
+        )
+    }
+
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
         val abovePosition = blockPlaceContext.blockPos.up()
         val world = blockPlaceContext.world
         if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
             return defaultState
-                .with(FACING, blockPlaceContext.horizontalPlayerFacing)
+                .with(Properties.FACING, blockPlaceContext.horizontalPlayerFacing)
                 .with(PART, TubePart.BOTTOM)
                 .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
         }
@@ -82,7 +101,7 @@ class FossilTubeBlock(properties: Settings) : HorizontalFacingBlock(properties),
         return if (state.get(PART) == TubePart.BOTTOM) blockState.isSideSolidFullSquare(world, blockPos, Direction.UP) else blockState.isOf(this)
     }
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(FACING)
+        builder.add(Properties.FACING)
         builder.add(PART)
         builder.add(WATERLOGGED)
         builder.add(ON)
@@ -91,11 +110,6 @@ class FossilTubeBlock(properties: Settings) : HorizontalFacingBlock(properties),
     @Deprecated("Deprecated in Java")
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos?, newState: BlockState, moved: Boolean) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun getRenderType(blockState: BlockState): BlockRenderType {
-        return BlockRenderType.MODEL
     }
 
     @Deprecated("Deprecated in Java")

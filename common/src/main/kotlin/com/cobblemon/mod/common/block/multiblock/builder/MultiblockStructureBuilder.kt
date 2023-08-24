@@ -7,7 +7,7 @@ import net.minecraft.util.math.Box
 /**
  * Represents an area that has a potential to form a MultiBlockStructure
  * @property boundingBox The box that each condition checks in
- * @property conditions The [MultiblockCondition]s that must be met for the multiblock to form
+ * @property conditions The [MultiblockCondition]s that must be met for the multiblock to form. All must be true.
  *
  * @author Apion
  * @since August 24, 2023

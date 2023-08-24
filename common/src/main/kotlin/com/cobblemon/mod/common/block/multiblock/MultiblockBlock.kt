@@ -11,14 +11,14 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 /**
- * A block that is a part of a [MultiblockStructure]
+ * A block that can be part of a [MultiblockStructure]
  */
 abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(properties) {
 
     override fun onPlaced(
         world: World,
-        pos: BlockPos?,
-        state: BlockState?,
+        pos: BlockPos,
+        state: BlockState,
         placer: LivingEntity?,
         itemStack: ItemStack?
     ) {

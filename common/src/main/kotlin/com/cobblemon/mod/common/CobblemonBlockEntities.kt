@@ -37,6 +37,10 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
         "fossil_multiblock",
         BlockEntityType.Builder.create({ pos, state ->
             FossilMultiblockEntity(pos, state, ResurrectionMachineMultiblockBuilder(pos))
-        }, CobblemonBlocks.FOSSIL_COMPARTMENT, CobblemonBlocks.FOSSIL_MONITOR).build(null)
+            },
+            CobblemonBlocks.FOSSIL_COMPARTMENT,
+            CobblemonBlocks.FOSSIL_MONITOR,
+            CobblemonBlocks.FOSSIL_TUBE
+        ).build(null)
     )
 }
