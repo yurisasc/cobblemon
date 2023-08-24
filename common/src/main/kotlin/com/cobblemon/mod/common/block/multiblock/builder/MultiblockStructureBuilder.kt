@@ -22,9 +22,9 @@ interface MultiblockStructureBuilder {
                 return false
             }
         }
-        form()
+        form(world)
         return true
     }
 
-    fun form()
+    fun form(world: ServerWorld)
 }

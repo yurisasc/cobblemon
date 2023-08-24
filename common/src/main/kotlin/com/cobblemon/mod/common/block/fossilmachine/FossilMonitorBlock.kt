@@ -1,15 +1,21 @@
 package com.cobblemon.mod.common.block.fossilmachine
 
+import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.MultiblockBlock
 import com.cobblemon.mod.common.block.multiblock.builder.ResurrectionMachineMultiblockBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.world.World
 
 class FossilMonitorBlock(properties: Settings) : MultiblockBlock(properties) {
     init {
@@ -25,6 +31,12 @@ class FossilMonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         )
     }
 
+    override fun <T : BlockEntity?> getTicker(
+        world: World?,
+        state: BlockState?,
+        type: BlockEntityType<T>?
+    ): BlockEntityTicker<T>? = checkType(type, CobblemonBlockEntities.FOSSIL_MULTIBLOCK, FossilMultiblockStructure.TICKER::tick)
+
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
         return defaultState.with(Properties.FACING, blockPlaceContext.horizontalPlayerFacing)
     }
@@ -33,7 +45,4 @@ class FossilMonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         builder.add(Properties.FACING)
     }
 
-    companion object {
-
-    }
 }

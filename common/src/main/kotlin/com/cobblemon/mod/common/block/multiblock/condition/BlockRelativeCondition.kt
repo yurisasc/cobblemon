@@ -1,8 +1,8 @@
 package com.cobblemon.mod.common.block.multiblock.condition
 
+import com.cobblemon.mod.common.util.math.geometry.blockPositionsAsList
 import net.minecraft.predicate.BlockPredicate
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 
@@ -24,7 +24,7 @@ class BlockRelativeCondition(
     val directionsToCheck: Array<Direction> = Direction.values()
 ) : MultiblockCondition {
     override fun test(world: ServerWorld, box: Box): Boolean {
-        val relToBlockBlockPos = getRelToBlockPos(world, box) ?: return false
+        val relToBlockBlockPos = box.blockPositionsAsList().filter { relToBlock.test(world, it) }.randomOrNull() ?: return false
         directionsToCheck.forEach {
             if (targetBlock.test(world, relToBlockBlockPos.offset(it))) {
                 return true
@@ -32,26 +32,5 @@ class BlockRelativeCondition(
         }
         return false
     }
-
-    private fun getRelToBlockPos(world: ServerWorld, box: Box): BlockPos? {
-        val minX = box.minX.toInt()
-        val minY = box.minY.toInt()
-        val minZ = box.minZ.toInt()
-        val maxX = box.maxX.toInt()
-        val maxY = box.maxY.toInt()
-        val maxZ = box.maxZ.toInt()
-        for (x in minX..maxX) {
-            for (y in minY..maxY) {
-                for (z in minZ..maxZ) {
-                    val posToCheck = BlockPos(x, y, z)
-                    if (relToBlock.test(world, posToCheck)) {
-                        return posToCheck
-                    }
-                }
-            }
-        }
-        return null
-    }
-
 
 }
