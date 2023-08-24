@@ -8,6 +8,7 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.registry.Registries
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
@@ -47,7 +48,23 @@ class ResurrectionMachineBlock(properties: Settings) : BlockWithEntity(propertie
         hand: Hand?,
         hit: BlockHitResult?
     ): ActionResult {
+        if (world?.isClient == false) {
+            //We could potentially use item tags instead of getting the IDs but its nice having everything in one file
+            val stack = player?.getStackInHand(hand)
+            val item = stack?.item
+            val itemId = Registries.ITEM.getId(item)
+            val entity = world.getBlockEntity(pos) as ResurrectionMachineBlockEntity
+            if (NaturalMaterials.isNaturalMaterial(itemId)) {
+                entity.organicMaterialInside += NaturalMaterials.getContent(itemId) ?: 0
+                if (player?.isCreative != true) {
+                    stack?.decrement(1)
+                }
+                return ActionResult.PASS
+            }
+        }
+
         return ActionResult.PASS
+
     }
 
 }

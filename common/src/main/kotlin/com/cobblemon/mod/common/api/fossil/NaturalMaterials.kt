@@ -8,39 +8,48 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.registry.Registries
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
+import java.lang.reflect.Type
 
-object NaturalMaterials : JsonDataRegistry<NaturalMaterial>{
+object NaturalMaterials : JsonDataRegistry<List<NaturalMaterial>>{
     override val id = cobblemonResource("natural_materials")
     override val type = ResourceType.SERVER_DATA
     override val observable = SimpleObservable<NaturalMaterials>()
-    override val typeToken: TypeToken<NaturalMaterial> = TypeToken.get(NaturalMaterial::class.java)
+    override val typeToken: TypeToken<List<NaturalMaterial>> =
+        TypeToken.getParameterized(List::class.java, NaturalMaterial::class.java) as TypeToken<List<NaturalMaterial>>
     override val resourcePath = "natural_materials"
     override val gson: Gson = GsonBuilder()
         .setPrettyPrinting()
-        .registerTypeAdapter(Identifier::class.java, IdentifierAdapter::class.java)
+        .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .create()
 
-    val resourceData = mutableMapOf<Identifier, NaturalMaterial>()
-    val containedItems = mutableSetOf<Identifier>()
+    val resourceData = mutableMapOf<Identifier, Int>()
     override fun sync(player: ServerPlayerEntity) {}
 
-    override fun reload(data: Map<Identifier, NaturalMaterial>) {
-        data.forEach {
-            resourceData.remove(it.key)
-            registerFromData(it.key, it.value)
+    override fun reload(data: Map<Identifier, List<NaturalMaterial>>) {
+        data.forEach { entry ->
+            entry.value.forEach {
+                resourceData.remove(it.item)
+                if (it.item != null) {
+                    registerFromData(it.item, it.content)
+                }
+            }
         }
     }
 
-    private fun registerFromData(identifier: Identifier, mat: NaturalMaterial) {
-        resourceData[identifier] = mat
-        containedItems.add(mat.item ?: return)
+    private fun registerFromData(identifier: Identifier, value: Int) {
+        resourceData[identifier] = value
     }
 
     fun isNaturalMaterial(item: Identifier): Boolean {
-        return item in containedItems
+        return item in resourceData.keys
+    }
+
+    fun getContent(item: Identifier): Int? {
+        return resourceData[item]
     }
 }

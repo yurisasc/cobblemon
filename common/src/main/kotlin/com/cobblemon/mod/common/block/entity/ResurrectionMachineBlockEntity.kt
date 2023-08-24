@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos
 class ResurrectionMachineBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.RESURRECTION_MACHINE, pos, state) {
     val ticksPerMinute = 1200
     val fossilInside: FossilVariant? = null
-    val organicMaterialInside = 0
+    var organicMaterialInside = 0
     var timeRemaining = ticksPerMinute * 5
 
     companion object {
