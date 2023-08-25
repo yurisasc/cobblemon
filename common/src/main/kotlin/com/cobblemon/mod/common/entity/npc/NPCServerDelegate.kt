@@ -8,13 +8,20 @@
 
 package com.cobblemon.mod.common.entity.npc
 
-import com.cobblemon.mod.common.api.entity.EntitySideDelegate
+import com.cobblemon.mod.common.api.entity.NPCSideDelegate
+import com.cobblemon.mod.common.net.messages.client.npc.PlayNPCAnimationPacket
+import net.minecraft.server.world.ServerWorld
 
-class NPCServerDelegate : EntitySideDelegate<NPCEntity> {
-    override fun tick(entity: NPCEntity) {
-        super.tick(entity)
+class NPCServerDelegate : NPCSideDelegate {
+    lateinit var entity: NPCEntity
 
+    override fun initialize(entity: NPCEntity) {
+        super.initialize(entity)
+        this.entity = entity
+    }
 
-
+    override fun playAnimation(animationType: String) {
+        val pkt = PlayNPCAnimationPacket(entity.id, animationType)
+        (entity.world as ServerWorld).getPlayers { it.distanceTo(entity) < 64 }.forEach(pkt::sendToPlayer)
     }
 }

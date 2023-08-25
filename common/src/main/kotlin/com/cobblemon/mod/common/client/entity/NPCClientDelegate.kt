@@ -8,11 +8,12 @@
 
 package com.cobblemon.mod.common.client.entity
 
-import com.cobblemon.mod.common.api.entity.EntitySideDelegate
+import com.cobblemon.mod.common.api.entity.NPCSideDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.npc.NPCModel
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 
-class NPCClientDelegate : PoseableEntityState<NPCEntity>(), EntitySideDelegate<NPCEntity> {
+class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
     override fun initialize(entity: NPCEntity) {
         this.age = entity.age
     }
@@ -25,5 +26,11 @@ class NPCClientDelegate : PoseableEntityState<NPCEntity>(), EntitySideDelegate<N
 
     override fun updatePartialTicks(partialTicks: Float) {
         this.currentPartialTicks = partialTicks
+    }
+
+    override fun playAnimation(animationType: String) {
+        val currentModel = this.currentModel as? NPCModel ?: return
+        val animation = currentModel.getAnimation(animationType)
+        statefulAnimations.add(animation)
     }
 }

@@ -11,6 +11,9 @@ package com.cobblemon.mod.common.client.render.models.blockbench.npc
 import com.cobblemon.mod.common.client.entity.NPCClientDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import net.minecraft.client.model.ModelPart
 
@@ -26,8 +29,17 @@ abstract class NPCModel(override val rootPart: ModelPart) : PoseableEntityModel<
     open fun getBattleIntro() = bedrockStatefulOrNull(name, "battle_intro")
     open fun getLose() = bedrockStatefulOrNull(name, "lose")
     open fun getWin() = bedrockStatefulOrNull(name, "win")
-    open fun getSendOut() = bedrockStatefulOrNull(name, "send_out")
+    open fun getSendOut() = bedrockStatefulOrNull(name, "send_out")?.setPreventsIdle { _, _, anim -> anim.targetFrame != HeadedFrame::class.java }
+    open fun getRecall() = getSendOut()
     open fun getCommand() = bedrockStatefulOrNull(name, "command")
     open fun getBlink() = bedrockStatefulOrNull(name, "blink")
     open fun getMega() = bedrockStatefulOrNull(name, "mega")
+
+    open fun getAnimation(animationType: String): StatefulAnimation<NPCEntity, ModelFrame> {
+        return when (animationType) {
+            NPCEntity.RECALL_ANIMATION -> getRecall() ?: blankAnimationStateful()
+            NPCEntity.SEND_OUT_ANIMATION -> getSendOut() ?: blankAnimationStateful()
+            else -> blankAnimationStateful() // Maybe try to parse bedrock(..., ...) stuff
+        }
+    }
 }

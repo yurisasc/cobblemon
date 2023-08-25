@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.scheduling
 
 import com.cobblemon.mod.common.util.runOnServer
+import java.util.concurrent.CompletableFuture
 
 fun after(ticks: Int = 0, seconds: Float = 0F, serverThread: Boolean = false, action: () -> Unit) {
     ScheduledTaskTracker.addTask(
@@ -47,6 +48,14 @@ fun lerp(seconds: Float = 0F, serverThread: Boolean = false, action: (Float) -> 
             }
         }.build()
     }
+}
+
+fun delayedFuture(seconds: Float): CompletableFuture<Unit> {
+    val future = CompletableFuture<Unit>()
+    afterOnMain(seconds = seconds) {
+        future.complete(Unit)
+    }
+    return future
 }
 
 fun taskBuilder() = ScheduledTask.Builder()

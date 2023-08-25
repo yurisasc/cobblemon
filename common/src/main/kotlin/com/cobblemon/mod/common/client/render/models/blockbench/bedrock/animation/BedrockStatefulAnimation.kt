@@ -31,6 +31,11 @@ open class BedrockStatefulAnimation<T : Entity>(
         return this
     }
 
+    fun setPreventsIdle(check: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean): BedrockStatefulAnimation<T> {
+        this.preventsIdleCheck = check
+        return this
+    }
+
     var startedSeconds = -1F
     var isTransformAnimation = false
     private var afterAction: (T, PoseableEntityState<T>) -> Unit = { _, _ -> }

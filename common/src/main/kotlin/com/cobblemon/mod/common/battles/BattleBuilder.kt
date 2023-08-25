@@ -198,9 +198,7 @@ object BattleBuilder {
                     side1 = BattleSide(playerActor),
                     side2 = BattleSide(npcActor)
                 )
-                if (!cloneParties) {
-                    npcEntity.battleIds.set(npcEntity.battleIds.get() + battle.battleId)
-                }
+                npcEntity.battleIds.set(npcEntity.battleIds.get() + battle.battleId)
                 SuccessfulBattleStart(battle)
             }
             errors

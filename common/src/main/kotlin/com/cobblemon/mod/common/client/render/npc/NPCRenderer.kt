@@ -39,6 +39,8 @@ class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, NPCModel>(
         val clientDelegate = entity.delegate as NPCClientDelegate
         val modelNow = model as PoseableEntityModel<NPCEntity>
 
+        clientDelegate.updatePartialTicks(partialTicks)
+
         modelNow.setLayerContext(buffer, clientDelegate, NPCModelRepository.getLayers(entity.npc.resourceIdentifier, entity.aspects.get()))
 
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)

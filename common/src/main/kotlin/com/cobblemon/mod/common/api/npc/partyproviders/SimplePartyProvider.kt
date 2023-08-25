@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.npc.partyproviders
 
 import com.cobblemon.mod.common.api.npc.NPCPartyProvider
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.storage.party.NPCPartyStore
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.IntSize
@@ -67,7 +68,7 @@ class SimplePartyProvider : NPCPartyProvider {
     }
 
     override fun provide(npc: NPCEntity, challengers: List<ServerPlayerEntity>): PartyStore {
-        return PartyStore(npc.uuid).apply {
+        return NPCPartyStore(npc).apply {
             for (properties in pokemon) {
                 add(properties.create())
             }

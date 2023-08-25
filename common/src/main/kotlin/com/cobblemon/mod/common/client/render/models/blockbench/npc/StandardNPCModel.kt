@@ -31,6 +31,7 @@ class StandardNPCModel(part: ModelPart) : NPCModel(part), BipedFrame, BimanualFr
         registerPose(
             poseTypes = PoseType.ALL_POSES,
             poseName = "standard",
+            condition = { npc -> !npc.isInBattle() },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

@@ -34,22 +34,20 @@ import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
-import net.minecraft.entity.Entity
-import java.util.UUID
-import java.util.concurrent.ConcurrentLinkedQueue
-import net.minecraft.text.Text
 import java.io.File
-import kotlin.io.path.Path
-import kotlin.io.path.writeLines
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
 
 /**
  * Individual battle instance
@@ -328,6 +326,14 @@ open class PokemonBattle(
             dispatcher()
             WaitDispatch(delaySeconds)
         }
+    }
+
+    fun dispatchFuture(future: () -> CompletableFuture<*>) {
+        val dispatch = BattleDispatch {
+            val generatedFuture = future()
+            return@BattleDispatch DispatchResult { generatedFuture.isDone }
+        }
+        dispatches.add(dispatch)
     }
 
     fun dispatchInsert(dispatcher: () -> Iterable<BattleDispatch>) {

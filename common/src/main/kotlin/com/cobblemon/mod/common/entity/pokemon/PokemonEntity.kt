@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
+import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
@@ -36,6 +37,7 @@ import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
@@ -320,12 +322,26 @@ class PokemonEntity(
         val owner = owner
         val future = CompletableFuture<Pokemon>()
         if (phasingTargetId.get() == -1 && owner != null) {
-            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.8F)
-            phasingTargetId.set(owner.id)
-            beamModeEmitter.set(2)
-            afterOnMain(seconds = SEND_OUT_DURATION) {
-                pokemon.recall()
-                future.complete(pokemon)
+            val preamble = if (owner is PokemonSender) {
+                owner.recalling(this)
+            } else {
+                CompletableFuture.completedFuture(Unit)
+            }
+
+            preamble.thenAccept {
+                owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.8F)
+                phasingTargetId.set(owner.id)
+                beamModeEmitter.set(2)
+                afterOnMain(seconds = SEND_OUT_DURATION) {
+                    pokemon.recall()
+                    if (owner is NPCEntity) {
+                        afterOnMain(seconds = 2F) {
+                            future.complete(pokemon)
+                        }
+                    } else {
+                        future.complete(pokemon)
+                    }
+                }
             }
         } else {
             pokemon.recall()
@@ -670,6 +686,10 @@ class PokemonEntity(
             }
         }
         return false
+    }
+
+    override fun getOwner(): LivingEntity? {
+        return pokemon.getOwnerEntity()
     }
 
     fun offerHeldItem(player: PlayerEntity, stack: ItemStack): Boolean {

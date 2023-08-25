@@ -11,8 +11,10 @@ package com.cobblemon.mod.common.entity.npc
 import com.cobblemon.mod.common.api.battles.model.actor.AIBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
+import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.battles.ai.RandomBattleAI
+import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.util.battleLang
 
 class NPCBattleActor(
@@ -27,4 +29,12 @@ class NPCBattleActor(
     override val type = ActorType.NPC
     override fun getName() = npc.displayName.copy()
     override fun nameOwned(name: String) = battleLang("owned_pokemon", this.getName(), name)
+
+    override fun sendUpdate(packet: NetworkPacket<*>) {
+        super.sendUpdate(packet)
+        if (packet is BattleEndPacket) {
+            // Do some shit
+            entity.battleIds.set(entity.battleIds.get() - battle.battleId)
+        }
+    }
 }

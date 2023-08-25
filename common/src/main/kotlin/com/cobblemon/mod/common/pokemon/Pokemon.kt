@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.Ability
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
+import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
@@ -57,10 +58,12 @@ import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.storage.StoreCoordinates
+import com.cobblemon.mod.common.api.storage.party.NPCPartyStore
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.config.CobblemonConfig
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
@@ -421,24 +424,33 @@ open class Pokemon : ShowdownIdentifiable {
         mutation: (PokemonEntity) -> Unit = {}
     ): CompletableFuture<PokemonEntity> {
         val future = CompletableFuture<PokemonEntity>()
-        sendOut(level, position) {
-            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.8F)
-            it.phasingTargetId.set(source.id)
-            it.beamModeEmitter.set(1)
-            it.battleId.set(Optional.ofNullable(battleId))
-
-            afterOnMain(seconds = SEND_OUT_DURATION) {
-                it.phasingTargetId.set(-1)
-                it.beamModeEmitter.set(0)
-                future.complete(it)
-                CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
-                if (doCry) {
-                    it.cry()
-                }
-            }
-
-            mutation(it)
+        val preamble = if (source is PokemonSender) {
+            source.sendingOut()
+        } else {
+            CompletableFuture.completedFuture(Unit)
         }
+
+        preamble.thenApply {
+            sendOut(level, position) {
+                level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.8F)
+                it.phasingTargetId.set(source.id)
+                it.beamModeEmitter.set(1)
+                it.battleId.set(Optional.ofNullable(battleId))
+
+                afterOnMain(seconds = SEND_OUT_DURATION) {
+                    it.phasingTargetId.set(-1)
+                    it.beamModeEmitter.set(0)
+                    future.complete(it)
+                    CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
+                    if (doCry) {
+                        it.cry()
+                    }
+                }
+
+                mutation(it)
+            }
+        }
+
         return future
     }
     fun recall() {
@@ -798,16 +810,27 @@ open class Pokemon : ShowdownIdentifiable {
         return pokemon
     }
 
-    fun getOwnerPlayer() : ServerPlayerEntity? {
-        storeCoordinates.get().let {
+    fun getOwnerEntity(): LivingEntity? {
+        return storeCoordinates.get()?.let {
             if (isPlayerOwned()) {
-                return server()?.playerManager?.getPlayer(it!!.store.uuid)
+                server()?.playerManager?.getPlayer(it.store.uuid)
+            } else if (isNPCOwned()) {
+                (it.store as NPCPartyStore).npc
+            } else {
+                null
             }
         }
-        return null
     }
 
-    fun getOwnerUUID() : UUID? {
+    fun getOwnerPlayer(): ServerPlayerEntity? {
+        return getOwnerEntity() as? ServerPlayerEntity
+    }
+
+    fun getOwnerNPC(): NPCEntity? {
+        return getOwnerEntity() as? NPCEntity
+    }
+
+    fun getOwnerUUID(): UUID? {
         storeCoordinates.get().let {
             if (isPlayerOwned()) return it!!.store.uuid
         }
@@ -816,6 +839,7 @@ open class Pokemon : ShowdownIdentifiable {
 
     fun belongsTo(player: PlayerEntity) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore || it.store is PCStore } == true
+    fun isNPCOwned() = storeCoordinates.get()?.let { it.store is NPCPartyStore } == true
     fun isWild() = storeCoordinates.get() == null
 
     /**

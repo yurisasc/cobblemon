@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.entity.npc
 
 import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
@@ -17,11 +18,15 @@ import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCBehaviourConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
+import com.cobblemon.mod.common.api.scheduling.delayedFuture
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.npc.ai.StayPutInBattleGoal
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.DataKeys
+import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Npc
 import net.minecraft.entity.ai.goal.LookAroundGoal
@@ -42,15 +47,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
-class NPCEntity : PassiveEntity, Npc, Poseable {
-    companion object {
-        fun createAttributes(): DefaultAttributeContainer.Builder = createMobAttributes()
-        val NPC_CLASS = DataTracker.registerData(NPCEntity::class.java, IdentifierDataSerializer)
-        val ASPECTS = DataTracker.registerData(NPCEntity::class.java, StringSetDataSerializer)
-        val POSE_TYPE = DataTracker.registerData(NPCEntity::class.java, PoseTypeDataSerializer)
-        val BATTLE_IDS = DataTracker.registerData(NPCEntity::class.java, UUIDSetDataSerializer)
-    }
-
+class NPCEntity : PassiveEntity, Npc, Poseable, PokemonSender {
     var npc = NPCClasses.random()
         set(value) {
             _npcClass.set(value.resourceIdentifier)
@@ -92,6 +89,24 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
 
     constructor(world: World): super(CobblemonEntities.NPC, world)
 
+    init {
+        delegate.initialize(this)
+    }
+
+    companion object {
+        fun createAttributes(): DefaultAttributeContainer.Builder = createMobAttributes()
+
+        val NPC_CLASS = DataTracker.registerData(NPCEntity::class.java, IdentifierDataSerializer)
+        val ASPECTS = DataTracker.registerData(NPCEntity::class.java, StringSetDataSerializer)
+        val POSE_TYPE = DataTracker.registerData(NPCEntity::class.java, PoseTypeDataSerializer)
+        val BATTLE_IDS = DataTracker.registerData(NPCEntity::class.java, UUIDSetDataSerializer)
+
+        const val SEND_OUT_ANIMATION = "send-out"
+        const val RECALL_ANIMATION = "recall"
+        const val LOSE_ANIMATION = "lose"
+        const val WIN_ANIMATION = "win"
+    }
+
     override fun createChild(world: ServerWorld, entity: PassiveEntity) = null // No lovemaking! Unless...
     override fun getPoseType() = this.poseType.get()
 
@@ -112,8 +127,15 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
     fun isInBattle() = battleIds.get().isNotEmpty()
     fun getBattleConfiguration() = battle ?: npc.battleConfiguration
 
+    override fun tick() {
+        super.tick()
+        delegate.tick(this)
+        entityProperties.forEach { it.checkForUpdate() }
+    }
+
     override fun initGoals() {
         super.initGoals()
+        goalSelector.add(2, StayPutInBattleGoal(this))
         goalSelector.add(5, WanderAroundGoal(this, 0.4, 30))
         goalSelector.add(6, LookAtEntityGoal(this, LivingEntity::class.java, 8F, 0.2F))
         goalSelector.add(6, LookAroundGoal(this))
@@ -154,10 +176,24 @@ class NPCEntity : PassiveEntity, Npc, Poseable {
                         player = player,
                         npcEntity = this
                     )
-                    println(result)
                 }
             }
         }
         return super.interactMob(player, hand)
     }
+
+    fun playAnimation(animationType: String) {
+        delegate.playAnimation(animationType)
+    }
+
+    override fun recalling(pokemonEntity: PokemonEntity): CompletableFuture<Unit> {
+        playAnimation(RECALL_ANIMATION)
+        return delayedFuture(seconds = 1.6F)
+    }
+
+    override fun sendingOut(): CompletableFuture<Unit> {
+        playAnimation(SEND_OUT_ANIMATION)
+        return delayedFuture(seconds = 1.6F)
+    }
+
 }

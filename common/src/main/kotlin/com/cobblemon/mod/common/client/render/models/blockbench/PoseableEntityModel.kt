@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuir
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -500,14 +501,17 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
-            val scale =
-                entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
             matrixStack.push()
             matrixStack.scale(1F, -1F, -1F)
             matrixStack.scale(0.7F, 0.7F, 0.7F)
+        } else if (entity is NPCEntity) {
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
+            matrixStack.push()
+            matrixStack.scale(-1F, -1F, 1F)
         }
         // Standard living entity offset, only God knows why Mojang did this.
         matrixStack.translate(0.0, -1.5, 0.0)
@@ -563,7 +567,7 @@ abstract class PoseableEntityModel<T : Entity>(
         animation: String,
         animationPrefix: String = "animation.$animationGroup",
         preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean = { _, _, _ -> true }
-    ) = BedrockAnimationRepository.getAnimationOrNull(animationGroup, "$animationPrefix.$animation")?.let {BedrockStatefulAnimation(
+    ) = BedrockAnimationRepository.getAnimationOrNull(animationGroup, "$animationPrefix.$animation")?.let { BedrockStatefulAnimation(
         BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation"),
         preventsIdleCheck
     ) }

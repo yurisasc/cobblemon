@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.client.net.data.UnlockReloadPacketHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
+import com.cobblemon.mod.common.client.net.npc.PlayNPCAnimationHandler
 import com.cobblemon.mod.common.client.net.pasture.ClosePastureHandler
 import com.cobblemon.mod.common.client.net.pasture.OpenPastureHandler
 import com.cobblemon.mod.common.client.net.pasture.PokemonPasturedHandler
@@ -62,6 +63,7 @@ import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionReg
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
+import com.cobblemon.mod.common.net.messages.client.npc.PlayNPCAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.PokemonPasturedPacket
@@ -311,6 +313,9 @@ object CobblemonNetwork : NetworkManager {
 
         // Party move select packets
         this.createClientBound(OpenPartyMoveCallbackPacket.ID, OpenPartyMoveCallbackPacket::decode, OpenPartyMoveCallbackHandler)
+
+        // NPCs
+        this.createClientBound(PlayNPCAnimationPacket.ID, PlayNPCAnimationPacket::decode, PlayNPCAnimationHandler)
     }
 
     override fun registerServerBound() {
