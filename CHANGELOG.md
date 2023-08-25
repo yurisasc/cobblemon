@@ -31,7 +31,7 @@
 - Added support for "isVisible" on a transformed part on resource pack Pokémon poses. This allows your custom Pokémon to have bones disappear in specific poses, such as hiding Greninja's throwing star when not in a battle pose.
 - Added the `doPokemonLoot` gamerule to toggle Pokémon dropping items/exp on death.
 - Added animations for Wailord.
-- Added Cherry Torterra form.
+- Added Cherry Torterra variant.
 - Added 2 new face spots for Spinda.
 
 ### Pokémon Added
@@ -101,6 +101,9 @@
 - Vespiquen
 - Buizel
 - Floatzel
+- Starly
+- Staravia
+- Staraptor
 
 #### Gen 5
 
@@ -130,6 +133,8 @@
 - Dragalge
 - Bunnelby
 - Diggersby
+- Phantump
+- Trevenant
 
 #### Gen 7
 
@@ -143,6 +148,7 @@
 - Alolan Raichu
 - Alolan Meowth
 - Alolan Persian
+- Komala
 
 #### Gen 8
 

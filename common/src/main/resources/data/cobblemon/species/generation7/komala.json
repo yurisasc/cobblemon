@@ -22,6 +22,17 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "canWalk": false
+      },
+      "swim": {
+        "canSwimInWater": false
+      },
+      "canLook": false
+    }
+  },
   "moves": [
     "1:defensecurl",
     "1:rollout",
@@ -108,9 +119,9 @@
     "cobblemon.species.komala.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
+    "width": 0.7,
     "height": 1,
     "fixed": false
   },
