@@ -2,6 +2,7 @@ package com.cobblemon.mod.common.block.multiblock
 
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
@@ -9,6 +10,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 interface MultiblockStructure {
+    val controllerBlockPos: BlockPos
     //For overriding
     fun isUsable(): Boolean = true
     fun onUse(
@@ -23,4 +25,6 @@ interface MultiblockStructure {
     fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?)
 
     fun tick()
+
+    fun writeToNbt(): NbtCompound
 }

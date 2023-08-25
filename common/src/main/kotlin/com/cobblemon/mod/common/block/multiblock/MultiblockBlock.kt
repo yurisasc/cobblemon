@@ -41,9 +41,16 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
-        val entity = world.getBlockEntity(pos) as MultiblockEntity
-        if (entity.multiblockStructure != null) {
-            return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
+        if (!world.isClient) {
+            val entity = world.getBlockEntity(pos) as MultiblockEntity
+            if (entity.multiblockStructure != null) {
+                return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
+            }
+            else if (entity.masterBlockPos != null){
+                val masterEntity = world.getBlockEntity(entity.masterBlockPos) as MultiblockEntity
+                entity.multiblockStructure = masterEntity.multiblockStructure
+                return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
+            }
         }
         return super.onUse(state, world, pos, player, hand, hit)
     }
