@@ -185,6 +185,12 @@
   "item.cobblemon.quick_powder": "Quick Powder",
   "item.cobblemon.destiny_knot": "Destiny Knot",
   "item.cobblemon.everstone": "Everstone",
+  "item.cobblemon.power_anklet": "Power Anklet",
+  "item.cobblemon.power_band": "Power Band",
+  "item.cobblemon.power_belt": "Power Belt",
+  "item.cobblemon.power_bracer": "Power Bracer",
+  "item.cobblemon.power_lens": "Power Lens",
+  "item.cobblemon.power_weight": "Power Weight",
 
   "item.cobblemon.poke_ball.tooltip": "1× catch rate",
   "item.cobblemon.slate_ball.tooltip": "1× catch rate",
@@ -538,7 +544,6 @@
   "cobblemon.capture.busy": "The %1$s is busy!",
   "cobblemon.capture.you_in_battle": "You are in a battle.",
   "cobblemon.capture.not_single": "You can only capture wild Pokémon in a 1v1 battle.",
-  "cobblemon.capture.cannot_be_caught": "That Pokémon cannot be caught!",
   "cobblemon.you_in_battle": "You can't do that while in a battle!",
   "cobblemon.battle.turn": "It is now turn %1$s",
   "cobblemon.battle.side_subject.ally": "your",
@@ -916,7 +921,6 @@
   "block.cobblemon.pasture": "Pasture Block",
 
   "gamerule.doPokemonSpawning": "Spawn Pokémon",
-  "gamerule.doPokemonLoot": "Drop Pokémon loot",
   "cobblemon.command.checkspawns.invalid-bucket": "Invalid Spawn Bucket",
   "cobblemon.command.checkspawns.spawns": "Spawns",
   "cobblemon.command.checkspawns.nothing": "Nothing can spawn here right now.",
