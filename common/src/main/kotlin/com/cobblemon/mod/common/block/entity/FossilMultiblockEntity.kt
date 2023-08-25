@@ -11,7 +11,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.util.math.BlockPos
 
-class FossilMultiblockEntity(
+open class FossilMultiblockEntity(
     pos: BlockPos,
     state: BlockState,
     multiblockBuilder: MultiblockStructureBuilder,

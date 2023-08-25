@@ -100,11 +100,22 @@
       "when": {
         "AND": [
           {"on": true},
+          {"part": "top"}
+        ]
+      },
+      "apply": {
+        "model": "cobblemon:block/fossil_bubbling_liquid_upper"
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {"on": true},
           {"part": "bottom"}
         ]
       },
       "apply": {
-        "model": "cobblemon:block/restoration_tank_liquid"
+        "model": "cobblemon:block/fossil_bubbling_liquid_lower"
       }
     }
   ]
