@@ -18,17 +18,20 @@ import net.minecraft.state.property.Properties
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
-class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Waterloggable {
+
+class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
     init {
         defaultState = defaultState
-            .with(Properties.FACING, Direction.NORTH)
+            .with(HorizontalFacingBlock.FACING, Direction.NORTH)
             .with(PART, TubePart.BOTTOM)
-            .with(WATERLOGGED, false)
-            .with(ON, false)
+            .with(ON, true)
     }
 
     fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
@@ -46,8 +49,6 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Water
             pos.down()
         }
     }
-
-
 
     private fun isBase(state: BlockState): Boolean = state.get(PART) == TubePart.BOTTOM
 
@@ -68,10 +69,7 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Water
         itemStack: ItemStack?
     ) {
         //Place the full block before we call to super to validate the multiblock
-        world.setBlockState(pos.up(), state
-            .with(PART, TubePart.TOP)
-            .with(PCBlock.WATERLOGGED, world.getFluidState((pos.up())).fluid == Fluids.WATER)
-                as BlockState, 3)
+        world.setBlockState(pos.up(), state.with(PART, TubePart.TOP) as BlockState, 3)
         world.updateNeighbors(pos, Blocks.AIR)
         state.updateNeighbors(world, pos, 3)
         super.onPlaced(world, pos, state, placer, itemStack)
@@ -88,9 +86,8 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Water
         val world = blockPlaceContext.world
         if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
             return defaultState
-                .with(Properties.FACING, blockPlaceContext.horizontalPlayerFacing)
+                .with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
                 .with(PART, TubePart.BOTTOM)
-                .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
         }
 
         return null
@@ -102,9 +99,8 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Water
         return if (state.get(PART) == TubePart.BOTTOM) blockState.isSideSolidFullSquare(world, blockPos, Direction.UP) else blockState.isOf(this)
     }
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(Properties.FACING)
+        builder.add(HorizontalFacingBlock.FACING)
         builder.add(PART)
-        builder.add(WATERLOGGED)
         builder.add(ON)
     }
 
@@ -113,26 +109,23 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Water
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun getFluidState(state: BlockState): FluidState? {
-        return if (state.get(PCBlock.WATERLOGGED)) {
-            Fluids.WATER.getStill(false)
-        } else super.getFluidState(state)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun getStateForNeighborUpdate(
+    override fun getOutlineShape(
         state: BlockState,
-        direction: Direction?,
-        neighborState: BlockState?,
-        world: WorldAccess,
+        world: BlockView?,
         pos: BlockPos?,
-        neighborPos: BlockPos?
-    ): BlockState? {
-        if (state.get(PCBlock.WATERLOGGED)) {
-            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
+        context: ShapeContext?
+    ): VoxelShape {
+        if (state.get(PART) == TubePart.TOP) {
+            var shape = VoxelShapes.cuboid(0.0625, 0.0, 0.0625, 0.9375, 0.8125, 0.9375)
+            shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0, 0.8125, 0.0, 1.0, 1.0, 1.0));
+            return shape;
         }
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+
+        else {
+            var shape = VoxelShapes.cuboid(0.0625, 0.1875, 0.0625, 0.9375, 1.0, 0.9375)
+            shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.1875, 1.0));
+            return shape
+        }
     }
 
     enum class TubePart(private val label: String) : StringIdentifiable {
@@ -143,7 +136,6 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Water
 
     companion object {
         val PART = EnumProperty.of("part", TubePart::class.java)
-        val WATERLOGGED = BooleanProperty.of("waterlogged")
         val ON = BooleanProperty.of("on")
     }
 }

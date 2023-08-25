@@ -1,64 +1,111 @@
 {
-  "variants": {
-    "facing=south,part=top,on=false": {
-      "model": "cobblemon:block/fossil_tube_upper"
+  "multipart": [
+    {
+      "when": {
+        "AND": [
+          {"part": "top"},
+          {"facing": "north"}
+        ]
+      },
+      "apply": {
+        "model": "cobblemon:block/fossil_tube_upper",
+        "y": 180
+      }
     },
-    "facing=west,part=top,on=false": {
-      "model": "cobblemon:block/fossil_tube_upper",
-      "y": 90
+    {
+      "when": {
+        "AND": [
+          {"part": "top"},
+          {"facing": "east"}
+        ]
+      },
+      "apply": {
+        "model": "cobblemon:block/fossil_tube_upper",
+        "y": 270
+      }
     },
-    "facing=north,part=top,on=false": {
-      "model": "cobblemon:block/fossil_tube_upper",
-      "y": 180
+    {
+      "when": {
+        "AND": [
+          {"part": "top"},
+          {"facing": "south"}
+        ]
+      },
+      "apply": {
+        "model": "cobblemon:block/fossil_tube_upper",
+        "y": 0
+      }
     },
-    "facing=east,part=top,on=false": {
-      "model": "cobblemon:block/fossil_tube_upper",
-      "y": 270
+    {
+      "when": {
+        "AND": [
+          {"part": "top"},
+          {"facing": "west"}
+        ]
+      },
+      "apply": {
+        "model": "cobblemon:block/fossil_tube_upper",
+        "y": 90
+      }
     },
-    "facing=south,part=bottom,on=false": {
-      "model": "cobblemon:block/fossil_tube_lower"
+    {
+      "when": {
+        "AND": [
+          {"part": "bottom"},
+          {"facing": "north"}
+        ]
+      },
+      "apply": {
+        "model": "cobblemon:block/fossil_tube_lower",
+        "y": 180
+      }
     },
-    "facing=west,part=bottom,on=false": {
-      "model": "cobblemon:block/fossil_tube_lower",
-      "y": 90
+    {
+      "when": {
+        "AND": [
+          {"part": "bottom"},
+          {"facing": "east"}
+        ]
+      },
+      "apply": {
+        "model": "cobblemon:block/fossil_tube_lower",
+        "y": 270
+      }
     },
-    "facing=north,part=bottom,on=false": {
-      "model": "cobblemon:block/fossil_tube_lower",
-      "y": 180
+    {
+      "when": {
+        "AND": [
+          {"part": "bottom"},
+          {"facing": "south"}
+        ]
+      },
+      "apply": {
+        "model": "cobblemon:block/fossil_tube_lower",
+        "y": 0
+      }
     },
-    "facing=east,part=bottom,on=false": {
-      "model": "cobblemon:block/fossil_tube_lower",
-      "y": 270
+    {
+      "when": {
+        "AND": [
+          {"part": "bottom"},
+          {"facing": "west"}
+        ]
+      },
+      "apply": {
+        "model": "cobblemon:block/fossil_tube_lower",
+        "y": 90
+      }
     },
-    "facing=south,part=top,on=true": {
-      "model": "cobblemon:block/fossil_tube_upper_bubbling"
-    },
-    "facing=west,part=top,on=true": {
-      "model": "cobblemon:block/fossil_tube_upper_bubbling",
-      "y": 90
-    },
-    "facing=north,part=top,on=true": {
-      "model": "cobblemon:block/fossil_tube_upper_bubbling",
-      "y": 180
-    },
-    "facing=east,part=top,on=true": {
-      "model": "cobblemon:block/fossil_tube_upper_bubbling",
-      "y": 270
-    },
-    "facing=south,part=bottom,on=true": {
-      "model": "cobblemon:block/fossil_tube_lower_bubbling"
-    },
-    "facing=west,part=bottom,on=true": {
-      "model": "cobblemon:block/fossil_tube_lower_bubbling",
-      "y": 90
-    },
-    "facing=north,part=bottom,on=true": {
-      "model": "cobblemon:block/fossil_tube_lower_bubbling",
-      "y": 180
-    },
-    "facing=east,part=bottom,on=true": {
-      "model": "cobblemon:block/fossil_tube_lower_bubbling",
-      "y": 270
+    {
+      "when": {
+        "AND": [
+          {"on": true},
+          {"part": "bottom"}
+        ]
+      },
+      "apply": {
+        "model": "cobblemon:block/restoration_tank_liquid"
+      }
     }
-  }
+  ]
 }

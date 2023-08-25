@@ -131,7 +131,11 @@ object CobblemonClient {
 
         this.implementation.registerBlockRenderType(RenderLayer.getCutoutMipped(), CobblemonBlocks.APRICORN_LEAVES)
 
-        this.implementation.registerBlockRenderType(RenderLayer.getTranslucent(), CobblemonBlocks.FOSSIL_TUBE)
+        this.implementation.registerBlockRenderType(
+            RenderLayer.getTranslucent(),
+            CobblemonBlocks.FOSSIL_TUBE,
+            CobblemonBlocks.FOSSIL_COMPARTMENT
+        )
 
         this.implementation.registerBlockRenderType(
             RenderLayer.getCutout(),

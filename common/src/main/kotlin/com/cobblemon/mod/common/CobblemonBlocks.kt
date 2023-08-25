@@ -177,6 +177,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
                 .sounds(BlockSoundGroup.METAL)
                 .pistonBehavior(PistonBehavior.BLOCK)
                 .strength(2f)
+                .nonOpaque()
         )
     )
     @JvmField
