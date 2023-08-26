@@ -1,6 +1,7 @@
-package com.cobblemon.mod.common.block.entity
+package com.cobblemon.mod.common.block.entity.fossil
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.block.entity.MultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.MultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.builder.MultiblockStructureBuilder
@@ -23,6 +24,18 @@ open class FossilMultiblockEntity(
             field = structure
             masterBlockPos = structure?.controllerBlockPos
         }
+        get() {
+            if (field != null) {
+                return field
+            }
+            else if (masterBlockPos != null && world != null) {
+                field = (world?.getBlockEntity(masterBlockPos) as FossilMultiblockEntity).multiblockStructure
+                return field
+            }
+            else {
+                return null
+            }
+        }
 
     override var masterBlockPos: BlockPos? = null
     override fun readNbt(nbt: NbtCompound?) {
@@ -34,12 +47,4 @@ open class FossilMultiblockEntity(
         }
     }
 
-
-    companion object {
-        val TICKER = BlockEntityTicker<FossilMultiblockEntity> { _, _, _, blockEntity ->
-            if (blockEntity.multiblockStructure != null) {
-                blockEntity.multiblockStructure!!.tick()
-            }
-        }
-    }
 }

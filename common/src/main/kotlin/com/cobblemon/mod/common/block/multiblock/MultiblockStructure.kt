@@ -24,7 +24,7 @@ interface MultiblockStructure {
 
     fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?)
 
-    fun tick()
+    fun tick(world: World)
 
     fun writeToNbt(): NbtCompound
 }

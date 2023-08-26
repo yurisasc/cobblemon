@@ -1,7 +1,7 @@
 package com.cobblemon.mod.common.block.multiblock
 
-import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.MultiblockEntity
+import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.LivingEntity
@@ -46,20 +46,17 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
             if (entity.multiblockStructure != null) {
                 return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
             }
-            else if (entity.masterBlockPos != null){
-                val masterEntity = world.getBlockEntity(entity.masterBlockPos) as MultiblockEntity
-                entity.multiblockStructure = masterEntity.multiblockStructure
-                return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
-            }
         }
         return super.onUse(state, world, pos, player, hand, hit)
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
         super.onBreak(world, pos, state, player)
-        val entity = world.getBlockEntity(pos)
-        if (entity is MultiblockEntity && entity.multiblockStructure != null) {
-            entity.multiblockStructure!!.onBreak(world, pos, state, player)
+        if (!world.isClient) {
+            val entity = world.getBlockEntity(pos)
+            if (entity is MultiblockEntity && entity.multiblockStructure != null) {
+                entity.multiblockStructure!!.onBreak(world, pos, state, player)
+            }
         }
     }
 

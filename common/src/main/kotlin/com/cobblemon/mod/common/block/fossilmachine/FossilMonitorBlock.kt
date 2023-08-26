@@ -1,7 +1,7 @@
 package com.cobblemon.mod.common.block.fossilmachine
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
-import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.MultiblockBlock
 import com.cobblemon.mod.common.block.multiblock.builder.ResurrectionMachineMultiblockBuilder
@@ -30,12 +30,6 @@ class FossilMonitorBlock(properties: Settings) : MultiblockBlock(properties) {
             pos, state, ResurrectionMachineMultiblockBuilder(pos)
         )
     }
-
-    override fun <T : BlockEntity?> getTicker(
-        world: World?,
-        state: BlockState?,
-        type: BlockEntityType<T>?
-    ): BlockEntityTicker<T>? = checkType(type, CobblemonBlockEntities.FOSSIL_MULTIBLOCK, FossilMultiblockStructure.TICKER::tick)
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
         return defaultState.with(Properties.FACING, blockPlaceContext.horizontalPlayerFacing)

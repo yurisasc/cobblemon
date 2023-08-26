@@ -1,23 +1,29 @@
 package com.cobblemon.mod.common.block.fossilmachine
 
-import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
+import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.MultiblockBlock
 import com.cobblemon.mod.common.block.multiblock.builder.ResurrectionMachineMultiblockBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.world.World
 
 class FossilCompartmentBlock(properties: Settings) : MultiblockBlock(properties){
     init {
         defaultState = defaultState
             .with(HorizontalFacingBlock.FACING, Direction.NORTH)
-            .with(ON, true)
+            .with(ON, false)
     }
 
     override fun createMultiBlockEntity(
@@ -28,6 +34,12 @@ class FossilCompartmentBlock(properties: Settings) : MultiblockBlock(properties)
             pos, state, ResurrectionMachineMultiblockBuilder(pos)
         )
     }
+
+    override fun <T : BlockEntity?> getTicker(
+        world: World?,
+        state: BlockState?,
+        type: BlockEntityType<T>?
+    ): BlockEntityTicker<T>? = checkType(type, CobblemonBlockEntities.FOSSIL_MULTIBLOCK, FossilMultiblockStructure.TICKER::tick)
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
         return defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)

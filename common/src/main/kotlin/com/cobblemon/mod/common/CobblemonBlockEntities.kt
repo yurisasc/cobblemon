@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.block.entity.*
+import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.multiblock.builder.ResurrectionMachineMultiblockBuilder
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.entity.BlockEntityType

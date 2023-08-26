@@ -137,4 +137,5 @@ object DataKeys {
     const val COMPARTMENT_POS = "CompartmentPos"
     const val ORGANIC_MATERIAL = "OrganicContent"
     const val INSERTED_FOSSIL = "InsertedFossil"
+    const val TUBE_FILL_LEVEL = "TubeFillLevel"
 }

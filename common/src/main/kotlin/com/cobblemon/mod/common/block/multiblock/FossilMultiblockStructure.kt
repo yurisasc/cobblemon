@@ -1,10 +1,13 @@
 package com.cobblemon.mod.common.block.multiblock
 
+import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.fossil.FossilVariant
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
-import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.MultiblockEntity
+import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
 import com.cobblemon.mod.common.util.DataKeys
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.entity.player.PlayerEntity
@@ -22,10 +25,9 @@ class FossilMultiblockStructure (
     val compartmentPos: BlockPos,
     val tubeBasePos: BlockPos
 ) : MultiblockStructure {
-    val ticksPerMinute = 1200
     var fossilInside: FossilVariant? = null
     var organicMaterialInside = 0
-    var timeRemaining = ticksPerMinute * 5
+    var timeRemaining = -1
     override val controllerBlockPos = compartmentPos
 
     override fun onUse(
@@ -42,9 +44,13 @@ class FossilMultiblockStructure (
             val item = stack?.item
             val itemId = Registries.ITEM.getId(item)
             if (NaturalMaterials.isNaturalMaterial(itemId)) {
+                if (timeRemaining > 0) return ActionResult.FAIL
                 organicMaterialInside += NaturalMaterials.getContent(itemId) ?: 0
                 if (!player.isCreative) {
                     stack?.decrement(1)
+                }
+                if (organicMaterialInside >= MATERIAL_TO_START) {
+                    startMachine(world)
                 }
                 return ActionResult.PASS
             }
@@ -55,6 +61,7 @@ class FossilMultiblockStructure (
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
+        stopMachine(world)
         val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
         val compartmentEntity = world.getBlockEntity(compartmentPos) as MultiblockEntity
         val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as MultiblockEntity
@@ -66,9 +73,12 @@ class FossilMultiblockStructure (
         tubeTopEntity.multiblockStructure = null
     }
 
-    override fun tick() {
-        if (timeRemaining > 0) {
+    override fun tick(world: World) {
+        if (timeRemaining >= 0) {
             timeRemaining--
+        }
+        if (timeRemaining == 0) {
+            stopMachine(world)
         }
     }
 
@@ -84,12 +94,47 @@ class FossilMultiblockStructure (
         return result
     }
 
+    fun startMachine(world: World) {
+        timeRemaining = 1 * TICKS_PER_MINUTE
+        world.setBlockState(
+            compartmentPos,
+            world.getBlockState(compartmentPos).with(FossilCompartmentBlock.ON, true)
+        )
+        world.getBlockEntity(
+            tubeBasePos,
+            CobblemonBlockEntities.FOSSIL_TUBE
+        ).ifPresent {
+            it.fillLevel = 8
+            it.markDirty()
+        }
+        val tubeState = world.getBlockState(tubeBasePos)
+        world.updateListeners(tubeBasePos, tubeState, tubeState, Block.NOTIFY_LISTENERS)
+    }
+
+    fun stopMachine(world: World){
+        world.setBlockState(
+            compartmentPos,
+            world.getBlockState(compartmentPos).with(FossilCompartmentBlock.ON, false)
+        )
+        world.getBlockEntity(
+            tubeBasePos,
+            CobblemonBlockEntities.FOSSIL_TUBE
+        ).ifPresent {
+            it.fillLevel = 0
+            it.markDirty()
+        }
+        val tubeState = world.getBlockState(tubeBasePos)
+        world.updateListeners(tubeBasePos, tubeState, tubeState, Block.NOTIFY_LISTENERS)
+    }
+
     companion object {
-        val TICKER = BlockEntityTicker<FossilMultiblockEntity> { _, _, _, blockEntity ->
+        val TICKER = BlockEntityTicker<FossilMultiblockEntity> { world, _, _, blockEntity ->
             if (blockEntity.multiblockStructure != null) {
-                blockEntity.multiblockStructure!!.tick()
+                blockEntity.multiblockStructure!!.tick(world)
             }
         }
+        const val TICKS_PER_MINUTE = 1200
+        const val MATERIAL_TO_START = 64
         fun fromNbt(nbt: NbtCompound): FossilMultiblockStructure {
             val monitorPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.MONITOR_POS))
             val compartmentPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.COMPARTMENT_POS))
@@ -101,5 +146,6 @@ class FossilMultiblockStructure (
             }
             return result
         }
+
     }
 }
