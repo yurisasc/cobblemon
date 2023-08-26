@@ -29,6 +29,8 @@ object ReloadShowdownCommand {
         try {
             ShowdownService.service.closeConnection()
             ShowdownService.service.openConnection()
+            ShowdownService.service.registerSpecies()
+            ShowdownService.service.registerBagItems()
             context.source.sendMessage(Text.of("Reloaded showdown"))
         } catch (e: Exception) {
             e.printStackTrace()

@@ -1224,11 +1224,12 @@ object ShowdownInterpreter {
         val request = BattleRegistry.gson.fromJson(message.rawMessage.split("|request|")[1], ShowdownActionRequest::class.java)
         if (battle.started) {
             battle.dispatchGo {
+                // This request won't be acted on until the start of next turn
                 battleActor.sendUpdate(BattleQueueRequestPacket(request))
                 battleActor.request = request
                 battleActor.responses.clear()
                 // We need to send this out because 'upkeep' isn't received until the request is handled since the turn won't swap
-                if (request.forceSwitch.withIndex().any { it.value && battleActor.activePokemon.getOrNull(it.index)?.isGone() == false }) {
+                if (request.forceSwitch.contains(true)) {
                     battle.doWhenClear {
                         battleActor.mustChoose = true
                         battleActor.sendUpdate(BattleMakeChoicePacket())
@@ -1613,7 +1614,7 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-clearallboost
+     * |-clearallboost|
      *
      * Clears all boosts from all Pokémon on both sides.
      */
