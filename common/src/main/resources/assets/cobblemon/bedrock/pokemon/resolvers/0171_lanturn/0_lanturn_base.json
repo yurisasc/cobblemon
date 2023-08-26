@@ -33,7 +33,7 @@
         },
         {
           "name": "emissive2",
-          "texture": "cobblemon:textures/pokemon/0171_lanturn/lanturn_emissive.png",
+          "texture": "cobblemon:textures/pokemon/0171_lanturn/lanturn_emissive_shiny.png",
           "emissive": true
         }
       ]

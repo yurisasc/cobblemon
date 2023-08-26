@@ -37,6 +37,15 @@
 ### Pokémon Added
 #### Gen 2
 
+- Chikorita
+- Bayleef
+- Meganium
+- Totodile
+- Croconaw
+- Feraligatr
+- Cyndaquil
+- Quilava
+- Typhlosion
 - Spinarak
 - Ariados
 - Shuckle

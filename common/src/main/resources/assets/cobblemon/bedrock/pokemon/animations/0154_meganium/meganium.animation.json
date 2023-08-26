@@ -1,0 +1,128 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.meganium.ground_idle": {
+			"loop": true,
+			"bones": {
+				"neck": {
+					"rotation": [25, 0, 0]
+				},
+				"leaves": {
+					"rotation": [7.5, 0, 0]
+				},
+				"leaf_end": {
+					"rotation": [32.5, 0, 0]
+				},
+				"leaf2": {
+					"rotation": [5, 60, 0]
+				},
+				"leaf_end2": {
+					"rotation": [30, 0, 0]
+				},
+				"leaf3": {
+					"rotation": [5, -60, 0]
+				},
+				"leaf_end3": {
+					"rotation": [22.5, 0, 0]
+				},
+				"leaf4": {
+					"rotation": [0, -60, 0]
+				},
+				"leaf_end4": {
+					"rotation": [-27.5, 0, 0]
+				},
+				"leaf5": {
+					"rotation": [0, 57.5, 0]
+				},
+				"leaf_end5": {
+					"rotation": [-17.5, 0, 0]
+				},
+				"leaf6": {
+					"rotation": [7.5, 0, 0]
+				},
+				"leaf_end6": {
+					"rotation": [-27.5, 0, 0]
+				},
+				"neck2": {
+					"rotation": [-17.5, 0, 0]
+				},
+				"neck3": {
+					"rotation": [-5, 0, 0]
+				},
+				"head": {
+					"rotation": [-2.5, 0, 0]
+				},
+				"antenna_right": {
+					"rotation": [-2.44081, -0.54094, -12.48848]
+				},
+				"antenna_right2": {
+					"rotation": [-32.5, 0, 0]
+				},
+				"antenna_right3": {
+					"rotation": [-62.70113, 3.45533, -6.66067]
+				},
+				"antenna_right4": {
+					"rotation": [-37.5, 0, 0]
+				},
+				"antenna_right5": {
+					"rotation": [-47.5, 0, 0]
+				},
+				"antenna_right6": {
+					"rotation": [-25, 0, 0]
+				},
+				"antenna_right7": {
+					"rotation": [-47.5, 0, 0]
+				},
+				"antenna_left": {
+					"rotation": [-2.44081, 0.5409, 12.4885]
+				},
+				"antenna_left2": {
+					"rotation": [-32.5, 0, 0]
+				},
+				"antenna_left3": {
+					"rotation": [-62.70113, -3.4553, 6.6607]
+				},
+				"antenna_left4": {
+					"rotation": [-37.5, 0, 0]
+				},
+				"antenna_left5": {
+					"rotation": [-47.5, 0, 0]
+				},
+				"antenna_left6": {
+					"rotation": [-25, 0, 0]
+				},
+				"antenna_left7": {
+					"rotation": [-47.5, 0, 0]
+				},
+				"tail": {
+					"rotation": [-17.5, 0, 0]
+				},
+				"tail2": {
+					"rotation": [10, 0, 0]
+				},
+				"tail3": {
+					"rotation": [17.5, 0, 0]
+				}
+			}
+		},
+		"animation.meganium.blink": {
+			"animation_length": 0.1667,
+			"bones": {
+				"eyelid_right": {
+					"position": {
+						"0.0": [-0.1, 0, 0],
+						"0.125": [-0.1, 0, 0],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_left": {
+					"position": {
+						"0.0": [0.1, 0, 0],
+						"0.125": [0.1, 0, 0],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

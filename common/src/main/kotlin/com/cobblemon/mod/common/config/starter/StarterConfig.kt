@@ -40,13 +40,22 @@ class StarterConfig {
             )
         ),
         StarterCategory(
-                name = "Hoenn",
-                displayName = "cobblemon.starterselection.category.hoenn",
-                pokemon = mutableListOf(
-                        PokemonProperties.parse("Treecko level=10"),
-                        PokemonProperties.parse("Torchic level=10"),
-                        PokemonProperties.parse("Mudkip level=10"),
-                )
+            name = "Johto",
+            displayName = "cobblemon.starterselection.category.johto",
+            pokemon = mutableListOf(
+                PokemonProperties.parse("Chikorita level=10"),
+                PokemonProperties.parse("Cyndaquil level=10"),
+                PokemonProperties.parse("Totodile level=10"),
+            )
+        ),
+        StarterCategory(
+            name = "Hoenn",
+            displayName = "cobblemon.starterselection.category.hoenn",
+            pokemon = mutableListOf(
+                    PokemonProperties.parse("Treecko level=10"),
+                    PokemonProperties.parse("Torchic level=10"),
+                    PokemonProperties.parse("Mudkip level=10"),
+            )
         ),
         StarterCategory(
             name = "Sinnoh",

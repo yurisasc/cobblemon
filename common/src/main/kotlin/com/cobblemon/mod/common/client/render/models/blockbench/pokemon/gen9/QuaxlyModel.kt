@@ -68,7 +68,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
         watersleep = registerPose(
             poseName = "water_sleeping",
             poseType = PoseType.SLEEP,
-            condition = { it.isTouchingWater && !it.isSubmergedInWater },
+            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("quaxly", "water_sleep"))
         )
 
@@ -100,6 +100,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             poseName = "floating",
             transformTicks = 10,
             poseType = PoseType.FLOAT,
+            quirks = arrayOf(blink),
             condition = { it.isSubmergedInWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -112,6 +113,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             transformTicks = 10,
             condition = { it.isSubmergedInWater },
             poseType = PoseType.SWIM,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxly", "water_swim"),
