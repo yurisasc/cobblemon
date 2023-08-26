@@ -14,7 +14,8 @@
     "SoundSystemMixin",
     "accessor.KeyBindingAccessor",
     "accessor.MusicTrackerAccessor",
-    "pokeball.ItemRendererMixin"
+    "pokeball.ItemRendererMixin",
+    "ModelLoaderMixin"
   ],
   "mixins": [
     "FenceBlockMixin",

@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
+import com.cobblemon.mod.common.client.render.block.FossilTubeRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
@@ -88,6 +89,7 @@ object CobblemonClient {
         PlatformEvents.CLIENT_PLAYER_LOGOUT.subscribe { onLogout() }
 
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_TUBE, ::FossilTubeRenderer)
 
         registerBlockRenderTypes()
         registerColors()
@@ -133,7 +135,6 @@ object CobblemonClient {
 
         this.implementation.registerBlockRenderType(
             RenderLayer.getTranslucent(),
-            CobblemonBlocks.FOSSIL_TUBE,
             CobblemonBlocks.FOSSIL_COMPARTMENT
         )
 
@@ -169,7 +170,8 @@ object CobblemonClient {
             CobblemonBlocks.REVIVAL_HERB,
             CobblemonBlocks.VIVICHOKE_SEEDS,
             CobblemonBlocks.PEP_UP_FLOWER,
-            CobblemonBlocks.POTTED_PEP_UP_FLOWER
+            CobblemonBlocks.POTTED_PEP_UP_FLOWER,
+            CobblemonBlocks.FOSSIL_TUBE
         )
     }
 

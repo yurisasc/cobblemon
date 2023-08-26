@@ -8,10 +8,7 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
-import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
-import com.cobblemon.mod.common.block.entity.PCBlockEntity
-import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
+import com.cobblemon.mod.common.block.entity.*
 import com.cobblemon.mod.common.block.multiblock.builder.ResurrectionMachineMultiblockBuilder
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.entity.BlockEntityType
@@ -39,7 +36,14 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
             FossilMultiblockEntity(pos, state, ResurrectionMachineMultiblockBuilder(pos))
             },
             CobblemonBlocks.FOSSIL_COMPARTMENT,
-            CobblemonBlocks.FOSSIL_MONITOR,
+            CobblemonBlocks.FOSSIL_MONITOR
+        ).build(null)
+    )
+    val FOSSIL_TUBE: BlockEntityType<FossilTubeBlockEntity> = this.create(
+        "fossil_tube",
+        BlockEntityType.Builder.create({ pos, state ->
+            FossilTubeBlockEntity(pos, state, ResurrectionMachineMultiblockBuilder(pos))
+        },
             CobblemonBlocks.FOSSIL_TUBE
         ).build(null)
     )

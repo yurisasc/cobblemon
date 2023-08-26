@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.block.multiblock.builder.MultiblockStructureBuil
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.util.math.BlockPos
@@ -15,7 +16,8 @@ open class FossilMultiblockEntity(
     pos: BlockPos,
     state: BlockState,
     multiblockBuilder: MultiblockStructureBuilder,
-    ) : MultiblockEntity(CobblemonBlockEntities.FOSSIL_MULTIBLOCK, pos, state, multiblockBuilder) {
+    type: BlockEntityType<*> = CobblemonBlockEntities.FOSSIL_MULTIBLOCK
+    ) : MultiblockEntity(type, pos, state, multiblockBuilder) {
     override var multiblockStructure: MultiblockStructure? = null
         set(structure) {
             field = structure

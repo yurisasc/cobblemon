@@ -2,6 +2,7 @@ package com.cobblemon.mod.common.block.fossilmachine
 
 import com.cobblemon.mod.common.block.PCBlock
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.entity.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.multiblock.MultiblockBlock
 import com.cobblemon.mod.common.block.multiblock.builder.ResurrectionMachineMultiblockBuilder
 import net.minecraft.block.*
@@ -31,7 +32,6 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
         defaultState = defaultState
             .with(HorizontalFacingBlock.FACING, Direction.NORTH)
             .with(PART, TubePart.BOTTOM)
-            .with(ON, true)
     }
 
     fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
@@ -76,7 +76,7 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
     }
 
     override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {
-        return FossilMultiblockEntity(
+        return FossilTubeBlockEntity(
             pos, state, ResurrectionMachineMultiblockBuilder(pos)
         )
     }
@@ -101,7 +101,6 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
         builder.add(PART)
-        builder.add(ON)
     }
 
     @Deprecated("Deprecated in Java")
@@ -136,6 +135,5 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
 
     companion object {
         val PART = EnumProperty.of("part", TubePart::class.java)
-        val ON = BooleanProperty.of("on")
     }
 }

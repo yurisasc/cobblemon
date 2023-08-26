@@ -9,12 +9,14 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import net.minecraft.client.util.ModelIdentifier
 import kotlin.math.min
 import kotlin.random.Random
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 fun cobblemonResource(path: String) = Identifier(Cobblemon.MODID, path)
+fun cobblemonModel(path: String, variant: String) = ModelIdentifier("cobblemon", path, variant)
 
 fun String.asTranslated() = Text.translatable(this)
 fun String.asResource() = Identifier(this)

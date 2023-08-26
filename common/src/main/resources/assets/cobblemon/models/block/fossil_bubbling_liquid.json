@@ -3,7 +3,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"2": "cobblemon:block/fossil_tube_bubbling",
-		"particle": "fossil_tube_particle"
+		"particle": "cobblemon:block/fossil_tube_particle"
 	},
 	"elements": [
 		{
