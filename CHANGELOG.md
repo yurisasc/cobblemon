@@ -192,6 +192,7 @@
 - Updated PC Recipe.
 - Improved Pokémon AI and movement.
 - Friendship will slowly increase when Pokémon are shoulder-mounted.
+- Master balls are now unable to be burned when dropped into fire/lava.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong

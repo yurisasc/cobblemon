@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.item
 
+import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.pokeball.PokeBall
@@ -48,6 +49,10 @@ class PokeBallItem(
             owner = player
         }
         world.spawnEntity(pokeBallEntity)
+    }
+
+    override fun isFireproof(): Boolean {
+        return pokeBall.name == PokeBalls.MASTER_BALL.name || super.isFireproof()
     }
 
 }
