@@ -93,6 +93,7 @@ class NPCEntity : PassiveEntity, Npc, Poseable, PokemonSender {
         delegate.initialize(this)
     }
 
+    // This has to be below constructor and entity tracker fields otherwise initialization order is weird and breaks them syncing
     companion object {
         fun createAttributes(): DefaultAttributeContainer.Builder = createMobAttributes()
 
@@ -125,6 +126,7 @@ class NPCEntity : PassiveEntity, Npc, Poseable, PokemonSender {
     }
 
     fun isInBattle() = battleIds.get().isNotEmpty()
+
     fun getBattleConfiguration() = battle ?: npc.battleConfiguration
 
     override fun tick() {
@@ -195,5 +197,4 @@ class NPCEntity : PassiveEntity, Npc, Poseable, PokemonSender {
         playAnimation(SEND_OUT_ANIMATION)
         return delayedFuture(seconds = 1.6F)
     }
-
 }

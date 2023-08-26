@@ -219,10 +219,7 @@
 					}
 				},
 				"pokeball": {
-					"position": {
-						"0.0": [0, 0, 0],
-						"1.5": [0, 0, -1]
-					}
+					"scale": 0
 				},
 				"leg_right": {
 					"rotation": {
@@ -340,7 +337,7 @@
 					}
 				},
 				"pokeball": {
-					"position": [0, 0, 0]
+					"scale": 0
 				},
 				"leg_right": {
 					"rotation": {
@@ -638,11 +635,14 @@
 						"1.2917": [0, 0, -0.1],
 						"1.3333": [0, 0, 0]
 					}
+				},
+				"pokeball": {
+					"scale": 0
 				}
 			}
 		},
 		"animation.trainer_generic.blink": {
-			"animation_length": 0.16667,
+			"animation_length": 0.1667,
 			"bones": {
 				"eyelid_right": {
 					"position": {
@@ -657,6 +657,9 @@
 						"0.125": [0, 0, -0.1],
 						"0.1667": [0, 0, 0]
 					}
+				},
+				"pokeball": {
+					"scale": 0
 				}
 			}
 		},
@@ -852,6 +855,9 @@
 						"0.7083": [0, 0, -0.1],
 						"0.75": [0, 0, 0]
 					}
+				},
+				"pokeball": {
+					"scale": 0
 				}
 			}
 		}

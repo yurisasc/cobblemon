@@ -260,7 +260,7 @@ abstract class PoseableEntityModel<T : Entity>(
             stack,
             buffer,
             packedLight,
-            OverlayTexture.DEFAULT_UV,
+            packedOverlay,
             red * r,
             green * g,
             blue * b,

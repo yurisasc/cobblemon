@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.entity.npc
 
 import com.cobblemon.mod.common.api.battles.model.actor.AIBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
+import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.party.PartyStore
@@ -36,5 +37,15 @@ class NPCBattleActor(
             // Do some shit
             entity.battleIds.set(entity.battleIds.get() - battle.battleId)
         }
+    }
+
+    override fun win(otherWinners: List<BattleActor>, losers: List<BattleActor>) {
+        super.win(otherWinners, losers)
+        npc.playAnimation(NPCEntity.WIN_ANIMATION)
+    }
+
+    override fun lose(winners: List<BattleActor>, otherLosers: List<BattleActor>) {
+        super.lose(winners, otherLosers)
+        npc.playAnimation(NPCEntity.LOSE_ANIMATION)
     }
 }

@@ -5,9 +5,9 @@
     "party": {
       "type": "simple",
       "pokemon": [
-        "pikachu level=50",
-        "raichu level=20",
-        "magikarp level=10"
+        "squirtle level=30",
+        "charmander level=20",
+        "bulbasaur level=10"
       ]
     }
   }

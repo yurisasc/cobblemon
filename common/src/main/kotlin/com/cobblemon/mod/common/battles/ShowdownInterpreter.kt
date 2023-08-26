@@ -519,6 +519,7 @@ object ShowdownInterpreter {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchFuture CompletableFuture.completedFuture(Unit)
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.getName())))
             val actor = pokemon.actor
+            pokemon.effectedPokemon.currentHealth = 0
             val preamble = if (actor is EntityBackedBattleActor<*>) {
                 (actor.entity as? PokemonSender)?.let { sender -> pokemon.entity?.recallWithAnimation()}
             } else {
@@ -526,7 +527,6 @@ object ShowdownInterpreter {
             } ?: delayedFuture(seconds = 2.5F)
 
             preamble.thenAccept {
-                pokemon.effectedPokemon.currentHealth = 0
                 pokemon.sendUpdate()
                 battle.broadcastChatMessage(battleLang("fainted", pokemon.getName()).red())
                 val context = getContextFromFaint(pokemon, battle)
@@ -578,6 +578,9 @@ object ShowdownInterpreter {
 
             val wasCaught = battle.showdownMessages.any { "capture" in it }
             CobblemonEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, winners, losers, wasCaught))
+
+            winners.forEach { it.win(winners, losers) }
+            losers.forEach { it.lose(winners, losers) }
 
             this.lastCauser.remove(battle.battleId)
         }

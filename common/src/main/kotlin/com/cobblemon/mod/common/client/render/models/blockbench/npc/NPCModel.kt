@@ -39,6 +39,8 @@ abstract class NPCModel(override val rootPart: ModelPart) : PoseableEntityModel<
         return when (animationType) {
             NPCEntity.RECALL_ANIMATION -> getRecall() ?: blankAnimationStateful()
             NPCEntity.SEND_OUT_ANIMATION -> getSendOut() ?: blankAnimationStateful()
+            NPCEntity.WIN_ANIMATION -> getWin() ?: blankAnimationStateful()
+            NPCEntity.LOSE_ANIMATION -> getLose() ?: blankAnimationStateful()
             else -> blankAnimationStateful() // Maybe try to parse bedrock(..., ...) stuff
         }
     }

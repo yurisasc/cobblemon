@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
@@ -186,15 +187,21 @@ class PokemonServerDelegate : PokemonSideDelegate {
     }
 
     override fun updatePostDeath() {
+        val owner = entity.owner
         if (!entity.deathEffectsStarted.get()) {
             entity.deathEffectsStarted.set(true)
+            if (owner is PokemonSender && entity.beamModeEmitter.get().toInt() == -1) {
+                entity.recallWithAnimation()
+            }
         }
+
+
         ++entity.deathTime
 
         if (entity.deathTime == 30) {
-            val owner = entity.owner
-            if (owner != null) {
+            if (owner != null && owner !is PokemonSender) {
                 entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.8F)
+//                entity.recallWithAnimation()
                 entity.phasingTargetId.set(owner.id)
                 entity.beamModeEmitter.set(2)
             }

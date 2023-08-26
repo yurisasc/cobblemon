@@ -335,7 +335,7 @@ class PokemonEntity(
                 afterOnMain(seconds = SEND_OUT_DURATION) {
                     pokemon.recall()
                     if (owner is NPCEntity) {
-                        afterOnMain(seconds = 2F) {
+                        afterOnMain(seconds = 0.5F) {
                             future.complete(pokemon)
                         }
                     } else {
