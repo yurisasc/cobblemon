@@ -13,10 +13,16 @@ import net.minecraft.util.Identifier
 object CobblemonBakingOverrides {
     val models = mutableListOf<BakingOverride>()
 
-    val FOSSIL_TUB_LIQUID = registerOverride(
-        cobblemonResource("block/fossil_bubbling_liquid"),
-        cobblemonModel("fossil_bubbling_liquid", "none")
+    val FOSSIL_FLUID_BUBBLING = registerOverride(
+        cobblemonResource("block/fossil_fluid_bubbling"),
+        cobblemonModel("fossil_fluid_bubbling", "none")
     )
+    val FOSSIL_FLUID_CHUNKED = registerOverride(
+        cobblemonResource("block/fossil_fluid_chunked"),
+        cobblemonModel("fossil_fluid_chunked", "none")
+    )
+
+
 
     fun registerOverride(modelLocation: Identifier, modelIdentifier: ModelIdentifier): BakingOverride {
         val result = BakingOverride(modelLocation, modelIdentifier)

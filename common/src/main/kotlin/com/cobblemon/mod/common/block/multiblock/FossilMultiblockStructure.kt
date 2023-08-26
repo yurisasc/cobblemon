@@ -96,6 +96,7 @@ class FossilMultiblockStructure (
 
     fun startMachine(world: World) {
         timeRemaining = 1 * TICKS_PER_MINUTE
+        organicMaterialInside = 0
         world.setBlockState(
             compartmentPos,
             world.getBlockState(compartmentPos).with(FossilCompartmentBlock.ON, true)
