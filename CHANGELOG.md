@@ -193,6 +193,7 @@
 - Improved Pokémon AI and movement.
 - Friendship will slowly increase when Pokémon are shoulder-mounted.
 - Master balls are now unable to be burned when dropped into fire/lava.
+- Pokémon will appear red when hurt, like regular entities, except when they're fainting.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
