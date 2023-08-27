@@ -19,21 +19,18 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         light: Int,
         overlay: Int
     ) {
-        val state = entity.cachedState
-        if (state.get(FossilTubeBlock.PART) == FossilTubeBlock.TubePart.BOTTOM){
-            val fillLevel = entity.fillLevel
-            if (fillLevel == 0) {
-                return
-            }
-            matrices.push()
-            val buffer = vertexConsumers?.getBuffer(RenderLayer.getTranslucent())
-
-            val model = CHUNKED_MODELS[fillLevel-1]
-            model.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
-                buffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
-            }
-            matrices.pop()
+        val fillLevel = entity.fillLevel
+        if (fillLevel == 0) {
+            return
         }
+        matrices.push()
+        val buffer = vertexConsumers?.getBuffer(RenderLayer.getTranslucent())
+
+        val model = CHUNKED_MODELS[fillLevel-1]
+        model.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
+            buffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
+        }
+        matrices.pop()
     }
 
     companion object {

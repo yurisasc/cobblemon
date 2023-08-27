@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"2": "cobblemon:block/new_fossil_tube",
+		"2": "cobblemon:block/fossil_tube",
 		"particle": "cobblemon:block/fossil_tube_particle"
 	},
 	"elements": [

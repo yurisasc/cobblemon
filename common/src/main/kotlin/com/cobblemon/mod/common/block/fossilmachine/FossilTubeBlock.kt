@@ -69,10 +69,19 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
         super.onPlaced(world, pos, state, placer, itemStack)
     }
 
+    //The top part of the tube doesnt really need custom rendering
     override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {
-        return FossilTubeBlockEntity(
-            pos, state, ResurrectionMachineMultiblockBuilder(pos)
-        )
+        if (state.get(PART) == TubePart.BOTTOM) {
+            return FossilTubeBlockEntity(
+                pos, state, ResurrectionMachineMultiblockBuilder(pos)
+            )
+        }
+        else {
+            return FossilMultiblockEntity(
+                pos, state, ResurrectionMachineMultiblockBuilder(pos)
+            )
+        }
+
     }
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {

@@ -60,7 +60,7 @@ class FossilMultiblockStructure (
                     tubeEntity.markDirty()
                     updateTube(world)
                 }
-                return ActionResult.PASS
+                return ActionResult.CONSUME
             }
         }
 
