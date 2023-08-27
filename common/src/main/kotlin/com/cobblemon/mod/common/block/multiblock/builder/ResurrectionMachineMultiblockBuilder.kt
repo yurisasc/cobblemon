@@ -3,6 +3,8 @@ package com.cobblemon.mod.common.block.multiblock.builder
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.MultiblockEntity
+import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
+import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
 import com.cobblemon.mod.common.block.fossilmachine.FossilTubeBlock
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.condition.BlockRelativeCondition
@@ -45,13 +47,20 @@ class ResurrectionMachineMultiblockBuilder(val centerPos: BlockPos) : Multiblock
         val fossilTubePos = fossilTubePositions.random()
         val monitorEntity = world.getBlockEntity(fossilMonitorPos) as MultiblockEntity
         val compEntity = world.getBlockEntity(fossilCompPos) as MultiblockEntity
-        val tubeBaseEntity = world.getBlockEntity(fossilTubePos) as MultiblockEntity
+        val tubeBaseEntity = world.getBlockEntity(fossilTubePos) as FossilTubeBlockEntity
         val tubeTopEntity = world.getBlockEntity(fossilTubePos.up()) as MultiblockEntity
         val structure = FossilMultiblockStructure(fossilMonitorPos, fossilCompPos, fossilTubePos)
+        val dirsToCheck = listOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
+        tubeBaseEntity.connectorPosition = dirsToCheck.filter {
+            val adjState = world.getBlockState(fossilTubePos.offset(it))
+            return@filter adjState.block is FossilCompartmentBlock
+        }.random()
+
         compEntity.multiblockStructure = structure
         tubeBaseEntity.multiblockStructure = structure
         tubeTopEntity.multiblockStructure = structure
         monitorEntity.multiblockStructure = structure
+        structure.syncConstituentEntities(world)
         //Set these to null so the builders can be freed
         compEntity.multiblockBuilder = null
         tubeBaseEntity.multiblockBuilder = null
