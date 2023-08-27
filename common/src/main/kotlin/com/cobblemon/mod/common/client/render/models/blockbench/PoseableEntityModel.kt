@@ -40,6 +40,7 @@ import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
 
@@ -110,6 +111,19 @@ abstract class PoseableEntityModel<T : Entity>(
         currentLayers = emptyList()
         bufferProvider = null
         currentState = null
+    }
+
+    open fun getOverlayTexture(entity: T?): Int? {
+        return if (entity is LivingEntity) {
+            OverlayTexture.packUv(
+                OverlayTexture.getU(0F),
+                OverlayTexture.getV(entity.hurtTime > 0 || entity.deathTime > 0)
+            )
+        } else if (entity != null) {
+            OverlayTexture.DEFAULT_UV
+        } else {
+            null
+        }
     }
 
     /**
@@ -259,7 +273,7 @@ abstract class PoseableEntityModel<T : Entity>(
             stack,
             buffer,
             packedLight,
-            OverlayTexture.DEFAULT_UV,
+            getOverlayTexture(currentEntity) ?: packedOverlay,
             red * r,
             green * g,
             blue * b,
@@ -278,7 +292,7 @@ abstract class PoseableEntityModel<T : Entity>(
                     stack,
                     consumer,
                     packedLight,
-                    OverlayTexture.DEFAULT_UV,
+                    getOverlayTexture(currentEntity) ?: packedOverlay,
                     layer.tint.x,
                     layer.tint.y,
                     layer.tint.z,

@@ -49,6 +49,6 @@ class MintItem(val nature: Nature) : CobblemonItem(Settings()), PokemonSelecting
         if (user is ServerPlayerEntity) {
             return use(user, user.getStackInHand(hand))
         }
-        return super<CobblemonItem>.use(world, user, hand)
+        return TypedActionResult.success(user.getStackInHand(hand))
     }
 }
