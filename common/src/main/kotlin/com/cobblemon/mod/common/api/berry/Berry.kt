@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.util.readBox
 import com.cobblemon.mod.common.util.writeBox
 import com.google.gson.annotations.SerializedName
 import java.awt.Color
+import java.util.EnumSet
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.client.model.ModelPart
@@ -35,8 +36,6 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
-import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * Represents the data behind a berry.
@@ -72,7 +71,7 @@ class Berry(
     val favoriteMulches: EnumSet<MulchVariant>,
     val growthFactors: Collection<GrowthFactor>,
     val spawnConditions: List<BerrySpawnCondition>,
-    val growthPoints: Array<GrowthPoint>,
+    var growthPoints: Array<GrowthPoint>,
     val mutations: Map<Identifier, Identifier>,
     @SerializedName("sproutShape")
     private val sproutShapeBoxes: Collection<Box>,
