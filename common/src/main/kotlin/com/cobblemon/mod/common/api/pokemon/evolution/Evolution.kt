@@ -15,11 +15,14 @@ import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
+import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
@@ -115,7 +118,20 @@ interface Evolution : EvolutionLike {
         if (pokemon.entity == null) {
             pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
         } else {
-            // TODO play animation and evolve after 12 seconds
+            pokemon.entity!!.evolutionEntity = pokemon.getOwnerPlayer()?.let { GenericBedrockEntity(world = it.world) }
+            val evolutionEntity = pokemon.entity!!.evolutionEntity
+            pokemon.getOwnerPlayer()?.world?.spawnEntity(evolutionEntity)
+            evolutionEntity?.apply {
+                category = cobblemonResource("evolution")
+                colliderHeight = pokemon.entity!!.height
+                colliderWidth = pokemon.entity!!.width
+                scale = pokemon.entity!!.scaleFactor
+            }
+            after(seconds = 10F) {
+                evolutionEntity?.kill()
+                pokemon.entity!!.evolutionEntity = null
+                pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
+            }
         }
         CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
     }

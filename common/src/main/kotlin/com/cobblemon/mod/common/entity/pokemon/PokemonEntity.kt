@@ -34,6 +34,7 @@ import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
@@ -135,6 +136,8 @@ class PokemonEntity(
     /** The player that caused this Pokémon to faint. */
     var killer: ServerPlayerEntity? = null
 
+    var evolutionEntity: GenericBedrockEntity? = null
+
     var ticksLived = 0
     val busyLocks = mutableListOf<Any>()
     val isBusy: Boolean
@@ -165,7 +168,6 @@ class PokemonEntity(
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.STAND)
     internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
-
     /**
      * 0 is do nothing,
      * 1 is appearing from a pokeball so needs to be small then grows,
@@ -262,6 +264,10 @@ class PokemonEntity(
         // We will be handling idle logic ourselves thank you
         this.setDespawnCounter(0)
         entityProperties.forEach { it.checkForUpdate() }
+        if (evolutionEntity != null) {
+            evolutionEntity!!.setPosition(pokemon.entity!!.x, pokemon.entity!!.y + 1.5, pokemon.entity!!.z)
+            pokemon.entity!!.navigation.stop()
+        }
         delegate.tick(this)
         ticksLived++
         if (this.ticksLived % 20 == 0) {
@@ -433,7 +439,7 @@ class PokemonEntity(
         goalSelector.clear { true }
         goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
         goalSelector.add(0, object : Goal() {
-            override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get()
+            override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get() || evolutionEntity != null
             override fun shouldContinue(): Boolean {
                 if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
                     pokemon.status = null
