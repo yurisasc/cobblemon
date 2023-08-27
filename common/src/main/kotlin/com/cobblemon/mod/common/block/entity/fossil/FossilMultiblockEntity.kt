@@ -25,15 +25,13 @@ open class FossilMultiblockEntity(
             masterBlockPos = structure?.controllerBlockPos
         }
         get() {
-            if (field != null) {
-                return field
-            }
-            else if (masterBlockPos != null && world != null) {
+            return if (field != null) {
+                field
+            } else if (masterBlockPos != null && world != null) {
                 field = (world?.getBlockEntity(masterBlockPos) as FossilMultiblockEntity).multiblockStructure
-                return field
-            }
-            else {
-                return null
+                field
+            } else {
+                null
             }
         }
 

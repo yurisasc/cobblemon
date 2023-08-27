@@ -5,6 +5,7 @@ import com.cobblemon.mod.common.api.fossil.FossilVariant
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.block.entity.MultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.block.Block
@@ -51,6 +52,13 @@ class FossilMultiblockStructure (
                 }
                 if (organicMaterialInside >= MATERIAL_TO_START) {
                     startMachine(world)
+                }
+                else {
+                    val stage = organicMaterialInside / 8
+                    val tubeEntity = world.getBlockEntity(tubeBasePos) as FossilTubeBlockEntity
+                    tubeEntity.fillLevel = stage
+                    tubeEntity.markDirty()
+                    updateTube(world)
                 }
                 return ActionResult.PASS
             }
@@ -107,9 +115,9 @@ class FossilMultiblockStructure (
         ).ifPresent {
             it.fillLevel = 8
             it.markDirty()
+            updateTube(world)
         }
-        val tubeState = world.getBlockState(tubeBasePos)
-        world.updateListeners(tubeBasePos, tubeState, tubeState, Block.NOTIFY_LISTENERS)
+
     }
 
     fun stopMachine(world: World){
@@ -124,6 +132,11 @@ class FossilMultiblockStructure (
             it.fillLevel = 0
             it.markDirty()
         }
+        val tubeState = world.getBlockState(tubeBasePos)
+        world.updateListeners(tubeBasePos, tubeState, tubeState, Block.NOTIFY_LISTENERS)
+    }
+
+    fun updateTube(world: World) {
         val tubeState = world.getBlockState(tubeBasePos)
         world.updateListeners(tubeBasePos, tubeState, tubeState, Block.NOTIFY_LISTENERS)
     }

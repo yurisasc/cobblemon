@@ -20,24 +20,32 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         overlay: Int
     ) {
         val state = entity.cachedState
-        matrices.push()
-        if (entity.fillLevel == 8) {
+        if (state.get(FossilTubeBlock.PART) == FossilTubeBlock.TubePart.BOTTOM){
+            val fillLevel = entity.fillLevel
+            if (fillLevel == 0) {
+                return
+            }
+            matrices.push()
             val buffer = vertexConsumers?.getBuffer(RenderLayer.getTranslucent())
-            BUBBLING_MODEL.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
+
+            val model = CHUNKED_MODELS[fillLevel-1]
+            model.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
                 buffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
             }
+            matrices.pop()
         }
-        else if (state.get(FossilTubeBlock.PART) == FossilTubeBlock.TubePart.BOTTOM){
-            val buffer = vertexConsumers?.getBuffer(RenderLayer.getTranslucent())
-            CHUNKED_MODEL.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
-                buffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
-            }
-        }
-        matrices.pop()
     }
 
     companion object {
-        val BUBBLING_MODEL = CobblemonBakingOverrides.FOSSIL_FLUID_BUBBLING.getModel()
-        val CHUNKED_MODEL = CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED.getModel()
+        val CHUNKED_MODELS = listOf(
+            CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_1.getModel(),
+            CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_2.getModel(),
+            CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_3.getModel(),
+            CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_4.getModel(),
+            CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_5.getModel(),
+            CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_6.getModel(),
+            CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_7.getModel(),
+            CobblemonBakingOverrides.FOSSIL_FLUID_BUBBLING.getModel()
+        )
     }
 }
