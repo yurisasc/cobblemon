@@ -329,7 +329,7 @@ class PokemonEntity(
             }
 
             preamble.thenAccept {
-                owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.8F)
+                owner.world.playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.8F)
                 phasingTargetId.set(owner.id)
                 beamModeEmitter.set(2)
                 afterOnMain(seconds = SEND_OUT_DURATION) {

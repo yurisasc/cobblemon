@@ -95,12 +95,14 @@ class PokemonServerDelegate : PokemonSideDelegate {
         }
 
         if (entity.ownerUuid != null && entity.pokemon.storeCoordinates.get() == null) {
-            entity.discard()
+            return entity.discard()
+        } else if (entity.pokemon.isNPCOwned() && entity.owner?.isAlive != true) {
+            return entity.discard()
         }
 
         val tethering = entity.tethering
         if (tethering != null && entity.pokemon.tetheringId != tethering.tetheringId) {
-            entity.discard()
+            return entity.discard()
         }
 
 //        if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
