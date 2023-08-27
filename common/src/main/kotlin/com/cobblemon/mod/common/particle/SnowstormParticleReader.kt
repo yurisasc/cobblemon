@@ -104,7 +104,7 @@ object SnowstormParticleReader {
         var direction: ParticleMotionDirection? = null
         val speed = (componentsJson.get("minecraft:particle_initial_speed")?.asString ?: "0.0").asExpression()
         val rate = if (instantRateJson != null) {
-            InstantParticleEmitterRate(amount = instantRateJson.get("num_particles").asInt)
+            InstantParticleEmitterRate(amount = instantRateJson.get("num_particles").asString.asExpression())
         } else if (steadyRateJson != null) {
             SteadyParticleEmitterRate(
                 rate = steadyRateJson.get("spawn_rate").asString.asExpression(),

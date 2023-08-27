@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.api.snowstorm
 
 import com.bedrockk.molang.Expression
-import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.ast.NumberExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.struct.VariableStruct
@@ -17,9 +16,11 @@ import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.codec.CodecMapped
 import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterRate.Companion.OVERFLOW_VARIABLE
+import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.resolveDouble
+import com.cobblemon.mod.common.util.resolveInt
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
@@ -49,12 +50,12 @@ enum class ParticleEmitterRateType {
     INSTANT
 }
 
-class InstantParticleEmitterRate(var amount: Int = 1) : ParticleEmitterRate {
+class InstantParticleEmitterRate(var amount: Expression = "1".asExpression()) : ParticleEmitterRate {
     companion object {
         val CODEC: Codec<InstantParticleEmitterRate> = RecordCodecBuilder.create { instance ->
             instance.group(
                 PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type.name },
-                PrimitiveCodec.INT.fieldOf("amount").forGetter { it.amount }
+                EXPRESSION_CODEC.fieldOf("amount").forGetter { it.amount }
             ).apply(instance) { _, amount -> InstantParticleEmitterRate(amount) }
         }
     }
@@ -65,17 +66,17 @@ class InstantParticleEmitterRate(var amount: Int = 1) : ParticleEmitterRate {
         if (started) {
             return 0
         } else {
-            return amount
+            return runtime.resolveInt(amount)
         }
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
     override fun readFromBuffer(buffer: PacketByteBuf) {
-        amount = buffer.readInt()
+        amount = buffer.readString().asExpression()
     }
 
     override fun writeToBuffer(buffer: PacketByteBuf) {
-        buffer.writeInt(amount)
+        buffer.writeString(amount.getString())
     }
 }
 
@@ -129,8 +130,8 @@ class SteadyParticleEmitterRate(
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
     override fun readFromBuffer(buffer: PacketByteBuf) {
-        rate = MoLang.createParser(buffer.readString()).parseExpression()
-        maximum = MoLang.createParser(buffer.readString()).parseExpression()
+        rate = buffer.readString().asExpression()
+        maximum = buffer.readString().asExpression()
     }
 
     override fun writeToBuffer(buffer: PacketByteBuf) {

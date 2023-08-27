@@ -263,7 +263,7 @@ class PokemonEntity(
         this.setDespawnCounter(0)
         entityProperties.forEach { it.checkForUpdate() }
         if (evolutionEntity != null) {
-            evolutionEntity!!.setPosition(pokemon.entity!!.x, pokemon.entity!!.y + 1.5, pokemon.entity!!.z)
+            evolutionEntity!!.setPosition(pokemon.entity!!.x, pokemon.entity!!.y + pokemon.entity!!.height / 2, pokemon.entity!!.z)
             pokemon.entity!!.navigation.stop()
         }
         delegate.tick(this)

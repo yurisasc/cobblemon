@@ -18,13 +18,13 @@
 		},
 		"components": {
 			"minecraft:emitter_rate_instant": {
-				"num_particles": 20
+				"num_particles": "20 * v.entity_radius"
 			},
 			"minecraft:emitter_lifetime_once": {
 				"active_time": 1
 			},
 			"minecraft:emitter_shape_disc": {
-				"radius": 1,
+				"radius": "v.entity_radius",
 				"direction": ["math.random(-1,1)", -1, "math.random(-1,1)"]
 			},
 			"minecraft:particle_lifetime_expression": {
@@ -36,11 +36,11 @@
 			},
 			"minecraft:particle_initial_speed": "math.random(10,20)",
 			"minecraft:particle_motion_dynamic": {
-				"linear_acceleration": [0, -20, 0],
+				"linear_acceleration": [0, "-20 * v.entity_radius", 0],
 				"linear_drag_coefficient": 2
 			},
 			"minecraft:particle_appearance_billboard": {
-				"size": ["0.1 * variable.size", "0.1 * variable.size"],
+				"size": ["0.1 * variable.size * v.entity_radius", "0.1 * variable.size * v.entity_radius"],
 				"facing_camera_mode": "rotate_xyz",
 				"uv": {
 					"texture_width": 8,
