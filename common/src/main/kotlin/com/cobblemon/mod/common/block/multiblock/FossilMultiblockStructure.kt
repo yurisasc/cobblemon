@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.block.entity.MultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
+import com.cobblemon.mod.common.block.fossilmachine.FossilMonitorBlock
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -54,11 +55,7 @@ class FossilMultiblockStructure (
                     startMachine(world)
                 }
                 else {
-                    val stage = organicMaterialInside / 8
-                    val tubeEntity = world.getBlockEntity(tubeBasePos) as FossilTubeBlockEntity
-                    tubeEntity.fillLevel = stage
-                    tubeEntity.markDirty()
-                    updateTube(world)
+                    syncConstituentEntities(world)
                 }
                 return ActionResult.CONSUME
             }
@@ -88,6 +85,65 @@ class FossilMultiblockStructure (
         if (timeRemaining == 0) {
             stopMachine(world)
         }
+        if (timeRemaining % TIME_PER_STAGE == 0) {
+            syncConstituentEntities(world)
+        }
+    }
+
+    fun startMachine(world: World) {
+        timeRemaining = TIME_TO_TAKE
+        syncConstituentEntities(world)
+    }
+
+    fun stopMachine(world: World){
+        organicMaterialInside = 0
+        syncConstituentEntities(world)
+    }
+    //Syncs tube blockentity to client
+    fun updateTube(world: World) {
+        val tubeState = world.getBlockState(tubeBasePos)
+        world.updateListeners(tubeBasePos, tubeState, tubeState, Block.NOTIFY_LISTENERS)
+    }
+
+    /**
+     * Syncronized the enitt
+     */
+    fun syncConstituentEntities(world: World) {
+        //Sync tube
+        val stage = (organicMaterialInside / 8).coerceAtMost(8)
+        val tubeEntity = world.getBlockEntity(tubeBasePos) as FossilTubeBlockEntity
+        if (stage != tubeEntity.fillLevel) {
+            tubeEntity.fillLevel = stage
+            tubeEntity.markDirty()
+            updateTube(world)
+        }
+
+        //Sync compartment
+        val compartmentState = world.getBlockState(compartmentPos)
+        val compartmentEntity = world.getBlockEntity(compartmentPos)
+        if (timeRemaining <= 0 && compartmentState.get(FossilCompartmentBlock.ON)) {
+            world.setBlockState(
+                compartmentPos,
+                world.getBlockState(compartmentPos).with(FossilCompartmentBlock.ON, false)
+            )
+        }
+        else if (timeRemaining > 0 && !compartmentState.get(FossilCompartmentBlock.ON)) {
+            world.setBlockState(
+                compartmentPos,
+                world.getBlockState(compartmentPos).with(FossilCompartmentBlock.ON, true)
+            )
+        }
+        compartmentEntity?.markDirty()
+
+        //Sync monitor
+        val curProgess = if (timeRemaining <= 0) 0 else ((TIME_TO_TAKE - timeRemaining) / TIME_PER_STAGE) + 1
+        val monitorState = world.getBlockState(monitorPos)
+        if (monitorState.get(FossilMonitorBlock.PROGRESS) != curProgess) {
+            world.setBlockState(
+                monitorPos,
+                monitorState.with(FossilMonitorBlock.PROGRESS, curProgess)
+            )
+        }
     }
 
     override fun writeToNbt(): NbtCompound {
@@ -102,45 +158,6 @@ class FossilMultiblockStructure (
         return result
     }
 
-    fun startMachine(world: World) {
-        timeRemaining = 1 * TICKS_PER_MINUTE
-        organicMaterialInside = 0
-        world.setBlockState(
-            compartmentPos,
-            world.getBlockState(compartmentPos).with(FossilCompartmentBlock.ON, true)
-        )
-        world.getBlockEntity(
-            tubeBasePos,
-            CobblemonBlockEntities.FOSSIL_TUBE
-        ).ifPresent {
-            it.fillLevel = 8
-            it.markDirty()
-            updateTube(world)
-        }
-
-    }
-
-    fun stopMachine(world: World){
-        world.setBlockState(
-            compartmentPos,
-            world.getBlockState(compartmentPos).with(FossilCompartmentBlock.ON, false)
-        )
-        world.getBlockEntity(
-            tubeBasePos,
-            CobblemonBlockEntities.FOSSIL_TUBE
-        ).ifPresent {
-            it.fillLevel = 0
-            it.markDirty()
-        }
-        val tubeState = world.getBlockState(tubeBasePos)
-        world.updateListeners(tubeBasePos, tubeState, tubeState, Block.NOTIFY_LISTENERS)
-    }
-
-    fun updateTube(world: World) {
-        val tubeState = world.getBlockState(tubeBasePos)
-        world.updateListeners(tubeBasePos, tubeState, tubeState, Block.NOTIFY_LISTENERS)
-    }
-
     companion object {
         val TICKER = BlockEntityTicker<FossilMultiblockEntity> { world, _, _, blockEntity ->
             if (blockEntity.multiblockStructure != null) {
@@ -149,6 +166,8 @@ class FossilMultiblockStructure (
         }
         const val TICKS_PER_MINUTE = 1200
         const val MATERIAL_TO_START = 64
+        const val TIME_TO_TAKE = TICKS_PER_MINUTE * 1
+        const val TIME_PER_STAGE = TIME_TO_TAKE / 8
         fun fromNbt(nbt: NbtCompound): FossilMultiblockStructure {
             val monitorPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.MONITOR_POS))
             val compartmentPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.COMPARTMENT_POS))
