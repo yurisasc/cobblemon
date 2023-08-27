@@ -59,7 +59,7 @@ object TestCommand {
         try {
             val p = context.source.playerOrThrow
             val entity = NPCEntity(p.world)
-            entity.setPos(p.pos.x, p.pos.y, p.pos.z)
+            entity.setPos(p.pos.x, p.pos.y + 0.1, p.pos.z)
             p.world.spawnEntity(entity)
 //            this.testClosestBattle(context)
             //testTrade(context.source.player!!)
