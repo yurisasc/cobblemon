@@ -201,7 +201,7 @@ fun drawPortraitPokemon(
     matrixStack.scale(scale, scale, -scale)
     matrixStack.translate(0.0, -PORTRAIT_DIAMETER / 18.0, 0.0)
     matrixStack.translate(model.portraitTranslation.x * if (reversed) -1F else 1F, model.portraitTranslation.y, model.portraitTranslation.z - 4)
-    matrixStack.scale(model.portraitScale, model.portraitScale, 0.1F)
+    matrixStack.scale(model.portraitScale, model.portraitScale, 1 / model.portraitScale)
     matrixStack.multiply(quaternion1)
     matrixStack.multiply(quaternion2)
 

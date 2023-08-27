@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
@@ -67,8 +69,9 @@ enum class ShowdownActionResponseType(val loader: (PacketByteBuf) -> ShowdownAct
     SWITCH({ SwitchActionResponse(UUID.randomUUID()) }),
     MOVE({ MoveActionResponse("", null) }),
     DEFAULT({ DefaultActionResponse() }),
-    BALL({ BallActionResponse() }),
-    PASS({ PassActionResponse });
+    FORCE_PASS({ ForcePassActionResponse() }),
+    PASS({ PassActionResponse }),
+    HEAL_ITEM({ HealItemActionResponse("potion") });
 }
 
 abstract class ShowdownActionResponse(val type: ShowdownActionResponseType) {
@@ -141,6 +144,27 @@ data class MoveActionResponse(var moveName: String, var targetPnx: String? = nul
     }
 }
 
+data class HealItemActionResponse(var item: String) : ShowdownActionResponse(ShowdownActionResponseType.FORCE_PASS) {
+    override fun saveToBuffer(buffer: PacketByteBuf) {
+        super.saveToBuffer(buffer)
+        buffer.writeString(item)
+    }
+
+    override fun loadFromBuffer(buffer: PacketByteBuf): ShowdownActionResponse {
+        super.loadFromBuffer(buffer)
+        item = buffer.readString()
+        return this
+    }
+
+    override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean): Boolean {
+        return !forceSwitch
+    }
+
+    override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?): String {
+        return "healitem ${activeBattlePokemon.getPNX()} $item"
+    }
+}
+
 data class SwitchActionResponse(var newPokemonId: UUID) : ShowdownActionResponse(ShowdownActionResponseType.SWITCH) {
     override fun saveToBuffer(buffer: PacketByteBuf) {
         super.saveToBuffer(buffer)
@@ -168,6 +192,7 @@ data class SwitchActionResponse(var newPokemonId: UUID) : ShowdownActionResponse
         return "switch ${activeBattlePokemon.actor.pokemonList.indexOfFirst { it.uuid == newPokemonId } + 1}"
     }
 }
+
 class DefaultActionResponse: ShowdownActionResponse(ShowdownActionResponseType.DEFAULT) {
     override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean) = true
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "default"
@@ -177,7 +202,11 @@ object PassActionResponse : ShowdownActionResponse(ShowdownActionResponseType.PA
     override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean) = true
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "pass"
 }
-class BallActionResponse() : ShowdownActionResponse(ShowdownActionResponseType.BALL) {
+
+/**
+ * Only meant to be used when the player is capturing or using an item - they are forced to pass
+ */
+class ForcePassActionResponse : ShowdownActionResponse(ShowdownActionResponseType.FORCE_PASS) {
     override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean): Boolean {
         if (forceSwitch) {
             return false
@@ -185,11 +214,32 @@ class BallActionResponse() : ShowdownActionResponse(ShowdownActionResponseType.B
             return false
         }
 
-        return activeBattlePokemon.actor.expectingCaptureActions-- > 0
+        return activeBattlePokemon.actor.expectingPassActions.size > 0
     }
 
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "pass"
 }
+
+class BagItemActionResponse(val bagItem: BagItem, val target: BattlePokemon, val data: String? = null): ShowdownActionResponse(ShowdownActionResponseType.FORCE_PASS) {
+    override fun isValid(
+        activeBattlePokemon: ActiveBattlePokemon,
+        showdownMoveSet: ShowdownMoveset?,
+        forceSwitch: Boolean
+    ): Boolean {
+        if (forceSwitch) {
+            return false
+        } else if (showdownMoveSet == null) {
+            return false
+        }
+
+        return activeBattlePokemon.actor.expectingPassActions.size > 0
+    }
+
+    override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?): String {
+        return "useitem ${target.uuid} ${bagItem.itemName} ${bagItem.getShowdownInput(target.actor, target, data)}"
+    }
+}
+
 class ShowdownMoveset {
     lateinit var moves: List<InBattleMove>
     var trapped = false
@@ -240,6 +290,7 @@ class ShowdownPokemon {
     lateinit var baseAbility: String
     lateinit var pokeball: String
     lateinit var ability: String
+    var reviving: Boolean = false
 
     val uuid: UUID by lazy { UUID.fromString(details.split(",")[1].trim()) }
     fun saveToBuffer(buffer: PacketByteBuf) {
@@ -247,6 +298,7 @@ class ShowdownPokemon {
         buffer.writeString(details)
         buffer.writeString(condition)
         buffer.writeBoolean(active)
+        buffer.writeBoolean(reviving)
         buffer.writeSizedInt(IntSize.U_BYTE, moves.size)
         moves.forEach(buffer::writeString)
         buffer.writeString(baseAbility)
@@ -259,6 +311,7 @@ class ShowdownPokemon {
         details = buffer.readString()
         condition = buffer.readString()
         active = buffer.readBoolean()
+        reviving = buffer.readBoolean()
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
             moves.add(buffer.readString())
         }

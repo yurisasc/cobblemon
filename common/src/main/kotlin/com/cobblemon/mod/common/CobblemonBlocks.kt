@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.mixin.invoker.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.*
 import net.minecraft.block.piston.PistonBehavior
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -26,7 +27,7 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.math.intprovider.UniformIntProvider
 
-@Suppress("SameParameterValue", "HasPlatformType", "MemberVisibilityCanBePrivate")
+@Suppress("SameParameterValue", "HasPlatformType", "MemberVisibilityCanBePrivate", "unused")
 object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<Block>>, Block>() {
 
     override val registry: Registry<Block> = Registries.BLOCK
@@ -130,7 +131,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val YELLOW_APRICORN_SAPLING = this.create("yellow_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.YELLOW))
 
     @JvmField
-    val MEDICINAL_LEEK_CROP = this.create("medicinal_leek_crop", MedicinalLeekBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DULL_RED).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    val MEDICINAL_LEEK = this.create("medicinal_leek", MedicinalLeekBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DULL_RED).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
     @JvmField
     val ENERGY_ROOT = this.create("energy_root", EnergyRootBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DIRT_BROWN).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.ROOTS)))
     @JvmField
@@ -209,6 +210,10 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     @JvmField
     val VIVICHOKE_SEEDS = this.create("vivichoke_seeds", VivichokeBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DARK_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    @JvmField
+    val PEP_UP_FLOWER = this.create("pep_up_flower", FlowerBlock(StatusEffects.LEVITATION, 10, AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).offset(AbstractBlock.OffsetType.XZ).pistonBehavior(PistonBehavior.DESTROY)))
+    @JvmField
+    val POTTED_PEP_UP_FLOWER = this.create("potted_pep_up_flower", BlocksInvoker.createFlowerPotBlock(PEP_UP_FLOWER))
 
     /**
      * Returns a map of all the blocks that can be stripped with an axe in the format of input - output.

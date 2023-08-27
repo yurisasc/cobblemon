@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.JsonObject
+import kotlin.math.ceil
 import kotlin.properties.Delegates
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
@@ -29,17 +30,31 @@ open class Move(
     currentPp: Int,
     raisedPpStages: Int = 0
 ) {
-
+    private var emit = true
     val observable = SimpleObservable<Move>()
 
     var currentPp: Int by Delegates.observable(currentPp) { _, oldValue, newValue ->
         if (oldValue != newValue) {
-            observable.emit(this)
+            update()
         }
     }
 
     var raisedPpStages: Int by Delegates.observable(raisedPpStages) { _, oldValue, newValue ->
         if (oldValue != newValue) {
+            update()
+        }
+    }
+
+    fun doThenUpdate(action: () -> Unit) {
+        val oldEmit = emit
+        emit = false
+        action()
+        emit = oldEmit
+        update()
+    }
+
+    fun update() {
+        if (emit) {
             observable.emit(this)
         }
     }
@@ -70,6 +85,20 @@ open class Move(
 
     val maxPp: Int
         get() = template.pp + raisedPpStages * template.pp / 5
+
+    /** Raises the max PP and rescales the current PP value. Returns false if it was already maxed out. */
+    fun raiseMaxPP(amount: Int): Boolean {
+        val oldPp = maxPp
+        doThenUpdate {
+            val ppRatio = currentPp / maxPp.toFloat()
+            raisedPpStages += amount
+            if (raisedPpStages > 3) {
+                raisedPpStages = 3
+            }
+            currentPp = ceil(ppRatio * maxPp).toInt()
+        }
+        return oldPp != maxPp
+    }
 
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putString(DataKeys.POKEMON_MOVESET_MOVENAME, name)

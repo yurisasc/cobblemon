@@ -12,15 +12,14 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.util.Optional
-import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
@@ -103,9 +102,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.discard()
         }
 
-        if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
-            entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
-        }
+//        if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
+//            entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
+//        }
 
         val battleId = entity.battleId.get().orElse(null)
         if (battleId != null && BattleRegistry.getBattle(battleId).let { it == null || it.ended }) {
@@ -195,7 +194,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.deathTime == 30) {
             val owner = entity.owner
             if (owner != null) {
-                entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 1F)
+                entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.8F)
                 entity.phasingTargetId.set(owner.id)
                 entity.beamModeEmitter.set(2)
             }
@@ -204,7 +203,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.deathTime == 60) {
             if (entity.owner == null) {
                 entity.world.sendEntityStatus(entity, 60.toByte()) // Sends smoke effect
-                (entity.drops ?: entity.pokemon.form.drops).drop(entity, entity.world as ServerWorld, entity.pos, entity.killer)
+                if(entity.world.gameRules.getBoolean(CobblemonGameRules.DO_POKEMON_LOOT)) {
+                    (entity.drops ?: entity.pokemon.form.drops).drop(entity, entity.world as ServerWorld, entity.pos, entity.killer)
+                }
             }
 
             entity.remove(Entity.RemovalReason.KILLED)

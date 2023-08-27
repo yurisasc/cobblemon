@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.gui.summary.widgets
 
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.text.bold
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.SetNicknamePacket
@@ -19,7 +18,6 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.TextFieldWidget
 import net.minecraft.client.util.InputUtil
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 class NicknameEntryWidget(
@@ -40,6 +38,9 @@ class NicknameEntryWidget(
     }
 
     fun setSelectedPokemon(pokemon: Pokemon) {
+        if (isFocused) {
+            isFocused = false
+        }
         this.pokemon = pokemon
         this.lastSavedName = pokemon.nickname?.string
         setChangedListener {
@@ -48,21 +49,36 @@ class NicknameEntryWidget(
         text = pokemon.getDisplayName().string
     }
 
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        if (mouseX.toInt() in x..(x + width) && mouseY.toInt() in y..(y + height)) {
+            isFocused = true
+            return true
+        } else {
+            return false
+        }
+    }
+
     override fun setFocused(focused: Boolean) {
         super.setFocused(focused)
         val oldText = text.trim()
-        text = text.trim().ifBlank { pokemon.species.translatedName.string }
+        val pokemonName = pokemon.species.translatedName.string
+        text = text.trim().ifBlank { pokemonName }
         if (!focused) {
-            if (oldText != lastSavedName) {
-                lastSavedName = text
-                CobblemonNetwork.sendToServer(
+            val newNickname = if (text == pokemonName) null else text
+            updateNickname(oldText, newNickname)
+        }
+    }
+
+    private fun updateNickname(oldText: String, newNickname: String?) {
+        if (oldText != lastSavedName && !(newNickname == null && pokemon.nickname == null)) {
+            lastSavedName = text
+            CobblemonNetwork.sendToServer(
                     SetNicknamePacket(
-                        pokemonUUID = pokemon.uuid,
-                        nickname = text,
-                        isParty = isParty
+                            pokemonUUID = pokemon.uuid,
+                            nickname = newNickname,
+                            isParty = isParty
                     )
-                )
-            }
+            )
         }
     }
 
@@ -77,5 +93,15 @@ class NicknameEntryWidget(
             y = y,
             shadow = true
         )
+    }
+
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        if (keyCode == InputUtil.GLFW_KEY_ESCAPE) {
+            val oldText = text.trim()
+            val pokemonName = pokemon.species.translatedName.string
+            val newNickname = if (text == pokemonName) null else text
+            updateNickname(oldText, newNickname)
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers)
     }
 }

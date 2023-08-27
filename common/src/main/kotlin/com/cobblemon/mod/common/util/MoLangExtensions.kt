@@ -15,6 +15,7 @@ import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.MoScope
 import com.bedrockk.molang.runtime.value.MoValue
 import java.lang.IllegalArgumentException
+import com.cobblemon.mod.common.Cobblemon
 import net.minecraft.util.math.Vec3d
 
 fun MoLangRuntime.resolve(expression: Expression): MoValue = try {
@@ -34,4 +35,9 @@ fun MoLangRuntime.resolveVec3d(triple: Triple<Expression, Expression, Expression
 
 fun Expression.getString() = originalString ?: "0"
 fun Double.asExpression() = NumberExpression(this)
-fun String.asExpression() = MoLang.createParser(if (this == "") "0.0" else this).parseExpression()
+fun String.asExpression() = try {
+    MoLang.createParser(if (this == "") "0.0" else this).parseExpression()
+} catch (exc: Exception) {
+    Cobblemon.LOGGER.error("Failed to parse MoLang expression: $this")
+    throw exc
+}

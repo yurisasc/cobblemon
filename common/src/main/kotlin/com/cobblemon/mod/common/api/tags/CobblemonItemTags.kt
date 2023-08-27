@@ -38,6 +38,22 @@ object CobblemonItemTags {
     @JvmField
     val LUCKY_EGG = create("held/lucky_egg")
     @JvmField
+    val DESTINY_KNOT = create("held/destiny_knot")
+    @JvmField
+    val EVERSTONE = create("held/everstone")
+    @JvmField
+    val POWER_ANKLET = create("held/power_anklet")
+    @JvmField
+    val POWER_BAND = create("held/power_band")
+    @JvmField
+    val POWER_BELT = create("held/power_belt")
+    @JvmField
+    val POWER_BRACER = create("held/power_bracer")
+    @JvmField
+    val POWER_LENS = create("held/power_lens")
+    @JvmField
+    val POWER_WEIGHT = create("held/power_weight")
+    @JvmField
     val EVOLUTION_STONES = create("evolution_stones")
     @JvmField
     val EVOLUTION_ITEMS = create("evolution_items")

@@ -56,25 +56,36 @@ class BattleSwitchPokemonSelection(
     ) {
         fun isHovered(mouseX: Double, mouseY: Double) = mouseX in x..(x + SWITCH_TILE_WIDTH) && mouseY in (y..(y + SWITCH_TILE_HEIGHT))
         fun render(context: DrawContext, mouseX: Double, mouseY: Double, deltaTicks: Float) {
-            CobblemonClient.battleOverlay.drawBattleTile(
-                context = context,
-                x = x,
-                y = y,
-                reversed = false,
-                species = pokemon.species,
-                level = pokemon.level,
-                aspects = pokemon.aspects,
-                displayName = pokemon.species.translatedName,
-                gender = pokemon.gender,
-                status = pokemon.status?.status,
-                maxHealth = pokemon.hp,
-                health = pokemon.currentHealth.toFloat(),
-                isFlatHealth = true,
-                state = null,
-                colour = null,
-                opacity = selection.opacity,
-                partialTicks = deltaTicks
-            )
+            val healthRatioSplits = showdownPokemon.condition.split(" ")[0].split("/")
+            try {
+                val (hp, maxHp) = if (healthRatioSplits.size == 1) {
+                    0 to 0
+                } else {
+                    healthRatioSplits[0].toInt() to pokemon.hp
+                }
+                CobblemonClient.battleOverlay.drawBattleTile(
+                    context = context,
+                    x = x,
+                    y = y,
+                    reversed = false,
+                    species = pokemon.species,
+                    level = pokemon.level,
+                    aspects = pokemon.aspects,
+                    displayName = pokemon.getDisplayName(),
+                    gender = pokemon.gender,
+                    status = pokemon.status?.status,
+                    maxHealth = maxHp,
+                    health = hp.toFloat(),
+                    isFlatHealth = true,
+                    state = null,
+                    colour = null,
+                    opacity = selection.opacity,
+                    partialTicks = deltaTicks
+                )
+            } catch (exception: Exception) {
+                println(showdownPokemon.condition)
+                throw exception
+            }
         }
     }
 
@@ -89,7 +100,7 @@ class BattleSwitchPokemonSelection(
             }
             .filter { it.second.uuid !in battleGUI.actor!!.activePokemon.map { it.battlePokemon?.uuid } }
             .filter { it.second.uuid !in switchingInPokemon }
-            .filter { it.second.currentHealth > 0 }
+            .filter { "fnt" !in it.first.condition || it.first.reviving }
 
         showdownPokemonToPokemon.forEachIndexed { index, (showdownPokemon, pokemon) ->
             val row = index / 2

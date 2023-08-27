@@ -33,4 +33,9 @@ public interface BlocksInvoker {
         throw new UnsupportedOperationException();
     }
 
+    @Invoker("createFlowerPotBlock")
+    static FlowerPotBlock createFlowerPotBlock(Block flower, FeatureFlag... requiredFeatures) {
+        throw new UnsupportedOperationException();
+    }
+
 }

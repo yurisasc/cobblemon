@@ -21,14 +21,15 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
+import java.util.Optional
+import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import java.util.*
-import kotlin.collections.HashMap
 
 object BattleBuilder {
+    @JvmOverloads
     fun pvp1v1(
         player1: ServerPlayerEntity,
         player2: ServerPlayerEntity,
@@ -89,6 +90,7 @@ object BattleBuilder {
      * @param fleeDistance How far away the player must get to flee the Pokémon. If the value is -1, it cannot be fled.
      * @param party The party of the player to use for the battle. This does not need to be their actual party. Defaults to it though.
      */
+    @JvmOverloads
     fun pve(
         player: ServerPlayerEntity,
         pokemonEntity: PokemonEntity,

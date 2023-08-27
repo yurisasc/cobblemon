@@ -47,7 +47,6 @@ import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.PlayerEntityModel
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
@@ -101,6 +100,7 @@ object CobblemonClient {
         PlatformEvents.CLIENT_ITEM_TOOLTIP.subscribe { event ->
             val stack = event.stack
             val lines = event.lines
+            @Suppress("DEPRECATION")
             if (stack.item.registryEntry.key.isPresent && stack.item.registryEntry.key.get().value.namespace == Cobblemon.MODID) {
                 if (stack.nbt?.getBoolean(DataKeys.HIDE_TOOLTIP) == true) {
                     return@subscribe
@@ -152,7 +152,7 @@ object CobblemonClient {
             CobblemonBlocks.WHITE_APRICORN,
             CobblemonBlocks.YELLOW_APRICORN,
             CobblemonBlocks.HEALING_MACHINE,
-            CobblemonBlocks.MEDICINAL_LEEK_CROP,
+            CobblemonBlocks.MEDICINAL_LEEK,
             CobblemonBlocks.HEALING_MACHINE,
             CobblemonBlocks.RED_MINT,
             CobblemonBlocks.BLUE_MINT,
@@ -165,6 +165,8 @@ object CobblemonClient {
             CobblemonBlocks.BIG_ROOT,
             CobblemonBlocks.REVIVAL_HERB,
             CobblemonBlocks.VIVICHOKE_SEEDS,
+            CobblemonBlocks.PEP_UP_FLOWER,
+            CobblemonBlocks.POTTED_PEP_UP_FLOWER
         )
     }
 
@@ -176,10 +178,11 @@ object CobblemonClient {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun onAddLayer(skinMap: Map<String, EntityRenderer<out PlayerEntity>>?) {
         var renderer: LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>? = skinMap?.get("default") as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>
         renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
-        renderer = skinMap.get("slim") as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>?
+        renderer = skinMap["slim"] as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>?
         renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
     }
 

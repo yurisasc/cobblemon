@@ -17,7 +17,14 @@ import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
-import com.cobblemon.mod.common.api.events.pokemon.*
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPostEvent
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent
+import com.cobblemon.mod.common.api.events.pokemon.FriendshipUpdatedEvent
+import com.cobblemon.mod.common.api.events.pokemon.LevelUpEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonFaintedEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonRecalledEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonSentPostEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonSentPreEvent
 import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.BenchedMoves
 import com.cobblemon.mod.common.api.moves.Move
@@ -159,20 +166,15 @@ open class Pokemon : ShowdownIdentifiable {
 
     var level = 1
         set(value) {
-            if (value < 1) {
-                throw IllegalArgumentException("Level cannot be negative")
-            }
-            if (value > Cobblemon.config.maxPokemonLevel) {
-                throw IllegalArgumentException("Cannot set level above the configured maximum of ${Cobblemon.config.maxPokemonLevel}")
-            }
+            val boundedValue = clamp(value, 1, Cobblemon.config.maxPokemonLevel)
             val hpRatio = (currentHealth / hp.toFloat()).coerceIn(0F, 1F)
             /*
              * When people set the level programmatically the experience value will become incorrect.
              * Specifically check for when there's a mismatch and update the experience.
              */
-            field = value
-            if (experienceGroup.getLevel(experience) != value || value == Cobblemon.config.maxPokemonLevel) {
-                experience = experienceGroup.getExperience(value)
+            field = boundedValue
+            if (experienceGroup.getLevel(experience) != boundedValue || value == Cobblemon.config.maxPokemonLevel) {
+                experience = experienceGroup.getExperience(boundedValue)
             }
 //            _level.emit(value)
 
@@ -187,6 +189,7 @@ open class Pokemon : ShowdownIdentifiable {
 
             if (value <= 0) {
                 entity?.health = 0F
+                status = null
             }
             field = max(min(hp, value), 0)
             _currentHealth.emit(field)
@@ -409,10 +412,17 @@ open class Pokemon : ShowdownIdentifiable {
         return null;
     }
 
-    fun sendOutWithAnimation(source: LivingEntity, level: ServerWorld, position: Vec3d, battleId: UUID? = null, mutation: (PokemonEntity) -> Unit = {}): CompletableFuture<PokemonEntity> {
+    fun sendOutWithAnimation(
+        source: LivingEntity,
+        level: ServerWorld,
+        position: Vec3d,
+        battleId: UUID? = null,
+        doCry: Boolean = true,
+        mutation: (PokemonEntity) -> Unit = {}
+    ): CompletableFuture<PokemonEntity> {
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
-            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 1F)
+            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.8F)
             it.phasingTargetId.set(source.id)
             it.beamModeEmitter.set(1)
             it.battleId.set(Optional.ofNullable(battleId))
@@ -422,6 +432,9 @@ open class Pokemon : ShowdownIdentifiable {
                 it.beamModeEmitter.set(0)
                 future.complete(it)
                 CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
+                if (doCry) {
+                    it.cry()
+                }
             }
 
             mutation(it)
@@ -449,6 +462,10 @@ open class Pokemon : ShowdownIdentifiable {
         this.healTimer = -1
         val entity = entity
         entity?.heal(entity.maxHealth - entity.health)
+    }
+
+    fun isFullHealth(): Boolean {
+        return this.currentHealth == this.hp
     }
 
     fun didSleep() {
@@ -760,7 +777,9 @@ open class Pokemon : ShowdownIdentifiable {
             }
         }
         // This cast should be fine as we gave it a NbtCompound
-        this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as NbtCompound
+        if (json.has(DataKeys.POKEMON_PERSISTENT_DATA)) {
+            this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as NbtCompound
+        }
         if (json.has(DataKeys.TETHERING_ID)) {
             tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
         }
@@ -1045,6 +1064,15 @@ open class Pokemon : ShowdownIdentifiable {
         val properties = PokemonProperties()
         extractors.forEach { it(this, properties) }
         return properties
+    }
+
+    /**
+     * Copies the specified properties from this Pokémon into a new [PokemonProperties] instance.
+     *
+     * You can find a bunch of built-in extractors inside [PokemonPropertyExtractor] statically.
+     */
+    fun createPokemonProperties(extractors: MutableList<PokemonPropertyExtractor>): PokemonProperties {
+        return createPokemonProperties(*extractors.toTypedArray())
     }
 
     fun addExperience(source: ExperienceSource, xp: Int): AddExperienceResult {

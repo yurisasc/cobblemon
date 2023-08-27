@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.JsonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
@@ -94,9 +95,10 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
 
     val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
+    val cry: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
 
     override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint?.get()
-
+    override val cryAnimation = CryProvider { _, _ -> cry?.get()?.also { if (it is BedrockStatefulAnimation) it.setPreventsIdle(false) } }
 
     object JsonModelExclusion: ExclusionStrategy {
         override fun shouldSkipField(f: FieldAttributes): Boolean {

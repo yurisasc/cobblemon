@@ -94,7 +94,9 @@ fun BlockView.getWaterAndLavaIn(box: Box): Pair<Boolean, Boolean> {
     return hasWater to hasLava
 }
 
-fun Entity.canFit(pos: BlockPos): Boolean {
-    val box = boundingBox.offset(pos.toVec3d().subtract(this.pos))
+fun Entity.canFit(pos: BlockPos) = canFit(pos.toVec3d())
+
+fun Entity.canFit(vec: Vec3d): Boolean {
+    val box = boundingBox.offset(vec.subtract(this.pos))
     return world.isSpaceEmpty(box)
 }

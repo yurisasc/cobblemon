@@ -3,6 +3,11 @@
 	"animations": {
 		"animation.pidgeot.cry": {
 			"animation_length": 1.5,
+			"sound_effects": {
+				"0.0": {
+					"effect": "pokemon.pidgeot.cry"
+				}
+			},
 			"bones": {
 				"neck": {
 					"rotation": {

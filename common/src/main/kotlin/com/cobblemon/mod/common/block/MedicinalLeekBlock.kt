@@ -9,61 +9,69 @@
 package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import net.minecraft.block.*
-import net.minecraft.fluid.Fluids
-import net.minecraft.item.ItemStack
+import net.minecraft.item.ItemConvertible
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
+import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldView
-import kotlin.math.min
 
-class MedicinalLeekBlock(settings: Settings) : PlantBlock(settings), Fertilizable {
+@Suppress("OVERRIDE_DEPRECATION")
+class MedicinalLeekBlock(settings: Settings) : CropBlock(settings) {
 
-    init {
-        defaultState = stateManager.defaultState
-                .with(AGE, 0)
-    }
+    override fun getAgeProperty(): IntProperty = AGE
 
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = ItemStack(CobblemonItems.MEDICINAL_LEEK)
-    private fun isMature(state: BlockState) = state.get(AGE) == MATURE_AGE
-    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = !isMature(state)
-    override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = true
-
-    override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
-        world.setBlockState(pos, state.with(AGE, min(state.get(AGE) + 1, MATURE_AGE)), NOTIFY_LISTENERS)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = AGE_TO_SHAPE[state.get(AGE)]
-    override fun hasRandomTicks(state: BlockState) = !isMature(state)
-    @Deprecated("Deprecated in Java")
-    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        if (world.getBaseLightLevel(pos, 0) >= 0) {
-            if (isMature(state)) return
-            if (random.nextInt(50) != 0) return
-
-            val currentAge = state.get(AGE)
-            world.setBlockState(pos, defaultState.with(AGE, currentAge + 1), NOTIFY_LISTENERS)
-        }
-    }
+    override fun getMaxAge(): Int = MATURE_AGE
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(AGE)
+        builder.add(this.ageProperty)
     }
 
-    override fun canPlantOnTop(floor: BlockState, world: BlockView, pos: BlockPos): Boolean {
-        val fluidState = world.getFluidState(pos)
-        val fluidState2 = world.getFluidState(pos.up())
-        return (fluidState.fluid === Fluids.WATER) && fluidState2.fluid === Fluids.EMPTY
+    override fun getSeedsItem(): ItemConvertible = CobblemonItems.MEDICINAL_LEEK
+
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = AGE_TO_SHAPE[this.getAge(state)]
+
+    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+        // This is specified as growing fast like sugar cane
+        // They have 15 age stages until they grow upwards, this is an attempt at a chance based but likely event
+        if (this.isMature(state) || random.nextInt(4) != 0) {
+            return
+        }
+        this.applyGrowth(world, pos, state)
+    }
+
+    // These 3 are still around for the sake of compatibility, vanilla won't trigger it but some mods might
+    // We implement applyGrowth & getGrowthAmount for them
+    override fun isFertilizable(world: WorldView?, pos: BlockPos?, state: BlockState?, isClient: Boolean): Boolean = false
+
+    override fun applyGrowth(world: World, pos: BlockPos, state: BlockState) {
+        world.setBlockState(pos, state.with(this.ageProperty, (this.getAge(state) + 1).coerceAtMost(this.maxAge)), NOTIFY_LISTENERS)
+    }
+
+    override fun getGrowthAmount(world: World): Int = 1
+
+    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
+        // We don't care about the sky & light level, sugar cane doesn't either
+        return this.canPlantOnTop(state, world, pos)
+    }
+
+    override fun canPlantOnTop(state: BlockState, world: BlockView, pos: BlockPos): Boolean {
+        val down = pos.down()
+        val floor = world.getBlockState(down)
+        val fluidState = world.getFluidState(down)
+        return floor.isIn(CobblemonBlockTags.MEDICINAL_LEEK_PLANTABLE) && fluidState.level == 8 && fluidState.isIn(FluidTags.WATER)
     }
 
     companion object {
+
         const val MATURE_AGE = 3
         val AGE: IntProperty = Properties.AGE_3
         val AGE_TO_SHAPE = arrayOf(
@@ -72,5 +80,6 @@ class MedicinalLeekBlock(settings: Settings) : PlantBlock(settings), Fertilizabl
                 createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0),
                 createCuboidShape(0.0, 0.0, 0.0, 16.0, 11.0, 16.0)
         )
+
     }
 }

@@ -11,12 +11,13 @@ package com.cobblemon.mod.common.api.events.world
 import com.cobblemon.mod.common.api.events.Cancelable
 import com.cobblemon.mod.common.block.BigRootBlock
 import com.cobblemon.mod.common.block.EnergyRootBlock
+import net.minecraft.block.BlockState
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 
 /**
  * Event fired when a [BigRootBlock] attempts to spread. The event includes the original root position
- * as well as the position of the new root. [isEnergyRoot] controls whether the new root will be an
+ * as well as the position of the new root. [resultingSpread] controls whether the new root will be an
  * [EnergyRootBlock]. The new root position and whether it is an energy root is mutable.
  *
  * Cancelling this event will prevent propagation from occurring.
@@ -28,5 +29,5 @@ class BigRootPropagatedEvent(
     val world: ServerWorld,
     val pos: BlockPos,
     var newRootPosition: BlockPos,
-    var isEnergyRoot: Boolean
+    var resultingSpread: BlockState
 ) : Cancelable()
