@@ -11,6 +11,12 @@
   "healing_machine.active": {
     "sounds": [ "cobblemon:block/healing_machine_active" ]
   },
+  "mulch.place": {
+    "sounds": [ "cobblemon:mulch_place" ]
+  },
+  "mulch.remove": {
+    "sounds": [ "cobblemon:mulch_remove" ]
+  },
   "pc.on": {
     "sounds": [ "cobblemon:pc/pc_on" ]
   },
@@ -78,7 +84,9 @@
   "medicine_spray.use": {
     "sounds": [ "cobblemon:medicine_spray_use" ]
   },
-
+  "berry.eat": {
+    "sounds": [ "cobblemon:berry_eat" ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },

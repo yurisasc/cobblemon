@@ -1,0 +1,121 @@
+{
+  "baseYield": {
+    "min": 1,
+    "max": 2
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_jungle",
+    "cobblemon:is_swamp"
+  ],
+  "growthTime": {
+    "min": 95,
+    "max": 105
+  },
+  "refreshRate": {
+    "min": 20,
+    "max": 30
+  },
+  "favoriteMulches": [
+    "humid"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 4.0,
+        "y": 23.25,
+        "z": 4.75
+      },
+      "rotation": {
+        "x": 80.0,
+        "y": 77.5,
+        "z": 70.0
+      }
+    },
+    {
+      "position": {
+        "x": 10.5,
+        "y": 18.0,
+        "z": 2.0
+      },
+      "rotation": {
+        "x": 12.5,
+        "y": -55.0,
+        "z": -25.0
+      }
+    },
+    {
+      "position": {
+        "x": 3.5,
+        "y": 12.5,
+        "z": 2.25
+      },
+      "rotation": {
+        "x": 5.0,
+        "y": 27.5,
+        "z": 7.5
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:watmel_berry": "cobblemon:ganlon_berry",
+    "cobblemon:pomeg_berry": "cobblemon:starf_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "SPICY": 10,
+    "SWEET": 10,
+    "SOUR": 10
+  },
+  "tintIndexes": {
+    "0": "#448c44"
+  },
+  "flowerModel": "cobblemon:qualot_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/qualot.png",
+  "fruitModel": "cobblemon:qualot_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/qualot.png"
+}

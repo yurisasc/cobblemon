@@ -1,0 +1,144 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 3
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_mushroom",
+    "cobblemon:is_spooky",
+    "cobblemon:is_swamp"
+  ],
+  "growthTime": {
+    "min": 50,
+    "max": 60
+  },
+  "refreshRate": {
+    "min": 16,
+    "max": 26
+  },
+  "favoriteMulches": [
+    "humid",
+    "peat"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 2
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 8.2,
+        "y": 16.7,
+        "z": 2.4
+      },
+      "rotation": {
+        "x": -18.2,
+        "y": -0.4,
+        "z": -0.1
+      }
+    },
+    {
+      "position": {
+        "x": 13.3,
+        "y": 22.6,
+        "z": 6.7
+      },
+      "rotation": {
+        "x": 77.8,
+        "y": -44.7,
+        "z": -83.0
+      }
+    },
+    {
+      "position": {
+        "x": 4.2,
+        "y": 21.4,
+        "z": 3.5
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 52.5,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 11.6,
+        "y": 26.4,
+        "z": 11.9
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": -132.5,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 3.5,
+        "y": 26.5,
+        "z": 8.6
+      },
+      "rotation": {
+        "x": -175.0,
+        "y": 77.5,
+        "z": 180.0
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
+    "cobblemon:pamtre_berry": "cobblemon:micle_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "DRY": 15,
+    "SOUR": 10
+  },
+  "tintIndexes": {},
+  "flowerModel": "cobblemon:kebia_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/kebia.png",
+  "fruitModel": "cobblemon:kebia_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/kebia.png"
+}

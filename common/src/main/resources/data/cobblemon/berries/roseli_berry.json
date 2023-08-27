@@ -1,0 +1,145 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 3
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_floral",
+    "cobblemon:is_island",
+    "cobblemon:is_magical",
+    "cobblemon:is_mushroom"
+  ],
+  "growthTime": {
+    "min": 50,
+    "max": 60
+  },
+  "refreshRate": {
+    "min": 16,
+    "max": 26
+  },
+  "favoriteMulches": [
+    "loamy",
+    "peat"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 2
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 0.75,
+        "y": 5.0,
+        "z": 0.75
+      },
+      "rotation": {
+        "x": -50.0,
+        "y": 37.5,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": -0.75,
+        "y": 5.0,
+        "z": 0.75
+      },
+      "rotation": {
+        "x": -50.0,
+        "y": -52.5,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 0.75,
+        "y": 5.0,
+        "z": -0.75
+      },
+      "rotation": {
+        "x": -50.0,
+        "y": 140.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": -0.75,
+        "y": 5.0,
+        "z": -0.75
+      },
+      "rotation": {
+        "x": -50.0,
+        "y": -132.5,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 0.0,
+        "y": 6.0,
+        "z": -1.0
+      },
+      "rotation": {
+        "x": -50.0,
+        "y": -177.5,
+        "z": 0.0
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
+    "cobblemon:magost_berry": "cobblemon:qualot_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "SWEET": 25,
+    "BITTER": 10
+  },
+  "tintIndexes": {},
+  "flowerModel": "cobblemon:roseli_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/roseli.png",
+  "fruitModel": "cobblemon:roseli_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/roseli.png"
+}

@@ -27,7 +27,7 @@ object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> 
         val slot = packet.slot.takeIf { it >= 0 } ?: return
         val party = Cobblemon.storage.getParty(player)
         val pokemon = party.get(slot) ?: return
-        if (pokemon.currentHealth <= 0) {
+        if (pokemon.isFainted()) {
             return
         }
         val state = pokemon.state

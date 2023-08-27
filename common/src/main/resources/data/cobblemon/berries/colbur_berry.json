@@ -1,0 +1,144 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 3
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_badlands",
+    "cobblemon:is_spooky",
+    "cobblemon:is_taiga"
+  ],
+  "growthTime": {
+    "min": 50,
+    "max": 60
+  },
+  "refreshRate": {
+    "min": 16,
+    "max": 26
+  },
+  "favoriteMulches": [
+    "coarse",
+    "sandy"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 2
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 8.25,
+        "y": 15.7,
+        "z": 3.9
+      },
+      "rotation": {
+        "x": 9.9,
+        "y": -4.2,
+        "z": 9.4
+      }
+    },
+    {
+      "position": {
+        "x": 3.2,
+        "y": 16.7,
+        "z": 6.4
+      },
+      "rotation": {
+        "x": -2.7,
+        "y": 20.0,
+        "z": -3.4
+      }
+    },
+    {
+      "position": {
+        "x": 7.7,
+        "y": 16.2,
+        "z": 13.1
+      },
+      "rotation": {
+        "x": -6.1,
+        "y": -12.0,
+        "z": -9.9
+      }
+    },
+    {
+      "position": {
+        "x": 12.8,
+        "y": 17.3,
+        "z": 8.75
+      },
+      "rotation": {
+        "x": 6.4,
+        "y": -29.7,
+        "z": -3.8
+      }
+    },
+    {
+      "position": {
+        "x": 9.6,
+        "y": 21.7,
+        "z": 9.4
+      },
+      "rotation": {
+        "x": -12.5,
+        "y": -10.0,
+        "z": 10.0
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
+    "cobblemon:touga_berry": "cobblemon:spelon_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "BITTER": 10,
+    "SOUR": 20
+  },
+  "tintIndexes": {},
+  "flowerModel": "cobblemon:colbur_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/colbur.png",
+  "fruitModel": "cobblemon:colbur_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/colbur.png"
+}

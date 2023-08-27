@@ -1,0 +1,127 @@
+{
+  "baseYield": {
+    "min": 1,
+    "max": 3
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_arid"
+  ],
+  "growthTime": {
+    "min": 75,
+    "max": 85
+  },
+  "refreshRate": {
+    "min": 18,
+    "max": 28
+  },
+  "favoriteMulches": [
+    "sandy"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 7.0,
+        "y": 19.6,
+        "z": 7.1
+      },
+      "rotation": {
+        "x": -169.3,
+        "y": -24.1,
+        "z": 9.0
+      }
+    },
+    {
+      "position": {
+        "x": 7.9,
+        "y": 20.5,
+        "z": 8.6
+      },
+      "rotation": {
+        "x": -138.3,
+        "y": -51.2,
+        "z": -30.8
+      }
+    },
+    {
+      "position": {
+        "x": 8.8,
+        "y": 19.7,
+        "z": 7.6
+      },
+      "rotation": {
+        "x": 2.9,
+        "y": -30.6,
+        "z": 166.6
+      }
+    },
+    {
+      "position": {
+        "x": 7.9,
+        "y": 22.0,
+        "z": 7.3
+      },
+      "rotation": {
+        "x": 143.9,
+        "y": 38.2,
+        "z": -21.7
+      }
+    }
+  ],
+  "mutations": {},
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "SWEET": 30,
+    "BITTER": 10,
+    "SOUR": 30
+  },
+  "tintIndexes": {},
+  "flowerModel": "cobblemon:salac_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/salac.png",
+  "fruitModel": "cobblemon:salac_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/salac.png"
+}

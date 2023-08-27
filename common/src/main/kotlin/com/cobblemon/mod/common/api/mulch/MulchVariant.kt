@@ -10,21 +10,22 @@ package com.cobblemon.mod.common.api.mulch
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.item.MulchItem
+import net.minecraft.util.StringIdentifiable
+import java.time.Duration
 
 /**
  * Represents the different types of Mulch implemented in the mod.
  *
  */
-enum class MulchVariant {
-
+enum class MulchVariant(val isBiomeMulch: Boolean = true, val duration: Int = 0) : StringIdentifiable {
     COARSE,
-    GROWTH,
+    GROWTH(false, 3),
     HUMID,
     LOAMY,
     PEAT,
-    RICH,
+    RICH(false, 3),
     SANDY,
-    SURPRISE;
+    SURPRISE(false, 3);
 
     /**
      * Resolves the item version of the Mulch.
@@ -42,4 +43,7 @@ enum class MulchVariant {
         SURPRISE -> CobblemonItems.SURPRISE_MULCH
     }
 
+    override fun asString(): String {
+        return name.lowercase()
+    }
 }

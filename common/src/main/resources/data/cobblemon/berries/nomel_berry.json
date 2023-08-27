@@ -1,0 +1,156 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 4
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_mountain",
+    "cobblemon:is_taiga"
+  ],
+  "growthTime": {
+    "min": 55,
+    "max": 65
+  },
+  "refreshRate": {
+    "min": 15,
+    "max": 25
+  },
+  "favoriteMulches": [
+    "coarse"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 2
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 8.0,
+        "y": 6.75,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": -50.0,
+        "z": -37.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 8.25,
+        "z": 7.75
+      },
+      "rotation": {
+        "x": 107.5,
+        "y": -60.0,
+        "z": -152.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 6.5,
+        "z": 8.25
+      },
+      "rotation": {
+        "x": -122.5,
+        "y": -57.5,
+        "z": 152.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 7.75,
+        "z": 8.25
+      },
+      "rotation": {
+        "x": -40.0,
+        "y": 0.0,
+        "z": -30.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 5.75,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 45.0,
+        "y": 2.5,
+        "z": 22.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.25,
+        "y": 8.5,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 10.0,
+        "y": -30.0,
+        "z": 37.5
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:yache_berry": "cobblemon:grepa_berry",
+    "cobblemon:payapa_berry": "cobblemon:belue_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "SPICY": 10,
+    "SOUR": 20
+  },
+  "tintIndexes": {
+    "0": "#4bba36"
+  },
+  "flowerModel": "cobblemon:nomel_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/nomel.png",
+  "fruitModel": "cobblemon:nomel_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/nomel.png"
+}

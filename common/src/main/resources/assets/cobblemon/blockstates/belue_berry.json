@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "cobblemon:block/berries/belue_young"
+    },
+    "age=1": {
+      "model": "cobblemon:block/berries/belue_young"
+    },
+    "age=2": {
+      "model": "cobblemon:block/berries/belue_young"
+    },
+    "age=3": {
+      "model": "cobblemon:block/berries/belue_mature"
+    },
+    "age=4": {
+      "model": "cobblemon:block/berries/belue_mature"
+    },
+    "age=5": {
+      "model": "cobblemon:block/berries/belue_mature"
+    }
+  }
+}

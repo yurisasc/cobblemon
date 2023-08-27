@@ -1,0 +1,146 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 3
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_jungle",
+    "cobblemon:is_magical",
+    "cobblemon:is_mountain",
+    "cobblemon:is_sky",
+    "cobblemon:is_volcanic"
+  ],
+  "growthTime": {
+    "min": 50,
+    "max": 60
+  },
+  "refreshRate": {
+    "min": 16,
+    "max": 26
+  },
+  "favoriteMulches": [
+    "coarse",
+    "humid"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 2
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 8.0,
+        "y": 12.5,
+        "z": 1.3
+      },
+      "rotation": {
+        "x": 90.0,
+        "y": -80.0,
+        "z": -90.0
+      }
+    },
+    {
+      "position": {
+        "x": 1.4,
+        "y": 12.5,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -12.5
+      }
+    },
+    {
+      "position": {
+        "x": 14.7,
+        "y": 12.5,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 12.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 12.6,
+        "z": 14.7
+      },
+      "rotation": {
+        "x": -90.0,
+        "y": -80.0,
+        "z": 90.0
+      }
+    },
+    {
+      "position": {
+        "x": 4.3,
+        "y": 9.5,
+        "z": 4.3
+      },
+      "rotation": {
+        "x": 15.8,
+        "y": 40.4,
+        "z": -2.5
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
+    "cobblemon:enigma_berry": "cobblemon:pomeg_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "SWEET": 10,
+    "BITTER": 20
+  },
+  "tintIndexes": {},
+  "flowerModel": "cobblemon:haban_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/haban.png",
+  "fruitModel": "cobblemon:haban_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/haban.png"
+}

@@ -1,0 +1,144 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 3
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_forest",
+    "cobblemon:is_jungle",
+    "cobblemon:is_swamp"
+  ],
+  "growthTime": {
+    "min": 50,
+    "max": 60
+  },
+  "refreshRate": {
+    "min": 16,
+    "max": 26
+  },
+  "favoriteMulches": [
+    "humid",
+    "peat"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 2
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 2.0,
+        "y": 6.5,
+        "z": -6.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 82.5,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": -2.0,
+        "y": 6.0,
+        "z": 6.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": -6.25,
+        "y": 6.5,
+        "z": -2.25
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": -5.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 6.0,
+        "y": 6.5,
+        "z": 2.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": -5.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": -2.0,
+        "y": 6.0,
+        "z": -6.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 92.5,
+        "z": 0.0
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
+    "cobblemon:magost_berry": "cobblemon:watmel_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "SPICY": 20,
+    "SOUR": 10
+  },
+  "tintIndexes": {},
+  "flowerModel": "cobblemon:tanga_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/tanga.png",
+  "fruitModel": "cobblemon:tanga_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/tanga.png"
+}

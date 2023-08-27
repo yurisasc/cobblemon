@@ -1,0 +1,132 @@
+{
+  "baseYield": {
+    "min": 1,
+    "max": 3
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_mountain",
+    "cobblemon:is_taiga"
+  ],
+  "growthTime": {
+    "min": 75,
+    "max": 85
+  },
+  "refreshRate": {
+    "min": 15,
+    "max": 25
+  },
+  "favoriteMulches": [
+    "coarse"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 3.7,
+        "y": 15.2,
+        "z": 8.9
+      },
+      "rotation": {
+        "x": -2.5,
+        "y": -25.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 11.0,
+        "y": 10.95,
+        "z": 10.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": -37.5,
+        "z": 2.5
+      }
+    },
+    {
+      "position": {
+        "x": 10.8,
+        "y": 15.1,
+        "z": 5.75
+      },
+      "rotation": {
+        "x": 7.5,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 5.5,
+        "y": 8.0,
+        "z": 5.25
+      },
+      "rotation": {
+        "x": 2.1,
+        "y": 37.5,
+        "z": -0.5
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:grepa_berry": "cobblemon:apicot_berry",
+    "cobblemon:coba_berry": "cobblemon:rowap_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "SPICY": 10,
+    "SOUR": 40
+  },
+  "tintIndexes": {
+    "0": "#9fced6"
+  },
+  "flowerModel": "cobblemon:belue_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/belue.png",
+  "fruitModel": "cobblemon:belue_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/belue.png"
+}

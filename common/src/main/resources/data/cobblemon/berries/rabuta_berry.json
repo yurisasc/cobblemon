@@ -1,0 +1,155 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 4
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_arid"
+  ],
+  "growthTime": {
+    "min": 55,
+    "max": 65
+  },
+  "refreshRate": {
+    "min": 15,
+    "max": 25
+  },
+  "favoriteMulches": [
+    "sandy"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 2
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 10.0,
+        "y": 1.0,
+        "z": 5.75
+      },
+      "rotation": {
+        "x": 65.0,
+        "y": -50.0,
+        "z": 30.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.25,
+        "y": 2.0,
+        "z": 5.75
+      },
+      "rotation": {
+        "x": 72.5,
+        "y": 0.0,
+        "z": 22.5
+      }
+    },
+    {
+      "position": {
+        "x": 6.25,
+        "y": 1.0,
+        "z": 5.75
+      },
+      "rotation": {
+        "x": 75.0,
+        "y": 40.0,
+        "z": -20.0
+      }
+    },
+    {
+      "position": {
+        "x": 6.25,
+        "y": 1.25,
+        "z": 7.25
+      },
+      "rotation": {
+        "x": -65.0,
+        "y": -35.0,
+        "z": -35.0
+      }
+    },
+    {
+      "position": {
+        "x": 9.75,
+        "y": 1.25,
+        "z": 7.25
+      },
+      "rotation": {
+        "x": -75.0,
+        "y": 37.5,
+        "z": 10.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.25,
+        "y": 1.75,
+        "z": 7.5
+      },
+      "rotation": {
+        "x": -97.5,
+        "y": -12.5,
+        "z": 107.5
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:shuca_berry": "cobblemon:hondew_berry",
+    "cobblemon:babiri_berry": "cobblemon:durin_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "BITTER": 20,
+    "SOUR": 10
+  },
+  "tintIndexes": {
+    "0": "#7a7aa6"
+  },
+  "flowerModel": "cobblemon:rabuta_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/rabuta.png",
+  "fruitModel": "cobblemon:rabuta_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/rabuta.png"
+}

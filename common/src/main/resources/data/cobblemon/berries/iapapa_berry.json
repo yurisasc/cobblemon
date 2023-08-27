@@ -1,0 +1,154 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 4
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_arid"
+  ],
+  "growthTime": {
+    "min": 55,
+    "max": 65
+  },
+  "refreshRate": {
+    "min": 15,
+    "max": 25
+  },
+  "favoriteMulches": [
+    "sandy"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 2
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 8.0,
+        "y": 11.0,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 13.5,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 16.0,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 18.5,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 21.0,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 23.5,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:lum_berry": "cobblemon:sitrus_berry",
+    "cobblemon:pinap_berry": "cobblemon:nomel_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "SOUR": 15
+  },
+  "tintIndexes": {
+    "0": "#82534f"
+  },
+  "flowerModel": "cobblemon:iapapa_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/iapapa.png",
+  "fruitModel": "cobblemon:iapapa_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/iapapa.png"
+}

@@ -127,6 +127,8 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.HUMID_MULCH)
         entries.add(CobblemonItems.SANDY_MULCH)
         entries.add(CobblemonItems.MULCH_BASE)
+
+        CobblemonItems.berries().values.forEach(entries::add)
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {

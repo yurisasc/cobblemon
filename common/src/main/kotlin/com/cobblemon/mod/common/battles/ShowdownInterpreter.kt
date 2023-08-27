@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.interpreter.*
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
@@ -814,7 +815,7 @@ object ShowdownInterpreter {
     private fun handleRechargeInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>){
         battle.dispatchWaiting(2F){
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            battle.broadcastChatMessage(battleLang("recharge", pokemon.getName() ?: ""))
+            battle.broadcastChatMessage(battleLang("recharge", pokemon.getName()))
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -1514,6 +1515,9 @@ object ShowdownInterpreter {
             battlePokemon.heldItemManager.handleEndInstruction(battlePokemon, battle, message)
             battle.minorBattleActions[battlePokemon.uuid] = message
             battlePokemon.contextManager.remove(item.id, BattleContext.Type.ITEM)
+            if (message.hasOptionalArgument("eat")) {
+                battlePokemon.entity?.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
+            }
         }
     }
 

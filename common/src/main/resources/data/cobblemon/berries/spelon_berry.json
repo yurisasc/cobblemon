@@ -1,0 +1,131 @@
+{
+  "baseYield": {
+    "min": 1,
+    "max": 3
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_arid"
+  ],
+  "growthTime": {
+    "min": 75,
+    "max": 85
+  },
+  "refreshRate": {
+    "min": 15,
+    "max": 25
+  },
+  "favoriteMulches": [
+    "sandy"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 7.4,
+        "y": 5.6,
+        "z": 8.6
+      },
+      "rotation": {
+        "x": -32.8,
+        "y": -31.7,
+        "z": -131.4
+      }
+    },
+    {
+      "position": {
+        "x": 8.7,
+        "y": 5.5,
+        "z": 7.3
+      },
+      "rotation": {
+        "x": 142.7,
+        "y": -46.4,
+        "z": -1.1
+      }
+    },
+    {
+      "position": {
+        "x": 7.5,
+        "y": 5.4,
+        "z": 7.4
+      },
+      "rotation": {
+        "x": 143.8,
+        "y": 40.5,
+        "z": -1.1
+      }
+    },
+    {
+      "position": {
+        "x": 8.7,
+        "y": 5.6,
+        "z": 8.7
+      },
+      "rotation": {
+        "x": -142.8,
+        "y": 46.0,
+        "z": -1.8
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:tamato_berry": "cobblemon:salac_berry",
+    "cobblemon:chople_berry": "cobblemon:lansat_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 6,
+      "minY": -1,
+      "minZ": 6,
+      "maxX": 10,
+      "maxY": 0,
+      "maxZ": 10
+    },
+    {
+      "minX": 7,
+      "minY": 0,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 11,
+      "maxZ": 9
+    },
+    {
+      "minX": 7.5,
+      "minY": 11,
+      "minZ": 7.5,
+      "maxX": 8.5,
+      "maxY": 22,
+      "maxZ": 8.5
+    }
+  ],
+  "flavors": {
+    "SPICY": 30,
+    "DRY": 10
+  },
+  "tintIndexes": {
+    "0": "#efb588"
+  },
+  "flowerModel": "cobblemon:spelon_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/spelon.png",
+  "fruitModel": "cobblemon:spelon_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/spelon.png"
+}

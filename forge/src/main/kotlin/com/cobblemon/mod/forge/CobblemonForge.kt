@@ -9,6 +9,7 @@
 package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.cobblemonstructures.CobblemonStructures
 import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.item.MedicinalLeekItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
@@ -17,6 +18,8 @@ import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
+import com.cobblemon.mod.common.world.structureprocessors.CobblemonProcessorTypes
+import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProcessorListOverrides
 import com.cobblemon.mod.forge.client.CobblemonForgeClient
 import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
@@ -64,6 +67,7 @@ import net.minecraftforge.event.level.BlockEvent
 import net.minecraftforge.event.village.VillagerTradesEvent
 import net.minecraftforge.event.village.WandererTradesEvent
 import net.minecraftforge.fml.DistExecutor
+import net.minecraftforge.event.server.ServerAboutToStartEvent
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
@@ -103,11 +107,17 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::handleBlockStripping)
             addListener(this@CobblemonForge::registerCommands)
             addListener(this@CobblemonForge::onReload)
+            addListener(this@CobblemonForge::addCobblemonStructures)
             addListener(::onVillagerTradesRegistry)
             addListener(::onWanderingTraderRegistry)
         }
         ForgePlatformEventHandler.register()
         DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable(CobblemonForgeClient::init) }
+    }
+
+    fun addCobblemonStructures(event: ServerAboutToStartEvent) {
+        CobblemonStructures.registerJigsaws(event.server)
+        CobblemonStructureProcessorListOverrides.register(event.server)
     }
 
     fun wakeUp(event: PlayerWakeUpEvent) {
@@ -157,6 +167,10 @@ class CobblemonForge : CobblemonImplementation {
         }
         event.register(RegistryKeys.PLACEMENT_MODIFIER_TYPE) {
             CobblemonPlacementModifierTypes.touch()
+        }
+
+        event.register(RegistryKeys.PROCESSOR_LIST) {
+            CobblemonProcessorTypes.touch()
         }
     }
 
