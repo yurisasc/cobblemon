@@ -21,6 +21,7 @@ object GenericBedrockModelRepository : VaryingModelRepository<GenericBedrockEnti
     override val poserDirectories: List<String> = listOf("bedrock/$type/posers")
     override val modelDirectories: List<String> = listOf("bedrock/$type/models")
     override val animationDirectories: List<String> = listOf("bedrock/$type/animations")
+    override val isForLivingEntityRenderer = false
 
     override val fallback = cobblemonResource("substitute")
 

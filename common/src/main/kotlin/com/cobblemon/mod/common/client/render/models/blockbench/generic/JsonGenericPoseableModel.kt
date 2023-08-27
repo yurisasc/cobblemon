@@ -23,7 +23,7 @@ import java.lang.reflect.Type
 import java.util.function.Supplier
 import net.minecraft.util.math.Vec3d
 
-class JsonGenericPoseableModel(override val rootPart: Bone) : JsonPoseableEntityModel<GenericBedrockEntity>(rootPart) {
+class JsonGenericPoseableModel(override val rootPart: Bone, override val isForLivingEntityRenderer: Boolean = false) : JsonPoseableEntityModel<GenericBedrockEntity>(rootPart) {
 
     object JsonGenericPoseableModelAdapter : InstanceCreator<JsonGenericPoseableModel> {
         var modelPart: Bone? = null
