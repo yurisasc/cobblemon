@@ -39,5 +39,8 @@ class FossilTubeBlockEntity(
         if (nbt?.contains(DataKeys.DIRECTION) == true) {
             connectorPosition = Direction.valueOf(nbt?.getString(DataKeys.DIRECTION) ?: "NORTH")
         }
+        else {
+            connectorPosition = null
+        }
     }
 }
