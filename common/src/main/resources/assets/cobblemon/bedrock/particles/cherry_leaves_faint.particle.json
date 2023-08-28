@@ -13,10 +13,10 @@
 				"creation_expression": "v.fall_acc = -2;v.wind_acc = 2;v.spawn_chance = 0;v.rot_speed = math.random(-50,50);v.curve_len = 10;"
 			},
 			"minecraft:emitter_rate_instant": {
-				"num_particles": "20"
+				"num_particles": 20
 			},
-			"minecraft:emitter_lifetime_looping": {
-				"active_time": 100
+			"minecraft:emitter_lifetime_once": {
+				"active_time": 0.5
 			},
 			"minecraft:emitter_shape_box": {
 				"offset": [0.5, -0.075, 0.5],
