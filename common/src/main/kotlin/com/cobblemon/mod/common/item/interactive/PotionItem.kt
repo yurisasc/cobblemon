@@ -32,7 +32,7 @@ class PotionItem(val type: PotionType) : CobblemonItem(Settings()), PokemonSelec
         if (user is ServerPlayerEntity) {
             return use(user, user.getStackInHand(hand))
         }
-        return super<CobblemonItem>.use(world, user, hand)
+        return TypedActionResult.success(user.getStackInHand(hand))
     }
 
     override fun applyToPokemon(

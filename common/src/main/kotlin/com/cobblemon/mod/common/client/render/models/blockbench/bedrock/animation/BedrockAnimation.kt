@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityMo
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveDouble
 import java.util.SortedMap
@@ -51,6 +52,20 @@ class BedrockParticleKeyframe(
     val locator: String,
     val scripts: List<Expression>
 ) : BedrockEffectKeyframe(seconds) {
+    fun isSameAs(other: BedrockParticleKeyframe): Boolean {
+        return if (seconds != other.seconds) {
+            false
+        } else if (effect != other.effect) {
+            false
+        } else if (locator != other.locator) {
+            false
+        } else if (scripts.map { it.getString() }.toSet() != other.scripts.map { it.getString() }.toSet()) {
+            false
+        } else {
+            true
+        }
+    }
+
     override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
         val world = entity.world as ClientWorld
         val matrixWrapper = state.locatorStates[locator] ?: state.locatorStates["root"]!!
@@ -66,7 +81,9 @@ class BedrockParticleKeyframe(
             sourceVelocity = { entity.velocity },
             sourceAlive = { !entity.isRemoved && this in state.poseParticles },
             sourceVisible = { !entity.isInvisible },
-            entity = entity
+            entity = entity,
+            sourceVisible = { !entity.isInvisible },
+            onDespawn = { state.poseParticles.remove(this) }
         )
 
         state.poseParticles.add(this)

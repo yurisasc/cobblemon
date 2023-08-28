@@ -36,6 +36,7 @@ class ParticleStorm(
     val sourceVelocity: () -> Vec3d = { Vec3d.ZERO },
     val sourceAlive: () -> Boolean = { true },
     val sourceVisible: () -> Boolean = { true },
+    val onDespawn: () -> Unit = {},
     val runtime: MoLangRuntime = MoLangRuntime(),
     val entity: Entity? = null
 ): NoRenderParticle(world, matrixWrapper.getOrigin().x, matrixWrapper.getOrigin().y, matrixWrapper.getOrigin().z) {
@@ -62,6 +63,9 @@ class ParticleStorm(
     val particles = mutableListOf<SnowstormParticle>()
     var started = false
     var stopped = false
+    var despawned = false
+    // The idea is that some instantaneous particle effects could teeeechnically be over before they start.
+    var hasPlayedOnce = false
 
     companion object {
         var contextStorm: ParticleStorm? = null
@@ -77,11 +81,24 @@ class ParticleStorm(
         return if (stopped) 0 else Int.MAX_VALUE
     }
 
+    override fun markDead() {
+        super.markDead()
+        if (!despawned) {
+            despawned = true
+            onDespawn()
+        }
+    }
+
     override fun tick() {
         setMaxAge(getMaxAge())
         super.tick()
 
-        if (!sourceAlive()) {
+        if (!hasPlayedOnce) {
+            age = 0
+            hasPlayedOnce = true
+        }
+
+        if (!sourceAlive() && !stopped) {
             stopped = true
             markDead()
         }

@@ -77,6 +77,6 @@ class ElixirItem(val max: Boolean) : CobblemonItem(Settings()), PokemonSelecting
             val stack = user.getStackInHand(hand)
             return use(user, stack)
         }
-        return super<CobblemonItem>.use(world, user, hand)
+        return TypedActionResult.success(user.getStackInHand(hand))
     }
 }
