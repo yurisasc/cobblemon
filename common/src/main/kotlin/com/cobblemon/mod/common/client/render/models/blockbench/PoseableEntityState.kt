@@ -93,8 +93,16 @@ abstract class PoseableEntityState<T : Entity> {
         val model = currentModel
         if (model != null) {
             val poseImpl = model.getPose(pose) ?: return
-            poseParticles.removeIf { it !in poseImpl.idleAnimations.filterIsInstance<BedrockStatelessAnimation<*>>().flatMap { it.particleKeyFrames } }
+            poseParticles.removeIf { particle -> poseImpl.idleAnimations.filterIsInstance<BedrockStatelessAnimation<*>>().flatMap { it.particleKeyFrames }.none(particle::isSameAs) }
             poseImpl.onTransitionedInto(this)
+            val entity = model.currentEntity
+            if (entity != null) {
+                poseImpl.idleAnimations
+                    .filterIsInstance<BedrockStatelessAnimation<*>>()
+                    .flatMap { it.particleKeyFrames }
+                    .filter { particle -> particle.seconds == 0F && poseParticles.none(particle::isSameAs) }
+                    .forEach { it.run(entity, this) }
+            }
         }
     }
 
