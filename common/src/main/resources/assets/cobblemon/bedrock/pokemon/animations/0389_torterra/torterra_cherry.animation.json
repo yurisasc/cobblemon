@@ -53,8 +53,8 @@
 			}
 		},
 		"animation.torterra_cherry.ground_walk": {
-			"loop": true,
 			"animation_length": 2,
+			"loop": true,
 			"bones": {
 				"bush_left": {
 					"rotation": ["0+math.cos(q.anim_time*90*3-60)*1", 0, "0+math.sin(q.anim_time*90*3-60)*6"]
@@ -279,8 +279,10 @@
 			}
 		},
 		"animation.torterra_cherry.faint": {
-			"loop": true,
 			"animation_length": 3,
+			"timeline": {
+				"0.625": "s.sound('pokemon.torterra.cry', 1.0, 0.6)"
+			},
 			"bones": {
 				"torso": {
 					"rotation": {

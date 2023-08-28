@@ -33,6 +33,7 @@
 - Added animations for Wailord.
 - Added Cherry Torterra variant.
 - Added 2 new face spots for Spinda.
+- Added Forretress Shulker variant.
 
 ### Pokémon Added
 #### Gen 2
