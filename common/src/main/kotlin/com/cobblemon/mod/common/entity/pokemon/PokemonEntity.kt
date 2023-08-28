@@ -757,6 +757,10 @@ class PokemonEntity(
         if (reason.shouldDestroy() && pokemon.tetheringId != null) {
             pokemon.tetheringId = null
         }
+        if (evolutionEntity != null) {
+            evolutionEntity!!.kill()
+            pokemon.entity?.evolutionEntity = null
+        }
     }
 
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result

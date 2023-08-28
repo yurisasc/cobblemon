@@ -100,23 +100,7 @@ interface Evolution : EvolutionLike {
             pokemon.tryRecallWithAnimation()
         }
         if (pokemon.entity == null) {
-            this.result.apply(pokemon)
-            this.learnableMoves.forEach { move ->
-                if (pokemon.moveSet.hasSpace()) {
-                    pokemon.moveSet.add(move.create())
-                }
-                else {
-                    pokemon.benchedMoves.add(BenchedMove(move, 0))
-                }
-                pokemon.getOwnerPlayer()?.sendMessage(lang("experience.learned_move", pokemon.getDisplayName(), move.displayName))
-            }
-            // we want to instantly tick for example you might only evolve your Bulbasaur at level 34 so Venusaur should be immediately available
-            pokemon.evolutions.filterIsInstance<PassiveEvolution>()
-                    .forEach { evolution ->
-                        evolution.attemptEvolution(pokemon)
-                    }
-            pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
-            CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
+            evolutionMethod(pokemon)
         } else {
             pokemon.entity!!.evolutionEntity = pokemon.getOwnerPlayer()?.let { GenericBedrockEntity(world = it.world) }
             val evolutionEntity = pokemon.entity!!.evolutionEntity
@@ -128,27 +112,33 @@ interface Evolution : EvolutionLike {
                 scale = pokemon.entity!!.scaleFactor
             }
             after(seconds = 9F) {
-                evolutionEntity?.kill()
-                pokemon.entity!!.evolutionEntity = null
-                this.result.apply(pokemon)
-                this.learnableMoves.forEach { move ->
-                    if (pokemon.moveSet.hasSpace()) {
-                        pokemon.moveSet.add(move.create())
-                    }
-                    else {
-                        pokemon.benchedMoves.add(BenchedMove(move, 0))
-                    }
-                    pokemon.getOwnerPlayer()?.sendMessage(lang("experience.learned_move", pokemon.getDisplayName(), move.displayName))
+                if (evolutionEntity != null) {
+                    evolutionEntity.kill()
+                    pokemon.entity!!.evolutionEntity = null
                 }
-                // we want to instantly tick for example you might only evolve your Bulbasaur at level 34 so Venusaur should be immediately available
-                pokemon.evolutions.filterIsInstance<PassiveEvolution>()
-                        .forEach { evolution ->
-                            evolution.attemptEvolution(pokemon)
-                        }
-                CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
-                pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
+                evolutionMethod(pokemon)
             }
         }
+    }
+
+    fun evolutionMethod(pokemon: Pokemon) {
+        this.result.apply(pokemon)
+        this.learnableMoves.forEach { move ->
+            if (pokemon.moveSet.hasSpace()) {
+                pokemon.moveSet.add(move.create())
+            }
+            else {
+                pokemon.benchedMoves.add(BenchedMove(move, 0))
+            }
+            pokemon.getOwnerPlayer()?.sendMessage(lang("experience.learned_move", pokemon.getDisplayName(), move.displayName))
+        }
+        // we want to instantly tick for example you might only evolve your Bulbasaur at level 34 so Venusaur should be immediately available
+        pokemon.evolutions.filterIsInstance<PassiveEvolution>()
+                .forEach { evolution ->
+                    evolution.attemptEvolution(pokemon)
+                }
+        pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
+        CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
     }
 
     fun applyTo(pokemon: Pokemon) {
