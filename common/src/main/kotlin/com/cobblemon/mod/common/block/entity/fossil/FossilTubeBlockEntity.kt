@@ -20,27 +20,28 @@ class FossilTubeBlockEntity(
     var connectorPosition: Direction? = null
 
     override fun toUpdatePacket(): Packet<ClientPlayPacketListener>? {
-        return BlockEntityUpdateS2CPacket.create(this) {
-            it.createNbt()
-        }
+        return BlockEntityUpdateS2CPacket.create(this)
     }
 
-    override fun writeNbt(nbt: NbtCompound?) {
+    override fun toInitialChunkDataNbt(): NbtCompound {
+        return createNbt()
+    }
+
+    override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)
-        nbt?.putInt(DataKeys.TUBE_FILL_LEVEL, fillLevel)
+        nbt.putInt(DataKeys.TUBE_FILL_LEVEL, fillLevel)
         if (connectorPosition != null) {
-            nbt?.putString(DataKeys.DIRECTION, connectorPosition?.name)
+            nbt.putString(DataKeys.DIRECTION, connectorPosition?.name)
         }
     }
 
-    override fun readNbt(nbt: NbtCompound?) {
+    override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
-        fillLevel = nbt?.getInt(DataKeys.TUBE_FILL_LEVEL) ?: 0
-        if (nbt?.contains(DataKeys.DIRECTION) == true) {
-            connectorPosition = Direction.valueOf(nbt?.getString(DataKeys.DIRECTION) ?: "NORTH")
-        }
-        else {
-            connectorPosition = null
+        fillLevel = nbt.getInt(DataKeys.TUBE_FILL_LEVEL)
+        connectorPosition = if (nbt.contains(DataKeys.DIRECTION)) {
+            Direction.valueOf(nbt.getString(DataKeys.DIRECTION))
+        } else {
+            null
         }
     }
 }

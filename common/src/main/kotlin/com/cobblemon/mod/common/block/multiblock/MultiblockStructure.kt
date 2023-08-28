@@ -11,8 +11,7 @@ import net.minecraft.world.World
 
 interface MultiblockStructure {
     val controllerBlockPos: BlockPos
-    //For overriding
-    fun isUsable(): Boolean = true
+
     fun onUse(
         blockState: BlockState,
         world: World,
@@ -26,5 +25,8 @@ interface MultiblockStructure {
 
     fun tick(world: World)
 
+    fun syncToClient(world: World)
+
+    fun markDirty(world: World)
     fun writeToNbt(): NbtCompound
 }

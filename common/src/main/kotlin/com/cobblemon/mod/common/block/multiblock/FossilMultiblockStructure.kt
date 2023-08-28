@@ -55,7 +55,8 @@ class FossilMultiblockStructure (
                     startMachine(world)
                 }
                 else {
-                    syncConstituentEntities(world)
+                    markDirty(world)
+                    updateFillLevel(world)
                 }
                 return ActionResult.CONSUME
             }
@@ -70,14 +71,16 @@ class FossilMultiblockStructure (
         val compartmentEntity = world.getBlockEntity(compartmentPos) as MultiblockEntity
         val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as FossilTubeBlockEntity
         val tubeTopEntity = world.getBlockEntity(tubeBasePos.up()) as MultiblockEntity
-        tubeBaseEntity.connectorPosition = null
-        updateTube(world)
-        stopMachine(world)
 
+        tubeBaseEntity.connectorPosition = null
+        tubeBaseEntity.fillLevel = 0
         monitorEntity.multiblockStructure = null
         compartmentEntity.multiblockStructure = null
         tubeBaseEntity.multiblockStructure = null
         tubeTopEntity.multiblockStructure = null
+        stopMachine(world)
+        syncToClient(world)
+        markDirty(world)
     }
 
     override fun tick(world: World) {
@@ -88,65 +91,84 @@ class FossilMultiblockStructure (
             stopMachine(world)
         }
         if (timeRemaining % TIME_PER_STAGE == 0) {
-            syncConstituentEntities(world)
+            updateProgress(world)
+            syncToClient(world)
+            markDirty(world)
+        }
+    }
+
+    override fun syncToClient(world: World) {
+        val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as MultiblockEntity
+        val controllerEntity = world.getBlockEntity(controllerBlockPos) as MultiblockEntity
+        world.updateListeners(
+            controllerBlockPos,
+            controllerEntity.cachedState,
+            controllerEntity.cachedState,
+            Block.NOTIFY_LISTENERS
+        )
+        world.updateListeners(
+            tubeBasePos,
+            tubeBaseEntity.cachedState,
+            tubeBaseEntity.cachedState,
+            Block.NOTIFY_LISTENERS
+        )
+    }
+
+    override fun markDirty(world: World) {
+        val entities = listOf(
+            world.getBlockEntity(compartmentPos),
+            world.getBlockEntity(tubeBasePos),
+            world.getBlockEntity(tubeBasePos.up()),
+            world.getBlockEntity(monitorPos)
+        )
+        entities.forEach {
+            it?.markDirty()
         }
     }
 
     fun startMachine(world: World) {
         timeRemaining = TIME_TO_TAKE
-        syncConstituentEntities(world)
+        updateOnStatus(world)
+        updateProgress(world)
+        updateFillLevel(world)
+        syncToClient(world)
+        markDirty(world)
     }
 
     fun stopMachine(world: World){
         timeRemaining = -1
         organicMaterialInside = 0
-        syncConstituentEntities(world)
-    }
-    //Syncs tube blockentity to client
-    fun updateTube(world: World) {
-        val tubeState = world.getBlockState(tubeBasePos)
-        world.updateListeners(tubeBasePos, tubeState, tubeState, Block.NOTIFY_LISTENERS)
+        updateOnStatus(world)
+        updateProgress(world)
+        updateFillLevel(world)
+        syncToClient(world)
+        markDirty(world)
     }
 
-    /**
-     * Syncronizes the enities that make up the multiblock
-     */
-    fun syncConstituentEntities(world: World) {
-        //Sync tube
-        val stage = (organicMaterialInside / 8).coerceAtMost(8)
+    fun updateFillLevel(world: World) {
         val tubeEntity = world.getBlockEntity(tubeBasePos) as FossilTubeBlockEntity
-        if (stage != tubeEntity.fillLevel) {
-            tubeEntity.fillLevel = stage
+        val curFill =  (organicMaterialInside / 8).coerceAtMost(8)
+        if (curFill != tubeEntity.fillLevel) {
+            tubeEntity.fillLevel = curFill
+            syncToClient(world)
             tubeEntity.markDirty()
-            updateTube(world)
         }
-
-        //Sync compartment
+    }
+    fun updateOnStatus(world: World) {
         val compartmentState = world.getBlockState(compartmentPos)
-        val compartmentEntity = world.getBlockEntity(compartmentPos)
-        if (timeRemaining <= 0 && compartmentState.get(FossilCompartmentBlock.ON)) {
-            world.setBlockState(
-                compartmentPos,
-                world.getBlockState(compartmentPos).with(FossilCompartmentBlock.ON, false)
-            )
-        }
-        else if (timeRemaining > 0 && !compartmentState.get(FossilCompartmentBlock.ON)) {
-            world.setBlockState(
-                compartmentPos,
-                world.getBlockState(compartmentPos).with(FossilCompartmentBlock.ON, true)
-            )
-        }
-        compartmentEntity?.markDirty()
+        world.setBlockState(
+            compartmentPos,
+            compartmentState.with(FossilCompartmentBlock.ON, timeRemaining >= 0)
+        )
+    }
 
-        //Sync monitor
+    fun updateProgress(world: World) {
         val curProgess = if (timeRemaining <= 0) 0 else ((TIME_TO_TAKE - timeRemaining) / TIME_PER_STAGE) + 1
         val monitorState = world.getBlockState(monitorPos)
-        if (monitorState.get(FossilMonitorBlock.PROGRESS) != curProgess) {
-            world.setBlockState(
-                monitorPos,
-                monitorState.with(FossilMonitorBlock.PROGRESS, curProgess)
-            )
-        }
+        world.setBlockState(
+            monitorPos,
+            monitorState.with(FossilMonitorBlock.PROGRESS, curProgess)
+        )
     }
 
     override fun writeToNbt(): NbtCompound {

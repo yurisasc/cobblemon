@@ -36,12 +36,16 @@ open class FossilMultiblockEntity(
         }
 
     override var masterBlockPos: BlockPos? = null
-    override fun readNbt(nbt: NbtCompound?) {
-        if (nbt?.contains(DataKeys.MULTIBLOCK_STORAGE) == true) {
-            multiblockStructure = FossilMultiblockStructure.fromNbt(nbt.getCompound(DataKeys.MULTIBLOCK_STORAGE))
+    override fun readNbt(nbt: NbtCompound) {
+        multiblockStructure = if (nbt.contains(DataKeys.MULTIBLOCK_STORAGE)) {
+            FossilMultiblockStructure.fromNbt(nbt.getCompound(DataKeys.MULTIBLOCK_STORAGE))
+        } else {
+            null
         }
-        if (nbt?.contains(DataKeys.CONTROLLER_BLOCK) == true) {
-            masterBlockPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.CONTROLLER_BLOCK))
+        masterBlockPos = if (nbt.contains(DataKeys.CONTROLLER_BLOCK)) {
+            NbtHelper.toBlockPos(nbt.getCompound(DataKeys.CONTROLLER_BLOCK))
+        } else {
+            null
         }
     }
 

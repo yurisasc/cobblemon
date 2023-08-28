@@ -87,7 +87,8 @@ class ResurrectionMachineMultiblockBuilder(val centerPos: BlockPos) : Multiblock
         tubeBaseEntity.multiblockStructure = structure
         tubeTopEntity.multiblockStructure = structure
         monitorEntity.multiblockStructure = structure
-        structure.syncConstituentEntities(world)
+        structure.syncToClient(world)
+        structure.markDirty(world)
         //Set these to null so the builders can be freed
         compEntity.multiblockBuilder = null
         tubeBaseEntity.multiblockBuilder = null

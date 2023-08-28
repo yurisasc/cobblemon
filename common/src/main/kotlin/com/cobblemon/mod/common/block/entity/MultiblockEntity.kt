@@ -26,18 +26,18 @@ abstract class MultiblockEntity(
     abstract var multiblockStructure: MultiblockStructure?
     abstract var masterBlockPos: BlockPos?
 
-    override fun writeNbt(nbt: NbtCompound?) {
+    override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)
         //Used for checking build conditions in multiblocks (Dont count a block if it has the FORMED flag)
-        nbt?.putBoolean(DataKeys.FORMED, masterBlockPos != null)
+        nbt.putBoolean(DataKeys.FORMED, masterBlockPos != null)
         if (multiblockStructure != null && multiblockStructure!!.controllerBlockPos == pos) {
-            nbt?.put(DataKeys.MULTIBLOCK_STORAGE, multiblockStructure!!.writeToNbt())
+            nbt.put(DataKeys.MULTIBLOCK_STORAGE, multiblockStructure!!.writeToNbt())
         }
         else if (masterBlockPos != null) {
-            nbt?.put(DataKeys.CONTROLLER_BLOCK, NbtHelper.fromBlockPos(masterBlockPos))
+            nbt.put(DataKeys.CONTROLLER_BLOCK, NbtHelper.fromBlockPos(masterBlockPos))
         }
     }
 
-    abstract override fun readNbt(nbt: NbtCompound?)
+    abstract override fun readNbt(nbt: NbtCompound)
 
 }
