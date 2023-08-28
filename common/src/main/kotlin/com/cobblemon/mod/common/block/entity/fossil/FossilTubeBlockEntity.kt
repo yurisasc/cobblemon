@@ -25,10 +25,6 @@ class FossilTubeBlockEntity(
         }
     }
 
-    override fun toInitialChunkDataNbt(): NbtCompound {
-        return createNbt()
-    }
-
     override fun writeNbt(nbt: NbtCompound?) {
         super.writeNbt(nbt)
         nbt?.putInt(DataKeys.TUBE_FILL_LEVEL, fillLevel)

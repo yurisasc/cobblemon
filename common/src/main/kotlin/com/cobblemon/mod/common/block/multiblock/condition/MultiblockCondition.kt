@@ -2,10 +2,11 @@ package com.cobblemon.mod.common.block.multiblock.condition
 
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Box
+import net.minecraft.util.shape.VoxelShape
 
 /**
  *
  */
 interface MultiblockCondition {
-    fun test(world: ServerWorld, box: Box): Boolean
+    fun test(world: ServerWorld, box: VoxelShape): Boolean
 }

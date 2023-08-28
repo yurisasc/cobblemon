@@ -3,6 +3,7 @@ package com.cobblemon.mod.common.block.multiblock.builder
 import com.cobblemon.mod.common.block.multiblock.condition.MultiblockCondition
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Box
+import net.minecraft.util.shape.VoxelShape
 
 /**
  * Represents an area that has a potential to form a MultiBlockStructure
@@ -13,7 +14,7 @@ import net.minecraft.util.math.Box
  * @since August 24, 2023
  */
 interface MultiblockStructureBuilder {
-    val boundingBox: Box
+    val boundingBox: VoxelShape
     val conditions: List<MultiblockCondition>
 
     fun validate(world: ServerWorld): Boolean {

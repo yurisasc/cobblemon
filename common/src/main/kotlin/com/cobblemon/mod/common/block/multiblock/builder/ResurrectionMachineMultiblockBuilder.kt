@@ -8,17 +8,40 @@ import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
 import com.cobblemon.mod.common.block.fossilmachine.FossilTubeBlock
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.condition.BlockRelativeCondition
-import com.cobblemon.mod.common.util.math.geometry.blockPositionsAsList
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.blockPositionsAsList
 import com.cobblemon.mod.common.util.toVec3d
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.predicate.BlockPredicate
 import net.minecraft.predicate.StatePredicate
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 
 class ResurrectionMachineMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuilder {
-    override val boundingBox: Box = Box.of(centerPos.toVec3d(), 2.0, 2.0, 2.0)
+    override val boundingBox: VoxelShape =
+        VoxelShapes.union(
+            VoxelShapes.cuboid(
+                centerPos.x - 1.toDouble(),
+                centerPos.y - 1.toDouble(),
+                centerPos.z.toDouble(),
+                centerPos.x + 2.toDouble(),
+                centerPos.y + 2.toDouble(),
+                centerPos.z + 1.toDouble()
+            ),
+            VoxelShapes.cuboid(
+                centerPos.x.toDouble(),
+                centerPos.y - 1.toDouble(),
+                centerPos.z - 1.toDouble(),
+                centerPos.x + 1.toDouble(),
+                centerPos.y + 2.toDouble(),
+                centerPos.z + 2.toDouble()
+            )
+        )
+
     override val conditions = listOf(
         BlockRelativeCondition(
             FOSSIL_COMPARTMENT_PRED,
@@ -35,13 +58,17 @@ class ResurrectionMachineMultiblockBuilder(val centerPos: BlockPos) : Multiblock
     override fun form(world: ServerWorld) {
         //We want to create a MultiblockStructure here and pass a reference to it in every constituent block's entity
         val blocks = boundingBox.blockPositionsAsList()
-        val fossilMonitorPositions = blocks.filter { FOSSIL_MONITOR_PRED.test(world, it) }
+        val fossilMonitorPositions = blocks.filter {
+            FOSSIL_MONITOR_PRED.test(world, it)
+        }
         val fossilCompPositions = blocks.filter { FOSSIL_COMPARTMENT_PRED.test(world, it) }
         val fossilTubePositions = blocks.filter { FOSSIL_TUBE_PRED.test(world, it) }
+        /*
         if (fossilMonitorPositions.count() > 1 || fossilCompPositions.count() > 1 || fossilTubePositions.count() > 1) {
             Cobblemon.LOGGER.warn("There are multiple potential formations for the resurrection machine, failing to form")
             return
         }
+        */
         val fossilMonitorPos = fossilMonitorPositions.random()
         val fossilCompPos = fossilCompPositions.random()
         val fossilTubePos = fossilTubePositions.random()
@@ -69,13 +96,25 @@ class ResurrectionMachineMultiblockBuilder(val centerPos: BlockPos) : Multiblock
     }
 
     companion object {
-        val FOSSIL_MONITOR_PRED = BlockPredicate.Builder.create().blocks(CobblemonBlocks.FOSSIL_MONITOR).build()
-        val FOSSIL_COMPARTMENT_PRED = BlockPredicate.Builder.create().blocks(CobblemonBlocks.FOSSIL_COMPARTMENT).build()
+        val NBT_TO_CHECK = run {
+            val nbt = NbtCompound()
+            nbt.putBoolean(DataKeys.FORMED, false)
+            return@run nbt
+        }
+        val FOSSIL_MONITOR_PRED = BlockPredicate.Builder.create().blocks(CobblemonBlocks.FOSSIL_MONITOR)
+            .nbt(NBT_TO_CHECK)
+            .build()
+        val FOSSIL_COMPARTMENT_PRED = BlockPredicate.Builder.create()
+            .blocks(CobblemonBlocks.FOSSIL_COMPARTMENT)
+            .nbt(NBT_TO_CHECK)
+            .build()
+
         val FOSSIL_TUBE_PRED = BlockPredicate.Builder.create()
+            .nbt(NBT_TO_CHECK)
             .blocks(CobblemonBlocks.FOSSIL_TUBE)
             .state(StatePredicate.Builder.create().exactMatch(FossilTubeBlock.PART, FossilTubeBlock.TubePart.BOTTOM).build())
             .build()
-
+        //lol thanks mojang for not allowing nbt puts to be chained
     }
 
 }

@@ -139,4 +139,6 @@ object DataKeys {
     const val INSERTED_FOSSIL = "InsertedFossil"
     const val TUBE_FILL_LEVEL = "TubeFillLevel"
     const val DIRECTION = "Direction"
+    const val TIME_LEFT = "TimeLeft"
+    const val FORMED = "Formed"
 }

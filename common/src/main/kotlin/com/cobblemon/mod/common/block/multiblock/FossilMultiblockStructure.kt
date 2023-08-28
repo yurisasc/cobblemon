@@ -66,11 +66,13 @@ class FossilMultiblockStructure (
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
-        stopMachine(world)
         val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
         val compartmentEntity = world.getBlockEntity(compartmentPos) as MultiblockEntity
-        val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as MultiblockEntity
+        val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as FossilTubeBlockEntity
         val tubeTopEntity = world.getBlockEntity(tubeBasePos.up()) as MultiblockEntity
+        tubeBaseEntity.connectorPosition = null
+        updateTube(world)
+        stopMachine(world)
 
         monitorEntity.multiblockStructure = null
         compartmentEntity.multiblockStructure = null
@@ -96,6 +98,7 @@ class FossilMultiblockStructure (
     }
 
     fun stopMachine(world: World){
+        timeRemaining = -1
         organicMaterialInside = 0
         syncConstituentEntities(world)
     }
@@ -106,7 +109,7 @@ class FossilMultiblockStructure (
     }
 
     /**
-     * Syncronized the enitt
+     * Syncronizes the enities that make up the multiblock
      */
     fun syncConstituentEntities(world: World) {
         //Sync tube
@@ -151,6 +154,7 @@ class FossilMultiblockStructure (
         result.put(DataKeys.MONITOR_POS, NbtHelper.fromBlockPos(monitorPos))
         result.put(DataKeys.COMPARTMENT_POS, NbtHelper.fromBlockPos(compartmentPos))
         result.put(DataKeys.TUBE_BASE_POS, NbtHelper.fromBlockPos(tubeBasePos))
+        result.putInt(DataKeys.TIME_LEFT, timeRemaining)
         result.putInt(DataKeys.ORGANIC_MATERIAL, organicMaterialInside)
         if (fossilInside != null) {
             result.putString(DataKeys.INSERTED_FOSSIL, fossilInside?.name)
@@ -177,6 +181,7 @@ class FossilMultiblockStructure (
             if (nbt.contains(DataKeys.INSERTED_FOSSIL)) {
                 result.fossilInside = FossilVariant.valueOf(nbt.getString(DataKeys.INSERTED_FOSSIL))
             }
+            result.timeRemaining = nbt.getInt(DataKeys.TIME_LEFT)
             return result
         }
 

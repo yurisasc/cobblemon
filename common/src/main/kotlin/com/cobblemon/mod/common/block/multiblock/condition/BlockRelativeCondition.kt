@@ -1,10 +1,11 @@
 package com.cobblemon.mod.common.block.multiblock.condition
 
-import com.cobblemon.mod.common.util.math.geometry.blockPositionsAsList
+import com.cobblemon.mod.common.util.blockPositionsAsList
 import net.minecraft.predicate.BlockPredicate
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
+import net.minecraft.util.shape.VoxelShape
 
 /**
  * Checks that a block adjacent to another block matches a predicate. Basically we find a block that
@@ -23,7 +24,7 @@ class BlockRelativeCondition(
     val targetBlock: BlockPredicate,
     val directionsToCheck: Array<Direction> = Direction.values()
 ) : MultiblockCondition {
-    override fun test(world: ServerWorld, box: Box): Boolean {
+    override fun test(world: ServerWorld, box: VoxelShape): Boolean {
         val relToBlockBlockPos = box.blockPositionsAsList().filter { relToBlock.test(world, it) }.randomOrNull() ?: return false
         directionsToCheck.forEach {
             if (targetBlock.test(world, relToBlockBlockPos.offset(it))) {

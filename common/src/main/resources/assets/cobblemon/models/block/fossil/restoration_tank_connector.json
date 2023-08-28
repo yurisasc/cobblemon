@@ -9,7 +9,6 @@
 		{
 			"from": [4, 7, 0.99],
 			"to": [12, 16, 0.99],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
 				"north": {"uv": [9.5, 8.25, 11.5, 10.5], "texture": "#2"},
 				"east": {"uv": [9.5, 8.25, 11.5, 10.5], "texture": "#2"},
@@ -22,7 +21,6 @@
 		{
 			"from": [5, 8, 0],
 			"to": [11, 14, 1],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
 				"north": {"uv": [13.25, 1.25, 14.75, 2.75], "texture": "#2"},
 				"east": {"uv": [4, 4.5, 4.25, 6], "texture": "#2"},
@@ -33,9 +31,8 @@
 			}
 		},
 		{
-			"from": [4, 16, 1],
-			"to": [9, 28, 1],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [4, 16, 0.99],
+			"to": [9, 28, 0.99],
 			"faces": {
 				"north": {"uv": [8, 8.5, 9.25, 11.5], "texture": "#2"},
 				"south": {"uv": [9.25, 8.5, 8, 11.5], "texture": "#2"}
@@ -45,12 +42,12 @@
 	"groups": [
 		{
 			"name": "fossil_tube",
-			"origin": [8, 0, 8],
+			"origin": [0, 0, 0],
 			"color": 0,
 			"children": [
 				{
 					"name": "group",
-					"origin": [8, 0, 8],
+					"origin": [0, 0, 0],
 					"color": 0,
 					"children": [0, 1, 2]
 				}
