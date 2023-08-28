@@ -39,6 +39,41 @@ import net.minecraft.world.event.GameEvent
 
 class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.BERRY, pos, state) {
     lateinit var berryIdentifier: Identifier
+    private val ticksPerMinute = 1200
+    //The time left for the tree to grow to stage 5
+    var growthTimer: Int = 72000
+        set(value) {
+            if (value < 0) {
+                throw IllegalArgumentException("You cannot set the growth time to less than zero")
+            }
+            if (field != value) {
+                this.markDirty()
+            }
+            field = value
+        }
+    //The time left for the tree to grow to the next stage
+    var stageTimer: Int = growthTimer / BerryBlock.MATURE_AGE
+        set(value) {
+            if (value < 0) {
+                throw IllegalArgumentException("You cannot set the stage growth time to less than zero")
+            }
+            if (field != value) {
+                this.markDirty()
+            }
+            field = value
+        }
+    private val growthPoints = arrayListOf<Identifier>()
+    // Just a cheat to not invoke markDirty unnecessarily
+    private var wasLoading = false
+    var mulchVariant: MulchVariant? = null
+    var mulchDuration = 0
+        set(value) {
+            if (value == 0 && !(mulchVariant?.isBiomeMulch ?: false)) {
+                mulchVariant = null
+            }
+            field = value
+            this.markDirty()
+        }
 
     constructor(pos: BlockPos, state: BlockState, berryIdentifier: Identifier): this(pos, state) {
         this.berryIdentifier = berryIdentifier
@@ -53,13 +88,12 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         if (curAge != 5) {
             val berry = Berries.getByIdentifier(berryIdentifier)!!
             var multiplier = 10
-            if (state.get(BerryBlock.HAS_MULCH) and (state[BerryBlock.MULCH_TYPE] == MulchVariant.GROWTH)) {
-                val duration = state.get(BerryBlock.MULCH_DURATION)
-                world?.setBlockState(pos, state.with(BerryBlock.MULCH_DURATION, duration - 1))
+            if (mulchVariant == MulchVariant.GROWTH) {
+                mulchDuration--
                 multiplier = 15
             }
             val upperGrowthLimit = ((if (curAge == 0) berry.growthTime.last else berry.refreshRate.last) * multiplier) / 10
-            val lowerGrowthLimit = ((if (curAge == 0) berry.growthTime.first else berry.refreshRate.first) * multiplier) /10
+            val lowerGrowthLimit = ((if (curAge == 0) berry.growthTime.first else berry.refreshRate.first) * multiplier) / 10
             val growthRange = lowerGrowthLimit..upperGrowthLimit
             growthTimer = growthRange.random() * ticksPerMinute
 
@@ -73,39 +107,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
                 (((Math.random() *  0.2) + 0.8) * avgStageTime).toInt()
         growthTimer -= stageTimer
     }
-
-    private val ticksPerMinute = 1200
-
-
-    //The time left for the tree to grow to stage 5
-    var growthTimer: Int = 72000
-        set(value) {
-            if (value < 0) {
-                throw IllegalArgumentException("You cannot set the growth time to less than zero")
-            }
-            if (field != value) {
-                this.markDirty()
-            }
-            field = value
-        }
-
-    //The time left for the tree to grow to the next stage
-    var stageTimer: Int = growthTimer / BerryBlock.MATURE_AGE
-        set(value) {
-            if (value < 0) {
-                throw IllegalArgumentException("You cannot set the stage growth time to less than zero")
-            }
-            if (field != value) {
-                this.markDirty()
-            }
-            field = value
-        }
-
-
-    private val growthPoints = arrayListOf<Identifier>()
-
-    // Just a cheat to not invoke markDirty unnecessarily
-    private var wasLoading = false
 
     /**
      * Returns the [Berry] behind this entity,
@@ -126,22 +127,10 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     fun generateGrowthPoints(world: World, state: BlockState, pos: BlockPos, placer: LivingEntity?) {
         val berry = this.berry() ?: return
         val yield = berry.calculateYield(world, state, pos, placer)
-        val hasRichMulch = state.get(BerryBlock.MULCH_TYPE).equals(MulchVariant.RICH)
-        var newState = state
-        //Originally I decremented duration when harvesting, but that will cause weird interactions
-        //Like if you mulch a fully grown tree, harvesting it decrements the mulch duration even
-        //though the mulch had no effect. So now we decrement duration on the mulch effect
-        if (hasRichMulch) {
-            val duration = state.get(BerryBlock.MULCH_DURATION)
-            if (duration > 0) {
-                newState = state.with(BerryBlock.MULCH_DURATION, duration - 1)
-            }
-        }
         this.growthPoints.clear()
         repeat(yield) {
             this.growthPoints += berry.identifier
         }
-        world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
         this.markDirty()
     }
 
@@ -164,10 +153,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
      */
     fun harvest(world: World, state: BlockState, pos: BlockPos, player: PlayerEntity): Collection<ItemStack> {
         val drops = arrayListOf<ItemStack>()
-        //if (this.lifeCycles <= 0) {
-        //    this.consumeLife(world, pos, state, player)
-        //    return drops
-        //}
         val unique = this.growthPoints.groupingBy { it }.eachCount()
         unique.forEach { (identifier, amount) ->
             val berryItem = Berries.getByIdentifier(identifier)?.item()
@@ -185,18 +170,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
                 CobblemonEvents.BERRY_HARVEST.post(BerryHarvestEvent(berry, player, world, pos, state, this, drops))
             }
         }
-        val hasBiomeMulch = state.get(BerryBlock.MULCH_TYPE).isBiomeMulch
-        var newState = state
-        if (!hasBiomeMulch && state.get(BerryBlock.HAS_MULCH)) {
-            val curDuration = state.get(BerryBlock.MULCH_DURATION)
-            if (curDuration == 0)  {
-                newState = newState.with(BerryBlock.HAS_MULCH, false)
-            }
-            world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
-        }
-        //Since refresh overwrites any state changes we do in this method, pass newState
-        refresh(world, pos, newState, player)
-        //this.consumeLife(world, pos, state, player)
+        refresh(world, pos, state, player)
         return drops
     }
 
@@ -214,17 +188,26 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
                 this.growthPoints += identifier
             } catch (ignored: InvalidIdentifierException) {}
         }
+        this.mulchVariant = if (nbt.contains(MULCH_VARIANT)) {
+            MulchVariant.valueOf(nbt.getString(MULCH_VARIANT))
+        } else {
+            null
+        }
+        this.mulchDuration = nbt.getInt(MULCH_DURATION)
         this.wasLoading = false
     }
 
     override fun writeNbt(nbt: NbtCompound) {
-        //nbt.putInt(LIFE_CYCLES, this.lifeCycles)
         nbt.putInt(GROWTH_TIMER, this.growthTimer)
         nbt.putInt(STAGE_TIMER, this.stageTimer)
         val list = NbtList()
         list += this.growthPoints.map { NbtString.of(it.toString()) }
         nbt.put(GROWTH_POINTS, list)
         nbt.putString(BERRY, berryIdentifier.toString())
+        if (mulchVariant != null) {
+            nbt.putString(MULCH_VARIANT, mulchVariant.toString())
+        }
+        nbt.putInt(MULCH_DURATION, mulchDuration)
     }
 
     override fun markDirty() {
@@ -279,19 +262,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         return
     }
 
-    /*
-    private fun consumeLife(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
-        if (this.lifeCycles > 1) {
-            this.lifeCycles--
-            world.setBlockState(pos, state.with(BerryBlock.AGE, 0), Block.NOTIFY_LISTENERS)
-            world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos)
-            this.generateGrowthPoints(world, state, pos, player)
-            return
-        }
-        world.breakBlock(pos, false)
-    }
-    */
-
     companion object {
         internal val TICKER = BlockEntityTicker<BerryBlockEntity> { world, pos, state, blockEntity ->
             if (world.isClient) return@BlockEntityTicker
@@ -301,13 +271,14 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             if (blockEntity.stageTimer == 0) {
                 (state.block as BerryBlock).grow(world as ServerWorld, world.random, pos, state)
             }
-
         }
         //private const val LIFE_CYCLES = "life_cycles"
-        private const val GROWTH_POINTS = "growth_points"
-        private const val GROWTH_TIMER = "growth_timer"
-        private const val STAGE_TIMER = "stage_timer"
-        private const val BERRY = "berry"
+        private const val GROWTH_POINTS = "GrowthPoints"
+        private const val GROWTH_TIMER = "GrowthTimer"
+        private const val STAGE_TIMER = "StageTimer"
+        private const val BERRY = "Berry"
+        private const val MULCH_VARIANT = "MulchVariant"
+        private const val MULCH_DURATION = "MulchDuration"
     }
 
 }

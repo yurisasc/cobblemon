@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.block.BerryBlock
+import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.util.readBox
@@ -157,9 +158,10 @@ class Berry(
         val bonus = this.bonusYield(world, state, pos)
         var yield = base + bonus.first
         val event = BerryYieldCalculationEvent(this, world, state, pos, placer, yield, bonus.second)
-        val hasRichMulch = state.get(BerryBlock.MULCH_TYPE).equals(MulchVariant.RICH) and (state.get(BerryBlock.MULCH_DURATION) > 0)
-        if (hasRichMulch) {
+        val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
+        if (treeEntity.mulchVariant == MulchVariant.RICH) {
             yield = yield.times(1.2).coerceAtMost(maxYield().toDouble()).toInt()
+            treeEntity.mulchDuration--
         }
         CobblemonEvents.BERRY_YIELD.post(event) { yield = it.yield }
         return yield
@@ -288,7 +290,8 @@ class Berry(
     private fun bonusYield(world: World, state: BlockState, pos: BlockPos): Pair<Int, Collection<GrowthFactor>> {
         var bonus = 0
         val passed = arrayListOf<GrowthFactor>()
-        val hasBiomeMulch = favoriteMulches.contains(state.get(BerryBlock.MULCH_TYPE))
+        val entity = world.getBlockEntity(pos) as BerryBlockEntity
+        val hasBiomeMulch = favoriteMulches.contains(entity.mulchVariant)
         this.growthFactors.forEach { factor ->
             if (factor.isValid(world, state, pos)) {
                 bonus += factor.yield()
