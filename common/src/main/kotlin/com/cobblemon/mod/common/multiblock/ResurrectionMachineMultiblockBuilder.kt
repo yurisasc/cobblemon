@@ -1,22 +1,27 @@
-package com.cobblemon.mod.common.block.multiblock.builder
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 
-import com.cobblemon.mod.common.Cobblemon
+package com.cobblemon.mod.common.multiblock
+
 import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.block.entity.MultiblockEntity
+import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
+import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
 import com.cobblemon.mod.common.block.fossilmachine.FossilTubeBlock
-import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
-import com.cobblemon.mod.common.block.multiblock.condition.BlockRelativeCondition
+import com.cobblemon.mod.common.api.multiblock.condition.BlockRelativeCondition
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.blockPositionsAsList
-import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.predicate.BlockPredicate
 import net.minecraft.predicate.StatePredicate
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes

@@ -1,9 +1,17 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.block.fossilmachine
 
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
-import com.cobblemon.mod.common.block.multiblock.MultiblockBlock
-import com.cobblemon.mod.common.block.multiblock.builder.ResurrectionMachineMultiblockBuilder
+import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
+import com.cobblemon.mod.common.multiblock.ResurrectionMachineMultiblockBuilder
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity

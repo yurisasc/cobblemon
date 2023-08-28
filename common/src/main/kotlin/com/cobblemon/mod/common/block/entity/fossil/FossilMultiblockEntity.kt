@@ -1,13 +1,20 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.block.entity.fossil
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
-import com.cobblemon.mod.common.block.entity.MultiblockEntity
-import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
-import com.cobblemon.mod.common.block.multiblock.MultiblockStructure
-import com.cobblemon.mod.common.block.multiblock.builder.MultiblockStructureBuilder
+import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
+import com.cobblemon.mod.common.multiblock.FossilMultiblockStructure
+import com.cobblemon.mod.common.api.multiblock.MultiblockStructure
+import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.block.BlockState
-import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
