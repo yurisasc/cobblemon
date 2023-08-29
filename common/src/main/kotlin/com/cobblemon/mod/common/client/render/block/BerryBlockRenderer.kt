@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.setPosition
 import com.cobblemon.mod.common.util.math.geometry.Axis
+import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
@@ -31,6 +32,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
     }
 
     override fun render(entity: BerryBlockEntity, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
+        if (!isInRenderDistance(entity, entity.pos.toVec3d())) return
         val blockState = entity.cachedState
         val age = blockState.get(BerryBlock.AGE)
         if (age <= BerryBlock.MATURE_AGE) {
