@@ -130,30 +130,6 @@
         "y": 32.5,
         "z": -5.0
       }
-    },
-    {
-      "position": {
-        "x": 6.25,
-        "y": 13.25,
-        "z": 9.75
-      },
-      "rotation": {
-        "x": -15.0,
-        "y": -12.5,
-        "z": -7.5
-      }
-    },
-    {
-      "position": {
-        "x": 10.5,
-        "y": 12.75,
-        "z": 8.25
-      },
-      "rotation": {
-        "x": -17.5,
-        "y": 12.5,
-        "z": 2.5
-      }
     }
   ],
   "mutations": {
@@ -172,28 +148,12 @@
   ],
   "matureShape": [
     {
-      "minX": 6,
-      "minY": -1,
-      "minZ": 6,
-      "maxX": 10,
-      "maxY": 0,
-      "maxZ": 10
-    },
-    {
-      "minX": 7,
+      "minX": 0,
       "minY": 0,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 11,
-      "maxZ": 9
-    },
-    {
-      "minX": 7.5,
-      "minY": 11,
-      "minZ": 7.5,
-      "maxX": 8.5,
-      "maxY": 22,
-      "maxZ": 8.5
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 32,
+      "maxZ": 16
     }
   ],
   "flavors": {

@@ -42,7 +42,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         for ((berry, growthPoint) in entity.berryAndGrowthPoint()) {
             val model = (if (isFlower) BerryModelRepository.modelOf(berry.flowerModelIdentifier) else BerryModelRepository.modelOf(berry.fruitModelIdentifier)) ?: continue
             val texture = if (isFlower) berry.flowerTexture else berry.fruitTexture
-            val layer = RenderLayer.getEntityCutout(texture)
+            val layer = RenderLayer.getEntityCutoutNoCull(texture)
             model.setAngles(
                 Math.toRadians(180.0 - growthPoint.rotation.x).toFloat(),
                 Math.toRadians(180.0 + growthPoint.rotation.y).toFloat(),
