@@ -12,7 +12,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-25",
+            "level": "1-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
@@ -31,12 +31,12 @@
             "id": "rattata-2",
             "pokemon": "rattata",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-25",
+            "level": "1-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
@@ -60,7 +60,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-25",
+            "level": "1-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
@@ -79,12 +79,12 @@
             "id": "rattata-alolan-1",
             "pokemon": "rattata alolan",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-25",
+            "level": "1-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
@@ -108,7 +108,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-25",
+            "level": "1-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
@@ -132,7 +132,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-25",
+            "level": "1-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
@@ -151,7 +151,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-25",
+            "level": "1-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,

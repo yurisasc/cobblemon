@@ -19,7 +19,6 @@
                 "biomes": [
                     "#cobblemon:is_grassland"
                 ],
-                "timeRange": "day",
                 "isRaining": false
             }
         },

@@ -24,7 +24,7 @@
             "id": "garchomp-2",
             "pokemon": "garchomp",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

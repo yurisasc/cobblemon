@@ -12,7 +12,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "33-52",
+            "level": "28-53",
             "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
@@ -23,7 +23,8 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_spooky"
+                    "#cobblemon:is_freezing",
+					"#cobblemon:is_spooky"
                 ]
             }
         }

@@ -7,19 +7,43 @@
             "id": "exploud-1",
             "pokemon": "exploud",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "40-49",
-            "weight": 0.1,
+            "weight": 0.06,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_abyss"
                 ]
             }
+        },
+		{
+            "id": "exploud-2",
+            "pokemon": "exploud",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "40-49",
+            "weight": 0.02,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+				"maxY": 0
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_abyss"
+                ]
+			}
         }
     ]
 }

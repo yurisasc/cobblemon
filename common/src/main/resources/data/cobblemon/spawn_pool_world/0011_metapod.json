@@ -13,7 +13,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "7-20",
+            "level": "7-21",
             "weight": 2.0,
             "condition": {
                 "canSeeSky": true,
@@ -23,7 +23,8 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_spooky"
+                    "#cobblemon:is_freezing",
+					"#cobblemon:is_spooky"
                 ]
             }
         },
@@ -38,7 +39,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "7-20",
+            "level": "7-21",
             "weight": 2.0,
             "condition": {
                 "canSeeSky": true,
@@ -57,7 +58,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "7-20",
+            "level": "7-21",
             "weight": 2.0,
             "condition": {
                 "canSeeSky": true,

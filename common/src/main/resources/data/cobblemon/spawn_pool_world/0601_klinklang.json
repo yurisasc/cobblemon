@@ -7,11 +7,11 @@
             "id": "klinklang-1",
             "pokemon": "klinklang",
 			"presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "49-52",
             "weight": 0.1,
             "condition": {
@@ -38,7 +38,7 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "49-52",
             "weight": 0.1,
             "condition": {

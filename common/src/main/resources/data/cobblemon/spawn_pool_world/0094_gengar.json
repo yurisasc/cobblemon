@@ -7,12 +7,12 @@
             "id": "gengar-1",
             "pokemon": "gengar",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "41-50",
+            "level": "36-50",
             "weight": 0.06,
             "condition": {
                 "canSeeSky": false,
@@ -25,12 +25,12 @@
             "id": "gengar-2",
             "pokemon": "gengar",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "41-50",
+            "level": "36-50",
             "weight": 0.1,
             "condition": {
                 "canSeeSky": false,
@@ -54,7 +54,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "41-50",
+            "level": "36-50",
             "weight": 0.06,
             "condition": {
                 "canSeeSky": false,
@@ -72,7 +72,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "41-50",
+            "level": "36-50",
             "weight": 0.1,
             "condition": {
                 "canSeeSky": true,
@@ -91,7 +91,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "41-50",
+            "level": "36-50",
             "weight": 0.1,
             "condition": {
                 "biomes": [

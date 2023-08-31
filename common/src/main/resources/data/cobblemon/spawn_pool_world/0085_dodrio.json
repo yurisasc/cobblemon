@@ -18,8 +18,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_savanna"
-                ],
-                "timeRange": "day"
+                ]
             }
         }
     ]

@@ -12,7 +12,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "14-43",
+            "level": "19-44",
             "weight": 1.98,
             "condition": {
                 "canSeeSky": true,
@@ -26,12 +26,12 @@
             "id": "misdreavus-2",
             "pokemon": "misdreavus",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "14-43",
+            "level": "19-44",
             "weight": 5.94,
             "condition": {
                 "canSeeSky": false,
@@ -50,7 +50,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "14-43",
+            "level": "19-44",
             "weight": 5.94,
             "condition": {
                 "canSeeSky": false,
@@ -69,7 +69,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "14-43",
+            "level": "19-44",
             "weight": 1.98,
             "condition": {
                 "canSeeSky": true,
@@ -88,7 +88,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "14-43",
+            "level": "19-44",
             "weight": 1.98,
             "condition": {
                 "biomes": [

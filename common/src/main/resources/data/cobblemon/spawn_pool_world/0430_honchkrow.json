@@ -13,7 +13,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "41-50",
+            "level": "36-51",
             "weight": 0.02,
             "condition": {
                 "canSeeSky": true,
@@ -22,8 +22,7 @@
                     "#cobblemon:is_swamp",
 					"#cobblemon:is_taiga"
                 ],
-                "timeRange": "night",
-                "isRaining": false
+                "timeRange": "night"
 			}
         },
 		{
@@ -36,14 +35,13 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "41-50",
+            "level": "36-51",
             "weight": 0.02,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_spooky"
-                ],
-                "isRaining": false
+                ]
 			}
         }
     ]

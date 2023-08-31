@@ -7,12 +7,12 @@
             "id": "spiritomb-1",
             "pokemon": "spiritomb",
 			"presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "25-48",
+            "level": "24-49",
             "weight": 20.0,
             "condition": {
                 "canSeeSky": false,
@@ -36,7 +36,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "25-48",
+            "level": "24-49",
             "weight": 10.0,
             "condition": {
                 "canSeeSky": false

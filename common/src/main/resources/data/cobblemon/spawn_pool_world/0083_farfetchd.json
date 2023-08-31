@@ -12,15 +12,17 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "rare",
-            "level": "15-38",
+            "bucket": "uncommon",
+            "level": "13-38",
             "weight": 10.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_temperate"
                 ],
-                "timeRange": "day"
+				"neededNearbyBlocks": [
+                    "#minecraft:water"
+                ]
             },
             "anticondition": {
                 "biomes": [

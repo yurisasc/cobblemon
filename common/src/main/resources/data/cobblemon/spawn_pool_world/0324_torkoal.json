@@ -12,7 +12,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "20-47",
+            "level": "22-47",
             "weight": 10.0,
             "condition": {
 				"biomes": [
@@ -29,7 +29,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "20-47",
+            "level": "22-47",
             "weight": 10.0,
             "condition": {
                 "biomes": [
@@ -45,12 +45,12 @@
             "id": "torkoal-3",
             "pokemon": "torkoal",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "20-47",
+            "level": "22-47",
             "weight": 10.0,
             "condition": {
                 "canSeeSky": false,

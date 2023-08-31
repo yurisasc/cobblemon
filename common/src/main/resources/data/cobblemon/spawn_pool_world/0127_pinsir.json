@@ -13,14 +13,14 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "20-50",
+            "level": "25-50",
             "weight": 10.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_jungle"
                 ],
-                "timeRange": "day"
+                "timeRange": "night"
             }
         }
     ]

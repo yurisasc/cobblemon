@@ -12,12 +12,13 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "12-36",
-            "weight": 5.4,
+            "level": "11-36",
+            "weight": 9,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_plains"
+                    "#cobblemon:is_plains",
+					"#cobblemon:is_hills"
                 ],
                 "isThundering": true
             }
@@ -31,12 +32,13 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "12-36",
+            "level": "11-36",
             "weight": 1.8,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_plains"
+                    "#cobblemon:is_plains",
+					"#cobblemon:is_hills"
                 ],
 				"neededNearbyBlocks": [
                     "minecraft:lightning_rod"

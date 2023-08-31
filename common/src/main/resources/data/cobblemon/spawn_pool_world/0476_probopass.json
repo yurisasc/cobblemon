@@ -7,12 +7,12 @@
             "id": "probopass-1",
             "pokemon": "probopass",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "38-52",
+            "level": "33-53",
             "weight": 0.06,
             "condition": {
                 "canSeeSky": false,

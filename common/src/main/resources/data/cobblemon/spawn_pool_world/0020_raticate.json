@@ -31,7 +31,7 @@
             "id": "raticate-2",
             "pokemon": "raticate",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -79,7 +79,7 @@
             "id": "raticate-alolan-1",
             "pokemon": "raticate alolan",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

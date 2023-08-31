@@ -7,12 +7,12 @@
             "id": "mawile-1",
             "pokemon": "mawile",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "16-38",
+            "level": "13-38",
             "weight": 6.0,
             "condition": {
                 "canSeeSky": false,
@@ -25,12 +25,12 @@
             "id": "mawile-2",
             "pokemon": "mawile",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "16-38",
+            "level": "13-38",
             "weight": 6.0,
             "condition": {
                 "canSeeSky": false,

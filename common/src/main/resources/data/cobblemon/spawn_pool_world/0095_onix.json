@@ -7,12 +7,12 @@
             "id": "onix-1",
             "pokemon": "onix",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "20-38",
+            "level": "14-39",
             "weight": 5.94,
             "condition": {
                 "canSeeSky": false,

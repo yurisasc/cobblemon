@@ -9,14 +9,31 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "5-27",
-            "weight": 1.98,
+            "level": "2-27",
+            "weight": 9.9,
             "condition": {
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
                 "neededNearbyBlocks": [
                     "minecraft:cake"
+                ]
+            }
+        },
+		{
+            "id": "milcery-2",
+            "pokemon": "milcery",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "2-27",
+            "weight": 1.98,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+                "neededNearbyBlocks": [
+					"minecraft:sugar_cane"
                 ]
             }
         }

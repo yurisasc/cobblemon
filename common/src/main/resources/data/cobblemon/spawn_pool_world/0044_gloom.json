@@ -12,14 +12,13 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "21-39",
+            "level": "21-40",
             "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_jungle"
-                ],
-                "timeRange": "night"
+                ]
             }
         },
 		{
@@ -30,15 +29,14 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
-            "level": "21-39",
-            "weight": 0.9,
+            "bucket": "common",
+            "level": "21-40",
+            "weight": 0.18,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_temperate"
-                ],
-                "timeRange": "night"
+                ]
             }
         },
 		{
@@ -49,15 +47,14 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
-            "level": "21-39",
-            "weight": 0.9,
+            "bucket": "common",
+            "level": "21-40",
+            "weight": 0.18,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_savanna"
-                ],
-                "timeRange": "night"
+                ]
             }
         }
     ]

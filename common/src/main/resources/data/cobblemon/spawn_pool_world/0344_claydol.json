@@ -7,7 +7,7 @@
             "id": "claydol-1",
             "pokemon": "claydol",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

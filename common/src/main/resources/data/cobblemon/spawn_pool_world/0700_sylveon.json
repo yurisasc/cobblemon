@@ -12,7 +12,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "15-52",
+            "level": "28-53",
             "weight": 1.0,
             "condition": {
                 "canSeeSky": true,

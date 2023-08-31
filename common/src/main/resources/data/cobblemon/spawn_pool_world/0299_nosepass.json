@@ -7,12 +7,12 @@
             "id": "nosepass-1",
             "pokemon": "nosepass",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "16-37",
+            "level": "13-38",
             "weight": 5.94,
             "condition": {
                 "canSeeSky": false,

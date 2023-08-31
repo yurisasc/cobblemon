@@ -13,14 +13,13 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "46-54",
+            "level": "40-54",
             "weight": 0.1,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ],
-                "timeRange": "day"
+                ]
             }
         }
     ]

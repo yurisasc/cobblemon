@@ -12,7 +12,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "5-32",
+            "level": "5-33",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
@@ -22,7 +22,7 @@
             }
         },
 		{
-            "id": "eevee-1",
+            "id": "eevee-2",
             "pokemon": "eevee",
             "presets": [
                 "natural"
@@ -30,7 +30,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "5-32",
+            "level": "5-33",
             "weight": 10.0,
             "condition": {
                 "canSeeSky": true,

@@ -12,29 +12,12 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "12-34",
+            "level": "9-34",
             "weight": 1.8,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_swamp"
-                ]
-            }
-        },
-        {
-            "id": "koffing-2",
-            "pokemon": "koffing",
-            "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "12-34",
-            "weight": 1.8,
-            "condition": {
-                "biomes": [
-                    "#minecraft:is_nether"
                 ]
             }
         }

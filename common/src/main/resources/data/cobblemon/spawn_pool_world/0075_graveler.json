@@ -25,7 +25,7 @@
             "id": "graveler-2",
             "pokemon": "graveler",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

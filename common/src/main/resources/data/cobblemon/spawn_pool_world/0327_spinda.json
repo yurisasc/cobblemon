@@ -12,7 +12,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "10-36",
+            "level": "11-36",
             "weight": 9.9,
             "condition": {
                 "canSeeSky": true,
@@ -31,7 +31,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "10-36",
+            "level": "11-36",
             "weight": 0.025,
             "condition": {
                 "canSeeSky": true,
@@ -50,7 +50,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "10-36",
+            "level": "11-36",
             "weight": 0.025,
             "condition": {
                 "canSeeSky": true,
@@ -69,7 +69,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "10-36",
+            "level": "11-36",
             "weight": 0.025,
             "condition": {
                 "canSeeSky": true,
@@ -88,7 +88,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "10-36",
+            "level": "11-36",
             "weight": 0.025,
             "condition": {
                 "canSeeSky": true,

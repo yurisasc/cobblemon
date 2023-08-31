@@ -12,7 +12,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "24-40",
+            "level": "24-41",
             "weight": 0.2,
             "condition": {
                 "biomes": [
@@ -32,7 +32,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "24-40",
+            "level": "24-41",
             "weight": 0.2,
             "condition": {
                 "canSeeSky": false,

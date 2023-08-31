@@ -12,7 +12,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "8-32",
+            "level": "7-32",
             "weight": 5.4,
             "condition": {
                 "canSeeSky": true,
@@ -28,12 +28,12 @@
             "id": "joltik-2",
             "pokemon": "joltik",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "8-32",
+            "level": "7-32",
             "weight": 5.4,
             "condition": {
                 "canSeeSky": false,

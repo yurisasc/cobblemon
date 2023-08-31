@@ -7,7 +7,7 @@
             "id": "dragonite-1",
             "pokemon": "dragonite",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

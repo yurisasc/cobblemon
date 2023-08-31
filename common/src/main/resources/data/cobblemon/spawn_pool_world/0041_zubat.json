@@ -38,7 +38,7 @@
             "id": "zubat-2",
             "pokemon": "zubat",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

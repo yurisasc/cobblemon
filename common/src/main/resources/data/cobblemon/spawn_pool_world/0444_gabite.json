@@ -24,7 +24,7 @@
             "id": "gabite-2",
             "pokemon": "gabite",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",

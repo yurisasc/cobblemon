@@ -12,7 +12,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "44-49",
+            "level": "39-50",
             "weight": 0.02,
             "condition": {
                 "canSeeSky": true,
@@ -26,12 +26,12 @@
             "id": "mismagius-2",
             "pokemon": "mismagius",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "44-49",
+            "level": "39-50",
             "weight": 0.06,
             "condition": {
                 "canSeeSky": false,
@@ -50,10 +50,10 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "44-49",
+            "level": "39-50",
             "weight": 0.06,
             "condition": {
-                "canSeeSky": true,
+                "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_spooky",
                     "#cobblemon:is_swamp"
@@ -69,7 +69,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "44-49",
+            "level": "39-50",
             "weight": 0.02,
             "condition": {
                 "canSeeSky": true,
@@ -88,7 +88,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "44-49",
+            "level": "39-50",
             "weight": 0.02,
             "condition": {
                 "biomes": [

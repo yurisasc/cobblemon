@@ -7,12 +7,12 @@
             "id": "steelix-1",
             "pokemon": "steelix",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "39-51",
+            "level": "34-51",
             "weight": 0.06,
             "condition": {
                 "canSeeSky": false,

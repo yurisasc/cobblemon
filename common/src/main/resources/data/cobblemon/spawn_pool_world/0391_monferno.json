@@ -13,7 +13,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "14-40",
+            "level": "14-41",
             "weight": 0.9,
             "condition": {
                 "biomes": [
@@ -31,7 +31,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "14-40",
+            "level": "14-41",
             "weight": 0.9,
             "condition": {
                 "canSeeSky": true,

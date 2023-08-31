@@ -12,12 +12,13 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "50-54",
-            "weight": 0.06,
+            "level": "45-54",
+            "weight": 0.1,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_plains"
+                    "#cobblemon:is_plains",
+					"#cobblemon:is_hills"
                 ],
                 "isThundering": true
             }
@@ -25,15 +26,19 @@
         {
             "id": "electivire-2",
             "pokemon": "electivire",
+			"presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "50-54",
+            "level": "45-54",
             "weight": 0.02,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_plains"
+                    "#cobblemon:is_plains",
+					"#cobblemon:is_hills"
                 ],
 				"neededNearbyBlocks": [
                     "minecraft:lightning_rod"

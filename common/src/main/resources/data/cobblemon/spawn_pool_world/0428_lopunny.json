@@ -12,14 +12,15 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "36-48",
+            "level": "30-48",
             "weight": 0.1,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_forest",
                     "#cobblemon:is_hills",
-					"#cobblemon:is_snowy"
+					"#cobblemon:is_snowy",
+					"#cobblemon:is_taiga"
                 ]
             }
         }
