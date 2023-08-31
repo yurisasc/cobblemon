@@ -127,12 +127,6 @@ object CobblemonClient {
         this.implementation.registerItemColors(ItemColorProvider { _, _ ->
             return@ItemColorProvider 0xE0A33A
         }, CobblemonItems.APRICORN_LEAVES)
-
-        CobblemonBlocks.berries().values.forEach { berry ->
-            this.implementation.registerBlockColors(BlockColorProvider { _, view, pos, tintIndex ->
-                return@BlockColorProvider (berry.berry()?.tintIndexes?.get(tintIndex)?.rgb ?: BiomeColors.getFoliageColor(view, pos))
-            }, berry)
-        }
     }
 
     private fun registerBlockRenderTypes() {
