@@ -47,6 +47,7 @@ abstract class PoseableEntityState<T : Entity> {
     protected var age = 0
     protected var currentPartialTicks = 0F
 
+    abstract fun getEntity(): T?
     fun getPartialTicks() = currentPartialTicks
     open fun updateAge(age: Int) {
         this.age = age
@@ -96,7 +97,7 @@ abstract class PoseableEntityState<T : Entity> {
             val poseImpl = model.getPose(pose) ?: return
             poseParticles.removeIf { particle -> poseImpl.idleAnimations.filterIsInstance<BedrockStatelessAnimation<*>>().flatMap { it.particleKeyFrames }.none(particle::isSameAs) }
             poseImpl.onTransitionedInto(this)
-            val entity = model.currentEntity
+            val entity = getEntity()
             if (entity != null) {
                 poseImpl.idleAnimations
                     .filterIsInstance<BedrockStatelessAnimation<*>>()
