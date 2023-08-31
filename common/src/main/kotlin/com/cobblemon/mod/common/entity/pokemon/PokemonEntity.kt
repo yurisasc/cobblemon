@@ -320,7 +320,7 @@ class PokemonEntity(
         val owner = owner
         val future = CompletableFuture<Pokemon>()
         if (phasingTargetId.get() == -1 && owner != null) {
-            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 1F)
+            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.8F)
             phasingTargetId.set(owner.id)
             beamModeEmitter.set(2)
             afterOnMain(seconds = SEND_OUT_DURATION) {
@@ -438,7 +438,6 @@ class PokemonEntity(
             override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get()
             override fun shouldContinue(): Boolean {
                 if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
-                    pokemon.status = null
                     return false
                 } else if (pokemon.status?.status == Statuses.SLEEP || isBusy) {
                     return true

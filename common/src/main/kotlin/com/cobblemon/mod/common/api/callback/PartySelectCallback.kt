@@ -12,10 +12,10 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyCallbackPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.lang
 import java.util.UUID
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -36,7 +36,7 @@ object PartySelectCallbacks {
     @JvmOverloads
     fun create(
         player: ServerPlayerEntity,
-        title: Text = "".text(),
+        title: Text = lang("ui.party"),
         pokemon: List<PartySelectPokemonDTO>,
         cancel: (ServerPlayerEntity) -> Unit = {},
         handler: (ServerPlayerEntity, index: Int) -> Unit
@@ -61,12 +61,14 @@ object PartySelectCallbacks {
     @JvmOverloads
     fun createBattleSelect(
         player: ServerPlayerEntity,
+        title: Text = lang("ui.party"),
         pokemon: List<BattlePokemon>,
         canSelect: (BattlePokemon) -> Boolean,
         cancel: (ServerPlayerEntity) -> Unit = {},
         handler: (BattlePokemon) -> Unit
     ) = create(
         player = player,
+        title = title,
         cancel = cancel,
         pokemon = pokemon.map { pk -> PartySelectPokemonDTO(pk.effectedPokemon).also { it.enabled = canSelect(pk) } }
     ) { _, index -> handler(pokemon[index]) }
@@ -74,12 +76,14 @@ object PartySelectCallbacks {
     @JvmOverloads
     fun createFromPokemon(
         player: ServerPlayerEntity,
+        title: Text = lang("ui.party"),
         pokemon: List<Pokemon>,
         canSelect: (Pokemon) -> Boolean,
         cancel: (ServerPlayerEntity) -> Unit = {},
         handler: (Pokemon) -> Unit
     ) = create(
         player = player,
+        title = title,
         cancel = cancel,
         pokemon = pokemon.map { pk -> PartySelectPokemonDTO(pk).also { it.enabled = canSelect(pk) } }
     ) { _, index -> handler(pokemon[index]) }
@@ -118,7 +122,8 @@ class PartySelectCallback(
 open class PartySelectPokemonDTO(
     val pokemonProperties: PokemonProperties,
     val heldItem: ItemStack = ItemStack.EMPTY,
-    var hpRatio: Float = 1F,
+    var currentHealth: Int,
+    var maxHealth: Int,
     var enabled: Boolean
 ) {
     @JvmOverloads
@@ -132,21 +137,24 @@ open class PartySelectPokemonDTO(
             PokemonPropertyExtractor.STATUS
         ),
         heldItem = pokemon.heldItemNoCopy(),
-        hpRatio = pokemon.currentHealth / pokemon.hp.toFloat(),
+        currentHealth = pokemon.currentHealth,
+        maxHealth = pokemon.hp,
         enabled = enabled
     )
 
     constructor(buffer: PacketByteBuf): this(
         pokemonProperties = PokemonProperties().loadFromNBT(buffer.readNbt() as NbtCompound),
         heldItem = buffer.readItemStack(),
-        hpRatio = buffer.readFloat(),
+        currentHealth = buffer.readInt(),
+        maxHealth = buffer.readInt(),
         enabled = buffer.readBoolean()
     )
 
     fun writeToBuffer(buffer: PacketByteBuf) {
         buffer.writeNbt(pokemonProperties.saveToNBT())
         buffer.writeItemStack(heldItem)
-        buffer.writeFloat(hpRatio)
+        buffer.writeInt(currentHealth)
+        buffer.writeInt(maxHealth)
         buffer.writeBoolean(enabled)
     }
 }

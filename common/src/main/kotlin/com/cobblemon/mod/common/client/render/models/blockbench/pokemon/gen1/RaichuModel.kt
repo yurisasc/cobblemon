@@ -59,7 +59,6 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("raichu", "ground_walk")
             )
         )
@@ -71,7 +70,6 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("raichu", "battle_idle")
             )
         )

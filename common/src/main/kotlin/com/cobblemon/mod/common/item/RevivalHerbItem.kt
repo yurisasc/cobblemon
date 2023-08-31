@@ -55,7 +55,7 @@ class RevivalHerbItem(block: RevivalHerbBlock) : AliasedBlockItem(block, Setting
                 return result
             }
         }
-        return super<AliasedBlockItem>.use(world, user, hand)
+        return TypedActionResult.success(user.getStackInHand(hand))
     }
 
     override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.isFainted()

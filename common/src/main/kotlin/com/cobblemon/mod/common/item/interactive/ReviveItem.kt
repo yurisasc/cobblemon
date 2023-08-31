@@ -48,7 +48,7 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         if (world !is ServerWorld) {
-            return super.use(world, user, hand)
+            return TypedActionResult.success(user.getStackInHand(hand))
         } else {
             val player = user as ServerPlayerEntity
             val stack = user.getStackInHand(hand)

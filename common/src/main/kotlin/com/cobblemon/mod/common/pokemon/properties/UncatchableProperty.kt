@@ -8,8 +8,9 @@
 
 package com.cobblemon.mod.common.pokemon.properties
 
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
-import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 
 /**
  * A type of [CustomPokemonPropertyType] handling a [FlagProperty] which, when
@@ -32,6 +33,6 @@ object UncatchableProperty : CustomPokemonPropertyType<FlagProperty> {
     fun catchable() = FlagProperty(keys.first(), true)
     fun uncatchable() = FlagProperty(keys.first(), false)
 
-    fun isCatchable(pokemon: Pokemon) = pokemon.customProperties.none { it is FlagProperty && it.key in keys }
+    fun isCatchable(pokemonEntity: PokemonEntity) = !PokemonProperties.parse(keys.first()).matches(pokemonEntity)
     override fun examples() = setOf("yes", "no")
 }

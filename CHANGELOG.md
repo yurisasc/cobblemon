@@ -192,6 +192,8 @@
 - Updated PC Recipe.
 - Improved Pokémon AI and movement.
 - Friendship will slowly increase when Pokémon are shoulder-mounted.
+- Master balls are now unable to be burned when dropped into fire/lava.
+- Pokémon will appear red when hurt, like regular entities, except when they're fainting.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -226,6 +228,7 @@
 - Fixed non-existent species in spawn pool file causing random species to spawn.
 - Fixed shearing Pokémon dropping 0-2 wool instead of 1-3.
 - Fixed some alignment issues in the stat hexagon of the summary menu.
+- Fixed capture calculations not applying ball bonuses entirely correctly.
 
 ### Developer
 - Added SpawnEvent

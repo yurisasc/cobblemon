@@ -16,6 +16,7 @@ import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.MoScope
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.MoValue
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.util.math.Vec3d
@@ -78,8 +79,12 @@ fun MoLangRuntime.resolveFloat(expression: Expression, pokemon: BattlePokemon): 
 
 fun Expression.getString() = originalString ?: "0"
 fun Double.asExpression() = NumberExpression(this)
-fun String.asExpression() = MoLang.createParser(if (this == "") "0.0" else this).parseExpression()
-
+fun String.asExpression() = try {
+    MoLang.createParser(if (this == "") "0.0" else this).parseExpression()
+} catch (exc: Exception) {
+    Cobblemon.LOGGER.error("Failed to parse MoLang expression: $this")
+    throw exc
+}
 fun MoLangEnvironment.writePokemon(pokemon: Pokemon) {
     val pokemonStruct = VariableStruct()
     pokemon.writeVariables(pokemonStruct)

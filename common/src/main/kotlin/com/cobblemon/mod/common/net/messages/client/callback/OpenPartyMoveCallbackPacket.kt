@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.text.MutableText
 
 /**
  * Packet sent to the client to open a party select then move select GUI to get a selection.
@@ -28,12 +29,14 @@ import net.minecraft.network.PacketByteBuf
  */
 class OpenPartyMoveCallbackPacket(
     val uuid: UUID,
+    val partyTitle: MutableText,
     val pokemonList: List<Pair<PartySelectPokemonDTO, List<MoveSelectDTO>>>
 ) : NetworkPacket<OpenPartyMoveCallbackPacket> {
     companion object {
         val ID = cobblemonResource("open_party_move_callback")
         fun decode(buffer: PacketByteBuf): OpenPartyMoveCallbackPacket {
             val uuid = buffer.readUuid()
+            val partyTitle = buffer.readText().copy()
             val pokemonList = mutableListOf<Pair<PartySelectPokemonDTO, List<MoveSelectDTO>>>()
             repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
                 val pkDTO = PartySelectPokemonDTO(buffer)
@@ -46,6 +49,7 @@ class OpenPartyMoveCallbackPacket(
 
             return OpenPartyMoveCallbackPacket(
                 uuid = uuid,
+                partyTitle = partyTitle,
                 pokemonList = pokemonList
             )
         }
@@ -54,6 +58,7 @@ class OpenPartyMoveCallbackPacket(
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(uuid)
+        buffer.writeText(partyTitle)
         buffer.writeSizedInt(IntSize.U_BYTE, pokemonList.size)
         for ((pkDTO, mvDTOs) in pokemonList) {
             pkDTO.writeToBuffer(buffer)

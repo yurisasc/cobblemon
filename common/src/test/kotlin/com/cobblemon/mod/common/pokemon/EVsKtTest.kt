@@ -11,10 +11,22 @@ package com.cobblemon.mod.common.pokemon
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
+import net.minecraft.Bootstrap
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
 internal class EVsKtTest {
+
+    init {
+        // Mystery hack that somehow makes the tests work.
+        // Initialize throws an exception but catching it seems to make it still work.
+        try {
+            Bootstrap.initialize()
+        } catch (_: Throwable) {
+
+        }
+    }
+
     @Test
     fun `should create a empty set of EVs`() {
         val evs = EVs.createEmpty()
