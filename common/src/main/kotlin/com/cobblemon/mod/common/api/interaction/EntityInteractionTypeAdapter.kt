@@ -8,11 +8,10 @@
 
 package com.cobblemon.mod.common.api.interaction
 
-import com.cobblemon.mod.common.util.adapters.CobblemonPokemonEntityInteractionTypeAdapter
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonSerializer
-import net.minecraft.util.Identifier
 import kotlin.reflect.KClass
+import net.minecraft.util.Identifier
 
 /**
  * A type adapter for [EntityInteraction]s.
