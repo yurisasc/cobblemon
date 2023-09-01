@@ -82,7 +82,6 @@ class BedrockParticleKeyframe(
             sourceAlive = { !entity.isRemoved && this in state.poseParticles },
             sourceVisible = { !entity.isInvisible },
             entity = entity,
-            sourceVisible = { !entity.isInvisible },
             onDespawn = { state.poseParticles.remove(this) }
         )
 

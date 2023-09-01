@@ -29,8 +29,7 @@ class GenericBedrockRenderer(context: EntityRendererFactory.Context) : EntityRen
 
         val model = GenericBedrockModelRepository.getPoser(entity.category, entity.aspects)
         poseStack.push()
-        poseStack.translate(0.0, 1.5, 0.0)
-        poseStack.scale(-1.0F, -1.0F, 1.0F)
+        poseStack.scale(1.0F, -1.0F, 1.0F)
         poseStack.scale(entity.scale, entity.scale, entity.scale)
         poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw))
         val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, model.getLayer(getTexture(entity)), false, false)
