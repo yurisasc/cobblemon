@@ -177,6 +177,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.LEEK_AND_POTATO_STEW)
         entries.add(CobblemonItems.BRAISED_VIVICHOKE)
         entries.add(CobblemonItems.VIVICHOKE_DIP)
+        entries.add(CobblemonItems.BERRY_JUICE)
         entries.add(CobblemonItems.REMEDY)
         entries.add(CobblemonItems.FINE_REMEDY)
         entries.add(CobblemonItems.SUPERB_REMEDY)
