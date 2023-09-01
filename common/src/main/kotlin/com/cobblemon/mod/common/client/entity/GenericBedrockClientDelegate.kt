@@ -14,20 +14,22 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Gener
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 
 class GenericBedrockClientDelegate : EntitySideDelegate<GenericBedrockEntity>, PoseableEntityState<GenericBedrockEntity>() {
+    lateinit var currentEntity: GenericBedrockEntity
+    override fun getEntity() = currentEntity
+
     override fun initialize(entity: GenericBedrockEntity) {
         super.initialize(entity)
+        this.currentEntity = entity
         this.age = entity.age
         this.currentModel = GenericBedrockModelRepository.getPoser(entity.category, entity.aspects)
-        val pose = this.currentModel!!.poses.values.firstOrNull {
-            (entity.getCurrentPoseType() in it.poseTypes) && it.condition(entity)
-        }
+        currentModel!!.updateLocators(entity, this)
+        updateLocatorPosition(entity.pos)
+
+        val currentPoseType = entity.getCurrentPoseType()
+        val pose = this.currentModel!!.poses.values.firstOrNull { currentPoseType in it.poseTypes && it.condition(entity) }
         if (pose != null) {
-            setPose(pose.poseName)
+            doLater { setPose(pose.poseName) }
         }
-        this.currentModel!!.updateLocators(entity, this)
-//        entity.poseType.subscribe {
-//            this.setPose()
-//        }
     }
 
     override fun tick(entity: GenericBedrockEntity) {

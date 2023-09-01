@@ -99,24 +99,34 @@ interface Evolution : EvolutionLike {
         if (pokemon.state is ShoulderedState) {
             pokemon.tryRecallWithAnimation()
         }
-        if (pokemon.entity == null) {
+
+        val pokemonEntity = pokemon.entity
+        if (pokemonEntity == null) {
             evolutionMethod(pokemon)
         } else {
-            pokemon.entity!!.evolutionEntity = pokemon.getOwnerPlayer()?.let { GenericBedrockEntity(world = it.world) }
+            pokemonEntity.evolutionEntity = pokemon.getOwnerPlayer()?.let { GenericBedrockEntity(world = it.world) }
             val evolutionEntity = pokemon.entity!!.evolutionEntity
-            pokemon.getOwnerPlayer()?.world?.spawnEntity(evolutionEntity)
             evolutionEntity?.apply {
                 category = cobblemonResource("evolution")
-                colliderHeight = pokemon.entity!!.height
-                colliderWidth = pokemon.entity!!.width
-                scale = pokemon.entity!!.scaleFactor
+                colliderHeight = pokemonEntity.height
+                colliderWidth = pokemonEntity.width
+                scale = pokemonEntity.scaleFactor
+                setPosition(pokemonEntity.x, pokemonEntity.y + pokemonEntity.height / 2, pokemonEntity.z)
             }
+            pokemon.getOwnerPlayer()?.world?.spawnEntity(evolutionEntity)
+
             after(seconds = 9F) {
-                if (evolutionEntity != null) {
-                    evolutionEntity.kill()
-                    pokemon.entity!!.evolutionEntity = null
+                if (!pokemonEntity.isRemoved) {
+                    evolutionMethod(pokemon)
+                    after(seconds = 3F) {
+                        if (evolutionEntity != null) {
+                            evolutionEntity.kill()
+                            if (!pokemonEntity.isRemoved) {
+                                pokemonEntity.evolutionEntity = null
+                            }
+                        }
+                    }
                 }
-                evolutionMethod(pokemon)
             }
         }
     }

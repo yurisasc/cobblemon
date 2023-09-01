@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuir
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -416,10 +417,10 @@ abstract class PoseableEntityModel<T : Entity>(
         currentEntity = entity
         state.currentModel = this
         setDefault()
-        state.preRender()
         if (entity != null) {
             updateLocators(entity, state)
         }
+        state.preRender()
         var poseName = state.getPose()
         var pose = poseName?.let { getPose(it) }
         val entityPoseType = if (entity is Poseable) entity.getCurrentPoseType() else null
@@ -528,9 +529,14 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.push()
             matrixStack.scale(1F, -1F, -1F)
             matrixStack.scale(0.7F, 0.7F, 0.7F)
+        } else if (entity is GenericBedrockEntity) {
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
+            matrixStack.push()
+            // Not 100% convinced we need the -1 on Y but if we needed it for the Poke Ball then probably?
+            matrixStack.scale(1F, -1F, 1F)
         }
 
-if (isForLivingEntityRenderer) {
+        if (isForLivingEntityRenderer) {
             // Standard living entity offset, only God knows why Mojang did this.
             matrixStack.translate(0.0, -1.5, 0.0)
         }
