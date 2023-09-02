@@ -1,0 +1,136 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 4
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_arid"
+  ],
+  "growthTime": {
+    "min": 55,
+    "max": 65
+  },
+  "refreshRate": {
+    "min": 15,
+    "max": 25
+  },
+  "favoriteMulches": [
+    "sandy"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 2
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 7.5,
+        "y": 14.0,
+        "z": 8.5
+      },
+      "rotation": {
+        "x": -15.0,
+        "y": -25.0,
+        "z": -147.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.5,
+        "y": 14.0,
+        "z": 8.5
+      },
+      "rotation": {
+        "x": -15.0,
+        "y": 25.0,
+        "z": 147.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 14.0,
+        "z": 7.5
+      },
+      "rotation": {
+        "x": 152.5,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 14.0,
+        "z": 9.5
+      },
+      "rotation": {
+        "x": -130.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 9.25,
+        "y": 14.0,
+        "z": 7.5
+      },
+      "rotation": {
+        "x": 25.0,
+        "y": -20.0,
+        "z": 125.0
+      }
+    },
+    {
+      "position": {
+        "x": 6.75,
+        "y": 14.0,
+        "z": 7.5
+      },
+      "rotation": {
+        "x": 25.0,
+        "y": 20.0,
+        "z": -127.5
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:lum_berry": "cobblemon:sitrus_berry",
+    "cobblemon:bluk_berry": "cobblemon:cornn_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 0,
+      "minY": 0,
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 32,
+      "maxZ": 16
+    }
+  ],
+  "flavors": {
+    "DRY": 15
+  },
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:wiki_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/wiki.png",
+  "fruitModel": "cobblemon:wiki_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/wiki.png"
+}
