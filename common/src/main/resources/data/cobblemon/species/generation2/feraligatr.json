@@ -189,7 +189,7 @@
   ],
   "preEvolution": "croconaw",
   "evolutions": [],
-  "baseScale": 0.85,
+  "baseScale": 1.05,
   "hitbox": {
     "width": 1.2,
     "height": 2.1,
