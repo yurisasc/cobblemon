@@ -28,7 +28,7 @@ import net.minecraft.util.math.Vec3d
  * @since December 4th, 2021
  */
 abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
-
+    override val isForLivingEntityRenderer = true
     override fun getState(entity: PokemonEntity) = entity.delegate as PokemonClientDelegate
 
     /** Registers the same configuration for both left and right shoulder poses. */

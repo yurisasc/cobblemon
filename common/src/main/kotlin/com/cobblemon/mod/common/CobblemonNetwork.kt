@@ -13,14 +13,14 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.client.net.SetClientPlayerDataHandler
 import com.cobblemon.mod.common.client.net.battle.*
+import com.cobblemon.mod.common.client.net.callback.move.OpenMoveCallbackHandler
+import com.cobblemon.mod.common.client.net.callback.party.OpenPartyCallbackHandler
+import com.cobblemon.mod.common.client.net.callback.partymove.OpenPartyMoveCallbackHandler
 import com.cobblemon.mod.common.client.net.data.DataRegistrySyncPacketHandler
 import com.cobblemon.mod.common.client.net.data.UnlockReloadPacketHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
-import com.cobblemon.mod.common.client.net.callback.move.OpenMoveCallbackHandler
-import com.cobblemon.mod.common.client.net.callback.party.OpenPartyCallbackHandler
-import com.cobblemon.mod.common.client.net.callback.partymove.OpenPartyMoveCallbackHandler
 import com.cobblemon.mod.common.client.net.pasture.ClosePastureHandler
 import com.cobblemon.mod.common.client.net.pasture.OpenPastureHandler
 import com.cobblemon.mod.common.client.net.pasture.PokemonPasturedHandler
@@ -56,6 +56,7 @@ import com.cobblemon.mod.common.net.messages.client.callback.OpenMoveCallbackPac
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyCallbackPacket
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyMoveCallbackPacket
 import com.cobblemon.mod.common.net.messages.client.data.AbilityRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.data.BerryRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.MovesRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
@@ -273,6 +274,7 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(SpeciesRegistrySyncPacket.ID, SpeciesRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(PropertiesCompletionRegistrySyncPacket.ID, PropertiesCompletionRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(UnlockReloadPacket.ID, UnlockReloadPacket::decode, UnlockReloadPacketHandler)
+        this.createClientBound(BerryRegistrySyncPacket.ID, BerryRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
 
         // Effects
         this.createClientBound(SpawnSnowstormParticlePacket.ID, SpawnSnowstormParticlePacket::decode, SpawnSnowstormParticleHandler)

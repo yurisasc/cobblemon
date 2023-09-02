@@ -341,7 +341,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
                         pokemon.pokemon.caughtBall = pokeBall
                         pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
                         party.add(pokemon.pokemon)
-                        CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
+                        CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player, this))
                     }
                 }
                 return

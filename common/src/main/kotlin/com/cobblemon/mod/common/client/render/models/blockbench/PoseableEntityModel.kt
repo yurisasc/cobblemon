@@ -57,6 +57,9 @@ abstract class PoseableEntityModel<T : Entity>(
 ) : EntityModel<T>(renderTypeFunc), ModelFrame {
     var currentEntity: T? = null
 
+    /** Whether the renderer that will process this is going to do the weird -1.5 Y offset bullshit that the living entity renderer does. */
+    abstract val isForLivingEntityRenderer: Boolean
+
     val poses = mutableMapOf<String, Pose<T, out ModelFrame>>()
     lateinit var locatorAccess: LocatorAccess
 
@@ -522,8 +525,11 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.scale(1F, -1F, -1F)
             matrixStack.scale(0.7F, 0.7F, 0.7F)
         }
-        // Standard living entity offset, only God knows why Mojang did this.
-        matrixStack.translate(0.0, -1.5, 0.0)
+
+        if (isForLivingEntityRenderer) {
+            // Standard living entity offset, only God knows why Mojang did this.
+            matrixStack.translate(0.0, -1.5, 0.0)
+        }
 
         locatorAccess.update(matrixStack, state.locatorStates)
     }
