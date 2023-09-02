@@ -98,12 +98,12 @@
   },
   "sproutShape": [
     {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
+      "minX": 0,
+      "minY": 0,
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 16,
+      "maxZ": 16
     }
   ],
   "matureShape": [
@@ -112,7 +112,7 @@
       "minY": 0,
       "minZ": 0,
       "maxX": 16,
-      "maxY": 32,
+      "maxY": 16,
       "maxZ": 16
     }
   ],
@@ -121,8 +121,8 @@
     "SWEET": 20
   },
   "tintIndexes": [],
-  "flowerModel": "cobblemon:kasib_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/kasib.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:kasib_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/kasib.png"
 }

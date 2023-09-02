@@ -107,12 +107,12 @@
   },
   "sproutShape": [
     {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
+      "minX": 0,
+      "minY": 0,
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 16,
+      "maxZ": 16
     }
   ],
   "matureShape": [
@@ -121,7 +121,7 @@
       "minY": 0,
       "minZ": 0,
       "maxX": 16,
-      "maxY": 32,
+      "maxY": 16,
       "maxZ": 16
     }
   ],
@@ -129,8 +129,8 @@
     "DRY": 15
   },
   "tintIndexes": [],
-  "flowerModel": "cobblemon:wiki_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/wiki.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:wiki_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/wiki.png"
 }

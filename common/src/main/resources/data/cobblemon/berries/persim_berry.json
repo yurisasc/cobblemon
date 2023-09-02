@@ -140,12 +140,12 @@
   },
   "sproutShape": [
     {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
+      "minX": 0,
+      "minY": 0,
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 16,
+      "maxZ": 16
     }
   ],
   "matureShape": [
@@ -154,7 +154,7 @@
       "minY": 0,
       "minZ": 0,
       "maxX": 16,
-      "maxY": 32,
+      "maxY": 16,
       "maxZ": 16
     }
   ],
@@ -166,8 +166,8 @@
     "SOUR": 10
   },
   "tintIndexes": [],
-  "flowerModel": "cobblemon:persim_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/persim.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:persim_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/persim.png"
 }
