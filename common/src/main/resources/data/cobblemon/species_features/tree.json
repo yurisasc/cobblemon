@@ -13,7 +13,9 @@
     "spruce",
     "mangrove",
     "cherry",
-    "apricorn"
+    "apricorn",
+    "crimson",
+    "warped"
   ],
   "isAspect": true,
   "aspectFormat": "tree-{{choice}}"

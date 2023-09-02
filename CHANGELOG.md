@@ -94,6 +94,15 @@
 - Illumise
 - Zigzagoon
 - Linoone
+- Ralts
+- Kirlia
+- Gardevoir
+- Nincada
+- Ninjask
+- Shedinja
+- Beldum
+- Metang
+- Metagross
 
 #### Gen 4
 
@@ -114,6 +123,7 @@
 - Starly
 - Staravia
 - Staraptor
+- Gallade
 
 #### Gen 5
 
@@ -133,6 +143,12 @@
 - Stoutland
 - Cottonee
 - Whimsicott
+- Pidove
+- Tranquill
+- Unfezant
+- Timburr
+- Gurdurr
+- Conkeldurr
 
 #### Gen 6
 
@@ -159,6 +175,10 @@
 - Alolan Meowth
 - Alolan Persian
 - Komala
+- Wimpod
+- Golisopod
+- Crabrawler
+- Crabominable
 
 #### Gen 8
 
@@ -181,6 +201,7 @@
 - Obstagoon
 - Galarian Meowth
 - Perrserker
+- Ursaluna
 
 #### Gen 9
 
@@ -217,9 +238,11 @@
 - Tinkaton
 - Maschiff
 - Mabosstiff
+- Lechonk
+- Oinkologne
 
 ### Changes
-- Updated model and textures of Chesnaught, Spinda, Mamoswine, Steelix, Midreavus, Mismagius, Buneary, Lopunny, Golduck, Meowth, Persian, Fennekin, Braixen, Delphox, Snivy, Servine, Serperior, Ratatta, Raticate, Nidorina, Nidoqueen, NidoranM, Nidoking, Riolu, Lucario, Haunter, Mankey, Primeape, Mew, Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper, Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgey, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey and Blissey.
+- Updated model and textures of Koffing, Weezing, Oshawott, Doduo, Dodrio, Dratini, Dragonair, Dragonite, Sneasel, Weavile, Gyarados, Hitmonlee, Hitmonchan, Chesnaught, Spinda, Mamoswine, Steelix, Midreavus, Mismagius, Buneary, Lopunny, Golduck, Meowth, Persian, Fennekin, Braixen, Delphox, Snivy, Servine, Serperior, Ratatta, Raticate, Nidorina, Nidoqueen, NidoranM, Nidoking, Riolu, Lucario, Haunter, Mankey, Primeape, Mew, Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper, Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgey, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey and Blissey.
 - Updated animations for Steelix, Turtwig, Grotle, Torterra, Ponyta, Rapidash, Piplup, Prinplup, Empoleon, Drowzee, Hypno, Farfetch'd, Exeggcute, Exeggutor, Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
 - Updated textures for apricorn doors and all the evolution stone ores.

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Unfezant",
   "nationalPokedexNumber": 521,
   "primaryType": "normal",
@@ -25,6 +26,13 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:growl",
     "1:gust",

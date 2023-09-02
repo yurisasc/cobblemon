@@ -1,0 +1,36 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.beldum.ground_idle": {
+			"loop": true,
+			"bones": {
+				"head": {
+					"rotation": [17.3746, -0.96258, -2.0185],
+					"position": [0, -0.78915, -0.04737]
+				},
+				"body": {
+					"rotation": [-15, 0, 0]
+				}
+			}
+		},
+		"animation.beldum.blink": {
+			"animation_length": 0.1667,
+			"bones": {
+				"eye": {
+					"position": {
+						"0.0": [0, 0, 0.1],
+						"0.0833": [0, 0, 0.1],
+						"0.125": [0, 0, 0]
+					}
+				},
+				"eye_closed": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.0833": [0, 0, -0.1],
+						"0.125": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

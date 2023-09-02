@@ -44,8 +44,6 @@ class StarlyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("starly", "cry").setPreventsIdle(false) }
-
     override fun registerPoses() {
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,

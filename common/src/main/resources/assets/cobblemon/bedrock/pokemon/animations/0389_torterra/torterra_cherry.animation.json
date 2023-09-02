@@ -275,7 +275,8 @@
 				"1.6667": {
 					"effect": "cherry_leaves_faint_particle",
 					"locator": "petals"
-				}
+				},
+				"2.0": ""
 			}
 		},
 		"animation.torterra_cherry.faint": {
