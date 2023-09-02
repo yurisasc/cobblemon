@@ -26,6 +26,7 @@ class ClientBallDisplay(val pokeBall: PokeBall, val aspects: Set<String>) : Poke
     override val stateEmitter = SettableObservable(EmptyPokeBallEntity.CaptureState.FALL)
     override val shakeEmitter = SimpleObservable<Unit>()
 
+    override fun getEntity() = null
     override fun updatePartialTicks(partialTicks: Float) {
         this.currentPartialTicks += partialTicks
     }
