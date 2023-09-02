@@ -30,50 +30,50 @@
   "growthPoints": [
     {
       "position": {
-        "x": 5.7,
-        "y": 7.4,
-        "z": 5.5
+        "x": 8.75,
+        "y": 6.5,
+        "z": 6.0
       },
       "rotation": {
-        "x": 116.2,
-        "y": 41.6,
-        "z": 10.4
+        "x": 77.5,
+        "y": 22.5,
+        "z": -170.0
       }
     },
     {
       "position": {
-        "x": 10.0,
-        "y": 8.4,
-        "z": 5.8
+        "x": 6.25,
+        "y": 6.5,
+        "z": 8.25
       },
       "rotation": {
-        "x": 59.6,
-        "y": -39.5,
-        "z": 51.7
+        "x": -15.0,
+        "y": 45.0,
+        "z": -120.0
       }
     },
     {
       "position": {
-        "x": 6.0,
-        "y": 7.5,
-        "z": 10.1
+        "x": 9.5,
+        "y": 6.5,
+        "z": 9.5
       },
       "rotation": {
-        "x": -45.0,
-        "y": -6.3,
-        "z": -71.5
+        "x": -55.0,
+        "y": -30.0,
+        "z": 152.5
       }
     },
     {
       "position": {
-        "x": 9.9,
-        "y": 7.5,
-        "z": 10.1
+        "x": 7.75,
+        "y": 8.25,
+        "z": 9.0
       },
       "rotation": {
-        "x": -106.9,
-        "y": 45.2,
-        "z": -2.9
+        "x": -130.0,
+        "y": -50.0,
+        "z": -32.5
       }
     }
   ],
@@ -105,7 +105,7 @@
     "BITTER": 10,
     "SOUR": 30
   },
-  "tintIndexes": {},
+  "tintIndexes": [],
   "flowerModel": "cobblemon:starf_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/starf.png",
   "fruitModel": "cobblemon:starf_berry.geo",

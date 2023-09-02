@@ -128,9 +128,7 @@
   "flavors": {
     "DRY": 15
   },
-  "tintIndexes": {
-    "0": "#f8d020"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:wiki_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/wiki.png",
   "fruitModel": "cobblemon:wiki_berry.geo",

@@ -128,9 +128,7 @@
   "flavors": {
     "SOUR": 15
   },
-  "tintIndexes": {
-    "0": "#82534f"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:iapapa_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/iapapa.png",
   "fruitModel": "cobblemon:iapapa_berry.geo",

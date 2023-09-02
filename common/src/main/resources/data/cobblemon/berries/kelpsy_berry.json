@@ -95,9 +95,7 @@
     "BITTER": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#a54f71"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:kelpsy_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/kelpsy.png",
   "fruitModel": "cobblemon:kelpsy_berry.geo",

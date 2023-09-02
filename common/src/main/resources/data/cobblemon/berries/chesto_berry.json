@@ -158,9 +158,7 @@
   "flavors": {
     "DRY": 10
   },
-  "tintIndexes": {
-    "0": "#cb6c7c"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:chesto_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/chesto.png",
   "fruitModel": "cobblemon:chesto_berry.geo",

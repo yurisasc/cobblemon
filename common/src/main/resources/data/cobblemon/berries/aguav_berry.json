@@ -129,9 +129,7 @@
   "flavors": {
     "BITTER": 15
   },
-  "tintIndexes": {
-    "0": "#acaccf"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:aguav_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/aguav.png",
   "fruitModel": "cobblemon:aguav_berry.geo",

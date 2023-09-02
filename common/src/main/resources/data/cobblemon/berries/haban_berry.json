@@ -122,7 +122,7 @@
     "SWEET": 10,
     "BITTER": 20
   },
-  "tintIndexes": {},
+  "tintIndexes": [],
   "flowerModel": "cobblemon:haban_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/haban.png",
   "fruitModel": "cobblemon:haban_berry.geo",

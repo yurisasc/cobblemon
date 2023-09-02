@@ -129,9 +129,7 @@
     "DRY": 20,
     "SWEET": 10
   },
-  "tintIndexes": {
-    "0": "#d46e7e"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:cornn_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/cornn.png",
   "fruitModel": "cobblemon:cornn_berry.geo",

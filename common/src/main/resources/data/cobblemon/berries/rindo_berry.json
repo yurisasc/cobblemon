@@ -121,7 +121,7 @@
     "SPICY": 10,
     "BITTER": 15
   },
-  "tintIndexes": {},
+  "tintIndexes": [],
   "flowerModel": "cobblemon:rindo_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/rindo.png",
   "fruitModel": "cobblemon:rindo_berry.geo",

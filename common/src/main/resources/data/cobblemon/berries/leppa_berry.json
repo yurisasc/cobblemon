@@ -107,9 +107,7 @@
     "BITTER": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#f8cead"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:leppa_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/leppa.png",
   "fruitModel": "cobblemon:leppa_berry.geo",

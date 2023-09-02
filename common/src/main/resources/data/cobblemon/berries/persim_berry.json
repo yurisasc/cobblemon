@@ -165,9 +165,7 @@
     "BITTER": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#90c0f0"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:persim_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/persim.png",
   "fruitModel": "cobblemon:persim_berry.geo",

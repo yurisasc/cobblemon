@@ -97,9 +97,7 @@
     "SWEET": 10,
     "BITTER": 10
   },
-  "tintIndexes": {
-    "0": "#c00030"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:pomeg_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/pomeg.png",
   "fruitModel": "cobblemon:pomeg_berry.geo",

@@ -31,38 +31,38 @@
   "growthPoints": [
     {
       "position": {
-        "x": 4.3,
-        "y": 20.3,
-        "z": 4.4
+        "x": 10.0,
+        "y": 12.0,
+        "z": 0.5
       },
       "rotation": {
-        "x": 23.1,
-        "y": -41.8,
-        "z": -32.7
+        "x": 7.5,
+        "y": -15.0,
+        "z": -10.0
       }
     },
     {
       "position": {
-        "x": 8.5,
-        "y": 13.3,
-        "z": 3.7
+        "x": 5.0,
+        "y": 18.75,
+        "z": 1.75
       },
       "rotation": {
-        "x": 95.0,
+        "x": -2.5,
+        "y": 30.0,
+        "z": -10.0
+      }
+    },
+    {
+      "position": {
+        "x": 0.5,
+        "y": 12.0,
+        "z": 6.0
+      },
+      "rotation": {
+        "x": 142.5,
         "y": 77.5,
-        "z": 90.0
-      }
-    },
-    {
-      "position": {
-        "x": 9.0,
-        "y": 24.5,
-        "z": 4.9
-      },
-      "rotation": {
-        "x": 108.5,
-        "y": -69.0,
-        "z": -101.1
+        "z": 140.0
       }
     }
   ],
@@ -88,7 +88,7 @@
     }
   ],
   "flavors": {},
-  "tintIndexes": {},
+  "tintIndexes": [],
   "flowerModel": "cobblemon:hopo_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/hopo.png",
   "fruitModel": "cobblemon:hopo_berry.geo",

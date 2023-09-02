@@ -159,9 +159,7 @@
     "SPICY": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#917332"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:pinap_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/pinap.png",
   "fruitModel": "cobblemon:pinap_berry.geo",

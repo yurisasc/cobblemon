@@ -93,9 +93,7 @@
     "SPICY": 20,
     "DRY": 10
   },
-  "tintIndexes": {
-    "0": "#8fbfef"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:tamato_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/tamato.png",
   "fruitModel": "cobblemon:tamato_berry.geo",

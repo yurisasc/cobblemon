@@ -106,9 +106,7 @@
     "DRY": 30,
     "SWEET": 10
   },
-  "tintIndexes": {
-    "0": "#e997a6"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:pamtre_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/pamtre.png",
   "fruitModel": "cobblemon:pamtre_berry.geo",

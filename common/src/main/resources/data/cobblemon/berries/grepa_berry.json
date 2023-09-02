@@ -94,9 +94,7 @@
     "SWEET": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#f06078"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:grepa_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/grepa.png",
   "fruitModel": "cobblemon:grepa_berry.geo",

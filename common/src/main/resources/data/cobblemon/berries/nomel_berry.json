@@ -130,9 +130,7 @@
     "SPICY": 10,
     "SOUR": 20
   },
-  "tintIndexes": {
-    "0": "#4bba36"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:nomel_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/nomel.png",
   "fruitModel": "cobblemon:nomel_berry.geo",

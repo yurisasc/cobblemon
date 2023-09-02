@@ -105,9 +105,7 @@
     "BITTER": 30,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#aaaac4"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:durin_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/durin.png",
   "fruitModel": "cobblemon:durin_berry.geo",

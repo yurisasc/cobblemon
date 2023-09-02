@@ -130,9 +130,7 @@
     "SWEET": 20,
     "BITTER": 10
   },
-  "tintIndexes": {
-    "0": "#b8a008"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:magost_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/magost.png",
   "fruitModel": "cobblemon:magost_berry.geo",

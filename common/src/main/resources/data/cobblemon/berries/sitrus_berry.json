@@ -137,9 +137,7 @@
     "BITTER": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#b5b5cb"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:sitrus_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/sitrus.png",
   "fruitModel": "cobblemon:sitrus_berry.geo",

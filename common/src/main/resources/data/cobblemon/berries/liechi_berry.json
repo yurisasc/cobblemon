@@ -104,7 +104,7 @@
     "DRY": 10,
     "SWEET": 30
   },
-  "tintIndexes": {},
+  "tintIndexes": [],
   "flowerModel": "cobblemon:liechi_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/liechi.png",
   "fruitModel": "cobblemon:liechi_berry.geo",

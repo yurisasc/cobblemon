@@ -31,50 +31,50 @@
   "growthPoints": [
     {
       "position": {
-        "x": 9.0,
-        "y": 12.8,
-        "z": 8.4
+        "x": 7.25,
+        "y": 13.0,
+        "z": 7.25
       },
       "rotation": {
-        "x": -162.5,
-        "y": 12.5,
-        "z": 0.0
+        "x": 12.5,
+        "y": -17.5,
+        "z": -170.0
       }
     },
     {
       "position": {
-        "x": 9.3,
-        "y": 12.3,
-        "z": 7.0
+        "x": 7.25,
+        "y": 13.0,
+        "z": 8.75
       },
       "rotation": {
-        "x": 37.2,
-        "y": 77.5,
-        "z": -143.5
+        "x": -157.5,
+        "y": -57.5,
+        "z": -7.5
       }
     },
     {
       "position": {
-        "x": 6.8,
-        "y": 12.5,
-        "z": 9.3
+        "x": 8.75,
+        "y": 13.0,
+        "z": 8.75
       },
       "rotation": {
-        "x": -175.1,
-        "y": -62.5,
-        "z": 0.3
+        "x": -167.5,
+        "y": 20.0,
+        "z": -10.0
       }
     },
     {
       "position": {
-        "x": 7.0,
-        "y": 12.9,
-        "z": 7.1
+        "x": 8.75,
+        "y": 13.0,
+        "z": 7.25
       },
       "rotation": {
-        "x": 7.6,
-        "y": -13.7,
-        "z": -171.7
+        "x": 25.0,
+        "y": 60.0,
+        "z": -170.0
       }
     }
   ],
@@ -103,7 +103,7 @@
     "SPICY": 10,
     "SOUR": 40
   },
-  "tintIndexes": {},
+  "tintIndexes": [],
   "flowerModel": "cobblemon:rowap_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/rowap.png",
   "fruitModel": "cobblemon:rowap_berry.geo",

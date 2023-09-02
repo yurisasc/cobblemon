@@ -159,9 +159,7 @@
     "SPICY": 10,
     "DRY": 10
   },
-  "tintIndexes": {
-    "0": "#cfd7e7"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:razz_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/razz.png",
   "fruitModel": "cobblemon:razz_berry.geo",

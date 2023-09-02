@@ -102,7 +102,7 @@ def stuff():
 		if sourVal > 0:
 			flavorDict["SOUR"] = sourVal
 		berry_dict["flavors"] = flavorDict
-		berry_dict["tintIndexes"] = get_tints(berry_num, berry_prefix)
+		berry_dict["tintIndexes"] = []
 		berry_dict["flowerModel"] = f"cobblemon:{berry_prefix}_flower.geo"
 		berry_dict["flowerTexture"] = f"cobblemon:textures/berries/{berry_prefix}.png"
 		berry_dict["fruitModel"] = f"cobblemon:{berry_prefix}_berry.geo"
@@ -114,18 +114,18 @@ def stuff():
 def get_growth_points(rowNum):
 	berry_placements_wb = load_workbook(filename = "Berry Placements.xlsx", data_only=True)
 	row = berry_placements_wb.active[rowNum + 1]
-	numSpots = int(row[4].value)
+	numSpots = int(row[3].value)
 	result = [
 		{
 			"position": {
-				"x": float(row[7 + i*6].value),
-				"y": float(row[8 + i*6].value),
-				"z": float(row[9 + i*6].value)
+				"x": float(row[6 + i*6].value),
+				"y": float(row[7 + i*6].value),
+				"z": float(row[8 + i*6].value)
 			},
 			"rotation": {
-				"x": float(row[10 + i*6].value),
-				"y": float(row[11 + i*6].value),
-				"z": float(row[12 + i*6].value)
+				"x": float(row[9 + i*6].value),
+				"y": float(row[10 + i*6].value),
+				"z": float(row[11 + i*6].value)
 			}
 		} for i in range(0, numSpots)
 	]

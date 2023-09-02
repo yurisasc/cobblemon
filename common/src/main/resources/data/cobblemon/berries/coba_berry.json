@@ -120,7 +120,7 @@
     "DRY": 10,
     "BITTER": 15
   },
-  "tintIndexes": {},
+  "tintIndexes": [],
   "flowerModel": "cobblemon:coba_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/coba.png",
   "fruitModel": "cobblemon:coba_berry.geo",

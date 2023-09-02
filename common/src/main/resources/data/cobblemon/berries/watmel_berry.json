@@ -106,9 +106,7 @@
     "SWEET": 40,
     "BITTER": 10
   },
-  "tintIndexes": {
-    "0": "#a88870"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:watmel_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/watmel.png",
   "fruitModel": "cobblemon:watmel_berry.geo",

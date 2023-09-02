@@ -113,9 +113,7 @@
     "BITTER": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#afafc7"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:lum_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/lum.png",
   "fruitModel": "cobblemon:lum_berry.geo",

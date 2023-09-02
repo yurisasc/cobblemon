@@ -171,9 +171,7 @@
     "BITTER": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#f5bb8d"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:oran_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/oran.png",
   "fruitModel": "cobblemon:oran_berry.geo",

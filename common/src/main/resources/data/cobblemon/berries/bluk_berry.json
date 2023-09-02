@@ -160,9 +160,7 @@
     "DRY": 10,
     "SWEET": 10
   },
-  "tintIndexes": {
-    "0": "#e68b8b"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:bluk_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/bluk.png",
   "fruitModel": "cobblemon:bluk_berry.geo",

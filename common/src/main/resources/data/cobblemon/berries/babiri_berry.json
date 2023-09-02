@@ -119,7 +119,7 @@
     "SPICY": 25,
     "DRY": 10
   },
-  "tintIndexes": {},
+  "tintIndexes": [],
   "flowerModel": "cobblemon:babiri_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/babiri.png",
   "fruitModel": "cobblemon:babiri_berry.geo",

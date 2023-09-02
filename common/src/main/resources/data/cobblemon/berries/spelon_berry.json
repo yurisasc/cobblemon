@@ -105,9 +105,7 @@
     "SPICY": 30,
     "DRY": 10
   },
-  "tintIndexes": {
-    "0": "#efb588"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:spelon_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/spelon.png",
   "fruitModel": "cobblemon:spelon_berry.geo",

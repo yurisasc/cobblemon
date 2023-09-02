@@ -106,9 +106,7 @@
     "SPICY": 10,
     "SOUR": 40
   },
-  "tintIndexes": {
-    "0": "#9fced6"
-  },
+  "tintIndexes": [],
   "flowerModel": "cobblemon:belue_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/belue.png",
   "fruitModel": "cobblemon:belue_berry.geo",

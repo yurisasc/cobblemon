@@ -120,7 +120,7 @@
     "SPICY": 20,
     "SOUR": 10
   },
-  "tintIndexes": {},
+  "tintIndexes": [],
   "flowerModel": "cobblemon:tanga_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/tanga.png",
   "fruitModel": "cobblemon:tanga_berry.geo",
