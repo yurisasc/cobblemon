@@ -1,10 +1,10 @@
 {
   "variants": {
     "age=0": {
-      "model": "cobblemon:block/berries/shuca_young"
+      "model": "cobblemon:block/berries/planted"
     },
     "age=1": {
-      "model": "cobblemon:block/berries/shuca_young"
+      "model": "cobblemon:block/berries/sprout"
     },
     "age=2": {
       "model": "cobblemon:block/berries/shuca_young"
