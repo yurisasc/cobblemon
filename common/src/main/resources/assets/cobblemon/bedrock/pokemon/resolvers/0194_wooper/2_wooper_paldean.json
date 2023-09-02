@@ -3,7 +3,7 @@
   "order": 2,
   "variations": [
     {
-      "aspects": [],
+      "aspects": ["paldean"],
       "poser": "cobblemon:wooper_paldean",
       "model": "cobblemon:wooper_paldean.geo",
       "texture": "cobblemon:textures/pokemon/0194_wooper/wooper_paldean.png",
@@ -11,6 +11,7 @@
     },
     {
       "aspects": [
+        "paldean",
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0194_wooper/wooper_paldean_shiny.png"
