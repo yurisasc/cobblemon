@@ -27,11 +27,11 @@ import net.minecraft.util.math.Vec3d
 
 class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("dragonite")
-    override val head = getPart("head")
+    override val head = getPart("neck")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
-    override val leftWing = getPart("wing_left1")
-    override val rightWing = getPart("wing_right1")
+    override val leftWing = getPart("wing_left")
+    override val rightWing = getPart("wing_right")
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
@@ -76,7 +76,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("dragonite", "air_idle"),
+                bedrock("dragonite", "ground_idle"),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
@@ -91,7 +91,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("dragonite", "air_fly"),
+                bedrock("dragonite", "ground_idle"),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },

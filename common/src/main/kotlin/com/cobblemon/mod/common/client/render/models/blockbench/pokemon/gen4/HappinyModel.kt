@@ -20,8 +20,8 @@ import net.minecraft.util.math.Vec3d
 
 class HappinyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("happiny")
-    override val leftLeg = getPart("leftfoot")
-    override val rightLeg = getPart("rightfoot")
+    override val leftLeg = getPart("left_foot")
+    override val rightLeg = getPart("right_foot")
 
     override val portraitScale = 2.3F
     override val portraitTranslation = Vec3d(0.0, -1.3, 0.0)

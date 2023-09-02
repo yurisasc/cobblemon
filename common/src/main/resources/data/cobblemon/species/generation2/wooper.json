@@ -335,6 +335,9 @@
     "gen2",
     "johto_regional"
   ],
+  "features": [
+    "paldean"
+  ],
   "pokedex": [
     "cobblemon.species.wooper.desc"
   ],

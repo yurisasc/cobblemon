@@ -29,8 +29,6 @@ class DratiniModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileTranslation = Vec3d(0.0, 0.38, 0.0)
 
     lateinit var standing: PokemonPose
-    lateinit var swim: PokemonPose
-    lateinit var float: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("dratini", "blink").setPreventsIdle(false)}
@@ -42,24 +40,6 @@ class DratiniModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("dratini", "ground_idle")
             )
-        )
-
-        float = registerPose(
-                poseName = "float",
-                poseTypes = UI_POSES + PoseType.FLOAT,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        bedrock("dratini", "water_idle")
-                )
-        )
-
-        swim = registerPose(
-                poseName = "swim",
-                poseType = PoseType.SWIM,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        bedrock("dratini", "water_swim")
-                )
         )
     }
 
