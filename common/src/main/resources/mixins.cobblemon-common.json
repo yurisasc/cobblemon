@@ -14,6 +14,7 @@
     "SoundSystemMixin",
     "accessor.KeyBindingAccessor",
     "accessor.MusicTrackerAccessor",
+    "invoker.ClientPlayNetworkHandlerInvoker",
     "pokeball.ItemRendererMixin"
   ],
   "mixins": [
@@ -29,12 +30,14 @@
     "entity.TameableEntityMixin",
     "invoker.BlocksInvoker",
     "invoker.BooleanRuleInvoker",
-    "invoker.ClientPlayNetworkHandlerInvoker",
     "invoker.DoorBlockInvoker",
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
-    "pokeball.ThrownEntityMixin"
+    "pokeball.ThrownEntityMixin",
+    "StructurePoolGeneratorMixin",
+    "StructurePoolAccessor",
+    "StructureProcessorListMixin"
   ],
   "injectors": {
     "defaultRequire": 1

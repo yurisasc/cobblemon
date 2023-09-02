@@ -58,13 +58,13 @@ class RevivalHerbItem(block: RevivalHerbBlock) : AliasedBlockItem(block, Setting
         return TypedActionResult.success(user.getStackInHand(hand))
     }
 
-    override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.currentHealth <= 0
+    override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.isFainted()
     override fun applyToPokemon(
         player: ServerPlayerEntity,
         stack: ItemStack,
         pokemon: Pokemon
     ): TypedActionResult<ItemStack>? {
-        if (pokemon.currentHealth <= 0) {
+        if (pokemon.isFainted()) {
             player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
             pokemon.currentHealth = ceil(pokemon.hp / 4F).toInt()
             if (!player.isCreative) {

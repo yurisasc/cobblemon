@@ -24,4 +24,6 @@ object CobblemonFeatures : PlatformRegistry<Registry<Feature<*>>, RegistryKey<Re
     val APRICORN_TREE_FEATURE = create("apricorn_tree", ApricornTreeFeature())
     @JvmField
     val MINT_FEATURE = create("mint", MintBlockFeature())
+    @JvmField
+    val BERRY_GROVE_FEATURE = CobblemonFeatures.create("berry_grove", BerryGroveFeature())
 }
