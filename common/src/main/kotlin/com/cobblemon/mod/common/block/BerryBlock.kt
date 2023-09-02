@@ -197,7 +197,12 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
         val berry = this.berry() ?: return VoxelShapes.fullCube()
-        return if (state.get(AGE) >= MATURE_AGE) berry.matureShape else berry.sproutShape
+        return when (state.get(AGE)) {
+            0 -> PLANTED_SHAPE
+            1 -> PLANTED_SHAPE
+            2 -> berry.sproutShape
+            else -> berry.matureShape
+        }
     }
 
     private fun isMaxAge(state: BlockState) = state.get(AGE) == FRUIT_AGE
@@ -211,5 +216,9 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         const val FRUIT_AGE = 5
         val AGE: IntProperty = IntProperty.of("age", 0, FRUIT_AGE)
         val WAS_GENERATED: BooleanProperty = BooleanProperty.of("generated")
+        val PLANTED_SHAPE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.3125, -0.0625, 0.3125, 0.6875, 0.0, 0.6875),
+            VoxelShapes.cuboid(0.375, 0.0, 0.375, 0.625, 0.0625, 0.625)
+        )
     }
 }
