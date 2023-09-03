@@ -15,11 +15,31 @@
     "special_defence": 50,
     "speed": 90
   },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.42
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": true,
   "shoulderEffects": [
-    "speed"
+    {
+      "type": "potion_effect",
+      "effect": "minecraft:speed",
+      "amplifier": 0,
+      "ambient": true,
+      "showParticles": false,
+      "showIcon": false
+    }
   ],
   "forms": [
     {

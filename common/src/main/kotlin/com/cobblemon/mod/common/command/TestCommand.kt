@@ -8,8 +8,16 @@
 
 package com.cobblemon.mod.common.command
 
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
+import com.cobblemon.mod.common.battles.BattleFormat
+import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.battles.BattleSide
+import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
+import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.particle.SnowstormParticleReader
@@ -17,6 +25,7 @@ import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
 import com.cobblemon.mod.common.util.fromJson
+import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toPokemon
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -24,10 +33,14 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import java.io.File
+import java.io.PrintWriter
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
+import net.minecraft.util.math.Box
 
+@Suppress("unused")
 object TestCommand {
 
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
@@ -37,13 +50,17 @@ object TestCommand {
         dispatcher.register(command)
     }
 
+    @Suppress("SameReturnValue")
     private fun execute(context: CommandContext<ServerCommandSource>): Int {
         if (context.source.entity !is ServerPlayerEntity) {
             return Command.SINGLE_SUCCESS
         }
 
         try {
-            testTrade(context.source.player!!)
+//            readBerryDataFromCSV()
+
+            this.testClosestBattle(context)
+            //testTrade(context.source.player!!)
 //            testParticles(context)
 //            extractMovesData()
 //            // Player variables
@@ -87,6 +104,24 @@ object TestCommand {
     var trade: ActiveTrade? = null
     var lastDebugId = 0
 
+    private fun testClosestBattle(context: CommandContext<ServerCommandSource>) {
+        val player = context.source.playerOrThrow
+        val cloneTeam = player.party().toBattleTeam(true)
+        cloneTeam.forEach { it.effectedPokemon.level = 100 }
+        val scanBox = Box.of(player.pos, 9.0, 9.0, 9.0)
+        val results = player.world.getEntitiesByType(CobblemonEntities.POKEMON, scanBox) { entityPokemon -> entityPokemon.pokemon.isWild() }
+        val pokemonEntity = results.firstOrNull()
+        if (pokemonEntity == null) {
+            context.source.sendError(Text.literal("Cannot find any wild Pokémon in a 9x9x9 area"))
+            return
+        }
+        BattleRegistry.startBattle(
+            BattleFormat.GEN_9_SINGLES,
+            BattleSide(PlayerBattleActor(player.uuid, cloneTeam)),
+            BattleSide(PokemonBattleActor(pokemonEntity.pokemon.uuid, BattlePokemon(pokemonEntity.pokemon), Cobblemon.config.defaultFleeDistance))
+        )
+    }
+
     private fun testTrade(playerEntity: ServerPlayerEntity) {
         val trade = ActiveTrade(
             player1 = PlayerTradeParticipant(playerEntity),
@@ -114,6 +149,7 @@ object TestCommand {
             .build()
     }
 
+    @Suppress("UNUSED_VARIABLE")
     private fun testUpdate() {
         val trade = this.trade ?: return
         val dummy = trade.player2 as DummyTradeParticipant
@@ -131,6 +167,60 @@ object TestCommand {
         }
     }
 
+    fun readBerryDataFromCSV() {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val csv = File("scripty/berries.csv").readLines()
+        val iterator = csv.iterator()
+        iterator.next() // Skip heading
+        iterator.next() // Skip sub-heading thing
+        for (line in iterator) {
+            val cols = line.split(",")
+            val berryName = cols[1].lowercase() + "_berry"
+            val json = gson.fromJson(File("scripty/old/$berryName.json").reader(), JsonObject::class.java)
+            val growthPoints = mutableListOf<JsonObject>()
+            var index = 7
+            while (true) {
+                if (cols.size <= index || cols[index].isBlank()) {
+                    break
+                }
+
+                val posX = cols[index].toFloat()
+                val posY = cols[index+1].toFloat()
+                val posZ = cols[index+2].toFloat()
+                val rotX = cols[index+3].toFloat()
+                val rotY = cols[index+4].toFloat()
+                val rotZ = cols[index+5].toFloat()
+
+                val position = JsonObject()
+                position.addProperty("x", posX)
+                position.addProperty("y", posY)
+                position.addProperty("z", posZ)
+                val rotation = JsonObject()
+                rotation.addProperty("x", rotX)
+                rotation.addProperty("y", rotY)
+                rotation.addProperty("z", rotZ)
+
+                val obj = JsonObject()
+                obj.add("position", position)
+                obj.add("rotation", rotation)
+                growthPoints.add(obj)
+                index += 6
+            }
+
+            val arr = json.getAsJsonArray("growthPoints")
+            arr.removeAll { true }
+            for (point in growthPoints) {
+                arr.add(point)
+            }
+
+            val new = File("scripty/new/$berryName.json")
+            val pw = PrintWriter(new)
+            gson.toJson(json, pw)
+            pw.flush()
+            pw.close()
+            println("Wrote $berryName")
+        }
+    }
 
     private fun testParticles(context: CommandContext<ServerCommandSource>) {
         val file = File("particle.particle.json")

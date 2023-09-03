@@ -26,18 +26,19 @@ import net.minecraft.entity.Entity
  */
 class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: BedrockAnimation) : StatelessAnimation<T, ModelFrame>(frame) {
     override val targetFrame: Class<ModelFrame> = ModelFrame::class.java
-    val particleKeyFrames = animation.particleEffects
-
-    var speed = 1F
-
-    fun setSpeed(speed: Float): BedrockStatelessAnimation<T> {
-        this.speed = speed
-        return this
-    }
+    val particleKeyFrames = animation.effects.filterIsInstance<BedrockParticleKeyframe>()
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        val prev = if (state == null) 0F else (state.previousAnimationSeconds - state.timeEnteredPose)
-        val cur = if (state == null) 0F else (state.animationSeconds - state.timeEnteredPose)
-        animation.run(model, entity, state,  prev * speed.toDouble(), cur * speed.toDouble())
+        animation.run(model, state, state?.animationSeconds ?: 0F)
+    }
+
+    override fun applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {
+        val effectiveAnimationLength = animation.animationLength.takeUnless { it <= 0 }?.toFloat() ?: animation.effects.maxOfOrNull { it.seconds }?.takeIf { it != 0F }
+        val (loopedPreviousSeconds, loopedNewSeconds) = if (effectiveAnimationLength != null) {
+            (previousSeconds % effectiveAnimationLength) to (newSeconds % effectiveAnimationLength)
+        } else {
+            previousSeconds to newSeconds
+        }
+        animation.applyEffects(entity, state, loopedPreviousSeconds, loopedNewSeconds)
     }
 }

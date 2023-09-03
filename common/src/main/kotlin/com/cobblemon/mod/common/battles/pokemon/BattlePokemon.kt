@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles.pokemon
 
+import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.moves.MoveSet
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
@@ -27,13 +28,15 @@ import net.minecraft.text.MutableText
 
 open class BattlePokemon(
     val originalPokemon: Pokemon,
-    val effectedPokemon: Pokemon = originalPokemon
+    val effectedPokemon: Pokemon = originalPokemon,
+    val postBattleEntityOperation: (PokemonEntity) -> Unit = {}
 ) {
     lateinit var actor: BattleActor
     companion object {
         fun safeCopyOf(pokemon: Pokemon): BattlePokemon = BattlePokemon(
             originalPokemon = pokemon,
-            effectedPokemon = pokemon.clone()
+            effectedPokemon = pokemon.clone(),
+            postBattleEntityOperation = { entity -> entity.discard() }
         )
     }
 
@@ -87,4 +90,8 @@ open class BattlePokemon(
 
     fun isSentOut() = actor.battle.activePokemon.any { it.battlePokemon == this }
     fun canBeSentOut() = !isSentOut() && !willBeSwitchedIn && health > 0
+
+    fun writeVariables(struct: VariableStruct) {
+        effectedPokemon.writeVariables(struct)
+    }
 }

@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
+import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.pokemon.experience.CandyExperienceSource
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.CobblemonItem
@@ -27,8 +28,8 @@ import net.minecraft.server.network.ServerPlayerEntity
  * @author Licious
  * @since May 5th, 2022
  */
-class CandyItem(val calculator: Calculator) : CobblemonItem(Settings()), PokemonInteractiveItem {
-    override val accepted = setOf(PokemonInteractiveItem.Ownership.OWNER)
+class CandyItem(val calculator: Calculator) : CobblemonItem(Settings()), PokemonEntityInteraction {
+    override val accepted = setOf(PokemonEntityInteraction.Ownership.OWNER)
 
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon

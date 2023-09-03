@@ -55,12 +55,12 @@ class YanmaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("yanma", "ground_idle"),
                 wingFrame1.wingFlap(
-                    flapFunction = triangleFunction(period = 0.2F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
                     axis = Z_AXIS
                 ),
                 wingFrame2.wingFlap(
-                    flapFunction = triangleFunction(period = 0.2F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
                     axis = Z_AXIS
                 )
@@ -77,12 +77,12 @@ class YanmaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("yanma", "ground_idle"),
                 wingFrame1.wingFlap(
-                    flapFunction = triangleFunction(period = 0.2F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
                     axis = Z_AXIS
                 ),
                 wingFrame2.wingFlap(
-                    flapFunction = triangleFunction(period = 0.2F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
                     axis = Z_AXIS
                 )

@@ -1,0 +1,96 @@
+{
+  "baseYield": {
+    "min": 1,
+    "max": 2
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_mountain",
+    "cobblemon:is_taiga"
+  ],
+  "growthTime": {
+    "min": 115,
+    "max": 125
+  },
+  "refreshRate": {
+    "min": 20,
+    "max": 30
+  },
+  "favoriteMulches": [
+    "coarse"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 10.0,
+        "y": 12.0,
+        "z": 0.5
+      },
+      "rotation": {
+        "x": 7.5,
+        "y": -15.0,
+        "z": -10.0
+      }
+    },
+    {
+      "position": {
+        "x": 5.0,
+        "y": 18.75,
+        "z": 1.75
+      },
+      "rotation": {
+        "x": -2.5,
+        "y": 30.0,
+        "z": -10.0
+      }
+    },
+    {
+      "position": {
+        "x": 0.5,
+        "y": 12.0,
+        "z": 6.0
+      },
+      "rotation": {
+        "x": 142.5,
+        "y": 77.5,
+        "z": 140.0
+      }
+    }
+  ],
+  "mutations": {},
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 0,
+      "minY": 0,
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 32,
+      "maxZ": 16
+    }
+  ],
+  "flavors": {},
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:hopo_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/hopo.png",
+  "fruitModel": "cobblemon:hopo_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/hopo.png"
+}

@@ -18,6 +18,8 @@ import net.minecraft.world.gen.placementmodifier.PlacementModifierType
 object CobblemonPlacementModifierTypes {
     @JvmField
     val BENEATH_HEIGHTMAP = register("beneath_heightmap", BeneathHeightmapPlacementModifier.MODIFIER_CODEC)
+    @JvmField
+    val LOCATE_PREDICATE = register("locate_predicate", LocatePredicatePlacementModifier.MODIFIER_CODEC)
 
     fun <T : PlacementModifier> register(id: String, codec: Codec<T>): PlacementModifierType<T> {
         return Registry.register(Registries.PLACEMENT_MODIFIER_TYPE, cobblemonResource(id), PlacementModifierType { codec })

@@ -8,17 +8,14 @@
 
 package com.cobblemon.mod.common.client
 
-import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.CobblemonBlockEntities
-import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.CobblemonClientImplementation
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
+import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
@@ -34,17 +31,22 @@ import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.item.PokeBallItem
+import com.cobblemon.mod.common.block.entity.BerryBlockEntity
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
+import java.awt.Color
 import net.minecraft.client.color.block.BlockColorProvider
+import net.minecraft.client.color.block.BlockColors
 import net.minecraft.client.color.item.ItemColorProvider
+import net.minecraft.client.color.world.BiomeColors
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.PlayerEntityModel
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
@@ -88,16 +90,18 @@ object CobblemonClient {
         PlatformEvents.CLIENT_PLAYER_LOGOUT.subscribe { onLogout() }
 
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
 
         registerBlockRenderTypes()
         registerColors()
-        PlatformEvents
+
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
 
         PlatformEvents.CLIENT_ITEM_TOOLTIP.subscribe { event ->
             val stack = event.stack
             val lines = event.lines
+            @Suppress("DEPRECATION")
             if (stack.item.registryEntry.key.isPresent && stack.item.registryEntry.key.get().value.namespace == Cobblemon.MODID) {
                 if (stack.nbt?.getBoolean(DataKeys.HIDE_TOOLTIP) == true) {
                     return@subscribe
@@ -119,10 +123,10 @@ object CobblemonClient {
 
     fun registerColors() {
         this.implementation.registerBlockColors(BlockColorProvider { _, _, _, _ ->
-            return@BlockColorProvider 0xe1b552
+            return@BlockColorProvider 0xE0A33A
         }, CobblemonBlocks.APRICORN_LEAVES)
         this.implementation.registerItemColors(ItemColorProvider { _, _ ->
-            return@ItemColorProvider 0xe1b552
+            return@ItemColorProvider 0xE0A33A
         }, CobblemonItems.APRICORN_LEAVES)
     }
 
@@ -149,7 +153,7 @@ object CobblemonClient {
             CobblemonBlocks.WHITE_APRICORN,
             CobblemonBlocks.YELLOW_APRICORN,
             CobblemonBlocks.HEALING_MACHINE,
-            CobblemonBlocks.MEDICINAL_LEEK_CROP,
+            CobblemonBlocks.MEDICINAL_LEEK,
             CobblemonBlocks.HEALING_MACHINE,
             CobblemonBlocks.RED_MINT,
             CobblemonBlocks.BLUE_MINT,
@@ -157,24 +161,31 @@ object CobblemonClient {
             CobblemonBlocks.PINK_MINT,
             CobblemonBlocks.GREEN_MINT,
             CobblemonBlocks.WHITE_MINT,
+            CobblemonBlocks.PASTURE,
             CobblemonBlocks.ENERGY_ROOT,
             CobblemonBlocks.BIG_ROOT,
-            CobblemonBlocks.REVIVAL_HERB
+            CobblemonBlocks.REVIVAL_HERB,
+            CobblemonBlocks.VIVICHOKE_SEEDS,
+            CobblemonBlocks.PEP_UP_FLOWER,
+            CobblemonBlocks.POTTED_PEP_UP_FLOWER,
+            CobblemonBlocks.REVIVAL_HERB,
+            *CobblemonBlocks.berries().values.toTypedArray()
         )
     }
 
-    fun beforeChatRender(matrixStack: MatrixStack, partialDeltaTicks: Float) {
+    fun beforeChatRender(context: DrawContext, partialDeltaTicks: Float) {
         if (battle == null) {
-            overlay.render(matrixStack, partialDeltaTicks)
+            overlay.render(context, partialDeltaTicks)
         } else {
-            battleOverlay.render(matrixStack, partialDeltaTicks)
+            battleOverlay.render(context, partialDeltaTicks)
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun onAddLayer(skinMap: Map<String, EntityRenderer<out PlayerEntity>>?) {
         var renderer: LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>? = skinMap?.get("default") as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>
         renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
-        renderer = skinMap.get("slim") as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>?
+        renderer = skinMap["slim"] as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>?
         renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
     }
 
@@ -197,6 +208,7 @@ object CobblemonClient {
         )
         PokemonModelRepository.reload(resourceManager)
         PokeBallModelRepository.reload(resourceManager)
+        BerryModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
 //        PokeBallModelRepository.reload(resourceManager)
     }

@@ -1,0 +1,19 @@
+{
+  "species": "cobblemon:hoothoot",
+  "order": 0,
+  "variations": [
+    {
+      "aspects": [],
+      "poser": "cobblemon:hoothoot",
+      "model": "cobblemon:hoothoot.geo",
+      "texture": "cobblemon:textures/pokemon/0163_hoothoot/hoothoot.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0163_hoothoot/hoothoot_shiny.png"
+    }
+  ]
+}

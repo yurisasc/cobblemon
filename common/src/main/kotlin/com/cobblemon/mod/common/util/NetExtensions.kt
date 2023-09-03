@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.net.IntSize
 import io.netty.buffer.ByteBuf
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 
 fun ByteBuf.writeConditional(condition: () -> Boolean, writer: () -> Unit) {
@@ -52,6 +53,17 @@ fun ByteBuf.readTimes(size: IntSize = IntSize.U_BYTE, readEntry: () -> Unit) {
     val times = readSizedInt(size)
     repeat(times) { readEntry() }
 }
+
+fun ByteBuf.writeBox(box: Box) {
+    this.writeDouble(box.minX)
+    this.writeDouble(box.minY)
+    this.writeDouble(box.minZ)
+    this.writeDouble(box.maxX)
+    this.writeDouble(box.maxY)
+    this.writeDouble(box.maxZ)
+}
+
+fun ByteBuf.readBox(): Box = Box(this.readDouble(), this.readDouble(), this.readDouble(), this.readDouble(), this.readDouble(), this.readDouble())
 
 fun <K, V> ByteBuf.writeMapK(size: IntSize = IntSize.U_BYTE, map: Map<K, V>, entryWriter: (Map.Entry<K, V>) -> Unit) {
     writeSizedInt(size, map.size)

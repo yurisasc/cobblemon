@@ -51,7 +51,7 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail5WaveSegment = WaveSegment(modelPart = tail5, length = 11F)
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("arbok", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("arbok", "blink").setPreventsIdle(false) }
         // TODO tongue_flick
 
         val wave = WaveAnimation<PokemonEntity>(
@@ -76,8 +76,8 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("arbok", "sleep"))
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("arbok", "sleep"))
         )
 
 
@@ -118,6 +118,6 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
+        state: PoseableEntityState<PokemonEntity>,
     ) = if (state.isPosedIn(standing, walk)) bedrockStateful("arbok", "faint") else null
 }

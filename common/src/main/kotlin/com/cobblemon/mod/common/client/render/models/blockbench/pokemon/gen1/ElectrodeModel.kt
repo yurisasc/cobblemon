@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("electrode")
 
@@ -44,7 +45,7 @@ class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            onTransitionedInto = { it?.animationSeconds = 0F },
+            onTransitionedInto = { it?.reset() },
             idleAnimations = arrayOf(
                 bedrock("electrode", "ground_walk")
             )

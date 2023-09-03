@@ -16,9 +16,9 @@ import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeExpiredPacket
 import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.google.gson.GsonBuilder
 import java.time.Instant
 import java.util.Optional
@@ -199,7 +199,7 @@ object BattleRegistry {
         }
 
         // Compiles the request and sends it off
-        ShowdownService.get().startBattle(battle, messages.toTypedArray())
+        ShowdownService.service.startBattle(battle, messages.toTypedArray())
         CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedPostEvent(battle))
         return battle
     }
@@ -213,7 +213,7 @@ object BattleRegistry {
     }
 
     fun getBattleByParticipatingPlayer(serverPlayerEntity: ServerPlayerEntity) : PokemonBattle? {
-        return battleMap.values.find { it.actors.any { it.isForPlayer(serverPlayerEntity) } }
+        return battleMap.values.find { it.getActor(serverPlayerEntity) != null }
     }
 
     fun tick() {

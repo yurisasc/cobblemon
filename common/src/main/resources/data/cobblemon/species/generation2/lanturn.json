@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Lanturn",
   "nationalPokedexNumber": 171,
   "primaryType": "water",
@@ -25,6 +26,17 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:bubble",
     "1:eerieimpulse",

@@ -15,9 +15,7 @@ import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.particle.SnowstormParticleEffect
-import com.cobblemon.mod.common.util.math.geometry.getOrigin
 import com.cobblemon.mod.common.util.math.geometry.transformDirection
-import com.cobblemon.mod.common.util.math.geometry.transformPosition
 import kotlin.random.Random
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.NoRenderParticle
@@ -38,6 +36,7 @@ class ParticleStorm(
     val sourceVelocity: () -> Vec3d = { Vec3d.ZERO },
     val sourceAlive: () -> Boolean = { true },
     val sourceVisible: () -> Boolean = { true },
+    val onDespawn: () -> Unit = {},
     val runtime: MoLangRuntime = MoLangRuntime()
 ): NoRenderParticle(world, matrixWrapper.getOrigin().x, matrixWrapper.getOrigin().y, matrixWrapper.getOrigin().z) {
     fun spawn() {
@@ -55,6 +54,9 @@ class ParticleStorm(
     val particles = mutableListOf<SnowstormParticle>()
     var started = false
     var stopped = false
+    var despawned = false
+    // The idea is that some instantaneous particle effects could teeeechnically be over before they start.
+    var hasPlayedOnce = false
 
     var entity: Entity? = null
 
@@ -72,11 +74,24 @@ class ParticleStorm(
         return if (stopped) 0 else Int.MAX_VALUE
     }
 
+    override fun markDead() {
+        super.markDead()
+        if (!despawned) {
+            despawned = true
+            onDespawn()
+        }
+    }
+
     override fun tick() {
         setMaxAge(getMaxAge())
         super.tick()
 
-        if (!sourceAlive()) {
+        if (!hasPlayedOnce) {
+            age = 0
+            hasPlayedOnce = true
+        }
+
+        if (!sourceAlive() && !stopped) {
             stopped = true
             markDead()
         }

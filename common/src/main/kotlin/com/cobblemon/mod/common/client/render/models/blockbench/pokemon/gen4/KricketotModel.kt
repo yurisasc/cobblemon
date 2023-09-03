@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -36,7 +35,7 @@ class KricketotModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
         val blink = quirk("blink") { bedrockStateful("kricketot", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES + PoseType.SHOULDER_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("kricketot", "ground_idle")

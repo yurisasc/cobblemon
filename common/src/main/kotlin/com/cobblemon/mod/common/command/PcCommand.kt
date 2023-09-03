@@ -45,7 +45,7 @@ object PcCommand {
         context.source.world.playSoundServer(
                 position = context.source.player!!.pos,
                 sound = CobblemonSounds.PC_ON,
-                volume = 1F,
+                volume = 0.5F,
                 pitch = 1F
         )
         return Command.SINGLE_SUCCESS

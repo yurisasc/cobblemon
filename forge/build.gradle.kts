@@ -1,3 +1,13 @@
+/*
+ *
+ *  * Copyright (C) 2023 Cobblemon Contributors
+ *  *
+ *  * This Source Code Form is subject to the terms of the Mozilla Public
+ *  * License, v. 2.0. If a copy of the MPL was not distributed with this
+ *  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ */
+
 plugins {
     id("cobblemon.platform-conventions")
     id("cobblemon.publish-conventions")
@@ -11,6 +21,7 @@ architectury {
 loom {
     forge {
         convertAccessWideners.set(true)
+
         mixinConfig("mixins.cobblemon-forge.json")
         mixinConfig("mixins.cobblemon-common.json")
     }
@@ -24,7 +35,9 @@ repositories {
 
 dependencies {
     forge(libs.forge)
-
+    //Because of the JEI mapping issues if we want
+    //a forge launch we gotta do some wacky stuff
+    //modRuntimeOnly(libs.jeiForge)
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
     implementation(project(":common", configuration = "namedElements")) {
@@ -51,6 +64,7 @@ dependencies {
 tasks {
     shadowJar {
         exclude("architectury-common.accessWidener")
+        exclude("architectury.common.json")
 
         relocate ("com.ibm.icu", "com.cobblemon.mod.relocations.ibm.icu")
     }
@@ -67,6 +81,18 @@ tasks {
         }
     }
 }
+
+tasks {
+    sourcesJar {
+        val depSources = project(":common").tasks.sourcesJar
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        dependsOn(depSources)
+        from(depSources.get().archiveFile.map { zipTree(it) }) {
+            exclude("architectury.accessWidener")
+        }
+    }
+}
+
 
 //jar {
 //    classifier("dev")

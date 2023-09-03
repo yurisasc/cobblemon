@@ -1,0 +1,103 @@
+{
+  "baseYield": {
+    "min": 1,
+    "max": 2
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_jungle",
+    "cobblemon:is_swamp"
+  ],
+  "growthTime": {
+    "min": 95,
+    "max": 105
+  },
+  "refreshRate": {
+    "min": 20,
+    "max": 30
+  },
+  "favoriteMulches": [
+    "humid"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 5.0,
+        "y": 20.75,
+        "z": 5.75
+      },
+      "rotation": {
+        "x": 30.0,
+        "y": 75.0,
+        "z": 20.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.5,
+        "y": 16.5,
+        "z": 5.0
+      },
+      "rotation": {
+        "x": 30.0,
+        "y": 10.0,
+        "z": -2.5
+      }
+    },
+    {
+      "position": {
+        "x": 3.5,
+        "y": 12.5,
+        "z": 3.0
+      },
+      "rotation": {
+        "x": 7.5,
+        "y": 27.5,
+        "z": 2.5
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:watmel_berry": "cobblemon:ganlon_berry",
+    "cobblemon:pomeg_berry": "cobblemon:starf_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 0,
+      "minY": 0,
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 32,
+      "maxZ": 16
+    }
+  ],
+  "flavors": {
+    "SPICY": 10,
+    "SWEET": 10,
+    "SOUR": 10
+  },
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:qualot_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/qualot.png",
+  "fruitModel": "cobblemon:qualot_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/qualot.png"
+}

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Boldore",
   "nationalPokedexNumber": 525,
   "primaryType": "rock",
@@ -110,8 +111,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

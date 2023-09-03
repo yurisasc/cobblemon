@@ -33,6 +33,14 @@ open class ChoiceSpeciesFeatureProvider(
     override val needsKey = true
     fun getAspect(feature: StringSpeciesFeature) = aspectFormat.substitute("choice", feature.value)
 
+    fun getAllAspects(): MutableList<String> {
+        val aspects = choices.toMutableList()
+        choices.forEach {
+            aspects[choices.indexOf(it)] = (aspectFormat.substitute("choice", it))
+        }
+        return aspects
+    }
+
     override fun examples() = choices
 
     internal constructor(): this(emptyList())

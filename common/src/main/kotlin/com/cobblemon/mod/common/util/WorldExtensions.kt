@@ -72,6 +72,12 @@ fun BlockView.getBlockStates(box: Box): Iterable<BlockState> {
     return states
 }
 
+fun BlockView.getBlockStatesWithPos(box: Box): Iterable<Pair<BlockState, BlockPos>> {
+    val states = mutableListOf<Pair<BlockState, BlockPos>>()
+    doForAllBlocksIn(box, useMutablePos = true) { state, pos -> states.add(state to pos) }
+    return states
+}
+
 fun BlockView.getWaterAndLavaIn(box: Box): Pair<Boolean, Boolean> {
     var hasWater = false
     var hasLava = false
@@ -88,7 +94,9 @@ fun BlockView.getWaterAndLavaIn(box: Box): Pair<Boolean, Boolean> {
     return hasWater to hasLava
 }
 
-fun Entity.canFit(pos: BlockPos): Boolean {
-    val box = boundingBox.offset(pos.toVec3d().subtract(this.pos))
+fun Entity.canFit(pos: BlockPos) = canFit(pos.toVec3d())
+
+fun Entity.canFit(vec: Vec3d): Boolean {
+    val box = boundingBox.offset(vec.subtract(this.pos))
     return world.isSpaceEmpty(box)
 }

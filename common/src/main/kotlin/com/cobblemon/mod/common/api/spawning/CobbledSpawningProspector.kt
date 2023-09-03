@@ -14,8 +14,8 @@ import com.cobblemon.mod.common.api.spawning.mixins.CachedOnlyChunkAccessor
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
 import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.api.spawning.spawner.SpawningArea
+import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import net.minecraft.block.Blocks
-import net.minecraft.block.Material
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
@@ -97,8 +97,7 @@ object CobblemonSpawningProspector : SpawningProspector {
                         skyLevel[x - area.baseX][z - area.baseZ] = y
                     }
 
-                    // TODO don't just check solid, have some property somewhere modifiable that excludes some blocks from occluding
-                    if (state.material.isSolid && state.material != Material.LEAVES) {
+                    if (state.fluidState.isEmpty && !state.isIn(CobblemonBlockTags.SEES_SKY)) {
                         canSeeSky = false
                     }
                 }

@@ -42,12 +42,11 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
+import java.io.File
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
-import java.io.File
-import kotlin.io.path.Path
-import kotlin.io.path.writeLines
 
 /**
  * Individual battle instance
@@ -60,7 +59,7 @@ open class PokemonBattle(
     val side1: BattleSide,
     val side2: BattleSide
 ) {
-    /** Whether or not logging will be silenced for this battle. */
+    /** Whether logging will be silenced for this battle. */
     var mute = true
 
     init {
@@ -149,6 +148,11 @@ open class PokemonBattle(
     }
 
     /**
+     * Gets the first battle actor whom the given player controls, or null if there is no such actor.
+     */
+    fun getActor(player: ServerPlayerEntity) = actors.firstOrNull { it.isForPlayer(player) }
+
+    /**
      * Gets a BattleActor and an [ActiveBattlePokemon] from a pnx key, e.g. p2a
      *
      * Returns null if either the pn or x is invalid.
@@ -180,7 +184,7 @@ open class PokemonBattle(
 
     fun writeShowdownAction(vararg messages: String) {
         log(messages.joinToString("\n"))
-        ShowdownService.get().send(battleId, messages.toList().toTypedArray())
+        ShowdownService.service.send(battleId, messages.toList().toTypedArray())
     }
 
     fun turn(newTurnNumber: Int) {
@@ -221,7 +225,7 @@ open class PokemonBattle(
                         if (experience > 0) {
                             opponent.awardExperience(opponentPokemon, experience)
                         }
-                        Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
+                        Cobblemon.evYieldCalculator.calculate(opponentPokemon, faintedPokemon).forEach { (stat, amount) ->
                             pokemon.evs.add(stat, amount)
                         }
                     }
@@ -234,6 +238,11 @@ open class PokemonBattle(
             .mapNotNull { it.entity }
             .filterIsInstance<PokemonEntity>()
             .forEach{it.pokemon.heal()}
+        actors.forEach { actor ->
+            actor.pokemonList.forEach { battlePokemon ->
+                battlePokemon.entity?.let { entity -> battlePokemon.postBattleEntityOperation(entity) }
+            }
+        }
         sendUpdate(BattleEndPacket())
         sendUpdate(BattleMusicPacket(null))
         BattleRegistry.closeBattle(this)
