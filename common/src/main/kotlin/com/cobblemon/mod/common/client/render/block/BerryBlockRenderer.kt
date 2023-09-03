@@ -10,12 +10,12 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
+import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.setPosition
 import com.cobblemon.mod.common.util.math.geometry.Axis
 import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
@@ -25,7 +25,6 @@ import net.minecraft.util.math.Vec3d
 
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
-
     override fun isInRenderDistance(blockEntity: BerryBlockEntity, pos: Vec3d): Boolean {
         return super.isInRenderDistance(blockEntity, pos)
                 && MinecraftClient.getInstance().worldRenderer.frustum.isVisible(Box.of(pos, 2.0, 1.5, 2.0))
@@ -42,7 +41,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         for ((berry, growthPoint) in entity.berryAndGrowthPoint()) {
             val model = (if (isFlower) BerryModelRepository.modelOf(berry.flowerModelIdentifier) else BerryModelRepository.modelOf(berry.fruitModelIdentifier)) ?: continue
             val texture = if (isFlower) berry.flowerTexture else berry.fruitTexture
-            val layer = RenderLayer.getEntityCutoutNoCull(texture)
+            val layer = CobblemonRenderLayers.BERRY_LAYER
             model.setAngles(
                 Math.toRadians(180.0 - growthPoint.rotation.x).toFloat(),
                 Math.toRadians(180.0 + growthPoint.rotation.y).toFloat(),

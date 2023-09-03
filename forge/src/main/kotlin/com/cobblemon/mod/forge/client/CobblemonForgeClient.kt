@@ -11,7 +11,7 @@ package com.cobblemon.mod.forge.client
 import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
-import com.cobblemon.mod.common.client.CobblemonBerryAtlas
+import com.cobblemon.mod.common.client.render.CobblemonAtlases
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
@@ -77,7 +77,10 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     }
 
     private fun onRegisterReloadListener(event: RegisterClientReloadListenersEvent) {
-        event.registerReloadListener(CobblemonBerryAtlas(MinecraftClient.getInstance().textureManager))
+        event.re
+        CobblemonAtlases.atlases.forEach {
+            event.registerReloadListener(it)
+        }
         event.registerReloadListener(object : SynchronousResourceReloader {
             override fun reload(resourceManager: ResourceManager) {
                 CobblemonClient.reloadCodedAssets(resourceManager)

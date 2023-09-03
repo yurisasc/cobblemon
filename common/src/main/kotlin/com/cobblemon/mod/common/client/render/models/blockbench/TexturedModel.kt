@@ -21,6 +21,10 @@ class TexturedModel {
     val geometry: List<ModelGeometry>? = null
 
     fun create(isForLivingEntityRenderer: Boolean) : TexturedModelData {
+        return createWithUvOverride(isForLivingEntityRenderer, 0, 0, null, null)
+    }
+
+    fun createWithUvOverride(isForLivingEntityRenderer: Boolean, u: Int, v: Int, textureWidth: Int?, textureHeight: Int?) : TexturedModelData {
         val modelData = ModelData()
         val parts = HashMap<String, ModelPartData>()
         val bones = HashMap<String, ModelBone>()
@@ -94,8 +98,8 @@ class TexturedModel {
 
                         if (cube.uv != null) {
                             subPart.uv(
-                                cube.uv[0],
-                                cube.uv[1]
+                                cube.uv[0] + u,
+                                cube.uv[1] + v
                             )
                         }
                         if (cube.mirror != null && cube.mirror == true) {
@@ -147,7 +151,11 @@ class TexturedModel {
                 }
             }
 
-            return TexturedModelData.of(modelData, geometry.description.textureWidth, geometry.description.textureHeight)
+            return TexturedModelData.of(
+                modelData,
+                textureWidth ?: geometry.description.textureWidth,
+                textureHeight ?: geometry.description.textureHeight
+            )
         } catch (e: Exception) {
             if (geometry != null) {
                 throw IllegalArgumentException("Error creating TexturedModelData with identifier ${geometry[0].description.identifier}", e)

@@ -11,10 +11,12 @@ package com.cobblemon.mod.common.client.render.models.blockbench.repository
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.client.render.CobblemonAtlases
 import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.ModelPart
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
@@ -39,7 +41,15 @@ object BerryModelRepository : JsonDataRegistry<TexturedModel> {
     override fun reload(data: Map<Identifier, TexturedModel>) {
         this.models.clear()
         data.forEach { (identifier, model) ->
-            this.models[identifier] = model.create(isForLivingEntityRenderer = false).createModel()
+            val textureName = identifier.toString().substring(0, identifier.toString().length - "_berry.geo".length)
+            val sprite = CobblemonAtlases.BERRY_SPRITE_ATLAS.getSprite(Identifier.tryParse(textureName))
+            this.models[identifier] = model.createWithUvOverride(
+                false,
+                sprite.x,
+                sprite.y,
+                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.width,
+                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.height
+            ).createModel()
         }
         Cobblemon.LOGGER.info("Loaded {} berry models", this.models.size)
     }
