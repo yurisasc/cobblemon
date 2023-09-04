@@ -27,6 +27,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [
     {
       "variant": "cobblemon:all_biome",

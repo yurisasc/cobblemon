@@ -28,6 +28,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
