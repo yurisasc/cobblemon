@@ -42,6 +42,9 @@ transitive-accessible class net/minecraft/client/render/RenderPhase$WriteMaskSta
 transitive-accessible field net/minecraft/client/render/RenderPhase ALL_MASK Lnet/minecraft/client/render/RenderPhase$WriteMaskState;
 transitive-accessible class net/minecraft/client/render/RenderPhase$Overlay
 transitive-accessible field net/minecraft/client/render/RenderPhase ENABLE_OVERLAY_COLOR Lnet/minecraft/client/render/RenderPhase$Overlay;
+transitive-accessible field net/minecraft/client/render/RenderPhase CUTOUT_PROGRAM Lnet/minecraft/client/render/RenderPhase$ShaderProgram;
+transitive-accessible field net/minecraft/client/render/RenderPhase ENABLE_LIGHTMAP Lnet/minecraft/client/render/RenderPhase$Lightmap;
+transitive-accessible field net/minecraft/client/render/RenderPhase DISABLE_CULLING Lnet/minecraft/client/render/RenderPhase$Cull;
 
 transitive-accessible field  net/minecraft/recipe/BrewingRecipeRegistry ITEM_RECIPES Ljava/util/List;
 transitive-accessible field  net/minecraft/recipe/BrewingRecipeRegistry POTION_RECIPES Ljava/util/List;
@@ -62,16 +65,14 @@ transitive-accessible field net/minecraft/advancement/PlayerAdvancementTracker p
 transitive-accessible field net/minecraft/entity/ai/goal/FollowOwnerGoal minDistance F
 transitive-accessible field net/minecraft/entity/ai/goal/FollowOwnerGoal maxDistance F
 
-accessible field net/minecraft/structure/pool/SinglePoolElement location Lcom/mojang/datafixers/util/Either;
-accessible class net/minecraft/structure/pool/StructurePoolBasedGenerator$StructurePoolGenerator
-accessible class net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece
-accessible field net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece piece Lnet/minecraft/structure/PoolStructurePiece;
-accessible field net/minecraft/client/render/RenderPhase ENTITY_CUTOUT_NONULL_PROGRAM Lnet/minecraft/client/render/RenderPhase$ShaderProgram;
-accessible field net/minecraft/client/render/RenderPhase ENABLE_LIGHTMAP Lnet/minecraft/client/render/RenderPhase$Lightmap;
-accessible method net/minecraft/client/texture/SpriteAtlasHolder getSprite (Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/texture/Sprite;
-accessible field net/minecraft/client/texture/SpriteAtlasHolder atlas Lnet/minecraft/client/texture/SpriteAtlasTexture;
-accessible field net/minecraft/client/texture/SpriteAtlasTexture width I
-accessible field net/minecraft/client/texture/SpriteAtlasTexture height I
+transitive-accessible field net/minecraft/structure/pool/SinglePoolElement location Lcom/mojang/datafixers/util/Either;
+transitive-accessible class net/minecraft/structure/pool/StructurePoolBasedGenerator$StructurePoolGenerator
+transitive-accessible class net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece
+transitive-accessible field net/minecraft/structure/pool/StructurePoolBasedGenerator$ShapedPoolStructurePiece piece Lnet/minecraft/structure/PoolStructurePiece;
+transitive-accessible method net/minecraft/client/texture/SpriteAtlasHolder getSprite (Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/texture/Sprite;
+transitive-accessible field net/minecraft/client/texture/SpriteAtlasHolder atlas Lnet/minecraft/client/texture/SpriteAtlasTexture;
+transitive-accessible field net/minecraft/client/texture/SpriteAtlasTexture width I
+transitive-accessible field net/minecraft/client/texture/SpriteAtlasTexture height I
 #accessible method net/minecraft/client/render/RenderLayer$MultiPhase (Ljava/lang/String;Lnet/minecraft/client/render/VertexFormat;Lnet/minecraft/client/render/VertexFormat$DrawMode;IZZLnet/minecraft/client/render/RenderLayer$MultiPhaseParameters;)Lnet/minecraft/client/render/RenderLayer$MultiPhase;
 
 #String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, MultiPhaseParameters phases
