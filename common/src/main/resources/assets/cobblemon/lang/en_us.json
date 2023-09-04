@@ -891,6 +891,7 @@
   "cobblemon.battle.error.in_battle": "%1$s is already in a battle.",
   "cobblemon.battle.error.in_battle.personal": "You are already in a battle!",
   "cobblemon.battle.error.no_pokemon": "You don't have any usable Pokémon!",
+  "cobblemon.battle.error.no_pokemon_opponent": "Your opponent doesn't have any usable Pokémon!",
   "cobblemon.battle.error.insufficient_pokemon": "%1$s has %2 Pokémon when %3 are required.",
   "cobblemon.battle.error.insufficient_pokemon.personal": "You have %1 usable Pokémon but you need %2.",
   "cobblemon.battle.error.pokemon_is_trapped": "[Unavailable choice] Can't switch: The active Pokémon is trapped",
