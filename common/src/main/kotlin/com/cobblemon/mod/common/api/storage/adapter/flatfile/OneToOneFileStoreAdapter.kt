@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.storage.adapter.flatifle
+package com.cobblemon.mod.common.api.storage.adapter.flatfile
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.storage.PokemonStore

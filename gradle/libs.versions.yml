@@ -130,6 +130,17 @@ dependencies:
     name: jei-1.20.1-forge
     version: { ref: jei-api }
 
+  # datastore
+  mongoDriverCore:
+    group: org.mongodb
+    name: mongodb-driver-core
+    version: 4.10.2
+
+  mongoDriverSync:
+    group: org.mongodb
+    name: mongodb-driver-sync
+    version: 4.10.2
+
   # test
   junitEngine:
     group: org.junit.jupiter

@@ -59,6 +59,11 @@ class CobblemonConfig {
     @NodeCategory(Category.Storage)
     var preventCompletePartyDeposit = false
 
+    @NodeCategory(Category.Storage)
+    var mongoDBConnectionString = "mongodb://localhost:27017"
+    @NodeCategory(Category.Storage)
+    var mongoDBDatabaseName = "cobblemon"
+
     // TODO new types of constraint
 
     @NodeCategory(Category.Spawning)
