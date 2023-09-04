@@ -35,11 +35,11 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.1, 0.85, 0.0)
+    override val portraitScale = 1.2F
+    override val portraitTranslation = Vec3d(-0.2, 2.6, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override val profileScale = 0.41F
+    override val profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

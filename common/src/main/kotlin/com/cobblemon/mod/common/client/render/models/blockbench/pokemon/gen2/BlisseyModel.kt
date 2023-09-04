@@ -23,16 +23,16 @@ import net.minecraft.util.math.Vec3d
 class BlisseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("blissey")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.3, -0.17, 0.0)
+    override val portraitScale = 1.5F
+    override val portraitTranslation = Vec3d(-0.6, 0.9, 0.0)
 
     override val leftLeg = getPart("left_foot")
     override val rightLeg = getPart("right_foot")
     override val leftArm = getPart("left_arm")
     override val rightArm = getPart("right_arm")
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.2, 0.0)
+    override val profileScale = 0.7F
+    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

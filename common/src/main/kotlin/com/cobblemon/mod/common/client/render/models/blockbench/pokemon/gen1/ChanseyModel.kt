@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -28,7 +27,7 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val portraitTranslation = Vec3d(-0.35, 0.3, 0.0)
 
     override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.45, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
