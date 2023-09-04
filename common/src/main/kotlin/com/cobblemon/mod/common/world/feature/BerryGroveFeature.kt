@@ -42,7 +42,6 @@ class BerryGroveFeature : Feature<DefaultFeatureConfig>(DefaultFeatureConfig.COD
         if (validTrees.isEmpty()) return false
         val pickedTree = validTrees.weightedSelection { it.berry()!!.weight }!!
         val berry = pickedTree.berry()!!
-        println("Spawning ${berry.identifier}")
         val numTreesToGen = pickedTree.berry()?.spawnConditions?.sumOf { cond ->
             (cond.getGroveSize(random).takeIf { cond.canSpawn(berry, biome) } ) ?: 0
         } ?: 0
