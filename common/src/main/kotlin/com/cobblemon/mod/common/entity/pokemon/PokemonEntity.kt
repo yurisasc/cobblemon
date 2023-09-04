@@ -55,11 +55,7 @@ import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.math.round
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import net.minecraft.block.BlockState
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
@@ -102,8 +98,14 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
+import net.minecraft.world.GameRules
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.util.*
+import java.util.concurrent.CompletableFuture
+import kotlin.math.round
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 @Suppress("unused")
 class PokemonEntity(
@@ -773,6 +775,16 @@ class PokemonEntity(
         if (pokemon.isWild()) {
             super.drop(source)
             delegate.drop(source)
+        }
+    }
+
+    override fun dropXp() {
+        // Copied over the entire function because it's the simplest way to switch out the gamerule check
+        if (
+            world is ServerWorld && !this.isExperienceDroppingDisabled &&
+            (shouldAlwaysDropXp() || playerHitTimer > 0 && shouldDropXp() && world.gameRules.getBoolean(CobblemonGameRules.DO_POKEMON_LOOT))
+        ) {
+            ExperienceOrbEntity.spawn(world as ServerWorld, pos, this.xpToDrop)
         }
     }
 
