@@ -66,6 +66,8 @@
 - Granbull
 - Phanpy
 - Donphan
+- Teddiursa
+- Ursaring
 
 #### Gen 3
 
@@ -246,7 +248,7 @@
 - Clodsire
 
 ### Changes
-- Updated model and textures of Spiritomb, Koffing, Weezing, Oshawott, Doduo, Dodrio, Dratini, Dragonair, Dragonite, Sneasel, Weavile, Gyarados, Hitmonlee, Hitmonchan, Chesnaught, Spinda, Mamoswine, Steelix, Midreavus, Mismagius, Buneary, Lopunny, Golduck, Meowth, Persian, Fennekin, Braixen, Delphox, Snivy, Servine, Serperior, Ratatta, Raticate, Nidorina, Nidoqueen, NidoranM, Nidoking, Riolu, Lucario, Haunter, Mankey, Primeape, Mew, Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper, Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgey, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey and Blissey.
+- Updated model and textures of Spiritomb, Koffing, Weezing, Kadabra, Alakazam, Emolga, Oshawott, Doduo, Dodrio, Dratini, Dragonair, Dragonite, Sneasel, Weavile, Gyarados, Hitmonlee, Hitmonchan, Chesnaught, Spinda, Mamoswine, Steelix, Midreavus, Mismagius, Buneary, Lopunny, Golduck, Meowth, Persian, Fennekin, Braixen, Delphox, Snivy, Servine, Serperior, Ratatta, Raticate, Nidorina, Nidoqueen, NidoranM, Nidoking, Riolu, Lucario, Haunter, Mankey, Primeape, Mew, Mewtwo, Arcanine, Magnemite, Magneton, Magnezone, Exeggcute, Exeggutor, Elekid, Electabuzz, Electivire, Pichu, Pikachu, Raichu, Gengar, Wooper, Drowzee, Hypno, Aerodactyl, Spearow, Fearow, Lickitung, Pidgey, Pidgeotto, Pidgeot, Scyther, Scizor, Kleavor, Popplio, Brionne, Primarina, Torchic, Combusken, Blaziken, Aerodacyl, Scyther, Scizor, Kleavor, Lickitung, Lickilicky, Happiny, Chansey and Blissey.
 - Updated animations for Steelix, Turtwig, Grotle, Torterra, Ponyta, Rapidash, Piplup, Prinplup, Empoleon, Drowzee, Hypno, Farfetch'd, Exeggcute, Exeggutor, Bidoof, Chimecho, Lickytung, Lickilicky, Popplio, Brionne, Luvdisc, Chimchar, Monferno, Infernape, Sobble, Drizzile, Inteleon, Greninja, Heatmor, Aerodactyl, Ditto, Lotad, Lombre, Ludicolo, Pumpkaboo, Gourgeist.
 - Updated sprites for EV medicines, the rare candy, and the apricorn door item.
 - Updated textures for apricorn doors and all the evolution stone ores.
@@ -272,6 +274,7 @@
 - Friendship will slowly increase when Pokémon are shoulder-mounted.
 - Master balls are now unable to be burned when dropped into fire/lava.
 - Pokémon will appear red when hurt, like regular entities, except when they're fainting.
+- Ponyta and Rapidash now have animated textures.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong

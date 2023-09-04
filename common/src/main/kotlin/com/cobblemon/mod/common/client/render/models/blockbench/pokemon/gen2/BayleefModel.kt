@@ -20,14 +20,9 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BayleefModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
+class BayleefModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("bayleef")
     override val head = getPart("head")
-
-    override val foreLeftLeg = getPart("leg_front_left")
-    override val foreRightLeg = getPart("leg_front_right")
-    override val hindLeftLeg = getPart("leg_back_left")
-    override val hindRightLeg = getPart("leg_back_right")
 
     override val portraitScale = 1.8F
     override val portraitTranslation = Vec3d(-0.5, 0.7, 0.0)
@@ -35,24 +30,25 @@ class BayleefModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val profileScale = 0.71F
     override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
-    //    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var walking: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bayleef", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bayleef", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-//        sleep = registerPose(
-//            poseType = PoseType.SLEEP,
-//            idleAnimations = arrayOf(bedrock("bayleef", "sleep"))
-//        )
-
         val blink = quirk("blink") { bedrockStateful("bayleef", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("bayleef", "sleep"))
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -60,21 +56,31 @@ class BayleefModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             )
         )
 
-        walk = registerPose(
-            poseName = "walk",
+        walking = registerPose(
+            poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
-            transformTicks = 5,
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("bayleef", "ground_idle"),
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 1F)
+                bedrock("bayleef", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("bayleef", "battle_idle")
             )
         )
     }
-
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("bayleef", "faint") else null
+//    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("bayleef", "faint") else null
 }

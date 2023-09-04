@@ -8,17 +8,19 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TrevenantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class TrevenantModel  (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("trevenant")
-    override val head = getPart("head")
 
     override val portraitScale = 1.6F
     override val portraitTranslation = Vec3d(-0.2, 1.8, 0.0)
@@ -28,42 +30,52 @@ class TrevenantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
-//    lateinit var sleep: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("trevenant", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("trevenant", "blink").setPreventsIdle(false) }
-//        sleep = registerPose(
-//            poseName = "sleeping",
-//            poseType = PoseType.SLEEP,
-//            idleAnimations = arrayOf(
-//                bedrock("trevenant", "sleep")
-//            )
-//        )
-
+        val blink = quirk("blink") { bedrockStateful("trevenant", "blink").setPreventsIdle(false)}
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("trevenant", "sleep"))
+        )
         standing = registerPose(
-            poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseName = "stand",
+            poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
+            condition = { !it.isBattling },
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("trevenant", "ground_idle")
             )
         )
-
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
+            transformTicks = 5,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("trevenant", "ground_idle"),
                 bedrock("trevenant", "ground_walk")
+            )
+        )
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("trevenant", "battle_idle")
             )
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("trevenant", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("trevenant", "faint") else
+        if (state.isPosedIn(battleidle)) bedrockStateful("trevenant", "battle_faint")
+        else null
 }

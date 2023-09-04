@@ -91,20 +91,5 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 bedrock("delphox", "battle_idle")
             )
         )
-
-        battlewalk = registerPose(
-            poseName = "battle_walk",
-            poseTypes = MOVING_POSES,
-            transformTicks = 10,
-            transformedParts = arrayOf(
-                stick.asTransformed().withVisibility(visibility = true)
-            ),
-            quirks = arrayOf(blink),
-            condition = { it.isBattling },
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("delphox", "battle_walk")
-            )
-        )
     }
 }

@@ -30,24 +30,25 @@ class ChikoritaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.71F
     override val profileTranslation = Vec3d(0.0, 0.67, 0.0)
 
-    //    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var walking: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chikorita", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chikorita", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-//        sleep = registerPose(
-//            poseType = PoseType.SLEEP,
-//            idleAnimations = arrayOf(bedrock("chikorita", "sleep"))
-//        )
-
         val blink = quirk("blink") { bedrockStateful("chikorita", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("chikorita", "sleep"))
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -55,20 +56,31 @@ class ChikoritaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
 
-        walk = registerPose(
-            poseName = "walk",
+        walking = registerPose(
+            poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
-            transformTicks = 5,
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("chikorita", "ground_walk")
             )
         )
-    }
 
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("chikorita", "battle_idle")
+            )
+        )
+    }
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("chikorita", "faint") else null
+//    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("chikorita", "faint") else null
 }

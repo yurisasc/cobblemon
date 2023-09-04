@@ -68,7 +68,7 @@
 					"rotation": [0, 0, 0]
 				},
 				"crown": {
-					"rotation": [-5, 0, 0]
+					"rotation": [2.5, 0, 0]
 				},
 				"torso": {
 					"rotation": ["-0.3453+2*math.sin(q.anim_time*90*1)", "-14.783+1*math.sin(q.anim_time*90*1)", 2.14071],
@@ -201,7 +201,7 @@
 					"rotation": [0, 0, 0]
 				},
 				"crown": {
-					"rotation": [-5, 0, 0]
+					"rotation": [2.5, 0, 0]
 				},
 				"torso": {
 					"rotation": ["-2*math.sin(q.anim_time*90*6+50)", "10*math.sin(q.anim_time*90*3)", "-2*math.cos(q.anim_time*90*3+90)"],

@@ -5,6 +5,15 @@
 			"loop": true,
 			"bones": {
 				"body": {
+					"rotation": [10, 0, 0],
+					"position": [0, 3, 0]
+				}
+			}
+		},
+		"animation.koffing.air_idle": {
+			"loop": true,
+			"bones": {
+				"body": {
 					"rotation": [
 						"math.sin(q.anim_time*90*5)*1+math.sin(q.anim_time*90*3)*2",
 						"math.sin(q.anim_time*90*1)*2",
@@ -14,7 +23,7 @@
 				}
 			}
 		},
-		"animation.koffing.ground_walk": {
+		"animation.koffing.air_fly": {
 			"loop": true,
 			"bones": {
 				"body": {
@@ -30,14 +39,14 @@
 		"animation.koffing.blink": {
 			"animation_length": 0.16667,
 			"bones": {
-				"eyelid_right": {
+				"eyelid_left": {
 					"position": {
 						"0.0": [0, 0, -0.1],
 						"0.125": [0, 0, -0.1],
 						"0.1667": [0, 0, 0]
 					}
 				},
-				"eyelid_left": {
+				"eyelid_right": {
 					"position": {
 						"0.0": [0, 0, -0.1],
 						"0.125": [0, 0, -0.1],

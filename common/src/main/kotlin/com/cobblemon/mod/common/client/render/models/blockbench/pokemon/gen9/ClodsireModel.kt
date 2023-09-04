@@ -44,7 +44,7 @@ class ClodsireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(disableY = true),
                 bedrock("clodsire", "ground_idle")
             )
         )
@@ -54,7 +54,7 @@ class ClodsireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(disableY = true),
                 bedrock("clodsire", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
                 BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)

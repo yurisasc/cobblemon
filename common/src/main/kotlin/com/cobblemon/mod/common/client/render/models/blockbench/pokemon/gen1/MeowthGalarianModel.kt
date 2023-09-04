@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
@@ -19,17 +20,17 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class MeowthGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("meowth_galarian")
     override val head = getPart("head")
-
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
-    override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
+    override val leftArm = getPart("arm_left")
+    override val rightLeg = getPart("leg_right")
+    override val leftLeg = getPart("leg_left")
 
     override val portraitScale = 1.6F
     override val portraitTranslation = Vec3d(0.05, -0.1, 0.0)
@@ -37,43 +38,55 @@ class MeowthGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.54, 0.0)
 
-    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var walking: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("meowth_galarian", "blink").setPreventsIdle(false) }
-        standing = registerPose(
-            poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("meowth_galarian", "ground_idle")
-            )
-        )
-
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("meowth_galarian", "sleep"))
         )
 
-        walk = registerPose(
-            poseName = "walk",
-            poseTypes = MOVING_POSES,
+        standing = registerPose(
+            poseName = "standing",
+            poseTypes = STATIONARY_POSES + UI_POSES,
+            transformTicks = 10,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                BipedWalkAnimation(this, periodMultiplier = .7F),
-                BimanualSwingAnimation(this),
                 bedrock("meowth_galarian", "ground_idle")
-                //bedrock("meowth_galarian", "ground_walk")
+            )
+        )
+
+        walking = registerPose(
+            poseName = "walking",
+            poseTypes = MOVING_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("meowth_galarian", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("meowth_galarian", "battle_idle")
             )
         )
     }
-
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("meowth_galarian", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("meowth_galarian", "faint") else null
 }

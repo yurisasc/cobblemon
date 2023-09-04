@@ -42,8 +42,8 @@ class ShinxModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
 //            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook()
-//                bedrock("shinx", "idle")
+                singleBoneLook(),
+                bedrock("shinx", "ground_idle")
             )
         )
 
@@ -53,8 +53,8 @@ class ShinxModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
 //            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
-                singleBoneLook()
-//                bedrock("shinx", "idle")
+                singleBoneLook(),
+                bedrock("shinx", "ground_idle")
             )
         )
     }

@@ -30,25 +30,62 @@ class BeldumModel (root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var fly: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("beldum", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("beldum", "blink").setPreventsIdle(false)}
+        val quirk = quirk("quirk") { bedrockStateful("beldum", "quirk_spin").setPreventsIdle(false)}
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("beldum", "sleep"))
+        )
         standing = registerPose(
-            poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
+            poseName = "stand",
+            poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
+            condition = { !it.isBattling },
+            transformTicks = 10,
+            quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
                 bedrock("beldum", "ground_idle")
             )
         )
-
-        walk = registerPose(
-            poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+        hover = registerPose(
+            poseName = "hover",
+            poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("beldum", "ground_idle")
-                //bedrock("beldum", "ground_walk")
+                bedrock("beldum", "air_idle")
+            )
+        )
+        fly = registerPose(
+            poseName = "fly",
+            poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("beldum", "air_fly")
+            )
+        )
+        walk = registerPose(
+            poseName = "walk",
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
+            transformTicks = 5,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("beldum", "ground_walk")
+            )
+        )
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, quirk),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("beldum", "battle_idle")
             )
         )
     }

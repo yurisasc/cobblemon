@@ -25,25 +25,61 @@ class MetagrossModel (root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var fly: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("metagross", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("metagross", "blink").setPreventsIdle(false)}
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("metagross", "sleep"))
+        )
         standing = registerPose(
-            poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseName = "stand",
+            poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
+            condition = { !it.isBattling },
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("metagross", "ground_idle")
             )
         )
-
-        walk = registerPose(
-            poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+        hover = registerPose(
+            poseName = "hover",
+            poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("metagross", "ground_idle")
-                //bedrock("metagross", "ground_walk")
+                bedrock("metagross", "air_idle")
+            )
+        )
+        fly = registerPose(
+            poseName = "fly",
+            poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("metagross", "air_fly")
+            )
+        )
+        walk = registerPose(
+            poseName = "walk",
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
+            transformTicks = 5,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("metagross", "ground_walk")
+            )
+        )
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("metagross", "battle_idle")
             )
         )
     }

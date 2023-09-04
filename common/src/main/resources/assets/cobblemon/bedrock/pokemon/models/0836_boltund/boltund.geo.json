@@ -18,12 +18,12 @@
 				{
 					"name": "body",
 					"parent": "boltund",
-					"pivot": [2.5, 0, 0]
+					"pivot": [0, 14, 0]
 				},
 				{
 					"name": "torso",
 					"parent": "body",
-					"pivot": [2.5, 14, 5.5],
+					"pivot": [0, 14, 5.5],
 					"cubes": [
 						{"origin": [-3, 11.25, -2], "size": [6, 5, 10], "uv": [0, 0]}
 					]
@@ -31,7 +31,7 @@
 				{
 					"name": "chest",
 					"parent": "torso",
-					"pivot": [2.5, 14, -1],
+					"pivot": [0, 14, -1],
 					"cubes": [
 						{"origin": [-3.5, 10, -8], "size": [7, 7, 7], "uv": [0, 15]},
 						{"origin": [0, 14.75, -9.5], "size": [0, 2, 2], "uv": [0, 17]}
@@ -48,7 +48,7 @@
 				{
 					"name": "leg_front_left2",
 					"parent": "leg_front_left",
-					"pivot": [3, 9, -4.5],
+					"pivot": [3, 9, -3.5],
 					"cubes": [
 						{"origin": [2, 1, -5.5], "size": [2, 8, 2], "uv": [34, 45]}
 					]

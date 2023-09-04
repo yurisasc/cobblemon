@@ -547,6 +547,16 @@
       ]
     },
     {
+      "aspects": ["face-spots-11", "shiny"],
+      "layers": [
+        {
+          "name": "facespots",
+          "texture": "cobblemon:textures/pokemon/0327_spinda/spots_shiny/spinda_spot11.png",
+          "emissive": false
+        }
+      ]
+    },
+    {
       "aspects": ["face-spots2-none", "shiny"],
       "layers": [
         {
@@ -652,6 +662,16 @@
         {
           "name": "facespots2",
           "texture": "cobblemon:textures/pokemon/0327_spinda/spots_shiny/spinda_spot20.png",
+          "emissive": false
+        }
+      ]
+    },
+    {
+      "aspects": ["face-spots2-11", "shiny"],
+      "layers": [
+        {
+          "name": "facespots2",
+          "texture": "cobblemon:textures/pokemon/0327_spinda/spots_shiny/spinda_spot22.png",
           "emissive": false
         }
       ]

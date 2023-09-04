@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
@@ -16,55 +17,81 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class QuaxwellModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class QuaxwellModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("quaxwell")
     override val head = getPart("head")
 
-    override val leftArm = getPart("arm_left")
-    override val rightArm = getPart("arm_right")
-    override val leftLeg = getPart("hip_left")
-    override val rightLeg = getPart("hip_right")
+    override val portraitScale = 1.8F
+    override val portraitTranslation = Vec3d(-0.2, 1.8, 0.0)
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.3, 1.2, 0.0)
-
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.79, 0.0)
+    override val profileScale = 0.5F
+    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var walking: PokemonPose
+    lateinit var floating: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("quaxwell", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("quaxwell", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
+            transformTicks = 10,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("quaxwell", "idle")
+                bedrock("quaxwell", "ground_idle")
             )
         )
 
-        walk = registerPose(
-            poseName = "walk",
+        walking = registerPose(
+            poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("quaxwell", "idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
-                //bedrock("quaxwell", "walk")
+                bedrock("quaxwell", "ground_walk")
+            )
+        )
+
+        floating = registerPose(
+            poseName = "floating",
+            transformTicks = 10,
+            poseTypes = PoseType.SWIMMING_POSES,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("quaxwell", "water_idle")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("quaxwell", "battle_idle")
             )
         )
     }
-
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("quaxwell", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("quaxwell", "faint") else null
 }

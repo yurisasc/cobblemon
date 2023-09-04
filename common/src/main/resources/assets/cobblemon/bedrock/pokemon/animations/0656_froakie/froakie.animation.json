@@ -6,7 +6,7 @@
 			"bones": {
 				"arm_left": {
 					"rotation": [62.63351, "69.9361+Math.cos((query.anim_time-0.3) * 90 * 2) * 3", 54.27769],
-					"position": [0, "Math.cos((query.anim_time-0.1) * 90 * 2) * 0.1", 0]
+					"position": [0, "Math.cos((query.anim_time-0.1) * 90 * 2) * 0.1", "-1+Math.sin((query.anim_time-0.1) * 90 * 2) * 0.1"]
 				},
 				"arm_left2": {
 					"rotation": [0, 10, 0]
@@ -53,7 +53,7 @@
 				},
 				"arm_right": {
 					"rotation": [62.63351, "-69.9361+Math.cos((query.anim_time-0.3) * 90 * 2) * -3", -54.27769],
-					"position": [0, "Math.cos((query.anim_time-0.1) * 90 * 2) * 0.1", 0]
+					"position": [0, "Math.cos((query.anim_time-0.1) * 90 * 2) * 0.1", "-1+Math.sin((query.anim_time-0.1) * 90 * 2) * 0.1"]
 				},
 				"arm_right2": {
 					"rotation": [0, -10, 0]
@@ -1037,7 +1037,6 @@
 			}
 		},
 		"animation.froakie.cry": {
-			"loop": true,
 			"animation_length": 1.16667,
 			"bones": {
 				"head": {

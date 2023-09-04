@@ -6,7 +6,7 @@
 				"identifier": "geometry.quaxwell",
 				"texture_width": 128,
 				"texture_height": 64,
-				"visible_bounds_width": 4,
+				"visible_bounds_width": 3,
 				"visible_bounds_height": 3.5,
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
@@ -302,8 +302,13 @@
 					]
 				},
 				{
-					"name": "arm_right",
+					"name": "arm_right_rot",
 					"parent": "chest",
+					"pivot": [-2.5, 20.85, -0.85]
+				},
+				{
+					"name": "arm_right",
+					"parent": "arm_right_rot",
 					"pivot": [-2.5, 20.85, -0.85],
 					"cubes": [
 						{"origin": [-7.5, 19.35, -2.35], "size": [5, 2, 3], "uv": [53, 33]}
@@ -350,8 +355,13 @@
 					]
 				},
 				{
-					"name": "arm_left",
+					"name": "arm_left_rot",
 					"parent": "chest",
+					"pivot": [2.5, 20.85, -0.85]
+				},
+				{
+					"name": "arm_left",
+					"parent": "arm_left_rot",
 					"pivot": [2.5, 20.85, -0.85],
 					"cubes": [
 						{"origin": [2.5, 19.35, -2.35], "size": [5, 2, 3], "uv": [51, 49]}
@@ -467,8 +477,13 @@
 					]
 				},
 				{
-					"name": "toe_right",
+					"name": "toes_right",
 					"parent": "foot_right",
+					"pivot": [-2.9, 2, -3.5]
+				},
+				{
+					"name": "toe_right",
+					"parent": "toes_right",
 					"pivot": [-1.25, 2, -3.5],
 					"rotation": [0, -30, 0],
 					"cubes": [
@@ -477,7 +492,7 @@
 				},
 				{
 					"name": "toe_right2",
-					"parent": "foot_right",
+					"parent": "toes_right",
 					"pivot": [-2.9, 2, -3.5],
 					"cubes": [
 						{"origin": [-2.9, 0, -5.5], "size": [0, 2, 2], "uv": [0, 21]}
@@ -485,7 +500,7 @@
 				},
 				{
 					"name": "toe_right3",
-					"parent": "foot_right",
+					"parent": "toes_right",
 					"pivot": [-4.55, 2, -3.5],
 					"rotation": [0, 30, 0],
 					"cubes": [
@@ -518,8 +533,13 @@
 					]
 				},
 				{
-					"name": "toe_left",
+					"name": "toes_left",
 					"parent": "foot_left",
+					"pivot": [2.9, 2, -3.5]
+				},
+				{
+					"name": "toe_left",
+					"parent": "toes_left",
 					"pivot": [1.25, 2, -3.5],
 					"rotation": [0, 30, 0],
 					"cubes": [
@@ -528,7 +548,7 @@
 				},
 				{
 					"name": "toe_left2",
-					"parent": "foot_left",
+					"parent": "toes_left",
 					"pivot": [2.9, 2, -3.5],
 					"cubes": [
 						{"origin": [2.9, 0, -5.5], "size": [0, 2, 2], "uv": [0, 32]}
@@ -536,7 +556,7 @@
 				},
 				{
 					"name": "toe_left3",
-					"parent": "foot_left",
+					"parent": "toes_left",
 					"pivot": [4.55, 2, -3.5],
 					"rotation": [0, -30, 0],
 					"cubes": [

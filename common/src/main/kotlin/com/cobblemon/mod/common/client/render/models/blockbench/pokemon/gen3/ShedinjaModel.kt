@@ -20,10 +20,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ShedinjaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class ShedinjaModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("shedinja")
-
-    override val head = getPart("head")
 
     override val portraitScale = 2.0F
     override val portraitTranslation = Vec3d(-0.2, -0.3, 0.0)
@@ -55,7 +53,6 @@ class ShedinjaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("shedinja", "ground_idle")
             )
         )
@@ -66,7 +63,6 @@ class ShedinjaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("shedinja", "air_idle")
             )
         )
@@ -77,7 +73,6 @@ class ShedinjaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("shedinja", "air_fly")
             )
         )
@@ -88,7 +83,6 @@ class ShedinjaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("shedinja", "ground_walk")
             )
         )

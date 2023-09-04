@@ -35,7 +35,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var shoulderLeft: PokemonPose
     lateinit var shoulderRight: PokemonPose
 
-    val shoulderOffsetX = 2.0
+    val shoulderOffsetX = 0
     val shoulderOffsetY = 0
     val shoulderOffsetZ = -0.5
 

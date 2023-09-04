@@ -11,17 +11,16 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("diggersby")
     override val head = getPart("head")
-    override val leftLeg = getPart("left_leg")
-    override val rightLeg = getPart("right_leg")
 
     override val portraitScale = 1.8F
     override val portraitTranslation = Vec3d(-0.15, 1.5, 0.0)
@@ -30,31 +29,62 @@ class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var walking: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+    lateinit var portrait: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("diggersby", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
+        val sleep1 = quirk("sleep1", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("diggersby", "quirk_sleep").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            quirks = arrayOf(sleep1),
+            idleAnimations = arrayOf(bedrock("diggersby", "sleep"))
+        )
+
+        portrait = registerPose(
+            poseName = "portrait",
+            poseTypes = PoseType.UI_POSES,
+            idleAnimations = arrayOf(bedrock("diggersby", "portrait"))
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("diggersby", "test")
+                bedrock("diggersby", "ground_idle")
             )
         )
 
-        walk = registerPose(
-            poseName = "walk",
+        walking = registerPose(
+            poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
+            transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("diggersby", "test"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
+                bedrock("diggersby", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("diggersby", "battle_idle")
             )
         )
     }
-
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("diggersby", "faint") else null
+//    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("diggersby", "faint") else null
 }
