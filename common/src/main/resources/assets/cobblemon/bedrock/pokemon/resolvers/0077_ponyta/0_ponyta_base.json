@@ -9,7 +9,7 @@
       "texture": "cobblemon:textures/pokemon/0077_ponyta/ponyta.png",
       "layers": [
         {
-          "name": "flame",
+          "name": "emissive",
           "texture": {
             "frames": [
               "cobblemon:textures/pokemon/0077_ponyta/fire/normal/1.png",
@@ -31,7 +31,7 @@
       "texture": "cobblemon:textures/pokemon/0077_ponyta/ponyta_shiny.png",
       "layers": [
         {
-          "name": "flame",
+          "name": "emissive",
           "texture": {
             "frames": [
               "cobblemon:textures/pokemon/0077_ponyta/fire/shiny/1.png",

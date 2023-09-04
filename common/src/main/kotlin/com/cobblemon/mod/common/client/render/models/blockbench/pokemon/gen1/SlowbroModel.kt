@@ -85,7 +85,7 @@ class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, blink2, bite),
-            condition = { it.isBattling && it.isTouchingWater},
+            condition = { it.isBattling && !it.isSubmergedInWater},
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowbro", "battle_idle")

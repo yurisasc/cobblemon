@@ -165,6 +165,9 @@
 - Diggersby
 - Phantump
 - Trevenant
+- Fletchling
+- Fletchinder
+- Talonflame
 
 #### Gen 7
 

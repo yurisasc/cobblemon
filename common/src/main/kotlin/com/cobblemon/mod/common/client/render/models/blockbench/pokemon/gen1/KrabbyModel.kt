@@ -61,7 +61,7 @@ class KrabbyModel(root: ModelPart) : PokemonPoseableModel() {
             quirks = arrayOf(blink, snipLeft, snipRight),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                bedrock("slowking", "battle_idle")
+                bedrock("krabby", "battle_idle")
             )
         )
     }

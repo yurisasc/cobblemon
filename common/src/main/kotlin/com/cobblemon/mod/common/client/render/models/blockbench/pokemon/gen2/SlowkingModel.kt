@@ -41,12 +41,11 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("slowking", "blink").setPreventsIdle(false) }
         val blink2 = quirk("blink2") { bedrockStateful("slowking", "blink2").setPreventsIdle(false) }
-        val bite = quirk("bite", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("slowking", "bite_quirk").setPreventsIdle(false) }
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
-            quirks = arrayOf(blink, blink2, bite),
+            quirks = arrayOf(blink, blink2),
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -57,7 +56,7 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
-            quirks = arrayOf(blink, blink2, bite),
+            quirks = arrayOf(blink, blink2),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowking", "ground_walk")
@@ -67,7 +66,7 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         float = registerPose(
             poseName = "float",
             poseType = PoseType.FLOAT,
-            quirks = arrayOf(blink, blink2, bite),
+            quirks = arrayOf(blink, blink2),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowking", "water_idle")
@@ -77,7 +76,7 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         swim = registerPose(
             poseName = "swim",
             poseType = PoseType.SWIM,
-            quirks = arrayOf(blink, blink2, bite),
+            quirks = arrayOf(blink, blink2),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowking", "water_swim")
@@ -88,7 +87,7 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink, blink2, bite),
+            quirks = arrayOf(blink, blink2),
             condition = { it.isBattling && it.isTouchingWater},
             idleAnimations = arrayOf(
                 singleBoneLook(),
