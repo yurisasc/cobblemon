@@ -27,6 +27,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [
     {
       "variant": "cobblemon:preferred_biome",
@@ -160,6 +161,7 @@
     "SWEET": 10,
     "BITTER": 10
   },
+  "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:nanab_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/nanab.png",

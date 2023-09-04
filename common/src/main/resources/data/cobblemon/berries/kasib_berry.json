@@ -29,6 +29,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
@@ -120,6 +121,7 @@
     "DRY": 10,
     "SWEET": 20
   },
+  "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:kasib_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/kasib.png",

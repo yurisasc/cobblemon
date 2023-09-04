@@ -26,6 +26,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [
     {
       "variant": "cobblemon:preferred_biome",
@@ -159,6 +160,7 @@
     "SPICY": 10,
     "DRY": 10
   },
+  "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:razz_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/razz.png",

@@ -27,6 +27,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
@@ -103,6 +104,7 @@
     "SPICY": 10,
     "SOUR": 40
   },
+  "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:rowap_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/rowap.png",

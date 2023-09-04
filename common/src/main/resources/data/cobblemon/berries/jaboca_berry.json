@@ -26,6 +26,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
@@ -102,6 +103,7 @@
     "BITTER": 40,
     "SOUR": 10
   },
+  "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:jaboca_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/jaboca.png",

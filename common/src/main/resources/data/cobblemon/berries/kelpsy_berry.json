@@ -27,6 +27,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
@@ -95,6 +96,7 @@
     "BITTER": 10,
     "SOUR": 10
   },
+  "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:kelpsy_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/kelpsy.png",

@@ -26,6 +26,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
@@ -102,6 +103,7 @@
     "SWEET": 40,
     "BITTER": 10
   },
+  "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:custap_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/custap.png",

@@ -26,6 +26,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [
     {
       "variant": "cobblemon:preferred_biome",
@@ -158,6 +159,7 @@
   "flavors": {
     "SPICY": 10
   },
+  "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:cheri_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/cheri.png",

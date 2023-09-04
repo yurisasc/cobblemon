@@ -26,6 +26,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
@@ -128,6 +129,7 @@
   "flavors": {
     "DRY": 15
   },
+  "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:wiki_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/wiki.png",
