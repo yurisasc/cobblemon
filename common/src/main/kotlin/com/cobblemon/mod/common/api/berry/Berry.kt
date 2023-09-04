@@ -86,7 +86,8 @@ class Berry(
     val flowerTexture: Identifier,
     @SerializedName("fruitModel")
     val fruitModelIdentifier: Identifier,
-    val fruitTexture: Identifier
+    val fruitTexture: Identifier,
+    val weight: Float
 ) {
 
     @Transient
@@ -340,7 +341,7 @@ class Berry(
             val flowerTexture = buffer.readIdentifier()
             val fruitModelIdentifier = buffer.readIdentifier()
             val fruitTexture = buffer.readIdentifier()
-            return Berry(identifier, baseYield, emptyList(), growthTime, refreshRate, favMulchs, emptySet(), emptyList(), growthPoints, randomizedGrowthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
+            return Berry(identifier, baseYield, emptyList(), growthTime, refreshRate, favMulchs, emptySet(), emptyList(), growthPoints, randomizedGrowthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture, 0F)
         }
 
     }

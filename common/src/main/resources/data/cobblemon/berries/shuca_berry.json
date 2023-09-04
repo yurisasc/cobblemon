@@ -118,6 +118,7 @@
     "SPICY": 10,
     "SWEET": 15
   },
+  "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:shuca_flower.geo",
   "flowerTexture": "cobblemon:textures/berries/shuca.png",
