@@ -77,7 +77,6 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     }
 
     private fun onRegisterReloadListener(event: RegisterClientReloadListenersEvent) {
-        event.re
         CobblemonAtlases.atlases.forEach {
             event.registerReloadListener(it)
         }
