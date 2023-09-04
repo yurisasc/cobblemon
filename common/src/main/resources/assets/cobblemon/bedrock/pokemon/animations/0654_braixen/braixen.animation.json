@@ -316,7 +316,7 @@
 			},
 			"sound_effects": {
 				"0.0": {
-					"effect": "0654_braxien_cry"
+					"effect": "pokemon.braixen.cry"
 				}
 			}
 		}

@@ -328,7 +328,7 @@
 			},
 			"sound_effects": {
 				"0.0": {
-					"effect": "pokemon.cry.empoleon"
+					"effect": "pokemon.empoleon.cry"
 				}
 			}
 		},
