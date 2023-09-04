@@ -40,6 +40,8 @@ import net.minecraft.world.event.GameEvent
 class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.BERRY, pos, state) {
     lateinit var berryIdentifier: Identifier
     private val ticksPerMinute = 1200
+    //Whether cached vertex buffers should be rerendered
+    var shouldRerender = false
     //The time left for the tree to grow to stage 5
     var growthTimer: Int = 72000
         set(value) {
@@ -54,9 +56,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     //The time left for the tree to grow to the next stage
     var stageTimer: Int = growthTimer / BerryBlock.MATURE_AGE
         set(value) {
-            if (value < 0) {
-                throw IllegalArgumentException("You cannot set the stage growth time to less than zero")
-            }
             if (field != value) {
                 this.markDirty()
             }
@@ -195,6 +194,9 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         }
         this.mulchDuration = nbt.getInt(MULCH_DURATION)
         this.wasLoading = false
+        //Hack so tree is rerendered every time entity data is synced from server to client
+        //What we really want is a rerender when the age changes but this will have to do
+        shouldRerender = true
     }
 
     override fun writeNbt(nbt: NbtCompound) {
@@ -265,7 +267,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     companion object {
         internal val TICKER = BlockEntityTicker<BerryBlockEntity> { world, pos, state, blockEntity ->
             if (world.isClient) return@BlockEntityTicker
-            if (blockEntity.stageTimer > 0) {
+            if (blockEntity.stageTimer >= 0) {
                 blockEntity.stageTimer--
             }
             if (blockEntity.stageTimer == 0) {

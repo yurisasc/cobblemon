@@ -52,6 +52,10 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         if (age <= BerryBlock.MATURE_AGE) {
             return
         }
+        if (entity.shouldRerender) {
+            vertexBufferCache.invalidate(entity.pos)
+            entity.shouldRerender = false
+        }
         val vertexBuffer = vertexBufferCache.get(entity.pos) {
             val buffer = constructBuffer(entity, age, light, overlay)
             validLightMap[entity.pos] = light
