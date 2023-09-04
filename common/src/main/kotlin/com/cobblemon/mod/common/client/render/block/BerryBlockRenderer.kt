@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Berry
 import com.cobblemon.mod.common.client.render.models.blockbench.setPosition
 import com.cobblemon.mod.common.util.math.geometry.Axis
 import com.cobblemon.mod.common.util.toVec3d
+import com.google.common.cache.CacheBuilder
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.VertexBuffer
@@ -26,9 +27,17 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
+import java.time.Duration
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
-    val vertexBufferMap = mutableMapOf<BlockPos, VertexBuffer>()
+    val CACHE_BUILDER = CacheBuilder
+        .newBuilder()
+        .expireAfterAccess(Duration.ofMinutes(1))
+        .removalListener<BlockPos, VertexBuffer> {
+            it.value?.close()
+            validLightMap.remove(it.key)
+        }
+    val vertexBufferCache = CACHE_BUILDER.build<BlockPos, VertexBuffer>()
     val validLightMap = mutableMapOf<BlockPos, Int>()
 
     override fun isInRenderDistance(blockEntity: BerryBlockEntity, pos: Vec3d): Boolean {
@@ -43,16 +52,23 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         if (age <= BerryBlock.MATURE_AGE) {
             return
         }
-        if (!vertexBufferMap.contains(entity.pos) || validLightMap[entity.pos] != light) {
-            constructBuffer(entity, age, light, overlay)
+        val vertexBuffer = vertexBufferCache.get(entity.pos) {
+            val buffer = constructBuffer(entity, age, light, overlay)
+            validLightMap[entity.pos] = light
+            return@get buffer
+        }
+        if (validLightMap[entity.pos] != light) {
+            //Recursion scary, pls no stackoverflow
+            vertexBufferCache.invalidate(entity.pos)
+            render(entity, tickDelta, matrices, vertexConsumers, light, overlay)
         }
         else {
             matrices.push()
-            val vertexBuffer = vertexBufferMap[entity.pos]
+
             CobblemonRenderLayers.BERRY_LAYER.startDrawing()
-            vertexBuffer?.bind()
+            vertexBuffer.bind()
             val posMatrix = matrices.peek().positionMatrix
-            vertexBuffer?.draw(
+            vertexBuffer.draw(
                 posMatrix.mul(RenderSystem.getModelViewMatrix()),
                 RenderSystem.getProjectionMatrix(),
                 GameRenderer.getRenderTypeCutoutProgram()
@@ -63,7 +79,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         }
     }
 
-    fun constructBuffer(entity: BerryBlockEntity, age:Int, light: Int, overlay: Int) {
+    fun constructBuffer(entity: BerryBlockEntity, age:Int, light: Int, overlay: Int): VertexBuffer {
         val tessellator = Tessellator()
         tessellator.buffer.begin(
             CobblemonRenderLayers.BERRY_LAYER.drawMode,
@@ -90,7 +106,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         vertexBuffer.bind()
         vertexBuffer.upload(builtBuffer)
         VertexBuffer.unbind()
-        vertexBufferMap[entity.pos] = vertexBuffer
-        validLightMap[entity.pos] = light
+        return vertexBuffer
     }
+
 }
