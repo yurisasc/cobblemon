@@ -48,9 +48,9 @@ import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
 import com.cobblemon.mod.common.api.starter.StarterHandler
 import com.cobblemon.mod.common.api.storage.PokemonStoreManager
 import com.cobblemon.mod.common.api.storage.adapter.conversions.ReforgedConversion
-import com.cobblemon.mod.common.api.storage.adapter.flatifle.FileStoreAdapter
-import com.cobblemon.mod.common.api.storage.adapter.flatifle.JSONStoreAdapter
-import com.cobblemon.mod.common.api.storage.adapter.flatifle.NBTStoreAdapter
+import com.cobblemon.mod.common.api.storage.adapter.flatfile.FileStoreAdapter
+import com.cobblemon.mod.common.api.storage.adapter.flatfile.JSONStoreAdapter
+import com.cobblemon.mod.common.api.storage.adapter.flatfile.NBTStoreAdapter
 import com.cobblemon.mod.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
