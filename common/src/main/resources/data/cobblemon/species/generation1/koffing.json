@@ -29,9 +29,6 @@
     "moving": {
       "fly": {
         "canFly": true
-      },
-      "walk": {
-        "canWalk": false
       }
     }
   },
@@ -215,7 +212,7 @@
   "features": [
     "galarian"
   ],
-  "baseScale": 0.8,
+  "baseScale": 0.7,
   "hitbox": {
     "width": 0.9,
     "height": 1.2,

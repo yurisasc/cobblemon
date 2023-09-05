@@ -26,6 +26,11 @@
     "human_like"
   ],
   "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.22
+      }
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": true,

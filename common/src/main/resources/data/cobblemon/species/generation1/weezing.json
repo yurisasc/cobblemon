@@ -148,9 +148,6 @@
     "moving": {
       "fly": {
         "canFly": true
-      },
-      "walk": {
-        "canWalk": false
       }
     }
   },
@@ -292,10 +289,10 @@
   ],
   "preEvolution": "koffing",
   "evolutions": [],
-  "baseScale": 1.2,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1.12,
-    "height": 1.2,
+    "width": 1.3,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 50,

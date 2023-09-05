@@ -254,7 +254,7 @@
   ],
   "preEvolution": "onix",
   "evolutions": [],
-  "baseScale": 4,
+  "baseScale": 1.6,
   "hitbox": {
     "width": 2,
     "height": 0.7,

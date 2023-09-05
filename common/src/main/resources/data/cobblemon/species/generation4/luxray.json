@@ -134,9 +134,9 @@
   ],
   "preEvolution": "luxio",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.15,
   "hitbox": {
-    "width": 1.2,
+    "width": 1.0,
     "height": 1.6,
     "fixed": false
   },

@@ -17,11 +17,11 @@ import net.minecraft.util.math.Vec3d
 class SpiritombModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("spiritomb")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.23, -0.5, 0.0)
+    override val portraitScale = 1.3F
+    override val portraitTranslation = Vec3d(-0.4, 0.3, 0.0)
 
-    override val profileScale = 1F
-    override val profileTranslation = Vec3d(-0.1, 0.2, 0.0)
+    override val profileScale = 0.75F
+    override val profileTranslation = Vec3d(-0.2, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -42,8 +42,7 @@ class SpiritombModel(root: ModelPart) : PokemonPoseableModel() {
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 10,
                 idleAnimations = arrayOf(
-                        bedrock("spiritomb", "ground_idle"),
-                        bedrock("spiritomb", "ground_walk")
+                        bedrock("spiritomb", "ground_idle")
                 )
         )
     }

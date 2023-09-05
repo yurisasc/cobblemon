@@ -63,5 +63,5 @@ class PrimeapeModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("primeape", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("primeape", "faint") else null
 }

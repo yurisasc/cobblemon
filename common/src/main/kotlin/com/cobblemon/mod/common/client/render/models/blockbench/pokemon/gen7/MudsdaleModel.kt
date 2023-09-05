@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -19,7 +20,7 @@ import net.minecraft.util.math.Vec3d
 
 class MudsdaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("mudsdale")
-    override val head = getPart("head")
+    override val head = getPart("neck")
 
     override val foreLeftLeg = getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
@@ -27,21 +28,32 @@ class MudsdaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val hindRightLeg = getPart("leg_back_right")
 
     override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-1.0, 1.9, 0.0)
+    override val portraitTranslation = Vec3d(-1.0, 1.76, 0.0)
 
     override val profileScale = 0.5F
     override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudsdale", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("mudsdale", "blink").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("mudsdale", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(disableY = true),
                 bedrock("mudsdale", "ground_idle")
             )
         )
@@ -50,11 +62,10 @@ class MudsdaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("mudsdale", "ground_idle"),
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.7F)
-                //bedrock("mudsdale", "ground_walk")
+                singleBoneLook(disableY = true),
+                bedrock("mudsdale", "ground_walk")
             )
         )
     }

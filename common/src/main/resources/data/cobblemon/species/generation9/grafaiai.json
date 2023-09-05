@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Grafaiai",
   "nationalPokedexNumber": 945,
   "primaryType": "poison",
@@ -33,6 +34,14 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:leer",
     "1:scratch",
@@ -96,6 +105,12 @@
   "weight": 272,
   "preEvolution": "shroodle",
   "evolutions": [],
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.8,
+    "height": 1.1,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.grafaiai.desc"

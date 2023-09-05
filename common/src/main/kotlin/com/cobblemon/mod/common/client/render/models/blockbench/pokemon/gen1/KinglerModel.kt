@@ -41,8 +41,8 @@ class KinglerModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                bedrock("kingler", "ground_idle")
-                //bedrock("kingler", "ground_walk")
+                bedrock("kingler", "ground_idle"),
+                bedrock("kingler", "ground_walk")
             )
         )
     }

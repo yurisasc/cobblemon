@@ -1,0 +1,104 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.gardevoir.ground_idle": {
+			"loop": true,
+			"bones": {
+				"skirt_left2": {
+					"rotation": [0, 0, -5]
+				},
+				"skirt_left3": {
+					"rotation": [0, 0, -7.5]
+				},
+				"skirt_right2": {
+					"rotation": [0, 0, 5]
+				},
+				"skirt_right3": {
+					"rotation": [0, 0, 5]
+				},
+				"skirt_back_left3": {
+					"rotation": [0, 0, -5]
+				},
+				"skirt_back_right3": {
+					"rotation": [0, 0, 5]
+				},
+				"chest": {
+					"rotation": [-7.5, 0, 0]
+				},
+				"arm_left": {
+					"rotation": [0, -15, 60]
+				},
+				"arm_left2": {
+					"rotation": [0, 15, 0]
+				},
+				"hand_left": {
+					"rotation": [0, 0, 10]
+				},
+				"arm_right": {
+					"rotation": [0, 5, -57.5]
+				},
+				"arm_right2": {
+					"rotation": [0, -10, 0]
+				},
+				"hand_right": {
+					"rotation": [0, 0, -7.5]
+				},
+				"neck": {
+					"rotation": [12.5, 0, 0]
+				},
+				"head": {
+					"rotation": [5, 0, 0]
+				},
+				"leg_left": {
+					"rotation": [2.5, 0, 0]
+				},
+				"leg_left2": {
+					"rotation": [2.5, 0, 0]
+				},
+				"leg_right": {
+					"rotation": [-5, 0, 0]
+				}
+			}
+		},
+		"animation.gardevoir.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_left": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_right": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.gardevoir.cry": {
+			"animation_length": 1.5,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [-20, 0, 0],
+						"1.25": [-20, 0, 0],
+						"1.5": [0, 0, 0]
+					}
+				},
+				"mouth_open": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.125": [0, -0.1, -0.1],
+						"1.375": [0, -0.1, -0.1],
+						"1.5": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

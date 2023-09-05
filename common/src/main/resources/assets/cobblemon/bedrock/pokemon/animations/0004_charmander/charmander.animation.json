@@ -810,7 +810,7 @@
 					"rotation": [11.48188, -46.2281, -1.19445]
 				},
 				"arm_left": {
-					"rotation": ["-4.25-math.sin(q.anim_time*90*2)*0.75", "14.75-math.sin(q.anim_time*90*2)*0.25", -107.5],
+					"rotation": ["-4.25-math.sin(q.anim_time*90*2)*.75", "14.75-math.sin(q.anim_time*90*2)*0.25", -107.5],
 					"position": [0, -1.25, 0]
 				},
 				"arm_right": {
@@ -952,6 +952,89 @@
 				"torso": {
 					"rotation": [25, 0, 0],
 					"position": [0, 0, -1.5]
+				}
+			}
+		},
+		"animation.charmander.cry": {
+			"animation_length": 0.75,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.25": {
+							"post": [-10, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.625": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"jaw": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.0833": {
+							"post": [30, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2917": {
+							"post": [4.71, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.375": {
+							"post": [20.91, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5417": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0417": {
+					"effect": "pokemon.charmander.cry"
+				}
+			}
+		},
+		"animation.charmander.render": {
+			"loop": true,
+			"bones": {
+				"torso": {
+					"rotation": [7.56397, -7.43547, -0.98448]
+				},
+				"jaw": {
+					"rotation": [30, 0, 0]
+				},
+				"arm_right": {
+					"rotation": [-0.88045, -9.96156, 5.07673]
+				},
+				"arm_left": {
+					"rotation": [0, 0, 11]
+				},
+				"tail": {
+					"rotation": [0, 21, 0]
+				},
+				"tail2": {
+					"rotation": [17, 12, 0]
+				},
+				"fire": {
+					"rotation": [-25, 0, 0]
+				},
+				"leg_right": {
+					"rotation": [0, 0, 7.5]
+				},
+				"leg_left": {
+					"rotation": [4.58345, -14.60282, -6.19253],
+					"position": [0.2, 0, 0]
 				}
 			}
 		}

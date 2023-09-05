@@ -86,10 +86,7 @@
 					"name": "torso_square_female",
 					"parent": "torso",
 					"pivot": [0, 11.75, -2],
-					"rotation": [0, 0, 45],
-					"cubes": [
-						{"origin": [-3, 10.75, -2.015], "size": [4, 4, 0], "uv": [0, 0]}
-					]
+					"rotation": [0, 0, 45]
 				},
 				{
 					"name": "torso_spike_right",
