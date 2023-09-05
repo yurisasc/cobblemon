@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import net.minecraft.client.render.OverlayTexture
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -27,7 +28,7 @@ import net.minecraft.util.math.Vec3d
  * @since December 4th, 2021
  */
 abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
-
+    override val isForLivingEntityRenderer = true
     override fun getState(entity: PokemonEntity) = entity.delegate as PokemonClientDelegate
 
     /** Registers the same configuration for both left and right shoulder poses. */
@@ -70,6 +71,17 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
     ): StatefulAnimation<PokemonEntity, ModelFrame>? = null
+
+    override fun getOverlayTexture(entity: PokemonEntity?): Int {
+        return if (entity != null) {
+            OverlayTexture.packUv(
+                OverlayTexture.getU(0F),
+                OverlayTexture.getV(entity.hurtTime > 0)
+            )
+        } else  {
+            OverlayTexture.DEFAULT_UV
+        }
+    }
 
     open val cryAnimation: CryProvider = CryProvider { _, _ -> null }
 //

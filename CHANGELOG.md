@@ -8,11 +8,13 @@
 - Added big roots, generating from cave ceiling dirt and sometimes spreading into energy roots.
 - Added trading between players. Press R while looking at another player, you'll figure it out.
 - Added pasture blocks, used to let your PC Pokémon roam around your base.
+- Added 69 berry trees. Some are found in village farms, some from planting different berries close to each other.
+- Added medicine brewing using medicinal leeks and berries in brewing stands.
+- Added Pokémon cries when in battles and being sent out.
 - Added support for scale in animations.
 - Added support for jump keyframes (i.e. pre and post keyframes)
-- Made Nosepass point towards world spawn while idle.
+- Added AI for Nosepass to point towards world spawn when idle.
 - Added structure spawn conditions
-- Added Pokémon cry system for battles and sending out.
 - Added cries for Gen 1-9 starters and their evolutions.
 - Added cries for Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Pidgey, Pidgeotto, Pidgeot, Rattata, Raticate, Cleffa, Clefairy, Clefable, Tauros, Miltank, Buneary, Lopunny, Wooloo, Dubwool.
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
@@ -192,6 +194,8 @@
 - Updated PC Recipe.
 - Improved Pokémon AI and movement.
 - Friendship will slowly increase when Pokémon are shoulder-mounted.
+- Master balls are now unable to be burned when dropped into fire/lava.
+- Pokémon will appear red when hurt, like regular entities, except when they're fainting.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -222,7 +226,7 @@
 - Fixed particle animations not running when a Pokémon is off-screen.
 - Fixed Pokémon variants and layers not rendering correctly when shouldered and playing on a dedicated server, existing shoulders affected will need to be retrieved and shouldered again.
 - Shoulder effects will now stay applied through situations that remove potion effects such as drinking milk.
-- Fixed Shedninja evolving to use the consumed Pokeball and removed the held item.
+- Fixed Shedinja evolving to use the consumed Pokeball and removed the held item.
 - Fixed non-existent species in spawn pool file causing random species to spawn.
 - Fixed shearing Pokémon dropping 0-2 wool instead of 1-3.
 - Fixed some alignment issues in the stat hexagon of the summary menu.

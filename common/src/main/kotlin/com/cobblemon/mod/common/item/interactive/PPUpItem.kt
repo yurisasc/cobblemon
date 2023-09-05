@@ -43,6 +43,6 @@ class PPUpItem(val amount: Int) : CobblemonItem(Settings()), PokemonAndMoveSelec
         if (user is ServerPlayerEntity) {
             use(user, user.getStackInHand(hand))?.let { return it }
         }
-        return TypedActionResult.pass(user.getStackInHand(hand))
+        return TypedActionResult.success(user.getStackInHand(hand))
     }
 }

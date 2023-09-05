@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.api.spawning.spawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
 import com.cobblemon.mod.common.api.spawning.SpawnerManager
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
-import com.cobblemon.mod.common.api.spawning.influence.GameRuleInfluence
 import com.cobblemon.mod.common.api.spawning.influence.PlayerLevelRangeInfluence
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.server.network.ServerPlayerEntity
@@ -26,7 +25,7 @@ import net.minecraft.server.network.ServerPlayerEntity
  */
 object PlayerSpawnerFactory {
     var spawns: SpawnPool = CobblemonSpawnPools.WORLD_SPAWN_POOL
-    var influenceBuilders = mutableListOf<(player: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5) }, { GameRuleInfluence() })
+    var influenceBuilders = mutableListOf<(player: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5) })
 
     fun create(spawnerManager: SpawnerManager, player: ServerPlayerEntity): PlayerSpawner {
         val influences = influenceBuilders.mapNotNull { it(player) }

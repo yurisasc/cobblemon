@@ -26,6 +26,7 @@ object CobblemonBlockTags {
     @JvmField val APRICORN_LOGS = createTag("apricorn_logs")
     @JvmField val APRICORN_SAPLINGS = createTag("apricorn_saplings")
     @JvmField val APRICORNS = createTag("apricorns")
+    @JvmField val BERRY_SOIL = createTag("berry_soil")
     @JvmField val CROPS = createTag("crops")
     @JvmField val DRIPSTONE_GROWABLE = createTag("dripstone_growable")
     @JvmField val DRIPSTONE_REPLACEABLES = createTag("dripstone_replaceables")

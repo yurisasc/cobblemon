@@ -37,7 +37,7 @@ class ArrowButton(
     }
 
     override fun playDownSound(soundManager: SoundManager?) {
-        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+        return
     }
 
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {

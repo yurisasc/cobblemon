@@ -40,6 +40,7 @@ import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
 
@@ -55,6 +56,9 @@ abstract class PoseableEntityModel<T : Entity>(
     renderTypeFunc: (Identifier) -> RenderLayer = RenderLayer::getEntityCutout
 ) : EntityModel<T>(renderTypeFunc), ModelFrame {
     var currentEntity: T? = null
+
+    /** Whether the renderer that will process this is going to do the weird -1.5 Y offset bullshit that the living entity renderer does. */
+    abstract val isForLivingEntityRenderer: Boolean
 
     val poses = mutableMapOf<String, Pose<T, out ModelFrame>>()
     lateinit var locatorAccess: LocatorAccess
@@ -110,6 +114,19 @@ abstract class PoseableEntityModel<T : Entity>(
         currentLayers = emptyList()
         bufferProvider = null
         currentState = null
+    }
+
+    open fun getOverlayTexture(entity: T?): Int? {
+        return if (entity is LivingEntity) {
+            OverlayTexture.packUv(
+                OverlayTexture.getU(0F),
+                OverlayTexture.getV(entity.hurtTime > 0 || entity.deathTime > 0)
+            )
+        } else if (entity != null) {
+            OverlayTexture.DEFAULT_UV
+        } else {
+            null
+        }
     }
 
     /**
@@ -259,7 +276,7 @@ abstract class PoseableEntityModel<T : Entity>(
             stack,
             buffer,
             packedLight,
-            OverlayTexture.DEFAULT_UV,
+            getOverlayTexture(currentEntity) ?: packedOverlay,
             red * r,
             green * g,
             blue * b,
@@ -278,7 +295,7 @@ abstract class PoseableEntityModel<T : Entity>(
                     stack,
                     consumer,
                     packedLight,
-                    OverlayTexture.DEFAULT_UV,
+                    getOverlayTexture(currentEntity) ?: packedOverlay,
                     layer.tint.x,
                     layer.tint.y,
                     layer.tint.z,
@@ -509,8 +526,11 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.scale(1F, -1F, -1F)
             matrixStack.scale(0.7F, 0.7F, 0.7F)
         }
-        // Standard living entity offset, only God knows why Mojang did this.
-        matrixStack.translate(0.0, -1.5, 0.0)
+
+        if (isForLivingEntityRenderer) {
+            // Standard living entity offset, only God knows why Mojang did this.
+            matrixStack.translate(0.0, -1.5, 0.0)
+        }
 
         locatorAccess.update(matrixStack, state.locatorStates)
     }

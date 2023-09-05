@@ -29,13 +29,14 @@ import net.minecraft.util.Pair
 import java.io.File
 import java.nio.charset.StandardCharsets
 import java.util.function.BiFunction
+import java.util.function.Function
 import java.util.function.Supplier
 
 abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     val posers = mutableMapOf<Identifier, (Bone) -> M>()
     val variations = mutableMapOf<Identifier, VaryingRenderableResolver<E, M>>()
 
-    val texturedModels = mutableMapOf<Identifier, () -> Bone>()
+    val texturedModels = mutableMapOf<Identifier, (isForLivingEntityRenderer: Boolean) -> Bone>()
 
     abstract val title: String
     abstract val type: String
@@ -44,6 +45,8 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     abstract val modelDirectories: List<String>
     abstract val animationDirectories: List<String>
     abstract val fallback: Identifier
+    /** When using the living entity renderer in Java Edition, a root joint 24F (1.5) Y offset is necessary. I've no fucking idea why. */
+    abstract val isForLivingEntityRenderer: Boolean
 
     abstract fun loadJsonPoser(json: String): (Bone) -> M
 
@@ -98,13 +101,11 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     fun registerModels(resourceManager: ResourceManager) {
         var models = 0
         for (directory in modelDirectories) {
-            MODEL_FACTORIES.forEach { entry ->
-                resourceManager.findResources(directory) { path ->
-                    path.endsWith(entry.key) }
-                    .map {
-                        entry.value.apply(it.key, it.value) }
+            MODEL_FACTORIES.forEach { (key, func) ->
+                resourceManager.findResources(directory) { path -> path.endsWith(key) }
+                    .map { func.apply(it.key, it.value) }
                     .forEach {
-                        texturedModels[it.left] = it.right::get
+                        texturedModels[it.left] = { isForLivingEntityRenderer -> it.right.apply(isForLivingEntityRenderer) }
                         models++
                     }
             }
@@ -156,7 +157,7 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     }
 
     companion object {
-        fun registerFactory(id: String, factory: BiFunction<Identifier, Resource, Pair<Identifier, Supplier<Bone>>>) {
+        fun registerFactory(id: String, factory: BiFunction<Identifier, Resource, Pair<Identifier, Function<Boolean, Bone>>>) {
             MODEL_FACTORIES[id] = factory
         }
 
@@ -164,15 +165,15 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
             Needs to be java function to work with non kotlin sidemods.
             - Waterpicker
          */
-        private var MODEL_FACTORIES = mutableMapOf<String, BiFunction<Identifier, Resource, Pair<Identifier, Supplier<Bone>>>>().also {
-            it[".geo.json"] = BiFunction<Identifier, Resource, Pair<Identifier, Supplier<Bone>>> { identifier: Identifier, resource: Resource ->
+        private var MODEL_FACTORIES = mutableMapOf<String, BiFunction<Identifier, Resource, Pair<Identifier, Function<Boolean, Bone>>>>().also {
+            it[".geo.json"] = BiFunction<Identifier, Resource, Pair<Identifier, Function<Boolean, Bone>>> { identifier: Identifier, resource: Resource ->
                 resource.inputStream.use { stream ->
                     val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
                     val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
 
-                    val texturedModel = TexturedModel.from(json).create()
-                    val supplier = Supplier<Bone>{texturedModel.createModel()}
-                    Pair(resolvedIdentifier, supplier)
+                    val texturedModel = TexturedModel.from(json)
+                    val boneCreator: Function<Boolean, Bone> = Function { texturedModel.create(it).createModel() }
+                    Pair(resolvedIdentifier, boneCreator)
                 }
             }
         }

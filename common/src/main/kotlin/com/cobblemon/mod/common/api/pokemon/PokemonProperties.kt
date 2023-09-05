@@ -287,12 +287,12 @@ open class PokemonProperties {
         customProperties.forEach { it.apply(pokemon) }
         ivs?.let { ivs ->
             ivs.forEach { stat ->
-                pokemon.ivs[stat.key] = stat.value
+                pokemon.setIV(stat.key, stat.value)
             }
         }
         evs?.let { evs ->
             evs.forEach { stat ->
-                pokemon.evs[stat.key] = stat.value
+                pokemon.setEV(stat.key, stat.value)
             }
         }
     }
@@ -322,12 +322,12 @@ open class PokemonProperties {
         customProperties.forEach { it.apply(pokemonEntity) }
         ivs?.let { ivs ->
             ivs.forEach { stat ->
-                pokemonEntity.pokemon.ivs[stat.key] = stat.value
+                pokemonEntity.pokemon.setIV(stat.key, stat.value)
             }
         }
         evs?.let { evs ->
             evs.forEach { stat ->
-                pokemonEntity.pokemon.evs[stat.key] = stat.value
+                pokemonEntity.pokemon.setEV(stat.key, stat.value)
             }
         }
     }

@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.item.interactive
 
+import com.bedrockk.molang.Expression
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
@@ -16,7 +17,9 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
-import java.lang.Integer.min
+import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.genericRuntime
+import com.cobblemon.mod.common.util.resolveInt
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
@@ -24,6 +27,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+import java.lang.Integer.min
 
 class PotionItem(val type: PotionType) : CobblemonItem(Settings()), PokemonSelectingItem {
     override val bagItem = type
@@ -32,7 +36,7 @@ class PotionItem(val type: PotionType) : CobblemonItem(Settings()), PokemonSelec
         if (user is ServerPlayerEntity) {
             return use(user, user.getStackInHand(hand))
         }
-        return super<CobblemonItem>.use(world, user, hand)
+        return TypedActionResult.success(user.getStackInHand(hand))
     }
 
     override fun applyToPokemon(
@@ -44,7 +48,7 @@ class PotionItem(val type: PotionType) : CobblemonItem(Settings()), PokemonSelec
             return TypedActionResult.fail(stack)
         }
 
-        val healthToRestore = type.amountToHeal
+        val healthToRestore = genericRuntime.resolveInt(type.amountToHeal())
         pokemon.currentHealth = min(pokemon.currentHealth + healthToRestore, pokemon.hp)
         if (type.curesStatus) {
             pokemon.status = null
@@ -59,28 +63,28 @@ class PotionItem(val type: PotionType) : CobblemonItem(Settings()), PokemonSelec
     }
 }
 
-enum class PotionType(val amountToHeal: Int, val curesStatus: Boolean) : BagItem {
-    POTION(20, false) {
+enum class PotionType(val amountToHeal: () -> Expression, val curesStatus: Boolean) : BagItem {
+    POTION({ com.cobblemon.mod.common.CobblemonMechanics.potions.potionRestoreAmount }, false) {
         override val itemName = "item.cobblemon.potion"
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "potion $amountToHeal"
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) =  target.health < target.maxHealth && target.health > 0
     },
-    SUPER_POTION(50, false) {
+    SUPER_POTION({ com.cobblemon.mod.common.CobblemonMechanics.potions.superPotionRestoreAmount }, false) {
         override val itemName = "item.cobblemon.super_potion"
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "potion $amountToHeal"
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) =  target.health < target.maxHealth && target.health > 0
     },
-    HYPER_POTION(200, false) {
+    HYPER_POTION({ com.cobblemon.mod.common.CobblemonMechanics.potions.hyperPotionRestoreAmount }, false) {
         override val itemName = "item.cobblemon.hyper_potion"
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "potion $amountToHeal"
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) =  target.health < target.maxHealth && target.health > 0
     },
-    MAX_POTION(999999, false) {
+    MAX_POTION({ 999999.0.asExpression() }, false) {
         override val itemName = "item.cobblemon.max_potion"
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "potion ${battlePokemon.maxHealth - battlePokemon.health}"
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) =  target.health < target.maxHealth && target.health > 0
     },
-    FULL_RESTORE(999999, true) {
+    FULL_RESTORE({ 999999.0.asExpression() }, true) {
         override val itemName = "item.cobblemon.full_restore"
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "full_restore"
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) =  target.health < target.maxHealth && target.health > 0

@@ -11,6 +11,8 @@ package com.cobblemon.mod.common
 import com.bedrockk.molang.Expression
 import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.mechanics.BerriesMechanic
+import com.cobblemon.mod.common.mechanics.PotionsMechanic
 import com.cobblemon.mod.common.mechanics.RemediesMechanic
 import com.cobblemon.mod.common.util.adapters.ExpressionAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -30,11 +32,19 @@ object CobblemonMechanics : DataRegistry {
         .create()
 
     var remedies = RemediesMechanic()
+    var berries = BerriesMechanic()
+    var potions = PotionsMechanic()
 
     override fun sync(player: ServerPlayerEntity) {}
     override fun reload(manager: ResourceManager) {
-        manager.getResourceOrThrow(cobblemonResource("mechanics/remedies.json")).inputStream.use {
-            remedies = gson.fromJson(it.reader(), RemediesMechanic::class.java)
+        remedies = loadMechanic(manager, "remedies", RemediesMechanic::class.java)
+        berries = loadMechanic(manager, "berries", BerriesMechanic::class.java)
+        potions = loadMechanic(manager, "potions", PotionsMechanic::class.java)
+    }
+
+    private fun <T> loadMechanic(manager: ResourceManager, name: String, clazz: Class<T>): T {
+        manager.getResourceOrThrow(cobblemonResource("mechanics/$name.json")).inputStream.use {
+            return gson.fromJson(it.reader(), clazz)
         }
     }
 }

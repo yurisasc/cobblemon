@@ -1,0 +1,103 @@
+{
+  "baseYield": {
+    "min": 1,
+    "max": 2
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_plains"
+  ],
+  "growthTime": {
+    "min": 95,
+    "max": 105
+  },
+  "refreshRate": {
+    "min": 20,
+    "max": 30
+  },
+  "favoriteMulches": [
+    "loamy"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "randomizedGrowthPoints": true,
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 10.0,
+        "y": 26.0,
+        "z": 1.0
+      },
+      "rotation": {
+        "x": 10.0,
+        "y": -7.5,
+        "z": 7.5
+      }
+    },
+    {
+      "position": {
+        "x": 15.0,
+        "y": 23.0,
+        "z": 17.5
+      },
+      "rotation": {
+        "x": -17.5,
+        "y": -20.0,
+        "z": 17.5
+      }
+    },
+    {
+      "position": {
+        "x": 1.0,
+        "y": 28.25,
+        "z": 12.0
+      },
+      "rotation": {
+        "x": -17.5,
+        "y": 17.5,
+        "z": -22.5
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:spelon_berry": "cobblemon:salac_berry",
+    "cobblemon:pomeg_berry": "cobblemon:starf_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 0,
+      "minY": 0,
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 32,
+      "maxZ": 16
+    }
+  ],
+  "flavors": {
+    "SPICY": 20,
+    "DRY": 10
+  },
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:tamato_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/tamato.png",
+  "fruitModel": "cobblemon:tamato_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/tamato.png"
+}

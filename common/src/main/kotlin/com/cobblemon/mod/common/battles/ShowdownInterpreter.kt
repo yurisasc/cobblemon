@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.interpreter.*
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
@@ -814,7 +815,7 @@ object ShowdownInterpreter {
     private fun handleRechargeInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>){
         battle.dispatchWaiting(2F){
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            battle.broadcastChatMessage(battleLang("recharge", pokemon.getName() ?: ""))
+            battle.broadcastChatMessage(battleLang("recharge", pokemon.getName()))
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -1224,11 +1225,12 @@ object ShowdownInterpreter {
         val request = BattleRegistry.gson.fromJson(message.rawMessage.split("|request|")[1], ShowdownActionRequest::class.java)
         if (battle.started) {
             battle.dispatchGo {
+                // This request won't be acted on until the start of next turn
                 battleActor.sendUpdate(BattleQueueRequestPacket(request))
                 battleActor.request = request
                 battleActor.responses.clear()
                 // We need to send this out because 'upkeep' isn't received until the request is handled since the turn won't swap
-                if (request.forceSwitch.withIndex().any { it.value && battleActor.activePokemon.getOrNull(it.index)?.isGone() == false }) {
+                if (request.forceSwitch.contains(true)) {
                     battle.doWhenClear {
                         battleActor.mustChoose = true
                         battleActor.sendUpdate(BattleMakeChoicePacket())
@@ -1513,6 +1515,9 @@ object ShowdownInterpreter {
             battlePokemon.heldItemManager.handleEndInstruction(battlePokemon, battle, message)
             battle.minorBattleActions[battlePokemon.uuid] = message
             battlePokemon.contextManager.remove(item.id, BattleContext.Type.ITEM)
+            if (message.hasOptionalArgument("eat")) {
+                battlePokemon.entity?.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
+            }
         }
     }
 
@@ -1613,7 +1618,7 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-clearallboost
+     * |-clearallboost|
      *
      * Clears all boosts from all Pokémon on both sides.
      */

@@ -260,7 +260,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         world.playSoundServer(
             position = blockPos.toVec3d(),
             sound = CobblemonSounds.PC_ON,
-            volume = 1F,
+            volume = 0.5F,
             pitch = 1F
         )
         return ActionResult.SUCCESS

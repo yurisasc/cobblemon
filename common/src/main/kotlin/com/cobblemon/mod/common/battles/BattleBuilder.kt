@@ -33,13 +33,15 @@ object BattleBuilder {
     fun pvp1v1(
         player1: ServerPlayerEntity,
         player2: ServerPlayerEntity,
+        leadingPokemonPlayer1: UUID? = null,
+        leadingPokemonPlayer2: UUID? = null,
         battleFormat: BattleFormat = BattleFormat.GEN_9_SINGLES,
         cloneParties: Boolean = false,
         healFirst: Boolean = false,
         partyAccessor: (ServerPlayerEntity) -> PartyStore = { it.party() }
     ): BattleStartResult {
-        val team1 = partyAccessor(player1).toBattleTeam(clone = cloneParties, checkHealth = !healFirst)
-        val team2 = partyAccessor(player2).toBattleTeam(clone = cloneParties, checkHealth = !healFirst)
+        val team1 = partyAccessor(player1).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemonPlayer1)
+        val team2 = partyAccessor(player2).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemonPlayer2)
 
         val player1Actor = PlayerBattleActor(player1.uuid, team1)
         val player2Actor = PlayerBattleActor(player2.uuid, team2)
