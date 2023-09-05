@@ -68,19 +68,13 @@
 					"name": "torso_square_male",
 					"parent": "torso",
 					"pivot": [0, 15, -2],
-					"rotation": [0, 0, 45],
-					"cubes": [
-						{"origin": [-1, 14, -2.01], "size": [2, 2, 0], "uv": [28, 16]}
-					]
+					"rotation": [0, 0, 45]
 				},
 				{
 					"name": "torso_square_male2",
 					"parent": "torso",
 					"pivot": [0, 12, -2],
-					"rotation": [0, 0, 45],
-					"cubes": [
-						{"origin": [-1, 11, -2.015], "size": [2, 2, 0], "uv": [28, 6]}
-					]
+					"rotation": [0, 0, 45]
 				},
 				{
 					"name": "torso_square_female",

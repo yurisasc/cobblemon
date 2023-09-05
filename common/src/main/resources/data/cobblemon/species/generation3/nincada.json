@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Nincada",
   "nationalPokedexNumber": 290,
   "primaryType": "bug",
@@ -24,6 +25,15 @@
   "eggGroups": [
     "bug"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
+
   "moves": [
     "1:sandattack",
     "1:scratch",
@@ -133,7 +143,7 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.45,
   "hitbox": {
     "width": 1,
     "height": 1,

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Buizel",
   "nationalPokedexNumber": 418,
   "primaryType": "water",
@@ -24,6 +25,15 @@
     "water_1",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.4,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:growl",
     "1:sonicboom",
@@ -167,10 +177,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 70,

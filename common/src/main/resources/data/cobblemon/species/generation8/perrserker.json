@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Perrserker",
   "nationalPokedexNumber": 863,
   "primaryType": "steel",
@@ -111,9 +112,9 @@
   "pokedex": [
     "cobblemon.species.perrserker.desc"
   ],
-  "preEvolution": "meowth form=galar",
+  "preEvolution": "meowth galarian",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
     "height": 1,

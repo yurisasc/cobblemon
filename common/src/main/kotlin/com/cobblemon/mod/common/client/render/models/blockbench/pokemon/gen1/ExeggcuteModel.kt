@@ -23,7 +23,7 @@ class ExeggcuteModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("exeggcute")
 
     override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(0.0, -1.7, 0.0)
+    override val portraitTranslation = Vec3d(0.0, -1.9, 0.0)
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(-0.15, 0.0, 0.0)
@@ -31,6 +31,7 @@ class ExeggcuteModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
+    lateinit var uiPortrait: PokemonPose
 
     override fun registerPoses() {
         val blink1 = quirk("blink") { bedrockStateful("exeggcute", "blink").setPreventsIdle(false) }
@@ -39,6 +40,14 @@ class ExeggcuteModel(root: ModelPart) : PokemonPoseableModel() {
         val blink4 = quirk("blink") { bedrockStateful("exeggcute", "blink4").setPreventsIdle(false) }
         val blink5 = quirk("blink") { bedrockStateful("exeggcute", "blink5").setPreventsIdle(false) }
         val blink6 = quirk("blink") { bedrockStateful("exeggcute", "blink6").setPreventsIdle(false) }
+        uiPortrait = registerPose(
+            poseName = "portrait",
+            poseType = PoseType.PORTRAIT,
+            idleAnimations = arrayOf(
+                bedrock("exeggcute", "portrait")
+            )
+        )
+
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("exeggcute", "sleep"))
@@ -46,7 +55,7 @@ class ExeggcuteModel(root: ModelPart) : PokemonPoseableModel() {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
+            poseTypes = STATIONARY_POSES + PoseType.PROFILE,
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2, blink3, blink4, blink5, blink6),
             idleAnimations = arrayOf(
