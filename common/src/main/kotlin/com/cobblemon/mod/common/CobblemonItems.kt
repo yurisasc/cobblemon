@@ -231,8 +231,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField val PEAT_BLOCK = noSettingsItem("peat_block")
     @JvmField val RAZOR_CLAW = noSettingsItem("razor_claw")
     @JvmField val RAZOR_FANG = noSettingsItem("razor_fang")
-    // ToDo enable me when malicious armor goes in the game
-    //@JvmField val AUSPICIOUS_ARMOR = heldItem("auspicious_armor")
+    @JvmField val AUSPICIOUS_ARMOR = heldItem("auspicious_armor")
+    @JvmField val MALICIOUS_ARMOR = heldItem("malicious_armor")
 
     private val berries = mutableMapOf<Identifier, BerryItem>()
     // Plants

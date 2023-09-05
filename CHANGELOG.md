@@ -32,6 +32,7 @@
 - Added support for "isBattle" and "isTouchingWater" properties on resource pack Pokémon poses. This allows your custom Pokémon to be posed differently when in battle.
 - Added support for "isVisible" on a transformed part on resource pack Pokémon poses. This allows your custom Pokémon to have bones disappear in specific poses, such as hiding Greninja's throwing star when not in a battle pose.
 - Added the `doPokemonLoot` gamerule to toggle Pokémon dropping items/exp on death.
+- Added Auspicious Armor and Malicious Armor, which can be used to evolve Charcadet into Armarouge or Ceruledge respectively.
 - Added animations for Wailord.
 - Added Cherry Torterra variant.
 - Added 2 new face spots for Spinda.

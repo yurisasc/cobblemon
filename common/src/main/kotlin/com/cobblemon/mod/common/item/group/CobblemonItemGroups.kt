@@ -296,6 +296,8 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.FLOWER_SWEET)
         entries.add(CobblemonItems.STAR_SWEET)
         entries.add(CobblemonItems.RIBBON_SWEET)
+        entries.add(CobblemonItems.AUSPICIOUS_ARMOR)
+        entries.add(CobblemonItems.MALICIOUS_ARMOR)
     }
 
     private fun heldItemEntries(displayContext: DisplayContext, entries: Entries) {
