@@ -95,6 +95,7 @@ class BerryGroveFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureCo
         for (dir in possiblePositions) {
             if (numTreesLeftToGen > 0) {
                 if (blockPlaceFeature?.generate(worldGenLevel, context.generator, random, dir) == true) {
+                    worldGenLevel.updateNeighbors(dir, worldGenLevel.getBlockState(dir).block)
                     numTreesLeftToGen--
                 }
             }
