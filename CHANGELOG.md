@@ -16,8 +16,8 @@
 - Added AI for Nosepass to point towards world spawn when idle.
 - Added structure spawn conditions
 - Added cries for Gen 1-9 starters and their evolutions.
-- Added cries for Farfetchd, Galarian Farfetched, Rookidee, Corvisquire, Corviknight, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Pidgey, Pidgeotto, Pidgeot, Rattata, Raticate, Clefairy, Clefable, Tauros, Eevee, Vaporeon, Flareon, Jolteon, 
-- Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
+- Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, X Attack, X Defense, X Special Attack, X Special Defense, X Speed, X Accuracy, Dire Hit, Guard Spec, Health Feather, Muscle Feather, Resist Feather, Genius Feather, Clever Feather, Genius Feather
+- Added cries for Farfetchd, Galarian Farfetched, Rookidee, Corvisquire, Corviknight, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Pidgey, Pidgeotto, Pidgeot, Rattata, Raticate, Clefairy, Clefable, Tauros, Eevee, Vaporeon, Flareon, Jolteon, Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper, Cleffa, Miltank, Buneary, Lopunny, Wooloo, Dubwool.
 - Added a shoulder mount for Mimikyu
 - Added Advancement trigger for defeating Pokémon and collecting varieties of Pokémon.
 - Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
@@ -32,6 +32,9 @@
 - Added support for "isBattle" and "isTouchingWater" properties on resource pack Pokémon poses. This allows your custom Pokémon to be posed differently when in battle.
 - Added support for "isVisible" on a transformed part on resource pack Pokémon poses. This allows your custom Pokémon to have bones disappear in specific poses, such as hiding Greninja's throwing star when not in a battle pose.
 - Added the `doPokemonLoot` gamerule to toggle Pokémon dropping items/exp on death.
+- Added support for battle music. Sounds can be added to the ``battle.pvp.default`` and ``battle.pvw.default`` sound events.
+- Added ability activation announcement when in battle.
+- Added Auspicious Armor and Malicious Armor, which can be used to evolve Charcadet into Armarouge or Ceruledge respectively.
 - Added animations for Wailord.
 - Added Cherry Torterra variant.
 - Added 2 new face spots for Spinda.
@@ -282,7 +285,7 @@
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
 - Fixed large Pokémon spawning partially inside walls where they suffocate.
-- Fixed messages for entry hazards, screens, Tailwind, Perish Song, Destiny Bond, Shed Skin, Uproar, Forewarn, Disguise, Arena Trap, Yawn, Curse, Clamp, Whirlpool, Liquid Ooze, Miracle Eye and Safeguard.
+- Fixed messages for entry hazards, screens, weather, damage, healing, Tailwind, Perish Song, Destiny Bond, Shed Skin, Uproar, Forewarn, Disguise, Arena Trap, Yawn, Curse, Clamp, Whirlpool, Liquid Ooze, Miracle Eye, Safeguard, Magic Bounce, Lock On, Focus Energy, Confusion, and more.
 - Fixed Porygon not evolving with an Upgrade.
 - Fixed super sized Pumpkaboo not having any moves.
 - Fixed Infernape look animation.
@@ -313,14 +316,18 @@
 - Fixed shearing Pokémon dropping 0-2 wool instead of 1-3.
 - Fixed some alignment issues in the stat hexagon of the summary menu.
 - Fixed capture calculations not applying ball bonuses entirely correctly.
+- Fixed Shedinja healing above 1 HP.
+- Fixed battles soft-locking when consecutive Pokemon faint on switch-in.
+- Fixed timing and color of battle window messages.
 
 ### Developer
-- Added SpawnEvent
+- Added SpawnEvent, ThrownPokeballHitEvent, PokemonSentEvent, PokemonRecalledEvent.
+- Added BattleFledEvent, BattleStartedEvent, BattleFaintedEvent.
 - Added persistent NBT property inside Pokemon to store quick and simple data.
 - Species and FormData have had their evolutions, pre-evolution and labels properties exposed. It is still recommended to work using a Pokémon instance when possible.
-- Added capture check to BattleVictoryEvent
-- Added ThownPokeballHitEvent
+- Added capture check to BattleVictoryEvent.
 - The various hardcoded potion shoulder effects have been removed, make use of PotionBaseEffect.
+- Added ContextManager for tracking causes and contexts of conditions created during a battle. See BattleContext for types of conditions that are tracked. 
 
 ### Datapack & Resourcepack Creators
 - All potion related shoulder effects have had their IDs changed, they now all share the same type being `potion_effect` and use the vanilla Potion data [parameters](https://minecraft.fandom.com/wiki/Potion#Item_data), take for example the default Pidgey asset:
