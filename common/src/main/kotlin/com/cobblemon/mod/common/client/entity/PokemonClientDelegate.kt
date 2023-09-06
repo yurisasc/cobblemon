@@ -104,7 +104,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             }
         })
 
-        entity.subscriptions.add(entity.seatUpdater.subscribe { entity.seats = it.map { it.create(entity) } })
+        currentEntity.subscriptions.add(currentEntity.seatUpdater.subscribe { currentEntity.seats = it.map { it.create(currentEntity) } })
     }
 
     override fun initialize(entity: PokemonEntity) {

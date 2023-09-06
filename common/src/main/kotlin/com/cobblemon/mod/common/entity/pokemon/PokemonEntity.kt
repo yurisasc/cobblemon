@@ -180,8 +180,6 @@ class PokemonEntity(
     private val ridingState = RidingState(0, 0F)
     override var seats: List<Seat> = pokemon.riding.seats().map { it.create(this) }
 
-    private val ridingDelegate: RidingDelegator? = null
-
     /**
      * 0 is do nothing,
      * 1 is appearing from a pokeball so needs to be small then grows,
@@ -973,7 +971,6 @@ class PokemonEntity(
 
     override fun tickControlled(controllingPlayer: PlayerEntity, movementInput: Vec3d) {
         super.tickControlled(controllingPlayer, movementInput)
-        this.ridingDelegate?.tick(movementInput)
 
         if (movementInput != Vec3d.ZERO) {
             this.isMoving.set(true)
