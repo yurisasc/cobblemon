@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.client.render.CobblemonAtlases
 import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.endsWith
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import net.minecraft.client.MinecraftClient
@@ -41,7 +42,10 @@ object BerryModelRepository : JsonDataRegistry<TexturedModel> {
     override fun reload(data: Map<Identifier, TexturedModel>) {
         this.models.clear()
         data.forEach { (identifier, model) ->
-            val textureName = identifier.toString().substring(0, identifier.toString().length - "_berry.geo".length)
+            var textureName = "cobblemon:flower"
+            if (identifier.endsWith("berry.geo")) {
+                textureName = identifier.toString().substring(0, identifier.toString().length - "_berry.geo".length)
+            }
             val sprite = CobblemonAtlases.BERRY_SPRITE_ATLAS.getSprite(Identifier.tryParse(textureName))
             this.models[identifier] = model.createWithUvOverride(
                 false,
