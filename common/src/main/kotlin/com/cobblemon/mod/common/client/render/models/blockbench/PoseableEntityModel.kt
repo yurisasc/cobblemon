@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuirk
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -55,7 +56,7 @@ import net.minecraft.util.math.RotationAxis
 abstract class PoseableEntityModel<T : Entity>(
     renderTypeFunc: (Identifier) -> RenderLayer = RenderLayer::getEntityCutout
 ) : EntityModel<T>(renderTypeFunc), ModelFrame {
-    var currentEntity: T? = null
+    val context: RenderContext = RenderContext()
 
     /** Whether the renderer that will process this is going to do the weird -1.5 Y offset bullshit that the living entity renderer does. */
     abstract val isForLivingEntityRenderer: Boolean
@@ -116,7 +117,7 @@ abstract class PoseableEntityModel<T : Entity>(
         currentState = null
     }
 
-    open fun getOverlayTexture(entity: T?): Int? {
+    open fun getOverlayTexture(entity: Entity?): Int? {
         return if (entity is LivingEntity) {
             OverlayTexture.packUv(
                 OverlayTexture.getU(0F),
@@ -271,12 +272,26 @@ abstract class PoseableEntityModel<T : Entity>(
         b: Float,
         a: Float
     ) {
-        renderModel(
-            currentEntity,
+        render(context, stack, buffer, packedLight, packedOverlay, r, g, b, a)
+    }
+
+    fun render(
+        context: RenderContext,
+        stack: MatrixStack,
+        buffer: VertexConsumer,
+        packedLight: Int,
+        packedOverlay: Int,
+        r: Float,
+        g: Float,
+        b: Float,
+        a: Float
+    ) {
+        rootPart.render(
+            context,
             stack,
             buffer,
             packedLight,
-            getOverlayTexture(currentEntity) ?: packedOverlay,
+            getOverlayTexture(context.request(RenderContext.ENTITY)) ?: packedOverlay,
             red * r,
             green * g,
             blue * b,
@@ -290,12 +305,12 @@ abstract class PoseableEntityModel<T : Entity>(
                 val renderLayer = getLayer(texture, layer.emissive, layer.translucent)
                 val consumer = provider.getBuffer(renderLayer)
                 stack.push()
-                renderModel(
-                    currentEntity,
+                rootPart.render(
+                    context,
                     stack,
                     consumer,
                     packedLight,
-                    getOverlayTexture(currentEntity) ?: packedOverlay,
+                    getOverlayTexture(context.request(RenderContext.ENTITY)) ?: packedOverlay,
                     layer.tint.x,
                     layer.tint.y,
                     layer.tint.z,
@@ -304,20 +319,6 @@ abstract class PoseableEntityModel<T : Entity>(
                 stack.pop()
             }
         }
-    }
-
-    fun renderModel(
-        currentEntity: T?,
-        stack: MatrixStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        r: Float,
-        g: Float,
-        b: Float,
-        a: Float
-    ) {
-        rootPart.render(currentEntity, stack, buffer, packedLight, packedOverlay, r, g, b, a)
     }
 
     fun makeLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
@@ -396,7 +397,6 @@ abstract class PoseableEntityModel<T : Entity>(
         headPitch: Float = 0F,
         ageInTicks: Float = 0F
     ) {
-        currentEntity = null
         setDefault()
         val pose = poseTypes.firstNotNullOfOrNull { getPose(it) } ?: poses.values.first()
         pose.transformedParts.forEach { it.apply() }
@@ -412,7 +412,8 @@ abstract class PoseableEntityModel<T : Entity>(
         headYaw: Float,
         headPitch: Float
     ) {
-        currentEntity = entity
+        context.put(RenderContext.ENTITY, entity)
+        setupEntityTypeContext(entity)
         state.currentModel = this
         setDefault()
         state.preRender()
@@ -469,6 +470,9 @@ abstract class PoseableEntityModel<T : Entity>(
         updateLocators(state)
     }
 
+    //This is used to set additional entity type specific context
+    open fun setupEntityTypeContext(entity: T?) {}
+
     override fun setAngles(
         entity: T,
         limbSwing: Float,
@@ -510,7 +514,7 @@ abstract class PoseableEntityModel<T : Entity>(
      * found and used from other client-side systems.
      */
     fun updateLocators(state: PoseableEntityState<T>) {
-        val entity = currentEntity ?: return
+        val entity = context.request(RenderContext.ENTITY) ?: return
         val matrixStack = MatrixStack()
         // We could improve this to be generalized for other entities
         if (entity is PokemonEntity) {
