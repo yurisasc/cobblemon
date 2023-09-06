@@ -40,6 +40,7 @@ import net.minecraft.resource.ReloadableResourceManagerImpl
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.SynchronousResourceReloader
+import net.minecraft.util.profiler.Profiler
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.ModelEvent
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent
@@ -51,6 +52,8 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
 import java.util.function.Supplier
 
 object CobblemonForgeClient : CobblemonClientImplementation {
@@ -77,13 +80,23 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     }
 
     private fun onRegisterReloadListener(event: RegisterClientReloadListenersEvent) {
-        CobblemonAtlases.atlases.forEach {
-            event.registerReloadListener(it)
-        }
-        event.registerReloadListener(object : SynchronousResourceReloader {
-            override fun reload(resourceManager: ResourceManager) {
-                CobblemonClient.reloadCodedAssets(resourceManager)
+        event.registerReloadListener(object : ResourceReloader {
+            override fun reload(
+                synchronizer: ResourceReloader.Synchronizer,
+                manager: ResourceManager,
+                prepareProfiler: Profiler,
+                applyProfiler: Profiler,
+                prepareExecutor: Executor,
+                applyExecutor: Executor
+            ): CompletableFuture<Void> {
+                return CompletableFuture.runAsync {
+                    CobblemonAtlases.atlases.forEach {
+                        it.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor)
+                    }
+                    CobblemonClient.reloadCodedAssets(manager)
+                }
             }
+
         })
 
     }
