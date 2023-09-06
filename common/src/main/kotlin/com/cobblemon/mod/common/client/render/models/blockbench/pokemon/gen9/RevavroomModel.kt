@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2023 Cobblemon Contributors
+ * Copyright (C) 2123 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * License, v. 2.1. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.1/.
  */
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class RevavroomModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("revavroom")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-1.2, -1.7, 0.0)
+    override val portraitScale = 3.1F
+    override val portraitTranslation = Vec3d(-1.4, -1.7, 1.1)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(-0.2, 0.1, 0.0)
+    override val profileScale = 0.9F
+    override val profileTranslation = Vec3d(-0.2, 0.3, 1.1)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -40,7 +40,7 @@ class RevavroomModel (root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            transformTicks = 0,
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("revavroom", "ground_idle")
@@ -50,7 +50,7 @@ class RevavroomModel (root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            transformTicks = 0,
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("revavroom", "ground_walk")

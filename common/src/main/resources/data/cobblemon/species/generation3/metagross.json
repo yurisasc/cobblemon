@@ -73,6 +73,13 @@
   "eggGroups": [
     "mineral"
   ],
+  "behaviour": {
+    "moving" : {
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    }
+  },
   "moves": [
     "1:bulletpunch",
     "1:confusion",

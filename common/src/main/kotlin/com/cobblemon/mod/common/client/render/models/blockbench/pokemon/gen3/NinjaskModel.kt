@@ -50,7 +50,7 @@ class NinjaskModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         stand = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES - PoseType.HOVER,
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
@@ -84,7 +84,7 @@ class NinjaskModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walking",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink, barrelRoll),
             idleAnimations = arrayOf(
