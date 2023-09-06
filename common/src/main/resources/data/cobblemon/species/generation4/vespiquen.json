@@ -32,9 +32,6 @@
       "light": "0-4"
     },
     "moving": {
-      "swim": {
-        "canWalkOnWater": true
-      },
       "fly": {
         "canFly": true,
         "flySpeedHorizontal": 0.6

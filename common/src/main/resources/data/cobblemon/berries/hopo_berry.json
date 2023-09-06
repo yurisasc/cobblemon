@@ -27,6 +27,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
@@ -69,12 +70,12 @@
   "mutations": {},
   "sproutShape": [
     {
-      "minX": 0,
-      "minY": 0,
-      "minZ": 0,
-      "maxX": 16,
-      "maxY": 16,
-      "maxZ": 16
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
     }
   ],
   "matureShape": [
@@ -83,14 +84,15 @@
       "minY": 0,
       "minZ": 0,
       "maxX": 16,
-      "maxY": 16,
+      "maxY": 32,
       "maxZ": 16
     }
   ],
   "flavors": {},
+  "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/flower.png",
+  "flowerModel": "cobblemon:hopo_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/hopo.png",
   "fruitModel": "cobblemon:hopo_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/hopo.png"
 }

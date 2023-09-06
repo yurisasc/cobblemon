@@ -55,6 +55,7 @@ class ArmarougeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -83,7 +84,6 @@ class ArmarougeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 singleBoneLook(),
                 bedrock("armarouge", "battle_idle")
             )
-
         )
     }
     override fun getFaintAnimation(

@@ -9,11 +9,13 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 //import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.STAND
@@ -42,6 +44,8 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var walking: PokemonPose
     lateinit var floating: PokemonPose
     lateinit var sleeping: PokemonPose
+
+    val wateroffset = -2
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("bidoof", "blink").setPreventsIdle(false) }
@@ -76,6 +80,9 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("bidoof", "water_float")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
             )
         )
 

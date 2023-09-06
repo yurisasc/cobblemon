@@ -84,7 +84,6 @@ class CeruledgeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling },
             transformedParts = arrayOf(
                 bladeright.asTransformed().withVisibility(visibility = false),
                 bladeleft.asTransformed().withVisibility(visibility = false),

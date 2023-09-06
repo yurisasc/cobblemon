@@ -121,8 +121,12 @@ class ReforgedConversion(val base: Path) : CobblemonConverter<NbtCompound> {
         evs[Stats.SPECIAL_DEFENCE] = nbt.getInt("EVSpecialDefense")
         evs[Stats.SPEED] = nbt.getInt("EVSpeed")
 
-        result.evs = evs
-        result.ivs = ivs
+        ivs.forEach { stat ->
+            result.setIV(stat.key, stat.value)
+        }
+        evs.forEach { stat ->
+            result.setEV(stat.key, stat.value)
+        }
 
         for (move in nbt.getList("Moveset", 10)) {
             val compound = move as NbtCompound

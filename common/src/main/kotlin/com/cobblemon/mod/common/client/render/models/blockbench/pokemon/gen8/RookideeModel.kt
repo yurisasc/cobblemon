@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -40,10 +41,17 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+    lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rookidee", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-
         val blink = quirk("blink") { bedrockStateful("rookidee", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("rookidee", "sleep"))
+        )
+
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,
@@ -60,12 +68,7 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("rookidee", "air_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("rookidee", "air_idle")
             )
         )
 
@@ -75,12 +78,7 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("rookidee", "air_fly"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("rookidee", "air_fly")
             )
         )
 
@@ -90,62 +88,7 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("rookidee", "ground_idle"),
-                rootPart.translation(
-                    function = parabolaFunction(
-                        peak = -4F,
-                        period = 0.4F
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Y_AXIS
-                ),
-
-                leftLeg.rotation(
-                    function = parabolaFunction(
-                        tightness = -20F,
-                        phaseShift = 0F,
-                        verticalShift = (30F).toRadians()
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                rightLeg.rotation(
-                    function = parabolaFunction(
-                        tightness = -20F,
-                        phaseShift = 0F,
-                        verticalShift = (30F).toRadians()
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                wingFlap(
-                    flapFunction = sineFunction(
-                        amplitude = (-5F).toRadians(),
-                        period = 0.4F,
-                        phaseShift = 0.00F,
-                        verticalShift = (-20F).toRadians()
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Z_AXIS
-                ),
-                rightWing.translation(
-                    function = parabolaFunction(
-                        tightness = -10F,
-                        phaseShift = 30F,
-                        verticalShift = (25F).toRadians()
-                    ),
-                    axis = TransformedModelPart.Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                leftWing.translation(
-                    function = parabolaFunction(
-                        tightness = -10F,
-                        phaseShift = 30F,
-                        verticalShift = (25F).toRadians()
-                    ),
-                    axis = TransformedModelPart.Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
+                bedrock("rookidee", "ground_walk")
             )
         )
     }

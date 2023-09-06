@@ -30,7 +30,7 @@ class PersianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val hindRightLeg = getPart("leg_back_right1")
 
     override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.4, -0.03, 0.0)
+    override val portraitTranslation = Vec3d(-0.8, 0.3, 0.0)
 
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.38, 0.0)
