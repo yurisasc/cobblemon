@@ -61,9 +61,6 @@ abstract class PoseableEntityModel<T : Entity>(
     /** Whether the renderer that will process this is going to do the weird -1.5 Y offset bullshit that the living entity renderer does. */
     abstract val isForLivingEntityRenderer: Boolean
 
-    /** Whether the renderer that will process this is going to do the weird -1.5 Y offset bullshit that the living entity renderer does. */
-    abstract val isForLivingEntityRenderer: Boolean
-
     val poses = mutableMapOf<String, Pose<T, out ModelFrame>>()
     lateinit var locatorAccess: LocatorAccess
 
