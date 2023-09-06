@@ -21,10 +21,10 @@ import net.minecraft.util.math.Vec3d
 class MamoswineModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("mamoswine")
 
-    override val hindLeftLeg = getPart("leftbackleg")
-    override val hindRightLeg = getPart("rightbackleg")
-    override val foreLeftLeg= getPart("leftfrontleg")
-    override val foreRightLeg = getPart("rightfrontleg")
+    override val hindLeftLeg = getPart("leg_back_left")
+    override val hindRightLeg = getPart("leg_back_right")
+    override val foreLeftLeg= getPart("leg_front_left")
+    override val foreRightLeg = getPart("leg_front_right")
 
     override val portraitScale = 2.0F
     override val portraitTranslation = Vec3d(-0.5, -0.45, 0.0)

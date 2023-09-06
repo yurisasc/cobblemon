@@ -35,11 +35,12 @@ class SirfetchdModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("sirfetchd", "blink").setPreventsIdle(false) }
+        val swag = quirk("swag") { bedrockStateful("sirfetchd", "quirk").setPreventsIdle(true) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, swag),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("sirfetchd", "ground_idle")
@@ -50,7 +51,7 @@ class SirfetchdModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, swag),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("sirfetchd", "ground_idle"),

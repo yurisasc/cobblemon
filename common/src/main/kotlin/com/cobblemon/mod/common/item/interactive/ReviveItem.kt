@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.battle.BagItem
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.isHeld
 import com.cobblemon.mod.common.util.isInBattle
@@ -47,7 +48,7 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         if (world !is ServerWorld) {
-            return super.use(world, user, hand)
+            return TypedActionResult.success(user.getStackInHand(hand))
         } else {
             val player = user as ServerPlayerEntity
             val stack = user.getStackInHand(hand)
@@ -79,9 +80,9 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
                 PartySelectCallbacks.createFromPokemon(
                     player = player,
                     pokemon = pokemon,
-                    canSelect = { it.currentHealth <= 0 }
+                    canSelect = Pokemon::isFainted
                 ) { pk ->
-                    if (pk.currentHealth <= 0 && !player.isInBattle() && stack.isHeld(player)) {
+                    if (pk.isFainted() && !player.isInBattle() && stack.isHeld(player)) {
                         pk.currentHealth = if (max) pk.hp else ceil(pk.hp / 2F).toInt()
                         if (!player.isCreative) {
                             stack.decrement(1)

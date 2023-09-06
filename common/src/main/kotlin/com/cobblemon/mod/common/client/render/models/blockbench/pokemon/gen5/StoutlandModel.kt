@@ -39,7 +39,7 @@ class StoutlandModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qu
         val blink = quirk("blink") { bedrockStateful("stoutland", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -49,7 +49,7 @@ class StoutlandModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qu
 
         walk = registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),

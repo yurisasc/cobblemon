@@ -29,7 +29,7 @@ class ElectabuzzModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightArm = getPart("arm_right")
 
     override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.15, 0.23, 0.0)
+    override val portraitTranslation = Vec3d(-0.2, 0.4, 0.0)
 
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.6, 0.0)

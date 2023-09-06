@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
 import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
 import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
+import com.cobblemon.mod.common.api.events.berry.*
+import com.cobblemon.mod.common.api.events.battles.*
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
@@ -20,6 +22,8 @@ import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.entity.SpawnEvent
 import com.cobblemon.mod.common.api.events.farming.ApricornHarvestEvent
 import com.cobblemon.mod.common.api.events.item.LeftoversCreatedEvent
+import com.cobblemon.mod.common.api.events.pokeball.PokeBallCaptureCalculatedEvent
+import com.cobblemon.mod.common.api.events.pokeball.PokemonCatchRateEvent
 import com.cobblemon.mod.common.api.events.pokeball.ThrownPokeballHitEvent
 import com.cobblemon.mod.common.api.events.pokemon.*
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
@@ -58,6 +62,10 @@ object CobblemonEvents {
 
     @JvmField
     val THROWN_POKEBALL_HIT = CancelableObservable<ThrownPokeballHitEvent>()
+    @JvmField
+    val POKEMON_CATCH_RATE = EventObservable<PokemonCatchRateEvent>()
+    @JvmField
+    val POKE_BALL_CAPTURE_CALCULATED = EventObservable<PokeBallCaptureCalculatedEvent>()
     @JvmField
     val POKEMON_CAPTURED = EventObservable<PokemonCapturedEvent>()
 //    @JvmField
@@ -120,6 +128,15 @@ object CobblemonEvents {
 
     @JvmField
     val APRICORN_HARVESTED = EventObservable<ApricornHarvestEvent>()
+    // Berries
+    @JvmField
+    val BERRY_HARVEST = EventObservable<BerryHarvestEvent>()
+    @JvmField
+    val BERRY_MUTATION_OFFER = EventObservable<BerryMutationOfferEvent>()
+    @JvmField
+    val BERRY_MUTATION_RESULT = EventObservable<BerryMutationResultEvent>()
+    @JvmField
+    val BERRY_YIELD = EventObservable<BerryYieldCalculationEvent>()
     @JvmField
     val LEFTOVERS_CREATED = CancelableObservable<LeftoversCreatedEvent>()
     @JvmField

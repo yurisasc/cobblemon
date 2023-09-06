@@ -33,7 +33,7 @@ class SpewpaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("spewpa", "blink").setPreventsIdle(false) }
-        val fluff = quirk("fluff") { bedrockStateful("spewpa", "quirk_fluff").setPreventsIdle(false) }
+        val fluff = quirk("fluff", secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("spewpa", "quirk_fluff").setPreventsIdle(false) }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
@@ -43,7 +43,7 @@ class SpewpaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, fluff),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("spewpa", "ground_idle")
@@ -53,7 +53,7 @@ class SpewpaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink, fluff),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("spewpa", "ground_walk")
             )

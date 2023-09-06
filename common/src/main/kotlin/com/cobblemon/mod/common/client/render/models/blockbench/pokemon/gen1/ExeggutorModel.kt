@@ -65,8 +65,8 @@ class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
-                SingleBoneLookAnimation(head3, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
                 bedrock("exeggutor", "ground_idle")
             )
         )
@@ -79,8 +79,8 @@ class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             idleAnimations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 1f),
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
-                SingleBoneLookAnimation(head3, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
                 bedrock("exeggutor", "ground_walk")
             )
         )

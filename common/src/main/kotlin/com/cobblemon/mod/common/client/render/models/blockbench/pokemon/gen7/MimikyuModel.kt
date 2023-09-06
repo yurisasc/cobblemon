@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -35,12 +36,13 @@ class MimikyuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mimikyu", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("mimikyu", "ground_idle")
             )
         )
@@ -49,7 +51,6 @@ class MimikyuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("mimikyu", "ground_idle")
                 //bedrock("mimikyu", "ground_walk")
             )
@@ -60,7 +61,6 @@ class MimikyuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("mimikyu", "shoulder_left")
             ),
             transformedParts = arrayOf(
@@ -71,7 +71,6 @@ class MimikyuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("mimikyu", "shoulder_right")
             ),
             transformedParts = arrayOf(

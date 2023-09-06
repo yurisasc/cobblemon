@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Phantump",
   "nationalPokedexNumber": 708,
   "primaryType": "ghost",
@@ -15,6 +16,14 @@
     "special_attack": 50,
     "special_defence": 60,
     "speed": 38
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 120,
   "maleRatio": 0.5,
@@ -135,10 +144,10 @@
       "requirements": []
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

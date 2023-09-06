@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -35,8 +36,12 @@ class PikachuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
+    lateinit var sleep: PokemonPose
 
     val shoulderOffset = 1.5
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pikachu", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("pikachu", "blink").setPreventsIdle(false) }
         standing = registerPose(
@@ -51,13 +56,17 @@ class PikachuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
 
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("pikachu", "ground_sleep"))
+        )
+
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("pikachu", "ground_walk")
             )
         )
@@ -93,7 +102,6 @@ class PikachuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("pikachu", "battle_idle")
             )
 

@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pose;
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel;
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -38,7 +40,7 @@ public interface Bone {
     /**
      * Renders a particular bone in relation to a particular entity.
      *
-     * @param entity The entity this bone is being drawn for. This parameter need not be available and can be null
+     * @param context The render context this bone is being drawn for.
      * @param stack The current [MatrixStack] for the renderer
      * @param buffer The vertex consumer deployed by the renderer
      * @param packedLight The light level to be applied to the bone
@@ -50,8 +52,8 @@ public interface Bone {
      *
      * @since 1.4.0
      */
-    <T extends Entity> void render(
-            @Nullable T entity,
+    void render(
+            RenderContext context,
             MatrixStack stack,
             VertexConsumer buffer,
             int packedLight,

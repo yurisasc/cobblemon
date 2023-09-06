@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Gardevoir",
   "nationalPokedexNumber": 282,
   "primaryType": "psychic",
@@ -241,7 +242,7 @@
   ],
   "preEvolution": "kirlia",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1,
     "height": 1,

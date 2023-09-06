@@ -25,6 +25,19 @@
   "eggGroups": [
     "mineral"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving" : {
+      "walk": {
+        "walkSpeed": 0.1
+      }
+    }
+  },
   "moves": [
     "1:harden",
     "1:powergem",

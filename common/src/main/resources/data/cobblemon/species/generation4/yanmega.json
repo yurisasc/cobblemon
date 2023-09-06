@@ -28,9 +28,6 @@
   ],
   "behaviour": {
     "moving": {
-      "swim": {
-        "canWalkOnWater": true
-      },
       "fly": {
         "canFly": true
       }

@@ -50,7 +50,7 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 bedrock("tandemaus", "ground_idle"),
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
             )
         )
 
@@ -62,7 +62,7 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 bedrock("tandemaus", "ground_walk"),
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
             )
         )
 

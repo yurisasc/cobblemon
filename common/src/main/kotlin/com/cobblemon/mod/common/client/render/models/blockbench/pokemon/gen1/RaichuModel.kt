@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -23,7 +24,7 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val head = getPart("head")
 
     override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.2, 0.1, 0.0)
+    override val portraitTranslation = Vec3d(-0.2, -0.1, 0.0)
 
     override val profileScale = 0.65F
     override val profileTranslation = Vec3d(0.0, 0.75, 0.0)
@@ -32,6 +33,8 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("raichu", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("raichu", "blink").setPreventsIdle(false) }
@@ -59,7 +62,6 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("raichu", "ground_walk")
             )
         )
@@ -71,7 +73,6 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("raichu", "battle_idle")
             )
         )

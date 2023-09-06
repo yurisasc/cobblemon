@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
+import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.SeatDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
@@ -44,7 +45,6 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
-import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem
 import com.cobblemon.mod.common.net.messages.client.sound.PokemonCryPacket
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
@@ -61,10 +61,7 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.riding.SpeedCalculator
 import com.cobblemon.mod.common.pokemon.riding.RidingState
 import com.cobblemon.mod.common.util.*
-import java.util.*
-import kotlin.math.round
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import net.minecraft.block.BlockState
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
@@ -108,9 +105,14 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
+import net.minecraft.world.GameRules
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.util.*
 import java.util.concurrent.CompletableFuture
+import kotlin.math.round
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 @Suppress("unused")
 class PokemonEntity(
@@ -177,6 +179,8 @@ class PokemonEntity(
 
     private val ridingState = RidingState(0, 0F)
     override var seats: List<Seat> = pokemon.riding.seats().map { it.create(this) }
+
+    private val ridingDelegate: RidingDelegator? = null
 
     /**
      * 0 is do nothing,
@@ -333,7 +337,7 @@ class PokemonEntity(
         val owner = owner
         val future = CompletableFuture<Pokemon>()
         if (phasingTargetId.get() == -1 && owner != null) {
-            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 1F)
+            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.8F)
             phasingTargetId.set(owner.id)
             beamModeEmitter.set(2)
             afterOnMain(seconds = SEND_OUT_DURATION) {
@@ -451,7 +455,6 @@ class PokemonEntity(
             override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get()
             override fun shouldContinue(): Boolean {
                 if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
-                    pokemon.status = null
                     return false
                 } else if (pokemon.status?.status == Statuses.SLEEP || isBusy) {
                     return true
@@ -670,9 +673,9 @@ class PokemonEntity(
                 }
         }
 
-        (stack.item as? PokemonInteractiveItem)?.let {
+        (stack.item as? PokemonEntityInteraction)?.let {
             if (it.onInteraction(player, this, stack)) {
-                it.getSound()?.let {
+                it.sound?.let {
                     this.world.playSoundServer(
                         position = this.pos,
                         sound = it,
@@ -787,6 +790,16 @@ class PokemonEntity(
         if (pokemon.isWild()) {
             super.drop(source)
             delegate.drop(source)
+        }
+    }
+
+    override fun dropXp() {
+        // Copied over the entire function because it's the simplest way to switch out the gamerule check
+        if (
+            world is ServerWorld && !this.isExperienceDroppingDisabled &&
+            (shouldAlwaysDropXp() || playerHitTimer > 0 && shouldDropXp() && world.gameRules.getBoolean(CobblemonGameRules.DO_POKEMON_LOOT))
+        ) {
+            ExperienceOrbEntity.spawn(world as ServerWorld, pos, this.xpToDrop)
         }
     }
 
@@ -960,6 +973,7 @@ class PokemonEntity(
 
     override fun tickControlled(controllingPlayer: PlayerEntity, movementInput: Vec3d) {
         super.tickControlled(controllingPlayer, movementInput)
+        this.ridingDelegate?.tick(movementInput)
 
         if (movementInput != Vec3d.ZERO) {
             this.isMoving.set(true)

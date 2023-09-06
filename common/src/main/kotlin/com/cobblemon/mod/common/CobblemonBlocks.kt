@@ -17,6 +17,8 @@ import com.cobblemon.mod.common.mixin.invoker.StairsBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.TrapdoorBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.block.BerryBlock
 import net.minecraft.block.*
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.entity.effect.StatusEffects
@@ -25,6 +27,7 @@ import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.intprovider.UniformIntProvider
 
 @Suppress("SameParameterValue", "HasPlatformType", "MemberVisibilityCanBePrivate", "unused")
@@ -226,6 +229,87 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     )
 
     private fun apricornBlock(name: String, apricorn: Apricorn): ApricornBlock = this.create(name, ApricornBlock(AbstractBlock.Settings.create().mapColor(apricorn.mapColor()).ticksRandomly().strength(Blocks.OAK_LOG.hardness, Blocks.OAK_LOG.blastResistance).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn))
+
+    private val berries = mutableMapOf<Identifier, BerryBlock>()
+
+    val AGUAV_BERRY = this.berryBlock("aguav")
+    val APICOT_BERRY = this.berryBlock("apicot")
+    val ASPEAR_BERRY = this.berryBlock("aspear")
+    val BABIRI_BERRY = this.berryBlock("babiri")
+    val BELUE_BERRY = this.berryBlock("belue")
+    val BLUK_BERRY = this.berryBlock("bluk")
+    val CHARTI_BERRY = this.berryBlock("charti")
+    val CHERI_BERRY = this.berryBlock("cheri")
+    val CHESTO_BERRY = this.berryBlock("chesto")
+    val CHILAN_BERRY = this.berryBlock("chilan")
+    val CHOPLE_BERRY = this.berryBlock("chople")
+    val COBA_BERRY = this.berryBlock("coba")
+    val COLBUR_BERRY = this.berryBlock("colbur")
+    val CORNN_BERRY = this.berryBlock("cornn")
+    val CUSTAP_BERRY = this.berryBlock("custap")
+    val DURIN_BERRY = this.berryBlock("durin")
+    val ENIGMA_BERRY = this.berryBlock("enigma")
+    val FIGY_BERRY = this.berryBlock("figy")
+    val GANLON_BERRY = this.berryBlock("ganlon")
+    val GREPA_BERRY = this.berryBlock("grepa")
+    val HABAN_BERRY = this.berryBlock("haban")
+    val HONDEW_BERRY = this.berryBlock("hondew")
+    val HOPO_BERRY = this.berryBlock("hopo")
+    val IAPAPA_BERRY = this.berryBlock("iapapa")
+    val JABOCA_BERRY = this.berryBlock("jaboca")
+    val KASIB_BERRY = this.berryBlock("kasib")
+    val KEBIA_BERRY = this.berryBlock("kebia")
+    val KEE_BERRY = this.berryBlock("kee")
+    val KELPSY_BERRY = this.berryBlock("kelpsy")
+    val LANSAT_BERRY = this.berryBlock("lansat")
+    val LEPPA_BERRY = this.berryBlock("leppa")
+    val LIECHI_BERRY = this.berryBlock("liechi")
+    val LUM_BERRY = this.berryBlock("lum")
+    val MAGO_BERRY = this.berryBlock("mago")
+    val MAGOST_BERRY = this.berryBlock("magost")
+    val MARANGA_BERRY = this.berryBlock("maranga")
+    val MICLE_BERRY = this.berryBlock("micle")
+    val NANAB_BERRY = this.berryBlock("nanab")
+    val NOMEL_BERRY = this.berryBlock("nomel")
+    val OCCA_BERRY = this.berryBlock("occa")
+    val ORAN_BERRY = this.berryBlock("oran")
+    val PAMTRE_BERRY = this.berryBlock("pamtre")
+    val PASSHO_BERRY = this.berryBlock("passho")
+    val PAYAPA_BERRY = this.berryBlock("payapa")
+    val PECHA_BERRY = this.berryBlock("pecha")
+    val PERSIM_BERRY = this.berryBlock("persim")
+    val PETAYA_BERRY = this.berryBlock("petaya")
+    val PINAP_BERRY = this.berryBlock("pinap")
+    val POMEG_BERRY = this.berryBlock("pomeg")
+    val QUALOT_BERRY = this.berryBlock("qualot")
+    val RABUTA_BERRY = this.berryBlock("rabuta")
+    val RAWST_BERRY = this.berryBlock("rawst")
+    val RAZZ_BERRY = this.berryBlock("razz")
+    val RINDO_BERRY = this.berryBlock("rindo")
+    val ROSELI_BERRY = this.berryBlock("roseli")
+    val ROWAP_BERRY = this.berryBlock("rowap")
+    val SALAC_BERRY = this.berryBlock("salac")
+    val SHUCA_BERRY = this.berryBlock("shuca")
+    val SITRUS_BERRY = this.berryBlock("sitrus")
+    val SPELON_BERRY = this.berryBlock("spelon")
+    val STARF_BERRY = this.berryBlock("starf")
+    val TAMATO_BERRY = this.berryBlock("tamato")
+    val TANGA_BERRY = this.berryBlock("tanga")
+    val TOUGA_BERRY = this.berryBlock("touga")
+    val WACAN_BERRY = this.berryBlock("wacan")
+    val WATMEL_BERRY = this.berryBlock("watmel")
+    val WEPEAR_BERRY = this.berryBlock("wepear")
+    val WIKI_BERRY = this.berryBlock("wiki")
+    val YACHE_BERRY = this.berryBlock("yache")
+
+    fun berries() = this.berries.toMap()
+
+    private fun berryBlock(name: String): BerryBlock {
+        val identifier = cobblemonResource("${name}_berry")
+        val block = this.create(identifier.path, BerryBlock(identifier, AbstractBlock.Settings.copy(Blocks.WHEAT).dynamicBounds().sounds(BlockSoundGroup.CROP)))
+        this.berries[identifier] = block
+        return block
+    }
 
     /**
      * Helper method for creating logs

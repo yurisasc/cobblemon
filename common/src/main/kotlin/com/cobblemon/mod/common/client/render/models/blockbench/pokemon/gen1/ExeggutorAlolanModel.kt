@@ -64,8 +64,8 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
-                SingleBoneLookAnimation(head3, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
                 bedrock("exeggutor_alolan", "ground_idle")
             )
         )
@@ -76,8 +76,8 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
             quirks = arrayOf(blink1, blink2, blink3, blink4),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
-                SingleBoneLookAnimation(head3, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
                 bedrock("exeggutor_alolan", "ground_walk")
             )
         )
@@ -90,8 +90,8 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
             condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
-                SingleBoneLookAnimation(head3, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
                 bedrock("exeggutor_alolan", "battle_idle")
             )
 

@@ -164,7 +164,6 @@ object TestCommand {
         }
     }
 
-
     private fun testParticles(context: CommandContext<ServerCommandSource>) {
         val file = File("particle.particle.json")
         val effect = SnowstormParticleReader.loadEffect(GsonBuilder().create().fromJson<JsonObject>(file.readText()))

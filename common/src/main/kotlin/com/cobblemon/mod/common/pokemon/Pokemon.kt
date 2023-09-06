@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.pokemon
 
+import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToPlayers
 import com.cobblemon.mod.common.CobblemonSounds
@@ -140,12 +142,13 @@ open class Pokemon : ShowdownIdentifiable {
     var form = species.standardForm
         set(value) {
             val old = field
+            // Species updates already update HP but just a form change may require it
+            // Moved to before the field was set else it won't actually do the hp calc proper <3
+            val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             field = value
             this.sanitizeFormChangeMoves(old)
             // Evo proxy is already cleared on species update but the form may be changed by itself, this is fine and no unnecessary packets will be sent out
             this.evolutionProxy.current().clear()
-            // Species updates already update HP but just a form change may require it
-            val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             findAndLearnFormChangeMoves()
             updateHP(quotient)
             checkGender()
@@ -154,8 +157,26 @@ open class Pokemon : ShowdownIdentifiable {
         }
 
     // Need to happen before currentHealth init due to the calc
-    var ivs = IVs.createRandomIVs()
-    var evs = EVs.createEmpty()
+    val ivs = IVs.createRandomIVs()
+    val evs = EVs.createEmpty()
+
+    fun setIV(stat : Stat, value : Int) {
+        val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
+        ivs[stat] = value
+        if(stat == Stats.HP) {
+            updateHP(quotient)
+        }
+        _ivs.emit(ivs)
+    }
+
+    fun setEV(stat: Stat, value : Int) {
+        val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
+        evs[stat] = value
+        if(stat == Stats.HP) {
+            updateHP(quotient)
+        }
+        _evs.emit(evs)
+    }
 
     var nickname: MutableText? = null
         set(value) {
@@ -167,20 +188,15 @@ open class Pokemon : ShowdownIdentifiable {
 
     var level = 1
         set(value) {
-            if (value < 1) {
-                throw IllegalArgumentException("Level cannot be negative")
-            }
-            if (value > Cobblemon.config.maxPokemonLevel) {
-                throw IllegalArgumentException("Cannot set level above the configured maximum of ${Cobblemon.config.maxPokemonLevel}")
-            }
+            val boundedValue = clamp(value, 1, Cobblemon.config.maxPokemonLevel)
             val hpRatio = (currentHealth / hp.toFloat()).coerceIn(0F, 1F)
             /*
              * When people set the level programmatically the experience value will become incorrect.
              * Specifically check for when there's a mismatch and update the experience.
              */
-            field = value
-            if (experienceGroup.getLevel(experience) != value || value == Cobblemon.config.maxPokemonLevel) {
-                experience = experienceGroup.getExperience(value)
+            field = boundedValue
+            if (experienceGroup.getLevel(experience) != boundedValue || value == Cobblemon.config.maxPokemonLevel) {
+                experience = experienceGroup.getExperience(boundedValue)
             }
 //            _level.emit(value)
 
@@ -419,7 +435,7 @@ open class Pokemon : ShowdownIdentifiable {
             state = SentOutState(entity)
             return entity
         }
-        return null;
+        return null
     }
 
     fun sendOutWithAnimation(
@@ -432,7 +448,7 @@ open class Pokemon : ShowdownIdentifiable {
     ): CompletableFuture<PokemonEntity> {
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
-            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 1F)
+            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.8F)
             it.phasingTargetId.set(source.id)
             it.beamModeEmitter.set(1)
             it.battleId.set(Optional.ofNullable(battleId))
@@ -474,9 +490,7 @@ open class Pokemon : ShowdownIdentifiable {
         entity?.heal(entity.maxHealth - entity.health)
     }
 
-    fun isFullHealth(): Boolean {
-        return this.currentHealth == this.hp
-    }
+    fun isFullHealth() = this.currentHealth == this.hp
 
     fun didSleep() {
         this.currentHealth = min((currentHealth + (hp / 2)), hp)
@@ -787,7 +801,9 @@ open class Pokemon : ShowdownIdentifiable {
             }
         }
         // This cast should be fine as we gave it a NbtCompound
-        this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as NbtCompound
+        if (json.has(DataKeys.POKEMON_PERSISTENT_DATA)) {
+            this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as NbtCompound
+        }
         if (json.has(DataKeys.TETHERING_ID)) {
             tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
         }
@@ -1190,6 +1206,19 @@ open class Pokemon : ShowdownIdentifiable {
     fun getAllObservables() = observables.asIterable()
     /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
     fun getChangeObservable(): Observable<Pokemon> = anyChangeObservable
+
+    fun writeVariables(struct: VariableStruct) {
+        struct.setDirectly("level", DoubleValue(level.toDouble()))
+        struct.setDirectly("max_hp", DoubleValue(hp.toDouble()))
+        struct.setDirectly("current_hp", DoubleValue(currentHealth.toDouble()))
+        struct.setDirectly("friendship", DoubleValue(friendship.toDouble()))
+        struct.setDirectly("shiny", DoubleValue(shiny))
+        for (stat in Stats.PERMANENT) {
+            struct.setDirectly("ev_${stat.showdownId}", DoubleValue(evs.getOrDefault(stat).toDouble()))
+            struct.setDirectly("iv_${stat.showdownId}", DoubleValue(ivs.getOrDefault(stat).toDouble()))
+            struct.setDirectly("stat_${stat.showdownId}", DoubleValue(getStat(stat).toDouble()))
+        }
+    }
 
     private fun findAndLearnFormChangeMoves() {
         this.form.moves.formChangeMoves.forEach { move ->

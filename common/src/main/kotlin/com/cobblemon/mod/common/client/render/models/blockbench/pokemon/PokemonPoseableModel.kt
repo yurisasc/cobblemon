@@ -16,8 +16,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Statel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import net.minecraft.client.render.OverlayTexture
+import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -27,7 +32,7 @@ import net.minecraft.util.math.Vec3d
  * @since December 4th, 2021
  */
 abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
-
+    override val isForLivingEntityRenderer = true
     override fun getState(entity: PokemonEntity) = entity.delegate as PokemonClientDelegate
 
     /** Registers the same configuration for both left and right shoulder poses. */
@@ -71,12 +76,30 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
         state: PoseableEntityState<PokemonEntity>
     ): StatefulAnimation<PokemonEntity, ModelFrame>? = null
 
+    override fun getOverlayTexture(entity: Entity?): Int {
+        return if (entity is PokemonEntity) {
+            OverlayTexture.packUv(
+                OverlayTexture.getU(0F),
+                OverlayTexture.getV(entity.hurtTime > 0)
+            )
+        } else  {
+            OverlayTexture.DEFAULT_UV
+        }
+    }
+
     open val cryAnimation: CryProvider = CryProvider { _, _ -> null }
 //
 //    open fun getCryAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
 //    ): StatefulAnimation<PokemonEntity, ModelFrame>? = null
+
+    override fun setupEntityTypeContext (entity: PokemonEntity?) {
+        entity?.let {
+            context.put(RenderContext.SCALE, it.pokemon.form.baseScale)
+            PokemonModelRepository.variations[it.pokemon.species.resourceIdentifier]?.getTexture(it.pokemon.aspects, 0f).let { texture -> context.put(RenderContext.TEXTURE, texture) }
+        }
+    }
 }
 
 typealias PokemonPose = Pose<PokemonEntity, ModelFrame>

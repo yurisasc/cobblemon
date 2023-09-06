@@ -65,7 +65,7 @@ class EnergyRootItem(block: EnergyRootBlock, settings: Settings) : AliasedBlockI
         if (user is ServerPlayerEntity) {
             return use(user, user.getStackInHand(hand))
         }
-        return super<AliasedBlockItem>.use(world, user, hand)
+        return TypedActionResult.success(user.getStackInHand(hand))
     }
 
 }
