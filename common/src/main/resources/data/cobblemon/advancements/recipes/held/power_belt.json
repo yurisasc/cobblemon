@@ -1,12 +1,12 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_leek": {
+    "has_mint": {
       "conditions": {
         "items": [
           {
             "items": [
-              "cobblemon:medicinal_leek"
+              "cobblemon:blue_mint_leaf"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cobblemon:roasted_leek"
+        "recipe": "cobblemon:power_belt"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_leek",
+      "has_mint",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "cobblemon:roasted_leek"
+      "cobblemon:power_belt"
     ]
   }
 }
