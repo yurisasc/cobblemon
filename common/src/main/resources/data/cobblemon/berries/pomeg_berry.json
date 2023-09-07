@@ -100,8 +100,8 @@
   },
   "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:pomeg_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/pomeg.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:pomeg_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/pomeg.png"
 }

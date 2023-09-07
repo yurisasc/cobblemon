@@ -105,8 +105,8 @@
   },
   "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:micle_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/micle.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:micle_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/micle.png"
 }

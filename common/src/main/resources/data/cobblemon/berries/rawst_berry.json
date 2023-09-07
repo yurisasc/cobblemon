@@ -161,8 +161,8 @@
   },
   "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:rawst_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/rawst.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:rawst_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/rawst.png"
 }
