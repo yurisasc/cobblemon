@@ -281,6 +281,7 @@
 - Master balls are now unable to be burned when dropped into fire/lava.
 - Pokémon will appear red when hurt, like regular entities, except when they're fainting.
 - Ponyta and Rapidash now have animated textures.
+- Item interaction evolutions and held item requirements now support NBT by creating an object JSON containing the key ``item`` for what used to be the existing condition support and a ``nbt`` key for the NBT format, this is the string [format](https://minecraft.fandom.com/wiki/NBT_format) expected in commands. Existing data does not need to be updated.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -319,6 +320,11 @@
 - Fixed Shedinja healing above 1 HP.
 - Fixed battles soft-locking when consecutive Pokemon faint on switch-in.
 - Fixed timing and color of battle window messages.
+- Fixed Galarian Yamask not being able to evolve and by proxy the ``damage_taken`` evolution requirement.
+- Fixed Bisharp not being able to evolve and by proxy the ``defeat`` evolution requirement.
+- Fixed White-Striped Basculin not being able to evolve and by proxy the ``recoil`` evolution requirement.
+- Fixed Primeape, Qwilfish and Stantler not being able to evolve and by proxy the ``use_move`` evolution requirement.
+- Fixed Bramblin, Pawmo, and Rellor not being able to evolve and by proxy the ``blocks_traveled`` evolution requirement.
 
 ### Developer
 - Added SpawnEvent, ThrownPokeballHitEvent, PokemonSentEvent, PokemonRecalledEvent.
@@ -341,6 +347,7 @@
       "showIcon": false
     }
     ```
+- Renamed the ``walked_steps`` evolution requirement to ``blocks_traveled``.
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
