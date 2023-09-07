@@ -946,4 +946,14 @@ class PokemonEntity(
     }
 
     override fun canUsePortals() = false
+
+    override fun setAir(air: Int) {
+        if (this.isBattling) {
+            this.dataTracker.set(AIR, 300)
+            return
+        }
+        super.setAir(air)
+    }
+
+
 }
