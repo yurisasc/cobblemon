@@ -18,7 +18,9 @@ import com.cobblemon.mod.common.api.drop.ItemDropEntry
 import com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_VICTORY
 import com.cobblemon.mod.common.api.events.CobblemonEvents.DATA_SYNCHRONIZED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
+import com.cobblemon.mod.common.api.events.CobblemonEvents.LEVEL_UP_EVENT
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
+import com.cobblemon.mod.common.api.events.CobblemonEvents.TRADE_COMPLETED
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
@@ -61,12 +63,7 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.command.argument.MoveArgumentType
-import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
-import com.cobblemon.mod.common.command.argument.PokemonArgumentType
-import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
-import com.cobblemon.mod.common.command.argument.PokemonStoreArgumentType
-import com.cobblemon.mod.common.command.argument.SpawnBucketArgumentType
+import com.cobblemon.mod.common.command.argument.*
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
@@ -91,25 +88,10 @@ import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
-import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.ifDedicatedServer
-import com.cobblemon.mod.common.util.isLaterVersion
-import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.removeAmountIf
-import com.cobblemon.mod.common.util.server
+import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.UUID
-import kotlin.properties.Delegates
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
-import kotlin.reflect.jvm.javaField
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -119,6 +101,15 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.util.WorldSavePath
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.util.*
+import kotlin.properties.Delegates
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
+import kotlin.reflect.jvm.javaField
 
 object Cobblemon {
     const val MODID = "cobblemon"
@@ -312,6 +303,8 @@ object Cobblemon {
                 }
             }
         }
+        LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
+        TRADE_COMPLETED.subscribe { AdvancementHandler.onTradeCompleted(it) }
 
         BagItems.observable.subscribe {
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
