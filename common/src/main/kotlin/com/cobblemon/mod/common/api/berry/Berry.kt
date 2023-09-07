@@ -73,6 +73,7 @@ class Berry(
     val growthFactors: Collection<GrowthFactor>,
     val spawnConditions: List<BerrySpawnCondition>,
     var growthPoints: Array<GrowthPoint>,
+    val randomizedGrowthPoints: Boolean = true,
     val mutations: Map<Identifier, Identifier>,
     @SerializedName("sproutShape")
     private val sproutShapeBoxes: Collection<Box>,
@@ -85,7 +86,8 @@ class Berry(
     val flowerTexture: Identifier,
     @SerializedName("fruitModel")
     val fruitModelIdentifier: Identifier,
-    val fruitTexture: Identifier
+    val fruitTexture: Identifier,
+    val weight: Float
 ) {
 
     @Transient
@@ -264,6 +266,7 @@ class Berry(
             writer.writeDouble(value.rotation.y)
             writer.writeDouble(value.rotation.z)
         }
+        buffer.writeBoolean(this.randomizedGrowthPoints)
         buffer.writeMap(this.mutations, { writer, key -> writer.writeIdentifier(key) }, { writer, value -> writer.writeIdentifier(value) })
         buffer.writeCollection(this.sproutShapeBoxes) { writer, value ->
             writer.writeBox(value)
@@ -328,6 +331,7 @@ class Berry(
             val growthPoints = buffer.readList { reader ->
                 GrowthPoint(Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble()), Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble()))
             }.toTypedArray()
+            val randomizedGrowthPoints = buffer.readBoolean()
             val mutations = buffer.readMap({ reader -> reader.readIdentifier() }, { reader -> reader.readIdentifier() })
             val sproutShapeBoxes = buffer.readList { it.readBox() }
             val matureShapeBoxes = buffer.readList { it.readBox() }
@@ -337,7 +341,7 @@ class Berry(
             val flowerTexture = buffer.readIdentifier()
             val fruitModelIdentifier = buffer.readIdentifier()
             val fruitTexture = buffer.readIdentifier()
-            return Berry(identifier, baseYield, emptyList(), growthTime, refreshRate, favMulchs, emptySet(), emptyList(), growthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
+            return Berry(identifier, baseYield, emptyList(), growthTime, refreshRate, favMulchs, emptySet(), emptyList(), growthPoints, randomizedGrowthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture, 0F)
         }
 
     }

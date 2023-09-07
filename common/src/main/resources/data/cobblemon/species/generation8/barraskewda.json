@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Barraskewda",
   "nationalPokedexNumber": 847,
   "primaryType": "water",
@@ -23,6 +24,24 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.7,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:aquajet",
     "1:bite",
@@ -86,10 +105,10 @@
   ],
   "preEvolution": "arrokuda",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 0.5,
     "fixed": false
   },
   "baseFriendship": 50,

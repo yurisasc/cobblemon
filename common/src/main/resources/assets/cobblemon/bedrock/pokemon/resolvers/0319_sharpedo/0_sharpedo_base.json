@@ -7,7 +7,13 @@
       "poser": "cobblemon:sharpedo",
       "model": "cobblemon:sharpedo.geo",
       "texture": "cobblemon:textures/pokemon/0319_sharpedo/sharpedo.png",
-      "layers": []
+      "layers": [
+        {
+          "name": "emissive",
+          "texture": "cobblemon:textures/pokemon/0319_sharpedo/sharpedo_emissive.png",
+          "emissive": true
+        }
+      ]
     },
     {
       "aspects": [

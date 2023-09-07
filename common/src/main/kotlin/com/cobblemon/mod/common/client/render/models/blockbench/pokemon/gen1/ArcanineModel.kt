@@ -52,7 +52,7 @@ class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 1F),
+                QuadrupedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 1F)
                 //bedrock("arcanine", "ground_walk")
             )
         )

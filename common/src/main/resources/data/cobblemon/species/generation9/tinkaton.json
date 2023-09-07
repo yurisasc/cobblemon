@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Tinkaton",
   "nationalPokedexNumber": 959,
   "primaryType": "fairy",
@@ -33,6 +34,14 @@
   "eggGroups": [
     "fairy"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:fairywind",
@@ -91,6 +100,12 @@
   "weight": 1128,
   "preEvolution": "tinkatuff",
   "evolutions": [],
+  "baseScale": 1.2,
+  "hitbox": {
+    "width": 0.7,
+    "height": 0.9,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.tinkaton.desc"

@@ -177,7 +177,7 @@
   ],
   "preEvolution": "piloswine",
   "evolutions": [],
-  "baseScale": 3,
+  "baseScale": 1,
   "hitbox": {
     "width": 1.3,
     "height": 1.2,

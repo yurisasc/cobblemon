@@ -20,16 +20,6 @@
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    {
-      "type": "potion_effect",
-      "effect": "minecraft:haste",
-      "amplifier": 0,
-      "ambient": true,
-      "showParticles": false,
-      "showIcon": false
-    }
-  ],
   "baseExperienceYield": 64,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,

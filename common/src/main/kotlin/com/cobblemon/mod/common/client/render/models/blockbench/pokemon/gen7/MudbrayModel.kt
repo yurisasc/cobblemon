@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -19,7 +20,7 @@ import net.minecraft.util.math.Vec3d
 
 class MudbrayModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("mudbray")
-    override val head = getPart("head")
+    override val head = getPart("neck")
 
     override val foreLeftLeg = getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
@@ -34,14 +35,25 @@ class MudbrayModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudbray", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("mudbray", "blink").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("mudbray", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(disableX = true),
                 bedrock("mudbray", "ground_idle")
             )
         )
@@ -50,11 +62,10 @@ class MudbrayModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("mudbray", "ground_idle"),
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.7F)
-                //bedrock("mudbray", "ground_walk")
+                singleBoneLook(disableX = true),
+                bedrock("mudbray", "ground_walk")
             )
         )
     }

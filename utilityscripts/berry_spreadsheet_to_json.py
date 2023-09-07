@@ -67,13 +67,13 @@ def stuff():
 		berry_dict["mutations"] = get_mutations(berry_prefix)
 		berry_dict["sproutShape"] = [
 			{
-		    	"minX": 0,
-		    	"minY": 0,
-		    	"minZ": 0,
-		    	"maxX": 16,
-		    	"maxY": 16,
-		    	"maxZ": 16
-		    }
+		      "minX": 7,
+		      "minY": -1,
+		      "minZ": 7,
+		      "maxX": 9,
+		      "maxY": 0,
+		      "maxZ": 9
+    		}
 		]
 		berry_dict["matureShape"] = [
 			{
@@ -81,7 +81,7 @@ def stuff():
 		    	"minY": 0,
 		    	"minZ": 0,
 		    	"maxX": 16,
-		    	"maxY": 16,
+		    	"maxY": 32,
 		    	"maxZ": 16
 		    }
 		]
@@ -103,8 +103,8 @@ def stuff():
 			flavorDict["SOUR"] = sourVal
 		berry_dict["flavors"] = flavorDict
 		berry_dict["tintIndexes"] = []
-		berry_dict["flowerModel"] = f"cobblemon:flower.geo"
-		berry_dict["flowerTexture"] = f"cobblemon:textures/berries/flower.png"
+		berry_dict["flowerModel"] = f"cobblemon:{berry_prefix}_flower.geo"
+		berry_dict["flowerTexture"] = f"cobblemon:textures/berries/{berry_prefix}.png"
 		berry_dict["fruitModel"] = f"cobblemon:{berry_prefix}_berry.geo"
 		berry_dict["fruitTexture"] = f"cobblemon:textures/berries/{berry_prefix}.png"
 		with open(f"berries/{berry_file_name}", "w+") as file:

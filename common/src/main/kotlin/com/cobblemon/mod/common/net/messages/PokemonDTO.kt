@@ -181,8 +181,12 @@ class PokemonDTO : Encodable, Decodable {
             it.setFriendship(friendship)
             it.currentHealth = currentHealth
             it.gender = gender
-            it.ivs = ivs
-            it.evs = evs
+            ivs.forEach { stat ->
+                it.setIV(stat.key, stat.value)
+            }
+            evs.forEach { stat ->
+                it.setEV(stat.key, stat.value)
+            }
             it.moveSet.clear()
             for (move in moveSet) {
                 it.moveSet.add(move)

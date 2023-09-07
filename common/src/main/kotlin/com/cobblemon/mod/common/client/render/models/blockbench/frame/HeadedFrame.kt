@@ -16,5 +16,5 @@ import net.minecraft.entity.Entity
 interface HeadedFrame : ModelFrame {
     val head: Bone
 
-    fun <T : Entity> singleBoneLook(invertX: Boolean = false, invertY: Boolean = false) = SingleBoneLookAnimation<T>(this, invertX, invertY)
+    fun <T : Entity> singleBoneLook(invertX: Boolean = false, invertY: Boolean = false, disableX: Boolean = false, disableY: Boolean = false) = SingleBoneLookAnimation<T>(this, invertX, invertY, disableX, disableY)
 }

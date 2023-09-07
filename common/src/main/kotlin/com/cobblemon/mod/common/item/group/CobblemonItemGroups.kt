@@ -12,9 +12,7 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemGroup.DisplayContext
-import net.minecraft.item.ItemGroup.Entries
-import net.minecraft.item.ItemGroup.EntryCollector
+import net.minecraft.item.ItemGroup.*
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
@@ -29,19 +27,19 @@ object CobblemonItemGroups {
     private val ALL = arrayListOf<ItemGroupHolder>()
     private val INJECTORS = arrayListOf<ItemGroupInjector>()
 
-    @JvmStatic val AGRICULTURE_KEY = this.create("agriculture", this::agricultureEntries) { ItemStack(CobblemonItems.MEDICINAL_LEEK) }
     @JvmStatic val BLOCKS_KEY = this.create("blocks", this::blockEntries) { ItemStack(CobblemonItems.PC) }
+    @JvmStatic val TOOLS_KEY = this.create("tools", this::toolEntries) { ItemStack(CobblemonItems.POKE_BALL) }
+    @JvmStatic val AGRICULTURE_KEY = this.create("agriculture", this::agricultureEntries) { ItemStack(CobblemonItems.MEDICINAL_LEEK) }
     @JvmStatic val CONSUMABLES_KEY = this.create("consumables", this::consumableEntries) { ItemStack(CobblemonItems.ROASTED_LEEK) }
-    @JvmStatic val EVOLUTION_ITEMS_KEY = this.create("evolution_item", this::evolutionItemEntries) { ItemStack(CobblemonItems.BLACK_AUGURITE) }
     @JvmStatic val HELD_ITEMS_KEY = this.create("held_item", this::heldItemEntries) { ItemStack(CobblemonItems.EXP_SHARE) }
-    @JvmStatic val POKE_BALLS_KEY = this.create("pokeball", this::pokeBallEntries) { ItemStack(CobblemonItems.POKE_BALL) }
+    @JvmStatic val EVOLUTION_ITEMS_KEY = this.create("evolution_item", this::evolutionItemEntries) { ItemStack(CobblemonItems.BLACK_AUGURITE) }
 
-    @JvmStatic val AGRICULTURE get() = Registries.ITEM_GROUP.get(AGRICULTURE_KEY)
     @JvmStatic val BLOCKS get() = Registries.ITEM_GROUP.get(BLOCKS_KEY)
+    @JvmStatic val TOOLS get() = Registries.ITEM_GROUP.get(TOOLS_KEY)
+    @JvmStatic val AGRICULTURE get() = Registries.ITEM_GROUP.get(AGRICULTURE_KEY)
     @JvmStatic val CONSUMABLES get() = Registries.ITEM_GROUP.get(CONSUMABLES_KEY)
-    @JvmStatic val EVOLUTION_ITEMS get() = Registries.ITEM_GROUP.get(EVOLUTION_ITEMS_KEY)
     @JvmStatic val HELD_ITEMS get() = Registries.ITEM_GROUP.get(HELD_ITEMS_KEY)
-    @JvmStatic val POKE_BALLS get() = Registries.ITEM_GROUP.get(POKE_BALLS_KEY)
+    @JvmStatic val EVOLUTION_ITEMS get() = Registries.ITEM_GROUP.get(EVOLUTION_ITEMS_KEY)
 
     @JvmStatic val FOOD_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier("food_and_drinks")), this::foodInjections)
 
@@ -84,9 +82,9 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.REVIVAL_HERB)
         entries.add(CobblemonItems.PEP_UP_FLOWER)
         entries.add(CobblemonItems.MENTAL_HERB)
-        entries.add(CobblemonItems.MIRROR_HERB)
         entries.add(CobblemonItems.POWER_HERB)
         entries.add(CobblemonItems.WHITE_HERB)
+        entries.add(CobblemonItems.MIRROR_HERB)
         entries.add(CobblemonItems.VIVICHOKE)
         entries.add(CobblemonItems.VIVICHOKE_SEEDS)
 
@@ -183,6 +181,26 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.SUPERB_REMEDY)
         entries.add(CobblemonItems.HEAL_POWDER)
         entries.add(CobblemonItems.MEDICINAL_BREW)
+
+        entries.add(CobblemonItems.POTION)
+        entries.add(CobblemonItems.SUPER_POTION)
+        entries.add(CobblemonItems.HYPER_POTION)
+        entries.add(CobblemonItems.MAX_POTION)
+        entries.add(CobblemonItems.FULL_RESTORE)
+
+        entries.add(CobblemonItems.ANTIDOTE)
+        entries.add(CobblemonItems.AWAKENING)
+        entries.add(CobblemonItems.BURN_HEAL)
+        entries.add(CobblemonItems.ICE_HEAL)
+        entries.add(CobblemonItems.PARALYZE_HEAL)
+
+        entries.add(CobblemonItems.FULL_HEAL)
+
+        entries.add(CobblemonItems.ETHER)
+        entries.add(CobblemonItems.MAX_ETHER)
+        entries.add(CobblemonItems.ELIXIR)
+        entries.add(CobblemonItems.MAX_ELIXIR)
+
         entries.add(CobblemonItems.REVIVE)
         entries.add(CobblemonItems.MAX_REVIVE)
 
@@ -278,6 +296,8 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.FLOWER_SWEET)
         entries.add(CobblemonItems.STAR_SWEET)
         entries.add(CobblemonItems.RIBBON_SWEET)
+        entries.add(CobblemonItems.AUSPICIOUS_ARMOR)
+        entries.add(CobblemonItems.MALICIOUS_ARMOR)
     }
 
     private fun heldItemEntries(displayContext: DisplayContext, entries: Entries) {
@@ -336,7 +356,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.POWER_WEIGHT)
     }
 
-    private fun pokeBallEntries(displayContext: DisplayContext, entries: Entries) {
+    private fun toolEntries(displayContext: DisplayContext, entries: Entries) {
         CobblemonItems.pokeBalls.forEach(entries::add)
     }
 

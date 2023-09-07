@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Dragalge",
   "nationalPokedexNumber": 691,
   "primaryType": "poison",
@@ -26,6 +27,17 @@
     "water_1",
     "dragon"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:acid",
     "1:dragontail",
