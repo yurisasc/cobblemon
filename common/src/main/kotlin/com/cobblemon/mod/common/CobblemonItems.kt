@@ -233,8 +233,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField val RAZOR_FANG = noSettingsItem("razor_fang")
 
     // Armor
-    @JvmField val AUSPICIOUS_ARMOR = armorItem("auspicious_armor", AuspiciousArmorMaterial(), ArmorItem.Type.CHESTPLATE)
-    @JvmField val MALICIOUS_ARMOR = armorItem("malicious_armor", MaliciousArmorMaterial(), ArmorItem.Type.CHESTPLATE)
+    @JvmField val AUSPICIOUS_ARMOR = armorItem("auspicious_armor", AuspiciousArmorMaterial(), ArmorItem.Type.CHESTPLATE, Item.Settings().fireproof())
+    @JvmField val MALICIOUS_ARMOR = armorItem("malicious_armor", MaliciousArmorMaterial(), ArmorItem.Type.CHESTPLATE, Item.Settings().fireproof())
 
     private val berries = mutableMapOf<Identifier, BerryItem>()
     // Plants
@@ -698,8 +698,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         }
     )
 
-    private fun armorItem(name: String, type: ArmorMaterial, slot: ArmorItem.Type): ArmorItem {
-        val armor = ArmorItem(type, slot, Item.Settings())
+    private fun armorItem(name: String, type: ArmorMaterial, slot: ArmorItem.Type, settings: Item.Settings): ArmorItem {
+        val armor = ArmorItem(type, slot, settings)
         val item = create(name, armor)
         return item
     }

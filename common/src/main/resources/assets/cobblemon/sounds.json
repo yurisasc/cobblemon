@@ -84,6 +84,12 @@
   "berry.eat": {
     "sounds": [ "cobblemon:berry_eat" ]
   },
+  "auspicious_armor.equip": {
+    "sounds": [ "cobblemon:auspicious_armor_equip" ]
+  },
+  "malicious_armor.equip": {
+    "sounds": [ "cobblemon:malicious_armor_equip" ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },

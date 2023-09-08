@@ -1,30 +1,32 @@
 package com.cobblemon.mod.common.item
 
+import com.cobblemon.mod.common.CobblemonSounds
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.ArmorMaterial
+import net.minecraft.item.ItemConvertible
+import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
 import net.minecraft.sound.SoundEvent
-import net.minecraft.sound.SoundEvents
 
 class MaliciousArmorMaterial : ArmorMaterial {
     override fun getDurability(type: ArmorItem.Type?): Int {
-        return 300
+        return 240
     }
 
     override fun getProtection(type: ArmorItem.Type?): Int {
-        return 1
+        return 6
     }
 
     override fun getEnchantability(): Int {
-        return 5
+        return 15
     }
 
     override fun getEquipSound(): SoundEvent {
-        return SoundEvents.ITEM_ARMOR_EQUIP_IRON
+        return CobblemonSounds.MALICIOUS_ARMOR_EQUIP
     }
 
     override fun getRepairIngredient(): Ingredient {
-        return Ingredient.EMPTY
+        return Ingredient.ofItems(ItemConvertible { Items.FIRE_CHARGE })
     }
 
     override fun getName(): String {
