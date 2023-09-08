@@ -8,9 +8,7 @@
 
 package com.cobblemon.mod.common.block
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
@@ -21,8 +19,13 @@ import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.mulch.Mulchable
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
-import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
-import net.minecraft.block.*
+import net.minecraft.block.Block
+import net.minecraft.block.BlockRenderType
+import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
+import net.minecraft.block.Blocks
+import net.minecraft.block.Fertilizable
+import net.minecraft.block.ShapeContext
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
@@ -35,7 +38,6 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -128,7 +130,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         variant: MulchVariant
     ): Boolean {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-        return treeEntity.mulchVariant == null
+        return treeEntity.mulchVariant == null && state.get(AGE) < FLOWER_AGE && world.getBlockState(pos.down()).isOf(Blocks.FARMLAND)
     }
 
     override fun applyMulch(
@@ -197,7 +199,12 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
         val berry = this.berry() ?: return VoxelShapes.fullCube()
-        return if (state.get(AGE) >= MATURE_AGE) berry.matureShape else berry.sproutShape
+        return when (state.get(AGE)) {
+            0 -> PLANTED_SHAPE
+            1 -> PLANTED_SHAPE
+            2 -> berry.sproutShape
+            else -> berry.matureShape
+        }
     }
 
     private fun isMaxAge(state: BlockState) = state.get(AGE) == FRUIT_AGE
@@ -211,5 +218,9 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         const val FRUIT_AGE = 5
         val AGE: IntProperty = IntProperty.of("age", 0, FRUIT_AGE)
         val WAS_GENERATED: BooleanProperty = BooleanProperty.of("generated")
+        val PLANTED_SHAPE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.3125, -0.0625, 0.3125, 0.6875, 0.0, 0.6875),
+            VoxelShapes.cuboid(0.375, 0.0, 0.375, 0.625, 0.0625, 0.625)
+        )
     }
 }

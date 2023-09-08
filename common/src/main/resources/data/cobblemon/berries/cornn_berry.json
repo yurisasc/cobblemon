@@ -132,8 +132,8 @@
   },
   "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:cornn_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/cornn.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:cornn_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/cornn.png"
 }

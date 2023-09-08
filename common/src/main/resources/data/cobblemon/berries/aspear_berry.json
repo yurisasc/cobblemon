@@ -162,8 +162,8 @@
   },
   "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:aspear_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/aspear.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:aspear_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/aspear.png"
 }
