@@ -50,7 +50,7 @@ class BerryGroveFeature : Feature<DefaultFeatureConfig>(DefaultFeatureConfig.COD
 
         val randomTreeStateProvider = RandomizedIntBlockStateProvider(
             defTreeState, BerryBlock.AGE,
-            ClampedNormalIntProvider.of(4f, 1f, 1, 5))
+            ClampedNormalIntProvider.of(4f, 1f, 3, 5))
         val blockPlaceFeature = PlacedFeatures.createEntry(
             SIMPLE_BLOCK,
             SimpleBlockFeatureConfig(
