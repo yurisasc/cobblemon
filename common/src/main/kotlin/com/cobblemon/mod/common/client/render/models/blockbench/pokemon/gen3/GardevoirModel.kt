@@ -30,7 +30,7 @@ class GardevoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override val portraitTranslation = Vec3d(-0.1, 1.9, 0.0)
 
     override val profileScale = 0.65F
     override val profileTranslation = Vec3d(0.0, 0.76, 0.0)

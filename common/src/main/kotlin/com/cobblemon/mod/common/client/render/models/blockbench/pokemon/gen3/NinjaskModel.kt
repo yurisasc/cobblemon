@@ -25,8 +25,8 @@ class NinjaskModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override val head = getPart("head")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.2, -0.3, 0.0)
+    override val portraitScale = 1.8F
+    override val portraitTranslation = Vec3d(-0.2, -0.4, 0.0)
 
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.3, 0.0)

@@ -10,7 +10,7 @@
       "layers": [
         {
           "name": "emissive",
-          "texture": "cobblemon:textures/pokemon/0094_gengar/gengar_emissive.png",
+          "texture": "cobblemon:textures/pokemon/0094_gengar/gengar_emissives.png",
           "emissive": true,
           "translucent": true
         }
@@ -24,7 +24,7 @@
       "layers": [
         {
           "name": "emissive",
-          "texture": "cobblemon:textures/pokemon/0094_gengar/gengar_shiny_emissive.png",
+          "texture": "cobblemon:textures/pokemon/0094_gengar/gengar_shiny_emissives.png",
           "emissive": true,
           "translucent": true
         }
