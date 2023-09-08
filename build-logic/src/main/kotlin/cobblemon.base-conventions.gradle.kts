@@ -18,6 +18,8 @@ plugins {
     id("org.cadixdev.licenser")
     id("dev.architectury.loom")
     id("architectury-plugin")
+    id("net.kyori.blossom")
+    id("org.jetbrains.gradle.plugin.idea-ext")
     kotlin("jvm")
 }
 

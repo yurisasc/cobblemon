@@ -55,3 +55,15 @@ tasks.withType<Test> {
         setExceptionFormat("full")
     }
 }
+
+sourceSets {
+    main {
+        blossom {
+            kotlinSources {
+                property("modid", "cobblemon")
+                property("version", rootProject.version.toString())
+                // TODO property("gitCommit", ...)
+            }
+        }
+    }
+}

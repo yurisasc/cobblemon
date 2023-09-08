@@ -8,9 +8,8 @@
 
 package com.cobblemon.mod.common.api.riding
 
+import com.cobblemon.mod.common.api.riding.capabilities.RidingCapability
 import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
-import com.cobblemon.mod.common.api.riding.properties.mounting.MountProperties
-import com.cobblemon.mod.common.api.riding.properties.mounting.MountType
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 
 interface RidingProperties {
@@ -21,6 +20,6 @@ interface RidingProperties {
 
     fun conditions(): List<RidingCondition>
 
-    fun properties(type: MountType): MountProperties?
+    fun capabilities(): List<RidingCapability>
 
 }

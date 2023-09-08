@@ -122,8 +122,8 @@ import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 
 object Cobblemon {
-    const val MODID = "cobblemon"
-    const val VERSION = "1.4.0"
+    const val MODID = CobblemonConstants.MOD_ID
+
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER = LogManager.getLogger()
 
@@ -378,7 +378,7 @@ object Cobblemon {
             this.config = CobblemonConfig()
         }
 
-        config.lastSavedVersion = VERSION
+        config.lastSavedVersion = CobblemonConstants.VERSION
         this.saveConfig()
 
         bestSpawner.loadConfig()

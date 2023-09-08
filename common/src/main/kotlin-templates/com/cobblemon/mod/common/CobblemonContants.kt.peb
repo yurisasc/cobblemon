@@ -1,0 +1,9 @@
+package com.cobblemon.mod.common
+
+object CobblemonConstants {
+
+    const val MOD_ID = "{{ modid }}"
+    const val VERSION = "{{ version }}"
+    const val GIT_COMMIT = "{{ gitCommit | default("unknown") }}"
+
+}

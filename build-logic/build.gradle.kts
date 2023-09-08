@@ -15,4 +15,7 @@ dependencies {
     implementation(libs.shadow)
     implementation(libs.loom)
     implementation(libs.architecturyPlugin)
+
+    implementation(libs.blossom)
+    implementation(libs.ideaExt)
 }

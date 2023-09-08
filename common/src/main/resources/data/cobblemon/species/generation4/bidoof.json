@@ -194,15 +194,6 @@
   "aspects": [],
   "cannotDynamax": false,
   "riding": {
-    "mounts": [
-      {
-        "key": "land",
-        "attributes": {
-          "speed": 2,
-          "acceleration": 3
-        }
-      }
-    ],
     "capabilities": {
       "land": {
         "speed": 2,
