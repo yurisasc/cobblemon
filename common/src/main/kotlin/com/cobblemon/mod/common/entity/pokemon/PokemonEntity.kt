@@ -58,7 +58,6 @@ import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.util.*
 import java.util.concurrent.CompletableFuture
-import net.minecraft.block.BlockState
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
@@ -824,6 +823,7 @@ class PokemonEntity(
     }
 
     fun isFlying() = this.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
+    fun couldStopFlying() = isFlying() && !behaviour.moving.walk.avoidsLand && behaviour.moving.walk.canWalk
     fun isFalling() = this.fallDistance > 0 && this.world.getBlockState(this.blockPos.down()).isAir && !this.isFlying()
     fun getIsSubmerged() = isInLava || isSubmergedInWater
     override fun getPoseType(): PoseType = this.poseType.get()
