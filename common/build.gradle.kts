@@ -27,6 +27,7 @@ dependencies {
     implementation(libs.reflect)
 
     modImplementation(libs.fabricLoader)
+    modCompileOnly("com.jozufozu.flywheel:flywheel-fabric-1.20.1:0.6.9-1")
     modApi(libs.molang)
     compileOnlyApi(libs.jeiApi)
 

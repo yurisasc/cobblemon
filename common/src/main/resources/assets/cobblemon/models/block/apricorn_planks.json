@@ -1,6 +1,43 @@
 {
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "cobblemon:block/apricorn_planks"
-  }
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "cobblemon:block/lum",
+		"particle": "cobblemon:block/lum"
+	},
+	"elements": [
+		{
+			"from": [6, -4.5, 6],
+			"to": [10, -0.5, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [4, 4, 8, 8], "texture": "#0"},
+				"east": {"uv": [0, 4, 4, 8], "texture": "#0"},
+				"south": {"uv": [12, 4, 16, 8], "texture": "#0"},
+				"west": {"uv": [8, 4, 12, 8], "texture": "#0"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#0"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, -1, 7],
+			"to": [9, 0, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [2, 10, 4, 11], "texture": "#0"},
+				"east": {"uv": [0, 10, 2, 11], "texture": "#0"},
+				"south": {"uv": [6, 10, 8, 11], "texture": "#0"},
+				"west": {"uv": [4, 10, 6, 11], "texture": "#0"},
+				"up": {"uv": [4, 10, 2, 8], "texture": "#0"},
+				"down": {"uv": [6, 8, 4, 10], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "Lum",
+			"origin": [8, 0, 8],
+			"color": 0,
+			"children": [0, 1]
+		}
+	]
 }
