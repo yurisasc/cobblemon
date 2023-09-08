@@ -38,6 +38,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
+import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
