@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:leftovers"
+      "item": "cobblemon:miracle_seed"
     },
     "title": {
-      "translate": "advancements.cobblemon.obtain_leftovers"
+      "translate": "advancements.cobblemon.any_plant"
     },
     "description": {
-      "translate": "advancements.cobblemon.obtain_leftovers.description"
+      "translate": "advancements.cobblemon.any_plant.description"
     }
   },
   "parent": "cobblemon:root",
@@ -16,12 +16,11 @@
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
-          {
-            "items": ["cobblemon:leftovers"]
+		  {
+            "tag": "cobblemon:plants"
           }
         ]
       }
     }
-  },
-  "sends_telemetry_event": false
+  }
 }

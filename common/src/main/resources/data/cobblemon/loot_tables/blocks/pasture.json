@@ -9,6 +9,11 @@
           "type": "minecraft:item",
           "name": "cobblemon:pasture"
         }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ]
     }
   ]
