@@ -109,8 +109,8 @@
   },
   "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:belue_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/belue.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:belue_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/belue.png"
 }

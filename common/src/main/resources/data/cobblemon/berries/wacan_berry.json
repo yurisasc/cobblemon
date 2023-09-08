@@ -124,8 +124,8 @@
   },
   "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:wacan_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/wacan.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:wacan_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/wacan.png"
 }
