@@ -59,7 +59,7 @@ interface PokemonSelectingItem {
                 return interactWithSpecificBattle(player, stack, battlePokemon)
             }
         } ?: run {
-            if (entity != null) {
+            if (entity != null && !player.isSneaking) {
                 val pokemon = entity.pokemon
                 if (entity.ownerUuid == player.uuid) {
                     return applyToPokemon(player, stack, pokemon) ?: TypedActionResult.pass(stack)
@@ -96,11 +96,6 @@ interface PokemonSelectingItem {
     fun canUseOnBattlePokemon(battlePokemon: BattlePokemon): Boolean = bagItem!!.canUse(battlePokemon.actor.battle, battlePokemon)
 
     fun interactWithSpecificBattle(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon): TypedActionResult<ItemStack> {
-
-        if (player.isSneaking) {
-            return TypedActionResult.fail(stack)
-        }
-
         return if (canUseOnBattlePokemon(battlePokemon)) {
             applyToBattlePokemon(player, stack, battlePokemon)
             TypedActionResult.success(stack)
@@ -111,11 +106,6 @@ interface PokemonSelectingItem {
     }
 
     fun interactGeneral(player: ServerPlayerEntity, stack: ItemStack): TypedActionResult<ItemStack> {
-
-        if (player.isSneaking) {
-            return TypedActionResult.fail(stack)
-        }
-
         val party = player.party().toList()
         if (party.isEmpty()) {
             return TypedActionResult.fail(stack)
@@ -139,11 +129,6 @@ interface PokemonSelectingItem {
     }
 
     fun interactGeneralBattle(player: ServerPlayerEntity, stack: ItemStack, actor: BattleActor): TypedActionResult<ItemStack> {
-
-        if (player.isSneaking) {
-            return TypedActionResult.fail(stack)
-        }
-
         PartySelectCallbacks.createBattleSelect(
             player = player,
             pokemon = actor.pokemonList,
