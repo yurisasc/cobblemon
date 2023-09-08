@@ -12,7 +12,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.util.adapters.LocatorBoneAdapter
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
+import com.jozufozu.flywheel.core.hardcoded.ModelPart
+import com.jozufozu.flywheel.core.hardcoded.PartBuilder
 import net.minecraft.client.model.*
+import net.minecraft.client.texture.SpriteAtlasHolder
+import net.minecraft.util.Identifier
 
 class TexturedModel {
     @SerializedName("format_version")
@@ -22,6 +26,39 @@ class TexturedModel {
 
     fun create(isForLivingEntityRenderer: Boolean) : TexturedModelData {
         return createWithUvOverride(isForLivingEntityRenderer, 0, 0, null, null)
+    }
+
+    fun createFlywheelModel(atlas: SpriteAtlasHolder, textureName: Identifier, name: String): ModelPart {
+        val texture = atlas.getSprite(textureName)
+        val width = ((texture.maxU * atlas.atlas.width.toFloat()) - (texture.minU * atlas.atlas.width)).toInt()
+        val height =( (texture.maxV * atlas.atlas.height.toFloat()) - (texture.minV * atlas.atlas.height)).toInt()
+        val modelBuilder = PartBuilder(name, width, height)
+        modelBuilder.sprite(texture)
+        geometry?.forEach {
+            it.bones?.forEach { bone ->
+                var cuboidBuilder = modelBuilder.cuboid()
+                cuboidBuilder.sprite(texture)
+                bone.cubes?.forEach{cube ->
+
+                    if (cube.origin != null) {
+                        cuboidBuilder.start(cube.origin[0], cube.origin[1], cube.origin[2])
+                    }
+                    if (cube.size != null) {
+                        cuboidBuilder.size(cube.size[0], cube.size[1], cube.size[2])
+                    }
+                    if (cube.rotation != null) {
+                        cuboidBuilder.rotate(cube.rotation[0], cube.rotation[1], cube.rotation[2])
+                    }
+                    if (cube.uv != null) {
+                        cuboidBuilder.textureOffset(cube.uv[0], cube.uv[1])
+                    }
+                    cuboidBuilder.invertYZ()
+                    cuboidBuilder.endCuboid()
+                    cuboidBuilder = modelBuilder.cuboid()
+                }
+            }
+        }
+        return modelBuilder.build()
     }
 
     fun createWithUvOverride(isForLivingEntityRenderer: Boolean, u: Int, v: Int, textureWidth: Int?, textureHeight: Int?) : TexturedModelData {

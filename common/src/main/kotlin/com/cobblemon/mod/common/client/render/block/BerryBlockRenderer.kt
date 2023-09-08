@@ -46,43 +46,9 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
     }
 
     override fun render(entity: BerryBlockEntity, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
-        if (!isInRenderDistance(entity, entity.pos.toVec3d())) return
-        val blockState = entity.cachedState
-        val age = blockState.get(BerryBlock.AGE)
-        if (age <= BerryBlock.MATURE_AGE) {
-            return
-        }
-        if (entity.shouldRerender) {
-            vertexBufferCache.invalidate(entity.pos)
-            entity.shouldRerender = false
-        }
-        val vertexBuffer = vertexBufferCache.get(entity.pos) {
-            val buffer = constructBuffer(entity, age, light, overlay)
-            validLightMap[entity.pos] = light
-            return@get buffer
-        }
-        if (validLightMap[entity.pos] != light) {
-            //Recursion scary, pls no stackoverflow
-            vertexBufferCache.invalidate(entity.pos)
-            render(entity, tickDelta, matrices, vertexConsumers, light, overlay)
-        }
-        else {
-            matrices.push()
-
-            CobblemonRenderLayers.BERRY_LAYER.startDrawing()
-            vertexBuffer.bind()
-            val posMatrix = matrices.peek().positionMatrix
-            vertexBuffer.draw(
-                posMatrix.mul(RenderSystem.getModelViewMatrix()),
-                RenderSystem.getProjectionMatrix(),
-                GameRenderer.getRenderTypeCutoutProgram()
-            )
-            VertexBuffer.unbind()
-            CobblemonRenderLayers.BERRY_LAYER.endDrawing()
-            matrices.pop()
-        }
     }
 
+    /*
     fun constructBuffer(entity: BerryBlockEntity, age:Int, light: Int, overlay: Int): VertexBuffer {
         val tessellator = Tessellator()
         tessellator.buffer.begin(
@@ -112,5 +78,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         VertexBuffer.unbind()
         return vertexBuffer
     }
+    
+     */
 
 }

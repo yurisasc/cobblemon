@@ -17,8 +17,9 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.endsWith
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.jozufozu.flywheel.core.hardcoded.ModelPart
+import com.jozufozu.flywheel.core.hardcoded.PartBuilder
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.model.ModelPart
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -44,20 +45,17 @@ object BerryModelRepository : JsonDataRegistry<TexturedModel> {
         data.forEach { (identifier, model) ->
             var textureName = "cobblemon:flower"
             if (identifier.endsWith("berry.geo")) {
-                textureName = identifier.toString().substring(0, identifier.toString().length - "_berry.geo".length)
+                textureName = identifier.toString()
+                    .substring(0, identifier.toString().length - "_berry.geo".length)
             }
-            val sprite = CobblemonAtlases.BERRY_SPRITE_ATLAS.getSprite(Identifier.tryParse(textureName))
-            this.models[identifier] = model.createWithUvOverride(
-                false,
-                sprite.x,
-                sprite.y,
-                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.width,
-                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.height
-            ).createModel()
+            val atlas = CobblemonAtlases.BERRY_SPRITE_ATLAS
+            this.models[identifier] = model.createFlywheelModel(
+                atlas,
+                Identifier.tryParse(textureName)!!,
+                identifier.toString()
+            )
         }
         Cobblemon.LOGGER.info("Loaded {} berry models", this.models.size)
     }
-
     fun modelOf(identifier: Identifier) = this.models[identifier]
-
 }

@@ -58,6 +58,8 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.util.profiler.Profiler
+import net.minecraft.util.profiling.jfr.event.WorldLoadFinishedEvent
+import net.minecraft.world.WorldEvents
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
