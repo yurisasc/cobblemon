@@ -8,9 +8,7 @@
 
 package com.cobblemon.mod.common.block
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
@@ -21,8 +19,13 @@ import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.mulch.Mulchable
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
-import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
-import net.minecraft.block.*
+import net.minecraft.block.Block
+import net.minecraft.block.BlockRenderType
+import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
+import net.minecraft.block.Blocks
+import net.minecraft.block.Fertilizable
+import net.minecraft.block.ShapeContext
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
@@ -75,6 +78,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         defaultState = this.stateManager.defaultState
             .with(WAS_GENERATED, false)
             .with(AGE, 0)
+            .with(MULCH, MulchVariant.NONE)
     }
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
@@ -106,9 +110,9 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             CobblemonEvents.BERRY_MUTATION_OFFER.post(BerryMutationOfferEvent(berry, world, state, pos, mutations)) { berryMutationOffer ->
                 if (berryMutationOffer.mutations.isNotEmpty()) {
                     var mutateChance = 125
-                    if (treeEntity.mulchVariant == MulchVariant.SURPRISE) {
+                    if (getMulch(state) == MulchVariant.SURPRISE) {
                         mutateChance *= 4
-                        treeEntity.mulchDuration--
+                        treeEntity.decrementMulchDuration(world, pos, state)
                     }
                     val mutation = if (random.nextInt(1000) < mutateChance) mutations.random() else null
                     (world.getBlockEntity(pos) as? BerryBlockEntity)?.let { blockEntity ->
@@ -127,8 +131,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         state: BlockState,
         variant: MulchVariant
     ): Boolean {
-        val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-        return treeEntity.mulchVariant == null
+        return getMulch(state) == MulchVariant.NONE && state.get(AGE) < FLOWER_AGE && world.getBlockState(pos.down()).isOf(Blocks.FARMLAND)
     }
 
     override fun applyMulch(
@@ -139,7 +142,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         variant: MulchVariant
     ) {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-        treeEntity.mulchVariant = variant
+        setMulch(world, pos, state, variant)
         treeEntity.mulchDuration = variant.duration
         world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS)
     }
@@ -147,8 +150,8 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     @Deprecated("Deprecated in Java")
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-        if(player.getStackInHand(hand).item is ShovelItem && treeEntity.mulchVariant != null) {
-            treeEntity.mulchVariant = null
+        if (player.getStackInHand(hand).item is ShovelItem && getMulch(state) != MulchVariant.NONE) {
+            setMulch(world, pos, state, MulchVariant.NONE)
             treeEntity.markDirty()
             world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS)
             return ActionResult.SUCCESS
@@ -156,8 +159,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
         if (player.getStackInHand(hand).isOf(Items.BONE_MEAL)) {
             return ActionResult.PASS
-        }
-        else if (this.isMaxAge(state)) {
+        } else if (this.isMaxAge(state)) {
             val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return ActionResult.PASS
             blockEntity.harvest(world, state, pos, player).forEach { drop ->
                 Block.dropStack(world, pos, drop)
@@ -187,6 +189,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(AGE)
         builder.add(WAS_GENERATED)
+        builder.add(MULCH)
     }
 
     override fun getPickStack(world: BlockView?, pos: BlockPos?, state: BlockState?): ItemStack {
@@ -197,7 +200,12 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
         val berry = this.berry() ?: return VoxelShapes.fullCube()
-        return if (state.get(AGE) >= MATURE_AGE) berry.matureShape else berry.sproutShape
+        return when (state.get(AGE)) {
+            0 -> PLANTED_SHAPE
+            1 -> PLANTED_SHAPE
+            2 -> berry.sproutShape
+            else -> berry.matureShape
+        }
     }
 
     private fun isMaxAge(state: BlockState) = state.get(AGE) == FRUIT_AGE
@@ -210,6 +218,21 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         const val FLOWER_AGE = 4
         const val FRUIT_AGE = 5
         val AGE: IntProperty = IntProperty.of("age", 0, FRUIT_AGE)
+        val MULCH: EnumProperty<MulchVariant> = EnumProperty.of("mulch", MulchVariant::class.java)
         val WAS_GENERATED: BooleanProperty = BooleanProperty.of("generated")
+        val PLANTED_SHAPE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.3125, -0.0625, 0.3125, 0.6875, 0.0, 0.6875),
+            VoxelShapes.cuboid(0.375, 0.0, 0.375, 0.625, 0.0625, 0.625)
+        )
+        fun getMulch(state: BlockState): MulchVariant {
+            if (!state.contains(MULCH)) {
+                return MulchVariant.NONE
+            }
+            return state.get(MULCH)
+        }
+
+        fun setMulch(world: World, pos: BlockPos, state: BlockState, mulch: MulchVariant) {
+            world.setBlockState(pos, state.with(MULCH, mulch))
+        }
     }
 }

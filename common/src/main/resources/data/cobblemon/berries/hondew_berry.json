@@ -97,8 +97,8 @@
   },
   "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:hondew_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/hondew.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:hondew_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/hondew.png"
 }
