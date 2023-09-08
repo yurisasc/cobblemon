@@ -100,7 +100,7 @@ interface PokemonAndMoveSelectingItem {
     fun interactWithSpecific(player: ServerPlayerEntity, stack: ItemStack, pokemon: Pokemon): TypedActionResult<ItemStack>? {
 
         if (player.isSneaking) {
-            return TypedActionResult.fail(stack)
+            return TypedActionResult.pass(stack)
         }
 
         MoveSelectCallbacks.create(
