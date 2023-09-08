@@ -98,6 +98,11 @@ interface PokemonAndMoveSelectingItem {
     fun canUseOnMove(move: Move): Boolean
 
     fun interactWithSpecific(player: ServerPlayerEntity, stack: ItemStack, pokemon: Pokemon): TypedActionResult<ItemStack>? {
+
+        if (player.isSneaking) {
+            return TypedActionResult.fail(stack)
+        }
+
         MoveSelectCallbacks.create(
             player = player,
             moves = pokemon.moveSet.toList(),
@@ -108,11 +113,6 @@ interface PokemonAndMoveSelectingItem {
     }
 
     fun interactWithSpecificBattle(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon): TypedActionResult<ItemStack>? {
-
-        if (player.isSneaking) {
-            return TypedActionResult.fail(stack)
-        }
-
         return if (canUseOnBattlePokemon(battlePokemon)) {
             MoveSelectCallbacks.create(
                 player = player,
@@ -128,11 +128,6 @@ interface PokemonAndMoveSelectingItem {
     }
 
     fun interactGeneral(player: ServerPlayerEntity, stack: ItemStack): TypedActionResult<ItemStack>? {
-
-        if (player.isSneaking) {
-            return TypedActionResult.fail(stack)
-        }
-
         PartyMoveSelectCallbacks.createFromPokemon(
             player = player,
             pokemon = player.party().toList(),
