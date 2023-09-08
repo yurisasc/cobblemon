@@ -646,10 +646,9 @@ object ShowdownInterpreter {
             this.lastCauser[battle.battleId] = message
 
             userPokemon.effectedPokemon.let { pokemon ->
-                val progress = UseMoveEvolutionProgress()
-                if (progress.shouldKeep(pokemon)) {
-                    val created = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is UseMoveEvolutionProgress && it.currentProgress().move == move }) { progress }
-                    created.updateProgress(UseMoveEvolutionProgress.Progress(created.currentProgress().move, created.currentProgress().amount + 1))
+                if (UseMoveEvolutionProgress.supports(pokemon, move)) {
+                    val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is UseMoveEvolutionProgress && it.currentProgress().move == move }) { UseMoveEvolutionProgress() }
+                    progress.updateProgress(UseMoveEvolutionProgress.Progress(move, progress.currentProgress().amount + 1))
                 }
             }
 
@@ -1355,14 +1354,12 @@ object ShowdownInterpreter {
         val battlePokemon = publicMessage.getBattlePokemon(0, battle) ?: return
         if (privateMessage.optionalArgument("from")?.equals("recoil", true) == true) {
             battlePokemon.effectedPokemon.let { pokemon ->
-                val recoilProgress = RecoilEvolutionProgress()
-                // Lazy cheat to see if it's necessary to use this
-                if (recoilProgress.shouldKeep(pokemon)) {
-                    val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is RecoilEvolutionProgress }) { recoilProgress }
+                if (RecoilEvolutionProgress.supports(pokemon)) {
                     val newPercentage = privateMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toIntOrNull() ?: 0
                     val newHealth = (pokemon.hp * (newPercentage / 100.0)).roundToInt()
                     val difference = pokemon.currentHealth - newHealth
                     if (difference > 0) {
+                        val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is RecoilEvolutionProgress }) { RecoilEvolutionProgress() }
                         progress.updateProgress(RecoilEvolutionProgress.Progress(progress.currentProgress().recoil + difference))
                     }
                 }
@@ -1406,10 +1403,8 @@ object ShowdownInterpreter {
                     battlePokemon.effectedPokemon.currentHealth = remainingHealth
                     if (difference > 0) {
                         battlePokemon.effectedPokemon.let { pokemon ->
-                            val damageProgress = DamageTakenEvolutionProgress()
-                            // Lazy cheat to see if it's necessary to use this
-                            if (damageProgress.shouldKeep(pokemon)) {
-                                val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is DamageTakenEvolutionProgress }) { damageProgress }
+                            if (DamageTakenEvolutionProgress.supports(pokemon)) {
+                                val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is DamageTakenEvolutionProgress }) { DamageTakenEvolutionProgress() }
                                 progress.updateProgress(DamageTakenEvolutionProgress.Progress(progress.currentProgress().amount + difference))
                             }
                         }
@@ -1434,8 +1429,8 @@ object ShowdownInterpreter {
      * The switched Pokémon has HP HP, and status STATUS.
      */
     fun handleDragInstruction(battle: PokemonBattle, actor: BattleActor, publicMessage: BattleMessage, privateMessage: BattleMessage) {
-        battle.dispatchGo {
-            val (pnx, pokemonID) = publicMessage.pnxAndUuid(0) ?: return@dispatchGo
+        battle.dispatchInsert {
+            val (pnx, pokemonID) = publicMessage.pnxAndUuid(0)!!
             val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             val pokemon = battle.getBattlePokemon(pnx, pokemonID)
 
@@ -1447,13 +1442,15 @@ object ShowdownInterpreter {
             battle.majorBattleActions[pokemon.uuid] = publicMessage
 
             val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
-            battle.dispatch {
-                if (entity != null) {
-                    this.createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon)
-                } else {
-                    this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
+            setOf(
+                BattleDispatch {
+                    if (entity != null) {
+                        this.createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon)
+                    } else {
+                        this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
+                    }
                 }
-            }
+            )
         }
 
     }

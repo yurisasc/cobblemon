@@ -38,7 +38,6 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -224,7 +223,6 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             VoxelShapes.cuboid(0.3125, -0.0625, 0.3125, 0.6875, 0.0, 0.6875),
             VoxelShapes.cuboid(0.375, 0.0, 0.375, 0.625, 0.0625, 0.625)
         )
-
         fun getMulch(state: BlockState): MulchVariant {
             if (!state.contains(MULCH)) {
                 return MulchVariant.NONE
