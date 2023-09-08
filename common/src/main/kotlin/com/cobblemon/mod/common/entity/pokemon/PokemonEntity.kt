@@ -88,6 +88,7 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ChunkTicketType
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -98,6 +99,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
@@ -932,4 +934,16 @@ class PokemonEntity(
     }
 
     override fun canUsePortals() = false
+
+    override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
+        if (player != null) {
+            if(this.ownerUuid == player.uuid && tethering == null) {
+                val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
+                (world as ServerWorld).chunkManager
+                    .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
+                this.goalSelector.tick()
+                if(distanceTo(player.blockPos) > 100) pokemon.recall()
+            }
+        }
+    }
 }
