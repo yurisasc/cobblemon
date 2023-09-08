@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.mixin;
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel;
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone;
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -36,7 +38,7 @@ public abstract class ModelPartMixin implements Bone {
     }
 
     @Override
-    public <T extends Entity> void render(T entity, MatrixStack stack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
+    public void render(RenderContext context, MatrixStack stack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
         this.render(stack, buffer, packedLight, packedOverlay, r, g, b, a);
     }
 

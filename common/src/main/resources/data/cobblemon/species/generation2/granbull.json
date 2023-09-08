@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Granbull",
   "nationalPokedexNumber": 210,
   "primaryType": "fairy",
@@ -177,10 +178,10 @@
   ],
   "preEvolution": "snubbull",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2,
     "fixed": false
   },
   "baseFriendship": 70,

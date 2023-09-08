@@ -19,6 +19,31 @@
   "catchRate": 90,
   "maleRatio": 0.5,
   "shoulderMountable": false,
+  "forms": [
+    {
+      "name": "Alolan",
+      "maleRatio": 0.5,
+      "labels": [
+        "alola_regional"
+      ],
+      "aspects": [
+        "alolan"
+      ],
+      "evolutions": [
+        {
+          "id": "exeggcute_exeggutor",
+          "variant": "item_interact",
+          "result": "exeggutor alolan",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "dragonhammer"
+          ],
+          "requirements": [],
+          "requiredContext": "cobblemon:leaf_stone"
+        }
+      ]
+    }
+  ],
   "baseExperienceYield": 65,
   "experienceGroup": "slow",
   "eggCycles": 20,
@@ -213,20 +238,9 @@
       ],
       "requirements": [],
       "requiredContext": "cobblemon:leaf_stone"
-    },
-    {
-      "id": "exeggcute_exeggutor",
-      "variant": "item_interact",
-      "result": "exeggutor form=alola",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "dragonhammer"
-      ],
-      "requirements": [],
-      "requiredContext": "cobblemon:leaf_stone"
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1.1,
     "height": 0.5,

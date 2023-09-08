@@ -62,6 +62,20 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             field = value
         }
     private val growthPoints = arrayListOf<Identifier>()
+
+    /**
+     * The idea behind the growth point sequence is it's a 16-long string of
+     * hexadecimal numbers. They represent the order of the growth points that
+     * will get used by this tree. If the berry type has randomized growth points,
+     * this sequence gets scrambled, and then when lining up berries with their
+     * growth points, it will take the berry index, check the symbol at that
+     * position in this sequence, and use that as the growth point index from
+     * reference data.
+     *
+     * Kinda confusing but it works without saving an array or something. Protections
+     * exist for when there are fewer than 16 growth points on a tree (currently always).
+     */
+    private var growthPointSequence = "0123456789ABCDEF"
     // Just a cheat to not invoke markDirty unnecessarily
     private var wasLoading = false
     var mulchVariant: MulchVariant? = null
@@ -130,6 +144,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         repeat(yield) {
             this.growthPoints += berry.identifier
         }
+        this.growthPointSequence = this.growthPointSequence.toCharArray().also { if (berry.randomizedGrowthPoints) it.shuffle() }.concatToString()
         this.markDirty()
     }
 
@@ -194,6 +209,9 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         }
         this.mulchDuration = nbt.getInt(MULCH_DURATION)
         this.wasLoading = false
+        if (nbt.contains(GROWTH_POINTS_SEQUENCE)) {
+            growthPointSequence = nbt.getString(GROWTH_POINTS_SEQUENCE)
+        }
         //Hack so tree is rerendered every time entity data is synced from server to client
         //What we really want is a rerender when the age changes but this will have to do
         shouldRerender = true
@@ -210,6 +228,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             nbt.putString(MULCH_VARIANT, mulchVariant.toString())
         }
         nbt.putInt(MULCH_DURATION, mulchDuration)
+        nbt.putString(GROWTH_POINTS_SEQUENCE, growthPointSequence)
     }
 
     override fun markDirty() {
@@ -231,12 +250,14 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
      *
      * @return Collection of the [Berry] and [GrowthPoint].
      */
-    internal fun berryAndGrowthPoint(): Collection<Pair<Berry, GrowthPoint>> {
+    internal fun berryAndGrowthPoint(): List<Pair<Berry, GrowthPoint>> {
         val baseBerry = this.berry() ?: return emptyList()
         val berryPoints = arrayListOf<Pair<Berry, GrowthPoint>>()
+        val sequenceIndices = growthPointSequence.toCharArray().filter { it.digitToInt(16) < baseBerry.growthPoints.size }
         for ((index, identifier) in this.growthPoints.withIndex()) {
             val berry = Berries.getByIdentifier(identifier) ?: continue
-            berryPoints.add(berry to baseBerry.growthPoints[index])
+            val sequenceIndexHex = sequenceIndices[index].digitToInt(16)
+            berryPoints.add(berry to baseBerry.growthPoints[sequenceIndexHex])
         }
         return berryPoints
     }
@@ -276,6 +297,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         }
         //private const val LIFE_CYCLES = "life_cycles"
         private const val GROWTH_POINTS = "GrowthPoints"
+        private const val GROWTH_POINTS_SEQUENCE = "GrowthPointsSequence"
         private const val GROWTH_TIMER = "GrowthTimer"
         private const val STAGE_TIMER = "StageTimer"
         private const val BERRY = "Berry"

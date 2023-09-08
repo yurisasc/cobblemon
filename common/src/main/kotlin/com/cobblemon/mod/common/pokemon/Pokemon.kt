@@ -141,12 +141,13 @@ open class Pokemon : ShowdownIdentifiable {
     var form = species.standardForm
         set(value) {
             val old = field
+            // Species updates already update HP but just a form change may require it
+            // Moved to before the field was set else it won't actually do the hp calc proper <3
+            val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             field = value
             this.sanitizeFormChangeMoves(old)
             // Evo proxy is already cleared on species update but the form may be changed by itself, this is fine and no unnecessary packets will be sent out
             this.evolutionProxy.current().clear()
-            // Species updates already update HP but just a form change may require it
-            val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             findAndLearnFormChangeMoves()
             updateHP(quotient)
             checkGender()
@@ -155,8 +156,26 @@ open class Pokemon : ShowdownIdentifiable {
         }
 
     // Need to happen before currentHealth init due to the calc
-    var ivs = IVs.createRandomIVs()
-    var evs = EVs.createEmpty()
+    val ivs = IVs.createRandomIVs()
+    val evs = EVs.createEmpty()
+
+    fun setIV(stat : Stat, value : Int) {
+        val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
+        ivs[stat] = value
+        if(stat == Stats.HP) {
+            updateHP(quotient)
+        }
+        _ivs.emit(ivs)
+    }
+
+    fun setEV(stat: Stat, value : Int) {
+        val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
+        evs[stat] = value
+        if(stat == Stats.HP) {
+            updateHP(quotient)
+        }
+        _evs.emit(evs)
+    }
 
     var nickname: MutableText? = null
         set(value) {

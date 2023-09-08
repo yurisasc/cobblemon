@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Squawkabilly",
   "nationalPokedexNumber": 931,
   "primaryType": "normal",
@@ -18,6 +19,7 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
+  "shoulderMountable": true,
   "baseExperienceYield": 146,
   "baseFriendship": 50,
   "evYield": {
@@ -33,6 +35,13 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:growl",
     "1:mimic",
@@ -91,6 +100,12 @@
   "height": 6,
   "weight": 24,
   "evolutions": [],
+  "baseScale": 0.55,
+  "hitbox": {
+    "width": 0.5,
+    "height": 1.1,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "forms": [
     {

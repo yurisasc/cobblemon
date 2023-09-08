@@ -26,24 +26,23 @@ import com.cobblemon.mod.common.item.berry.PortionHealingBerryItem
 import com.cobblemon.mod.common.item.berry.StatusCuringBerryItem
 import com.cobblemon.mod.common.item.berry.VolatileCuringBerryItem
 import com.cobblemon.mod.common.item.interactive.*
+import com.cobblemon.mod.common.item.interactive.PotionItem
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.Block
 import net.minecraft.block.ComposterBlock
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.item.BlockItem
-import net.minecraft.item.FoodComponent
-import net.minecraft.item.Item
-import net.minecraft.item.Items
-import net.minecraft.item.StewItem
+import net.minecraft.item.*
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
+import net.minecraft.world.World
 
 @Suppress("unused")
 object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<Item>>, Item>() {
@@ -232,8 +231,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField val PEAT_BLOCK = noSettingsItem("peat_block")
     @JvmField val RAZOR_CLAW = noSettingsItem("razor_claw")
     @JvmField val RAZOR_FANG = noSettingsItem("razor_fang")
-    // ToDo enable me when malicious armor goes in the game
-    //@JvmField val AUSPICIOUS_ARMOR = heldItem("auspicious_armor")
+    @JvmField val AUSPICIOUS_ARMOR = heldItem("auspicious_armor")
+    @JvmField val MALICIOUS_ARMOR = heldItem("malicious_armor")
 
     private val berries = mutableMapOf<Identifier, BerryItem>()
     // Plants
@@ -341,14 +340,18 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().maxCount(1).food(FoodComponent.Builder().hunger(6).saturationModifier(0.6f).build())))
     @JvmField
-    val VIVICHOKE_DIP = create("vivichoke_dip", StewItem(Item.Settings().maxCount(1)
+    val VIVICHOKE_DIP = create("vivichoke_dip", object : StewItem(Settings().maxCount(1)
         .food(FoodComponent.Builder()
             .hunger(10)
             .saturationModifier(1.2F)
-            .statusEffect(StatusEffectInstance(StatusEffects.ABSORPTION, 600, 0), 1F)
-            .build()
-        )
-    ))
+            .statusEffect(StatusEffectInstance(StatusEffects.ABSORPTION, 900, 0), 1F)
+            .alwaysEdible()
+            .build())) {
+        override fun finishUsing(stack: ItemStack?, world: World?, user: LivingEntity?): ItemStack {
+            user?.clearStatusEffects()
+            return super.finishUsing(stack, world, user)
+        }
+    })
     @JvmField
     val ENERGY_ROOT = create("energy_root", EnergyRootItem(CobblemonBlocks.ENERGY_ROOT, Item.Settings().food(FoodComponent.Builder().hunger(1).snack().saturationModifier(0.2f).build())))
     @JvmField

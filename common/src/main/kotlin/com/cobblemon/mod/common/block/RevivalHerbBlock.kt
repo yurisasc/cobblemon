@@ -51,7 +51,7 @@ class RevivalHerbBlock(settings: Settings) : CropBlock(settings), Mulchable {
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         val floor = world.getBlockState(pos.down())
         // A bit of a copy pasta but we don't have access to the BlockState being attempted to be placed above on the canPlantOnTop
-        return (world.getBaseLightLevel(pos, 0) >= 8 || world.isSkyVisible(pos)) && ((state.get(IS_WILD) && floor.isIn(BlockTags.DIRT)) || this.canPlantOnTop(floor, world, pos))
+        return (world.getBlockState(pos).isIn(BlockTags.REPLACEABLE_BY_TREES)) && ((state.get(IS_WILD) && floor.isIn(BlockTags.DIRT)) || this.canPlantOnTop(floor, world, pos))
     }
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = AGE_SHAPES.getOrNull(this.getAge(state)) ?: VoxelShapes.fullCube()

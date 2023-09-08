@@ -48,7 +48,7 @@ class FriendshipRaisingBerryItem(block: BerryBlock, val stat: Stat) : BerryItem(
 
         val currentStat = pokemon.evs.getOrDefault(stat)
         val newEV = max(currentStat - genericRuntime.resolveInt(CobblemonMechanics.berries.evLowerAmount), 0)
-        pokemon.evs[stat] = newEV
+        pokemon.setEV(stat, newEV)
         val decreasedEVs = currentStat != pokemon.evs.getOrDefault(stat)
 
         return if (increasedFriendship || decreasedEVs) {

@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeNotificationPacket
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
+import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
 import java.util.UUID
@@ -56,11 +57,21 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 }
                 // Check in on battle requests, if the other player has challenged me, this starts the battle
                 val existingChallenge = BattleRegistry.pvpChallenges[targetedEntity.uuid]
+                var existingChallengePokemon = existingChallenge?.selectedPokemonId
                 if (existingChallenge != null && !existingChallenge.isExpired() && existingChallenge.challengedPlayerUUID == player.uuid) {
-                    BattleBuilder.pvp1v1(player, targetedEntity)
+                    if (targetedEntity.party()[existingChallengePokemon!!] == null) {
+                        if (targetedEntity.party().none()) {
+                            player.sendMessage(battleLang("error.no_pokemon_opponent"))
+                            targetedEntity.sendMessage(battleLang("error.no_pokemon"))
+                            BattleRegistry.removeChallenge(targetedEntity.uuid)
+                            return
+                        }
+                        existingChallengePokemon = targetedEntity.party().first().uuid
+                    }
+                    BattleBuilder.pvp1v1(player, targetedEntity, leadingPokemon, existingChallengePokemon)
                     BattleRegistry.removeChallenge(targetedEntity.uuid)
                 } else {
-                    val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid)
+                    val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid, leadingPokemon)
                     BattleRegistry.pvpChallenges[player.uuid] = challenge
                     after(seconds = challenge.expiryTimeSeconds.toFloat()) {
                         BattleRegistry.removeChallenge(player.uuid, challengeId = challenge.challengeId)

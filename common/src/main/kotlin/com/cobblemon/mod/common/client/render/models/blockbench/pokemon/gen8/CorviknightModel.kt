@@ -10,9 +10,11 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -31,6 +33,10 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     override val rightLeg = getPart("leg_right")
     override val head = getPart("head")
 
+    val openWingLeft = getPart("wing_open_left")
+    val openWingRight = getPart("wing_open_right")
+    val closedWingLeft = getPart("wing_closed_left")
+    val closedWingRight = getPart("wing_closed_right")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(-0.45, 3.0, 0.0)
@@ -43,14 +49,27 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+    lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("corviknight", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-
         val blink = quirk("blink") { bedrockStateful("corviknight", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("corviknight", "sleep"))
+        )
+
         stand = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES - PoseType.HOVER,
             transformTicks = 10,
+            transformedParts = arrayOf(
+                openWingLeft.asTransformed().withVisibility(visibility = false),
+                openWingRight.asTransformed().withVisibility(visibility = false),
+                closedWingLeft.asTransformed().withVisibility(visibility = true),
+                closedWingRight.asTransformed().withVisibility(visibility = true)
+            ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -62,15 +81,16 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseName = "hover",
             poseType = PoseType.HOVER,
             transformTicks = 10,
+            transformedParts = arrayOf(
+                openWingLeft.asTransformed().withVisibility(visibility = true),
+                openWingRight.asTransformed().withVisibility(visibility = true),
+                closedWingLeft.asTransformed().withVisibility(visibility = false),
+                closedWingRight.asTransformed().withVisibility(visibility = false)
+            ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("corviknight", "air_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("corviknight", "air_idle")
             )
         )
 
@@ -78,27 +98,33 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseName = "fly",
             poseType = PoseType.FLY,
             transformTicks = 10,
+            transformedParts = arrayOf(
+                openWingLeft.asTransformed().withVisibility(visibility = true),
+                openWingRight.asTransformed().withVisibility(visibility = true),
+                closedWingLeft.asTransformed().withVisibility(visibility = false),
+                closedWingRight.asTransformed().withVisibility(visibility = false)
+            ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("corviknight", "air_fly"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("corviknight", "air_fly")
             )
         )
 
         walk = registerPose(
             poseName = "walking",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
+            transformedParts = arrayOf(
+                openWingLeft.asTransformed().withVisibility(visibility = false),
+                openWingRight.asTransformed().withVisibility(visibility = false),
+                closedWingLeft.asTransformed().withVisibility(visibility = true),
+                closedWingRight.asTransformed().withVisibility(visibility = true)
+            ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("corviknight", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
+                bedrock("corviknight", "ground_walk")
             )
         )
     }
