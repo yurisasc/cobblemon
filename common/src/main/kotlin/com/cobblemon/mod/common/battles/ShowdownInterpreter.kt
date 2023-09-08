@@ -1429,8 +1429,8 @@ object ShowdownInterpreter {
      * The switched Pokémon has HP HP, and status STATUS.
      */
     fun handleDragInstruction(battle: PokemonBattle, actor: BattleActor, publicMessage: BattleMessage, privateMessage: BattleMessage) {
-        battle.dispatchGo {
-            val (pnx, pokemonID) = publicMessage.pnxAndUuid(0) ?: return@dispatchGo
+        battle.dispatchInsert {
+            val (pnx, pokemonID) = publicMessage.pnxAndUuid(0)!!
             val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             val pokemon = battle.getBattlePokemon(pnx, pokemonID)
 
@@ -1442,13 +1442,15 @@ object ShowdownInterpreter {
             battle.majorBattleActions[pokemon.uuid] = publicMessage
 
             val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
-            battle.dispatch {
-                if (entity != null) {
-                    this.createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon)
-                } else {
-                    this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
+            setOf(
+                BattleDispatch {
+                    if (entity != null) {
+                        this.createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon)
+                    } else {
+                        this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
+                    }
                 }
-            }
+            )
         }
 
     }
