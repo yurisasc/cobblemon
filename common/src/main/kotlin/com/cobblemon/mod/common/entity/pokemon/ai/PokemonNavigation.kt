@@ -97,12 +97,16 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
             currentPath!!.next()
             if (currentPath!!.isFinished) {
                 navigationContext.onArrival()
+                // If we arrived at a not-flying destination
+                if (currentNode.type != PathNodeType.OPEN && pokemonEntity.couldStopFlying()) {
+                    pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
+                }
             } else {
                 val newNode = currentPath!!.currentNode
                 if (currentNode.type != newNode.type) {
                     if (newNode.type == PathNodeType.OPEN) {
                         pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
-                    } else if (currentNode.type == PathNodeType.OPEN) {
+                    } else if (currentNode.type != PathNodeType.OPEN && pokemonEntity.couldStopFlying()) { // if we just reached a non-flying node and the next node isn't a flying node, stop flying
                         pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
                     }
                 }
@@ -202,6 +206,18 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         return this.findPathTo(entity.blockPos, distance)
     }
 
+    override fun startMovingAlong(path: Path?, speed: Double): Boolean {
+        if (path != null && path.length > 0) {
+            val node = path.getNode(0)!!
+            // If we just started moving and it's to an open node, fly
+            if (node.type == PathNodeType.OPEN && pokemonEntity.form.behaviour.moving.fly.canFly && !pokemonEntity.isFlying()) {
+                pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
+            }
+        }
+
+        return super.startMovingAlong(path, speed)
+    }
+
     override fun adjustPath() {
         super.adjustPath()
         val path = getCurrentPath() ?: return
@@ -287,5 +303,9 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         super.stop()
         this.currentNodeDistance = -1F
         this.cachedCurrentNode = null
+        // In case a path is cancelled instead of completed, check if we should stop flying
+        if (pokemonEntity.couldStopFlying() && !isAirborne(pokemonEntity.world, pokemonEntity.blockPos)) {
+            pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
+        }
     }
 }
