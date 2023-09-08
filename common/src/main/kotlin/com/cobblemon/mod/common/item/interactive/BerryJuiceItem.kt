@@ -49,6 +49,9 @@ class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
         }
         pokemon.currentHealth = Integer.min(pokemon.currentHealth + 20, pokemon.hp)
         player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
+        if (!player.isCreative)  {
+            stack.decrement(1)
+        }
         return TypedActionResult.success(stack)
     }
 
