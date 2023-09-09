@@ -9,12 +9,12 @@
 package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
-import com.cobblemon.mod.common.cobblemonstructures.CobblemonStructures
 import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.item.MedicinalLeekItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.util.didSleep
+import com.cobblemon.mod.common.world.CobblemonStructures
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
@@ -26,18 +26,20 @@ import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
+import java.util.UUID
+import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemGroups
-import net.minecraft.registry.Registries
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.PotionItem
 import net.minecraft.potion.PotionUtil
 import net.minecraft.potion.Potions
+import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -54,20 +56,19 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry
+import net.minecraftforge.common.brewing.IBrewingRecipe
 import net.minecraftforge.event.AddReloadListenerEvent
 import net.minecraftforge.event.OnDatapackSyncEvent
 import net.minecraftforge.event.RegisterCommandsEvent
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry
-import net.minecraftforge.common.brewing.IBrewingRecipe
-import net.minecraftforge.event.*
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
 import net.minecraftforge.event.level.BlockEvent
+import net.minecraftforge.event.server.ServerAboutToStartEvent
 import net.minecraftforge.event.village.VillagerTradesEvent
 import net.minecraftforge.event.village.WandererTradesEvent
 import net.minecraftforge.fml.DistExecutor
-import net.minecraftforge.event.server.ServerAboutToStartEvent
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
@@ -77,8 +78,6 @@ import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegisterEvent
 import net.minecraftforge.server.ServerLifecycleHooks
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
-import java.util.*
-import kotlin.reflect.KClass
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
