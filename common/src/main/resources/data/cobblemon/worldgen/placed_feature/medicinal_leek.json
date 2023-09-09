@@ -15,36 +15,6 @@
     {
       "type": "minecraft:heightmap",
       "heightmap": "OCEAN_FLOOR"
-    },
-    {
-      "type": "minecraft:block_predicate_filter",
-      "predicate": {
-        "type": "minecraft:all_of",
-        "predicates": [
-          {
-            "type": "minecraft:matching_fluids",
-            "offset": [
-              0,
-              -1,
-              0
-            ],
-            "fluids": "#minecraft:water"
-          },
-          {
-            "type": "minecraft:matching_blocks",
-            "blocks": "minecraft:air"
-          },
-          {
-            "type": "minecraft:would_survive",
-            "state": {
-              "Name": "cobblemon:medicinal_leek",
-              "Properties": {
-                "age": "0"
-              }
-            }
-          }
-        ]
-      }
     }
   ]
 }
