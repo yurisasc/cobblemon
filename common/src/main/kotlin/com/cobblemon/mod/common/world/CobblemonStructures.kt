@@ -57,8 +57,7 @@ object CobblemonStructures {
             CobblemonStructureIDs.PLAINS_BERRY_SMALL,
             berryFarmWeight,
             StructurePool.Projection.RIGID,
-            cropToBerryProcessorList,
-            shouldUseLegacySingePoolElement = false
+            cropToBerryProcessorList
         )
 
         addBuildingToPool(
@@ -68,8 +67,7 @@ object CobblemonStructures {
             CobblemonStructureIDs.PLAINS_BERRY_LARGE,
             berryFarmWeight,
             StructurePool.Projection.RIGID,
-            cropToBerryProcessorList,
-            shouldUseLegacySingePoolElement = false
+            cropToBerryProcessorList
         )
 
         addBuildingToPool(
@@ -79,8 +77,7 @@ object CobblemonStructures {
             CobblemonStructureIDs.DESERT_BERRY_SMALL,
             berryFarmWeight,
             StructurePool.Projection.RIGID,
-            cropToBerryProcessorList,
-            shouldUseLegacySingePoolElement = false
+            cropToBerryProcessorList
         )
 
         addBuildingToPool(
@@ -90,8 +87,7 @@ object CobblemonStructures {
             CobblemonStructureIDs.DESERT_BERRY_LARGE,
             berryFarmWeight,
             StructurePool.Projection.RIGID,
-            cropToBerryProcessorList,
-            shouldUseLegacySingePoolElement = false
+            cropToBerryProcessorList
         )
 
         addBuildingToPool(
@@ -101,8 +97,7 @@ object CobblemonStructures {
             CobblemonStructureIDs.SAVANNA_BERRY_SMALL,
             berryFarmWeight,
             StructurePool.Projection.RIGID,
-            cropToBerryProcessorList,
-            shouldUseLegacySingePoolElement = false
+            cropToBerryProcessorList
         )
 
         addBuildingToPool(
@@ -112,8 +107,7 @@ object CobblemonStructures {
             CobblemonStructureIDs.SAVANNA_BERRY_LARGE,
             berryFarmWeight,
             StructurePool.Projection.RIGID,
-            cropToBerryProcessorList,
-            shouldUseLegacySingePoolElement = false
+            cropToBerryProcessorList
         )
 
         addBuildingToPool(
@@ -123,8 +117,7 @@ object CobblemonStructures {
             CobblemonStructureIDs.TAIGA_BERRY_SMALL,
             berryFarmWeight,
             StructurePool.Projection.RIGID,
-            cropToBerryProcessorList,
-            shouldUseLegacySingePoolElement = false
+            cropToBerryProcessorList
         )
 
         addBuildingToPool(
@@ -134,8 +127,7 @@ object CobblemonStructures {
             CobblemonStructureIDs.TAIGA_BERRY_LARGE,
             berryFarmWeight,
             StructurePool.Projection.RIGID,
-            cropToBerryProcessorList,
-            shouldUseLegacySingePoolElement = false
+            cropToBerryProcessorList
         )
 
         addBuildingToPool(
@@ -145,8 +137,7 @@ object CobblemonStructures {
             CobblemonStructureIDs.SNOWY_BERRY_SMALL,
             berryFarmWeight,
             StructurePool.Projection.RIGID,
-            cropToBerryProcessorList,
-            shouldUseLegacySingePoolElement = false
+            cropToBerryProcessorList
         )
 
         addBuildingToPool(
@@ -156,8 +147,7 @@ object CobblemonStructures {
             CobblemonStructureIDs.SNOWY_BERRY_LARGE,
             berryFarmWeight,
             StructurePool.Projection.RIGID,
-            cropToBerryProcessorList,
-            shouldUseLegacySingePoolElement = false
+            cropToBerryProcessorList
         )
     }
 
