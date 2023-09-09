@@ -3,7 +3,7 @@
 	"placement": [
 		{
 			"type": "minecraft:rarity_filter",
-			"chance": 18
+			"chance": 80
 		},
 		{
 			"type": "minecraft:in_square"
@@ -18,27 +18,8 @@
   			"xzRange": 8,
   			"yRange": 1,
   			"predicate": {
-				"type": "minecraft:all_of",
-				"predicates": [
-					{
-						"type": "minecraft:any_of",
-						"predicates": [
-							{
-								"type": "minecraft:matching_block_tag",
-								"tag": "minecraft:dirt"
-							},
-							{
-								"type": "minecraft:matching_block_tag",
-								"tag": "minecraft:sand"
-							}
-						]
-					},
-					{
-						"type": "minecraft:matching_block_tag",
-						"offset": [0, 1, 0],
-						"tag": "minecraft:replaceable"
-					}
-				]
+				"type": "minecraft:matching_block_tag",
+				"tag": "cobblemon:berry_wild_soil"
 			}
   		}
 	]
