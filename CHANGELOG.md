@@ -281,6 +281,7 @@
 - Master balls are now unable to be burned when dropped into fire/lava.
 - Pokémon will appear red when hurt, like regular entities, except when they're fainting.
 - Ponyta and Rapidash now have animated textures.
+- Pokémon's air meter no longer depletes while battling underwater.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -317,13 +318,14 @@
 - Fixed some alignment issues in the stat hexagon of the summary menu.
 - Fixed capture calculations not applying ball bonuses entirely correctly.
 - Fixed Shedinja healing above 1 HP.
-- Fixed battles soft-locking when consecutive Pokemon faint on switch-in.
+- Fixed battles soft-locking when consecutive Pokémon faint on switch-in.
 - Fixed timing and color of battle window messages.
+- Fixed players being able to trade, battle and let out their Pokémon while in spectator mode.
 
 ### Developer
 - Added SpawnEvent, ThrownPokeballHitEvent, PokemonSentEvent, PokemonRecalledEvent.
 - Added BattleFledEvent, BattleStartedEvent, BattleFaintedEvent.
-- Added persistent NBT property inside Pokemon to store quick and simple data.
+- Added persistent NBT property inside Pokémon to store quick and simple data.
 - Species and FormData have had their evolutions, pre-evolution and labels properties exposed. It is still recommended to work using a Pokémon instance when possible.
 - Added capture check to BattleVictoryEvent.
 - The various hardcoded potion shoulder effects have been removed, make use of PotionBaseEffect.
