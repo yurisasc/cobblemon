@@ -171,7 +171,8 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
     @Deprecated("Deprecated in Java")
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
-        return state.get(WAS_GENERATED) || world.getBlockState(pos.down()).isIn(CobblemonBlockTags.BERRY_SOIL)
+        val below = world.getBlockState(pos.down())
+        return (state.get(WAS_GENERATED) && below.isIn(CobblemonBlockTags.BERRY_WILD_SOIL)) || below.isIn(CobblemonBlockTags.BERRY_SOIL)
     }
 
     @Deprecated("Deprecated in Java")
