@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.meowth.ground_idle": {
+		"animation.meowth_galarian.ground_idle": {
 			"loop": true,
 			"bones": {
 				"foot_right": {
@@ -128,7 +128,7 @@
 				}
 			}
 		},
-		"animation.meowth.battle_idle": {
+		"animation.meowth_galarian.battle_idle": {
 			"loop": true,
 			"bones": {
 				"foot_right": {
@@ -268,7 +268,7 @@
 				}
 			}
 		},
-		"animation.meowth.ground_walk": {
+		"animation.meowth_galarian.ground_walk": {
 			"loop": true,
 			"animation_length": 1,
 			"bones": {
@@ -342,7 +342,7 @@
 					"rotation": [0, -10, 0],
 					"position": [-2, 0, 0]
 				},
-				"meowth": {
+				"meowth_galarian": {
 					"position": [0, 0, "0+math.sin(q.anim_time*90*8+75)*0.35"]
 				},
 				"body": {
@@ -508,7 +508,7 @@
 				}
 			}
 		},
-		"animation.meowth.sleep": {
+		"animation.meowth_galarian.sleep": {
 			"loop": true,
 			"bones": {
 				"body": {
@@ -634,7 +634,7 @@
 				}
 			}
 		},
-		"animation.meowth.blink": {
+		"animation.meowth_galarian.blink": {
 			"animation_length": 0.1667,
 			"bones": {
 				"eyelid_right": {
@@ -653,7 +653,7 @@
 				}
 			}
 		},
-		"animation.meowth.render": {
+		"animation.meowth_galarian.render": {
 			"loop": true,
 			"bones": {
 				"body": {
@@ -682,7 +682,7 @@
 				}
 			}
 		},
-		"animation.meowth.cry": {
+		"animation.meowth_galarian.cry": {
 			"animation_length": 1.5,
 			"bones": {
 				"mouth": {
@@ -808,17 +808,6 @@
 				},
 				"eye_left": {
 					"position": [0, 0, 0]
-				}
-			}
-		},
-		"animation.meowth.move": {
-			"loop": true,
-			"bones": {
-				"meowth": {
-					"position": [0, 0, 0]
-				},
-				"body": {
-					"position": [0, 0, "0-query.anim_time *90 *0.175"]
 				}
 			}
 		}

@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "meowth",
+					"name": "meowth_galarian",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "meowth",
+					"parent": "meowth_galarian",
 					"pivot": [0, 7, 0]
 				},
 				{

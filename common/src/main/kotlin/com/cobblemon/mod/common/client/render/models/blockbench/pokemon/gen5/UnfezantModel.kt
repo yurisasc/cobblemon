@@ -37,10 +37,10 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     val closedWingLeft = getPart("closed_left")
     val closedWingRight = getPart("closed_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.6, 0.15, 0.0)
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override val portraitScale = 2.1F
+    override val portraitTranslation = Vec3d(-0.5, 1.5, 0.0)
+    override val profileScale = 0.7F
+    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     //    lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
