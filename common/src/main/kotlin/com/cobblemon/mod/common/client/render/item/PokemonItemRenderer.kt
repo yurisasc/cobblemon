@@ -58,6 +58,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
             model.render(matrices, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, tint.x, tint.y, tint.z, tint.w)
         }
 
+        model.setDefault()
         matrices.pop()
         matrices.pop()
         DiffuseLighting.disableGuiDepthLighting()

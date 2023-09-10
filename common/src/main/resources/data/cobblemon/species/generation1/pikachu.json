@@ -1737,7 +1737,8 @@
           "requiredContext": "cobblemon:thunder_stone"
         }
       ]
-    }
+    },
+    { "name": "Default" }
   ],
   "baseExperienceYield": 112,
   "experienceGroup": "medium_fast",
