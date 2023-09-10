@@ -34,8 +34,24 @@
             "weight": 0.6,
             "condition": {
                 "biomes": [
-                    "minecraft:basalt_deltas",
-                    "minecraft:nether_wastes"
+                    "#cobblemon:is_nether_basalt"
+                ]
+            }
+        },
+        {
+            "id": "centiskorch-3",
+            "pokemon": "centiskorch",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "28-53",
+            "weight": 1.0,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_wasteland"
                 ]
             }
         }

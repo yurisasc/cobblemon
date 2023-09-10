@@ -14,18 +14,34 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "26-46",
-            "weight": 0.2,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_arid",
-                    "#cobblemon:is_taiga",
-                    "#cobblemon:is_temperate"
+                    "#cobblemon:is_overworld"
                 ]
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_snowy"
+                    "#cobblemon:is_freezing"
+                ]
+            }
+        },
+		{
+            "id": "mrmime-2",
+            "pokemon": "mrmime",
+            "presets": [
+                "woodland_mansion"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "26-46",
+            "weight": 0.2,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
                 ]
             }
         }

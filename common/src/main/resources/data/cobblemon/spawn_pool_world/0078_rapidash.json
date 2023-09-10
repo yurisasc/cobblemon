@@ -14,6 +14,12 @@
             "bucket": "uncommon",
             "level": "40-50",
             "weight": 0.6,
+			"weightMultiplier": {
+				"multiplier": 0.25,
+				"condition": {
+					"timeRange": "night"
+				}
+			},
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -30,12 +36,13 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "40-50",
             "weight": 0.6,
             "condition": {
                 "biomes": [
-                    "minecraft:nether_wastes"
+                    "#cobblemon:is_nether_overgrowth",
+					"#cobblemon:is_nether_wasteland"
                 ]
             }
         }

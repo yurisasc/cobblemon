@@ -13,11 +13,11 @@
             "context": "grounded",
             "bucket": "common",
             "level": "1-25",
-            "weight": 1.8,
+            "weight": 5.4,
             "condition": {
                 "biomes": [
-                    "minecraft:basalt_deltas",
-                    "minecraft:nether_wastes"
+                    "#cobblemon:is_nether_basalt",
+                    "#cobblemon:is_nether_wasteland"
                 ]
             }
         },

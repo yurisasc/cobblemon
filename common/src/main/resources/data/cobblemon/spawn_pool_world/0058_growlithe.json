@@ -12,21 +12,18 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "10-35",
-            "weight": 5.94,
+            "weight": 5.4,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_forest",
-                    "#cobblemon:is_grassland",
-                    "#cobblemon:is_snowy",
-                    "#cobblemon:is_tundra"
+                    "#cobblemon:is_overworld"
                 ]
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_spooky"
+                    "#cobblemon:is_desert"
                 ]
             }
         }

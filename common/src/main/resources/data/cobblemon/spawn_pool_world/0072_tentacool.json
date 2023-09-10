@@ -19,7 +19,7 @@
                 "biomes": [
                     "#cobblemon:is_deep"
                 ],
-                "maxHeight": 48
+                "maxY": 48
             }
         },
         {
@@ -36,9 +36,9 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_ocean"
+                    "#cobblemon:is_ocean"
                 ],
-                "maxHeight": 48
+                "maxY": 48
             },
             "anticondition": {
                 "biomes": [

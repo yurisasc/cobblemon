@@ -43,6 +43,25 @@
                 ],
                 "isRaining": true
             }
+        },
+        {
+            "id": "dragonite-3",
+            "pokemon": "dragonite",
+            "presets": [
+                "underwater",
+				"ocean_ruins"
+            ],
+            "type": "pokemon",
+            "context": "submerged",
+            "bucket": "uncommon",
+            "level": "55-60",
+            "weight": 0.1,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_ocean"
+                ]
+            }
         }
     ]
 }

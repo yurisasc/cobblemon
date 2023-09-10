@@ -7,31 +7,25 @@
             "id": "spiritomb-1",
             "pokemon": "spiritomb",
 			"presets": [
-                "natural"
+                "ancient_city"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
             "level": "24-49",
-            "weight": 20.0,
+            "weight": 6.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_abyss"
-                ],
-                "neededNearbyBlocks": [
-                    "minecraft:deepslate_bricks",
-                    "minecraft:cracked_deepslate_bricks",
-                    "minecraft:deepslate_tiles",
-                    "minecraft:polished_deepslate"
                 ]
             }
         },
-        {
+		{
             "id": "spiritomb-2",
             "pokemon": "spiritomb",
-            "presets": [
-                "ruined_structures"
+			"presets": [
+                "trail_ruins"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -39,7 +33,29 @@
             "level": "24-49",
             "weight": 10.0,
             "condition": {
-                "canSeeSky": false
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
+        },
+		{
+            "id": "spiritomb-3",
+            "pokemon": "spiritomb",
+			"presets": [
+                "natural",
+				"desert_pyramid",
+				"jungle_pyramid"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "rare",
+            "level": "24-49",
+            "weight": 10.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
             }
         }
     ]

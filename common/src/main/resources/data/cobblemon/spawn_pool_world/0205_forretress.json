@@ -20,6 +20,24 @@
                     "#cobblemon:is_taiga"
                 ]
             }
+        },
+		{
+            "id": "forretress-shulker-1",
+            "pokemon": "forretress shulker",
+            "presets": [
+                "natural",
+				"end_city"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "31-47",
+            "weight": 2.0,
+            "condition": {
+                "biomes": [
+                    "#minecraft:is_end"
+                ]
+            }
         }
     ]
 }

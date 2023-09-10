@@ -10,7 +10,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "2-27",
-            "weight": 9.9,
+            "weight": 9.0,
             "condition": {
                 "biomes": [
                     "#cobblemon:is_overworld"
@@ -27,13 +27,36 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "2-27",
-            "weight": 1.98,
+            "weight": 1.8,
             "condition": {
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
                 "neededNearbyBlocks": [
 					"minecraft:sugar_cane"
+                ]
+            }
+        },
+		{
+            "id": "milcery-3",
+            "pokemon": "milcery",
+			"presets": [
+                "woodland_mansion"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "2-27",
+            "weight": 1.8,
+            "condition": {
+				"canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+                "neededNearbyBlocks": [
+					"minecraft:light_grey_carpet",
+					"minecraft:magenta_carpet",
+					"minecraft:white_carpet"
                 ]
             }
         }

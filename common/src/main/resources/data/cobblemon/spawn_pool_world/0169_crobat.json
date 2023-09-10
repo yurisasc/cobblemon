@@ -45,6 +45,12 @@
             "bucket": "common",
             "level": "45-53",
             "weight": 0.1,
+			"weightMultiplier": {
+				"multiplier": 1.5,
+				"condition": {
+					"timeRange": "day"
+				}
+			},
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
@@ -68,6 +74,12 @@
             "bucket": "uncommon",
             "level": "45-53",
             "weight": 0.1,
+			"weightMultiplier": {
+				"multiplier": 1.5,
+				"condition": {
+					"timeRange": "day"
+				}
+			},
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
@@ -91,6 +103,12 @@
             "bucket": "common",
             "level": "45-53",
             "weight": 0.1,
+			"weightMultiplier": {
+				"multiplier": 1.5,
+				"condition": {
+					"timeRange": "night"
+				}
+			},
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

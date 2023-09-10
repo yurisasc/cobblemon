@@ -11,37 +11,20 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "common",
-            "level": "30-50",
-            "weight": 0.9,
-            "condition": {
-                "canSeeSky": true,
-                "biomes": [
-                    "#cobblemon:is_plains",
-					"#cobblemon:is_hills"
-                ],
-                "isThundering": true
-            }
-        },
-        {
-            "id": "electabuzz-2",
-            "pokemon": "electabuzz",
-            "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "30-50",
             "weight": 0.18,
+			"weightMultiplier": {
+				"multiplier": 5.0,
+				"condition": {
+					"isThundering": true
+				}
+			},
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_plains",
 					"#cobblemon:is_hills"
-                ],
-				"neededNearbyBlocks": [
-                    "minecraft:lightning_rod"
                 ]
             }
         }

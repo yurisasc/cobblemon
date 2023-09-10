@@ -124,7 +124,7 @@
             "weight": 5.4,
             "condition": {
                 "biomes": [
-                    "minecraft:soul_sand_valley"
+                    "#cobblemon:is_nether_desert"
                 ]
             }
         }

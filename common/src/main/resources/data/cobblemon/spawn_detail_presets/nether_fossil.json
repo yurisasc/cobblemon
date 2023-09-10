@@ -1,0 +1,10 @@
+{
+  "condition": {
+	"structures": [
+	  "nether_fossil"
+    ],
+	"neededNearbyBlocks": [
+      "minecraft:bone_block"
+	]
+  }
+}

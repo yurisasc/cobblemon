@@ -13,7 +13,13 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "20-46",
-            "weight": 0.02,
+            "weight": 0.2,
+			"weightMultiplier": {
+				"multiplier": 0.25,
+				"condition": {
+					"timeRange": "night"
+				}
+			},
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

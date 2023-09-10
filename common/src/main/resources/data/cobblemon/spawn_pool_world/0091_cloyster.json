@@ -13,7 +13,7 @@
             "context": "seafloor",
             "bucket": "common",
             "level": "26-53",
-            "weight": 0.1,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -31,11 +31,11 @@
             "context": "seafloor",
             "bucket": "common",
             "level": "26-53",
-            "weight": 0.06,
+            "weight": 0.6,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_ocean"
+                    "#cobblemon:is_ocean"
                 ]
             },
             "anticondition": {

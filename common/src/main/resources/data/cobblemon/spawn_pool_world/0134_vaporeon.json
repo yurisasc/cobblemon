@@ -34,6 +34,43 @@
             "condition": {
                 "canSeeSky": true
             }
+        },
+		{
+            "id": "vaporeon-3",
+            "pokemon": "vaporeon",
+            "presets": [
+                "natural",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "28-53",
+            "weight": 0.025,
+            "condition": {
+                "canSeeSky": true,
+				"biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
+        },
+		{
+            "id": "vaporeon-4",
+            "pokemon": "vaporeon",
+            "presets": [
+                "woodland_mansion"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 0.125,
+            "condition": {
+                "canSeeSky": false,
+				"biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
         }
     ]
 }

@@ -13,7 +13,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "34-51",
-            "weight": 0.06,
+            "weight": 0.6,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
@@ -23,6 +23,23 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_abyss"
+                ]
+            }
+        },
+		{
+            "id": "steelix-nether-1",
+            "pokemon": "steelix",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "34-51",
+            "weight": 0.2,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_basalt"
                 ]
             }
         }

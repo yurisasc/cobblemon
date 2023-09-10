@@ -28,14 +28,14 @@
                 "underwater"
             ],
             "type": "pokemon",
-            "context": "submerged",
+            "context": "seafloor",
             "bucket": "common",
             "level": "16-41",
             "weight": 2.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_ocean"
+                    "#cobblemon:is_ocean"
                 ]
             },
             "anticondition": {
@@ -51,7 +51,7 @@
                 "underwater"
             ],
             "type": "pokemon",
-            "context": "submerged",
+            "context": "seafloor",
             "bucket": "common",
             "level": "16-41",
             "weight": 10.0,

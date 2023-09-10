@@ -23,7 +23,7 @@
             }
         },
 		{
-            "id": "durant-1",
+            "id": "durant-2",
             "pokemon": "durant",
             "presets": [
                 "natural"
@@ -42,19 +42,19 @@
             }
         },
         {
-            "id": "durant-2",
+            "id": "durant-3",
             "pokemon": "durant",
             "presets": [
                 "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "23-48",
             "weight": 10.0,
             "condition": {
                 "biomes": [
-                    "#minecraft:is_nether"
+                    "#cobblemon:is_nether_mountain"
                 ]
             }
         }

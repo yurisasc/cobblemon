@@ -26,6 +26,43 @@
                     "#cobblemon:is_spooky"
                 ]
             }
+        },
+		{
+            "id": "sylveon-2",
+            "pokemon": "sylveon",
+            "presets": [
+                "natural",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 0.025,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
+        },
+		{
+            "id": "sylveon-3",
+            "pokemon": "sylveon",
+            "presets": [
+                "woodland_mansion"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 0.125,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
         }
     ]
 }

@@ -15,6 +15,12 @@
             "bucket": "rare",
             "level": "17-45",
             "weight": 0.9,
+			"weightMultiplier": {
+				"multiplier": 0.25,
+				"condition": {
+					"timeRange": "night"
+				}
+			},
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

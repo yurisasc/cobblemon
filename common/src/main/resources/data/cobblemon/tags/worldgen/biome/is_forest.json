@@ -1,7 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:is_forest",
+    "minecraft:cherry_grove",
+	"#minecraft:is_forest",
     {
       "id": "terralith:alpha_islands",
       "required": false

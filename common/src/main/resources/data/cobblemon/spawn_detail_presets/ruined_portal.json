@@ -1,0 +1,12 @@
+{
+  "condition": {
+	"structures": [
+	  "#ruined_portal"
+    ],
+	"neededNearbyBlocks": [
+      "minecraft:crying_obsidian",
+	  "minecraft:netherack",
+	  "minecraft:obsidian"
+	]
+  }
+}

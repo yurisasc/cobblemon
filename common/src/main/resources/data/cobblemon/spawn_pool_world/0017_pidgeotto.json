@@ -20,7 +20,8 @@
                 "biomes": [
                     "#cobblemon:is_temperate",
                     "#cobblemon:is_sky"
-                ]
+                ],
+				"timeRange": "day"
             },
             "anticondition": {
                 "biomes": [
