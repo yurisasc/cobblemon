@@ -1720,7 +1720,7 @@
           "requirements": [
             {
               "variant": "biome",
-              "biomeCondition": "cobblemon:is_forest"
+              "biomeCondition": "cobblemon:is_temperate"
             }
           ],
           "requiredContext": "cobblemon:thunder_stone"
@@ -1734,6 +1734,38 @@
             "psychic"
           ],
           "requirements": [],
+          "requiredContext": "cobblemon:thunder_stone"
+        }
+      ]
+    },
+    {
+      "name": "base",
+      "evolutions": [
+        {
+          "id": "pikachu_raichu_kantonian",
+          "variant": "item_interact",
+          "result": "raichu",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "thunderpunch"
+          ],
+          "requirements": [],
+          "requiredContext": "cobblemon:thunder_stone"
+        },
+        {
+          "id": "pikachu_raichu_kantonian_alolan",
+          "variant": "item_interact",
+          "result": "raichu alolan",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "psychic"
+          ],
+          "requirements": [
+            {
+              "variant": "biome",
+              "biomeCondition": "#minecraft:is_beach"
+            }
+          ],
           "requiredContext": "cobblemon:thunder_stone"
         }
       ]
