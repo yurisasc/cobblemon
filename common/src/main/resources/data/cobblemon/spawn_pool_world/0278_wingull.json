@@ -1,0 +1,29 @@
+{
+    "enabled": "true",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "wingull",
+            "pokemon": "wingull",
+            "presets": [
+                "natural",
+                "treetop"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "2-27",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_coast",
+                    "#minecraft:is_ocean",
+                    "#cobblemon:is_sky"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}
