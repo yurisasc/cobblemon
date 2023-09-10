@@ -329,6 +329,7 @@
 - Fixed White-Striped Basculin not being able to evolve and by proxy the ``recoil`` evolution requirement.
 - Fixed Primeape, Qwilfish and Stantler not being able to evolve and by proxy the ``use_move`` evolution requirement.
 - Fixed Bramblin, Pawmo, and Rellor not being able to evolve and by proxy the ``blocks_traveled`` evolution requirement.
+- Fixed displayName property in spawn files not doing what it's meant to do.
 
 ### Developer
 - Added SpawnEvent, ThrownPokeballHitEvent, PokemonSentEvent, PokemonRecalledEvent.
