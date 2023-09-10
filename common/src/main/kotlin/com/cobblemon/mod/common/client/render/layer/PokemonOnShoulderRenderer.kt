@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.isPokemonEntity
+import java.util.UUID
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.LivingEntityRenderer
@@ -28,7 +29,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.util.Identifier
-import java.util.*
 
 class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRendererContext<T, PlayerEntityModel<T>>) : FeatureRenderer<T, PlayerEntityModel<T>>(renderLayerParent) {
 
@@ -92,7 +92,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             matrixStack.scale(scale, scale, scale)
             val model = PokemonModelRepository.getPoser(shoulderData.species.resourceIdentifier, shoulderData.aspects)
             val state = PokemonFloatingState()
-            state.updatePartialTicks(livingEntity.age.toFloat() * 20 + partialTicks)
+            state.updatePartialTicks(ageInTicks + partialTicks)
             val vertexConsumer = buffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(shoulderData.species.resourceIdentifier, shoulderData.aspects, state)))
             val i = LivingEntityRenderer.getOverlay(livingEntity, 0.0f)
 
