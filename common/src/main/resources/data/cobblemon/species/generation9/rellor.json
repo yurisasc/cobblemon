@@ -86,7 +86,7 @@
       ],
       "requirements": [
         {
-          "variant": "walked_steps",
+          "variant": "blocks_traveled",
           "amount": 1000
         }
       ]

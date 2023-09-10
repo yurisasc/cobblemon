@@ -8,10 +8,12 @@
 
 package com.cobblemon.mod.common.api.events.pokemon
 
+import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.server.network.ServerPlayerEntity
 
 data class PokemonCapturedEvent (
     val pokemon: Pokemon,
-    val player: ServerPlayerEntity
+    val player: ServerPlayerEntity,
+    val pokeBallEntity: EmptyPokeBallEntity
 )

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Quadru
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -36,6 +37,8 @@ class SamurottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("samurott", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("samurott", "blink").setPreventsIdle(false) }

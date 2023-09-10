@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Teddiursa",
   "nationalPokedexNumber": 216,
   "primaryType": "normal",
@@ -208,9 +209,9 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.55,
   "hitbox": {
-    "width": 1,
+    "width": 0.7,
     "height": 1,
     "fixed": false
   },

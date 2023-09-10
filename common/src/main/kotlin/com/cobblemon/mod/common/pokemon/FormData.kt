@@ -90,6 +90,10 @@ class FormData(
     private var _height: Float? = null,
     @SerializedName("weight")
     private var _weight: Float? = null,
+    val requiredMove: String? = null,
+    val requiredItem: String? = null,
+    /** For forms that can accept different items (e.g. Arceus-Grass: Meadow Plate or Grassium-Z). */
+    val requiredItems: List<String>? = null,
     /**
      * The [MoveTemplate] of the signature attack of the G-Max form.
      * This is always null on any form aside G-Max.
@@ -180,7 +184,7 @@ class FormData(
      * To be aware of this gamestage subscribe to [PokemonSpecies.observable].
      */
     val evolutions: MutableSet<Evolution>
-        get() = _evolutions ?: mutableSetOf()
+        get() = _evolutions ?: species.evolutions
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)

@@ -28,8 +28,8 @@ class SneaselModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(0.0, -0.5, 0.0)
+    override val portraitScale = 2.3F
+    override val portraitTranslation = Vec3d(-0.2, -0.3, 0.0)
 
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
@@ -45,7 +45,7 @@ class SneaselModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("sneasel", "pose")
+                bedrock("sneasel", "ground_idle")
             )
         )
 
@@ -55,7 +55,7 @@ class SneaselModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("sneasel", "idle"),
+                bedrock("sneasel", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
                 BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
                 //bedrock("sneasel", "ground_walk")

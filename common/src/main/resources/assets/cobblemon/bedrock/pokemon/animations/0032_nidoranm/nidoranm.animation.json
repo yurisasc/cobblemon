@@ -30,9 +30,11 @@
 					"rotation": [11.76875, 9.05672, 13.0643]
 				},
 				"eyelid_left": {
+					"rotation": [0, 0, 0],
 					"position": [0.1, 0, 0]
 				},
 				"eyelid_right": {
+					"rotation": [0, 0, 0],
 					"position": [-0.1, 0, 0]
 				},
 				"ear_left": {

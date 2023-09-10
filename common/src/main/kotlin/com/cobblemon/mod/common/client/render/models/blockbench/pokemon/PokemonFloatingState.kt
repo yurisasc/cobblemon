@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
  * @since May 1st, 2022
  */
 class PokemonFloatingState : PoseableEntityState<PokemonEntity>() {
+    override fun getEntity() = null
     override fun updatePartialTicks(partialTicks: Float) {
         this.currentPartialTicks += partialTicks
     }

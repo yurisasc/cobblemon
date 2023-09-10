@@ -1,0 +1,138 @@
+{
+  "baseYield": {
+    "min": 2,
+    "max": 4
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_forest"
+  ],
+  "growthTime": {
+    "min": 55,
+    "max": 65
+  },
+  "refreshRate": {
+    "min": 15,
+    "max": 25
+  },
+  "favoriteMulches": [
+    "peat"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 2
+      }
+    }
+  ],
+  "randomizedGrowthPoints": true,
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 8.0,
+        "y": -0.25,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 75.0,
+        "y": 65.0,
+        "z": -37.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": -0.25,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": -47.5,
+        "y": -57.5,
+        "z": 155.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": -0.5,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": -30.0,
+        "y": 37.5,
+        "z": -147.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": -0.25,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 150.0,
+        "y": -40.0,
+        "z": -42.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": -1.0,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": -75.0,
+        "y": 25.0,
+        "z": 170.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": -1.0,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 112.5,
+        "y": -17.5,
+        "z": -10.0
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:occa_berry": "cobblemon:tamato_berry",
+    "cobblemon:colbur_berry": "cobblemon:spelon_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 0,
+      "minY": 0,
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 32,
+      "maxZ": 16
+    }
+  ],
+  "flavors": {
+    "SPICY": 40
+  },
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
+  "fruitModel": "cobblemon:touga_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/touga.png"
+}

@@ -19,11 +19,11 @@ class MisdreavusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("misdreavus")
     override val head = getPart("head")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.15, -0.7, 0.0)
+    override val portraitScale = 1.8F
+    override val portraitTranslation = Vec3d(-0.2, -0.32, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override val profileScale = 0.7F
+    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -46,8 +46,7 @@ class MisdreavusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("misdreavus", "ground_idle")
-                //bedrock("misdreavus", "ground_walk")
+                bedrock("misdreavus", "ground_walk")
             )
         )
     }

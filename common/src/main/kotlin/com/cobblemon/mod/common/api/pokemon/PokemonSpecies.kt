@@ -34,7 +34,6 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.spawning.TimeRange
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.adapters.ElementalTypeAdapter
-import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
@@ -42,7 +41,8 @@ import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonPreEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonRequirementAdapter
-import com.cobblemon.mod.common.pokemon.helditem.CobblemonEmptyHeldItemManager
+import com.cobblemon.mod.common.pokemon.evolution.adapters.NbtItemPredicateAdapter
+import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.adapters.*
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -95,6 +95,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Item::class.java).type, ItemLikeConditionAdapter)
         .registerTypeAdapter(EggGroup::class.java, EggGroupAdapter)
         .registerTypeAdapter(StatusEffect::class.java, RegistryElementAdapter<StatusEffect> { Registries.STATUS_EFFECT })
+        .registerTypeAdapter(NbtItemPredicate::class.java, NbtItemPredicateAdapter)
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()
         .create()
@@ -243,6 +244,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         val cannotDynamax = form?.dynamaxBlocked ?: species.dynamaxBlocked
         // ToDo battleOnly
         // ToDo changesFrom
+        val requiredMove = form?.requiredMove
+        val requiredItem = form?.requiredItem
+        val requiredItems = form?.requiredItems
     }
 
     private fun createShowdownName(species: Species): String {
