@@ -29,6 +29,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.RotationAxis
 
 class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRendererContext<T, PlayerEntityModel<T>>) : FeatureRenderer<T, PlayerEntityModel<T>>(renderLayerParent) {
 
@@ -84,12 +85,21 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             val scale = shoulderData.form.baseScale * shoulderData.scaleModifier
             val width = shoulderData.form.hitbox.width
             val offset = width / 2 - 0.7
+            // If they're sneaking, the pokemon needs to rotate a little bit and push forward
+            // Shoulders move a bit when sneaking which is why the translation is necessary.
+            // Shoulder exact rotation according to MC code is 0.5 radians, the -0.15 is eyeballed though.
+            if (livingEntity.isSneaking) {
+                matrixStack.multiply(RotationAxis.POSITIVE_X.rotation(0.5F))
+                matrixStack.translate(0F, 0F, -0.15F)
+            }
             matrixStack.translate(
                 if (pLeftShoulder) -offset else offset,
                 (if (livingEntity.isSneaking) -1.3 else -1.5) * scale,
                 0.0
             )
+
             matrixStack.scale(scale, scale, scale)
+
             val model = PokemonModelRepository.getPoser(shoulderData.species.resourceIdentifier, shoulderData.aspects)
             val state = PokemonFloatingState()
             state.updatePartialTicks(ageInTicks + partialTicks)
