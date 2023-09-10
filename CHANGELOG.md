@@ -40,6 +40,7 @@
 - Added Cherry Torterra variant.
 - Added 2 new face spots for Spinda.
 - Added Forretress Shulker variant.
+- Added 'enabled' optional property on model layers, allowing later variations to disable previously-defined layers. See [this issue](https://gitlab.com/cable-mc/cobblemon/-/issues/335) for how this looks.
 
 ### Pokémon Added
 #### Gen 2
