@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.TextFieldWidget
+import net.minecraft.client.resource.language.I18n
 import net.minecraft.client.util.InputUtil
 import net.minecraft.text.Text
 
@@ -31,6 +32,7 @@ class NicknameEntryWidget(
     }
 
     var lastSavedName: String? = null
+    var pokemonName = ""
 
     init {
         setMaxLength(MAX_NAME_LENGTH)
@@ -42,9 +44,14 @@ class NicknameEntryWidget(
             isFocused = false
         }
         this.pokemon = pokemon
+        pokemonName = I18n.translate(pokemon.species.translatedName.string)
         this.lastSavedName = pokemon.nickname?.string
         setChangedListener {
-            pokemon.nickname = Text.literal(it)
+            if (it != pokemonName && it.isNotBlank()) {
+                pokemon.nickname = Text.literal(it)
+            } else {
+                pokemon.nickname = null
+            }
         }
         text = pokemon.getDisplayName().string
     }
@@ -61,7 +68,7 @@ class NicknameEntryWidget(
     override fun setFocused(focused: Boolean) {
         super.setFocused(focused)
         val oldText = text.trim()
-        val pokemonName = pokemon.species.translatedName.string
+        val pokemonName = I18n.translate(pokemon.species.translatedName.string)
         text = text.trim().ifBlank { pokemonName }
         if (!focused) {
             val newNickname = if (text == pokemonName) null else text
@@ -70,14 +77,27 @@ class NicknameEntryWidget(
     }
 
     private fun updateNickname(oldText: String, newNickname: String?) {
-        if (oldText != lastSavedName && !(newNickname == null && pokemon.nickname == null)) {
-            lastSavedName = text
+        if (!(newNickname == null && pokemon.nickname == null)) {
+
+            val pokemonName = I18n.translate(pokemon.species.translatedName.string)
+            val name = if (pokemonName == newNickname) {
+                null
+            } else {
+                newNickname
+            }
+
+            if (name == lastSavedName) {
+                return
+            }
+
+            println("Setting ${pokemon.species.name} nickname to: $name")
+            lastSavedName = name
             CobblemonNetwork.sendToServer(
-                    SetNicknamePacket(
-                            pokemonUUID = pokemon.uuid,
-                            nickname = newNickname,
-                            isParty = isParty
-                    )
+                SetNicknamePacket(
+                    pokemonUUID = pokemon.uuid,
+                    nickname = name,
+                    isParty = isParty
+                )
             )
         }
     }
@@ -98,7 +118,7 @@ class NicknameEntryWidget(
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
         if (keyCode == InputUtil.GLFW_KEY_ESCAPE) {
             val oldText = text.trim()
-            val pokemonName = pokemon.species.translatedName.string
+            val pokemonName = I18n.translate(pokemon.species.translatedName.string)
             val newNickname = if (text == pokemonName) null else text
             updateNickname(oldText, newNickname)
         }

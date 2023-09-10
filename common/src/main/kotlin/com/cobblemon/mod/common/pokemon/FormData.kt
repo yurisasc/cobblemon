@@ -180,7 +180,7 @@ class FormData(
      * To be aware of this gamestage subscribe to [PokemonSpecies.observable].
      */
     val evolutions: MutableSet<Evolution>
-        get() = _evolutions ?: mutableSetOf()
+        get() = _evolutions ?: species.evolutions
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)

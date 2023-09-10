@@ -283,6 +283,7 @@
 - Pokémon will appear red when hurt, like regular entities, except when they're fainting.
 - Ponyta and Rapidash now have animated textures.
 - Item interaction evolutions and held item requirements now support NBT by creating an object JSON containing the key ``item`` for what used to be the existing condition support and a ``nbt`` key for the NBT format, this is the string [format](https://minecraft.fandom.com/wiki/NBT_format) expected in commands. Existing data does not need to be updated.
+- Shoulder mounts now match the shoulder position a bit more accurately when sneaking.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
