@@ -494,6 +494,7 @@ open class Pokemon : ShowdownIdentifiable {
         this.healTimer = -1
         val entity = entity
         entity?.heal(entity.maxHealth - entity.health)
+        this.moveSet.partialHeal()
     }
 
     /**

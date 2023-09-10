@@ -282,6 +282,7 @@
 - Pokémon will appear red when hurt, like regular entities, except when they're fainting.
 - Ponyta and Rapidash now have animated textures.
 - Pokémon's air meter no longer depletes while battling underwater.
+- Sleeping partially restores PP of Pokémon
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
