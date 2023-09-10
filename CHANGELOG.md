@@ -40,6 +40,7 @@
 - Added Cherry Torterra variant.
 - Added 2 new face spots for Spinda.
 - Added Forretress Shulker variant.
+- Added 'enabled' optional property on model layers, allowing later variations to disable previously-defined layers. See [this issue](https://gitlab.com/cable-mc/cobblemon/-/issues/335) for how this looks.
 
 ### Pokémon Added
 #### Gen 2
@@ -283,6 +284,8 @@
 - Pokémon will appear red when hurt, like regular entities, except when they're fainting.
 - Ponyta and Rapidash now have animated textures.
 - Item interaction evolutions and held item requirements now support NBT by creating an object JSON containing the key ``item`` for what used to be the existing condition support and a ``nbt`` key for the NBT format, this is the string [format](https://minecraft.fandom.com/wiki/NBT_format) expected in commands. Existing data does not need to be updated.
+- Shoulder mounts now match the shoulder position a bit more accurately when sneaking.
+- Poison Heal will now cause poisoned Pokémon to heal outside of battle.
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -326,6 +329,7 @@
 - Fixed White-Striped Basculin not being able to evolve and by proxy the ``recoil`` evolution requirement.
 - Fixed Primeape, Qwilfish and Stantler not being able to evolve and by proxy the ``use_move`` evolution requirement.
 - Fixed Bramblin, Pawmo, and Rellor not being able to evolve and by proxy the ``blocks_traveled`` evolution requirement.
+- Fixed displayName property in spawn files not doing what it's meant to do.
 
 ### Developer
 - Added SpawnEvent, ThrownPokeballHitEvent, PokemonSentEvent, PokemonRecalledEvent.
