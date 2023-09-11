@@ -4,8 +4,8 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "tailow",
-            "pokemon": "tailow",
+            "id": "grafaiai",
+            "pokemon": "grafaiai",
             "presets": [
                 "natural",
                 "treetop"
@@ -13,20 +13,14 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "2-27",
-            "weight": 9.0,
+            "level": "28-49",
+            "weight": 0.2,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_sky",
-                    "#cobblemon:is_temperate"
+                    "#cobblemon:is_jungle"
                 ],
-                "timeRange": "day"
-            },
-            "anticondition": {
-                "biomes": [
-                    "#cobblemon:is_spooky"
-                ]
+                "timeRange": "night"
             }
         }
     ]

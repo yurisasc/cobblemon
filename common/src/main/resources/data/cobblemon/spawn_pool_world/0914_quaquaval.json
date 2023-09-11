@@ -4,8 +4,8 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "typlosion",
-            "pokemon": "typlosion",
+            "id": "quaquaval",
+            "pokemon": "quaquaval",
             "presets": [
                 "natural"
             ],
@@ -15,15 +15,7 @@
             "level": "36-53",
             "weight": 0.1,
             "condition": {
-                "canSeeSky": true,
-                "biomes": [
-                    "#cobblemon:is_temperate"
-                ]
-            },
-            "anticondition": {
-                "biomes": [
-                    "#cobblemon:is_spooky"
-                ]
+                "canSeeSky": true
             }
         }
     ]

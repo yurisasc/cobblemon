@@ -4,8 +4,8 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "cetottle-1",
-            "pokemon": "cetottle",
+            "id": "cetoddle-1",
+            "pokemon": "cetoddle",
             "presets": [
                 "natural"
             ],
@@ -22,8 +22,8 @@
             }
         },
         {
-            "id": "cetottle-2",
-            "pokemon": "cetottle",
+            "id": "cetoddle-2",
+            "pokemon": "cetoddle",
             "presets": [
                 "natural"
             ],

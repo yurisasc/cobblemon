@@ -4,8 +4,8 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "oinkolonge-1",
-            "pokemon": "oinkolonge",
+            "id": "oinkologne-1",
+            "pokemon": "oinkologne",
             "presets": [
                 "natural"
             ],
@@ -29,8 +29,8 @@
             }
         },
         {
-            "id": "oinkolonge-2",
-            "pokemon": "oinkolonge",
+            "id": "oinkologne-2",
+            "pokemon": "oinkologne",
             "presets": [
                 "natural"
             ],
@@ -42,8 +42,8 @@
             "condition": {}
         },
         {
-            "id": "oinkolonge-3",
-            "pokemon": "oinkolonge",
+            "id": "oinkologne-3",
+            "pokemon": "oinkologne",
             "presets": [
                 "natural"
             ],
