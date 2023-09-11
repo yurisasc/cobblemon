@@ -144,9 +144,9 @@ class PokemonEntity(
     var tethering: PokemonPastureBlockEntity.Tethering? = null
 
     /**
-     * The amount of steps this entity has taken.
+     * The amount of steps this entity has traveled.
      */
-    var steps: Int = 0
+    var blocksTraveled: Double = 0.0
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
