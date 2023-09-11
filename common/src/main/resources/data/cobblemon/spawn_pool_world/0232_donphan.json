@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "donphan",
+            "id": "donphan-1",
             "pokemon": "donphan",
             "presets": [
                 "natural"
@@ -28,7 +28,7 @@
             }
         },
         {
-            "id": "donphan",
+            "id": "donphan-2",
             "pokemon": "donphan",
             "presets": [
                 "natural"

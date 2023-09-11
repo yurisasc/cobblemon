@@ -34,7 +34,11 @@
             "bucket": "common",
             "level": "38-51",
             "weight": 0.2,
-            "condition": {}
+            "condition": {
+				"biomes": [
+                    "#cobblemon:is_nether_mountain"
+                ]
+			}
         }
     ]
 }

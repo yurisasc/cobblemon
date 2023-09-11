@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "ariados",
+            "id": "ariados-1",
             "pokemon": "ariados",
             "presets": [
                 "natural",
@@ -32,49 +32,7 @@
             }
         },
         {
-            "id": "ariados",
-            "pokemon": "ariados",
-            "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "22-40",
-            "weight": 1.0,
-            "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "terralith:cave/infested_caves",
-                    "#cobblemon:is_overworld"
-                ]
-            }
-        },
-        {
-            "id": "ariados",
-            "pokemon": "ariados",
-            "presets": [
-                "derelict"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "22-40",
-            "weight": 0.6,
-            "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "#cobblemon:is_overworld"
-                ]
-            },
-            "anticondition": {
-                "biomes": [
-                    "#cobblemon:is_abyss"
-                ]
-            }
-        },
-        {
-            "id": "ariados",
+            "id": "ariados-2",
             "pokemon": "ariados",
             "presets": [
                 "natural"
@@ -93,6 +51,69 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_abyss"
+                ]
+            }
+        },
+        {
+            "id": "ariados-3",
+            "pokemon": "ariados",
+            "presets": [
+                "derelict"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "22-40",
+            "weight": 0.6,
+            "condition": {
+                "canSeeSky": false,
+				"minY": 0,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_abyss"
+                ]
+            }
+        },
+        {
+            "id": "ariados-4",
+            "pokemon": "ariados",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "22-40",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "terralith:cave/infested_caves"
+                ]
+            }
+        },
+        {
+            "id": "ariados-5",
+            "pokemon": "ariados",
+            "presets": [
+                "woodland_mansion"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "22-40",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+				"neededNearbyBlocks": [
+                    "minecraft:cobweb"
                 ]
             }
         }

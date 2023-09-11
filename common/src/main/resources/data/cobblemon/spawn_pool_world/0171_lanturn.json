@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "lanturn",
+            "id": "lanturn-1",
             "pokemon": "lanturn",
             "presets": [
                 "underwater"
@@ -16,6 +16,7 @@
             "weight": 0.6,
             "condition": {
                 "canSeeSky": true,
+				"maxY": 48,
                 "biomes": [
                     "#cobblemon:is_deep"
                 ]

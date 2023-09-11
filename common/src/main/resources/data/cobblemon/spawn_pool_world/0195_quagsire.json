@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "quagsire",
+            "id": "quagsire-1",
             "pokemon": "quagsire",
             "presets": [
                 "natural"
@@ -22,7 +22,7 @@
             }
         },
         {
-            "id": "quagsire",
+            "id": "quagsire-2",
             "pokemon": "quagsire",
             "presets": [
                 "underwater"
@@ -40,7 +40,7 @@
             }
         },
         {
-            "id": "quagsire",
+            "id": "quagsire-3",
             "pokemon": "quagsire",
             "presets": [
                 "natural"
@@ -63,7 +63,7 @@
             }
         },
         {
-            "id": "quagsire",
+            "id": "quagsire-4",
             "pokemon": "quagsire",
             "presets": [
                 "underwater"
@@ -86,7 +86,7 @@
             }
         },
         {
-            "id": "quagsire",
+            "id": "quagsire-5",
             "pokemon": "quagsire",
             "presets": [
                 "natural"
@@ -110,7 +110,7 @@
             }
         },
         {
-            "id": "quagsire",
+            "id": "quagsire-6",
             "pokemon": "quagsire",
             "presets": [
                 "underwater"

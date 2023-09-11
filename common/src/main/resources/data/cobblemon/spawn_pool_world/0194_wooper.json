@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "wooper",
+            "id": "wooper-1",
             "pokemon": "wooper",
             "presets": [
                 "natural"
@@ -22,7 +22,7 @@
             }
         },
         {
-            "id": "wooper",
+            "id": "wooper-2",
             "pokemon": "wooper",
             "presets": [
                 "underwater"
@@ -40,7 +40,7 @@
             }
         },
         {
-            "id": "wooper",
+            "id": "wooper-3",
             "pokemon": "wooper",
             "presets": [
                 "natural"
@@ -63,7 +63,7 @@
             }
         },
         {
-            "id": "wooper",
+            "id": "wooper-4",
             "pokemon": "wooper",
             "presets": [
                 "underwater"
@@ -86,7 +86,7 @@
             }
         },
         {
-            "id": "wooper",
+            "id": "wooper-5",
             "pokemon": "wooper",
             "presets": [
                 "natural"
@@ -112,7 +112,7 @@
             }
         },
         {
-            "id": "wooper",
+            "id": "wooper-6",
             "pokemon": "wooper",
             "presets": [
                 "underwater"

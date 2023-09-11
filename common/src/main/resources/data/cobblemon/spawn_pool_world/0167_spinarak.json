@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "spinarak",
+            "id": "spinarak-1",
             "pokemon": "spinarak",
             "presets": [
                 "natural",
@@ -32,49 +32,7 @@
             }
         },
         {
-            "id": "spinarak",
-            "pokemon": "spinarak",
-            "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "1-25",
-            "weight": 9.0,
-            "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "terralith:cave/infested_caves",
-                    "#cobblemon:is_overworld"
-                ]
-            }
-        },
-        {
-            "id": "spinarak",
-            "pokemon": "spinarak",
-            "presets": [
-                "derelict"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "1-25",
-            "weight": 5.4,
-            "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "#cobblemon:is_overworld"
-                ]
-            },
-            "anticondition": {
-                "biomes": [
-                    "#cobblemon:is_abyss"
-                ]
-            }
-        },
-        {
-            "id": "spinarak",
+            "id": "spinarak-2",
             "pokemon": "spinarak",
             "presets": [
                 "natural"
@@ -93,6 +51,69 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_abyss"
+                ]
+            }
+        },
+        {
+            "id": "spinarak-3",
+            "pokemon": "spinarak",
+            "presets": [
+                "derelict"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "1-25",
+            "weight": 5.4,
+            "condition": {
+                "canSeeSky": false,
+				"minY": 0,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_abyss"
+                ]
+            }
+        },
+        {
+            "id": "spinarak-4",
+            "pokemon": "spinarak",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "1-25",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "terralith:cave/infested_caves"
+                ]
+            }
+        },
+        {
+            "id": "spinarak-5",
+            "pokemon": "spinarak",
+            "presets": [
+                "woodland_mansion"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "1-25",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+				"neededNearbyBlocks": [
+                    "minecraft:cobweb"
                 ]
             }
         }

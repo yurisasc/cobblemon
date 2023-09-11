@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "gligar",
+            "id": "gligar-1",
             "pokemon": "gligar",
             "presets": [
                 "natural",
@@ -24,7 +24,7 @@
             }
         },
         {
-            "id": "gligar",
+            "id": "gligar-2",
             "pokemon": "gligar",
             "presets": [
                 "natural"
@@ -34,7 +34,11 @@
             "bucket": "common",
             "level": "18-43",
             "weight": 1.8,
-            "condition": {}
+            "condition": {
+				"biomes": [
+                    "#cobblemon:is_nether_mountain"
+                ]
+			}
         }
     ]
 }

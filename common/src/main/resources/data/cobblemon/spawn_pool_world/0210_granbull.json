@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "granbull",
+            "id": "granbull-1",
             "pokemon": "granbull",
             "presets": [
                 "natural",
@@ -28,7 +28,7 @@
             }
         },
         {
-            "id": "granbull",
+            "id": "granbull-2",
             "pokemon": "granbull",
             "presets": [
                 "woodland_mansion"

@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "chinchou",
+            "id": "chinchou-1",
             "pokemon": "chinchou",
             "presets": [
                 "underwater"
@@ -16,6 +16,7 @@
             "weight": 5.4,
             "condition": {
                 "canSeeSky": true,
+				"maxY": 48,
                 "biomes": [
                     "#cobblemon:is_deep"
                 ]
