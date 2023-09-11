@@ -45,6 +45,9 @@ object DataKeys {
     const val POKEMON_NATURE = "Nature"
     const val POKEMON_MINTED_NATURE = "MintedNature"
     const val HELD_ITEM = "HeldItem"
+    const val POKEMON_TERA_TYPE = "TeraType"
+    const val POKEMON_DMAX_LEVEL = "DmaxLevel"
+    const val POKEMON_GMAX_FACTOR = "GmaxFactor"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
