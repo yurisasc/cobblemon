@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.unknown.new": {
+		"animation.luxray.new": {
 			"loop": true,
 			"bones": {
 				"body": {
@@ -125,6 +125,37 @@
 				},
 				"back_foot_left": {
 					"rotation": [-7.5, 0, 0]
+				}
+			}
+		},
+		"animation.luxray.ground_idle": {
+			"loop": true,
+			"bones": {
+				"tail_1": {
+					"rotation": [43, 0, 0]
+				},
+				"tail_2": {
+					"rotation": [22.5, 0, 0],
+					"position": [0, 0, -0.2]
+				},
+				"tail_3": {
+					"rotation": [-45, 0, 0],
+					"position": [0, 0.1, -0.3]
+				},
+				"tail_4": {
+					"rotation": [-52.68932, -2.64422, -1.88999],
+					"position": [0, 0.2, -0.4]
+				},
+				"tail_5": {
+					"rotation": [-30, 0, 0],
+					"position": [0, 0.1, -0.2]
+				},
+				"tail_6": {
+					"rotation": [20, 0, 0],
+					"position": [0, 0, -0.1]
+				},
+				"tail_fluff": {
+					"rotation": [5, 0, 0]
 				}
 			}
 		}

@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
+import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
@@ -40,7 +41,6 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
-import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem
 import com.cobblemon.mod.common.net.messages.client.sound.PokemonCryPacket
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
@@ -55,12 +55,9 @@ import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.util.*
 import java.util.concurrent.CompletableFuture
-import kotlin.math.round
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
-import net.minecraft.block.BlockState
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
@@ -90,6 +87,7 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ChunkTicketType
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -100,6 +98,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
@@ -145,9 +144,9 @@ class PokemonEntity(
     var tethering: PokemonPastureBlockEntity.Tethering? = null
 
     /**
-     * The amount of steps this entity has taken.
+     * The amount of blocks this entity has traveled.
      */
-    var steps: Int = 0
+    var blocksTraveled: Double = 0.0
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
@@ -290,11 +289,11 @@ class PokemonEntity(
     /**
      * Prevents flying type Pokémon from taking fall damage.
      */
-    override fun fall(pY: Double, pOnGround: Boolean, pState: BlockState, pPos: BlockPos) {
-        if (ElementalTypes.FLYING in pokemon.types) {
-            fallDistance = 0F
+    override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource?): Boolean {
+        return if (ElementalTypes.FLYING in pokemon.types || pokemon.ability.name == "levitate") {
+            false
         } else {
-            super.fall(pY, pOnGround, pState, pPos)
+            super.handleFallDamage(fallDistance, damageMultiplier, damageSource)
         }
     }
 
@@ -642,7 +641,7 @@ class PokemonEntity(
 
         // Check evolution item interaction
         if (pokemon.getOwnerPlayer() == player) {
-            val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
+            val context = ItemInteractionEvolution.ItemInteractionContext(stack, player.world)
             pokemon.evolutions
                 .filterIsInstance<ItemInteractionEvolution>()
                 .forEach { evolution ->
@@ -656,9 +655,9 @@ class PokemonEntity(
                 }
         }
 
-        (stack.item as? PokemonInteractiveItem)?.let {
+        (stack.item as? PokemonEntityInteraction)?.let {
             if (it.onInteraction(player, this, stack)) {
-                it.getSound()?.let {
+                it.sound?.let {
                     this.world.playSoundServer(
                         position = this.pos,
                         sound = it,
@@ -776,6 +775,16 @@ class PokemonEntity(
         }
     }
 
+    override fun dropXp() {
+        // Copied over the entire function because it's the simplest way to switch out the gamerule check
+        if (
+            world is ServerWorld && !this.isExperienceDroppingDisabled &&
+            (shouldAlwaysDropXp() || playerHitTimer > 0 && shouldDropXp() && world.gameRules.getBoolean(CobblemonGameRules.DO_POKEMON_LOOT))
+        ) {
+            ExperienceOrbEntity.spawn(world as ServerWorld, pos, this.xpToDrop)
+        }
+    }
+
     override fun updatePostDeath() {
         // Do not invoke super we need to keep a tight lid on this due to the Thorium mod forcing the ticks to a max of 20 on server side if we invoke a field update here
         // Client delegate is mimicking expected behavior on client end.
@@ -794,30 +803,18 @@ class PokemonEntity(
     }
 
     override fun travel(movementInput: Vec3d) {
-        val previousX = this.x
-        val previousY = this.y
-        val previousZ = this.z
+        val prevBlockPos = this.blockPos
         super.travel(movementInput)
-        val xDiff = this.x - previousX
-        val yDiff = this.y - previousY
-        val zDiff = this.z - previousZ
-        this.updateWalkedSteps(xDiff, yDiff, zDiff)
+        this.updateBlocksTraveled(prevBlockPos)
     }
 
-    private fun updateWalkedSteps(xDiff: Double, yDiff: Double, zDiff: Double) {
+    private fun updateBlocksTraveled(fromBp: BlockPos) {
         // Riding or falling shouldn't count, other movement sources are fine
-        if (!this.hasVehicle() || !this.isFallFlying) {
+        if (this.hasVehicle() || this.isFalling()) {
             return
         }
-        val stepsTaken = when {
-            this.isSwimming || this.isSubmergedIn(FluidTags.WATER) -> round(sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff) * 100F)
-            this.isClimbing -> round(yDiff * 100F)
-            // Walking, flying or touching water
-            else -> round(sqrt(xDiff * xDiff + zDiff * zDiff) * 100F)
-        }
-        if (stepsTaken > 0) {
-            this.steps += stepsTaken.roundToInt()
-        }
+        val blocksTaken = this.blockPos.getSquaredDistance(fromBp)
+        if (blocksTaken > 0) this.blocksTraveled += blocksTaken
     }
 
     private fun updateEyeHeight() {
@@ -825,6 +822,9 @@ class PokemonEntity(
         (this as com.cobblemon.mod.common.mixin.accessor.AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
     }
 
+    fun isFlying() = this.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
+    fun couldStopFlying() = isFlying() && !behaviour.moving.walk.avoidsLand && behaviour.moving.walk.canWalk
+    fun isFalling() = this.fallDistance > 0 && this.world.getBlockState(this.blockPos.down()).isAir && !this.isFlying()
     fun getIsSubmerged() = isInLava || isSubmergedInWater
     override fun getPoseType(): PoseType = this.poseType.get()
 
@@ -934,4 +934,16 @@ class PokemonEntity(
     }
 
     override fun canUsePortals() = false
+
+    override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
+        if (player != null) {
+            if(this.ownerUuid == player.uuid && tethering == null) {
+                val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
+                (world as ServerWorld).chunkManager
+                    .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
+                this.goalSelector.tick()
+                if(distanceTo(player.blockPos) > 100) pokemon.recall()
+            }
+        }
+    }
 }

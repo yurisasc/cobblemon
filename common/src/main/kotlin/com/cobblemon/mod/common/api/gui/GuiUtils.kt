@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Species
@@ -181,6 +182,10 @@ fun drawPortraitPokemon(
     val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
     val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state)
 
+    val context = RenderContext()
+    PokemonModelRepository.variations[species.resourceIdentifier]?.getTexture(aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
+    context.put(RenderContext.SCALE, species.getForm(aspects).baseScale)
+
     val renderType = model.getLayer(texture)
 
     RenderSystem.applyModelViewMatrix()
@@ -215,11 +220,12 @@ fun drawPortraitPokemon(
     val packedLight = LightmapTextureManager.pack(11, 7)
 
     model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
-        model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         immediate.draw()
     }
 
     matrixStack.pop()
+    model.setDefault()
 
     DiffuseLighting.enableGuiDepthLighting()
 }

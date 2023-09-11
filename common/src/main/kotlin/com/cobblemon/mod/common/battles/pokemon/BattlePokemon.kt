@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles.pokemon
 
+import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.moves.MoveSet
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
@@ -89,4 +90,8 @@ open class BattlePokemon(
 
     fun isSentOut() = actor.battle.activePokemon.any { it.battlePokemon == this }
     fun canBeSentOut() = !isSentOut() && !willBeSwitchedIn && health > 0
+
+    fun writeVariables(struct: VariableStruct) {
+        effectedPokemon.writeVariables(struct)
+    }
 }

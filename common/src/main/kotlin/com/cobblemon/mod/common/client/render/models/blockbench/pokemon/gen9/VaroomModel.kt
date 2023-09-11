@@ -37,7 +37,7 @@ class VaroomModel (root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            transformTicks = 10,
+            transformTicks = 0,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("varoom", "ground_idle")
@@ -47,7 +47,7 @@ class VaroomModel (root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            transformTicks = 10,
+            transformTicks = 0,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("varoom", "ground_walk")

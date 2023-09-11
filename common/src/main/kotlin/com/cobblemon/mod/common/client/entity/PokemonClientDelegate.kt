@@ -28,9 +28,11 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         const val BEAM_EXTEND_TIME = 0.2F
     }
 
-    lateinit var entity: PokemonEntity
+    lateinit var currentEntity: PokemonEntity
     var phaseTarget: Entity? = null
     var entityScaleModifier = 1F
+
+    override fun getEntity() = currentEntity
 
     override fun updatePartialTicks(partialTicks: Float) {
         this.currentPartialTicks = partialTicks
@@ -46,26 +48,26 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     private val intensityVelocityCap = -0.5F
     override fun changePokemon(pokemon: Pokemon) {
         pokemon.isClient = true
-        entity.subscriptions.add(entity.species.subscribeIncludingCurrent {
+        currentEntity.subscriptions.add(currentEntity.species.subscribeIncludingCurrent {
             currentPose = null
-            entity.pokemon.species = PokemonSpecies.getByIdentifier(Identifier(it))!! // TODO exception handling
+            currentEntity.pokemon.species = PokemonSpecies.getByIdentifier(Identifier(it))!! // TODO exception handling
         })
 
-//        entity.subscriptions.add(entity.nickname.subscribeIncludingCurrent {
-//            entity.pokemon.nickname = it?.copy()
+//        currentEntity.subscriptions.add(currentEntity.nickname.subscribeIncludingCurrent {
+//            currentEntity.pokemon.nickname = it?.copy()
 //        })
 
-        entity.subscriptions.add(entity.deathEffectsStarted.subscribe {
+        currentEntity.subscriptions.add(currentEntity.deathEffectsStarted.subscribe {
             if (it) {
                 val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
-                val animation = try { model.getFaintAnimation(entity, this) } catch (e: Exception) { e.printStackTrace(); null } ?: return@subscribe
+                val animation = try { model.getFaintAnimation(currentEntity, this) } catch (e: Exception) { e.printStackTrace(); null } ?: return@subscribe
                 statefulAnimations.add(animation)
             }
         })
 
-        entity.subscriptions.add(entity.labelLevel.subscribeIncludingCurrent { if (it > 0) entity.pokemon.level = it })
+        currentEntity.subscriptions.add(currentEntity.labelLevel.subscribeIncludingCurrent { if (it > 0) currentEntity.pokemon.level = it })
 
-        entity.subscriptions.add(entity.phasingTargetId.subscribe {
+        currentEntity.subscriptions.add(currentEntity.phasingTargetId.subscribe {
             if (it != -1) {
                 setPhaseTarget(it)
             } else {
@@ -73,22 +75,22 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             }
         })
 
-//        pokemon.aspects = entity.aspects.get()
-//        entity.aspects.pipe(emitWhile { pokemon == entity.pokemon }).subscribe {
+//        pokemon.aspects = currentEntity.aspects.get()
+//        currentEntity.aspects.pipe(emitWhile { pokemon == currentEntity.pokemon }).subscribe {
 //            pokemon.aspects = it
 //        }
 
-        entity.subscriptions.add(entity.beamModeEmitter.subscribeIncludingCurrent {
+        currentEntity.subscriptions.add(currentEntity.beamModeEmitter.subscribeIncludingCurrent {
             if (it == 0.toByte()) {
                 // Do nothing
             } else if (it == 1.toByte()) {
                 // Scaling up out of pokeball
                 entityScaleModifier = 0F
                 beamStartTime = System.currentTimeMillis()
-                entity.isInvisible = true
+                currentEntity.isInvisible = true
                 after(seconds = BEAM_EXTEND_TIME) {
                     lerp(BEAM_SHRINK_TIME) { entityScaleModifier = it }
-                    entity.isInvisible = false
+                    currentEntity.isInvisible = false
                 }
             } else {
                 // Scaling down into pokeball
@@ -104,7 +106,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     }
 
     override fun initialize(entity: PokemonEntity) {
-        this.entity = entity
+        this.currentEntity = entity
         this.age = entity.age
     }
 
@@ -128,25 +130,25 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     }
 
     fun setPhaseTarget(targetId: Int) {
-        this.phaseTarget = entity.world.getEntityById(targetId)
+        this.phaseTarget = currentEntity.world.getEntityById(targetId)
     }
 
     override fun handleStatus(status: Byte) {
         if (status == 10.toByte()) {
             val model = (currentModel ?: return) as PokemonPoseableModel
-            val animation = model.getEatAnimation(entity, this) ?: return
+            val animation = model.getEatAnimation(currentEntity, this) ?: return
             statefulAnimations.add(animation)
         }
     }
 
     override fun updatePostDeath() {
-        ++entity.deathTime
+        ++currentEntity.deathTime
     }
 
     fun cry() {
         val model = currentModel ?: return
         if (model is PokemonPoseableModel) {
-            val animation = model.cryAnimation(entity, this) ?: return
+            val animation = model.cryAnimation(currentEntity, this) ?: return
             statefulAnimations.add(animation)
         }
     }

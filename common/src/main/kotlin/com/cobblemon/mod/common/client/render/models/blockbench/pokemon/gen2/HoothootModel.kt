@@ -22,13 +22,8 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HoothootModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWingedFrame {
+class HoothootModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("hoothoot")
-    override val leftWing = getPart("wing_left")
-    override val rightWing = getPart("wing_right")
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
-    private val tail = getPart("tail")
 
     override val portraitScale = 2.2F
     override val portraitTranslation = Vec3d(-0.25, -0.9, 0.0)
@@ -39,14 +34,23 @@ class HoothootModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("hoothoot", "blink").setPreventsIdle(false)}
+        val quirk = quirk("quirk") { bedrockStateful("hoothoot", "quirk_foot").setPreventsIdle(false)}
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("hoothoot", "sleep"))
+        )
         standing = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
-            transformTicks = 0,
-            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            transformTicks = 10,
+            quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
                 bedrock("hoothoot", "ground_idle")
             )
@@ -56,12 +60,7 @@ class HoothootModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("hoothoot", "ground_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("hoothoot", "air_idle")
             )
         )
         fly = registerPose(
@@ -69,12 +68,7 @@ class HoothootModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("hoothoot", "ground_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("hoothoot", "air_fly")
             )
         )
         walk = registerPose(
@@ -83,69 +77,17 @@ class HoothootModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
             transformTicks = 5,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("hoothoot", "ground_idle"),
-                rootPart.translation(
-                    function = parabolaFunction(
-                        peak = -4F,
-                        period = 0.4F
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Y_AXIS
-                ),
-                leftLeg.rotation(
-                    function = parabolaFunction(
-                        tightness = -20F,
-                        phaseShift = 0F,
-                        verticalShift = (30F).toRadians()
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                rightLeg.rotation(
-                    function = parabolaFunction(
-                        tightness = -20F,
-                        phaseShift = 0F,
-                        verticalShift = (30F).toRadians()
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                tail.rotation(
-                    function = sineFunction(
-                        amplitude = (-5F).toRadians(),
-                        period = 1F
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                wingFlap(
-                    flapFunction = sineFunction(
-                        amplitude = (-5F).toRadians(),
-                        period = 0.4F,
-                        phaseShift = 0.00F,
-                        verticalShift = (-20F).toRadians()
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Z_AXIS
-                ),
-                rightWing.translation(
-                    function = parabolaFunction(
-                        tightness = -10F,
-                        phaseShift = 30F,
-                        verticalShift = (25F).toRadians()
-                    ),
-                    axis = TransformedModelPart.Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                leftWing.translation(
-                    function = parabolaFunction(
-                        tightness = -10F,
-                        phaseShift = 30F,
-                        verticalShift = (25F).toRadians()
-                    ),
-                    axis = TransformedModelPart.Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
+                bedrock("hoothoot", "ground_walk")
+            )
+        )
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, quirk),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("hoothoot", "battle_idle")
             )
         )
     }

@@ -1,0 +1,26 @@
+{
+	"feature": "cobblemon:berry_groves",
+	"placement": [
+		{
+			"type": "minecraft:rarity_filter",
+			"chance": 80
+		},
+		{
+			"type": "minecraft:in_square"
+		},
+		{
+      		"type": "minecraft:heightmap",
+      		"heightmap": "WORLD_SURFACE"
+  		},
+  		{
+  			"type": "cobblemon:locate_predicate",
+  			"maxTries": 64,
+  			"xzRange": 8,
+  			"yRange": 1,
+  			"predicate": {
+				"type": "minecraft:matching_block_tag",
+				"tag": "cobblemon:berry_wild_soil"
+			}
+  		}
+	]
+}

@@ -1,0 +1,115 @@
+{
+  "baseYield": {
+    "min": 1,
+    "max": 3
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_forest"
+  ],
+  "growthTime": {
+    "min": 75,
+    "max": 85
+  },
+  "refreshRate": {
+    "min": 15,
+    "max": 25
+  },
+  "favoriteMulches": [
+    "peat"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "randomizedGrowthPoints": true,
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 12.0,
+        "y": 13.0,
+        "z": 4.0
+      },
+      "rotation": {
+        "x": 32.5,
+        "y": -57.5,
+        "z": -15.0
+      }
+    },
+    {
+      "position": {
+        "x": 4.0,
+        "y": 12.25,
+        "z": 4.0
+      },
+      "rotation": {
+        "x": 20.0,
+        "y": 50.0,
+        "z": 2.5
+      }
+    },
+    {
+      "position": {
+        "x": 4.0,
+        "y": 12.75,
+        "z": 12.0
+      },
+      "rotation": {
+        "x": -12.5,
+        "y": -35.0,
+        "z": -10.0
+      }
+    },
+    {
+      "position": {
+        "x": 12.0,
+        "y": 12.5,
+        "z": 12.0
+      },
+      "rotation": {
+        "x": -20.0,
+        "y": 42.5,
+        "z": -2.5
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:hondew_berry": "cobblemon:petaya_berry",
+    "cobblemon:charti_berry": "cobblemon:jaboca_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 0,
+      "minY": 0,
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 32,
+      "maxZ": 16
+    }
+  ],
+  "flavors": {
+    "BITTER": 30,
+    "SOUR": 10
+  },
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
+  "fruitModel": "cobblemon:durin_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/durin.png"
+}

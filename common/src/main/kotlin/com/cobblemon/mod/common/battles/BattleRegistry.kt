@@ -31,13 +31,17 @@ object BattleRegistry {
     class BattleChallenge(
         val challengeId: UUID,
         val challengedPlayerUUID: UUID,
+        val selectedPokemonId: UUID,
         var expiryTimeSeconds: Int = 60
     ) {
         val challengedTime = Instant.now()
         fun isExpired() = Instant.now().isAfter(challengedTime.plusSeconds(expiryTimeSeconds.toLong()))
     }
 
-    val gson = GsonBuilder().disableHtmlEscaping().create()
+    val gson = GsonBuilder()
+        .disableHtmlEscaping()
+        .registerTypeAdapter(ShowdownMoveset::class.java, ShowdownMovesetAdapter)
+        .create()
     private val battleMap = ConcurrentHashMap<UUID, PokemonBattle>()
     // Challenger to challenge
     val pvpChallenges = mutableMapOf<UUID, BattleChallenge>()
@@ -129,11 +133,12 @@ object BattleRegistry {
             // Hidden Power Type
             packedTeamBuilder.append(",")
             // Gigantamax
-            packedTeamBuilder.append(",")
+            packedTeamBuilder.append("${if (pk.gmaxFactor) "G" else ""},")
             // DynamaxLevel
-            packedTeamBuilder.append(",")
+            // 0 - 9, empty == 10
+            packedTeamBuilder.append("${if (pk.dmaxLevel < 10) pk.dmaxLevel else ""},")
             // Teratype
-            packedTeamBuilder.append(",")
+            packedTeamBuilder.append("${pokemon.effectedPokemon.teraType.name},")
 
             team.add(packedTeamBuilder.toString())
         }

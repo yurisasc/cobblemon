@@ -1,0 +1,105 @@
+{
+  "baseYield": {
+    "min": 1,
+    "max": 2
+  },
+  "preferredBiomeTags": [
+    "cobblemon:is_mountain",
+    "cobblemon:is_taiga"
+  ],
+  "growthTime": {
+    "min": 95,
+    "max": 105
+  },
+  "refreshRate": {
+    "min": 20,
+    "max": 30
+  },
+  "favoriteMulches": [
+    "coarse"
+  ],
+  "growthFactors": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "bonusYield": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "randomizedGrowthPoints": true,
+  "spawnConditions": [],
+  "growthPoints": [
+    {
+      "position": {
+        "x": 7.75,
+        "y": -0.75,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 110.0,
+        "y": 22.5,
+        "z": 2.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": -0.25,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 150.0,
+        "y": 12.5,
+        "z": 52.5
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": -0.5,
+        "z": 7.75
+      },
+      "rotation": {
+        "x": 20.0,
+        "y": 17.5,
+        "z": 145.0
+      }
+    }
+  ],
+  "mutations": {
+    "cobblemon:pamtre_berry": "cobblemon:liechi_berry",
+    "cobblemon:pomeg_berry": "cobblemon:starf_berry"
+  },
+  "sproutShape": [
+    {
+      "minX": 7,
+      "minY": -1,
+      "minZ": 7,
+      "maxX": 9,
+      "maxY": 0,
+      "maxZ": 9
+    }
+  ],
+  "matureShape": [
+    {
+      "minX": 0,
+      "minY": 0,
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 32,
+      "maxZ": 16
+    }
+  ],
+  "flavors": {
+    "DRY": 10,
+    "BITTER": 10,
+    "SOUR": 10
+  },
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
+  "fruitModel": "cobblemon:kelpsy_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/kelpsy.png"
+}

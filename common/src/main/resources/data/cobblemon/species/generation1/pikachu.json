@@ -15,6 +15,9 @@
     "special_defence": 50,
     "speed": 90
   },
+  "features": [
+    "alolan"
+  ],
   "behaviour": {
     "moving": {
       "walk": {
@@ -31,16 +34,6 @@
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    {
-      "type": "potion_effect",
-      "effect": "minecraft:speed",
-      "amplifier": 0,
-      "ambient": true,
-      "showParticles": false,
-      "showIcon": false
-    }
-  ],
   "forms": [
     {
       "name": "Cosplay",
@@ -1263,11 +1256,9 @@
         "tutor:volttackle"
       ],
       "labels": [
-        "gen7",
-        "alola_regional"
+        "gen7"
       ],
       "aspects": [
-        "alolan"
       ],
       "height": 4,
       "weight": 60,
@@ -1706,7 +1697,31 @@
       "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
-    }
+    },
+    {
+      "name": "Alolan",
+      "maleRatio": 0.5,
+      "labels": [
+        "alola_regional"
+      ],
+      "aspects": [
+        "alolan"
+      ],
+      "evolutions": [
+        {
+          "id": "alolan_pikachu_raichu",
+          "variant": "item_interact",
+          "result": "raichu alolan",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "psychic"
+          ],
+          "requirements": [],
+          "requiredContext": "cobblemon:thunder_stone"
+        }
+      ]
+    },
+    { "name": "Default" }
   ],
   "baseExperienceYield": 112,
   "experienceGroup": "medium_fast",
@@ -1915,17 +1930,6 @@
       "consumeHeldItem": false,
       "learnableMoves": [
         "thunderpunch"
-      ],
-      "requirements": [],
-      "requiredContext": "cobblemon:thunder_stone"
-    },
-    {
-      "id": "pikachu_raichu",
-      "variant": "item_interact",
-      "result": "raichu form=alola",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "psychic"
       ],
       "requirements": [],
       "requiredContext": "cobblemon:thunder_stone"

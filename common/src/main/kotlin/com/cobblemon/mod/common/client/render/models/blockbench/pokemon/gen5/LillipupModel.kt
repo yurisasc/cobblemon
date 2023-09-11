@@ -39,7 +39,7 @@ class LillipupModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
         val blink = quirk("blink") { bedrockStateful("lillipup", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook()
@@ -48,7 +48,7 @@ class LillipupModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
 
         walk = registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),

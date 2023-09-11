@@ -37,7 +37,9 @@ class BonslyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
     lateinit var sleep: PokemonPose
+    lateinit var battlesleep: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("bonsly", "blink").setPreventsIdle(false) }
@@ -45,6 +47,7 @@ class BonslyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("bonsly", "ground_idle")
@@ -64,8 +67,30 @@ class BonslyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("bonsly", "sleep_pot")
+            )
+        )
+
+        battlesleep = registerPose(
+            poseName = "battlesleep",
+            poseType = PoseType.SLEEP,
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("bonsly", "sleep")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("bonsly", "battle_idle")
             )
         )
     }

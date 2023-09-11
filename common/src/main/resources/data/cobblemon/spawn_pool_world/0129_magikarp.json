@@ -27,6 +27,7 @@
                 "water_surface"
             ],
             "type": "pokemon",
+            "context": "surface",
             "bucket": "common",
             "level": "1-20",
             "weight": 1.98,
@@ -35,7 +36,7 @@
             }
         },
         {
-            "id": "magikarp-2",
+            "id": "magikarp-3",
             "pokemon": "magikarp",
             "presets": [
                 "underwater"
@@ -59,6 +60,7 @@
                 "water_surface"
             ],
             "type": "pokemon",
+            "context": "surface",
             "bucket": "common",
             "level": "1-20",
             "weight": 1.98,
