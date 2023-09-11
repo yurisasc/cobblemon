@@ -173,7 +173,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             colour = Triple(r, g, b),
             opacity = opacity.toFloat(),
             ballState = activeBattlePokemon.ballCapturing,
-            maxHealth = truePokemon?.hp ?: 0,
+            maxHealth = battlePokemon.maxHp.toInt(),
             health = battlePokemon.hpValue,
             isFlatHealth = battlePokemon.isHpFlat
         )

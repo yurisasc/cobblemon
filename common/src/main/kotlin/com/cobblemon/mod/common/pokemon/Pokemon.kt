@@ -62,6 +62,7 @@ import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.types.ElementalType
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
@@ -116,6 +117,8 @@ import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 open class Pokemon : ShowdownIdentifiable {
     var uuid = UUID.randomUUID()
@@ -293,6 +296,31 @@ open class Pokemon : ShowdownIdentifiable {
 
     val types: Iterable<ElementalType>
         get() = form.types
+
+    var teraType = primaryType
+        set(value) {
+            field = value
+            _teraType.emit(value)
+        }
+
+    var dmaxLevel = 0
+        set(value) {
+            field = value.coerceIn(0, Cobblemon.config.maxDynamaxLevel)
+            _dmaxLevel.emit(value)
+        }
+
+    /**
+     * A Pokemon can have the G-Max factor if its species, or any of its evolutions' species, have a G-Max form.
+     * This does not always indicate whether a Pokemon can G-Max (e.g. Charmander, Squirtle, Bulbasaur).
+     */
+    var gmaxFactor = false
+        set(value) {
+            val evolutions = species.standardForm.evolutions.mapNotNull { it.result.species }.mapNotNull { PokemonSpecies.getByName(it) }
+            if (species.canGmax() || evolutions.find { it.canGmax() } != null) {
+                field = value
+                _gmaxFactor.emit(value)
+            }
+        }
 
     var shiny = false
         set(value) {
@@ -624,6 +652,9 @@ open class Pokemon : ShowdownIdentifiable {
         if (tetheringId != null) {
             nbt.putUuid(DataKeys.TETHERING_ID, tetheringId)
         }
+        nbt.putString(DataKeys.POKEMON_TERA_TYPE, teraType.name)
+        nbt.putInt(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
+        nbt.putBoolean(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         return nbt
     }
 
@@ -683,6 +714,7 @@ open class Pokemon : ShowdownIdentifiable {
             this.mintedNature = nbt.getString(DataKeys.POKEMON_MINTED_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it)) }
         }
         updateAspects()
+        updateForm() // If saved with an incorrect form, readjust on load
         checkAbility()
         nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
         if (nbt.contains(DataKeys.HELD_ITEM)) {
@@ -690,6 +722,9 @@ open class Pokemon : ShowdownIdentifiable {
         }
         this.persistentData = nbt.getCompound(DataKeys.POKEMON_PERSISTENT_DATA)
         tetheringId = if (nbt.containsUuid(DataKeys.TETHERING_ID)) nbt.getUuid(DataKeys.TETHERING_ID) else null
+        this.teraType = ElementalTypes.get(nbt.getString(DataKeys.POKEMON_TERA_TYPE)) ?: this.primaryType
+        this.dmaxLevel = nbt.getInt(DataKeys.POKEMON_DMAX_LEVEL)
+        this.gmaxFactor = nbt.getBoolean(DataKeys.POKEMON_GMAX_FACTOR)
         return this
     }
 
@@ -730,6 +765,9 @@ open class Pokemon : ShowdownIdentifiable {
         if (tetheringId != null) {
             json.addProperty(DataKeys.TETHERING_ID, tetheringId.toString())
         }
+        json.addProperty(DataKeys.POKEMON_TERA_TYPE, teraType.name)
+        json.addProperty(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
+        json.addProperty(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         return json
     }
 
@@ -789,6 +827,7 @@ open class Pokemon : ShowdownIdentifiable {
             this.mintedNature = json.get(DataKeys.POKEMON_MINTED_NATURE).asString?.let { Natures.getNature(Identifier(it)) }
         }
         updateAspects()
+        updateForm() // If saved with an incorrect form, readjust on load
         checkAbility()
         json.get(DataKeys.POKEMON_EVOLUTIONS)?.let { this.evolutionProxy.loadFromJson(it) }
         if (json.has(DataKeys.HELD_ITEM)) {
@@ -803,6 +842,9 @@ open class Pokemon : ShowdownIdentifiable {
         if (json.has(DataKeys.TETHERING_ID)) {
             tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
         }
+        this.teraType = ElementalTypes.get(json.get(DataKeys.POKEMON_TERA_TYPE).asString) ?: this.primaryType
+        this.dmaxLevel = json.get(DataKeys.POKEMON_DMAX_LEVEL).asInt
+        this.gmaxFactor = json.get(DataKeys.POKEMON_GMAX_FACTOR).asBoolean
         return this
     }
 
@@ -922,9 +964,16 @@ open class Pokemon : ShowdownIdentifiable {
     }
 
     fun initialize(): Pokemon {
+        // Force the setter to initialize it
         species = species
         checkGender()
         checkAbility()
+        // This should only be a thing once we have moveset control in properties until then a creation should require a moveset init.
+        /*
+        if (pokemon.moveSet.none { it != null }) {
+            pokemon.initializeMoveset()
+        }
+         */
         initializeMoveset()
         return this
     }
@@ -1269,6 +1318,9 @@ open class Pokemon : ShowdownIdentifiable {
     private val _ability = registerObservable(SimpleObservable<Ability>()) { AbilityUpdatePacket({ this }, it.template) }
     private val _heldItem = registerObservable(SimpleObservable<ItemStack>()) { HeldItemUpdatePacket({ this }, it) }
     private val _tetheringId = registerObservable(SimpleObservable<UUID?>()) { TetheringUpdatePacket({ this }, it) }
+    private val _teraType = registerObservable(SimpleObservable<ElementalType>()) { TeraTypeUpdatePacket({ this }, it) }
+    private val _dmaxLevel = registerObservable(SimpleObservable<Int>()) { DmaxLevelUpdatePacket({ this }, it) }
+    private val _gmaxFactor = registerObservable(SimpleObservable<Boolean>()) { GmaxFactorUpdatePacket({ this }, it) }
 
     private val _features = registerObservable(SimpleObservable<SpeciesFeature>())
 

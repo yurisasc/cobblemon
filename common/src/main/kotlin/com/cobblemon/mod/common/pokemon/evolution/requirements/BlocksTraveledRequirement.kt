@@ -13,14 +13,14 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 
 /**
- * An [EvolutionRequirement] that requires a specific [amount] of [PokemonEntity.steps] to pass.
+ * An [EvolutionRequirement] that requires a specific [amount] of [PokemonEntity.blocksTraveled] to pass.
  *
- * @param amount The amount of steps the entity must have taken.
+ * @param amount The amount of blocks the entity must have traversed.
  *
  * @author Licious
  * @since January 28th, 2023
  */
-class WalkedStepsRequirement(amount: Int) : EvolutionRequirement {
+class BlocksTraveledRequirement(amount: Int) : EvolutionRequirement {
 
     constructor() : this(0)
 
@@ -28,11 +28,11 @@ class WalkedStepsRequirement(amount: Int) : EvolutionRequirement {
 
     override fun check(pokemon: Pokemon): Boolean {
         val pokemonEntity = pokemon.entity ?: return false
-        return pokemonEntity.steps >= this.amount
+        return pokemonEntity.blocksTraveled >= this.amount
     }
 
     companion object {
-        const val ADAPTER_VARIANT = "walked_steps"
+        const val ADAPTER_VARIANT = "blocks_traveled"
     }
 
 }

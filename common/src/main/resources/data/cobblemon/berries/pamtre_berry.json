@@ -109,8 +109,8 @@
   },
   "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:pamtre_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/pamtre.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:pamtre_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/pamtre.png"
 }

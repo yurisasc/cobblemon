@@ -106,8 +106,8 @@
   },
   "weight": 1.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:ganlon_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/ganlon.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:ganlon_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/ganlon.png"
 }

@@ -200,12 +200,6 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         }
     }
 
-    override fun markRemoved() {
-        super.markRemoved()
-        onBroken()
-    }
-
-
     fun isSafeFloor(world: World, pos: BlockPos, entity: PokemonEntity): Boolean {
         val state = world.getBlockState(pos)
         return if (state.isAir) {
@@ -262,6 +256,13 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         if (world is ServerWorld) {
             tetheredPokemon.toList().forEach { releasePokemon(it.pokemonId) }
             PastureLinkManager.removeAt(world as ServerWorld, pos)
+        }
+    }
+
+    override fun markRemoved() {
+        super.markRemoved()
+        if(world is ServerWorld && (world as ServerWorld).getBlockState(pos).isAir) {
+            onBroken()
         }
     }
 

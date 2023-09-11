@@ -225,6 +225,7 @@ fun drawPortraitPokemon(
     }
 
     matrixStack.pop()
+    model.setDefault()
 
     DiffuseLighting.enableGuiDepthLighting()
 }

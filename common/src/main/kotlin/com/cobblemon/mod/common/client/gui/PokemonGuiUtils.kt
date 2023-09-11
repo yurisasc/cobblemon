@@ -92,7 +92,7 @@ fun drawProfilePokemon(
         model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         bufferSource.draw()
     }
-
+    model.setDefault()
     entityRenderDispatcher.setRenderShadows(true)
     DiffuseLighting.enableGuiDepthLighting()
 }
