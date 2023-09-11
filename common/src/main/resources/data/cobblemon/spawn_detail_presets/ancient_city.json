@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "ancient_city"
+	  "minecraft:ancient_city"
     ],
 	"maxY": 62,
 	"neededNearbyBlocks": [

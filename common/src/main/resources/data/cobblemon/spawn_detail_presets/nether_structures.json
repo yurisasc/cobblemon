@@ -1,8 +1,8 @@
 {
   "condition": {
 	"structures": [
-	  "bastion_remnant",
-	  "fortress"
+	  "minecraft:bastion_remnant",
+	  "minecraft:fortress"
     ],
 	"neededBaseBlocks": [
       "minecraft:chiseled_polished_blackstone",

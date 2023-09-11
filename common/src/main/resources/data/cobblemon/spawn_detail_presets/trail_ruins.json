@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "trail_ruins"
+	  "minecraft:trail_ruins"
     ],
 	"minY": 32,
 	"neededBaseBlocks": [

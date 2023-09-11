@@ -1,9 +1,9 @@
 {
   "condition": {
 	"structures": [
-	  "pillager_outpost",
-	  "swamp_hut",
-	  "woodland_mansion"
+	  "minecraft:pillager_outpost",
+	  "minecraft:swamp_hut",
+	  "minecraft:woodland_mansion"
     ],
 	"minY": 62
   }

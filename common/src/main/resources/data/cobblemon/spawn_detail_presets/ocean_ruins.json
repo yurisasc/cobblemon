@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "#ocean_ruin"
+	  "#minecraft:ocean_ruin"
     ],
 	"maxY": 62,
 	"neededNearbyBlocks": [

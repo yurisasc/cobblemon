@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "end_city"
+	  "minecraft:end_city"
     ],
 	"neededBaseBlocks": [
       "minecraft:end_stone_bricks",

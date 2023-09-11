@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "#village"
+	  "#minecraft:village"
 	],
 	"neededNearbyBlocks": [
       "minecraft:white_concrete",
@@ -24,7 +24,7 @@
   },
   "anticondition": {
     "structures": [
-	  "trail_ruins"
+	  "minecraft:trail_ruins"
 	]
   }
 }

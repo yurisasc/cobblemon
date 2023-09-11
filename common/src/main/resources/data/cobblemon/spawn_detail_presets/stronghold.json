@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "stronghold"
+	  "minecraft:stronghold"
     ],
 	"maxY": 62,
 	"neededBaseBlocks": [

@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "pillager_outpost"
+	  "minecraft:pillager_outpost"
     ],
 	"minY": 62,
 	"neededNearbyBlocks": [

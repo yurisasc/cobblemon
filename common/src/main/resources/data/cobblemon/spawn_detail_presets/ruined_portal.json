@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "#ruined_portal"
+	  "#minecraft:ruined_portal"
     ],
 	"neededNearbyBlocks": [
       "minecraft:crying_obsidian",

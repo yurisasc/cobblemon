@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "jungle_pyramid"
+	  "minecraft:jungle_pyramid"
     ],
 	"minY": 62,
 	"neededBaseBlocks": [

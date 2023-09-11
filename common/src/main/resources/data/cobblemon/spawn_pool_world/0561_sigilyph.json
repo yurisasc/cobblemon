@@ -22,7 +22,7 @@
                     "#cobblemon:is_overworld"
                 ],
 				"structures": [
-					"desert_well"
+					"minecraft:desert_well"
 				]
             }
         },

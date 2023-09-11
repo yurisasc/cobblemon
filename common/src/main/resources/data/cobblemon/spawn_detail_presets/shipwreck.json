@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "#shipwreck"
+	  "#minecraft:shipwreck"
     ],
 	"maxY": 62,
 	"neededNearbyBlocks": [

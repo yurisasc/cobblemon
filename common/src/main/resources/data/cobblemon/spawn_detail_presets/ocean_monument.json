@@ -1,7 +1,7 @@
 {
   "condition": {
 	"structures": [
-	  "ocean_monument"
+	  "minecraft:ocean_monument"
     ],
 	"maxY": 62,
 	"neededNearbyBlocks": [
