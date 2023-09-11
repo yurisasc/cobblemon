@@ -59,9 +59,10 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
+import net.minecraft.world.explosion.Explosion
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
-class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterloggable {
+class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterloggable, PreEmptsExplosion {
     companion object {
         val PART: EnumProperty<PasturePart> = EnumProperty.of("part", PasturePart::class.java)
         val ON: BooleanProperty = BooleanProperty.of("on")
@@ -191,6 +192,11 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
     override fun onBroken(world: WorldAccess, pos: BlockPos, state: BlockState) {
         val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
         super.onBroken(world, pos, state)
+        blockEntity.onBroken()
+    }
+
+    override fun whenExploded(world: World?, state: BlockState, pos: BlockPos?) {
+        val blockEntity = world?.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
         blockEntity.onBroken()
     }
 
