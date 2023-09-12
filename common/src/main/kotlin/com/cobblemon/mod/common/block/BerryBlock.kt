@@ -144,7 +144,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         setMulch(world, pos, state, variant)
         treeEntity.mulchDuration = variant.duration
-        world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS)
+        world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS, 0.6F, 1F)
     }
 
     @Deprecated("Deprecated in Java")
@@ -153,7 +153,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         if (player.getStackInHand(hand).item is ShovelItem && getMulch(state) != MulchVariant.NONE) {
             setMulch(world, pos, state, MulchVariant.NONE)
             treeEntity.markDirty()
-            world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS)
+            world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS, 0.6F, 1F)
             return ActionResult.SUCCESS
         }
 
@@ -164,6 +164,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             blockEntity.harvest(world, state, pos, player).forEach { drop ->
                 Block.dropStack(world, pos, drop)
             }
+            world.playSound(null, pos, CobblemonSounds.BERRY_HARVEST, SoundCategory.BLOCKS, 0.4F, 1F)
             return ActionResult.success(world.isClient)
         }
         return super.onUse(state, world, pos, player, hand, hit)
