@@ -155,6 +155,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             setMulch(world, pos, state, MulchVariant.NONE)
             treeEntity.markDirty()
             world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS)
+            this.spawnBreakParticles(world, player, pos, state.with(AGE, 0))
             return ActionResult.SUCCESS
         }
 
