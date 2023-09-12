@@ -144,7 +144,7 @@ class PokemonEntity(
     var tethering: PokemonPastureBlockEntity.Tethering? = null
 
     /**
-     * The amount of blocks this entity has traveled.
+     * The amount of steps this entity has traveled.
      */
     var blocksTraveled: Double = 0.0
 
@@ -934,6 +934,14 @@ class PokemonEntity(
     }
 
     override fun canUsePortals() = false
+
+    override fun setAir(air: Int) {
+        if (this.isBattling) {
+            this.dataTracker.set(AIR, 300)
+            return
+        }
+        super.setAir(air)
+    }
 
     override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
         if (player != null) {

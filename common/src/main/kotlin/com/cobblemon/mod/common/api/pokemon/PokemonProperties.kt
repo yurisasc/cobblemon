@@ -17,7 +17,11 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.pokemon.*
+import com.cobblemon.mod.common.pokemon.EVs
+import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.pokemon.IVs
+import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
@@ -25,6 +29,7 @@ import com.cobblemon.mod.common.util.isInt
 import com.cobblemon.mod.common.util.splitMap
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import kotlin.random.Random
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
@@ -34,7 +39,6 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.world.World
-import kotlin.random.Random
 
 /**
  * A grouping of typical, selectable properties for a Pokémon. This is serializable
@@ -151,9 +155,10 @@ open class PokemonProperties {
         }
 
         private fun parseSpeciesIdentifier(keyPairs: MutableList<Pair<String, String?>>): String? {
+            fun cleanSpeciesName(string: String) = string.lowercase().replace("[^a-z0-9]".toRegex(), "")
             val matched = getMatchedKeyPair(keyPairs, listOf("species"))
             if (matched != null) {
-                val value = matched.second?.lowercase() ?: return null
+                val value = matched.second?.let(::cleanSpeciesName) ?: return null
                 return if (value.lowercase() == "random") {
                     "random"
                 } else {
@@ -172,7 +177,7 @@ open class PokemonProperties {
                         "random"
                     } else {
                         try {
-                            val identifier = pair.first.asIdentifierDefaultingNamespace()
+                            val identifier = cleanSpeciesName(pair.first).asIdentifierDefaultingNamespace()
                             val found = PokemonSpecies.getByIdentifier(identifier) ?: return@find false
                             if (found.resourceIdentifier.namespace == Cobblemon.MODID) found.resourceIdentifier.path else found.resourceIdentifier.toString()
                         } catch (e: InvalidIdentifierException) {
