@@ -283,6 +283,8 @@
 - Master balls are now unable to be burned when dropped into fire/lava.
 - Pokémon will appear red when hurt, like regular entities, except when they're fainting.
 - Ponyta and Rapidash now have animated textures.
+- Pokémon's air meter no longer depletes while battling underwater.
+- Sleeping partially restores PP of Pokémon
 - Item interaction evolutions and held item requirements now support NBT by creating an object JSON containing the key ``item`` for what used to be the existing condition support and a ``nbt`` key for the NBT format, this is the string [format](https://minecraft.fandom.com/wiki/NBT_format) expected in commands. Existing data does not need to be updated.
 - Shoulder mounts now match the shoulder position a bit more accurately when sneaking.
 - Poison Heal will now cause poisoned Pokémon to heal outside of battle.
@@ -322,8 +324,9 @@
 - Fixed some alignment issues in the stat hexagon of the summary menu.
 - Fixed capture calculations not applying ball bonuses entirely correctly.
 - Fixed Shedinja healing above 1 HP.
-- Fixed battles soft-locking when consecutive Pokemon faint on switch-in.
+- Fixed battles soft-locking when consecutive Pokémon faint on switch-in.
 - Fixed timing and color of battle window messages.
+- Fixed players being able to trade, battle and let out their Pokémon while in spectator mode.
 - Fixed Galarian Yamask not being able to evolve and by proxy the ``damage_taken`` evolution requirement.
 - Fixed Bisharp not being able to evolve and by proxy the ``defeat`` evolution requirement.
 - Fixed White-Striped Basculin not being able to evolve and by proxy the ``recoil`` evolution requirement.
@@ -334,7 +337,7 @@
 ### Developer
 - Added SpawnEvent, ThrownPokeballHitEvent, PokemonSentEvent, PokemonRecalledEvent.
 - Added BattleFledEvent, BattleStartedEvent, BattleFaintedEvent.
-- Added persistent NBT property inside Pokemon to store quick and simple data.
+- Added persistent NBT property inside Pokémon to store quick and simple data.
 - Species and FormData have had their evolutions, pre-evolution and labels properties exposed. It is still recommended to work using a Pokémon instance when possible.
 - Added capture check to BattleVictoryEvent.
 - The various hardcoded potion shoulder effects have been removed, make use of PotionBaseEffect.

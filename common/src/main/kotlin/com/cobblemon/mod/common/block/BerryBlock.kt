@@ -157,7 +157,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             return ActionResult.SUCCESS
         }
 
-        if (player.getStackInHand(hand).isOf(Items.BONE_MEAL)) {
+        if (player.getStackInHand(hand).isOf(Items.BONE_MEAL) && !this.isMaxAge(state)) {
             return ActionResult.PASS
         } else if (this.isMaxAge(state)) {
             val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return ActionResult.PASS
