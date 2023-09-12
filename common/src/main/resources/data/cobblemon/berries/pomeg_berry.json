@@ -73,26 +73,8 @@
     "cobblemon:grepa_berry": "cobblemon:starf_berry",
     "cobblemon:tamato_berry": "cobblemon:starf_berry"
   },
-  "sproutShape": [
-    {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
-    }
-  ],
-  "matureShape": [
-    {
-      "minX": 0,
-      "minY": 0,
-      "minZ": 0,
-      "maxX": 16,
-      "maxY": 32,
-      "maxZ": 16
-    }
-  ],
+  "sproutShape": "frill-sprout",
+  "matureShape": "frill-mature",
   "flavors": {
     "SPICY": 10,
     "SWEET": 10,
