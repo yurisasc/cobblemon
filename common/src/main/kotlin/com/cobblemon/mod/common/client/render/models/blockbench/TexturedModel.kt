@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
+import com.cobblemon.mod.common.client.flywheel.BetterPartBuilder
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.util.adapters.LocatorBoneAdapter
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.jozufozu.flywheel.core.hardcoded.ModelPart
 import com.jozufozu.flywheel.core.hardcoded.PartBuilder
+import com.jozufozu.flywheel.core.model.Model
 import net.minecraft.client.model.*
 import net.minecraft.client.texture.SpriteAtlasHolder
 import net.minecraft.util.Identifier
@@ -28,11 +30,11 @@ class TexturedModel {
         return createWithUvOverride(isForLivingEntityRenderer, 0, 0, null, null)
     }
 
-    fun createFlywheelModel(atlas: SpriteAtlasHolder, textureName: Identifier, name: String): ModelPart {
+    fun createFlywheelModel(atlas: SpriteAtlasHolder, textureName: Identifier, name: String): Model {
         val texture = atlas.getSprite(textureName)
         val width = ((texture.maxU * atlas.atlas.width.toFloat()) - (texture.minU * atlas.atlas.width)).toInt()
         val height =( (texture.maxV * atlas.atlas.height.toFloat()) - (texture.minV * atlas.atlas.height)).toInt()
-        val modelBuilder = PartBuilder(name, width, height)
+        val modelBuilder = BetterPartBuilder(name, width, height)
         modelBuilder.sprite(texture)
         geometry?.forEach {
             it.bones?.forEach { bone ->
@@ -49,10 +51,13 @@ class TexturedModel {
                     if (cube.rotation != null) {
                         cuboidBuilder.rotate(cube.rotation[0], cube.rotation[1], cube.rotation[2])
                     }
+                    if (cube.pivot != null) {
+                        cuboidBuilder.pivot(cube.pivot[0], cube.pivot[1], cube.pivot[2])
+                    }
                     if (cube.uv != null) {
                         cuboidBuilder.textureOffset(cube.uv[0], cube.uv[1])
                     }
-                    cuboidBuilder.invertYZ()
+                    //cuboidBuilder.invertYZ()
                     cuboidBuilder.endCuboid()
                     cuboidBuilder = modelBuilder.cuboid()
                 }

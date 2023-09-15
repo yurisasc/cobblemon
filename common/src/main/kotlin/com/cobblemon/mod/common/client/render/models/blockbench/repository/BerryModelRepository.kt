@@ -19,6 +19,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jozufozu.flywheel.core.hardcoded.ModelPart
 import com.jozufozu.flywheel.core.hardcoded.PartBuilder
+import com.jozufozu.flywheel.core.model.Model
 import net.minecraft.client.MinecraftClient
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
@@ -36,7 +37,7 @@ object BerryModelRepository : JsonDataRegistry<TexturedModel> {
     override val gson: Gson = TexturedModel.GSON
     override val typeToken: TypeToken<TexturedModel> = TypeToken.get(TexturedModel::class.java)
     override val resourcePath = "bedrock/berries"
-    private val models = hashMapOf<Identifier, ModelPart>()
+    private val models = hashMapOf<Identifier, Model>()
 
     override fun sync(player: ServerPlayerEntity) {}
 
