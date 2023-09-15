@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "taillow",
+            "id": "taillow-1",
             "pokemon": "taillow",
             "presets": [
                 "natural",

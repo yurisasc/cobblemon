@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "skrelp",
+            "id": "skrelp-1",
             "pokemon": "skrelp",
             "presets": [
                 "underwater"
@@ -18,6 +18,9 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#minecraft:is_ocean"
+                ],
+                "neededNearbyBlocks": [
+                    "minecraft:kelp_plant"
                 ]
             }
         }

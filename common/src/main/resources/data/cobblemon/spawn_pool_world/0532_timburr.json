@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "timburr",
+            "id": "timburr-1",
             "pokemon": "timburr",
             "presets": [
                 "natural",
@@ -25,6 +25,11 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_sandy"
                 ]
             }
         }

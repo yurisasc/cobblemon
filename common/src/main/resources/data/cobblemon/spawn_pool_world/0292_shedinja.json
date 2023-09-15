@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "shedinja",
+            "id": "shedinja-1",
             "pokemon": "shedinja",
             "presets": [
                 "natural"
@@ -25,7 +25,6 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_freezing",
                     "#cobblemon:is_freezing"
                 ]
             }

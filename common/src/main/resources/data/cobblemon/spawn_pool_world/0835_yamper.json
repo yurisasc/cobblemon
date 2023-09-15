@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "yamper",
+            "id": "yamper-1",
             "pokemon": "yamper",
             "presets": [
                 "natural",

@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "gardevoir",
+            "id": "gardevoir-1",
             "pokemon": "gardevoir",
             "presets": [
                 "natural"
@@ -24,7 +24,7 @@
             }
         },
         {
-            "id": "gardevoir",
+            "id": "gardevoir-2",
             "pokemon": "gardevoir",
             "presets": [
                 "natural",
@@ -43,7 +43,7 @@
             }
         },
         {
-            "id": "gardevoir",
+            "id": "gardevoir-3",
             "pokemon": "gardevoir",
             "presets": [
                 "woodland_mansion"

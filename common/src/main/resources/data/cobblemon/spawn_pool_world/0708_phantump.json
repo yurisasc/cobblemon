@@ -34,7 +34,17 @@
             "bucket": "common",
             "level": "6-31",
             "weight": 5.4,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_forest",
+                    "#cobblemon:is_nether_warped"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#minecraft:is_nether"
+                ]
+            }
         },
         {
             "id": "phantump-3",

@@ -38,7 +38,10 @@
             "level": "35-50",
             "weight": 0.06,
             "condition": {
-                "canSeeSky": true
+                "biomes": [
+                    "#cobblemon:is_nether_forest",
+                    "#cobblemon:is_nether_fungus"
+                ]
             }
         }
     ]

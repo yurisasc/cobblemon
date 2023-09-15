@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "wingull",
+            "id": "wingull-1",
             "pokemon": "wingull",
             "presets": [
                 "natural",

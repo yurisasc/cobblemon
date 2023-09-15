@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "surskit",
+            "id": "surskit-1",
             "pokemon": "surskit",
             "presets": [
                 "water_surface",

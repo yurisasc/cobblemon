@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "mightyena",
+            "id": "mightyena-1",
             "pokemon": "mightyena",
             "presets": [
                 "natural"
@@ -24,7 +24,7 @@
             }
         },
         {
-            "id": "mightyena",
+            "id": "mightyena-2",
             "pokemon": "mightyena",
             "presets": [
                 "natural",

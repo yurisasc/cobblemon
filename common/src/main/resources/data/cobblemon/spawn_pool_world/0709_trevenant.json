@@ -34,7 +34,17 @@
             "bucket": "common",
             "level": "26-47",
             "weight": 0.6,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_forest",
+                    "#cobblemon:is_nether_warped"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#minecraft:is_nether"
+                ]
+            }
         },
         {
             "id": "trevenant-3",

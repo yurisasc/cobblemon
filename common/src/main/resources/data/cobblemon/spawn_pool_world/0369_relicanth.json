@@ -15,6 +15,7 @@
             "level": "24-49",
             "weight": 2.0,
             "condition": {
+                "maxY": 48,
                 "biomes": [
                     "#cobblemon:is_deep"
                 ]

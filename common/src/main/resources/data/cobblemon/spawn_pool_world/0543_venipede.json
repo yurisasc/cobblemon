@@ -70,7 +70,12 @@
             "bucket": "common",
             "level": "1-26",
             "weight": 5.4,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_forest",
+                    "#cobblemon:is_nether_fungus"
+                ]
+            }
         }
     ]
 }

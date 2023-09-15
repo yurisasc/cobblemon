@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "arrokuda",
+            "id": "arrokuda-1",
             "pokemon": "arrokuda",
             "presets": [
                 "underwater"

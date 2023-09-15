@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "camerupt",
+            "id": "camerupt-1",
             "pokemon": "camerupt",
             "presets": [
                 "natural"
@@ -28,7 +28,7 @@
             }
         },
         {
-            "id": "camerupt",
+            "id": "camerupt-2",
             "pokemon": "camerupt",
             "presets": [
                 "natural"
@@ -38,10 +38,15 @@
             "bucket": "common",
             "level": "33-46",
             "weight": 0.6,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_overgrowth",
+                    "#cobblemon:is_nether_wasteland"
+                ]
+            }
         },
         {
-            "id": "camerupt",
+            "id": "camerupt-3",
             "pokemon": "camerupt",
             "presets": [
                 "natural"

@@ -37,6 +37,22 @@
                     "#cobblemon:is_frozen"
                 ]
             }
+        },
+        {
+            "id": "avalugg-3",
+            "pokemon": "avalugg",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "bucket": "common",
+            "level": "37-51",
+            "weight": 1.0,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_frozen"
+                ]
+            }
         }
     ]
 }

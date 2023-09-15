@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "gigalith",
+            "id": "gigalith-1",
             "pokemon": "gigalith",
             "presets": [
                 "natural"
@@ -16,6 +16,7 @@
             "weight": 0.1,
             "condition": {
                 "canSeeSky": false,
+                "maxY":0,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]

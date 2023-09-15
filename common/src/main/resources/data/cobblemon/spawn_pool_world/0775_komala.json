@@ -4,10 +4,11 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "komala",
+            "id": "komala-1",
             "pokemon": "komala",
             "presets": [
                 "natural",
+				"foliage",
                 "treetop"
             ],
             "type": "pokemon",

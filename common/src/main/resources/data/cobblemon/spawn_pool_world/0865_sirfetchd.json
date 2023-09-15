@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "sirfetchd",
+            "id": "sirfetchd-1",
             "pokemon": "sirfetchd",
             "presets": [
                 "natural"

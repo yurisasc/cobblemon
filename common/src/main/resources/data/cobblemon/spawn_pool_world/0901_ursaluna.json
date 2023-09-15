@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "ursaluna",
+            "id": "ursaluna-1",
             "pokemon": "ursaluna",
             "presets": [
                 "natural"
@@ -19,7 +19,8 @@
                     "#cobblemon:is_forest",
                     "#cobblemon:is_mountain",
                     "#cobblemon:is_taiga"
-                ]
+                ],
+                "minY":48
             }
         }
     ]

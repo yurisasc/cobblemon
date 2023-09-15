@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "dachsbun",
+            "id": "dachsbun-1",
             "pokemon": "dachsbun",
             "presets": [
                 "natural",

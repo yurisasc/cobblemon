@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "linoone",
+            "id": "linoone-1",
             "pokemon": "linoone",
             "presets": [
                 "natural"
@@ -23,7 +23,30 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_temperate",
+                    "#cobblemon:is_temperate"
+                ]
+            }
+        },
+        {
+            "id": "linoone-galarian-1",
+            "pokemon": "linoone galarian",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "20-42",
+            "weight": 1.0,
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
                     "#cobblemon:is_taiga"
                 ]
             }

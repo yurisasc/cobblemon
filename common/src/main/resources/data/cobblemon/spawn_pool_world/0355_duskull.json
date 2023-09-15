@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "duskull",
+            "id": "duskull-1",
             "pokemon": "duskull",
             "presets": [
                 "natural"
@@ -22,7 +22,7 @@
             }
         },
         {
-            "id": "duskull",
+            "id": "duskull-2",
             "pokemon": "duskull",
             "presets": [
                 "natural"
@@ -32,10 +32,14 @@
             "bucket": "common",
             "level": "5-30",
             "weight": 9.0,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_soul_sand"
+                ]
+            }
         },
         {
-            "id": "duskull",
+            "id": "duskull-3",
             "pokemon": "duskull",
             "presets": [
                 "natural"

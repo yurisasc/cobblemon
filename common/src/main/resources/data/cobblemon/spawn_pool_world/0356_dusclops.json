@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "dusclops",
+            "id": "dusclops-1",
             "pokemon": "dusclops",
             "presets": [
                 "natural"
@@ -22,7 +22,7 @@
             }
         },
         {
-            "id": "dusclops",
+            "id": "dusclops-2",
             "pokemon": "dusclops",
             "presets": [
                 "natural"
@@ -32,10 +32,14 @@
             "bucket": "common",
             "level": "37-46",
             "weight": 0.9,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_soul_sand"
+                ]
+            }
         },
         {
-            "id": "dusclops",
+            "id": "dusclops-3",
             "pokemon": "dusclops",
             "presets": [
                 "natural"

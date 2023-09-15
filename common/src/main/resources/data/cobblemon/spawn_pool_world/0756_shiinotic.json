@@ -40,6 +40,23 @@
                     "#cobblemon:is_lush"
                 ]
             }
+        },
+        {
+            "id": "shiinotic-3",
+            "pokemon": "shiinotic",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "24-41",
+            "weight": 1,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_fungus"
+                ]
+            }
         }
     ]
 }

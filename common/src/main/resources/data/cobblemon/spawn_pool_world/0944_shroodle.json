@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "shroodle",
+            "id": "shroodle-1",
             "pokemon": "shroodle",
             "presets": [
                 "natural"

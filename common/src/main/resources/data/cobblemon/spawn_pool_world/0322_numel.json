@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "numel",
+            "id": "numel-1",
             "pokemon": "numel",
             "presets": [
                 "natural"
@@ -28,7 +28,7 @@
             }
         },
         {
-            "id": "numel",
+            "id": "numel-2",
             "pokemon": "numel",
             "presets": [
                 "natural"
@@ -38,10 +38,15 @@
             "bucket": "common",
             "level": "6-31",
             "weight": 5.4,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_overgrowth",
+                    "#cobblemon:is_nether_wasteland"
+                ]
+            }
         },
         {
-            "id": "numel",
+            "id": "numel-3",
             "pokemon": "numel",
             "presets": [
                 "natural"

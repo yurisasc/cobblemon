@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "tandemaus",
+            "id": "tandemaus-1",
             "pokemon": "tandemaus",
             "presets": [
                 "woodland_mansion"
