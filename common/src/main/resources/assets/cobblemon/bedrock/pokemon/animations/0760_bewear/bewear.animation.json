@@ -716,8 +716,8 @@
 				}
 			},
 			"sound_effects": {
-				"0.0": {
-					"effect": "bewear_ambient"
+				"0.0833": {
+					"effect": "pokemon.bewear.cry"
 				}
 			}
 		}

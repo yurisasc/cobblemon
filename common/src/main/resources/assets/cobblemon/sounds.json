@@ -5968,7 +5968,10 @@
     "sounds": [ "cobblemon:pokemon/tandemaus/tandemaus_cry" ]
   },
   "pokemon.maushold.cry": {
-    "sounds": [ "cobblemon:pokemon/maushold/maushold_cry" ]
+    "sounds": [ "cobblemon:pokemon/maushold/maushold_three_cry" ]
+  },
+  "pokemon.mausholdfour.cry": {
+    "sounds": [ "cobblemon:pokemon/maushold/maushold_four_cry" ]
   },
   "pokemon.cetoddle.cry": {
     "sounds": [ "cobblemon:pokemon/cetoddle/cetoddle_cry" ]
