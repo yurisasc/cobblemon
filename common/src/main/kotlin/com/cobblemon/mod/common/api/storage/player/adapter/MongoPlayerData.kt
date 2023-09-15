@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.storage.player.PlayerAdvancementData
 import com.cobblemon.mod.common.api.storage.player.PlayerData
 import com.cobblemon.mod.common.api.storage.player.PlayerDataExtension
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mongodb.client.MongoClient
 import com.mongodb.client.model.ReplaceOptions
@@ -24,12 +25,7 @@ class MongoPlayerDataAdapter(
     databaseName: String
 ) : PlayerDataStoreAdapter {
 
-    private val gson = GsonBuilder()
-        .setPrettyPrinting()
-        .disableHtmlEscaping()
-        .registerTypeAdapter(PlayerDataExtension::class.java, PlayerDataExtensionAdapter)
-        .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
-        .create()
+    private val gson = Gson()
 
     private val collection = mongoClient.getDatabase(databaseName).getCollection("PlayerDataCollection")
 
