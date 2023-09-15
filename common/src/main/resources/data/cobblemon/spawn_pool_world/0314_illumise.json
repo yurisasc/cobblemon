@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "illumise",
+            "id": "illumise-1",
             "pokemon": "illumise",
             "presets": [
                 "natural",
@@ -22,7 +22,7 @@
             }
         },
         {
-            "id": "illumise",
+            "id": "illumise-2",
             "pokemon": "illumise",
             "presets": [
                 "water_surface"

@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "maushold",
+            "id": "maushold-1",
             "pokemon": "maushold",
             "presets": [
                 "woodland_mansion"

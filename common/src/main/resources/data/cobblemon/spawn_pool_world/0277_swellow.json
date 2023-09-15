@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "swellow",
+            "id": "swellow-1",
             "pokemon": "swellow",
             "presets": [
                 "natural",

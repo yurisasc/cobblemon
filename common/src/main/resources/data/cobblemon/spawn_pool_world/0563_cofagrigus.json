@@ -16,6 +16,7 @@
             "weight": 0.2,
             "condition": {
                 "canSeeSky": false,
+                "minY": 0,
                 "biomes": [
                     "#cobblemon:is_desert"
                 ]

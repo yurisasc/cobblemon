@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "grafaiai",
+            "id": "grafaiai-1",
             "pokemon": "grafaiai",
             "presets": [
                 "natural",

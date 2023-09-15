@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "roggenrola",
+            "id": "roggenrola-1",
             "pokemon": "roggenrola",
             "presets": [
                 "natural"
@@ -16,6 +16,7 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
+                "maxY":0,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]

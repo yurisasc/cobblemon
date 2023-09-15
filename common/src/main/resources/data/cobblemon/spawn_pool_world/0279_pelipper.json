@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "pelipper",
+            "id": "pelipper-1",
             "pokemon": "pelipper",
             "presets": [
                 "natural",

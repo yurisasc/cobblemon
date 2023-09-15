@@ -41,6 +41,12 @@
                     "#cobblemon:is_overworld"
                 ],
                 "timeRange": "day"
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_arid",
+                    "#cobblemon:is_tundra"
+                ]
             }
         }
     ]

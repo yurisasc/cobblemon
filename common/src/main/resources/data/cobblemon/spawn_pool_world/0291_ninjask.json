@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "ninjask",
+            "id": "ninjask-1",
             "pokemon": "ninjask",
             "presets": [
                 "natural"
@@ -25,7 +25,6 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_freezing",
                     "#cobblemon:is_freezing"
                 ]
             }

@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "poochyena",
+            "id": "poochyena-1",
             "pokemon": "poochyena",
             "presets": [
                 "natural"
@@ -24,7 +24,7 @@
             }
         },
         {
-            "id": "poochyena",
+            "id": "poochyena-2",
             "pokemon": "poochyena",
             "presets": [
                 "natural",

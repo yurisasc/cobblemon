@@ -32,7 +32,11 @@
             "bucket": "ultra-rare",
             "level": "5-31",
             "weight": 9.0,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_wasteland"
+                ]
+            }
         }
     ]
 }

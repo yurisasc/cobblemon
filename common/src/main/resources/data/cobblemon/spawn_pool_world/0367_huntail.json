@@ -16,6 +16,7 @@
             "weight": 0.5,
             "condition": {
                 "canSeeSky": true,
+                "maxY": 48,
                 "biomes": [
                     "#cobblemon:is_deep"
                 ]

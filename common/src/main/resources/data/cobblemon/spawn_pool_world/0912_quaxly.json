@@ -4,10 +4,11 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "quaxly",
+            "id": "quaxly-1",
             "pokemon": "quaxly",
             "presets": [
-                "natural"
+                "natural",
+				"river"
             ],
             "type": "pokemon",
             "context": "grounded",

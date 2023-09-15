@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "volbeat",
+            "id": "volbeat-1",
             "pokemon": "volbeat",
             "presets": [
                 "natural",
@@ -22,7 +22,7 @@
             }
         },
         {
-            "id": "volbeat",
+            "id": "volbeat-2",
             "pokemon": "volbeat",
             "presets": [
                 "water_surface"

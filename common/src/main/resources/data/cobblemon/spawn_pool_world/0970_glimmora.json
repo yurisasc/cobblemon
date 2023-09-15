@@ -14,7 +14,14 @@
             "bucket": "common",
             "level": "35-53",
             "weight": 0.2,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_quartz"
+                ],
+				"neededBaseBlocks": [
+					"minecraft:quartz_block"
+				]
+            }
         },
         {
             "id": "glimmora-2",

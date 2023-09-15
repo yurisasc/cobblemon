@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "kirlia",
+            "id": "kirlia-1",
             "pokemon": "kirlia",
             "presets": [
                 "natural"
@@ -24,7 +24,7 @@
             }
         },
         {
-            "id": "kirlia",
+            "id": "kirlia-2",
             "pokemon": "kirlia",
             "presets": [
                 "natural",
@@ -43,7 +43,7 @@
             }
         },
         {
-            "id": "kirlia",
+            "id": "kirlia-3",
             "pokemon": "kirlia",
             "presets": [
                 "woodland_mansion"

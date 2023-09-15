@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "cottonee",
+            "id": "cottonee-1",
             "pokemon": "cottonee",
             "presets": [
                 "natural"

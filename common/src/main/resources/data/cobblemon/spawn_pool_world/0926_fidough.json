@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "fidough",
+            "id": "fidough-1",
             "pokemon": "fidough",
             "presets": [
                 "natural",

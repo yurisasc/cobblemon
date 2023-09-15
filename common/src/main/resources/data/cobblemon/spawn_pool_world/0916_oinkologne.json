@@ -26,6 +26,11 @@
                     "#cobblemon:is_mushroom",
                     "#cobblemon:is_temperate"
                 ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "minecraft:mushroom_fields"
+                ]
             }
         },
         {
@@ -39,7 +44,18 @@
             "bucket": "common",
             "level": "18-49",
             "weight": 1.0,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_overgrowth",
+                    "#cobblemon:is_nether_fungus",
+                    "#cobblemon:is_nether_crimson"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_nether_warped"
+                ]
+            }
         },
         {
             "id": "oinkologne-3",

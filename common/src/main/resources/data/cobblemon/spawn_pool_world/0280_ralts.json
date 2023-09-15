@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "ralts",
+            "id": "ralts-1",
             "pokemon": "ralts",
             "presets": [
                 "natural"
@@ -24,7 +24,7 @@
             }
         },
         {
-            "id": "ralts",
+            "id": "ralts-2",
             "pokemon": "ralts",
             "presets": [
                 "natural",
@@ -43,7 +43,7 @@
             }
         },
         {
-            "id": "ralts",
+            "id": "ralts-3",
             "pokemon": "ralts",
             "presets": [
                 "woodland_mansion"

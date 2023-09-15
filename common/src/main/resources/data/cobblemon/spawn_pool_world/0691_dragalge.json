@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "dragalge",
+            "id": "dragalge-1",
             "pokemon": "dragalge",
             "presets": [
                 "underwater"
@@ -18,6 +18,9 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#minecraft:is_ocean"
+                ],
+                "neededNearbyBlocks": [
+                    "minecraft:kelp_plant"
                 ]
             }
         }

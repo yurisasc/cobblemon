@@ -4,10 +4,11 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "quaxwell",
+            "id": "quaxwell-1",
             "pokemon": "quaxwell",
             "presets": [
-                "natural"
+                "natural",
+				"river"
             ],
             "type": "pokemon",
             "context": "grounded",

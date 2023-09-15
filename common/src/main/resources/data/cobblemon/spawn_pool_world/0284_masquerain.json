@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "masquerain",
+            "id": "masquerain-1",
             "pokemon": "masquerain",
             "presets": [
                 "water_surface",

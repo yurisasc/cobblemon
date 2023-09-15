@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "tinkatink",
+            "id": "tinkatink-1",
             "pokemon": "tinkatink",
             "presets": [
                 "natural"

@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "conkeldurr",
+            "id": "conkeldurr-1",
             "pokemon": "conkeldurr",
             "presets": [
                 "natural",
@@ -25,6 +25,11 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_sandy"
                 ]
             }
         }

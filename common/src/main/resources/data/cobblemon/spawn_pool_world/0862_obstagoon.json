@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "obstagoon",
+            "id": "obstagoon-1",
             "pokemon": "obstagoon",
             "presets": [
                 "natural"

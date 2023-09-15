@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "nacli",
+            "id": "nacli-1",
             "pokemon": "nacli",
             "presets": [
                 "natural"
@@ -19,6 +19,26 @@
                 "biomes": [
                     "#cobblemon:is_badlands"
                 ]
+            }
+        },
+		{
+            "id": "nacli-quartz-1",
+            "pokemon": "nacli",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "3-28",
+            "weight": 9.0,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_quartz"
+                ],
+				"neededBaseBlocks": [
+					"minecraft:quartz_block"
+				]
             }
         }
     ]

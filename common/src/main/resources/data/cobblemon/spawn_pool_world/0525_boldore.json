@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "boldore",
+            "id": "boldore-1",
             "pokemon": "boldore",
             "presets": [
                 "natural"
@@ -16,6 +16,7 @@
             "weight": 0.9,
             "condition": {
                 "canSeeSky": false,
+                "maxY":0,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]

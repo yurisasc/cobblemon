@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "boltund",
+            "id": "boltund-1",
             "pokemon": "boltund",
             "presets": [
                 "natural",
