@@ -46,6 +46,7 @@
             ],
             "type": "pokemon",
             "bucket": "common",
+            "context": "grounded",
             "level": "5-30",
             "weight": 9.0,
             "condition": {
