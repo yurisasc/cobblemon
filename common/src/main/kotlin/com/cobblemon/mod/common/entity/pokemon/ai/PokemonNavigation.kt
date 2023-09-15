@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.entity.pokemon.ai
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonBehaviourFlag
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.pokemon.ai.MoveBehaviour
 import com.cobblemon.mod.common.pokemon.ai.OmniPathNodeMaker
 import com.cobblemon.mod.common.util.getWaterAndLavaIn
 import com.cobblemon.mod.common.util.toVec3d
@@ -33,7 +34,10 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
 class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : MobNavigation(pokemonEntity, world) {
-    val moving = pokemonEntity.behaviour.moving
+    // Lazy init because navigation is instantiated during entity construction and pokemonEntity.form isn't set yet.
+    // (pokemonEntity.behaviour is a shortcut to pokemonEntity.form.behaviour)
+    // It's JVM field instantiation order stuff, too niche to explain further.
+    val moving: MoveBehaviour by lazy { pokemonEntity.behaviour.moving }
 
     var cachedCurrentNode: PathNode? = null
     var currentNodeDistance = 0F
