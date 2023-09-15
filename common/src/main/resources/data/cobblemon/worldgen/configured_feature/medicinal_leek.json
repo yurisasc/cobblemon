@@ -35,6 +35,12 @@
                 "fluids": "#minecraft:water"
               },
               {
+                "type": "cobblemon:biome",
+                "excludedBiomes": [
+                  "#cobblemon:is_cold"
+                ]
+              },
+              {
                 "type": "minecraft:matching_blocks",
                 "blocks": "minecraft:air"
               },
