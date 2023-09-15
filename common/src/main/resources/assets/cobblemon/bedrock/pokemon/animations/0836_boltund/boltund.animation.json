@@ -1720,6 +1720,11 @@
 						"0.2083": {"pre": [0.1, 0, -0.1], "post": [0, 0, 0]}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "pokemon.boltund.cry"
+				}
 			}
 		}
 	}
