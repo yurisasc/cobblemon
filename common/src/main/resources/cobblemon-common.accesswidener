@@ -8,6 +8,7 @@ accessWidener	v2	named
 # "transitive-" to ensure they will extend down to dev environments.
 
 transitive-accessible method net/minecraft/client/render/entity/LivingEntityRenderer addFeature (Lnet/minecraft/client/render/entity/feature/FeatureRenderer;)Z
+transitive-accessible field net/minecraft/entity/Entity AIR Lnet/minecraft/entity/data/TrackedData;
 transitive-accessible method net/minecraft/entity/player/PlayerEntity setShoulderEntityLeft (Lnet/minecraft/nbt/NbtCompound;)V
 transitive-accessible method net/minecraft/entity/player/PlayerEntity setShoulderEntityRight (Lnet/minecraft/nbt/NbtCompound;)V
 transitive-accessible method net/minecraft/entity/player/PlayerEntity dropShoulderEntity (Lnet/minecraft/nbt/NbtCompound;)V

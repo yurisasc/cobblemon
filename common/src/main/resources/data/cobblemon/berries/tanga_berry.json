@@ -97,26 +97,8 @@
     "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
     "cobblemon:magost_berry": "cobblemon:watmel_berry"
   },
-  "sproutShape": [
-    {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
-    }
-  ],
-  "matureShape": [
-    {
-      "minX": 0,
-      "minY": 0,
-      "minZ": 0,
-      "maxX": 16,
-      "maxY": 32,
-      "maxZ": 16
-    }
-  ],
+  "sproutShape": "short-sprout",
+  "matureShape": "short-mature",
   "flavors": {
     "SPICY": 20,
     "SOUR": 10

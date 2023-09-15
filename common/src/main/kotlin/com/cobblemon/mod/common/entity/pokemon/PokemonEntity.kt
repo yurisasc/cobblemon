@@ -144,7 +144,7 @@ class PokemonEntity(
     var tethering: PokemonPastureBlockEntity.Tethering? = null
 
     /**
-     * The amount of blocks this entity has traveled.
+     * The amount of steps this entity has traveled.
      */
     var blocksTraveled: Double = 0.0
 
@@ -290,7 +290,7 @@ class PokemonEntity(
      * Prevents flying type Pokémon from taking fall damage.
      */
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource?): Boolean {
-        return if (ElementalTypes.FLYING in pokemon.types || pokemon.ability.name == "levitate") {
+        return if (ElementalTypes.FLYING in pokemon.types || pokemon.ability.name == "levitate" || pokemon.species.behaviour.moving.fly.canFly) {
             false
         } else {
             super.handleFallDamage(fallDistance, damageMultiplier, damageSource)
@@ -934,6 +934,14 @@ class PokemonEntity(
     }
 
     override fun canUsePortals() = false
+
+    override fun setAir(air: Int) {
+        if (this.isBattling) {
+            this.dataTracker.set(AIR, 300)
+            return
+        }
+        super.setAir(air)
+    }
 
     override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
         if (player != null) {

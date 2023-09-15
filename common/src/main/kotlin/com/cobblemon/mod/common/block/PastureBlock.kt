@@ -21,39 +21,48 @@ import com.cobblemon.mod.common.util.isInBattle
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
 import com.cobblemon.mod.common.util.voxelShape
-import net.minecraft.block.*
+import java.util.UUID
+import net.minecraft.block.Block
+import net.minecraft.block.BlockRenderType
+import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
+import net.minecraft.block.Blocks
+import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.block.ShapeContext
+import net.minecraft.block.Waterloggable
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.fluid.FluidState
+import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
-import net.minecraft.util.*
+import net.minecraft.state.property.BooleanProperty
+import net.minecraft.state.property.EnumProperty
+import net.minecraft.util.ActionResult
+import net.minecraft.util.BlockMirror
+import net.minecraft.util.BlockRotation
+import net.minecraft.util.Hand
+import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
-import java.util.*
-import net.minecraft.entity.LivingEntity
-import net.minecraft.fluid.FluidState
-import net.minecraft.fluid.Fluids
-import net.minecraft.item.ItemStack
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.EnumProperty
-import net.minecraft.util.BlockMirror
-import net.minecraft.util.BlockRotation
-import net.minecraft.util.StringIdentifiable
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.explosion.Explosion
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
-class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterloggable {
+class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterloggable, PreEmptsExplosion {
     companion object {
         val PART: EnumProperty<PasturePart> = EnumProperty.of("part", PasturePart::class.java)
         val ON: BooleanProperty = BooleanProperty.of("on")
@@ -145,7 +154,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
     }
 
     fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
-        return if (state.get(PART) == PasturePart.BOTTOM) {
+        return if (state.contains(PART) && state.get(PART) == PasturePart.BOTTOM) {
             pos.up()
         } else {
             pos.down()
@@ -160,7 +169,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
         }
     }
 
-    private fun isBase(state: BlockState): Boolean = state.get(PART) == PasturePart.BOTTOM
+    private fun isBase(state: BlockState): Boolean = state.contains(PART) && state.get(PART) == PasturePart.BOTTOM
 
     override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType) = false
 
@@ -183,6 +192,11 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
     override fun onBroken(world: WorldAccess, pos: BlockPos, state: BlockState) {
         val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
         super.onBroken(world, pos, state)
+        blockEntity.onBroken()
+    }
+
+    override fun whenExploded(world: World?, state: BlockState, pos: BlockPos?) {
+        val blockEntity = world?.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
         blockEntity.onBroken()
     }
 
