@@ -45,6 +45,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
@@ -144,7 +145,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         setMulch(world, pos, state, variant)
         treeEntity.mulchDuration = variant.duration
-        world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS)
+        world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS, 0.6F, 1F)
     }
 
     @Deprecated("Deprecated in Java")
@@ -153,17 +154,19 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         if (player.getStackInHand(hand).item is ShovelItem && getMulch(state) != MulchVariant.NONE) {
             setMulch(world, pos, state, MulchVariant.NONE)
             treeEntity.markDirty()
-            world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS)
+            world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS, 0.6F, 1F)
+            this.spawnBreakParticles(world, player, pos, state.with(AGE, 0))
             return ActionResult.SUCCESS
         }
 
-        if (player.getStackInHand(hand).isOf(Items.BONE_MEAL)) {
+        if (player.getStackInHand(hand).isOf(Items.BONE_MEAL) && !this.isMaxAge(state)) {
             return ActionResult.PASS
         } else if (this.isMaxAge(state)) {
             val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return ActionResult.PASS
             blockEntity.harvest(world, state, pos, player).forEach { drop ->
                 Block.dropStack(world, pos, drop)
             }
+            world.playSound(null, pos, CobblemonSounds.BERRY_HARVEST, SoundCategory.BLOCKS, 0.4F, 1F)
             return ActionResult.success(world.isClient)
         }
         return super.onUse(state, world, pos, player, hand, hit)
@@ -218,13 +221,72 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         const val MATURE_AGE = 3
         const val FLOWER_AGE = 4
         const val FRUIT_AGE = 5
+
         val AGE: IntProperty = IntProperty.of("age", 0, FRUIT_AGE)
         val MULCH: EnumProperty<MulchVariant> = EnumProperty.of("mulch", MulchVariant::class.java)
         val WAS_GENERATED: BooleanProperty = BooleanProperty.of("generated")
-        val PLANTED_SHAPE = VoxelShapes.union(
-            VoxelShapes.cuboid(0.3125, -0.0625, 0.3125, 0.6875, 0.0, 0.6875),
-            VoxelShapes.cuboid(0.375, 0.0, 0.375, 0.625, 0.0625, 0.625)
-        )
+//        val PLANTED_SHAPE = VoxelShapes.union(
+//            VoxelShapes.cuboid(0.3125, -0.0625, 0.3125, 0.6875, 0.0, 0.6875),
+//            VoxelShapes.cuboid(0.375, 0.0, 0.375, 0.625, 0.0625, 0.625)
+//        )
+        val PLANTED_SHAPE = VoxelShapes.cuboid(0.0, -0.1, 0.0, 1.0, 0.25, 1.0)
+
+
+        val STANDARD_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val STANDARD_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 25.0, 16.0))
+
+        val SHORT_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 12.0, 16.0))
+        val SHORT_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+
+        val VOLCANO_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 6.0, 16.0))
+        val VOLCANO_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+
+        val NEST_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 6.0, 16.0))
+        val NEST_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 20.0, 16.0))
+
+        val FRILL_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 8.0, 16.0))
+        val FRILL_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 14.0, 16.0))
+
+        val BLOCK_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 17.0, 16.0))
+        val BLOCK_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+
+        val PYRAMID_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 17.0, 16.0))
+        val PYRAMID_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+
+        val TAIL_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val TAIL_MATURE = listOf(Box(0.0, 1.0, 0.0, 16.0, 24.0, 16.0))
+
+        val SWORD_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 5.0, 16.0))
+        val SWORD_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+
+        val PLATFORM_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 7.0, 16.0))
+        val PLATFORM_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 22.0, 16.0))
+
+        val STAND_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 13.0, 16.0))
+        val STAND_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+
+        val CONE_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val CONE_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 23.0, 16.0))
+
+        val SQUAT_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 12.0, 16.0))
+        val SQUAT_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 22.0, 16.0))
+
+        val LANTERN_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 20.0, 16.0))
+        val LANTERN_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+
+        val BOX_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val BOX_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+
+        val BLOSSOM_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 4.0, 16.0))
+        val BLOSSOM_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 6.0, 16.0))
+
+        val LILYPAD_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 11.0, 16.0))
+        val LILYPAD_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+
+        val TALL_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val TALL_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+
+
         fun getMulch(state: BlockState): MulchVariant {
             if (!state.contains(MULCH)) {
                 return MulchVariant.NONE

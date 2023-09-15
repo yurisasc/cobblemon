@@ -46,7 +46,7 @@ object TestCommand {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("testcommand")
             .requires { it.hasPermissionLevel(4) }
-            .executes { execute(it) }
+            .executes(::execute)
         dispatcher.register(command)
     }
 

@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.mixin;
 import com.cobblemon.mod.common.block.PreEmptsExplosion;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,13 +30,15 @@ public class ExplosionMixin {
 
     @Inject(
             method = "affectWorld",
-            at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/block/Block;shouldDropItemsOnExplosion(Lnet/minecraft/world/explosion/Explosion;)Z"),
+            at = @At(
+                value = "INVOKE",
+                target = "Lnet/minecraft/block/BlockState;getBlock()Lnet/minecraft/block/Block;"
+            ),
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
-    public void cobblemon$whenExploded(boolean particles, CallbackInfo ci, boolean bl, ObjectArrayList objectArrayList, boolean bl2, ObjectListIterator var5, BlockPos blockPos, BlockState blockState, Block block, BlockPos blockPos2) {
-        if (block instanceof PreEmptsExplosion preExplosionBlock) {
-            preExplosionBlock.whenExploded(world, blockState, blockPos2);
+    public void cobblemon$whenExploded(boolean particles, CallbackInfo ci, boolean bl, ObjectArrayList<?> objectArrayList, boolean bl2, ObjectListIterator<?> var5, BlockPos blockPos, BlockState blockState) {
+        if (blockState.getBlock() instanceof PreEmptsExplosion preExplosionBlock) {
+            preExplosionBlock.whenExploded(world, blockState, blockPos);
         }
     }
 }

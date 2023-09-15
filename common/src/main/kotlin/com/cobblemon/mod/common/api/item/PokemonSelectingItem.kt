@@ -62,15 +62,17 @@ interface PokemonSelectingItem {
                 return interactWithSpecificBattle(player, stack, battlePokemon)
             }
         } ?: run {
-            if (entity != null && !player.isSneaking) {
-                val pokemon = entity.pokemon
-                if (entity.ownerUuid == player.uuid) {
-                    return applyToPokemon(player, stack, pokemon) ?: TypedActionResult.pass(stack)
+            if (!player.isSneaking) {
+                return if (entity != null) {
+                    val pokemon = entity.pokemon
+                    if (entity.ownerUuid == player.uuid) {
+                        applyToPokemon(player, stack, pokemon) ?: TypedActionResult.pass(stack)
+                    } else {
+                        TypedActionResult.fail(stack)
+                    }
                 } else {
-                    return TypedActionResult.fail(stack)
+                    interactGeneral(player, stack)
                 }
-            } else {
-                return interactGeneral(player, stack)
             }
         }
 

@@ -168,7 +168,7 @@ class CobblemonForge : CobblemonImplementation {
             CobblemonPlacementModifierTypes.touch()
         }
 
-        event.register(RegistryKeys.PROCESSOR_LIST) {
+        event.register(RegistryKeys.STRUCTURE_PROCESSOR) {
             CobblemonProcessorTypes.touch()
         }
     }

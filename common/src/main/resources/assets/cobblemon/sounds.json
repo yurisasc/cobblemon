@@ -12,10 +12,10 @@
     "sounds": [ "cobblemon:block/healing_machine_active" ]
   },
   "mulch.place": {
-    "sounds": [ "cobblemon:mulch_place" ]
+    "sounds": [ "cobblemon:block/mulch_place_1", "cobblemon:block/mulch_place_2", "cobblemon:block/mulch_place_3" ]
   },
   "mulch.remove": {
-    "sounds": [ "cobblemon:mulch_remove" ]
+    "sounds": [ "cobblemon:block/mulch_remove_1", "cobblemon:block/mulch_remove_2", "cobblemon:block/mulch_remove_3" ]
   },
   "pc.on": {
     "sounds": [ "cobblemon:pc/pc_on" ]
@@ -80,6 +80,9 @@
   },
   "medicine_spray.use": {
     "sounds": [ "cobblemon:medicine_spray_use" ]
+  },
+  "berry.harvest": {
+    "sounds": [ "cobblemon:block/berry_harvest_1", "cobblemon:block/berry_harvest_2", "cobblemon:block/berry_harvest_3" ]
   },
   "berry.eat": {
     "sounds": [ "cobblemon:berry_eat" ]
