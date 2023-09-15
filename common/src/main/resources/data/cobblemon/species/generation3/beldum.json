@@ -25,6 +25,13 @@
   "eggGroups": [
     "mineral"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:tackle",
     "1:takedown",
