@@ -1720,6 +1720,22 @@
           "requiredContext": "cobblemon:thunder_stone"
         }
       ]
+    },
+    {
+      "name": "Default",
+      "evolutions": [
+        {
+          "id": "pikachu_raichu",
+          "variant": "item_interact",
+          "result": "raichu",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "thunderpunch"
+          ],
+          "requirements": [],
+          "requiredContext": "cobblemon:thunder_stone"
+        }
+      ]
     }
   ],
   "baseExperienceYield": 112,
@@ -1921,19 +1937,7 @@
     "cobblemon.species.pikachu.desc"
   ],
   "preEvolution": "pichu",
-  "evolutions": [
-    {
-      "id": "pikachu_raichu",
-      "variant": "item_interact",
-      "result": "raichu",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "thunderpunch"
-      ],
-      "requirements": [],
-      "requiredContext": "cobblemon:thunder_stone"
-    }
-  ],
+  "evolutions": [],
   "baseScale": 0.5,
   "hitbox": {
     "width": 0.7,

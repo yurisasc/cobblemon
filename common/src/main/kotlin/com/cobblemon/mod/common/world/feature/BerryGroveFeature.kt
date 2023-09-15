@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.world.feature
 
 import com.cobblemon.mod.common.api.berry.BerryHelper
+import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.util.weightedSelection
 import net.minecraft.registry.tag.BlockTags
@@ -50,17 +51,12 @@ class BerryGroveFeature : Feature<DefaultFeatureConfig>(DefaultFeatureConfig.COD
 
         val randomTreeStateProvider = RandomizedIntBlockStateProvider(
             defTreeState, BerryBlock.AGE,
-            ClampedNormalIntProvider.of(4f, 1f, 1, 5))
+            ClampedNormalIntProvider.of(4f, 1f, 3, 5))
         val blockPlaceFeature = PlacedFeatures.createEntry(
             SIMPLE_BLOCK,
-            SimpleBlockFeatureConfig(
-                randomTreeStateProvider
-            ),
+            SimpleBlockFeatureConfig(randomTreeStateProvider),
             BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(BlockTags.REPLACEABLE)),
-            BlockFilterPlacementModifier.of(BlockPredicate.anyOf(
-                BlockPredicate.matchingBlockTag(Vec3i(0, -1, 0), BlockTags.SAND),
-                BlockPredicate.matchingBlockTag(Vec3i(0, -1, 0), BlockTags.DIRT)
-            )),
+            BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Vec3i(0, -1, 0), CobblemonBlockTags.BERRY_WILD_SOIL))
         ).value()
         val possiblePositions = listOf(
             origin.north(),

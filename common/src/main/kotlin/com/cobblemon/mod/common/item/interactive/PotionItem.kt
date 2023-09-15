@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.genericRuntime
 import com.cobblemon.mod.common.util.resolveInt
+import java.lang.Integer.min
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
@@ -27,7 +28,6 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import java.lang.Integer.min
 
 class PotionItem(val type: PotionType) : CobblemonItem(Settings()), PokemonSelectingItem {
     override val bagItem = type
@@ -54,6 +54,9 @@ class PotionItem(val type: PotionType) : CobblemonItem(Settings()), PokemonSelec
             pokemon.status = null
         }
         player.playSound(CobblemonSounds.MEDICINE_SPRAY_USE, SoundCategory.PLAYERS, 1F, 1F)
+        if (!player.isCreative) {
+            stack.decrement(1)
+        }
         return TypedActionResult.success(stack)
     }
 

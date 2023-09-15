@@ -50,6 +50,7 @@ object Berries : JsonDataRegistry<Berry> {
         .registerTypeAdapter(MulchVariant::class.java, MulchVariantAdapter)
         .registerTypeAdapter(NumberRange.FloatRange::class.java, FloatNumberRangeAdapter)
         .registerTypeAdapter(Status::class.java, StatusAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(Collection::class.java, Box::class.java).type, BoxCollectionAdapter)
         .registerTypeAdapter(Box::class.java, BoxAdapter)
         .registerTypeAdapter(Vec3d::class.java, VerboseVec3dAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)

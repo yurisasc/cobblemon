@@ -16,6 +16,8 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryHarvestEvent
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.block.BerryBlock
+import com.cobblemon.mod.common.block.BerryBlock.Companion.getMulch
+import com.cobblemon.mod.common.block.BerryBlock.Companion.setMulch
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -78,15 +80,25 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     private var growthPointSequence = "0123456789ABCDEF"
     // Just a cheat to not invoke markDirty unnecessarily
     private var wasLoading = false
-    var mulchVariant: MulchVariant? = null
     var mulchDuration = 0
         set(value) {
-            if (value == 0 && !(mulchVariant?.isBiomeMulch ?: false)) {
-                mulchVariant = null
-            }
             field = value
-            this.markDirty()
+            markDirty()
         }
+
+    fun decrementMulchDuration(world: World, pos: BlockPos, state: BlockState) {
+        val currentMulch = getMulch(state)
+        if (currentMulch == MulchVariant.NONE || currentMulch.duration == -1) {
+            return
+        }
+        val newDuration = mulchDuration - 1
+        mulchDuration = if (newDuration <= 0) {
+            setMulch(world, pos, state, MulchVariant.NONE)
+            0
+        } else {
+            newDuration
+        }
+    }
 
     constructor(pos: BlockPos, state: BlockState, berryIdentifier: Identifier): this(pos, state) {
         this.berryIdentifier = berryIdentifier
@@ -101,8 +113,11 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         if (curAge != 5) {
             val berry = Berries.getByIdentifier(berryIdentifier)!!
             var multiplier = 10
-            if (mulchVariant == MulchVariant.GROWTH) {
-                mulchDuration--
+            val world = world
+            if (world != null && world.getBlockState(pos).block is BerryBlock) {
+                if (getMulch(state) == MulchVariant.GROWTH) {
+                    decrementMulchDuration(world, pos, state)
+                }
                 multiplier = 15
             }
             val upperGrowthLimit = ((if (curAge == 0) berry.growthTime.last else berry.refreshRate.last) * multiplier) / 10
@@ -202,11 +217,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
                 this.growthPoints += identifier
             } catch (ignored: InvalidIdentifierException) {}
         }
-        this.mulchVariant = if (nbt.contains(MULCH_VARIANT)) {
-            MulchVariant.valueOf(nbt.getString(MULCH_VARIANT))
-        } else {
-            null
-        }
         this.mulchDuration = nbt.getInt(MULCH_DURATION)
         this.wasLoading = false
         if (nbt.contains(GROWTH_POINTS_SEQUENCE)) {
@@ -224,9 +234,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         list += this.growthPoints.map { NbtString.of(it.toString()) }
         nbt.put(GROWTH_POINTS, list)
         nbt.putString(BERRY, berryIdentifier.toString())
-        if (mulchVariant != null) {
-            nbt.putString(MULCH_VARIANT, mulchVariant.toString())
-        }
         nbt.putInt(MULCH_DURATION, mulchDuration)
         nbt.putString(GROWTH_POINTS_SEQUENCE, growthPointSequence)
     }
@@ -301,7 +308,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         private const val GROWTH_TIMER = "GrowthTimer"
         private const val STAGE_TIMER = "StageTimer"
         private const val BERRY = "Berry"
-        private const val MULCH_VARIANT = "MulchVariant"
         private const val MULCH_DURATION = "MulchDuration"
     }
 

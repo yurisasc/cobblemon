@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.api.item
 
+import com.cobblemon.mod.common.advancement.CobblemonCriteria
+import com.cobblemon.mod.common.advancement.criterion.PokemonInteractContext
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.callback.PartySelectCallbacks
 import com.cobblemon.mod.common.api.text.red
@@ -22,6 +24,7 @@ import com.cobblemon.mod.common.util.isHeld
 import com.cobblemon.mod.common.util.isLookingAt
 import com.cobblemon.mod.common.util.party
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
@@ -59,15 +62,17 @@ interface PokemonSelectingItem {
                 return interactWithSpecificBattle(player, stack, battlePokemon)
             }
         } ?: run {
-            if (entity != null) {
-                val pokemon = entity.pokemon
-                if (entity.ownerUuid == player.uuid) {
-                    return applyToPokemon(player, stack, pokemon) ?: TypedActionResult.pass(stack)
+            if (!player.isSneaking) {
+                return if (entity != null) {
+                    val pokemon = entity.pokemon
+                    if (entity.ownerUuid == player.uuid) {
+                        applyToPokemon(player, stack, pokemon) ?: TypedActionResult.pass(stack)
+                    } else {
+                        TypedActionResult.fail(stack)
+                    }
                 } else {
-                    return TypedActionResult.fail(stack)
+                    interactGeneral(player, stack)
                 }
-            } else {
-                return interactGeneral(player, stack)
             }
         }
 
@@ -89,6 +94,7 @@ interface PokemonSelectingItem {
             if (!player.isCreative) {
                 stack.decrement(1)
             }
+            CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(battlePokemon.entity!!.pokemon.species.resourceIdentifier, Registries.ITEM.getId(stack.item)))
         }
     }
 
@@ -96,11 +102,6 @@ interface PokemonSelectingItem {
     fun canUseOnBattlePokemon(battlePokemon: BattlePokemon): Boolean = bagItem!!.canUse(battlePokemon.actor.battle, battlePokemon)
 
     fun interactWithSpecificBattle(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon): TypedActionResult<ItemStack> {
-
-        if (player.isSneaking) {
-            return TypedActionResult.fail(stack)
-        }
-
         return if (canUseOnBattlePokemon(battlePokemon)) {
             applyToBattlePokemon(player, stack, battlePokemon)
             TypedActionResult.success(stack)
@@ -111,11 +112,6 @@ interface PokemonSelectingItem {
     }
 
     fun interactGeneral(player: ServerPlayerEntity, stack: ItemStack): TypedActionResult<ItemStack> {
-
-        if (player.isSneaking) {
-            return TypedActionResult.fail(stack)
-        }
-
         val party = player.party().toList()
         if (party.isEmpty()) {
             return TypedActionResult.fail(stack)
@@ -131,6 +127,7 @@ interface PokemonSelectingItem {
                     if (!player.isCreative) {
                         stack.decrement(1)
                     }
+                    CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(pk.species.resourceIdentifier, Registries.ITEM.getId(stack.item)))
                 }
             }
         )
@@ -139,11 +136,6 @@ interface PokemonSelectingItem {
     }
 
     fun interactGeneralBattle(player: ServerPlayerEntity, stack: ItemStack, actor: BattleActor): TypedActionResult<ItemStack> {
-
-        if (player.isSneaking) {
-            return TypedActionResult.fail(stack)
-        }
-
         PartySelectCallbacks.createBattleSelect(
             player = player,
             pokemon = actor.pokemonList,

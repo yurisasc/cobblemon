@@ -36,6 +36,7 @@ object BattleSwitchPokemonHandler : ClientNetworkPacketHandler<BattleSwitchPokem
                         properties = properties,
                         aspects = aspects,
                         hpValue = hpValue,
+                        maxHp = maxHp,
                         isHpFlat = packet.isAlly,
                         status = status,
                         statChanges = statChanges
