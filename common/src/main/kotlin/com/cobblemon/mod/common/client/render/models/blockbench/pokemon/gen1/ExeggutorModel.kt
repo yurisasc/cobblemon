@@ -77,7 +77,6 @@ class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink1, blink2, blink3),
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 1f),
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
                 SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
