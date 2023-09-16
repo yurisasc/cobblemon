@@ -58,7 +58,7 @@
       "baseScale": 2.8,
       "hitbox": {
         "width": 0.9,
-        "height": 4.0,
+        "height": 8.0,
         "fixed": false
       },
       "experienceGroup": "slow",
