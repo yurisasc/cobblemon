@@ -32,9 +32,9 @@ class BerryEntityInstance(val materialManager: MaterialManager, val entity: Berr
                 val identity = instancedModel.loadIdentity()
                 identity.translate(instancePosition)
                 identity.translate(it.second.position.multiply(1.0/16.0))
-                //identity.rotateX(it.second.rotation.x)
-                //identity.rotateY(it.second.rotation.y)
-                //identity.rotateZ(it.second.rotation.z)
+                identity.rotateZ(it.second.rotation.z)
+                identity.rotateY(it.second.rotation.y)
+                identity.rotateX(it.second.rotation.x)
             }
 
         }

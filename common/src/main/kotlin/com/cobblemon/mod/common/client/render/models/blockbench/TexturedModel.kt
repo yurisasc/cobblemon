@@ -8,17 +8,24 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
-import com.cobblemon.mod.common.client.flywheel.BetterPartBuilder
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.util.adapters.LocatorBoneAdapter
+import com.cobblemon.mod.common.util.math.geometry.getOrigin
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
-import com.jozufozu.flywheel.core.hardcoded.ModelPart
 import com.jozufozu.flywheel.core.hardcoded.PartBuilder
 import com.jozufozu.flywheel.core.model.Model
-import net.minecraft.client.model.*
+import net.minecraft.client.model.Dilation
+import net.minecraft.client.model.ModelData
+import net.minecraft.client.model.ModelPartBuilder
+import net.minecraft.client.model.ModelPartData
+import net.minecraft.client.model.ModelTransform
+import net.minecraft.client.model.TexturedModelData
+import net.minecraft.client.texture.Sprite
 import net.minecraft.client.texture.SpriteAtlasHolder
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
+import org.joml.Quaternionf
+import org.joml.Vector3f
 
 class TexturedModel {
     @SerializedName("format_version")
@@ -30,40 +37,75 @@ class TexturedModel {
         return createWithUvOverride(isForLivingEntityRenderer, 0, 0, null, null)
     }
 
+    fun buildFromPartData(stack: MatrixStack, sprite: Sprite, builder: PartBuilder, data: ModelPartData) {
+        val origin = stack.peek().positionMatrix.getOrigin().toVector3f()
+        stack.translate(data.rotationData.pivotX, data.rotationData.pivotY, data.rotationData.pivotZ)
+        stack.multiply(Quaternionf().rotationZYX(data.rotationData.roll, data.rotationData.yaw, data.rotationData.pitch))
+        for (cube in data.cuboidData) {
+            val start = Vector3f(origin.x + cube.offset.x, origin.y + cube.offset.y, origin.z + cube.offset.z)
+            val rotationXYZ = stack.peek().positionMatrix.getEulerAnglesXYZ(Vector3f(0F, 0F, 0F))
+            builder.cuboid()
+                .start(start.x, start.y, start.z)
+                .size(cube.dimensions.x, cube.dimensions.y, cube.dimensions.z)
+                .sprite(sprite)
+                .textureOffset(cube.textureUV.x.toInt(), cube.textureUV.y.toInt())
+                .rotate(rotationXYZ.x, rotationXYZ.y, rotationXYZ.z)
+                .endCuboid()
+        }
+
+        for (child in data.children.values) {
+            stack.push()
+            buildFromPartData(stack, sprite, builder, child)
+            stack.pop()
+        }
+    }
+
     fun createFlywheelModel(atlas: SpriteAtlasHolder, textureName: Identifier, name: String): Model {
         val texture = atlas.getSprite(textureName)
         val width = ((texture.maxU * atlas.atlas.width.toFloat()) - (texture.minU * atlas.atlas.width)).toInt()
         val height =( (texture.maxV * atlas.atlas.height.toFloat()) - (texture.minV * atlas.atlas.height)).toInt()
-        val modelBuilder = BetterPartBuilder(name, width, height)
-        modelBuilder.sprite(texture)
-        geometry?.forEach {
-            it.bones?.forEach { bone ->
-                var cuboidBuilder = modelBuilder.cuboid()
-                cuboidBuilder.sprite(texture)
-                bone.cubes?.forEach{cube ->
+        val newBuilder = PartBuilder(name, width, height)
+        newBuilder.sprite(texture)
+        val data = create(false).data.root
+        val matrix = MatrixStack()
+        matrix.scale(1F, -1F, -1F)
+        buildFromPartData(matrix, texture, newBuilder, data)
 
-                    if (cube.origin != null) {
-                        cuboidBuilder.start(cube.origin[0], cube.origin[1], cube.origin[2])
-                    }
-                    if (cube.size != null) {
-                        cuboidBuilder.size(cube.size[0], cube.size[1], cube.size[2])
-                    }
-                    if (cube.rotation != null) {
-                        cuboidBuilder.rotate(cube.rotation[0], cube.rotation[1], cube.rotation[2])
-                    }
-                    if (cube.pivot != null) {
-                        cuboidBuilder.pivot(cube.pivot[0], cube.pivot[1], cube.pivot[2])
-                    }
-                    if (cube.uv != null) {
-                        cuboidBuilder.textureOffset(cube.uv[0], cube.uv[1])
-                    }
-                    //cuboidBuilder.invertYZ()
-                    cuboidBuilder.endCuboid()
-                    cuboidBuilder = modelBuilder.cuboid()
-                }
-            }
-        }
-        return modelBuilder.build()
+        return newBuilder.build()
+//
+//
+//
+//        val modelBuilder = BetterPartBuilder(name, width, height)
+//
+//        modelBuilder.sprite(texture)
+//        geometry?.forEach {
+//            it.bones?.forEach { bone ->
+//                var cuboidBuilder = modelBuilder.cuboid()
+//                cuboidBuilder.sprite(texture)
+//                bone.cubes?.forEach{cube ->
+//
+//                    if (cube.origin != null) {
+//                        cuboidBuilder.start(cube.origin[0], cube.origin[1], cube.origin[2])
+//                    }
+//                    if (cube.size != null) {
+//                        cuboidBuilder.size(cube.size[0], cube.size[1], cube.size[2])
+//                    }
+//                    if (cube.rotation != null) {
+//                        cuboidBuilder.rotate(cube.rotation[0], cube.rotation[1], cube.rotation[2])
+//                    }
+//                    if (cube.pivot != null) {
+//                        cuboidBuilder.pivot(cube.pivot[0], cube.pivot[1], cube.pivot[2])
+//                    }
+//                    if (cube.uv != null) {
+//                        cuboidBuilder.textureOffset(cube.uv[0], cube.uv[1])
+//                    }
+//                    //cuboidBuilder.invertYZ()
+//                    cuboidBuilder.endCuboid()
+//                    cuboidBuilder = modelBuilder.cuboid()
+//                }
+//            }
+//        }
+//        return modelBuilder.build()
     }
 
     fun createWithUvOverride(isForLivingEntityRenderer: Boolean, u: Int, v: Int, textureWidth: Int?, textureHeight: Int?) : TexturedModelData {
