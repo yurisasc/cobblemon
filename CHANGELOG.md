@@ -16,9 +16,6 @@
 - Added AI for Nosepass to point towards world spawn when idle.
 - Added structure spawn conditions
 - Added recipes for Berry Juice, Heal Powder, Remedy, Fine Remedy, Superb Remedy, Revive, Max Revive, HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up, PP Max, Pasture, Medicinal Leek to Magenta Dye, Roasted Leek, Leek and Potato Stew, Braised Vivichoke, Vivichoke Dip, Mulch Base, Growth Mulch, Surprise Mulch, Coarse Mulch, Humid Mulch, Rich Mulch, Loamy Mulch, Peat Mulch, Sandy Mulch, X Attack, X Defense, X Special Attack, X Special Defense, X Speed, X Accuracy, Dire Hit, Guard Spec, Power Anklet, Power Band, Power Belt, Power Bracelet, Power Lens, Power Weight, Bright Powder, Destiny Knot
-- Added cries for Gen 1-9 starters and their evolutions.
-- Added cries for Ditto, Mankey, Primape, Onix, Steelix, Maractus, Honedge, Doublade, Aegislash, Pumpkaboo, Gourgeist, Nacli, Naclstack, Hoothoot, Noctowl, Aipom, Farfetchd, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Pidgey, Pidgeotto, Pidgeot, Rattata, Raticate, Clefairy, Clefable, Tauros, Eevee, Vaporeon, Flareon, Jolteon, Chatot, Darmanitan, Darumaka, Lucario, Mimikyu, Quagsire, Riolu, Wooper, Cleffa, Miltank, Buneary, Lopunny, Wooloo, Dubwool.
-- Added a shoulder mount for Mimikyu
 - Added Advancement trigger for defeating Pokémon and collecting varieties of Pokémon.
 - Added sleep animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
 - Added flying placeholder animations to Pidgey, Pidgeotto, Pidgeot, Golbat, Crobat, Scyther, Scizor, Zapdos, Moltres, Articuno, Dragonite, Rowlet, Dartrix, and Decidueye.
@@ -289,6 +286,74 @@
 - Item interaction evolutions and held item requirements now support NBT by creating an object JSON containing the key ``item`` for what used to be the existing condition support and a ``nbt`` key for the NBT format, this is the string [format](https://minecraft.fandom.com/wiki/NBT_format) expected in commands. Existing data does not need to be updated.
 - Shoulder mounts now match the shoulder position a bit more accurately when sneaking.
 - Poison Heal will now cause poisoned Pokémon to heal outside of battle.
+- Updated Pokéball, PC, UI, evolution and Healing Machine sounds.
+
+### Added cries to the following Pokémon:
+- All starters and their evolutions
+- Caterpie, Metapod, Butterfree
+- Weedle, Kakuna, Beedrill
+- Pidgey, Pidgeotto, Pidgeot
+- Rattata, Raticate
+- Spearow, Fearow
+- Ekans, Arbok
+- Pichu, Pikachu, Raichu, Alolan Raichu
+- Cleffa, Clefairy, Clefable
+- Mankey, Primeape, Annihilape
+- Ponyta, Rapidash, Galarian Ponyta, Galarian Rapidash
+- Farfetch'd, Galarian Farfetch'd, Sirfetch'd
+- Onix, Steelix
+- Tauros
+- Ditto
+- Eevee, Vaporeon, Jolteon, Flareon, Espeon, Umbreon, Leafeon, Glaceon, Sylveon
+- Hoothoot, Noctowl
+- Mareep, Flaaffy, Ampharos
+- Aipom, Ambipom
+- Wooper, Quagsire, Clodsire
+- Snubbull, Granbull
+- Miltank
+- Poochyena, Mightyena
+- Taillow, Swellow
+- Ralts, Kirlia, Gardevoir, Gallade
+- Shroomish, Breloom
+- Nincada, Ninjask, Shedinja
+- Buneary, Lopunny
+- Chingling
+- Chatot
+- Riolu, Lucario
+- Pidove, Tranquill, Unfezant
+- Roggenrola, Boldore, Gigalith
+- Venipede, Whirlipede, Scolipede
+- Maractus
+- Dwebble, Crustle
+- Yamask, Cofagrigus
+- Bunnelby, Diggersby
+- Fletchling, Fletchinder, Talonflame
+- Scatterbug, Spewpa, Vivillon
+- Honedge, Doublade, Aegislash
+- Skrelp, Dragalge
+- Phantump, Trevenant
+- Pumpkaboo, Gourgeist
+- Bergmite, Avalugg
+- Mudbray, Mudsdale
+- Stufful, Bewear
+- Mimikyu
+- Rookidee, Corvisquire, Corviknight
+- Nickit, Thievul
+- Wooloo, Dubwool
+- Yamper, Boltund
+- Tandemaus
+- Fidough, Dachsbun
+- Squawkabilly
+- Nacli, Naclstack, Garganacl
+- Charcadet, Armarouge, Ceruledge
+- Maschiff, Mabosstiff
+- Shroodle, Grafaiai
+- Flittle, Espathra
+- Tinkatink, Tinkatuff, Tinkaton
+- Varoom, Revavroom
+- Glimmet, Glimmora
+- Cetoddle, Cetitan
+- Tatsugiri
 
 ### Fixes
 - Fixed spawning moon phase dependent Pokémon only when the moon phase is wrong
@@ -393,7 +458,6 @@
 - Changed the recipes for Mystic Water, Miracle Seed, and Charcoal Stick to utilise the evolution stones, as well as Never-Melt Ice having an alternate recipe using the Ice Stone.
 - Replaced the `Failed to handle` battle messages to `Missing interpretation` to make it more clear that mechanics do work just still pending dedicated messages.
 - Healing Machine and PC are now mine-able with pickaxes and Apricorn leaves are mine-able using hoes.
-- Updated Pokéball, UI and evolution sounds.
 
 ### Fixes
 - Fixed killing a Dodrio killing your game. Dodrio will never look the same to us.
