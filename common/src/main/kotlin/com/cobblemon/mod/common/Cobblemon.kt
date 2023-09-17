@@ -323,6 +323,8 @@ object Cobblemon {
                 BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
             ).apply { mute = true }
         }
+
+        throw RuntimeException()
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {
@@ -378,7 +380,7 @@ object Cobblemon {
             this.config = CobblemonConfig()
         }
 
-        config.lastSavedVersion = CobblemonConstants.VERSION
+        config.lastSavedVersion = CobblemonConstants.MOD_VERSION
         this.saveConfig()
 
         bestSpawner.loadConfig()

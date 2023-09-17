@@ -38,6 +38,7 @@ import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
+import com.cobblemon.mod.common.command.RidingDevParameters
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -977,9 +978,9 @@ class PokemonEntity(
             this.ridingState.momentum = SpeedCalculator.calculate(
                 ++this.ridingState.tick,
                 movementInput,
-                3F,
-                3.1F,
-                44F
+                RidingDevParameters.speed,
+                RidingDevParameters.acceleration,
+                RidingDevParameters.weight
             )
         } else {
             this.ridingState.tick = 0

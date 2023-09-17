@@ -10,8 +10,6 @@ package com.cobblemon.mod.common.util.adapters
 
 import com.cobblemon.mod.common.api.riding.RidingProperties
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
-import com.cobblemon.mod.common.api.riding.properties.mounting.CobblemonMountingTypes
-import com.cobblemon.mod.common.pokemon.riding.CobblemonMountingProperties
 import com.cobblemon.mod.common.pokemon.riding.CobblemonRidingProperties
 import com.google.gson.JsonArray
 import com.google.gson.JsonDeserializationContext
@@ -30,8 +28,7 @@ object RidingPropertiesAdapter : JsonDeserializer<RidingProperties>, JsonSeriali
 
         return CobblemonRidingProperties(
             seats.map { context.deserialize(it, SeatProperties::class.java) },
-            listOf(),
-            mapOf(CobblemonMountingTypes.LAND to CobblemonMountingProperties())
+            listOf()
         )
     }
 

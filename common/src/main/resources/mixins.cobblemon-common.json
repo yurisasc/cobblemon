@@ -11,12 +11,12 @@
     "PartyScrollMixin",
     "PotionSlotMixin",
     "SoundManagerMixin",
-    "riding.JetMixin",
     "SoundSystemMixin",
     "accessor.KeyBindingAccessor",
     "accessor.MusicTrackerAccessor",
     "invoker.ClientPlayNetworkHandlerInvoker",
-    "pokeball.ItemRendererMixin"
+    "pokeball.ItemRendererMixin",
+    "riding.JetMixin"
   ],
   "mixins": [
     "FenceBlockMixin",
@@ -26,10 +26,14 @@
     "PointedDripstoneBlockMixin",
     "ServerChunkManagerMixin",
     "ShearsDispenserBehaviorMixin",
+    "StructurePoolAccessor",
+    "StructurePoolGeneratorMixin",
+    "StructureProcessorListMixin",
     "accessor.AccessorEntity",
     "accessor.StatusEffectInstanceAccessor",
     "entity.EntityMixin",
     "entity.TameableEntityMixin",
+    "info.CrashReportMixin",
     "invoker.BlocksInvoker",
     "invoker.BooleanRuleInvoker",
     "invoker.ClientPlayNetworkHandlerInvoker",
@@ -37,10 +41,7 @@
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
-    "pokeball.ThrownEntityMixin",
-    "StructurePoolGeneratorMixin",
-    "StructurePoolAccessor",
-    "StructureProcessorListMixin"
+    "pokeball.ThrownEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
