@@ -37,7 +37,7 @@ abstract class RootBlock(settings: Settings) : Block(settings), Fertilizable, Sh
 
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         // Check for propagation
-        if (!hasReachedSpreadCap(world, pos) && random.nextDouble() < Cobblemon.config.bigRootPropagationChance && world.getLightLevel(pos) < MAX_PROPAGATING_LIGHT_LEVEL) {
+        if (random.nextDouble() < Cobblemon.config.bigRootPropagationChance && world.getLightLevel(pos) < MAX_PROPAGATING_LIGHT_LEVEL && !hasReachedSpreadCap(world, pos)) {
             this.spreadFrom(world, pos, random)
         }
     }
