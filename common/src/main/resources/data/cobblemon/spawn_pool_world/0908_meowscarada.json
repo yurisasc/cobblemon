@@ -33,7 +33,16 @@
             "bucket": "ultra-rare",
             "level": "36-53",
             "weight": 0.1,
-            "condition": {}
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_warped"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_nether_desert"
+                ]
+            }
         }
     ]
 }
