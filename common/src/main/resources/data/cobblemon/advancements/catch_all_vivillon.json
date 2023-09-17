@@ -95,7 +95,7 @@
 			"trigger": "cobblemon:aspects_collected",
 			"conditions": {
 				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-monsoon"]
+				"aspects": ["vivillon-wings-modern"]
 			}
 		},
 		"monsoon": {
