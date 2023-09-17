@@ -12,19 +12,7 @@
       "type": "cobblemon:beneath_heightmap",
       "heightmap": "OCEAN_FLOOR",
       "offset": -1,
-      "reach": 16
-    },
-    {
-      "type": "minecraft:height_range",
-      "height": {
-        "type": "minecraft:trapezoid",
-        "max_inclusive": {
-          "absolute": 100
-        },
-        "min_inclusive": {
-          "absolute": 20
-        }
-      }
+      "reach": 32
     },
     {
       "type": "minecraft:block_predicate_filter",
