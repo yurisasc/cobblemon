@@ -12,7 +12,8 @@ import com.cobblemon.mod.common.api.berry.BerryHelper
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.util.weightedSelection
-import net.minecraft.registry.tag.BlockTags
+import net.minecraft.block.Blocks
+import net.minecraft.block.GrassBlock
 import net.minecraft.util.math.Vec3i
 import net.minecraft.util.math.intprovider.ClampedNormalIntProvider
 import net.minecraft.world.StructureWorldAccess
@@ -55,7 +56,7 @@ class BerryGroveFeature : Feature<DefaultFeatureConfig>(DefaultFeatureConfig.COD
         val blockPlaceFeature = PlacedFeatures.createEntry(
             SIMPLE_BLOCK,
             SimpleBlockFeatureConfig(randomTreeStateProvider),
-            BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(BlockTags.REPLACEABLE)),
+            BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(CobblemonBlockTags.BERRY_REPLACEABLE)),
             BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Vec3i(0, -1, 0), CobblemonBlockTags.BERRY_WILD_SOIL))
         ).value()
         val possiblePositions = listOf(
@@ -89,6 +90,10 @@ class BerryGroveFeature : Feature<DefaultFeatureConfig>(DefaultFeatureConfig.COD
                 if (blockPlaceFeature?.generate(worldGenLevel, context.generator, random, dir) == true) {
                     worldGenLevel.updateNeighbors(dir, worldGenLevel.getBlockState(dir).block)
                     numTreesLeftToGen--
+                    val below = worldGenLevel.getBlockState(dir.down())
+                    if (below.isOf(Blocks.GRASS_BLOCK) && below.get(GrassBlock.SNOWY)) {
+                        worldGenLevel.setBlockState(dir.down(), below.with(GrassBlock.SNOWY, false), 2)
+                    }
                 }
             }
         }

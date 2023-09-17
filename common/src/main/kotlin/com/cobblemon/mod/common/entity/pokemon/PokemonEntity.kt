@@ -62,6 +62,7 @@ import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
+import net.minecraft.entity.ai.pathing.EntityNavigation
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
@@ -290,7 +291,7 @@ class PokemonEntity(
      * Prevents flying type Pokémon from taking fall damage.
      */
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource?): Boolean {
-        return if (ElementalTypes.FLYING in pokemon.types || pokemon.ability.name == "levitate") {
+        return if (ElementalTypes.FLYING in pokemon.types || pokemon.ability.name == "levitate" || pokemon.species.behaviour.moving.fly.canFly) {
             false
         } else {
             super.handleFallDamage(fallDistance, damageMultiplier, damageSource)
@@ -421,6 +422,10 @@ class PokemonEntity(
         return navigation as PokemonNavigation
     }
 
+    override fun createNavigation(world: World): EntityNavigation {
+        return PokemonNavigation(world, this)
+    }
+
     @Suppress("SENSELESS_COMPARISON")
     public override fun initGoals() {
         // DO NOT REMOVE
@@ -430,7 +435,6 @@ class PokemonEntity(
             return
         }
         moveControl = PokemonMoveControl(this)
-        navigation = PokemonNavigation(world, this)
         goalSelector.clear { true }
         goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
         goalSelector.add(0, object : Goal() {

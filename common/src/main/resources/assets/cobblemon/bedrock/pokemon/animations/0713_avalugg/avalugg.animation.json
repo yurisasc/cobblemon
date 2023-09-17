@@ -2069,7 +2069,7 @@
 			}
 		},
 		"animation.avalugg.cry": {
-			"loop": true,
+			"loop": false,
 			"animation_length": 1.5,
 			"bones": {
 				"torso": {
@@ -2246,6 +2246,11 @@
 						"1.0833": [7.5, 0, 0],
 						"1.5": [0, 0, 0]
 					}
+				}
+			},
+			"sound_effects": {
+				"0.1667": {
+					"effect": "pokemon.avalugg.cry"
 				}
 			}
 		},
