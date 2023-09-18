@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.util.adapters.LocatorBoneAdapter
 import com.cobblemon.mod.common.util.math.geometry.getOrigin
+import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.jozufozu.flywheel.core.hardcoded.PartBuilder
@@ -24,6 +25,7 @@ import net.minecraft.client.texture.Sprite
 import net.minecraft.client.texture.SpriteAtlasHolder
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
+import org.joml.AxisAngle4f
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -38,14 +40,33 @@ class TexturedModel {
     }
 
     fun buildFromPartData(stack: MatrixStack, sprite: Sprite, builder: PartBuilder, data: ModelPartData) {
-        val origin = stack.peek().positionMatrix.getOrigin().toVector3f()
+        val origin = stack.peek().positionMatrix.getOrigin().toVector3f()//.add(data.rotationData.pivotX, data.rotationData.pivotY, data.rotationData.pivotZ)
         stack.translate(data.rotationData.pivotX, data.rotationData.pivotY, data.rotationData.pivotZ)
         stack.multiply(Quaternionf().rotationZYX(data.rotationData.roll, data.rotationData.yaw, data.rotationData.pitch))
+        println("Origin point: $origin")
+        println("PIVOTS: ${data.rotationData.let { "${it.pivotX}, ${it.pivotY}, ${it.pivotZ}" }}")
+        println("ROTS: ${data.rotationData.let { "${it.pitch}, ${it.yaw}, ${it.roll}" }}")
+        println("CUBES:")
+        val rotationXYZ = stack.peek().positionMatrix.getEulerAnglesXYZ(Vector3f(0F, 0F, 0F))//.mul(Vector3f(0F, 0F, 0F))
+        val inverted = stack.peek().positionMatrix.getRotation(AxisAngle4f()).apply { angle *= -1 }
+        val invertedEventualRotation = inverted.get(AxisAngle4f()).apply { angle *= -1 }
         for (cube in data.cuboidData) {
-            val start = Vector3f(origin.x + cube.offset.x, origin.y + cube.offset.y, origin.z + cube.offset.z)
-            val rotationXYZ = stack.peek().positionMatrix.getEulerAnglesXYZ(Vector3f(0F, 0F, 0F))
+            val desirablePoint = stack.peek().positionMatrix.transformPosition(cube.offset)
+            val bestStartPoint = invertedEventualRotation.transform(desirablePoint)
+//            val actualPoint = cube.offset.rotate(justThisRotation)
+
+//            val rotationFromDesirableToActual = Quaternionf().rotationTo(desirablePoint, actualPoint)
+
+//            val rotatedOffset = cube.offset.rotate(Quaternionf().fromEulerXYZ(rotationXYZ.x, rotationXYZ.y, rotationXYZ.z))
+//            val start = Vector3f(origin.x + rotatedOffset.x/* - cube.offset.x*/, origin.y + rotatedOffset.y, origin.z + rotatedOffset.z)
+
+
+            println("Start: ${cube.offset.x}, ${cube.offset.y}, ${cube.offset.z}")
+            println("Dimensions: ${cube.dimensions.x}, ${cube.dimensions.y}, ${cube.dimensions.z}")
+            println("---")
+
             builder.cuboid()
-                .start(start.x, start.y, start.z)
+                .start(bestStartPoint.x, bestStartPoint.y, bestStartPoint.z)
                 .size(cube.dimensions.x, cube.dimensions.y, cube.dimensions.z)
                 .sprite(sprite)
                 .textureOffset(cube.textureUV.x.toInt(), cube.textureUV.y.toInt())
@@ -64,14 +85,138 @@ class TexturedModel {
         val texture = atlas.getSprite(textureName)
         val width = ((texture.maxU * atlas.atlas.width.toFloat()) - (texture.minU * atlas.atlas.width)).toInt()
         val height =( (texture.maxV * atlas.atlas.height.toFloat()) - (texture.minV * atlas.atlas.height)).toInt()
-        val newBuilder = PartBuilder(name, width, height)
-        newBuilder.sprite(texture)
-        val data = create(false).data.root
-        val matrix = MatrixStack()
-        matrix.scale(1F, -1F, -1F)
-        buildFromPartData(matrix, texture, newBuilder, data)
+//        val newBuilder = PartBuilder(name, width, height)
+//        newBuilder.sprite(texture)
+//
+//        val data = create(false).data.root
+//        println(textureName)
+//        val matrix = MatrixStack()
+//        matrix.scale(1F, -1F, 1F)
+//        buildFromPartData(matrix, texture, newBuilder, data)
 
-        return newBuilder.build()
+//        return newBuilder.build()
+
+
+        val modelBuilder = PartBuilder(name, width, height)
+        modelBuilder.sprite(texture)
+
+//        val quat = Quaternionf().rotateX(PI.toFloat() / 16F)
+//        val eulerTest = quat.getEulerAnglesXYZ(Vector3f())
+//
+//        return modelBuilder
+//            .cuboid()
+//                .start(0F, 0F, 0F)
+//                .size(2F, 2F, 2F)
+//            .rotateX(PI.toFloat() / 16F)
+//            .endCuboid()
+//            .build()
+
+
+        val boneMap = mutableMapOf<String, ModelBone>()
+        geometry?.forEach { it.bones?.forEach { boneMap[it.name] = it } }
+
+        fun resolveParentsFromRoot(bone: ModelBone): Set<ModelBone> {
+            return if (bone.parent == null) {
+                emptySet()
+            } else {
+                val parent = boneMap[bone.parent] ?: return emptySet()
+                resolveParentsFromRoot(parent) + bone
+            }
+        }
+
+        geometry?.forEach {
+            it.bones?.forEach { bone ->
+                var cuboidBuilder = modelBuilder.cuboid()
+                cuboidBuilder.sprite(texture)
+
+                val boneSet = resolveParentsFromRoot(bone)
+                val stack = MatrixStack()
+
+                fun applyStack(vector3f: Vector3f): Vector3f {
+                    val v = vector3f.get(Vector3f())
+                    stack.peek().positionMatrix.transformPosition(v)
+//                    v.sub(stack.peek().positionMatrix.getOrigin().toVector3f())
+                    return v
+                }
+
+                fun getStackAngle() = stack.peek().positionMatrix.getRotation(AxisAngle4f())
+
+//                fun invertStack(vector3f: Vector3f): Vector3f {
+//                    val v = vector3f.get(Vector3f())
+//                }
+
+                stack.scale(1F, 1F, 1F)
+                for (bone in boneSet) {
+                    stack.translate(-bone.pivot[0], bone.pivot[1], bone.pivot[2])
+                    val rotation = bone.rotation?.takeIf { it[0] != 0F || it[1] != 0F || it[2] != 0F } ?: continue
+                    stack.multiply(Quaternionf().rotationXYZ(-rotation[0].toRadians(), rotation[1].toRadians(), -rotation[2].toRadians()))
+                    stack.translate(bone.pivot[0], -bone.pivot[1], -bone.pivot[2]) // may need to be revisited
+                }
+
+                bone.cubes?.forEach { cube ->
+                    stack.push()
+
+                    val pivot = cube.pivot?.let { Vector3f(-it[0], it[1], -it[2]) } ?: Vector3f(0F, 0F, 0F)
+
+                    val cubeRotation = if (cube.rotation != null) Quaternionf().rotationXYZ(cube.rotation[0].toRadians(), cube.rotation[1].toRadians(), cube.rotation[2].toRadians()) else Quaternionf()
+                    if (cube.pivot != null) {
+                        stack.translate(pivot.x, pivot.y, pivot.z)
+                    }
+                    if (cube.rotation != null) {
+                        stack.multiply(cubeRotation)
+                    }
+                    if (cube.pivot != null) {
+                        stack.translate(-pivot.x, -pivot.y, -pivot.z)
+                    }
+
+                    val origin = (cube.origin?.let { Vector3f(-it[0] - cube.size!![0], it[1], it[2]) } ?: Vector3f(0F, 0F, 0F))//.add(cube.size!![0], 0F, 0F)
+                    val desirablePoint = applyStack(origin)
+
+                    val aa4f = stack.peek().positionMatrix.getRotation(AxisAngle4f())
+                    aa4f.angle *= -1F
+                    val q = Quaternionf().set(aa4f)
+                    val eulers = stack.peek().positionMatrix.getEulerAnglesXYZ(Vector3f())
+
+                    val bestStartPoint = q.transform(desirablePoint.get(Vector3f(0F, 0F, 0F)))
+
+                    if (cube.origin != null) {
+//                        cuboidBuilder.start(cube.origin[0], cube.origin[1], cube.origin[2])
+                        cuboidBuilder.start(bestStartPoint.x, bestStartPoint.y, bestStartPoint.z)
+                    }
+                    cuboidBuilder.invertYZ()
+                    if (cube.size != null) {
+                        cuboidBuilder.size(cube.size[0], cube.size[1], cube.size[2])
+                    }
+                    val isTheOne = cube.origin != null && cube.origin[0] == -1F && cube.origin[1] == -4.75F && cube.origin[2] == -1F && cube.rotation != null
+                    if (isTheOne) {
+                        println("We are moving the origin $origin to $desirablePoint")
+
+                        println("The proposed best start point is $bestStartPoint")
+                        println("The inversion of the rotation considered is $aa4f")
+                        println("On paper the rotation was ${cube.rotation} about ${cube.pivot}")
+                        // printlns
+                    }
+
+                    if (!isTheOne) {
+                        cuboidBuilder.rotate(eulers.x, eulers.y, eulers.z)
+                    } else {
+                        cuboidBuilder.rotate(eulers.x, eulers.y, eulers.z)
+                    }
+                    if (cube.uv != null) {
+                        cuboidBuilder.textureOffset(cube.uv[0], cube.uv[1])
+                    }
+                    cuboidBuilder.endCuboid()
+                    cuboidBuilder = modelBuilder.cuboid()
+
+                    stack.pop()
+                }
+            }
+        }
+        return modelBuilder.build()
+
+
+
+
 //
 //
 //
