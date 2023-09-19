@@ -7,7 +7,8 @@
             "id": "whirlipede-1",
             "pokemon": "whirlipede",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,7 +27,8 @@
             "id": "whirlipede-2",
             "pokemon": "whirlipede",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -63,7 +65,8 @@
             "id": "whirlipede-4",
             "pokemon": "whirlipede",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

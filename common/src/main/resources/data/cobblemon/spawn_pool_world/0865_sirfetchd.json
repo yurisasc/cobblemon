@@ -7,7 +7,8 @@
             "id": "sirfetchd-1",
             "pokemon": "sirfetchd",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -24,6 +25,11 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_forest"
+                ]
+            },
+            "anticondition": {
+				"neededNearbyBlocks": [
+                    "#minecraft:water"
                 ]
             }
         }

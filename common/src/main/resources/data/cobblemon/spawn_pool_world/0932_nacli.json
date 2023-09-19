@@ -7,7 +7,8 @@
             "id": "nacli-1",
             "pokemon": "nacli",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -22,10 +23,29 @@
             }
         },
 		{
+            "id": "nacli-2",
+            "pokemon": "nacli",
+            "presets": [
+                "natural",
+				"wild"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "3-28",
+            "weight": 9.0,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_salt"
+                ]
+            }
+        },
+		{
             "id": "nacli-quartz-1",
             "pokemon": "nacli",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

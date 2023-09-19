@@ -32,7 +32,8 @@
             "pokemon": "grimer",
             "presets": [
                 "water_surface",
-				"urban"
+				"urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "surface",

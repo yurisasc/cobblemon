@@ -7,7 +7,8 @@
             "id": "riolu-1",
             "pokemon": "riolu",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

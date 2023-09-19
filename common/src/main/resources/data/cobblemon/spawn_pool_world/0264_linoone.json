@@ -31,7 +31,8 @@
             "id": "linoone-galarian-1",
             "pokemon": "linoone galarian",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

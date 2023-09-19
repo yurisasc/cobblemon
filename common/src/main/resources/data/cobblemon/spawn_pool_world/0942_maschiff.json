@@ -27,7 +27,8 @@
             "pokemon": "maschiff",
             "presets": [
                 "natural",
-                "urban"
+                "urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",

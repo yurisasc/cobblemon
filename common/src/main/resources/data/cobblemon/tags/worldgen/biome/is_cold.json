@@ -9,6 +9,22 @@
     {
       "id": "#byg:is_cold",
       "required": false
+    },
+    {
+      "id": "wythers:berry_bog",
+      "required": false
+    },
+    {
+      "id": "wythers:cold_island",
+      "required": false
+    },
+    {
+      "id": "wythers:cold_plains",
+      "required": false
+    },
+    {
+      "id": "wythers:cold_stony_shore",
+      "required": false
     }
   ]
 }

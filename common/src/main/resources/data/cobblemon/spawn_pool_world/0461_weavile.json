@@ -6,6 +6,10 @@
         {
             "id": "weavile-1",
             "pokemon": "weavile",
+			"presets": [
+                "natural",
+				"wild"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

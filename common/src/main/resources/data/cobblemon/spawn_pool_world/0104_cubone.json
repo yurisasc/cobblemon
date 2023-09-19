@@ -7,7 +7,8 @@
             "id": "cubone-1",
             "pokemon": "cubone",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -25,7 +26,8 @@
             "id": "cubone-alolan-1",
             "pokemon": "cubone",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

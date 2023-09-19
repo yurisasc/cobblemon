@@ -7,7 +7,8 @@
             "id": "rhyperior-1",
             "pokemon": "rhyperior",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

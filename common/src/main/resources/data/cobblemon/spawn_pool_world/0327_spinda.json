@@ -7,7 +7,8 @@
             "id": "spinda-1",
             "pokemon": "spinda",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,7 +27,8 @@
             "id": "spinda-2",
             "pokemon": "spinda special_spots=1 face_spots=none face_spots2=none",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -45,7 +47,8 @@
             "id": "spinda-3",
             "pokemon": "spinda special_spots=2 face_spots=none face_spots2=none",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -64,7 +67,8 @@
             "id": "spinda-4",
             "pokemon": "spinda special_spots=3 face_spots=none face_spots2=none",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -83,7 +87,8 @@
             "id": "spinda-5",
             "pokemon": "spinda special_spots=4 face_spots=none face_spots2=none",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

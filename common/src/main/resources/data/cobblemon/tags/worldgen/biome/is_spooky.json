@@ -9,6 +9,26 @@
 	{
       "id": "byg:ebony_woods",
       "required": false
+    },
+    {
+      "id": "#wythers:dark_forest",
+      "required": false
+    },
+    {
+      "id": "wythers:ancient_taiga",
+      "required": false
+    },
+    {
+      "id": "wythers:bayou",
+      "required": false
+    },
+    {
+      "id": "wythers:deep_dark_forest",
+      "required": false
+    },
+    {
+      "id": "wythers:tangled_forest",
+      "required": false
     }
   ]
 }

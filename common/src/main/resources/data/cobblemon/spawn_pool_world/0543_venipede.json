@@ -7,7 +7,8 @@
             "id": "venipede-1",
             "pokemon": "venipede",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -26,7 +27,8 @@
             "id": "venipede-2",
             "pokemon": "venipede",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -63,7 +65,8 @@
             "id": "venipede-4",
             "pokemon": "venipede",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -40,11 +40,12 @@
             "pokemon": "vaporeon",
             "presets": [
                 "natural",
-				"urban"
+				"urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "ultra-rare",
+            "bucket": "uncommon",
             "level": "28-53",
             "weight": 0.025,
             "condition": {

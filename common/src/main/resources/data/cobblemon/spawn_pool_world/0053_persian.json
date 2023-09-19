@@ -8,7 +8,8 @@
             "pokemon": "persian",
             "presets": [
                 "natural",
-				"urban"
+				"urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -41,7 +42,8 @@
             "pokemon": "persian",
             "presets": [
                 "natural",
-				"urban"
+				"urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",

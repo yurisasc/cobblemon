@@ -3,6 +3,14 @@
   "values": [
     "minecraft:cold_ocean",
 	"minecraft:deep_cold_ocean",
-	"#cobblemon:is_frozen"
+	"#cobblemon:is_frozen",
+	{
+	  "id": "wythers:icy_ocean",
+	  "required": false
+	},
+	{
+	  "id": "wythers:icy_river",
+	  "required": false
+	}
   ]
 }

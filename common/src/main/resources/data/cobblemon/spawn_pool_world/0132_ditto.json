@@ -19,6 +19,11 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_ocean"
+                ]
             }
         },
 		{
@@ -36,6 +41,11 @@
 				"canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_ocean"
                 ]
             }
         },

@@ -17,6 +17,10 @@
 	{
       "id": "terralith:white_mesa",
       "required": false
+    },
+    {
+      "id": "wythers:danakil_desert",
+      "required": false
     }
   ]
 }

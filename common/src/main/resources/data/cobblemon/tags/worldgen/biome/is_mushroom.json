@@ -10,6 +10,34 @@
 	{
       "id": "terralith:mirage_isles",
       "required": false
+    },
+    {
+      "id": "wythers:ancient_taiga",
+      "required": false
+    },
+    {
+      "id": "wythers:deep_dark_incursion",
+      "required": false
+    },
+    {
+      "id": "wythers:fungous_dripstone_caves",
+      "required": false
+    },
+    {
+      "id": "wythers:lush_fungous_dripstone_caves",
+      "required": false
+    },
+    {
+      "id": "wythers:lush_shroom_caves",
+      "required": false
+    },
+    {
+      "id": "wythers:mushroom_caves",
+      "required": false
+    },
+    {
+      "id": "wythers:mushroom_island",
+      "required": false
     }
   ]
 }

@@ -7,7 +7,9 @@
             "id": "shroodle-1",
             "pokemon": "shroodle",
             "presets": [
-                "natural"
+                "natural",
+				"treetop",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

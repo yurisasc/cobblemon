@@ -19,6 +19,62 @@
 	{
       "id": "terralith:valley_clearing",
       "required": false
+    },
+    {
+      "id": "wythers:autumnal_plains",
+      "required": false
+    },
+    {
+      "id": "wythers:berry_bog",
+      "required": false
+    },
+    {
+      "id": "wythers:cold_plains",
+      "required": false
+    },
+    {
+      "id": "wythers:cool_forest_edge",
+      "required": false
+    },
+    {
+      "id": "wythers:cool_plains",
+      "required": false
+    },
+    {
+      "id": "wythers:dry_tropical_grassland",
+      "required": false
+    },
+    {
+      "id": "wythers:forest_edge",
+      "required": false
+    },
+    {
+      "id": "wythers:harvest_fields",
+      "required": false
+    },
+    {
+      "id": "wythers:highland_plains",
+      "required": false
+    },
+    {
+      "id": "wythers:humid_tropical_grassland",
+      "required": false
+    },
+    {
+      "id": "wythers:spring_flower_fields",
+      "required": false
+    },
+    {
+      "id": "terralith:subtropical_forest_edge",
+      "required": false
+    },
+    {
+      "id": "wythers:subtropical_grassland",
+      "required": false
+    },
+    {
+      "id": "wythers:tropical_grassland",
+      "required": false
     }
   ]
 }

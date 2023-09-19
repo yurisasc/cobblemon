@@ -7,7 +7,8 @@
             "id": "bouffalant-1",
             "pokemon": "bouffalant",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -20,6 +20,24 @@
                     "#cobblemon:is_jungle"
                 ]
             }
+        },
+		{
+            "id": "exeggutor-alolan-1",
+            "pokemon": "exeggutor alolan",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_beach"
+                ]
+            }
         }
     ]
 }

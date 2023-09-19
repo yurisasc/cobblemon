@@ -7,7 +7,8 @@
             "id": "trevenant-1",
             "pokemon": "trevenant",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -27,7 +28,8 @@
             "id": "trevenant-2",
             "pokemon": "trevenant",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -50,7 +52,8 @@
             "id": "trevenant-3",
             "pokemon": "trevenant",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

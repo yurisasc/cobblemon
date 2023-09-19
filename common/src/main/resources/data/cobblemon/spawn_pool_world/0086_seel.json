@@ -7,7 +7,8 @@
             "id": "seel-1",
             "pokemon": "seel",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

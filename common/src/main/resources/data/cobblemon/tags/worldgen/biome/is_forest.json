@@ -42,6 +42,34 @@
 	{
       "id": "terralith:temperate_highlands",
       "required": false
+    },
+    {
+      "id": "wythers:dry_tropical_forest",
+      "required": false
+    },
+    {
+      "id": "wythers:birch_taiga",
+      "required": false
+    },
+    {
+      "id": "wythers:boreal_forest_red",
+      "required": false
+    },
+    {
+      "id": "wythers:boreal_forest_yellow",
+      "required": false
+    },
+    {
+      "id": "wythers:subtropical_forest",
+      "required": false
+    },
+    {
+      "id": "wythers:tangled_forest",
+      "required": false
+    },
+    {
+      "id": "wythers:tropical_forest",
+      "required": false
     }
   ]
 }

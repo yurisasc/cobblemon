@@ -28,7 +28,8 @@
             "pokemon": "ralts",
             "presets": [
                 "natural",
-                "urban"
+                "urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",

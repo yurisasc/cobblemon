@@ -1,5 +1,8 @@
 {
-  "condition": {
+  "anticondition": {
+	"structures": [
+	  "#minecraft:village"
+	],
 	"neededNearbyBlocks": [
       "minecraft:white_concrete",
       "minecraft:orange_concrete",
@@ -18,10 +21,5 @@
       "minecraft:red_concrete",
       "minecraft:black_concrete"
     ]
-  },
-  "anticondition": {
-    "structures": [
-	  "minecraft:trail_ruins"
-	]
   }
 }

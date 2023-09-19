@@ -8,6 +8,14 @@
 	{
       "id": "terralith:skylands_spring",
       "required": false
+    },
+    {
+      "id": "wythers:spring_flower_fields",
+      "required": false
+    },
+    {
+      "id": "wythers:spring_flower_forest",
+      "required": false
     }
   ]
 }

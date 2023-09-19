@@ -28,7 +28,8 @@
             "id": "tranquill-2",
             "pokemon": "tranquill",
             "presets": [
-                "urban"
+                "urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",

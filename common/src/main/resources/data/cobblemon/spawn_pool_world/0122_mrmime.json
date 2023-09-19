@@ -8,7 +8,8 @@
             "pokemon": "mrmime",
             "presets": [
                 "natural",
-				"urban"
+				"urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -28,7 +28,8 @@
             "id": "pidove-2",
             "pokemon": "pidove",
             "presets": [
-                "urban"
+                "urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",

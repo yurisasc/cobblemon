@@ -7,7 +7,8 @@
             "id": "phantump-1",
             "pokemon": "phantump",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -27,7 +28,8 @@
             "id": "phantump-2",
             "pokemon": "phantump",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -50,7 +52,8 @@
             "id": "phantump-3",
             "pokemon": "phantump",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

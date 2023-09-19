@@ -7,7 +7,8 @@
             "id": "tinkaton-1",
             "pokemon": "tinkaton",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

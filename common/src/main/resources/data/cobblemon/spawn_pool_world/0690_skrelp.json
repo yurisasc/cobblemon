@@ -11,7 +11,7 @@
             ],
             "type": "pokemon",
             "context": "submerged",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "7-32",
             "weight": 9.0,
             "condition": {

@@ -14,6 +14,22 @@
 	{
       "id": "terralith:orchid_swamp",
       "required": false
-    }
+    },
+    {
+      "id": "#wythers:is_swamp",
+      "required": false
+    },
+    {
+      "id": "wythers:ancient_oak_swamp",
+      "required": false
+    },
+    {
+      "id": "wythers:billabong",
+      "required": false
+    },
+	{
+      "id": "wythers:flooded_jungle",
+      "required": false 
+    } 
   ]
 }

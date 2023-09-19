@@ -26,7 +26,8 @@
             "pokemon": "umbreon",
             "presets": [
                 "natural",
-				"urban"
+				"urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",

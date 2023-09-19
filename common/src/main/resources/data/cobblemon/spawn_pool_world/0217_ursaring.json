@@ -7,7 +7,8 @@
             "id": "ursaring-1",
             "pokemon": "ursaring",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

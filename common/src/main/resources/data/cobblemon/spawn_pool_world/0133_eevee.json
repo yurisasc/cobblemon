@@ -22,7 +22,8 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_temperate"
+                    "#cobblemon:is_ocean",
+					"#cobblemon:is_temperate"
                 ]
             }
         },
@@ -49,7 +50,8 @@
             "pokemon": "eevee",
             "presets": [
                 "natural",
-				"urban"
+				"urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",

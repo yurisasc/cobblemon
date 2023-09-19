@@ -9,7 +9,8 @@
             "presets": [
                 "natural",
 				"foliage",
-                "treetop"
+                "treetop",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

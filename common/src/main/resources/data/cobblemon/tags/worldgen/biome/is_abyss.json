@@ -21,6 +21,14 @@
 	{
       "id": "terralith:cave/tuff_caves",
       "required": false
+    },
+    {
+      "id": "wythers:deep_dark_forest",
+      "required": false
+    },
+	{
+      "id": "wythers:deep_dark_incursion",
+      "required": false
     }
   ]
 }

@@ -26,7 +26,8 @@
             "pokemon": "glaceon",
             "presets": [
                 "natural",
-				"urban"
+				"urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",

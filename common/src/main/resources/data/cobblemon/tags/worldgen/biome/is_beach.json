@@ -1,17 +1,14 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:is_river",
-    {
-      "id": "terralith:warm_river",
-      "required": false
-    },
+    "minecraft:snowy_beach",
+    "minecraft:beach",
     {
       "id": "wythers:guelta",
       "required": false
     },
     {
-      "id": "wythers:tropical_forest_river",
+      "id": "wythers:sand_dunes",
       "required": false
     }
   ]

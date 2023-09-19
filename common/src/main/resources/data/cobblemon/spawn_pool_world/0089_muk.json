@@ -32,7 +32,8 @@
             "pokemon": "muk",
             "presets": [
                 "water_surface",
-				"urban"
+				"urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "surface",

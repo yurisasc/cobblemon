@@ -31,7 +31,8 @@
             "id": "zigzagoon-galarian-1",
             "pokemon": "zigzagoon galarian",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",

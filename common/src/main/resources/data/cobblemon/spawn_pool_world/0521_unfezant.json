@@ -28,7 +28,8 @@
             "id": "unfezant-2",
             "pokemon": "unfezant",
             "presets": [
-                "urban"
+                "urban",
+				"village"
             ],
             "type": "pokemon",
             "context": "grounded",

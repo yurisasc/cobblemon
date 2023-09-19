@@ -9,6 +9,34 @@
 	{
       "id": "terralith:cave/underground_jungle",
       "required": false
+    },
+    {
+      "id": "wythers:ancient_mossy_swamp",
+      "required": false
+    },
+	{
+      "id": "wythers:lichenous_caves",
+      "required": false
+    },
+	{
+      "id": "wythers:lichenous_dripstone_caves",
+      "required": false
+    },
+    {
+      "id": "wythers:lush_dripstone_caves",
+      "required": false
+    },
+    {
+      "id": "wythers:lush_fungous_dripstone_caves",
+      "required": false
+    },
+    {
+      "id": "wythers:lush_shroom_caves",
+      "required": false
+    },
+    {
+      "id": "wythers:waterlily_swamp",
+      "required": false
     }
   ]
 }

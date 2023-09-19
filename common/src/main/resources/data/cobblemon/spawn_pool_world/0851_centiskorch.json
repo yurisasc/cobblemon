@@ -7,7 +7,8 @@
             "id": "centiskorch-1",
             "pokemon": "centiskorch",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -17,7 +18,8 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_badlands"
+                    "#cobblemon:is_badlands",
+					"#cobblemon:is_volcanic"
                 ]
             }
         },
@@ -25,7 +27,8 @@
             "id": "centiskorch-2",
             "pokemon": "centiskorch",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -42,7 +45,8 @@
             "id": "centiskorch-3",
             "pokemon": "centiskorch",
             "presets": [
-                "natural"
+                "natural",
+				"wild"
             ],
             "type": "pokemon",
             "context": "grounded",
