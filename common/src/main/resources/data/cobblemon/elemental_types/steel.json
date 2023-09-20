@@ -33,12 +33,12 @@
     "cobblemon:water": "NEUTRAL"
   },
   "hiddenPowerInformation": {
-    "hp": "ODD",
-    "atk": "ODD",
-    "def": "ODD",
-    "spa": "ODD",
-    "spd": "EVEN",
-    "spe": "ODD"
+    "cobblemon:hp": "ODD",
+    "cobblemon:attack": "ODD",
+    "cobblemon:defence": "ODD",
+    "cobblemon:special_attack": "ODD",
+    "cobblemon:special_defence": "EVEN",
+    "cobblemon:speed": "ODD"
   },
   "clientData": {
     "hue": "0xC3CCE0",

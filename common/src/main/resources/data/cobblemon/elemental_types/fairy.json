@@ -21,12 +21,7 @@
     "cobblemon:water": "NEUTRAL"
   },
   "hiddenPowerInformation": {
-    "hp": "ODD",
-    "atk": "ODD",
-    "def": "ODD",
-    "spa": "ODD",
-    "spd": "ODD",
-    "spe": "ODD"
+    "impossible": true
   },
   "clientData": {
     "hue": "0xEA727E",
