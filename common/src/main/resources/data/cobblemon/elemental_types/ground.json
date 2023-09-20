@@ -1,0 +1,44 @@
+{
+  "name": "Ground",
+  "damageTaken": {
+    "sandstorm": {
+      "isShowdownEffect": true,
+      "value": "IMMUNE"
+    },
+    "cobblemon:bug": "NEUTRAL",
+    "cobblemon:dark": "NEUTRAL",
+    "cobblemon:dragon": "NEUTRAL",
+    "cobblemon:electric": "IMMUNE",
+    "cobblemon:fairy": "NEUTRAL",
+    "cobblemon:fighting": "NEUTRAL",
+    "cobblemon:fire": "NEUTRAL",
+    "cobblemon:flying": "NEUTRAL",
+    "cobblemon:ghost": "NEUTRAL",
+    "cobblemon:grass": "WEAK",
+    "cobblemon:ground": "NEUTRAL",
+    "cobblemon:ice": "WEAK",
+    "cobblemon:normal": "NEUTRAL",
+    "cobblemon:poison": "RESIST",
+    "cobblemon:psychic": "NEUTRAL",
+    "cobblemon:rock": "RESIST",
+    "cobblemon:steel": "NEUTRAL",
+    "cobblemon:water": "WEAK"
+  },
+  "hiddenPowerInformation": {
+    "hp": "ODD",
+    "atk": "ODD",
+    "def": "ODD",
+    "spa": "EVEN",
+    "spd": "EVEN",
+    "spe": "ODD"
+  },
+  "clientData": {
+    "hue": "0xD89950",
+    "typeWidget": {
+      "texture": "cobblemon:gui/types.png",
+      "coordinateMultiplier": {
+        "x": 8
+      }
+    }
+  }
+}

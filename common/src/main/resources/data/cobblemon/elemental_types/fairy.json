@@ -1,0 +1,40 @@
+{
+  "name": "Fairy",
+  "damageTaken": {
+    "cobblemon:bug": "RESIST",
+    "cobblemon:dark": "RESIST",
+    "cobblemon:dragon": "IMMUNE",
+    "cobblemon:electric": "NEUTRAL",
+    "cobblemon:fairy": "NEUTRAL",
+    "cobblemon:fighting": "RESIST",
+    "cobblemon:fire": "NEUTRAL",
+    "cobblemon:flying": "NEUTRAL",
+    "cobblemon:ghost": "NEUTRAL",
+    "cobblemon:grass": "NEUTRAL",
+    "cobblemon:ground": "NEUTRAL",
+    "cobblemon:ice": "NEUTRAL",
+    "cobblemon:normal": "NEUTRAL",
+    "cobblemon:poison": "WEAK",
+    "cobblemon:psychic": "NEUTRAL",
+    "cobblemon:rock": "NEUTRAL",
+    "cobblemon:steel": "WEAK",
+    "cobblemon:water": "NEUTRAL"
+  },
+  "hiddenPowerInformation": {
+    "hp": "ODD",
+    "atk": "ODD",
+    "def": "ODD",
+    "spa": "ODD",
+    "spd": "ODD",
+    "spe": "ODD"
+  },
+  "clientData": {
+    "hue": "0xEA727E",
+    "typeWidget": {
+      "texture": "cobblemon:gui/types.png",
+      "coordinateMultiplier": {
+        "x": 17
+      }
+    }
+  }
+}

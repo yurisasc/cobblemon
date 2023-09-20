@@ -1,0 +1,44 @@
+{
+  "name": "Rock",
+  "damageTaken": {
+    "sandstorm": {
+      "isShowdownEffect": true,
+      "value": "IMMUNE"
+    },
+    "cobblemon:bug": "NEUTRAL",
+    "cobblemon:dark": "NEUTRAL",
+    "cobblemon:dragon": "NEUTRAL",
+    "cobblemon:electric": "NEUTRAL",
+    "cobblemon:fairy": "NEUTRAL",
+    "cobblemon:fighting": "WEAK",
+    "cobblemon:fire": "RESIST",
+    "cobblemon:flying": "RESIST",
+    "cobblemon:ghost": "NEUTRAL",
+    "cobblemon:grass": "WEAK",
+    "cobblemon:ground": "WEAK",
+    "cobblemon:ice": "NEUTRAL",
+    "cobblemon:normal": "RESIST",
+    "cobblemon:poison": "RESIST",
+    "cobblemon:psychic": "NEUTRAL",
+    "cobblemon:rock": "NEUTRAL",
+    "cobblemon:steel": "WEAK",
+    "cobblemon:water": "WEAK"
+  },
+  "hiddenPowerInformation": {
+    "hp": "EVEN",
+    "atk": "ODD",
+    "def": "EVEN",
+    "spa": "ODD",
+    "spd": "EVEN",
+    "spe": "EVEN"
+  },
+  "clientData": {
+    "hue": "0xAA9666",
+    "typeWidget": {
+      "texture": "cobblemon:gui/types.png",
+      "coordinateMultiplier": {
+        "x": 12
+      }
+    }
+  }
+}

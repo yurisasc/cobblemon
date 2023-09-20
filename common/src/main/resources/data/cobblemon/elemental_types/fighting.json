@@ -1,0 +1,40 @@
+{
+  "name": "Fighting",
+  "damageTaken": {
+    "cobblemon:bug": "RESIST",
+    "cobblemon:dark": "RESIST",
+    "cobblemon:dragon": "NEUTRAL",
+    "cobblemon:electric": "NEUTRAL",
+    "cobblemon:fairy": "WEAK",
+    "cobblemon:fighting": "NEUTRAL",
+    "cobblemon:fire": "NEUTRAL",
+    "cobblemon:flying": "WEAK",
+    "cobblemon:ghost": "NEUTRAL",
+    "cobblemon:grass": "NEUTRAL",
+    "cobblemon:ground": "NEUTRAL",
+    "cobblemon:ice": "NEUTRAL",
+    "cobblemon:normal": "NEUTRAL",
+    "cobblemon:poison": "NEUTRAL",
+    "cobblemon:psychic": "WEAK",
+    "cobblemon:rock": "RESIST",
+    "cobblemon:steel": "NEUTRAL",
+    "cobblemon:water": "NEUTRAL"
+  },
+  "hiddenPowerInformation": {
+    "hp": "EVEN",
+    "atk": "ODD",
+    "def": "EVEN",
+    "spa": "EVEN",
+    "spd": "EVEN",
+    "spe": "EVEN"
+  },
+  "clientData": {
+    "hue": "0xC44C5C",
+    "typeWidget": {
+      "texture": "cobblemon:gui/types.png",
+      "coordinateMultiplier": {
+        "x": 6
+      }
+    }
+  }
+}

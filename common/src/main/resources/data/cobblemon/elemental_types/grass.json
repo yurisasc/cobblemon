@@ -1,0 +1,44 @@
+{
+  "name": "Grass",
+  "damageTaken": {
+    "powder": {
+      "isShowdownEffect": true,
+      "value": "IMMUNE"
+    },
+    "cobblemon:bug": "WEAK",
+    "cobblemon:dark": "NEUTRAL",
+    "cobblemon:dragon": "NEUTRAL",
+    "cobblemon:electric": "RESIST",
+    "cobblemon:fairy": "NEUTRAL",
+    "cobblemon:fighting": "NEUTRAL",
+    "cobblemon:fire": "WEAK",
+    "cobblemon:flying": "WEAK",
+    "cobblemon:ghost": "NEUTRAL",
+    "cobblemon:grass": "RESIST",
+    "cobblemon:ground": "RESIST",
+    "cobblemon:ice": "WEAK",
+    "cobblemon:normal": "NEUTRAL",
+    "cobblemon:poison": "WEAK",
+    "cobblemon:psychic": "NEUTRAL",
+    "cobblemon:rock": "NEUTRAL",
+    "cobblemon:steel": "NEUTRAL",
+    "cobblemon:water": "RESIST"
+  },
+  "hiddenPowerInformation": {
+    "hp": "ODD",
+    "atk": "EVEN",
+    "def": "ODD",
+    "spa": "EVEN",
+    "spd": "ODD",
+    "spe": "ODD"
+  },
+  "clientData": {
+    "hue": "0x4DBC3C",
+    "typeWidget": {
+      "texture": "cobblemon:gui/types.png",
+      "coordinateMultiplier": {
+        "x": 3
+      }
+    }
+  }
+}

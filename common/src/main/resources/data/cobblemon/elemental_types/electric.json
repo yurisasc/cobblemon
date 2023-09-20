@@ -1,0 +1,44 @@
+{
+  "name": "Electric",
+  "damageTaken": {
+    "par": {
+      "isShowdownEffect": true,
+      "value": "IMMUNE"
+    },
+    "cobblemon:bug": "NEUTRAL",
+    "cobblemon:dark": "NEUTRAL",
+    "cobblemon:dragon": "NEUTRAL",
+    "cobblemon:electric": "RESIST",
+    "cobblemon:fairy": "NEUTRAL",
+    "cobblemon:fighting": "NEUTRAL",
+    "cobblemon:fire": "NEUTRAL",
+    "cobblemon:flying": "RESIST",
+    "cobblemon:ghost": "NEUTRAL",
+    "cobblemon:grass": "NEUTRAL",
+    "cobblemon:ground": "WEAK",
+    "cobblemon:ice": "NEUTRAL",
+    "cobblemon:normal": "NEUTRAL",
+    "cobblemon:poison": "NEUTRAL",
+    "cobblemon:psychic": "NEUTRAL",
+    "cobblemon:rock": "NEUTRAL",
+    "cobblemon:steel": "RESIST",
+    "cobblemon:water": "NEUTRAL"
+  },
+  "hiddenPowerInformation": {
+    "hp": "ODD",
+    "atk": "ODD",
+    "def": "ODD",
+    "spa": "EVEN",
+    "spd": "ODD",
+    "spe": "ODD"
+  },
+  "clientData": {
+    "hue": "0xEFD128",
+    "typeWidget": {
+      "texture": "cobblemon:gui/types.png",
+      "coordinateMultiplier": {
+        "x": 2
+      }
+    }
+  }
+}

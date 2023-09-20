@@ -1,0 +1,37 @@
+{
+  "name": "Normal",
+  "damageTaken": {
+    "cobblemon:bug": "NEUTRAL",
+    "cobblemon:dark": "NEUTRAL",
+    "cobblemon:dragon": "NEUTRAL",
+    "cobblemon:electric": "NEUTRAL",
+    "cobblemon:fairy": "NEUTRAL",
+    "cobblemon:fighting": "WEAK",
+    "cobblemon:fire": "NEUTRAL",
+    "cobblemon:flying": "NEUTRAL",
+    "cobblemon:ghost": "IMMUNE",
+    "cobblemon:grass": "NEUTRAL",
+    "cobblemon:ground": "NEUTRAL",
+    "cobblemon:ice": "NEUTRAL",
+    "cobblemon:normal": "NEUTRAL",
+    "cobblemon:poison": "NEUTRAL",
+    "cobblemon:psychic": "NEUTRAL",
+    "cobblemon:rock": "NEUTRAL",
+    "cobblemon:steel": "NEUTRAL",
+    "cobblemon:water": "NEUTRAL"
+  },
+  "hiddenPowerInformation": {
+    "hp": "ODD",
+    "atk": "ODD",
+    "def": "ODD",
+    "spa": "ODD",
+    "spd": "ODD",
+    "spe": "ODD"
+  },
+  "clientData": {
+    "hue": "0xDDDDCF",
+    "typeWidget": {
+      "texture": "cobblemon:gui/types.png"
+    }
+  }
+}

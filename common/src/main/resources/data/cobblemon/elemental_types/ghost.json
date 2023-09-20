@@ -1,0 +1,44 @@
+{
+  "name": "Ghost",
+  "damageTaken": {
+    "trapped": {
+      "isShowdownEffect": true,
+      "value": "IMMUNE"
+    },
+    "cobblemon:bug": "RESIST",
+    "cobblemon:dark": "WEAK",
+    "cobblemon:dragon": "NEUTRAL",
+    "cobblemon:electric": "NEUTRAL",
+    "cobblemon:fairy": "NEUTRAL",
+    "cobblemon:fighting": "IMMUNE",
+    "cobblemon:fire": "NEUTRAL",
+    "cobblemon:flying": "NEUTRAL",
+    "cobblemon:ghost": "WEAK",
+    "cobblemon:grass": "NEUTRAL",
+    "cobblemon:ground": "NEUTRAL",
+    "cobblemon:ice": "NEUTRAL",
+    "cobblemon:normal": "IMMUNE",
+    "cobblemon:poison": "RESIST",
+    "cobblemon:psychic": "NEUTRAL",
+    "cobblemon:rock": "NEUTRAL",
+    "cobblemon:steel": "NEUTRAL",
+    "cobblemon:water": "NEUTRAL"
+  },
+  "hiddenPowerInformation": {
+    "hp": "ODD",
+    "atk": "ODD",
+    "def": "EVEN",
+    "spa": "ODD",
+    "spd": "EVEN",
+    "spe": "ODD"
+  },
+  "clientData": {
+    "hue": "0x9572E5",
+    "typeWidget": {
+      "texture": "cobblemon:gui/types.png",
+      "coordinateMultiplier": {
+        "x": 13
+      }
+    }
+  }
+}
