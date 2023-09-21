@@ -263,10 +263,9 @@ object CobblemonFabric : CobblemonImplementation {
     override fun <T> createRegistry(
         registryKey: RegistryKey<Registry<T>>,
         codec: Codec<T>,
-        networkCodec: Codec<T>,
-        syncToClient: Boolean
+        networkCodec: Codec<T>?
     ) {
-        if (syncToClient) {
+        if (networkCodec != null) {
             DynamicRegistries.registerSynced(registryKey, codec, networkCodec)
             return
         }

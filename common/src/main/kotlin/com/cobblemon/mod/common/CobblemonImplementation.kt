@@ -31,6 +31,7 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
+import org.jetbrains.annotations.ApiStatus
 
 interface CobblemonImplementation {
     val modAPI: ModAPI
@@ -163,23 +164,31 @@ interface CobblemonImplementation {
     fun server(): MinecraftServer?
 
     /**
-     * TODO
+     * Queue the creation of a registry in the implementation.
+     * This registry will not be immediately available for access.
      *
-     * @param T
-     * @param registryKey
-     * @param codec
-     * @param networkCodec
-     * @param syncToClient
+     * @param T The type of the registry entries.
+     * @param registryKey The [RegistryKey] of this registry.
+     * @param codec The [Codec] used for this registry entries to be parsed on the server.
+     * @param networkCodec The [Codec] used when the client is synchronizing this registry from the server. If this is null the client will not require the registry aka not load any data.
+     *
+     * @see getRegistry
      */
-    fun <T> createRegistry(registryKey: RegistryKey<Registry<T>>, codec: Codec<T>, networkCodec: Codec<T> = codec, syncToClient: Boolean = true)
+    @ApiStatus.Internal
+    fun <T> createRegistry(registryKey: RegistryKey<Registry<T>>, codec: Codec<T>, networkCodec: Codec<T>? = null)
 
     /**
-     * TODO
+     * Fetches a registry.
+     * This is intended for Cobblemon registries but can be used for any.
      *
-     * @param T
-     * @param registryKey
-     * @return
+     * @param T The type of the registry.
+     * @param registryKey The [RegistryKey] of the registry being fetched.
+     * @return The registry if present.
+     *
+     * @throws Exception If the registry doesn't exist or isn't loaded yet.
+     * @see createRegistry
      */
+    @ApiStatus.Internal
     fun <T> getRegistry(registryKey: RegistryKey<Registry<T>>): Registry<T>
 
 }
