@@ -117,8 +117,6 @@ import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
 
 open class Pokemon : ShowdownIdentifiable {
     var uuid = UUID.randomUUID()
@@ -333,6 +331,8 @@ open class Pokemon : ShowdownIdentifiable {
         set(value) { field = value ; _nature.emit(value) }
     var mintedNature: Nature? = null
         set(value) { field = value ; _mintedNature.emit(value) }
+    val effectiveNature: Nature
+        get() = mintedNature ?: nature
 
     val moveSet = MoveSet()
 
@@ -471,7 +471,7 @@ open class Pokemon : ShowdownIdentifiable {
     ): CompletableFuture<PokemonEntity> {
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
-            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.8F)
+            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.6F)
             it.phasingTargetId.set(source.id)
             it.beamModeEmitter.set(1)
             it.battleId.set(Optional.ofNullable(battleId))
