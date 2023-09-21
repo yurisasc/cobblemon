@@ -66,7 +66,7 @@ class MoveSwapScreen(
         ) {
             val matrices = context.matrices
             val tweakedRowTop = rowTop - (SLOT_SPACING / 2) + 1
-            val rgb = move.elementalType.hue.toRGB()
+            val rgb = move.elementalType.clientData.hue.toRGB()
 
             blitk(
                 matrixStack = matrices,

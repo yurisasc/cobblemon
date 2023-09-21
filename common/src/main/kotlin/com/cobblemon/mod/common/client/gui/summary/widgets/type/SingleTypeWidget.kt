@@ -18,7 +18,7 @@ class SingleTypeWidget(
     pWidth: Int, pHeight: Int,
     private val type: ElementalType,
     private val renderText: Boolean = true
-) : TypeWidget(pX, pY, pWidth, pHeight, Text.literal("SingleTypeWidget - ${type.name}")) {
+) : TypeWidget(pX, pY, pWidth, pHeight, Text.literal("SingleTypeWidget - ").append(type.displayName)) {
 
     override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val matrices = context.matrices

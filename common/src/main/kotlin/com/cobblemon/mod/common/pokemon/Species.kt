@@ -21,8 +21,8 @@ import com.cobblemon.mod.common.api.pokemon.evolution.PreEvolution
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -35,6 +35,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.random.Random
 
 class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var name: String = "Bulbasaur"
@@ -57,7 +58,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         private set
     var experienceGroup = ExperienceGroups.first()
     var hitbox = EntityDimensions(1F, 1F, false)
-    var primaryType = ElementalTypes.GRASS
+    var primaryType: ElementalType = CobblemonRegistries.ELEMENTAL_TYPE.getRandom(Random.create()).get().value()
         internal set
     var secondaryType: ElementalType? = null
         internal set
@@ -176,9 +177,8 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
             { keyBuffer, stat -> Cobblemon.statProvider.encode(keyBuffer, stat)},
             { valueBuffer, value -> valueBuffer.writeSizedInt(IntSize.U_SHORT, value) }
         )
-        // ToDo remake once we have custom typing support
-        buffer.writeString(this.primaryType.name)
-        buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE, this.primaryType)
+        buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE, type) }
         buffer.writeString(this.experienceGroup.name)
         buffer.writeFloat(this.height)
         buffer.writeFloat(this.weight)
@@ -201,8 +201,8 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
             { keyBuffer -> Cobblemon.statProvider.decode(keyBuffer) },
             { valueBuffer -> valueBuffer.readSizedInt(IntSize.U_SHORT) })
         )
-        this.primaryType = ElementalTypes.getOrException(buffer.readString())
-        this.secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }
+        this.primaryType = buffer.readRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE)!!
+        this.secondaryType = buffer.readNullable { pb -> pb.readRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE)!! }
         this.experienceGroup = ExperienceGroups.findByName(buffer.readString())!!
         this.height = buffer.readFloat()
         this.weight = buffer.readFloat()

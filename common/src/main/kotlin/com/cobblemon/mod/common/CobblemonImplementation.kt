@@ -12,12 +12,14 @@ import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.mojang.brigadier.arguments.ArgumentType
+import com.mojang.serialization.Codec
 import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
+import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.ResourceReloader
@@ -159,6 +161,26 @@ interface CobblemonImplementation {
      * @return
      */
     fun server(): MinecraftServer?
+
+    /**
+     * TODO
+     *
+     * @param T
+     * @param registryKey
+     * @param codec
+     * @param networkCodec
+     * @param syncToClient
+     */
+    fun <T> createRegistry(registryKey: RegistryKey<Registry<T>>, codec: Codec<T>, networkCodec: Codec<T> = codec, syncToClient: Boolean = true)
+
+    /**
+     * TODO
+     *
+     * @param T
+     * @param registryKey
+     * @return
+     */
+    fun <T> getRegistry(registryKey: RegistryKey<Registry<T>>): Registry<T>
 
 }
 

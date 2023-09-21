@@ -32,6 +32,7 @@ interface ShowdownService {
     fun getItemIds(): JsonArray
     fun registerSpecies()
     fun registerBagItems()
+    fun registerTypes()
     fun indicateSpeciesInitialized() {}
 
 

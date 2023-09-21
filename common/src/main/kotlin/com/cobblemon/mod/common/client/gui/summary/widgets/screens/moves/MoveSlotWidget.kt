@@ -70,7 +70,7 @@ class MoveSlotWidget(
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
 
         val moveTemplate = Moves.getByNameOrDummy(move.name)
-        val rgb = moveTemplate.elementalType.hue.toRGB()
+        val rgb = moveTemplate.elementalType.clientData.hue.toRGB()
 
         if (movesWidget.selectedMove == move) {
             blitk(
@@ -153,10 +153,10 @@ class MoveSlotWidget(
         switchMoveButton.render(context, pMouseX, pMouseY, pPartialTicks)
     }
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+    override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
         if (isHovered) {
             movesWidget.selectMove(move)
         }
-        return super.mouseClicked(mouseX, mouseY, button)
+        return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 }

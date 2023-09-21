@@ -28,8 +28,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
-import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
+import com.cobblemon.mod.common.api.types.CobblemonElementalTypeTags
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
@@ -56,9 +55,6 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import net.minecraft.block.BlockState
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
@@ -104,6 +100,8 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.util.*
+import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 class PokemonEntity(
@@ -284,14 +282,14 @@ class PokemonEntity(
      * Prevents fire type Pokémon from taking fire damage.
      */
     override fun isFireImmune(): Boolean {
-        return FIRE in pokemon.types || !behaviour.moving.swim.hurtByLava
+        return pokemon.types.any { it.isIn(CobblemonElementalTypeTags.FIRE_IMMUNE) } || !behaviour.moving.swim.hurtByLava
     }
 
     /**
      * Prevents flying type Pokémon from taking fall damage.
      */
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource?): Boolean {
-        return if (ElementalTypes.FLYING in pokemon.types || pokemon.ability.name == "levitate") {
+        return if (pokemon.types.any { it.isIn(CobblemonElementalTypeTags.FALL_DAMAGE_IMMUNE) } || pokemon.ability.name == "levitate") {
             false
         } else {
             super.handleFallDamage(fallDistance, damageMultiplier, damageSource)

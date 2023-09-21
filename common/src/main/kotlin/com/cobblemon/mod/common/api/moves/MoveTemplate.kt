@@ -10,12 +10,13 @@ package com.cobblemon.mod.common.api.moves
 
 import com.cobblemon.mod.common.api.moves.categories.DamageCategories
 import com.cobblemon.mod.common.api.moves.categories.DamageCategory
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.MoveTarget
 import com.cobblemon.mod.common.util.lang
 import com.google.gson.annotations.SerializedName
 import net.minecraft.text.MutableText
+import net.minecraft.util.math.random.Random
 
 /**
  * This class represents the base of a Move.
@@ -57,7 +58,7 @@ open class MoveTemplate(
     class Dummy(name: String) : MoveTemplate(
         name = name,
         num = -1,
-        elementalType = ElementalTypes.NORMAL,
+        elementalType = CobblemonRegistries.ELEMENTAL_TYPE.getRandom(Random.create()).orElseThrow().value(),
         damageCategory = DamageCategories.STATUS,
         power = 0.0,
         target = MoveTarget.all,

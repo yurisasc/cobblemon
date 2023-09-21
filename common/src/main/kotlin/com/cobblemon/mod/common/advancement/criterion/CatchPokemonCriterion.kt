@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.advancement.criterion
 
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonObject
 import net.minecraft.predicate.entity.LootContextPredicate
 import net.minecraft.server.network.ServerPlayerEntity
@@ -30,7 +31,11 @@ class CaughtPokemonCriterionCondition(id: Identifier, predicate: LootContextPred
 
     override fun fromJson(json: JsonObject) {
         super.fromJson(json)
-        type = json.get("type")?.asString ?: "any"
+        var stored = json.get("type")?.asString
+        if (stored != null && stored != "any") {
+            stored = stored.asIdentifierDefaultingNamespace().toString()
+        }
+        type = stored ?: "any"
     }
 
     override fun matches(player: ServerPlayerEntity, context: CountablePokemonTypeContext): Boolean {

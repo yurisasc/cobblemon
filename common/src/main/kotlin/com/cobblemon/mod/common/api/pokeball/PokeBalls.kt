@@ -24,7 +24,7 @@ import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.api.types.CobblemonElementalTypeTags
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
@@ -136,13 +136,13 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         createDefault("fast_ball", BaseStatModifier(Stats.SPEED, { it >= 100 }, 4F))
         createDefault("level_ball", CatchRateModifiers.LEVEL)
         // ToDo we will need fishing context here once fishing is implemented for a multiplier
-        createDefault("lure_ball", CatchRateModifiers.typeBoosting(2F, ElementalTypes.WATER))
+        createDefault("lure_ball", CatchRateModifiers.typeBoosting(2F, CobblemonElementalTypeTags.LURE_BALL_BOOSTING))
         createDefault("heavy_ball", CatchRateModifiers.WEIGHT_BASED)
         createDefault("love_ball", CatchRateModifiers.LOVE)
         createDefault("friend_ball", effects = listOf(CaptureEffects.friendshipSetter(150)))
         createDefault("moon_ball", CatchRateModifiers.MOON_PHASES)
         createDefault("sport_ball", MultiplierModifier(1.5F))
-        createDefault("net_ball", CatchRateModifiers.typeBoosting(3F, ElementalTypes.BUG, ElementalTypes.WATER))
+        createDefault("net_ball", CatchRateModifiers.typeBoosting(3F, CobblemonElementalTypeTags.NET_BALL_BOOSTING))
         createDefault("dive_ball", CatchRateModifiers.SUBMERGED_IN_WATER, waterDragValue = 0.99F)
         createDefault("nest_ball", CatchRateModifiers.NEST)
         // ToDo implement effect once pokedex is implemented, we have a custom multiplier of 2.5 instead of the official pokeball

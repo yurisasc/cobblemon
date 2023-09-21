@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.gui.interact.moveselect
 
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.text.bold
@@ -49,7 +48,7 @@ class MoveSlotButton(
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height && enabled
 
         val moveTemplate = Moves.getByNameOrDummy(move.name)
-        val rgb = moveTemplate.elementalType.hue.toRGB()
+        val rgb = moveTemplate.elementalType.clientData.hue.toRGB()
 
         val alpha = if (enabled) 1.0 else 0.5
 

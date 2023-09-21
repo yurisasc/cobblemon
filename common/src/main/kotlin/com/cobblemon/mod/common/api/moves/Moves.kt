@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.moves.categories.DamageCategories
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.battles.MoveTarget
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.data.MovesRegistrySyncPacket
@@ -44,7 +44,7 @@ object Moves : DataRegistry {
             val id = jsMove.get("id").asString
             try {
                 val num = jsMove.get("num").asInt
-                val elementalType = ElementalTypes.getOrException(jsMove.get("type").asString)
+                val elementalType = CobblemonRegistries.ELEMENTAL_TYPE.first { it.showdownId() == jsMove.get("type").asString }
                 val damageCategory = DamageCategories.getOrException(jsMove.get("category").asString)
                 val power = jsMove.get("basePower").asDouble
                 val target = MoveTarget.fromShowdownId(jsMove.get("target").asString)

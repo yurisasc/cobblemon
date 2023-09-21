@@ -30,7 +30,7 @@ object AdvancementHandler {
         CobblemonCriteria.CATCH_POKEMON.trigger(event.player, CountablePokemonTypeContext(advancementData.totalCaptureCount, "any"))
         event.pokemon.types.forEach {
             advancementData.updateTotalTypeCaptureCount(it)
-            CobblemonCriteria.CATCH_POKEMON.trigger(event.player, CountablePokemonTypeContext(advancementData.getTotalTypeCaptureCount(it), it.name))
+            CobblemonCriteria.CATCH_POKEMON.trigger(event.player, CountablePokemonTypeContext(advancementData.getTotalTypeCaptureCount(it), it.id.toString()))
         }
         if (event.pokemon.shiny) {
             advancementData.updateTotalShinyCaptureCount()

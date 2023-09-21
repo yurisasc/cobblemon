@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.pokemon.Gender
+import net.minecraft.registry.tag.TagKey
 
 /**
  * A collection of some default usages of [CatchRateModifier]s.
@@ -139,11 +140,11 @@ object CatchRateModifiers {
      * Used by [PokeBalls.NET_BALL].
      * Boosts the catch rate if the target is of the given types.
      *
-     * @param multiplier The multiplier to be applied if the target has any of the accepted [types].
-     * @param types The [ElementalType]s that will trigger the multiplier.
+     * @param multiplier The multiplier to be applied if the target has any of the accepted [typeTag].
+     * @param typeTag The [ElementalType] [TagKey] that will trigger the multiplier.
      * @return The multiplier modifier.
      */
-    fun typeBoosting(multiplier: Float, vararg types: ElementalType): CatchRateModifier = MultiplierModifier(multiplier) { _, pokemon -> pokemon.types.any { type -> types.contains(type) } }
+    fun typeBoosting(multiplier: Float, typeTag: TagKey<ElementalType>): CatchRateModifier = MultiplierModifier(multiplier) { _, pokemon -> pokemon.types.any { type -> type.isIn(typeTag) } }
 
     /**
      * Used by [PokeBalls.DREAM_BALL].

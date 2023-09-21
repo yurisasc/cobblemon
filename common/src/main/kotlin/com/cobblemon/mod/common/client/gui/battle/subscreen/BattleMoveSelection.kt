@@ -30,7 +30,6 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper.floor
 
@@ -73,9 +72,9 @@ class BattleMoveSelection(
         val y: Float
     ) {
         val moveTemplate = Moves.getByNameOrDummy(move.id)
-        val rgb = moveTemplate.elementalType.hue.toRGB()
+        val rgb = moveTemplate.elementalType.clientData.hue.toRGB()
 
-        fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        fun render(context: DrawContext, mouseX: Int, mouseY: Int) {
 
             val unselectable = move.disabled
             val selectConditionOpacity = moveSelection.opacity * if (unselectable) 0.5F else 1F
@@ -172,18 +171,18 @@ class BattleMoveSelection(
 
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         moveTiles.forEach {
-            it.render(context, mouseX, mouseY, delta)
+            it.render(context, mouseX, mouseY)
         }
 
         backButton.render(context.matrices, mouseX, mouseY, delta)
     }
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        val move = moveTiles.find { it.isHovered(mouseX, mouseY) }
+    override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
+        val move = moveTiles.find { it.isHovered(pMouseX, pMouseY) }
         if (move != null) {
             move.onClick()
             return true
-        } else if (backButton.isHovered(mouseX, mouseY)) {
+        } else if (backButton.isHovered(pMouseX, pMouseY)) {
             playDownSound(MinecraftClient.getInstance().soundManager)
             battleGUI.changeActionSelection(null)
         }

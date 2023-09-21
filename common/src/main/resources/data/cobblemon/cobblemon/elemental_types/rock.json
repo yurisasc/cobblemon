@@ -1,0 +1,115 @@
+{
+  "damageTaken": [
+    {
+      "value": "sandstorm",
+      "resistance": "IMMUNE",
+      "variant": "EFFECT_ID"
+    },
+    {
+      "value": "cobblemon:bug",
+      "resistance": "NEUTRAL",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:dark",
+      "resistance": "NEUTRAL",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:dragon",
+      "resistance": "NEUTRAL",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:electric",
+      "resistance": "NEUTRAL",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:fairy",
+      "resistance": "NEUTRAL",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:fighting",
+      "resistance": "WEAK",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:fire",
+      "resistance": "RESIST",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:flying",
+      "resistance": "RESIST",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:ghost",
+      "resistance": "NEUTRAL",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:grass",
+      "resistance": "WEAK",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:ground",
+      "resistance": "WEAK",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:ice",
+      "resistance": "NEUTRAL",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:normal",
+      "resistance": "RESIST",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:poison",
+      "resistance": "RESIST",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:psychic",
+      "resistance": "NEUTRAL",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:rock",
+      "resistance": "NEUTRAL",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:steel",
+      "resistance": "WEAK",
+      "variant": "ELEMENTAL_TYPE"
+    },
+    {
+      "value": "cobblemon:water",
+      "resistance": "WEAK",
+      "variant": "ELEMENTAL_TYPE"
+    }
+  ],
+  "hiddenPowerInformation": {
+    "cobblemon:hp": "EVEN",
+    "cobblemon:attack": "ODD",
+    "cobblemon:defence": "EVEN",
+    "cobblemon:special_attack": "ODD",
+    "cobblemon:special_defence": "EVEN",
+    "cobblemon:speed": "EVEN"
+  },
+  "clientData": {
+    "hue": "0xAA9666",
+    "typeWidget": {
+      "primaryTexture": "cobblemon:textures/gui/types.png",
+      "secondaryTexture": "cobblemon:textures/gui/types_small.png",
+      "uOffset": 12
+    }
+  }
+}

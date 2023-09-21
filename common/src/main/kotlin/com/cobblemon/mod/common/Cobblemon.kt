@@ -6,6 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+@file:Suppress("unused")
+
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
@@ -40,6 +42,7 @@ import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
+import com.cobblemon.mod.common.api.registry.CobblemonRegistryKeys
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
@@ -56,6 +59,7 @@ import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
+import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -144,6 +148,7 @@ object Cobblemon {
 
     fun preInitialize(implementation: CobblemonImplementation) {
         this.implementation = implementation
+        this.queueRegistryCreation()
         implementation.registerPermissionValidator()
         implementation.registerSoundEvents()
         implementation.registerBlocks()
@@ -417,6 +422,10 @@ object Cobblemon {
         this.implementation.registerCommandArgument(cobblemonResource("move"), MoveArgumentType::class, ConstantArgumentSerializer.of(MoveArgumentType::move))
         this.implementation.registerCommandArgument(cobblemonResource("party_slot"), PartySlotArgumentType::class, ConstantArgumentSerializer.of(PartySlotArgumentType::partySlot))
         this.implementation.registerCommandArgument(cobblemonResource("pokemon_store"), PokemonStoreArgumentType::class, ConstantArgumentSerializer.of(PokemonStoreArgumentType::pokemonStore))
+    }
+
+    private fun queueRegistryCreation() {
+        this.implementation.createRegistry(CobblemonRegistryKeys.ELEMENTAL_TYPE, ElementalType.CODEC, ElementalType.NETWORK_CODEC)
     }
 
 }
