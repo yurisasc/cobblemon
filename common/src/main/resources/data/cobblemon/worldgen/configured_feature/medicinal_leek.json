@@ -38,7 +38,8 @@
                 "type": "cobblemon:biome",
                 "excludedBiomes": [
                   "#cobblemon:is_cold",
-                  "#minecraft:is_beach"
+                  "#cobblemon:is_coast",
+                  "#cobblemon:is_ocean"
                 ]
               },
               {
