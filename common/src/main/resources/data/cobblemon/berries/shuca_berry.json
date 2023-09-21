@@ -4,7 +4,8 @@
     "max": 3
   },
   "preferredBiomeTags": [
-    "cobblemon:is_arid"
+    "cobblemon:is_arid",
+    "cobblemon:is_grassland"
   ],
   "growthTime": {
     "min": 50,
@@ -15,6 +16,7 @@
     "max": 26
   },
   "favoriteMulches": [
+    "loamy",
     "sandy"
   ],
   "growthFactors": [
@@ -27,7 +29,13 @@
     }
   ],
   "randomizedGrowthPoints": true,
-  "spawnConditions": [],
+  "spawnConditions": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "minGroveSize": 3,
+      "maxGroveSize": 5
+    }
+  ],
   "growthPoints": [
     {
       "position": {
@@ -86,6 +94,42 @@
       "rotation": {
         "x": 15.0,
         "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 12.25,
+        "y": 10.0,
+        "z": 3.75
+      },
+      "rotation": {
+        "x": 15.0,
+        "y": -45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 12.25,
+        "y": 10.0,
+        "z": 12.25
+      },
+      "rotation": {
+        "x": 15.0,
+        "y": -135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 3.75,
+        "y": 10.0,
+        "z": 12.25
+      },
+      "rotation": {
+        "x": 15.0,
+        "y": 135.0,
         "z": 0.0
       }
     }

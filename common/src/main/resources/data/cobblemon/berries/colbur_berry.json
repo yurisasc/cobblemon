@@ -30,7 +30,13 @@
     }
   ],
   "randomizedGrowthPoints": true,
-  "spawnConditions": [],
+  "spawnConditions": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "minGroveSize": 3,
+      "maxGroveSize": 5
+    }
+  ],
   "growthPoints": [
     {
       "position": {
@@ -90,6 +96,18 @@
         "x": -170.0,
         "y": -22.5,
         "z": -172.5
+      }
+    },
+    {
+      "position": {
+        "x": 6.5,
+        "y": 19.25,
+        "z": 5.0
+      },
+      "rotation": {
+        "x": 15.0,
+        "y": -10.0,
+        "z": -22.5
       }
     }
   ],
