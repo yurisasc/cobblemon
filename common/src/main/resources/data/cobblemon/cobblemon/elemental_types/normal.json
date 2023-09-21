@@ -101,9 +101,7 @@
   },
   "clientData": {
     "hue": "0xDDDDCF",
-    "typeWidget": {
-      "primaryTexture": "cobblemon:textures/gui/types.png",
-      "secondaryTexture": "cobblemon:textures/gui/types_small.png"
-    }
+    "primaryTexture": "cobblemon:textures/gui/types.png",
+    "secondaryTexture": "cobblemon:textures/gui/types_small.png"
   }
 }
