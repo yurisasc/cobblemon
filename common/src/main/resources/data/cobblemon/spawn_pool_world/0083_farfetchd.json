@@ -41,7 +41,7 @@
             "id": "farfetchd-galarian-1",
             "pokemon": "farfetchd galarian",
             "presets": [
-                "natural"
+                "natural",
 				"wild"
             ],
             "type": "pokemon",
