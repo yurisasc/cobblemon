@@ -60,18 +60,18 @@ class PlayerAdvancementData {
     }
 
     fun getTotalTypeCaptureCount(type: ElementalType): Int {
-        if (!totalTypeCaptureCounts.containsKey(type.id)) {
-            totalTypeCaptureCounts[type.id] = 0
+        if (!totalTypeCaptureCounts.containsKey(type.id())) {
+            totalTypeCaptureCounts[type.id()] = 0
         }
-        return totalTypeCaptureCounts[type.id] ?: 0
+        return totalTypeCaptureCounts[type.id()] ?: 0
     }
 
     fun updateTotalTypeCaptureCount(type: ElementalType) {
-        val count = totalTypeCaptureCounts[type.id] ?: 0
+        val count = totalTypeCaptureCounts[type.id()] ?: 0
         if (count == 0) {
-            totalTypeCaptureCounts[type.id] = 1
+            totalTypeCaptureCounts[type.id()] = 1
         } else {
-            totalTypeCaptureCounts.replace(type.id, count + 1)
+            totalTypeCaptureCounts.replace(type.id(), count + 1)
         }
     }
 

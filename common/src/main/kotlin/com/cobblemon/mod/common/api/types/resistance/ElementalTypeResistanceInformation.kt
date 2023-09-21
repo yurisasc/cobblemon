@@ -19,5 +19,5 @@ class ElementalTypeResistanceInformation(val elementalType: ElementalType, overr
 
     override fun showdownId(): String = this.elementalType.showdownId()
 
-    override fun toRaw(): RawResistanceInformation = RawResistanceInformation(this.elementalType.id.toString(), this.resistance, ResistanceVariant.ELEMENTAL_TYPE)
+    override fun toRaw(): RawResistanceInformation = RawResistanceInformation(this.elementalType.id().toString(), this.resistance, ResistanceVariant.ELEMENTAL_TYPE)
 }

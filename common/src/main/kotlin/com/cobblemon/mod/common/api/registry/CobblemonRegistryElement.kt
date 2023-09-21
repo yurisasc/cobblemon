@@ -8,13 +8,19 @@
 
 package com.cobblemon.mod.common.api.registry
 
+import net.minecraft.registry.Registry
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.util.Identifier
 
 interface CobblemonRegistryElement<T : CobblemonRegistryElement<T>> {
 
     fun isIn(tag: TagKey<T>): Boolean = this.registryEntry().isIn(tag)
 
+    fun id(): Identifier
+
     fun registryEntry(): RegistryEntry<T>
+
+    fun registry(): Registry<T>
 
 }

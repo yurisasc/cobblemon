@@ -91,9 +91,6 @@
       "variant": "ELEMENTAL_TYPE"
     }
   ],
-  "hiddenPowerInformation": {
-    "impossible": true
-  },
   "clientData": {
     "hue": "0xEA727E",
     "primaryTexture": "cobblemon:textures/gui/types.png",

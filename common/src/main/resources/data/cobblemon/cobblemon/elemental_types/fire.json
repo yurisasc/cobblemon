@@ -96,7 +96,7 @@
       "variant": "ELEMENTAL_TYPE"
     }
   ],
-  "hiddenPowerInformation": {
+  "hiddenPowerRequirement": {
     "cobblemon:hp": "EVEN",
     "cobblemon:attack": "EVEN",
     "cobblemon:defence": "ODD",

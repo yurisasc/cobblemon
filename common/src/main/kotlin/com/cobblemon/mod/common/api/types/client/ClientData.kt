@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.types.client
 
+import com.cobblemon.mod.common.util.math.toRGB
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.util.Identifier
@@ -30,11 +31,13 @@ data class ClientData(
     val vOffset: Float
 ) {
 
+    val something = 0xA2C831
+
     companion object {
 
         val CODEC: Codec<ClientData> = RecordCodecBuilder.create { builder ->
             builder.group(
-                Codec.INT.fieldOf("hue").forGetter(ClientData::hue),
+                Codec.STRING.xmap(Integer::decode, Integer::toHexString).fieldOf("hue").forGetter(ClientData::hue),
                 Identifier.CODEC.fieldOf("primaryTexture").forGetter(ClientData::primaryTexture),
                 Identifier.CODEC.fieldOf("secondaryTexture").forGetter(ClientData::secondaryTexture),
                 Codec.FLOAT.optionalFieldOf("uOffset", 0F).forGetter(ClientData::uOffset),

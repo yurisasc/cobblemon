@@ -18,7 +18,7 @@ import java.lang.reflect.Type
 object ElementalTypeAdapter: JsonSerializer<ElementalType>, JsonDeserializer<ElementalType> {
 
     override fun serialize(src: ElementalType, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
-        return JsonPrimitive(if (src.id.namespace == Cobblemon.MODID) src.id.path else src.id.toString())
+        return JsonPrimitive(if (src.id().namespace == Cobblemon.MODID) src.id().path else src.id().toString())
     }
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): ElementalType {

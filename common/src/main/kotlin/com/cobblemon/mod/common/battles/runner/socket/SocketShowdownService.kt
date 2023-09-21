@@ -190,13 +190,15 @@ class SocketShowdownService(val host: String = "localhost", val port: Int = 1846
                 damageTaken.addProperty(information.showdownId(), information.resistance.showdownValue)
             }
             add("damageTaken", damageTaken)
-            val hpIvs = JsonObject()
-            type.hiddenPowerRequirement.statMap.forEach { (stat, requirement) ->
-                if (requirement == IvCondition.EVEN) {
-                    hpIvs.addProperty(stat.showdownId, 30)
+            type.hiddenPowerRequirement.ifPresent {
+                val hpIvs = JsonObject()
+                it.statMap.forEach { (stat, requirement) ->
+                    if (requirement == IvCondition.EVEN) {
+                        hpIvs.addProperty(stat.showdownId, 30)
+                    }
                 }
+                add("HPivs", hpIvs)
             }
-            add("HPivs", hpIvs)
         }
         writer.write(">receiveTypeData ${this.gson.toJson(jObject)}\n")
         acknowledge()

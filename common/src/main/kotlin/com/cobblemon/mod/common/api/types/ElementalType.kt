@@ -18,37 +18,31 @@ import com.cobblemon.mod.common.api.types.resistance.*
 import com.cobblemon.mod.common.util.codec.setCodec
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.registry.Registry
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import java.util.Optional
 
 /**
  * Class representing the elemental type of Pokémon or Move.
  *
  * @param damageTaken The [RawResistanceInformation] that will be converted into [ResistanceInformation] for this type.
- * @param hiddenPowerRequirement The [HiddenPowerRequirement] for this elemental type.
+ * @param hiddenPowerRequirement The [HiddenPowerRequirement] for this elemental type. If not present that means the type doesn't support hidden power.
  * @param clientData The [ClientData] of this type.
  */
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class ElementalType(
     private val damageTaken: Set<RawResistanceInformation>,
-    val hiddenPowerRequirement: HiddenPowerRequirement,
+    val hiddenPowerRequirement: Optional<HiddenPowerRequirement>,
     val clientData: ClientData
 ): CobblemonRegistryElement<ElementalType>, ShowdownIdentifiable {
 
     /**
-     * The unique ID for this type.
-     * This is used whenever Minecraft expects a unique identifier.
-     * Not to be confused with [showdownId] for Showdown.
-     */
-    lateinit var id: Identifier
-        internal set
-
-    /**
      * The translatable component responsible for showing this
      */
-    val displayName: MutableText = Text.translatable("${id.namespace}.type.${id.path.replace("/", ".")}")
+    val displayName: MutableText by lazy { Text.translatable("${this.id().namespace}.type.${this.id().path.replace("/", ".")}") }
 
     /**
      * The resolved [ResistanceInformation]s.
@@ -75,22 +69,26 @@ class ElementalType(
      */
     fun resistanceAgainst(other: ElementalType): Resistance {
         return this.resistanceInformation().firstOrNull { it is ElementalTypeResistanceInformation && it.elementalType == other }?.resistance
-            ?: throw IllegalArgumentException("Cannot find type resistance for ${other.id} this should be impossible.")
+            ?: throw IllegalArgumentException("Cannot find type resistance for ${other.id()} this should be impossible.")
     }
 
-    override fun registryEntry(): RegistryEntry<ElementalType> = CobblemonRegistries.ELEMENTAL_TYPE.getEntry(this)
+    override fun registryEntry(): RegistryEntry<ElementalType> = this.registry().getEntry(this)
+
+    override fun id(): Identifier = this.registry().getId(this)!!
+
+    override fun registry(): Registry<ElementalType> = CobblemonRegistries.ELEMENTAL_TYPE
 
     override fun showdownId(): String {
-        val showdownId = ShowdownIdentifiable.REGEX.replace(this.id.path.lowercase(), "")
-        if (this.id.namespace == Cobblemon.MODID) {
+        val showdownId = ShowdownIdentifiable.REGEX.replace(this.id().path.lowercase(), "")
+        if (this.id().namespace == Cobblemon.MODID) {
             return showdownId
         }
-        return this.id.namespace + showdownId
+        return this.id().namespace + showdownId
     }
 
-    override fun equals(other: Any?): Boolean = other is ElementalType && other.id == this.id
+    override fun equals(other: Any?): Boolean = other is ElementalType && other.id() == this.id()
 
-    override fun hashCode(): Int = this.id.hashCode()
+    override fun hashCode(): Int = this.id().hashCode()
 
     /**
      * Adds in any missing [ResistanceInformation] for other loaded [ElementalType]s.
@@ -102,7 +100,7 @@ class ElementalType(
             if (current.none { it is ElementalTypeResistanceInformation && it.elementalType == type }) {
                 val information = ElementalTypeResistanceInformation(type, Resistance.NEUTRAL)
                 current.add(information)
-                Cobblemon.LOGGER.info("{} elemental type was missing resistance information against {}, defaulting to neutral, it is recommended to validate if this is intended or if you should add additional data for the missing type", this.id, type.id)
+                Cobblemon.LOGGER.info("{} elemental type was missing resistance information against {}, defaulting to neutral, it is recommended to validate if this is intended or if you should add additional data for the missing type", this.id(), type.id())
             }
         }
     }
@@ -112,7 +110,7 @@ class ElementalType(
         val CODEC: Codec<ElementalType> = RecordCodecBuilder.create { builder ->
             builder.group(
                 setCodec(RawResistanceInformation.CODEC).fieldOf("damageTaken").forGetter(ElementalType::damageTaken),
-                HiddenPowerRequirement.CODEC.fieldOf("hiddenPowerRequirement").forGetter(ElementalType::hiddenPowerRequirement),
+                HiddenPowerRequirement.CODEC.optionalFieldOf("hiddenPowerRequirement").forGetter(ElementalType::hiddenPowerRequirement),
                 ClientData.CODEC.fieldOf("clientData").forGetter(ElementalType::clientData)
             ).apply(builder, ::ElementalType)
         }
@@ -121,7 +119,7 @@ class ElementalType(
             builder.group(
                 setCodec(RawResistanceInformation.CODEC).fieldOf("damageTaken").forGetter(ElementalType::damageTaken),
                 ClientData.CODEC.fieldOf("clientData").forGetter(ElementalType::clientData)
-            ).apply(builder) { damageTaken, clientData -> ElementalType(damageTaken, HiddenPowerRequirement(emptyMap()), clientData) }
+            ).apply(builder) { damageTaken, clientData -> ElementalType(damageTaken, Optional.empty(), clientData) }
         }
 
     }
