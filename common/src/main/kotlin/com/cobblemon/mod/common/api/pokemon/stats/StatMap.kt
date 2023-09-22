@@ -32,10 +32,10 @@ import kotlin.jvm.optionals.getOrDefault
  * @see <a href="https://bulbapedia.bulbagarden.net/wiki/Individual_values">Individual values Bulbapedia entry</a>
  *
  */
-@Suppress("unused")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 open class StatMap internal constructor(
     val variant: Variant,
-    private val stats: HashMap<Stat, Int>
+    protected val stats: HashMap<Stat, Int>
 ) : Map<Stat, Int>, DataSerializer<NbtCompound, JsonObject>, BufferSerializer {
 
     init {
@@ -158,7 +158,7 @@ open class StatMap internal constructor(
      * @throws IllegalArgumentException If the [value] fails [validateValue].
      */
     fun put(key: Stat, value: Int): Int {
-        this.validateValue(value)
+        this.validateValue(key, value)
         val existing = this.stats[key]!!
         this.stats[key] = value
         return existing
@@ -196,11 +196,12 @@ open class StatMap internal constructor(
     /**
      * Checks if a value is possible for this map.
      *
+     * @param key The key having the [value] assigned.
      * @param value The value being assigned.
      *
      * @throws IllegalArgumentException If the [value] doesn't fulfill [Variant.fits] of the [variant].
      */
-    protected open fun validateValue(value: Int) {
+    protected open fun validateValue(key: Stat, value: Int) {
         if (!this.variant.fits(value)) {
             throw IllegalArgumentException("Cannot accept $value, a value must be in range [${this.variant.minValue}-${this.variant.maxValue}]")
         }
@@ -249,15 +250,34 @@ open class StatMap internal constructor(
 
         /**
          * A [Codec] for a [StatMap] of the [Variant.EV] variant.
+         * For the [EvMap] typed Codec see [EvMap.EV_STATS_CODEC].
+         * The result as far as instance types go is the same this is just a constraint of [Codec].
+         *
+         * @see EvMap.EV_STATS_CODEC
          */
         @JvmField
-        val EV_STATS_CODEC: Codec<StatMap> = this.createCodec(Variant.EV)
+        val EV_STATS_CODEC: Codec<StatMap> = EvMap.EV_STATS_CODEC.xmap({ evMap -> this.create(Variant.EV, evMap) }, EvMap::create)
 
         /**
          * A [Codec] for a [StatMap] of the [Variant.IV] variant.
          */
         @JvmField
         val IV_STATS_CODEC: Codec<StatMap> = this.createCodec(Variant.IV)
+
+        /**
+         * Creates a [StatMap] with the given params.
+         *
+         * @param variant The [StatMap] [Variant].
+         * @param map The base map to take values from.
+         * @return The generated [StatMap].
+         *
+         * @throws IllegalArgumentException If map doesn't contain every possible key with type [Stat.Type.PERMANENT] or if any value doesn't respect [Variant.fits] for the given [variant].
+         */
+        fun create(variant: Variant, map: Map<Stat, Int>): StatMap = when (variant) {
+            Variant.BASE_STATS -> StatMap(variant, HashMap(map))
+            Variant.EV -> EvMap(HashMap(map))
+            Variant.IV -> StatMap(variant, HashMap(map))
+        }
 
         private fun createCodec(variant: Variant): Codec<StatMap> = Codec.unboundedMap(Stat.CODEC, Codec.intRange(variant.minValue, variant.maxValue))
             .xmap({ map -> StatMap(variant, HashMap(map)) }, { statMap -> statMap })

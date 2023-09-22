@@ -24,4 +24,8 @@ interface Species : CobblemonRegistryElement<Species>, ShowdownIdentifiable {
 
     fun baseStats(): StatMap
 
+    fun catchRate(): Int
+
+    fun maleRatio(): Float
+
 }
