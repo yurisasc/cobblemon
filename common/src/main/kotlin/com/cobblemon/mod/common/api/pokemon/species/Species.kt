@@ -29,8 +29,6 @@ interface Species : CobblemonRegistryElement<Species>, ShowdownIdentifiable {
 
     fun catchRate(): Int
 
-    fun maleRatio(): Float
-
     /**
      * Responsible picking a [Gender] for this [Species].
      *
