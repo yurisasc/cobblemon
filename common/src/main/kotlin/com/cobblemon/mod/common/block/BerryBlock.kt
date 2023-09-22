@@ -86,11 +86,13 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val curAge = state.get(AGE)
         val newAge = curAge + 1
         if (newAge > FRUIT_AGE) return
-        var newState = state.with(AGE, newAge)
+        val newState = state.with(AGE, newAge)
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         if (curAge == MATURE_AGE) {
             determineMutation(world, random, pos, state)
+            treeEntity.generateGrowthPoints(world, state, pos, null)
         }
+
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
         treeEntity.goToNextStageTimer(FRUIT_AGE - curAge)
         treeEntity.markDirty()
@@ -184,10 +186,10 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     }
 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
-        if (!world.isClient) {
-            val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return
-            blockEntity.generateGrowthPoints(world, state, pos, placer)
-        }
+//        if (!world.isClient) {
+//            val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return
+//            blockEntity.generateGrowthPoints(world, state, pos, placer)
+//        }
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {

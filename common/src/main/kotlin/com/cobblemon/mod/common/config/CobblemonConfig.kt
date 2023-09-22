@@ -185,6 +185,9 @@ class CobblemonConfig {
     var appleLeftoversChance = 0.025
 
     @NodeCategory(Category.World)
+    var maxRootsInArea = 5
+
+    @NodeCategory(Category.World)
     var bigRootPropagationChance = 0.1
 
     @NodeCategory(Category.World)

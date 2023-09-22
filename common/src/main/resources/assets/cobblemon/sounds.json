@@ -43,7 +43,7 @@
     "sounds": [ "cobblemon:pokeball/capture_succeeded" ]
   },
   "poke_ball.shake": {
-    "sounds": [ "cobblemon:pokeball/shake" ]
+    "sounds": [ "cobblemon:pokeball/shake_1", "cobblemon:pokeball/shake_2", "cobblemon:pokeball/shake_3", "cobblemon:pokeball/shake_4" ]
   },
   "poke_ball.open": {
     "sounds": [ "cobblemon:pokeball/open" ]
