@@ -12,13 +12,13 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
-import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.isInt
@@ -380,7 +380,7 @@ open class PokemonProperties {
                 if (pokemonEntity.pokemon.species != species) {
                     return false
                 }
-            } catch (e: InvalidIdentifierException) {}
+            } catch (_: InvalidIdentifierException) {}
         }
         nickname?.takeIf { it != pokemonEntity.pokemon.nickname }?.let { return false }
         form?.takeIf { !it.equals(pokemonEntity.pokemon.form.name, true) }?.let { return false }
@@ -412,7 +412,7 @@ open class PokemonProperties {
                 if (properties.species != species.toString()) {
                     return false
                 }
-            } catch (e: InvalidIdentifierException) {}
+            } catch (_: InvalidIdentifierException) {}
         }
         nickname?.takeIf { it != properties.nickname }?.let { return false }
         form?.takeIf { !it.equals(properties.form, true) }?.let { return false }

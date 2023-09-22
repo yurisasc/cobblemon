@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Status
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.battles.BattleRegistry
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import net.minecraft.registry.tag.TagKey
 
 /**

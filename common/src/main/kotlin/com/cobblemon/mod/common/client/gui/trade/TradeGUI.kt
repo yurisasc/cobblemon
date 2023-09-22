@@ -25,18 +25,16 @@ import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket.Tra
 import com.cobblemon.mod.common.net.messages.server.trade.CancelTradePacket
 import com.cobblemon.mod.common.net.messages.server.trade.ChangeTradeAcceptancePacket
 import com.cobblemon.mod.common.net.messages.server.trade.UpdateTradeOfferPacket
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import java.util.UUID
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.MutableText
 
@@ -48,9 +46,8 @@ import net.minecraft.text.MutableText
  */
 class TradeGUI(
     val trade: ClientTrade,
-    val traderId: UUID,
-    val traderName: MutableText,
-    val traderParty: MutableList<TradeablePokemon?>,
+    private val traderName: MutableText,
+    private val traderParty: MutableList<TradeablePokemon?>,
     val party: MutableList<TradeablePokemon?>
 ): Screen(lang("trade.gui.title")) {
 
@@ -373,7 +370,7 @@ class TradeGUI(
         }
 
         // Calculate select pointer offset
-        var delayFactor = 3
+        val delayFactor = 3
         if (ticksElapsed % (2 * delayFactor) == 0) selectPointerOffsetIncrement = !selectPointerOffsetIncrement
         if (ticksElapsed % delayFactor == 0) selectPointerOffsetY += if (selectPointerOffsetIncrement) 1 else -1
 
@@ -418,6 +415,7 @@ class TradeGUI(
         }
     }
 
+    @Suppress("SameParameterValue")
     private fun playSound(soundEvent: SoundEvent) {
         MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }

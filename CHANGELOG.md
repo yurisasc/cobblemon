@@ -3,6 +3,7 @@
 ### Developer
 - Various breaking changes have been made to ElementalTypes, Moves and other registries, Cobblemon has migrated to make use of proper Minecraft registries.
 - DamageCategory is now an Enum.
+- Gender has been moved to an API package.
 
 ### Datapack & Resourcepack Creators
 - Pokémon types can now be created via datapacks. Data path is ``your_mod_namespace/cobblemon/elemental_types/path_to_your_file``.

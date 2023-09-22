@@ -34,7 +34,7 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.screens.stats.StatWid
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.server.storage.party.MovePartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.party.SwapPartyPokemonPacket
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
@@ -306,7 +306,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
      */
     private fun displayMainScreen(screen: Int) {
         // Get stat tab index if currently displaying stat screen
-        var subIndex = if (mainScreenIndex == STATS && mainScreen is StatWidget) (mainScreen as StatWidget).statTabIndex else 0
+        val subIndex = if (mainScreenIndex == STATS && mainScreen is StatWidget) (mainScreen as StatWidget).statTabIndex else 0
 
         mainScreenIndex = screen
         if (::mainScreen.isInitialized) remove(mainScreen)

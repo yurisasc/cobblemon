@@ -23,7 +23,6 @@ object TradeStartedHandler : ClientNetworkPacketHandler<TradeStartedPacket> {
         MinecraftClient.getInstance().setScreen(
             TradeGUI(
                 trade,
-                packet.traderId,
                 packet.traderName,
                 packet.traderParty.toMutableList(),
                 CobblemonClient.storage.myParty.map { it?.let(::TradeablePokemon) }.toMutableList()
