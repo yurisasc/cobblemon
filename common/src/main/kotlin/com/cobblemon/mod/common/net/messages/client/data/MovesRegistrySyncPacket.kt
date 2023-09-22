@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
-import com.cobblemon.mod.common.api.moves.categories.DamageCategories
+import com.cobblemon.mod.common.api.moves.DamageCategory
 import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.battles.MoveTarget
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -24,7 +24,7 @@ class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacke
         buffer.writeString(entry.name)
         buffer.writeInt(entry.num)
         buffer.writeRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE, entry.elementalType)
-        buffer.writeString(entry.damageCategory.name)
+        buffer.writeEnumConstant(entry.damageCategory)
         buffer.writeDouble(entry.power)
         buffer.writeEnumConstant(entry.target)
         buffer.writeDouble(entry.accuracy)
@@ -39,7 +39,7 @@ class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacke
         val name = buffer.readString()
         val num = buffer.readInt()
         val type = buffer.readRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE)!!
-        val damageCategory = DamageCategories.getOrException(buffer.readString())
+        val damageCategory = buffer.readEnumConstant(DamageCategory::class.java)
         val power = buffer.readDouble()
         val target = buffer.readEnumConstant(MoveTarget::class.java)
         val accuracy = buffer.readDouble()

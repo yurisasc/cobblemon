@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.registry
 
+import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.registry.Registry
@@ -19,5 +20,7 @@ import net.minecraft.registry.RegistryKey
 object CobblemonRegistryKeys {
 
     val ELEMENTAL_TYPE: RegistryKey<Registry<ElementalType>> = RegistryKey.ofRegistry(cobblemonResource("elemental_types"))
+
+    val MOVES: RegistryKey<Registry<MoveTemplate>> = RegistryKey.ofRegistry(cobblemonResource("moves"))
 
 }
