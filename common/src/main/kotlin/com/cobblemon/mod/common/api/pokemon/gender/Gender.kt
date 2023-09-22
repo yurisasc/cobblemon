@@ -28,6 +28,7 @@ enum class Gender(private val showdownId: String) : ShowdownIdentifiable {
     MALE("M"),
     FEMALE("F"),
     GENDERLESS("N");
+
     override fun showdownId(): String = this.showdownId
 
     companion object {
