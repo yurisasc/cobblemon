@@ -9,9 +9,8 @@
 			"chance": 100,
 			"predicate": {
 				"type": "cobblemon:biome",
-				"excludedBiomes": [
-					"#cobblemon:is_dense",
-					"#cobblemon:is_extremely_dense"
+				"includedBiomes": [
+					"#cobblemon:is_sparse"
 				]
 			}
 		},
@@ -20,11 +19,9 @@
 			"chance": 35,
 			"predicate": {
 				"type": "cobblemon:biome",
-				"includedBiomes": [
-					"#cobblemon:is_dense"
-				],
 				"excludedBiomes": [
-					"#cobblemon:is_extremely_dense"
+					"#cobblemon:is_dense",
+					"#cobblemon:is_sparse"
 				]
 			}
 		},
@@ -34,7 +31,7 @@
 			"predicate": {
 				"type": "cobblemon:biome",
 				"includedBiomes": [
-					"#cobblemon:is_extremely_dense"
+					"#cobblemon:is_dense"
 				]
 			}
 		},

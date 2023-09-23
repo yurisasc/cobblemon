@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#cobblemon:is_forest"
+    "minecraft:dark_forest",
+    "minecraft:jungle"
   ]
 }
