@@ -163,6 +163,8 @@ class PokemonEntity(
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.STAND)
     internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
+    val hideLabel = addEntityProperty(HIDE_LABEL, false)
+    val unbattleable = addEntityProperty(UNBATTLEABLE, false)
 
     /**
      * 0 is do nothing,
@@ -226,6 +228,8 @@ class PokemonEntity(
         val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val POSE_TYPE = DataTracker.registerData(PokemonEntity::class.java, PoseTypeDataSerializer)
         val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         const val BATTLE_LOCK = "battle"
 
@@ -356,6 +360,13 @@ class PokemonEntity(
         nbt.putString(DataKeys.POKEMON_POSE_TYPE, poseType.get().name)
         nbt.putByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS, behaviourFlags.get())
 
+        if (hideLabel.get()) {
+            nbt.putBoolean(DataKeys.POKEMON_HIDE_LABEL, true)
+        }
+        if (unbattleable.get()) {
+            nbt.putBoolean(DataKeys.POKEMON_UNBATTLEABLE, true)
+        }
+
         CobblemonEvents.POKEMON_ENTITY_SAVE.post(PokemonEntitySaveEvent(this, nbt))
 
         return super.writeNbt(nbt)
@@ -404,6 +415,13 @@ class PokemonEntity(
         poseType.set(PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
         behaviourFlags.set(nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
         this.setBehaviourFlag(PokemonBehaviourFlag.EXCITED, true)
+
+        if (nbt.contains(DataKeys.POKEMON_HIDE_LABEL)) {
+            hideLabel.set(nbt.getBoolean(DataKeys.POKEMON_HIDE_LABEL))
+        }
+        if (nbt.contains(DataKeys.POKEMON_UNBATTLEABLE)) {
+            unbattleable.set(nbt.getBoolean(DataKeys.POKEMON_UNBATTLEABLE))
+        }
 
         CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(
             event = PokemonEntityLoadEvent(this, nbt),
@@ -553,7 +571,7 @@ class PokemonEntity(
     }
 
     override fun shouldSave(): Boolean {
-        if (ownerUuid == null && Cobblemon.config.savePokemonToWorld) {
+        if (ownerUuid == null && (Cobblemon.config.savePokemonToWorld || isPersistent)) {
             CobblemonEvents.POKEMON_ENTITY_SAVE_TO_WORLD.postThen(PokemonEntitySaveToWorldEvent(this)) {
                 return true
             }
@@ -562,7 +580,7 @@ class PokemonEntity(
     }
 
     override fun checkDespawn() {
-        if (pokemon.getOwnerUUID() == null && despawner.shouldDespawn(this)) {
+        if (pokemon.getOwnerUUID() == null && !isPersistent && despawner.shouldDespawn(this)) {
             discard()
         }
     }
@@ -588,7 +606,9 @@ class PokemonEntity(
 
     @Suppress("UNUSED_PARAMETER")
     fun canBattle(player: PlayerEntity): Boolean {
-        if (isBusy) {
+        if (unbattleable.get()) {
+            return false
+        } else if (isBusy) {
             return false
         } else if (battleId.get().isPresent) {
             return false
