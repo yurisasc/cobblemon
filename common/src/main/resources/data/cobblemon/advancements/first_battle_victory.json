@@ -19,7 +19,10 @@
     "win": {
       "trigger": "cobblemon:battles_won",
       "conditions": {
-        "count": 1
+        "count": 1,
+        "battle_types": [
+          "pvp"
+        ]
       }
     }
   },
