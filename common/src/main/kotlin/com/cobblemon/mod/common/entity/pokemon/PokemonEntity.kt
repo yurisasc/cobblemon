@@ -320,6 +320,13 @@ class PokemonEntity(
         return super.isInvulnerableTo(damageSource)
     }
 
+    /**
+     * A utility method that checks if this Pokémon has the [UncatchableProperty.uncatchable] property.
+     *
+     * @return If the Pokémon is uncatchable.
+     */
+    fun isUncatchable() = pokemon.isUncatchable()
+
     fun recallWithAnimation(): CompletableFuture<Pokemon> {
         val owner = owner
         val future = CompletableFuture<Pokemon>()
