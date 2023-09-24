@@ -3,6 +3,14 @@
   "values": [
     "#cobblemon:is_arid",
     "#cobblemon:is_grassland",
-    "#cobblemon:is_tundra"
+    "#cobblemon:is_tundra",
+    {
+      "id": "#c:vegetation_sparse",
+      "required": false 
+    },
+    {
+      "id": "#forge:is_sparse/overworld",
+      "required": false 
+    }
   ]
 }
