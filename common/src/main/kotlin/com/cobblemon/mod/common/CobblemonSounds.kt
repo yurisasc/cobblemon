@@ -88,6 +88,9 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     @JvmField
     val MULCH_REMOVE = this.create("mulch.remove")
 
+    @JvmField
+    val MUSIC_DEEP_DARK = this.create("music.deep_dark")
+
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }
