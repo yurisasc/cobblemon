@@ -8,49 +8,168 @@
 
 package com.cobblemon.mod.common.api.pokemon.species
 
-import com.cobblemon.mod.common.api.abilities.Ability
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
 import com.cobblemon.mod.common.api.pokemon.evolution.PreEvolution
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.api.pokemon.gender.GenderSelector
+import com.cobblemon.mod.common.api.pokemon.moves.Learnset
+import com.cobblemon.mod.common.api.pokemon.species.internal.*
 import com.cobblemon.mod.common.api.pokemon.stats.StatMap
 import com.cobblemon.mod.common.api.registry.CobblemonRegistryElement
+import com.cobblemon.mod.common.api.registry.CobblemonRegistryKeys
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.pokemon.gender.Gender
-import com.cobblemon.mod.common.api.pokemon.moves.Learnset
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
+import com.cobblemon.mod.common.util.codec.ExtraCodecs
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.registry.Registry
+import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.text.MutableText
-import java.util.Optional
+import net.minecraft.text.Text
+import net.minecraft.util.Identifier
+import java.util.*
 
 @Suppress("unused")
-interface Species : CobblemonRegistryElement<Species>, ShowdownIdentifiable {
+class Species internal constructor(
+    nationalPokedexNumber: Int,
+    types: Pair<ElementalType, Optional<ElementalType>>,
+    abilities: AbilityPool,
+    baseStats: StatMap,
+    catchRate: Int,
+    genderSelector: GenderSelector,
+    private val experienceData: ExperienceData,
+    private val eggData: EggData,
+    learnset: Learnset,
+    private val behaviourData: BehaviourData,
+    private val evolutionData: EvolutionData,
+    baseFriendship: Int,
+    evYield: StatMap,
+    private val cosmeticData: CosmeticData,
+    formData: Optional<FormData>
+): CobblemonRegistryElement<Species>, ShowdownIdentifiable {
 
-    fun nationalPokedexNumber(): Int
+    companion object {
 
-    fun types(): Pair<ElementalType, ElementalType?>
+        private val TYPES_CODEC = ExtraCodecs.ENTITY_DIMENSIONS
 
-    fun abilities(): Set<Ability>
+        val codec = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.INT.fieldOf("nationalPokedexNumber").forGetter(Species::nationalPokedexNumber),
+                ExtraCodecs.DUAL_TYPE_CODEC.fieldOf("types").forGetter(Species::types),
+                // ToDo: abilities
+                StatMap.BASE_STATS_CODEC.fieldOf("baseStats").forGetter(Species::baseStats),
+                Codec.INT.fieldOf("catchRate").forGetter(Species::catchRate),
+                GenderSelector.CODEC.fieldOf("genderSelector").forGetter(Species::genderSelector),
+                ExperienceData.MAP_CODEC.forGetter(Species::experienceData),
+                EggData.CODEC.fieldOf("eggData").forGetter(Species::eggData),
+                // ToDo: learnset
+                BehaviourData.CODEC.fieldOf("behaviourData").forGetter(Species::behaviourData),
+                EvolutionData.CODEC.fieldOf("evolutionData").forGetter(Species::evolutionData),
+                Codec.INT.fieldOf("baseFriendship").forGetter(Species::baseFriendship),
+                StatMap.BASE_STATS_CODEC.fieldOf("evYield").forGetter(Species::evYield),
+                CosmeticData.CODEC.fieldOf("cosmeticData").forGetter(Species::cosmeticData),
+                FormData.CODEC.optionalFieldOf("formData").forGetter(Species::formData)
+            ).apply(builder, ::Species)
+        }
 
-    fun baseStats(): StatMap
+    }
 
-    fun catchRate(): Int
+    val displayName: MutableText by lazy { Text.translatable("${this.id().namespace}.species.${this.id().path.replace("/", ".")}.name") }
+
+    var nationalPokedexNumber: Int = nationalPokedexNumber
+        private set
+
+    var types: Pair<ElementalType, Optional<ElementalType>> = types
+        private set
+
+    val primaryType: ElementalType get() = this.types.first
+
+    val secondaryType: Optional<ElementalType> get() = this.types.second
+
+    var abilities: AbilityPool = abilities
+        private set
+
+    var baseStats: StatMap = baseStats
+        private set
+
+    var catchRate: Int = catchRate
+        private set
 
     /**
-     * Responsible picking a [Gender] for this [Species].
-     *
-     * @return The backing [GenderSelector].
+     * Responsible for picking a [Gender] for this [Species] on [create].
      */
-    fun genderSelector(): GenderSelector
+    var genderSelector: GenderSelector = genderSelector
+        private set
+
+    val shoulderMountable: Boolean get() = this.behaviourData.shoulderMountable
+
+    val baseExperienceYield: Int get() = this.experienceData.baseExperienceYield
+
+    val experienceGroup: ExperienceGroup get() = this.experienceData.experienceGroup
+
+    val eggCycles: Int get() = this.eggData.eggCycles
+
+    val eggGroups: Set<EggGroup> get() = this.eggData.eggGroups
+
+    var learnset: Learnset = learnset
+        private set
+
+    val behaviour: PokemonBehaviour get() = this.behaviourData.pokemonBehaviour
+
+    val evolutions: Set<Evolution> get() = this.evolutionData.evolutions
+
+    val preEvolution: Optional<PreEvolution> get() = this.evolutionData.preEvolution
+
+    val baseScale: Float get() = this.cosmeticData.baseScale
+
+    val hitbox: EntityDimensions get() = this.cosmeticData.hitbox
+
+    var baseFriendship: Int = baseFriendship
+        private set
+
+    var evYield: StatMap = evYield
+        private set
+
+    val weight: Float get() = this.cosmeticData.weight
+
+    val height: Float get() = this.cosmeticData.height
+
+    val aspects: Set<String> get() = this.cosmeticData.aspects
+
+    val features: Set<String> get() = this.behaviourData.features
+
+    val standingEyeHeight: Float get() = this.cosmeticData.standingEyeHeight
+
+    val swimmingEyeHeight: Float get() = this.cosmeticData.swimmingEyeHeight
+
+    val flyingEyeHeight: Float get() = this.cosmeticData.flyingEyeHeight
+
+    var formData: Optional<FormData> = formData
+        private set
+
+    /**
+     * TODO
+     *
+     * @param level
+     * @return
+     */
+    fun create(level: Int): Pokemon {
+        TODO("Not yet implemented")
+    }
 
     /**
      * Picks a randomly generated [Gender] using the [genderSelector].
      *
      * @return The picked [Gender].
      */
-    fun pickGender(): Gender = this.genderSelector().generate()
+    fun pickGender(): Gender = this.genderSelector.generate()
 
     /**
      * Checks if this [Species] can be of the given [gender].
@@ -59,44 +178,21 @@ interface Species : CobblemonRegistryElement<Species>, ShowdownIdentifiable {
      * @param gender The [Gender] being checked.
      * @return If the given [gender] is possible for this [Species].
      */
-    fun canBeOfGender(gender: Gender): Boolean = this.genderSelector().isValid(gender)
+    fun canBeOfGender(gender: Gender): Boolean = this.genderSelector.isValid(gender)
 
-    fun shoulderMountable(): Boolean
+    override fun showdownId(): String {
+        val id = this.id()
+        val showdownId = ShowdownIdentifiable.REGEX.replace(id.path, "")
+        if (id.namespace == Cobblemon.MODID) {
+            return showdownId
+        }
+        return id.namespace + showdownId
+    }
 
-    fun baseExperienceYield(): Int
+    override fun id(): Identifier = this.registry().getId(this)!!
 
-    fun experienceGroup(): ExperienceGroup
+    override fun registryEntry(): RegistryEntry<Species> = this.registry().getEntry(this)
 
-    fun eggCycles(): Int
-
-    fun eggGroups(): Set<EggGroup>
-
-    // ToDo: Move drops to LootTables instead
-
-    fun learnset(): Learnset
-
-    fun behaviour(): PokemonBehaviour
-
-    fun pokedexEntries(): Collection<MutableText>
-
-    fun evolutions(): Set<Evolution>
-
-    fun preEvolution(): Optional<PreEvolution>
-
-    fun baseScale(): Float
-
-    fun hitbox(): EntityDimensions
-
-    fun baseFriendship(): Int
-
-    fun evYield(): StatMap
-
-    fun weight(): Float
-
-    fun height(): Float
-
-    fun aspects(): Set<String>
-
-    fun formData(): Optional<SpeciesForm>
+    override fun registry(): Registry<Species> = Cobblemon.implementation.getRegistry(CobblemonRegistryKeys.SPECIES)
 
 }

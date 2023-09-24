@@ -18,6 +18,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
+import com.mojang.serialization.Codec
 import java.lang.reflect.Type
 import kotlin.math.max
 import net.minecraft.text.MutableText
@@ -74,6 +75,10 @@ interface ExperienceGroup : LevelCurve {
             override fun getExperience(level: Int) = 0
             override fun getLevel(experience: Int) = 1
         }
+
+        @JvmField
+        val CODEC: Codec<ExperienceGroup> = Codec.STRING.xmap(ExperienceGroups::findByName, ExperienceGroup::name)
+
     }
 }
 

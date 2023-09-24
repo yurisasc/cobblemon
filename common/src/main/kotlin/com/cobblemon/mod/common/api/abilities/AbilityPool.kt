@@ -12,6 +12,8 @@ import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.PrioritizedList
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.pokemon.Species
+import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
 
 /**
  * A pool of potential abilities, as a [PrioritizedList]. The added logic of this subclass
@@ -35,4 +37,22 @@ open class AbilityPool : PrioritizedList<PotentialAbility>() {
         Exception().printStackTrace()
         return Abilities.first().create() to Priority.LOWEST
     }
+
+    companion object {
+
+        @JvmField
+        val CODEC: Codec<AbilityPool> = Codec.list(Codec.STRING)
+            .comapFlatMap(
+                { raw ->
+                    val pool = AbilityPool()
+                    if (raw.isEmpty()) {
+                        return@comapFlatMap DataResult.error { "Cannot create ability pool from an empty list" }
+                    }
+                    raw.forEach {  }
+                    DataResult.success(pool)
+                }
+            )
+
+    }
+
 }

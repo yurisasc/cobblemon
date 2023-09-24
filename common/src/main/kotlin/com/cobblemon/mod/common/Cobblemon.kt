@@ -23,7 +23,6 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
 import com.cobblemon.mod.common.api.events.CobblemonEvents.LEVEL_UP_EVENT
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.TRADE_COMPLETED
-import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
@@ -427,7 +426,6 @@ object Cobblemon {
 
     private fun queueRegistryCreation() {
         this.implementation.createRegistry(CobblemonRegistryKeys.ELEMENTAL_TYPE, ElementalType.CODEC, ElementalType.NETWORK_CODEC)
-        this.implementation.createRegistry(CobblemonRegistryKeys.MOVES, MoveTemplate.CODEC, MoveTemplate.CODEC)
     }
 
 }

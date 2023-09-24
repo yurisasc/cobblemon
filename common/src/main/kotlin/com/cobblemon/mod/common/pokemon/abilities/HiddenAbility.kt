@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.api.abilities.PotentialAbility
 import com.cobblemon.mod.common.api.abilities.PotentialAbilityType
 import com.google.gson.JsonElement
+import com.mojang.serialization.Codec
 
 object HiddenAbilityType : PotentialAbilityType<HiddenAbility> {
     override fun parseFromJSON(element: JsonElement): HiddenAbility? {
@@ -31,6 +32,10 @@ object HiddenAbilityType : PotentialAbilityType<HiddenAbility> {
         } else {
             null
         }
+    }
+
+    override fun codec(): Codec<out PotentialAbilityType<*>> {
+        TODO("Not yet implemented")
     }
 }
 
