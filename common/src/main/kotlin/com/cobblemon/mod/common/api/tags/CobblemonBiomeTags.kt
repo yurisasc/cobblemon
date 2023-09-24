@@ -119,6 +119,10 @@ object CobblemonBiomeTags {
     val IS_VOlCANIC = create("is_volcanic")
     @JvmField
     val IS_WINTER = create("is_winter")
+    @JvmField
+    val IS_SPARSE = create("is_sparse")
+    @JvmField
+    val IS_DENSE = create("is_dense")
 
     // Has Feature tags
     @JvmField

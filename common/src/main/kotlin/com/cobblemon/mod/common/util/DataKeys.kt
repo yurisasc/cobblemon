@@ -60,6 +60,8 @@ object DataKeys {
     const val POKEMON_POSE_TYPE = "PoseType"
     const val POKEMON_BEHAVIOUR_FLAGS = "BehaviourFlags"
     const val POKEMON_OWNER_ID = "PokemonOwnerId"
+    const val POKEMON_HIDE_LABEL = "HideLabel"
+    const val POKEMON_UNBATTLEABLE = "Unbattleable"
 
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
