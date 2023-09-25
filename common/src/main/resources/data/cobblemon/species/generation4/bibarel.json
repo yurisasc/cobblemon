@@ -28,11 +28,13 @@
     "field"
   ],
   "behaviour": {
-    "swim": {
-      "swimSpeed": 0.25,
-      "canSwimInWater": true,
-      "canBreatheUnderwater": true,
-      "canWalkOnWater": true
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.25,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
     }
   },
   "drops": {

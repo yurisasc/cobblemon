@@ -49,7 +49,9 @@ class EnergyRootItem(block: EnergyRootBlock, settings: Settings) : AliasedBlockI
             pokemon.currentHealth += this.getHealAmount()
             pokemon.decrementFriendship(CobblemonMechanics.remedies.getFriendshipDrop(runtime))
             player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
-            stack.decrement(1)
+            if (!player.isCreative)  {
+                stack.decrement(1)
+            }
             TypedActionResult.success(stack)
         } else {
             TypedActionResult.fail(stack)
@@ -65,7 +67,7 @@ class EnergyRootItem(block: EnergyRootBlock, settings: Settings) : AliasedBlockI
         if (user is ServerPlayerEntity) {
             return use(user, user.getStackInHand(hand))
         }
-        return super<AliasedBlockItem>.use(world, user, hand)
+        return TypedActionResult.success(user.getStackInHand(hand))
     }
 
 }

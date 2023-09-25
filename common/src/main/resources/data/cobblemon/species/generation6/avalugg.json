@@ -135,11 +135,16 @@
     "mineral"
   ],
   "behaviour": {
-    "swim": {
-      "swimSpeed": 0.1,
-      "canSwimInWater": true,
-      "canBreatheUnderwater": true,
-      "canWalkOnWater": true
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      },
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
     }
   },
   "moves": [

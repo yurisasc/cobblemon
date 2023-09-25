@@ -286,6 +286,9 @@ class PokemonRenderer(
         if (!super.hasLabel(entity)) {
             return false
         }
+        if (entity.hideLabel.get()) {
+            return false
+        }
         val player = MinecraftClient.getInstance().player ?: return false
         val delegate = entity.delegate as? PokemonClientDelegate ?: return false
         return player.isLookingAt(entity) && delegate.phaseTarget == null

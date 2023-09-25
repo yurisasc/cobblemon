@@ -173,7 +173,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             colour = Triple(r, g, b),
             opacity = opacity.toFloat(),
             ballState = activeBattlePokemon.ballCapturing,
-            maxHealth = truePokemon?.hp ?: 0,
+            maxHealth = battlePokemon.maxHp.toInt(),
             health = battlePokemon.hpValue,
             isFlatHealth = battlePokemon.isHpFlat
         )
@@ -400,7 +400,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
 
         matrixStack.scale(scale, scale, -scale)
-        matrixStack.translate(0.0, -2.0, -4.0)
+        matrixStack.translate(0.0, 5.5, -4.0)
         matrixStack.push()
 
         matrixStack.scale(scale * state.scale, scale * state.scale, 0.1F)
@@ -408,8 +408,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         matrixStack.multiply(quaternion1)
         matrixStack.multiply(quaternion2)
 
-        val light1 = Vector3f(0.2F, 1.0F, -1.0F)
-        val light2 = Vector3f(0.1F, -1.0F, 2.0F)
+        val light1 = Vector3f(2.2F, 4.0F, -4.0F)
+        val light2 = Vector3f(1.1F, -4.0F, 7.0F)
         RenderSystem.setShaderLights(light1, light2)
         quaternion1.conjugate()
 

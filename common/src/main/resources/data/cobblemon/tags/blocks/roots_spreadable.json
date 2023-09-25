@@ -6,6 +6,7 @@
   ],
   "values": [
     "#minecraft:dirt",
+    "minecraft:stone",
     {
       "id": "#c:dirt",
       "required": false

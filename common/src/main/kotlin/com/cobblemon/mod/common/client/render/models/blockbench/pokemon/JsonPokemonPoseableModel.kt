@@ -115,6 +115,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
     }
 
     object StatefulAnimationAdapter : JsonDeserializer<Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>> {
+        var preventsIdleDefault = true
         override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Supplier<StatefulAnimation<PokemonEntity, ModelFrame>> {
             json as JsonPrimitive
             val animString = json.asString
@@ -148,7 +149,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
             val mustBeInBattle = json.get("isBattle")?.asBoolean
             if (mustBeInBattle != null) {
-                conditionsList.add { mustBeInBattle == it.battleId.get().isPresent }
+                conditionsList.add { mustBeInBattle == it.isBattling }
             }
             val mustBeTouchingWater = json.get("isTouchingWater")?.asBoolean
             if (mustBeTouchingWater != null) {
@@ -190,11 +191,14 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
                         val anim = animString.substringBefore("(")
 
-                        if(ANIMATION_FACTORIES.contains(anim)) {
+                        StatefulAnimationAdapter.preventsIdleDefault = false
+                        val animation = if(ANIMATION_FACTORIES.contains(anim)) {
                             ANIMATION_FACTORIES[anim]?.stateful(model, animString)
                         } else {
                             null
                         }
+                        StatefulAnimationAdapter.preventsIdleDefault = true
+                        animation
                     }.filterNotNull()
                 }
 

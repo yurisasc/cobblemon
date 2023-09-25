@@ -14,11 +14,16 @@ import com.bedrockk.molang.runtime.MoParams
 import com.bedrockk.molang.runtime.MoScope
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.MoValue
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveDouble
 import java.util.SortedMap
@@ -48,8 +53,22 @@ class BedrockParticleKeyframe(
     val locator: String,
     val scripts: List<Expression>
 ) : BedrockEffectKeyframe(seconds) {
+    fun isSameAs(other: BedrockParticleKeyframe): Boolean {
+        return if (seconds != other.seconds) {
+            false
+        } else if (effect != other.effect) {
+            false
+        } else if (locator != other.locator) {
+            false
+        } else if (scripts.map { it.getString() }.toSet() != other.scripts.map { it.getString() }.toSet()) {
+            false
+        } else {
+            true
+        }
+    }
+
     override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
-        val world = entity.world as ClientWorld
+        val world = entity.world as? ClientWorld ?: return
         val matrixWrapper = state.locatorStates[locator] ?: state.locatorStates["root"]!!
         val effect = effect
 
@@ -57,16 +76,18 @@ class BedrockParticleKeyframe(
             return
         }
 
+        state.poseParticles.add(this)
+
         val storm = ParticleStorm(
             effect = effect,
             matrixWrapper = matrixWrapper,
             world = world,
             sourceVelocity = { entity.velocity },
             sourceAlive = { !entity.isRemoved && this in state.poseParticles },
-            sourceVisible = { !entity.isInvisible }
+            sourceVisible = { !entity.isInvisible },
+            onDespawn = { state.poseParticles.remove(this) }
         )
 
-        state.poseParticles.add(this)
         storm.runtime.execute(this.scripts)
         storm.spawn()
     }
@@ -148,6 +169,27 @@ data class BedrockAnimation(
                 MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text())
                 Unit
             }
+            registerInstruction<Entity>("sound") { entity, _, params ->
+                // Means we don't need to setup a sound registry entry for every single thing
+                val soundEvent = SoundEvent.of(params.getString(0).asIdentifierDefaultingNamespace())
+                if (soundEvent != null) {
+                    val volume = if (params.contains(1)) params.getDouble(1).toFloat() else 1F
+                    val pitch = if (params.contains(2)) params.getDouble(2).toFloat() else 1F
+                    MinecraftClient.getInstance().soundManager.play(
+                        PositionedSoundInstance(soundEvent, SoundCategory.NEUTRAL, volume, pitch, entity.world.random, entity.x, entity.y, entity.z)
+                    )
+                }
+                Unit
+            }
+            registerInstruction<Entity>("random") { entity, _, params ->
+                val options = mutableListOf<MoValue>()
+                var index = 0
+                while (params.contains(index)) {
+                    options.add(params.get(index))
+                    index++
+                }
+                return@registerInstruction options.random() // Can throw an exception if they specified no args. They'd be idiots though.
+            }
         }
     }
 
@@ -186,7 +228,7 @@ data class BedrockAnimation(
                             roll += rotation.z.toFloat().toRadians()
                         }
                     } catch (e: Exception) {
-                        val exception = IllegalStateException("Bad animation for entity: ${(model.currentEntity)!!.displayName.string}", e)
+                        val exception = IllegalStateException("Bad animation for entity: ${(model.context.request(RenderContext.ENTITY))!!.displayName.string}", e)
                         val crash = CrashReport("Cobblemon encountered an unexpected crash", exception)
                         val section = crash.addElement("Animation Details")
                         state?.let {

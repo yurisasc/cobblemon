@@ -202,7 +202,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
 
         if (entity.deathTime == 30) {
             if (owner != null && owner !is PokemonSender) {
-                entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.8F)
+                entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
 //                entity.recallWithAnimation()
                 entity.phasingTargetId.set(owner.id)
                 entity.beamModeEmitter.set(2)

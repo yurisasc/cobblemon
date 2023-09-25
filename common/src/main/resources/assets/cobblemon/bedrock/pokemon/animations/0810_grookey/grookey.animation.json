@@ -383,6 +383,11 @@
 						"0.3333": [0, 0, 0]
 					}
 				}
+			},
+			"sound_effects": {
+				"0.3333": {
+					"effect": "pokemon.grookey.cry"
+				}
 			}
 		}
 	}

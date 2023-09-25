@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Feraligatr",
   "nationalPokedexNumber": 160,
   "primaryType": "water",
@@ -24,6 +25,23 @@
     "monster",
     "water_1"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      },
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    }
+  },
   "moves": [
     "1:agility",
     "1:leer",
@@ -174,10 +192,10 @@
   ],
   "preEvolution": "croconaw",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.05,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.2,
+    "height": 2.1,
     "fixed": false
   },
   "baseFriendship": 70,

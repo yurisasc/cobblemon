@@ -33,6 +33,12 @@ class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: Bed
     }
 
     override fun applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {
-        animation.applyEffects(entity, state, (previousSeconds % animation.animationLength).toFloat(), (newSeconds % animation.animationLength).toFloat())
+        val effectiveAnimationLength = animation.animationLength.takeUnless { it <= 0 }?.toFloat() ?: animation.effects.maxOfOrNull { it.seconds }?.takeIf { it != 0F }
+        val (loopedPreviousSeconds, loopedNewSeconds) = if (effectiveAnimationLength != null) {
+            (previousSeconds % effectiveAnimationLength) to (newSeconds % effectiveAnimationLength)
+        } else {
+            previousSeconds to newSeconds
+        }
+        animation.applyEffects(entity, state, loopedPreviousSeconds, loopedNewSeconds)
     }
 }

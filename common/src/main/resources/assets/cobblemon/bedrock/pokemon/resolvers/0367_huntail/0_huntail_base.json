@@ -7,11 +7,12 @@
 			"model": "cobblemon:huntail.geo",
 			"texture": "cobblemon:textures/pokemon/0367_huntail/huntail.png",
 			"layers": [
-			{
-				"name": "emissive",
-				"texture": "cobblemon:textures/pokemon/0367_huntail/huntail_emissive.png",
-				"emissive": true
-			}			
+				{
+					"name": "emissive",
+					"texture": "cobblemon:textures/pokemon/0367_huntail/huntail_emissive.png",
+					"emissive": true,
+					"translucent": true
+				}
 			]
 		},
 		{
@@ -21,7 +22,8 @@
 			{
 				"name": "emissive",
 				"texture": "cobblemon:textures/pokemon/0367_huntail/huntail_shiny_emissive.png",
-				"emissive": true
+				"emissive": true,
+				"translucent": true
 			}			
 			]
 		}

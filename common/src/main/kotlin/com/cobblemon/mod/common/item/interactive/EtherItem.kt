@@ -62,6 +62,6 @@ class EtherItem(val max: Boolean): CobblemonItem(Settings()), PokemonAndMoveSele
         if (world is ServerWorld && user is ServerPlayerEntity) {
             return use(user, user.getStackInHand(hand)) ?: TypedActionResult.pass(user.getStackInHand(hand))
         }
-        return super<CobblemonItem>.use(world, user, hand)
+        return TypedActionResult.success(user.getStackInHand(hand))
     }
 }

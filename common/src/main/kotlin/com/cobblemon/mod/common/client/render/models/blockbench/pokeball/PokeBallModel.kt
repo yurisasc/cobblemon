@@ -21,7 +21,7 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
     override val rootPart = root.registerChildWithAllChildren("poke_ball")
     override val base = getPart("base")
     override val lid = getPart("lid")
-
+    override val isForLivingEntityRenderer = false
 
     lateinit var shut: PokeBallPose
     lateinit var open: PokeBallPose

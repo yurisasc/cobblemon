@@ -369,6 +369,23 @@
 					}
 				}
 			}
+		},
+		"animation.cacturne.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"pupil_right": {
+					"position": {
+						"0.0": [0.1, 0, 0],
+						"0.0833": [0, 0, 0]
+					}
+				},
+				"pupil_left": {
+					"position": {
+						"0.0": [0, 0, 1],
+						"0.0833": [0, 0, 0]
+					}
+				}
+			}
 		}
 	}
 }

@@ -8,8 +8,10 @@
 
 package com.cobblemon.mod.common.client.gui
 
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
@@ -52,6 +54,10 @@ fun drawProfilePokemon(
     val model = PokemonModelRepository.getPoser(species, aspects)
     val texture = PokemonModelRepository.getTexture(species, aspects, state)
 
+    val context = RenderContext()
+    PokemonModelRepository.variations[species]?.getTexture(aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
+    context.put(RenderContext.SCALE, PokemonSpecies.getByIdentifier(species)!!.getForm(aspects).baseScale)
+
     val renderType = model.getLayer(texture)
 
     RenderSystem.applyModelViewMatrix()
@@ -83,10 +89,10 @@ fun drawProfilePokemon(
     val packedLight = LightmapTextureManager.pack(11, 7)
 
     model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species, aspects)) {
-        model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         bufferSource.draw()
     }
-
+    model.setDefault()
     entityRenderDispatcher.setRenderShadows(true)
     DiffuseLighting.enableGuiDepthLighting()
 }

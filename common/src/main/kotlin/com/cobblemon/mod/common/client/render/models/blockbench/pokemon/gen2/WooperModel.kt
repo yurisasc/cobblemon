@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -26,8 +27,8 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("wooper")
     override val head = getPart("head")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.15, -0.7, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.15, -0.65, 0.0)
 
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
@@ -39,6 +40,8 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wooper", "cry").setPreventsIdle(false) }
 
     val shoulderOffset = 2.5
     override fun registerPoses() {
@@ -116,5 +119,5 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("wooper", "faint") else null
+    ) = if (state.isNotPosedIn(shoulderRight, shoulderLeft)) bedrockStateful("wooper", "faint") else null
 }

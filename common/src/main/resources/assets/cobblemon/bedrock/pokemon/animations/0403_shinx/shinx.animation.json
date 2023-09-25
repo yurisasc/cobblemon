@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.Shinx.new": {
+		"animation.shinx.new": {
 			"loop": true,
 			"bones": {
 				"waist": {
@@ -59,6 +59,22 @@
 				},
 				"front_foot_left": {
 					"rotation": [0, 5, 0]
+				}
+			}
+		},
+		"animation.shinx.ground_idle": {
+			"loop": true,
+			"bones": {
+				"tail_1": {
+					"rotation": [30, 0, 0]
+				},
+				"tail_2": {
+					"rotation": [-37.5, 0, 0],
+					"position": [0, 0.1, -0.3]
+				},
+				"tail_3": {
+					"rotation": [-37.5, 0, 0],
+					"position": [0, 0.1, -0.3]
 				}
 			}
 		}

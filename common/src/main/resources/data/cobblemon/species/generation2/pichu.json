@@ -18,16 +18,6 @@
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    {
-      "type": "potion_effect",
-      "effect": "minecraft:speed",
-      "amplifier": 0,
-      "ambient": true,
-      "showParticles": false,
-      "showIcon": false
-    }
-  ],
   "forms": [
     {
       "name": "Spiky-eared",

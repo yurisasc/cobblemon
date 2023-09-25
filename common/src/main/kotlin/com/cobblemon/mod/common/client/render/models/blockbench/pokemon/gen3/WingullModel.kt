@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -40,14 +42,35 @@ class WingullModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWin
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+    lateinit var water_surface_idle: PokemonPose
+    lateinit var water_surface_swim: PokemonPose
+    lateinit var water_surface_sleep: PokemonPose
+
+    val wateroffset = -9
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("wingull", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            condition = { !it.isTouchingWater },
+            idleAnimations = arrayOf(bedrock("wingull", "sleep"))
+        )
+
+        water_surface_sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            condition = { it.isTouchingWater },
+            idleAnimations = arrayOf(bedrock("wingull", "surfacewater_sleep")),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+            )
+        )
+
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STATIONARY_POSES - PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("wingull", "ground_idle")
             )
@@ -57,13 +80,10 @@ class WingullModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWin
             poseName = "hover",
             poseType = PoseType.HOVER,
             transformTicks = 10,
+            condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("pelipper", "air_idle")
             )
         )
 
@@ -71,13 +91,10 @@ class WingullModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWin
             poseName = "fly",
             poseType = PoseType.FLY,
             transformTicks = 10,
+            condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
-                )
+                bedrock("pelipper", "air_fly")
             )
         )
 
@@ -85,63 +102,36 @@ class WingullModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWin
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
+            condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("wingull", "ground_idle"),
-                rootPart.translation(
-                    function = parabolaFunction(
-                        peak = -4F,
-                        period = 0.4F
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Y_AXIS
-                ),
-                leftLeg.rotation(
-                    function = parabolaFunction(
-                        tightness = -20F,
-                        phaseShift = 0F,
-                        verticalShift = (30F).toRadians()
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                rightLeg.rotation(
-                    function = parabolaFunction(
-                        tightness = -20F,
-                        phaseShift = 0F,
-                        verticalShift = (30F).toRadians()
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                wingFlap(
-                    flapFunction = sineFunction(
-                        amplitude = (-5F).toRadians(),
-                        period = 0.4F,
-                        phaseShift = 0.00F,
-                        verticalShift = (-20F).toRadians()
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Z_AXIS
-                ),
-                rightWing.translation(
-                    function = parabolaFunction(
-                        tightness = -10F,
-                        phaseShift = 30F,
-                        verticalShift = (25F).toRadians()
-                    ),
-                    axis = TransformedModelPart.Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                leftWing.translation(
-                    function = parabolaFunction(
-                        tightness = -10F,
-                        phaseShift = 30F,
-                        verticalShift = (25F).toRadians()
-                    ),
-                    axis = TransformedModelPart.Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
+                bedrock("wingull", "ground_walk")
+            )
+        )
+
+        water_surface_idle = registerPose(
+            poseName = "surface_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.isTouchingWater },
+            idleAnimations = arrayOf(
+                bedrock("wingull", "surfacewater_idle"),
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+            )
+        )
+
+        water_surface_swim = registerPose(
+            poseName = "surface_swim",
+            poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.isTouchingWater },
+            idleAnimations = arrayOf(
+                bedrock("wingull", "surfacewater_swim"),
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
             )
         )
     }

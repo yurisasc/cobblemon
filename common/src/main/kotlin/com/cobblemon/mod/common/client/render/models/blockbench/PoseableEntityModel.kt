@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuirk
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -41,6 +42,7 @@ import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
 
@@ -55,7 +57,10 @@ import net.minecraft.util.math.RotationAxis
 abstract class PoseableEntityModel<T : Entity>(
     renderTypeFunc: (Identifier) -> RenderLayer = RenderLayer::getEntityCutout
 ) : EntityModel<T>(renderTypeFunc), ModelFrame {
-    var currentEntity: T? = null
+    val context: RenderContext = RenderContext()
+
+    /** Whether the renderer that will process this is going to do the weird -1.5 Y offset bullshit that the living entity renderer does. */
+    abstract val isForLivingEntityRenderer: Boolean
 
     val poses = mutableMapOf<String, Pose<T, out ModelFrame>>()
     lateinit var locatorAccess: LocatorAccess
@@ -111,6 +116,19 @@ abstract class PoseableEntityModel<T : Entity>(
         currentLayers = emptyList()
         bufferProvider = null
         currentState = null
+    }
+
+    open fun getOverlayTexture(entity: Entity?): Int? {
+        return if (entity is LivingEntity) {
+            OverlayTexture.packUv(
+                OverlayTexture.getU(0F),
+                OverlayTexture.getV(entity.hurtTime > 0 || entity.deathTime > 0)
+            )
+        } else if (entity != null) {
+            OverlayTexture.DEFAULT_UV
+        } else {
+            null
+        }
     }
 
     /**
@@ -255,12 +273,26 @@ abstract class PoseableEntityModel<T : Entity>(
         b: Float,
         a: Float
     ) {
-        renderModel(
-            currentEntity,
+        render(context, stack, buffer, packedLight, packedOverlay, r, g, b, a)
+    }
+
+    fun render(
+        context: RenderContext,
+        stack: MatrixStack,
+        buffer: VertexConsumer,
+        packedLight: Int,
+        packedOverlay: Int,
+        r: Float,
+        g: Float,
+        b: Float,
+        a: Float
+    ) {
+        rootPart.render(
+            context,
             stack,
             buffer,
             packedLight,
-            packedOverlay,
+            getOverlayTexture(context.request(RenderContext.ENTITY)) ?: packedOverlay,
             red * r,
             green * g,
             blue * b,
@@ -274,12 +306,12 @@ abstract class PoseableEntityModel<T : Entity>(
                 val renderLayer = getLayer(texture, layer.emissive, layer.translucent)
                 val consumer = provider.getBuffer(renderLayer)
                 stack.push()
-                renderModel(
-                    currentEntity,
+                rootPart.render(
+                    context,
                     stack,
                     consumer,
                     packedLight,
-                    OverlayTexture.DEFAULT_UV,
+                    getOverlayTexture(context.request(RenderContext.ENTITY)) ?: packedOverlay,
                     layer.tint.x,
                     layer.tint.y,
                     layer.tint.z,
@@ -288,20 +320,6 @@ abstract class PoseableEntityModel<T : Entity>(
                 stack.pop()
             }
         }
-    }
-
-    fun renderModel(
-        currentEntity: T?,
-        stack: MatrixStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        r: Float,
-        g: Float,
-        b: Float,
-        a: Float
-    ) {
-        rootPart.render(currentEntity, stack, buffer, packedLight, packedOverlay, r, g, b, a)
     }
 
     fun makeLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
@@ -380,7 +398,7 @@ abstract class PoseableEntityModel<T : Entity>(
         headPitch: Float = 0F,
         ageInTicks: Float = 0F
     ) {
-        currentEntity = null
+        this.context.pop(RenderContext.ENTITY)
         setDefault()
         val pose = poseTypes.firstNotNullOfOrNull { getPose(it) } ?: poses.values.first()
         pose.transformedParts.forEach { it.apply() }
@@ -396,7 +414,8 @@ abstract class PoseableEntityModel<T : Entity>(
         headYaw: Float,
         headPitch: Float
     ) {
-        currentEntity = entity
+        context.put(RenderContext.ENTITY, entity)
+        setupEntityTypeContext(entity)
         state.currentModel = this
         setDefault()
         state.preRender()
@@ -453,6 +472,9 @@ abstract class PoseableEntityModel<T : Entity>(
         updateLocators(state)
     }
 
+    //This is used to set additional entity type specific context
+    open fun setupEntityTypeContext(entity: T?) {}
+
     override fun setAngles(
         entity: T,
         limbSwing: Float,
@@ -494,7 +516,7 @@ abstract class PoseableEntityModel<T : Entity>(
      * found and used from other client-side systems.
      */
     fun updateLocators(state: PoseableEntityState<T>) {
-        val entity = currentEntity ?: return
+        val entity = context.request(RenderContext.ENTITY) ?: return
         val matrixStack = MatrixStack()
         // We could improve this to be generalized for other entities
         if (entity is PokemonEntity) {
@@ -513,8 +535,11 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
         }
-        // Standard living entity offset, only God knows why Mojang did this.
-        matrixStack.translate(0.0, -1.5, 0.0)
+
+        if (isForLivingEntityRenderer) {
+            // Standard living entity offset, only God knows why Mojang did this.
+            matrixStack.translate(0.0, -1.5, 0.0)
+        }
 
         locatorAccess.update(matrixStack, state.locatorStates)
     }

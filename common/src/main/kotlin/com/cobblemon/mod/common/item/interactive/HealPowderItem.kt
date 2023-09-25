@@ -41,6 +41,9 @@ class HealPowderItem : CobblemonItem(Settings()), PokemonSelectingItem {
         return if (currentStatus != null) {
             pokemon.status = null
             player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+            if (!player.isCreative)  {
+                stack.decrement(1)
+            }
             TypedActionResult.success(stack)
         } else {
             TypedActionResult.fail(stack)
@@ -56,6 +59,6 @@ class HealPowderItem : CobblemonItem(Settings()), PokemonSelectingItem {
         if (user is ServerPlayerEntity) {
             return use(user, user.getStackInHand(hand))
         }
-        return super<CobblemonItem>.use(world, user, hand)
+        return TypedActionResult.success(user.getStackInHand(hand))
     }
 }

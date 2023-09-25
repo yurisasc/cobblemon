@@ -8,38 +8,24 @@
 
 package com.cobblemon.mod.common.api.mulch
 
-import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.item.MulchItem
+import net.minecraft.util.StringIdentifiable
 
 /**
  * Represents the different types of Mulch implemented in the mod.
  *
  */
-enum class MulchVariant {
-
+enum class MulchVariant(val duration: Int = -1) : StringIdentifiable {
     COARSE,
-    GROWTH,
+    GROWTH(3),
     HUMID,
     LOAMY,
     PEAT,
-    RICH,
+    RICH(3),
     SANDY,
-    SURPRISE;
+    SURPRISE(3),
+    NONE;
 
-    /**
-     * Resolves the item version of the Mulch.
-     *
-     * @return The [MulchItem] equivalent.
-     */
-    fun item(): MulchItem = when (this) {
-        COARSE -> CobblemonItems.COARSE_MULCH
-        GROWTH -> CobblemonItems.GROWTH_MULCH
-        HUMID -> CobblemonItems.HUMID_MULCH
-        LOAMY -> CobblemonItems.LOAMY_MULCH
-        PEAT -> CobblemonItems.PEAT_MULCH
-        RICH -> CobblemonItems.RICH_MULCH
-        SANDY -> CobblemonItems.SANDY_MULCH
-        SURPRISE -> CobblemonItems.SURPRISE_MULCH
+    override fun asString(): String {
+        return name.lowercase()
     }
-
 }

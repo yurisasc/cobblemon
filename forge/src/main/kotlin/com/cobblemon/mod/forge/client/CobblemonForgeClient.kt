@@ -11,6 +11,7 @@ package com.cobblemon.mod.forge.client
 import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.client.CobblemonBerryAtlas
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
@@ -41,6 +42,7 @@ import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.ModelEvent
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
@@ -60,18 +62,12 @@ object CobblemonForgeClient : CobblemonClientImplementation {
             addListener(::onRegisterParticleProviders)
             addListener(::register3dPokeballModels)
             addListener(::onBuildContents)
+            addListener(::onRegisterReloadListener)
         }
         MinecraftForge.EVENT_BUS.addListener(this::onRenderGuiOverlayEvent)
     }
 
     private fun onClientSetup(event: FMLClientSetupEvent) {
-        (MinecraftClient.getInstance().resourceManager as ReloadableResourceManagerImpl)
-            .registerReloader(object : SynchronousResourceReloader {
-                override fun reload(resourceManager: ResourceManager) {
-                    CobblemonClient.reloadCodedAssets(resourceManager)
-                }
-            })
-        CobblemonClient.reloadCodedAssets(MinecraftClient.getInstance().resourceManager)
         event.enqueueWork {
             CobblemonClient.initialize(this)
             EntityRenderers.register(CobblemonEntities.POKEMON) { CobblemonClient.registerPokemonRenderer(it) }
@@ -79,6 +75,16 @@ object CobblemonForgeClient : CobblemonClientImplementation {
             EntityRenderers.register(CobblemonEntities.NPC) { CobblemonClient.registerNPCRenderer(it) }
         }
         ForgeClientPlatformEventHandler.register()
+    }
+
+    private fun onRegisterReloadListener(event: RegisterClientReloadListenersEvent) {
+        event.registerReloadListener(CobblemonBerryAtlas(MinecraftClient.getInstance().textureManager))
+        event.registerReloadListener(object : SynchronousResourceReloader {
+            override fun reload(resourceManager: ResourceManager) {
+                CobblemonClient.reloadCodedAssets(resourceManager)
+            }
+        })
+
     }
 
     @Suppress("UnstableApiUsage")

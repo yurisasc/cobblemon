@@ -16,6 +16,9 @@
     "special_defence": 80,
     "speed": 105
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 60,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -136,6 +139,17 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "walk": {
+      "walkSpeed": 0.35
+    }
+  },
   "drops": {
     "amount": "2",
     "entries": [

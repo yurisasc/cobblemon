@@ -185,10 +185,23 @@ class CobblemonConfig {
     var appleLeftoversChance = 0.025
 
     @NodeCategory(Category.World)
+    var maxRootsInArea = 5
+
+    @NodeCategory(Category.World)
     var bigRootPropagationChance = 0.1
 
     @NodeCategory(Category.World)
     var energyRootChance = 0.25
+
+    @NodeCategory(Category.Pokemon)
+    @IntConstraint(min = 0, max = 10)
+    var maxDynamaxLevel = 10
+
+    @NodeCategory(Category.Spawning)
+    var teraTypeRate = 20F
+
+    @NodeCategory(Category.Spawning)
+    var gigantamaxFactorRate = 20F
 
     @NodeCategory(Category.Pokemon)
     @LastChangedVersion("1.4.0")
