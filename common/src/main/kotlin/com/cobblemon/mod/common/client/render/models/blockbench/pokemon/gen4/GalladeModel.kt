@@ -41,7 +41,7 @@ class GalladeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("gallade", "blink").setPreventsIdle(false) }
-        val quirk = quirk("quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("gallade", "battle_quirk").setPreventsIdle(false) }
+        val quirk = quirk("quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("gallade", "battle_quirk").setPreventsIdle(true) }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("gallade", "sleep"))
