@@ -23,18 +23,13 @@ import com.cobblemon.mod.common.util.fromJson
 import java.io.File
 import java.nio.charset.StandardCharsets
 import java.util.function.BiFunction
-import java.util.function.Supplier
+import java.util.function.Function
 import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
 import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.Pair
-import java.io.File
-import java.nio.charset.StandardCharsets
-import java.util.function.BiFunction
-import java.util.function.Function
-import java.util.function.Supplier
 
 abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     val posers = mutableMapOf<Identifier, (Bone) -> M>()

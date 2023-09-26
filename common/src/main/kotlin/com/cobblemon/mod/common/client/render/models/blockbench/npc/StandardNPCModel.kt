@@ -26,6 +26,8 @@ class StandardNPCModel(part: ModelPart) : NPCModel(part), BipedFrame, BimanualFr
 
     override val name = "trainer_generic"
 
+    override val isForLivingEntityRenderer = true
+
     override fun registerPoses() {
         val blink = quirk("blink") { blinkAnimation(it) ?: blankAnimationStateful() }
         registerPose(

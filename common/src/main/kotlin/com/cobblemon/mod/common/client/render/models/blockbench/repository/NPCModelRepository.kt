@@ -23,7 +23,7 @@ object NPCModelRepository : VaryingModelRepository<NPCEntity, NPCModel>() {
     override val animationDirectories: List<String> = listOf("bedrock/$type/animations")
 
     override val fallback = cobblemonResource("npc")
-
+    override val isForLivingEntityRenderer = true
     override fun loadJsonPoser(json: String): (Bone) -> NPCModel {
         TODO("JSON poser for NPCs. This really must be implemented, custom NPC stuff will be insanely prevalent on release")
     }

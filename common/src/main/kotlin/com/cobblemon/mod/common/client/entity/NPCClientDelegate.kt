@@ -14,7 +14,9 @@ import com.cobblemon.mod.common.client.render.models.blockbench.npc.NPCModel
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 
 class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
+    lateinit var npcEntity: NPCEntity
     override fun initialize(entity: NPCEntity) {
+        this.npcEntity = entity
         this.age = entity.age
     }
 
@@ -23,6 +25,8 @@ class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
         updateLocatorPosition(entity.pos)
         incrementAge(entity)
     }
+
+    override fun getEntity() = npcEntity
 
     override fun updatePartialTicks(partialTicks: Float) {
         this.currentPartialTicks = partialTicks
