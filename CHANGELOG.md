@@ -85,7 +85,7 @@
 - Cacnea
 - Cacturne
 - Poochyena
-- Mightyenna
+- Mightyena
 - Wingull
 - Pelipper
 - Numel
@@ -135,12 +135,12 @@
 
 #### Gen 5
 
-- Bouffolant
+- Bouffalant
 - Roggenrola
 - Boldore
 - Gigalith
-- Venepede
-- Whirlpede
+- Venipede
+- Whirlipede
 - Scolipede
 - Yamask
 - Cofagrigus
@@ -162,7 +162,7 @@
 
 - Scatterbug
 - Spewpa
-- Vivillion
+- Vivillon
 - Skrelp
 - Dragalge
 - Bunnelby
@@ -190,6 +190,8 @@
 - Golisopod
 - Crabrawler
 - Crabominable
+- Mudbray
+- Mudsdale
 
 #### Gen 8
 
@@ -216,7 +218,7 @@
 
 #### Gen 9
 
-- Sprigatitto
+- Sprigatito
 - Floragato
 - Meowscarada
 - Fuecoco
