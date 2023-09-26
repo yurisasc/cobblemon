@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:snowy_beach",
+    "minecraft:beach",
+    {
+      "id": "wythers:guelta",
+      "required": false
+    },
+    {
+      "id": "wythers:sand_dunes",
+      "required": false
+    }
+  ]
+}

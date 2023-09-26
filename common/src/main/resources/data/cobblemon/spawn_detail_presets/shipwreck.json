@@ -1,0 +1,12 @@
+{
+  "condition": {
+	"structures": [
+	  "#minecraft:shipwreck"
+    ],
+	"maxY": 62,
+	"neededNearbyBlocks": [
+      "#minecraft:logs",
+	  "#minecraft:planks"
+	]
+  }
+}

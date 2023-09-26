@@ -1,0 +1,42 @@
+{
+    "enabled": "true",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "illumise-1",
+            "pokemon": "illumise",
+            "presets": [
+                "natural",
+                "treetop"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "18-43",
+            "weight": 5.0,
+            "condition": {
+                "canSeeSky": true,
+                "timeRange": "night",
+                "isRaining": false
+            }
+        },
+        {
+            "id": "illumise-2",
+            "pokemon": "illumise",
+            "presets": [
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "common",
+            "level": "18-43",
+            "weight": 5.0,
+            "condition": {
+                "canSeeSky": true,
+                "timeRange": "night",
+                "isRaining": false
+            }
+        }
+    ]
+}

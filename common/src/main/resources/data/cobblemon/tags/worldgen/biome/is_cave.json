@@ -4,6 +4,18 @@
     "minecraft:dripstone_caves",
     "minecraft:lush_caves",
     {
+      "id": "#c:caves",
+      "required": false 
+    },
+	{
+      "id": "#c:underground",
+      "required": false 
+    },
+	{
+      "id": "#forge:is_underground",
+      "required": false 
+    },
+	{
       "id": "terralith:cave/andesite_caves",
       "required": false 
     },

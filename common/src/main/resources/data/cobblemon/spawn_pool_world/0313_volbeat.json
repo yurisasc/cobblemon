@@ -1,0 +1,42 @@
+{
+    "enabled": "true",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "volbeat-1",
+            "pokemon": "volbeat",
+            "presets": [
+                "natural",
+                "treetop"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "18-43",
+            "weight": 5.0,
+            "condition": {
+                "canSeeSky": true,
+                "timeRange": "night",
+                "isRaining": false
+            }
+        },
+        {
+            "id": "volbeat-2",
+            "pokemon": "volbeat",
+            "presets": [
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "common",
+            "level": "18-43",
+            "weight": 5.0,
+            "condition": {
+                "canSeeSky": true,
+                "timeRange": "night",
+                "isRaining": false
+            }
+        }
+    ]
+}
