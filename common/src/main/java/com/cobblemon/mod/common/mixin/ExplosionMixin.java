@@ -9,36 +9,30 @@
 package com.cobblemon.mod.common.mixin;
 
 import com.cobblemon.mod.common.block.PreEmptsExplosion;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectListIterator;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(value = Explosion.class)
 public class ExplosionMixin {
 
-    @Shadow @Final private World world;
-
-    @Inject(
+    @Redirect(
             method = "affectWorld",
             at = @At(
-                value = "INVOKE",
-                target = "Lnet/minecraft/block/BlockState;getBlock()Lnet/minecraft/block/Block;"
-            ),
-            locals = LocalCapture.CAPTURE_FAILSOFT
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;",
+                    ordinal = 0
+            )
     )
-    public void cobblemon$whenExploded(boolean particles, CallbackInfo ci, boolean bl, ObjectArrayList<?> objectArrayList, boolean bl2, ObjectListIterator<?> var5, BlockPos blockPos, BlockState blockState) {
-        if (blockState.getBlock() instanceof PreEmptsExplosion preExplosionBlock) {
-            preExplosionBlock.whenExploded(world, blockState, blockPos);
+    public BlockState cobblemon$whenExploded(World world, BlockPos pos) {
+        BlockState blockState = world.getBlockState(pos);
+        if(blockState.getBlock() instanceof PreEmptsExplosion preExplosionBlock) {
+            preExplosionBlock.whenExploded(world, blockState, pos);
         }
+        return blockState;
     }
 }
