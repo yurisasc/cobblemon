@@ -25,7 +25,8 @@
             "id": "illumise-2",
             "pokemon": "illumise",
             "presets": [
-                "water_surface"
+                "freshwater",
+				"water_surface"
             ],
             "type": "pokemon",
             "context": "surface",
