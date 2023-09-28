@@ -25,7 +25,8 @@
             "id": "volbeat-2",
             "pokemon": "volbeat",
             "presets": [
-                "water_surface"
+                "freshwater",
+				"water_surface"
             ],
             "type": "pokemon",
             "context": "surface",
