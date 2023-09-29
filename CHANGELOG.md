@@ -85,7 +85,7 @@
 - Cacnea
 - Cacturne
 - Poochyena
-- Mightyenna
+- Mightyena
 - Wingull
 - Pelipper
 - Numel
@@ -135,12 +135,12 @@
 
 #### Gen 5
 
-- Bouffolant
+- Bouffalant
 - Roggenrola
 - Boldore
 - Gigalith
-- Venepede
-- Whirlpede
+- Venipede
+- Whirlipede
 - Scolipede
 - Yamask
 - Cofagrigus
@@ -162,7 +162,7 @@
 
 - Scatterbug
 - Spewpa
-- Vivillion
+- Vivillon
 - Skrelp
 - Dragalge
 - Bunnelby
@@ -190,6 +190,8 @@
 - Golisopod
 - Crabrawler
 - Crabominable
+- Mudbray
+- Mudsdale
 
 #### Gen 8
 
@@ -216,7 +218,7 @@
 
 #### Gen 9
 
-- Sprigatitto
+- Sprigatito
 - Floragato
 - Meowscarada
 - Fuecoco
@@ -385,7 +387,7 @@
 - Fixed particle animations not running when a Pokémon is off-screen.
 - Fixed Pokémon variants and layers not rendering correctly when shouldered and playing on a dedicated server, existing shoulders affected will need to be retrieved and shouldered again.
 - Shoulder effects will now stay applied through situations that remove potion effects such as drinking milk.
-- Fixed Shedinja evolving to use the consumed Pokeball and removed the held item.
+- Fixed Shedinja evolving to use the consumed PokéBall and removed the held item.
 - Fixed non-existent species in spawn pool file causing random species to spawn.
 - Fixed shearing Pokémon dropping 0-2 wool instead of 1-3.
 - Fixed some alignment issues in the stat hexagon of the summary menu.

@@ -864,11 +864,19 @@ open class Pokemon : ShowdownIdentifiable {
             this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as NbtCompound
         }
         if (json.has(DataKeys.TETHERING_ID)) {
-            tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
+            this.tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
         }
-        this.teraType = ElementalTypes.get(json.get(DataKeys.POKEMON_TERA_TYPE).asString) ?: this.primaryType
-        this.dmaxLevel = json.get(DataKeys.POKEMON_DMAX_LEVEL).asInt
-        this.gmaxFactor = json.get(DataKeys.POKEMON_GMAX_FACTOR).asBoolean
+        if (json.has(DataKeys.POKEMON_TERA_TYPE)) {
+            this.teraType = ElementalTypes.get(json.get(DataKeys.POKEMON_TERA_TYPE).asString) ?: this.primaryType
+        } else {
+            this.teraType = this.primaryType
+        }
+        if (json.has(DataKeys.POKEMON_DMAX_LEVEL)) {
+            this.dmaxLevel = json.get(DataKeys.POKEMON_DMAX_LEVEL).asInt
+        }
+        if (json.has(DataKeys.POKEMON_GMAX_FACTOR)) {
+            this.gmaxFactor = json.get(DataKeys.POKEMON_GMAX_FACTOR).asBoolean
+        }
         return this
     }
 

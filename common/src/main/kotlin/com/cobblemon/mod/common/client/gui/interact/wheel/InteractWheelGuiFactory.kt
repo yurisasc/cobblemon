@@ -40,9 +40,11 @@ fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean): Intera
         }
     )
     val options = mutableMapOf(
-        Orientation.TOP_LEFT to mountShoulder,
         Orientation.TOP_RIGHT to giveItem,
     )
+    if (canMountShoulder) {
+        options[Orientation.TOP_LEFT] = mountShoulder
+    }
     return InteractWheelGUI(options, Text.translatable("cobblemon.ui.interact.pokemon"))
 }
 
