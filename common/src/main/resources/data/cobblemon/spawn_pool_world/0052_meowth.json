@@ -132,7 +132,7 @@
             "pokemon": "meowth alolan",
             "presets": [
                 "natural",
-                "illager"
+                "illager_structures"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -164,7 +164,7 @@
             "pokemon": "meowth alolan",
             "presets": [
                 "natural",
-                "illager"
+                "illager_structures"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -189,7 +189,7 @@
             "id": "meowth-alolan-3",
             "pokemon": "meowth alolan",
             "presets": [
-                "illager"
+                "illager_structures"
             ],
             "type": "pokemon",
             "context": "grounded",
