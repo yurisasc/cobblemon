@@ -6,7 +6,7 @@
 		},
 		{
 			"type": "cobblemon:conditional_rarity_filter",
-			"chance": 100,
+			"chance": 70,
 			"predicate": {
 				"type": "cobblemon:biome",
 				"includedBiomes": [
