@@ -13,5 +13,5 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 interface PreEmptsExplosion {
-    fun whenExploded(world: World?, state: BlockState, pos: BlockPos?)
+    fun whenExploded(world: World, state: BlockState, pos: BlockPos)
 }
