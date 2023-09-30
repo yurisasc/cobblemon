@@ -286,7 +286,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         val newState = state.with(BerryBlock.AGE, 3)
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
         world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos)
-        this.generateGrowthPoints(world, newState, pos, player)
         resetGrowTimers(pos, newState)
         return
     }
