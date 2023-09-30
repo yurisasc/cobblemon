@@ -432,7 +432,7 @@ open class Pokemon : ShowdownIdentifiable {
     private var heldItem: ItemStack = ItemStack.EMPTY
 
     init {
-        storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) this.tetheringId = null }
+        storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) afterOnMain(ticks = 1) { this.tetheringId = null } }
     }
 
     open fun getStat(stat: Stat) = Cobblemon.statProvider.getStatForPokemon(this, stat)
