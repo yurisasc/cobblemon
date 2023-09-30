@@ -89,8 +89,8 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val newState = state.with(AGE, newAge)
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         if (curAge == MATURE_AGE) {
-            determineMutation(world, random, pos, state)
             treeEntity.generateGrowthPoints(world, state, pos, null)
+            determineMutation(world, random, pos, state)
         }
 
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
