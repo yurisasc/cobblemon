@@ -1545,7 +1545,7 @@ object ShowdownInterpreter {
         val rawHpAndStatus = privateMessage.argumentAt(1)?.split(" ") ?: return
         val rawHpRatio = rawHpAndStatus.getOrNull(0) ?: return
         val newHealth = rawHpRatio.split("/").map { it.toFloatOrNull() ?: return }
-        val newHealthRatio = publicMessage.argumentAt(1)?.split("/")?.map { it.toFloatOrNull()?.div(100) ?: return } ?: return
+        val newHealthRatio = rawHpRatio.split("/").map { it.toFloatOrNull()?.div(100) ?: return }
         val effect = privateMessage.effect()
         val pokemonName = battlePokemon.getName()
         broadcastOptionalAbility(battle, effect, pokemonName)
