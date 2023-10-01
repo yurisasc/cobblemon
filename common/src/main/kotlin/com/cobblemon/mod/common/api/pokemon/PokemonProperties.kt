@@ -287,7 +287,17 @@ open class PokemonProperties {
             }
         }?.let { pokemon.species = it }
         nickname?.let { pokemon.nickname = it }
-        form?.let { formID -> pokemon.species.forms.firstOrNull { it.formOnlyShowdownId().equals(formID, true) } }?.let { form -> pokemon.form = form }
+
+        form?.let { formID -> pokemon.species.forms.firstOrNull {
+            it.formOnlyShowdownId().equals(formID, true) }}?.let { formInstance ->
+            // set old form aspects to false (to remove none "normal" form aspects, as the normal form doesn't
+            // have a specific aspect, just the absence of others
+            pokemon.form.aspects.forEach { aspect -> parse("$aspect=false").apply(pokemon) }
+            // apply the new forms aspects to the pokemon
+            parse(formInstance.aspects.joinToString(" ")).apply(pokemon)
+            pokemon.form = formInstance
+        }
+
         shiny?.let { pokemon.shiny = it }
         gender?.let { pokemon.gender = it }
         level?.let { pokemon.level = it }
@@ -326,7 +336,12 @@ open class PokemonProperties {
             }
         }?.let { pokemonEntity.pokemon.species = it }
         nickname?.let { pokemonEntity.pokemon.nickname = it }
-        form?.let { formID -> pokemonEntity.pokemon.species.forms.firstOrNull { it.formOnlyShowdownId().equals(formID, true) } }?.let { form -> pokemonEntity.pokemon.form = form }
+        form?.let { formID -> pokemonEntity.pokemon.species.forms.firstOrNull {
+            it.formOnlyShowdownId().equals(formID, true) }}?.let { formInstance ->
+            pokemonEntity.pokemon.form.aspects.forEach { aspect -> parse("$aspect=false").apply(pokemonEntity.pokemon) }
+            parse(formInstance.aspects.joinToString(" ")).apply(pokemonEntity.pokemon)
+            pokemonEntity.pokemon.form = formInstance
+        }
         level?.let { pokemonEntity.pokemon.level = it }
         shiny?.let { pokemonEntity.pokemon.shiny = it }
         gender?.let { pokemonEntity.pokemon.gender = it }
