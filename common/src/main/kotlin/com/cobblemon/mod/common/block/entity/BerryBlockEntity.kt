@@ -113,12 +113,12 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         val curAge = state.get(BerryBlock.AGE)
         if (curAge != 5) {
             val berry = Berries.getByIdentifier(berryIdentifier)!!
-            var multiplier = 10
+            var multiplier = 14
             val world = world
             if (world != null && world.getBlockState(pos).block is BerryBlock) {
                 if (getMulch(state) == MulchVariant.GROWTH) {
                     decrementMulchDuration(world, pos, state)
-                    multiplier = 15
+                    multiplier = 21
                 }
             }
             val upperGrowthLimit = ((if (curAge == 0) berry.growthTime.last else berry.refreshRate.last) * multiplier) / 10
