@@ -23,6 +23,7 @@ import net.minecraft.util.math.MathHelper.ceil
  * @since February 7th, 2022
  */
 object SubmergedSpawningContextCalculator : AreaSpawningContextCalculator<SubmergedSpawningContext> {
+    override val name = "submerged"
     val fluidConditions = mutableListOf(
         isWaterCondition,
         isLavaCondition

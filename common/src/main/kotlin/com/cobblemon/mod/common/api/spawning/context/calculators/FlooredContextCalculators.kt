@@ -50,6 +50,7 @@ interface FlooredSpawningContextCalculator<T : FlooredSpawningContext> : AreaSpa
  */
 object GroundedSpawningContextCalculator : FlooredSpawningContextCalculator<GroundedSpawningContext> {
     // TODO expand base condition
+    override val name = "grounded"
     override val baseCondition: (BlockState) -> Boolean = isSolidCondition
     override val surroundingCondition: (BlockState) -> Boolean = isAirCondition
 
@@ -76,6 +77,7 @@ object GroundedSpawningContextCalculator : FlooredSpawningContextCalculator<Grou
  * @since February 7th, 2022
  */
 object SeafloorSpawningContextCalculator : FlooredSpawningContextCalculator<SeafloorSpawningContext> {
+    override val name = "seafloor"
     override val baseCondition: (BlockState) -> Boolean = isSolidCondition
     override val surroundingCondition: (BlockState) -> Boolean = isWaterCondition
 
@@ -102,6 +104,7 @@ object SeafloorSpawningContextCalculator : FlooredSpawningContextCalculator<Seaf
  * @since February 7th, 2022
  */
 object LavafloorSpawningContextCalculator : FlooredSpawningContextCalculator<LavafloorSpawningContext> {
+    override val name = "lavafloor"
     override val baseCondition: (BlockState) -> Boolean = isSolidCondition
     override val surroundingCondition: (BlockState) -> Boolean = isLavaCondition
 
@@ -129,6 +132,7 @@ object LavafloorSpawningContextCalculator : FlooredSpawningContextCalculator<Lav
  * @since December 15th, 2022
  */
 object SurfaceSpawningContextCalculator : FlooredSpawningContextCalculator<SurfaceSpawningContext> {
+    override val name = "surface"
     override val baseCondition: (BlockState) -> Boolean = { !it.fluidState.isEmpty }
     override val surroundingCondition: (BlockState) -> Boolean = isAirCondition
 

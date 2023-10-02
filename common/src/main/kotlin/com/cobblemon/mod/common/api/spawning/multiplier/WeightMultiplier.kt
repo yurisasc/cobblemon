@@ -31,8 +31,8 @@ class WeightMultiplier : SpawningInfluence {
     var multiplier = 1F
 
     override fun affectWeight(detail: SpawnDetail, ctx: SpawningContext, weight: Float): Float {
-        val meetsConditions = (conditions.isEmpty() || conditions.any { it.isSatisfiedBy(ctx, detail) })
-                && (anticonditions.isEmpty() || anticonditions.none { it.isSatisfiedBy(ctx, detail) })
+        val meetsConditions = (conditions.isEmpty() || conditions.any { it.isSatisfiedBy(ctx) })
+                && (anticonditions.isEmpty() || anticonditions.none { it.isSatisfiedBy(ctx) })
         return if (meetsConditions) multiplier * weight else weight
     }
 }

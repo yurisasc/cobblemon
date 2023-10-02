@@ -26,8 +26,8 @@ abstract class AreaTypeSpawningCondition<T : AreaSpawningContext> : SpawningCond
     var maxHeight: Int? = null
     var neededNearbyBlocks: MutableList<RegistryLikeCondition<Block>>? = null
 
-    override fun fits(ctx: T, detail: SpawnDetail): Boolean {
-        if (!super.fits(ctx, detail)) {
+    override fun fits(ctx: T): Boolean {
+        if (!super.fits(ctx)) {
             return false
         } else if (minHeight != null && ctx.height < minHeight!!) {
             return false

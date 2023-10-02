@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.api.pokemon
 
+import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
@@ -310,6 +312,7 @@ open class PokemonProperties {
         teraType?.let { ElementalTypes.get(it)?.let { type -> pokemon.teraType = type } }
         dmaxLevel?.let { pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemon.gmaxFactor = it }
+        pokemon.updateAspects()
     }
 
     fun apply(pokemonEntity: PokemonEntity) {
@@ -348,6 +351,7 @@ open class PokemonProperties {
         teraType?.let { ElementalTypes.get(it)?.let { type -> pokemonEntity.pokemon.teraType = type } }
         dmaxLevel?.let { pokemonEntity.pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemonEntity.pokemon.gmaxFactor = it }
+        pokemonEntity.pokemon.updateAspects()
     }
 
     fun matches(pokemon: Pokemon): Boolean {
@@ -615,6 +619,13 @@ open class PokemonProperties {
         gmaxFactor?.let { pieces.add("gmax_factor=$it") }
         customProperties.forEach { pieces.add(it.asString()) }
         return pieces.joinToString(separator)
+    }
+
+    fun asStruct(): VariableStruct {
+        val struct = VariableStruct()
+        species?.let { struct.setDirectly("species", StringValue(it)) }
+        // todo a bunch more
+        return struct
     }
 
     fun updateAspects() {

@@ -55,5 +55,5 @@ interface AppendageCondition {
 
         fun getAppendages(spawningCondition: SpawningCondition<*>) = appendages.filter { it.spawningConditionFits(spawningCondition) }.map { it.clazz }
     }
-    fun fits(ctx: SpawningContext, detail: SpawnDetail): Boolean
+    fun fits(ctx: SpawningContext): Boolean
 }
