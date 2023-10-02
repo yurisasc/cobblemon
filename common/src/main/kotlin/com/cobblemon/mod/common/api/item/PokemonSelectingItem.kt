@@ -124,9 +124,6 @@ interface PokemonSelectingItem {
             handler = { pk ->
                 if (stack.isHeld(player)) {
                     applyToPokemon(player, stack, pk)
-                    if (!player.isCreative) {
-                        stack.decrement(1)
-                    }
                     CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(pk.species.resourceIdentifier, Registries.ITEM.getId(stack.item)))
                 }
             }
