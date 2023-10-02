@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.starter.StarterHandler
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.net.messages.client.starter.OpenStarterUIPacket
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import net.minecraft.server.network.ServerPlayerEntity
 
 open class CobblemonStarterHandler : StarterHandler {
@@ -28,9 +29,9 @@ open class CobblemonStarterHandler : StarterHandler {
         val playerData = Cobblemon.playerData.get(player)
         if (playerData.starterSelected) {
             playerData.sendToPlayer(player)
-            player.sendMessage(lang("ui.starter.alreadyselected").red())
+            player.sendMessage(lang("ui.starter.alreadyselected").red(), true)
         } else if (playerData.starterLocked) {
-            player.sendMessage(lang("ui.starter.cannotchoose").red())
+            player.sendMessage(lang("ui.starter.cannotchoose").red(), true)
         } else {
             OpenStarterUIPacket(getStarterList(player)).sendToPlayer(player)
             playerData.starterPrompted = true
@@ -41,9 +42,9 @@ open class CobblemonStarterHandler : StarterHandler {
     override fun chooseStarter(player: ServerPlayerEntity, categoryName: String, index: Int) {
         val playerData = Cobblemon.playerData.get(player)
         if (playerData.starterSelected) {
-            return player.sendMessage(lang("ui.starter.alreadyselected").red())
+            return player.sendMessage(lang("ui.starter.alreadyselected").red(), true)
         } else if (playerData.starterLocked) {
-            return player.sendMessage(lang("ui.starter.cannotchoose").red())
+            return player.sendMessage(lang("ui.starter.cannotchoose").red(), true)
         }
 
         val category = getStarterList(player).find { it.name == categoryName } ?: return
@@ -60,6 +61,7 @@ open class CobblemonStarterHandler : StarterHandler {
                 it.pokemon.also {
                     playerData.starterSelected = true
                     playerData.starterUUID = it.uuid
+                    if (player.world.gameRules.getBoolean(CobblemonGameRules.SHINY_STARTERS)) { pokemon.shiny = true }
                 }
             )
             CobblemonCriteria.PICK_STARTER.trigger(player, pokemon)

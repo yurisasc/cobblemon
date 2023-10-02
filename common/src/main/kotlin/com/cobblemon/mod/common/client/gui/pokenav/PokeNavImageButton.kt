@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -30,12 +31,12 @@ open class PokeNavImageButton(
     private val canClick: () -> Boolean = { true }
 ): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, resourceLocation, pTextureWidth, pTextureHeight, onPress) {
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         // Render Button Image
-        this.applyBlitk(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+        this.applyBlitk(context.matrices, pMouseX, pMouseY, pPartialTicks)
         // Draw Text
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = text.bold(),
             x = x + width / 2, y = y + height + 3,

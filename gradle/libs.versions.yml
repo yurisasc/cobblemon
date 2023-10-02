@@ -12,24 +12,25 @@ versions:
 
   # fabric/remap
   loom: 1.1-SNAPSHOT
-  fabric-loader: 0.14.19
-  fabric-api: 0.77.0+1.19.4
+  fabric-loader: 0.14.21
+  fabric-api: 0.89.0+1.20.1
   fabric-kotlin: 1.9.3+kotlin.1.8.20
   architectury-plugin: 3.4-SNAPSHOT
 
   # forge
-  forge: 1.19.4-45.0.43
-  kotlinForForge: 4.1.0
+  forge: 1.20.1-47.0.50
+  kotlinForForge: 4.3.0
 
   # common
   graal: 22.3.0
-  molang: 1.1.1
+  molang: 1.1.5
 
   # test
   junit: 5.9.0
   mockito: 5.2.0
   mockk: 1.12.1
   classgraph: 4.8.153
+  jei-api: 15.2.0.25
 
   #
   fabric-permissions-api: 0.2-SNAPSHOT
@@ -91,6 +92,10 @@ dependencies:
     group: net.fabricmc
     name: fabric-loader
     version: { ref: fabric-loader }
+  jeiApi:
+    group: local.mezz.jei
+    name: common-api
+    version: { ref: jei-api }
 
 
   # fabric
@@ -106,6 +111,10 @@ dependencies:
     group: me.lucko
     name: fabric-permissions-api
     version: { ref: fabric-permissions-api }
+  jeiFabric:
+    group: mezz.jei
+    name: jei-1.20.1-fabric
+    version: { ref: jei-api }
 
   # forge
   forge:
@@ -116,6 +125,10 @@ dependencies:
     group: thedarkcolour
     name: kotlinforforge
     version: { ref: kotlinForForge }
+  jeiForge:
+    group: mezz.jei
+    name: jei-1.20.1-forge
+    version: { ref: jei-api }
 
   # test
   junitEngine:

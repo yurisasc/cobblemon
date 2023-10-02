@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class PorygonzModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("porygon_z")
     override val head = getPart("head")
@@ -73,5 +74,6 @@ class PorygonzModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("porygonz", "faint") else null
+    ) = if ((pokemonEntity.world.random.nextBoolean())) bedrockStateful("porygonz", "faint")
+        else bedrockStateful("porygonz", "faint2")
 }

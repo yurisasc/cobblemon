@@ -41,4 +41,6 @@ interface StatefulAnimation<T : Entity, F : ModelFrame> {
         headYaw: Float,
         headPitch: Float
     ): Boolean
+
+    fun applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {}
 }

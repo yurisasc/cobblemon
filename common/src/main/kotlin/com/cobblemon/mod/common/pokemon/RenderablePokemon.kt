@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 
 /**
- * A Pokémon that cannot be rendered on the client.
+ * A Pokémon that can absolutely, under no circumstances, ever be rendered.
  *
  * @author Hiroku
  * @since August 1st, 2022

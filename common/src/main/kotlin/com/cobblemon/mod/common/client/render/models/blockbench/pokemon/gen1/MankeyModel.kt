@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -32,8 +33,10 @@ class MankeyModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mankey", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mankey", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("mankey", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
@@ -45,8 +48,8 @@ class MankeyModel(root: ModelPart) : PokemonPoseableModel() {
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("mankey", "sleep"))
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("mankey", "sleep"))
         )
 
         walk = registerPose(
@@ -62,6 +65,6 @@ class MankeyModel(root: ModelPart) : PokemonPoseableModel() {
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("mankey", "faint") else null
+        state: PoseableEntityState<PokemonEntity>,
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("mankey", "faint") else null
 }

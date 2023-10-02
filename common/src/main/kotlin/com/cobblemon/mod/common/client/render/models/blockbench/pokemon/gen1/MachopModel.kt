@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class MachopModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("machop")
     override val head = getPart("head")
@@ -30,7 +31,7 @@ class MachopModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("machop", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("machop", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
@@ -53,10 +54,10 @@ class MachopModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
-/*
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("machop", "faint") else null
-    */
+    /*
+        override fun getFaintAnimation(
+            pokemonEntity: PokemonEntity,
+            state: PoseableEntityState<PokemonEntity>
+        ) = if (state.isPosedIn(standing, walk)) bedrockStateful("machop", "faint") else null
+        */
 }

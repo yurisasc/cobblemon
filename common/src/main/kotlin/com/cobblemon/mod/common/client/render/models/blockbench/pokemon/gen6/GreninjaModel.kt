@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -43,12 +44,13 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("greninja", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("greninja", "blink").setPreventsIdle(false)}
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                quirks = arrayOf(blink),
                 transformedParts = arrayOf(
                         shurikenleft.asTransformed().withVisibility(visibility = false),
                         shurikenright.asTransformed().withVisibility(visibility = false)
@@ -77,7 +79,6 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 poseType = PoseType.WALK,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { !it.isBattling },
                 transformedParts = arrayOf(
                         shurikenleft.asTransformed().withVisibility(visibility = false),
                         shurikenright.asTransformed().withVisibility(visibility = false)
@@ -141,5 +142,5 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float)) bedrockStateful("greninja", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float, sleep)) bedrockStateful("greninja", "faint") else null
 }

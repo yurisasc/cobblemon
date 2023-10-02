@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Gallade",
   "nationalPokedexNumber": 475,
   "primaryType": "psychic",
@@ -73,6 +74,14 @@
     "human_like",
     "amorphous"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:aquacutter",
     "1:calmmind",
@@ -301,8 +310,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 2.25,
     "fixed": false
   },
   "baseFriendship": 35,

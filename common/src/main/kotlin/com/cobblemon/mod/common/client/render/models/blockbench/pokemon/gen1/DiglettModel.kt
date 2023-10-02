@@ -18,8 +18,9 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart: ModelPart = root.registerChildWithAllChildren("diglett")
+    override val rootPart = root.registerChildWithAllChildren("diglett")
 
     override val portraitScale = 1.8F
     override val portraitTranslation = Vec3d(0.05, -1.0, 0.0)

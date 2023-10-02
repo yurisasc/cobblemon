@@ -23,6 +23,7 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
@@ -42,7 +43,8 @@ import net.minecraft.world.WorldView
 import net.minecraft.world.event.GameEvent
 
 // Note we cannot make this inherit from CocoaBlock since our age properties differ, it is however safe to copy most of the logic from it
-class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFacingBlock(settings), Fertilizable {
+@Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
+class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFacingBlock(settings), Fertilizable, ShearableBlock {
 
     init {
         this.defaultState = this.stateManager.defaultState
@@ -104,7 +106,6 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
         return null
     }
 
-    @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState? {
         return if (direction == state.get(FACING) && !state.canPlaceAt(world, pos)) Blocks.AIR.defaultState
             else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
@@ -122,10 +123,8 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
         builder.add(FACING, AGE)
     }
 
-    @Deprecated("Deprecated in Java")
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
-    @Deprecated("Deprecated in Java")
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         if (state.get(AGE) != MAX_AGE) {
             return super.onUse(state, world, pos, player, hand, hit)
@@ -138,7 +137,7 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
             world.playSoundServer(position = pos.toVec3d(), sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
 
             if (world is ServerWorld && player is ServerPlayerEntity) {
-                CobblemonEvents.APRICORN_HARVESTED.post(ApricornHarvestEvent(player, world, pos))
+                CobblemonEvents.APRICORN_HARVESTED.post(ApricornHarvestEvent(player, apricorn, world, pos))
             }
         }
         return ActionResult.success(world.isClient)
@@ -164,6 +163,17 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
         val resetState = state.with(AGE, MIN_AGE)
         world.setBlockState(pos, resetState, Block.NOTIFY_LISTENERS)
         return resetState
+    }
+
+    override fun attemptShear(world: World, state: BlockState, pos: BlockPos, successCallback: () -> Unit): Boolean {
+        if (state.get(AGE) == MAX_AGE) {
+            return false
+        }
+        world.playSound(null, pos, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.BLOCKS, 1F, 1F)
+        this.harvest(world, state, pos)
+        successCallback()
+        world.emitGameEvent(null, GameEvent.SHEAR, pos)
+        return true
     }
 
     companion object {

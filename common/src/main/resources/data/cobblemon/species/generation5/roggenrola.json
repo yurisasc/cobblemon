@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Roggenrola",
   "nationalPokedexNumber": 524,
   "primaryType": "rock",
@@ -24,6 +25,19 @@
   "eggGroups": [
     "mineral"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving" : {
+      "walk": {
+        "walkSpeed": 0.15
+      }
+    }
+  },
   "moves": [
     "1:sandattack",
     "1:tackle",
@@ -116,10 +130,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.8,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -1,172 +1,146 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
+		"animation.fearow.blink": {
+			"animation_length": 0.1667,
+			"bones": {
+				"eyelid_right": {
+					"position": {
+						"0.0": [-0.1, 0, -0.1],
+						"0.125": [-0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_left": {
+					"position": {
+						"0.0": [0.1, 0, -0.1],
+						"0.125": [0.1, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		},
 		"animation.fearow.ground_idle": {
 			"loop": true,
 			"bones": {
-				"neck": {
-					"rotation": [-30, 0, 0]
+				"hairstrand": {
+					"rotation": [7.5, 0, 12.5]
 				},
-				"head": {
-					"rotation": [25, 0, 0]
-				},
-				"leftwing": {
-					"rotation": [0, 0, -70]
-				},
-				"leftwing2": {
-					"rotation": [0, 0, 145]
-				},
-				"leftwing3": {
-					"rotation": [0, 0, 15]
-				},
-				"rightwing4": {
-					"rotation": [0, 0, 70]
-				},
-				"rightwing5": {
-					"rotation": [0, 0, -145]
-				},
-				"rightwing6": {
-					"rotation": [0, 0, -15]
-				},
-				"tail": {
-					"rotation": [25, 0, 0]
-				}
-			}
-		},
-		"animation.fearow.air_idle": {
-			"loop": true,
-			"bones": {
-				"leftleg": {
-					"position": [0, 2.5, 0]
-				},
-				"rightleg": {
-					"position": [0, 2.5, 0]
-				},
-				"body": {
-					"rotation": [-30, 0, 0]
-				},
-				"neck": {
-					"rotation": [25, 0, 0]
-				},
-				"leftwing": {
-					"rotation": [0, 0, -15]
-				},
-				"leftwing2": {
-					"rotation": [0, 0, 10]
-				},
-				"leftwing3": {
-					"rotation": [0, 0, 5]
-				},
-				"rightwing4": {
-					"rotation": [0, 0, 15]
-				},
-				"rightwing5": {
-					"rotation": [0, 0, -10]
-				},
-				"rightwing6": {
-					"rotation": [0, 0, -5]
+				"hairstrand2": {
+					"rotation": [-17.5, 0, 0]
 				},
 				"tail": {
 					"rotation": [45, 0, 0]
-				}
-			}
-		},
-		"animation.fearow.air_fly": {
-			"loop": true,
-			"bones": {
-				"leftleg": {
-					"position": [0, 2.5, 0]
 				},
-				"rightleg": {
-					"position": [0, 2.5, 0]
+				"tail_fluff": {
+					"rotation": [12.5, 0, 0]
+				},
+				"wing_left": {
+					"rotation": [-205.97212, -73.26807, -63.0391],
+					"position": [0, -7, -3]
+				},
+				"wing_fluff_left": {
+					"rotation": [-7.5, 30, -15],
+					"position": [0, 0, 3]
+				},
+				"wing_left2": {
+					"rotation": [0, 40, 0]
+				},
+				"wing_left3": {
+					"rotation": [0, -22.5, 0]
+				},
+				"wing_right": {
+					"rotation": [-205.97212, 73.26807, 63.0391],
+					"position": [0, -7, -3]
+				},
+				"wing_fluff_right": {
+					"rotation": [-7.5, -30, 15],
+					"position": [0, 0, 3]
+				},
+				"wing_right2": {
+					"rotation": [0, -40, 0]
+				},
+				"wing_right3": {
+					"rotation": [0, 22.5, 0]
+				},
+				"wing_fluff_right2": {
+					"rotation": [0, 0, 17.5]
+				},
+				"wing_fluff_left2": {
+					"rotation": [0, 0, -17.5]
+				},
+				"neck_fluff3": {
+					"rotation": [20, 0, 0]
 				}
 			}
 		},
-		"animation.fearow.sleep": {
-			"loop": true,
+		"animation.fearow.cry": {
+			"animation_length": 1.25,
 			"bones": {
 				"neck": {
-					"rotation": [-1.31833, -9.88476, 80.14251]
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1667": {
+							"post": [10, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.9167": {
+							"post": [10, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.25": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
 				},
 				"head": {
-					"rotation": [25, 0, 0]
-				},
-				"leftwing": {
-					"rotation": [0, 0, -65]
-				},
-				"leftwing2": {
-					"rotation": [0, 0, 130]
-				},
-				"leftwing3": {
-					"rotation": [0, 0, 15]
-				},
-				"rightwing4": {
-					"rotation": [0, 0, 65]
-				},
-				"rightwing5": {
-					"rotation": [0, 0, -130]
-				},
-				"rightwing6": {
-					"rotation": [0, 0, -15]
-				},
-				"tail": {
-					"rotation": [17.5, 0, 0]
-				},
-				"body": {
-					"position": [0, -2.75, 0]
-				},
-				"leftleg": {
-					"position": [0, 2.75, 0]
-				},
-				"rightleg": {
-					"position": [0, 2.75, 0]
-				}
-			}
-		},
-		"animation.fearow.render": {
-			"loop": true,
-			"bones": {
-				"fearow": {
-					"position": [0, 3, 0]
-				},
-				"neck": {
-					"rotation": [-17.5, 0, 0]
-				},
-				"head": {
-					"rotation": [25, 0, 0]
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1667": {
+							"post": [-15, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.9167": {
+							"post": [-15, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.25": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
 				},
 				"jaw": {
-					"rotation": [15, 0, 0]
-				},
-				"leftwing": {
-					"rotation": [-1.6575, -12.39135, -47.32005]
-				},
-				"leftwing2": {
-					"rotation": [0, 0, 10]
-				},
-				"leftwing3": {
-					"rotation": [0, 0, 10]
-				},
-				"rightwing4": {
-					"rotation": [0, 0, 47.5]
-				},
-				"rightwing5": {
-					"rotation": [0, 0, -10]
-				},
-				"rightwing6": {
-					"rotation": [0, 0, -5]
-				},
-				"leftleg": {
-					"rotation": [19.8423, 2.55868, -7.05239]
-				},
-				"leftfoot": {
-					"rotation": [25, 0, 0]
-				},
-				"rightleg": {
-					"rotation": [17.25002, -2.99318, 9.54589]
-				},
-				"rightfoot": {
-					"rotation": [22.5, 0, 0]
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1667": {
+							"post": [42.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.9167": {
+							"post": [42.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.25": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.1667": {
+					"effect": "pokemon.fearow.cry"
 				}
 			}
 		}

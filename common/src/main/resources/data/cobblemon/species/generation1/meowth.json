@@ -16,6 +16,10 @@
     "special_defence": 40,
     "speed": 90
   },
+  "features": [
+    "galarian",
+    "alolan"
+  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -212,7 +216,7 @@
         {
           "id": "meowth_persian",
           "variant": "level_up",
-          "result": "persian form=alola",
+          "result": "persian alolan",
           "consumeHeldItem": false,
           "learnableMoves": [
             "powergem"
@@ -261,6 +265,13 @@
       "eggGroups": [
         "field"
       ],
+      "behaviour": {
+        "moving" : {
+          "walk": {
+            "walkSpeed": 0.2
+          }
+        }
+      },
       "moves": [
         "1:fakeout",
         "1:growl",

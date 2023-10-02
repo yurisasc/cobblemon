@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Diggersby",
   "nationalPokedexNumber": 660,
   "primaryType": "normal",
@@ -25,6 +26,19 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "moving" : {
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:agility",
     "1:laserfocus",
@@ -146,10 +160,10 @@
   ],
   "preEvolution": "bunnelby",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.25,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -10,7 +10,7 @@
       "translate": "advancements.cobblemon.harvest_apricorn_seed.description"
     }
   },
-  "parent": "cobblemon:harvest_apricorn",
+  "parent": "cobblemon:any_plant",
   "criteria": {
     "check_inv": {
       "trigger": "minecraft:inventory_changed",
@@ -22,5 +22,6 @@
         ]
       }
     }
-  }
+  },
+  "sends_telemetry_event": false
 }

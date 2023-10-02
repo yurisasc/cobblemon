@@ -21,14 +21,16 @@ object ReloadShowdownCommand {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("reloadshowdown")
             .requires { it.hasPermissionLevel(4) }
-            .executes { execute(it) }
+            .executes(::execute)
         dispatcher.register(command)
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>): Int {
         try {
-            ShowdownService.get().closeConnection()
-            ShowdownService.get().openConnection()
+            ShowdownService.service.closeConnection()
+            ShowdownService.service.openConnection()
+            ShowdownService.service.registerSpecies()
+            ShowdownService.service.registerBagItems()
             context.source.sendMessage(Text.of("Reloaded showdown"))
         } catch (e: Exception) {
             e.printStackTrace()

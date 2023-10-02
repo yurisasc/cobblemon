@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Whiscash",
   "nationalPokedexNumber": 340,
   "primaryType": "water",
@@ -25,6 +26,17 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:belch",
     "1:mudslap",
@@ -142,7 +154,7 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
+    "width": 2.3,
     "height": 1,
     "fixed": false
   },

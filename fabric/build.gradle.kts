@@ -1,3 +1,13 @@
+/*
+ *
+ *  * Copyright (C) 2023 Cobblemon Contributors
+ *  *
+ *  * This Source Code Form is subject to the terms of the Mozilla Public
+ *  * License, v. 2.0. If a copy of the MPL was not distributed with this
+ *  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ */
+
 configurations.all {
     resolutionStrategy {
         force(libs.fabricLoader)
@@ -45,6 +55,7 @@ dependencies {
     modApi(libs.fabricApi)
     modApi(libs.fabricKotlin)
     modApi(libs.fabricPermissionsApi)
+    modRuntimeOnly(libs.jeiFabric)
 
     listOf(
         libs.stdlib,
@@ -66,10 +77,7 @@ tasks {
     val copyAccessWidener by registering(Copy::class) {
         from(loom.accessWidenerPath)
         into(generatedResources)
-    }
-
-    shadowJar {
-        exclude("architectury.common.json")
+        dependsOn(checkLicenseMain)
     }
 
     processResources {
@@ -85,5 +93,9 @@ tasks {
                 "minecraft_version" to rootProject.property("mc_version").toString()
             )
         }
+    }
+
+    sourcesJar {
+        dependsOn(copyAccessWidener)
     }
 }

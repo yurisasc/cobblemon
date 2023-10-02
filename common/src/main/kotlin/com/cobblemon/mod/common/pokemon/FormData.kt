@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
@@ -89,6 +90,10 @@ class FormData(
     private var _height: Float? = null,
     @SerializedName("weight")
     private var _weight: Float? = null,
+    val requiredMove: String? = null,
+    val requiredItem: String? = null,
+    /** For forms that can accept different items (e.g. Arceus-Grass: Meadow Plate or Grassium-Z). */
+    val requiredItems: List<String>? = null,
     /**
      * The [MoveTemplate] of the signature attack of the G-Max form.
      * This is always null on any form aside G-Max.
@@ -147,7 +152,7 @@ class FormData(
 
     var aspects = mutableListOf<String>()
 
-    internal val preEvolution: PreEvolution?
+    val preEvolution: PreEvolution?
         get() = _preEvolution ?: species.preEvolution
 
     val behaviour = FormPokemonBehaviour()
@@ -170,11 +175,15 @@ class FormData(
     val weight: Float
         get() = _weight ?: species.weight
 
-    internal val labels: Set<String>
+    val labels: Set<String>
         get() = _labels ?: species.labels
 
-    // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
-    internal val evolutions: MutableSet<Evolution>
+    /**
+     * Contains the evolutions of this form.
+     * Do not access this property immediately after a species is loaded, it requires all species in the game to be loaded.
+     * To be aware of this gamestage subscribe to [PokemonSpecies.observable].
+     */
+    val evolutions: MutableSet<Evolution>
         get() = _evolutions ?: mutableSetOf()
 
     fun eyeHeight(entity: PokemonEntity): Float {

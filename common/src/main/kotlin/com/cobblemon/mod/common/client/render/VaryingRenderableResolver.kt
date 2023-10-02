@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.VaryingModelRepository
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.adapters.ModelTextureSupplierAdapter
@@ -18,7 +19,6 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import kotlin.math.floor
-import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
 import org.joml.Vector3f
@@ -36,7 +36,7 @@ class VaryingRenderableResolver<E : Entity, M : PoseableEntityModel<E>>(
 ) {
     lateinit var repository: VaryingModelRepository<E, M>
     val posers = mutableMapOf<Pair<Identifier, Identifier>, M>()
-    val models = mutableMapOf<Identifier, ModelPart>()
+    val models = mutableMapOf<Identifier, Bone>()
 
     fun getResolvedPoser(aspects: Set<String>): Identifier {
         return getVariationValue(aspects) { poser }
@@ -67,7 +67,7 @@ class VaryingRenderableResolver<E : Entity, M : PoseableEntityModel<E>>(
                 }
             }
         }
-        return layerMaps.values
+        return layerMaps.values.filter(ModelLayer::enabled)
     }
 
     fun getAllModels(): Set<Identifier> {
@@ -96,19 +96,24 @@ class VaryingRenderableResolver<E : Entity, M : PoseableEntityModel<E>>(
         this.repository = repository
         posers.clear()
         getAllModels().forEach { identifier ->
-            models[identifier] = repository.texturedModels[identifier]!!.create().createModel()
+            try {
+                models[identifier] = repository.texturedModels[identifier]!!.invoke(repository.isForLivingEntityRenderer)
+            } catch (e: Exception) {
+                throw IllegalStateException("Unable to load model $identifier for $name", e)
+            }
         }
     }
 
     fun getPoser(aspects: Set<String>): M {
         val poserName = getResolvedPoser(aspects)
-        val poserSupplier = repository.posers[poserName] ?: throw IllegalStateException("No poser found for name: $poserName")
+        val poserSupplier = repository.posers[poserName] ?: throw IllegalStateException("No poser found for name: $poserName for $name")
         val modelName = getResolvedModel(aspects)
         val existingEntityModel = posers[poserName to modelName]
         return if (existingEntityModel != null) {
             existingEntityModel
         } else {
-            val entityModel = poserSupplier(models[modelName]!!)
+            val model = models[modelName]!!
+            val entityModel = poserSupplier(model)
             entityModel.initializeLocatorAccess()
             entityModel.registerPoses()
             posers[poserName to modelName] = entityModel
@@ -161,7 +166,7 @@ class ModelAssetVariation(
 
 /**
  * Given the animation seconds, returns a texture to use. Only implemented
- * by [StaticModelTextureSupplier] and [AnimatedModelTextureSupplier].
+ * by [StaticModelTextureSupplier], [FallbackModelTextureSupplier] and [AnimatedModelTextureSupplier].
  *
  * @author Hiroku
  * @since February 6th, 2023
@@ -192,6 +197,7 @@ class AnimatedModelTextureSupplier(
 
 class ModelLayer {
     val name: String = ""
+    val enabled: Boolean = true
     val tint: Vector4f = Vector4f(1F, 1F, 1F, 1F)
     val texture: ModelTextureSupplier? = null
     val emissive: Boolean = false

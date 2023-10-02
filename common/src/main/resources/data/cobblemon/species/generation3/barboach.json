@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Barboach",
   "nationalPokedexNumber": 339,
   "primaryType": "water",
@@ -25,6 +26,19 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.2,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:mudslap",
     "1:watergun",
@@ -147,10 +161,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 0.5,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -9,50 +9,86 @@
 		},
 		"description": {
 			"translate": "advancements.cobblemon.rainbow_apricorns.description"
-		}
+		},
+		"frame": "goal"
 	},
 	"criteria": {
 		"place_black": {
-			"trigger": "minecraft:placed_block",
 			"conditions": {
-				"block": "cobblemon:black_apricorn_sapling"
-			}
+				"location": [
+					{
+					"block": "cobblemon:black_apricorn_sapling",
+					"condition": "minecraft:block_state_property"
+					}
+				]
+			},
+			"trigger": "minecraft:placed_block"
 		},
 		"place_blue": {
-			"trigger": "minecraft:placed_block",
 			"conditions": {
-				"block": "cobblemon:blue_apricorn_sapling"
-			}
+				"location": [
+					{
+					"block": "cobblemon:blue_apricorn_sapling",
+					"condition": "minecraft:block_state_property"
+					}
+				]
+			},
+			"trigger": "minecraft:placed_block"
 		},
 		"place_green": {
-			"trigger": "minecraft:placed_block",
 			"conditions": {
-				"block": "cobblemon:green_apricorn_sapling"
-			}
+				"location": [
+					{
+					"block": "cobblemon:green_apricorn_sapling",
+					"condition": "minecraft:block_state_property"
+					}
+				]
+			},
+			"trigger": "minecraft:placed_block"
 		},
 		"place_pink": {
-			"trigger": "minecraft:placed_block",
 			"conditions": {
-				"block": "cobblemon:pink_apricorn_sapling"
-			}
+				"location": [
+					{
+					"block": "cobblemon:pink_apricorn_sapling",
+					"condition": "minecraft:block_state_property"
+					}
+				]
+			},
+			"trigger": "minecraft:placed_block"
 		},
 		"place_red": {
-			"trigger": "minecraft:placed_block",
 			"conditions": {
-				"block": "cobblemon:red_apricorn_sapling"
-			}
+				"location": [
+					{
+					"block": "cobblemon:red_apricorn_sapling",
+					"condition": "minecraft:block_state_property"
+					}
+				]
+			},
+			"trigger": "minecraft:placed_block"
 		},
 		"place_white": {
-			"trigger": "minecraft:placed_block",
 			"conditions": {
-				"block": "cobblemon:white_apricorn_sapling"
-			}
+				"location": [
+					{
+					"block": "cobblemon:white_apricorn_sapling",
+					"condition": "minecraft:block_state_property"
+					}
+				]
+			},
+			"trigger": "minecraft:placed_block"
 		},
 		"place_yellow": {
-			"trigger": "minecraft:placed_block",
 			"conditions": {
-				"block": "cobblemon:yellow_apricorn_sapling"
-			}
+				"location": [
+					{
+					"block": "cobblemon:yellow_apricorn_sapling",
+					"condition": "minecraft:block_state_property"
+					}
+				]
+			},
+			"trigger": "minecraft:placed_block"
 		}
 	},
 	"requirements": [

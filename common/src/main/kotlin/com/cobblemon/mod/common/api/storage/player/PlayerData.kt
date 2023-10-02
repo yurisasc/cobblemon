@@ -11,8 +11,10 @@ package com.cobblemon.mod.common.api.storage.player
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.Identifier
 
 data class PlayerData(
     val uuid: UUID,
@@ -20,7 +22,8 @@ data class PlayerData(
     var starterLocked: Boolean,
     var starterSelected: Boolean,
     var starterUUID: UUID?,
-    val extraData: MutableMap<String, PlayerDataExtension>
+    var keyItems: MutableSet<Identifier>,
+    val extraData: MutableMap<String, PlayerDataExtension>,
 ) {
     var advancementData: PlayerAdvancementData = PlayerAdvancementData()
 
@@ -29,12 +32,14 @@ data class PlayerData(
     }
 
     companion object {
-        fun default(forPlayer: UUID) = PlayerData(
+        @JvmStatic
+        fun defaultData(forPlayer: UUID) = PlayerData(
             uuid = forPlayer,
             starterPrompted = false,
             starterLocked = !Cobblemon.starterConfig.allowStarterOnJoin,
             starterSelected =  false,
             starterUUID =  null,
+            keyItems = mutableSetOf(),
             extraData = mutableMapOf()
         )
     }

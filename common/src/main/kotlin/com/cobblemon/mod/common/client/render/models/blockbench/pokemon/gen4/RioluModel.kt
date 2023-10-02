@@ -8,30 +8,37 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RioluModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class RioluModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("riolu")
     override val head = getPart("head")
 
+    override val leftArm = getPart("arm_left")
+    override val rightArm = getPart("arm_right")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(0.0, -0.1, 0.0)
+    override val portraitTranslation = Vec3d(0.0, -0.3, 0.0)
 
     override val profileScale = 0.85F
     override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("riolu", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("riolu", "blink").setPreventsIdle(false) }
@@ -51,7 +58,9 @@ class RioluModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("riolu", "ground_walk")
+                bedrock("riolu", "ground_idle"),
+                BipedWalkAnimation(this),
+                BimanualSwingAnimation(this)
             )
         )
     }

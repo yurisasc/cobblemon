@@ -13,8 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonF
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -33,42 +32,43 @@ class ModelWidget(
     }
 
     var state = PokemonFloatingState()
-    private val minecraft = MinecraftClient.getInstance()
     val rotVec = Vector3f(13F, rotationY, 0F)
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, partialTicks: Float) {
         if (!render) {
             return
         }
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
-        renderPKM(pMatrixStack)
+        renderPKM(context, partialTicks)
     }
 
-    private fun renderPKM(poseStack: MatrixStack) {
-        poseStack.push()
+    private fun renderPKM(context: DrawContext, partialTicks: Float) {
+        val matrices = context.matrices
+        matrices.push()
 
-        DrawableHelper.enableScissor(
+        context.enableScissor(
             x,
             y,
             x + width,
             y +  height
         )
 
-        poseStack.translate(x + width * 0.5, y.toDouble() + offsetY, 0.0)
-        poseStack.scale(baseScale, baseScale, baseScale)
-        poseStack.push()
+        matrices.translate(x + width * 0.5, y.toDouble() + offsetY, 0.0)
+        matrices.scale(baseScale, baseScale, baseScale)
+        matrices.push()
 
         drawProfilePokemon(
             renderablePokemon = pokemon,
-            matrixStack = poseStack,
+            matrixStack = matrices,
             rotation = Quaternionf().fromEulerXYZDegrees(rotVec),
-            state = state
+            state = state,
+            partialTicks = partialTicks
         )
 
-        poseStack.pop()
-        DrawableHelper.disableScissor()
+        matrices.pop()
+        context.disableScissor()
 
-        poseStack.pop()
+        matrices.pop()
     }
 
     override fun onClick(pMouseX: Double, pMouseY: Double) {

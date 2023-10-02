@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Chatot",
   "nationalPokedexNumber": 441,
   "primaryType": "normal",
@@ -18,13 +19,20 @@
   },
   "catchRate": 30,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 144,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:chatter",
     "1:confide",
@@ -121,10 +129,10 @@
     "cobblemon.species.chatot.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.8,
     "fixed": false
   },
   "baseFriendship": 35,

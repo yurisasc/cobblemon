@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Swellow",
   "nationalPokedexNumber": 277,
   "primaryType": "normal",
@@ -24,6 +25,19 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:airslash",
     "1:bravebird",
@@ -103,10 +117,10 @@
   ],
   "preEvolution": "taillow",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 70,

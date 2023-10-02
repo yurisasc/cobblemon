@@ -42,7 +42,11 @@
 			"bones": {
 				"torso": {
 					"rotation": ["math.sin(q.anim_time*90*6+0)", 0, 0],
-					"position": [0, "math.abs(0.3*math.sin(q.anim_time*90*3))", 0]
+					"position": [
+						0,
+						"-0.2+0.6*math.abs(math.sin(q.anim_time*90*3)+math.sin(q.anim_time*90*3*3)/10)",
+						"-0.4*(math.sin(q.anim_time*90*6 + math.sin(q.anim_time*90*6)*30))"
+					]
 				},
 				"leg_front_left": {
 					"rotation": ["15*math.sin(q.anim_time*90*3+90)", 0, 0],
@@ -61,6 +65,15 @@
 					"position": [0, "math.clamp(math.sin(q.anim_time*90*3+180),0,1)", "math.sin(q.anim_time*90*3+270)"]
 				}
 			}
+		},
+		"animation.naclstack.cry": {
+			"animation_length": 2,
+			"sound_effects": {
+				"0.0": {
+					"effect": "pokemon.naclstack.cry"
+				}
+			}
 		}
-	}
+	},
+	"geckolib_format_version": 2
 }

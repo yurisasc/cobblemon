@@ -16,4 +16,4 @@ import net.minecraft.util.Identifier
  *
  * @author Deltric
  */
-class VolatileStatus(name: Identifier) : Status(name, "", "", null)
+class VolatileStatus(name: Identifier) : Status(name, "", "", "")

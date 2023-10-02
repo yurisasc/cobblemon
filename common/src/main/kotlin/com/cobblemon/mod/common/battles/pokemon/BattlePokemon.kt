@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles.pokemon
 
+import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.moves.MoveSet
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
@@ -15,6 +16,7 @@ import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.battles.actor.MultiPokemonBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
+import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleUpdateTeamPokemonPacket
 import com.cobblemon.mod.common.pokemon.IVs
@@ -26,13 +28,15 @@ import net.minecraft.text.MutableText
 
 open class BattlePokemon(
     val originalPokemon: Pokemon,
-    val effectedPokemon: Pokemon = originalPokemon
+    val effectedPokemon: Pokemon = originalPokemon,
+    val postBattleEntityOperation: (PokemonEntity) -> Unit = {}
 ) {
     lateinit var actor: BattleActor
     companion object {
         fun safeCopyOf(pokemon: Pokemon): BattlePokemon = BattlePokemon(
             originalPokemon = pokemon,
-            effectedPokemon = pokemon.clone()
+            effectedPokemon = pokemon.clone(),
+            postBattleEntityOperation = { entity -> entity.discard() }
         )
     }
 
@@ -70,6 +74,8 @@ open class BattlePokemon(
      */
     val heldItemManager: HeldItemManager by lazy { HeldItemProvider.provide(this) }
 
+    val contextManager = ContextManager()
+
     open fun getName(): MutableText {
         return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
             effectedPokemon.getDisplayName()
@@ -84,4 +90,8 @@ open class BattlePokemon(
 
     fun isSentOut() = actor.battle.activePokemon.any { it.battlePokemon == this }
     fun canBeSentOut() = !isSentOut() && !willBeSwitchedIn && health > 0
+
+    fun writeVariables(struct: VariableStruct) {
+        effectedPokemon.writeVariables(struct)
+    }
 }

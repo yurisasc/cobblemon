@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Totodile",
   "nationalPokedexNumber": 158,
   "primaryType": "water",
@@ -16,7 +17,7 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 63,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
@@ -24,6 +25,24 @@
     "monster",
     "water_1"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      },
+      "walk": {
+        "walkSpeed": 0.25
+      }
+    }
+  },
   "moves": [
     "1:leer",
     "1:scratch",
@@ -182,10 +201,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.5,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.85,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 70,

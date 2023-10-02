@@ -20,9 +20,6 @@
   "catchRate": 255,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    "water_breathing"
-  ],
   "forms": [
     {
       "name": "Paldea",
@@ -167,6 +164,12 @@
         "canSwimInWater": true,
         "canBreatheUnderwater": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "drops": {
@@ -331,6 +334,9 @@
   "labels": [
     "gen2",
     "johto_regional"
+  ],
+  "features": [
+    "paldean"
   ],
   "pokedex": [
     "cobblemon.species.wooper.desc"

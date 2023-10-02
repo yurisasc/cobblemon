@@ -1,0 +1,31 @@
+{
+  "type": "choice",
+  "keys": ["vivillon_wings"],
+  "default": "meadow",
+  "choices": [
+    "archipelago",
+    "continental",
+    "elegant",
+    "fancy",
+    "garden",
+    "high-plains",
+    "icy-snow",
+    "jungle",
+    "marine",
+    "meadow",
+    "modern",
+    "monsoon",
+    "ocean",
+    "poke-ball",
+    "polar",
+    "river",
+    "sandstorm",
+    "savanna",
+    "sun",
+    "tundra",
+    "blazing",
+    "ender"
+  ],
+  "isAspect": true,
+  "aspectFormat": "vivillon-wings-{{choice}}"
+}

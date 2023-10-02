@@ -254,10 +254,10 @@
   ],
   "preEvolution": "onix",
   "evolutions": [],
-  "baseScale": 4,
+  "baseScale": 1.6,
   "hitbox": {
     "width": 2,
-    "height": 0.7,
+    "height": 3.2,
     "fixed": false
   },
   "baseFriendship": 50,

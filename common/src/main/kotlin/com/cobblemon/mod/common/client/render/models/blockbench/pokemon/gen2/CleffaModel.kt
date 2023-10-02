@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
@@ -20,6 +21,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("cleffa")
 
@@ -33,6 +35,8 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var leftShoulder: PokemonPose
     lateinit var rightShoulder: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cleffa", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("cleffa", "blink").setPreventsIdle(false) }
@@ -50,7 +54,7 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
 
         leftShoulder = registerPose(
             poseName = "left_shoulder",
-            poseTypes = setOf(PoseType.SHOULDER_LEFT),
+            poseType = PoseType.SHOULDER_LEFT,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -63,7 +67,7 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
 
         rightShoulder = registerPose(
             poseName = "right_shoulder",
-            poseTypes = setOf(PoseType.SHOULDER_RIGHT),
+            poseType = PoseType.SHOULDER_RIGHT,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

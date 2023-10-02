@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
@@ -16,6 +17,8 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeExpiredPacket
+import com.cobblemon.mod.common.util.getPlayer
 import com.google.gson.GsonBuilder
 import java.time.Instant
 import java.util.Optional
@@ -26,21 +29,35 @@ import net.minecraft.server.network.ServerPlayerEntity
 object BattleRegistry {
 
     class BattleChallenge(
+        val challengeId: UUID,
         val challengedPlayerUUID: UUID,
+        val selectedPokemonId: UUID,
         var expiryTimeSeconds: Int = 60
     ) {
         val challengedTime = Instant.now()
         fun isExpired() = Instant.now().isAfter(challengedTime.plusSeconds(expiryTimeSeconds.toLong()))
     }
 
-    val gson = GsonBuilder().disableHtmlEscaping().create()
+    val gson = GsonBuilder()
+        .disableHtmlEscaping()
+        .registerTypeAdapter(ShowdownMoveset::class.java, ShowdownMovesetAdapter)
+        .create()
     private val battleMap = ConcurrentHashMap<UUID, PokemonBattle>()
-    // Challenger to challenged
+    // Challenger to challenge
     val pvpChallenges = mutableMapOf<UUID, BattleChallenge>()
 
     fun onServerStarted() {
         battleMap.clear()
         pvpChallenges.clear()
+    }
+
+    fun removeChallenge(challengerId: UUID, challengeId: UUID? = null) {
+        val existing = pvpChallenges[challengerId] ?: return
+        if (existing.challengeId != challengeId) {
+            return
+        }
+        pvpChallenges.remove(challengerId)
+        existing.challengedPlayerUUID.getPlayer()?.sendPacket(BattleChallengeExpiredPacket(existing.challengeId))
     }
 
     /**
@@ -91,7 +108,8 @@ object BattleRegistry {
                 }|"
             )
             // Nature
-            packedTeamBuilder.append("${pk.nature.name.path}|")
+            val battleNature = pk.effectiveNature
+            packedTeamBuilder.append("${battleNature.name.path}|")
             // EVs
             val evsInOrder = Stats.PERMANENT.map { pk.evs.getOrDefault(it) }.joinToString(separator = ",")
             packedTeamBuilder.append("$evsInOrder|")
@@ -115,11 +133,12 @@ object BattleRegistry {
             // Hidden Power Type
             packedTeamBuilder.append(",")
             // Gigantamax
-            packedTeamBuilder.append(",")
+            packedTeamBuilder.append("${if (pk.gmaxFactor) "G" else ""},")
             // DynamaxLevel
-            packedTeamBuilder.append(",")
+            // 0 - 9, empty == 10
+            packedTeamBuilder.append("${if (pk.dmaxLevel < 10) pk.dmaxLevel else ""},")
             // Teratype
-            packedTeamBuilder.append(",")
+            packedTeamBuilder.append("${pokemon.effectedPokemon.teraType.name},")
 
             team.add(packedTeamBuilder.toString())
         }
@@ -185,7 +204,7 @@ object BattleRegistry {
         }
 
         // Compiles the request and sends it off
-        ShowdownService.get().startBattle(battle, messages.toTypedArray())
+        ShowdownService.service.startBattle(battle, messages.toTypedArray())
         CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedPostEvent(battle))
         return battle
     }
@@ -199,7 +218,7 @@ object BattleRegistry {
     }
 
     fun getBattleByParticipatingPlayer(serverPlayerEntity: ServerPlayerEntity) : PokemonBattle? {
-        return battleMap.values.find { it.actors.any { it.isForPlayer(serverPlayerEntity) } }
+        return battleMap.values.find { it.getActor(serverPlayerEntity) != null }
     }
 
     fun tick() {

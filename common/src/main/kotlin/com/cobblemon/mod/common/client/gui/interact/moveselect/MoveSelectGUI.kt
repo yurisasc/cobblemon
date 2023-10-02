@@ -8,21 +8,33 @@
 
 package com.cobblemon.mod.common.client.gui.interact.moveselect
 
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.callback.MoveSelectDTO
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.client.gui.ExitButton
-import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.net.messages.server.callback.move.MoveSelectCancelledPacket
+import com.cobblemon.mod.common.net.messages.server.callback.move.MoveSelectedPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import java.util.UUID
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
+class MoveSelectConfiguration(
+    val title: MutableText,
+    val moves: List<MoveSelectDTO>,
+    val onCancel: (MoveSelectGUI) -> Unit,
+    val onBack: (MoveSelectGUI) -> Unit,
+    val onSelect: (MoveSelectGUI, MoveSelectDTO) -> Unit,
+)
+
 class MoveSelectGUI(
-    pokemon: Pokemon
+    val config: MoveSelectConfiguration
 ) : Screen(Text.translatable("cobblemon.ui.interact.moveselect")) {
     companion object {
         const val WIDTH = 122
@@ -31,19 +43,43 @@ class MoveSelectGUI(
         private val baseBackgroundResource = cobblemonResource("textures/gui/interact/move_select.png")
     }
 
-    private val moves = pokemon.moveSet.getMoves()
+    var closed = false
+
+    constructor(
+        title: MutableText,
+        moves: List<MoveSelectDTO>,
+        uuid: UUID
+    ): this(
+        MoveSelectConfiguration(
+            title = title,
+            moves = moves,
+            onSelect = { gui, it ->
+                CobblemonNetwork.sendToServer(MoveSelectedPacket(uuid = uuid, moves.indexOf(it)))
+                gui.closeProperly()
+            },
+            onCancel = { CobblemonNetwork.sendToServer(MoveSelectCancelledPacket(uuid = uuid)) },
+            onBack = MoveSelectGUI::close
+        )
+    )
+
+    fun closeProperly() {
+        closed = true
+        close()
+    }
 
     override fun init() {
         val x = (width - WIDTH) / 2
         val y = (height - HEIGHT) / 2
 
-        moves.forEachIndexed { index, move ->
+        config.moves.forEachIndexed { index, move ->
             addDrawableChild(
                 MoveSlotButton(
                     x = x + 7,
-                    y = y + ((MoveSlotButton.HEIGHT + 3) * index),
-                    move = move,
-                    enabled = shouldBeEnabled(move)
+                    y = y + 7 + ((MoveSlotButton.HEIGHT + 3) * index),
+                    move = move.moveTemplate,
+                    pp = move.pp,
+                    ppMax = move.ppMax,
+                    enabled = move.enabled
                 ) { onPress(move) }
             )
         }
@@ -55,19 +91,19 @@ class MoveSelectGUI(
                 pY = y + 115
             ) {
                 playSound(CobblemonSounds.GUI_CLICK)
-                MinecraftClient.getInstance().setScreen(null)
+                config.onBack(this)
             }
         )
 
         super.init()
     }
 
-    override fun render(matrixStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         val x = (width - WIDTH) / 2
         val y = (height - HEIGHT) / 2
 
         blitk(
-            matrixStack = matrixStack,
+            matrixStack = context.matrices,
             texture = baseBackgroundResource,
             x = x,
             y = y,
@@ -76,15 +112,26 @@ class MoveSelectGUI(
         )
 
         // Render all added Widgets
-        super.render(matrixStack, mouseX, mouseY, partialTicks)
+        super.render(context, mouseX, mouseY, partialTicks)
     }
 
-    private fun onPress(move: Move) {
+    private fun onPress(move: MoveSelectDTO) {
+        if (!move.enabled) {
+            return
+        }
+        playSound(CobblemonSounds.GUI_CLICK)
+        config.onSelect(this, move)
     }
 
-    private fun shouldBeEnabled(move: Move): Boolean {
-        return true
+    override fun close() {
+        if (!closed) {
+            config.onCancel(this)
+        }
+        super.close()
     }
+
+    override fun shouldCloseOnEsc() = true
+    override fun shouldPause() = false
 
     fun playSound(soundEvent: SoundEvent) {
         MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))

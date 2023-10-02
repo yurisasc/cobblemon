@@ -9,18 +9,27 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RowletModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
+class RowletModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("rowlet")
+
+    override val leftWing = getPart("wing_left_main")
+    override val rightWing = getPart("wing_right_main")
 
     override val leftLeg = getPart("foot_left")
     override val rightLeg = getPart("foot_right")
@@ -36,11 +45,13 @@ class RowletModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rowlet", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("rowlet", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
+            poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("rowlet", "ground_idle")
@@ -53,7 +64,12 @@ class RowletModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
-                        bedrock("rowlet", "air_idle")
+                    bedrock("rowlet", "air_idle"),
+                    WingFlapIdleAnimation(this,
+                        flapFunction = sineFunction(verticalShift = -8F.toRadians(), period = 1.0F, amplitude = 0.4F),
+                        timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                        axis = TransformedModelPart.Z_AXIS
+                    )
                 )
         )
 
@@ -63,13 +79,18 @@ class RowletModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
-                        bedrock("rowlet", "air_fly")
+                    bedrock("rowlet", "air_fly"),
+                    WingFlapIdleAnimation(this,
+                        flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
+                        timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                        axis = TransformedModelPart.Z_AXIS
+                    )
                 )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
+            poseTypes = MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("rowlet", "ground_idle"),

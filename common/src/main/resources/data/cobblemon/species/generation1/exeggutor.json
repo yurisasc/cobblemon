@@ -16,6 +16,13 @@
     "special_defence": 75,
     "speed": 55
   },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.27
+      }
+    }
+  },
   "catchRate": 45,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -48,11 +55,25 @@
         "special_defence": 0,
         "speed": 0
       },
+      "baseScale": 2.8,
+      "hitbox": {
+        "width": 0.9,
+        "height": 8.0,
+        "fixed": false
+      },
       "experienceGroup": "slow",
       "eggCycles": 20,
       "eggGroups": [
         "grass"
       ],
+      "behaviour": {
+        "resting": {
+          "canSleep": true,
+          "willSleepOnBed": false,
+          "depth": "normal",
+          "light": "0-4"
+        }
+      },
       "moves": [
         "1:absorb",
         "1:barrage",
@@ -372,10 +393,10 @@
   ],
   "preEvolution": "exeggcute",
   "evolutions": [],
-  "baseScale": 1.7,
+  "baseScale": 1.6,
   "hitbox": {
-    "width": 0.7,
-    "height": 1.3,
+    "width": 1.0,
+    "height": 1.7,
     "fixed": false
   },
   "baseFriendship": 50,

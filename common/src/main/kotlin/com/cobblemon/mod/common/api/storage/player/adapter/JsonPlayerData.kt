@@ -8,12 +8,10 @@
 
 package com.cobblemon.mod.common.api.storage.player.adapter
 
-import com.cobblemon.mod.common.api.storage.player.PlayerAdvancementData
 import com.cobblemon.mod.common.api.storage.player.PlayerData
 import com.cobblemon.mod.common.api.storage.player.PlayerDataExtension
+import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.fromJson
-import com.cobblemon.mod.common.util.getPlayer
-import com.cobblemon.mod.common.util.removeIf
 import com.google.gson.GsonBuilder
 import java.io.BufferedReader
 import java.io.FileReader
@@ -21,19 +19,22 @@ import java.io.PrintWriter
 import java.nio.file.Path
 import java.util.UUID
 import net.minecraft.server.MinecraftServer
+import net.minecraft.util.Identifier
 import net.minecraft.util.WorldSavePath
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 
-class JsonPlayerData: PlayerDataFileStoreAdapter {
+class JsonPlayerData: PlayerDataStoreAdapter {
 
     companion object {
         val gson = GsonBuilder()
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .registerTypeAdapter(PlayerDataExtension::class.java, PlayerDataExtensionAdapter)
+            .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
             .create()
     }
 
-    private val cache = mutableMapOf<UUID, PlayerData>()
     lateinit var savePath: Path
     var useNestedStructure = true
 
@@ -51,28 +52,20 @@ class JsonPlayerData: PlayerDataFileStoreAdapter {
     private fun file(uuid: UUID) = savePath.resolve("cobblemonplayerdata/${getSubFile(uuid)}").toFile()
 
     override fun load(uuid: UUID): PlayerData {
-        if (cache.contains(uuid)) {
-            return cache[uuid]!!
-        }
-
         val playerFile = file(uuid)
         playerFile.parentFile.mkdirs()
         return if (playerFile.exists()) {
             gson.fromJson<PlayerData>(BufferedReader(FileReader(playerFile))).also {
-                cache[uuid] = it
-                // Resolves old data from pre 1.0, don't even ask man. - Hiroku
-                if (it.advancementData == null) {
-                    it.advancementData = PlayerAdvancementData()
+                // Resolves old data that's missing new properties
+                val newProps = it::class.memberProperties.filterIsInstance<KMutableProperty<*>>().filter { member -> member.getter.call(it) == null }
+                if (newProps.isNotEmpty()) {
+                    val defaultData = PlayerData.defaultData(uuid)
+                    newProps.forEach { member -> member.setter.call(it, member.getter.call(defaultData)) }
                 }
             }
         } else {
-            PlayerData.default(uuid).also(::save)
+            PlayerData.defaultData(uuid).also(::save)
         }
-    }
-
-    fun saveCache() {
-        cache.forEach { (_, pd) -> save(pd)}
-        cache.removeIf { (uuid, _) -> uuid.getPlayer() == null }
     }
 
     override fun save(playerData: PlayerData) {
@@ -82,6 +75,5 @@ class JsonPlayerData: PlayerDataFileStoreAdapter {
         pw.write(gson.toJson(playerData))
         pw.flush()
         pw.close()
-        cache[playerData.uuid] = playerData
     }
 }

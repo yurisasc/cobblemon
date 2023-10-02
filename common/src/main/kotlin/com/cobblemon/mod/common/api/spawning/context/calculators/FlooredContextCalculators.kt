@@ -61,7 +61,6 @@ object GroundedSpawningContextCalculator : FlooredSpawningContextCalculator<Grou
             light = getLight(input),
             canSeeSky = getCanSeeSky(input),
             influences = input.spawner.copyInfluences(),
-            width = getHorizontalSpace(input, surroundingCondition, config.maxHorizontalSpace, offsetY = 1),
             height = getHeight(input, surroundingCondition, config.maxVerticalSpace, offsetY = 1),
             slice = input.slice,
             nearbyBlocks = getNearbyBlocks(input)
@@ -88,7 +87,6 @@ object SeafloorSpawningContextCalculator : FlooredSpawningContextCalculator<Seaf
             light = getLight(input),
             canSeeSky = getCanSeeSky(input),
             influences = input.spawner.copyInfluences(),
-            width = getHorizontalSpace(input, surroundingCondition, config.maxHorizontalSpace, offsetY = 1),
             height = getHeight(input, surroundingCondition, config.maxVerticalSpace, offsetY = 1),
             slice = input.slice,
             nearbyBlocks = getNearbyBlocks(input)
@@ -115,7 +113,6 @@ object LavafloorSpawningContextCalculator : FlooredSpawningContextCalculator<Lav
             light = getLight(input),
             canSeeSky = getCanSeeSky(input),
             influences = input.spawner.copyInfluences(),
-            width = getHorizontalSpace(input, surroundingCondition, config.maxHorizontalSpace, offsetY = 1),
             height = getHeight(input, surroundingCondition, config.maxVerticalSpace, offsetY = 1),
             slice = input.slice,
             nearbyBlocks = getNearbyBlocks(input)
@@ -143,7 +140,6 @@ object SurfaceSpawningContextCalculator : FlooredSpawningContextCalculator<Surfa
             light = getLight(input),
             canSeeSky = getCanSeeSky(input),
             influences = input.spawner.copyInfluences(),
-            width = getHorizontalSpace(input, surroundingCondition, config.maxHorizontalSpace, offsetY = 1),
             height = getHeight(input, surroundingCondition, config.maxVerticalSpace / 2, offsetY = 1),
             depth = getDepth(input, baseCondition, config.maxVerticalSpace / 2),
             slice = input.slice,

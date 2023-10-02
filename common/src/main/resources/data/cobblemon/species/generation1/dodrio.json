@@ -43,6 +43,19 @@
       }
     ]
   },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.4
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:growl",
     "1:peck",

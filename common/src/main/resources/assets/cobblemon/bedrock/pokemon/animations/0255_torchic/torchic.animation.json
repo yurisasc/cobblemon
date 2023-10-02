@@ -20,50 +20,78 @@
 				}
 			}
 		},
+		"animation.torchic.cry": {
+			"animation_length": 0.83333,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1667": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5": {
+							"post": [-15, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.8333": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"jaw": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1667": {
+							"post": [42.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5": {
+							"post": [42.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.8333": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0833": {
+					"effect": "pokemon.torchic.cry"
+				}
+			}
+		},
 		"animation.torchic.ground_idle": {
 			"loop": true,
 			"bones": {
-				"body": {
-					"rotation": ["math.sin((query.anim_time)*180)*1", 0, "math.sin((query.anim_time)*90)*1"]
+				"wing_left": {
+					"rotation": [0, 0, 65]
+				},
+				"wing_left2": {
+					"rotation": [0, 0, 5]
+				},
+				"wing_right": {
+					"rotation": [0, 0, -65]
+				},
+				"wing_right2": {
+					"rotation": [0, 0, -5]
 				},
 				"head": {
-					"rotation": ["math.sin((query.anim_time)*180)*1", 0, 0]
+					"rotation": [-5, 0, 0]
 				},
-				"comb_right1": {
-					"rotation": ["math.sin((query.anim_time)*180)*2.5", 0, 0]
-				},
-				"comb_right2": {
-					"rotation": ["math.sin((query.anim_time)*180)*3", 0, 0]
-				},
-				"comb_middle1": {
-					"rotation": ["math.sin((query.anim_time)*180)*2.5", 0, 0]
-				},
-				"comb_middle2": {
-					"rotation": ["math.sin((query.anim_time)*180)*3", 0, 0]
-				},
-				"comb_left1": {
-					"rotation": ["math.sin((query.anim_time)*180)*2.5", 0, 0]
-				},
-				"comb_left2": {
-					"rotation": ["math.sin((query.anim_time)*180)*3", 0, 0]
-				},
-				"tail": {
-					"rotation": ["-1*math.sin((query.anim_time)*180)*1", 0, 0]
-				},
-				"leg_right": {
-					"relative_to": {
-						"rotation": "entity"
-					},
-					"rotation": [0, 0, 0.01]
-				},
-				"leg_left": {
-					"relative_to": {
-						"rotation": "entity"
-					},
-					"rotation": [0, 0, 0.01]
+				"torso": {
+					"rotation": [5, 0, 0]
 				}
 			}
 		}
-	},
-	"geckolib_format_version": 2
+	}
 }

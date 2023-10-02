@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Sirfetch’d",
   "nationalPokedexNumber": 865,
   "primaryType": "fighting",
@@ -87,10 +88,10 @@
   ],
   "preEvolution": "farfetchd form=galar",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 1.0,
     "fixed": false
   },
   "baseFriendship": 50,

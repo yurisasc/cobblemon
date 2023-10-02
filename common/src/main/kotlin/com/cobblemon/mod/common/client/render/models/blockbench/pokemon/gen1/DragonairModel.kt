@@ -16,15 +16,16 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class DragonairModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dragonair")
     override val head = getPart("head")
 
     override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.3, 1.5, 0.0)
+    override val portraitTranslation = Vec3d(-0.2, 1.7, 0.0)
 
     override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override val profileTranslation = Vec3d(0.1, 0.9, 0.0)
 
     lateinit var standing: PokemonPose
 

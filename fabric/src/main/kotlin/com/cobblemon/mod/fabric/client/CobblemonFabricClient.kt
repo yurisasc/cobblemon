@@ -8,8 +8,11 @@
 
 package com.cobblemon.mod.fabric.client
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.api.text.gray
+import com.cobblemon.mod.common.client.CobblemonBerryAtlas
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
@@ -17,24 +20,29 @@ import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
 import com.cobblemon.mod.common.platform.events.ClientPlayerEvent
 import com.cobblemon.mod.common.platform.events.ClientTickEvent
+import com.cobblemon.mod.common.platform.events.ItemTooltipEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
+import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.fabric.CobblemonFabric
 import java.util.function.Supplier
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.model.TexturedModelData
@@ -48,7 +56,13 @@ import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
 import net.minecraft.resource.ResourceManager
+import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
+import net.minecraft.util.Identifier
+import net.minecraft.util.Language
+import net.minecraft.util.profiler.Profiler
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
 
 class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation {
     override fun onInitializeClient() {
@@ -60,16 +74,36 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         EntityRendererRegistry.register(CobblemonEntities.POKEMON) { CobblemonClient.registerPokemonRenderer(it) }
         EntityRendererRegistry.register(CobblemonEntities.EMPTY_POKEBALL) { CobblemonClient.registerPokeBallRenderer(it) }
 
+        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : IdentifiableResourceReloadListener {
+            override fun reload(
+                synchronizer: ResourceReloader.Synchronizer?,
+                manager: ResourceManager?,
+                prepareProfiler: Profiler?,
+                applyProfiler: Profiler?,
+                prepareExecutor: Executor?,
+                applyExecutor: Executor?
+            ): CompletableFuture<Void> {
+                val result = CompletableFuture.runAsync() {
+                    CobblemonBerryAtlas(MinecraftClient.getInstance().textureManager).reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor)
+                }
+                return result
+            }
+
+            override fun getFabricId() = cobblemonResource("berry_atlas")
+
+        })
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : SimpleSynchronousResourceReloadListener {
             override fun getFabricId() = cobblemonResource("resources")
             override fun reload(resourceManager: ResourceManager) { reloadCodedAssets(resourceManager) }
         })
+
         CobblemonKeyBinds.register(KeyBindingHelper::registerKeyBinding)
 
         ClientTickEvents.START_CLIENT_TICK.register { client -> PlatformEvents.CLIENT_TICK_PRE.post(ClientTickEvent.Pre(client)) }
         ClientTickEvents.END_CLIENT_TICK.register { client -> PlatformEvents.CLIENT_TICK_POST.post(ClientTickEvent.Post(client)) }
         ClientPlayConnectionEvents.JOIN.register { _, _, client -> client.player?.let { PlatformEvents.CLIENT_PLAYER_LOGIN.post(ClientPlayerEvent.Login(it)) } }
         ClientPlayConnectionEvents.DISCONNECT.register { _, client -> client.player?.let { PlatformEvents.CLIENT_PLAYER_LOGOUT.post(ClientPlayerEvent.Logout(it)) } }
+        ItemTooltipCallback.EVENT.register { stack, context, lines -> PlatformEvents.CLIENT_ITEM_TOOLTIP.post(ItemTooltipEvent(stack, context, lines)) }
     }
 
     override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {

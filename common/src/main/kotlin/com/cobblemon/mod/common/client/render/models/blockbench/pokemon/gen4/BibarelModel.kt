@@ -9,10 +9,13 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -25,7 +28,7 @@ class BibarelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
 
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
     override val portraitScale = 1.8F
@@ -36,6 +39,9 @@ class BibarelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var floating: PokemonPose
+
+    val wateroffset = -1
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("bibarel", "blink").setPreventsIdle(false) }
@@ -58,6 +64,21 @@ class BibarelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 bedrock("bibarel", "ground_idle"),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.75F)
                 //bedrock("bibarel", "ground_walk")
+            )
+        )
+
+        floating = registerPose(
+            poseName = "float",
+            poseTypes = PoseType.SWIMMING_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("bibarel", "ground_idle"),
+                QuadrupedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.75F)
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
             )
         )
     }

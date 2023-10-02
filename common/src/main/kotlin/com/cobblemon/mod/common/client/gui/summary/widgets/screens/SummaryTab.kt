@@ -13,9 +13,9 @@ import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 
 class SummaryTab(
@@ -25,10 +25,11 @@ class SummaryTab(
 ): ButtonWidget(pX, pY, 50, 13, label, onPress, DEFAULT_NARRATION_SUPPLIER) {
     private var isActive = false
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        val matrices = context.matrices
         if (isActive) {
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = cobblemonResource("textures/gui/summary/summary_tab.png"),
                 x = x,
                 y = y,
@@ -38,7 +39,7 @@ class SummaryTab(
         }
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = label.bold(),
             x = x + 25,
