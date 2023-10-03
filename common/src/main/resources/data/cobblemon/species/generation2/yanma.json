@@ -9,6 +9,15 @@
     "compoundeyes",
     "h:frisk"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:wide_lens",
+        "percentage": 5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 65,

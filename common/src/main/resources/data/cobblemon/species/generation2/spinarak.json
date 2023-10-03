@@ -9,6 +9,22 @@
     "insomnia",
     "h:sniper"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:spider_eye",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:rotten_flesh"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 60,

@@ -7,6 +7,16 @@
     "static",
     "h:plus"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:raw_mutton",
+        "quantityRange": "2-4",
+        "percentage": 100
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 75,

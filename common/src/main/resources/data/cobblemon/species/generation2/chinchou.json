@@ -9,6 +9,15 @@
     "illuminate",
     "h:waterabsorb"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:prismarine_crystal",
+        "percentage": 50
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 38,
