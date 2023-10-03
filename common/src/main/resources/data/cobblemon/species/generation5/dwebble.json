@@ -9,6 +9,20 @@
     "shellarmor",
     "h:weakarmor"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "percentage": 50
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 50,
     "attack": 65,

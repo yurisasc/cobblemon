@@ -8,6 +8,21 @@
     "sandrush",
     "h:scrappy"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "minecraft:blue_wool",
+        "quantityRange": "1-2"
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 65,
     "attack": 80,

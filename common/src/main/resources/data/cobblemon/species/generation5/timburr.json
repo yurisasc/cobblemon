@@ -8,6 +8,16 @@
     "sheerforce",
     "h:ironfist"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:muscle_band",
+        "percentage": 2.5
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 75,
     "attack": 80,

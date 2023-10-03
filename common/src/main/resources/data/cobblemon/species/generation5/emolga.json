@@ -8,6 +8,16 @@
     "static",
     "h:motordrive"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 10
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 55,
     "attack": 75,

@@ -9,6 +9,16 @@
     "swarm",
     "h:speedboost"
   ],
+    "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 30,
     "attack": 45,

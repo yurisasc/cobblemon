@@ -9,6 +9,15 @@
     "infiltrator",
     "h:chlorophyll"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:white_wool"
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 40,
     "attack": 27,

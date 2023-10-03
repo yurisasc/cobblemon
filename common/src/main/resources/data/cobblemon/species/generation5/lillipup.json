@@ -8,6 +8,19 @@
     "pickup",
     "h:runaway"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:blue_wool"
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 45,
     "attack": 60,
