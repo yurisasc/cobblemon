@@ -8,6 +8,21 @@
     "stamina",
     "h:innerfocus"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:leather",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "minecraft:clay_ball",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 100,
     "attack": 125,
