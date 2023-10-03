@@ -11,7 +11,7 @@
     "amount": 1,
     "entries": [
       {
-        "item": "minecraft:raw_mutton",
+        "item": "minecraft:mutton",
         "quantityRange": "2-4",
         "percentage": 100
       }

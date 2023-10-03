@@ -8,11 +8,15 @@
     "h:sandveil"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
       {
-        "item": "minecraft:prismarine_crystal",
+        "item": "minecraft:clay_ball",
         "percentage": 50
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
       }
     ]
   },

@@ -38,7 +38,7 @@
     "amount": "2",
     "entries": [
       {
-        "item": "minecraft:raw_porkchop",
+        "item": "minecraft:porkchop",
         "quantityRange": "2-3"
       },
       {

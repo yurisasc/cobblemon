@@ -8,6 +8,9 @@
     "guts",
     "h:hustle"
   ],
+  "drops": {
+    "amount": 3
+  },
   "baseStats": {
     "hp": 30,
     "attack": 56,

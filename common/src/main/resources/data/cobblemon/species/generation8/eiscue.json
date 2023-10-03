@@ -41,10 +41,10 @@
         "percentage": 50
       },
       {
-        "item": "minecraft:raw_chicken"
+        "item": "minecraft:chicken"
       },
       {
-        "item": "minecraft:raw_cod",
+        "item": "minecraft:cod",
         "percentage": 50
       }
     ]
