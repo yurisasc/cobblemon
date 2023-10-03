@@ -8,6 +8,24 @@
     "flamebody",
     "h:galewings"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 2.5
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 62,
     "attack": 73,

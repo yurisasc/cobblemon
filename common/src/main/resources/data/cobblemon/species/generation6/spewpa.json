@@ -7,6 +7,17 @@
     "shedskin",
     "h:friendguard"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 45,
     "attack": 22,

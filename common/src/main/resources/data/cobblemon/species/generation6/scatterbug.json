@@ -8,6 +8,16 @@
     "compoundeyes",
     "h:friendguard"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "percentage": 50
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 38,
     "attack": 35,

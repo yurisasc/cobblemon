@@ -12,7 +12,7 @@
     "amount": 1,
     "entries": [
       {
-        "item": "minecraft:pinap_berry",
+        "item": "cobblemon:pinap_berry",
         "percentage": 2.5
       }
     ]

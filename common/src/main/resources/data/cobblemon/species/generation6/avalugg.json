@@ -8,6 +8,21 @@
     "icebody",
     "h:sturdy"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:blue_ice",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 10
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 95,
     "attack": 117,

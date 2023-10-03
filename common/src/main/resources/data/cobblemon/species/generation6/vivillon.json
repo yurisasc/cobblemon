@@ -9,6 +9,16 @@
     "compoundeyes",
     "h:friendguard"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 2.5
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 80,
     "attack": 52,

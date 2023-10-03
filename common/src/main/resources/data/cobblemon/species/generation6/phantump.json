@@ -9,6 +9,15 @@
     "frisk",
     "h:harvest"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 43,
     "attack": 70,

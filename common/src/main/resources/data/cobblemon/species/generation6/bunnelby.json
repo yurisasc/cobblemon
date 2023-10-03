@@ -8,6 +8,24 @@
     "cheekpouch",
     "h:hugepower"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:carrot",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:rabbit_hide",
+        "percentage": 5
+      },
+      {
+        "item": "minecraft:rabbit_foot",
+        "percentage": 2.5
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 38,
     "attack": 36,

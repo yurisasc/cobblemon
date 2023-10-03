@@ -9,6 +9,17 @@
     "poisontouch",
     "h:adaptability"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:kelp",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 65,
     "attack": 75,
