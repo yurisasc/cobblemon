@@ -8,6 +8,15 @@
     "tintedlens",
     "h:prankster"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:glowstone_dust",
+        "percentage": 50
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 47,

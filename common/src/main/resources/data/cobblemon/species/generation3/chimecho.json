@@ -6,6 +6,16 @@
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:colbur_berry",
+        "quantityRange": "1-2",
+        "percentage": 5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 50,

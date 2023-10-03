@@ -8,6 +8,19 @@
     "magnetpull",
     "h:sandforce"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:flint",
+        "percentage": 50
+      },
+      {
+        "item": "cobblemon:magnet",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 30,
     "attack": 45,

@@ -9,6 +9,21 @@
     "poisonheal",
     "h:technician"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:brown_mushroom",
+        "quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "quantityRange": "1-2",
+        "percentage": 66
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 130,

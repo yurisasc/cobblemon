@@ -9,6 +9,15 @@
     "rockhead",
     "h:sturdy"
   ],
+    "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:deep_sea_scale",
+        "percentage": 20
+      }
+    ]
+  },
   "baseStats": {
     "hp": 100,
     "attack": 90,

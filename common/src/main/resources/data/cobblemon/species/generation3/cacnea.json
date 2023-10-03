@@ -7,6 +7,19 @@
     "sandveil",
     "h:waterabsorb"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:cactus",
+        "percentage": 50
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 85,

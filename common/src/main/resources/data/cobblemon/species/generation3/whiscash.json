@@ -9,6 +9,16 @@
     "anticipation",
     "h:hydration"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "1-2",
+        "percentage": 66
+      }
+    ]
+  },
   "baseStats": {
     "hp": 110,
     "attack": 78,

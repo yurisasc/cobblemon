@@ -7,6 +7,20 @@
     "pressure",
     "h:frisk"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:reaper_cloth",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "quantityRange": "1-2",
+        "percentage": 66
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 70,

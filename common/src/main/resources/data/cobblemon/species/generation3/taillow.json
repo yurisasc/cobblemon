@@ -8,6 +8,23 @@
     "guts",
     "h:scrappy"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:raw_chicken"
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "quantityRange": "1-2",
+        "percentage": 5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 55,
