@@ -9,6 +9,16 @@
     "guts",
     "h:defiant"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 10,
+        "quantityRange": "1-3"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 93,
     "attack": 90,

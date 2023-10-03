@@ -7,6 +7,16 @@
     "steadfast",
     "h:scrappy"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:medicinal_leek",
+        "percentage": 20,
+        "quantityRange": "1-5"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 62,
     "attack": 135,

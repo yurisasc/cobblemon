@@ -8,6 +8,19 @@
     "unburden",
     "h:stakeout"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:sweet_berries",
+        "quantityRange": "2-3"
+      },
+      {
+        "item": "minecraft:emerald",
+        "percentage": 5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 28,

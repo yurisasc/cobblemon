@@ -6,15 +6,6 @@
   "abilities": [
     "comatose"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "minecraft:prismarine_crystal",
-        "percentage": 50
-      }
-    ]
-  },
   "baseStats": {
     "hp": 65,
     "attack": 115,

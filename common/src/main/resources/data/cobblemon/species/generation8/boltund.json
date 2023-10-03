@@ -7,6 +7,21 @@
     "strongjaw",
     "h:competitive"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 69,
     "attack": 90,

@@ -8,6 +8,15 @@
     "toughclaws",
     "h:steelyspirit"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 4
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 110,

@@ -8,6 +8,18 @@
     "unnerve",
     "h:bigpecks"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:chicken"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 38,
     "attack": 47,
