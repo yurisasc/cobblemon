@@ -9,6 +9,19 @@
     "tangledfeet",
     "h:bigpecks"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "1-2",
+        "percentage": 66
+      },
+      {
+        "item": "minecraft:raw_chicken"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 76,
     "attack": 65,

@@ -8,6 +8,15 @@
     "intimidate",
     "h:guts"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:quick_claw",
+        "percentage": 10
+      }
+    ]
+  },
   "baseStats": {
     "hp": 80,
     "attack": 120,

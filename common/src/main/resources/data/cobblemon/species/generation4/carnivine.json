@@ -6,6 +6,15 @@
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 74,
     "attack": 100,

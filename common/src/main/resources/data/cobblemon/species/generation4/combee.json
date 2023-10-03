@@ -8,6 +8,15 @@
     "honeygather",
     "h:hustle"
   ],
+    "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:honey_comb",
+        "percentage": 50
+      }
+    ]
+  },
   "baseStats": {
     "hp": 30,
     "attack": 30,
