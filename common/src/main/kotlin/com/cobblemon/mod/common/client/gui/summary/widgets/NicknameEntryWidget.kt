@@ -75,7 +75,7 @@ class NicknameEntryWidget(
 
     private fun updateNickname(newNickname: String) {
         if (pokemon.nickname == null || pokemon.nickname?.string != newNickname) {
-            val effectiveNickname = if (newNickname.equals(pokemonName, ignoreCase = true)) null else newNickname
+            val effectiveNickname = if (newNickname == pokemonName) null else newNickname
             CobblemonNetwork.sendToServer(
                 SetNicknamePacket(
                     pokemonUUID = pokemon.uuid,
