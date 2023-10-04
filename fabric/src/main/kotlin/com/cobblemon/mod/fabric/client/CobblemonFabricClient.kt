@@ -82,10 +82,12 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
                 prepareExecutor: Executor?,
                 applyExecutor: Executor?
             ): CompletableFuture<Void> {
-                val result = CompletableFuture.runAsync() {
-                    CobblemonAtlases.atlases.forEach {
-                        it.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor)
-                    }
+                //Atlases must be loaded before we reloadCodedAssets, BerryModelRepository needs the berry atlas
+                val atlasFutures = mutableListOf<CompletableFuture<Void>>()
+                CobblemonAtlases.atlases.forEach {
+                    atlasFutures.add(it.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor))
+                }
+                val result = CompletableFuture.allOf(*atlasFutures.toTypedArray()).thenRun {
                     reloadCodedAssets(manager!!)
                 }
                 return result

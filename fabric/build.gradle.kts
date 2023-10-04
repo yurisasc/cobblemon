@@ -56,7 +56,8 @@ dependencies {
     modApi(libs.fabricKotlin)
     modApi(libs.fabricPermissionsApi)
     modRuntimeOnly(libs.jeiFabric)
-    modImplementation("com.jozufozu.flywheel:flywheel-fabric-1.20.1:0.6.9-1")
+    modImplementation(libs.flywheelFabric)
+    include(libs.flywheelFabric)
 
     listOf(
         libs.stdlib,

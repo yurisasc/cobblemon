@@ -19,7 +19,6 @@ transitive-accessible    field    net/minecraft/client/MinecraftClient    itemCo
 transitive-accessible    field    net/minecraft/client/model/ModelPart    children    Ljava/util/Map;
 transitive-accessible    field    net/minecraft/client/model/ModelPart    cuboids    Ljava/util/List;
 transitive-accessible    field    net/minecraft/client/model/TexturedModelData data Lnet/minecraft/client/model/ModelData;
-transitive-accessible    field    net/minecraft/client/model/ModelData data Lnet/minecraft/client/model/ModelCuboidData;
 transitive-accessible    field    net/minecraft/client/model/ModelPartData cuboidData Ljava/util/List;
 transitive-accessible    field    net/minecraft/client/model/ModelPartData rotationData Lnet/minecraft/client/model/ModelTransform;
 transitive-accessible    field    net/minecraft/client/model/ModelPartData children Ljava/util/Map;
