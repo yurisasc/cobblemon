@@ -31,7 +31,6 @@ class NicknameEntryWidget(
         private const val MAX_NAME_LENGTH = 12
     }
 
-    var lastSavedName: String? = null
     var pokemonName = ""
 
     init {
@@ -43,58 +42,44 @@ class NicknameEntryWidget(
         if (isFocused) {
             isFocused = false
         }
+
         this.pokemon = pokemon
-        pokemonName = I18n.translate(pokemon.species.translatedName.string)
-        this.lastSavedName = pokemon.nickname?.string
-        setChangedListener {
-            if (it != pokemonName && it.isNotBlank()) {
-                pokemon.nickname = Text.literal(it)
+        this.pokemonName = I18n.translate(pokemon.species.translatedName.string)
+
+        this.setChangedListener {
+            if (it.isNotBlank()) {
+                this.updateNickname(it)
             } else {
-                pokemon.nickname = null
+                this.updateNickname(pokemonName)
             }
         }
         text = pokemon.getDisplayName().string
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        if (mouseX.toInt() in x..(x + width) && mouseY.toInt() in y..(y + height)) {
+        return if (mouseX.toInt() in x..(x + width) && mouseY.toInt() in y..(y + height)) {
             isFocused = true
-            return true
+            true
         } else {
-            return false
+            false
         }
     }
 
     override fun setFocused(focused: Boolean) {
         super.setFocused(focused)
-        val oldText = text.trim()
-        val pokemonName = I18n.translate(pokemon.species.translatedName.string)
         text = text.trim().ifBlank { pokemonName }
         if (!focused) {
-            val newNickname = if (text == pokemonName) null else text
-            updateNickname(oldText, newNickname)
+            this.updateNickname(text)
         }
     }
 
-    private fun updateNickname(oldText: String, newNickname: String?) {
-        if (!(newNickname == null && pokemon.nickname == null)) {
-
-            val pokemonName = I18n.translate(pokemon.species.translatedName.string)
-            val name = if (pokemonName == newNickname) {
-                null
-            } else {
-                newNickname
-            }
-
-            if (name == lastSavedName) {
-                return
-            }
-
-            lastSavedName = name
+    private fun updateNickname(newNickname: String) {
+        if (pokemon.nickname == null || pokemon.nickname?.string != newNickname) {
+            val effectiveNickname = if (newNickname.equals(pokemonName, ignoreCase = true)) null else newNickname
             CobblemonNetwork.sendToServer(
                 SetNicknamePacket(
                     pokemonUUID = pokemon.uuid,
-                    nickname = name,
+                    nickname = effectiveNickname,
                     isParty = isParty
                 )
             )
@@ -116,10 +101,7 @@ class NicknameEntryWidget(
 
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
         if (keyCode == InputUtil.GLFW_KEY_ESCAPE) {
-            val oldText = text.trim()
-            val pokemonName = I18n.translate(pokemon.species.translatedName.string)
-            val newNickname = if (text == pokemonName) null else text
-            updateNickname(oldText, newNickname)
+            this.updateNickname(text.trim().ifBlank { this.pokemonName })
         }
         return super.keyPressed(keyCode, scanCode, modifiers)
     }
