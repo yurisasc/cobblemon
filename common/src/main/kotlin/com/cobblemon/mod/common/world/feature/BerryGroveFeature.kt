@@ -93,6 +93,7 @@ class BerryGroveFeature : Feature<DefaultFeatureConfig>(DefaultFeatureConfig.COD
                     if (below.isOf(Blocks.GRASS_BLOCK) && below.get(GrassBlock.SNOWY)) {
                         worldGenLevel.setBlockState(dir.down(), below.with(GrassBlock.SNOWY, false), 2)
                     }
+                    worldGenLevel.setBlockState(dir.up(), Blocks.AIR.defaultState, 2)
                 }
             }
         }

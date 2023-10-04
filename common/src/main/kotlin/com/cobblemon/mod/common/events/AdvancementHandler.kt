@@ -95,8 +95,14 @@ object AdvancementHandler {
                 val playerData = Cobblemon.playerData.get(player)
                 val advancementData = playerData.advancementData
                 advancementData.updateTotalBattleVictoryCount()
+                if (event.battle.isPvW)
+                    advancementData.updateTotalPvWBattleVictoryCount()
+                if (event.battle.isPvP)
+                    advancementData.updateTotalPvPBattleVictoryCount()
+                if (event.battle.isPvN)
+                    advancementData.updateTotalPvNBattleVictoryCount()
                 Cobblemon.playerData.saveSingle(playerData)
-                CobblemonCriteria.WIN_BATTLE.trigger(player, advancementData.totalBattleVictoryCount)
+                CobblemonCriteria.WIN_BATTLE.trigger(player, BattleCountableContext(advancementData.totalBattleVictoryCount, event.battle))
             }
 
     }
@@ -112,6 +118,7 @@ object AdvancementHandler {
             CobblemonCriteria.TRADE_POKEMON.trigger(player1, TradePokemonContext(event.tradeParticipant1Pokemon, event.tradeParticipant2Pokemon))
             val playerData = Cobblemon.playerData.get(player1)
             val advancementData = playerData.advancementData
+            advancementData.updateTotalTradedCount()
             advancementData.updateAspectsCollected(player1, event.tradeParticipant2Pokemon)
             CobblemonCriteria.COLLECT_ASPECT.trigger(player1, advancementData.aspectsCollected)
             Cobblemon.playerData.saveSingle(playerData)
@@ -120,6 +127,7 @@ object AdvancementHandler {
             CobblemonCriteria.TRADE_POKEMON.trigger(player2, TradePokemonContext(event.tradeParticipant2Pokemon, event.tradeParticipant1Pokemon))
             val playerData = Cobblemon.playerData.get(player2)
             val advancementData = playerData.advancementData
+            advancementData.updateTotalTradedCount()
             advancementData.updateAspectsCollected(player2, event.tradeParticipant1Pokemon)
             CobblemonCriteria.COLLECT_ASPECT.trigger(player2, advancementData.aspectsCollected)
             Cobblemon.playerData.saveSingle(playerData)

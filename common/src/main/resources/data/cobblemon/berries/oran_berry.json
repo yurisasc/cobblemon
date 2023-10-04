@@ -131,6 +131,30 @@
         "y": -15.0,
         "z": 7.5
       }
+    },
+    {
+      "position": {
+        "x": 5.25,
+        "y": 21.0,
+        "z": 4.0
+      },
+      "rotation": {
+        "x": 7.5,
+        "y": -42.5,
+        "z": -22.5
+      }
+    },
+    {
+      "position": {
+        "x": 1.0,
+        "y": 8.5,
+        "z": 6.5
+      },
+      "rotation": {
+        "x": 10.0,
+        "y": 0.0,
+        "z": -20.0
+      }
     }
   ],
   "mutations": {
@@ -154,7 +178,7 @@
     "BITTER": 10,
     "SOUR": 10
   },
-  "weight": 1.0,
+  "weight": 25.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",

@@ -32,12 +32,12 @@ open class BottomlessStore(override val uuid: UUID) : PokemonStore<BottomlessPos
     override fun iterator() = pokemon.iterator()
 
     override fun get(position: BottomlessPosition) = position.currentIndex
-        .takeIf { it < pokemon.size && it >= 0 }
+        .takeIf { it in pokemon.indices }
         ?.let { pokemon[it] }
 
     override fun getFirstAvailablePosition() = BottomlessPosition(pokemon.size)
     override fun isValidPosition(position: BottomlessPosition) = position.currentIndex >= 0
-    operator fun get(index: Int) = index.takeIf { it >= 0 && it < pokemon.size }?.let { pokemon[it] }
+    operator fun get(index: Int) = index.takeIf { it in pokemon.indices }?.let { pokemon[it] }
     override fun getObservingPlayers() = emptySet<ServerPlayerEntity>()
     override fun sendTo(player: ServerPlayerEntity) {}
 
@@ -92,10 +92,15 @@ open class BottomlessStore(override val uuid: UUID) : PokemonStore<BottomlessPos
             this.pokemon.add(pokemon)
             storeChangeObservable.emit(Unit)
         } else if (position.currentIndex in 0 until this.pokemon.size) {
+            var startIndex = position.currentIndex;
             if (pokemon != null) {
                 this.pokemon.add(position.currentIndex, pokemon)
+                startIndex += 1;
             } else {
                 this.pokemon.removeAt(position.currentIndex)
+            }
+            for(i in startIndex until this.pokemon.size) {
+                this.pokemon[i].storeCoordinates.set(StoreCoordinates(this, BottomlessPosition(i)))
             }
             storeChangeObservable.emit(Unit)
         }

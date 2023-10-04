@@ -123,7 +123,7 @@ open class FileBackedPokemonStoreFactory<S>(
     }
 
     override fun onPlayerDisconnect(playerID: UUID) {
-        dirtyStores.filter { it.uuid == playerID }.forEach { save(it) }
+        dirtyStores.filter { it.uuid == playerID }.forEach(::save)
         storeCaches.forEach { (_, cache) -> cache.cacheMap.remove(playerID) }
     }
 

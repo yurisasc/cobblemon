@@ -30,7 +30,13 @@
     }
   ],
   "randomizedGrowthPoints": true,
-  "spawnConditions": [],
+  "spawnConditions": [
+    {
+      "variant": "cobblemon:preferred_biome",
+      "minGroveSize": 3,
+      "maxGroveSize": 5
+    }
+  ],
   "growthPoints": [
     {
       "position": {
@@ -91,6 +97,18 @@
         "y": -62.5,
         "z": 52.5
       }
+    },
+    {
+      "position": {
+        "x": 6.25,
+        "y": 0.5,
+        "z": 9.5
+      },
+      "rotation": {
+        "x": -50.0,
+        "y": 70.0,
+        "z": 137.5
+      }
     }
   ],
   "mutations": {
@@ -103,7 +121,7 @@
     "DRY": 10,
     "BITTER": 15
   },
-  "weight": 1.0,
+  "weight": 2.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",

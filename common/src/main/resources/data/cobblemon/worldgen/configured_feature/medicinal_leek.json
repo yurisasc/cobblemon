@@ -37,7 +37,9 @@
               {
                 "type": "cobblemon:biome",
                 "excludedBiomes": [
-                  "#cobblemon:is_cold"
+                  "#cobblemon:is_freezing",
+                  "#cobblemon:is_coast",
+                  "#cobblemon:is_ocean"
                 ]
               },
               {
