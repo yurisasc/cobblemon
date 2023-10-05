@@ -93,7 +93,7 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
 
         registerBlockRenderTypes()
-        registerColors()
+        //registerColors()
 
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
@@ -121,6 +121,7 @@ object CobblemonClient {
         }
     }
 
+    /*
     fun registerColors() {
         this.implementation.registerBlockColors(BlockColorProvider { _, _, _, _ ->
             return@BlockColorProvider 0xE0A33A
@@ -129,6 +130,7 @@ object CobblemonClient {
             return@ItemColorProvider 0xE0A33A
         }, CobblemonItems.APRICORN_LEAVES)
     }
+    */
 
     private fun registerBlockRenderTypes() {
 

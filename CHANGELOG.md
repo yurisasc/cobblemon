@@ -402,6 +402,7 @@
 - Fixed Primeape, Qwilfish and Stantler not being able to evolve and by proxy the ``use_move`` evolution requirement.
 - Fixed Bramblin, Pawmo, and Rellor not being able to evolve and by proxy the ``blocks_traveled`` evolution requirement.
 - Fixed displayName property in spawn files not doing what it's meant to do.
+- Fixed Pokémon not sleeping in the wild like we wanted them to.
 
 ### Developer
 - Added SpawnEvent, ThrownPokeballHitEvent, PokemonSentEvent, PokemonRecalledEvent.
