@@ -310,6 +310,7 @@ open class PokemonProperties {
         teraType?.let { ElementalTypes.get(it)?.let { type -> pokemon.teraType = type } }
         dmaxLevel?.let { pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemon.gmaxFactor = it }
+        pokemon.updateAspects()
     }
 
     fun apply(pokemonEntity: PokemonEntity) {
@@ -348,6 +349,7 @@ open class PokemonProperties {
         teraType?.let { ElementalTypes.get(it)?.let { type -> pokemonEntity.pokemon.teraType = type } }
         dmaxLevel?.let { pokemonEntity.pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemonEntity.pokemon.gmaxFactor = it }
+        pokemonEntity.pokemon.updateAspects()
     }
 
     fun matches(pokemon: Pokemon): Boolean {
