@@ -17,6 +17,7 @@ versions:
   fabric-kotlin: 1.9.3+kotlin.1.8.20
   architectury-plugin: 3.4-SNAPSHOT
   flywheelFabric: 0.6.9-1
+  flywheelForge: 0.6.10-7
 
   # forge
   forge: 1.20.1-47.0.50
@@ -134,6 +135,10 @@ dependencies:
     group: mezz.jei
     name: jei-1.20.1-forge
     version: { ref: jei-api }
+  flywheelForge:
+    group: com.jozufozu.flywheel
+    name: flywheel-forge-1.20.1
+    version: { ref: flywheelForge }
 
   # test
   junitEngine:
