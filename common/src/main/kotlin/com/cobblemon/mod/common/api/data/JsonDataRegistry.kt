@@ -45,11 +45,17 @@ interface JsonDataRegistry<T> : DataRegistry {
 
     override fun reload(manager: ResourceManager) {
         val data = hashMapOf<Identifier, T>()
-        manager.findResources(this.resourcePath) { path -> path.endsWith(JSON_EXTENSION) }.forEach { (identifier, resource) ->
+        manager.findAllResources(this.resourcePath) { path -> path.endsWith(JSON_EXTENSION) }.forEach { (identifier, resources) ->
             if (identifier.namespace == "pixelmon") {
                 return@forEach
             }
-            resource.inputStream.use { stream ->
+
+            // I don't think this should be possible?
+            if (resources.isEmpty()) {
+                return@forEach
+            }
+
+            resources[0].inputStream.use { stream ->
                 stream.bufferedReader().use { reader ->
                     val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
                     try {
