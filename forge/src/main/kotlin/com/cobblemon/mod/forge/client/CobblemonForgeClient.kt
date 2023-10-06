@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.client.render.CobblemonAtlases
 import com.cobblemon.mod.common.client.CobblemonClient
+import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
@@ -80,24 +81,25 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     }
 
     private fun onRegisterReloadListener(event: RegisterClientReloadListenersEvent) {
-        event.registerReloadListener(object : ResourceReloader {
-            override fun reload(
-                synchronizer: ResourceReloader.Synchronizer,
-                manager: ResourceManager,
-                prepareProfiler: Profiler,
-                applyProfiler: Profiler,
-                prepareExecutor: Executor,
-                applyExecutor: Executor
-            ): CompletableFuture<Void> {
-                return CompletableFuture.runAsync {
-                    CobblemonAtlases.atlases.forEach {
-                        it.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor)
-                    }
-                    CobblemonClient.reloadCodedAssets(manager)
-                }
+        event.registerReloadListener { synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor ->
+            val atlasFutures = mutableListOf<CompletableFuture<Void>>()
+            CobblemonAtlases.atlases.forEach {
+                atlasFutures.add(
+                    it.reload(
+                        synchronizer,
+                        manager,
+                        prepareProfiler,
+                        applyProfiler,
+                        prepareExecutor,
+                        applyExecutor
+                    )
+                )
             }
-
-        })
+            val result = CompletableFuture.allOf(*atlasFutures.toTypedArray()).thenRun {
+                reloadCodedAssets(manager!!)
+            }
+            result
+        }
 
     }
 
