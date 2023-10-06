@@ -27,9 +27,9 @@ class BerryEntityInstance(val materialManager: MaterialManager, val entity: Berr
             return
         }
         entity.berryAndGrowthPoint().forEach {
-            val newModel = if (age == BerryBlock.FLOWER_AGE) BerryModelRepository.modelOf(
+            val newModel = if (age == BerryBlock.FLOWER_AGE) BerryModelRepository.flywheelModelOf(
                 cobblemonResource("flower")
-            ) else BerryModelRepository.modelOf(it.first.fruitModelIdentifier)
+            ) else BerryModelRepository.flywheelModelOf(it.first.fruitModelIdentifier)
             if (newModel != null) {
                 val instancedModel = materialManager
                     .cutout(CobblemonRenderLayers.BERRY_LAYER)

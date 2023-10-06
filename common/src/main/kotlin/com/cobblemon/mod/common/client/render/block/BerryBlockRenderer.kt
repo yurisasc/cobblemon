@@ -10,35 +10,21 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
-import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.setPosition
 import com.cobblemon.mod.common.util.math.geometry.Axis
 import com.cobblemon.mod.common.util.toVec3d
-import com.google.common.cache.CacheBuilder
-import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gl.VertexBuffer
-import net.minecraft.client.render.*
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
-import org.joml.Matrix4f
-import java.time.Duration
+
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
-    val CACHE_BUILDER = CacheBuilder
-        .newBuilder()
-        .expireAfterAccess(Duration.ofMinutes(1))
-        .removalListener<BlockPos, VertexBuffer> {
-            it.value?.close()
-            validLightMap.remove(it.key)
-        }
-    val vertexBufferCache = CACHE_BUILDER.build<BlockPos, VertexBuffer>()
-    val validLightMap = mutableMapOf<BlockPos, Int>()
 
     override fun isInRenderDistance(blockEntity: BerryBlockEntity, pos: Vec3d): Boolean {
         return super.isInRenderDistance(blockEntity, pos)
@@ -46,21 +32,17 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
     }
 
     override fun render(entity: BerryBlockEntity, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
-    }
-
-    /*
-    fun constructBuffer(entity: BerryBlockEntity, age:Int, light: Int, overlay: Int): VertexBuffer {
-        val tessellator = Tessellator()
-        tessellator.buffer.begin(
-            CobblemonRenderLayers.BERRY_LAYER.drawMode,
-            CobblemonRenderLayers.BERRY_LAYER.vertexFormat
-        )
+        if (!isInRenderDistance(entity, entity.pos.toVec3d())) return
+        val blockState = entity.cachedState
+        val age = blockState.get(BerryBlock.AGE)
+        if (age <= BerryBlock.MATURE_AGE) {
+            return
+        }
         val isFlower = age == BerryBlock.FLOWER_AGE
         for ((berry, growthPoint) in entity.berryAndGrowthPoint()) {
-            val model =
-                (if (isFlower) BerryModelRepository.modelOf(berry.flowerModelIdentifier) else BerryModelRepository.modelOf(
-                    berry.fruitModelIdentifier
-                )) ?: continue
+            val model = (if (isFlower) BerryModelRepository.modelOf(berry.flowerModelIdentifier) else BerryModelRepository.modelOf(berry.fruitModelIdentifier)) ?: continue
+            val texture = if (isFlower) berry.flowerTexture else berry.fruitTexture
+            val layer = RenderLayer.getEntityCutoutNoCull(texture)
             model.setAngles(
                 Math.toRadians(180.0 - growthPoint.rotation.x).toFloat(),
                 Math.toRadians(180.0 + growthPoint.rotation.y).toFloat(),
@@ -69,16 +51,8 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             model.setPosition(Axis.X_AXIS.ordinal, growthPoint.position.x.toFloat())
             model.setPosition(Axis.Y_AXIS.ordinal, growthPoint.position.y.toFloat())
             model.setPosition(Axis.Z_AXIS.ordinal, growthPoint.position.z.toFloat())
-            model.render(MatrixStack(), tessellator.buffer, light, overlay)
+            model.render(matrices, vertexConsumers.getBuffer(layer), light, overlay)
         }
-        val builtBuffer = tessellator.buffer.end()
-        val vertexBuffer = VertexBuffer(VertexBuffer.Usage.STATIC)
-        vertexBuffer.bind()
-        vertexBuffer.upload(builtBuffer)
-        VertexBuffer.unbind()
-        return vertexBuffer
     }
-    
-     */
 
 }

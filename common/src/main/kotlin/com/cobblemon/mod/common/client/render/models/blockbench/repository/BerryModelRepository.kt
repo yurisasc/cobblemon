@@ -17,10 +17,8 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.endsWith
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.jozufozu.flywheel.core.hardcoded.ModelPart
-import com.jozufozu.flywheel.core.hardcoded.PartBuilder
 import com.jozufozu.flywheel.core.model.Model
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.model.ModelPart
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -37,12 +35,13 @@ object BerryModelRepository : JsonDataRegistry<TexturedModel> {
     override val gson: Gson = TexturedModel.GSON
     override val typeToken: TypeToken<TexturedModel> = TypeToken.get(TexturedModel::class.java)
     override val resourcePath = "bedrock/berries"
-    private val models = hashMapOf<Identifier, Model>()
+    private val flywheelModels = hashMapOf<Identifier, Model>()
+    private val vanillaModels = hashMapOf<Identifier, ModelPart>()
 
     override fun sync(player: ServerPlayerEntity) {}
 
     override fun reload(data: Map<Identifier, TexturedModel>) {
-        this.models.clear()
+        this.flywheelModels.clear()
         data.forEach { (identifier, model) ->
             var textureName = "cobblemon:flower"
             if (identifier.endsWith("berry.geo")) {
@@ -50,13 +49,17 @@ object BerryModelRepository : JsonDataRegistry<TexturedModel> {
                     .substring(0, identifier.toString().length - "_berry.geo".length)
             }
             val atlas = CobblemonAtlases.BERRY_SPRITE_ATLAS
-            this.models[identifier] = model.createFlywheelModel(
+            this.flywheelModels[identifier] = model.createFlywheelModel(
                 atlas,
                 Identifier.tryParse(textureName)!!,
                 identifier.toString()
             )
+            //These are for when flywheel isn't available, e.g. with shaders
+            this.vanillaModels[identifier] = model.create(false).createModel()
         }
-        Cobblemon.LOGGER.info("Loaded {} berry models", this.models.size)
+        Cobblemon.LOGGER.info("Loaded {} berry models", this.flywheelModels.size)
     }
-    fun modelOf(identifier: Identifier) = this.models[identifier]
+    fun flywheelModelOf(identifier: Identifier) = this.flywheelModels[identifier]
+
+    fun modelOf(identifier: Identifier) = this.vanillaModels[identifier]
 }
