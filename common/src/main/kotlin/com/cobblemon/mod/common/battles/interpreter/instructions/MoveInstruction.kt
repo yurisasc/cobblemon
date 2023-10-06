@@ -13,7 +13,6 @@ import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.interpreter.Effect
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.moves.Moves
@@ -27,7 +26,7 @@ import com.cobblemon.mod.common.battles.dispatch.InstructionSet
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
+import com.cobblemon.mod.common.pokemon.transformation.progress.UseMoveTransformationProgress
 import com.cobblemon.mod.common.util.battleLang
 import java.util.concurrent.CompletableFuture
 
@@ -67,9 +66,9 @@ class MoveInstruction(
             ShowdownInterpreter.lastCauser[battle.battleId] = message
 
             userPokemon.effectedPokemon.let { pokemon ->
-                if (UseMoveEvolutionProgress.supports(pokemon, move)) {
-                    val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is UseMoveEvolutionProgress && it.currentProgress().move == move }) { UseMoveEvolutionProgress() }
-                    progress.updateProgress(UseMoveEvolutionProgress.Progress(move, progress.currentProgress().amount + 1))
+                if (UseMoveTransformationProgress.supports(pokemon, move)) {
+                    val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is UseMoveTransformationProgress && it.currentProgress().move == move }) { UseMoveTransformationProgress() }
+                    progress.updateProgress(UseMoveTransformationProgress.Progress(move, progress.currentProgress().amount + 1))
                 }
             }
 

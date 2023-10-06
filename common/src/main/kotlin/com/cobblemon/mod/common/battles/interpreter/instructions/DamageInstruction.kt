@@ -19,12 +19,11 @@ import com.cobblemon.mod.common.battles.dispatch.InstructionSet
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
-import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
 import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
-import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
-import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
+import com.cobblemon.mod.common.pokemon.transformation.progress.DamageTakenTransformationProgress
+import com.cobblemon.mod.common.pokemon.transformation.progress.RecoilTransformationProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.lang
 import java.util.concurrent.CompletableFuture
@@ -53,13 +52,13 @@ class DamageInstruction(
         val lastCauser  = instructionSet.getMostRecentCauser(comparedTo = this)
         if (recoiling) {
             battlePokemon.effectedPokemon.let { pokemon ->
-                if (RecoilEvolutionProgress.supports(pokemon)) {
+                if (RecoilTransformationProgress.supports(pokemon)) {
                     val newPercentage = privateMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toIntOrNull() ?: 0
                     val newHealth = (pokemon.hp * (newPercentage / 100.0)).roundToInt()
                     val difference = pokemon.currentHealth - newHealth
                     if (difference > 0) {
-                        val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is RecoilEvolutionProgress }) { RecoilEvolutionProgress() }
-                        progress.updateProgress(RecoilEvolutionProgress.Progress(progress.currentProgress().recoil + difference))
+                        val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is RecoilTransformationProgress }) { RecoilTransformationProgress() }
+                        progress.updateProgress(RecoilTransformationProgress.Progress(progress.currentProgress().recoil + difference))
                     }
                 }
             }
@@ -137,9 +136,9 @@ class DamageInstruction(
                     battlePokemon.effectedPokemon.currentHealth = remainingHealth
                     if (difference > 0) {
                         battlePokemon.effectedPokemon.let { pokemon ->
-                            if (DamageTakenEvolutionProgress.supports(pokemon)) {
-                                val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is DamageTakenEvolutionProgress }) { DamageTakenEvolutionProgress() }
-                                progress.updateProgress(DamageTakenEvolutionProgress.Progress(progress.currentProgress().amount + difference))
+                            if (DamageTakenTransformationProgress.supports(pokemon)) {
+                                val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is DamageTakenTransformationProgress }) { DamageTakenTransformationProgress() }
+                                progress.updateProgress(DamageTakenTransformationProgress.Progress(progress.currentProgress().amount + difference))
                             }
                         }
                     }

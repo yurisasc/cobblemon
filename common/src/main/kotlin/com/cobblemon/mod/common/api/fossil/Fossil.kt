@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.api.fossil
 
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
-import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
+import com.cobblemon.mod.common.pokemon.transformation.predicate.NbtItemPredicate
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.text.MutableText

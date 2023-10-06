@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
-import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHitsEvolutionProgress
+import com.cobblemon.mod.common.pokemon.transformation.progress.LastBattleCriticalHitsTransformationProgress
 import com.cobblemon.mod.common.util.battleLang
 
 /**
@@ -31,9 +31,9 @@ class CritInstruction(val message: BattleMessage): InterpreterInstruction {
             battle.broadcastChatMessage(battleLang("crit").yellow())
             ShowdownInterpreter.lastCauser[battle.battleId]?.let { message ->
                 val battlePokemon = message.battlePokemon(0, battle) ?: return@let
-                if (LastBattleCriticalHitsEvolutionProgress.supports(battlePokemon.effectedPokemon)) {
-                    val progress = battlePokemon.effectedPokemon.evolutionProxy.current().progressFirstOrCreate({ it is LastBattleCriticalHitsEvolutionProgress }) { LastBattleCriticalHitsEvolutionProgress() }
-                    progress.updateProgress(LastBattleCriticalHitsEvolutionProgress.Progress(progress.currentProgress().amount + 1))
+                if (LastBattleCriticalHitsTransformationProgress.supports(battlePokemon.effectedPokemon)) {
+                    val progress = battlePokemon.effectedPokemon.evolutionProxy.current().progressFirstOrCreate({ it is LastBattleCriticalHitsTransformationProgress }) { LastBattleCriticalHitsTransformationProgress() }
+                    progress.updateProgress(LastBattleCriticalHitsTransformationProgress.Progress(progress.currentProgress().amount + 1))
                 }
             }
             battle.minorBattleActions[pokemon.uuid] = message
