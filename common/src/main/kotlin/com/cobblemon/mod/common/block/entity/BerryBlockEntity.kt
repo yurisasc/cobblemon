@@ -42,8 +42,6 @@ import net.minecraft.world.event.GameEvent
 class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.BERRY, pos, state) {
     lateinit var berryIdentifier: Identifier
     private val ticksPerMinute = 1200
-    //Whether cached vertex buffers should be rerendered
-    var shouldRerender = false
     //The time left for the tree to grow to stage 5
     var growthTimer: Int = 72000
         set(value) {
@@ -223,9 +221,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         if (nbt.contains(GROWTH_POINTS_SEQUENCE)) {
             growthPointSequence = nbt.getString(GROWTH_POINTS_SEQUENCE)
         }
-        //Hack so tree is rerendered every time entity data is synced from server to client
-        //What we really want is a rerender when the age changes but this will have to do
-        shouldRerender = true
     }
 
     override fun writeNbt(nbt: NbtCompound) {
