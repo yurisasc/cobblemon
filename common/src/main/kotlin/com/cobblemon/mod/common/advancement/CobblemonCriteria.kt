@@ -51,9 +51,9 @@ object CobblemonCriteria {
         )
     )
     val WIN_BATTLE = this.create(
-        SimpleCriterionTrigger(
+        BattleCountableCriterionTrigger(
             cobblemonResource("battles_won"),
-            SimpleCountableCriterionCondition::class.java
+            BattleCountableCriterionCondition::class.java
         )
     )
 

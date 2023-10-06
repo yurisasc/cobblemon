@@ -90,7 +90,6 @@ class NicknameEntryWidget(
                 return
             }
 
-            println("Setting ${pokemon.species.name} nickname to: $name")
             lastSavedName = name
             CobblemonNetwork.sendToServer(
                 SetNicknamePacket(

@@ -46,6 +46,9 @@ interface JsonDataRegistry<T> : DataRegistry {
     override fun reload(manager: ResourceManager) {
         val data = hashMapOf<Identifier, T>()
         manager.findResources(this.resourcePath) { path -> path.endsWith(JSON_EXTENSION) }.forEach { (identifier, resource) ->
+            if (identifier.namespace == "pixelmon") {
+                return@forEach
+            }
             resource.inputStream.use { stream ->
                 stream.bufferedReader().use { reader ->
                     val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)

@@ -3,7 +3,7 @@
   "placement": [
     {
       "type": "rarity_filter",
-      "chance": 3
+      "chance": 2
     },
     {
       "type": "minecraft:count",
@@ -16,7 +16,7 @@
       "type": "cobblemon:beneath_heightmap",
       "heightmap": "MOTION_BLOCKING_NO_LEAVES",
       "offset": -1,
-      "reach": 16
+      "reach": 32
     },
     {
       "type": "minecraft:block_predicate_filter",

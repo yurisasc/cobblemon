@@ -1644,7 +1644,6 @@
 			}
 		},
 		"animation.boltund.cry": {
-			"loop": true,
 			"animation_length": 1.25,
 			"bones": {
 				"neck": {

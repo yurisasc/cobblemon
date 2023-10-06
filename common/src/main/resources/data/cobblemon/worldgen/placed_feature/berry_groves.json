@@ -2,11 +2,41 @@
 	"feature": "cobblemon:berry_groves",
 	"placement": [
 		{
-			"type": "minecraft:rarity_filter",
-			"chance": 69
+			"type": "minecraft:in_square"
 		},
 		{
-			"type": "minecraft:in_square"
+			"type": "cobblemon:conditional_rarity_filter",
+			"chance": 70,
+			"predicate": {
+				"type": "cobblemon:biome",
+				"includedBiomes": [
+					"#cobblemon:is_sparse"
+				]
+			}
+		},
+		{
+			"type": "cobblemon:conditional_rarity_filter",
+			"chance": 25,
+			"predicate": {
+				"type": "cobblemon:biome",
+				"excludedBiomes": [
+					"#cobblemon:is_dense",
+					"#cobblemon:is_sparse"
+				]
+			}
+		},
+		{
+			"type": "cobblemon:conditional_rarity_filter",
+			"chance": 10,
+			"predicate": {
+				"type": "cobblemon:biome",
+				"includedBiomes": [
+					"#cobblemon:is_dense"
+				],
+				"excludedBiomes": [
+					"#cobblemon:is_sparse"
+				]
+			}
 		},
 		{
       		"type": "minecraft:heightmap",
