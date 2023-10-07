@@ -33,6 +33,10 @@
       {
         "item": "cobblemon:protector",
         "percentage": 5
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 5
       }
     ]
   },

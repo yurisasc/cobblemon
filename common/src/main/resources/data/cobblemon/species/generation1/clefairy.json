@@ -34,10 +34,14 @@
     "fairy"
   ],
   "drops": {
-    "amount": "1",
+    "amount": "2",
     "entries": [
       {
         "item": "cobblemon:moon_stone",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:leppa_berry",
         "percentage": 5
       }
     ]

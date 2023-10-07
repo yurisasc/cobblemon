@@ -9,6 +9,15 @@
     "competitive",
     "h:friendguard"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 115,
     "attack": 45,

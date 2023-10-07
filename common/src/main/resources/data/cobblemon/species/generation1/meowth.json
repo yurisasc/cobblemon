@@ -442,8 +442,7 @@
     "entries": [
       {
         "item": "minecraft:gold_nugget",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "percentage": 50
       },
       {
         "item": "cobblemon:quick_claw",
