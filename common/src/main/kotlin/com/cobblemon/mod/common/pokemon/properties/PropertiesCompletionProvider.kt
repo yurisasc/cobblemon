@@ -139,6 +139,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("dmax"), setOf("0", Cobblemon.config.maxDynamaxLevel.toString()))
         this.inject(setOf("gmax"), setOf("yes", "no"))
         this.inject(setOf("tera"), ElementalTypes.all().map { it.name })
+        this.inject(setOf("tradeable"), setOf("yes", "no"))
 
         Stats.PERMANENT.forEach{ stat ->
             val statName = stat.toString().lowercase()
