@@ -8,11 +8,9 @@
 
 package com.cobblemon.mod.common.api.data
 
-import com.cobblemon.mod.common.util.endsWith
+import com.cobblemon.mod.common.Cobblemon
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.io.File
-import java.util.concurrent.ExecutionException
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 
@@ -45,27 +43,7 @@ interface JsonDataRegistry<T> : DataRegistry {
 
     override fun reload(manager: ResourceManager) {
         val data = hashMapOf<Identifier, T>()
-        manager.findAllResources(this.resourcePath) { path -> path.endsWith(JSON_EXTENSION) }.forEach { (identifier, resources) ->
-            if (identifier.namespace == "pixelmon") {
-                return@forEach
-            }
-
-            // I don't think this should be possible?
-            if (resources.isEmpty()) {
-                return@forEach
-            }
-
-            resources[0].inputStream.use { stream ->
-                stream.bufferedReader().use { reader ->
-                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                    try {
-                        data[resolvedIdentifier] = this.gson.fromJson(reader, this.typeToken.type)
-                    } catch (exception: Exception) {
-                        throw ExecutionException("Error loading JSON for data: $identifier", exception)
-                    }
-                }
-            }
-        }
+        Cobblemon.implementation.reloadJsonRegistry(this, manager)
         this.reload(data)
     }
 
@@ -77,6 +55,6 @@ interface JsonDataRegistry<T> : DataRegistry {
     fun reload(data: Map<Identifier, T>)
 
     companion object {
-        private const val JSON_EXTENSION = ".json"
+        const val JSON_EXTENSION = ".json"
     }
 }

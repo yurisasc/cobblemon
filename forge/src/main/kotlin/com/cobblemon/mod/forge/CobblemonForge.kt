@@ -9,11 +9,13 @@
 package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.item.MedicinalLeekItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.util.didSleep
+import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.world.CobblemonStructures
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
@@ -43,6 +45,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
@@ -78,6 +81,8 @@ import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegisterEvent
 import net.minecraftforge.server.ServerLifecycleHooks
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import java.io.File
+import java.util.concurrent.ExecutionException
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
@@ -316,6 +321,28 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun server(): MinecraftServer? = ServerLifecycleHooks.getCurrentServer()
+
+    override fun <T> reloadJsonRegistry(registry: JsonDataRegistry<T>, manager: ResourceManager): HashMap<Identifier, T> {
+        val data = hashMapOf<Identifier, T>()
+
+        manager.findResources(registry.resourcePath) { path -> path.endsWith(JsonDataRegistry.JSON_EXTENSION) }.forEach { (identifier, resource) ->
+            if (identifier.namespace == "pixelmon") {
+                return@forEach
+            }
+
+            resource.inputStream.use { stream ->
+                stream.bufferedReader().use { reader ->
+                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    try {
+                        data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
+                    } catch (exception: Exception) {
+                        throw ExecutionException("Error loading JSON for data: $identifier", exception)
+                    }
+                }
+            }
+        }
+        return data
+    }
 
     private fun onVillagerTradesRegistry(e: VillagerTradesEvent) {
         CobblemonTradeOffers.tradeOffersFor(e.type).forEach { tradeOffer ->
