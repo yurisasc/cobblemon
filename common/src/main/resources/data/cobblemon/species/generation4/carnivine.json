@@ -7,10 +7,18 @@
     "levitate"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 3,
     "entries": [
       {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5
+      },
+      {
         "item": "cobblemon:big_root",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:kebia_berry",
         "percentage": 5
       }
     ]

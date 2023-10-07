@@ -11,14 +11,14 @@
     "amount": 2,
     "entries": [
       {
-        "item": "minecraft:snowball",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "item": "minecraft:salmon",
+        "quantityRange": "1",
+        "percentage": 50
       },
       {
-        "item": "cobblemon:occa_berry",
-        "quantityRange": "1-2",
-        "percentage": 5
+        "item": "cobblemon:wacan_berry",
+        "quantityRange": "1",
+        "percentage": 2.5
       }
     ]
   },

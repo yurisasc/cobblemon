@@ -9,10 +9,14 @@
     "h:guts"
   ],
   "drops": {
-    "amount": 1,
+    "amount": "2",
     "entries": [
       {
         "item": "cobblemon:quick_claw",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:shuca_berry",
         "percentage": 5
       }
     ]

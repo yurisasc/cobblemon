@@ -10,15 +10,19 @@
     "h:bigpecks"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
-        "item": "minecraft:feather",
+        "item": "cobblemon:feather",
         "quantityRange": "1-2",
         "percentage": 66
       },
       {
         "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5
       }
     ]
   },
