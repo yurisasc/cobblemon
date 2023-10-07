@@ -7,23 +7,6 @@
     "motordrive",
     "h:vitalspirit"
   ],
-  "baseStats": {
-    "hp": 75,
-    "attack": 123,
-    "defence": 67,
-    "special_attack": 95,
-    "special_defence": 85,
-    "speed": 95
-  },
-  "catchRate": 30,
-  "maleRatio": 0.75,
-  "shoulderMountable": false,
-  "baseExperienceYield": 270,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 25,
-  "eggGroups": [
-    "human_like"
-  ],
   "drops": {
     "amount": 3,
     "entries": [
@@ -42,6 +25,23 @@
       }
     ]
   },
+  "baseStats": {
+    "hp": 75,
+    "attack": 123,
+    "defence": 67,
+    "special_attack": 95,
+    "special_defence": 85,
+    "speed": 95
+  },
+  "catchRate": 30,
+  "maleRatio": 0.75,
+  "shoulderMountable": false,
+  "baseExperienceYield": 270,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 25,
+  "eggGroups": [
+    "human_like"
+  ],
   "moves": [
     "1:charge",
     "1:electricterrain",

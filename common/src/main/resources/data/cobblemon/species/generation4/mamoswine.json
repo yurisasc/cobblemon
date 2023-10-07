@@ -9,6 +9,19 @@
     "snowcloak",
     "h:thickfat"
   ],
+  "drops": {
+    "amount": "2",
+    "entries": [
+      {
+        "item": "minecraft:porkchop",
+        "quantityRange": "2-3"
+      },
+      {
+        "item": "minecraft:brown_wool",
+        "quantityRange": "2-3"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 110,
     "attack": 130,
@@ -34,19 +47,6 @@
   "eggGroups": [
     "field"
   ],
-  "drops": {
-    "amount": "2",
-    "entries": [
-      {
-        "item": "minecraft:porkchop",
-        "quantityRange": "2-3"
-      },
-      {
-        "item": "minecraft:brown_wool",
-        "quantityRange": "2-3"
-      }
-    ]
-  },
   "moves": [
     "1:ancientpower",
     "1:flail",

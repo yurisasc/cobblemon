@@ -8,23 +8,6 @@
     "thickfat",
     "h:gluttony"
   ],
-  "baseStats": {
-    "hp": 135,
-    "attack": 85,
-    "defence": 40,
-    "special_attack": 40,
-    "special_defence": 85,
-    "speed": 5
-  },
-  "catchRate": 50,
-  "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 78,
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "undiscovered"
-  ],
   "drops": {
     "amount": 3,
     "entries": [
@@ -43,6 +26,23 @@
       }
     ]
   },
+  "baseStats": {
+    "hp": 135,
+    "attack": 85,
+    "defence": 40,
+    "special_attack": 40,
+    "special_defence": 85,
+    "speed": 5
+  },
+  "catchRate": 50,
+  "maleRatio": 0.875,
+  "shoulderMountable": false,
+  "baseExperienceYield": 78,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "undiscovered"
+  ],
   "moves": [
     "1:lastresort",
     "1:lick",

@@ -7,23 +7,6 @@
     "flamebody",
     "h:vitalspirit"
   ],
-  "baseStats": {
-    "hp": 75,
-    "attack": 95,
-    "defence": 67,
-    "special_attack": 125,
-    "special_defence": 95,
-    "speed": 83
-  },
-  "catchRate": 30,
-  "maleRatio": 0.75,
-  "shoulderMountable": false,
-  "baseExperienceYield": 270,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 25,
-  "eggGroups": [
-    "human_like"
-  ],
   "drops": {
     "amount": 3,
     "entries": [
@@ -41,6 +24,23 @@
       }
     ]
   },
+  "baseStats": {
+    "hp": 75,
+    "attack": 95,
+    "defence": 67,
+    "special_attack": 125,
+    "special_defence": 95,
+    "speed": 83
+  },
+  "catchRate": 30,
+  "maleRatio": 0.75,
+  "shoulderMountable": false,
+  "baseExperienceYield": 270,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 25,
+  "eggGroups": [
+    "human_like"
+  ],
   "moves": [
     "1:ember",
     "1:leer",
