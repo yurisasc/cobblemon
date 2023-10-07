@@ -298,7 +298,20 @@ object CobblemonFabric : CobblemonImplementation {
                     return@forEach
                 }
 
-                resources[0].inputStream.use { stream ->
+                val orderedResources = if (resources.size > 1) {
+                    val sorted = resources.sortedBy { it.resourcePackName.replace("file/", "") }.toMutableList()
+                    val fabric = sorted.find { it.resourcePackName == "fabric" }
+
+                    if (fabric != null) {
+                        sorted.remove(fabric)
+                        sorted.add(fabric)
+                    }
+                    sorted
+                } else {
+                    resources
+                }
+
+                orderedResources[0].inputStream.use { stream ->
                     stream.bufferedReader().use { reader ->
                         val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
                         try {
