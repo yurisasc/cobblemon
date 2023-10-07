@@ -56,9 +56,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     //The time left for the tree to grow to the next stage
     var stageTimer: Int = growthTimer / BerryBlock.MATURE_AGE
         set(value) {
-            if (value < 0) {
-                throw IllegalArgumentException("You cannot set the stage growth time to less than zero")
-            }
             if (field != value) {
                 this.markDirty()
             }
@@ -111,23 +108,18 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
 
     fun resetGrowTimers(pos: BlockPos, state: BlockState) {
         val curAge = state.get(BerryBlock.AGE)
-        if (curAge != 5) {
-            val berry = Berries.getByIdentifier(berryIdentifier)!!
-            var multiplier = 10
-            val world = world
-            if (world != null && world.getBlockState(pos).block is BerryBlock) {
-                if (getMulch(state) == MulchVariant.GROWTH) {
-                    decrementMulchDuration(world, pos, state)
-                }
-                multiplier = 15
-            }
-            val upperGrowthLimit = ((if (curAge == 0) berry.growthTime.last else berry.refreshRate.last) * multiplier) / 10
-            val lowerGrowthLimit = ((if (curAge == 0) berry.growthTime.first else berry.refreshRate.first) * multiplier) / 10
-            val growthRange = lowerGrowthLimit..upperGrowthLimit
-            growthTimer = growthRange.random() * ticksPerMinute
-
-            goToNextStageTimer(BerryBlock.FRUIT_AGE - curAge)
+        if (curAge == 5) {
+            return
         }
+
+        val multiplier = 14
+        val berry = Berries.getByIdentifier(berryIdentifier)!!
+        val lowerGrowthLimit = (if (curAge == 0) berry.growthTime.first else berry.refreshRate.first) * multiplier / 10
+        val upperGrowthLimit = (if (curAge == 0) berry.growthTime.last else berry.refreshRate.last) * multiplier / 10
+        val growthRange = lowerGrowthLimit..upperGrowthLimit
+
+        this.growthTimer = this.applyMulchModifier(pos, growthRange.random() * ticksPerMinute)
+        this.goToNextStageTimer(BerryBlock.FRUIT_AGE - curAge)
     }
 
     fun goToNextStageTimer(stagesLeft: Int) {
@@ -135,6 +127,37 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         stageTimer = this.world?.random?.nextBetween((avgStageTime * 8) / 10, avgStageTime) ?:
                 (((Math.random() *  0.2) + 0.8) * avgStageTime).toInt()
         growthTimer -= stageTimer
+    }
+
+    /**
+     * Used to apply an effect to the growth timer based on the mulch type.
+     * Currently only used for growth mulch.
+     * @param pos The position of the block
+     * @param timer Timer to be modified
+     * @return The modified timer
+     */
+    private fun applyMulchModifier(pos: BlockPos, timer: Int): Int {
+        val state = world?.getBlockState(pos) ?: return timer
+
+        val curAge = state.get(BerryBlock.AGE)
+        if (curAge == 5) {
+            return timer
+        }
+
+        if (getMulch(state) != MulchVariant.GROWTH) {
+            return timer
+        }
+
+        return (timer * 0.66).toInt()
+    }
+
+    /**
+     * Used to refresh the timers when a new mulch is applied.
+     * @param pos The position of the block
+     */
+    fun refreshTimers(pos: BlockPos) {
+        this.growthTimer = this.applyMulchModifier(pos, growthTimer)
+        this.stageTimer = this.applyMulchModifier(pos, stageTimer)
     }
 
     /**
@@ -286,7 +309,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         val newState = state.with(BerryBlock.AGE, 3)
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
         world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos)
-        this.generateGrowthPoints(world, newState, pos, player)
         resetGrowTimers(pos, newState)
         return
     }
@@ -294,7 +316,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     companion object {
         internal val TICKER = BlockEntityTicker<BerryBlockEntity> { world, pos, state, blockEntity ->
             if (world.isClient) return@BlockEntityTicker
-            if (blockEntity.stageTimer > 0) {
+            if (blockEntity.stageTimer >= 0) {
                 blockEntity.stageTimer--
             }
             if (blockEntity.stageTimer == 0) {

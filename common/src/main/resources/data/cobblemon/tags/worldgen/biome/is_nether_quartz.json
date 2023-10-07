@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+	{
+      "id": "byg:quartz_desert",
+      "required": false
+    },
+	{
+      "id": "incendium:quartz_flats",
+      "required": false
+    }
+  ]
+}

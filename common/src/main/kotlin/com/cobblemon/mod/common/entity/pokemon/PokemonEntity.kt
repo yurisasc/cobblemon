@@ -58,8 +58,6 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import java.util.*
-import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
@@ -106,6 +104,9 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.util.EnumSet
+import java.util.Optional
+import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 class PokemonEntity(
@@ -237,6 +238,7 @@ class PokemonEntity(
 
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
+            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
 
     }
 
@@ -270,6 +272,11 @@ class PokemonEntity(
         ticksLived++
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
+        }
+
+        if (this.tethering != null && !this.tethering!!.box.contains(this.x, this.y, this.z)) {
+            this.tethering = null
+            this.pokemon.recall()
         }
     }
 
@@ -1004,5 +1011,9 @@ class PokemonEntity(
                 if(distanceTo(player.blockPos) > 100) pokemon.recall()
             }
         }
+    }
+
+    override fun canBeLeashedBy(player: PlayerEntity): Boolean {
+        return this.ownerUuid == null || this.ownerUuid == player.uuid
     }
 }

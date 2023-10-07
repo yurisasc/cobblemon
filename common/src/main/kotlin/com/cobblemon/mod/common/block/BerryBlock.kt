@@ -89,8 +89,8 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val newState = state.with(AGE, newAge)
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         if (curAge == MATURE_AGE) {
-            determineMutation(world, random, pos, state)
             treeEntity.generateGrowthPoints(world, state, pos, null)
+            determineMutation(world, random, pos, state)
         }
 
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
@@ -148,6 +148,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         setMulch(world, pos, state, variant)
         treeEntity.mulchDuration = variant.duration
         world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS, 0.6F, 1F)
+        treeEntity.refreshTimers(pos)
     }
 
     @Deprecated("Deprecated in Java")
@@ -235,7 +236,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
 
         val STANDARD_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
-        val STANDARD_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 25.0, 16.0))
+        val STANDARD_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
 
         val SHORT_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 12.0, 16.0))
         val SHORT_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
