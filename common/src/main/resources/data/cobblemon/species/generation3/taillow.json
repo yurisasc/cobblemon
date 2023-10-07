@@ -20,8 +20,7 @@
       },
       {
         "item": "cobblemon:charti_berry",
-        "quantityRange": "1-2",
-        "percentage": 5
+        "percentage": 2.5
       }
     ]
   },

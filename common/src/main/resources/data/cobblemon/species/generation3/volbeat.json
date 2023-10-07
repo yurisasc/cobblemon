@@ -9,11 +9,15 @@
     "h:prankster"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
       {
-        "item": "minecraft:glowstone_dust",
-        "percentage": 50
+        "item": "cobblemon:bright_powder",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 5
       }
     ]
   },

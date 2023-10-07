@@ -18,8 +18,8 @@
         "quantityRange": "1-2"
       },
       {
-        "item": "minecraft:silver_powder",
-        "percentage": 2.5
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5
       }
     ]
   },

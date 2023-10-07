@@ -9,10 +9,14 @@
     "h:rattled"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:hard_stone",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:passho_berry",
         "percentage": 5
       }
     ]

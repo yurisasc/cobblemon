@@ -13,8 +13,7 @@
     "entries": [
       {
         "item": "cobblemon:cheri_berry",
-        "percentage": 5,
-        "quantityRange": "1-2"
+        "percentage": 5
       }
     ]
   },

@@ -17,9 +17,8 @@
         "percentage": 66
       },
       {
-        "item": "minecraft:rotten_flesh",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "item": "cobblemon:babiri_berry",
+        "percentage": 5
       }
     ]
   },

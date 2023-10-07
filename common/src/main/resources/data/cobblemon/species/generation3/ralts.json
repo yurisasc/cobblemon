@@ -10,7 +10,7 @@
     "h:telepathy"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:ender_pearl",
@@ -18,6 +18,14 @@
       },
       {
         "item": "cobblemon:twisted_spoon",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:kasib_berry",
         "percentage": 2.5
       }
     ]

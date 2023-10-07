@@ -149,6 +149,10 @@
       },
       {
         "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 25
       }
     ]
   },

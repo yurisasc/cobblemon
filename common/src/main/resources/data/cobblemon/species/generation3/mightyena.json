@@ -9,7 +9,7 @@
     "h:moxie"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:bone",
@@ -20,6 +20,10 @@
         "item": "minecraft:rotten_flesh",
         "quantityRange": "1-2",
         "percentage": 66
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 5
       }
     ]
   },

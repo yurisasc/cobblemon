@@ -8,16 +8,18 @@
     "h:plus"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:mutton",
-        "quantityRange": "1-3",
-        "percentage": 100
+        "quantityRange": "1-3"
       },
       {
-        "item": "minecraft:white_wool",
-        "percentage": 100
+        "item": "minecraft:white_wool"
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5
       }
     ]
   },

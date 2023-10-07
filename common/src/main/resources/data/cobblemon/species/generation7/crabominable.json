@@ -13,7 +13,7 @@
     "amount": 1,
     "entries": [
       {
-        "item": "cobblemon:pinap_berry",
+        "item": "cobblemon:aspear_berry",
         "percentage": 10,
         "quantityRange": "1-3"
       }

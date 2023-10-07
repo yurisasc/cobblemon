@@ -9,7 +9,7 @@
     "h:sandforce"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:flint",
@@ -17,6 +17,14 @@
       },
       {
         "item": "cobblemon:magnet",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chople_berry",
         "percentage": 2.5
       }
     ]

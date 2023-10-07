@@ -19,8 +19,7 @@
       },
       {
         "item": "cobblemon:kasib_berry",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "percentage": 5
       }
     ]
   },

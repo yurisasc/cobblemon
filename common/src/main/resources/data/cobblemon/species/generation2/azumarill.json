@@ -13,8 +13,7 @@
     "entries": [
       {
         "item": "cobblemon:kebia_berry",
-        "quantityRange": "1-2",
-        "percentage": 2.5
+        "percentage": 10
       }
     ]
   },

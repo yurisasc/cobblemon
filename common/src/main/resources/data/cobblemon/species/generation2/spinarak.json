@@ -10,7 +10,7 @@
     "h:sniper"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:string",
@@ -21,7 +21,12 @@
         "percentage": 50
       },
       {
-        "item": "minecraft:rotten_flesh"
+        "item": "minecraft:rotten_flesh",
+        "percentage": 50
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
       }
     ]
   },

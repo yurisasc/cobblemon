@@ -9,7 +9,7 @@
     "h:innerfocus"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:leather",
@@ -20,6 +20,14 @@
         "item": "minecraft:clay_ball",
         "percentage": 66,
         "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 5
       }
     ]
   },

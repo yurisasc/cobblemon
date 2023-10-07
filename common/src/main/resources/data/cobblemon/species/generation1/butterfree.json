@@ -95,10 +95,14 @@
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:silver_powder",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:wepear_berry",
         "percentage": 5
       }
     ]
