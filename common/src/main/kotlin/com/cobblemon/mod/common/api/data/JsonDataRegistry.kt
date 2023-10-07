@@ -42,9 +42,7 @@ interface JsonDataRegistry<T> : DataRegistry {
     val resourcePath: String
 
     override fun reload(manager: ResourceManager) {
-        val data = hashMapOf<Identifier, T>()
-        Cobblemon.implementation.reloadJsonRegistry(this, manager)
-        this.reload(data)
+        this.reload(Cobblemon.implementation.reloadJsonRegistry(this, manager))
     }
 
     /**
