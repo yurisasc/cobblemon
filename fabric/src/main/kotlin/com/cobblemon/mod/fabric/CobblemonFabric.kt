@@ -9,6 +9,7 @@
 package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
@@ -19,6 +20,7 @@ import com.cobblemon.mod.common.platform.events.ServerEvent
 import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.platform.events.ServerTickEvent
 import com.cobblemon.mod.common.util.didSleep
+import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.world.CobblemonStructures
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
@@ -75,6 +77,8 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
+import java.io.File
+import java.util.concurrent.ExecutionException
 
 object CobblemonFabric : CobblemonImplementation {
     override val modAPI = ModAPI.FABRIC
@@ -261,6 +265,66 @@ object CobblemonFabric : CobblemonImplementation {
     }
 
     override fun server(): MinecraftServer? = if (this.environment() == Environment.CLIENT) MinecraftClient.getInstance().server else this.server
+
+    override fun <T> reloadJsonRegistry(registry: JsonDataRegistry<T>, manager: ResourceManager): HashMap<Identifier, T> {
+        val data = hashMapOf<Identifier, T>()
+
+        if (!Cobblemon.isDedicatedServer) {
+            manager.findResources(registry.resourcePath) { path -> path.endsWith(JsonDataRegistry.JSON_EXTENSION) }.forEach { (identifier, resource) ->
+                if (identifier.namespace == "pixelmon") {
+                    return@forEach
+                }
+
+                resource.inputStream.use { stream ->
+                    stream.bufferedReader().use { reader ->
+                        val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                        try {
+                            data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
+                        } catch (exception: Exception) {
+                            throw ExecutionException("Error loading JSON for data: $identifier", exception)
+                        }
+                    }
+                }
+            }
+        } else {
+            // Currently in Fabric API, the ResourceManager does not work as expected when using findResources.
+            // It will treat built-in resources as priority over datapack resources.
+            manager.findAllResources(registry.resourcePath) { path -> path.endsWith(JsonDataRegistry.JSON_EXTENSION) }.forEach { (identifier, resources) ->
+                if (identifier.namespace == "pixelmon") {
+                    return@forEach
+                }
+
+                if (resources.isEmpty()) {
+                    return@forEach
+                }
+
+                val orderedResources = if (resources.size > 1) {
+                    val sorted = resources.sortedBy { it.resourcePackName.replace("file/", "") }.toMutableList()
+                    val fabric = sorted.find { it.resourcePackName == "fabric" }
+
+                    if (fabric != null) {
+                        sorted.remove(fabric)
+                        sorted.add(fabric)
+                    }
+                    sorted
+                } else {
+                    resources
+                }
+
+                orderedResources[0].inputStream.use { stream ->
+                    stream.bufferedReader().use { reader ->
+                        val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                        try {
+                            data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
+                        } catch (exception: Exception) {
+                            throw ExecutionException("Error loading JSON for data: $identifier", exception)
+                        }
+                    }
+                }
+            }
+        }
+        return data
+    }
 
     private class CobblemonReloadListener(private val identifier: Identifier, private val reloader: ResourceReloader, private val dependencies: Collection<Identifier>) : IdentifiableResourceReloadListener {
 
