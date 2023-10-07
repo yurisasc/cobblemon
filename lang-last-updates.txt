@@ -18,7 +18,7 @@ ja_jp 3078
 ko_kr 1538
 en_pt 4662
 pl_pl 3235
-pt_pt
+pt_pt 4662
 pt_br
 ru_ru
 es_es 3235
