@@ -98,7 +98,6 @@
                     "#minecraft:is_nether"
                 ]
             },
-			{
 			"drops": {
 				"amount": "1",
 				"entries": [

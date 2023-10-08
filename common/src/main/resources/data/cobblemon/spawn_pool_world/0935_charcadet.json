@@ -20,7 +20,6 @@
                     "#minecraft:is_nether"
                 ]
             },
-			{
 			"drops": {
 				"amount": "1",
 				"entries": [
@@ -47,7 +46,6 @@
                     "#cobblemon:is_overworld"
                 ]
             },
-			{
 			"drops": {
 				"amount": "1",
 				"entries": [
