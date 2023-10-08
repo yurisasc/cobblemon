@@ -51,7 +51,7 @@
             "id": "alakazam-3",
             "pokemon": "alakazam",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

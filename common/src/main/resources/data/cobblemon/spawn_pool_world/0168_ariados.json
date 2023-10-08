@@ -100,7 +100,7 @@
             "id": "ariados-5",
             "pokemon": "ariados",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

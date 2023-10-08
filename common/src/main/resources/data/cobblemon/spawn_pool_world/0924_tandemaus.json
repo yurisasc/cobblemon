@@ -97,7 +97,7 @@
             "id": "tandemaus-4",
             "pokemon": "tandemaus",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

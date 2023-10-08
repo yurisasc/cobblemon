@@ -82,7 +82,7 @@
             "id": "vaporeon-5",
             "pokemon": "vaporeon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

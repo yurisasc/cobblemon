@@ -107,6 +107,25 @@
                 "isRaining": false
             }
         },
+		{
+            "id": "vivillon-meadow-2",
+            "pokemon": "vivillon vivillon_wings=meadow",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "12-41",
+            "weight": 5.0,
+            "condition": {
+                "biomes": [
+                    "the_bumblezone:floral_meadow"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
+            }
+        },
         {
             "id": "vivillon-garden-1",
             "pokemon": "vivillon vivillon_wings=garden",
