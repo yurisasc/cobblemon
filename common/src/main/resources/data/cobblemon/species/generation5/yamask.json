@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Yamask",
   "nationalPokedexNumber": 562,
   "primaryType": "ghost",
@@ -12,6 +13,19 @@
     "special_attack": 55,
     "special_defence": 65,
     "speed": 30
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
   },
   "catchRate": 190,
   "maleRatio": 0.5,
@@ -261,10 +275,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.5,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 50,

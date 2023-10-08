@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -32,6 +33,8 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tandemaus", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
 
         val blink1 = quirk("blink1") { bedrockStateful("tandemaus", "blink1").setPreventsIdle(false)}
@@ -50,7 +53,7 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 bedrock("tandemaus", "ground_idle"),
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
             )
         )
 
@@ -62,7 +65,7 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 bedrock("tandemaus", "ground_walk"),
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
             )
         )
 

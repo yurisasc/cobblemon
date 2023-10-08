@@ -8,21 +8,21 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FloragatoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class FloragatoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("floragato")
     override val head = getPart("head")
-
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
 
     override val portraitScale = 2.0F
     override val portraitTranslation = Vec3d(0.0, 1.1, 0.0)
@@ -31,29 +31,56 @@ class FloragatoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var walking: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("floragato", "battle_cry").setPreventsIdle(false) else bedrockStateful("floragato", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("floragato", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("floragato", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            transformTicks = 10,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("floragato", "idle")
+                bedrock("floragato", "ground_idle")
             )
         )
 
-        walk = registerPose(
-            poseName = "walk",
+        walking = registerPose(
+            poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
+            transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                BipedWalkAnimation(this, amplitudeMultiplier = 0.9F, periodMultiplier = 1F),
-                bedrock("floragato", "idle")
+                bedrock("floragato", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("floragato", "battle_idle")
             )
         )
     }
+//    override fun getFaintAnimation(
+//        pokemonEntity: PokemonEntity,
+//        state: PoseableEntityState<PokemonEntity>
+//    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("floragato", "faint") else null
 }

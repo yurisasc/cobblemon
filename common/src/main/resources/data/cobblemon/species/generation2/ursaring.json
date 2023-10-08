@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Ursaring",
   "nationalPokedexNumber": 217,
   "primaryType": "normal",
@@ -207,10 +208,10 @@
       "requiredContext": "cobblemon:peat_block"
     }
   ],
-  "baseScale": 1,
+  "baseScale": 1.1,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2.14,
     "fixed": false
   },
   "baseFriendship": 70,

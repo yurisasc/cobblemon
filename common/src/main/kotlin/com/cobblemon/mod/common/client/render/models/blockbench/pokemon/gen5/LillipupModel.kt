@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -35,11 +36,13 @@ class LillipupModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("lillipup", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("lillipup", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook()
@@ -48,7 +51,7 @@ class LillipupModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
 
         walk = registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),

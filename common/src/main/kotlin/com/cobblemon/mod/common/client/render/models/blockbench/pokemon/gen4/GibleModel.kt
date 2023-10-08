@@ -50,7 +50,6 @@ class GibleModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanual
                 transformTicks = 5,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
-                        bedrock("gible", "ground_idle"),
                         bedrock("gible", "ground_walk")
                 )
         )

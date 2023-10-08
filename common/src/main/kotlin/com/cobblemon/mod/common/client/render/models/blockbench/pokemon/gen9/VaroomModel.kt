@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -27,6 +28,8 @@ class VaroomModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("varoom", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("varoom", "blink").setPreventsIdle(false) }
         sleep = registerPose(
@@ -37,7 +40,7 @@ class VaroomModel (root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            transformTicks = 10,
+            transformTicks = 0,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("varoom", "ground_idle")
@@ -47,7 +50,7 @@ class VaroomModel (root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            transformTicks = 10,
+            transformTicks = 0,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("varoom", "ground_walk")

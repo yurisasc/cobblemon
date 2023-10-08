@@ -25,7 +25,7 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val portraitTranslation = Vec3d(-0.9, 2.65, 0.0)
 
     override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(-0.3, 1.25, 0.0)
+    override val profileTranslation = Vec3d(-0.2, 1.25, 0.0)
 
 //    lateinit var hover: PokemonPose
 //    lateinit var fly: PokemonPose

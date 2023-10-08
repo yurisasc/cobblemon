@@ -26,7 +26,7 @@
 					"rotation": [0, 0, "7.5+Math.cos((query.anim_time-0.7) * 90 * 4) * -4"]
 				},
 				"neck": {
-					"rotation": [10, 0, 5]
+					"rotation": [10, 0, 0]
 				},
 				"head": {
 					"rotation": [
@@ -72,6 +72,5 @@
 				}
 			}
 		}
-	},
-	"geckolib_format_version": 2
+	}
 }

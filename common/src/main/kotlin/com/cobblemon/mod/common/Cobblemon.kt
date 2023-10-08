@@ -18,7 +18,9 @@ import com.cobblemon.mod.common.api.drop.ItemDropEntry
 import com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_VICTORY
 import com.cobblemon.mod.common.api.events.CobblemonEvents.DATA_SYNCHRONIZED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
+import com.cobblemon.mod.common.api.events.CobblemonEvents.LEVEL_UP_EVENT
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
+import com.cobblemon.mod.common.api.events.CobblemonEvents.TRADE_COMPLETED
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
@@ -46,13 +48,16 @@ import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
 import com.cobblemon.mod.common.api.starter.StarterHandler
 import com.cobblemon.mod.common.api.storage.PokemonStoreManager
 import com.cobblemon.mod.common.api.storage.adapter.conversions.ReforgedConversion
-import com.cobblemon.mod.common.api.storage.adapter.flatifle.FileStoreAdapter
-import com.cobblemon.mod.common.api.storage.adapter.flatifle.JSONStoreAdapter
-import com.cobblemon.mod.common.api.storage.adapter.flatifle.NBTStoreAdapter
+import com.cobblemon.mod.common.api.storage.adapter.database.MongoDBStoreAdapter
+import com.cobblemon.mod.common.api.storage.adapter.flatfile.FileStoreAdapter
+import com.cobblemon.mod.common.api.storage.adapter.flatfile.JSONStoreAdapter
+import com.cobblemon.mod.common.api.storage.adapter.flatfile.NBTStoreAdapter
 import com.cobblemon.mod.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
+import com.cobblemon.mod.common.api.storage.player.factory.JsonPlayerDataStoreFactory
+import com.cobblemon.mod.common.api.storage.player.factory.MongoPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleFormat
@@ -86,7 +91,6 @@ import com.cobblemon.mod.common.pokemon.feature.TagSeasonResolver
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
-import com.cobblemon.mod.common.pokemon.properties.UntradeableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
@@ -101,6 +105,10 @@ import com.cobblemon.mod.common.util.server
 import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import com.mongodb.ConnectionString
+import com.mongodb.MongoClientSettings
+import com.mongodb.client.MongoClient
+import com.mongodb.client.MongoClients
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -245,7 +253,6 @@ object Cobblemon {
             DataKeys.HAS_BEEN_SHEARED,
             FlagSpeciesFeatureProvider(keys = listOf(DataKeys.HAS_BEEN_SHEARED), default = false))
 
-        CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)
         CustomPokemonProperty.register(PokemonFlagProperty)
         CustomPokemonProperty.register(HiddenAbilityPropertyType)
@@ -258,15 +265,52 @@ object Cobblemon {
         PlatformEvents.SERVER_STARTING.subscribe { event ->
             val server = event.server
             playerData = PlayerDataStoreManager().also { it.setup(server) }
+
+            val mongoClient: MongoClient?
+
             val pokemonStoreRoot = server.getSavePath(WorldSavePath.ROOT).resolve("pokemon").toFile()
+            val storeAdapter = when (config.storageFormat) {
+                "nbt", "json" -> {
+                    val jsonFactory = JsonPlayerDataStoreFactory()
+                    jsonFactory.setup(server)
+                    playerData.setFactory(jsonFactory)
+
+                    if (config.storageFormat == "nbt") {
+                        NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
+                    } else {
+                        JSONStoreAdapter(
+                            pokemonStoreRoot.absolutePath,
+                            useNestedFolders = true,
+                            folderPerClass = true
+                        )
+                    }
+                }
+
+                "mongodb" -> {
+                    try {
+                        Class.forName("com.mongodb.client.MongoClient")
+
+                        val mongoClientSettings = MongoClientSettings.builder()
+                            .applyConnectionString(ConnectionString(config.mongoDBConnectionString))
+                            .build()
+                        mongoClient = MongoClients.create(mongoClientSettings)
+                        val mongoFactory = MongoPlayerDataStoreFactory(mongoClient, config.mongoDBDatabaseName)
+                        playerData.setFactory(mongoFactory)
+                        MongoDBStoreAdapter(mongoClient, config.mongoDBDatabaseName)
+                    } catch (e: ClassNotFoundException) {
+                        LOGGER.error("MongoDB driver not found.")
+                        throw e
+                    }
+                }
+
+                else -> throw IllegalArgumentException("Unsupported storageFormat: ${config.storageFormat}")
+            }
+                .with(ReforgedConversion(server.getSavePath(WorldSavePath.ROOT))) as FileStoreAdapter<*>
+
             storage.registerFactory(
                 priority = Priority.LOWEST,
                 factory = FileBackedPokemonStoreFactory(
-                    adapter = if (config.storageFormat == "nbt") {
-                        NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
-                    } else {
-                        JSONStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
-                    }.with(ReforgedConversion(server.getSavePath(WorldSavePath.ROOT))) as FileStoreAdapter<*>,
+                    adapter = storeAdapter,
                     createIfMissing = true,
                     pcConstructor = { uuid -> PCStore(uuid).also { it.resize(config.defaultBoxCount) } }
                 )
@@ -312,6 +356,8 @@ object Cobblemon {
                 }
             }
         }
+        LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
+        TRADE_COMPLETED.subscribe { AdvancementHandler.onTradeCompleted(it) }
 
         BagItems.observable.subscribe {
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
