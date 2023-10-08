@@ -194,7 +194,7 @@
     "field"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:sweet_berries",

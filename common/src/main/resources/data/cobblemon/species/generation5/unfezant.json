@@ -10,7 +10,7 @@
     "h:rivalry"
   ],
   "drops": {
-    "amount": 3,
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:feather",
@@ -23,10 +23,13 @@
       {
         "item": "cobblemon:sharp_beak",
         "percentage": 5
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 10
       }
     ]
   },
-
   "baseStats": {
     "hp": 80,
     "attack": 115,

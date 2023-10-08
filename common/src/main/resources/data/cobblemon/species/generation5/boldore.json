@@ -13,8 +13,8 @@
     "entries": [
       {
         "item": "minecraft:raw_copper",
-        "percentage": 66,
-        "quantityRange": "1-2"
+        "quantityRange": "1-2",
+        "percentage": 66
       },
       {
         "item": "cobblemon:hard_stone",

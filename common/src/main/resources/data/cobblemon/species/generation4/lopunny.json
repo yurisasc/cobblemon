@@ -9,7 +9,7 @@
     "h:limber"
   ],
   "drops": {
-    "amount": "5",
+    "amount": 5,
     "entries": [
       {
         "item": "minecraft:rabbit"

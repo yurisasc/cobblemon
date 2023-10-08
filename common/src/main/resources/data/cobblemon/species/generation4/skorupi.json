@@ -9,7 +9,7 @@
     "h:keeneye"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:poison_barb",

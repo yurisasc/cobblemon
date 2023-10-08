@@ -26,7 +26,7 @@
     "undiscovered"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:black_belt",

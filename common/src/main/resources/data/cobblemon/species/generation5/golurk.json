@@ -10,20 +10,23 @@
     "h:noguard"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:clay_ball",
-        "percentage": 66,
-        "quantityRange": "1-2"
+        "quantityRange": "1-2",
+        "percentage": 66
       },
       {
         "item": "cobblemon:light_clay",
         "percentage": 5
+      },
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 5
       }
     ]
   },
-
   "baseStats": {
     "hp": 89,
     "attack": 124,

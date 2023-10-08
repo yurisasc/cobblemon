@@ -9,7 +9,7 @@
     "h:shellarmor"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:miracle_seed",

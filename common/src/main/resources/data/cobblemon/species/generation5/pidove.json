@@ -10,7 +10,7 @@
     "h:rivalry"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:feather",
@@ -18,10 +18,13 @@
       },
       {
         "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 2.5
       }
     ]
   },
-
   "baseStats": {
     "hp": 50,
     "attack": 55,

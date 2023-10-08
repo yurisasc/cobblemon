@@ -9,7 +9,7 @@
     "h:guts"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:quick_claw",

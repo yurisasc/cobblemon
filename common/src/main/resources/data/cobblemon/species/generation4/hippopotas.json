@@ -7,7 +7,7 @@
     "h:sandforce"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:soft_sand",

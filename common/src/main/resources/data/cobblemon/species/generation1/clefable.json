@@ -34,7 +34,7 @@
     "fairy"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:moon_stone",

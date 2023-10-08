@@ -10,14 +10,10 @@
     "h:weakarmor"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 1,
     "entries": [
       {
-        "item": "minecraft:raw_iron",
-        "percentage": 50
-      },
-      {
-        "item": "cobblemon:occa_berry",
+        "item": "cobblemon:hard_stone",
         "percentage": 2.5
       }
     ]

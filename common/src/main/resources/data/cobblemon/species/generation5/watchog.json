@@ -12,13 +12,11 @@
     "amount": 1,
     "entries": [
       {
-        "item": "cobblemon:pinap_berry",
-        "percentage": 5,
-        "quantityRange": "1-2"
+        "item": "cobblemon:babiri_berry",
+        "percentage": 5
       }
     ]
   },
-
   "baseStats": {
     "hp": 60,
     "attack": 85,

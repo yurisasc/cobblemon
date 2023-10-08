@@ -10,7 +10,7 @@
     "h:justified"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:chople_berry",

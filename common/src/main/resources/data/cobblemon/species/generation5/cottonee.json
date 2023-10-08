@@ -10,10 +10,14 @@
     "h:chlorophyll"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:white_wool"
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 2.5
       }
     ]
   },

@@ -9,15 +9,18 @@
     "h:ironfist"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:muscle_band",
         "percentage": 10
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 10
       }
     ]
   },
-
   "baseStats": {
     "hp": 105,
     "attack": 140,

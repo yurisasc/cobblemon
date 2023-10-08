@@ -189,7 +189,7 @@
     "amorphous"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:pumpkin_seeds",

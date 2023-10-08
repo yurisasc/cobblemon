@@ -10,7 +10,7 @@
     "h:technician"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:light_clay",
