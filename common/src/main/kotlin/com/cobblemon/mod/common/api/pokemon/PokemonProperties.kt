@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.api.pokemon
 
+import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
@@ -629,6 +631,13 @@ open class PokemonProperties {
         tradeable?.let { pieces.add("tradeable=$it") }
         customProperties.forEach { pieces.add(it.asString()) }
         return pieces.joinToString(separator)
+    }
+
+    fun asStruct(): VariableStruct {
+        val struct = VariableStruct()
+        species?.let { struct.setDirectly("species", StringValue(it)) }
+        // todo a bunch more
+        return struct
     }
 
     fun updateAspects() {
