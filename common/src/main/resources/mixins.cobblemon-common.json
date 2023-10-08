@@ -14,7 +14,6 @@
     "accessor.KeyBindingAccessor",
     "accessor.MusicTrackerAccessor",
     "invoker.ClientPlayNetworkHandlerInvoker",
-    "pokeball.ItemRendererMixin"
     "pokeball.ItemRendererMixin",
     "ModelLoaderMixin"
   ],
