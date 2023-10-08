@@ -17,7 +17,7 @@
     },
     {
       "type": "cobblemon:conditional_rarity_filter",
-      "chance": 80,
+      "chance": 88,
       "predicate": {
         "type": "cobblemon:altitude",
         "min": 70,
@@ -26,7 +26,7 @@
     },
     {
       "type": "cobblemon:conditional_rarity_filter",
-      "chance": 70,
+      "chance": 77,
       "predicate": {
         "type": "cobblemon:altitude",
         "min": 80,
@@ -35,7 +35,7 @@
     },
     {
       "type": "cobblemon:conditional_rarity_filter",
-      "chance": 50,
+      "chance": 55,
       "predicate": {
         "type": "cobblemon:altitude",
         "min": 90,
@@ -44,7 +44,7 @@
     },
     {
       "type": "cobblemon:conditional_rarity_filter",
-      "chance": 30,
+      "chance": 33,
       "predicate": {
         "type": "cobblemon:altitude",
         "min": 100,
@@ -53,7 +53,7 @@
     },
     {
       "type": "cobblemon:conditional_rarity_filter",
-      "chance": 20,
+      "chance": 22,
       "predicate": {
         "type": "cobblemon:altitude",
         "min": 110,
@@ -62,7 +62,7 @@
     },
     {
       "type": "cobblemon:conditional_rarity_filter",
-      "chance": 10,
+      "chance": 12,
       "predicate": {
         "type": "cobblemon:altitude",
         "min": 120

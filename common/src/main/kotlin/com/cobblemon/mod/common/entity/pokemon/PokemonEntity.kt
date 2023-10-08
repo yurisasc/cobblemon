@@ -236,6 +236,7 @@ class PokemonEntity(
 
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
+            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
 
     }
 
