@@ -21,7 +21,7 @@ class MongoPlayerDataStoreFactory(mongoClient: MongoClient, databaseName: String
     private val adapter = MongoPlayerDataAdapter(mongoClient, databaseName)
 
     override fun load(uuid: UUID): PlayerData {
-        return if(cache.contains(uuid))
+        return if (cache.contains(uuid))
             cache[uuid]!!;
         else {
             val data = adapter.load(uuid);
