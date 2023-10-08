@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.npc
 
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 
 /**
  * An NPC configuration is like a snapshot of an NPC setup. It can be taken from an existing NPC and loaded onto
@@ -21,4 +22,9 @@ import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 class NPCConfiguration {
     var battle: NPCBattleConfiguration? = null
 
+    fun applyTo(npc: NPCEntity) {
+    }
+
+    fun loadFrom(npc: NPCEntity) {
+    }
 }

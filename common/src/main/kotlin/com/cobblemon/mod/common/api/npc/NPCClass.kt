@@ -8,7 +8,13 @@
 
 package com.cobblemon.mod.common.api.npc
 
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.MoValue
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
+import com.cobblemon.mod.common.net.IntSize
+import com.cobblemon.mod.common.util.readMapK
+import com.cobblemon.mod.common.util.writeMapK
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
@@ -26,18 +32,31 @@ class NPCClass {
 
     var hitbox = EntityDimensions(0.6F, 1.8F, true)
     var battleConfiguration = NPCBattleConfiguration()
-
+    var variables = mutableMapOf<String, MoValue>()
 
     fun encode(buffer: PacketByteBuf) {
         buffer.writeFloat(this.hitbox.width)
         buffer.writeFloat(this.hitbox.height)
         buffer.writeBoolean(this.hitbox.fixed)
         battleConfiguration.encode(buffer)
+        buffer.writeMapK(size = IntSize.U_BYTE, map = variables) { (key, value) ->
+            buffer.writeString(key)
+            buffer.writeString(value.asString())
+        }
     }
 
     fun decode(buffer: PacketByteBuf) {
         hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
         battleConfiguration = NPCBattleConfiguration()
         battleConfiguration.decode(buffer)
+        buffer.readMapK(size = IntSize.U_BYTE, map = variables) {
+            val key = buffer.readString()
+            val value = buffer.readString()
+            if (value.toDoubleOrNull() != null) {
+                return@readMapK key to DoubleValue(value.toDouble())
+            } else {
+                return@readMapK key to StringValue(value)
+            }
+        }
     }
 }

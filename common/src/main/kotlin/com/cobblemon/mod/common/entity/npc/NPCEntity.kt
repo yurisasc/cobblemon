@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.entity.npc
 
+import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
@@ -71,6 +72,7 @@ class NPCEntity : PassiveEntity, Npc, Poseable, PokemonSender {
     var battle: NPCBattleConfiguration? = null
     var interact: NPCInteractConfiguration? = null
     var behaviour: NPCBehaviourConfiguration? = null
+    var variables = VariableStruct()
 
 
     /* TODO NPC Valuables to add:
