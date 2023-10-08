@@ -412,6 +412,7 @@
 - Added capture check to BattleVictoryEvent.
 - The various hardcoded potion shoulder effects have been removed, make use of PotionBaseEffect.
 - Added ContextManager for tracking causes and contexts of conditions created during a battle. See BattleContext for types of conditions that are tracked. 
+- Added MongoDB support for storing Pokémon and Player data. Must be enabled in config, requires MongoDB core and sync drivers (4.10.0+).
 
 ### Datapack & Resourcepack Creators
 - All potion related shoulder effects have had their IDs changed, they now all share the same type being `potion_effect` and use the vanilla Potion data [parameters](https://minecraft.fandom.com/wiki/Potion#Item_data), take for example the default Pidgey asset:

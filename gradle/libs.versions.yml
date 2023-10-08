@@ -140,6 +140,17 @@ dependencies:
     name: flywheel-forge-1.20.1
     version: { ref: flywheelForge }
 
+  # datastore
+  mongoDriverCore:
+    group: org.mongodb
+    name: mongodb-driver-core
+    version: 4.10.2
+
+  mongoDriverSync:
+    group: org.mongodb
+    name: mongodb-driver-sync
+    version: 4.10.2
+
   # test
   junitEngine:
     group: org.junit.jupiter
