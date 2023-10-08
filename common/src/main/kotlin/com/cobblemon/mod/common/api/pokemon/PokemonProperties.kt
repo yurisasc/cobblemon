@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.util.isInt
 import com.cobblemon.mod.common.util.splitMap
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.mojang.serialization.Codec
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
@@ -230,6 +231,9 @@ open class PokemonProperties {
             }
             return null
         }
+
+        val CODEC: Codec<PokemonProperties> = Codec.STRING.xmap(PokemonProperties::parse, PokemonProperties::asString)
+
     }
 
     var originalString: String = ""

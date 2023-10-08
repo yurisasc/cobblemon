@@ -23,7 +23,6 @@ import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.api.pokemon.effect.adapter.ShoulderEffectAdapter
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
-import com.cobblemon.mod.common.api.pokemon.evolution.PreEvolution
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroupAdapter
@@ -39,7 +38,6 @@ import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
-import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonPreEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonRequirementAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.NbtItemPredicateAdapter
 import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
@@ -76,11 +74,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(ExperienceGroup::class.java, ExperienceGroupAdapter)
         .registerTypeAdapter(EntityDimensions::class.java, EntityDimensionsAdapter)
         .registerTypeAdapter(Learnset::class.java, LearnsetAdapter)
-        .registerTypeAdapter(Evolution::class.java, CobblemonEvolutionAdapter)
         .registerTypeAdapter(Box::class.java, BoxAdapter)
         .registerTypeAdapter(AbilityPool::class.java, AbilityPoolAdapter)
         .registerTypeAdapter(EvolutionRequirement::class.java, CobblemonRequirementAdapter)
-        .registerTypeAdapter(PreEvolution::class.java, CobblemonPreEvolutionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(Set::class.java, Evolution::class.java).type, LazySetAdapter(Evolution::class))
         .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)

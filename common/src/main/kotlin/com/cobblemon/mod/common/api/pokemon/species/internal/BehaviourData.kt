@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.pokemon.species.Species
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
 import com.cobblemon.mod.common.util.codec.setCodec
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 
 /**
@@ -18,7 +19,7 @@ internal data class BehaviourData(
 
     companion object {
 
-        val CODEC: Codec<BehaviourData> = RecordCodecBuilder.create { builder ->
+        val MAP_CODEC: MapCodec<BehaviourData> = RecordCodecBuilder.mapCodec { builder ->
             builder.group(
                 // ToDo: PokemonBehaviour"
                 Codec.BOOL.fieldOf("shoulderMountable").forGetter(BehaviourData::shoulderMountable),
@@ -26,6 +27,8 @@ internal data class BehaviourData(
                 Codec.BOOL.optionalFieldOf("dynamaxBlocked", false).forGetter(BehaviourData::dynamaxBlocked)
             ).apply(builder, ::BehaviourData)
         }
+
+        val CODEC: Codec<BehaviourData> = MAP_CODEC.codec()
 
     }
 

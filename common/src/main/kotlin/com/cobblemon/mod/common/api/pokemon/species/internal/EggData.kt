@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
 import com.cobblemon.mod.common.api.pokemon.species.Species
 import com.cobblemon.mod.common.util.codec.setCodec
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.util.EnumSet
 
@@ -17,12 +18,14 @@ internal data class EggData(
 
     companion object {
 
-        val CODEC: Codec<EggData> = RecordCodecBuilder.create { builder ->
+        val MAP_CODEC: MapCodec<EggData> = RecordCodecBuilder.mapCodec { builder ->
             builder.group(
                 Codec.INT.fieldOf("eggCycles").forGetter(EggData::eggCycles),
                 setCodec(EggGroup.CODEC).fieldOf("eggGroups").xmap({ set -> EnumSet.copyOf(set) }, { enumSet -> enumSet }).forGetter { eggData -> eggData.eggGroups }
             ).apply(builder, ::EggData)
         }
+
+        val CODEC: Codec<EggData> = MAP_CODEC.codec()
 
     }
 

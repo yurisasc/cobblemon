@@ -68,13 +68,13 @@ class Species internal constructor(
                 Codec.INT.fieldOf("catchRate").forGetter(Species::catchRate),
                 GenderSelector.CODEC.fieldOf("genderSelector").forGetter(Species::genderSelector),
                 ExperienceData.MAP_CODEC.forGetter(Species::experienceData),
-                EggData.CODEC.fieldOf("eggData").forGetter(Species::eggData),
+                EggData.MAP_CODEC.fieldOf("eggData").forGetter(Species::eggData),
                 // ToDo: learnset
-                BehaviourData.CODEC.fieldOf("behaviourData").forGetter(Species::behaviourData),
-                EvolutionData.CODEC.fieldOf("evolutionData").forGetter(Species::evolutionData),
+                BehaviourData.MAP_CODEC.forGetter(Species::behaviourData),
+                EvolutionData.MAP_CODEC.forGetter(Species::evolutionData),
                 Codec.INT.fieldOf("baseFriendship").forGetter(Species::baseFriendship),
                 StatMap.BASE_STATS_CODEC.fieldOf("evYield").forGetter(Species::evYield),
-                CosmeticData.CODEC.fieldOf("cosmeticData").forGetter(Species::cosmeticData),
+                CosmeticData.MAP_CODEC.forGetter(Species::cosmeticData),
                 FormData.CODEC.optionalFieldOf("formData").forGetter(Species::formData)
             ).apply(builder, ::Species)
         }

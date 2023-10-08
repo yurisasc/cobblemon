@@ -23,8 +23,6 @@ internal data class ExperienceData(
             ).apply(builder, ::ExperienceData)
         }
 
-        val CODEC: Codec<ExperienceData> = MAP_CODEC.codec()
-
     }
 
 }

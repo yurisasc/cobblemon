@@ -15,6 +15,9 @@ import com.cobblemon.mod.common.api.pokemon.evolution.ContextEvolution
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.registry.BlockIdentifierCondition
+import com.cobblemon.mod.common.util.codec.setCodec
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.block.Block
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
@@ -37,15 +40,6 @@ open class BlockClickEvolution(
     override val requirements: MutableSet<EvolutionRequirement>,
     override val learnableMoves: MutableSet<MoveTemplate>
 ) : ContextEvolution<BlockClickEvolution.BlockInteractionContext, RegistryLikeCondition<Block>> {
-    constructor(): this(
-        id = "id",
-        result = PokemonProperties(),
-        requiredContext = BlockIdentifierCondition(Identifier("minecraft", "dirt")),
-        optional = true,
-        consumeHeldItem = true,
-        requirements = mutableSetOf(),
-        learnableMoves = mutableSetOf()
-    )
 
     override fun testContext(pokemon: Pokemon, context: BlockInteractionContext): Boolean {
         return this.requiredContext.fits(context.block, context.world.registryManager.get(RegistryKeys.BLOCK))
@@ -66,5 +60,18 @@ open class BlockClickEvolution(
 
     companion object {
         const val ADAPTER_VARIANT = "block_click"
+
+        val CODEC: Codec<BlockClickEvolution> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.STRING.fieldOf("id").forGetter(BlockClickEvolution::id),
+                PokemonProperties.CODEC.fieldOf("result").forGetter(BlockClickEvolution::result),
+                // ToDo: RegistryLikeCondition
+                Codec.BOOL.optionalFieldOf("optional", true).forGetter(BlockClickEvolution::optional),
+                Codec.BOOL.optionalFieldOf("consumeHeldItem", false).forGetter(BlockClickEvolution::optional),
+                setCodec(EvolutionRequirement.CODEC).optionalFieldOf("requirements", hashSetOf()).forGetter(BlockClickEvolution::requirements),
+                setCodec(MoveTemplate.CODEC).optionalFieldOf("learnableMoves", hashSetOf()).forGetter(BlockClickEvolution::learnableMoves)
+            ).apply(builder, ::BlockClickEvolution)
+        }
+
     }
 }

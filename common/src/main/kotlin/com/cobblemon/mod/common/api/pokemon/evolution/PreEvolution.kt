@@ -8,9 +8,10 @@
 
 package com.cobblemon.mod.common.api.pokemon.evolution
 
-import com.cobblemon.mod.common.pokemon.FormData
-import com.cobblemon.mod.common.pokemon.Species
-import com.cobblemon.mod.common.pokemon.evolution.StandardPreEvolution
+import com.cobblemon.mod.common.api.pokemon.species.Species
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
+import com.mojang.serialization.Codec
+import net.minecraft.util.Identifier
 
 /**
  * Represents the previous stage in the evolutionary line of a given Pokémon.
@@ -19,15 +20,14 @@ import com.cobblemon.mod.common.pokemon.evolution.StandardPreEvolution
  * @author Licious
  * @since March 22nd, 2022
  */
-interface PreEvolution {
+class PreEvolution internal constructor(private val speciesKey: Identifier){
 
-    val species: Species
-
-    val form: FormData
+    val species: Species by lazy { CobblemonRegistries.SPECIES.get(this.speciesKey)!! }
 
     companion object {
 
-        fun of(species: Species, form: FormData = species.standardForm): PreEvolution = StandardPreEvolution(species, form)
+        @JvmField
+        val CODEC: Codec<PreEvolution> = Identifier.CODEC.xmap(::PreEvolution, PreEvolution::speciesKey)
 
     }
 

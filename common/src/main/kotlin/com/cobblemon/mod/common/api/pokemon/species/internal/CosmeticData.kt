@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.pokemon.species.Species
 import com.cobblemon.mod.common.util.codec.ExtraCodecs
 import com.cobblemon.mod.common.util.codec.setCodec
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.entity.EntityDimensions
 
@@ -23,7 +24,7 @@ internal data class CosmeticData(
 
     companion object {
 
-        val CODEC: Codec<CosmeticData> = RecordCodecBuilder.create { builder ->
+        val MAP_CODEC: MapCodec<CosmeticData> = RecordCodecBuilder.mapCodec { builder ->
             builder.group(
                 Codec.FLOAT.fieldOf("baseScale").forGetter(CosmeticData::baseScale),
                 ExtraCodecs.ENTITY_DIMENSIONS.fieldOf("hitbox").forGetter(CosmeticData::hitbox),
@@ -35,6 +36,8 @@ internal data class CosmeticData(
                 Codec.FLOAT.optionalFieldOf("flyingEyeHeight", VANILLA_DEFAULT_EYE_HEIGHT).forGetter(CosmeticData::flyingEyeHeight),
             ).apply(builder, ::CosmeticData)
         }
+
+        val CODEC: Codec<CosmeticData> = MAP_CODEC.codec()
 
         private const val VANILLA_DEFAULT_EYE_HEIGHT = 0.85F
 
