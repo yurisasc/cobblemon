@@ -97,7 +97,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
     val cry: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
 
     override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint?.get()
-    override val cryAnimation = CryProvider { _, _ -> cry?.get()?.also { if (it is BedrockStatefulAnimation) it.setPreventsIdle(false) } }
+    override val cryAnimation = CryProvider { _, _ -> cry?.get()?.also { if (it is BedrockStatefulAnimation) it.setPreventsIdle(false).isPosePauserAnimation(true) } }
 
     object JsonModelExclusion: ExclusionStrategy {
         override fun shouldSkipField(f: FieldAttributes): Boolean {
