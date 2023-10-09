@@ -19,13 +19,21 @@ import com.mongodb.client.model.ReplaceOptions
 import net.minecraft.util.Identifier
 import org.bson.Document
 import java.util.UUID
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 
 class MongoPlayerDataAdapter(
     mongoClient: MongoClient,
     databaseName: String
 ) : PlayerDataStoreAdapter {
 
-    private val gson = Gson()
+    companion object {
+        val gson = GsonBuilder()
+            .disableHtmlEscaping()
+            .registerTypeAdapter(PlayerDataExtension::class.java, PlayerDataExtensionAdapter)
+            .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+            .create()
+    }
 
     private val collection = mongoClient.getDatabase(databaseName).getCollection("PlayerDataCollection")
 
@@ -36,9 +44,10 @@ class MongoPlayerDataAdapter(
         return if (document != null) {
             val jsonStr = document.toJson()
             gson.fromJson(jsonStr, PlayerData::class.java).also {
-                // Something Hiroku did on the other one, perhaps necessary? - Pebbles
-                if (it.advancementData == null) {
-                    it.advancementData = PlayerAdvancementData()
+                val newProps = it::class.memberProperties.filterIsInstance<KMutableProperty<*>>().filter { member -> member.getter.call(it) == null }
+                if (newProps.isNotEmpty()) {
+                    val defaultData = PlayerData.defaultData(uuid)
+                    newProps.forEach { member -> member.setter.call(it, member.getter.call(defaultData)) }
                 }
             }
         } else {

@@ -35,6 +35,25 @@
                     "#cobblemon:is_freezing"
                 ]
             }
+        },
+		{
+            "id": "vespiquen-2",
+            "pokemon": "vespiquen",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "21-47",
+            "weight": 1.0,
+            "condition": {
+                "biomes": [
+                    "#the_bumblezone:the_bumblezone"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
+            }
         }
     ]
 }

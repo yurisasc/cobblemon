@@ -74,7 +74,7 @@
             "id": "sylveon-4",
             "pokemon": "sylveon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

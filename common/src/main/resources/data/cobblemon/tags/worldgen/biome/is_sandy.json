@@ -3,12 +3,8 @@
   "values": [
     "#cobblemon:is_badlands",
 	"#cobblemon:is_desert",
-    {
-      "id": "#byg:is_sandy",
-      "required": false
-    },
 	{
-      "id": "#forge:is_sandy",
+      "id": "#byg:is_sandy",
       "required": false
     }
   ]
