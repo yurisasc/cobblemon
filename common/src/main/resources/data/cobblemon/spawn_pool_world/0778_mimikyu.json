@@ -24,7 +24,7 @@
             "id": "mimikyu-2",
             "pokemon": "mimikyu",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

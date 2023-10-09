@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "#cobblemon:is_jungle",
     "minecraft:dark_forest",
     "minecraft:mangrove_swamp",
+	"#cobblemon:is_jungle",
     {
       "id": "#c:vegetation_dense",
       "required": false 

@@ -81,91 +81,35 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.185
+          "chance": 0.273
         }
       ]
     },
     {
       "rolls": 1,
+      "bonus_rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 3,
-          "name": "cobblemon:poke_ball",
+          "name": "cobblemon:vivichoke_seeds",
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": 5
+              "count": {
+                "min": 1,
+                "max": 3
+              }
             }
           ]
-        },
+        }
+      ],
+      "conditions": [
         {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "cobblemon:citrine_ball",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 5
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "cobblemon:verdant_ball",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 5
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "cobblemon:azure_ball",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 5
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "cobblemon:slate_ball",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 5
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "cobblemon:roseate_ball",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 5
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "name": "cobblemon:premier_ball",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 5
-            }
-          ]
+          "condition": "minecraft:random_chance",
+          "chance": 0.273
         }
       ]
     }
   ]
 }
+

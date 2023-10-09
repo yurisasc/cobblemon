@@ -58,7 +58,7 @@
             "id": "mrmime-3",
             "pokemon": "mrmime",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

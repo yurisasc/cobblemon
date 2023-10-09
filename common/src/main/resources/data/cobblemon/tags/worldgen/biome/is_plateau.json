@@ -3,11 +3,11 @@
   "values": [
     "minecraft:savanna_plateau",
 	{
-      "id": "#forge:is_plateau",
+      "id": "#byg:is_plateau",
       "required": false
     },
 	{
-      "id": "#byg:is_plateau",
+      "id": "#forge:is_plateau",
       "required": false
     },
     {

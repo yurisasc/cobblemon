@@ -75,7 +75,7 @@
             "id": "leafeon-4",
             "pokemon": "leafeon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

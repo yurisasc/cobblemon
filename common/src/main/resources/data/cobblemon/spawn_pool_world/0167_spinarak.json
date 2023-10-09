@@ -100,7 +100,7 @@
             "id": "spinarak-5",
             "pokemon": "spinarak",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

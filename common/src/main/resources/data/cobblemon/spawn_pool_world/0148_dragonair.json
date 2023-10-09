@@ -51,7 +51,7 @@
             "context": "submerged",
             "bucket": "uncommon",
             "level": "30-42",
-            "weight": 0.9,
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

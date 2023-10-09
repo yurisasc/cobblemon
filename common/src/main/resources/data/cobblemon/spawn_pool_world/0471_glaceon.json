@@ -68,7 +68,7 @@
             "id": "glaceon-4",
             "pokemon": "glaceon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

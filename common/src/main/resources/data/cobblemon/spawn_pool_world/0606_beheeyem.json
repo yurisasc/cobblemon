@@ -18,7 +18,17 @@
                 "biomes": [
                     "#minecraft:is_end"
                 ]
-            }
+            },
+			"drops": {
+				"amount": "1",
+				"entries": [
+					{
+					"item": "minecraft:chorus_fruit",
+					"quantityRange": "1-2",
+					"percentage": 66
+					}
+				]
+			}
         },
         {
             "id": "beheeyem-2",
@@ -40,6 +50,25 @@
                 "neededNearbyBlocks": [
                     "minecraft:wheat"
                 ]
+            }
+        },
+		{
+            "id": "beheeyem-2",
+            "pokemon": "beheeyem",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "42-49",
+            "weight": 0.6,
+            "condition": {
+                "biomes": [
+                    "the_bumblezone:howling_constructs"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
             }
         }
     ]

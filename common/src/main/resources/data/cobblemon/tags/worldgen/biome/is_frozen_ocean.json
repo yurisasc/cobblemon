@@ -4,6 +4,10 @@
     "minecraft:deep_frozen_ocean",
 	"minecraft:frozen_ocean",
 	{
+      "id": "terralith:frozen_cliffs",
+      "required": false
+	},
+	{
       "id": "wythers:deep_icy_ocean",
       "required": false
 	},
