@@ -704,7 +704,7 @@ object ShowdownInterpreter {
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
             val name = pokemon.getName()
             // Move may be null as it's not always given
-            val moveName = message.argumentAt(2)?.let { Moves.getByName(it)?.displayName } ?: Text.EMPTY
+            val moveName = message.moveAt(2)?.displayName ?: run { println(message.argumentAt(2)); "(Unrecognized: ${message.argumentAt(2)})".text() }
 
             val lang = when (effectID) {
                 // TODO: in the games they use a generic image because there is a popup of the ability and the sprite of the mon, it may be good to have a similar system here
@@ -976,7 +976,7 @@ object ShowdownInterpreter {
                 }
                 // Includes revealed move
                 "forewarn" -> {
-                    val moveName = message.argumentAt(2)?.let { Moves.getByName(it)?.displayName } ?: Text.EMPTY
+                    val moveName = message.moveAt(2)?.displayName ?: run { println(message.argumentAt(2)); "(Unrecognized: ${message.argumentAt(2)})".text() }
                     battleLang("activate.forewarn", sourceName, moveName)
                 }
                 "focussash", "focusband" -> battleLang("activate.focusband", pokemonName, message.effectAt(1)!!.typelessData)

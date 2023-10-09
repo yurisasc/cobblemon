@@ -51,7 +51,7 @@
             "id": "kadabra-3",
             "pokemon": "kadabra",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

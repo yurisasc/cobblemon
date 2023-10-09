@@ -68,7 +68,7 @@ class PokemonRenderer(
     }
 
     override fun getTexture(entity: PokemonEntity): Identifier {
-        return PokemonModelRepository.getTexture(entity.pokemon.species.resourceIdentifier, entity.aspects.get(), entity.delegate as PokemonClientDelegate)
+        return PokemonModelRepository.getTexture(entity.pokemon.species.resourceIdentifier, entity.aspects.get(), (entity.delegate as PokemonClientDelegate).animationSeconds)
     }
 
     override fun render(

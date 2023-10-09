@@ -68,7 +68,7 @@
             "id": "flareon-4",
             "pokemon": "flareon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

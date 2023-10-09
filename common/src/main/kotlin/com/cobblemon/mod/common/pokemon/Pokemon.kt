@@ -59,6 +59,7 @@ import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.NPCPartyStore
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
@@ -699,7 +700,7 @@ open class Pokemon : ShowdownIdentifiable {
         try {
             val rawID = nbt.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER).replace("pokemonCobblemon", "cobblemon")
             species = PokemonSpecies.getByIdentifier(Identifier(rawID))
-                ?: throw IllegalStateException("Failed to read a species with identifier $rawID")
+                ?: throw InvalidSpeciesException(Identifier(rawID))
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
@@ -814,7 +815,7 @@ open class Pokemon : ShowdownIdentifiable {
         try {
             val rawID = json.get(DataKeys.POKEMON_SPECIES_IDENTIFIER).asString.replace("pokemonCobblemon", "cobblemon")
             species = PokemonSpecies.getByIdentifier(Identifier(rawID))
-                ?: throw IllegalStateException("Failed to read a species with identifier $rawID")
+                ?: throw InvalidSpeciesException(Identifier(rawID))
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }

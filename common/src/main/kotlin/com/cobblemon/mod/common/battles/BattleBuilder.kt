@@ -68,7 +68,7 @@ object BattleBuilder {
             CobblemonEvents.BATTLE_STARTED_PRE.postThen(
                     BattleStartedPreEvent(listOf(player1Actor, player2Actor), battleFormat, true, false, false))
             {
-                SuccessfulBattleStart(
+                return SuccessfulBattleStart(
                         BattleRegistry.startBattle(
                                 battleFormat = battleFormat,
                                 side1 = BattleSide(player1Actor),
@@ -138,7 +138,7 @@ object BattleBuilder {
                 if (!cloneParties) {
                     pokemonEntity.battleId.set(Optional.of(battle.battleId))
                 }
-                SuccessfulBattleStart(battle)
+                return SuccessfulBattleStart(battle)
             }
             errors
         } else {

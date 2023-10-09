@@ -37,6 +37,9 @@ dependencies {
 
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
+    // For datastore
+    modCompileOnly(libs.mongoDriverCore)
+    modCompileOnly(libs.mongoDriverSync)
 
     testRuntimeOnly(libs.junitEngine)
     testImplementation(libs.junitApi)

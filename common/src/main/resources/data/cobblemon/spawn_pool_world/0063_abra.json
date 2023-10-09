@@ -51,7 +51,7 @@
             "id": "abra-3",
             "pokemon": "abra",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

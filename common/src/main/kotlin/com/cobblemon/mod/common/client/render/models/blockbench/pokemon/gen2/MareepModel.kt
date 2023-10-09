@@ -46,6 +46,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("mareep", "blink").setPreventsIdle(false) }
         sleep = registerPose(
+            poseName = "unsheared_sleep",
             poseType = PoseType.SLEEP,
             condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
             transformedParts = arrayOf(
@@ -55,6 +56,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         shearedsleep = registerPose(
+            poseName = "sheared_sleep",
             poseType = PoseType.SLEEP,
             condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
             transformedParts = arrayOf(

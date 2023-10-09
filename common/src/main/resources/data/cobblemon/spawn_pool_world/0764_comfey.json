@@ -40,6 +40,25 @@
                     "#cobblemon:is_overworld"
                 ]
             }
+        },
+        {
+            "id": "comfey-3",
+            "pokemon": "comfey",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "24-49",
+            "weight": 2.0,
+            "condition": {
+                "biomes": [
+                    "the_bumblezone:floral_meadow"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
+            }
         }
     ]
 }

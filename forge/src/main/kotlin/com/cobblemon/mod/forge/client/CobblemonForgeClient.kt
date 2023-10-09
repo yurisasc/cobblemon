@@ -148,9 +148,17 @@ object CobblemonForgeClient : CobblemonClientImplementation {
         event.registerSpriteSet(CobblemonParticles.SNOWSTORM_PARTICLE_TYPE, SnowstormParticleType::Factory)
     }
 
+    var lastUpdateTime: Long? = null
+
     private fun onRenderGuiOverlayEvent(event: RenderGuiOverlayEvent.Pre) {
         if (event.overlay.id == VanillaGuiOverlay.CHAT_PANEL.id()) {
-            CobblemonClient.beforeChatRender(event.guiGraphics, event.partialTick)
+            val lastUpdateTime = lastUpdateTime
+            if (lastUpdateTime != null) {
+                // "Why don't you just use the event.partialDetalTicks"
+                // Well JAMES it's because for some reason the value is like 2.8x too big. Forge bug? Weird event structure? Don't know don't care
+                CobblemonClient.beforeChatRender(event.guiGraphics, (System.currentTimeMillis() - lastUpdateTime) / 1000F * 20F)
+            }
+            this.lastUpdateTime = System.currentTimeMillis()
         }
     }
 

@@ -18,8 +18,26 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_floral"
-                ],
-                "isRaining": false
+                ]
+            }
+        },
+		{
+            "id": "bayleef-2",
+            "pokemon": "bayleef",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "16-41",
+            "weight": 0.9,
+            "condition": {
+                "biomes": [
+                    "the_bumblezone:floral_meadow"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
             }
         }
     ]

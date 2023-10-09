@@ -15,7 +15,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "24-49",
-            "weight": 6.0,
+            "weight": 60.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -36,7 +36,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "24-49",
-            "weight": 6.0,
+            "weight": 60.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -60,6 +60,25 @@
                 "biomes": [
                     "#minecraft:is_end"
                 ]
+            }
+        },
+		{
+            "id": "sigilyph-4",
+            "pokemon": "sigilyph",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "24-49",
+            "weight": 6.0,
+            "condition": {
+                "biomes": [
+                    "the_bumblezone:howling_constructs"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
             }
         }
     ]

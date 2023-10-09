@@ -58,7 +58,7 @@
             "id": "granbull-3",
             "pokemon": "granbull",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

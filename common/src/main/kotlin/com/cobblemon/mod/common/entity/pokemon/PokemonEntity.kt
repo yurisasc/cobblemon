@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BagItems
@@ -428,9 +429,15 @@ class PokemonEntity(
                 )
             } else {
                 pokemon = Pokemon()
+                health = 0F
             }
         } else {
-            pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+            pokemon = try {
+                Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+            } catch (_: InvalidSpeciesException) {
+                health = 0F
+                Pokemon()
+            }
         }
         species.set(pokemon.species.resourceIdentifier.toString())
         nickname.set(pokemon.nickname ?: Text.empty())
