@@ -10,7 +10,7 @@
     "h:hydration"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:aspear_berry",

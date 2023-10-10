@@ -74,7 +74,7 @@
     "mineral"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:raw_iron",
