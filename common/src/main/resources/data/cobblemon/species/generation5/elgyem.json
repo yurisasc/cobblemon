@@ -9,7 +9,7 @@
     "h:analytic"
   ],
   "drops": {
-    "amount": 3,
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:ender_pearl",

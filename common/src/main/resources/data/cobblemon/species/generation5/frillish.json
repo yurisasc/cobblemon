@@ -12,7 +12,7 @@
     "amount": 2,
     "entries": [
       {
-        "item": "minecraft:glow_inc_sac",
+        "item": "minecraft:glow_ink_sac",
         "percentage": 50
       },
       {
