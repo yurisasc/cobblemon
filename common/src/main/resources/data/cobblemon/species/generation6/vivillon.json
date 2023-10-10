@@ -10,11 +10,15 @@
     "h:friendguard"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
       {
-        "item": "cobblemon:silver_powder",
-        "percentage": 2.5
+        "item": "cobblemon:bright_powder",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5
       }
     ]
   },
