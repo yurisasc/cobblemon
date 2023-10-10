@@ -78,11 +78,11 @@
     "entries": [
       {
         "item": "minecraft:stick",
-        "maxSelectableTimes": 2
+        "quantityRange": "1-2"
       },
       {
         "item": "cobblemon:miracle_seed",
-        "percentage": 20
+        "percentage": 25
       }
     ]
   },

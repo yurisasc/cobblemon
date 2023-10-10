@@ -16,9 +16,8 @@
         "quantityRange": "1-2"
       },
       {
-        "item": "cobblemon:shuca_berry",
-        "percentage": 66,
-        "quantityRange": "1-2"
+        "item": "cobblemon:wepear_berry",
+        "percentage": 5
       }
     ]
   },

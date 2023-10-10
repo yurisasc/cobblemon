@@ -33,6 +33,10 @@
         "item": "minecraft:stone_axe",
         "quantityRange": "1-2",
         "percentage": 66
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 5
       }
     ]
   },

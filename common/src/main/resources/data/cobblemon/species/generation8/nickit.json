@@ -9,15 +9,19 @@
     "h:stakeout"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:sweet_berries",
-        "quantityRange": "2-3"
+        "quantityRange": "1-3"
       },
       {
         "item": "minecraft:emerald",
-        "percentage": 5
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
       }
     ]
   },

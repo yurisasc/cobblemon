@@ -30,8 +30,7 @@
     "entries": [
       {
         "item": "minecraft:sugar",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "percentage": 50
       }
     ]
   },

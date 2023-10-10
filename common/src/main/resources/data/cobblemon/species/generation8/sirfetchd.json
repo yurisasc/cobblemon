@@ -8,12 +8,22 @@
     "h:scrappy"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 4,
     "entries": [
       {
-        "item": "cobblemon:medicinal_leek",
-        "percentage": 20,
-        "quantityRange": "1-5"
+        "item": "cobblemon:medicinal_leek"
+      },
+      {
+        "item": "minecraft:feather",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 5
       }
     ]
   },

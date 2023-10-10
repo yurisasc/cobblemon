@@ -50,6 +50,10 @@
         "item": "minecraft:leather",
         "quantityRange": "1-2",
         "percentage": 66
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5
       }
     ]
   },

@@ -86,12 +86,12 @@
     "entries": [
       {
         "item": "minecraft:sugar",
-        "quantityRange": "1-3",
-        "percentage": 75
+        "quantityRange": "1-2",
+        "percentage": 66
       },
       {
         "item": "minecraft:cake",
-        "percentage": 10
+        "percentage": 5
       }
     ]
   },
