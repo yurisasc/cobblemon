@@ -67,6 +67,14 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
      */
     fun berry(): Berry? = Berries.getByIdentifier(this.berryIdentifier)
 
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+        if (!player.isCreative && state.get(AGE) == FRUIT_AGE) {
+            val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
+            treeEntity.harvest(world, state, pos, player).forEach { drop -> Block.dropStack(world, pos, drop) }
+        }
+        super.onBreak(world, pos, state, player)
+    }
+
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state, berryIdentifier)
 
     override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = !this.isMaxAge(state)
