@@ -12,8 +12,8 @@
     "amount": 2,
     "entries": [
       {
-        "item": "minecraft:blue_ice",
-        "percentage": 50
+        "item": "cobblemon:aspear_berry",
+        "percentage": 2.5
       },
       {
         "item": "cobblemon:never_melt_ice",
