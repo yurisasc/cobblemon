@@ -101,5 +101,5 @@ class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleidle)) bedrockStateful("exeggutor", "faint") else null
+    ) = bedrockStateful("exeggutor", "faint")
 }
