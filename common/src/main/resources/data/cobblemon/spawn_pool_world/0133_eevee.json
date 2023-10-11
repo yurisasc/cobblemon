@@ -50,7 +50,30 @@
             "pokemon": "eevee",
             "presets": [
                 "natural",
-				"urban",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "5-33",
+            "weight": 1.8,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "eevee-4",
+            "pokemon": "eevee",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",
@@ -66,10 +89,10 @@
             }
         },
 		{
-            "id": "eevee-4",
+            "id": "eevee-5",
             "pokemon": "eevee",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

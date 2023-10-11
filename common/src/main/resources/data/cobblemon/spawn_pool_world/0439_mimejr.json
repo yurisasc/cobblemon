@@ -8,7 +8,33 @@
             "pokemon": "mimejr",
             "presets": [
                 "natural",
-				"urban",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "6-31",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_freezing"
+                ],
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "mimejr-2",
+            "pokemon": "mimejr",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",
@@ -29,10 +55,10 @@
             }
         },
 		{
-            "id": "mimejr-2",
+            "id": "mimejr-3",
             "pokemon": "mimejr",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -45,6 +45,32 @@
 					"#cobblemon:is_nether_wasteland"
                 ]
             }
+        },
+		{
+            "id": "rapidash-galarian-1",
+            "pokemon": "rapidash galarian",
+            "presets": [
+                "natural",
+				"wild"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "40-50",
+            "weight": 1.0,
+			"weightMultiplier": {
+				"multiplier": 0.25,
+				"condition": {
+					"timeRange": "night"
+				}
+			},
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_floral",
+					"#cobblemon:is_magical"
+                ]
+            }
         }
     ]
 }

@@ -26,7 +26,30 @@
             "pokemon": "glaceon",
             "presets": [
                 "natural",
-				"urban",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 0.025,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "glaceon-3",
+            "pokemon": "glaceon",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",
@@ -42,10 +65,10 @@
             }
         },
 		{
-            "id": "glaceon-3",
+            "id": "glaceon-4",
             "pokemon": "glaceon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

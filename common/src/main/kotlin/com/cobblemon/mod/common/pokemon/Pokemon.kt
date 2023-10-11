@@ -58,6 +58,7 @@ import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
@@ -77,6 +78,7 @@ import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
+import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.DataKeys
@@ -327,6 +329,12 @@ open class Pokemon : ShowdownIdentifiable {
             _shiny.emit(value)
         }
 
+    var tradeable = true
+        set(value) {
+            field = value
+            _tradeable.emit(value)
+        }
+
     var nature = Natures.getRandomNature()
         set(value) { field = value ; _nature.emit(value) }
     var mintedNature: Nature? = null
@@ -430,7 +438,7 @@ open class Pokemon : ShowdownIdentifiable {
     private var heldItem: ItemStack = ItemStack.EMPTY
 
     init {
-        storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) this.tetheringId = null }
+        storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) afterOnMain(ticks = 1) { this.tetheringId = null } }
     }
 
     open fun getStat(stat: Stat) = Cobblemon.statProvider.getStatForPokemon(this, stat)
@@ -555,8 +563,16 @@ open class Pokemon : ShowdownIdentifiable {
     fun isLegendary() = this.hasLabels(CobblemonPokemonLabels.LEGENDARY)
 
     /**
+     * A utility method that checks if this Pokémon species or form data contains the [CobblemonPokemonLabels.MYTHICAL] label.
+     * This is used in Pokémon officially considered mythical.
+     *
+     * @return If the Pokémon is mythical.
+     */
+    fun isMythical() = this.hasLabels(CobblemonPokemonLabels.MYTHICAL)
+
+    /**
      * A utility method that checks if this Pokémon species or form data contains the [CobblemonPokemonLabels.ULTRA_BEAST] label.
-     * This is used in Pokémon officially considered legendary.
+     * This is used in Pokémon officially considered an ultra beast.
      *
      * @return If the Pokémon is an ultra beast.
      */
@@ -570,6 +586,13 @@ open class Pokemon : ShowdownIdentifiable {
      * @return If the Pokémon has all the given labels.
      */
     fun hasLabels(vararg labels: String) = labels.all { label -> this.form.labels.any { it.equals(label, true) } }
+
+    /**
+     * A utility method that checks if this Pokémon has the [UncatchableProperty.uncatchable] property.
+     *
+     * @return If the Pokémon is uncatchable.
+     */
+    fun isUncatchable() = UncatchableProperty.uncatchable().matches(this)
 
     /**
      * Returns a copy of the held item.
@@ -655,6 +678,7 @@ open class Pokemon : ShowdownIdentifiable {
         nbt.putString(DataKeys.POKEMON_TERA_TYPE, teraType.name)
         nbt.putInt(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         nbt.putBoolean(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
+        nbt.putBoolean(DataKeys.POKEMON_TRADEABLE, tradeable)
         return nbt
     }
 
@@ -664,7 +688,7 @@ open class Pokemon : ShowdownIdentifiable {
         try {
             val rawID = nbt.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER).replace("pokemonCobblemon", "cobblemon")
             species = PokemonSpecies.getByIdentifier(Identifier(rawID))
-                ?: throw IllegalStateException("Failed to read a species with identifier $rawID")
+                ?: throw InvalidSpeciesException(Identifier(rawID))
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
@@ -725,6 +749,7 @@ open class Pokemon : ShowdownIdentifiable {
         this.teraType = ElementalTypes.get(nbt.getString(DataKeys.POKEMON_TERA_TYPE)) ?: this.primaryType
         this.dmaxLevel = nbt.getInt(DataKeys.POKEMON_DMAX_LEVEL)
         this.gmaxFactor = nbt.getBoolean(DataKeys.POKEMON_GMAX_FACTOR)
+        this.tradeable = if (nbt.contains(DataKeys.POKEMON_TRADEABLE)) nbt.getBoolean(DataKeys.POKEMON_TRADEABLE) else true
         return this
     }
 
@@ -768,6 +793,7 @@ open class Pokemon : ShowdownIdentifiable {
         json.addProperty(DataKeys.POKEMON_TERA_TYPE, teraType.name)
         json.addProperty(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         json.addProperty(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
+        json.addProperty(DataKeys.POKEMON_TRADEABLE, tradeable)
         return json
     }
 
@@ -777,7 +803,7 @@ open class Pokemon : ShowdownIdentifiable {
         try {
             val rawID = json.get(DataKeys.POKEMON_SPECIES_IDENTIFIER).asString.replace("pokemonCobblemon", "cobblemon")
             species = PokemonSpecies.getByIdentifier(Identifier(rawID))
-                ?: throw IllegalStateException("Failed to read a species with identifier $rawID")
+                ?: throw InvalidSpeciesException(Identifier(rawID))
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
@@ -840,11 +866,22 @@ open class Pokemon : ShowdownIdentifiable {
             this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as NbtCompound
         }
         if (json.has(DataKeys.TETHERING_ID)) {
-            tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
+            this.tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
         }
-        this.teraType = ElementalTypes.get(json.get(DataKeys.POKEMON_TERA_TYPE).asString) ?: this.primaryType
-        this.dmaxLevel = json.get(DataKeys.POKEMON_DMAX_LEVEL).asInt
-        this.gmaxFactor = json.get(DataKeys.POKEMON_GMAX_FACTOR).asBoolean
+        if (json.has(DataKeys.POKEMON_TERA_TYPE)) {
+            this.teraType = ElementalTypes.get(json.get(DataKeys.POKEMON_TERA_TYPE).asString) ?: this.primaryType
+        } else {
+            this.teraType = this.primaryType
+        }
+        if (json.has(DataKeys.POKEMON_DMAX_LEVEL)) {
+            this.dmaxLevel = json.get(DataKeys.POKEMON_DMAX_LEVEL).asInt
+        }
+        if (json.has(DataKeys.POKEMON_GMAX_FACTOR)) {
+            this.gmaxFactor = json.get(DataKeys.POKEMON_GMAX_FACTOR).asBoolean
+        }
+        if (json.has(DataKeys.POKEMON_TRADEABLE)) {
+            this.tradeable = json.get(DataKeys.POKEMON_TRADEABLE).asBoolean
+        }
         return this
     }
 
@@ -1304,6 +1341,7 @@ open class Pokemon : ShowdownIdentifiable {
     private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket({ this }, it) }
     private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket({ this }, it) }
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket({ this }, it) }
+    private val _tradeable = registerObservable(SimpleObservable<Boolean>()) { TradeableUpdatePacket({ this }, it) }
     private val _nature = registerObservable(SimpleObservable<Nature>()) { NatureUpdatePacket({ this }, it, false) }
     private val _mintedNature = registerObservable(SimpleObservable<Nature?>()) { NatureUpdatePacket({ this }, it, true) }
     private val _moveSet = registerObservable(moveSet.observable) { MoveSetUpdatePacket({ this }, moveSet) }
@@ -1338,6 +1376,5 @@ open class Pokemon : ShowdownIdentifiable {
         fun loadFromJSON(json: JsonObject): Pokemon {
             return Pokemon().loadFromJSON(json)
         }
-        
     }
 }

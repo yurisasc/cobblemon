@@ -1,7 +1,8 @@
 {
   "replace": false,
   "values": [
-    "minecraft:mushroom_fields",
+	"minecraft:mushroom_fields",
+	"#cobblemon:is_tropical_island",
     {
       "id": "byg:lush_stacks",
       "required": false

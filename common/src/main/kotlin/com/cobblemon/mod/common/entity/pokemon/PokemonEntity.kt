@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BagItems
@@ -56,8 +57,6 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import java.util.*
-import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
@@ -104,6 +103,9 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.util.EnumSet
+import java.util.Optional
+import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 class PokemonEntity(
@@ -163,6 +165,8 @@ class PokemonEntity(
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.STAND)
     internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
+    val hideLabel = addEntityProperty(HIDE_LABEL, false)
+    val unbattleable = addEntityProperty(UNBATTLEABLE, false)
 
     /**
      * 0 is do nothing,
@@ -226,11 +230,14 @@ class PokemonEntity(
         val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val POSE_TYPE = DataTracker.registerData(PokemonEntity::class.java, PoseTypeDataSerializer)
         val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         const val BATTLE_LOCK = "battle"
 
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
+            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
 
     }
 
@@ -264,6 +271,11 @@ class PokemonEntity(
         ticksLived++
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
+        }
+
+        if (this.tethering != null && !this.tethering!!.box.contains(this.x, this.y, this.z)) {
+            this.tethering = null
+            this.pokemon.recall()
         }
     }
 
@@ -316,6 +328,13 @@ class PokemonEntity(
         return super.isInvulnerableTo(damageSource)
     }
 
+    /**
+     * A utility method that checks if this Pokémon has the [UncatchableProperty.uncatchable] property.
+     *
+     * @return If the Pokémon is uncatchable.
+     */
+    fun isUncatchable() = pokemon.isUncatchable()
+
     fun recallWithAnimation(): CompletableFuture<Pokemon> {
         val owner = owner
         val future = CompletableFuture<Pokemon>()
@@ -356,6 +375,13 @@ class PokemonEntity(
         nbt.putString(DataKeys.POKEMON_POSE_TYPE, poseType.get().name)
         nbt.putByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS, behaviourFlags.get())
 
+        if (hideLabel.get()) {
+            nbt.putBoolean(DataKeys.POKEMON_HIDE_LABEL, true)
+        }
+        if (unbattleable.get()) {
+            nbt.putBoolean(DataKeys.POKEMON_UNBATTLEABLE, true)
+        }
+
         CobblemonEvents.POKEMON_ENTITY_SAVE.post(PokemonEntitySaveEvent(this, nbt))
 
         return super.writeNbt(nbt)
@@ -387,9 +413,15 @@ class PokemonEntity(
                 )
             } else {
                 pokemon = Pokemon()
+                health = 0F
             }
         } else {
-            pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+            pokemon = try {
+                Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+            } catch (_: InvalidSpeciesException) {
+                health = 0F
+                Pokemon()
+            }
         }
         species.set(pokemon.species.resourceIdentifier.toString())
         nickname.set(pokemon.nickname ?: Text.empty())
@@ -404,6 +436,13 @@ class PokemonEntity(
         poseType.set(PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
         behaviourFlags.set(nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
         this.setBehaviourFlag(PokemonBehaviourFlag.EXCITED, true)
+
+        if (nbt.contains(DataKeys.POKEMON_HIDE_LABEL)) {
+            hideLabel.set(nbt.getBoolean(DataKeys.POKEMON_HIDE_LABEL))
+        }
+        if (nbt.contains(DataKeys.POKEMON_UNBATTLEABLE)) {
+            unbattleable.set(nbt.getBoolean(DataKeys.POKEMON_UNBATTLEABLE))
+        }
 
         CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(
             event = PokemonEntityLoadEvent(this, nbt),
@@ -553,7 +592,7 @@ class PokemonEntity(
     }
 
     override fun shouldSave(): Boolean {
-        if (ownerUuid == null && Cobblemon.config.savePokemonToWorld) {
+        if (ownerUuid == null && (Cobblemon.config.savePokemonToWorld || isPersistent)) {
             CobblemonEvents.POKEMON_ENTITY_SAVE_TO_WORLD.postThen(PokemonEntitySaveToWorldEvent(this)) {
                 return true
             }
@@ -562,7 +601,7 @@ class PokemonEntity(
     }
 
     override fun checkDespawn() {
-        if (pokemon.getOwnerUUID() == null && despawner.shouldDespawn(this)) {
+        if (pokemon.getOwnerUUID() == null && !isPersistent && despawner.shouldDespawn(this)) {
             discard()
         }
     }
@@ -588,7 +627,9 @@ class PokemonEntity(
 
     @Suppress("UNUSED_PARAMETER")
     fun canBattle(player: PlayerEntity): Boolean {
-        if (isBusy) {
+        if (unbattleable.get()) {
+            return false
+        } else if (isBusy) {
             return false
         } else if (battleId.get().isPresent) {
             return false
@@ -957,5 +998,9 @@ class PokemonEntity(
                 if(distanceTo(player.blockPos) > 100) pokemon.recall()
             }
         }
+    }
+
+    override fun canBeLeashedBy(player: PlayerEntity): Boolean {
+        return this.ownerUuid == null || this.ownerUuid == player.uuid
     }
 }

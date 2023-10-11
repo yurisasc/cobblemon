@@ -8,7 +8,36 @@
             "pokemon": "weezing",
             "presets": [
                 "natural",
-				"urban",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "35-49",
+            "weight": 0.2,
+			"weightMultiplier": {
+				"multiplier": 5.0,
+				"condition": {
+					"timeRange": "night"
+				}
+			},
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "weezing-2",
+            "pokemon": "weezing",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",
@@ -30,7 +59,7 @@
             }
         },
 		{
-            "id": "weezing-2",
+            "id": "weezing-3",
             "pokemon": "weezing",
             "presets": [
                 "natural"

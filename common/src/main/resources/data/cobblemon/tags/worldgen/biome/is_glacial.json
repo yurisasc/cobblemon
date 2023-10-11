@@ -8,6 +8,10 @@
       "required": false
     },
 	{
+      "id": "#c:icy",
+      "required": false
+    },
+	{
       "id": "terralith:cave/frostfire_caves",
       "required": false
     },

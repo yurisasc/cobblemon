@@ -19,7 +19,7 @@
                 "biomes": [
                     "#cobblemon:is_floral",
                     "#cobblemon:is_magical",
-                    "#cobblemon:is_snowy"
+                    "#cobblemon:is_snowy_forest"
                 ]
             }
         },
@@ -28,7 +28,30 @@
             "pokemon": "kirlia",
             "presets": [
                 "natural",
-                "urban",
+                "urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "rare",
+            "level": "20-29",
+            "weight": 0.18,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "kirlia-3",
+            "pokemon": "kirlia",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",
@@ -44,10 +67,10 @@
             }
         },
         {
-            "id": "kirlia-3",
+            "id": "kirlia-4",
             "pokemon": "kirlia",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

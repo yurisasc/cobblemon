@@ -40,7 +40,7 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_frigid"
+                    "#cobblemon:is_cold_ocean"
                 ]
             }
         }

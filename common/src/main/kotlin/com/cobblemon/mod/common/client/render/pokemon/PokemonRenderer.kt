@@ -67,7 +67,7 @@ class PokemonRenderer(
     }
 
     override fun getTexture(entity: PokemonEntity): Identifier {
-        return PokemonModelRepository.getTexture(entity.pokemon.species.resourceIdentifier, entity.aspects.get(), entity.delegate as PokemonClientDelegate)
+        return PokemonModelRepository.getTexture(entity.pokemon.species.resourceIdentifier, entity.aspects.get(), (entity.delegate as PokemonClientDelegate).animationSeconds)
     }
 
     override fun render(
@@ -281,6 +281,9 @@ class PokemonRenderer(
 
     private fun shouldRenderLabel(entity: PokemonEntity): Boolean {
         if (!super.hasLabel(entity)) {
+            return false
+        }
+        if (entity.hideLabel.get()) {
             return false
         }
         val player = MinecraftClient.getInstance().player ?: return false

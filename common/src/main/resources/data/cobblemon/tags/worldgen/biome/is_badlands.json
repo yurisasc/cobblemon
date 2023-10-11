@@ -3,6 +3,10 @@
   "values": [
     "#minecraft:is_badlands",
 	{
+      "id": "#c:mesa",
+      "required": false
+    },
+	{
       "id": "terralith:ashen_savanna",
       "required": false
     },

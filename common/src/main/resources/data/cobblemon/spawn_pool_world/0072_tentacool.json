@@ -17,7 +17,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_deep"
+                    "#cobblemon:is_deep_ocean"
                 ],
                 "maxY": 48
             }
@@ -42,7 +42,7 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_deep"
+                    "#cobblemon:is_deep_ocean"
                 ]
             }
         }

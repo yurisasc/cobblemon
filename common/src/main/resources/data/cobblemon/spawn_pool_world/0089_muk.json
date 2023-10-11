@@ -32,7 +32,36 @@
             "pokemon": "muk",
             "presets": [
                 "water_surface",
-				"urban",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "common",
+            "level": "38-50",
+            "weight": 0.6,
+			"weightMultiplier": {
+				"multiplier": 1.5,
+				"condition": {
+					"timeRange": "night"
+				}
+			},
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "muk-3",
+            "pokemon": "muk",
+            "presets": [
+                "water_surface",
 				"village"
             ],
             "type": "pokemon",
@@ -54,7 +83,7 @@
             }
         },
 		{
-            "id": "muk-3",
+            "id": "muk-4",
             "pokemon": "muk",
             "presets": [
                 "natural"

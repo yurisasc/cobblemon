@@ -8,7 +8,30 @@
             "pokemon": "fidough",
             "presets": [
                 "natural",
-                "urban",
+                "urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "6-31",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "fidough-2",
+            "pokemon": "fidough",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",

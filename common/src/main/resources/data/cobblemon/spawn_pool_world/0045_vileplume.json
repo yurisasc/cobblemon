@@ -56,7 +56,8 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_savanna"
+                    "#cobblemon:is_savanna",
+					"#cobblemon:is_tropical_island"
                 ],
                 "timeRange": "night"
             }

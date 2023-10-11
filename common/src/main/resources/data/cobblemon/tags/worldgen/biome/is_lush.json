@@ -3,15 +3,15 @@
   "values": [
     "minecraft:lush_caves",
     {
+      "id": "#forge:is_lush",
+      "required": false
+    },
+	{
       "id": "byg:lush_stacks",
       "required": false
     },
 	{
       "id": "terralith:cave/underground_jungle",
-      "required": false
-    },
-    {
-      "id": "wythers:ancient_mossy_swamp",
       "required": false
     },
 	{
@@ -32,10 +32,6 @@
     },
     {
       "id": "wythers:lush_shroom_caves",
-      "required": false
-    },
-    {
-      "id": "wythers:waterlily_swamp",
       "required": false
     }
   ]

@@ -5,7 +5,7 @@
     "spawns": [
         {
             "id": "vivillon-highplains-1",
-            "pokemon": "vivillon vivillon_wings=high_plains",
+            "pokemon": "vivillon vivillon_wings=high-plains",
             "presets": [
                 "natural",
                 "flowers"
@@ -60,7 +60,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_coast",
-                    "#cobblemon:is_reef"
+                    "#cobblemon:is_warm_ocean"
                 ],
                 "timeRange": "day",
                 "isRaining": false
@@ -105,6 +105,25 @@
                 ],
                 "timeRange": "day",
                 "isRaining": false
+            }
+        },
+		{
+            "id": "vivillon-meadow-2",
+            "pokemon": "vivillon vivillon_wings=meadow",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "12-41",
+            "weight": 5.0,
+            "condition": {
+                "biomes": [
+                    "the_bumblezone:floral_meadow"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
             }
         },
         {
@@ -162,7 +181,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_frozen"
+                    "#cobblemon:is_frozen_ocean"
                 ],
                 "timeRange": "day",
                 "isRaining": false
@@ -184,7 +203,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_glacial",
-                    "#cobblemon:is_snowy",
+                    "#cobblemon:is_snowy_forest",
                     "#cobblemon:is_tundra"
                 ],
                 "timeRange": "day",
@@ -354,6 +373,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_sky",
+					"#cobblemon:is_tropical_island",
                     "minecraft:sunflower_plains"
                 ],
                 "timeRange": "day",
@@ -384,7 +404,7 @@
         },
         {
             "id": "vivillon-icysnow-1",
-            "pokemon": "vivillon vivillon_wings=icysnow",
+            "pokemon": "vivillon vivillon_wings=icy-snow",
             "presets": [
                 "natural",
                 "flowers"

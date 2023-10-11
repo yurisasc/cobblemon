@@ -13,7 +13,7 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "13-38",
             "weight": 10.0,
 			"weightMultiplier": {
@@ -25,15 +25,10 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_temperate"
+                    "#cobblemon:is_overworld"
                 ],
 				"neededNearbyBlocks": [
-                    "#minecraft:water"
-                ]
-            },
-            "anticondition": {
-                "biomes": [
-                    "#cobblemon:is_spooky"
+                    "cobblemon:medicinal_leek"
                 ]
             }
         },

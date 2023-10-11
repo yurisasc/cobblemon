@@ -35,7 +35,8 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_beach"
+                    "#cobblemon:is_beach",
+					"#cobblemon:is_tropical_island"
                 ]
             }
         }

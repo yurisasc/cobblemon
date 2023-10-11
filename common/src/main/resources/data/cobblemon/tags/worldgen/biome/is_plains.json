@@ -4,8 +4,16 @@
     "minecraft:plains",
     "minecraft:sunflower_plains",
 	"#cobblemon:is_highlands",
-    {
+	{
       "id": "#byg:is_plain",
+      "required": false
+    },
+	{
+      "id": "#c:plains",
+      "required": false
+    },
+	{
+      "id": "#forge:is_plains",
       "required": false
     },
 	{
@@ -21,23 +29,11 @@
       "required": false
     },
     {
-      "id": "wythers:autumnal_plains",
-      "required": false
-    },
-    {
       "id": "wythers:berry_bog",
       "required": false
     },
     {
-      "id": "wythers:cold_plains",
-      "required": false
-    },
-    {
       "id": "wythers:cool_forest_edge",
-      "required": false
-    },
-    {
-      "id": "wythers:cool_plains",
       "required": false
     },
     {
@@ -49,27 +45,11 @@
       "required": false
     },
     {
-      "id": "wythers:harvest_fields",
-      "required": false
-    },
-    {
-      "id": "wythers:highland_plains",
-      "required": false
-    },
-    {
-      "id": "wythers:humid_tropical_grassland",
-      "required": false
-    },
-    {
       "id": "wythers:spring_flower_fields",
       "required": false
     },
     {
-      "id": "terralith:subtropical_forest_edge",
-      "required": false
-    },
-    {
-      "id": "wythers:subtropical_grassland",
+      "id": "wythers:subtropical_forest_edge",
       "required": false
     },
     {

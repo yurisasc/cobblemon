@@ -36,6 +36,27 @@
                     "#cobblemon:is_lush"
                 ]
             }
+        },
+		{
+            "id": "yanma-3",
+            "pokemon": "yanma",
+            "presets": [
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "bucket": "common",
+            "level": "14-39",
+            "weight": 1.8,
+            "condition": {
+				"biomes": [
+                    "#the_bumblezone:the_bumblezone"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
+            }
         }
     ]
 }

@@ -6,6 +6,14 @@
 	"minecraft:snowy_slopes",
     "minecraft:stony_peaks",
     {
+      "id": "#c:mountain_peak",
+      "required": false
+    },
+	{
+      "id": "#forge:is_peak",
+      "required": false
+    },
+	{
       "id": "terralith:emerald_peaks",
       "required": false
     },
@@ -27,18 +35,6 @@
     },
     {
       "id": "wythers:aspen_crags",
-      "required": false
-    },
-    {
-      "id": "wythers:cool_stony_peaks",
-      "required": false
-    },
-    {
-      "id": "wythers:icy_volcano",
-      "required": false
-    },
-    {
-      "id": "wythers:snowy_peaks",
       "required": false
     }
   ]

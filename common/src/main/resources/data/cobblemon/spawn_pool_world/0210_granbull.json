@@ -8,7 +8,33 @@
             "pokemon": "granbull",
             "presets": [
                 "natural",
-                "urban",
+                "urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "23-45",
+            "weight": 0.6,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_freezing"
+                ],
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "granbull-2",
+            "pokemon": "granbull",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",
@@ -29,10 +55,10 @@
             }
         },
         {
-            "id": "granbull-2",
+            "id": "granbull-3",
             "pokemon": "granbull",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

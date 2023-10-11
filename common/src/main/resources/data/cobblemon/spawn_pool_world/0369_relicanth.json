@@ -17,7 +17,7 @@
             "condition": {
                 "maxY": 48,
                 "biomes": [
-                    "#cobblemon:is_deep"
+                    "#cobblemon:is_deep_ocean"
                 ]
             }
         },
@@ -32,7 +32,7 @@
             "context": "submerged",
             "bucket": "common",
             "level": "24-49",
-            "weight": 2.0,
+            "weight": 20.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [

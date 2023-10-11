@@ -48,6 +48,7 @@ object DataKeys {
     const val POKEMON_TERA_TYPE = "TeraType"
     const val POKEMON_DMAX_LEVEL = "DmaxLevel"
     const val POKEMON_GMAX_FACTOR = "GmaxFactor"
+    const val POKEMON_TRADEABLE = "Tradeable"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
@@ -60,6 +61,8 @@ object DataKeys {
     const val POKEMON_POSE_TYPE = "PoseType"
     const val POKEMON_BEHAVIOUR_FLAGS = "BehaviourFlags"
     const val POKEMON_OWNER_ID = "PokemonOwnerId"
+    const val POKEMON_HIDE_LABEL = "HideLabel"
+    const val POKEMON_UNBATTLEABLE = "Unbattleable"
 
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"

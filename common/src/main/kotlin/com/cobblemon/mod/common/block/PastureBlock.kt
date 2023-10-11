@@ -58,8 +58,8 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
+import net.minecraft.world.WorldEvents
 import net.minecraft.world.WorldView
-import net.minecraft.world.explosion.Explosion
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterloggable, PreEmptsExplosion {
@@ -180,23 +180,34 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
         builder.add(WATERLOGGED)
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
-        super.onBreak(world, pos, state, player)
-        val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
-        if (otherPart.block is PastureBlock) {
-            world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, 35)
-            world.syncWorldEvent(player, 2001, getPositionOfOtherPart(state, pos), Block.getRawIdFromState(otherPart))
+    fun checkBreakEntity(world: WorldAccess, state: BlockState, pos: BlockPos) {
+        if (state.get(PART) == PasturePart.TOP) {
+            return
+        }
+        val blockEntity = world.getBlockEntity(pos)
+        if (blockEntity is PokemonPastureBlockEntity) {
+            blockEntity.onBroken()
         }
     }
 
-    override fun onBroken(world: WorldAccess, pos: BlockPos, state: BlockState) {
-        val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
-        super.onBroken(world, pos, state)
-        blockEntity.onBroken()
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
+        checkBreakEntity(world, state, pos)
+        if (!world.isClient && player?.isCreative == true) {
+            var blockPos: BlockPos = BlockPos.ORIGIN
+            var blockState: BlockState = state
+            val part = state.get(PART)
+            if (part == PasturePart.TOP && world.getBlockState(pos.down().also { blockPos = it }).also { blockState = it }.isOf(state.block) && blockState.get(PART) == PasturePart.BOTTOM) {
+                checkBreakEntity(world, blockState, blockPos)
+                val blockState2 = if (blockState.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState
+                world.setBlockState(blockPos, blockState2, NOTIFY_ALL or SKIP_DROPS)
+                world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, blockPos, getRawIdFromState(blockState))
+            }
+        }
+        super.onBreak(world, pos, state, player)
     }
 
-    override fun whenExploded(world: World?, state: BlockState, pos: BlockPos?) {
-        val blockEntity = world?.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
+    override fun whenExploded(world: World, state: BlockState, pos: BlockPos) {
+        val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
         blockEntity.onBroken()
     }
 
@@ -307,16 +318,25 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
 
     override fun getStateForNeighborUpdate(
         state: BlockState,
-        direction: Direction?,
-        neighborState: BlockState?,
+        direction: Direction,
+        neighborState: BlockState,
         world: WorldAccess,
-        pos: BlockPos?,
-        neighborPos: BlockPos?
-    ): BlockState? {
+        pos: BlockPos,
+        neighborPos: BlockPos
+    ): BlockState {
         if (state.get(WATERLOGGED)) {
             world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
         }
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-    }
 
+        val isPasture = neighborState.isOf(this)
+        val part = state.get(PART)
+        if (!isPasture && part == PasturePart.TOP && neighborPos == pos.down()) {
+            return Blocks.AIR.defaultState
+        } else if (!isPasture && part == PasturePart.BOTTOM && neighborPos == pos.up()) {
+            checkBreakEntity(world, state, pos)
+            return Blocks.AIR.defaultState
+        }
+
+        return state
+    }
 }

@@ -90,7 +90,7 @@ object CobblemonSpawningProspector : SpawningProspector {
                     val state = query.getBlockState(pos.set(x, y, z))
                     blocks[x - area.baseX][y - baseY][z - area.baseZ] = WorldSlice.BlockData(
                         state = state,
-                        light = state.getOpacity(world, pos)
+                        light = world.getLightLevel(pos)
                     )
 
                     if (canSeeSky) {

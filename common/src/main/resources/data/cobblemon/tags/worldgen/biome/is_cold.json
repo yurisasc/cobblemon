@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#cobblemon:is_freezing",
-    "#cobblemon:is_frigid",
+    "#cobblemon:is_cold_ocean",
+	"#cobblemon:is_freezing",
     "#cobblemon:is_peak",
     "#cobblemon:is_taiga",
     "#cobblemon:is_tundra",
@@ -10,20 +10,16 @@
       "id": "#byg:is_cold",
       "required": false
     },
+	{
+      "id": "#c:climate_cold",
+      "required": false
+    },
+	{
+      "id": "#forge:is_cold/overworld",
+      "required": false
+    },
     {
       "id": "wythers:berry_bog",
-      "required": false
-    },
-    {
-      "id": "wythers:cold_island",
-      "required": false
-    },
-    {
-      "id": "wythers:cold_plains",
-      "required": false
-    },
-    {
-      "id": "wythers:cold_stony_shore",
       "required": false
     }
   ]

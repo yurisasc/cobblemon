@@ -6,10 +6,22 @@
     "minecraft:snowy_beach",
     "minecraft:snowy_plains",
     "minecraft:snowy_slopes",
-    "#cobblemon:is_frozen",
+    "#cobblemon:is_frozen_ocean",
     "#cobblemon:is_glacial",
-    "#cobblemon:is_snowy",
+    "#cobblemon:is_snowy_forest",
     {
+      "id": "#byg:is_snowy",
+      "required": false
+    },
+	{
+      "id": "#c:snowy",
+      "required": false
+    },
+	{
+      "id": "#forge:is_snowy",
+      "required": false
+    },
+	{
       "id": "byg:cardinal_tundra",
       "required": false
     },

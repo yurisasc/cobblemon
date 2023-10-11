@@ -28,7 +28,7 @@
                     "#cobblemon:is_forest",
                     "#cobblemon:is_hills",
                     "#cobblemon:is_plains",
-                    "#cobblemon:is_snowy",
+                    "#cobblemon:is_snowy_forest",
                     "#cobblemon:is_taiga"
                 ]
             },
@@ -36,6 +36,25 @@
                 "biomes": [
                     "#cobblemon:is_savanna"
                 ]
+            }
+        },
+		{
+            "id": "deerling-2",
+            "pokemon": "deerling",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "9-34",
+            "weight": 9.0,
+            "condition": {
+                "biomes": [
+                    "the_bumblezone:floral_meadow"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
             }
         }
     ]

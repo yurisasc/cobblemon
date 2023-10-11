@@ -26,7 +26,30 @@
             "pokemon": "umbreon",
             "presets": [
                 "natural",
-				"urban",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 0.025,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "umbreon-3",
+            "pokemon": "umbreon",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",
@@ -42,10 +65,10 @@
             }
         },
 		{
-            "id": "umbreon-3",
+            "id": "umbreon-4",
             "pokemon": "umbreon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

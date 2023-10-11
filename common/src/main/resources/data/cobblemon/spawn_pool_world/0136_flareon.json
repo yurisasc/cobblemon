@@ -26,7 +26,30 @@
             "pokemon": "flareon",
             "presets": [
                 "natural",
-				"urban",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 0.025,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "flareon-3",
+            "pokemon": "flareon",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",
@@ -42,10 +65,10 @@
             }
         },
 		{
-            "id": "flareon-3",
+            "id": "flareon-4",
             "pokemon": "flareon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

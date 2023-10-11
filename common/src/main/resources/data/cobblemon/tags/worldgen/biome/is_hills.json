@@ -4,6 +4,14 @@
     "#minecraft:is_hill",
 	"#cobblemon:is_highlands",
     {
+      "id": "#c:mountain_slope",
+      "required": false
+    },
+	{
+      "id": "#forge:is_slope",
+      "required": false
+    },
+	{
       "id": "terralith:blooming_valley",
       "required": false
     },

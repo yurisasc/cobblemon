@@ -33,7 +33,30 @@
             "pokemon": "leafeon",
             "presets": [
                 "natural",
-				"urban",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 0.025,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "leafeon-3",
+            "pokemon": "leafeon",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",
@@ -49,10 +72,10 @@
             }
         },
 		{
-            "id": "leafeon-3",
+            "id": "leafeon-4",
             "pokemon": "leafeon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -32,7 +32,36 @@
             "pokemon": "grimer",
             "presets": [
                 "water_surface",
-				"urban",
+				"urban"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "common",
+            "level": "8-33",
+            "weight": 5.4,
+			"weightMultiplier": {
+				"multiplier": 1.5,
+				"condition": {
+					"timeRange": "night"
+				}
+			},
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "grimer-3",
+            "pokemon": "grimer",
+            "presets": [
+                "water_surface",
 				"village"
             ],
             "type": "pokemon",
@@ -54,7 +83,7 @@
             }
         },
 		{
-            "id": "grimer-3",
+            "id": "grimer-4",
             "pokemon": "grimer",
             "presets": [
                 "natural"

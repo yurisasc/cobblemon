@@ -3,7 +3,11 @@
   "values": [
 	"#minecraft:is_mountain",
     "#cobblemon:is_hills",
-    {
+	{
+      "id": "#forge:is_mountain",
+      "required": false
+    },
+	{
       "id": "terralith:stony_spires",
       "required": false
     },
@@ -17,10 +21,6 @@
     },
 	{
       "id": "terralith:yosemite_cliffs",
-      "required": false
-    },
-    {
-      "id": "wythers:ayers_rock",
       "required": false
     },
     {

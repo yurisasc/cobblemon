@@ -46,6 +46,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("mareep", "blink").setPreventsIdle(false) }
         sleep = registerPose(
+            poseName = "unsheared_sleep",
             poseType = PoseType.SLEEP,
             condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
             transformedParts = arrayOf(
@@ -55,6 +56,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         shearedsleep = registerPose(
+            poseName = "sheared_sleep",
             poseType = PoseType.SLEEP,
             condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
             transformedParts = arrayOf(
@@ -95,7 +97,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         shearedstanding = registerPose(
             poseName = "shearedstanding",
-            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
+            poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
             condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() && !it.isBattling},
@@ -109,7 +111,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
         shearedwalk = registerPose(
             poseName = "shearedwalking",
-            poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
+            poseTypes = PoseType.MOVING_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
             condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
@@ -138,7 +140,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         shearedbattleidle = registerPose(
-            poseName = "battle_idle",
+            poseName = "battle_idle_sheared",
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),

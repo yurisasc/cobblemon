@@ -14,7 +14,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "9-34",
-            "weight": 9.0,
+            "weight": 90.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -27,7 +27,30 @@
             "pokemon": "maschiff",
             "presets": [
                 "natural",
-                "urban",
+                "urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "9-34",
+            "weight": 5.4,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#minecraft:village"
+                ]
+            }
+        },
+        {
+            "id": "maschiff-3",
+            "pokemon": "maschiff",
+            "presets": [
+                "natural",
 				"village"
             ],
             "type": "pokemon",
@@ -43,17 +66,17 @@
             }
         },
         {
-            "id": "maschiff-3",
+            "id": "maschiff-4",
             "pokemon": "maschiff",
             "presets": [
                 "natural",
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "9-34",
-            "weight": 9.0,
+            "weight": 90.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

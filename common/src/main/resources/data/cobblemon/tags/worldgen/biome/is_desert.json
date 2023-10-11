@@ -7,6 +7,14 @@
       "required": false
     },
 	{
+      "id": "#c:desert",
+      "required": false
+    },
+	{
+      "id": "#wythers:is_desert",
+      "required": false
+    },
+	{
       "id": "terralith:ancient_sands",
       "required": false
     },
@@ -36,10 +44,6 @@
     },
 	{
       "id": "terralith:sandstone_valley",
-      "required": false
-    },
-    {
-      "id": "#wythers:is_desert",
       "required": false
     },
     {
