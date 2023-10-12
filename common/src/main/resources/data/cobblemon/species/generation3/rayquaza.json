@@ -7,6 +7,15 @@
   "abilities": [
     "airlock"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:dragons_breath",
+        "quantityRange": "3-5"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 105,
     "attack": 150,
