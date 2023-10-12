@@ -989,14 +989,21 @@ class PokemonEntity(
     }
 
     override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
-        if (player != null) {
-            if(this.ownerUuid == player.uuid && tethering == null) {
-                val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
-                (world as ServerWorld).chunkManager
-                    .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
-                this.goalSelector.tick()
-                if(distanceTo(player.blockPos) > 100) pokemon.recall()
+        if (player == null) {
+            return
+        }
+
+        if(this.ownerUuid == player.uuid && tethering == null) {
+            if (player.isDisconnected) {
+                this.remove(RemovalReason.DISCARDED)
+                return
             }
+
+            val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
+            (world as ServerWorld).chunkManager
+                .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
+            this.goalSelector.tick()
+            if(distanceTo(player.blockPos) > 100) pokemon.recall()
         }
     }
 
