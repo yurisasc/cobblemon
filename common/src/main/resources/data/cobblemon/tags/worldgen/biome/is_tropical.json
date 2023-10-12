@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "minecraft:deep_lukewarm_ocean",
-    "minecraft:lukewarm_ocean",
     {
       "id": "wythers:tropical_beach",
       "required": false
@@ -12,7 +10,7 @@
       "required": false
     },
     {
-      "id": "wythers:warm_stony_shore",
+      "id": "wythers:tropical_volcano",
       "required": false
     }
   ]
