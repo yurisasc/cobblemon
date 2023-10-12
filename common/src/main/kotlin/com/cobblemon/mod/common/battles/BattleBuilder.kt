@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.update
 import java.util.Optional
 import java.util.UUID
 import net.minecraft.entity.Entity
@@ -200,7 +201,7 @@ object BattleBuilder {
                     side1 = BattleSide(playerActor),
                     side2 = BattleSide(npcActor)
                 )
-                npcEntity.battleIds.set(npcEntity.battleIds.get() + battle.battleId)
+                npcEntity.dataTracker.update(NPCEntity.BATTLE_IDS) { it + battle.battleId }
                 SuccessfulBattleStart(battle)
             }
             errors

@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.npc.ai.StayPutInBattleGoal
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.DataKeys
+import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Npc
@@ -46,33 +47,35 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-class NPCEntity : PassiveEntity, Npc, Poseable, PokemonSender {
+class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc, Poseable, PokemonSender {
     var npc = NPCClasses.random()
         set(value) {
-            _npcClass.set(value.resourceIdentifier)
+            dataTracker.set(NPC_CLASS, value.resourceIdentifier)
             field = value
         }
 
     val appliedAspects = mutableSetOf<String>()
-    val entityProperties = mutableListOf<EntityProperty<*>>()
-
     val delegate = if (world.isClient) {
         com.cobblemon.mod.common.client.entity.NPCClientDelegate()
     } else {
         NPCServerDelegate()
     }
 
-    private val _npcClass = addEntityProperty(NPC_CLASS, npc.resourceIdentifier)
-    val aspects = addEntityProperty(ASPECTS, emptySet())
-    val poseType = addEntityProperty(POSE_TYPE, PoseType.STAND)
-    val battleIds = addEntityProperty(BATTLE_IDS, emptySet())
-
     var battle: NPCBattleConfiguration? = null
     var interact: NPCInteractConfiguration? = null
     var behaviour: NPCBehaviourConfiguration? = null
+
     var variables = VariableStruct()
+
+
+    val aspects: Set<String>
+        get() = dataTracker.get(ASPECTS)
+
+    val battleIds: Set<UUID>
+        get() = dataTracker.get(BATTLE_IDS)
 
 
     /* TODO NPC Valuables to add:
@@ -88,8 +91,6 @@ class NPCEntity : PassiveEntity, Npc, Poseable, PokemonSender {
      *
      * npcs should be able to sleep lol
      */
-
-    constructor(world: World): super(CobblemonEntities.NPC, world)
 
     init {
         delegate.initialize(this)
@@ -111,30 +112,26 @@ class NPCEntity : PassiveEntity, Npc, Poseable, PokemonSender {
     }
 
     override fun createChild(world: ServerWorld, entity: PassiveEntity) = null // No lovemaking! Unless...
-    override fun getPoseType() = this.poseType.get()
+    override fun getPoseType(): PoseType = this.getDataTracker().get(POSE_TYPE)
 
-    fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
-        val property = EntityProperty(
-            dataTracker = dataTracker,
-            accessor = accessor,
-            initialValue = initialValue
-        )
-        entityProperties.add(property)
-        return property
+    override fun initDataTracker() {
+        super.initDataTracker()
+        dataTracker.startTracking(NPC_CLASS, Identifier("a"))
+        dataTracker.startTracking(ASPECTS, emptySet())
+        dataTracker.startTracking(POSE_TYPE, PoseType.STAND)
+        dataTracker.startTracking(BATTLE_IDS, setOf())
     }
 
     fun updateAspects() {
-        aspects.set(appliedAspects)
+        dataTracker.set(ASPECTS, appliedAspects)
     }
 
-    fun isInBattle() = battleIds.get().isNotEmpty()
-
+    fun isInBattle() = battleIds.isNotEmpty()
     fun getBattleConfiguration() = battle ?: npc.battleConfiguration
 
     override fun tick() {
         super.tick()
         delegate.tick(this)
-        entityProperties.forEach { it.checkForUpdate() }
     }
 
     override fun initGoals() {

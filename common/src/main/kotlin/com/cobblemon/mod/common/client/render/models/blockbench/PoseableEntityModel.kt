@@ -612,6 +612,7 @@ abstract class PoseableEntityModel<T : Entity>(
 
     fun blankAnimationStateful(isTransform: Boolean = false, preventsIdle: Boolean = false) = object : StatefulAnimation<T, ModelFrame> {
         override val isTransform = isTransform
+        override val isPosePauser = false
         override fun run(
             entity: T?,
             model: PoseableEntityModel<T>,

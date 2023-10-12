@@ -22,7 +22,7 @@ import net.minecraft.util.Identifier
 
 class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, NPCModel>(context, null, 0.5f) {
     override fun getTexture(entity: NPCEntity): Identifier {
-        return NPCModelRepository.getTexture(entity.npc.resourceIdentifier, entity.aspects.get(), entity.delegate as NPCClientDelegate)
+        return NPCModelRepository.getTexture(entity.npc.resourceIdentifier, entity.aspects, (entity.delegate as NPCClientDelegate).animationSeconds)
     }
 
     override fun render(
@@ -33,15 +33,16 @@ class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, NPCModel>(
         buffer: VertexConsumerProvider,
         packedLight: Int
     ) {
+        val aspects = entity.aspects
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
-        model = NPCModelRepository.getPoser(entity.npc.resourceIdentifier, entity.aspects.get())
+        model = NPCModelRepository.getPoser(entity.npc.resourceIdentifier, aspects)
 
         val clientDelegate = entity.delegate as NPCClientDelegate
         val modelNow = model as PoseableEntityModel<NPCEntity>
 
         clientDelegate.updatePartialTicks(partialTicks)
 
-        modelNow.setLayerContext(buffer, clientDelegate, NPCModelRepository.getLayers(entity.npc.resourceIdentifier, entity.aspects.get()))
+        modelNow.setLayerContext(buffer, clientDelegate, NPCModelRepository.getLayers(entity.npc.resourceIdentifier, aspects))
 
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
 

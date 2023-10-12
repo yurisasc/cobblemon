@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.battles.ai.RandomBattleAI
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.update
 import java.util.concurrent.CompletableFuture
 
 class NPCBattleActor(
@@ -36,7 +37,7 @@ class NPCBattleActor(
         super.sendUpdate(packet)
         if (packet is BattleEndPacket) {
             // Do some shit
-            entity.battleIds.set(entity.battleIds.get() - battle.battleId)
+            entity.dataTracker.update(NPCEntity.BATTLE_IDS) { it - battle.battleId }
             if (npc.isAlive) {
                 val allEntities = party.mapNotNull { it.entity }.toMutableList()
                 var previousFuture = CompletableFuture.completedFuture(Unit)
