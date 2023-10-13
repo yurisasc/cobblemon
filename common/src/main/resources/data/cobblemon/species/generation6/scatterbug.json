@@ -13,7 +13,7 @@
     "entries": [
       {
         "item": "minecraft:string",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:bright_powder",
@@ -25,7 +25,6 @@
       }
     ]
   },
-
   "baseStats": {
     "hp": 38,
     "attack": 35,

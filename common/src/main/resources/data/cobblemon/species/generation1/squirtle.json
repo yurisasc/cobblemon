@@ -33,7 +33,7 @@
       "light": "0-4"
     },
     "moving": {
-      "moving" : {
+      "moving": {
         "walk": {
           "walkSpeed": 0.29
         }
@@ -49,11 +49,11 @@
     "entries": [
       {
         "item": "minecraft:scute",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:mystic_water",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
