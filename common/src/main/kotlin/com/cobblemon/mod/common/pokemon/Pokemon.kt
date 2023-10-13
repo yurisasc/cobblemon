@@ -275,12 +275,6 @@ open class Pokemon : ShowdownIdentifiable {
         }
     var state: PokemonState = InactivePokemonState()
         set(value) {
-            val current = field
-            if (current is ActivePokemonState && !isClient) {
-                if (value !is ActivePokemonState || value.entity != current.entity) {
-                    current.recall()
-                }
-            }
             field = value
             _state.emit(value)
         }
