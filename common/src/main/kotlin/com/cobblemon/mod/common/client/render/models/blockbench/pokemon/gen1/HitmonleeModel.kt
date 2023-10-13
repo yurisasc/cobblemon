@@ -86,5 +86,5 @@ class HitmonleeModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bima
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("hitmonlee", "faint") else null
+    ) = bedrockStateful("hitmonlee", "faint")
 }

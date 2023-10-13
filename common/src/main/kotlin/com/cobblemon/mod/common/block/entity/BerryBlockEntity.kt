@@ -56,9 +56,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     //The time left for the tree to grow to the next stage
     var stageTimer: Int = growthTimer / BerryBlock.MATURE_AGE
         set(value) {
-            if (value < 0) {
-                throw IllegalArgumentException("You cannot set the stage growth time to less than zero")
-            }
             if (field != value) {
                 this.markDirty()
             }
@@ -319,7 +316,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     companion object {
         internal val TICKER = BlockEntityTicker<BerryBlockEntity> { world, pos, state, blockEntity ->
             if (world.isClient) return@BlockEntityTicker
-            if (blockEntity.stageTimer > 0) {
+            if (blockEntity.stageTimer >= 0) {
                 blockEntity.stageTimer--
             }
             if (blockEntity.stageTimer == 0) {

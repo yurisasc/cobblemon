@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BagItems
@@ -412,9 +413,15 @@ class PokemonEntity(
                 )
             } else {
                 pokemon = Pokemon()
+                health = 0F
             }
         } else {
-            pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+            pokemon = try {
+                Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+            } catch (_: InvalidSpeciesException) {
+                health = 0F
+                Pokemon()
+            }
         }
         species.set(pokemon.species.resourceIdentifier.toString())
         nickname.set(pokemon.nickname ?: Text.empty())
@@ -982,14 +989,21 @@ class PokemonEntity(
     }
 
     override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
-        if (player != null) {
-            if(this.ownerUuid == player.uuid && tethering == null) {
-                val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
-                (world as ServerWorld).chunkManager
-                    .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
-                this.goalSelector.tick()
-                if(distanceTo(player.blockPos) > 100) pokemon.recall()
+        if (player == null) {
+            return
+        }
+
+        if(this.ownerUuid == player.uuid && tethering == null) {
+            if (player.isDisconnected) {
+                this.remove(RemovalReason.DISCARDED)
+                return
             }
+
+            val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
+            (world as ServerWorld).chunkManager
+                .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
+            this.goalSelector.tick()
+            if(distanceTo(player.blockPos) > 100) pokemon.recall()
         }
     }
 

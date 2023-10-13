@@ -6,15 +6,19 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.client
+package com.cobblemon.mod.common.client.render
 
-import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.texture.SpriteAtlasHolder
 import net.minecraft.client.texture.TextureManager
+import net.minecraft.util.Identifier
 
-class CobblemonBerryAtlas(textureManager: TextureManager) : SpriteAtlasHolder(
+class CobblemonAtlas(
+    textureManager: TextureManager,
+    atlasId: Identifier,
+    sourcePath: Identifier
+) : SpriteAtlasHolder(
     textureManager,
-    cobblemonResource("textures/atlas/berries.png"),
-    cobblemonResource("berries")
+    atlasId,
+    sourcePath
 ) {
 }

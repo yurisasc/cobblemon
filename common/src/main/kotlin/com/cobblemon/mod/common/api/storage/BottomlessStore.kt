@@ -58,7 +58,12 @@ open class BottomlessStore(override val uuid: UUID) : PokemonStore<BottomlessPos
     override fun loadFromNBT(nbt: NbtCompound): BottomlessStore {
         var i = -1
         while (nbt.contains(DataKeys.STORE_SLOT + ++i)) {
-            pokemon.add(Pokemon().loadFromNBT(nbt.getCompound(DataKeys.STORE_SLOT + i)))
+            val pokemonNBT = nbt.getCompound(DataKeys.STORE_SLOT + i)
+            try {
+                pokemon.add(Pokemon().loadFromNBT(pokemonNBT))
+            } catch(_: InvalidSpeciesException) {
+                handleInvalidSpeciesNBT(pokemonNBT)
+            }
         }
         return this
     }
@@ -71,7 +76,12 @@ open class BottomlessStore(override val uuid: UUID) : PokemonStore<BottomlessPos
     override fun loadFromJSON(json: JsonObject): BottomlessStore {
         var i = -1
         while (json.has(DataKeys.STORE_SLOT + ++i)) {
-            pokemon.add(Pokemon().loadFromJSON(json.getAsJsonObject(DataKeys.STORE_SLOT + i)))
+            val pokemonJSON = json.getAsJsonObject(DataKeys.STORE_SLOT + i)
+            try {
+                pokemon.add(Pokemon().loadFromJSON(pokemonJSON))
+            } catch (_: InvalidSpeciesException) {
+                handleInvalidSpeciesJSON(pokemonJSON)
+            }
         }
         return this
     }

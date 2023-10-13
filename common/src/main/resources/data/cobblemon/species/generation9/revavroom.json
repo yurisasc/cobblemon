@@ -8,6 +8,24 @@
     "overcoat",
     "h:filter"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:iron_nugget",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:black_sludge",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 80,
     "attack": 119,
@@ -45,6 +63,7 @@
     "1:lick",
     "1:magnetrise",
     "1:poisongas",
+	"1:shiftgear",
     "4:smog",
     "7:taunt",
     "10:assurance",

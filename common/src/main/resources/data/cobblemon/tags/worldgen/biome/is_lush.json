@@ -3,7 +3,7 @@
   "values": [
     "minecraft:lush_caves",
     {
-      "id": "forge:is_lush",
+      "id": "#forge:is_lush",
       "required": false
     },
 	{

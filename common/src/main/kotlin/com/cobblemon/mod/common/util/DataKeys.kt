@@ -48,6 +48,7 @@ object DataKeys {
     const val POKEMON_TERA_TYPE = "TeraType"
     const val POKEMON_DMAX_LEVEL = "DmaxLevel"
     const val POKEMON_GMAX_FACTOR = "GmaxFactor"
+    const val POKEMON_TRADEABLE = "Tradeable"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"

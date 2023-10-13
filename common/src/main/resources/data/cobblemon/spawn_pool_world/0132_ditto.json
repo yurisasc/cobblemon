@@ -53,7 +53,7 @@
             "id": "ditto-3",
             "pokemon": "ditto",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

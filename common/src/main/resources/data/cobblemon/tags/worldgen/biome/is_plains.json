@@ -4,16 +4,16 @@
     "minecraft:plains",
     "minecraft:sunflower_plains",
 	"#cobblemon:is_highlands",
-    {
+	{
+      "id": "#byg:is_plain",
+      "required": false
+    },
+	{
       "id": "#c:plains",
       "required": false
     },
 	{
       "id": "#forge:is_plains",
-      "required": false
-    },
-	{
-      "id": "#byg:is_plain",
       "required": false
     },
 	{
@@ -49,7 +49,7 @@
       "required": false
     },
     {
-      "id": "terralith:subtropical_forest_edge",
+      "id": "wythers:subtropical_forest_edge",
       "required": false
     },
     {

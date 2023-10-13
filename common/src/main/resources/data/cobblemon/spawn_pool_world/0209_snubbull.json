@@ -58,7 +58,7 @@
             "id": "snubbull-3",
             "pokemon": "snubbull",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -27,6 +27,8 @@ dependencies {
     implementation(libs.reflect)
 
     modImplementation(libs.fabricLoader)
+    //Flywheel has no common dep so just pick one and don't use any platform specific code in common
+    modCompileOnly(libs.flywheelFabric)
     modApi(libs.molang)
     compileOnlyApi(libs.jeiApi)
 
@@ -35,6 +37,9 @@ dependencies {
 
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
+    // For datastore
+    modCompileOnly(libs.mongoDriverCore)
+    modCompileOnly(libs.mongoDriverSync)
 
     testRuntimeOnly(libs.junitEngine)
     testImplementation(libs.junitApi)

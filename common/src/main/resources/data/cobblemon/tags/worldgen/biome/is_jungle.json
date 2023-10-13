@@ -15,10 +15,6 @@
       "required": false
     },
     {
-      "id": "wythers:eucalyptus_deanei_forest",
-      "required": false
-    },
-    {
       "id": "wythers:highland_tropical_rainforest",
       "required": false
     },

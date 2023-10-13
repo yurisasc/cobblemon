@@ -119,7 +119,7 @@
     "water_1"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:scute",
@@ -128,7 +128,7 @@
       },
       {
         "item": "cobblemon:mystic_water",
-        "percentage": 20
+        "percentage": 25
       }
     ]
   },

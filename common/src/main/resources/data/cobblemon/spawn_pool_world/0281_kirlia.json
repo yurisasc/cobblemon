@@ -70,7 +70,7 @@
             "id": "kirlia-4",
             "pokemon": "kirlia",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",
