@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace

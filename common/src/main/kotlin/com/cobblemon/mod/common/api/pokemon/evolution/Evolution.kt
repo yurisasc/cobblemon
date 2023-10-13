@@ -9,12 +9,12 @@
 package com.cobblemon.mod.common.api.pokemon.evolution
 
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
 import com.cobblemon.mod.common.util.lang
+import com.mojang.serialization.Codec
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
 
@@ -60,6 +61,11 @@ interface Evolution : EvolutionLike {
      * The [MoveTemplate]s that will be offered to be learnt upon evolving.
      */
     val learnableMoves: MutableSet<MoveTemplate>
+
+    /**
+     * The [Variant] of this [Evolution].
+     */
+    val variant: Variant<Evolution>
 
     /**
      * Checks if the given [Pokemon] passes all the conditions and is ready to evolve.
@@ -120,4 +126,12 @@ interface Evolution : EvolutionLike {
     fun applyTo(pokemon: Pokemon) {
         result.apply(pokemon)
     }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    fun codec(): Codec<out Evolution> = this.variant.codec
+
 }

@@ -6,10 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.pokemon
+package com.cobblemon.mod.common.util.codec
 
-enum class Gender(val showdownName: String) {
-    MALE("M"),
-    FEMALE("F"),
-    GENDERLESS("N")
-}
+import com.mojang.serialization.Codec
+
+fun <T> setCodec(elementCodec: Codec<T>): Codec<Set<T>> = elementCodec.listOf().xmap({ list -> list.toHashSet() }, { set -> set.toMutableList() })

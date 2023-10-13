@@ -10,7 +10,10 @@ package com.cobblemon.mod.common.api.pokemon.evolution.requirement
 
 import com.cobblemon.mod.common.api.pokemon.evolution.ContextEvolution
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.EvolutionRegistry
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.mojang.serialization.Codec
 
 /**
  * Represents a requirement for an evolution.
@@ -22,7 +25,12 @@ import com.cobblemon.mod.common.pokemon.Pokemon
  * @author Licious
  * @since March 19th, 2022
  */
-fun interface EvolutionRequirement {
+interface EvolutionRequirement {
+
+    /**
+     *
+     */
+    val variant: Variant<EvolutionRequirement>
 
     /**
      * Checks if the given [Pokemon] satisfies the requirement.
@@ -31,5 +39,18 @@ fun interface EvolutionRequirement {
      * @return If the requirement was satisfied.
      */
     fun check(pokemon: Pokemon): Boolean
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    fun codec(): Codec<out EvolutionRequirement> = this.variant.codec
+
+    companion object {
+
+        val CODEC: Codec<out EvolutionRequirement> = EvolutionRegistry.REQUIREMENT_CODEC
+
+    }
 
 }

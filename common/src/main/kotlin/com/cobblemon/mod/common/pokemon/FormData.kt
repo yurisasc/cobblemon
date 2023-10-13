@@ -24,8 +24,8 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
@@ -233,8 +233,8 @@ class FormData(
                 { valueBuffer, value -> valueBuffer.writeSizedInt(IntSize.U_SHORT, value) }
             )
         }
-        buffer.writeNullable(this._primaryType) { pb, type -> pb.writeString(type.name) }
-        buffer.writeNullable(this._secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeNullable(this._primaryType) { pb, type -> pb.writeRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE, type) }
+        buffer.writeNullable(this._secondaryType) { pb, type -> pb.writeRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE, type) }
         buffer.writeNullable(this._experienceGroup) { pb, value -> pb.writeString(value.name) }
         buffer.writeNullable(this._height) { pb, height -> pb.writeFloat(height) }
         buffer.writeNullable(this._weight) { pb, weight -> pb.writeFloat(weight) }
@@ -257,8 +257,8 @@ class FormData(
                 { valueBuffer -> valueBuffer.readSizedInt(IntSize.U_SHORT) }
             )
         }
-        this._primaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
-        this._secondaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
+        this._primaryType = buffer.readNullable { pb -> pb.readRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE)!! }
+        this._secondaryType = buffer.readNullable { pb -> pb.readRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE)!! }
         this._experienceGroup = buffer.readNullable { pb -> ExperienceGroups.findByName(pb.readString()) }
         this._height = buffer.readNullable { pb -> pb.readFloat() }
         this._weight = buffer.readNullable { pb -> pb.readFloat() }

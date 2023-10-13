@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.pokemon.EVs
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
 import java.nio.file.Path

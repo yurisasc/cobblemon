@@ -11,6 +11,9 @@ package com.cobblemon.mod.common.battles.runner.socket
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
+import com.cobblemon.mod.common.api.types.ElementalType
+import com.cobblemon.mod.common.api.types.hiddenpower.IvCondition
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.runner.ShowdownService
@@ -18,13 +21,14 @@ import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.net.InetAddress
 import java.net.Socket
 import java.nio.charset.Charset
-import java.util.UUID
+import java.util.*
 
 /**
  * Mediator service for communicating between the Cobblemon Minecraft mod and Cobblemon showdown service via
@@ -42,6 +46,7 @@ import java.util.UUID
  * @since February 27, 2023
  * @author landonjw
  */
+@Suppress("unused")
 class SocketShowdownService(val host: String = "localhost", val port: Int = 18468, val localPort: Int = 0) : ShowdownService {
 
     private lateinit var socket: Socket
@@ -146,6 +151,14 @@ class SocketShowdownService(val host: String = "localhost", val port: Int = 1846
         }
     }
 
+    override fun registerTypes() {
+        writer.write(">resetTypeData\n")
+        acknowledge()
+        CobblemonRegistries.ELEMENTAL_TYPE.forEach { type ->
+            this.sendType(type)
+        }
+    }
+
     fun acknowledge(ifFails: () -> Unit = {}) {
         writer.flush()
         val ack = CharArray(3)
@@ -163,6 +176,31 @@ class SocketShowdownService(val host: String = "localhost", val port: Int = 1846
 
     override fun indicateSpeciesInitialized() {
         writer.write(">afterCobbledSpeciesInit")
+        acknowledge()
+    }
+
+    private fun sendType(type: ElementalType) {
+        // See TypeInfo in Showdown
+        val jObject = JsonObject().apply {
+            val showdownId = type.showdownId()
+            addProperty("name", showdownId.replaceFirstChar(Char::uppercase))
+            addProperty("id", showdownId)
+            val damageTaken = JsonObject()
+            type.resistanceInformation().forEach { information ->
+                damageTaken.addProperty(information.showdownId(), information.resistance.showdownValue)
+            }
+            add("damageTaken", damageTaken)
+            type.hiddenPowerRequirement.ifPresent {
+                val hpIvs = JsonObject()
+                it.statMap.forEach { (stat, requirement) ->
+                    if (requirement == IvCondition.EVEN) {
+                        hpIvs.addProperty(stat.showdownId, 30)
+                    }
+                }
+                add("HPivs", hpIvs)
+            }
+        }
+        writer.write(">receiveTypeData ${this.gson.toJson(jObject)}\n")
         acknowledge()
     }
 

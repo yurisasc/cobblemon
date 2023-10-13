@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.api.moves
 
-import com.cobblemon.mod.common.api.moves.categories.DamageCategory
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.net.IntSize

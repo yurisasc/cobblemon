@@ -11,6 +11,7 @@ package com.cobblemon.mod.forge
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.brewing.BrewingRecipes
+import com.cobblemon.mod.common.cobblemonstructures.CobblemonStructures
 import com.cobblemon.mod.common.item.MedicinalLeekItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
@@ -30,18 +31,16 @@ import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
 import java.util.UUID
 import kotlin.reflect.KClass
+import com.mojang.serialization.Codec
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemGroups
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.item.PotionItem
+import net.minecraft.item.*
 import net.minecraft.potion.PotionUtil
 import net.minecraft.potion.Potions
 import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -61,9 +60,9 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry
 import net.minecraftforge.common.brewing.IBrewingRecipe
-import net.minecraftforge.event.AddReloadListenerEvent
-import net.minecraftforge.event.OnDatapackSyncEvent
-import net.minecraftforge.event.RegisterCommandsEvent
+import net.minecraftforge.event.*
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry
+import net.minecraftforge.common.brewing.IBrewingRecipe
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
@@ -77,6 +76,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.loading.FMLEnvironment
+import net.minecraftforge.registries.DataPackRegistryEvent
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegisterEvent
 import net.minecraftforge.server.ServerLifecycleHooks
@@ -91,6 +91,7 @@ class CobblemonForge : CobblemonImplementation {
 
     private val commandArgumentTypes = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
     private val reloadableResources = arrayListOf<ResourceReloader>()
+    private val registryQueue = arrayListOf<(e: DataPackRegistryEvent.NewRegistry) -> Unit>()
 
     override val networkManager: NetworkManager = CobblemonForgeNetworkManager
 
@@ -100,6 +101,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::initialize)
             addListener(this@CobblemonForge::serverInit)
             Cobblemon.preInitialize(this@CobblemonForge)
+            addListener(this@CobblemonForge::onNewRegistry)
             addListener(CobblemonBiomeModifiers::register)
             addListener(this@CobblemonForge::on)
         }
@@ -129,9 +131,11 @@ class CobblemonForge : CobblemonImplementation {
         playerEntity.didSleep()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun serverInit(event: FMLDedicatedServerSetupEvent) {
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun initialize(event: FMLCommonSetupEvent) {
         Cobblemon.LOGGER.info("Initializing...")
         this.networkManager.registerClientBound()
@@ -343,6 +347,18 @@ class CobblemonForge : CobblemonImplementation {
         return data
     }
 
+    override fun <T> createRegistry(registryKey: RegistryKey<Registry<T>>, codec: Codec<T>, networkCodec: Codec<T>?) {
+        this.registryQueue.add { e ->
+            if (networkCodec != null) {
+                e.dataPackRegistry(registryKey, codec, networkCodec)
+            } else {
+                e.dataPackRegistry(registryKey, codec)
+            }
+        }
+    }
+
+    override fun <T> getRegistry(registryKey: RegistryKey<Registry<T>>): Registry<T> = server()!!.registryManager.get(registryKey)
+
     private fun onVillagerTradesRegistry(e: VillagerTradesEvent) {
         CobblemonTradeOffers.tradeOffersFor(e.type).forEach { tradeOffer ->
             // Will never be null between 1 n 5
@@ -354,6 +370,10 @@ class CobblemonForge : CobblemonImplementation {
         CobblemonTradeOffers.resolveWanderingTradeOffers().forEach { tradeOffer ->
             if (tradeOffer.isRareTrade) e.rareTrades.addAll(tradeOffer.tradeOffers) else e.genericTrades.addAll(tradeOffer.tradeOffers)
         }
+    }
+
+    private fun onNewRegistry(e: DataPackRegistryEvent.NewRegistry) {
+        this.registryQueue.forEach { queued -> queued(e) }
     }
 
 }

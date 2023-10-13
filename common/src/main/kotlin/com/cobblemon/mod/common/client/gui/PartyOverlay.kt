@@ -24,7 +24,7 @@ import com.cobblemon.mod.common.client.keybind.keybinds.SummaryBinding
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.getDepletableRedGreen
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient

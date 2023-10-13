@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.EVs
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource

@@ -8,11 +8,7 @@
 
 package com.cobblemon.mod.common.api.events
 
-import com.cobblemon.mod.common.api.events.battles.BattleFaintedEvent
-import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
-import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
-import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
-import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
+import com.cobblemon.mod.common.api.events.battles.*
 import com.cobblemon.mod.common.api.events.berry.BerryHarvestEvent
 import com.cobblemon.mod.common.api.events.berry.BerryMutationOfferEvent
 import com.cobblemon.mod.common.api.events.berry.BerryMutationResultEvent
@@ -43,6 +39,7 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.server.network.ServerPlayerEntity
 
+@Suppress("unused")
 object CobblemonEvents {
 
     @JvmField
@@ -105,6 +102,7 @@ object CobblemonEvents {
     @JvmField
     val ENTITY_SPAWN = CancelableObservable<SpawnEvent<*>>()
 
+    @Suppress("UNCHECKED_CAST")
     @JvmField
     val POKEMON_ENTITY_SPAWN = ENTITY_SPAWN
         .pipe(

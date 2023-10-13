@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.pokemon.evolution.PreEvolution
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.mojang.serialization.Codec
 
 // We use this to "lazy" load a pre evolution since we can't validate all forms and species during species loading
 internal class CobblemonLazyPreEvolution(private val rawData: String) : PreEvolution {
@@ -33,4 +34,11 @@ internal class CobblemonLazyPreEvolution(private val rawData: String) : PreEvolu
         get() = this.lazySpecies
     override val form: FormData
         get() = this.lazyForm
+
+    companion object {
+
+        val CODEC: Codec<out PreEvolution> = Codec.STRING.xmap(::CobblemonLazyPreEvolution, CobblemonLazyPreEvolution::rawData)
+
+    }
+
 }

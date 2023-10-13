@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.mojang.serialization.Codec
+import net.minecraft.util.StringIdentifiable
 import kotlin.math.abs
 
 
@@ -81,7 +83,7 @@ interface Targetable {
     }
 }
 
-enum class MoveTarget(val targetList: (Targetable) -> List<Targetable>? = { null }) {
+enum class MoveTarget(val targetList: (Targetable) -> List<Targetable>? = { null }) : StringIdentifiable {
     any({ pokemon -> pokemon.getAllActivePokemon().filter { it != pokemon } }),
     all,
     allAdjacent,
@@ -98,10 +100,13 @@ enum class MoveTarget(val targetList: (Targetable) -> List<Targetable>? = { null
     foeSide,
     scripted;
 
+    override fun asString(): String = this.name
 
     companion object {
 
         private val VALUES = values()
+
+        val CODEC: Codec<MoveTarget> = StringIdentifiable.createCodec(::VALUES)
 
         /**
          * Attempts to parse a [MoveTarget] from the given [showdownId].

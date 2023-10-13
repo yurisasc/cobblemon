@@ -32,7 +32,8 @@ abstract class TypeWidget(
             texture = typeResource,
             x = pX + OFFSET, y = pY,
             width = width, height = height,
-            uOffset = width * type.textureXMultiplier.toFloat() + 0.1,
+            uOffset = width * type.clientData.uOffset + 0.1,
+            vOffset = width * type.clientData.vOffset + 0.1,
             textureWidth = width * 18
         )
     }

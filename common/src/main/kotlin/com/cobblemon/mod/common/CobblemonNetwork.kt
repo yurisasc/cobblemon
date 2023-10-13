@@ -55,11 +55,8 @@ import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.net.messages.client.callback.OpenMoveCallbackPacket
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyCallbackPacket
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyMoveCallbackPacket
-import com.cobblemon.mod.common.net.messages.client.data.AbilityRegistrySyncPacket
-import com.cobblemon.mod.common.net.messages.client.data.BerryRegistrySyncPacket
-import com.cobblemon.mod.common.net.messages.client.data.MovesRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.data.*
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
-import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket

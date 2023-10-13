@@ -11,11 +11,14 @@ package com.cobblemon.mod.common.battles.runner.graal
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
+import com.cobblemon.mod.common.api.types.hiddenpower.IvCondition
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import java.io.File
 import java.io.IOException
 import java.net.URI
@@ -43,6 +46,7 @@ import org.graalvm.polyglot.io.FileSystem
  * @since February 27, 2023
  * @author Hiroku, landonjw
  */
+@Suppress("unused")
 class GraalShowdownService : ShowdownService {
 
     @Transient
@@ -165,6 +169,35 @@ class GraalShowdownService : ShowdownService {
             }
         }
         receiveSpeciesDataFn.execute(jsArray)
+    }
+
+    override fun registerTypes() {
+        val receiveTypesDataFn = this.context.getBindings("js").getMember("receiveTypeData")
+        val jsArray = this.context.eval("js", "new Array();")
+        var index = 0L
+        CobblemonRegistries.ELEMENTAL_TYPE.forEach { type ->
+            val jObject = JsonObject().apply {
+                val showdownId = type.showdownId()
+                addProperty("name", showdownId.replaceFirstChar(Char::uppercase))
+                addProperty("id", showdownId)
+                val damageTaken = JsonObject()
+                type.resistanceInformation().forEach { information ->
+                    damageTaken.addProperty(information.showdownId(), information.resistance.showdownValue)
+                }
+                add("damageTaken", damageTaken)
+                type.hiddenPowerRequirement.ifPresent {
+                    val hpIvs = JsonObject()
+                    it.statMap.forEach { (stat, requirement) ->
+                        if (requirement == IvCondition.EVEN) {
+                            hpIvs.addProperty(stat.showdownId, 30)
+                        }
+                    }
+                    add("HPivs", hpIvs)
+                }
+            }
+            jsArray.setArrayElement(index++, jObject)
+        }
+        receiveTypesDataFn.execute(jsArray)
     }
 
     override fun indicateSpeciesInitialized() {

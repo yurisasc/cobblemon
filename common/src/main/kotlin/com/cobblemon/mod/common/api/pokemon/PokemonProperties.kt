@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
@@ -30,6 +31,7 @@ import com.cobblemon.mod.common.util.splitMap
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import kotlin.random.Random
+import com.mojang.serialization.Codec
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
@@ -240,6 +242,9 @@ open class PokemonProperties {
             }
             return null
         }
+
+        val CODEC: Codec<PokemonProperties> = Codec.STRING.xmap(PokemonProperties::parse, PokemonProperties::asString)
+
     }
 
     var originalString: String = ""
@@ -408,7 +413,7 @@ open class PokemonProperties {
                 if (pokemonEntity.pokemon.species != species) {
                     return false
                 }
-            } catch (e: InvalidIdentifierException) {}
+            } catch (_: InvalidIdentifierException) {}
         }
         nickname?.takeIf { it != pokemonEntity.pokemon.nickname }?.let { return false }
         form?.takeIf { !it.equals(pokemonEntity.pokemon.form.name, true) }?.let { return false }
@@ -444,7 +449,7 @@ open class PokemonProperties {
                 if (properties.species != species.toString()) {
                     return false
                 }
-            } catch (e: InvalidIdentifierException) {}
+            } catch (_: InvalidIdentifierException) {}
         }
         nickname?.takeIf { it != properties.nickname }?.let { return false }
         form?.takeIf { !it.equals(properties.form, true) }?.let { return false }

@@ -11,6 +11,7 @@ package com.cobblemon.mod.fabric
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.brewing.BrewingRecipes
+import com.cobblemon.mod.common.cobblemonstructures.CobblemonStructures
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
@@ -33,6 +34,7 @@ import com.mojang.brigadier.arguments.ArgumentType
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.reflect.KClass
+import com.mojang.serialization.Codec
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
@@ -45,6 +47,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
@@ -325,6 +328,20 @@ object CobblemonFabric : CobblemonImplementation {
         }
         return data
     }
+
+    override fun <T> createRegistry(
+        registryKey: RegistryKey<Registry<T>>,
+        codec: Codec<T>,
+        networkCodec: Codec<T>?
+    ) {
+        if (networkCodec != null) {
+            DynamicRegistries.registerSynced(registryKey, codec, networkCodec)
+            return
+        }
+        DynamicRegistries.register(registryKey, codec)
+    }
+
+    override fun <T> getRegistry(registryKey: RegistryKey<Registry<T>>): Registry<T> = this.server()!!.registryManager.get(registryKey)
 
     private class CobblemonReloadListener(private val identifier: Identifier, private val reloader: ResourceReloader, private val dependencies: Collection<Identifier>) : IdentifiableResourceReloadListener {
 

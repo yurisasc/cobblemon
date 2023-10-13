@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.storage.ClientPC
 import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.net.messages.server.storage.pc.UnlinkPlayerFromPCPacket
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -31,7 +31,6 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 
@@ -454,7 +453,7 @@ class PCGUI(
         ticksElapsed++
 
         // Calculate select pointer offset
-        var delayFactor = 3
+        val delayFactor = 3
         if (ticksElapsed % (2 * delayFactor) == 0) selectPointerOffsetIncrement = !selectPointerOffsetIncrement
         if (ticksElapsed % delayFactor == 0) selectPointerOffsetY += if (selectPointerOffsetIncrement) 1 else -1
     }
@@ -480,8 +479,8 @@ class PCGUI(
                 offsetY = -10.0
             )
         } else {
-            previewPokemon = null;
-            modelWidget = null;
+            previewPokemon = null
+            modelWidget = null
         }
     }
 }

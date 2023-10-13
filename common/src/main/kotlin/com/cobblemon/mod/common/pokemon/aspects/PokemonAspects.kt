@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.pokemon.aspects
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.pokemon.aspect.SingleConditionalAspectProvider
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 
 val SHINY_ASPECT = object : SingleConditionalAspectProvider {

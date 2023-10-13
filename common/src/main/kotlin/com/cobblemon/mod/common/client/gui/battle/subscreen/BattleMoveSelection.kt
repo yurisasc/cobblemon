@@ -82,8 +82,8 @@ class BattleMoveSelection(
         val x: Float,
         val y: Float,
     ) {
-        var moveTemplate = Moves.getByNameOrDummy(move.id)
-        var rgb = moveTemplate.elementalType.hue.toRGB()
+        val moveTemplate = Moves.getByNameOrDummy(move.id)
+        val rgb = moveTemplate.elementalType.clientData.hue.toRGB()
 
         open val targetList: List<Targetable>? get() = move.target.targetList(moveSelection.request.activePokemon)
         open val response: MoveActionResponse get() = MoveActionResponse(move.id, targetPnx)
@@ -97,7 +97,7 @@ class BattleMoveSelection(
             }
         }
 
-        fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        fun render(context: DrawContext, mouseX: Int, mouseY: Int) {
 
             val selectConditionOpacity = moveSelection.opacity * if (!selectable) 0.5F else 1F
 
@@ -184,7 +184,7 @@ class BattleMoveSelection(
 
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         moveTiles.forEach {
-            it.render(context, mouseX, mouseY, delta)
+            it.render(context, mouseX, mouseY)
         }
         backButton.render(context.matrices, mouseX, mouseY, delta)
         gimmickButtons.forEach {

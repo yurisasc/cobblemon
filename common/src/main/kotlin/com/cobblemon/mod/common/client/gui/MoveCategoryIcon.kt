@@ -9,10 +9,9 @@
 package com.cobblemon.mod.common.client.gui
 
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.moves.categories.DamageCategory
+import com.cobblemon.mod.common.api.moves.DamageCategory
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.util.math.MatrixStack
 
 class MoveCategoryIcon(
     val x: Number,
@@ -36,7 +35,7 @@ class MoveCategoryIcon(
             y = y.toFloat() / SCALE,
             width = WIDTH,
             height = HEIGHT,
-            vOffset = HEIGHT * category.textureXMultiplier,
+            vOffset = HEIGHT * category.ordinal,
             textureHeight = HEIGHT * 3,
             alpha = opacity,
             scale = SCALE

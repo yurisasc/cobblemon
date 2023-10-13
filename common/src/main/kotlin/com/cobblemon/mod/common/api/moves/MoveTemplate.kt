@@ -8,14 +8,15 @@
 
 package com.cobblemon.mod.common.api.moves
 
-import com.cobblemon.mod.common.api.moves.categories.DamageCategories
-import com.cobblemon.mod.common.api.moves.categories.DamageCategory
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.MoveTarget
 import com.cobblemon.mod.common.util.lang
 import com.google.gson.annotations.SerializedName
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.text.MutableText
+import net.minecraft.util.math.random.Random
 
 /**
  * This class represents the base of a Move.
@@ -48,6 +49,27 @@ open class MoveTemplate(
     val effectChances: Array<Double>
 ) {
 
+    companion object {
+        fun dummy(name: String) = Dummy(name)
+
+        val CODEC: Codec<MoveTemplate> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.STRING.fieldOf("name").forGetter(MoveTemplate::name),
+                Codec.INT.fieldOf("num").forGetter(MoveTemplate::num),
+                CobblemonRegistries.ELEMENTAL_TYPE.codec.fieldOf("type").forGetter(MoveTemplate::elementalType),
+                DamageCategory.CODEC.fieldOf("damageCategory").forGetter(MoveTemplate::damageCategory),
+                Codec.DOUBLE.fieldOf("power").forGetter(MoveTemplate::power),
+                MoveTarget.CODEC.fieldOf("target").forGetter(MoveTemplate::target),
+                Codec.DOUBLE.fieldOf("accuracy").forGetter(MoveTemplate::accuracy),
+                Codec.INT.fieldOf("pp").forGetter(MoveTemplate::pp),
+                Codec.INT.fieldOf("priority").forGetter(MoveTemplate::priority),
+                Codec.DOUBLE.fieldOf("critRatio").forGetter(MoveTemplate::critRatio),
+                Codec.list(Codec.DOUBLE).fieldOf("effectChances").xmap({ e -> e.toTypedArray() }, {  e -> e.toList() }).forGetter(MoveTemplate::effectChances)
+            ).apply(builder, ::MoveTemplate)
+        }
+
+    }
+
     val displayName: MutableText
         get() = lang("move.$name")
     val description: MutableText
@@ -57,8 +79,8 @@ open class MoveTemplate(
     class Dummy(name: String) : MoveTemplate(
         name = name,
         num = -1,
-        elementalType = ElementalTypes.NORMAL,
-        damageCategory = DamageCategories.STATUS,
+        elementalType = CobblemonRegistries.ELEMENTAL_TYPE.getRandom(Random.create()).orElseThrow().value(),
+        damageCategory = DamageCategory.STATUS,
         power = 0.0,
         target = MoveTarget.all,
         accuracy = 100.0,
@@ -67,10 +89,6 @@ open class MoveTemplate(
         critRatio = 0.0,
         effectChances = emptyArray()
     )
-
-    companion object {
-        fun dummy(name: String) = Dummy(name)
-    }
 
     /**
      * Creates the Move with full PP
@@ -92,4 +110,5 @@ open class MoveTemplate(
             template = this
         )
     }
+
 }

@@ -8,22 +8,21 @@
 
 package com.cobblemon.mod.common.api.types.adapters
 
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.google.gson.*
 import java.lang.reflect.Type
 
 object ElementalTypeAdapter: JsonSerializer<ElementalType>, JsonDeserializer<ElementalType> {
+
     override fun serialize(src: ElementalType, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
-        return JsonPrimitive(src.name)
+        return JsonPrimitive(if (src.id().namespace == Cobblemon.MODID) src.id().path else src.id().toString())
     }
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): ElementalType {
-        return ElementalTypes.getOrException(json.asString)
+        return CobblemonRegistries.ELEMENTAL_TYPE.get(json.asString.asIdentifierDefaultingNamespace())!!
     }
+
 }

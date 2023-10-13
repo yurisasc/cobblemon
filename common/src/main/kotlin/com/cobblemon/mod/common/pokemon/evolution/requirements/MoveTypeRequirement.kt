@@ -9,11 +9,14 @@
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.pokemon.Pokemon
+import net.minecraft.util.math.random.Random
+
 class MoveTypeRequirement : EvolutionRequirement {
-    val type: ElementalType = ElementalTypes.NORMAL
+
+    val type: ElementalType = CobblemonRegistries.ELEMENTAL_TYPE.getRandom(Random.create()).get().value()
     override fun check(pokemon: Pokemon) = pokemon.moveSet.getMoves().any { move -> move.type == type }
     companion object {
         const val ADAPTER_VARIANT = "has_move_type"

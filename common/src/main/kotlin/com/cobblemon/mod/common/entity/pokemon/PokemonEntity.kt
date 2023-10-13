@@ -30,7 +30,7 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
+import com.cobblemon.mod.common.api.types.CobblemonElementalTypeTags
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
@@ -296,14 +296,14 @@ class PokemonEntity(
      * Prevents fire type Pokémon from taking fire damage.
      */
     override fun isFireImmune(): Boolean {
-        return FIRE in pokemon.types || !behaviour.moving.swim.hurtByLava
+        return pokemon.types.any { it.isIn(CobblemonElementalTypeTags.FIRE_IMMUNE) } || !behaviour.moving.swim.hurtByLava
     }
 
     /**
      * Prevents flying type Pokémon from taking fall damage.
      */
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource?): Boolean {
-        return if (ElementalTypes.FLYING in pokemon.types || pokemon.ability.name == "levitate" || pokemon.species.behaviour.moving.fly.canFly) {
+        return if (pokemon.types.any { it.isIn(CobblemonElementalTypeTags.FALL_DAMAGE_IMMUNE) } || pokemon.ability.name == "levitate" || pokemon.species.behaviour.moving.fly.canFly) {
             false
         } else {
             super.handleFallDamage(fallDistance, damageMultiplier, damageSource)

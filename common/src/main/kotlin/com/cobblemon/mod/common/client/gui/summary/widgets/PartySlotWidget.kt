@@ -10,28 +10,26 @@ package com.cobblemon.mod.common.client.gui.summary.widgets
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.getDepletableRedGreen
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
 class PartySlotWidget(
-    private val pX: Number,
-    private val pY: Number,
+    pX: Number,
+    pY: Number,
     private val partyWidget: PartyWidget,
     private val summary: Summary,
     private val pokemon: Pokemon?,
@@ -71,7 +69,7 @@ class PartySlotWidget(
     }
 
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+        hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height
         val matrices = context.matrices
         val isDraggedSlot = partyWidget.swapEnabled && partyWidget.swapSource == index
         val slotPokemon = if (isDraggedSlot) null else pokemon
@@ -208,8 +206,8 @@ class PartySlotWidget(
         }
     }
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        if (isValidClick(mouseX, mouseY, button)) {
+    override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
+        if (isValidClick(pMouseX, pMouseY, pButton)) {
             if (partyWidget.swapEnabled) {
                 toggleDrag(true)
             } else {
@@ -220,7 +218,7 @@ class PartySlotWidget(
                 }
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button)
+        return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 
     override fun mouseReleased(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {

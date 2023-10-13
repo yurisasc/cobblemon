@@ -10,9 +10,12 @@ package com.cobblemon.mod.common.api.abilities
 
 import com.cobblemon.mod.common.api.Priority
 import com.google.gson.JsonElement
+import com.mojang.serialization.Codec
 
 interface PotentialAbilityType<T : PotentialAbility> {
     fun parseFromJSON(element: JsonElement): T?
+
+    fun codec(): Codec<out PotentialAbilityType<*>>
 }
 
 /**
@@ -44,6 +47,10 @@ object CommonAbilityType : PotentialAbilityType<CommonAbility> {
                 return@let null
             }
         }
+    }
+
+    override fun codec(): Codec<out PotentialAbilityType<*>> {
+        TODO("Not yet implemented")
     }
 }
 

@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.EVs
-import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.api.pokemon.gender.Gender
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState

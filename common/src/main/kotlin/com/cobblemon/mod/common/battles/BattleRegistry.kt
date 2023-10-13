@@ -114,7 +114,7 @@ object BattleRegistry {
             val evsInOrder = Stats.PERMANENT.map { pk.evs.getOrDefault(it) }.joinToString(separator = ",")
             packedTeamBuilder.append("$evsInOrder|")
             // Gender
-            packedTeamBuilder.append("${pk.gender.showdownName}|")
+            packedTeamBuilder.append("${pk.gender.showdownId()}|")
             // IVs
             val ivsInOrder = Stats.PERMANENT.map { pk.ivs.getOrDefault(it) }.joinToString(separator = ",")
             packedTeamBuilder.append("$ivsInOrder|")
