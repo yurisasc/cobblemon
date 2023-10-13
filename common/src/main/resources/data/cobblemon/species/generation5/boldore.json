@@ -23,6 +23,10 @@
       {
         "item": "cobblemon:black_augurite",
         "percentage": 5
+      },
+      {
+        "item": "cobblemon:everstone",
+        "percentage": 5
       }
     ]
   },

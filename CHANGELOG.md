@@ -386,7 +386,7 @@
 - Fixed animations being sped up when using the Replay Mod.
 - Fixed particle animations not running when a Pokémon is off-screen.
 - Fixed Pokémon variants and layers not rendering correctly when shouldered and playing on a dedicated server, existing shoulders affected will need to be retrieved and shouldered again.
-- Shoulder effects will now stay applied through situations that remove potion effects such as drinking milk.
+- Fixed shoulder effects not staying applied through situations that remove potion effects such as drinking milk.
 - Fixed Shedinja evolving to use the consumed PokéBall and removed the held item.
 - Fixed non-existent species in spawn pool file causing random species to spawn.
 - Fixed shearing Pokémon dropping 0-2 wool instead of 1-3.
@@ -427,6 +427,10 @@
     }
     ```
 - Renamed the ``walked_steps`` evolution requirement to ``blocks_traveled``.
+
+### Localization
+- Added partial translations for Dutch, Polish, Swedish, Hungarian, Czech, Cyprus Greek, and even Esperanto.
+- Updated translation for French and Canadian French, Simplified Chinese, Japanese, Korean, Spanish and Mexican Spanish, Pirate English, German, Thai, Turkish, Portuguese and Brazilian Portuguese, Ukrainian, and Russian.
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
