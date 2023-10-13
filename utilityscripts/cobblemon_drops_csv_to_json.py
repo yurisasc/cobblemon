@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 import json
 from io import StringIO
-from sqlalchemy import create_engine, Text, Float
+from sqlalchemy import create_engine
 
 
 def main():
@@ -52,7 +52,7 @@ def main():
                 break
 
         with open(pokemon_data_dir + "/" + file, 'w', encoding="utf8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)  # Serialize Python object to JSON
+            json.dump(data, f, ensure_ascii=False, indent=2)  # Serialize Python object to JSON
 
     # Save data to SQLite
     write_to_sqlite(df, sqlite_db_name, sqlite_table_name)
