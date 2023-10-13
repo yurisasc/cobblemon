@@ -413,6 +413,9 @@
 - The various hardcoded potion shoulder effects have been removed, make use of PotionBaseEffect.
 - Added ContextManager for tracking causes and contexts of conditions created during a battle. See BattleContext for types of conditions that are tracked. 
 - Added MongoDB support for storing Pokémon and Player data. Must be enabled in config, requires MongoDB core and sync drivers (4.10.0+).
+- CobblemonShowdown updated to version 10.
+- Generation of a battle can be set in BattleFormat.
+- Pokemon now have ``teraType``, ``dmaxLevel``, and ``gmaxFactor`` properties. Gimmicks can be used during battle by adding the respective identifiers to ``keyItems`` in PlayerData: ``key_stone``, ``z_ring``, ``dynamax_band``, and ``tera_orb``. Dynamax is only supported in Gen 8 battles. Mega Evolution and Z-Power require custom held items to be added (e.g. an item with the path ``gengarite`` will allow Gengar to Mega Evolve). Currently custom Z-Crystals and Mega Stones are not supported.
 
 ### Datapack & Resourcepack Creators
 - All potion related shoulder effects have had their IDs changed, they now all share the same type being `potion_effect` and use the vanilla Potion data [parameters](https://minecraft.fandom.com/wiki/Potion#Item_data), take for example the default Pidgey asset:
