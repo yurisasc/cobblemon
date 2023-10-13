@@ -34,10 +34,8 @@ def main():
     # Replace the Item names with the Minecraft IDs
     df['Drops'] = df['Drops'].apply(lambda x: replace_names_in_string(x, mapping_dict))
 
-    # Filter filenames from ..\common\src\main\resources\data\cobblemon\species based on Pokémon names
-    filenames = filter_filenames_by_pokemon_names(pokemon_data_dir, df['Pokémon'])
-
-    print(filenames)
+    # Filter filenames from ..\common\src\main\resources\data\cobblemon\species based on Pokémon names that have drops
+    filesToChange = filter_filenames_by_pokemon_names(pokemon_data_dir, df['Pokémon'])
 
     # Your next processing steps...
     # ...
@@ -78,9 +76,20 @@ def load_data_from_csv(csv_data):
 
 
 def filter_filenames_by_pokemon_names(directory, pokemon_names):
-    all_files = os.listdir(directory)
+    # Get list of subdirectories in the provided directory
+    subdirectories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+
+    all_files = []
+    for subdir in subdirectories:
+        # List all files from the subdirectory
+        files_in_subdir = os.listdir(os.path.join(directory, subdir))
+        # Extend the all_files list with these files
+        # While adding, prepend the subdirectory name
+        all_files.extend([f"{subdir}/{file}" for file in files_in_subdir])
+
     print(all_files)
-    filtered_files = [file for file in all_files if file[:-4].lower() in pokemon_names.str.lower().tolist()]
+    filtered_files = [file for file in all_files if
+                      file.split('/')[-1][:-5].lower() in pokemon_names.str.lower().tolist()]
     return filtered_files
 
 
