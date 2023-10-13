@@ -430,7 +430,7 @@
 
 ### Localization
 - Added partial translations for Dutch, Polish, Swedish, Hungarian, Czech, Cyprus Greek, and even Esperanto.
-- Updated translation for French and Canadian French, Japanese, Korean, Spanish and Mexican Spanish, Pirate English, German, Thai, Turkish, Portuguese, Ukrainian, and Russian.
+- Updated translation for French and Canadian French, Simplified Chinese, Japanese, Korean, Spanish and Mexican Spanish, Pirate English, German, Thai, Turkish, Portuguese and Brazilian Portuguese, Ukrainian, and Russian.
 
 ## [1.3.1 (March 31st, 2023)](#1-3-1)
 
