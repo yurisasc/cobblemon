@@ -337,7 +337,7 @@ object Cobblemon {
             // Ensure the config option is enabled and that the result was a ninjask and that shedinja exists
             if (this.config.ninjaskCreatesShedinja && pokemon.species.resourceIdentifier == ninjaskIdentifier && PokemonSpecies.getByIdentifier(Pokemon.SHEDINJA) != null) {
                 val player = pokemon.getOwnerPlayer() ?: return@subscribe
-                if (player.inventory.containsAny { it.item is PokeBallItem } || player.isCreative) {
+                if (player.isCreative || player.inventory.containsAny { it.item is PokeBallItem }) {
                     var pokeball = Items.AIR
                     player.inventory.combinedInventory.forEach {
                         it.forEach {
