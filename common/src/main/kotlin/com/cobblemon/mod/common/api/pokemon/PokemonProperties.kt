@@ -156,7 +156,7 @@ open class PokemonProperties {
         }
 
         private fun parseSpeciesIdentifier(keyPairs: MutableList<Pair<String, String?>>): String? {
-            fun cleanSpeciesName(string: String) = string.lowercase().replace("[^a-z0-9:]".toRegex(), "")
+            fun cleanSpeciesName(string: String) = string.lowercase().replace("[^a-z0-9_:]".toRegex(), "")
             val matched = getMatchedKeyPair(keyPairs, listOf("species"))
             if (matched != null) {
                 val value = matched.second?.let(::cleanSpeciesName) ?: return null
