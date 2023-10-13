@@ -5,10 +5,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-class BerryEntityInstance
-//
-//package com.cobblemon.mod.common.client.render.block
-//
+
+package com.cobblemon.mod.common.client.render.block
 //import com.cobblemon.mod.common.block.BerryBlock
 //import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 //import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
