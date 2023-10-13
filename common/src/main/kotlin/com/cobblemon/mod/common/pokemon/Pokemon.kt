@@ -494,7 +494,9 @@ open class Pokemon : ShowdownIdentifiable {
     }
     fun recall() {
         CobblemonEvents.POKEMON_RECALLED.post(PokemonRecalledEvent(this, this.entity))
+        val state = this.state as? ActivePokemonState
         this.state = InactivePokemonState()
+        state?.recall()
     }
 
     fun tryRecallWithAnimation() {
