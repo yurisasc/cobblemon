@@ -149,7 +149,7 @@
     }
   ],
   "mutations": {
-    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
+    "cobblemon:hopo_berry": "cobblemon:enigma_berry",
     "cobblemon:enigma_berry": "cobblemon:maranga_berry"
   },
   "sproutShape": "tall-sprout",
