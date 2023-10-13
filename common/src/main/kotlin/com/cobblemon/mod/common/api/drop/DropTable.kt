@@ -46,9 +46,7 @@ class DropTable {
      */
     fun getDrops(amount: IntRange = this.amount): List<DropEntry> {
         val chosenAmount = amount.random()
-        Cobblemon.LOGGER.info("Chosen amount: $chosenAmount")
         val possibleDrops = entries.filter { it.quantity <= chosenAmount }.toMutableList()
-        Cobblemon.LOGGER.info("Possible drops: $possibleDrops")
 
         if (possibleDrops.isEmpty()) {
             return emptyList()
@@ -68,11 +66,9 @@ class DropTable {
 
             drops.add(drop)
             dropCount += drop.quantity
-            Cobblemon.LOGGER.info("Amount: $amount, ChosenAmount: $chosenAmount ,Drops: $drops, dropCount: $dropCount")
             val remaining = chosenAmount - dropCount
             possibleDrops.removeIf { (it == drop && it.maxSelectableTimes <= drops.count { it == drop }) || it.quantity > remaining }
         } while (dropCount < chosenAmount && possibleDrops.isNotEmpty())
-        Cobblemon.LOGGER.info("#####################################################################################################")
 
         return drops
     }
