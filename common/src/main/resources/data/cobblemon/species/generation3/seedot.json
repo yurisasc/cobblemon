@@ -13,11 +13,11 @@
     "entries": [
       {
         "item": "minecraft:dark_oak_sapling",
-        "percent": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:tanga_berry",
-        "percent": 2.5
+        "percentage": 2.5
       }
     ]
   },

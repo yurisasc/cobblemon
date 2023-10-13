@@ -44,7 +44,7 @@
     "entries": [
       {
         "item": "minecraft:bone_block",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:chesto_berry",

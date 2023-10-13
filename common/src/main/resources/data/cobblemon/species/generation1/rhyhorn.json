@@ -28,7 +28,7 @@
     "field"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:protector",

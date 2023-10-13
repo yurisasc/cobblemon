@@ -13,7 +13,7 @@
     "entries": [
       {
         "item": "minecraft:bone_block",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:aspear_berry",
@@ -47,7 +47,7 @@
     "field"
   ],
   "behaviour": {
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.25
       }

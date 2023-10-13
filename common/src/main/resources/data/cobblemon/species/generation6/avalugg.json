@@ -12,16 +12,15 @@
     "amount": 2,
     "entries": [
       {
-        "item": "cobblemon:aspear_berry",
-        "percentage": 5
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 5.0
       },
       {
-        "item": "cobblemon:never_melt_ice",
-        "percentage": 5
+        "item": "cobblemon:aspear_berry",
+        "percentage": 5.0
       }
     ]
   },
-
   "baseStats": {
     "hp": 95,
     "attack": 117,

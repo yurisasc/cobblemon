@@ -8,10 +8,10 @@
     "airlock"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 5,
     "entries": [
       {
-        "item": "minecraft:dragons_breath",
+        "item": "minecraft:dragon_breath",
         "quantityRange": "3-5"
       }
     ]

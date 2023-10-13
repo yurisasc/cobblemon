@@ -9,16 +9,15 @@
     "h:rattled"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:bone",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
         "item": "cobblemon:babiri_berry",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
@@ -41,7 +40,7 @@
     "fairy"
   ],
   "behaviour": {
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.25
       }

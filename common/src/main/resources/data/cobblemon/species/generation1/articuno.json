@@ -9,7 +9,7 @@
     "h:snowcloak"
   ],
   "drops": {
-    "amount": 3,
+    "amount": 6,
     "entries": [
       {
         "item": "minecraft:feather",

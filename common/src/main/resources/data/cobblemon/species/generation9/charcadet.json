@@ -8,11 +8,15 @@
     "h:flamebody"
   ],
   "drops": {
-    "amount": 3,
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:charcoal",
-        "percentage": 50
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:blaze_rod",
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:charcoal_stick",

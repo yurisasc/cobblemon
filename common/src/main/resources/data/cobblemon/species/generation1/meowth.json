@@ -266,7 +266,7 @@
         "field"
       ],
       "behaviour": {
-        "moving" : {
+        "moving": {
           "walk": {
             "walkSpeed": 0.2
           }
@@ -438,14 +438,18 @@
     "field"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:gold_nugget",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:quick_claw",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:pinap_berry",
         "percentage": 2.5
       }
     ]
