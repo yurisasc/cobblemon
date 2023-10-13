@@ -9,7 +9,6 @@
     "GameRendererMixin",
     "ModelPartMixin",
     "PartyScrollMixin",
-    "PotionSlotMixin",
     "SoundManagerMixin",
     "SoundSystemMixin",
     "accessor.KeyBindingAccessor",
@@ -18,6 +17,7 @@
     "pokeball.ItemRendererMixin"
   ],
   "mixins": [
+    "ExplosionMixin",
     "FenceBlockMixin",
     "LivingEntityMixin",
     "MinecraftDedicatedServerMixin",
@@ -37,7 +37,8 @@
     "pokeball.ThrownEntityMixin",
     "StructurePoolGeneratorMixin",
     "StructurePoolAccessor",
-    "StructureProcessorListMixin"
+    "StructureProcessorListMixin",
+    "PotionSlotMixin"
   ],
   "injectors": {
     "defaultRequire": 1

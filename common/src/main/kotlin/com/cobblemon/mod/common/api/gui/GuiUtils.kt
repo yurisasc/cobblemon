@@ -180,10 +180,10 @@ fun drawPortraitPokemon(
     partialTicks: Float
 ) {
     val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
-    val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state)
+    val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state?.animationSeconds ?: 0F)
 
     val context = RenderContext()
-    PokemonModelRepository.variations[species.resourceIdentifier]?.getTexture(aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
+    PokemonModelRepository.getTextureNoSubstitute(species.resourceIdentifier, aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, species.getForm(aspects).baseScale)
 
     val renderType = model.getLayer(texture)
@@ -225,6 +225,7 @@ fun drawPortraitPokemon(
     }
 
     matrixStack.pop()
+    model.setDefault()
 
     DiffuseLighting.enableGuiDepthLighting()
 }

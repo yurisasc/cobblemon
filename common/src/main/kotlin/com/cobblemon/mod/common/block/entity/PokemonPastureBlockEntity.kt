@@ -259,13 +259,6 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         }
     }
 
-    override fun markRemoved() {
-        super.markRemoved()
-        if(world is ServerWorld && (world as ServerWorld).getBlockState(pos).isAir) {
-            onBroken()
-        }
-    }
-
     fun releasePokemon(pokemonId: UUID) {
         val tethering = tetheredPokemon.find { it.pokemonId == pokemonId } ?: return
         tethering.getPokemon()?.tetheringId = null

@@ -37,8 +37,10 @@ dependencies {
     forge(libs.forge)
     //Because of the JEI mapping issues if we want
     //a forge launch we gotta do some wacky stuff
-    //modRuntimeOnly(libs.jeiForge)
+    //modImplementation(libs.jeiForge)
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
+    modImplementation(libs.flywheelForge)
+    include(libs.flywheelForge)
 
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false

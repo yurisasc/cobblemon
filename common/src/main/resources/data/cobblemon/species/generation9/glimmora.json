@@ -8,6 +8,20 @@
     "toxicdebris",
     "h:corrosion"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:amethyst_shard",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 83,
     "attack": 55,
@@ -52,6 +66,7 @@
     "1:smackdown",
     "1:spikyshield",
     "1:toxicspikes",
+	"1:mortalspin",
     "7:acidspray",
     "11:ancientpower",
     "15:rockpolish",

@@ -28,6 +28,8 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.CobblemonElementalTypeTags
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -59,6 +61,7 @@ import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
+import net.minecraft.entity.ai.pathing.EntityNavigation
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
@@ -100,7 +103,8 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.*
+import java.util.EnumSet
+import java.util.Optional
 import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
@@ -143,7 +147,7 @@ class PokemonEntity(
     var tethering: PokemonPastureBlockEntity.Tethering? = null
 
     /**
-     * The amount of blocks this entity has traveled.
+     * The amount of steps this entity has traveled.
      */
     var blocksTraveled: Double = 0.0
 
@@ -161,6 +165,8 @@ class PokemonEntity(
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.STAND)
     internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
+    val hideLabel = addEntityProperty(HIDE_LABEL, false)
+    val unbattleable = addEntityProperty(UNBATTLEABLE, false)
 
     /**
      * 0 is do nothing,
@@ -224,11 +230,14 @@ class PokemonEntity(
         val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val POSE_TYPE = DataTracker.registerData(PokemonEntity::class.java, PoseTypeDataSerializer)
         val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         const val BATTLE_LOCK = "battle"
 
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
+            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
 
     }
 
@@ -263,6 +272,11 @@ class PokemonEntity(
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
         }
+
+        if (this.tethering != null && !this.tethering!!.box.contains(this.x, this.y, this.z)) {
+            this.tethering = null
+            this.pokemon.recall()
+        }
     }
 
 
@@ -289,7 +303,7 @@ class PokemonEntity(
      * Prevents flying type Pokémon from taking fall damage.
      */
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource?): Boolean {
-        return if (pokemon.types.any { it.isIn(CobblemonElementalTypeTags.FALL_DAMAGE_IMMUNE) } || pokemon.ability.name == "levitate") {
+        return if (pokemon.types.any { it.isIn(CobblemonElementalTypeTags.FALL_DAMAGE_IMMUNE) } || pokemon.ability.name == "levitate" || pokemon.species.behaviour.moving.fly.canFly) {
             false
         } else {
             super.handleFallDamage(fallDistance, damageMultiplier, damageSource)
@@ -314,11 +328,18 @@ class PokemonEntity(
         return super.isInvulnerableTo(damageSource)
     }
 
+    /**
+     * A utility method that checks if this Pokémon has the [UncatchableProperty.uncatchable] property.
+     *
+     * @return If the Pokémon is uncatchable.
+     */
+    fun isUncatchable() = pokemon.isUncatchable()
+
     fun recallWithAnimation(): CompletableFuture<Pokemon> {
         val owner = owner
         val future = CompletableFuture<Pokemon>()
         if (phasingTargetId.get() == -1 && owner != null) {
-            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.8F)
+            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
             phasingTargetId.set(owner.id)
             beamModeEmitter.set(2)
             afterOnMain(seconds = SEND_OUT_DURATION) {
@@ -354,6 +375,13 @@ class PokemonEntity(
         nbt.putString(DataKeys.POKEMON_POSE_TYPE, poseType.get().name)
         nbt.putByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS, behaviourFlags.get())
 
+        if (hideLabel.get()) {
+            nbt.putBoolean(DataKeys.POKEMON_HIDE_LABEL, true)
+        }
+        if (unbattleable.get()) {
+            nbt.putBoolean(DataKeys.POKEMON_UNBATTLEABLE, true)
+        }
+
         CobblemonEvents.POKEMON_ENTITY_SAVE.post(PokemonEntitySaveEvent(this, nbt))
 
         return super.writeNbt(nbt)
@@ -385,9 +413,15 @@ class PokemonEntity(
                 )
             } else {
                 pokemon = Pokemon()
+                health = 0F
             }
         } else {
-            pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+            pokemon = try {
+                Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+            } catch (_: InvalidSpeciesException) {
+                health = 0F
+                Pokemon()
+            }
         }
         species.set(pokemon.species.resourceIdentifier.toString())
         nickname.set(pokemon.nickname ?: Text.empty())
@@ -402,6 +436,13 @@ class PokemonEntity(
         poseType.set(PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
         behaviourFlags.set(nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
         this.setBehaviourFlag(PokemonBehaviourFlag.EXCITED, true)
+
+        if (nbt.contains(DataKeys.POKEMON_HIDE_LABEL)) {
+            hideLabel.set(nbt.getBoolean(DataKeys.POKEMON_HIDE_LABEL))
+        }
+        if (nbt.contains(DataKeys.POKEMON_UNBATTLEABLE)) {
+            unbattleable.set(nbt.getBoolean(DataKeys.POKEMON_UNBATTLEABLE))
+        }
 
         CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(
             event = PokemonEntityLoadEvent(this, nbt),
@@ -420,6 +461,10 @@ class PokemonEntity(
         return navigation as PokemonNavigation
     }
 
+    override fun createNavigation(world: World): EntityNavigation {
+        return PokemonNavigation(world, this)
+    }
+
     @Suppress("SENSELESS_COMPARISON")
     public override fun initGoals() {
         // DO NOT REMOVE
@@ -429,7 +474,6 @@ class PokemonEntity(
             return
         }
         moveControl = PokemonMoveControl(this)
-        navigation = PokemonNavigation(world, this)
         goalSelector.clear { true }
         goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
         goalSelector.add(0, object : Goal() {
@@ -548,7 +592,7 @@ class PokemonEntity(
     }
 
     override fun shouldSave(): Boolean {
-        if (ownerUuid == null && Cobblemon.config.savePokemonToWorld) {
+        if (ownerUuid == null && (Cobblemon.config.savePokemonToWorld || isPersistent)) {
             CobblemonEvents.POKEMON_ENTITY_SAVE_TO_WORLD.postThen(PokemonEntitySaveToWorldEvent(this)) {
                 return true
             }
@@ -557,7 +601,7 @@ class PokemonEntity(
     }
 
     override fun checkDespawn() {
-        if (pokemon.getOwnerUUID() == null && despawner.shouldDespawn(this)) {
+        if (pokemon.getOwnerUUID() == null && !isPersistent && despawner.shouldDespawn(this)) {
             discard()
         }
     }
@@ -583,7 +627,9 @@ class PokemonEntity(
 
     @Suppress("UNUSED_PARAMETER")
     fun canBattle(player: PlayerEntity): Boolean {
-        if (isBusy) {
+        if (unbattleable.get()) {
+            return false
+        } else if (isBusy) {
             return false
         } else if (battleId.get().isPresent) {
             return false
@@ -822,6 +868,7 @@ class PokemonEntity(
     }
 
     fun isFlying() = this.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
+    fun couldStopFlying() = isFlying() && !behaviour.moving.walk.avoidsLand && behaviour.moving.walk.canWalk
     fun isFalling() = this.fallDistance > 0 && this.world.getBlockState(this.blockPos.down()).isAir && !this.isFlying()
     fun getIsSubmerged() = isInLava || isSubmergedInWater
     override fun getPoseType(): PoseType = this.poseType.get()
@@ -933,15 +980,34 @@ class PokemonEntity(
 
     override fun canUsePortals() = false
 
-    override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
-        if (player != null) {
-            if(this.ownerUuid == player.uuid && tethering == null) {
-                val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
-                (world as ServerWorld).chunkManager
-                    .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
-                this.goalSelector.tick()
-                if(distanceTo(player.blockPos) > 100) pokemon.recall()
-            }
+    override fun setAir(air: Int) {
+        if (this.isBattling) {
+            this.dataTracker.set(AIR, 300)
+            return
         }
+        super.setAir(air)
+    }
+
+    override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
+        if (player == null) {
+            return
+        }
+
+        if(this.ownerUuid == player.uuid && tethering == null) {
+            if (player.isDisconnected) {
+                this.remove(RemovalReason.DISCARDED)
+                return
+            }
+
+            val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
+            (world as ServerWorld).chunkManager
+                .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
+            this.goalSelector.tick()
+            if(distanceTo(player.blockPos) > 100) pokemon.recall()
+        }
+    }
+
+    override fun canBeLeashedBy(player: PlayerEntity): Boolean {
+        return this.ownerUuid == null || this.ownerUuid == player.uuid
     }
 }

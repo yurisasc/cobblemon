@@ -31,7 +31,7 @@
       ],
       "evolutions": [
         {
-          "id": "exeggcute_exeggutor",
+          "id": "exeggcute_exeggutor_alolan",
           "variant": "item_interact",
           "result": "exeggutor alolan",
           "consumeHeldItem": false,
@@ -39,6 +39,51 @@
             "dragonhammer"
           ],
           "requirements": [],
+          "requiredContext": "cobblemon:leaf_stone"
+        },
+        {
+          "id": "exeggcute_exeggutor_alolan_kantonian",
+          "variant": "item_interact",
+          "result": "exeggutor",
+          "consumeHeldItem": false,
+          "requirements": [
+            {
+              "variant": "biome",
+              "biomeCondition": "#cobblemon:is_jungle"
+            }
+          ],
+          "requiredContext": "cobblemon:leaf_stone"
+        }
+      ]
+    },
+    {
+      "name": "base",
+      "evolutions": [
+        {
+          "id": "exeggcute_exeggutor_kantonian",
+          "variant": "item_interact",
+          "result": "exeggutor",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "stomp"
+          ],
+          "requirements": [],
+          "requiredContext": "cobblemon:leaf_stone"
+        },
+        {
+          "id": "exeggcute_exeggutor_kantonian_alolan",
+          "variant": "item_interact",
+          "result": "exeggutor alolan",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "dragonhammer"
+          ],
+          "requirements": [
+            {
+              "variant": "biome",
+              "biomeCondition": "#minecraft:is_beach"
+            }
+          ],
           "requiredContext": "cobblemon:leaf_stone"
         }
       ]
@@ -59,12 +104,20 @@
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:egg",
         "quantityRange": "1-3",
         "percentage": 75
+      },
+      {
+        "item": "cobblemon:oval_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 2.5
       }
     ]
   },
@@ -229,7 +282,7 @@
   ],
   "evolutions": [
     {
-      "id": "exeggcute_exeggutor",
+      "id": "exeggcute_exeggutor_kantonian_alolan",
       "variant": "item_interact",
       "result": "exeggutor",
       "consumeHeldItem": false,
@@ -238,9 +291,25 @@
       ],
       "requirements": [],
       "requiredContext": "cobblemon:leaf_stone"
+    },
+    {
+      "id": "exeggcute_exeggutor_alolan",
+      "variant": "item_interact",
+      "result": "exeggutor alolan",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "dragonhammer"
+      ],
+      "requirements": [
+        {
+          "variant": "biome",
+          "biomeCondition": "#minecraft:is_beach"
+        }
+      ],
+      "requiredContext": "cobblemon:leaf_stone"
     }
   ],
-  "baseScale": 0.8,
+  "baseScale": 1.0,
   "hitbox": {
     "width": 1.1,
     "height": 0.5,

@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
@@ -22,6 +23,7 @@ import net.minecraft.network.packet.Packet
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
@@ -163,6 +165,13 @@ interface CobblemonImplementation {
      */
     fun server(): MinecraftServer?
 
+    /**
+     * Handles platform independent reloading of a [JsonDataRegistry].
+     *
+     * @param registry The [JsonDataRegistry] to reload.
+     * @param manager The [ResourceManager] to reload from.
+     */
+    fun <T> reloadJsonRegistry(registry: JsonDataRegistry<T>, manager: ResourceManager): HashMap<Identifier, T>
     /**
      * Queue the creation of a registry in the implementation.
      * This registry will not be immediately available for access.

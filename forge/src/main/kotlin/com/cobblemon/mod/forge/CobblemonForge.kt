@@ -9,12 +9,15 @@
 package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.cobblemonstructures.CobblemonStructures
 import com.cobblemon.mod.common.item.MedicinalLeekItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.util.didSleep
+import com.cobblemon.mod.common.util.endsWith
+import com.cobblemon.mod.common.world.CobblemonStructures
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
 import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
@@ -26,6 +29,8 @@ import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
+import java.util.UUID
+import kotlin.reflect.KClass
 import com.mojang.serialization.Codec
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
@@ -39,6 +44,7 @@ import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
@@ -55,6 +61,8 @@ import net.minecraftforge.common.ToolActions
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry
 import net.minecraftforge.common.brewing.IBrewingRecipe
 import net.minecraftforge.event.*
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry
+import net.minecraftforge.common.brewing.IBrewingRecipe
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
@@ -73,8 +81,8 @@ import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegisterEvent
 import net.minecraftforge.server.ServerLifecycleHooks
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
-import java.util.*
-import kotlin.reflect.KClass
+import java.io.File
+import java.util.concurrent.ExecutionException
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
@@ -169,7 +177,7 @@ class CobblemonForge : CobblemonImplementation {
             CobblemonPlacementModifierTypes.touch()
         }
 
-        event.register(RegistryKeys.PROCESSOR_LIST) {
+        event.register(RegistryKeys.STRUCTURE_PROCESSOR) {
             CobblemonProcessorTypes.touch()
         }
     }
@@ -242,7 +250,6 @@ class CobblemonForge : CobblemonImplementation {
                             .displayName(holder.displayName)
                             .icon(holder.displayIconProvider)
                             .entries(holder.entryCollector)
-                            .withTabsBefore(*ItemGroups.getGroups().mapNotNull { Registries.ITEM_GROUP.getId(it) }.toTypedArray())
                             .build()
                         helper.register(holder.key, itemGroup)
                         itemGroup
@@ -317,6 +324,28 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun server(): MinecraftServer? = ServerLifecycleHooks.getCurrentServer()
+
+    override fun <T> reloadJsonRegistry(registry: JsonDataRegistry<T>, manager: ResourceManager): HashMap<Identifier, T> {
+        val data = hashMapOf<Identifier, T>()
+
+        manager.findResources(registry.resourcePath) { path -> path.endsWith(JsonDataRegistry.JSON_EXTENSION) }.forEach { (identifier, resource) ->
+            if (identifier.namespace == "pixelmon") {
+                return@forEach
+            }
+
+            resource.inputStream.use { stream ->
+                stream.bufferedReader().use { reader ->
+                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    try {
+                        data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
+                    } catch (exception: Exception) {
+                        throw ExecutionException("Error loading JSON for data: $identifier", exception)
+                    }
+                }
+            }
+        }
+        return data
+    }
 
     override fun <T> createRegistry(registryKey: RegistryKey<Registry<T>>, codec: Codec<T>, networkCodec: Codec<T>?) {
         this.registryQueue.add { e ->

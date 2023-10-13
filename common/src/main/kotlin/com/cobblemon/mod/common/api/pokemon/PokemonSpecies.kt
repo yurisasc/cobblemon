@@ -240,6 +240,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         val cannotDynamax = form?.dynamaxBlocked ?: species.dynamaxBlocked
         // ToDo battleOnly
         // ToDo changesFrom
+        val requiredMove = form?.requiredMove
+        val requiredItem = form?.requiredItem
+        val requiredItems = form?.requiredItems
     }
 
     private fun createShowdownName(species: Species): String {

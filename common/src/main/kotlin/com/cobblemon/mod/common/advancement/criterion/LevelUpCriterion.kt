@@ -30,7 +30,10 @@ class LevelUpCriterionCondition(id: Identifier, entity: LootContextPredicate) : 
     override fun matches(player: ServerPlayerEntity, context: LevelUpContext): Boolean {
         val preEvo = context.pokemon.preEvolution == null
         val hasEvolution = !context.pokemon.evolutions.none()
-        val evolutionCheck = !(preEvo == hasEvolution)
+        var evolutionCheck = true
+        if (preEvo || hasEvolution) {
+            evolutionCheck = !(preEvo == hasEvolution)
+        }
         return level == context.level && evolutionCheck == evolved
     }
 }

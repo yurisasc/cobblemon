@@ -7,6 +7,25 @@
     "shedskin",
     "h:friendguard"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:bright_powder",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+
   "baseStats": {
     "hp": 45,
     "attack": 22,
@@ -70,7 +89,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_mushroom"
         }
       ]
     },
@@ -89,7 +108,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_plains"
         }
       ]
     },
@@ -108,7 +127,11 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_spooky"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_magical"
         }
       ]
     },
@@ -127,7 +150,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "minecraft:cherry_grove"
         }
       ]
     },
@@ -146,14 +169,14 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_floral"
+          "biomeCondition": "#cobblemon:is_forest"
         }
       ]
     },
     {
       "id": "spewpa_vivillon_high_plains",
       "variant": "level_up",
-      "result": "vivillon vivillon_wings=high_plains",
+      "result": "vivillon vivillon_wings=high-plains",
       "consumeHeldItem": false,
       "learnableMoves": [
         "gust"
@@ -165,14 +188,14 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_badlands"
         }
       ]
     },
     {
       "id": "spewpa_vivillon_icy_snow",
       "variant": "level_up",
-      "result": "vivillon vivillon_wings=icy_snow",
+      "result": "vivillon vivillon_wings=icy-snow",
       "consumeHeldItem": false,
       "learnableMoves": [
         "gust"
@@ -184,7 +207,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_snowy"
+          "biomeCondition": "#cobblemon:is_taiga"
         }
       ]
     },
@@ -222,7 +245,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_coast"
+          "biomeCondition": "#cobblemon:is_ocean"
         }
       ]
     },
@@ -241,7 +264,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_plains"
+          "biomeCondition": "#cobblemon:is_floral"
         }
       ]
     },
@@ -260,7 +283,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_plains"
+          "biomeCondition": "minecraft:is_void"
         }
       ]
     },
@@ -279,7 +302,11 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_mountain"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_peak"
         }
       ]
     },
@@ -298,26 +325,11 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_deep"
-        }
-      ]
-    },
-    {
-      "id": "spewpa_vivillon_poke_ball",
-      "variant": "level_up",
-      "result": "vivillon vivillon_wings=poke-ball",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "gust"
-      ],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 12
+          "biomeCondition": "#cobblemon:is_coast"
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_warm_ocean"
         }
       ]
     },
@@ -336,7 +348,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_frozen"
+          "biomeCondition": "#cobblemon:is_frozen_ocean"
         }
       ]
     },
@@ -356,6 +368,10 @@
         {
           "variant": "biome",
           "biomeCondition": "#cobblemon:is_river"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_swamp"
         }
       ]
     },
@@ -374,7 +390,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_sandy"
+          "biomeCondition": "#cobblemon:is_desert"
         }
       ]
     },
@@ -412,7 +428,15 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_sky"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_volcano"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "minecraft:sunflower_plains"
         }
       ]
     },
@@ -432,44 +456,14 @@
         {
           "variant": "biome",
           "biomeCondition": "#cobblemon:is_tundra"
-        }
-      ]
-    },
-    {
-      "id": "spewpa_vivillon_blazing",
-      "variant": "level_up",
-      "result": "vivillon vivillon_wings=blazing",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "gust"
-      ],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 12
         },
         {
-          "variant": "world",
-          "identifier": "minecraft:the_nether"
-        }
-      ]
-    },
-    {
-      "id": "spewpa_vivillon_ender",
-      "variant": "level_up",
-      "result": "vivillon vivillon_wings=ender",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "gust"
-      ],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 12
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_snowy_forest"
         },
         {
-          "variant": "world",
-          "identifier": "minecraft:the_end"
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_glacial"
         }
       ]
     }

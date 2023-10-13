@@ -30,7 +30,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
 
         matrices.push()
         val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
-        val renderLayer = model.getLayer(PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, null))
+        val renderLayer = model.getLayer(PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, 0F))
 
         val transformations = positions[mode]!!
 
@@ -58,6 +58,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
             model.render(matrices, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, tint.x, tint.y, tint.z, tint.w)
         }
 
+        model.setDefault()
         matrices.pop()
         matrices.pop()
         DiffuseLighting.disableGuiDepthLighting()

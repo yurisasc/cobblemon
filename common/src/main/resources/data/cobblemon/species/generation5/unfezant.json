@@ -9,6 +9,27 @@
     "superluck",
     "h:rivalry"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "percentage": 75,
+        "quantityRange": "1-3"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 10
+      }
+    ]
+  },
   "baseStats": {
     "hp": 80,
     "attack": 115,
@@ -108,8 +129,8 @@
   "evolutions": [],
   "baseScale": 0.75,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 2.15,
     "fixed": false
   },
   "baseFriendship": 50,

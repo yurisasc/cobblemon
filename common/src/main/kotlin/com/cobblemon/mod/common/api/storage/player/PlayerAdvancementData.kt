@@ -25,6 +25,12 @@ class PlayerAdvancementData {
         private set
     var totalBattleVictoryCount: Int = 0
         private set
+    var totalPvPBattleVictoryCount: Int = 0
+        private set
+    var totalPvWBattleVictoryCount: Int = 0
+        private set
+    var totalPvNBattleVictoryCount: Int = 0
+        private set
     var totalShinyCaptureCount: Int = 0
         private set
     var totalTradedCount: Int = 0
@@ -49,6 +55,18 @@ class PlayerAdvancementData {
 
     fun updateTotalBattleVictoryCount() {
         totalBattleVictoryCount++
+    }
+
+    fun updateTotalPvPBattleVictoryCount() {
+        totalPvPBattleVictoryCount++
+    }
+
+    fun updateTotalPvWBattleVictoryCount() {
+        totalPvWBattleVictoryCount++
+    }
+
+    fun updateTotalPvNBattleVictoryCount() {
+        totalPvNBattleVictoryCount++
     }
 
     fun updateTotalShinyCaptureCount() {
