@@ -8,12 +8,11 @@
     "h:friendguard"
   ],
   "drops": {
-    "amount": 3,
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:string",
-        "percentage": 66,
-        "quantityRange": "1-2"
+        "quantityRange": "0-2"
       },
       {
         "item": "cobblemon:bright_powder",
@@ -25,7 +24,6 @@
       }
     ]
   },
-
   "baseStats": {
     "hp": 45,
     "attack": 22,

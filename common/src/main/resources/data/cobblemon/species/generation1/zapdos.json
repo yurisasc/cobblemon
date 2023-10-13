@@ -9,10 +9,10 @@
     "h:static"
   ],
   "drops": {
-    "amount": 3,
+    "amount": 6,
     "entries": [
       {
-        "item": "cobblemon:feather",
+        "item": "minecraft:feather",
         "quantityRange": "2-4"
       },
       {
