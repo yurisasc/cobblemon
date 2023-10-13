@@ -1745,7 +1745,7 @@
           "requirements": [
             {
               "variant": "biome",
-              "biomeCondition": "#cobblemon:is_plains"
+              "biomeAnticondition": "#cobblemon:is_temperate"
             }
           ],
           "requiredContext": "cobblemon:thunder_stone"
@@ -1779,7 +1779,12 @@
           "learnableMoves": [
             "thunderpunch"
           ],
-          "requirements": [],
+          "requirements": [
+            {
+              "variant": "biome",
+              "biomeAnticondition": "#minecraft:is_beach"
+            }
+          ],
           "requiredContext": "cobblemon:thunder_stone"
         }
       ]
