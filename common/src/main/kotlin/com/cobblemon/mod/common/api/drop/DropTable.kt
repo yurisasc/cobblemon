@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.api.drop
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.events.CobblemonEvents.LOOT_DROPPED
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
 import net.minecraft.entity.LivingEntity
