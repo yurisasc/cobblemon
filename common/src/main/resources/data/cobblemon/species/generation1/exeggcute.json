@@ -70,7 +70,7 @@
         {
           "id": "exeggcute_exeggutor_alolan_kantonian",
           "variant": "item_interact",
-          "result": "exeggutor",
+          "result": "exeggutor alolan=false",
           "consumeHeldItem": false,
           "requirements": [
             {

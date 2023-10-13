@@ -1758,7 +1758,7 @@
         {
           "id": "pikachu_raichu_alolan_kantonian",
           "variant": "item_interact",
-          "result": "raichu",
+          "result": "raichu alolan=false",
           "consumeHeldItem": false,
           "learnableMoves": [
             "thunderpunch"
