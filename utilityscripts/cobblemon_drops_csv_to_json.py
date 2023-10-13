@@ -59,14 +59,13 @@ def main():
 def parse_drops(drops_str):
     entries = []
     drops_parts = drops_str.split(', ')
-    amount = 0
+    amount = 0 # Calculate the max amount of drops possible (if everything rolls max)
     noOr = True
-    if "OR" in drops_parts:
+    print(drops_parts)
+    if "OR" in drops_str:
         noOr = False
-        drops_parts = drops_parts.split({', ', ' OR '})
+        drops_parts = drops_str.split(" OR ")
         amount = 1
-
-    # Calculate the max amount of drops possible (if everything rolls max)
 
     for part in drops_parts:
         item_info = part.split(' ')
@@ -74,17 +73,32 @@ def parse_drops(drops_str):
 
         currentDrop = {"item": item_id}
 
-        if "%" in item_info[1]:
-            percentage = float(item_info[1].replace('%', ''))
-            currentDrop.update({"percentage": percentage})
+        # Iterate over remaining item info fields and add their values to the currentDrop
+        for i in range(1, len(item_info)):
+            if "%" in item_info[i]:
+                percentage = float(item_info[i].replace('%', ''))
+                currentDrop.update({"percentage": percentage})
+                if noOr:
+                    amount += 1
+            elif '-' in item_info[i]:
+                if noOr:
+                    amount += (int(item_info[i].split('-')[1]))
+                quantityRange = item_info[i]
+                currentDrop.update({"quantityRange": quantityRange})
+            elif '(Nether)' in item_info[i] or '(End)' in item_info[i] or '(Overworld)' in item_info[i] or item_info[i] == '':
+                # Do nothing
+                pass
+            else:
+                quantity = item_info[i]
+                print("Special case: QUANTITY: " + quantity)
+                if quantity != "1":
+                    currentDrop.update({"quantityRange": quantity})
+                if noOr:
+                    amount += (int(item_info[i]))
+
+        if len(item_info) == 1:
             if noOr:
                 amount += 1
-        elif '-' in item_info[1]:
-            if noOr:
-                amount += (int(item_info[1].split('-')[1]))
-
-            quantityRange = item_info[1]
-            currentDrop.update({"quantityRange": quantityRange})
 
         entries.append(currentDrop)
 
