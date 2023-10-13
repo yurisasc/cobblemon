@@ -8,13 +8,14 @@
 
 package com.cobblemon.mod.common.api.drop
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.events.CobblemonEvents.LOOT_DROPPED
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
-import kotlin.random.Random
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Vec3d
+import kotlin.random.Random
 
 /**
  * A table of drops that can produce a list of [DropEntry]. You can produce a drop list from [getDrops] to
@@ -45,7 +46,9 @@ class DropTable {
      */
     fun getDrops(amount: IntRange = this.amount): List<DropEntry> {
         val chosenAmount = amount.random()
+        Cobblemon.LOGGER.info("Chosen amount: $chosenAmount")
         val possibleDrops = entries.filter { it.quantity <= chosenAmount }.toMutableList()
+        Cobblemon.LOGGER.info("Possible drops: $possibleDrops")
 
         if (possibleDrops.isEmpty()) {
             return emptyList()
@@ -65,9 +68,11 @@ class DropTable {
 
             drops.add(drop)
             dropCount += drop.quantity
+            Cobblemon.LOGGER.info("Amount: $amount, ChosenAmount: $chosenAmount ,Drops: $drops, dropCount: $dropCount")
             val remaining = chosenAmount - dropCount
             possibleDrops.removeIf { (it == drop && it.maxSelectableTimes <= drops.count { it == drop }) || it.quantity > remaining }
         } while (dropCount < chosenAmount && possibleDrops.isNotEmpty())
+        Cobblemon.LOGGER.info("#####################################################################################################")
 
         return drops
     }
