@@ -27,7 +27,7 @@ package com.cobblemon.mod.common.client.render.block
 //        }
 //        entity.berryAndGrowthPoint().forEach {
 //            val newModel = if (age == BerryBlock.FLOWER_AGE) BerryModelRepository.flywheelModelOf(
-//                cobblemonResource("flower")
+//                cobblemonResource("flower.geo")
 //            ) else BerryModelRepository.flywheelModelOf(it.first.fruitModelIdentifier)
 //            if (newModel != null) {
 //                val instancedModel = materialManager
