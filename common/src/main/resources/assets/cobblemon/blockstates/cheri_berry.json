@@ -6,7 +6,7 @@
       },
       "apply": {
         "model": "cobblemon:block/berries/planted",
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -15,7 +15,7 @@
       },
       "apply": {
         "model": "cobblemon:block/berries/sprout",
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -24,7 +24,7 @@
       },
       "apply": {
         "model": "cobblemon:block/berries/cheri_young",
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -33,7 +33,7 @@
       },
       "apply": {
         "model": "cobblemon:block/berries/cheri_mature",
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -42,7 +42,7 @@
       },
       "apply": {
         "model": "cobblemon:block/berries/cheri_mature",
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -51,7 +51,7 @@
       },
       "apply": {
         "model": "cobblemon:block/berries/cheri_mature",
-        "uvlock": true
+        "uvlock": false
       }
     },
     {

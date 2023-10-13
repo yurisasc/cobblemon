@@ -14,7 +14,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "30-51",
-            "weight": 1.0,
+            "weight": 10.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -70,13 +70,13 @@
             "pokemon": "mabosstiff",
             "presets": [
                 "natural",
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "30-51",
-            "weight": 1.0,
+            "weight": 10.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

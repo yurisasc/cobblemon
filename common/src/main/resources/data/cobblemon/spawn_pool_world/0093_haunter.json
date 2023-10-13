@@ -61,6 +61,11 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_deep_dark"
+                ]
             }
         },
         {
@@ -97,7 +102,16 @@
                 "biomes": [
                     "#minecraft:is_nether"
                 ]
-            }
+            },
+			"drops": {
+				"amount": "1",
+				"entries": [
+					{
+					"item": "minecraft:ghast_tear",
+					"percentage": 5
+					}
+				]
+			}
         }
     ]
 }

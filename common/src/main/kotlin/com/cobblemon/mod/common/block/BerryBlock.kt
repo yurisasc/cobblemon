@@ -156,6 +156,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         setMulch(world, pos, state, variant)
         treeEntity.mulchDuration = variant.duration
         world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS, 0.6F, 1F)
+        treeEntity.refreshTimers(pos)
     }
 
     @Deprecated("Deprecated in Java")

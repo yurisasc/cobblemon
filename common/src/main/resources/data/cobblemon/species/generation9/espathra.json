@@ -8,6 +8,18 @@
     "frisk",
     "h:speedboost"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 95,
     "attack": 60,
@@ -65,6 +77,7 @@
     "1:featherdance",
     "1:growl",
     "1:peck",
+	"1:luminacrash",
     "5:confusion",
     "8:babydolleyes",
     "11:disarmingvoice",

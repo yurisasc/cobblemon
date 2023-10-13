@@ -7,6 +7,19 @@
     "static",
     "h:plus"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:mutton",
+        "quantityRange": "2-4"
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 10
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 75,
@@ -78,6 +91,11 @@
       "walk": {
         "walkSpeed": 0.2
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [

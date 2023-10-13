@@ -48,6 +48,26 @@
                     "#cobblemon:is_floral"
                 ]
             }
+        },
+        {
+            "id": "ribombee-3",
+            "pokemon": "ribombee",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "25-46",
+            "weight": 18.0,
+            "condition": {
+                "biomes": [
+                    "the_bumblezone:floral_meadow",
+					"the_bumblezone:polinated_fields"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
+            }
         }
     ]
 }

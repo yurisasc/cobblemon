@@ -138,7 +138,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "28-44",
-            "weight": 0.6,
+            "weight": 6.0,
             "weightMultiplier": {
                 "multiplier": 1.5,
                 "condition": {
@@ -170,7 +170,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "28-44",
-            "weight": 0.6,
+            "weight": 6.0,
             "weightMultiplier": {
                 "multiplier": 1.5,
                 "condition": {
@@ -195,7 +195,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "28-44",
-            "weight": 0.6,
+            "weight": 6.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [

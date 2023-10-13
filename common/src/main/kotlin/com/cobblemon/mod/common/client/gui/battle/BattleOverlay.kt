@@ -387,7 +387,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         reversed: Boolean = false
     ) {
         val model = PokeBallModelRepository.getPoser(state.pokeBall.name, state.aspects)
-        val texture = PokeBallModelRepository.getTexture(state.pokeBall.name, state.aspects, state)
+        val texture = PokeBallModelRepository.getTexture(state.pokeBall.name, state.aspects, state.animationSeconds)
         val renderType = model.getLayer(texture)
 
         RenderSystem.applyModelViewMatrix()

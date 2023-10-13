@@ -68,7 +68,7 @@
             "id": "jolteon-4",
             "pokemon": "jolteon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",
