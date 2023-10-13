@@ -2,6 +2,7 @@ import os
 import time
 import requests
 import pandas as pd
+import json
 from io import StringIO
 from sqlalchemy import create_engine, Text, Float
 
@@ -18,7 +19,7 @@ def main():
     # csv_data = download_spreadsheet_data(spreadsheet_csv_url)
 
     # For now: just load the data from a local files
-    csv_data = open('Cobblemon_Drops.csv', 'r', encoding="utf8").read()
+    csv_data = open('Cobblemon Drops 1.4 - Sheet1.csv', 'r', encoding="utf8").read()
     csv_data_for_matching = download_spreadsheet_data(conversion_csv_url)
 
     # Load the data into a DataFrame
@@ -37,11 +38,60 @@ def main():
     # Filter filenames from ..\common\src\main\resources\data\cobblemon\species based on Pokémon names that have drops
     filesToChange = filter_filenames_by_pokemon_names(pokemon_data_dir, df['Pokémon'])
 
-    # Your next processing steps...
-    # ...
+    # For each file, replace the drops or create them if not present
+    for file in filesToChange:
+        with open(pokemon_data_dir + "/" + file, 'r', encoding="utf8") as f:
+            data = json.load(f)  # Deserialize JSON to Python object
+
+        for index, row in df.iterrows():
+            if row['Pokémon'].lower() == file.split('/')[-1][:-5].lower():
+                # Instead of string manipulation, just modify the Python object directly
+                data['drops'] = parse_drops(row['Drops'])
+                break
+
+        with open(pokemon_data_dir + "/" + file, 'w', encoding="utf8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)  # Serialize Python object to JSON
 
     # Save data to SQLite
     write_to_sqlite(df, sqlite_db_name, sqlite_table_name)
+
+
+def parse_drops(drops_str):
+    entries = []
+    drops_parts = drops_str.split(', ')
+    amount = 0
+    noOr = True
+    if "OR" in drops_parts:
+        noOr = False
+        drops_parts = drops_parts.split({', ', ' OR '})
+        amount = 1
+
+    # Calculate the max amount of drops possible (if everything rolls max)
+
+    for part in drops_parts:
+        item_info = part.split(' ')
+        item_id = item_info[0]
+
+        currentDrop = {"item": item_id}
+
+        if "%" in item_info[1]:
+            percentage = float(item_info[1].replace('%', ''))
+            currentDrop.update({"percentage": percentage})
+            if noOr:
+                amount += 1
+        elif '-' in item_info[1]:
+            if noOr:
+                amount += (int(item_info[1].split('-')[1]))
+
+            quantityRange = item_info[1]
+            currentDrop.update({"quantityRange": quantityRange})
+
+        entries.append(currentDrop)
+
+    return {
+        "amount": amount,
+        "entries": entries
+    }
 
 
 def replace_names_in_string(drop_str, mapping_dict):
@@ -54,6 +104,7 @@ def load_and_filter_data(filename, columns, filter_column, filter_value):
     df = pd.read_csv(filename, sep=',', usecols=columns)
     df = df[df[filter_column] == filter_value]
     return df
+
 
 def download_spreadsheet_data(url, max_retries=5):
     delay = 1
