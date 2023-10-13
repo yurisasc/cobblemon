@@ -486,7 +486,6 @@ open class PokemonProperties {
     fun roll(pokemon: Pokemon) {
         val baseTypes = pokemon.species.types.toList()
         if (this.shiny == null) pokemon.shiny = Cobblemon.config.shinyRate.checkRate()
-        if (this.gmaxFactor == null) pokemon.gmaxFactor = Cobblemon.config.gigantamaxFactorRate.checkRate()
         if (this.teraType == null) pokemon.teraType =
             if (Cobblemon.config.teraTypeRate.checkRate()) ElementalTypes.all().filter { !baseTypes.contains(it) }.random()
             else baseTypes.random()
