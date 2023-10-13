@@ -33,6 +33,7 @@
   "maleRatio": 0.5,
   "shoulderMountable": false,
   "forms": [
+    {"name": "base"},
     {
       "name": "Alola",
       "primaryType": "grass",
@@ -400,8 +401,8 @@
   "evolutions": [],
   "baseScale": 1.6,
   "hitbox": {
-    "width": 1.0,
-    "height": 1.7,
+    "width": 1.8,
+    "height": 3.0,
     "fixed": false
   },
   "baseFriendship": 50,
