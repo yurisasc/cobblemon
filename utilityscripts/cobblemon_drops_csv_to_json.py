@@ -19,7 +19,7 @@ def main():
     # csv_data = download_spreadsheet_data(spreadsheet_csv_url)
 
     # For now: just load the data from a local files
-    csv_data = open('Cobblemon Drops 1.4 - Sheet1.csv', 'r', encoding="utf8").read()
+    csv_data = open('Cobblemon Drops - Sheet1.csv', 'r', encoding="utf8").read()
     csv_data_for_matching = download_spreadsheet_data(conversion_csv_url)
 
     # Load the data into a DataFrame
@@ -28,9 +28,6 @@ def main():
 
     # Create a mapping dictionary from the Pokémon names to the Minecraft IDs
     mapping_dict = dict(zip(mapping_df['natural_name'], mapping_df['minecraft_ID']))
-
-    # Remove any rows where Drops is NaN
-    df = df[df['Drops'].notna()]
 
     # Replace the Item names with the Minecraft IDs
     df['Drops'] = df['Drops'].apply(lambda x: replace_names_in_string(x, mapping_dict))
@@ -45,8 +42,13 @@ def main():
 
         for index, row in df.iterrows():
             if row['Pokémon'].lower() == file.split('/')[-1][:-5].lower():
+                if row['Drops'] != row['Drops'] or row['Drops'] == '':
+                    # Remove drops field
+                    data.pop('drops', None)
+                    break
                 # Instead of string manipulation, just modify the Python object directly
-                data['drops'] = parse_drops(row['Drops'])
+                if "REMOVED" not in row['Drops']:
+                    data['drops'] = parse_drops(row['Drops'])
                 break
 
         with open(pokemon_data_dir + "/" + file, 'w', encoding="utf8") as f:
@@ -110,6 +112,8 @@ def parse_drops(drops_str):
 
 def replace_names_in_string(drop_str, mapping_dict):
     for natural_name, minecraft_id in mapping_dict.items():
+        if drop_str != drop_str:  # NaN check
+            break
         drop_str = drop_str.replace(natural_name, minecraft_id)
     return drop_str
 
@@ -160,13 +164,7 @@ def filter_filenames_by_pokemon_names(directory, pokemon_names):
 
 def write_to_sqlite(df, db_name, table_name):
     engine = create_engine(f'sqlite:///{db_name}', echo=True)
-    df.to_sql(table_name, con=engine, if_exists='replace', index=False, dtype={
-        # Adjust these data types according to the columns in your Pokémon DataFrame
-        "pokemon_name": Text,
-        "stat_1": Float,
-        "stat_2": Float,
-        # ...
-    })
+    df.to_sql(table_name, con=engine, if_exists='replace', index=False)
 
 
 if __name__ == "__main__":
