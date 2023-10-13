@@ -74,5 +74,5 @@ class DittoModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("ditto", "faint") else null
+    ) = bedrockStateful("ditto", "faint")
 }

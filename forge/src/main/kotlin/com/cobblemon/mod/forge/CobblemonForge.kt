@@ -246,7 +246,6 @@ class CobblemonForge : CobblemonImplementation {
                             .displayName(holder.displayName)
                             .icon(holder.displayIconProvider)
                             .entries(holder.entryCollector)
-                            .withTabsBefore(*ItemGroups.getGroups().mapNotNull { Registries.ITEM_GROUP.getId(it) }.toTypedArray())
                             .build()
                         helper.register(holder.key, itemGroup)
                         itemGroup
