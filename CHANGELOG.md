@@ -22,13 +22,12 @@
 - Added held items: Bright Powder, Destiny Knot
 - Added AI for Nosepass to point towards world spawn when idle. We just think it's neat.
 - Added shoulder mounting for Mimikyu.
-- Added sleeping animations to Arcanine, Jigglypuff, Wigglytuff, Vulpix and Ninetales.
 - Added flying placeholder animations to Pidgey, Pidgeotto, Pidgeot, Golbat, Crobat, Scyther, Scizor, Zapdos, Moltres, Articuno, Dragonite, Rowlet, Dartrix, and Decidueye.
 - Added loot to various vanilla chest loot tables (Link Cable in Ancient Cities, Woodland Mansions, End Cities, and Igloos, Vivichoke Seeds in Jungle Temples, Dungeons, and Plains, Savanna, Snowy, and Taiga Villages, and all 7 Apricorn Sprouts in Desert, Plains, Savanna, Snowy, and Taiga Villages, as well as the Bonus Chest, which can also have 5 of the basic Poké Ball types)
 - Added a `doShinyStarters` gamerule to make it quick and easy to be offered shiny starters.
 - Added a `doPokemonLoot` gamerule to toggle Pokémon dropping items/exp on death.
 - Added ability activation announcement when in battle.
-- Added animations for Wailord and made him BIGGER.
+- Added animations for Wailord and made it BIGGER.
 - Added Cherry Torterra variant.
 - Added 2 new face spots for Spinda. The number of unique Spindas increases...
 - Added Forretress Shulker variant.
