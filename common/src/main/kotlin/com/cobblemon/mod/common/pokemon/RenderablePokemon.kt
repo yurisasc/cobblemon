@@ -20,7 +20,7 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since August 1st, 2022
  */
-data class RenderablePokemon(val species: Species, val aspects: Set<String>) {
+data class RenderablePokemon(var species: Species, var aspects: Set<String>) {
     val form: FormData by lazy { species.getForm(aspects) }
 
     fun saveToBuffer(buffer: PacketByteBuf): PacketByteBuf {

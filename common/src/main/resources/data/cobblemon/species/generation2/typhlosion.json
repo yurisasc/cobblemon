@@ -7,6 +7,15 @@
     "blaze",
     "h:flashfire"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 25.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 78,
     "attack": 84,
@@ -146,7 +155,7 @@
       "depth": "normal",
       "light": "0-4"
     },
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.15
       }

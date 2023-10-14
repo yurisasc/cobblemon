@@ -92,7 +92,7 @@
             "id": "eevee-5",
             "pokemon": "eevee",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

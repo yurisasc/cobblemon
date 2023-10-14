@@ -1,8 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:snowy_beach",
-    "minecraft:beach",
+    "#minecraft:is_beach",
     {
       "id": "wythers:guelta",
       "required": false

@@ -48,6 +48,30 @@
                     "minecraft:lightning_rod"
                 ]
             }
+        },
+		{
+            "id": "magneton-2",
+            "pokemon": "magneton",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "30-47",
+            "weight": 0.9,
+			"weightMultiplier": {
+				"multiplier": 5.0,
+				"condition": {
+					"isThundering": true
+				}
+			},
+            "condition": {
+				"canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+				"neededNearbyBlocks": [
+                    "minecraft:lightning_rod"
+                ]
+            }
         }
     ]
 }

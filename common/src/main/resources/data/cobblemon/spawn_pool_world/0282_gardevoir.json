@@ -70,7 +70,7 @@
             "id": "gardevoir-4",
             "pokemon": "gardevoir",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -27,6 +27,25 @@
                     "#cobblemon:is_freezing"
                 ]
             }
+        },
+		{
+            "id": "weedle-2",
+            "pokemon": "weedle",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 6.0,
+            "condition": {
+                "biomes": [
+                    "#the_bumblezone:the_bumblezone"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+					"#the_bumblezone:sempiternal_sanctums"
+				]
+            }
         }
     ]
 }
