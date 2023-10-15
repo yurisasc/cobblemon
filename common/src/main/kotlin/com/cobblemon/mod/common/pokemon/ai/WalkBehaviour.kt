@@ -7,8 +7,27 @@
  */
 
 package com.cobblemon.mod.common.pokemon.ai
-class WalkBehaviour {
-    val canWalk = true
-    val avoidsLand = false
-    var walkSpeed = 0.35F
+
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+
+data class WalkBehaviour(
+    val canWalk: Boolean = true,
+    val avoidsLand: Boolean = false,
+    var walkSpeed: Float = 0.35F
+) {
+
+    companion object {
+
+        @JvmField
+        val CODEC: Codec<WalkBehaviour> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.BOOL.optionalFieldOf("canWalk", true).forGetter(WalkBehaviour::canWalk),
+                Codec.BOOL.optionalFieldOf("avoidsLand", false).forGetter(WalkBehaviour::avoidsLand),
+                Codec.FLOAT.optionalFieldOf("walkSpeed", 0.35F).forGetter(WalkBehaviour::walkSpeed)
+            ).apply(builder, ::WalkBehaviour)
+        }
+
+    }
+
 }

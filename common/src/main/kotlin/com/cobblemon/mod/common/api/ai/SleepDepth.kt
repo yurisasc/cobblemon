@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.api.ai
 
 import com.cobblemon.mod.common.api.serialization.StringIdentifiedObjectAdapter
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
 import net.minecraft.entity.ai.TargetPredicate
 import net.minecraft.util.math.Box
 
@@ -44,6 +46,11 @@ interface SleepDepth {
             "normal" to normal
         )
         val adapter = StringIdentifiedObjectAdapter { depths[it] ?: throw IllegalArgumentException("Unknown sleep depth: $it") }
+
+        val CODEC: Codec<SleepDepth> = Codec.STRING.flatXmap(
+            { string -> depths[string]?.let { DataResult.success(it) } ?: DataResult.error { "Cannot find a SleepDepth with the ID $string" } },
+            { depth -> depths.entries.firstOrNull { it.value == depth }?.let { DataResult.success(it.key) } ?: DataResult.error { "Cannot resolve a ID for the SleepDepth $depth" } }
+        )
     }
 
     fun canSleep(pokemonEntity: PokemonEntity): Boolean

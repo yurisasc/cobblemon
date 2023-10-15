@@ -8,6 +8,22 @@
 
 package com.cobblemon.mod.common.pokemon.ai
 
-class IdleBehaviour {
-    val pointsAtSpawn = false
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+
+data class IdleBehaviour(
+    val pointsAtSpawn: Boolean = false
+) {
+
+    companion object {
+
+        @JvmField
+        val CODEC: Codec<IdleBehaviour> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.BOOL.optionalFieldOf("pointsAtSpawn", false).forGetter(IdleBehaviour::pointsAtSpawn)
+            ).apply(builder, ::IdleBehaviour)
+        }
+
+    }
+
 }

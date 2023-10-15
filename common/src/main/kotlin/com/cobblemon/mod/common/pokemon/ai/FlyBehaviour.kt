@@ -7,7 +7,25 @@
  */
 
 package com.cobblemon.mod.common.pokemon.ai
-class FlyBehaviour {
-    val canFly = false
-    val flySpeedHorizontal = 0.3F
+
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+
+data class FlyBehaviour(
+    val canFly: Boolean = false,
+    val flySpeedHorizontal: Float = 0.3F
+) {
+
+    companion object {
+
+        @JvmField
+        val CODEC: Codec<FlyBehaviour> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.BOOL.optionalFieldOf("canFly", false).forGetter(FlyBehaviour::canFly),
+                Codec.FLOAT.optionalFieldOf("flySpeedHorizontal", 0.3F).forGetter(FlyBehaviour::flySpeedHorizontal),
+            ).apply(builder, ::FlyBehaviour)
+        }
+
+    }
+
 }
