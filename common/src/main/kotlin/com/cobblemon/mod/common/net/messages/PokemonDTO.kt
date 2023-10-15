@@ -17,10 +17,10 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.EVs
 import com.cobblemon.mod.common.api.pokemon.gender.Gender
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
@@ -104,7 +104,7 @@ class PokemonDTO : Encodable, Decodable {
         this.mintNature = pokemon.mintedNature?.name
         this.heldItem = pokemon.heldItemNoCopy()
         this.tetheringId = pokemon.tetheringId
-        this.teraType = pokemon.teraType.name
+        this.teraType = pokemon.teraType.id().toString()
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
@@ -228,7 +228,7 @@ class PokemonDTO : Encodable, Decodable {
             it.mintedNature = mintNature?.let { id -> Natures.getNature(id)!! }
             it.swapHeldItem(heldItem, false)
             it.tetheringId = tetheringId
-            it.teraType = ElementalTypes.getOrException(teraType)
+            it.teraType = CobblemonRegistries.ELEMENTAL_TYPE.get(Identifier(this.teraType))!!
             it.dmaxLevel = dmaxLevel
             it.gmaxFactor = gmaxFactor
             it.tradeable = tradeable

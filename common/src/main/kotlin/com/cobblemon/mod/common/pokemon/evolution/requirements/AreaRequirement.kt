@@ -8,11 +8,16 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
+import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.codec.ExtraCodecs
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.Box
-import net.minecraft.util.math.Vec3d
 
 /**
  * A [EntityQueryRequirement] for when a [Pokemon] is expected to be in a certain area.
@@ -21,11 +26,22 @@ import net.minecraft.util.math.Vec3d
  * @author Licious
  * @since March 21st, 2022
  */
-class AreaRequirement : EntityQueryRequirement {
+class AreaRequirement(val box: Box) : EntityQueryRequirement {
+
+    override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = this.box.contains(queriedEntity.pos)
+
+    override val variant: Variant<EvolutionRequirement> = VARIANT
+
     companion object {
-        const val ADAPTER_VARIANT = "area"
+
+        val CODEC: Codec<AreaRequirement> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                ExtraCodecs.BOX_CODEC.fieldOf("box").forGetter(AreaRequirement::box)
+            ).apply(builder, ::AreaRequirement)
+        }
+
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("area"), CODEC)
+
     }
 
-    val box: Box = Box.from(Vec3d.ZERO)
-    override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = box.contains(queriedEntity.pos)
 }

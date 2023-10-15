@@ -21,9 +21,9 @@ import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.api.text.*
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
@@ -1704,7 +1704,7 @@ object ShowdownInterpreter {
     private fun handleTerastallizeInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         val battlePokemon = message.getBattlePokemon(0, battle) ?: return
         val pokemonName = battlePokemon.getName()
-        val type = message.effectAt(1)?.let { ElementalTypes.get(it.id) } ?: return
+        val type = message.effectAt(1)?.let {  CobblemonRegistries.ELEMENTAL_TYPE.firstOrNull { type -> type.showdownId() == it.id } } ?: return
         battle.dispatchWaiting {
             battle.broadcastChatMessage(battleLang("terastallize", pokemonName, type.displayName).yellow())
             battle.minorBattleActions[battlePokemon.uuid] = message

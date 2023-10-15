@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.EvolutionRegistry
 import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -16,28 +16,22 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 
-/**
- * An [EvolutionRequirement] for when the [Pokemon] must match [PokemonProperties.matches].
- *
- * @property target The matcher for this requirement.
- * @author Licious
- * @since March 26th, 2022
- */
-class PokemonPropertiesRequirement(val target: PokemonProperties) : EvolutionRequirement {
+class NoneOfRequirement(val requirements: Collection<EvolutionRequirement>) : EvolutionRequirement {
 
-    override fun check(pokemon: Pokemon) = this.target.matches(pokemon)
+    override fun check(pokemon: Pokemon): Boolean = this.requirements.none { it.check(pokemon) }
 
     override val variant: Variant<EvolutionRequirement> = VARIANT
 
     companion object {
 
-        val CODEC: Codec<PokemonPropertiesRequirement> = RecordCodecBuilder.create { builder ->
+        val CODEC: Codec<NoneOfRequirement> = RecordCodecBuilder.create { builder ->
             builder.group(
-                PokemonProperties.CODEC.fieldOf("target").forGetter(PokemonPropertiesRequirement::target)
-            ).apply(builder, ::PokemonPropertiesRequirement)
+                Codec.list(EvolutionRegistry.REQUIREMENT_CODEC).fieldOf("requirements").forGetter { it.requirements.toMutableList() }
+            ).apply(builder, ::NoneOfRequirement)
         }
 
-        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("properties"), CODEC)
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("none_of"), CODEC)
 
     }
+
 }

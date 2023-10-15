@@ -10,8 +10,12 @@ package com.cobblemon.mod.common.pokemon.evolution.requirements
 
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 
 /**
  * An [EvolutionRequirement] for when a certain [MoveTemplate] is expected in the [Pokemon.moveSet].
@@ -20,10 +24,21 @@ import com.cobblemon.mod.common.pokemon.Pokemon
  * @author Licious
  * @since March 21st, 2022
  */
-class MoveSetRequirement : EvolutionRequirement {
-    val move: MoveTemplate = Moves.getByNameOrDummy("tackle")
+class MoveSetRequirement(val move: MoveTemplate) : EvolutionRequirement {
+
     override fun check(pokemon: Pokemon) = pokemon.moveSet.getMoves().any { move -> move.name.equals(this.move.name, true) }
+
+    override val variant: Variant<EvolutionRequirement> = VARIANT
+
     companion object {
-        const val ADAPTER_VARIANT = "has_move"
+
+        val CODEC: Codec<MoveSetRequirement> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                MoveTemplate.CODEC.fieldOf("move").forGetter(MoveSetRequirement::move)
+            ).apply(builder, ::MoveSetRequirement)
+        }
+
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("has_move"), CODEC)
+
     }
 }

@@ -59,3 +59,18 @@ fun StringReader.asIdentifierDefaultingNamespace(namespace: String = Cobblemon.M
         throw SimpleCommandExceptionType(Text.translatable("argument.id.invalid")).createWithContext(this)
     }
 }
+
+
+/**
+ * A utility to make an identifier more human-readable by removing a specific namespace if present otherwise print like normal.
+ * This is useful for things we may want users to see very often by default such as Species or ElementType.
+ *
+ * @param namespace The namespace that is excluded. Default is [Cobblemon.MODID].
+ * @return The resulting string.
+ */
+fun Identifier.asFriendlyString(namespace: String = Cobblemon.MODID): String {
+    if (this.namespace == namespace) {
+        return this.path
+    }
+    return this.toString()
+}

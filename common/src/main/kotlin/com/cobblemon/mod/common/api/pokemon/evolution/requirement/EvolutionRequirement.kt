@@ -49,7 +49,7 @@ interface EvolutionRequirement {
 
     companion object {
 
-        val CODEC: Codec<out EvolutionRequirement> = EvolutionRegistry.REQUIREMENT_CODEC
+        val CODEC: Codec<EvolutionRequirement> = EvolutionRegistry.REQUIREMENT_CODEC
 
     }
 

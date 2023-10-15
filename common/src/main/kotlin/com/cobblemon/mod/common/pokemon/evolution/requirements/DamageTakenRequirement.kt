@@ -8,9 +8,13 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 
 /**
  * An [EvolutionRequirement] which requires a specific [amount] of damage taken in battle without fainting in order to pass.
@@ -21,22 +25,25 @@ import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionP
  * @author Licious
  * @since January 27th, 2022
  */
-class DamageTakenRequirement(amount: Int) : EvolutionRequirement {
-
-    constructor() : this(0)
-
-    /**
-     * The requirement amount of damage.
-     */
-    val amount: Int = amount
+class DamageTakenRequirement(val amount: Int) : EvolutionRequirement {
 
     override fun check(pokemon: Pokemon): Boolean = pokemon.evolutionProxy.current()
         .progress()
         .filterIsInstance<DamageTakenEvolutionProgress>()
         .any { progress -> progress.currentProgress().amount >= this.amount }
 
+    override val variant: Variant<EvolutionRequirement> = VARIANT
+
     companion object {
-        const val ADAPTER_VARIANT = "damage_taken"
+
+        val CODEC: Codec<DamageTakenRequirement> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.INT.fieldOf("amount").forGetter(DamageTakenRequirement::amount)
+            ).apply(builder, ::DamageTakenRequirement)
+        }
+
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("damage_taken"), CODEC)
+
     }
 
 }

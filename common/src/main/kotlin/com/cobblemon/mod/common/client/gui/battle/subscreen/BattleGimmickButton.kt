@@ -105,7 +105,7 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
         init {
             gimmickMoveTemplate?.let {
                 moveTemplate = it
-                rgb = it.elementalType.hue.toRGB()
+                rgb = it.elementalType.clientData.hue.toRGB()
             }
         }
 

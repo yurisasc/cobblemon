@@ -8,19 +8,15 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
-class AttackDefenceRatioRequirement : EvolutionRequirement {
-    companion object {
-        const val ADAPTER_VARIANT = "attack_defence_ratio"
-    }
-    enum class AttackDefenceRatio {
-        ATTACK_HIGHER,
-        DEFENCE_HIGHER,
-        EQUAL
-    }
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.util.StringIdentifiable
 
-    val ratio = AttackDefenceRatio.ATTACK_HIGHER
+class AttackDefenceRatioRequirement(val ratio: AttackDefenceRatio) : EvolutionRequirement {
 
     override fun check(pokemon: Pokemon): Boolean {
         return when (ratio) {
@@ -29,4 +25,27 @@ class AttackDefenceRatioRequirement : EvolutionRequirement {
             AttackDefenceRatio.EQUAL -> pokemon.attack == pokemon.defence
         }
     }
+
+    override val variant: Variant<EvolutionRequirement> = VARIANT
+
+    enum class AttackDefenceRatio : StringIdentifiable {
+        ATTACK_HIGHER,
+        DEFENCE_HIGHER,
+        EQUAL;
+
+        override fun asString(): String = this.name
+    }
+
+    companion object {
+
+        val CODEC: Codec<AttackDefenceRatioRequirement> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                StringIdentifiable.createCodec(AttackDefenceRatio::values).fieldOf("ratio").forGetter(AttackDefenceRatioRequirement::ratio)
+            ).apply(builder, ::AttackDefenceRatioRequirement)
+        }
+
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("attack_defence_ratio"), CODEC)
+
+    }
+
 }

@@ -11,8 +11,14 @@ package com.cobblemon.mod.common.pokemon.evolution.variants
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.evolution.ContextEvolution
+import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 
 /**
  * Represents a [ContextEvolution] with [Pokemon] context.
@@ -32,27 +38,35 @@ open class TradeEvolution(
     override val requirements: MutableSet<EvolutionRequirement>,
     override val learnableMoves: MutableSet<MoveTemplate>
 ) : ContextEvolution<Pokemon, PokemonProperties> {
-    constructor(): this(
-        id = "id",
-        result = PokemonProperties(),
-        requiredContext = PokemonProperties(),
-        optional = true,
-        consumeHeldItem = true,
-        requirements = mutableSetOf(),
-        learnableMoves = mutableSetOf()
-    )
+
+    override val variant: Variant<Evolution> = VARIANT
 
     override fun testContext(pokemon: Pokemon, context: Pokemon) = this.requiredContext.matches(context)
 
     override fun equals(other: Any?) = other is TradeEvolution && other.id.equals(this.id, true)
 
     override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + ADAPTER_VARIANT.hashCode()
+        var result = this.id.hashCode()
+        result = 31 * result + this.variant.identifier.hashCode()
         return result
     }
 
     companion object {
-        const val ADAPTER_VARIANT = "trade"
+
+        val CODEC: Codec<TradeEvolution> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.STRING.fieldOf("id").forGetter(TradeEvolution::id),
+                PokemonProperties.CODEC.fieldOf("result").forGetter(TradeEvolution::result),
+                PokemonProperties.CODEC.fieldOf("requiredContext").forGetter(TradeEvolution::requiredContext),
+                Codec.BOOL.optionalFieldOf("optional", true).forGetter(TradeEvolution::optional),
+                Codec.BOOL.optionalFieldOf("consumeHeldItem", false).forGetter(TradeEvolution::optional),
+                Codec.list(EvolutionRequirement.CODEC).optionalFieldOf("requirements", mutableListOf()).xmap({ it.toMutableSet() }, { it.toMutableList() }).forGetter(TradeEvolution::requirements),
+                Codec.list(MoveTemplate.CODEC).optionalFieldOf("learnableMoves", mutableListOf()).xmap({ it.toMutableSet() }, { it.toMutableList() }).forGetter(TradeEvolution::learnableMoves)
+            ).apply(builder, ::TradeEvolution)
+        }
+
+        internal val VARIANT: Variant<Evolution> = Variant(cobblemonResource("trade"), CODEC)
+
     }
+
 }

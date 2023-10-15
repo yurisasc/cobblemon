@@ -8,10 +8,16 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
+import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.api.spawning.condition.MoonPhase
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.entity.LivingEntity
+import net.minecraft.util.StringIdentifiable
 
 /**
  * An [EntityQueryRequirement] meant to check if the world is currently on the given [moonPhase].
@@ -22,11 +28,7 @@ import net.minecraft.entity.LivingEntity
  * @author Licious
  * @since January 25th, 2023
  */
-class MoonPhaseRequirement(moonPhase: MoonPhase) : EntityQueryRequirement {
-
-    constructor() : this(MoonPhase.FULL_MOON)
-
-    val moonPhase: MoonPhase = moonPhase
+class MoonPhaseRequirement(val moonPhase: MoonPhase) : EntityQueryRequirement {
 
     override fun check(pokemon: Pokemon, queriedEntity: LivingEntity): Boolean {
         return try {
@@ -37,8 +39,18 @@ class MoonPhaseRequirement(moonPhase: MoonPhase) : EntityQueryRequirement {
         }
     }
 
+    override val variant: Variant<EvolutionRequirement> = VARIANT
+
     companion object {
-        const val ADAPTER_VARIANT = "moon_phase"
+
+        val CODEC: Codec<MoonPhaseRequirement> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                StringIdentifiable.createCodec(MoonPhase::values).fieldOf("moonPhase").forGetter(MoonPhaseRequirement::moonPhase)
+            ).apply(builder, ::MoonPhaseRequirement)
+        }
+
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("moon_phase"), CODEC)
+
     }
 
 }

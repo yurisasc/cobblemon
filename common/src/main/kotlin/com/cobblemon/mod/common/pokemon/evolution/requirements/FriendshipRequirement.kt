@@ -8,8 +8,12 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 
 /**
  * An [EvolutionRequirement] for when a certain amount of [Pokemon.friendship] is expected.
@@ -18,11 +22,21 @@ import com.cobblemon.mod.common.pokemon.Pokemon
  * @author Licious
  * @since March 21st, 2022
  */
-class FriendshipRequirement : EvolutionRequirement {
-    val amount = 0
+class FriendshipRequirement(val amount: Int) : EvolutionRequirement {
+
     override fun check(pokemon: Pokemon) = pokemon.friendship >= this.amount
 
+    override val variant: Variant<EvolutionRequirement> = VARIANT
+
     companion object {
-        const val ADAPTER_VARIANT = "friendship"
+
+        val CODEC: Codec<FriendshipRequirement> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.INT.fieldOf("amount").forGetter(FriendshipRequirement::amount)
+            ).apply(builder, ::FriendshipRequirement)
+        }
+
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("friendship"), CODEC)
+
     }
 }

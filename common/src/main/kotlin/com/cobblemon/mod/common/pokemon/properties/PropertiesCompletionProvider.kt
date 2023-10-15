@@ -16,11 +16,12 @@ import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.EVs
 import com.cobblemon.mod.common.api.pokemon.gender.Gender
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.pokemon.IVs
+import com.cobblemon.mod.common.util.asFriendlyString
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.brigadier.suggestion.Suggestions
@@ -138,7 +139,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("ability"), Abilities.all().map { if (it.name.asIdentifierDefaultingNamespace().namespace == Cobblemon.MODID) it.name.asIdentifierDefaultingNamespace().path else it.name })
         this.inject(setOf("dmax"), setOf("0", Cobblemon.config.maxDynamaxLevel.toString()))
         this.inject(setOf("gmax"), setOf("yes", "no"))
-        this.inject(setOf("tera"), ElementalTypes.all().map { it.name })
+        this.inject(setOf("tera"), CobblemonRegistries.ELEMENTAL_TYPE.map { it.id().asFriendlyString() })
         this.inject(setOf("tradeable"), setOf("yes", "no"))
 
         Stats.PERMANENT.forEach{ stat ->

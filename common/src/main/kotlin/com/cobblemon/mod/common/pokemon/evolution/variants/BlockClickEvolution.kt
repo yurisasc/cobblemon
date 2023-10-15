@@ -12,15 +12,16 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.evolution.ContextEvolution
+import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.registry.BlockIdentifierCondition
-import com.cobblemon.mod.common.util.codec.setCodec
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.block.Block
+import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
 /**
@@ -49,9 +50,11 @@ open class BlockClickEvolution(
 
     override fun hashCode(): Int {
         var result = id.hashCode()
-        result = 31 * result + ADAPTER_VARIANT.hashCode()
+        result = 31 * result + VARIANT.identifier.hashCode()
         return result
     }
+
+    override val variant: Variant<Evolution> = VARIANT
 
     data class BlockInteractionContext(
         val block: Block,
@@ -59,19 +62,21 @@ open class BlockClickEvolution(
     )
 
     companion object {
-        const val ADAPTER_VARIANT = "block_click"
 
         val CODEC: Codec<BlockClickEvolution> = RecordCodecBuilder.create { builder ->
             builder.group(
                 Codec.STRING.fieldOf("id").forGetter(BlockClickEvolution::id),
                 PokemonProperties.CODEC.fieldOf("result").forGetter(BlockClickEvolution::result),
-                // ToDo: RegistryLikeCondition
+                RegistryLikeCondition.createCodec { Registries.BLOCK }.fieldOf("requiredContext").forGetter(BlockClickEvolution::requiredContext),
                 Codec.BOOL.optionalFieldOf("optional", true).forGetter(BlockClickEvolution::optional),
                 Codec.BOOL.optionalFieldOf("consumeHeldItem", false).forGetter(BlockClickEvolution::optional),
-                setCodec(EvolutionRequirement.CODEC).optionalFieldOf("requirements", hashSetOf()).forGetter(BlockClickEvolution::requirements),
-                setCodec(MoveTemplate.CODEC).optionalFieldOf("learnableMoves", hashSetOf()).forGetter(BlockClickEvolution::learnableMoves)
+                Codec.list(EvolutionRequirement.CODEC).optionalFieldOf("requirements", mutableListOf()).xmap({ it.toMutableSet() }, { it.toMutableList() }).forGetter(BlockClickEvolution::requirements),
+                Codec.list(MoveTemplate.CODEC).optionalFieldOf("learnableMoves", mutableListOf()).xmap({ it.toMutableSet() }, { it.toMutableList() }).forGetter(BlockClickEvolution::learnableMoves)
             ).apply(builder, ::BlockClickEvolution)
         }
 
+        internal val VARIANT: Variant<Evolution> = Variant(cobblemonResource("block_click"), CODEC)
+
     }
+
 }

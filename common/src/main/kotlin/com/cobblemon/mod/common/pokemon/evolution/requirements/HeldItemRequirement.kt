@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
-import com.cobblemon.mod.common.registry.ItemIdentifierCondition
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.registry.Registries
-import net.minecraft.util.Identifier
 
 /**
  * An [EvolutionRequirement] for a [Pokemon.heldItem].
@@ -24,11 +26,19 @@ import net.minecraft.util.Identifier
  */
 class HeldItemRequirement(val itemCondition: NbtItemPredicate) : EvolutionRequirement {
 
-    constructor() : this(NbtItemPredicate(ItemIdentifierCondition(Identifier("air"))))
-
     override fun check(pokemon: Pokemon): Boolean = this.itemCondition.item.fits(pokemon.heldItemNoCopy().item, Registries.ITEM) && this.itemCondition.nbt.test(pokemon.heldItemNoCopy())
 
+    override val variant: Variant<EvolutionRequirement> = VARIANT
+
     companion object {
-        const val ADAPTER_VARIANT = "held_item"
+
+        val CODEC: Codec<HeldItemRequirement> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                NbtItemPredicate.CODEC.fieldOf("itemCondition").forGetter(HeldItemRequirement::itemCondition)
+            ).apply(builder, ::HeldItemRequirement)
+        }
+
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("held_item"), CODEC)
+
     }
 }

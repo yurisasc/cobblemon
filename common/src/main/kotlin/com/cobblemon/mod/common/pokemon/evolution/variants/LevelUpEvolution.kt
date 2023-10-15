@@ -10,9 +10,14 @@ package com.cobblemon.mod.common.pokemon.evolution.variants
 
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
 import com.cobblemon.mod.common.api.pokemon.evolution.PassiveEvolution
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 
 /**
  * Represents a [PassiveEvolution].
@@ -31,27 +36,32 @@ open class LevelUpEvolution(
     override val learnableMoves: MutableSet<MoveTemplate>
 ) : PassiveEvolution {
 
-    /* Needed for old Gson versions that MC ships with */
-    constructor(): this(
-        id = "id",
-        result = PokemonProperties(),
-        optional = true,
-        consumeHeldItem = true,
-        requirements = mutableSetOf(),
-        learnableMoves = mutableSetOf()
-    )
+    override val variant: Variant<Evolution> = MAIN_VARIANT
 
     override fun equals(other: Any?) = other is LevelUpEvolution && other.id.equals(this.id, true)
 
     override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + ADAPTER_VARIANT.hashCode()
+        var result = this.id.hashCode()
+        result = 31 * result + this.variant.identifier.hashCode()
         return result
     }
 
     companion object {
-        const val ADAPTER_VARIANT = "level_up"
+
+        val CODEC: Codec<LevelUpEvolution> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.STRING.fieldOf("id").forGetter(LevelUpEvolution::id),
+                PokemonProperties.CODEC.fieldOf("result").forGetter(LevelUpEvolution::result),
+                Codec.BOOL.optionalFieldOf("optional", true).forGetter(LevelUpEvolution::optional),
+                Codec.BOOL.optionalFieldOf("consumeHeldItem", false).forGetter(LevelUpEvolution::optional),
+                Codec.list(EvolutionRequirement.CODEC).optionalFieldOf("requirements", mutableListOf()).xmap({ it.toMutableSet() }, { it.toMutableList() }).forGetter(LevelUpEvolution::requirements),
+                Codec.list(MoveTemplate.CODEC).optionalFieldOf("learnableMoves", mutableListOf()).xmap({ it.toMutableSet() }, { it.toMutableList() }).forGetter(LevelUpEvolution::learnableMoves)
+            ).apply(builder, ::LevelUpEvolution)
+        }
+
+        internal val MAIN_VARIANT: Variant<Evolution> = Variant(cobblemonResource("level_up"), CODEC)
         // Just for user convenience sake as we may have passive evolutions not backed by level ups
-        const val ALTERNATIVE_ADAPTER_VARIANT = "passive"
+        internal val ALTERNATIVE_VARIANT: Variant<Evolution> = Variant(cobblemonResource("passive"), CODEC)
+
     }
 }

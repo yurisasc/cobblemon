@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalcula
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculators
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffectRegistry
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.EvolutionRegistry
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceCalculator
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.experience.StandardExperienceCalculator
@@ -192,6 +193,8 @@ object Cobblemon {
         CobblemonGameRules // Init fields and register
 
         ShoulderEffectRegistry.register()
+
+        EvolutionRegistry.init()
 
         DATA_SYNCHRONIZED.subscribe {
             storage.onPlayerDataSync(it)

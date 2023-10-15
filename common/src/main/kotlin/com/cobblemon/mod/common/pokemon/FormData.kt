@@ -206,7 +206,6 @@ class FormData(
         Cobblemon.statProvider.provide(this)
         // These properties are lazy, these need all species to be reloaded but SpeciesAdditions is what will eventually trigger this after all species have been loaded
         this.preEvolution?.species
-        this.preEvolution?.form
         this.evolutions.size
         return this
     }

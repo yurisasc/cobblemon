@@ -9,16 +9,11 @@
 package com.cobblemon.mod.common.berry
 
 import com.cobblemon.mod.common.api.berry.GrowthFactor
-import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.block.BerryBlock
-import com.cobblemon.mod.common.registry.BiomeIdentifierCondition
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.BlockState
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldView
-import net.minecraft.world.biome.Biome
 
 class PreferredBiomeGrowthFactor(
     val bonusYield: IntRange

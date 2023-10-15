@@ -37,13 +37,14 @@ import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPack
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.SpeciesAdditions
-import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonRequirementAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.NbtItemPredicateAdapter
 import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.adapters.*
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.codec.toTypeAdapter
+import com.cobblemon.mod.common.util.server
 import com.google.common.collect.HashBasedTable
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -54,6 +55,7 @@ import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.item.Item
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -76,7 +78,6 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(Learnset::class.java, LearnsetAdapter)
         .registerTypeAdapter(Box::class.java, BoxAdapter)
         .registerTypeAdapter(AbilityPool::class.java, AbilityPoolAdapter)
-        .registerTypeAdapter(EvolutionRequirement::class.java, CobblemonRequirementAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(Set::class.java, Evolution::class.java).type, LazySetAdapter(Evolution::class))
         .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
@@ -86,9 +87,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(SleepDepth::class.java, SleepDepth.adapter)
         .registerTypeAdapter(DropEntry::class.java, DropEntryAdapter)
         .registerTypeAdapter(NbtCompound::class.java, NbtCompoundAdapter)
-        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
-        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
-        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Item::class.java).type, ItemLikeConditionAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, RegistryLikeCondition.createCodec { server()!!.registryManager.get(RegistryKeys.BIOME) }.toTypeAdapter())
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, RegistryLikeCondition.createCodec { Registries.BLOCK }.toTypeAdapter())
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Item::class.java).type, RegistryLikeCondition.createCodec { Registries.ITEM }.toTypeAdapter())
         .registerTypeAdapter(EggGroup::class.java, EggGroupAdapter)
         .registerTypeAdapter(StatusEffect::class.java, RegistryElementAdapter<StatusEffect> { Registries.STATUS_EFFECT })
         .registerTypeAdapter(NbtItemPredicate::class.java, NbtItemPredicateAdapter)

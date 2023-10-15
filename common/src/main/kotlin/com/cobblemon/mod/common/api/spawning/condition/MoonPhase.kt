@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.spawning.condition
 
+import net.minecraft.util.StringIdentifiable
 import net.minecraft.world.World
 
 /**
@@ -17,7 +18,7 @@ import net.minecraft.world.World
  * @author Licious
  * @since January 25th, 2023
  */
-enum class MoonPhase {
+enum class MoonPhase : StringIdentifiable {
 
     FULL_MOON,
     WANING_GIBBOUS,
@@ -27,6 +28,8 @@ enum class MoonPhase {
     WAXING_CRESCENT,
     FIRST_QUARTER,
     WAXING_GIBBOUS;
+
+    override fun asString(): String = this.name
 
     companion object {
         private val VALUES = values()

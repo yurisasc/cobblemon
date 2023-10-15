@@ -8,9 +8,13 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 
 /**
  * An [EvolutionRequirement] that requires a specific [amount] of [PokemonEntity.blocksTraveled] to pass.
@@ -20,19 +24,25 @@ import com.cobblemon.mod.common.pokemon.Pokemon
  * @author Licious
  * @since January 28th, 2023
  */
-class BlocksTraveledRequirement(amount: Int) : EvolutionRequirement {
-
-    constructor() : this(0)
-
-    val amount: Int = amount
+class BlocksTraveledRequirement(val amount: Int) : EvolutionRequirement {
 
     override fun check(pokemon: Pokemon): Boolean {
         val pokemonEntity = pokemon.entity ?: return false
         return pokemonEntity.blocksTraveled >= this.amount
     }
 
+    override val variant: Variant<EvolutionRequirement> = VARIANT
+
     companion object {
-        const val ADAPTER_VARIANT = "blocks_traveled"
+
+        val CODEC: Codec<BlocksTraveledRequirement> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.INT.fieldOf("amount").forGetter(BlocksTraveledRequirement::amount)
+            ).apply(builder, ::BlocksTraveledRequirement)
+        }
+
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("blocks_traveled"), CODEC)
+
     }
 
 }

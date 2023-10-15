@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.api.spawning
 
 import com.cobblemon.mod.common.api.spawning.TimeRange.Companion.timeRanges
 import com.cobblemon.mod.common.api.spawning.condition.SpawningCondition
+import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
 
 /**
  * A range of time ticks for a world mainly to be used in [SpawningCondition]s. A time range
@@ -41,6 +43,12 @@ class TimeRange : IntRanges {
             "morning" to TimeRange(0..4999),
             "afternoon" to TimeRange(7000..12039)
         )
+
+        val CODEC: Codec<TimeRange> = Codec.STRING.flatXmap(
+            { string -> timeRanges[string]?.let { DataResult.success(it) } ?: DataResult.error { "Can't find a time range with ID $string" } },
+            { timeRange -> timeRanges.entries.firstOrNull { (_, range) -> range == timeRange }?.let { DataResult.success(it.key) } ?: DataResult.error { "Couldn't resolve a time range ID for $timeRange" } }
+        )
+
     }
 
     constructor() : super()

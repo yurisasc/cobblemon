@@ -8,24 +8,35 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
+import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.entity.LivingEntity
-class WeatherRequirement : EntityQueryRequirement {
-    companion object {
-        const val ADAPTER_VARIANT = "weather"
-    }
-    val isRaining: Boolean? = null
-    val isThundering: Boolean? = null
+
+class WeatherRequirement(val isRaining: Boolean, val isThundering: Boolean) : EntityQueryRequirement {
 
     override fun check(pokemon: Pokemon, queriedEntity: LivingEntity): Boolean {
         val world = queriedEntity.world
-        return when {
-            isRaining == true && !world.isRaining -> false
-            isRaining == false && world.isRaining -> false
-            isThundering == true && !world.isThundering -> false
-            isThundering == false && world.isThundering -> false
-            else -> true
-        }
+        return this.isRaining == world.isRaining && this.isThundering == world.isThundering
     }
+
+    override val variant: Variant<EvolutionRequirement> = VARIANT
+
+    companion object {
+
+        val CODEC: Codec<WeatherRequirement> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.BOOL.fieldOf("isRaining").forGetter(WeatherRequirement::isRaining),
+                Codec.BOOL.fieldOf("isThundering").forGetter(WeatherRequirement::isThundering)
+            ).apply(builder, ::WeatherRequirement)
+        }
+
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("weather"), CODEC)
+
+    }
+
 }

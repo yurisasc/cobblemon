@@ -17,12 +17,15 @@ import com.cobblemon.mod.common.api.spawning.context.RegisteredSpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.PossibleHeldItem
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.util.adapters.*
+import com.cobblemon.mod.common.util.codec.toTypeAdapter
+import com.cobblemon.mod.common.util.server
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.mojang.datafixers.util.Either
 import net.minecraft.block.Block
 import net.minecraft.fluid.Fluid
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
@@ -41,9 +44,9 @@ object SpawnLoader {
         .setPrettyPrinting()
         .disableHtmlEscaping()
         .setLenient()
-        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
-        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
-        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Fluid::class.java).type, FluidLikeConditionAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, RegistryLikeCondition.createCodec { server()!!.registryManager.get(RegistryKeys.BIOME) }.toTypeAdapter())
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, RegistryLikeCondition.createCodec { Registries.BLOCK }.toTypeAdapter())
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Fluid::class.java).type, RegistryLikeCondition.createCodec { Registries.FLUID }.toTypeAdapter())
         .registerTypeAdapter(
             TypeToken.getParameterized(
                 Either::class.java,

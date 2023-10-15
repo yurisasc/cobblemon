@@ -8,9 +8,13 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
+import com.cobblemon.mod.common.api.pokemon.evolution.adapters.Variant
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.jvm.optionals.getOrNull
 
 /**
@@ -21,16 +25,8 @@ import kotlin.jvm.optionals.getOrNull
  * @author Licious
  * @since October 2nd, 2022
  */
-class BattleCriticalHitsRequirement(amount: Int) : EvolutionRequirement {
+class BattleCriticalHitsRequirement(val amount: Int) : EvolutionRequirement {
 
-    constructor() : this(0)
-
-    /**
-     * The amount of critical hits required.
-     */
-    val amount = amount
-
-    @OptIn(ExperimentalStdlibApi::class)
     override fun check(pokemon: Pokemon): Boolean {
         val pokemonEntity = pokemon.entity ?: return false
         val battleId = pokemonEntity.battleId.get().getOrNull() ?: return false
@@ -45,8 +41,18 @@ class BattleCriticalHitsRequirement(amount: Int) : EvolutionRequirement {
         return false
     }
 
+    override val variant: Variant<EvolutionRequirement> = VARIANT
+
     companion object {
-        const val ADAPTER_VARIANT = "battle_critical_hits"
+
+        val CODEC: Codec<BattleCriticalHitsRequirement> = RecordCodecBuilder.create { builder ->
+            builder.group(
+                Codec.INT.fieldOf("amount").forGetter(BattleCriticalHitsRequirement::amount)
+            ).apply(builder, ::BattleCriticalHitsRequirement)
+        }
+
+        internal val VARIANT: Variant<EvolutionRequirement> = Variant(cobblemonResource("battle_critical_hits"), CODEC)
+
     }
 
 }

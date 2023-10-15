@@ -1,21 +1,33 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.util.codec
 
 import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.api.types.ElementalType
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSyntaxException
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.predicate.NbtPredicate
 import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
 import net.minecraft.util.Identifier
-import net.minecraft.util.Util
-import java.util.Optional
-import kotlin.math.min
+import net.minecraft.util.math.Box
+import org.jetbrains.annotations.ApiStatus
+import java.util.*
 
 /**
- * Various useful [Codec]s.
+ * Various useful [Codec] used internally by Cobblemon.
+ * These are subject to removal as their need disappears as such it is recommended to avoid using them yourself, but I'm a comment not a cop.
  */
+@ApiStatus.Internal
 object ExtraCodecs {
 
     /**
@@ -29,6 +41,34 @@ object ExtraCodecs {
             Codec.BOOL.fieldOf("fixed").forGetter(EntityDimensions::fixed)
         ).apply(builder, ::EntityDimensions)
     }
+
+    /**
+     * A [Codec] for [NbtPredicate].
+     * If an empty string is fed it will result in a [NbtPredicate.ANY].
+     * Likewise, a [NbtPredicate.ANY] will result in an empty string.
+     */
+    @JvmField
+    val NBT_PREDICATE: Codec<NbtPredicate> = Codec.STRING.flatXmap(
+        { string ->
+            if (string.isEmpty()) {
+                return@flatXmap DataResult.success(NbtPredicate.ANY)
+            }
+            return@flatXmap try {
+                DataResult.success(NbtPredicate.fromJson(JsonPrimitive(string)))
+            } catch (e: JsonSyntaxException) {
+                DataResult.error { e.message }
+            }
+        },
+        { predicate ->
+            val json = predicate.toJson()
+            return@flatXmap when {
+                predicate == NbtPredicate.ANY -> DataResult.success("")
+                json.isJsonNull -> DataResult.error { "Predicate was null" }
+                // It's always a NBT in string form.
+                else -> DataResult.success(json.asString)
+            }
+        }
+    )
 
     /**
      * A [Codec] for [ElementalType].
@@ -45,6 +85,21 @@ object ExtraCodecs {
                 list
             }
         ).stable()
+
+
+    /**
+     * A [Codec] for [Box].
+     */
+    val BOX_CODEC: Codec<Box> = RecordCodecBuilder.create { builder ->
+        builder.group(
+            Codec.DOUBLE.fieldOf("minX").forGetter(Box::minX),
+            Codec.DOUBLE.fieldOf("minY").forGetter(Box::minY),
+            Codec.DOUBLE.fieldOf("minZ").forGetter(Box::minZ),
+            Codec.DOUBLE.fieldOf("maxX").forGetter(Box::maxX),
+            Codec.DOUBLE.fieldOf("maxY").forGetter(Box::maxY),
+            Codec.DOUBLE.fieldOf("maxZ").forGetter(Box::maxZ),
+        ).apply(builder, ::Box)
+    }
 
     /**
      * Creates a codec that fetches elements from a [Registry].

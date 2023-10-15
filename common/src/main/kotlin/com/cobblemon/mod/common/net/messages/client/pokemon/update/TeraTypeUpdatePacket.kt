@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
+import com.cobblemon.mod.common.api.registry.CobblemonRegistries
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
@@ -24,7 +24,7 @@ class TeraTypeUpdatePacket(pokemon: () -> Pokemon, value: ElementalType) : Singl
     override val id = ID
 
     override fun encodeValue(buffer: PacketByteBuf) {
-        buffer.writeString(value.name)
+        buffer.writeRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE, value)
     }
 
     override fun set(pokemon: Pokemon, value: ElementalType) {
@@ -33,6 +33,6 @@ class TeraTypeUpdatePacket(pokemon: () -> Pokemon, value: ElementalType) : Singl
 
     companion object {
         val ID = cobblemonResource("tera_type_update")
-        fun decode(buffer: PacketByteBuf) = TeraTypeUpdatePacket(decodePokemon(buffer), ElementalTypes.getOrException(buffer.readString()))
+        fun decode(buffer: PacketByteBuf) = TeraTypeUpdatePacket(decodePokemon(buffer), buffer.readRegistryValue(CobblemonRegistries.ELEMENTAL_TYPE)!!)
     }
 }
