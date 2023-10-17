@@ -58,7 +58,7 @@ object CobblemonCaptureCalculator: CaptureCalculator, CriticalCaptureProvider, P
         }
         // We don't have dark grass so we're just gonna pretend everything is that. Scratch that, without the pokedex it has issues.
         val darkGrass = 1F //if (thrower is ServerPlayerEntity) this.caughtMultiplierFor(thrower).roundToInt() else 1
-        val inBattleModifier = if (target.battleId.get().isPresent) 1F else 0.5F
+        val inBattleModifier = if (target.battleId != null) 1F else 0.5F
         val catchRate = getCatchRate(thrower, pokeBallEntity, target, pokemon.form.catchRate.toFloat())
         val validModifier = pokeBall.catchRateModifier.isValid(thrower, pokemon)
         val bonusStatus = when (pokemon.status?.status) {
@@ -100,7 +100,7 @@ object CobblemonCaptureCalculator: CaptureCalculator, CriticalCaptureProvider, P
 
     private fun findHighestThrowerLevel(player: ServerPlayerEntity, pokemon: Pokemon): Int? {
         val entity = pokemon.entity ?: return null
-        val battleId = entity.battleId.get().orElse(null) ?: return null
+        val battleId = entity.battleId ?: return null
         val battle = BattleRegistry.getBattle(battleId) ?: return null
         val actor = battle.actors.firstOrNull { actor ->
             actor is PlayerBattleActor && player.uuid == actor.uuid && actor.activePokemon.any { active ->

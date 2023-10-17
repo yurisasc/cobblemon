@@ -50,7 +50,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
                 transformedParts = arrayOf(
                         wool.asTransformed().withVisibility(visibility = true),
                         neckWool.asTransformed().withVisibility(visibility = true)
@@ -63,7 +63,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
                 transformedParts = arrayOf(
                         wool.asTransformed().withVisibility(visibility = true),
                         neckWool.asTransformed().withVisibility(visibility = true)
@@ -79,7 +79,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
                 transformedParts = arrayOf(
                         wool.asTransformed().withVisibility(visibility = true),
                         neckWool.asTransformed().withVisibility(visibility = true)
@@ -94,7 +94,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 poseName = "shearedsleep",
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
                 transformedParts = arrayOf(
                         wool.asTransformed().withVisibility(visibility = false),
                         neckWool.asTransformed().withVisibility(visibility = false)
@@ -109,7 +109,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
                 transformedParts = arrayOf(
                         wool.asTransformed().withVisibility(visibility = false),
                         neckWool.asTransformed().withVisibility(visibility = false)
@@ -124,7 +124,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
                 transformedParts = arrayOf(
                         wool.asTransformed().withVisibility(visibility = false),
                         neckWool.asTransformed().withVisibility(visibility = false)

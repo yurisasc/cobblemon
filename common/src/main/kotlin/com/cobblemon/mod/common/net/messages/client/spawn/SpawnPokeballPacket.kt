@@ -32,7 +32,7 @@ class SpawnPokeballPacket(
 
     override fun applyData(entity: EmptyPokeBallEntity) {
         entity.pokeBall = this.pokeBall
-        entity.aspects.set(this.aspects)
+        entity.aspects = this.aspects
     }
 
     override fun checkType(entity: Entity): Boolean = entity is EmptyPokeBallEntity
@@ -47,5 +47,4 @@ class SpawnPokeballPacket(
             return SpawnPokeballPacket(pokeBall, aspects, vanillaPacket)
         }
     }
-
 }

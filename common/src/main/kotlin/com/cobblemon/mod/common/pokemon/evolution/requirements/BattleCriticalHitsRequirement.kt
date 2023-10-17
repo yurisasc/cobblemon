@@ -33,7 +33,7 @@ class BattleCriticalHitsRequirement(amount: Int) : EvolutionRequirement {
     @OptIn(ExperimentalStdlibApi::class)
     override fun check(pokemon: Pokemon): Boolean {
         val pokemonEntity = pokemon.entity ?: return false
-        val battleId = pokemonEntity.battleId.get().getOrNull() ?: return false
+        val battleId = pokemonEntity.battleId ?: return false
         val battle = BattleRegistry.getBattle(battleId) ?: return false
         battle.actors.forEach { actor ->
             actor.pokemonList.forEach { battlePokemon ->
