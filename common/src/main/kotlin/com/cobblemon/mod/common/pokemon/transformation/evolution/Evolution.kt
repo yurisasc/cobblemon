@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.api.pokemon.transformation.evolution.EvolutionLi
 import com.cobblemon.mod.common.api.pokemon.transformation.requirement.TransformationRequirement
 import com.cobblemon.mod.common.api.pokemon.transformation.trigger.PassiveTrigger
 import com.cobblemon.mod.common.api.pokemon.transformation.trigger.TransformationTrigger
+import com.cobblemon.mod.common.api.pokemon.transformation.trigger.TriggerContext
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -48,27 +49,29 @@ class Evolution(
     val learnableMoves: Set<MoveTemplate> = setOf()
 ) : EvolutionLike, Transformation {
 
-    override fun test(pokemon: Pokemon): Boolean {
-        val result = super.test(pokemon)
+    override fun test(pokemon: Pokemon, context: TriggerContext?): Boolean {
+        val result = super.test(pokemon, context)
         val event = EvolutionTestedEvent(pokemon, this, result, result)
         CobblemonEvents.EVOLUTION_TESTED.post(event)
-        return super.test(pokemon)
+        return event.result
     }
 
     /**
      * Starts this evolution or queues it if [optional] is true.
      *
      * @param pokemon The [Pokemon] being evolved.
+     * @param context The optional [TriggerContext] needed to evolve.
+     * @return Whether the [Evolution] was successful.
      */
-    override fun start(pokemon: Pokemon): Boolean {
-        if (!this.test(pokemon)) return false;
-        return if (this.optional) {
-            pokemon.evolutionProxy.server().add(this)
+    override fun start(pokemon: Pokemon, context: TriggerContext?): Boolean {
+        if (this.test(pokemon, context)) {
+            return if (this.optional) pokemon.evolutionProxy.server().add(this)
+            else {
+                this.forceStart(pokemon)
+                true
+            }
         }
-        else {
-            this.forceStart(pokemon)
-            true
-        }
+        return false
     }
 
     /**
@@ -130,7 +133,7 @@ class Evolution(
             pokemon.getOwnerPlayer()?.sendMessage(lang("experience.learned_move", pokemon.getDisplayName(), move.displayName))
         }
         // we want to instantly tick for example you might only evolve your Bulbasaur at level 34 so Venusaur should be immediately available
-        pokemon.transformationTriggers<PassiveTrigger>().forEach { (_, transformation) -> transformation.start(pokemon) }
+        pokemon.triggerTransformations(PassiveTrigger::class.java)
         pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
         CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
     }
