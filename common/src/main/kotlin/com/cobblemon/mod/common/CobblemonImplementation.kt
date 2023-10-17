@@ -15,7 +15,9 @@ import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.mojang.brigadier.arguments.ArgumentType
 import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criterion
+import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.item.ItemConvertible
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
@@ -169,6 +171,15 @@ interface CobblemonImplementation {
      * @param manager The [ResourceManager] to reload from.
      */
     fun <T> reloadJsonRegistry(registry: JsonDataRegistry<T>, manager: ResourceManager): HashMap<Identifier, T>
+
+    /**
+     * Registers an item to the [ComposterBlock].
+     *
+     * @param item The [ItemConvertible] being registered.
+     * @param chance The chance % of increasing the composter level, 0 to 1 expected.
+     */
+    fun registerCompostable(item: ItemConvertible, chance: Float)
+
 }
 
 enum class ModAPI {

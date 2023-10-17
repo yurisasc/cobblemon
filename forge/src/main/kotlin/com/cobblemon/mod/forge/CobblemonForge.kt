@@ -32,16 +32,12 @@ import java.util.UUID
 import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
+import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemGroups
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.item.PotionItem
+import net.minecraft.item.*
 import net.minecraft.potion.PotionUtil
 import net.minecraft.potion.Potions
-import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -91,6 +87,7 @@ class CobblemonForge : CobblemonImplementation {
 
     private val commandArgumentTypes = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
     private val reloadableResources = arrayListOf<ResourceReloader>()
+    private val queuedWork = arrayListOf<() -> Unit>()
 
     override val networkManager: NetworkManager = CobblemonForgeNetworkManager
 
@@ -129,6 +126,7 @@ class CobblemonForge : CobblemonImplementation {
         playerEntity.didSleep()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun serverInit(event: FMLDedicatedServerSetupEvent) {
     }
 
@@ -136,6 +134,9 @@ class CobblemonForge : CobblemonImplementation {
         Cobblemon.LOGGER.info("Initializing...")
         this.networkManager.registerClientBound()
         this.networkManager.registerServerBound()
+        event.enqueueWork {
+            this.queuedWork.forEach { it.invoke() }
+        }
         Cobblemon.initialize()
     }
 
@@ -341,6 +342,12 @@ class CobblemonForge : CobblemonImplementation {
             }
         }
         return data
+    }
+
+    override fun registerCompostable(item: ItemConvertible, chance: Float) {
+        this.queuedWork += {
+            ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(item, chance)
+        }
     }
 
     private fun onVillagerTradesRegistry(e: VillagerTradesEvent) {
