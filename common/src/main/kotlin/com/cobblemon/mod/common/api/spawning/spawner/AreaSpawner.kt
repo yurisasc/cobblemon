@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
 import com.cobblemon.mod.common.api.spawning.mixins.CachedOnlyChunkAccessor
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBoxLoaded
 import com.cobblemon.mod.common.util.squeezeWithinBounds
 import com.cobblemon.mod.common.util.toVec3f
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -31,8 +32,6 @@ import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.ChunkStatus
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules.DO_POKEMON_SPAWNING
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.math.ChunkPos
 
 /**
  * A type of [TickingSpawner] that operates within some area. When this spawner type
@@ -61,22 +60,6 @@ abstract class AreaSpawner(
     var resolver: AreaContextResolver = Cobblemon.areaContextResolver
     var contextCalculators: List<AreaSpawningContextCalculator<*>> = prioritizedAreaCalculators
 
-    fun isBoxLoaded(box: Box, world: ServerWorld): Boolean {
-        val startChunkX = ChunkSectionPos.getSectionCoord(box.minX)
-        val startChunkZ = ChunkSectionPos.getSectionCoord(box.minZ)
-        val endChunkX = ChunkSectionPos.getSectionCoord(box.maxX)
-        val endChunkZ = ChunkSectionPos.getSectionCoord(box.maxZ)
-
-        for (chunkX in startChunkX..endChunkX) {
-            for (chunkZ in startChunkZ..endChunkZ) {
-                if (!world.isChunkLoaded(ChunkPos.toLong(chunkX, chunkZ))) {
-                    return false
-                }
-            }
-        }
-
-        return true
-    }
 
     override fun run(cause: SpawnCause): Pair<SpawningContext, SpawnDetail>? {
         val area = getArea(cause)
@@ -87,7 +70,7 @@ abstract class AreaSpawner(
         if (constrainedArea != null) {
 
             val areaBox = Box.of(Vec3d(constrainedArea.getCenter().toVec3f()), CHUNK_REACH * 16.0 * 2, 1000.0, CHUNK_REACH * 16.0 * 2)
-            if (!isBoxLoaded(areaBox, constrainedArea.world)) {
+            if (!constrainedArea.world.isBoxLoaded(areaBox)) {
                 return null
             }
 
