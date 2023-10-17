@@ -36,7 +36,8 @@ object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> 
             val trace = player.traceBlockCollision(maxDistance = 15F)
             if (trace != null && !player.world.getBlockState(trace.blockPos.up()).isSolid) {
                 val position = Vec3d(trace.location.x, trace.blockPos.up().toVec3d().y, trace.location.z)
-                    pokemon.sendOutWithAnimation(player, player.serverWorld, position)
+                pokemon.getOwnerPlayer()?.swingHand(pokemon.getOwnerPlayer()?.activeHand ?: return)
+                pokemon.sendOutWithAnimation(player, player.serverWorld, position)
             }
         } else {
             val entity = state.entity
