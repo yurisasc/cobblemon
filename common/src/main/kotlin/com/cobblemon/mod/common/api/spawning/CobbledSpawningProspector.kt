@@ -80,7 +80,7 @@ object CobblemonSpawningProspector : SpawningProspector {
         for (x in area.baseX until area.baseX + area.length) {
             for (z in area.baseZ until area.baseZ + area.width) {
                 val query = chunks.computeIfAbsent(Pair(getSectionCoord(x), getSectionCoord(z))) {
-                    world.getChunk(it.first, it.second, ChunkStatus.FULL)
+                    world.getChunk(it.first, it.second, ChunkStatus.FULL, false)
                 } ?: continue
 
                 var canSeeSky = world.isSkyVisibleAllowingSea(pos.set(x, yRange.first, z))
