@@ -14,11 +14,7 @@ import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
-import com.cobblemon.mod.common.platform.events.ChangeDimensionEvent
-import com.cobblemon.mod.common.platform.events.PlatformEvents
-import com.cobblemon.mod.common.platform.events.ServerEvent
-import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
-import com.cobblemon.mod.common.platform.events.ServerTickEvent
+import com.cobblemon.mod.common.platform.events.*
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.world.CobblemonStructures
@@ -30,9 +26,6 @@ import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProc
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import com.mojang.brigadier.arguments.ArgumentType
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
-import kotlin.reflect.KClass
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
@@ -52,6 +45,7 @@ import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.`object`.builder.v1.trade.TradeOfferHelper
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -60,6 +54,7 @@ import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.item.ItemConvertible
 import net.minecraft.recipe.BrewingRecipeRegistry
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -78,7 +73,10 @@ import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
 import java.io.File
+import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutionException
+import java.util.concurrent.Executor
+import kotlin.reflect.KClass
 
 object CobblemonFabric : CobblemonImplementation {
     override val modAPI = ModAPI.FABRIC
@@ -324,6 +322,10 @@ object CobblemonFabric : CobblemonImplementation {
             }
         }
         return data
+    }
+
+    override fun registerCompostable(item: ItemConvertible, chance: Float) {
+        CompostingChanceRegistry.INSTANCE.add(item, chance)
     }
 
     private class CobblemonReloadListener(private val identifier: Identifier, private val reloader: ResourceReloader, private val dependencies: Collection<Identifier>) : IdentifiableResourceReloadListener {
