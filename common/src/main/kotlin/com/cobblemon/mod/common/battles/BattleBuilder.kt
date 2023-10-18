@@ -120,7 +120,7 @@ object BattleBuilder {
             errors.participantErrors[playerActor] += BattleStartError.alreadyInBattle(playerActor)
         }
 
-        if (pokemonEntity.battleId.get().isPresent) {
+        if (pokemonEntity.battleId != null) {
             errors.participantErrors[wildActor] += BattleStartError.alreadyInBattle(wildActor)
         }
 
@@ -134,7 +134,7 @@ object BattleBuilder {
                         side2 = BattleSide(wildActor)
                 )
                 if (!cloneParties) {
-                    pokemonEntity.battleId.set(Optional.of(battle.battleId))
+                    pokemonEntity.battleId = battle.battleId
                 }
                 return SuccessfulBattleStart(battle)
             }

@@ -23,6 +23,7 @@ import net.minecraft.client.MinecraftClient
 import java.lang.Float.min
 import kotlin.math.abs
 import net.minecraft.entity.Entity
+import net.minecraft.entity.data.TrackedData
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Hand
@@ -66,90 +67,67 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
 
     private var cryAnimation: StatefulAnimation<PokemonEntity, *>? = null
 
+    override fun onTrackedDataSet(data: TrackedData<*>) {
+        super.onTrackedDataSet(data)
+        if (this::currentEntity.isInitialized) {
+            if (data == PokemonEntity.SPECIES) {
+                val identifier = Identifier(currentEntity.dataTracker.get(PokemonEntity.SPECIES))
+                currentPose = null
+                currentEntity.pokemon.species = PokemonSpecies.getByIdentifier(identifier)!! // TODO exception handling
+            } else if (data == PokemonEntity.DYING_EFFECTS_STARTED) {
+                val isDying = currentEntity.dataTracker.get(PokemonEntity.DYING_EFFECTS_STARTED)
+                if (isDying) {
+                    val model = (currentModel ?: return) as PokemonPoseableModel
+                    val animation = try {
+                        model.getFaintAnimation(currentEntity, this)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        null
+                    } ?: return
+                    statefulAnimations.add(animation)
+                }
+            } else if (data == PokemonEntity.BEAM_MODE) {
+                val beamMode = currentEntity.beamMode
+                when (beamMode) {
+                    0 -> { /* Do nothing */ }
+                    1 -> {
+                        // Scaling up out of pokeball
+                        entityScaleModifier = 0F
+                        beamStartTime = System.currentTimeMillis()
+                        currentEntity.isInvisible = true
+                        after(seconds = BEAM_EXTEND_TIME) {
+                            lerp(BEAM_SHRINK_TIME) { entityScaleModifier = it }
+                            currentEntity.isInvisible = false
+                        }
+                    }
+                    else -> {
+                        // Scaling down into pokeball
+                        entityScaleModifier = 1F
+                        beamStartTime = System.currentTimeMillis()
+                        after(seconds = BEAM_EXTEND_TIME) {
+                            lerp(BEAM_SHRINK_TIME) {
+                                entityScaleModifier = (1 - it)
+                            }
+                        }
+                    }
+                }
+            } else if (data == PokemonEntity.LABEL_LEVEL) {
+                currentEntity.dataTracker.get(PokemonEntity.LABEL_LEVEL)
+                    .takeIf { it > 0 }
+                    ?.let { currentEntity.pokemon.level = it }
+            } else if (data == PokemonEntity.PHASING_TARGET_ID) {
+                val phasingTargetId = currentEntity.dataTracker.get(PokemonEntity.PHASING_TARGET_ID)
+                if (phasingTargetId != -1) {
+                    setPhaseTarget(phasingTargetId)
+                } else {
+                    phaseTarget = null
+                }
+            }
+        }
+    }
+
     override fun changePokemon(pokemon: Pokemon) {
         pokemon.isClient = true
-        currentEntity.subscriptions.add(currentEntity.species.subscribeIncludingCurrent {
-            currentPose = null
-            currentEntity.pokemon.species = PokemonSpecies.getByIdentifier(Identifier(it))!! // TODO exception handling
-        })
-
-//        currentEntity.subscriptions.add(currentEntity.nickname.subscribeIncludingCurrent {
-//            currentEntity.pokemon.nickname = it?.copy()
-//        })
-
-        currentEntity.subscriptions.add(currentEntity.deathEffectsStarted.subscribe {
-            if (it) {
-                val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
-                val animation = try { model.getFaintAnimation(currentEntity, this) } catch (e: Exception) { e.printStackTrace(); null } ?: return@subscribe
-                statefulAnimations.add(animation)
-            }
-        })
-
-        currentEntity.subscriptions.add(currentEntity.labelLevel.subscribeIncludingCurrent { if (it > 0) currentEntity.pokemon.level = it })
-
-        currentEntity.subscriptions.add(currentEntity.phasingTargetId.subscribe {
-            if (it != -1) {
-                setPhaseTarget(it)
-            } else {
-                phaseTarget = null
-            }
-        })
-
-//        pokemon.aspects = currentEntity.aspects.get()
-//        currentEntity.aspects.pipe(emitWhile { pokemon == currentEntity.pokemon }).subscribe {
-//            pokemon.aspects = it
-//        }
-
-        currentEntity.subscriptions.add(currentEntity.beamModeEmitter.subscribeIncludingCurrent {
-            if (it == 0.toByte()) {
-                // Do nothing
-            } else if (it == 1.toByte()) {
-                // Scaling up out of pokeball
-                entityScaleModifier = 0F
-                ballStartTime = System.currentTimeMillis()
-                currentEntity.isInvisible = true
-                ballDone = false
-                currentEntity.pokemon.getOwnerUUID()?.let{
-                    currentEntity.world.getPlayerByUuid(it)?.let {
-                        it.swingHand(it.activeHand ?: Hand.MAIN_HAND)
-                    }
-                }
-                lerp(POKEBALL_AIR_TIME) { ballOffset = it }
-                ballRotOffset = ((Math.random()) * currentEntity.world.random.nextBetween(-25, 25)).toFloat()
-                after(seconds = POKEBALL_AIR_TIME){
-                    beamStartTime = System.currentTimeMillis()
-                    ballDone = true
-                    currentEntity.playSound(CobblemonSounds.POKE_BALL_OPEN, 1F, 1F)
-                    val client = MinecraftClient.getInstance()
-                    if (client.soundManager.get(CobblemonSounds.POKE_BALL_OPEN.id) != null) {
-                        currentEntity.owner?.let {
-                            client.world?.playSound(client.player, it.x, it.y, it.z, SoundEvent.of(CobblemonSounds.POKE_BALL_OPEN.id), SoundCategory.PLAYERS, 1f, 1f)
-                        }
-                    }
-                    after(seconds = BEAM_EXTEND_TIME) {
-                        lerp(BEAM_SHRINK_TIME) { entityScaleModifier = it }
-                        currentEntity.isInvisible = false
-                        after(seconds = POKEBALL_AIR_TIME*2){
-                            ballOffset = 0f
-                            ballRotOffset = 0f
-                            sendOutPosition = null
-                        }
-                    }
-                }
-            } else {
-                // Scaling down into pokeball
-                entityScaleModifier = 1F
-                beamStartTime = System.currentTimeMillis()
-                ballOffset = 0f
-                ballRotOffset = 0f
-                sendOutPosition = null
-                after(seconds = BEAM_EXTEND_TIME) {
-                    lerp(BEAM_SHRINK_TIME) {
-                        entityScaleModifier = (1 - it)
-                    }
-                }
-            }
-        })
     }
 
     override fun initialize(entity: PokemonEntity) {

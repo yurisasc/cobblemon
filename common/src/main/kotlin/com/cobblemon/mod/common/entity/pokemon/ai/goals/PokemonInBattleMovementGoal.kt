@@ -15,11 +15,11 @@ import net.minecraft.entity.ai.goal.Goal
 
 class PokemonInBattleMovementGoal(val entity: PokemonEntity, val range: Int) : Goal() {
     override fun canStart(): Boolean {
-        return entity.isBattling && getClosestPokemonEntity() != null && entity.poseType.get() != PoseType.SLEEP
+        return entity.isBattling && getClosestPokemonEntity() != null && entity.getPoseType() != PoseType.SLEEP
     }
 
     private fun getClosestPokemonEntity(): PokemonEntity? {
-        entity.battleId.get().orElse(null)?.let { BattleRegistry.getBattle(it) }?.let { battle ->
+        entity.battleId?.let { BattleRegistry.getBattle(it) }?.let { battle ->
             return battle.sides.find { it -> it.activePokemon.any { it.battlePokemon?.effectedPokemon == entity.pokemon } }?.
             getOppositeSide()?.activePokemon?.mapNotNull { it.battlePokemon?.entity }?.minByOrNull { it.distanceTo(entity) }
         }

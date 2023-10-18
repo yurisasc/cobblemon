@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.entity
 
 import net.minecraft.entity.Entity
+import net.minecraft.entity.data.TrackedData
 
 /**
  * Represents a delegation of a portion of an entity's logic to a particular side.
@@ -16,4 +17,5 @@ import net.minecraft.entity.Entity
 interface EntitySideDelegate<T : Entity> {
     fun initialize(entity: T) {}
     fun tick(entity: T) {}
+    fun onTrackedDataSet(data: TrackedData<*>) {}
 }
