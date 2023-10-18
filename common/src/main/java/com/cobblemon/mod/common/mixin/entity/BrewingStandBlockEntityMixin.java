@@ -23,7 +23,8 @@ public abstract class BrewingStandBlockEntityMixin
             if ((stack.isOf(CobblemonItems.MEDICINAL_BREW) ||
                     stack.isOf(CobblemonItems.POTION) ||
                     stack.isOf(CobblemonItems.SUPER_POTION) ||
-                    stack.isOf(CobblemonItems.HYPER_POTION))
+                    stack.isOf(CobblemonItems.HYPER_POTION) ||
+                    stack.isOf(CobblemonItems.MAX_POTION))
                     && entity.getStack(slot).isEmpty())
                 cir.setReturnValue(true);
         }
