@@ -572,6 +572,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val EXP_SHARE = heldItem("exp_share")
     @JvmField
+    val FAIRY_FEATHER = heldItem("fairy_feather")
+    @JvmField
     val FOCUS_BAND = heldItem("focus_band")
     @JvmField
     val HARD_STONE = heldItem("hard_stone")
@@ -669,6 +671,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     // Misc
     @JvmField
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
+    @JvmField
+    val CLEANSE_TAG = this.noSettingsItem("cleanse_tag")
 
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 

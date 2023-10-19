@@ -317,6 +317,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DRAGON_FANG)
         entries.add(CobblemonItems.EVERSTONE)
         entries.add(CobblemonItems.EXP_SHARE)
+        entries.add(CobblemonItems.FAIRY_FEATHER)
         entries.add(CobblemonItems.FOCUS_BAND)
         entries.add(CobblemonItems.HARD_STONE)
         entries.add(CobblemonItems.HEAVY_DUTY_BOOTS)
@@ -354,6 +355,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.POWER_BRACER)
         entries.add(CobblemonItems.POWER_LENS)
         entries.add(CobblemonItems.POWER_WEIGHT)
+        entries.add(CobblemonItems.CLEANSE_TAG)
     }
 
     private fun pokeballentries(displayContext: DisplayContext, entries: Entries) {
