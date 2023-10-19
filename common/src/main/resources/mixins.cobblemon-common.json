@@ -8,6 +8,7 @@
     "EntityRenderDispatcherMixin",
     "GameRendererMixin",
     "ModelPartMixin",
+    "ParticleManagerMixin",
     "PartyScrollMixin",
     "SoundManagerMixin",
     "SoundSystemMixin",
@@ -23,8 +24,12 @@
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
+    "PotionSlotMixin",
     "ServerChunkManagerMixin",
     "ShearsDispenserBehaviorMixin",
+    "StructurePoolAccessor",
+    "StructurePoolGeneratorMixin",
+    "StructureProcessorListMixin",
     "accessor.AccessorEntity",
     "accessor.StatusEffectInstanceAccessor",
     "entity.TameableEntityMixin",
@@ -34,11 +39,7 @@
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
-    "pokeball.ThrownEntityMixin",
-    "StructurePoolGeneratorMixin",
-    "StructurePoolAccessor",
-    "StructureProcessorListMixin",
-    "PotionSlotMixin"
+    "pokeball.ThrownEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

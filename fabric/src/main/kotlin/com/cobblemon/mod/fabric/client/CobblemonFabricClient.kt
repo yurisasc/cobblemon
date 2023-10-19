@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.fabric.client
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.client.render.CobblemonAtlases
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
+import com.cobblemon.mod.common.client.render.shader.CobblemonShaders
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
 import com.cobblemon.mod.common.platform.events.ClientPlayerEvent
@@ -31,11 +33,11 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
-import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -45,6 +47,7 @@ import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.SpriteProvider
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.entity.model.EntityModelLayer
@@ -55,8 +58,6 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.util.profiler.Profiler
-import net.minecraft.util.profiling.jfr.event.WorldLoadFinishedEvent
-import net.minecraft.world.WorldEvents
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
@@ -93,6 +94,7 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
             override fun getFabricId() = cobblemonResource("atlases")
 
         })
+
 
         CobblemonKeyBinds.register(KeyBindingHelper::registerKeyBinding)
 

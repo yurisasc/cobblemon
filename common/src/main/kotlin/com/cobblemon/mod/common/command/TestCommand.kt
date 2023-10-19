@@ -59,9 +59,9 @@ object TestCommand {
         try {
 //            readBerryDataFromCSV()
 
-            this.testClosestBattle(context)
+//            this.testClosestBattle(context)
             //testTrade(context.source.player!!)
-//            testParticles(context)
+            testParticles(context)
 //            extractMovesData()
 //            // Player variables
 //            val player = context.source.entity as ServerPlayerEntity
@@ -227,7 +227,7 @@ object TestCommand {
         val effect = SnowstormParticleReader.loadEffect(GsonBuilder().create().fromJson<JsonObject>(file.readText()))
 
         val player = context.source.entity as ServerPlayerEntity
-        val position = player.pos.add(4.0, 1.0, 4.0)
+        val position = player.pos
         val pkt = SpawnSnowstormParticlePacket(effect, position, 0F, 0F)
         player.sendPacket(pkt)
     }
