@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.EarBounceAdditive
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer.Companion.ease
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.client.MinecraftClient
@@ -24,10 +25,12 @@ import java.lang.Float.min
 import kotlin.math.abs
 import net.minecraft.entity.Entity
 import net.minecraft.entity.data.TrackedData
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 import org.joml.Vector3f
 
@@ -55,6 +58,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     var ballOffset = 0f
     var ballRotOffset = 0f
     var sendOutPosition: Vec3d? = null
+    var sendOutOffset: Vec3d? = null
 
     val secondsSinceBeamEffectStarted: Float
         get() = (System.currentTimeMillis() - beamStartTime) / 1000F
@@ -94,16 +98,60 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                         // Scaling up out of pokeball
                         entityScaleModifier = 0F
                         beamStartTime = System.currentTimeMillis()
+                        ballStartTime = System.currentTimeMillis()
                         currentEntity.isInvisible = true
-                        after(seconds = BEAM_EXTEND_TIME) {
-                            lerp(BEAM_SHRINK_TIME) { entityScaleModifier = it }
-                            currentEntity.isInvisible = false
+                        ballDone = false
+                        var soundPos = currentEntity.pos
+                        currentEntity.pokemon.getOwnerUUID()?.let{
+                            currentEntity.world.getPlayerByUuid(it)?.let {
+                                val offset = it.pos.subtract(currentEntity.pos.add(0.0, 2.0 - (ballOffset.toDouble()/10f), 0.0)).normalize().multiply(-ease(ballOffset.toDouble()))
+                                with(it.pos.subtract(currentEntity.pos)) {
+                                    var newOffset = offset.multiply(2.0)
+                                    // the further away the source position is, the smaller the newOffset should be. Max distance is 20 blocks
+                                    val distance = it.pos.distanceTo(currentEntity.pos)
+                                    newOffset = newOffset.multiply((distance / 10.0) * 3)
+                                    soundPos = currentEntity.pos.add(newOffset)
+                                }
+                                it.swingHand(it.activeHand ?: Hand.MAIN_HAND)
+                            }
+                        }
+                        lerp(POKEBALL_AIR_TIME) { ballOffset = it }
+                        ballRotOffset = ((Math.random()) * currentEntity.world.random.nextBetween(-15, 15)).toFloat()
+                        after(seconds = POKEBALL_AIR_TIME){
+                            beamStartTime = System.currentTimeMillis()
+                            ballDone = true
+                            val client = MinecraftClient.getInstance()
+                            if (client.soundManager.get(CobblemonSounds.POKE_BALL_OPEN.id) != null) {
+                                currentEntity.owner?.let {
+                                    client.world?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, SoundEvent.of(CobblemonSounds.POKE_BALL_OPEN.id), SoundCategory.PLAYERS, 1f, 1f)
+                                    /// create end rod particles in a 0.1 radius around the soundPos with a count of 50 and a random velocity of 0.1
+                                    sendOutPosition?.let{
+                                        val newPos = it.add(sendOutOffset)
+                                        for(i in 0..50) {
+                                            client.particleManager.addParticle(ParticleTypes.END_ROD, newPos!!.x + (Math.random() * 0.1) - 0.05, newPos!!.y + (Math.random() * 0.1) - 0.05, newPos!!.z + (Math.random() * 0.1) - 0.05,
+                                                Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05)
+                                        }
+                                    }
+                                }
+                            }
+                            after(seconds = BEAM_EXTEND_TIME) {
+                                lerp(BEAM_SHRINK_TIME) { entityScaleModifier = it }
+                                currentEntity.isInvisible = false
+                                after(seconds = POKEBALL_AIR_TIME*2){
+                                    ballOffset = 0f
+                                    ballRotOffset = 0f
+                                    sendOutPosition = null
+                                }
+                            }
                         }
                     }
                     else -> {
                         // Scaling down into pokeball
                         entityScaleModifier = 1F
                         beamStartTime = System.currentTimeMillis()
+                        ballOffset = 0f
+                        ballRotOffset = 0f
+                        sendOutPosition = null
                         after(seconds = BEAM_EXTEND_TIME) {
                             lerp(BEAM_SHRINK_TIME) {
                                 entityScaleModifier = (1 - it)
