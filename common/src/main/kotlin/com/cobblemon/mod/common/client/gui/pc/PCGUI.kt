@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.client.gui.pc
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.bold
+import com.cobblemon.mod.common.api.text.italicise
+import com.cobblemon.mod.common.api.text.onHover
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.ExitButton
@@ -18,6 +20,7 @@ import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.client.render.drawScaledTextWithNature
 import com.cobblemon.mod.common.client.storage.ClientPC
 import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.net.messages.server.storage.pc.UnlinkPlayerFromPCPacket
@@ -31,7 +34,6 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 
@@ -309,14 +311,19 @@ class PCGUI(
             ).render(context)
 
             // Nature
-            drawScaledText(
+            drawScaledTextWithNature(
                 context = context,
-                text = pokemon.nature.displayName.asTranslated(),
+                text = pokemon.nature.displayName.asTranslated().italicise().bold()
+                    .onHover(pokemon.mintedNature!!.displayName.asTranslated()),
                 x = x + 39,
                 y = y + 137,
                 centered = true,
                 shadow = true,
-                scale = SCALE
+                scale = SCALE,
+                colour = 0x32CBFF,
+                pokemon = pokemon,
+                pMouseX = mouseX,
+                pMouseY = mouseY
             )
 
             // Ability

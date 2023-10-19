@@ -11,12 +11,11 @@ package com.cobblemon.mod.common.client.gui.summary.widgets.screens.info
 import com.cobblemon.mod.common.api.gui.ColourLibrary
 import com.cobblemon.mod.common.api.gui.MultiLineLabelK
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.text.bold
-import com.cobblemon.mod.common.api.text.plus
-import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.client.render.drawScaledTextWithNature
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -146,13 +145,16 @@ class InfoWidget(
             shadow = true
         )
 
-        drawScaledText(
+        drawScaledTextWithNature(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = pokemon.nature.displayName.asTranslated().bold(),
+            text = pokemon.nature.displayName.asTranslated().italicise().bold().onHover("HELLO"),
             x = x + 53,
             y = y + 66,
-            shadow = true
+            shadow = true,
+            pokemon = pokemon,
+            pMouseX = pMouseX,
+            pMouseY = pMouseY
         )
 
         // Ability
