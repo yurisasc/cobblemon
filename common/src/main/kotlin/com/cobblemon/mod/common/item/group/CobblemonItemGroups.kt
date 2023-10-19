@@ -356,6 +356,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.POWER_BRACER)
         entries.add(CobblemonItems.POWER_LENS)
         entries.add(CobblemonItems.POWER_WEIGHT)
+        entries.add(CobblemonItems.CLEANSE_TAG)
     }
 
     private fun pokeballentries(displayContext: DisplayContext, entries: Entries) {
