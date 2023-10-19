@@ -148,18 +148,15 @@
     "moving": {
       "fly": {
         "canFly": true
-      },
-      "walk": {
-        "canWalk": false
       }
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:black_sludge",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
@@ -294,8 +291,8 @@
   "evolutions": [],
   "baseScale": 1.2,
   "hitbox": {
-    "width": 1.12,
-    "height": 1.2,
+    "width": 1.3,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 50,

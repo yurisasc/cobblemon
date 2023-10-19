@@ -20,16 +20,6 @@
   "catchRate": 255,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    {
-      "type": "potion_effect",
-      "effect": "minecraft:water_breathing",
-      "amplifier": 0,
-      "ambient": true,
-      "showParticles": false,
-      "showIcon": false
-    }
-  ],
   "forms": [
     {
       "name": "Paldea",
@@ -183,11 +173,15 @@
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:clay_ball",
-        "percentage": 50
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 2.5
       }
     ]
   },
@@ -344,6 +338,9 @@
   "labels": [
     "gen2",
     "johto_regional"
+  ],
+  "features": [
+    "paldean"
   ],
   "pokedex": [
     "cobblemon.species.wooper.desc"

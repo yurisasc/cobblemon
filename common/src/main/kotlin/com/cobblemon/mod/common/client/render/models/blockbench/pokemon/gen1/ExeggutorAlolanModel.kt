@@ -36,11 +36,11 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
         override val head: ModelPart = getPart("head3")
     }
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-1.3, 11.5, 0.0)
+    override val portraitScale = 1.0F
+    override val portraitTranslation = Vec3d(-1.4, 16.55, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.38, 0.0)
+    override val profileScale = 0.45F
+    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -64,8 +64,8 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
-                SingleBoneLookAnimation(head3, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
                 bedrock("exeggutor_alolan", "ground_idle")
             )
         )
@@ -76,8 +76,8 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
             quirks = arrayOf(blink1, blink2, blink3, blink4),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
-                SingleBoneLookAnimation(head3, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
                 bedrock("exeggutor_alolan", "ground_walk")
             )
         )
@@ -90,8 +90,8 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
             condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
-                SingleBoneLookAnimation(head3, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
                 bedrock("exeggutor_alolan", "battle_idle")
             )
 

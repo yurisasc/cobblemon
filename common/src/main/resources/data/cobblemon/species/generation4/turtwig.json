@@ -7,6 +7,15 @@
     "overgrow",
     "h:shellarmor"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 68,
@@ -21,6 +30,9 @@
       "willSleepOnBed": true,
       "depth": "normal",
       "light": "0-4"
+    },
+    "walk": {
+      "walkSpeed": 0.35
     }
   },
   "catchRate": 45,
@@ -33,15 +45,6 @@
     "monster",
     "grass"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:miracle_seed",
-        "percentage": 5
-      }
-    ]
-  },
   "moves": [
     "1:tackle",
     "5:withdraw",
@@ -148,7 +151,7 @@
       ]
     }
   ],
-  "baseScale": 0.9,
+  "baseScale": 0.7,
   "hitbox": {
     "width": 0.75,
     "height": 1,

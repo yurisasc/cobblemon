@@ -8,8 +8,8 @@
     "elegant",
     "fancy",
     "garden",
-    "high_plains",
-    "icy_snow",
+    "high-plains",
+    "icy-snow",
     "jungle",
     "marine",
     "meadow",
@@ -22,9 +22,7 @@
     "sandstorm",
     "savanna",
     "sun",
-    "tundra",
-    "blazing",
-    "ender"
+    "tundra"
   ],
   "isAspect": true,
   "aspectFormat": "vivillon-wings-{{choice}}"

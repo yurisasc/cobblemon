@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFl
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -27,11 +28,11 @@ import net.minecraft.util.math.Vec3d
 
 class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("pidgeotto")
-    override val leftWing = getPart("wing_left")
-    override val rightWing = getPart("wing_right")
+    override val leftWing = getPart("wing_open_left")
+    override val rightWing = getPart("wing_open_right")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
-    override val head = getPart("head")
+    override val head = getPart("neck")
     private val tail = getPart("tail")
 
     override val portraitScale = 2.8F
@@ -40,6 +41,12 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
     lateinit var sleep: PokemonPose
+    lateinit var stand: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var fly: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidgeotto", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -47,7 +54,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 idleAnimations = arrayOf(bedrock("pidgeotto", "sleep"))
         )
         val blink = quirk("blink") { bedrockStateful("pidgeotto", "blink").setPreventsIdle(false)}
-        registerPose(
+        stand = registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + UI_POSES,
             transformTicks = 0,
@@ -57,7 +64,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 bedrock("pidgeotto", "ground_idle")
             )
         )
-        registerPose(
+        walk = registerPose(
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             quirks = arrayOf(blink),
@@ -71,7 +78,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 )
             )
         )
-        registerPose(
+        hover = registerPose(
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink),
@@ -85,7 +92,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 )
             )
         )
-        registerPose(
+        fly = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY - PoseType.SWIM,
             transformTicks = 5,

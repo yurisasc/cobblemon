@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3d
 
 class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("numel")
-    override val head = getPart("neck")
+    override val head = getPart("head")
 
     override val foreLeftLeg = getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
@@ -43,7 +43,7 @@ class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(disableY = true),
                 bedrock("numel", "ground_idle")
             )
         )
@@ -54,7 +54,7 @@ class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
-                singleBoneLook(),
+                singleBoneLook(disableY = true),
                 bedrock("numel", "ground_idle")
             )
         )

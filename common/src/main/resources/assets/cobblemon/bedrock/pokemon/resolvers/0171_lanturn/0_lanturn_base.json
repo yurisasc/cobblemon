@@ -12,6 +12,11 @@
           "name": "emissive",
           "texture": "cobblemon:textures/pokemon/0171_lanturn/lanturn_emissive.png",
           "emissive": true
+        },
+        {
+          "name": "emissive2",
+          "texture": "cobblemon:textures/pokemon/0171_lanturn/lanturn_emissive.png",
+          "emissive": true
         }
       ]
     },
@@ -23,6 +28,11 @@
       "layers": [
         {
           "name": "emissive",
+          "texture": "cobblemon:textures/pokemon/0171_lanturn/lanturn_emissive_shiny.png",
+          "emissive": true
+        },
+        {
+          "name": "emissive2",
           "texture": "cobblemon:textures/pokemon/0171_lanturn/lanturn_emissive_shiny.png",
           "emissive": true
         }

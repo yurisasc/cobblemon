@@ -9,6 +9,19 @@
     "anticipation",
     "h:hydration"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 48,
@@ -28,10 +41,12 @@
   ],
   "behaviour": {
     "moving": {
+      "canLook": false,
       "walk": {
         "avoidsLand": true
       },
       "swim": {
+        "swimSpeed": 0.2,
         "canSwimInWater": true,
         "canBreatheUnderwater": true
       }

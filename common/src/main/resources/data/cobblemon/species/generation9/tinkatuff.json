@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Tinkatuff",
   "nationalPokedexNumber": 958,
   "primaryType": "fairy",
@@ -8,6 +9,19 @@
     "owntempo",
     "h:pickpocket"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 55,
@@ -33,6 +47,14 @@
   "eggGroups": [
     "fairy"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:fairywind",
@@ -105,6 +127,12 @@
       ]
     }
   ],
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.0,
+    "height": 1.0,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.tinkatuff.desc"

@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.item
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.block.VivichokeBlock
-import net.minecraft.block.*
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.AliasedBlockItem
 import net.minecraft.item.ItemStack
@@ -24,10 +24,10 @@ import net.minecraft.world.World
 class VivichokeItem(block: VivichokeBlock) : AliasedBlockItem(block, Settings()) {
 
     init {
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE[this] = .65F
+        Cobblemon.implementation.registerCompostable(this, .65F)
     }
 
-    override fun use(world: World?, user: PlayerEntity, hand: Hand?): TypedActionResult<ItemStack?>? {
+    override fun use(world: World?, user: PlayerEntity, hand: Hand?): TypedActionResult<ItemStack?> {
         val blockHitResult = PlaceableOnWaterItem.raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY)
         val blockHitResult2 = blockHitResult.withBlockPos(blockHitResult.blockPos.up())
         val actionResult: ActionResult = super.useOnBlock(ItemUsageContext(user, hand, blockHitResult2))

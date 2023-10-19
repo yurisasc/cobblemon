@@ -61,9 +61,9 @@ class MausholdfourModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
             quirks = arrayOf(blink1, blink2, blink3, blink4),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
-                SingleBoneLookAnimation(head3, false, false),
-                SingleBoneLookAnimation(head4, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head4, false, false, disableX = false, disableY = false),
                 bedrock("maushold_four", "ground_idle")
             )
         )
@@ -75,9 +75,9 @@ class MausholdfourModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
             quirks = arrayOf(blink1, blink2, blink3, blink4),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                SingleBoneLookAnimation(head2, false, false),
-                SingleBoneLookAnimation(head3, false, false),
-                SingleBoneLookAnimation(head4, false, false),
+                SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
+                SingleBoneLookAnimation(head4, false, false, disableX = false, disableY = false),
                 bedrock("maushold_four", "ground_walk")
             )
         )

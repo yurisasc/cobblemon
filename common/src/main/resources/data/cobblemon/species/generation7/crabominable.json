@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Crabominable",
   "nationalPokedexNumber": 740,
   "primaryType": "fighting",
@@ -8,6 +9,15 @@
     "ironfist",
     "h:angerpoint"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 97,
     "attack": 132,
@@ -129,10 +139,10 @@
   ],
   "preEvolution": "crabrawler",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.8,
+    "height": 2.7,
     "fixed": false
   },
   "baseFriendship": 70,

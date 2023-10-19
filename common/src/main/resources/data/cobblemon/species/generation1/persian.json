@@ -16,6 +16,9 @@
     "special_defence": 65,
     "speed": 115
   },
+  "features": [
+    "alolan"
+  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -210,7 +213,7 @@
       ],
       "height": 11,
       "weight": 330,
-      "preEvolution": "meowth form=alola",
+      "preEvolution": "meowth alolan",
       "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
@@ -223,15 +226,19 @@
     "field"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 4,
     "entries": [
       {
-        "item": "minecraft:raw_gold",
-        "percentage": 20
+        "item": "minecraft:gold_nugget",
+        "quantityRange": "0-2"
       },
       {
         "item": "cobblemon:quick_claw",
-        "percentage": 5
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:pinap_berry",
+        "percentage": 5.0
       }
     ]
   },

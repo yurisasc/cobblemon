@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Skrelp",
   "nationalPokedexNumber": 690,
   "primaryType": "poison",
@@ -8,6 +9,19 @@
     "poisontouch",
     "h:adaptability"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:kelp",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 60,
@@ -26,6 +40,17 @@
     "water_1",
     "dragon"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:smokescreen",
     "1:tackle",
@@ -135,10 +160,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 50,

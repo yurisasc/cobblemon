@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Crabrawler",
   "nationalPokedexNumber": 739,
   "primaryType": "fighting",
@@ -7,6 +8,15 @@
     "ironfist",
     "h:angerpoint"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 47,
     "attack": 82,
@@ -131,10 +141,10 @@
       "requiredContext": "cobblemon:ice_stone"
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 70,

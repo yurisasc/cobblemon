@@ -8,6 +8,15 @@
     "pressure",
     "h:infiltrator"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 92,
@@ -25,15 +34,6 @@
   "eggGroups": [
     "amorphous"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:spell_tag",
-        "percentage": 10
-      }
-    ]
-  },
   "moves": [
     "1:confuseray",
     "1:curse",
@@ -170,7 +170,7 @@
     "cobblemon.species.spiritomb.desc"
   ],
   "evolutions": [],
-  "baseScale": 1.3,
+  "baseScale": 1,
   "hitbox": {
     "width": 0.8,
     "height": 0.8,
