@@ -148,6 +148,16 @@ class PokemonRenderer(
         pMatrixStack.scale(scale, scale, scale)
     }
 
+    /**
+     * Renders a beam between the Cobblemon and the target.
+     *
+     * @param matrixStack The matrix stack to render with.
+     * @param partialTicks The partial ticks.
+     * @param entity The Cobblemon.
+     * @param beamTarget The target.
+     * @param colour The colour of the beam.
+     * @param buffer The vertex consumer provider.
+     */
     fun renderBeam(matrixStack: MatrixStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, colour: Vector4f, buffer: VertexConsumerProvider) {
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val pokemonPosition = entity.pos.add(0.0, entity.height / 2.0 * clientDelegate.entityScaleModifier.toDouble(), 0.0)

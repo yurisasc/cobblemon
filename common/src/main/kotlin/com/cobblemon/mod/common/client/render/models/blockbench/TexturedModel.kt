@@ -13,8 +13,6 @@ import com.cobblemon.mod.common.util.math.fromEulerXYZ
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
-import com.jozufozu.flywheel.core.hardcoded.PartBuilder
-import com.jozufozu.flywheel.core.model.Model
 import net.minecraft.client.model.Dilation
 import net.minecraft.client.model.ModelData
 import net.minecraft.client.model.ModelPartBuilder
@@ -71,88 +69,88 @@ class TexturedModel {
      *
      * - Hiro & Apion
      */
-    fun createFlywheelModel(atlas: SpriteAtlasHolder, textureName: Identifier, name: String): Model {
-        val texture = atlas.getSprite(textureName)
-        val width = ((texture.maxU * atlas.atlas.width.toFloat()) - (texture.minU * atlas.atlas.width)).toInt()
-        val height =( (texture.maxV * atlas.atlas.height.toFloat()) - (texture.minV * atlas.atlas.height)).toInt()
-
-        val modelBuilder = PartBuilder(name, width, height)
-        modelBuilder.sprite(texture)
-        val boneMap = mutableMapOf<String, ModelBone>()
-        geometry?.forEach { it.bones?.forEach { boneMap[it.name] = it } }
-
-        geometry?.forEach {
-            it.bones?.forEach { bone ->
-                // This is meant to prepare the rotation stack so that the rotation around a cube's pivot point is respecting
-                // all of the parent bone rotations. It's not meant to influence the POSITION of the cubes further down
-                // the chain, only the location of the joints. It doesn't sum the pivot points either; the child bones
-                // are only affected by the parent bones because of the rotations.
-                //
-                // This probably doesn't work but haven't tested it on models with joints so.
-                val stack = MatrixStack()
-                for (bone in resolveParentsFromRoot(mutableMapOf(), bone)) {
-                    val rotation = bone.rotation?.takeIf { it[0] != 0F || it[1] != 0F || it[2] != 0F } ?: continue
-                    stack.translate(-bone.pivot[0], bone.pivot[1], -bone.pivot[2])
-                    stack.multiply(Quaternionf().rotationXYZ(rotation[0].toRadians(), rotation[1].toRadians(), rotation[2].toRadians()))
-                    stack.translate(bone.pivot[0], -bone.pivot[1], bone.pivot[2])
-                }
-
-                bone.cubes?.forEach { cube ->
-                    val size = cube.size?.let { Vector3f(it[0], it[1], it[2]) } ?: Vector3f()
-                    val rotation = cube.rotation?.let { Vector3f(it[0], it[1], it[2]) } ?: Vector3f()
-                    val inflation = (cube.inflate ?: 0F) / 2
-                    val uvs = cube.uv?.let { Vector2i(it[0], it[1]) } ?: Vector2i()
-
-                    /*
-                     * The origin has the X and Z flipped, and that also means counting from the opposite side of the
-                     * cube (second line is accomplishing that part). The reason for this is because Minecraft Java Edition
-                     * is a "right hand" coordinate system (finger guns time!!) whereas Bedrock presumably is left-hand.
-                     *
-                     * Pivots are also inverted fyi.
-                     *
-                     * - Hiro
-                     */
-                    val origin = cube.origin?.let { Vector3f(-it[0], it[1], -it[2]) } ?: Vector3f()
-                    origin.sub(size.get(Vector3f()).mul(1F, 0F, 1F))
-                    val pivot = cube.pivot?.let { Vector3f(-it[0], it[1], -it[2]) } ?: Vector3f()
-
-                    // Apply translate, rotate, then translate back because the pivots don't actually directly translate
-                    // to shifted positions in Bedrock.
-                    stack.push()
-                    stack.translate(pivot.x, pivot.y, pivot.z)
-                    stack.multiply(Quaternionf().rotationXYZ(rotation.x.toRadians(), rotation.y.toRadians(), rotation.z.toRadians()))
-                    stack.translate(-pivot.x, -pivot.y, -pivot.z)
-                    val rotationMatrix = stack.peek().positionMatrix
-                    stack.pop()
-
-                    // Finds where Bedrock put the start of the cube. The matrix does the rotation correctly because we
-                    // are chasing rotations around very specific points.
-                    val desiredPoint = rotationMatrix.transformPosition(origin.get(Vector3f()))
-
-                    // The rotation in Euler angles (which are about 0,0,0), that's what Flywheel likes to eat.
-                    // It will orient it correctly, but a limitation of Euler angles is that it can't get the thing
-                    // to rotate around a specific point, only ever the origin. We'll fix that.
-                    val eulerRotation = rotationMatrix.getEulerAnglesXYZ(Vector3f())
-                    // The reversed form of the rotation Flywheel is about to apply.
-                    val reversedRotation = Quaternionf().fromEulerXYZ(-eulerRotation.x, -eulerRotation.y, -eulerRotation.z)
-                    // Figure out the start point such that Flywheel applying the eulerRotation will put it at the desired point.
-                    val correctStart = reversedRotation.transform(desiredPoint.get(Vector3f()))
-
-                    // Now just put it all together. Inflation is a slight tweak to size and start position.
-                    // Invert YZ is something I don't understand but is necessary.
-                    modelBuilder.cuboid()
-                        .sprite(texture)
-                        .start(correctStart.x - inflation, correctStart.y - inflation, correctStart.z - inflation)
-                        .invertYZ()
-                        .size(size.x + 2 * inflation, size.y + 2 * inflation, size.z + 2 * inflation)
-                        .rotate(eulerRotation.x, eulerRotation.y, eulerRotation.z)
-                        .textureOffset(uvs.x, uvs.y)
-                        .endCuboid()
-                }
-            }
-        }
-        return modelBuilder.build()
-    }
+//    fun createFlywheelModel(atlas: SpriteAtlasHolder, textureName: Identifier, name: String): Model {
+//        val texture = atlas.getSprite(textureName)
+//        val width = ((texture.maxU * atlas.atlas.width.toFloat()) - (texture.minU * atlas.atlas.width)).toInt()
+//        val height =( (texture.maxV * atlas.atlas.height.toFloat()) - (texture.minV * atlas.atlas.height)).toInt()
+//
+//        val modelBuilder = PartBuilder(name, width, height)
+//        modelBuilder.sprite(texture)
+//        val boneMap = mutableMapOf<String, ModelBone>()
+//        geometry?.forEach { it.bones?.forEach { boneMap[it.name] = it } }
+//
+//        geometry?.forEach {
+//            it.bones?.forEach { bone ->
+//                // This is meant to prepare the rotation stack so that the rotation around a cube's pivot point is respecting
+//                // all of the parent bone rotations. It's not meant to influence the POSITION of the cubes further down
+//                // the chain, only the location of the joints. It doesn't sum the pivot points either; the child bones
+//                // are only affected by the parent bones because of the rotations.
+//                //
+//                // This probably doesn't work but haven't tested it on models with joints so.
+//                val stack = MatrixStack()
+//                for (bone in resolveParentsFromRoot(mutableMapOf(), bone)) {
+//                    val rotation = bone.rotation?.takeIf { it[0] != 0F || it[1] != 0F || it[2] != 0F } ?: continue
+//                    stack.translate(-bone.pivot[0], bone.pivot[1], -bone.pivot[2])
+//                    stack.multiply(Quaternionf().rotationXYZ(rotation[0].toRadians(), rotation[1].toRadians(), rotation[2].toRadians()))
+//                    stack.translate(bone.pivot[0], -bone.pivot[1], bone.pivot[2])
+//                }
+//
+//                bone.cubes?.forEach { cube ->
+//                    val size = cube.size?.let { Vector3f(it[0], it[1], it[2]) } ?: Vector3f()
+//                    val rotation = cube.rotation?.let { Vector3f(it[0], it[1], it[2]) } ?: Vector3f()
+//                    val inflation = (cube.inflate ?: 0F) / 2
+//                    val uvs = cube.uv?.let { Vector2i(it[0], it[1]) } ?: Vector2i()
+//
+//                    /*
+//                     * The origin has the X and Z flipped, and that also means counting from the opposite side of the
+//                     * cube (second line is accomplishing that part). The reason for this is because Minecraft Java Edition
+//                     * is a "right hand" coordinate system (finger guns time!!) whereas Bedrock presumably is left-hand.
+//                     *
+//                     * Pivots are also inverted fyi.
+//                     *
+//                     * - Hiro
+//                     */
+//                    val origin = cube.origin?.let { Vector3f(-it[0], it[1], -it[2]) } ?: Vector3f()
+//                    origin.sub(size.get(Vector3f()).mul(1F, 0F, 1F))
+//                    val pivot = cube.pivot?.let { Vector3f(-it[0], it[1], -it[2]) } ?: Vector3f()
+//
+//                    // Apply translate, rotate, then translate back because the pivots don't actually directly translate
+//                    // to shifted positions in Bedrock.
+//                    stack.push()
+//                    stack.translate(pivot.x, pivot.y, pivot.z)
+//                    stack.multiply(Quaternionf().rotationXYZ(rotation.x.toRadians(), rotation.y.toRadians(), rotation.z.toRadians()))
+//                    stack.translate(-pivot.x, -pivot.y, -pivot.z)
+//                    val rotationMatrix = stack.peek().positionMatrix
+//                    stack.pop()
+//
+//                    // Finds where Bedrock put the start of the cube. The matrix does the rotation correctly because we
+//                    // are chasing rotations around very specific points.
+//                    val desiredPoint = rotationMatrix.transformPosition(origin.get(Vector3f()))
+//
+//                    // The rotation in Euler angles (which are about 0,0,0), that's what Flywheel likes to eat.
+//                    // It will orient it correctly, but a limitation of Euler angles is that it can't get the thing
+//                    // to rotate around a specific point, only ever the origin. We'll fix that.
+//                    val eulerRotation = rotationMatrix.getEulerAnglesXYZ(Vector3f())
+//                    // The reversed form of the rotation Flywheel is about to apply.
+//                    val reversedRotation = Quaternionf().fromEulerXYZ(-eulerRotation.x, -eulerRotation.y, -eulerRotation.z)
+//                    // Figure out the start point such that Flywheel applying the eulerRotation will put it at the desired point.
+//                    val correctStart = reversedRotation.transform(desiredPoint.get(Vector3f()))
+//
+//                    // Now just put it all together. Inflation is a slight tweak to size and start position.
+//                    // Invert YZ is something I don't understand but is necessary.
+//                    modelBuilder.cuboid()
+//                        .sprite(texture)
+//                        .start(correctStart.x - inflation, correctStart.y - inflation, correctStart.z - inflation)
+//                        .invertYZ()
+//                        .size(size.x + 2 * inflation, size.y + 2 * inflation, size.z + 2 * inflation)
+//                        .rotate(eulerRotation.x, eulerRotation.y, eulerRotation.z)
+//                        .textureOffset(uvs.x, uvs.y)
+//                        .endCuboid()
+//                }
+//            }
+//        }
+//        return modelBuilder.build()
+//    }
 
     fun createWithUvOverride(isForLivingEntityRenderer: Boolean, u: Int, v: Int, textureWidth: Int?, textureHeight: Int?) : TexturedModelData {
         val modelData = ModelData()
