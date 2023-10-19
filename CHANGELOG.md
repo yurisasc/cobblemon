@@ -1,8 +1,10 @@
 # Changelog
 ## [1.4.1](#1-4-1)
+
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
 - Updated the registration of compostable items to improve compatibility with Fabric forks such as Quilt. Please note this does not mean we officially support Quilt, this change was only done since it was possible by correcting the registration to use the new intended way in the Fabric API.
+- Fixed battle movement animations not always playing and owned Pokémon in battles appearing as though they are wild.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
