@@ -19,6 +19,7 @@ architectury {
 
 repositories {
     maven(url = "${rootProject.projectDir}/deps")
+    maven(url = "https://api.modrinth.com/maven")
     mavenLocal()
 }
 
@@ -31,6 +32,7 @@ dependencies {
 //    modCompileOnly(libs.flywheelFabric)
     modApi(libs.molang)
     compileOnlyApi(libs.jeiApi)
+    modCompileOnly(libs.adornFabric)
 
     // For Showdown
     modCompileOnly(libs.graal)
