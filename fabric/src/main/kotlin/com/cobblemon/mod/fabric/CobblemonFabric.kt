@@ -11,6 +11,7 @@ package com.cobblemon.mod.fabric
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.brewing.BrewingRecipes
+import com.cobblemon.mod.common.integration.adorn.AdornCompatibility
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
@@ -49,6 +50,7 @@ import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
@@ -65,6 +67,7 @@ import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
@@ -79,6 +82,7 @@ import java.util.concurrent.Executor
 import kotlin.reflect.KClass
 
 object CobblemonFabric : CobblemonImplementation {
+
     override val modAPI = ModAPI.FABRIC
 
     private var server: MinecraftServer? = null
@@ -100,14 +104,6 @@ object CobblemonFabric : CobblemonImplementation {
         }
         BrewingRecipes.getItemRecipes().forEach { (input, ingredient, output) ->
             BrewingRecipeRegistry.ITEM_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
-        }
-        /*
-        if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
-            Cobblemon.permissionValidator = LuckPermsPermissionValidator()
-        }
-         */
-        if (FabricLoader.getInstance().getModContainer("fabric-permissions-api-v0").isPresent) {
-            Cobblemon.permissionValidator = FabricPermissionValidator()
         }
         EntitySleepEvents.STOP_SLEEPING.register { playerEntity, _ ->
             if (playerEntity !is ServerPlayerEntity) {
@@ -178,6 +174,8 @@ object CobblemonFabric : CobblemonImplementation {
         }
 
         CommandRegistrationCallback.EVENT.register(CobblemonCommands::register)
+
+        this.attemptModCompat()
     }
 
     override fun isModInstalled(id: String) = FabricLoader.getInstance().isModLoaded(id)
@@ -326,6 +324,22 @@ object CobblemonFabric : CobblemonImplementation {
 
     override fun registerCompostable(item: ItemConvertible, chance: Float) {
         CompostingChanceRegistry.INSTANCE.add(item, chance)
+    }
+
+    override fun registerBuiltinResourcePack(id: Identifier, title: Text, activationBehaviour: ResourcePackActivationBehaviour) {
+        val mod = FabricLoader.getInstance().getModContainer(Cobblemon.MODID).get()
+        val resourcePackActivationType = when (activationBehaviour) {
+            ResourcePackActivationBehaviour.NORMAL -> ResourcePackActivationType.NORMAL
+            ResourcePackActivationBehaviour.DEFAULT_ENABLED -> ResourcePackActivationType.DEFAULT_ENABLED
+            ResourcePackActivationBehaviour.ALWAYS_ENABLED -> ResourcePackActivationType.ALWAYS_ENABLED
+        }
+        ResourceManagerHelper.registerBuiltinResourcePack(id, mod, title, resourcePackActivationType)
+    }
+
+    private fun attemptModCompat() {
+        if (this.isModInstalled("adorn")) {
+            AdornCompatibility.register()
+        }
     }
 
     private class CobblemonReloadListener(private val identifier: Identifier, private val reloader: ResourceReloader, private val dependencies: Collection<Identifier>) : IdentifiableResourceReloadListener {
