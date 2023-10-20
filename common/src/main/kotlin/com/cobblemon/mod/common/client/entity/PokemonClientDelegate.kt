@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer.Companion.ease
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.MovingSoundInstance
 import net.minecraft.client.MinecraftClient
 import java.lang.Float.min
 import kotlin.math.abs
@@ -30,9 +31,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
-import org.joml.Vector3f
 
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
@@ -59,6 +58,8 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     var ballRotOffset = 0f
     var sendOutPosition: Vec3d? = null
     var sendOutOffset: Vec3d? = null
+    var playedSendOutSound: Boolean = false
+    var playedThrowingSound: Boolean = false
 
     val secondsSinceBeamEffectStarted: Float
         get() = (System.currentTimeMillis() - beamStartTime) / 1000F
@@ -96,6 +97,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                     0 -> { /* Do nothing */ }
                     1 -> {
                         // Scaling up out of pokeball
+                        playedSendOutSound = false
                         entityScaleModifier = 0F
                         beamStartTime = System.currentTimeMillis()
                         ballStartTime = System.currentTimeMillis()
@@ -107,23 +109,28 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                                 val offset = it.pos.subtract(currentEntity.pos.add(0.0, 2.0 - (ballOffset.toDouble()/10f), 0.0)).normalize().multiply(-ease(ballOffset.toDouble()))
                                 with(it.pos.subtract(currentEntity.pos)) {
                                     var newOffset = offset.multiply(2.0)
-                                    // the further away the source position is, the smaller the newOffset should be. Max distance is 20 blocks
                                     val distance = it.pos.distanceTo(currentEntity.pos)
-                                    newOffset = newOffset.multiply((distance / 10.0) * 3)
+                                    newOffset = newOffset.multiply((distance / 10.0) * 5)
                                     soundPos = currentEntity.pos.add(newOffset)
                                 }
                                 it.swingHand(it.activeHand ?: Hand.MAIN_HAND)
                             }
+                        }
+                        val client = MinecraftClient.getInstance()
+                        val sound = MovingSoundInstance(SoundEvent.of(CobblemonSounds.POKE_BALL_TRAIL.id), SoundCategory.PLAYERS, { sendOutPosition?.add(sendOutOffset) }, 0.1f, 1f, false, 20, 0)
+                        if(!playedThrowingSound){
+                            client.soundManager.play(sound)
+                            playedThrowingSound = true
                         }
                         lerp(POKEBALL_AIR_TIME) { ballOffset = it }
                         ballRotOffset = ((Math.random()) * currentEntity.world.random.nextBetween(-15, 15)).toFloat()
                         after(seconds = POKEBALL_AIR_TIME){
                             beamStartTime = System.currentTimeMillis()
                             ballDone = true
-                            val client = MinecraftClient.getInstance()
-                            if (client.soundManager.get(CobblemonSounds.POKE_BALL_OPEN.id) != null) {
+                            if (client.soundManager.get(CobblemonSounds.POKE_BALL_OPEN.id) != null && !playedSendOutSound) {
                                 currentEntity.owner?.let {
-                                    client.world?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, SoundEvent.of(CobblemonSounds.POKE_BALL_OPEN.id), SoundCategory.PLAYERS, 1f, 1f)
+                                    client.world?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, SoundEvent.of(CobblemonSounds.POKE_BALL_SEND_OUT.id), SoundCategory.PLAYERS, 0.6f, 1f)
+                                    playedSendOutSound = true
                                     /// create end rod particles in a 0.1 radius around the soundPos with a count of 50 and a random velocity of 0.1
                                     sendOutPosition?.let{
                                         val newPos = it.add(sendOutOffset)

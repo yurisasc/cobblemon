@@ -145,10 +145,8 @@ class PokemonRenderer(
             val angle = MathHelper.atan2(dir.z, dir.x) - PI / 2
             poseMatrix.multiply(RotationAxis.POSITIVE_Y.rotation(-angle.toFloat() + (180 * Math.PI / 180).toFloat()))
 
-            // TODO: if you want to remove the open ball, add `clientDelegate.ballDone` to the if statement
-            // just incase we want a snap open anim
-            // me 2 but im thinking
-            if (beamMode == 1){
+            // TODO: if you want to remove the open ball, add `!clientDelegate.ballDone` to the if statement
+            if (beamMode == 1 && !clientDelegate.ballDone){
                 if(entity.pokemon.caughtBall.name.toString().contains("beast")){
                     // get rotation angle on x acis for facingDir
                     val xAngleFacingDir = MathHelper.atan2(facingDir.y, sqrt(facingDir.x * facingDir.x + facingDir.z * facingDir.z))

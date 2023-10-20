@@ -454,8 +454,10 @@ open class Pokemon : ShowdownIdentifiable {
         // Proceed as normal for non-shouldered Cobblemon
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
-            getOwnerPlayer()?.swingHand(Hand.MAIN_HAND, true)
-            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.6F)
+            getOwnerPlayer()?.let{
+                it.swingHand(Hand.MAIN_HAND, true)
+                level.playSoundServer(it.pos, CobblemonSounds.POKE_BALL_THROW, volume = 0.6F)
+            }
             it.phasingTargetId = source.id
             it.beamMode = 1
             it.battleId = battleId
