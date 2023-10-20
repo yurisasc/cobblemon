@@ -1,5 +1,9 @@
 # Changelog
 ## [1.4.1](#1-4-1)
+### Additions
+- Added the [Cleanse Tag](https://wiki.cobblemon.com/index.php/Cleanse_Tag) and [Fairy Feather](https://wiki.cobblemon.com/index.php/Fairy_Feather)
+- Added Fairy Feather drops to some pokemon
+
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
 - Updated the registration of compostable items to improve compatibility with Fabric forks such as Quilt. Please note this does not mean we officially support Quilt, this change was only done since it was possible by correcting the registration to use the new intended way in the Fabric API.
