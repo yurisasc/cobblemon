@@ -28,6 +28,7 @@ import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
@@ -179,6 +180,35 @@ interface CobblemonImplementation {
      * @param chance The chance % of increasing the composter level, 0 to 1 expected.
      */
     fun registerCompostable(item: ItemConvertible, chance: Float)
+
+    /**
+     * Registers a builtin resource pack.
+     *
+     * @param id The unique [Identifier] of this pack.
+     * @param title The title displayed in the resource pack GUI, the description is still a part of the pack metadata.
+     * @param activationBehaviour The [ResourcePackActivationBehaviour] for this pack.
+     */
+    fun registerBuiltinResourcePack(id: Identifier, title: Text, activationBehaviour: ResourcePackActivationBehaviour)
+
+}
+
+enum class ResourcePackActivationBehaviour {
+
+    /**
+     * The resource pack will start disabled.
+     */
+    NORMAL,
+
+    /**
+     * The resource pack will start enabled.
+     */
+    DEFAULT_ENABLED,
+
+    /**
+     * The resource pack will always be enabled.
+     * The user can reorder it but cannot remove it.
+     */
+    ALWAYS_ENABLED;
 
 }
 
