@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.api.text.italicise
-import com.cobblemon.mod.common.api.text.onHover
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.ExitButton
@@ -313,8 +312,7 @@ class PCGUI(
             // Nature
             drawScaledTextWithNature(
                 context = context,
-                text = pokemon.nature.displayName.asTranslated().italicise().bold()
-                    .onHover(pokemon.mintedNature!!.displayName.asTranslated()),
+                text = pokemon.nature.displayName.asTranslated().italicise().bold(),
                 x = x + 39,
                 y = y + 137,
                 centered = true,
@@ -409,8 +407,14 @@ class PCGUI(
         if (pokemon != null && !pokemon.heldItemNoCopy().isEmpty) {
             val itemX = x + 3
             val itemY = y + 98
-            val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) context.drawItemTooltip(MinecraftClient.getInstance().textRenderer, pokemon.heldItemNoCopy(), mouseX, mouseY)
+            val itemHovered =
+                mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
+            if (itemHovered) context.drawItemTooltip(
+                MinecraftClient.getInstance().textRenderer,
+                pokemon.heldItemNoCopy(),
+                mouseX,
+                mouseY
+            )
         }
     }
 
@@ -423,12 +427,22 @@ class PCGUI(
     }
 
     override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
-        if (storageWidget.pastureWidget != null) storageWidget.pastureWidget!!.pastureScrollList.mouseScrolled(mouseX, mouseY, amount)
+        if (storageWidget.pastureWidget != null) storageWidget.pastureWidget!!.pastureScrollList.mouseScrolled(
+            mouseX,
+            mouseY,
+            amount
+        )
         return children().any { it.mouseScrolled(mouseX, mouseY, amount) }
     }
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
-        if (storageWidget.pastureWidget != null) storageWidget.pastureWidget!!.pastureScrollList.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+        if (storageWidget.pastureWidget != null) storageWidget.pastureWidget!!.pastureScrollList.mouseDragged(
+            mouseX,
+            mouseY,
+            button,
+            deltaX,
+            deltaY
+        )
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
     }
 
@@ -438,10 +452,12 @@ class PCGUI(
                 playSound(CobblemonSounds.PC_OFF)
                 UnlinkPlayerFromPCPacket().sendToServer()
             }
+
             InputUtil.GLFW_KEY_RIGHT -> {
                 playSound(CobblemonSounds.PC_CLICK)
                 this.storageWidget.box += 1
             }
+
             InputUtil.GLFW_KEY_LEFT -> {
                 playSound(CobblemonSounds.PC_CLICK)
                 this.storageWidget.box -= 1
@@ -461,7 +477,7 @@ class PCGUI(
         ticksElapsed++
 
         // Calculate select pointer offset
-        var delayFactor = 3
+        val delayFactor = 3
         if (ticksElapsed % (2 * delayFactor) == 0) selectPointerOffsetIncrement = !selectPointerOffsetIncrement
         if (ticksElapsed % delayFactor == 0) selectPointerOffsetY += if (selectPointerOffsetIncrement) 1 else -1
     }
@@ -487,8 +503,8 @@ class PCGUI(
                 offsetY = -10.0
             )
         } else {
-            previewPokemon = null;
-            modelWidget = null;
+            previewPokemon = null
+            modelWidget = null
         }
     }
 }

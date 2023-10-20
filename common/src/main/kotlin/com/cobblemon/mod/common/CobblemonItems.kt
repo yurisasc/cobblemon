@@ -417,47 +417,49 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val WHITE_MINT_LEAF = create("white_mint_leaf", MintLeafItem(MintType.WHITE))
 
     @JvmField
-    val LONELY_MINT = create("lonely_mint", MintItem(Natures.LONELY))
+    val mints = mutableListOf<MintItem>()
     @JvmField
-    val ADAMANT_MINT = create("adamant_mint", MintItem(Natures.ADAMANT))
+    val LONELY_MINT = mintItem("lonely_mint", MintItem(Natures.LONELY))
     @JvmField
-    val NAUGHTY_MINT = create("naughty_mint", MintItem(Natures.NAUGHTY))
+    val ADAMANT_MINT = mintItem("adamant_mint", MintItem(Natures.ADAMANT))
     @JvmField
-    val BRAVE_MINT = create("brave_mint", MintItem(Natures.BRAVE))
+    val NAUGHTY_MINT = mintItem("naughty_mint", MintItem(Natures.NAUGHTY))
     @JvmField
-    val BOLD_MINT = create("bold_mint", MintItem(Natures.BOLD))
+    val BRAVE_MINT = mintItem("brave_mint", MintItem(Natures.BRAVE))
     @JvmField
-    val IMPISH_MINT = create("impish_mint", MintItem(Natures.IMPISH))
+    val BOLD_MINT = mintItem("bold_mint", MintItem(Natures.BOLD))
     @JvmField
-    val LAX_MINT = create("lax_mint", MintItem(Natures.LAX))
+    val IMPISH_MINT = mintItem("impish_mint", MintItem(Natures.IMPISH))
     @JvmField
-    val RELAXED_MINT = create("relaxed_mint", MintItem(Natures.RELAXED))
+    val LAX_MINT = mintItem("lax_mint", MintItem(Natures.LAX))
     @JvmField
-    val MODEST_MINT = create("modest_mint", MintItem(Natures.MODEST))
+    val RELAXED_MINT = mintItem("relaxed_mint", MintItem(Natures.RELAXED))
     @JvmField
-    val MILD_MINT = create("mild_mint", MintItem(Natures.MILD))
+    val MODEST_MINT = mintItem("modest_mint", MintItem(Natures.MODEST))
     @JvmField
-    val RASH_MINT = create("rash_mint", MintItem(Natures.RASH))
+    val MILD_MINT = mintItem("mild_mint", MintItem(Natures.MILD))
     @JvmField
-    val QUIET_MINT = create("quiet_mint", MintItem(Natures.QUIET))
+    val RASH_MINT = mintItem("rash_mint", MintItem(Natures.RASH))
     @JvmField
-    val CALM_MINT = create("calm_mint", MintItem(Natures.CALM))
+    val QUIET_MINT = mintItem("quiet_mint", MintItem(Natures.QUIET))
     @JvmField
-    val GENTLE_MINT = create("gentle_mint", MintItem(Natures.GENTLE))
+    val CALM_MINT = mintItem("calm_mint", MintItem(Natures.CALM))
     @JvmField
-    val CAREFUL_MINT = create("careful_mint", MintItem(Natures.CAREFUL))
+    val GENTLE_MINT = mintItem("gentle_mint", MintItem(Natures.GENTLE))
     @JvmField
-    val SASSY_MINT = create("sassy_mint", MintItem(Natures.SASSY))
+    val CAREFUL_MINT = mintItem("careful_mint", MintItem(Natures.CAREFUL))
     @JvmField
-    val TIMID_MINT = create("timid_mint", MintItem(Natures.TIMID))
+    val SASSY_MINT = mintItem("sassy_mint", MintItem(Natures.SASSY))
     @JvmField
-    val HASTY_MINT = create("hasty_mint", MintItem(Natures.HASTY))
+    val TIMID_MINT = mintItem("timid_mint", MintItem(Natures.TIMID))
     @JvmField
-    val JOLLY_MINT = create("jolly_mint", MintItem(Natures.JOLLY))
+    val HASTY_MINT = mintItem("hasty_mint", MintItem(Natures.HASTY))
     @JvmField
-    val NAIVE_MINT = create("naive_mint", MintItem(Natures.NAIVE))
+    val JOLLY_MINT = mintItem("jolly_mint", MintItem(Natures.JOLLY))
     @JvmField
-    val SERIOUS_MINT = create("serious_mint", MintItem(Natures.SERIOUS))
+    val NAIVE_MINT = mintItem("naive_mint", MintItem(Natures.NAIVE))
+    @JvmField
+    val SERIOUS_MINT = mintItem("serious_mint", MintItem(Natures.SERIOUS))
 
     @JvmField val X_ACCURACY = create("x_${Stats.ACCURACY.identifier.path}", XStatItem(Stats.ACCURACY))
     @JvmField val X_ATTACK = create("x_${Stats.ATTACK.identifier.path}", XStatItem(Stats.ATTACK))
@@ -707,6 +709,12 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         val finalName = "${name}_berry"
         val item = this.create(finalName, berryItem)
         this.berries[cobblemonResource(finalName)] = item
+        return item
+    }
+
+    private fun mintItem(name: String, mintItem: MintItem): MintItem {
+        val item = this.create(name, mintItem)
+        mints.add(item)
         return item
     }
 }
