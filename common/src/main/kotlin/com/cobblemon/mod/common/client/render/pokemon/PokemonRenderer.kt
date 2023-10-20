@@ -35,6 +35,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
+import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
@@ -42,6 +43,7 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -53,11 +55,7 @@ import org.joml.Math
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import org.joml.Vector4f
-import java.lang.Math.pow
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.pow
-import kotlin.math.tan
+import kotlin.math.*
 import kotlin.properties.Delegates
 
 class PokemonRenderer(
@@ -73,7 +71,7 @@ class PokemonRenderer(
         val recallBeamColour = Vector4f(1F, 0.1F, 0.1F, 1F)
         val sendOutBeamColour = Vector4f(0.85F, 0.85F, 1F, 0.5F)
         fun ease(x: Double): Double {
-            return if (x < 0.5) 4 * x * x * x else 1 - (-2 * x + 2).pow(3) / 2
+            return 1 - (1 - x).pow(3);
         }
     }
 
@@ -130,36 +128,47 @@ class PokemonRenderer(
             if(clientDelegate.sendOutPosition == null && beamMode == 1) {
                 clientDelegate.sendOutPosition = beamSourcePosition
             } else if(beamMode == 1) {
+                clientDelegate.sendOutPosition = clientDelegate.sendOutPosition!!.add(0.0, 0.04, 0.0)
                 beamSourcePosition = clientDelegate.sendOutPosition!!
             }
-            val offset = beamSourcePosition.subtract(entity.pos.add(0.0, 2.0 - ((clientDelegate.ballOffset.toDouble())/10f), 0.0)).normalize().multiply(-ease(clientDelegate.ballOffset.toDouble()))
-            var anglePitch by Delegates.notNull<Double>()
+            val offsetDirection = beamSourcePosition.subtract(entity.pos).normalize().multiply(-clientDelegate.ballOffset.toDouble())
+            lateinit var facingDir: Vec3d
             with(beamSourcePosition.subtract(entity.pos)) {
-                var newOffset = offset.multiply(2.0)
+                var newOffset = offsetDirection.multiply(2.0)
                 val distance = beamSourcePosition.distanceTo(entity.pos)
-                newOffset = newOffset.multiply((distance / 10.0) * 3)
-                val dir = this.add(newOffset).normalize()
-                anglePitch = MathHelper.atan2(dir.y, Math.sqrt(dir.x * dir.x + dir.z * dir.z))
+                newOffset = newOffset.multiply((distance / 10.0) * 5)
+                facingDir = newOffset.normalize()
                 clientDelegate.sendOutOffset = newOffset
-                poseMatrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((clientDelegate.ballRotOffset * clientDelegate.ballOffset.toDouble()).toFloat()))
                 poseMatrix.translate(x+newOffset.x, y+newOffset.y, z+newOffset.z)
             }
-            val dir = beamSourcePosition.subtract(entity.pos.add(0.0, 2.0 - (clientDelegate.ballOffset.toDouble()/10f), 0.0)).normalize()
+            val dir = beamSourcePosition.subtract(entity.pos).normalize()
             val angle = MathHelper.atan2(dir.z, dir.x) - PI / 2
             poseMatrix.multiply(RotationAxis.POSITIVE_Y.rotation(-angle.toFloat() + (180 * Math.PI / 180).toFloat()))
-            poseMatrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(max(-65f, min(65f, (anglePitch.toFloat() * 1.5f) * 180f / PI))))
-            drawPokeBall(
-                ClientBallDisplay(entity.pokemon.caughtBall, setOf()),
-                poseMatrix,
-                scale = ease(clientDelegate.ballOffset.toDouble()).toFloat(),
-                partialTicks = partialTicks,
-                buff = buffer,
-                packedLight = packedLight,
-                ball = CobblemonClient.storage.myParty.firstOrNull { it?.uuid == entity.pokemon.uuid }?.caughtBall ?: clientDelegate.currentEntity.pokemon.caughtBall
-            )
+
+            // TODO: if you want to remove the open ball, add `clientDelegate.ballDone` to the if statement
+            // just incase we want a snap open anim
+            // me 2 but im thinking
+            if (beamMode == 1){
+                if(entity.pokemon.caughtBall.name.toString().contains("beast")){
+                    // get rotation angle on x acis for facingDir
+                    val xAngleFacingDir = MathHelper.atan2(facingDir.y, sqrt(facingDir.x * facingDir.x + facingDir.z * facingDir.z))
+                    poseMatrix.multiply(RotationAxis.POSITIVE_X.rotation(-xAngleFacingDir.toFloat()))
+                }
+                drawPokeBall(
+                    ClientBallDisplay(entity.pokemon.caughtBall, setOf()),
+                    poseMatrix,
+                    scale = clientDelegate.ballOffset.toFloat(),
+                    partialTicks = partialTicks,
+                    buff = buffer,
+                    packedLight = packedLight,
+                    ball = CobblemonClient.storage.myParty.firstOrNull { it?.uuid == entity.pokemon.uuid }?.caughtBall
+                        ?: clientDelegate.currentEntity.pokemon.caughtBall,
+                    distance = ceil(beamSourcePosition.distanceTo(entity.pos)/4f).toInt()
+                )
+            }
             poseMatrix.pop()
-            if(clientDelegate.ballDone || beamMode == 2) {
-                renderBeam(poseMatrix, partialTicks, entity, phaseTarget, lightColour, buffer, offset)
+            if(beamMode == 2) {
+                renderBeam(poseMatrix, partialTicks, entity, phaseTarget, lightColour, buffer, offsetDirection)
             }
         }
 
@@ -181,7 +190,7 @@ class PokemonRenderer(
                 0F
             }
 
-            if (glowMultiplier > 0F) {
+            if (glowMultiplier > 0F && clientDelegate.ballDone) {
                 renderGlow(
                     matrixStack = poseMatrix,
                     entity = entity,
@@ -240,11 +249,11 @@ class PokemonRenderer(
         var newOffset = offset.multiply(2.0)
         // the further away the source position is, the smaller the newOffset should be. Max distance is 20 blocks
         val distance = beamSourcePosition.distanceTo(entity.pos)
-        newOffset = newOffset.multiply((distance / 10.0) * 3)
+        newOffset = newOffset.multiply((distance / 10.0) * 5)
+        newOffset = newOffset.multiply(0.0, 1+ease(clientDelegate.ballOffset.toDouble()), 0.0)
         val direction = pokemonPosition.subtract(beamSourcePosition.add(newOffset)).let { Vector3f(it.x.toFloat(), it.y.toFloat(), it.z.toFloat()) }
 
         matrixStack.push()
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(clientDelegate.ballRotOffset))
         with(beamSourcePosition.subtract(entity.pos)) {
             matrixStack.translate(x + newOffset.x, y + newOffset.y, z + newOffset.z)
         }
@@ -416,23 +425,31 @@ class PokemonRenderer(
         reversed: Boolean = false,
         buff: VertexConsumerProvider,
         packedLight: Int,
-        ball: PokeBall
+        ball: PokeBall,
+        distance: Int
     ) {
         matrixStack.push()
         matrixStack.scale(0.7F, -0.7F, -0.7F)
         val model = PokeBallModelRepository.getPoser(ball.name, state.aspects)
         val texture = PokeBallModelRepository.getTexture(ball.name, state.aspects, state.animationSeconds)
-        state.timeEnteredPose = 0F
-        state.updatePartialTicks(partialTicks)
         if(scale == 1.0f) {
             model.moveToPose(null, state, model.open)
         } else {
-            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(Math.lerp(0F, 1080F, scale)))
+            matrixStack.translate(0.0, -0.2, 0.0)
+            val rot = 360F * distance
+            if(ball.name.toString().contains("beast")){
+                matrixStack.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(Math.lerp(0F, rot, scale)))
+            } else {
+                matrixStack.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(Math.lerp(0F, rot, scale)))
+            }
+            matrixStack.translate(0.0, 0.2, 0.0)
         }
+        state.timeEnteredPose = 0F
+        state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
         model.animateModel(null, 0f, 0F, 0F)
         val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, model.getLayer(texture), false, false)
-        matrixStack.scale(scale, scale, scale)
+//        matrixStack.scale(scale, scale, scale)
         model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         model.green = 1f
         model.blue = 1f

@@ -36,9 +36,9 @@ import org.joml.Vector3f
 
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
-        const val BEAM_SHRINK_TIME = 0.8F
+        const val BEAM_SHRINK_TIME = 0.4F
         const val BEAM_EXTEND_TIME = 0.2F
-        const val POKEBALL_AIR_TIME = 1.0F
+        const val POKEBALL_AIR_TIME = 0.5F
     }
 
     lateinit var currentEntity: PokemonEntity
@@ -129,7 +129,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                                         val newPos = it.add(sendOutOffset)
                                         for(i in 0..50) {
                                             client.particleManager.addParticle(ParticleTypes.END_ROD, newPos!!.x + (Math.random() * 0.1) - 0.05, newPos!!.y + (Math.random() * 0.1) - 0.05, newPos!!.z + (Math.random() * 0.1) - 0.05,
-                                                Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05)
+                                                Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2)
                                         }
                                     }
                                 }

@@ -44,6 +44,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import net.minecraft.util.Hand
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, BattleMessage, MutableList<String>) -> Unit>()
