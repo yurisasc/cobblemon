@@ -23,7 +23,6 @@
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
-    "ServerChunkManagerMixin",
     "ShearsDispenserBehaviorMixin",
     "accessor.AccessorEntity",
     "accessor.StatusEffectInstanceAccessor",
