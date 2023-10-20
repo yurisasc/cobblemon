@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.net.messages.client.spawn
 
+import com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.net.IntSize
@@ -31,6 +32,7 @@ class SpawnGenericBedrockPacket(
     val scale: Float,
     val width: Float,
     val height: Float,
+    val startAge: Int,
     vanillaSpawnPacket: EntitySpawnS2CPacket
 ) : SpawnExtraDataEntityPacket<SpawnGenericBedrockPacket, GenericBedrockEntity>(vanillaSpawnPacket) {
     override val id: Identifier = ID
@@ -42,6 +44,7 @@ class SpawnGenericBedrockPacket(
         buffer.writeFloat(scale)
         buffer.writeFloat(width)
         buffer.writeFloat(height)
+        buffer.writeInt(startAge)
     }
 
     override fun applyData(entity: GenericBedrockEntity) {
@@ -52,6 +55,8 @@ class SpawnGenericBedrockPacket(
         entity.colliderWidth = this.width
         entity.colliderHeight = this.height
         entity.delegate.initialize(entity)
+        entity.age = startAge
+        (entity.delegate as GenericBedrockClientDelegate).updateAge(startAge)
     }
 
     override fun checkType(entity: Entity): Boolean = entity is GenericBedrockEntity
@@ -65,8 +70,9 @@ class SpawnGenericBedrockPacket(
             val scale = buffer.readFloat()
             val width = buffer.readFloat()
             val height = buffer.readFloat()
+            val startAge = buffer.readInt()
             val vanillaPacket = decodeVanillaPacket(buffer)
-            return SpawnGenericBedrockPacket(category, aspects, poseType, scale, width, height, vanillaPacket)
+            return SpawnGenericBedrockPacket(category, aspects, poseType, scale, width, height, startAge, vanillaPacket)
         }
     }
 }

@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.entity
 import com.cobblemon.mod.common.api.entity.EntitySideDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 
 class GenericBedrockClientDelegate : EntitySideDelegate<GenericBedrockEntity>, PoseableEntityState<GenericBedrockEntity>() {
@@ -22,7 +23,10 @@ class GenericBedrockClientDelegate : EntitySideDelegate<GenericBedrockEntity>, P
         this.currentEntity = entity
         this.age = entity.age
         this.currentModel = GenericBedrockModelRepository.getPoser(entity.category, entity.aspects)
-        currentModel!!.updateLocators(entity, this)
+
+        val model = currentModel!!
+        model.context.put(RenderContext.ENTITY, entity)
+        currentModel!!.updateLocators(this)
         updateLocatorPosition(entity.pos)
 
         val currentPoseType = entity.getCurrentPoseType()

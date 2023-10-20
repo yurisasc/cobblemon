@@ -111,6 +111,7 @@ interface Evolution : EvolutionLike {
                 colliderHeight = pokemonEntity.height
                 colliderWidth = pokemonEntity.width
                 scale = pokemonEntity.scaleFactor
+                syncAge = true // Otherwise particle animation will be starting from zero even if you come along partway through
                 setPosition(pokemonEntity.x, pokemonEntity.y + pokemonEntity.height / 2, pokemonEntity.z)
             }
             pokemon.getOwnerPlayer()?.world?.spawnEntity(evolutionEntity)
@@ -118,6 +119,7 @@ interface Evolution : EvolutionLike {
             after(seconds = 9F) {
                 if (!pokemonEntity.isRemoved) {
                     evolutionMethod(pokemon)
+                    after(seconds = 1.5F) { pokemonEntity.cry() }
                     after(seconds = 3F) {
                         if (evolutionEntity != null) {
                             evolutionEntity.kill()
@@ -136,17 +138,13 @@ interface Evolution : EvolutionLike {
         this.learnableMoves.forEach { move ->
             if (pokemon.moveSet.hasSpace()) {
                 pokemon.moveSet.add(move.create())
-            }
-            else {
+            } else {
                 pokemon.benchedMoves.add(BenchedMove(move, 0))
             }
             pokemon.getOwnerPlayer()?.sendMessage(lang("experience.learned_move", pokemon.getDisplayName(), move.displayName))
         }
         // we want to instantly tick for example you might only evolve your Bulbasaur at level 34 so Venusaur should be immediately available
-        pokemon.evolutions.filterIsInstance<PassiveEvolution>()
-                .forEach { evolution ->
-                    evolution.attemptEvolution(pokemon)
-                }
+        pokemon.evolutions.filterIsInstance<PassiveEvolution>().forEach { evolution -> evolution.attemptEvolution(pokemon) }
         pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
         CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
     }

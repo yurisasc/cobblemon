@@ -21,7 +21,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.RotationAxis
 
 class GenericBedrockRenderer(context: EntityRendererFactory.Context) : EntityRenderer<GenericBedrockEntity>(context) {
-    override fun getTexture(entity: GenericBedrockEntity) = GenericBedrockModelRepository.getTexture(entity.category, entity.aspects, entity.delegate as GenericBedrockClientDelegate)
+    override fun getTexture(entity: GenericBedrockEntity) = GenericBedrockModelRepository.getTexture(entity.category, entity.aspects, (entity.delegate as GenericBedrockClientDelegate).animationSeconds)
     override fun render(entity: GenericBedrockEntity, yaw: Float, partialTicks: Float, poseStack: MatrixStack, buffer: VertexConsumerProvider, packedLight: Int) {
         if (entity.isInvisible) {
             return

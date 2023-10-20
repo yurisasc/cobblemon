@@ -145,5 +145,6 @@ object DataKeys {
     const val GENERIC_BEDROCK_SCALE = "Scale"
     const val GENERIC_BEDROCK_COLLIDER_WIDTH = "Width"
     const val GENERIC_BEDROCK_COLLIDER_HEIGHT = "Height"
+    const val GENERIC_BEDROCK_SYNC_AGE = "SyncAge"
 
 }

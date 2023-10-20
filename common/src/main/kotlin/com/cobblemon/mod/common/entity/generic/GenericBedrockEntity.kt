@@ -82,6 +82,8 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
             calculateDimensions()
         }
 
+    var syncAge = false
+
     override fun initDataTracker() {
         this.dataTracker.startTracking(CATEGORY, cobblemonResource("generic"))
         this.dataTracker.startTracking(ASPECTS, emptySet())
@@ -95,6 +97,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
         this.scale = nbt.getFloat(DataKeys.GENERIC_BEDROCK_SCALE)
         this.colliderWidth = nbt.getFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_WIDTH)
         this.colliderHeight = nbt.getFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_HEIGHT)
+        this.syncAge = nbt.getBoolean(DataKeys.GENERIC_BEDROCK_SYNC_AGE)
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
@@ -104,6 +107,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
         nbt.putFloat(DataKeys.GENERIC_BEDROCK_SCALE, scale)
         nbt.putFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_WIDTH, colliderWidth)
         nbt.putFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_HEIGHT, colliderHeight)
+        nbt.putBoolean(DataKeys.GENERIC_BEDROCK_SYNC_AGE, syncAge)
     }
 
     override fun canHit() = true
@@ -121,6 +125,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
             scale = scale,
             width = colliderWidth,
             height = colliderHeight,
+            startAge = if (syncAge) age else 0,
             vanillaSpawnPacket = super.createSpawnPacket() as EntitySpawnS2CPacket
         )
     )

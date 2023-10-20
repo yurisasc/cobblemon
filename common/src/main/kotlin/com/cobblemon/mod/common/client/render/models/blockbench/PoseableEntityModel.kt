@@ -420,7 +420,7 @@ abstract class PoseableEntityModel<T : Entity>(
         state.currentModel = this
         setDefault()
         if (entity != null) {
-            updateLocators(entity, state)
+            updateLocators(state)
         }
         state.preRender()
         var poseName = state.getPose()
@@ -473,7 +473,7 @@ abstract class PoseableEntityModel<T : Entity>(
         state.applyAdditives(entity, this, state)
         relevantParts.forEach { it.changeFactor = 1F }
         if (entity != null) {
-            updateLocators(entity, state)
+            updateLocators(state)
         }
     }
 
