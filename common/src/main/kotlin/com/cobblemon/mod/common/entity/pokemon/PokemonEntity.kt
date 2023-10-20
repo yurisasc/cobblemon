@@ -730,6 +730,7 @@ class PokemonEntity(
         }
         player.giveOrDropItemStack(returned)
         player.sendMessage(text)
+        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.6F, pitch = 1.4F)
         return true
     }
 

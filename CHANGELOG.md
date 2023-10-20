@@ -1,5 +1,10 @@
 # Changelog
 ## [1.4.1](#1-4-1)
+
+### Changes
+- Giving Pokémon an item now plays a sound
+- Pokémon cries are now a bit quieter
+
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
 - Updated the registration of compostable items to improve compatibility with Fabric forks such as Quilt. Please note this does not mean we officially support Quilt, this change was only done since it was possible by correcting the registration to use the new intended way in the Fabric API.
