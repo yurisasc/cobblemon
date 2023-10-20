@@ -8,6 +8,7 @@
 - Updated the registration of compostable items to improve compatibility with Fabric forks such as Quilt. Please note this does not mean we officially support Quilt, this change was only done since it was possible by correcting the registration to use the new intended way in the Fabric API.
 - Fixed Dispensers being unable to shear grown Apricorns.
 - Fixed the compatibility patch with the Forge version of [Carry On](https://modrinth.com/mod/carry-on) due to a bug on the mod, the Fabric version was unchanged and is still compatible.
+- Added the ability to place Berries on modded Farmland blocks.
 - Added the ability for Hoppers to fill Brewing Stands with Medicinal Brews and Potions.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
