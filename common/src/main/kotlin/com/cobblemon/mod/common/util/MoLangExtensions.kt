@@ -90,7 +90,6 @@ fun String.asExpression() = try {
     Cobblemon.LOGGER.error("Failed to parse MoLang expression: $this")
     throw exc
 }
-
 fun MoLangEnvironment.writePokemon(pokemon: Pokemon) {
     val pokemonStruct = VariableStruct()
     pokemon.writeVariables(pokemonStruct)

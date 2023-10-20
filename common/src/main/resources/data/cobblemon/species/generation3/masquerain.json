@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Masquerain",
   "nationalPokedexNumber": 284,
   "primaryType": "bug",
@@ -7,6 +8,23 @@
     "intimidate",
     "h:unnerve"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:honey_bottle",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 60,

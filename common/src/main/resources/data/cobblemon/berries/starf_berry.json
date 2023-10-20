@@ -26,94 +26,85 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
       "position": {
-        "x": 5.7,
-        "y": 7.4,
-        "z": 5.5
+        "x": 8.75,
+        "y": 6.5,
+        "z": 6.0
       },
       "rotation": {
-        "x": 116.2,
-        "y": 41.6,
-        "z": 10.4
+        "x": 77.5,
+        "y": 22.5,
+        "z": -170.0
       }
     },
     {
       "position": {
-        "x": 10.0,
-        "y": 8.4,
-        "z": 5.8
+        "x": 6.25,
+        "y": 6.5,
+        "z": 8.25
       },
       "rotation": {
-        "x": 59.6,
-        "y": -39.5,
-        "z": 51.7
+        "x": -15.0,
+        "y": 45.0,
+        "z": -120.0
       }
     },
     {
       "position": {
-        "x": 6.0,
-        "y": 7.5,
-        "z": 10.1
+        "x": 9.5,
+        "y": 6.5,
+        "z": 9.5
       },
       "rotation": {
-        "x": -45.0,
-        "y": -6.3,
-        "z": -71.5
+        "x": -55.0,
+        "y": -30.0,
+        "z": 152.5
       }
     },
     {
       "position": {
-        "x": 9.9,
-        "y": 7.5,
-        "z": 10.1
+        "x": 7.75,
+        "y": 8.25,
+        "z": 9.0
       },
       "rotation": {
-        "x": -106.9,
-        "y": 45.2,
-        "z": -2.9
+        "x": -130.0,
+        "y": -50.0,
+        "z": -32.5
+      }
+    },
+    {
+      "position": {
+        "x": 7.5,
+        "y": 8.25,
+        "z": 6.75
+      },
+      "rotation": {
+        "x": 157.5,
+        "y": 10.0,
+        "z": 20.0
+      }
+    },
+    {
+      "position": {
+        "x": 9.25,
+        "y": 8.25,
+        "z": 7.75
+      },
+      "rotation": {
+        "x": 165.0,
+        "y": 65.0,
+        "z": -45.0
       }
     }
   ],
   "mutations": {},
-  "sproutShape": [
-    {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
-    }
-  ],
-  "matureShape": [
-    {
-      "minX": 6,
-      "minY": -1,
-      "minZ": 6,
-      "maxX": 10,
-      "maxY": 0,
-      "maxZ": 10
-    },
-    {
-      "minX": 7,
-      "minY": 0,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 11,
-      "maxZ": 9
-    },
-    {
-      "minX": 7.5,
-      "minY": 11,
-      "minZ": 7.5,
-      "maxX": 8.5,
-      "maxY": 22,
-      "maxZ": 8.5
-    }
-  ],
+  "sproutShape": "short-sprout",
+  "matureShape": "short-mature",
   "flavors": {
     "SPICY": 30,
     "DRY": 10,
@@ -121,9 +112,10 @@
     "BITTER": 10,
     "SOUR": 30
   },
-  "tintIndexes": {},
-  "flowerModel": "cobblemon:starf_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/starf.png",
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:starf_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/starf.png"
 }

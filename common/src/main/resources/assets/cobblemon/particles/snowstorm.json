@@ -5,6 +5,7 @@
     "cobblemon:tailflame",
     "cobblemon:vanilla_smoke",
     "cobblemon:lava_bubble",
+    "cobblemon:shiny_lava_bubble",
     "cobblemon:bigsparkle",
     "cobblemon:sparkle",
     "cobblemon:speedlines",
@@ -14,6 +15,7 @@
     "cobblemon:metal_sparks",
     "cobblemon:sleep_zzz",
     "cobblemon:bubble",
-    "cobblemon:confetti"
+    "cobblemon:confetti",
+    "cobblemon:cherry_petal"
   ]
 }

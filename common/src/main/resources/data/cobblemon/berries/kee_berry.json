@@ -26,94 +26,109 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
       "position": {
-        "x": -8.0,
-        "y": 18.5,
-        "z": -2.0
+        "x": 5.5,
+        "y": 11.5,
+        "z": 0.75
       },
       "rotation": {
-        "x": 15.0,
-        "y": 75.0,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
-        "x": -4.5,
-        "y": 25.5,
-        "z": 4.75
-      },
-      "rotation": {
-        "x": 32.5,
-        "y": 122.5,
-        "z": 0.0
-      }
-    },
-    {
-      "position": {
         "x": 5.0,
-        "y": 25.0,
-        "z": -3.25
+        "y": -2.5,
+        "z": -5.0
+      }
+    },
+    {
+      "position": {
+        "x": 0.5,
+        "y": 12.0,
+        "z": 10.5
       },
       "rotation": {
         "x": -42.5,
-        "y": 105.0,
-        "z": 0.0
+        "y": 80.0,
+        "z": -47.5
       }
     },
     {
       "position": {
-        "x": 2.25,
-        "y": 18.5,
-        "z": -7.75
+        "x": 15.5,
+        "y": 12.0,
+        "z": 5.5
       },
       "rotation": {
-        "x": 12.5,
-        "y": -5.0,
-        "z": 0.0
+        "x": 15.0,
+        "y": -77.5,
+        "z": -10.0
+      }
+    },
+    {
+      "position": {
+        "x": 10.5,
+        "y": 11.5,
+        "z": 15.5
+      },
+      "rotation": {
+        "x": -175.0,
+        "y": -17.5,
+        "z": 170.0
+      }
+    },
+    {
+      "position": {
+        "x": 1.5,
+        "y": 19.5,
+        "z": 5.5
+      },
+      "rotation": {
+        "x": 125.0,
+        "y": 75.0,
+        "z": 120.0
+      }
+    },
+    {
+      "position": {
+        "x": 14.5,
+        "y": 19.5,
+        "z": 10.5
+      },
+      "rotation": {
+        "x": -157.5,
+        "y": -75.0,
+        "z": 162.5
+      }
+    },
+    {
+      "position": {
+        "x": 10.5,
+        "y": 19.0,
+        "z": 1.75
+      },
+      "rotation": {
+        "x": 7.5,
+        "y": -20.0,
+        "z": -10.0
+      }
+    },
+    {
+      "position": {
+        "x": 5.5,
+        "y": 19.0,
+        "z": 14.25
+      },
+      "rotation": {
+        "x": -172.5,
+        "y": -2.5,
+        "z": -177.5
       }
     }
   ],
   "mutations": {},
-  "sproutShape": [
-    {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
-    }
-  ],
-  "matureShape": [
-    {
-      "minX": 6,
-      "minY": -1,
-      "minZ": 6,
-      "maxX": 10,
-      "maxY": 0,
-      "maxZ": 10
-    },
-    {
-      "minX": 7,
-      "minY": 0,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 11,
-      "maxZ": 9
-    },
-    {
-      "minX": 7.5,
-      "minY": 11,
-      "minZ": 7.5,
-      "maxX": 8.5,
-      "maxY": 22,
-      "maxZ": 8.5
-    }
-  ],
+  "sproutShape": "tall-sprout",
+  "matureShape": "tall-mature",
   "flavors": {
     "SPICY": 30,
     "DRY": 30,
@@ -121,9 +136,10 @@
     "BITTER": 10,
     "SOUR": 10
   },
-  "tintIndexes": {},
-  "flowerModel": "cobblemon:kee_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/kee.png",
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:kee_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/kee.png"
 }

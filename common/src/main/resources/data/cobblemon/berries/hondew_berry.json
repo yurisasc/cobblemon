@@ -26,42 +26,67 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
       "position": {
-        "x": 6.75,
-        "y": 8.0,
-        "z": 6.5
+        "x": 7.75,
+        "y": 11.5,
+        "z": 6.0
       },
       "rotation": {
-        "x": 140.0,
-        "y": 47.5,
-        "z": 132.5
+        "x": 60.0,
+        "y": -65.0,
+        "z": -67.5
       }
     },
     {
       "position": {
-        "x": 7.25,
-        "y": 15.0,
-        "z": 9.0
+        "x": 8.25,
+        "y": 22.0,
+        "z": 10.0
       },
       "rotation": {
-        "x": -20.0,
-        "y": 32.5,
-        "z": -35.0
+        "x": -80.0,
+        "y": -70.0,
+        "z": 82.5
+      }
+    },
+    {
+      "position": {
+        "x": 11.0,
+        "y": 7.5,
+        "z": 9.25
+      },
+      "rotation": {
+        "x": -10.0,
+        "y": -25.0,
+        "z": 20.0
+      }
+    },
+    {
+      "position": {
+        "x": 5.75,
+        "y": 15.5,
+        "z": 8.75
+      },
+      "rotation": {
+        "x": -17.5,
+        "y": 30.0,
+        "z": -30.0
       }
     },
     {
       "position": {
         "x": 9.25,
-        "y": 11.0,
-        "z": 8.75
+        "y": 22.0,
+        "z": 6.5
       },
       "rotation": {
-        "x": -10.0,
-        "y": -15.0,
-        "z": 30.0
+        "x": 12.5,
+        "y": 30.0,
+        "z": 25.0
       }
     }
   ],
@@ -69,52 +94,17 @@
     "cobblemon:durin_berry": "cobblemon:petaya_berry",
     "cobblemon:pomeg_berry": "cobblemon:starf_berry"
   },
-  "sproutShape": [
-    {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
-    }
-  ],
-  "matureShape": [
-    {
-      "minX": 6,
-      "minY": -1,
-      "minZ": 6,
-      "maxX": 10,
-      "maxY": 0,
-      "maxZ": 10
-    },
-    {
-      "minX": 7,
-      "minY": 0,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 11,
-      "maxZ": 9
-    },
-    {
-      "minX": 7.5,
-      "minY": 11,
-      "minZ": 7.5,
-      "maxX": 8.5,
-      "maxY": 22,
-      "maxZ": 8.5
-    }
-  ],
+  "sproutShape": "platform-sprout",
+  "matureShape": "platform-mature",
   "flavors": {
     "SPICY": 10,
     "DRY": 10,
     "BITTER": 10
   },
-  "tintIndexes": {
-    "0": "#9f6485"
-  },
-  "flowerModel": "cobblemon:hondew_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/hondew.png",
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:hondew_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/hondew.png"
 }

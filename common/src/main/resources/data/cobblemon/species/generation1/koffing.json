@@ -29,14 +29,11 @@
     "moving": {
       "fly": {
         "canFly": true
-      },
-      "walk": {
-        "canWalk": false
       }
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:black_sludge",
@@ -215,7 +212,7 @@
   "features": [
     "galarian"
   ],
-  "baseScale": 0.8,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 0.9,
     "height": 1.2,

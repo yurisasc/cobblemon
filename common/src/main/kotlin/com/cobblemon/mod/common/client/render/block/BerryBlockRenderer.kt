@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.setPosition
 import com.cobblemon.mod.common.util.math.geometry.Axis
+import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
@@ -27,10 +28,11 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
 
     override fun isInRenderDistance(blockEntity: BerryBlockEntity, pos: Vec3d): Boolean {
         return super.isInRenderDistance(blockEntity, pos)
-                && MinecraftClient.getInstance().worldRenderer.frustum.isVisible(Box.of(pos, 2.0, 1.5, 2.0))
+                && MinecraftClient.getInstance().worldRenderer.frustum.isVisible(Box.of(pos, 2.0, 4.0, 2.0))
     }
 
     override fun render(entity: BerryBlockEntity, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
+        if (!isInRenderDistance(entity, entity.pos.toVec3d())) return
         val blockState = entity.cachedState
         val age = blockState.get(BerryBlock.AGE)
         if (age <= BerryBlock.MATURE_AGE) {
@@ -40,7 +42,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         for ((berry, growthPoint) in entity.berryAndGrowthPoint()) {
             val model = (if (isFlower) BerryModelRepository.modelOf(berry.flowerModelIdentifier) else BerryModelRepository.modelOf(berry.fruitModelIdentifier)) ?: continue
             val texture = if (isFlower) berry.flowerTexture else berry.fruitTexture
-            val layer = RenderLayer.getArmorCutoutNoCull(texture)
+            val layer = RenderLayer.getEntityCutoutNoCull(texture)
             model.setAngles(
                 Math.toRadians(180.0 - growthPoint.rotation.x).toFloat(),
                 Math.toRadians(180.0 + growthPoint.rotation.y).toFloat(),

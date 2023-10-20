@@ -26,6 +26,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [
     {
       "variant": "cobblemon:preferred_biome",
@@ -37,73 +38,73 @@
     {
       "position": {
         "x": 9.0,
-        "y": 1.3,
-        "z": 5.75
+        "y": 1.25,
+        "z": 6.0
       },
       "rotation": {
-        "x": 137.5,
-        "y": -32.5,
-        "z": 0.0
+        "x": 155.0,
+        "y": -17.5,
+        "z": -5.0
       }
     },
     {
       "position": {
         "x": 5.75,
         "y": 1.5,
-        "z": 8.25
+        "z": 8.0
       },
       "rotation": {
-        "x": 177.5,
-        "y": 2.5,
-        "z": 45.0
+        "x": -180.0,
+        "y": 50.0,
+        "z": 30.0
       }
     },
     {
       "position": {
-        "x": 9.25,
-        "y": 1.45,
-        "z": 10.0
+        "x": 9.0,
+        "y": 1.5,
+        "z": 9.75
       },
       "rotation": {
-        "x": -135.0,
-        "y": 25.0,
+        "x": -152.5,
+        "y": 27.5,
         "z": 0.0
       }
     },
     {
       "position": {
-        "x": 6.5,
-        "y": 1.3,
-        "z": 5.5
+        "x": 7.0,
+        "y": 1.25,
+        "z": 6.0
       },
       "rotation": {
-        "x": 147.5,
-        "y": -32.5,
-        "z": 50.0
+        "x": 120.0,
+        "y": -62.5,
+        "z": 75.0
       }
     },
     {
       "position": {
         "x": 10.25,
-        "y": 1.4,
+        "y": 1.25,
         "z": 8.0
       },
       "rotation": {
-        "x": 177.5,
-        "y": -7.5,
-        "z": -42.5
+        "x": -180.0,
+        "y": -35.0,
+        "z": -25.0
       }
     },
     {
       "position": {
         "x": 6.75,
         "y": 1.5,
-        "z": 10.25
+        "z": 9.5
       },
       "rotation": {
-        "x": -145.0,
-        "y": 0.0,
-        "z": 17.5
+        "x": -147.5,
+        "y": -12.5,
+        "z": 7.5
       }
     },
     {
@@ -113,9 +114,9 @@
         "z": 8.5
       },
       "rotation": {
-        "x": -160.0,
+        "x": -172.5,
         "y": -55.0,
-        "z": -30.0
+        "z": -15.0
       }
     },
     {
@@ -125,9 +126,21 @@
         "z": 6.75
       },
       "rotation": {
-        "x": 157.5,
-        "y": -15.0,
-        "z": 0.0
+        "x": 165.0,
+        "y": -32.5,
+        "z": 5.0
+      }
+    },
+    {
+      "position": {
+        "x": 7.0,
+        "y": 3.0,
+        "z": 8.5
+      },
+      "rotation": {
+        "x": -155.0,
+        "y": -62.5,
+        "z": -10.0
       }
     }
   ],
@@ -135,48 +148,15 @@
     "cobblemon:oran_berry": "cobblemon:lum_berry",
     "cobblemon:persim_berry": "cobblemon:aguav_berry"
   },
-  "sproutShape": [
-    {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
-    }
-  ],
-  "matureShape": [
-    {
-      "minX": 6,
-      "minY": -1,
-      "minZ": 6,
-      "maxX": 10,
-      "maxY": 0,
-      "maxZ": 10
-    },
-    {
-      "minX": 7,
-      "minY": 0,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 11,
-      "maxZ": 9
-    },
-    {
-      "minX": 7.5,
-      "minY": 11,
-      "minZ": 7.5,
-      "maxX": 8.5,
-      "maxY": 22,
-      "maxZ": 8.5
-    }
-  ],
+  "sproutShape": "blossom-sprout",
+  "matureShape": "blossom-mature",
   "flavors": {
     "BITTER": 10
   },
-  "tintIndexes": {},
-  "flowerModel": "cobblemon:rawst_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/rawst.png",
+  "weight": 20.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:rawst_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/rawst.png"
 }

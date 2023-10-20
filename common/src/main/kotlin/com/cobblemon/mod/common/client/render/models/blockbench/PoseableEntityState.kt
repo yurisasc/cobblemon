@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.Vec3d

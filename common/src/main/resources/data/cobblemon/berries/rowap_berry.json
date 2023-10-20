@@ -27,101 +27,69 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
       "position": {
-        "x": 9.0,
-        "y": 12.8,
-        "z": 8.4
+        "x": 7.25,
+        "y": 13.0,
+        "z": 7.25
       },
       "rotation": {
-        "x": -162.5,
-        "y": 12.5,
-        "z": 0.0
+        "x": 12.5,
+        "y": -17.5,
+        "z": -170.0
       }
     },
     {
       "position": {
-        "x": 9.3,
-        "y": 12.3,
-        "z": 7.0
+        "x": 7.25,
+        "y": 13.0,
+        "z": 8.75
       },
       "rotation": {
-        "x": 37.2,
-        "y": 77.5,
-        "z": -143.5
+        "x": -157.5,
+        "y": -57.5,
+        "z": -7.5
       }
     },
     {
       "position": {
-        "x": 6.8,
-        "y": 12.5,
-        "z": 9.3
+        "x": 8.75,
+        "y": 13.0,
+        "z": 8.75
       },
       "rotation": {
-        "x": -175.1,
-        "y": -62.5,
-        "z": 0.3
+        "x": -167.5,
+        "y": 20.0,
+        "z": -10.0
       }
     },
     {
       "position": {
-        "x": 7.0,
-        "y": 12.9,
-        "z": 7.1
+        "x": 8.75,
+        "y": 13.0,
+        "z": 7.25
       },
       "rotation": {
-        "x": 7.6,
-        "y": -13.7,
-        "z": -171.7
+        "x": 25.0,
+        "y": 60.0,
+        "z": -170.0
       }
     }
   ],
   "mutations": {},
-  "sproutShape": [
-    {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
-    }
-  ],
-  "matureShape": [
-    {
-      "minX": 6,
-      "minY": -1,
-      "minZ": 6,
-      "maxX": 10,
-      "maxY": 0,
-      "maxZ": 10
-    },
-    {
-      "minX": 7,
-      "minY": 0,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 11,
-      "maxZ": 9
-    },
-    {
-      "minX": 7.5,
-      "minY": 11,
-      "minZ": 7.5,
-      "maxX": 8.5,
-      "maxY": 22,
-      "maxZ": 8.5
-    }
-  ],
+  "sproutShape": "volcano-sprout",
+  "matureShape": "volcano-mature",
   "flavors": {
     "SPICY": 10,
     "SOUR": 40
   },
-  "tintIndexes": {},
-  "flowerModel": "cobblemon:rowap_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/rowap.png",
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:rowap_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/rowap.png"
 }

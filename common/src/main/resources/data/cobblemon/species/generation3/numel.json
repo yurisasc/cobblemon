@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Numel",
   "nationalPokedexNumber": 322,
   "primaryType": "fire",
@@ -8,6 +9,19 @@
     "simple",
     "h:owntempo"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:magma_cream",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 60,

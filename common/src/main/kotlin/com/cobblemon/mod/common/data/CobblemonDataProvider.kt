@@ -66,7 +66,6 @@ object CobblemonDataProvider : DataProvider {
 
         CobblemonSpawnPools.load()
         this.register(Berries)
-        this.register(BerryModelRepository)
 
         PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe {
             synchronizedPlayerIds.remove(it.player.uuid)

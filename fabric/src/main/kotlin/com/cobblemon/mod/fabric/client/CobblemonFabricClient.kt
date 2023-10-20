@@ -8,10 +8,9 @@
 
 package com.cobblemon.mod.fabric.client
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.CobblemonEntities
-import com.cobblemon.mod.common.api.text.gray
+import com.cobblemon.mod.common.client.render.CobblemonAtlases
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
@@ -21,7 +20,6 @@ import com.cobblemon.mod.common.platform.events.ClientPlayerEvent
 import com.cobblemon.mod.common.platform.events.ClientTickEvent
 import com.cobblemon.mod.common.platform.events.ItemTooltipEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
-import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.fabric.CobblemonFabric
 import java.util.function.Supplier
@@ -35,6 +33,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
 import net.minecraft.block.Block
@@ -53,8 +52,13 @@ import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
 import net.minecraft.resource.ResourceManager
+import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
-import net.minecraft.util.Language
+import net.minecraft.util.profiler.Profiler
+import net.minecraft.util.profiling.jfr.event.WorldLoadFinishedEvent
+import net.minecraft.world.WorldEvents
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
 
 class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation {
     override fun onInitializeClient() {
@@ -67,10 +71,30 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         EntityRendererRegistry.register(CobblemonEntities.EMPTY_POKEBALL) { CobblemonClient.registerPokeBallRenderer(it) }
         EntityRendererRegistry.register(CobblemonEntities.GENERIC_BEDROCK_ENTITY) { CobblemonClient.registerGenericBedrockRenderer(it) }
 
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : SimpleSynchronousResourceReloadListener {
-            override fun getFabricId() = cobblemonResource("resources")
-            override fun reload(resourceManager: ResourceManager) { reloadCodedAssets(resourceManager) }
+        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : IdentifiableResourceReloadListener {
+            override fun reload(
+                synchronizer: ResourceReloader.Synchronizer?,
+                manager: ResourceManager?,
+                prepareProfiler: Profiler?,
+                applyProfiler: Profiler?,
+                prepareExecutor: Executor?,
+                applyExecutor: Executor?
+            ): CompletableFuture<Void> {
+                //Atlases must be loaded before we reloadCodedAssets, BerryModelRepository needs the berry atlas
+                val atlasFutures = mutableListOf<CompletableFuture<Void>>()
+                CobblemonAtlases.atlases.forEach {
+                    atlasFutures.add(it.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor))
+                }
+                val result = CompletableFuture.allOf(*atlasFutures.toTypedArray()).thenRun {
+                    reloadCodedAssets(manager!!)
+                }
+                return result
+            }
+
+            override fun getFabricId() = cobblemonResource("atlases")
+
         })
+
         CobblemonKeyBinds.register(KeyBindingHelper::registerKeyBinding)
 
         ClientTickEvents.START_CLIENT_TICK.register { client -> PlatformEvents.CLIENT_TICK_PRE.post(ClientTickEvent.Pre(client)) }

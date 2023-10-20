@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Phanpy",
   "nationalPokedexNumber": 231,
   "primaryType": "ground",
@@ -6,6 +7,19 @@
     "pickup",
     "h:sandveil"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 60,
@@ -172,10 +186,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 70,

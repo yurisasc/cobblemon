@@ -27,6 +27,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
@@ -49,7 +50,7 @@
       },
       "rotation": {
         "x": 107.5,
-        "y": -60.0,
+        "y": -52.5,
         "z": -152.5
       }
     },
@@ -72,7 +73,7 @@
         "z": 8.25
       },
       "rotation": {
-        "x": -40.0,
+        "x": -42.5,
         "y": 0.0,
         "z": -30.0
       }
@@ -96,9 +97,9 @@
         "z": 8.0
       },
       "rotation": {
-        "x": 10.0,
+        "x": 7.5,
         "y": -30.0,
-        "z": 37.5
+        "z": 42.5
       }
     }
   ],
@@ -106,51 +107,16 @@
     "cobblemon:yache_berry": "cobblemon:grepa_berry",
     "cobblemon:payapa_berry": "cobblemon:belue_berry"
   },
-  "sproutShape": [
-    {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
-    }
-  ],
-  "matureShape": [
-    {
-      "minX": 6,
-      "minY": -1,
-      "minZ": 6,
-      "maxX": 10,
-      "maxY": 0,
-      "maxZ": 10
-    },
-    {
-      "minX": 7,
-      "minY": 0,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 11,
-      "maxZ": 9
-    },
-    {
-      "minX": 7.5,
-      "minY": 11,
-      "minZ": 7.5,
-      "maxX": 8.5,
-      "maxY": 22,
-      "maxZ": 8.5
-    }
-  ],
+  "sproutShape": "short-sprout",
+  "matureShape": "short-mature",
   "flavors": {
     "SPICY": 10,
     "SOUR": 20
   },
-  "tintIndexes": {
-    "0": "#4bba36"
-  },
-  "flowerModel": "cobblemon:nomel_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/nomel.png",
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:nomel_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/nomel.png"
 }

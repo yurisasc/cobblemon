@@ -80,6 +80,9 @@
         "canWalk": true,
         "avoidsLand": true
       },
+      "fly": {
+        "canFly": false
+      },
       "swim": {
         "swimSpeed": 0.1,
         "canSwimInWater": true,
@@ -89,14 +92,18 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:salmon"
       },
       {
         "item": "minecraft:bone_meal",
-        "percentage": 10
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 5.0
       }
     ]
   },

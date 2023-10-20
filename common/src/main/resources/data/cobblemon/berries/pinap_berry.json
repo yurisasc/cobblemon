@@ -26,6 +26,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": false,
   "spawnConditions": [
     {
       "variant": "cobblemon:preferred_biome",
@@ -37,7 +38,7 @@
     {
       "position": {
         "x": 8.0,
-        "y": 11.5,
+        "y": 12.0,
         "z": 8.0
       },
       "rotation": {
@@ -49,7 +50,7 @@
     {
       "position": {
         "x": 8.0,
-        "y": 15.5,
+        "y": 16.0,
         "z": 8.0
       },
       "rotation": {
@@ -61,7 +62,7 @@
     {
       "position": {
         "x": 8.0,
-        "y": 19.5,
+        "y": 20.0,
         "z": 8.0
       },
       "rotation": {
@@ -73,7 +74,7 @@
     {
       "position": {
         "x": 8.0,
-        "y": 23.5,
+        "y": 24.0,
         "z": 8.0
       },
       "rotation": {
@@ -85,7 +86,7 @@
     {
       "position": {
         "x": 8.0,
-        "y": 27.5,
+        "y": 28.0,
         "z": 8.0
       },
       "rotation": {
@@ -97,7 +98,7 @@
     {
       "position": {
         "x": 8.0,
-        "y": 31.5,
+        "y": 32.0,
         "z": 8.0
       },
       "rotation": {
@@ -109,7 +110,7 @@
     {
       "position": {
         "x": 8.0,
-        "y": 35.5,
+        "y": 36.0,
         "z": 8.0
       },
       "rotation": {
@@ -121,7 +122,31 @@
     {
       "position": {
         "x": 8.0,
-        "y": 39.5,
+        "y": 40.0,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 44.0,
+        "z": 8.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.0,
+        "y": 48.0,
         "z": 8.0
       },
       "rotation": {
@@ -135,51 +160,16 @@
     "cobblemon:oran_berry": "cobblemon:leppa_berry",
     "cobblemon:iapapa_berry": "cobblemon:nomel_berry"
   },
-  "sproutShape": [
-    {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
-    }
-  ],
-  "matureShape": [
-    {
-      "minX": 6,
-      "minY": -1,
-      "minZ": 6,
-      "maxX": 10,
-      "maxY": 0,
-      "maxZ": 10
-    },
-    {
-      "minX": 7,
-      "minY": 0,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 11,
-      "maxZ": 9
-    },
-    {
-      "minX": 7.5,
-      "minY": 11,
-      "minZ": 7.5,
-      "maxX": 8.5,
-      "maxY": 22,
-      "maxZ": 8.5
-    }
-  ],
+  "sproutShape": "sword-sprout",
+  "matureShape": "sword-mature",
   "flavors": {
     "SPICY": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#917332"
-  },
-  "flowerModel": "cobblemon:pinap_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/pinap.png",
+  "weight": 15.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:pinap_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/pinap.png"
 }

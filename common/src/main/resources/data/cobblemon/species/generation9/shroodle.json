@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Shroodle",
   "nationalPokedexNumber": 944,
   "primaryType": "poison",
@@ -8,6 +9,15 @@
     "pickpocket",
     "h:prankster"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 65,
@@ -33,6 +43,14 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:leer",
     "1:scratch",
@@ -111,6 +129,12 @@
       ]
     }
   ],
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.5,
+    "height": 0.5,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.shroodle.desc"

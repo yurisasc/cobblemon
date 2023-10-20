@@ -438,6 +438,98 @@
 					}
 				}
 			}
+		},
+		"animation.butterfree.cry": {
+			"animation_length": 1,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.1667": [-12.5, 0, 0],
+						"0.3333": [0, 0, 0],
+						"0.4167": [-10, 0, 0],
+						"0.625": [-7.5, 0, 0],
+						"0.9167": [0, 0, 0]
+					}
+				},
+				"antenna_right": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.1667": [22.5, 0, 0],
+						"0.3333": [2.5, 0, 0],
+						"0.5": [20, 0, 0],
+						"0.9167": [0, 0, 0]
+					}
+				},
+				"antenna_right2": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.1667": [12.5, 0, 0],
+						"0.5833": [-7.5, 0, 0],
+						"0.9167": [0, 0, 0]
+					}
+				},
+				"antenna_left": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.1667": [20, 0, 0],
+						"0.3333": [2.5, 0, 0],
+						"0.5": [20, 0, 0],
+						"0.9167": [0, 0, 0]
+					}
+				},
+				"antenna_left2": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.1667": [12.5, 0, 0],
+						"0.5833": [-5, 0, 0],
+						"0.9167": [0, 0, 0]
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "pokemon.butterfree.cry"
+				}
+			}
+		},
+		"animation.butterfree_male.render": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [12.5, 0, 0]
+				},
+				"head": {
+					"rotation": [0, -12.5, 0]
+				},
+				"antenna_right": {
+					"rotation": [-24.62934, -0.40523, -11.00966]
+				},
+				"antenna_right2": {
+					"rotation": [-15, 0, -7.5]
+				},
+				"antenna_left": {
+					"rotation": [-20, 0, 0]
+				},
+				"antenna_left2": {
+					"rotation": [-26.4271, -5.04349, 13.66203]
+				},
+				"leg_right": {
+					"rotation": [-5, 0, 0]
+				},
+				"leg_left": {
+					"rotation": [-7.5, 0, 0]
+				},
+				"wing_right": {
+					"rotation": [0, 7.5, 0]
+				},
+				"wing_left": {
+					"rotation": [0, -15, 0]
+				},
+				"wing_left2": {
+					"rotation": [0, 0, 0]
+				}
+			}
 		}
 	}
 }

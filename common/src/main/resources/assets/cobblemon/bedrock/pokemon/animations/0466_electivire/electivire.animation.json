@@ -8,7 +8,7 @@
 					"position": [0, -1.5, 0]
 				},
 				"torso": {
-					"rotation": [12.5, 0, 0]
+					"rotation": [10, 0, 0]
 				},
 				"arm_left": {
 					"rotation": [0, -12.5, 0]
@@ -110,28 +110,40 @@
 					"rotation": [30, 0, 0]
 				},
 				"leg_left": {
-					"rotation": [-12.589, -8.403, -10.75155]
+					"rotation": [-25, -30, -12.5]
 				},
 				"leg_left2": {
-					"rotation": [25.5, 0, 0]
+					"rotation": [32.5, 0, 0]
 				},
 				"foot_left": {
-					"rotation": [-8.88733, 1.29876, 9.91615]
+					"rotation": [0, 0, 10]
 				},
 				"leg_right": {
-					"rotation": [-12.5, 7.5, 12.5]
+					"rotation": [-25, 30, 12.5]
 				},
 				"leg_right2": {
-					"rotation": [25, 0, 0]
+					"rotation": [32.5, 0, 0]
 				},
 				"foot_right": {
-					"rotation": [-9.81594, -2.15393, -9.76758]
+					"rotation": [0, 0, -10]
 				},
 				"fingers_left": {
 					"rotation": [0, 0, 10]
 				},
 				"fingers_right": {
 					"rotation": [0, 0, -12.5]
+				},
+				"shoulder_fur_left2": {
+					"position": [0, 1, 0]
+				},
+				"shoulder_fur_right": {
+					"position": [0, 0, 0]
+				},
+				"shoulder_fur_right2": {
+					"position": [0, 1, 0]
+				},
+				"head": {
+					"rotation": [-5, 0, 0]
 				}
 			}
 		},

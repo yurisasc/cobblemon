@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -35,11 +36,13 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftEarJoint = EarJoint(leftEar, TransformedModelPart.Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
     override val rightEarJoint = EarJoint(rightEar, TransformedModelPart.Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.65, 1.4, 0.0)
+    override val portraitScale = 1.7F
+    override val portraitTranslation = Vec3d(-0.5, 1.4, 0.0)
 
     override val profileScale = 0.63F
     override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("blastoise", "cry").setPreventsIdle(false) }
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -102,5 +105,5 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("blastoise", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("blastoise", "faint") else null
 }

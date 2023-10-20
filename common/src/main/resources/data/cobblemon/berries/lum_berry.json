@@ -27,16 +27,17 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
       "position": {
         "x": 2.25,
-        "y": 15.25,
+        "y": 13.75,
         "z": 8.0
       },
       "rotation": {
-        "x": 17.5,
+        "x": 22.5,
         "y": -17.5,
         "z": -52.5
       }
@@ -44,11 +45,11 @@
     {
       "position": {
         "x": 6.0,
-        "y": 14.0,
-        "z": 8.75
+        "y": 12.0,
+        "z": 8.25
       },
       "rotation": {
-        "x": -50.0,
+        "x": -42.5,
         "y": -20.0,
         "z": 25.0
       }
@@ -69,10 +70,10 @@
       "position": {
         "x": 10.0,
         "y": 19.75,
-        "z": 8.25
+        "z": 8.0
       },
       "rotation": {
-        "x": -67.5,
+        "x": -65.0,
         "y": -7.5,
         "z": 15.0
       }
@@ -88,38 +89,22 @@
   },
   "sproutShape": [
     {
-      "minX": 7,
+      "minX": 0,
       "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 16,
+      "maxZ": 16
     }
   ],
   "matureShape": [
     {
-      "minX": 6,
+      "minX": 0,
       "minY": -1,
-      "minZ": 6,
-      "maxX": 10,
-      "maxY": 0,
-      "maxZ": 10
-    },
-    {
-      "minX": 7,
-      "minY": 0,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 11,
-      "maxZ": 9
-    },
-    {
-      "minX": 7.5,
-      "minY": 11,
-      "minZ": 7.5,
-      "maxX": 8.5,
-      "maxY": 22,
-      "maxZ": 8.5
+      "minZ": 0,
+      "maxX": 16,
+      "maxY": 24,
+      "maxZ": 16
     }
   ],
   "flavors": {
@@ -129,11 +114,10 @@
     "BITTER": 10,
     "SOUR": 10
   },
-  "tintIndexes": {
-    "0": "#afafc7"
-  },
-  "flowerModel": "cobblemon:lum_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/lum.png",
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:lum_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/lum.png"
 }

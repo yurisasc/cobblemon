@@ -27,6 +27,7 @@
       }
     }
   ],
+  "randomizedGrowthPoints": true,
   "spawnConditions": [],
   "growthPoints": [
     {
@@ -62,7 +63,7 @@
       "rotation": {
         "x": -175.0,
         "y": -7.5,
-        "z": 27.5
+        "z": 25.0
       }
     },
     {
@@ -96,9 +97,21 @@
         "z": 7.5
       },
       "rotation": {
-        "x": 177.5,
+        "x": 175.0,
         "y": -22.5,
-        "z": -27.5
+        "z": -30.0
+      }
+    },
+    {
+      "position": {
+        "x": 8.5,
+        "y": 12.0,
+        "z": 6.5
+      },
+      "rotation": {
+        "x": 132.5,
+        "y": 47.5,
+        "z": -50.0
       }
     }
   ],
@@ -106,51 +119,16 @@
     "cobblemon:roseli_berry": "cobblemon:qualot_berry",
     "cobblemon:tanga_berry": "cobblemon:watmel_berry"
   },
-  "sproutShape": [
-    {
-      "minX": 7,
-      "minY": -1,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 0,
-      "maxZ": 9
-    }
-  ],
-  "matureShape": [
-    {
-      "minX": 6,
-      "minY": -1,
-      "minZ": 6,
-      "maxX": 10,
-      "maxY": 0,
-      "maxZ": 10
-    },
-    {
-      "minX": 7,
-      "minY": 0,
-      "minZ": 7,
-      "maxX": 9,
-      "maxY": 11,
-      "maxZ": 9
-    },
-    {
-      "minX": 7.5,
-      "minY": 11,
-      "minZ": 7.5,
-      "maxX": 8.5,
-      "maxY": 22,
-      "maxZ": 8.5
-    }
-  ],
+  "sproutShape": "frill-sprout",
+  "matureShape": "frill-mature",
   "flavors": {
     "SWEET": 20,
     "BITTER": 10
   },
-  "tintIndexes": {
-    "0": "#b8a008"
-  },
-  "flowerModel": "cobblemon:magost_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/magost.png",
+  "weight": 1.0,
+  "tintIndexes": [],
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:magost_berry.geo",
   "fruitTexture": "cobblemon:textures/berries/magost.png"
 }

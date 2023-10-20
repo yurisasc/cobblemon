@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("electrode")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.1, -1.34, 0.0)
+    override val portraitScale = 1.5F
+    override val portraitTranslation = Vec3d(-0.4, -0.3, 0.0)
 
-    override val profileScale = 1.5F
-    override val profileTranslation = Vec3d(0.0, -0.5, 0.0)
+    override val profileScale = 0.8F
+    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

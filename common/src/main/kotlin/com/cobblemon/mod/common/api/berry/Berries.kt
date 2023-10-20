@@ -10,9 +10,7 @@ package com.cobblemon.mod.common.api.berry
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.berry.spawncondition.BerrySpawnCondition
-import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.status.Status
@@ -23,17 +21,16 @@ import com.cobblemon.mod.common.util.adapters.*
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import java.awt.Color
 import net.minecraft.predicate.NumberRange
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
-import net.minecraft.registry.tag.TagManagerLoader.RegistryTags
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.biome.Biome
-import java.awt.Color
 
 /**
  * The data registry for [Berry].
@@ -52,8 +49,8 @@ object Berries : JsonDataRegistry<Berry> {
         .setPrettyPrinting()
         .registerTypeAdapter(MulchVariant::class.java, MulchVariantAdapter)
         .registerTypeAdapter(NumberRange.FloatRange::class.java, FloatNumberRangeAdapter)
-        .registerTypeAdapter(PokemonEntityInteraction::class.java, CobblemonPokemonEntityInteractionTypeAdapter)
         .registerTypeAdapter(Status::class.java, StatusAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(Collection::class.java, Box::class.java).type, BoxCollectionAdapter)
         .registerTypeAdapter(Box::class.java, BoxAdapter)
         .registerTypeAdapter(Vec3d::class.java, VerboseVec3dAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
@@ -68,9 +65,6 @@ object Berries : JsonDataRegistry<Berry> {
     override val resourcePath = "berries"
 
     private val berries = hashMapOf<Identifier, Berry>()
-
-    val PECHA
-        get() = this.getByName("")
 
     override fun reload(data: Map<Identifier, Berry>) {
         this.berries.clear()

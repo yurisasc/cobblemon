@@ -7,6 +7,23 @@
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      },
+      {
+        "item": "minecraft:ghast_tear",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 50,
@@ -213,10 +230,10 @@
       "requirements": []
     }
   ],
-  "baseScale": 1.3,
+  "baseScale": 1.2,
   "hitbox": {
-    "width": 0.7,
-    "height": 0.8,
+    "width": 1.1,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 50,

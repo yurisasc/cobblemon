@@ -98,7 +98,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
     val cry: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
 
     override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint?.get()
-    override val cryAnimation = CryProvider { _, _ -> cry?.get()?.also { if (it is BedrockStatefulAnimation) it.setPreventsIdle(false) } }
+    override val cryAnimation = CryProvider { _, _ -> cry?.get()?.also { if (it is BedrockStatefulAnimation) it.setPreventsIdle(false).isPosePauserAnimation(true) } }
 
     object JsonModelExclusion: ExclusionStrategy {
         override fun shouldSkipField(f: FieldAttributes): Boolean {
@@ -116,6 +116,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
     }
 
     object StatefulAnimationAdapter : JsonDeserializer<Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>> {
+        var preventsIdleDefault = true
         override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Supplier<StatefulAnimation<PokemonEntity, ModelFrame>> {
             json as JsonPrimitive
             val animString = json.asString
@@ -143,7 +144,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             val conditionsList = mutableListOf<(PokemonEntity) -> Boolean>()
             val mustBeInBattle = json.get("isBattle")?.asBoolean
             if (mustBeInBattle != null) {
-                conditionsList.add { mustBeInBattle == it.battleId.get().isPresent }
+                conditionsList.add { mustBeInBattle == it.isBattling }
             }
             val mustBeTouchingWater = json.get("isTouchingWater")?.asBoolean
             if (mustBeTouchingWater != null) {
@@ -185,11 +186,14 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
                         val anim = animString.substringBefore("(")
 
-                        if(ANIMATION_FACTORIES.contains(anim)) {
+                        StatefulAnimationAdapter.preventsIdleDefault = false
+                        val animation = if(ANIMATION_FACTORIES.contains(anim)) {
                             ANIMATION_FACTORIES[anim]?.stateful(model, animString)
                         } else {
                             null
                         }
+                        StatefulAnimationAdapter.preventsIdleDefault = true
+                        animation
                     }.filterNotNull()
                 }
 
