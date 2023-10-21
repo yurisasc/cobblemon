@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
-import com.cobblemon.mod.common.client.render.block.BerryEntityInstance
 import com.cobblemon.mod.common.client.render.block.FossilTubeRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
@@ -49,6 +48,7 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Language
 
 object CobblemonClient {
+
     lateinit var implementation: CobblemonClientImplementation
     val storage = ClientStorageManager()
     var trade: ClientTrade? = null
