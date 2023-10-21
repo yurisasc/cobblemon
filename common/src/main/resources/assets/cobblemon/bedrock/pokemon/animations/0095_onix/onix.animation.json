@@ -352,6 +352,11 @@
 						"2.0": [0, 0, 0]
 					}
 				}
+			},
+			"sound_effects": {
+				"0.125": {
+					"effect": "pokemon.onix.cry"
+				}
 			}
 		},
 		"animation.onix.blink": {
