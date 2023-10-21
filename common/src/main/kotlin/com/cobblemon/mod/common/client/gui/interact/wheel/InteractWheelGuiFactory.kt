@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.client.gui.interact.wheel
 
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.pokemon.interaction.InteractionGUICreationEvent
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
@@ -16,6 +18,8 @@ import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPack
 import com.cobblemon.mod.common.net.messages.server.trade.OfferTradePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.Multimap
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
@@ -25,6 +29,7 @@ import org.joml.Vector3f
 fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean): InteractWheelGUI {
     val mountShoulder = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_shoulder.png"),
+        tooltipText = "cobblemon.ui.interact.mount.shoulder",
         onPress = {
             if (canMountShoulder) {
                 InteractPokemonPacket(pokemonID, true).sendToServer()
@@ -34,17 +39,18 @@ fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean): Intera
     )
     val giveItem = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_held_item.png"),
+        tooltipText = "cobblemon.ui.interact.give.item",
         onPress = {
             InteractPokemonPacket(pokemonID, false).sendToServer()
             closeGUI()
         }
     )
-    val options = mutableMapOf(
-        Orientation.TOP_RIGHT to giveItem,
-    )
+    val options: Multimap<Orientation, InteractWheelOption> = ArrayListMultimap.create()
+    options.put(Orientation.TOP_RIGHT, giveItem)
     if (canMountShoulder) {
-        options[Orientation.TOP_LEFT] = mountShoulder
+        options.put(Orientation.TOP_LEFT, mountShoulder)
     }
+    CobblemonEvents.INTERACTION_GUI_CREATION.post(InteractionGUICreationEvent(pokemonID, canMountShoulder, options))
     return InteractWheelGUI(options, Text.translatable("cobblemon.ui.interact.pokemon"))
 }
 
@@ -52,6 +58,7 @@ fun createPlayerInteractGui(targetPlayer: PlayerEntity, pokemon: Pokemon): Inter
     val trade = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_trade.png"),
         colour = { if (CobblemonClient.requests.tradeOffers.any { it.traderId == targetPlayer.uuid }) Vector3f(0F, 0.6F, 0F) else null },
+        tooltipText = "cobblemon.ui.interact.trade",
         onPress = {
             val tradeOffer = CobblemonClient.requests.tradeOffers.find { it.traderId == targetPlayer.uuid }
             if (tradeOffer == null) {
@@ -66,6 +73,7 @@ fun createPlayerInteractGui(targetPlayer: PlayerEntity, pokemon: Pokemon): Inter
     val battle = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"),
         colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == targetPlayer.uuid }) Vector3f(0F, 0.6F, 0F) else null },
+        tooltipText = "cobblemon.ui.interact.battle",
         onPress = {
             val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == targetPlayer.uuid }
             // This can be improved in future with more detailed battle challenge data.
@@ -73,10 +81,8 @@ fun createPlayerInteractGui(targetPlayer: PlayerEntity, pokemon: Pokemon): Inter
             closeGUI()
         }
     )
-    val options = mutableMapOf(
-        Orientation.TOP_LEFT to trade,
-        Orientation.TOP_RIGHT to battle
-    )
+    val options: Multimap<Orientation, InteractWheelOption> = ArrayListMultimap.create()
+    options.put(Orientation.TOP_RIGHT, battle)
     return InteractWheelGUI(options, Text.translatable("cobblemon.ui.interact.player"))
 }
 

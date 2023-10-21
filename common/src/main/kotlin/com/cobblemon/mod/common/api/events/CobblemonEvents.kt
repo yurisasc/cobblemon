@@ -32,6 +32,7 @@ import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEv
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionDisplayEvent
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
+import com.cobblemon.mod.common.api.events.pokemon.interaction.InteractionGUICreationEvent
 import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.events.storage.ReleasePokemonEvent
 import com.cobblemon.mod.common.api.events.world.BigRootPropagatedEvent
@@ -96,6 +97,8 @@ object CobblemonEvents {
     @JvmField
     val LEVEL_UP_EVENT = EventObservable<LevelUpEvent>()
 
+    @JvmField
+    val INTERACTION_GUI_CREATION = EventObservable<InteractionGUICreationEvent>()
     @JvmField
     val POKEMON_ENTITY_SAVE = EventObservable<PokemonEntitySaveEvent>()
     @JvmField
