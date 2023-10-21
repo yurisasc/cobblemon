@@ -41,7 +41,7 @@
             "id": "milcery-3",
             "pokemon": "milcery",
 			"presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

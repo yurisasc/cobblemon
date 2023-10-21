@@ -73,6 +73,7 @@ class PokemonDTO : Encodable, Decodable {
     var teraType = ""
     var dmaxLevel = 0
     var gmaxFactor = false
+    var tradeable = true
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
@@ -106,6 +107,7 @@ class PokemonDTO : Encodable, Decodable {
         this.teraType = pokemon.teraType.name
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
+        this.tradeable = pokemon.tradeable
     }
 
     override fun encode(buffer: PacketByteBuf) {
@@ -142,6 +144,7 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeString(teraType)
         buffer.writeInt(dmaxLevel)
         buffer.writeBoolean(gmaxFactor)
+        buffer.writeBoolean(tradeable)
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -179,6 +182,7 @@ class PokemonDTO : Encodable, Decodable {
         teraType = buffer.readString()
         dmaxLevel = buffer.readInt()
         gmaxFactor = buffer.readBoolean()
+        tradeable = buffer.readBoolean()
     }
 
     fun create(): Pokemon {
@@ -227,6 +231,7 @@ class PokemonDTO : Encodable, Decodable {
             it.teraType = ElementalTypes.getOrException(teraType)
             it.dmaxLevel = dmaxLevel
             it.gmaxFactor = gmaxFactor
+            it.tradeable = tradeable
         }
     }
 }

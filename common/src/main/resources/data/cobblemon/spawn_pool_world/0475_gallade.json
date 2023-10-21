@@ -70,7 +70,7 @@
             "id": "gallade-4",
             "pokemon": "gallade",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

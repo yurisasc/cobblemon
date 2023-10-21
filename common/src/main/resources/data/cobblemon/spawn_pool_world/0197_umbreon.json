@@ -68,7 +68,7 @@
             "id": "umbreon-4",
             "pokemon": "umbreon",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -96,7 +96,7 @@ class StorageWidget(
             y = y + 124,
             parent = this,
             onPress = {
-                if (!displayConfirmRelease) {
+                if (!displayConfirmRelease && canDeleteSelected()) {
                     displayConfirmRelease = true
                     playSound(CobblemonSounds.PC_CLICK)
                 }
@@ -141,7 +141,7 @@ class StorageWidget(
         )
 
         if (pcGui.configuration is PasturePCGUIConfiguration) {
-            this.pastureWidget = PastureWidget(pcGui.configuration, x + 182, y - 19)
+            this.pastureWidget = PastureWidget(this, pcGui.configuration, x + 182, y - 19)
         }
     }
 

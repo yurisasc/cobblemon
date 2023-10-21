@@ -96,6 +96,7 @@ open class PokemonProperties {
             props.teraType = parseStringOfRegistry(keyPairs, listOf("tera_type", "tera")) { ElementalTypes.get(it)?.name }
             props.dmaxLevel = parseIntProperty(keyPairs, listOf("dmax_level", "dmax"))?.coerceIn(0, Cobblemon.config.maxDynamaxLevel)
             props.gmaxFactor = parseBooleanProperty(keyPairs, listOf("gmax_factor", "gmax"))
+            props.tradeable = parseBooleanProperty(keyPairs, listOf("tradeable", "tradable"))
 
             val maybeIVs = IVs()
             val maybeEVs = EVs()
@@ -157,7 +158,7 @@ open class PokemonProperties {
         }
 
         private fun parseSpeciesIdentifier(keyPairs: MutableList<Pair<String, String?>>): String? {
-            fun cleanSpeciesName(string: String) = string.lowercase().replace("[^a-z0-9:]".toRegex(), "")
+            fun cleanSpeciesName(string: String) = string.lowercase().replace("[^a-z0-9_:]".toRegex(), "")
             val matched = getMatchedKeyPair(keyPairs, listOf("species"))
             if (matched != null) {
                 val value = matched.second?.let(::cleanSpeciesName) ?: return null
@@ -260,6 +261,7 @@ open class PokemonProperties {
     var teraType: String? = null
     var dmaxLevel: Int? = null
     var gmaxFactor: Boolean? = null
+    var tradeable: Boolean? = null
 
     var ivs: IVs? = null
     var evs: EVs? = null
@@ -312,6 +314,7 @@ open class PokemonProperties {
         teraType?.let { ElementalTypes.get(it)?.let { type -> pokemon.teraType = type } }
         dmaxLevel?.let { pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemon.gmaxFactor = it }
+        tradeable?.let { pokemon.tradeable = it }
         pokemon.updateAspects()
     }
 
@@ -351,6 +354,7 @@ open class PokemonProperties {
         teraType?.let { ElementalTypes.get(it)?.let { type -> pokemonEntity.pokemon.teraType = type } }
         dmaxLevel?.let { pokemonEntity.pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemonEntity.pokemon.gmaxFactor = it }
+        tradeable?.let { pokemonEntity.pokemon.tradeable = it }
         pokemonEntity.pokemon.updateAspects()
     }
 
@@ -388,6 +392,7 @@ open class PokemonProperties {
         teraType?.takeIf { it != pokemon.teraType.name }?.let { return false }
         dmaxLevel?.takeIf { it != pokemon.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != pokemon.gmaxFactor }?.let { return false }
+        tradeable?.takeIf { it != pokemon.tradeable }?.let { return false }
         return customProperties.none { !it.matches(pokemon) }
     }
 
@@ -423,6 +428,7 @@ open class PokemonProperties {
         teraType?.takeIf { it != pokemonEntity.pokemon.teraType.name }?.let { return false }
         dmaxLevel?.takeIf { it != pokemonEntity.pokemon.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != pokemonEntity.pokemon.gmaxFactor }?.let { return false }
+        tradeable?.takeIf { it != pokemonEntity.pokemon.tradeable }?.let { return false }
         return customProperties.none { !it.matches(pokemonEntity) }
     }
 
@@ -466,6 +472,7 @@ open class PokemonProperties {
         teraType?.takeIf { it != properties.teraType }?.let { return false }
         dmaxLevel?.takeIf { it != properties.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != properties.gmaxFactor }?.let { return false }
+        tradeable?.takeIf { it != properties.tradeable }?.let { return false }
         return true
     }
 
@@ -481,7 +488,6 @@ open class PokemonProperties {
     fun roll(pokemon: Pokemon) {
         val baseTypes = pokemon.species.types.toList()
         if (this.shiny == null) pokemon.shiny = Cobblemon.config.shinyRate.checkRate()
-        if (this.gmaxFactor == null) pokemon.gmaxFactor = Cobblemon.config.gigantamaxFactorRate.checkRate()
         if (this.teraType == null) pokemon.teraType =
             if (Cobblemon.config.teraTypeRate.checkRate()) ElementalTypes.all().filter { !baseTypes.contains(it) }.random()
             else baseTypes.random()
@@ -513,6 +519,7 @@ open class PokemonProperties {
         teraType?.let { nbt.putString(DataKeys.POKEMON_TERA_TYPE, it) }
         dmaxLevel?.let { nbt.putInt(DataKeys.POKEMON_DMAX_LEVEL, it) }
         gmaxFactor?.let { nbt.putBoolean(DataKeys.POKEMON_GMAX_FACTOR, it) }
+        tradeable?.let { nbt.putBoolean(DataKeys.POKEMON_TRADEABLE, it) }
         val custom = NbtList()
         customProperties.map { NbtString.of(it.asString()) }.forEach { custom.add(it) }
         nbt.put(DataKeys.POKEMON_PROPERTIES_CUSTOM, custom)
@@ -537,6 +544,7 @@ open class PokemonProperties {
         teraType = if (tag.contains(DataKeys.POKEMON_TERA_TYPE)) tag.getString(DataKeys.POKEMON_TERA_TYPE) else null
         dmaxLevel = if (tag.contains(DataKeys.POKEMON_DMAX_LEVEL)) tag.getInt(DataKeys.POKEMON_DMAX_LEVEL) else null
         gmaxFactor = if (tag.contains(DataKeys.POKEMON_GMAX_FACTOR)) tag.getBoolean(DataKeys.POKEMON_GMAX_FACTOR) else null
+        tradeable = if (tag.contains(DataKeys.POKEMON_TRADEABLE)) tag.getBoolean(DataKeys.POKEMON_TRADEABLE) else null
         val custom = tag.getList(DataKeys.POKEMON_PROPERTIES_CUSTOM, NbtElement.STRING_TYPE.toInt())
         // This is kinda gross
         custom.forEach { customProperties.addAll(parse(it.asString()).customProperties) }
@@ -563,6 +571,7 @@ open class PokemonProperties {
         teraType?.let { json.addProperty(DataKeys.POKEMON_TERA_TYPE, it) }
         dmaxLevel?.let { json.addProperty(DataKeys.POKEMON_DMAX_LEVEL, it) }
         gmaxFactor?.let { json.addProperty(DataKeys.POKEMON_GMAX_FACTOR, it) }
+        tradeable?.let { json.addProperty(DataKeys.POKEMON_TRADEABLE, it) }
         val custom = JsonArray()
         customProperties.map { it.asString() }.forEach { custom.add(it) }
         json.add(DataKeys.POKEMON_PROPERTIES_CUSTOM, custom)
@@ -588,6 +597,7 @@ open class PokemonProperties {
         teraType = json.get(DataKeys.POKEMON_TERA_TYPE)?.asString
         dmaxLevel = json.get(DataKeys.POKEMON_DMAX_LEVEL)?.asInt
         gmaxFactor = json.get(DataKeys.POKEMON_GMAX_FACTOR)?.asBoolean
+        tradeable = json.get(DataKeys.POKEMON_TRADEABLE)?.asBoolean
         val custom = json.get(DataKeys.POKEMON_PROPERTIES_CUSTOM)?.asJsonArray
         // This is still kinda gross
         custom?.forEach { customProperties.addAll(parse(it.asString).customProperties) }
@@ -617,6 +627,7 @@ open class PokemonProperties {
         teraType?.let { pieces.add("tera_type=$it") }
         dmaxLevel?.let { pieces.add("dmax_level=$it") }
         gmaxFactor?.let { pieces.add("gmax_factor=$it") }
+        tradeable?.let { pieces.add("tradeable=$it") }
         customProperties.forEach { pieces.add(it.asString()) }
         return pieces.joinToString(separator)
     }

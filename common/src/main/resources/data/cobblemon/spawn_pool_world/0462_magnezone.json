@@ -48,6 +48,30 @@
                     "minecraft:lightning_rod"
                 ]
             }
+        },
+		{
+            "id": "magnezone-2",
+            "pokemon": "magnezone",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "42-54",
+            "weight": 0.1,
+			"weightMultiplier": {
+				"multiplier": 5.0,
+				"condition": {
+					"isThundering": true
+				}
+			},
+            "condition": {
+				"canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+				"neededNearbyBlocks": [
+                    "minecraft:lightning_rod"
+                ]
+            }
         }
     ]
 }

@@ -66,9 +66,6 @@ object Berries : JsonDataRegistry<Berry> {
 
     private val berries = hashMapOf<Identifier, Berry>()
 
-    val PECHA
-        get() = this.getByName("")
-
     override fun reload(data: Map<Identifier, Berry>) {
         this.berries.clear()
         data.forEach { (identifier, berry) ->

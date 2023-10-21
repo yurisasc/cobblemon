@@ -41,7 +41,7 @@
             "id": "alcremie-3",
             "pokemon": "alcremie",
 			"presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

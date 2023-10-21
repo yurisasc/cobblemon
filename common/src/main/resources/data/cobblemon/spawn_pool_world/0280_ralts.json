@@ -70,7 +70,7 @@
             "id": "ralts-4",
             "pokemon": "ralts",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

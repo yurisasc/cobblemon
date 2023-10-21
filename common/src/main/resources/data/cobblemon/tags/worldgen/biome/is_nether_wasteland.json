@@ -19,6 +19,14 @@
       "required": false
     },
 	{
+      "id": "cinderscapes:ashy_shoals",
+      "required": false
+    },
+	{
+      "id": "cinderscapes:quartz_cavern",
+      "required": false
+    },
+	{
       "id": "incendium:ash_barrens",
       "required": false
     },

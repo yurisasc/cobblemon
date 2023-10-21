@@ -55,6 +55,9 @@
 				"maxY": 62,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ],
+				"neededNearbyBlocks": [
+                    "#minecraft:water"
                 ]
             },
             "anticondition": {

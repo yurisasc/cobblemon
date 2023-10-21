@@ -24,6 +24,7 @@ import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Blocks
+import net.minecraft.block.FarmlandBlock
 import net.minecraft.block.Fertilizable
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.entity.BlockEntity
@@ -67,6 +68,14 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
      */
     fun berry(): Berry? = Berries.getByIdentifier(this.berryIdentifier)
 
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+        if (!player.isCreative && state.get(AGE) == FRUIT_AGE) {
+            val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
+            treeEntity.harvest(world, state, pos, player).forEach { drop -> Block.dropStack(world, pos, drop) }
+        }
+        super.onBreak(world, pos, state, player)
+    }
+
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state, berryIdentifier)
 
     override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = !this.isMaxAge(state)
@@ -89,8 +98,8 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val newState = state.with(AGE, newAge)
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         if (curAge == MATURE_AGE) {
-            determineMutation(world, random, pos, state)
             treeEntity.generateGrowthPoints(world, state, pos, null)
+            determineMutation(world, random, pos, state)
         }
 
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
@@ -148,6 +157,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         setMulch(world, pos, state, variant)
         treeEntity.mulchDuration = variant.duration
         world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS, 0.6F, 1F)
+        treeEntity.refreshTimers(pos)
     }
 
     @Deprecated("Deprecated in Java")
@@ -177,7 +187,9 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     @Deprecated("Deprecated in Java")
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         val below = world.getBlockState(pos.down())
-        return (state.get(WAS_GENERATED) && below.isIn(CobblemonBlockTags.BERRY_WILD_SOIL)) || below.isIn(CobblemonBlockTags.BERRY_SOIL)
+        return (state.get(WAS_GENERATED) && below.isIn(CobblemonBlockTags.BERRY_WILD_SOIL))
+                || below.isIn(CobblemonBlockTags.BERRY_SOIL)
+                || below.block is FarmlandBlock
     }
 
     @Deprecated("Deprecated in Java")

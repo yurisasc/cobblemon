@@ -8,6 +8,15 @@
     "compoundeyes",
     "h:runaway"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 31,
     "attack": 45,
@@ -32,7 +41,7 @@
       "depth": "normal",
       "light": "0-4"
     },
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.2
       }

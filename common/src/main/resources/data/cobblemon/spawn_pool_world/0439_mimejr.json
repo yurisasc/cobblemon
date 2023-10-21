@@ -58,7 +58,7 @@
             "id": "mimejr-3",
             "pokemon": "mimejr",
             "presets": [
-                "woodland_mansion"
+                "mansion"
             ],
             "type": "pokemon",
             "context": "grounded",

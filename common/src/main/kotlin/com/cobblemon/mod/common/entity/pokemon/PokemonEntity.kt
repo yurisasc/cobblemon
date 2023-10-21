@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BagItems
@@ -236,6 +237,7 @@ class PokemonEntity(
 
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
+            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
 
     }
 
@@ -411,9 +413,15 @@ class PokemonEntity(
                 )
             } else {
                 pokemon = Pokemon()
+                health = 0F
             }
         } else {
-            pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+            pokemon = try {
+                Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+            } catch (_: InvalidSpeciesException) {
+                health = 0F
+                Pokemon()
+            }
         }
         species.set(pokemon.species.resourceIdentifier.toString())
         nickname.set(pokemon.nickname ?: Text.empty())
@@ -530,27 +538,19 @@ class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         val itemStack = player.getStackInHand(hand)
-        if (player is ServerPlayerEntity) {
-            if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
-                this.sheared(SoundCategory.PLAYERS)
-                this.emitGameEvent(GameEvent.SHEAR, player)
-                itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
-                return ActionResult.SUCCESS
-            }
-            else if (itemStack.isOf(Items.BUCKET)) {
-                if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
-                    world.playSoundFromEntity(
-                        null,
-                        this,
-                        SoundEvents.ENTITY_GOAT_MILK,
-                        SoundCategory.PLAYERS,
-                        1.0F,
-                        1.0F
-                    )
-                    val milkBucket = ItemUsage.exchangeStack(itemStack, player, ItemStack(Items.MILK_BUCKET))
-                    player.setStackInHand(hand, milkBucket)
-                    return ActionResult.SUCCESS
-                }
+
+        if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
+            this.sheared(SoundCategory.PLAYERS)
+            this.emitGameEvent(GameEvent.SHEAR, player)
+            itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
+            return ActionResult.SUCCESS
+        }
+        else if (itemStack.isOf(Items.BUCKET)) {
+            if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
+                player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
+                val milkBucket = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.defaultStack)
+                player.setStackInHand(hand, milkBucket)
+                return ActionResult.success(world.isClient)
             }
         }
 
@@ -749,6 +749,7 @@ class PokemonEntity(
                             this.mountOnto(player)
                             this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
                             this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
+                            discard()
                         }
                     }
                 }
@@ -981,14 +982,21 @@ class PokemonEntity(
     }
 
     override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
-        if (player != null) {
-            if(this.ownerUuid == player.uuid && tethering == null) {
-                val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
-                (world as ServerWorld).chunkManager
-                    .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
-                this.goalSelector.tick()
-                if(distanceTo(player.blockPos) > 100) pokemon.recall()
+        if (player == null) {
+            return
+        }
+
+        if(this.ownerUuid == player.uuid && tethering == null) {
+            if (player.isDisconnected) {
+                this.remove(RemovalReason.DISCARDED)
+                return
             }
+
+            val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
+            (world as ServerWorld).chunkManager
+                .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
+            this.goalSelector.tick()
+            if(distanceTo(player.blockPos) > 100) pokemon.recall()
         }
     }
 
