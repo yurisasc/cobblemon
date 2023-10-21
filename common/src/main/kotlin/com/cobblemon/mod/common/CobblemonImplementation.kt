@@ -15,7 +15,9 @@ import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.mojang.brigadier.arguments.ArgumentType
 import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criterion
+import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.item.ItemConvertible
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
@@ -26,6 +28,7 @@ import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
@@ -169,6 +172,44 @@ interface CobblemonImplementation {
      * @param manager The [ResourceManager] to reload from.
      */
     fun <T> reloadJsonRegistry(registry: JsonDataRegistry<T>, manager: ResourceManager): HashMap<Identifier, T>
+
+    /**
+     * Registers an item to the [ComposterBlock].
+     *
+     * @param item The [ItemConvertible] being registered.
+     * @param chance The chance % of increasing the composter level, 0 to 1 expected.
+     */
+    fun registerCompostable(item: ItemConvertible, chance: Float)
+
+    /**
+     * Registers a builtin resource pack.
+     *
+     * @param id The unique [Identifier] of this pack.
+     * @param title The title displayed in the resource pack GUI, the description is still a part of the pack metadata.
+     * @param activationBehaviour The [ResourcePackActivationBehaviour] for this pack.
+     */
+    fun registerBuiltinResourcePack(id: Identifier, title: Text, activationBehaviour: ResourcePackActivationBehaviour)
+
+}
+
+enum class ResourcePackActivationBehaviour {
+
+    /**
+     * The resource pack will start disabled.
+     */
+    NORMAL,
+
+    /**
+     * The resource pack will start enabled.
+     */
+    DEFAULT_ENABLED,
+
+    /**
+     * The resource pack will always be enabled.
+     * The user can reorder it but cannot remove it.
+     */
+    ALWAYS_ENABLED;
+
 }
 
 enum class ModAPI {
