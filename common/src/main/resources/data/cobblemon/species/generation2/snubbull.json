@@ -13,7 +13,7 @@
     "entries": [
       {
         "item": "minecraft:bone",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:babiri_berry",
@@ -40,7 +40,7 @@
     "fairy"
   ],
   "behaviour": {
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.2
       }

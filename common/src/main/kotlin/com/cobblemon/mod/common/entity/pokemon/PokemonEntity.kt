@@ -554,27 +554,19 @@ class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         val itemStack = player.getStackInHand(hand)
-        if (player is ServerPlayerEntity) {
-            if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
-                this.sheared(SoundCategory.PLAYERS)
-                this.emitGameEvent(GameEvent.SHEAR, player)
-                itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
-                return ActionResult.SUCCESS
-            }
-            else if (itemStack.isOf(Items.BUCKET)) {
-                if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
-                    world.playSoundFromEntity(
-                        null,
-                        this,
-                        SoundEvents.ENTITY_GOAT_MILK,
-                        SoundCategory.PLAYERS,
-                        1.0F,
-                        1.0F
-                    )
-                    val milkBucket = ItemUsage.exchangeStack(itemStack, player, ItemStack(Items.MILK_BUCKET))
-                    player.setStackInHand(hand, milkBucket)
-                    return ActionResult.SUCCESS
-                }
+
+        if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
+            this.sheared(SoundCategory.PLAYERS)
+            this.emitGameEvent(GameEvent.SHEAR, player)
+            itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
+            return ActionResult.SUCCESS
+        }
+        else if (itemStack.isOf(Items.BUCKET)) {
+            if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
+                player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
+                val milkBucket = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.defaultStack)
+                player.setStackInHand(hand, milkBucket)
+                return ActionResult.success(world.isClient)
             }
         }
 
@@ -777,6 +769,7 @@ class PokemonEntity(
                             this.mountOnto(player)
                             this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
                             this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
+                            discard()
                         }
                     }
                 }

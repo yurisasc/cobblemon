@@ -8,14 +8,12 @@
 
 package com.cobblemon.mod.fabric.client
 
-import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.client.render.CobblemonAtlases
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
-import com.cobblemon.mod.common.client.render.block.BerryEntityInstance
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
 import com.cobblemon.mod.common.platform.events.ClientPlayerEvent
@@ -24,7 +22,6 @@ import com.cobblemon.mod.common.platform.events.ItemTooltipEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.fabric.CobblemonFabric
-import com.jozufozu.flywheel.backend.instancing.InstancedRenderRegistry
 import java.util.function.Supplier
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap

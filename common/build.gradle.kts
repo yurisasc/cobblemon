@@ -19,6 +19,7 @@ architectury {
 
 repositories {
     maven(url = "${rootProject.projectDir}/deps")
+    maven(url = "https://api.modrinth.com/maven")
     mavenLocal()
 }
 
@@ -28,9 +29,10 @@ dependencies {
 
     modImplementation(libs.fabricLoader)
     //Flywheel has no common dep so just pick one and don't use any platform specific code in common
-    modCompileOnly(libs.flywheelFabric)
+//    modCompileOnly(libs.flywheelFabric)
     modApi(libs.molang)
     compileOnlyApi(libs.jeiApi)
+    modCompileOnly(libs.adornFabric)
 
     // For Showdown
     modCompileOnly(libs.graal)

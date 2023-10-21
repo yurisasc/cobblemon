@@ -193,10 +193,10 @@
     "entries": [
       {
         "item": "minecraft:flint",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
-        "item": "cobblemon:hard_stone",
+        "item": "cobblemon:everstone",
         "percentage": 2.5
       },
       {

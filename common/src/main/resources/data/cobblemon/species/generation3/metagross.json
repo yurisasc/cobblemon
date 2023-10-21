@@ -13,7 +13,7 @@
     "entries": [
       {
         "item": "cobblemon:metal_coat",
-        "percentage": 10
+        "percentage": 10.0
       }
     ]
   },
@@ -83,7 +83,7 @@
     "mineral"
   ],
   "behaviour": {
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.25
       },

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
+import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.util.toVec3d
 import com.cobblemon.mod.common.util.traceBlockCollision
 import net.minecraft.server.MinecraftServer
@@ -31,11 +32,11 @@ object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> 
         }
         val state = pokemon.state
 
-        if (state !is ActivePokemonState) {
+        if (state is ShoulderedState || state !is ActivePokemonState) {
             val trace = player.traceBlockCollision(maxDistance = 15F)
             if (trace != null && !player.world.getBlockState(trace.blockPos.up()).isSolid) {
                 val position = Vec3d(trace.location.x, trace.blockPos.up().toVec3d().y, trace.location.z)
-                pokemon.sendOutWithAnimation(player, player.serverWorld, position)
+                    pokemon.sendOutWithAnimation(player, player.serverWorld, position)
             }
         } else {
             val entity = state.entity
