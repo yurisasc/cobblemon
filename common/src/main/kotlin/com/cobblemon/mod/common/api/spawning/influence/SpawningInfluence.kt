@@ -11,9 +11,12 @@ package com.cobblemon.mod.common.api.spawning.influence
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
+import com.cobblemon.mod.common.api.spawning.context.calculators.SpawningContextCalculator
 import com.cobblemon.mod.common.api.spawning.detail.SpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import net.minecraft.entity.Entity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.math.BlockPos
 
 /**
  * An influence over spawning that can affect various parts of the spawning process. These can be attached to
@@ -35,4 +38,6 @@ interface SpawningInfluence {
     fun affectSpawn(entity: Entity) {}
     /** Applies some influence over the weight of spawn buckets. */
     fun affectBucketWeight(bucket: SpawnBucket, weight: Float): Float = weight
+    /** Filters positions that could be usable for a spawning context calculator */
+    fun isAllowedPosition(world: ServerWorld, pos: BlockPos, contextCalculator: SpawningContextCalculator<*, *>): Boolean = true
 }

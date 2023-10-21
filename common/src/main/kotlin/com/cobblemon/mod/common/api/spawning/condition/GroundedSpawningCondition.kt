@@ -24,8 +24,8 @@ import net.minecraft.block.Block
 abstract class GroundedTypeSpawningCondition<T : GroundedSpawningContext> : AreaTypeSpawningCondition<T>() {
     var neededBaseBlocks: MutableList<RegistryLikeCondition<Block>>? = null
 
-    override fun fits(ctx: T, detail: SpawnDetail): Boolean {
-        return if (!super.fits(ctx, detail)) {
+    override fun fits(ctx: T): Boolean {
+        return if (!super.fits(ctx)) {
             false
         } else if (minHeight != null && ctx.height < minHeight!!) {
             return false
