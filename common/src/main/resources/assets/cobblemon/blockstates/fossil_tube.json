@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,part=bottom": {
+      "model": "cobblemon:block/fossil/restoration_tank_lower",
+      "y": 180
+    },
+    "facing=east,part=bottom": {
+      "model": "cobblemon:block/fossil/restoration_tank_lower",
+      "y": 270
+    },
+    "facing=south,part=bottom": {
+      "model": "cobblemon:block/fossil/restoration_tank_lower"
+    },
+    "facing=west,part=bottom": {
+      "model": "cobblemon:block/fossil/restoration_tank_lower",
+      "y": 90
+    },
+    "facing=north,part=top": {
+      "model": "cobblemon:block/fossil/restoration_tank_upper",
+      "y": 180
+    },
+    "facing=east,part=top": {
+      "model": "cobblemon:block/fossil/restoration_tank_upper",
+      "y": 270
+    },
+    "facing=south,part=top": {
+      "model": "cobblemon:block/fossil/restoration_tank_upper"
+    },
+    "facing=west,part=top": {
+      "model": "cobblemon:block/fossil/restoration_tank_upper",
+      "y": 90
+    }
+  }
+}

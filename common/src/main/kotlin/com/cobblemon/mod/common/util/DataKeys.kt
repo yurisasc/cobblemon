@@ -137,4 +137,18 @@ object DataKeys {
     const val SHOULDER_ASPECTS = "shoulder_aspects"
     const val SHOULDER_SCALE_MODIFIER = "shoulder_scale"
 
+    //Multiblock Stuff
+    const val MULTIBLOCK_STORAGE = "MultiblockStore"
+    const val CONTROLLER_BLOCK = "ControllerBlock"
+
+    //FossilMultiblockStructure Serialization
+    const val MONITOR_POS = "MonitorPos"
+    const val TUBE_BASE_POS = "TubeBasePos"
+    const val COMPARTMENT_POS = "CompartmentPos"
+    const val ORGANIC_MATERIAL = "OrganicContent"
+    const val INSERTED_FOSSIL = "InsertedFossil"
+    const val TUBE_FILL_LEVEL = "TubeFillLevel"
+    const val DIRECTION = "Direction"
+    const val TIME_LEFT = "TimeLeft"
+    const val FORMED = "Formed"
 }

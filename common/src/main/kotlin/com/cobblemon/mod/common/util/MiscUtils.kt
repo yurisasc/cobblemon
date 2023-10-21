@@ -9,12 +9,17 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import net.minecraft.client.util.ModelIdentifier
 import kotlin.math.min
 import kotlin.random.Random
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
+import net.minecraft.util.shape.VoxelShape
 
 fun cobblemonResource(path: String) = Identifier(Cobblemon.MODID, path)
+fun cobblemonModel(path: String, variant: String) = ModelIdentifier("cobblemon", path, variant)
 
 fun String.asTranslated() = Text.translatable(this)
 fun String.asResource() = Identifier(this)
@@ -59,4 +64,19 @@ fun Random.nextBetween(min: Double, max: Double): Double {
 
 fun Random.nextBetween(min: Int, max: Int): Int {
     return nextInt(max - min + 1) + min
+}
+
+fun VoxelShape.blockPositionsAsList(): List<BlockPos> {
+    val result = mutableListOf<BlockPos>()
+    forEachBox { minX, minY, minZ, maxX, maxY, maxZ ->
+        for (x in minX.toInt() until maxX.toInt()) {
+            for (y in minY.toInt() until maxY.toInt()) {
+                for (z in minZ.toInt() until maxZ.toInt()) {
+                    result.add(BlockPos(x, y, z))
+                }
+            }
+        }
+    }
+
+    return result
 }

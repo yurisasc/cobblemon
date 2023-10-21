@@ -11,6 +11,9 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.block.*
 import com.cobblemon.mod.common.block.MintBlock.MintType
+import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
+import com.cobblemon.mod.common.block.fossilmachine.FossilMonitorBlock
+import com.cobblemon.mod.common.block.fossilmachine.FossilTubeBlock
 import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.StairsBlockInvoker
@@ -157,6 +160,42 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val YELLOW_APRICORN = apricornBlock("yellow_apricorn", Apricorn.YELLOW)
 
+    @JvmField
+    val FOSSIL_MONITOR = create(
+        "fossil_monitor",
+        FossilMonitorBlock(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.IRON_GRAY)
+                .sounds(BlockSoundGroup.METAL)
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .strength(2f)
+                .luminance { if (it.get(FossilMonitorBlock.PROGRESS) > 0) 15 else 0 }
+        )
+    )
+    @JvmField
+    val FOSSIL_COMPARTMENT = create(
+        "fossil_compartment",
+        FossilCompartmentBlock(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.IRON_GRAY)
+                .sounds(BlockSoundGroup.METAL)
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .strength(2f)
+                .nonOpaque()
+        )
+    )
+    @JvmField
+    val FOSSIL_TUBE = create(
+        "fossil_tube",
+        FossilTubeBlock(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.IRON_GRAY)
+                .sounds(BlockSoundGroup.METAL)
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .strength(2f)
+                .nonOpaque()
+        )
+    )
     @JvmField
     val HEALING_MACHINE = create(
         "healing_machine",

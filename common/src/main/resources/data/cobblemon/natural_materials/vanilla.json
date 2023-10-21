@@ -1,0 +1,26 @@
+[
+	{
+		"content": 32,
+		"item": "minecraft:wheat_seeds"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:carrot"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:potato"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:sweet_berries"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:chorus_fruit"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:beetroot_seeds"
+	}
+]
