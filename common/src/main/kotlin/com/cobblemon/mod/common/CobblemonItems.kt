@@ -410,8 +410,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val WHITE_MINT_LEAF = mintLeaf("white", MintLeafItem(MintType.WHITE))
 
-    @JvmField
-    val mints = mutableListOf<MintItem>()
+    val mints = mutableMapOf<String, MintItem>()
+
     @JvmField
     val LONELY_MINT = mintItem("lonely_mint", MintItem(Natures.LONELY))
     @JvmField
@@ -680,6 +680,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         pokeBalls.add(item)
         return item
     }
+
     private fun candyItem(name: String, calculator: CandyItem.Calculator): CandyItem  = this.create(name, CandyItem(calculator))
 
     private fun heldItem(name: String, remappedName: String? = null): CobblemonItem = create(
@@ -691,11 +692,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         }
     )
 
-    private fun compostable(item: Item, increaseLevelChance: Float): Item {
-        Cobblemon.implementation.registerCompostable(item, increaseLevelChance)
-        return item
-    }
-
+    private fun compostable(item: Item, increaseLevelChance: Float) = Cobblemon.implementation.registerCompostable(item, increaseLevelChance)
 
     private fun berryItem(name: String, berryBlock: BerryBlock): BerryItem {
         val finalName = "${name}_berry"
@@ -715,7 +712,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     private fun mintItem(name: String, mintItem: MintItem): MintItem {
         val item = this.create(name, mintItem)
-        mints.add(item)
+        mints[item.nature.displayName] = item
+        compostable(item, .65f)
         return item
     }
 
