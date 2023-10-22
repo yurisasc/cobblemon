@@ -122,16 +122,25 @@ fun drawText(
     y: Number,
     centered: Boolean = false,
     colour: Int,
-    shadow: Boolean = true
+    shadow: Boolean = true,
+    pMouseX: Int? = null,
+    pMouseY: Int? = null
 ) {
     val comp = if (font == null) text else text.setStyle(text.style.withFont(font))
     val textRenderer = MinecraftClient.getInstance().textRenderer
     var x = x
+    val width = textRenderer.getWidth(comp)
     if (centered) {
-        val width = textRenderer.getWidth(comp)
         x = x.toDouble() - width / 2
     }
     context.drawText(textRenderer, comp, x.toInt(), y.toInt(), colour, shadow)
+
+    // Check is text is hovered
+    if (pMouseY != null && pMouseX != null) {
+        if (pMouseX >= x.toInt() && pMouseX <= x.toInt() + width && pMouseY >= y.toInt() && pMouseY <= y.toInt() + textRenderer.fontHeight) {
+            context.drawHoverEvent(textRenderer, text.style, pMouseX, pMouseY)
+        }
+    }
 }
 
 fun drawText(

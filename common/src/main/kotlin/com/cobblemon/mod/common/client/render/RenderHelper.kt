@@ -177,7 +177,9 @@ fun drawScaledText(
     maxCharacterWidth: Int = Int.MAX_VALUE,
     colour: Int = 0x00FFFFFF + ((opacity.toFloat() * 255).toInt() shl 24),
     centered: Boolean = false,
-    shadow: Boolean = false
+    shadow: Boolean = false,
+    pMouseX: Int? = null,
+    pMouseY: Int? = null
 ) {
     if (opacity.toFloat() < 0.05F) {
         return
@@ -197,7 +199,9 @@ fun drawScaledText(
         y = y.toFloat() / (scale * extraScale) + (1 - extraScale) * fontHeight * scale,
         centered = centered,
         colour = colour,
-        shadow = shadow
+        shadow = shadow,
+        pMouseX = pMouseX,
+        pMouseY = pMouseY
     )
     matrices.pop()
 }
