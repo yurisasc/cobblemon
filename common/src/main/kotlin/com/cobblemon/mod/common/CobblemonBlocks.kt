@@ -86,21 +86,21 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     // Apricorns
     @JvmField
-    val APRICORN_LOG = setFlammable(log("apricorn_log", arg2 = MapColor.BROWN), 5, 5)
+    val APRICORN_LOG = log("apricorn_log", arg2 = MapColor.BROWN)
     @JvmField
-    val STRIPPED_APRICORN_LOG = setFlammable(log("stripped_apricorn_log"), 5, 5)
+    val STRIPPED_APRICORN_LOG = log("stripped_apricorn_log")
     @JvmField
-    val APRICORN_WOOD = setFlammable(log("apricorn_wood"), 5, 5)
+    val APRICORN_WOOD = log("apricorn_wood")
     @JvmField
-    val STRIPPED_APRICORN_WOOD = setFlammable(log("stripped_apricorn_wood"), 5, 5)
+    val STRIPPED_APRICORN_WOOD = log("stripped_apricorn_wood")
     @JvmField
-    val APRICORN_PLANKS = setFlammable(this.create("apricorn_planks", Block(AbstractBlock.Settings.create().mapColor(MapColor.DIRT_BROWN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD))), 5, 20)
+    val APRICORN_PLANKS = this.create("apricorn_planks", Block(AbstractBlock.Settings.create().mapColor(MapColor.DIRT_BROWN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
     @JvmField
-    val APRICORN_LEAVES = setFlammable(leaves("apricorn_leaves"), 30, 60)
+    val APRICORN_LEAVES = leaves("apricorn_leaves")
     @JvmField
-    val APRICORN_FENCE = setFlammable(this.create("apricorn_fence", FenceBlock(AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD))), 5, 20)
+    val APRICORN_FENCE = this.create("apricorn_fence", FenceBlock(AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
     @JvmField
-    val APRICORN_FENCE_GATE = setFlammable(this.create("apricorn_fence_gate", FenceGateBlock(AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE)), 5, 20)
+    val APRICORN_FENCE_GATE = this.create("apricorn_fence_gate", FenceGateBlock(AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE))
     @JvmField // Note At the time of 1.20.0 we don't need our own BlockSetType for Apricorn wood
     val APRICORN_BUTTON = this.create("apricorn_button", BlocksInvoker.createWoodenButtonBlock(BlockSetType.OAK))
     @JvmField
@@ -109,9 +109,9 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     //val APRICORN_SIGN = queue("apricorn_sign") { StandingSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE) }
     //val APRICORN_WALL_SIGN = queue("apricorn_wall_sign") { WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD).dropsLike(APRICORN_SIGN), APRICORN_WOOD_TYPE) }
     @JvmField
-    val APRICORN_SLAB = setFlammable(this.create("apricorn_slab", SlabBlock(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD))), 5, 20)
+    val APRICORN_SLAB = this.create("apricorn_slab", SlabBlock(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
     @JvmField
-    val APRICORN_STAIRS = setFlammable(this.create("apricorn_stairs", StairsBlockInvoker.`cobblemon$create`(APRICORN_PLANKS.defaultState, AbstractBlock.Settings.copy(APRICORN_PLANKS))), 5, 20)
+    val APRICORN_STAIRS = this.create("apricorn_stairs", StairsBlockInvoker.`cobblemon$create`(APRICORN_PLANKS.defaultState, AbstractBlock.Settings.copy(APRICORN_PLANKS)))
     @JvmField
     val APRICORN_DOOR = this.create("apricorn_door", DoorBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque(), APRICORN_BLOCK_SET_TYPE))
     @JvmField
@@ -226,7 +226,25 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     fun strippedBlocks(): Map<Block, Block> = mapOf(
         APRICORN_WOOD to STRIPPED_APRICORN_WOOD,
         APRICORN_LOG to STRIPPED_APRICORN_LOG
-    ).onEach{ entry -> setFlammable(entry.value, 5, 5) } as Map<Block, Block>
+    )
+
+    /**
+     * Makes all blocks in array flammable.
+     * second value is burn chance and third value is spread chance
+     * FLAMMABLE_BLOCKS is currently unused, which is why it isn't exposed to the JVM
+     */
+    private var FLAMMABLE_BLOCKS = arrayOf(
+        Triple(APRICORN_LOG, 5, 5),
+        Triple(STRIPPED_APRICORN_LOG, 5, 5),
+        Triple(APRICORN_WOOD, 5, 5),
+        Triple(STRIPPED_APRICORN_WOOD, 5, 5),
+        Triple(APRICORN_PLANKS, 5, 20),
+        Triple(APRICORN_LEAVES, 30, 60),
+        Triple(APRICORN_FENCE, 5, 20),
+        Triple(APRICORN_FENCE_GATE, 5, 20),
+        Triple(APRICORN_SLAB, 5, 20),
+        Triple(APRICORN_STAIRS, 5, 20)
+    ).onEach{ data -> setFlammable(data.first, data.second, data.third) }
 
     private fun apricornBlock(name: String, apricorn: Apricorn): ApricornBlock = this.create(name, ApricornBlock(AbstractBlock.Settings.create().mapColor(apricorn.mapColor()).ticksRandomly().strength(Blocks.OAK_LOG.hardness, Blocks.OAK_LOG.blastResistance).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn))
 
