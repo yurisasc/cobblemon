@@ -410,48 +410,50 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val WHITE_MINT_LEAF = mintLeaf("white", MintLeafItem(MintType.WHITE))
 
+    val mints = mutableMapOf<String, MintItem>()
+
     @JvmField
-    val LONELY_MINT = compostableItem("lonely_mint", MintItem(Natures.LONELY))
+    val LONELY_MINT = mintItem("lonely_mint", MintItem(Natures.LONELY))
     @JvmField
-    val ADAMANT_MINT = compostableItem("adamant_mint", MintItem(Natures.ADAMANT))
+    val ADAMANT_MINT = mintItem("adamant_mint", MintItem(Natures.ADAMANT))
     @JvmField
-    val NAUGHTY_MINT = compostableItem("naughty_mint", MintItem(Natures.NAUGHTY))
+    val NAUGHTY_MINT = mintItem("naughty_mint", MintItem(Natures.NAUGHTY))
     @JvmField
-    val BRAVE_MINT = compostableItem("brave_mint", MintItem(Natures.BRAVE))
+    val BRAVE_MINT = mintItem("brave_mint", MintItem(Natures.BRAVE))
     @JvmField
-    val BOLD_MINT = compostableItem("bold_mint", MintItem(Natures.BOLD))
+    val BOLD_MINT = mintItem("bold_mint", MintItem(Natures.BOLD))
     @JvmField
-    val IMPISH_MINT = compostableItem("impish_mint", MintItem(Natures.IMPISH))
+    val IMPISH_MINT = mintItem("impish_mint", MintItem(Natures.IMPISH))
     @JvmField
-    val LAX_MINT = compostableItem("lax_mint", MintItem(Natures.LAX))
+    val LAX_MINT = mintItem("lax_mint", MintItem(Natures.LAX))
     @JvmField
-    val RELAXED_MINT = compostableItem("relaxed_mint", MintItem(Natures.RELAXED))
+    val RELAXED_MINT = mintItem("relaxed_mint", MintItem(Natures.RELAXED))
     @JvmField
-    val MODEST_MINT = compostableItem("modest_mint", MintItem(Natures.MODEST))
+    val MODEST_MINT = mintItem("modest_mint", MintItem(Natures.MODEST))
     @JvmField
-    val MILD_MINT = compostableItem("mild_mint", MintItem(Natures.MILD))
+    val MILD_MINT = mintItem("mild_mint", MintItem(Natures.MILD))
     @JvmField
-    val RASH_MINT = compostableItem("rash_mint", MintItem(Natures.RASH))
+    val RASH_MINT = mintItem("rash_mint", MintItem(Natures.RASH))
     @JvmField
-    val QUIET_MINT = compostableItem("quiet_mint", MintItem(Natures.QUIET))
+    val QUIET_MINT = mintItem("quiet_mint", MintItem(Natures.QUIET))
     @JvmField
-    val CALM_MINT = compostableItem("calm_mint", MintItem(Natures.CALM))
+    val CALM_MINT = mintItem("calm_mint", MintItem(Natures.CALM))
     @JvmField
-    val GENTLE_MINT = compostableItem("gentle_mint", MintItem(Natures.GENTLE))
+    val GENTLE_MINT = mintItem("gentle_mint", MintItem(Natures.GENTLE))
     @JvmField
-    val CAREFUL_MINT = compostableItem("careful_mint", MintItem(Natures.CAREFUL))
+    val CAREFUL_MINT = mintItem("careful_mint", MintItem(Natures.CAREFUL))
     @JvmField
-    val SASSY_MINT = compostableItem("sassy_mint", MintItem(Natures.SASSY))
+    val SASSY_MINT = mintItem("sassy_mint", MintItem(Natures.SASSY))
     @JvmField
-    val TIMID_MINT = compostableItem("timid_mint", MintItem(Natures.TIMID))
+    val TIMID_MINT = mintItem("timid_mint", MintItem(Natures.TIMID))
     @JvmField
-    val HASTY_MINT = compostableItem("hasty_mint", MintItem(Natures.HASTY))
+    val HASTY_MINT = mintItem("hasty_mint", MintItem(Natures.HASTY))
     @JvmField
-    val JOLLY_MINT = compostableItem("jolly_mint", MintItem(Natures.JOLLY))
+    val JOLLY_MINT = mintItem("jolly_mint", MintItem(Natures.JOLLY))
     @JvmField
-    val NAIVE_MINT = compostableItem("naive_mint", MintItem(Natures.NAIVE))
+    val NAIVE_MINT = mintItem("naive_mint", MintItem(Natures.NAIVE))
     @JvmField
-    val SERIOUS_MINT = compostableItem("serious_mint", MintItem(Natures.SERIOUS))
+    val SERIOUS_MINT = mintItem("serious_mint", MintItem(Natures.SERIOUS))
 
     @JvmField val X_ACCURACY = create("x_${Stats.ACCURACY.identifier.path}", XStatItem(Stats.ACCURACY))
     @JvmField val X_ATTACK = create("x_${Stats.ATTACK.identifier.path}", XStatItem(Stats.ATTACK))
@@ -678,6 +680,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         pokeBalls.add(item)
         return item
     }
+
     private fun candyItem(name: String, calculator: CandyItem.Calculator): CandyItem  = this.create(name, CandyItem(calculator))
 
     private fun heldItem(name: String, remappedName: String? = null): CobblemonItem = create(
@@ -690,7 +693,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     )
 
     private fun compostable(item: Item, increaseLevelChance: Float) = Cobblemon.implementation.registerCompostable(item, increaseLevelChance)
-
 
     private fun berryItem(name: String, berryBlock: BerryBlock): BerryItem {
         val finalName = "${name}_berry"
@@ -705,6 +707,13 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         val item = this.create(finalName, berryItem)
         compostable(item, .65f)
         this.berries[cobblemonResource(finalName)] = item
+        return item
+    }
+
+    private fun mintItem(name: String, mintItem: MintItem): MintItem {
+        val item = this.create(name, mintItem)
+        mints[item.nature.displayName] = item
+        compostable(item, .65f)
         return item
     }
 
