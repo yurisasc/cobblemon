@@ -11,6 +11,7 @@
 - Fixed issue where Potions, Super Potions, and Hyper Potions did not work during battle
 - Fixed the compatibility patch with the Forge version of [Carry On](https://modrinth.com/mod/carry-on) due to a bug on the mod, the Fabric version was unchanged and is still compatible.
 - Added the ability to place Berries on modded Farmland blocks.
+- Made more items compostable and changed the process for making items compostable.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
