@@ -109,15 +109,11 @@ class InfoWidget(
 
         // Nature
         // Get the name of the MintItem used to mint the Pokémon's nature
-        var mintItem: MintItem? = null
         var natureText = pokemon.nature.displayName.asTranslated()
         if (pokemon.mintedNature != null) {
             natureText = natureText.italicise()
-            CobblemonItems.mints.forEach { mint ->
-                if (mint.nature.displayName.asTranslated() == pokemon.mintedNature!!.displayName.asTranslated()) {
-                    mintItem = mint
-                    Cobblemon.LOGGER.info("MintItem: ${mintItem?.name}")
-                }
+            CobblemonItems.mints[pokemon.mintedNature!!.displayName]?.let { mint ->
+                natureText = natureText.onHover(mint.name)
             }
         }
 
@@ -127,7 +123,6 @@ class InfoWidget(
             width = width,
             label = lang("ui.info.nature"),
             value = natureText,
-            valueTooltip = mintItem?.name
         )
         natureWidget.render(context, pMouseX, pMouseY, pPartialTicks)
 

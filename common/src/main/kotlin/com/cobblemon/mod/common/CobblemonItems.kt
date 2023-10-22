@@ -416,8 +416,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val WHITE_MINT_LEAF = create("white_mint_leaf", MintLeafItem(MintType.WHITE))
 
-    @JvmField
-    val mints = mutableListOf<MintItem>()
+    val mints = mutableMapOf<String, MintItem>()
+
     @JvmField
     val LONELY_MINT = mintItem("lonely_mint", MintItem(Natures.LONELY))
     @JvmField
@@ -714,7 +714,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     private fun mintItem(name: String, mintItem: MintItem): MintItem {
         val item = this.create(name, mintItem)
-        mints.add(item)
+        mints[item.nature.displayName] = item
         return item
     }
 }
