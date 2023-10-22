@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.client.gui.summary.widgets.screens.info
 import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
@@ -23,19 +22,12 @@ class InfoBlockWidget(
     blockWidth: Int,
     blockHeight: Int,
     private val text: MutableText,
-    private val tooltip: Text? = null,
     private val withinRowVerticalTextOffset: Int,
     private val font: Identifier,
 ) : SoundlessWidget(pX, pY, blockWidth, blockHeight, Text.literal("InfoBlockWidget")) {
 
 
     override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-
-        if (isHovered) {
-            if (tooltip != null) {
-                context.drawTooltip(MinecraftClient.getInstance().textRenderer, tooltip, pMouseX, pMouseY)
-            }
-        }
 
         drawScaledText(
             context = context,

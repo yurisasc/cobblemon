@@ -22,8 +22,6 @@ class InfoOneLineWidget(
     height: Int = ROW_HEIGHT,
     private val label: MutableText,
     private val value: MutableText,
-    private val labelTooltip: Text? = null,
-    private val valueTooltip: Text? = null
 ) : SoundlessWidget(pX, pY, width, height, Text.literal("InfoOneLineWidget")) {
     companion object {
         private val FONT = CobblemonResources.DEFAULT_LARGE
@@ -44,7 +42,6 @@ class InfoOneLineWidget(
             blockHeight = height,
             text = label,
             font = FONT,
-            tooltip = labelTooltip,
             withinRowVerticalTextOffset = WITHIN_ROW_VERTICAL_OFFSET
         )
         label.render(context, pMouseX, pMouseY, pPartialTicks)
@@ -57,7 +54,6 @@ class InfoOneLineWidget(
             blockHeight = height,
             text = value,
             font = FONT,
-            tooltip = valueTooltip,
             withinRowVerticalTextOffset = WITHIN_ROW_VERTICAL_OFFSET
         )
         value.render(context, pMouseX, pMouseY, pPartialTicks)
