@@ -714,8 +714,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     }
 
     private fun mintItem(name: String, mintItem: MintItem): MintItem {
-        val item = this.compostableItem(name, mintItem)
-        mints.add(item as MintItem)
+        val item = this.create(name, mintItem)
+        mints.add(item)
         return item
     }
 
