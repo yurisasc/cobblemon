@@ -19,8 +19,8 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.gui.summary.Summary
+import com.cobblemon.mod.common.client.gui.summary.widgets.common.reformatNatureTextIfMinted
 import com.cobblemon.mod.common.client.render.drawScaledText
-import com.cobblemon.mod.common.client.render.drawScaledTextWithNature
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket.TradeablePokemon
 import com.cobblemon.mod.common.net.messages.server.trade.CancelTradePacket
@@ -373,7 +373,7 @@ class TradeGUI(
         }
 
         // Calculate select pointer offset
-        var delayFactor = 3
+        val delayFactor = 3
         if (ticksElapsed % (2 * delayFactor) == 0) selectPointerOffsetIncrement = !selectPointerOffsetIncrement
         if (ticksElapsed % delayFactor == 0) selectPointerOffsetY += if (selectPointerOffsetIncrement) 1 else -1
 
@@ -530,15 +530,15 @@ class TradeGUI(
             val labelXOffset = if (isOpposing) 77 else 0
 
             // Nature
-            drawScaledTextWithNature(
+            val natureText = reformatNatureTextIfMinted(pokemon)
+            drawScaledText(
                 context = context,
-                text = pokemon.nature.displayName.asTranslated(),
+                text = natureText,
                 x = x + 108 + labelXOffset,
                 y = y + 146.5,
                 centered = true,
                 shadow = true,
                 scale = SCALE,
-                pokemon = pokemon,
                 pMouseX = mouseX,
                 pMouseY = mouseY
             )

@@ -11,15 +11,14 @@ package com.cobblemon.mod.common.client.gui.pc
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.bold
-import com.cobblemon.mod.common.api.text.italicise
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget
+import com.cobblemon.mod.common.client.gui.summary.widgets.common.reformatNatureTextIfMinted
 import com.cobblemon.mod.common.client.render.drawScaledText
-import com.cobblemon.mod.common.client.render.drawScaledTextWithNature
 import com.cobblemon.mod.common.client.storage.ClientPC
 import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.net.messages.server.storage.pc.UnlinkPlayerFromPCPacket
@@ -310,16 +309,16 @@ class PCGUI(
             ).render(context)
 
             // Nature
-            drawScaledTextWithNature(
+            val natureText = reformatNatureTextIfMinted(pokemon)
+            drawScaledText(
                 context = context,
-                text = pokemon.nature.displayName.asTranslated().italicise().bold(),
+                text = natureText,
                 x = x + 39,
                 y = y + 137,
                 centered = true,
                 shadow = true,
                 scale = SCALE,
                 colour = 0x32CBFF,
-                pokemon = pokemon,
                 pMouseX = mouseX,
                 pMouseY = mouseY
             )

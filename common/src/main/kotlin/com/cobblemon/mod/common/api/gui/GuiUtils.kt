@@ -123,9 +123,9 @@ fun drawText(
     centered: Boolean = false,
     colour: Int,
     shadow: Boolean = true,
-    pMouseX: Int? = null,
-    pMouseY: Int? = null
-) {
+    pMouseX: Number? = null,
+    pMouseY: Number? = null
+): Boolean {
     val comp = if (font == null) text else text.setStyle(text.style.withFont(font))
     val textRenderer = MinecraftClient.getInstance().textRenderer
     var x = x
@@ -134,13 +134,15 @@ fun drawText(
         x = x.toDouble() - width / 2
     }
     context.drawText(textRenderer, comp, x.toInt(), y.toInt(), colour, shadow)
-
-    // Check is text is hovered
+    var isHovered = false
     if (pMouseY != null && pMouseX != null) {
-        if (pMouseX >= x.toInt() && pMouseX <= x.toInt() + width && pMouseY >= y.toInt() && pMouseY <= y.toInt() + textRenderer.fontHeight) {
-            context.drawHoverEvent(textRenderer, text.style, pMouseX, pMouseY)
+        if (pMouseX.toInt() >= x.toInt() && pMouseX.toInt() <= x.toInt() + width &&
+            pMouseY.toInt() >= y.toInt() && pMouseY.toInt() <= y.toInt() + textRenderer.fontHeight
+        ) {
+            isHovered = true
         }
     }
+    return isHovered
 }
 
 fun drawText(

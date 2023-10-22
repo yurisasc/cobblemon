@@ -9,12 +9,8 @@
 package com.cobblemon.mod.common.client.render
 
 import com.cobblemon.mod.common.api.gui.drawText
-import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.api.text.font
-import com.cobblemon.mod.common.api.text.italicise
 import com.cobblemon.mod.common.client.CobblemonResources
-import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.asTranslated
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
@@ -119,52 +115,6 @@ fun getDepletableRedGreen(
     return r.toFloat() to g.toFloat()
 }
 
-fun drawScaledTextWithNature(
-    context: DrawContext,
-    text: MutableText,
-    font: Identifier? = null,
-    x: Number,
-    y: Number,
-    scale: Float = 1F,
-    opacity: Number = 1F,
-    maxCharacterWidth: Int = Int.MAX_VALUE,
-    colour: Int = 0x00FFFFFF + ((opacity.toFloat() * 255).toInt() shl 24),
-    centered: Boolean = false,
-    shadow: Boolean = false,
-    pokemon: Pokemon,
-    pMouseX: Int,
-    pMouseY: Int
-) {
-    if (pokemon.mintedNature != pokemon.nature && pokemon.mintedNature != null) {
-        // If the mouse is within the bounds of the text, show the tooltip
-        if (pMouseX in x.toInt()..(x.toInt() + MinecraftClient.getInstance().textRenderer.getWidth(
-                pokemon.nature.displayName.asTranslated().italicise().bold()
-            )) &&
-            pMouseY in y.toInt()..(y.toInt() + MinecraftClient.getInstance().textRenderer.fontHeight)
-        ) {
-            context.drawTooltip(
-                MinecraftClient.getInstance().textRenderer,
-                pokemon.mintedNature!!.displayName.asTranslated(),
-                pMouseX,
-                pMouseY
-            )
-        }
-
-    }
-    drawScaledText(
-        context = context,
-        text = text,
-        font = font,
-        x = x,
-        y = y,
-        scale = scale,
-        opacity = opacity,
-        maxCharacterWidth = maxCharacterWidth,
-        colour = colour,
-        centered = centered,
-        shadow = shadow
-    )
-}
 
 fun drawScaledText(
     context: DrawContext,
@@ -191,7 +141,7 @@ fun drawScaledText(
     val matrices = context.matrices
     matrices.push()
     matrices.scale(scale * extraScale, scale * extraScale, 1F)
-    drawText(
+    val isHovered = drawText(
         context = context,
         font = font,
         text = text,
@@ -200,10 +150,14 @@ fun drawScaledText(
         centered = centered,
         colour = colour,
         shadow = shadow,
-        pMouseX = pMouseX,
-        pMouseY = pMouseY
+        pMouseX = pMouseX?.toFloat()?.div((scale * extraScale)),
+        pMouseY = pMouseY?.toFloat()?.div(scale * extraScale)?.plus((1 - extraScale) * fontHeight * scale)
     )
     matrices.pop()
+    // Draw tooltip that was created with onHover and is attached to the MutableText
+    if (isHovered) {
+        context.drawHoverEvent(MinecraftClient.getInstance().textRenderer, text.style, pMouseX!!, pMouseY!!)
+    }
 }
 
 fun drawScaledText(
