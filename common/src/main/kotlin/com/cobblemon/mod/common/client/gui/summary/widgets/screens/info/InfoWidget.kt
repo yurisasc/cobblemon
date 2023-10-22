@@ -8,13 +8,13 @@
 
 package com.cobblemon.mod.common.client.gui.summary.widgets.screens.info
 
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.gui.ColourLibrary
 import com.cobblemon.mod.common.api.gui.MultiLineLabelK
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
+import com.cobblemon.mod.common.client.gui.summary.widgets.common.reformatNatureTextIfMinted
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
@@ -107,13 +107,7 @@ class InfoWidget(
 
         // Nature
         // Get the name of the MintItem used to mint the Pokémon's nature
-        var natureText = pokemon.nature.displayName.asTranslated()
-        if (pokemon.mintedNature != null) {
-            natureText = natureText.italicise()
-            CobblemonItems.mints[pokemon.mintedNature!!.displayName]?.let { mint ->
-                natureText = natureText.onHover(mint.name)
-            }
-        }
+        val natureText = reformatNatureTextIfMinted(pokemon)
 
         val natureWidget = InfoOneLineWidget(
             pX = x,
