@@ -8,10 +8,8 @@
 
 package com.cobblemon.mod.common.client.gui.summary.widgets.screens.info
 
-import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
-import com.cobblemon.mod.common.client.render.drawScaledText
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.MutableText
@@ -24,8 +22,9 @@ class InfoOneLineWidget(
     height: Int = ROW_HEIGHT,
     private val label: MutableText,
     private val value: MutableText,
-    private val tooltip: Text? = null
-): SoundlessWidget(pX, pY, width, height, Text.literal("InfoOneLineWidget")) {
+    private val labelTooltip: Text? = null,
+    private val valueTooltip: Text? = null
+) : SoundlessWidget(pX, pY, width, height, Text.literal("InfoOneLineWidget")) {
     companion object {
         private val FONT = CobblemonResources.DEFAULT_LARGE
         private const val ROW_HEIGHT = 15
@@ -34,32 +33,34 @@ class InfoOneLineWidget(
         private const val VALUE_HORIZONTAL_OFFSET = 53
     }
 
+
     override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
 
-        if (isHovered) {
-            if (tooltip != null) {
-                context.drawTooltip(MinecraftClient.getInstance().textRenderer, tooltip, pMouseX, pMouseY)
-            }
-        }
-
         // Label
-        drawScaledText(
-            context = context,
+        val label = InfoBlockWidget(
+            pX = x + LABEL_HORIZONTAL_OFFSET,
+            pY = y,
+            blockWidth = MinecraftClient.getInstance().textRenderer.getWidth(label),
+            blockHeight = height,
+            text = label,
             font = FONT,
-            text = label.bold(),
-            x = x + LABEL_HORIZONTAL_OFFSET,
-            y = y + WITHIN_ROW_VERTICAL_OFFSET,
-            shadow = true
+            tooltip = labelTooltip,
+            withinRowVerticalTextOffset = WITHIN_ROW_VERTICAL_OFFSET
         )
+        label.render(context, pMouseX, pMouseY, pPartialTicks)
+
         // Value
-        drawScaledText(
-            context = context,
+        val value = InfoBlockWidget(
+            pX = x + VALUE_HORIZONTAL_OFFSET,
+            pY = y,
+            blockWidth = MinecraftClient.getInstance().textRenderer.getWidth(value),
+            blockHeight = height,
+            text = value,
             font = FONT,
-            text = value.bold(),
-            x = x + VALUE_HORIZONTAL_OFFSET,
-            y = y + WITHIN_ROW_VERTICAL_OFFSET,
-            shadow = true
+            tooltip = valueTooltip,
+            withinRowVerticalTextOffset = WITHIN_ROW_VERTICAL_OFFSET
         )
+        value.render(context, pMouseX, pMouseY, pPartialTicks)
     }
 
 }

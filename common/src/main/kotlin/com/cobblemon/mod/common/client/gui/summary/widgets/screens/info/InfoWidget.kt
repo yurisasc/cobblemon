@@ -127,7 +127,7 @@ class InfoWidget(
             width = width,
             label = lang("ui.info.nature"),
             value = natureText,
-            tooltip = mintItem?.name
+            valueTooltip = mintItem?.name
         )
         natureWidget.render(context, pMouseX, pMouseY, pPartialTicks)
 
