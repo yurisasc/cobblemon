@@ -115,7 +115,6 @@ interface Evolution : EvolutionLike {
                 setPosition(pokemonEntity.x, pokemonEntity.y + pokemonEntity.height / 2, pokemonEntity.z)
             }
             pokemon.getOwnerPlayer()?.world?.spawnEntity(evolutionEntity)
-
             after(seconds = 9F) {
                 if (!pokemonEntity.isRemoved) {
                     evolutionMethod(pokemon)
