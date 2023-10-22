@@ -86,21 +86,21 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     // Apricorns
     @JvmField
-    val APRICORN_LOG = log("apricorn_log", arg2 = MapColor.BROWN)
+    val APRICORN_LOG = setFlammable(log("apricorn_log", arg2 = MapColor.BROWN), 5, 5)
     @JvmField
-    val STRIPPED_APRICORN_LOG = log("stripped_apricorn_log")
+    val STRIPPED_APRICORN_LOG = setFlammable(log("stripped_apricorn_log"), 5, 5)
     @JvmField
-    val APRICORN_WOOD = log("apricorn_wood")
+    val APRICORN_WOOD = setFlammable(log("apricorn_wood"), 5, 5)
     @JvmField
-    val STRIPPED_APRICORN_WOOD = log("stripped_apricorn_wood")
+    val STRIPPED_APRICORN_WOOD = setFlammable(log("stripped_apricorn_wood"), 5, 5)
     @JvmField
-    val APRICORN_PLANKS = this.create("apricorn_planks", Block(AbstractBlock.Settings.create().mapColor(MapColor.DIRT_BROWN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
+    val APRICORN_PLANKS = setFlammable(this.create("apricorn_planks", Block(AbstractBlock.Settings.create().mapColor(MapColor.DIRT_BROWN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD))), 5, 20)
     @JvmField
-    val APRICORN_LEAVES = leaves("apricorn_leaves")
+    val APRICORN_LEAVES = setFlammable(leaves("apricorn_leaves"), 30, 60)
     @JvmField
-    val APRICORN_FENCE = this.create("apricorn_fence", FenceBlock(AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
+    val APRICORN_FENCE = setFlammable(this.create("apricorn_fence", FenceBlock(AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD))), 5, 20)
     @JvmField
-    val APRICORN_FENCE_GATE = this.create("apricorn_fence_gate", FenceGateBlock(AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE))
+    val APRICORN_FENCE_GATE = setFlammable(this.create("apricorn_fence_gate", FenceGateBlock(AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE)), 5, 20)
     @JvmField // Note At the time of 1.20.0 we don't need our own BlockSetType for Apricorn wood
     val APRICORN_BUTTON = this.create("apricorn_button", BlocksInvoker.createWoodenButtonBlock(BlockSetType.OAK))
     @JvmField
@@ -109,9 +109,9 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     //val APRICORN_SIGN = queue("apricorn_sign") { StandingSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE) }
     //val APRICORN_WALL_SIGN = queue("apricorn_wall_sign") { WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD).dropsLike(APRICORN_SIGN), APRICORN_WOOD_TYPE) }
     @JvmField
-    val APRICORN_SLAB = this.create("apricorn_slab", SlabBlock(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
+    val APRICORN_SLAB = setFlammable(this.create("apricorn_slab", SlabBlock(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD))), 5, 20)
     @JvmField
-    val APRICORN_STAIRS = this.create("apricorn_stairs", StairsBlockInvoker.`cobblemon$create`(APRICORN_PLANKS.defaultState, AbstractBlock.Settings.copy(APRICORN_PLANKS)))
+    val APRICORN_STAIRS = setFlammable(this.create("apricorn_stairs", StairsBlockInvoker.`cobblemon$create`(APRICORN_PLANKS.defaultState, AbstractBlock.Settings.copy(APRICORN_PLANKS))), 5, 20)
     @JvmField
     val APRICORN_DOOR = this.create("apricorn_door", DoorBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque(), APRICORN_BLOCK_SET_TYPE))
     @JvmField
@@ -226,7 +226,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     fun strippedBlocks(): Map<Block, Block> = mapOf(
         APRICORN_WOOD to STRIPPED_APRICORN_WOOD,
         APRICORN_LOG to STRIPPED_APRICORN_LOG
-    )
+    ).onEach{ entry -> setFlammable(entry.value, 5, 5) } as Map<Block, Block>
 
     private fun apricornBlock(name: String, apricorn: Apricorn): ApricornBlock = this.create(name, ApricornBlock(AbstractBlock.Settings.create().mapColor(apricorn.mapColor()).ticksRandomly().strength(Blocks.OAK_LOG.hardness, Blocks.OAK_LOG.blastResistance).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn))
 
@@ -312,12 +312,26 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     }
 
     /**
-     * Helper method for creating logs
-     * copied over from Vanilla
+     * Calls helper method from Vanilla
      */
     private fun log(name: String, arg: MapColor = MapColor.DIRT_BROWN, arg2: MapColor = MapColor.DIRT_BROWN): PillarBlock {
         val block = BlocksInvoker.createLogBlock(arg, arg2)
         return this.create(name, block)
+    }
+
+    /**
+     * Method uses generic E in order to keep the block as the same return type.
+     * If E is not a block then it will not be set as flammable.
+     * Calls Vanilla implementation of registering a flammable block.
+     * Mixins looks cursed but it is java's fault.
+     */
+    private fun <E> setFlammable(block: E, burnChance: Int, spreadChance: Int): E {
+        if(block !is Block) return block
+
+        var fireBlock: FireBlock =  Blocks.FIRE as FireBlock
+        //Cursed Mixin stuff
+        (fireBlock as FireBlockInvoker).registerNewFlammableBlock(block as Block, burnChance, spreadChance)
+        return block
     }
 
     private fun evolutionStoneOre(name: String) = this.create(name, ExperienceDroppingBlock(AbstractBlock.Settings.copy(Blocks.IRON_ORE), UniformIntProvider.create(1, 2)))
