@@ -33,6 +33,8 @@ import net.minecraft.util.math.intprovider.UniformIntProvider
 @Suppress("SameParameterValue", "HasPlatformType", "MemberVisibilityCanBePrivate", "unused")
 object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<Block>>, Block>() {
 
+
+
     override val registry: Registry<Block> = Registries.BLOCK
     override val registryKey: RegistryKey<Registry<Block>> = RegistryKeys.BLOCK
 
@@ -228,23 +230,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         APRICORN_LOG to STRIPPED_APRICORN_LOG
     )
 
-    /**
-     * Makes all blocks in array flammable.
-     * second value is burn chance and third value is spread chance
-     * FLAMMABLE_BLOCKS is currently unused, which is why it isn't exposed to the JVM
-     */
-    private var FLAMMABLE_BLOCKS = arrayOf(
-        Triple(APRICORN_LOG, 5, 5),
-        Triple(STRIPPED_APRICORN_LOG, 5, 5),
-        Triple(APRICORN_WOOD, 5, 5),
-        Triple(STRIPPED_APRICORN_WOOD, 5, 5),
-        Triple(APRICORN_PLANKS, 5, 20),
-        Triple(APRICORN_LEAVES, 30, 60),
-        Triple(APRICORN_FENCE, 5, 20),
-        Triple(APRICORN_FENCE_GATE, 5, 20),
-        Triple(APRICORN_SLAB, 5, 20),
-        Triple(APRICORN_STAIRS, 5, 20)
-    ).onEach{ data -> setFlammable(data.first, data.second, data.third) }
+
 
     private fun apricornBlock(name: String, apricorn: Apricorn): ApricornBlock = this.create(name, ApricornBlock(AbstractBlock.Settings.create().mapColor(apricorn.mapColor()).ticksRandomly().strength(Blocks.OAK_LOG.hardness, Blocks.OAK_LOG.blastResistance).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn))
 
@@ -319,6 +305,25 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val WEPEAR_BERRY = this.berryBlock("wepear")
     val WIKI_BERRY = this.berryBlock("wiki")
     val YACHE_BERRY = this.berryBlock("yache")
+
+    init {
+        /**
+         * Makes all blocks in array flammable by adding them to FireBlock's flammableRegistry.
+         * second value is burn chance and third value is spread chance
+         */
+        arrayOf(
+            Triple(APRICORN_LOG, 5, 5),
+            Triple(STRIPPED_APRICORN_LOG, 5, 5),
+            Triple(APRICORN_WOOD, 5, 5),
+            Triple(STRIPPED_APRICORN_WOOD, 5, 5),
+            Triple(APRICORN_PLANKS, 5, 20),
+            Triple(APRICORN_LEAVES, 30, 60),
+            Triple(APRICORN_FENCE, 5, 20),
+            Triple(APRICORN_FENCE_GATE, 5, 20),
+            Triple(APRICORN_SLAB, 5, 20),
+            Triple(APRICORN_STAIRS, 5, 20)
+        ).onEach{ data -> setFlammable(data.first, data.second, data.third) }
+    }
 
     fun berries() = this.berries.toMap()
 
