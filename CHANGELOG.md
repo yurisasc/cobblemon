@@ -2,6 +2,7 @@
 ## [1.4.1](#1-4-1)
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
+- The nature of cobblemon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
@@ -11,6 +12,7 @@
 - Fixed issue where Potions, Super Potions, and Hyper Potions did not work during battle
 - Fixed the compatibility patch with the Forge version of [Carry On](https://modrinth.com/mod/carry-on) due to a bug on the mod, the Fabric version was unchanged and is still compatible.
 - Added the ability to place Berries on modded Farmland blocks.
+- Shouldered cobblemon now hop off when selected in team and r is pressed. This also is in effect in battles leading to shouldered cobblemon jumping of the shoulder of the trainer when it is their turn.
 - Made more items compostable and changed the process for making items compostable.
 - Apricorn blocks are now flammable.
 
