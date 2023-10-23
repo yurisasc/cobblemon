@@ -14,6 +14,7 @@
 - Added the ability to place Berries on modded Farmland blocks.
 - Shouldered cobblemon now hop off when selected in team and r is pressed. This also is in effect in battles leading to shouldered cobblemon jumping of the shoulder of the trainer when it is their turn.
 - Made more items compostable and changed the process for making items compostable.
+- Added the ability for Hoppers to fill Brewing Stands with Medicinal Brews and Potions.
 - Apricorn blocks are now flammable.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
