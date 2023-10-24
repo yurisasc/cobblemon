@@ -43,7 +43,9 @@
   "maleRatio": 0.5,
   "shoulderMountable": false,
   "forms": [
-    {"name": "base"},
+    {
+      "name": "base"
+    },
     {
       "name": "Alola",
       "primaryType": "electric",
