@@ -1,0 +1,8 @@
+{
+    "result": "omanyte",
+    "fossils": [
+        "cobblemon:helix_fossil"
+    ],
+    "babyModel": "cobblemon:omanyte_baby.geo",
+    "babyTexture": "cobblemon:textures/fossil_babies/omanyte.png"
+}

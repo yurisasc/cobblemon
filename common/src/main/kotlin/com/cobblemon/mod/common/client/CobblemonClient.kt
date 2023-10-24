@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
+import com.cobblemon.mod.common.client.render.block.FossilCompartmentRenderer
 import com.cobblemon.mod.common.client.render.block.FossilTubeRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
@@ -88,6 +89,7 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_TUBE, ::FossilTubeRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_COMPARTMENT, ::FossilCompartmentRenderer)
 
         registerBlockRenderTypes()
         //registerColors()

@@ -672,6 +672,38 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val SURPRISE_MULCH = mulchItem("surprise_mulch", MulchVariant.SURPRISE)
 
+    // Fossils
+    @JvmField
+    val ARMOR_FOSSIL = noSettingsItem("armor_fossil")
+    @JvmField
+    val BIRD_FOSSIL = noSettingsItem("bird_fossil")
+    @JvmField
+    val CLAW_FOSSIL = noSettingsItem("claw_fossil")
+    @JvmField
+    val COVER_FOSSIL = noSettingsItem("cover_fossil")
+    @JvmField
+    val DINO_FOSSIL = noSettingsItem("dino_fossil")
+    @JvmField
+    val DOME_FOSSIL = noSettingsItem("dome_fossil")
+    @JvmField
+    val DRAKE_FOSSIL = noSettingsItem("drake_fossil")
+    @JvmField
+    val FISH_FOSSIL = noSettingsItem("fish_fossil")
+    @JvmField
+    val HELIX_FOSSIL = noSettingsItem("helix_fossil")
+    @JvmField
+    val JAW_FOSSIL = noSettingsItem("jaw_fossil")
+    @JvmField
+    val OLD_AMBER_FOSSIL = noSettingsItem("old_amber_fossil")
+    @JvmField
+    val PLUME_FOSSIL = noSettingsItem("plume_fossil")
+    @JvmField
+    val ROOT_FOSSIL = noSettingsItem("root_fossil")
+    @JvmField
+    val SAIL_FOSSIL = noSettingsItem("sail_fossil")
+    @JvmField
+    val SKULL_FOSSIL = noSettingsItem("skull_fossil")
+
     // Misc
     @JvmField
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())

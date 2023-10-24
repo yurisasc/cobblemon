@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.block.fossilmachine
 
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
-import com.cobblemon.mod.common.multiblock.ResurrectionMachineMultiblockBuilder
+import com.cobblemon.mod.common.block.multiblock.ResurrectionMachineMultiblockBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock

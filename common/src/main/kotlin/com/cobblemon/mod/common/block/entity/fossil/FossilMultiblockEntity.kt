@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.block.entity.fossil
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
-import com.cobblemon.mod.common.multiblock.FossilMultiblockStructure
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.api.multiblock.MultiblockStructure
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
 import com.cobblemon.mod.common.util.DataKeys
@@ -25,7 +25,10 @@ open class FossilMultiblockEntity(
     state: BlockState,
     multiblockBuilder: MultiblockStructureBuilder,
     type: BlockEntityType<*> = CobblemonBlockEntities.FOSSIL_MULTIBLOCK
-    ) : MultiblockEntity(type, pos, state, multiblockBuilder) {
+) : MultiblockEntity(type, pos, state, multiblockBuilder) {
+
+    override var masterBlockPos: BlockPos? = null
+
     override var multiblockStructure: MultiblockStructure? = null
         set(structure) {
             field = structure
@@ -42,7 +45,6 @@ open class FossilMultiblockEntity(
             }
         }
 
-    override var masterBlockPos: BlockPos? = null
     override fun readNbt(nbt: NbtCompound) {
         multiblockStructure = if (nbt.contains(DataKeys.MULTIBLOCK_STORAGE)) {
             FossilMultiblockStructure.fromNbt(nbt.getCompound(DataKeys.MULTIBLOCK_STORAGE))

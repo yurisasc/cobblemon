@@ -147,8 +147,10 @@ object DataKeys {
     const val COMPARTMENT_POS = "CompartmentPos"
     const val ORGANIC_MATERIAL = "OrganicContent"
     const val INSERTED_FOSSIL = "InsertedFossil"
+    const val INSERTED_FOSSIL_STACKS = "InsertedFossilStacks"
     const val TUBE_FILL_LEVEL = "TubeFillLevel"
     const val DIRECTION = "Direction"
     const val TIME_LEFT = "TimeLeft"
     const val FORMED = "Formed"
+    const val CREATED_POKEMON = "CreatedPokemon"
 }

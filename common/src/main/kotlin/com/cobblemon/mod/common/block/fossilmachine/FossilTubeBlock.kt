@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.block.fossilmachine
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
-import com.cobblemon.mod.common.multiblock.ResurrectionMachineMultiblockBuilder
+import com.cobblemon.mod.common.block.multiblock.ResurrectionMachineMultiblockBuilder
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -77,19 +77,12 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
         super.onPlaced(world, pos, state, placer, itemStack)
     }
 
-    //The top part of the tube doesnt really need custom rendering
     override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {
-        if (state.get(PART) == TubePart.BOTTOM) {
-            return FossilTubeBlockEntity(
-                pos, state, ResurrectionMachineMultiblockBuilder(pos)
-            )
+        return if (state.get(PART) == TubePart.BOTTOM) {
+            FossilTubeBlockEntity(pos, state, ResurrectionMachineMultiblockBuilder(pos))
+        } else {
+            FossilMultiblockEntity(pos, state, ResurrectionMachineMultiblockBuilder(pos))
         }
-        else {
-            return FossilMultiblockEntity(
-                pos, state, ResurrectionMachineMultiblockBuilder(pos)
-            )
-        }
-
     }
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
@@ -125,16 +118,14 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape {
-        if (state.get(PART) == TubePart.TOP) {
+        return if (state.get(PART) == TubePart.TOP) {
             var shape = VoxelShapes.cuboid(0.0625, 0.0, 0.0625, 0.9375, 0.8125, 0.9375)
-            shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0, 0.8125, 0.0, 1.0, 1.0, 1.0));
-            return shape;
-        }
-
-        else {
+            shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0, 0.8125, 0.0, 1.0, 1.0, 1.0))
+            shape;
+        } else {
             var shape = VoxelShapes.cuboid(0.0625, 0.1875, 0.0625, 0.9375, 1.0, 0.9375)
-            shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.1875, 1.0));
-            return shape
+            shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.1875, 1.0))
+            shape
         }
     }
 

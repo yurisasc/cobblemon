@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.multiblock
+package com.cobblemon.mod.common.block.multiblock
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
 import com.cobblemon.mod.common.block.fossilmachine.FossilTubeBlock
 import com.cobblemon.mod.common.api.multiblock.condition.BlockRelativeCondition
+import com.cobblemon.mod.common.block.entity.fossil.FossilCompartmentBlockEntity
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.blockPositionsAsList
 import net.minecraft.nbt.NbtCompound
@@ -78,11 +79,12 @@ class ResurrectionMachineMultiblockBuilder(val centerPos: BlockPos) : Multiblock
         val fossilCompPos = fossilCompPositions.random()
         val fossilTubePos = fossilTubePositions.random()
         val monitorEntity = world.getBlockEntity(fossilMonitorPos) as MultiblockEntity
-        val compEntity = world.getBlockEntity(fossilCompPos) as MultiblockEntity
+        val compEntity = world.getBlockEntity(fossilCompPos) as FossilCompartmentBlockEntity
         val tubeBaseEntity = world.getBlockEntity(fossilTubePos) as FossilTubeBlockEntity
         val tubeTopEntity = world.getBlockEntity(fossilTubePos.up()) as MultiblockEntity
         val structure = FossilMultiblockStructure(fossilMonitorPos, fossilCompPos, fossilTubePos)
         val dirsToCheck = listOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
+
         tubeBaseEntity.connectorPosition = dirsToCheck.filter {
             val adjState = world.getBlockState(fossilTubePos.offset(it))
             return@filter adjState.block is FossilCompartmentBlock
@@ -94,6 +96,7 @@ class ResurrectionMachineMultiblockBuilder(val centerPos: BlockPos) : Multiblock
         monitorEntity.multiblockStructure = structure
         structure.syncToClient(world)
         structure.markDirty(world)
+
         //Set these to null so the builders can be freed
         compEntity.multiblockBuilder = null
         tubeBaseEntity.multiblockBuilder = null

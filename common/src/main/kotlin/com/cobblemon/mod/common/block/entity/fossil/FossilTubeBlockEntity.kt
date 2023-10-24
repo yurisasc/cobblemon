@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilde
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.block.BlockState
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtHelper
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
