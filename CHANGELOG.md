@@ -1,13 +1,22 @@
 # Changelog
 ## [1.4.1](#1-4-1)
-
-### Changes
-- Giving Pokémon an item now plays a sound
-- Pokémon cries are now a bit quieter
+### Additions
+- Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
+- Berries can now be used in recipes from [Farmer's Delight](https://modrinth.com/mod/farmers-delight) and [Farmer's Delight (Fabric)](https://modrinth.com/mod/farmers-delight-fabric), as well as any other mods using the same berry tags.
+- The nature of cobblemon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
 - Updated the registration of compostable items to improve compatibility with Fabric forks such as Quilt. Please note this does not mean we officially support Quilt, this change was only done since it was possible by correcting the registration to use the new intended way in the Fabric API.
+- Fixed Dispensers being unable to shear grown Apricorns.
+- Fixed Bowl not being given back to player after using Berry Juice
+- Fixed issue where Potions, Super Potions, and Hyper Potions did not work during battle
+- Fixed the compatibility patch with the Forge version of [Carry On](https://modrinth.com/mod/carry-on) due to a bug on the mod, the Fabric version was unchanged and is still compatible.
+- Added the ability to place Berries on modded Farmland blocks.
+- Shouldered cobblemon now hop off when selected in team and r is pressed. This also is in effect in battles leading to shouldered cobblemon jumping of the shoulder of the trainer when it is their turn.
+- Made more items compostable and changed the process for making items compostable.
+- Added the ability for Hoppers to fill Brewing Stands with Medicinal Brews and Potions.
+- Apricorn blocks are now flammable.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions

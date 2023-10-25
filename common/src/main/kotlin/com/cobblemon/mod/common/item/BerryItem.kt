@@ -8,16 +8,10 @@
 
 package com.cobblemon.mod.common.item
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.block.BerryBlock
 import net.minecraft.item.AliasedBlockItem
 
 open class BerryItem(private val berryBlock: BerryBlock) : AliasedBlockItem(berryBlock, Settings()) {
-
-    init {
-        // 65% to raise composter level
-        Cobblemon.implementation.registerCompostable(this, .65F)
-    }
 
     fun berry() = this.berryBlock.berry()
 }
