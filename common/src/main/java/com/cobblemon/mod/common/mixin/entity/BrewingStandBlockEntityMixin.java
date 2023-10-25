@@ -28,12 +28,23 @@ public abstract class BrewingStandBlockEntityMixin
         final BrewingStandBlockEntity entity = (BrewingStandBlockEntity) (Object) this;
         if (slot < 3)
         {
-            if ((stack.isOf(CobblemonItems.MEDICINAL_BREW) ||
-                    stack.isOf(CobblemonItems.POTION) ||
-                    stack.isOf(CobblemonItems.SUPER_POTION) ||
-                    stack.isOf(CobblemonItems.HYPER_POTION) ||
-                    stack.isOf(CobblemonItems.MAX_POTION))
-                    && entity.getStack(slot).isEmpty())
+            if (entity.getStack(slot).isEmpty() && (
+                    stack.isOf(CobblemonItems.MEDICINAL_BREW) ||
+                            // Potions
+                            stack.isOf(CobblemonItems.POTION) ||
+                            stack.isOf(CobblemonItems.SUPER_POTION) ||
+                            stack.isOf(CobblemonItems.HYPER_POTION) ||
+                            stack.isOf(CobblemonItems.MAX_POTION) ||
+                            // PP Restoring Items
+                            stack.isOf(CobblemonItems.ETHER) ||
+                            stack.isOf(CobblemonItems.ELIXIR) ||
+                            // Status Heal Items
+                            stack.isOf(CobblemonItems.BURN_HEAL) ||
+                            stack.isOf(CobblemonItems.ICE_HEAL) ||
+                            stack.isOf(CobblemonItems.ANTIDOTE) ||
+                            stack.isOf(CobblemonItems.PARALYZE_HEAL) ||
+                            stack.isOf(CobblemonItems.AWAKENING)
+            ))
                 cir.setReturnValue(true);
         }
     }
