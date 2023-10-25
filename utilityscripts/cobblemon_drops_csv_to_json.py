@@ -9,14 +9,14 @@ from sqlalchemy import create_engine
 
 def main():
     # Configuration data
-    spreadsheet_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR51bmzKMTvCfa1UKf454nnlNBCUVMtVNQvxdAiYU09E5pWS7mbsrVt45ABsCGZTByt9N_YEgnSwj8V/pub?gid=0&single=true&output=csv'
+    drops_spreadsheet_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR51bmzKMTvCfa1UKf454nnlNBCUVMtVNQvxdAiYU09E5pWS7mbsrVt45ABsCGZTByt9N_YEgnSwj8V/pub?gid=0&single=true&output=csv'
     conversion_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmvHzUc6_UUKbcvRche7AVebNoljqC1bf3iccusJqW9-C3k0KtESJxOCXShykSejIarAB2jHJ2bHCb/pub?gid=0&single=true&output=csv'
     pokemon_data_dir = '../common/src/main/resources/data/cobblemon/species'
     sqlite_db_name = 'pokemon_drops_data.sqlite'
     sqlite_table_name = 'pokemon_drops'
 
     # Download the CSV from the Google Spreadsheet
-    csv_data = download_spreadsheet_data(spreadsheet_csv_url)
+    csv_data = download_spreadsheet_data(drops_spreadsheet_csv_url)
     csv_data_for_matching = download_spreadsheet_data(conversion_csv_url)
 
     # Load the data into a DataFrame
