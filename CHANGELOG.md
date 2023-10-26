@@ -22,6 +22,8 @@
 - Made more items compostable and changed the process for making items compostable.
 - Added the ability for Hoppers to fill Brewing Stands with Medicinal Brews and Potions.
 - Apricorn blocks are now flammable.
+- Apricorn Planting advancement should work again.
+- Advancement "Patterned Wings" should now allow High Plains and Icy Snow Vivillon to register.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
