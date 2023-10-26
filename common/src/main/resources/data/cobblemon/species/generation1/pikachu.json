@@ -49,41 +49,7 @@
   "shoulderMountable": true,
   "forms": [
     {
-      "name": "base",
-      "evolutions": [
-        {
-          "id": "pikachu_raichu_kantonian_alolan",
-          "variant": "item_interact",
-          "result": "raichu alolan",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "psychic"
-          ],
-          "requirements": [
-            {
-              "variant": "biome",
-              "biomeCondition": "#minecraft:is_beach"
-            }
-          ],
-          "requiredContext": "cobblemon:thunder_stone"
-        },
-        {
-          "id": "pikachu_raichu_kantonian",
-          "variant": "item_interact",
-          "result": "raichu alolan=false",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "thunderpunch"
-          ],
-          "requirements": [
-            {
-              "variant": "biome",
-              "biomeAnticondition": "#minecraft:is_beach"
-            }
-          ],
-          "requiredContext": "cobblemon:thunder_stone"
-        }
-      ]
+      "name": "base"
     },
     {
       "name": "Cosplay",
@@ -1993,7 +1959,40 @@
     "cobblemon.species.pikachu.desc"
   ],
   "preEvolution": "pichu",
-  "evolutions": [],
+  "evolutions": [
+    {
+      "id": "pikachu_raichu_kantonian_alolan",
+      "variant": "item_interact",
+      "result": "raichu alolan",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "psychic"
+      ],
+      "requirements": [
+        {
+          "variant": "biome",
+          "biomeCondition": "#minecraft:is_beach"
+        }
+      ],
+      "requiredContext": "cobblemon:thunder_stone"
+    },
+    {
+      "id": "pikachu_raichu_kantonian",
+      "variant": "item_interact",
+      "result": "raichu alolan=false",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "thunderpunch"
+      ],
+      "requirements": [
+        {
+          "variant": "biome",
+          "biomeAnticondition": "#minecraft:is_beach"
+        }
+      ],
+      "requiredContext": "cobblemon:thunder_stone"
+    }
+  ],
   "baseScale": 0.5,
   "hitbox": {
     "width": 0.7,

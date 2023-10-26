@@ -3918,6 +3918,12 @@
   "pokemon.mightyena.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/mightyena/mightyena_cry", "volume": 0.8 } ]
   },
+  "pokemon.mightyena.quirk1": {
+    "sounds": [ { "name": "cobblemon:pokemon/mightyena/mightyena_quirk1", "volume": 0.8 } ]
+  },
+  "pokemon.mightyena.quirk2": {
+    "sounds": [ { "name": "cobblemon:pokemon/mightyena/mightyena_quirk2", "volume": 0.8 } ]
+  },
   "pokemon.zigzagoon.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/zigzagoon/zigzagoon_cry", "volume": 0.8 } ]
   },

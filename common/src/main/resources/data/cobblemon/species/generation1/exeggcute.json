@@ -21,41 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "base",
-      "evolutions": [
-        {
-          "id": "exeggcute_exeggutor_kantonian_alolan",
-          "variant": "item_interact",
-          "result": "exeggutor alolan",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "dragonhammer"
-          ],
-          "requirements": [
-            {
-              "variant": "biome",
-              "biomeCondition": "#minecraft:is_beach"
-            }
-          ],
-          "requiredContext": "cobblemon:leaf_stone"
-        },
-        {
-          "id": "exeggcute_exeggutor_kantonian",
-          "variant": "item_interact",
-          "result": "exeggutor alolan=false",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "stomp"
-          ],
-          "requirements": [
-            {
-              "variant": "biome",
-              "biomeAnticondition": "#minecraft:is_beach"
-            }
-          ],
-          "requiredContext": "cobblemon:leaf_stone"
-        }
-      ]
+      "name": "base"
     },
     {
       "name": "Alolan",
@@ -292,7 +258,40 @@
   "features": [
     "alolan"
   ],
-  "evolutions": [],
+  "evolutions": [
+    {
+      "id": "exeggcute_exeggutor_kantonian_alolan",
+      "variant": "item_interact",
+      "result": "exeggutor alolan",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "dragonhammer"
+      ],
+      "requirements": [
+        {
+          "variant": "biome",
+          "biomeCondition": "#minecraft:is_beach"
+        }
+      ],
+      "requiredContext": "cobblemon:leaf_stone"
+    },
+    {
+      "id": "exeggcute_exeggutor_kantonian",
+      "variant": "item_interact",
+      "result": "exeggutor alolan=false",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "stomp"
+      ],
+      "requirements": [
+        {
+          "variant": "biome",
+          "biomeAnticondition": "#minecraft:is_beach"
+        }
+      ],
+      "requiredContext": "cobblemon:leaf_stone"
+    }
+  ],
   "baseScale": 1.0,
   "hitbox": {
     "width": 1.1,

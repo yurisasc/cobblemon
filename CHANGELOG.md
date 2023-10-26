@@ -3,6 +3,12 @@
 
 ### Changes
 - Slightly lowered the volume of all cries
+- Updated Pokeball animations and model.
+- Added cries to Raticate, Onix, Unfezant, Bergmite, Avalugg, Boltund, Revavroom.
+- Turtwig can now be put on shoulder.
+- Added animations for Hitmontop, Tyrogue, and Mightyena.
+- Tweaked animations for Bewear, Exeggutor, and Alolan Exeggutor.
+- Sized Kantonian Exeggutor down. Still big but not TOO BIG.
 
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
@@ -23,6 +29,8 @@
 - Made more items compostable and changed the process for making items compostable.
 - Added the ability for Hoppers to fill Brewing Stands with Medicinal Brews and Potions.
 - Apricorn blocks are now flammable.
+- Fixed Quaxwell not doing its cry.
+- Fixed Shroomish not using its idle.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
