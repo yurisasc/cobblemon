@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.moves.Moves
+import com.cobblemon.mod.common.api.moves.animations.ActionEffects
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.feature.GlobalSpeciesFeatures
@@ -54,6 +55,7 @@ object CobblemonDataProvider : DataProvider {
         this.register(SpeciesFeatures)
         this.register(GlobalSpeciesFeatures)
         this.register(SpeciesFeatureAssignments)
+        this.register(ActionEffects)
         this.register(Moves)
         this.register(Abilities)
         this.register(PokemonSpecies)
