@@ -8,7 +8,10 @@
 
 package com.cobblemon.mod.common.client.entity
 
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.entity.EntitySideDelegate
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
@@ -36,6 +39,11 @@ class EmptyPokeBallClientDelegate : PokeBallPoseableState(), EntitySideDelegate<
             stateEmitter.set(CaptureState.values()[it.toInt()])
         }
         entity.shakeEmitter.subscribe { shakeEmitter.emit(Unit) }
+        this.runtime.environment.getQueryStruct().addFunctions(mapOf(
+            "pokeball_type" to java.util.function.Function {
+                return@Function DoubleValue(currentEntity.pokeBall.name.toString())
+            }
+        ))
     }
 
     override fun tick(entity: EmptyPokeBallEntity) {

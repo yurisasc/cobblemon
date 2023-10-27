@@ -15,6 +15,8 @@ import com.bedrockk.molang.runtime.MoScope
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.MoValue
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.particle.ParticleStorm
@@ -134,7 +136,10 @@ data class BedrockAnimation(
     companion object {
         val functionMappings = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
         val sharedRuntime = MoLangRuntime().also {
-            it.environment.structs["query"] = it.environment.structs["variable"]
+            val zero = DoubleValue(0.0)
+            it.environment.getQueryStruct().addFunctions(mapOf(
+                "anim_time" to java.util.function.Function { return@Function zero }
+            ))
             it.environment.structs["script"] = QueryStruct(functionMappings)
         }
 

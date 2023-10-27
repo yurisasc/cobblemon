@@ -42,7 +42,7 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
-import com.cobblemon.mod.common.net.messages.client.sound.PokemonCryPacket
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
@@ -57,7 +57,25 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import com.google.common.collect.ImmutableList
+import java.util.EnumSet
+import java.util.Optional
+import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
+import net.minecraft.entity.ai.brain.MemoryModuleType
+import net.minecraft.entity.ai.brain.MemoryModuleType.ANGRY_AT
+import net.minecraft.entity.ai.brain.MemoryModuleType.ATTACK_COOLING_DOWN
+import net.minecraft.entity.ai.brain.MemoryModuleType.ATTACK_TARGET
+import net.minecraft.entity.ai.brain.MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE
+import net.minecraft.entity.ai.brain.MemoryModuleType.HURT_BY_ENTITY
+import net.minecraft.entity.ai.brain.MemoryModuleType.LOOK_TARGET
+import net.minecraft.entity.ai.brain.MemoryModuleType.MOBS
+import net.minecraft.entity.ai.brain.MemoryModuleType.PATH
+import net.minecraft.entity.ai.brain.MemoryModuleType.VISIBLE_MOBS
+import net.minecraft.entity.ai.brain.MemoryModuleType.WALK_TARGET
+import net.minecraft.entity.ai.brain.sensor.Sensor
+import net.minecraft.entity.ai.brain.sensor.SensorType
+import net.minecraft.entity.ai.brain.sensor.SensorType.HURT_BY
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -103,9 +121,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.EnumSet
-import java.util.Optional
-import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 class PokemonEntity(
@@ -239,7 +254,55 @@ class PokemonEntity(
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
             .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
 
+        private val MEMORY_MODULES: ImmutableList<MemoryModuleType<*>> = ImmutableList.of(HURT_BY_ENTITY, PATH, MemoryModuleType.HURT_BY, ANGRY_AT, MOBS, VISIBLE_MOBS, LOOK_TARGET, WALK_TARGET, ATTACK_TARGET, ATTACK_COOLING_DOWN, CANT_REACH_WALK_TARGET_SINCE)
+        private val SENSORS: ImmutableList<SensorType<out Sensor<in PokemonEntity>>> = ImmutableList.of(HURT_BY, SensorType.NEAREST_LIVING_ENTITIES)
     }
+
+//    override fun createBrainProfile() = Brain.createProfile(MEMORY_MODULES, SENSORS)
+//    override fun deserializeBrain(dynamic: Dynamic<*>?): Brain<PokemonEntity> {
+//        val brain = super.deserializeBrain(dynamic) as Brain<PokemonEntity>
+//        loadBrain(brain)
+//        return brain
+//    }
+//
+//    fun loadBrain(brain: Brain<PokemonEntity>) {
+//        brain.schedule = Schedule.EMPTY
+//        brain.setTaskList(
+//            Activity.IDLE,
+//            ImmutableList.of<com.mojang.datafixers.util.Pair<Int, out Task<in PokemonEntity>>>(
+//                1 toDF TaskTriggerer.task { ctx ->
+//                    ctx.group(ctx.queryMemoryValue(HURT_BY_ENTITY), ctx.queryMemoryOptional(ATTACK_TARGET)).apply(ctx) { hurtByEntity, attackTarget ->
+//                        TaskRunnableKt { world, entity ->
+//                            val currentAttackTarget = ctx.getOptionalValue(attackTarget).orElse(null)
+//                            val hurtByEntityValue = ctx.getValue(hurtByEntity)
+//                            if (currentAttackTarget == null || hurtByEntityValue.distanceTo(entity) < currentAttackTarget.distanceTo(entity)) {
+//                                attackTarget.remember(hurtByEntityValue)
+////                                hurtByEntity.forget()
+//                                return@TaskRunnableKt true
+//                            }
+//
+//                            false
+//                        }
+//                    }
+//                },
+//                2 toDF AttackTask.create(15, 1F),
+//                3 toDF GoTowardsLookTargetTask.create(1F, 2),
+//                4 toDF WanderAroundTask()
+//            )
+//        )
+//        brain.setDefaultActivity(Activity.IDLE)
+//        brain.setCoreActivities(ImmutableSet.of(Activity.IDLE))
+//        brain.refreshActivities(world.timeOfDay, world.time)
+//    }
+//
+//    override fun mobTick() {
+//        super.mobTick()
+//        getBrain().tick(world as ServerWorld, this)
+//    }
+//
+//    override fun getBrain(): Brain<PokemonEntity> {
+//        return super.getBrain() as Brain<PokemonEntity>
+//    }
 
     override fun canWalkOnFluid(state: FluidState): Boolean {
 //        val node = navigation.currentPath?.currentNode
@@ -800,7 +863,7 @@ class PokemonEntity(
     }
 
     fun cry() {
-        val pkt = PokemonCryPacket(id)
+        val pkt = PlayPoseableAnimationPacket(id, setOf("cry"), emptySet())
         world.getEntitiesByClass(ServerPlayerEntity::class.java, Box.of(pos, 64.0, 64.0, 64.0), { true }).forEach {
             it.sendPacket(pkt)
         }
@@ -865,6 +928,7 @@ class PokemonEntity(
     fun isFalling() = this.fallDistance > 0 && this.world.getBlockState(this.blockPos.down()).isAir && !this.isFlying()
     fun getIsSubmerged() = isInLava || isSubmergedInWater
     override fun getPoseType(): PoseType = this.poseType.get()
+    override fun getSideDelegate() = delegate
 
     /**
      * Returns the [Species.translatedName] of the backing [pokemon].

@@ -17,6 +17,9 @@ import com.bedrockk.molang.runtime.MoScope
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.MoValue
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.molang.ListExpression
+import com.cobblemon.mod.common.api.molang.ObjectValue
+import com.cobblemon.mod.common.api.molang.SingleExpression
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.util.math.Vec3d
@@ -27,6 +30,8 @@ fun MoLangRuntime.resolve(expression: Expression): MoValue = expression.evaluate
 fun MoLangRuntime.resolveDouble(expression: Expression): Double = resolve(expression).asDouble()
 fun MoLangRuntime.resolveFloat(expression: Expression): Float = resolve(expression).asDouble().toFloat()
 fun MoLangRuntime.resolveInt(expression: Expression): Int = resolveDouble(expression).toInt()
+fun MoLangRuntime.resolveString(expression: Expression): String = resolve(expression).asString()
+fun MoLangRuntime.resolveObject(expression: Expression): ObjectValue<*> = resolve(expression) as ObjectValue<*>
 
 fun MoLangRuntime.resolveBoolean(expression: Expression): Boolean = resolve(expression).asDouble() != 0.0
 fun MoLangRuntime.resolveVec3d(triple: Triple<Expression, Expression, Expression>) = Vec3d(
@@ -85,6 +90,28 @@ fun String.asExpression() = try {
     Cobblemon.LOGGER.error("Failed to parse MoLang expression: $this")
     throw exc
 }
+
+fun String.asExpressions() = try {
+    MoLang.createParser(if (this == "") "0.0" else this).parse()
+} catch (exc: Exception) {
+    Cobblemon.LOGGER.error("Failed to parse MoLang expressions: $this")
+    throw exc
+}
+
+fun String.asExpressionLike() = try {
+    val ls = MoLang.createParser(if (this == "") "0.0" else this).parse()
+    if (ls.size == 1) {
+        SingleExpression(ls[0])
+    } else {
+        ListExpression(ls)
+    }
+} catch (exc: Exception) {
+    Cobblemon.LOGGER.error("Failed to parse MoLang expressions: $this")
+    throw exc
+}
+
+fun List<String>.asExpressionLike() = joinToString(separator = ";").asExpressionLike()
+
 fun MoLangEnvironment.writePokemon(pokemon: Pokemon) {
     val pokemonStruct = VariableStruct()
     pokemon.writeVariables(pokemonStruct)
@@ -96,3 +123,15 @@ fun MoLangEnvironment.writePokemon(pokemon: BattlePokemon) {
     pokemon.writeVariables(pokemonStruct)
     setSimpleVariable("pokemon", pokemonStruct)
 }
+
+fun List<Expression>.resolve(runtime: MoLangRuntime) = runtime.execute(this)
+fun List<Expression>.resolveDouble(runtime: MoLangRuntime) = resolve(runtime).asDouble()
+fun List<Expression>.resolveInt(runtime: MoLangRuntime) = resolveDouble(runtime).toInt()
+fun List<Expression>.resolveBoolean(runtime: MoLangRuntime) = resolveDouble(runtime) == 1.0
+fun List<Expression>.resolveObject(runtime: MoLangRuntime) = resolve(runtime) as ObjectValue<*>
+
+
+
+
+
+

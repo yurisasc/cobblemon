@@ -8,6 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
+import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
@@ -19,6 +22,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animatio
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -78,6 +82,8 @@ abstract class PoseableEntityModel<T : Entity>(
     @Transient
     var currentState: PoseableEntityState<T>? = null
 
+    val animations = mutableMapOf<String, ExpressionLike>()
+
     /**
      * A list of [TransformedModelPart] that are relevant to any frame or animation.
      * This allows the original rotations to be reset.
@@ -93,6 +99,30 @@ abstract class PoseableEntityModel<T : Entity>(
 
     fun getChangeFactor(part: ModelPart) = relevantParts.find { it.modelPart === part }?.changeFactor ?: 1F
     fun scaleForPart(part: ModelPart, value: Float) = getChangeFactor(part) * value
+    fun getAnimation(state: PoseableEntityState<*>, name: String, runtime: MoLangRuntime): StatefulAnimation<T, *>? {
+        val poseAnimations = state.currentPose?.let(this::getPose)?.animations ?: mapOf()
+        val animation = resolveFromAnimationMap(poseAnimations, name, runtime) ?: resolveFromAnimationMap(animations, name, runtime)
+        return animation
+            // Backwards compatibility for how we used to do cries and faints
+            ?: if (name == "cry" && this is PokemonPoseableModel) {
+                cryAnimation.invoke(state.getEntity() as PokemonEntity, state as PoseableEntityState<PokemonEntity>) as StatefulAnimation<T, *>
+            } else if (name == "faint" && this is PokemonPoseableModel) {
+                getFaintAnimation(state.getEntity() as PokemonEntity, state as PoseableEntityState<PokemonEntity>) as? StatefulAnimation<T, *>
+            } else {
+                null
+            }
+    }
+
+    private fun resolveFromAnimationMap(map: Map<String, ExpressionLike>, name: String, runtime: MoLangRuntime): StatefulAnimation<T, *>? {
+        val animationExpression = map[name] ?: return null
+        return try {
+            animationExpression.resolveObject(runtime).obj as StatefulAnimation<T, *>
+        } catch (e: Exception) {
+            LOGGER.error("Failed to create animation by name $name, most likely something wrong in the MoLang")
+            e.printStackTrace()
+            null
+        }
+    }
 
     fun withLayerContext(
         buffer: VertexConsumerProvider,
@@ -142,6 +172,7 @@ abstract class PoseableEntityModel<T : Entity>(
         poseType: PoseType,
         condition: (T) -> Boolean = { true },
         transformTicks: Int = 10,
+        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray(),
@@ -153,6 +184,7 @@ abstract class PoseableEntityModel<T : Entity>(
             condition,
             onTransitionedInto,
             transformTicks,
+            animations,
             idleAnimations,
             transformedParts,
             quirks
@@ -166,6 +198,7 @@ abstract class PoseableEntityModel<T : Entity>(
         poseTypes: Set<PoseType>,
         condition: (T) -> Boolean = { true },
         transformTicks: Int = 10,
+        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray(),
@@ -177,6 +210,7 @@ abstract class PoseableEntityModel<T : Entity>(
             condition,
             onTransitionedInto,
             transformTicks,
+            animations,
             idleAnimations,
             transformedParts,
             quirks
@@ -190,6 +224,7 @@ abstract class PoseableEntityModel<T : Entity>(
         poseType: PoseType,
         condition: (T) -> Boolean = { true },
         transformTicks: Int = 10,
+        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray(),
@@ -201,6 +236,7 @@ abstract class PoseableEntityModel<T : Entity>(
             condition,
             onTransitionedInto,
             transformTicks,
+            animations,
             idleAnimations,
             transformedParts,
             quirks
@@ -427,7 +463,7 @@ abstract class PoseableEntityModel<T : Entity>(
             val desirablePose = poses.values.firstOrNull {
                 (entityPoseType == null || entityPoseType in it.poseTypes) && it.condition(entity)
             }
-                ?: Pose("none", setOf(PoseType.NONE), { true }, {}, 0, emptyArray(), emptyArray(), emptyArray())
+                ?: Pose("none", setOf(PoseType.NONE), { true }, {}, 0, mutableMapOf(), emptyArray(), emptyArray(), emptyArray())
 
             // If this condition matches then it just no longer fits this pose
             if (pose != null && poseName != null) {

@@ -8,7 +8,11 @@
 
 package com.cobblemon.mod.common.client.entity
 
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.api.scheduling.lerp
@@ -64,7 +68,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         currentEntity.subscriptions.add(currentEntity.deathEffectsStarted.subscribe {
             if (it) {
                 val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
-                val animation = try { model.getFaintAnimation(currentEntity, this) } catch (e: Exception) { e.printStackTrace(); null } ?: return@subscribe
+                val animation = model.getAnimation(this, "faint", runtime) ?: return@subscribe
                 statefulAnimations.add(animation)
             }
         })
@@ -112,6 +116,18 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     override fun initialize(entity: PokemonEntity) {
         this.currentEntity = entity
         this.age = entity.age
+
+        this.runtime.environment.getQueryStruct().addFunctions(mapOf(
+            "in_battle" to java.util.function.Function {
+                return@Function DoubleValue(currentEntity.isBattling)
+            },
+            "shiny" to java.util.function.Function {
+                return@Function DoubleValue(currentEntity.pokemon.shiny)
+            },
+            "form" to java.util.function.Function {
+                return@Function StringValue(currentEntity.pokemon.form.name)
+            }
+        ))
     }
 
     override fun tick(entity: PokemonEntity) {

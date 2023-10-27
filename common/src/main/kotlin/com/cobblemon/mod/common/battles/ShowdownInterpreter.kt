@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.interpreter.*
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
@@ -19,6 +21,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFaintedEvent
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.moves.Moves
+import com.cobblemon.mod.common.api.moves.categories.DamageCategories
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.scheduling.after
@@ -31,6 +34,7 @@ import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
@@ -673,6 +677,13 @@ object ShowdownInterpreter {
                     battleLang("used_move", pokemonName, move.displayName)
             }
             battle.broadcastChatMessage(lang)
+
+            if (move.damageCategory == DamageCategories.PHYSICAL) {
+                userPokemon.entity?.let {
+                    val pkt = PlayPoseableAnimationPacket(it.id, setOf("${move.name}", "physical"), setOf("v.type=${move.elementalType.name}", "v.power=${move.power}"))
+                    server()?.playerManager?.playerList?.forEach { it.sendPacket(pkt) }
+                }
+            }
 
             battle.majorBattleActions[userPokemon.uuid] = message
         }

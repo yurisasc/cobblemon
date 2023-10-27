@@ -9,6 +9,12 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.StringValue
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -18,7 +24,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.Poseable
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.Vec3d
@@ -39,7 +45,34 @@ abstract class PoseableEntityState<T : Entity> {
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     val poseParticles = mutableListOf<BedrockParticleKeyframe>()
     val runtime = MoLangRuntime().also {
-        it.environment.structs["query"] = it.environment.structs["variable"]
+        val reusableAnimTime = DoubleValue(0.0) // This gets called 500 million times so use a mutable value for it
+        it.environment.getQueryStruct().addFunctions(mapOf(
+            "anim_time" to java.util.function.Function { return@Function reusableAnimTime.also { it.value = animationSeconds.toDouble() } },
+            "bedrock_stateful" to java.util.function.Function { params ->
+                val group = params.getString(0)
+                val animation = params.getString(1)
+                var preventsIdle = false
+                var posePauser = false
+                for (i in 2 until params.params.size) {
+                    val value = params.getString(i).lowercase()
+                    if (value.equals("prevents_idle")) {
+                        preventsIdle = true
+                    } else if (value == "pauses_pose") {
+                        posePauser = true
+                    }
+                }
+                val anim = currentModel?.bedrockStateful(group, animation) ?: return@Function ObjectValue<Int>(0)
+                anim.setPreventsIdle(preventsIdle)
+                anim.isPosePauserAnimation(posePauser)
+                return@Function ObjectValue(anim).addFunction(
+                    "prevents_idle", java.util.function.Function { anim.setPreventsIdle(it.getString(0).toBoolean()) }
+                ).addFunction(
+                    "pauses_pose", java.util.function.Function { anim.isPosePauserAnimation = it.getString(0).toBoolean() }
+                )
+            },
+            "pose_type" to java.util.function.Function { return@Function StringValue((getEntity() as Poseable).getPoseType().name) },
+            "pose" to java.util.function.Function { _ -> return@Function StringValue(currentPose ?: "") }
+        ))
     }
 
     val allStatefulAnimations: List<StatefulAnimation<T, *>> get() = statefulAnimations + quirks.flatMap { it.value.animations }
@@ -71,6 +104,19 @@ abstract class PoseableEntityState<T : Entity> {
     val locatorStates = mutableMapOf<String, MatrixWrapper>()
 
     val renderQueue = ConcurrentLinkedQueue<() -> Unit>()
+
+    /**
+     * Scans through the set of animations provided and begins playing the first one that is registered
+     * on the entity. The goal is to have most-specific animations first and more generic ones last, so
+     * where detailed animations exist they will be used and where they don't there is still a fallback.
+     *
+     * E.g. ['thunderbolt', 'electric', 'special']
+     */
+    fun addFirstAnimation(animation: Set<String>) {
+        val model = currentModel ?: return
+        val animation = animation.firstNotNullOfOrNull { model.getAnimation(this, it, runtime) } ?: return
+        statefulAnimations.add(animation)
+    }
 
     fun isPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.any { it.poseName == currentPose }
     fun isNotPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.none { it.poseName == currentPose }

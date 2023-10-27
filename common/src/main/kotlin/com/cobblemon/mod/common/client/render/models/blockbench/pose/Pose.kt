@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pose
 
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -26,6 +27,7 @@ class Pose<T : Entity, F : ModelFrame>(
     val condition: (T) -> Boolean,
     val onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
     val transformTicks: Int,
+    val animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
     val idleAnimations: Array<StatelessAnimation<T, out F>>,
     val transformedParts: Array<TransformedModelPart>,
     val quirks: Array<ModelQuirk<T, *>>

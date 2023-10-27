@@ -60,3 +60,5 @@ fun Random.nextBetween(min: Double, max: Double): Double {
 fun Random.nextBetween(min: Int, max: Int): Int {
     return nextInt(max - min + 1) + min
 }
+
+infix fun <A, B> A.toDF(b: B): com.mojang.datafixers.util.Pair<A, B> = com.mojang.datafixers.util.Pair(this, b)

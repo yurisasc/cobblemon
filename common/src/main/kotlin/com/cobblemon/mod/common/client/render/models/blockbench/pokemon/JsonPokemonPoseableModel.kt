@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
@@ -18,7 +19,9 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.withPosition
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
+import com.cobblemon.mod.common.util.asExpressionLike
 import com.google.gson.*
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
@@ -52,6 +55,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
                 ).type,
                 StatefulAnimationAdapter
             )
+            .registerTypeAdapter(ExpressionLike::class.java, ExpressionLikeAdapter)
             .registerTypeAdapter(Pose::class.java, PoseAdapter)
             .registerTypeAdapter(JsonPokemonPoseableModel::class.java, JsonPokemonPoseableModelAdapter)
             .create()
@@ -90,7 +94,6 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
         get() = _profileScale ?: 1F
     override val profileTranslation
         get() = _profileTranslation ?: Vec3d(0.0, 0.0, 0.0)
-
 
 
     val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
@@ -147,6 +150,13 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
             val conditionsList = mutableListOf<(PokemonEntity) -> Boolean>()
 
+            val animations = json.get("animations")?.asJsonObject?.let {
+                val map = mutableMapOf<String, ExpressionLike>()
+                for ((key, value) in it.entrySet()) {
+                    map[key] = value.asString.asExpressionLike()
+                }
+                map
+            } ?: mutableMapOf()
             val mustBeInBattle = json.get("isBattle")?.asBoolean
             if (mustBeInBattle != null) {
                 conditionsList.add { mustBeInBattle == it.isBattling }
@@ -219,6 +229,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
                 poseName = poseName,
                 poseTypes = poseTypes.toSet(),
                 condition = poseCondition,
+                animations = animations,
                 transformTicks =  transformTicks,
                 idleAnimations = idleAnimations,
                 transformedParts = transformedParts,

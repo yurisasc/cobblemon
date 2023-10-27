@@ -67,5 +67,10 @@ object MoLangFunctions {
         return this
     }
 
+    fun <T : QueryStruct> T.addFunction(name: String, function: java.util.function.Function<MoParams, Any>): T {
+        this.functions[name] = function
+        return this
+    }
+
     fun MoLangEnvironment.getQueryStruct(name: String = "query") = structs.getOrPut(name) { QueryStruct(hashMapOf()).addStandardFunctions() } as QueryStruct
 }

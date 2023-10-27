@@ -8,6 +8,9 @@
 
 package com.cobblemon.mod.common.entity
 
+import com.cobblemon.mod.common.api.entity.EntitySideDelegate
+
 interface Poseable {
     fun getPoseType(): PoseType
+    fun getSideDelegate(): EntitySideDelegate<*>?
 }

@@ -234,6 +234,8 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
         super.onEntityHit(hitResult)
     }
 
+    override fun getSideDelegate() = delegate
+
     private fun drop() {
         val owner = owner
         discard()
