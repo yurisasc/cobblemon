@@ -19,10 +19,11 @@
 - Fixed issue where Potions, Super Potions, and Hyper Potions did not work during battle
 - Fixed the compatibility patch with the Forge version of [Carry On](https://modrinth.com/mod/carry-on) due to a bug on the mod, the Fabric version was unchanged and is still compatible.
 - Added the ability to place Berries on modded Farmland blocks.
-- Shouldered cobblemon now hop off when selected in team and r is pressed. This also is in effect in battles leading to shouldered cobblemon jumping of the shoulder of the trainer when it is their turn.
+- Shouldered Pokémon now hop off when selected in team and r is pressed. This also is in effect in battles leading to shouldered Pokémon jumping of the shoulder of the trainer when it is their turn.
 - Made more items compostable and changed the process for making items compostable.
 - Added the ability for Hoppers to fill Brewing Stands with Medicinal Brews and Potions.
 - Apricorn blocks are now flammable.
+- The default pose for Pokémon being passengers is now "standing".
 - Fixed issue where some IVs were changing every player relog.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
