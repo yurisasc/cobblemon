@@ -25,6 +25,7 @@
 - Apricorn blocks are now flammable.
 - The default pose for Pokémon being passengers is now "standing".
 - Fixed issue where some IVs were changing every player relog.
+- Fixed cursed battle message
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
