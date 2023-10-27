@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
-import com.cobblemon.mod.common.api.pokemon.breeding.BreedingLogic
+import com.cobblemon.mod.common.api.pokemon.breeding.CobblemonBreedingLogic
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -152,7 +152,7 @@ object TestCommand {
     }
 
     private fun testBreeding(playerEntity: ServerPlayerEntity) {
-        BreedingLogic().breedingResult(playerEntity.party().get(0)!!, playerEntity.party().get(1)!!)
+        CobblemonBreedingLogic().breed(playerEntity.party().get(0)!!, playerEntity.party().get(1)!!)
             ?.let { playerEntity.party().add(it) }
     }
 
