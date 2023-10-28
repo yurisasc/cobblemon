@@ -57,7 +57,7 @@
                     "#cobblemon:is_hills"
                 ],
                 "timeRange": "night",
-				"moonPhase": 1
+				"moonPhase": 0
             }
         },
         {
