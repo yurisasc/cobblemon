@@ -26,6 +26,7 @@
 - The default pose for Pokémon being passengers is now "standing".
 - Fixed issue where some IVs were changing every player relog.
 - Fixed cursed battle message
+- Fixed mistakes in pokemon spawning JSONs
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
