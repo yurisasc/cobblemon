@@ -81,7 +81,8 @@ expected_list = {
     "weightMultipliers": Expected("weightMultipliers", type_of_value="list"),
     "condition": Expected("condition", type_of_value="dict"),
     "anticondition": Expected("anticondition", type_of_value="dict"),
-    "biomes": Expected("biomes", type_of_value="list")
+    "biomes": Expected("biomes", type_of_value="list"),
+    "drops": Expected("drops", type_of_value="dict")
 }
 
 start = expected_list["start"]
@@ -104,6 +105,7 @@ spawns.add_child_element(expected_list["weightMultipliers"])
 spawns.add_child_element(expected_list["condition"])
 spawns.add_child_element(expected_list["anticondition"])
 spawns.add_child_element(expected_list["biomes"])
+spawns.add_child_element(expected_list["drops"])
 
 def iterate_over_object(obj, start, filename):
     checked_list = []
