@@ -19,7 +19,17 @@
                 "biomes": [
                     "#minecraft:is_nether"
                 ]
-            }
+            },
+			"drops": {
+				"amount": "1",
+				"entries": [
+					{
+					"item": "minecraft:blaze_rod",
+					"quantityRange": "1-2",
+					"percentage": 66
+					}
+				]
+			}
         },
         {
             "id": "armarouge-2",
@@ -36,7 +46,17 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
-            }
+            },
+			"drops": {
+				"amount": "1",
+				"entries": [
+					{
+					"item": "minecraft:charcoal",
+					"quantityRange": "1-2",
+					"percentage": 66
+					}
+				]
+			}
         }
     ]
 }

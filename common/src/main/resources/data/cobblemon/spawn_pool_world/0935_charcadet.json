@@ -19,7 +19,16 @@
                 "biomes": [
                     "#minecraft:is_nether"
                 ]
-            }
+            },
+			"drops": {
+				"amount": "1",
+				"entries": [
+					{
+					"item": "minecraft:blaze_rod",
+					"percentage": 50
+					}
+				]
+			}
         },
         {
             "id": "charcadet-2",
@@ -36,7 +45,16 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
-            }
+            },
+			"drops": {
+				"amount": "1",
+				"entries": [
+					{
+					"item": "minecraft:charcoal",
+					"percentage": 50
+					}
+				]
+			}
         }
     ]
 }

@@ -102,7 +102,16 @@
                 "biomes": [
                     "#minecraft:is_nether"
                 ]
-            }
+            },
+			"drops": {
+				"amount": "1",
+				"entries": [
+					{
+					"item": "minecraft:ghast_tear",
+					"percentage": 5
+					}
+				]
+			}
         }
     ]
 }
