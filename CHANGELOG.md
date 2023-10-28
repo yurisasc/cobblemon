@@ -27,6 +27,9 @@
 - Fixed issue where some IVs were changing every player relog.
 - Fixed cursed battle message
 
+### Developer
+- Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
+
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
 - Added pasture blocks, used to let your PC Pokémon roam around an area.
