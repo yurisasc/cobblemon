@@ -18,17 +18,7 @@
                 "biomes": [
                     "#minecraft:is_end"
                 ]
-            },
-			"drops": {
-				"amount": "1",
-				"entries": [
-					{
-					"item": "minecraft:chorus_fruit",
-					"quantityRange": "1-2",
-					"percentage": 66
-					}
-				]
-			}
+            }
         },
         {
             "id": "beheeyem-2",
@@ -53,7 +43,7 @@
             }
         },
 		{
-            "id": "beheeyem-2",
+            "id": "beheeyem-3",
             "pokemon": "beheeyem",
             "type": "pokemon",
             "context": "grounded",

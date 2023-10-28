@@ -26,6 +26,7 @@
 - The default pose for Pokémon being passengers is now "standing".
 - Fixed issue where some IVs were changing every player relog.
 - Fixed cursed battle message
+- Fixed mistakes in pokemon spawning JSONs
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions

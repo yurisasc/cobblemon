@@ -18,16 +18,7 @@
                 "biomes": [
                     "#minecraft:is_end"
                 ]
-            },
-			"drops": {
-				"amount": "1",
-				"entries": [
-					{
-					"item": "minecraft:chorus_fruit",
-					"percentage": 50
-					}
-				]
-			}
+            }
         },
         {
             "id": "elgyem_2",
