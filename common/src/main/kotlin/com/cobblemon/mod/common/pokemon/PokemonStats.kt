@@ -76,7 +76,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         stats.clear()
         Stats.PERMANENT.forEach { stat ->
             val identifier = this.cleanStatIdentifier(stat.identifier)
-            this[stat] = nbt.getShort(identifier).toInt()
+            this[stat] = nbt.getShort(identifier).toInt().coerceAtLeast(this.defaultValue)
         }
         return this
     }
@@ -96,7 +96,8 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
 
         Stats.PERMANENT.forEach { stat ->
             val identifier = this.cleanStatIdentifier(stat.identifier)
-            this[stat] = json.get(identifier).asInt
+            this[stat] = json.get(identifier)?.asInt?.coerceAtLeast(this.defaultValue)
+                ?: this.defaultValue
         }
         return this
     }
