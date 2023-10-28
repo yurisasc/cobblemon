@@ -2,6 +2,7 @@
 ## [1.4.1](#1-4-1)
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
+- A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft' equivalent with Apricorn planks as replacements.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
