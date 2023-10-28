@@ -12,15 +12,18 @@ import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
 import com.cobblemon.mod.common.pokemon.Pokemon
 
 /**
- * Fired after an evolution finishes.
- *
- * @param pokemon The [Pokemon] resulting from the evolution.
- * @param evolution The [Evolution] that was used.
- *
- * @author Licious
- * @since October 2nd, 2022
+ * The root of the various evolution related events.
  */
-data class EvolutionCompleteEvent(
-    override val pokemon: Pokemon,
-    override val evolution: Evolution
-) : EvolutionEvent
+interface EvolutionEvent {
+
+    /**
+     * The Pokémon impacted in this event.
+     */
+    val pokemon: Pokemon
+
+    /**
+     * The evolution triggering this event.
+     */
+    val evolution: Evolution
+
+}
