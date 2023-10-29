@@ -27,7 +27,7 @@
 - Fixed issue where some IVs were changing every player relog.
 - Fixed cursed battle message
 - Fixed mistakes in pokemon spawning JSONs
-- Fixed crash from bad datapack evolution data.
+- Fixed advancement crash from bad datapack evolution data.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
