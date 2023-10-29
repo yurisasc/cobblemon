@@ -67,7 +67,7 @@ object AdvancementHandler {
                 CobblemonCriteria.COLLECT_ASPECT.trigger(player, advancementData.aspectsCollected)
             }
             else {
-                Cobblemon.LOGGER.warn("Evolution triggered by ${player.displayName} has missing evolution data for ${event.pokemon.species.resourceIdentifier} is incomplete, please report to the datapack creator!")
+                Cobblemon.LOGGER.warn("Evolution triggered by ${player.displayName} has missing evolution data for ${event.pokemon.species.resourceIdentifier}. Incomplete evolution data: ${event.evolution.id}, please report to the datapack creator!")
             }
         }
     }
