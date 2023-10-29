@@ -4,7 +4,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "tentacool",
+            "id": "tentacool_1",
             "pokemon": "tentacool",
             "presets": [
                 "underwater"
@@ -23,7 +23,7 @@
             }
         },
         {
-            "id": "tentacool",
+            "id": "tentacool_2",
             "pokemon": "tentacool",
             "presets": [
                 "underwater"

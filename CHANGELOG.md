@@ -26,10 +26,12 @@
 - The default pose for Pokémon being passengers is now "standing".
 - Fixed issue where some IVs were changing every player relog.
 - Fixed cursed battle message
+- Fixed mistakes in pokemon spawning JSONs
 - Fixed crash from bad datapack evolution data.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
+- Added the `EvolutionTestedEvent`, this allows listening and overriding the final result of evolution requirement tests.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions

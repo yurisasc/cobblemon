@@ -12,7 +12,7 @@
             "type": "pokemon",
             "bucket": "uncommon",
             "level": "29-54",
-            "weight": 2,
+            "weight": 2.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -29,7 +29,7 @@
             "type": "pokemon",
             "bucket": "rare",
             "level": "29-54",
-            "weight": 2,
+            "weight": 2.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -43,7 +43,7 @@
             }
         },
 		{
-            "id": "lapras-2",
+            "id": "lapras-3",
             "pokemon": "lapras",
 			"presets": [
                 "water_surface"
@@ -51,7 +51,7 @@
             "type": "pokemon",
             "bucket": "rare",
             "level": "29-54",
-            "weight": 2,
+            "weight": 2.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
