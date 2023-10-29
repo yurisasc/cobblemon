@@ -3,6 +3,7 @@
 
 ### Changes
 - Slightly lowered the volume of all cries
+- Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
 
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
