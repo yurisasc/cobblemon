@@ -902,6 +902,7 @@ object ShowdownInterpreter {
                     "perish2", "perish1", "perish0" -> battleLang("start.perish", pokemon.getName(), effectID.last().digitToInt())
                     "dynamax" -> battleLang("start.${message.effectAt(2)?.id ?: effectID}", pokemon.getName()).yellow()
                     "curse" -> battleLang("start.curse", message.getSourceBattlePokemon(battle)!!.getName(), pokemon.getName())
+                    "disable" -> battleLang("start.disable", pokemon.getName(), message.effectAt(2)!!.rawData)
                     else -> battleLang("start.$effectID", pokemon.getName())
                 }
                 battle.broadcastChatMessage(lang)
