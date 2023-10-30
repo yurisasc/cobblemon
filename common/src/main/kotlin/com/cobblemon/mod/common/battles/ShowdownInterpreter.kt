@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.interpreter.*
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
@@ -24,6 +25,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
@@ -579,6 +581,17 @@ object ShowdownInterpreter {
             battle.end()
 
             val wasCaught = battle.showdownMessages.any { "capture" in it }
+
+            // If the battle was a PvW battle, we need to set the killer of the wild Pokémon to the player
+            if (battle.isPvW) {
+                val nonPlayerActor = battle.actors.first { it.type == ActorType.WILD }
+                val wildPokemon: BattlePokemon = nonPlayerActor.pokemonList.first()
+
+                if (!wasCaught && losers.any { it.uuid == wildPokemon.uuid }) {
+                    wildPokemon.effectedPokemon.entity?.killer = (battle.actors.firstOrNull { it.type == ActorType.PLAYER } as? PlayerBattleActor)?.entity
+                }
+            }
+
             CobblemonEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, winners, losers, wasCaught))
 
             this.lastCauser.remove(battle.battleId)
@@ -888,6 +901,8 @@ object ShowdownInterpreter {
                     "confusion", "perish3" -> return@dispatch GO // Skip
                     "perish2", "perish1", "perish0" -> battleLang("start.perish", pokemon.getName(), effectID.last().digitToInt())
                     "dynamax" -> battleLang("start.${message.effectAt(2)?.id ?: effectID}", pokemon.getName()).yellow()
+                    "curse" -> battleLang("start.curse", message.getSourceBattlePokemon(battle)!!.getName(), pokemon.getName())
+                    "disable" -> battleLang("start.disable", pokemon.getName(), message.effectAt(2)!!.rawData)
                     else -> battleLang("start.$effectID", pokemon.getName())
                 }
                 battle.broadcastChatMessage(lang)

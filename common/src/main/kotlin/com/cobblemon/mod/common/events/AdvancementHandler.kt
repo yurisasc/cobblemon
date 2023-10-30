@@ -51,19 +51,24 @@ object AdvancementHandler {
     fun onEvolve(event: EvolutionCompleteEvent) {
         val player = event.pokemon.getOwnerPlayer()
         if (player != null) {
-            val playerData = Cobblemon.playerData.get(player)
-            val advancementData = playerData.advancementData
-            advancementData.updateTotalEvolvedCount()
-            advancementData.updateAspectsCollected(player, event.pokemon)
-            Cobblemon.playerData.saveSingle(playerData)
-            CobblemonCriteria.EVOLVE_POKEMON.trigger(
-                player, EvolvePokemonContext(
-                    event.pokemon.preEvolution!!.species.resourceIdentifier,
-                    event.pokemon.species.resourceIdentifier,
-                    advancementData.totalEvolvedCount
+            if (event.pokemon.preEvolution != null) {
+                val playerData = Cobblemon.playerData.get(player)
+                val advancementData = playerData.advancementData
+                advancementData.updateTotalEvolvedCount()
+                advancementData.updateAspectsCollected(player, event.pokemon)
+                Cobblemon.playerData.saveSingle(playerData)
+                CobblemonCriteria.EVOLVE_POKEMON.trigger(
+                    player, EvolvePokemonContext(
+                        event.pokemon.preEvolution!!.species.resourceIdentifier,
+                        event.pokemon.species.resourceIdentifier,
+                        advancementData.totalEvolvedCount
+                    )
                 )
-            )
-            CobblemonCriteria.COLLECT_ASPECT.trigger(player, advancementData.aspectsCollected)
+                CobblemonCriteria.COLLECT_ASPECT.trigger(player, advancementData.aspectsCollected)
+            }
+            else {
+                Cobblemon.LOGGER.warn("Evolution triggered by ${player.displayName} has missing evolution data for ${event.pokemon.species.resourceIdentifier}. Incomplete evolution data: ${event.evolution.id}, please report to the datapack creator!")
+            }
         }
     }
 
