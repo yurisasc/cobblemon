@@ -360,6 +360,12 @@ object CobblemonItemGroups {
         CobblemonItems.pokeBalls.forEach(entries::add)
     }
 
+    private fun keyitemsentries(displayContext: DisplayContext): List<Item> = arrayListOf(
+            CobblemonItems.PHOTODEX
+    )
+
+
+
     private fun foodInjections(displayContext: DisplayContext): List<Item> = arrayListOf(
         CobblemonItems.ROASTED_LEEK,
         CobblemonItems.LEEK_AND_POTATO_STEW,

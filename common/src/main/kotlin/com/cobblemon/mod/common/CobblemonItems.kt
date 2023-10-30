@@ -666,9 +666,16 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
 
+    //Keyitems
+    @JvmField
+    val PHOTODEX = photodexItem("photodex")
+
+
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 
     private fun noSettingsItem(name: String): CobblemonItem = this.create(name, CobblemonItem(Item.Settings()))
+
+    private fun photodexItem(name: String): PhotodexItem = this.create(name, PhotodexItem())
 
     fun berries() = this.berries.toMap()
 
