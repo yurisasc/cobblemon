@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.api.spawning.detail.SpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
-import com.cobblemon.mod.common.api.spawning.selection.FlatSelector
+import com.cobblemon.mod.common.api.spawning.selection.FlatContextWeightedSelector
 import com.cobblemon.mod.common.api.spawning.selection.SpawningSelector
 import net.minecraft.entity.Entity
 
@@ -32,7 +32,7 @@ abstract class TickingSpawner(
     var spawns: SpawnPool,
     val manager: SpawnerManager
 ) : Spawner {
-    private var selector: SpawningSelector = FlatSelector()
+    private var selector: SpawningSelector = FlatContextWeightedSelector()
     override val influences = mutableListOf<SpawningInfluence>()
 
     override fun canSpawn() = active

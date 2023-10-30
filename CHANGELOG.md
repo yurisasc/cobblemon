@@ -30,6 +30,8 @@
 - Fixed cursed battle message
 - Fixed mistakes in pokemon spawning JSONs
 - Fixed advancement crash from bad datapack evolution data.
+- Fixed global influences being applied to TickingSpawners twice.
+- Reverted the default SpawningSelector back to FlatContextWeightedSelector. This fixes multiple weight related issues, including weights with SpawningInfluences.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
