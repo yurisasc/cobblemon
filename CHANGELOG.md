@@ -84,6 +84,8 @@
 - Fixed a possible visual duplication of sent out Pokémon.
 - Fixed battle text for Trace, Receiver, and Power of Alchemy.
 - Fixed tooltips being appended too late in items.
+- Fixed battles ending background music when battle music is not present.
+- Fixed battles ending background music, instead of pausing, when battle music is played.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
