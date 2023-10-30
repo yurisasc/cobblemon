@@ -1,0 +1,40 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.shieldon_fetus.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [5, 0, 0]
+				},
+				"torso": {
+					"rotation": [10, 0, 0]
+				},
+				"neck": {
+					"rotation": [25, 0, 0]
+				},
+				"head": {
+					"rotation": [-50, 0, 0]
+				},
+				"tail": {
+					"rotation": [-25, 0, 0]
+				},
+				"tail2": {
+					"rotation": [-25, 0, 0]
+				},
+				"arm_right": {
+					"rotation": [-207, -45, 223]
+				},
+				"leg_right": {
+					"rotation": [188, -38, -200]
+				},
+				"arm_left": {
+					"rotation": [-207, 45, -223]
+				},
+				"leg_left": {
+					"rotation": [188, 38, 200]
+				}
+			}
+		}
+	}
+}

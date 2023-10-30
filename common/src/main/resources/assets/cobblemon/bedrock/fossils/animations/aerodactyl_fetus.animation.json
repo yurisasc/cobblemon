@@ -1,0 +1,68 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.aerodactyl_fetus.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [-100, 0, 0],
+					"position": [0, 1, 0.2]
+				},
+				"neck": {
+					"rotation": [15, 0, 0]
+				},
+				"head": {
+					"rotation": [72, 0, 0]
+				},
+				"tail": {
+					"rotation": [-35, 0, 0]
+				},
+				"right_leg": {
+					"rotation": [-15, -3, 14]
+				},
+				"right_leg2": {
+					"rotation": [65, 0, 0]
+				},
+				"right_foot": {
+					"rotation": [15, 0, 0]
+				},
+				"neck2": {
+					"rotation": [55, 0, 0]
+				},
+				"tail2": {
+					"rotation": [-60, 0, 0]
+				},
+				"wing_right2": {
+					"rotation": [0, 0, -155]
+				},
+				"wing_right": {
+					"rotation": [0, 0, 75]
+				},
+				"wing_right3": {
+					"rotation": [3, 74, -20]
+				},
+				"tail3": {
+					"rotation": [-60, 0, 0]
+				},
+				"wing_left": {
+					"rotation": [0, 0, -75]
+				},
+				"wing_left2": {
+					"rotation": [0, 0, 155]
+				},
+				"wing_left3": {
+					"rotation": [3, -74, 20]
+				},
+				"left_leg": {
+					"rotation": [-15, 3, -14]
+				},
+				"left_leg2": {
+					"rotation": [65, 0, 0]
+				},
+				"left_foot": {
+					"rotation": [15, 0, 0]
+				}
+			}
+		}
+	}
+}

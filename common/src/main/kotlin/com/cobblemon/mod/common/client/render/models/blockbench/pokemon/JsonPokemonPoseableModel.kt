@@ -60,7 +60,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             ANIMATION_FACTORIES[id] = factory;
         }
 
-        private val ANIMATION_FACTORIES = mutableMapOf<String, AnimationReferenceFactory>()
+        val ANIMATION_FACTORIES = mutableMapOf<String, AnimationReferenceFactory>()
     }
 
     override fun registerPoses() {}

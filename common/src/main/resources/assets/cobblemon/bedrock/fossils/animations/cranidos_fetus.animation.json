@@ -1,0 +1,53 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.cranidos_fetus.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [-5, 0, 0],
+					"position": [0, -2, 1]
+				},
+				"neck": {
+					"rotation": [20, 0, 0]
+				},
+				"head": {
+					"rotation": [10, 0, 0]
+				},
+				"tail": {
+					"rotation": [-20, 0, 0]
+				},
+				"tail2": {
+					"rotation": [-20, 0, 0]
+				},
+				"arm_right": {
+					"rotation": [-210, -55, 222]
+				},
+				"leg_right": {
+					"rotation": [-65, 10, 0]
+				},
+				"leg_right2": {
+					"rotation": [-45, 0, 0]
+				},
+				"foot_right": {
+					"rotation": [80, 0, 0]
+				},
+				"tail3": {
+					"rotation": [-15, 0, 0]
+				},
+				"leg_left": {
+					"rotation": [-65, -10, 0]
+				},
+				"leg_left2": {
+					"rotation": [-45, 0, 0]
+				},
+				"foot_left": {
+					"rotation": [80, 0, 0]
+				},
+				"arm_left": {
+					"rotation": [-210, 55, -222]
+				}
+			}
+		}
+	}
+}

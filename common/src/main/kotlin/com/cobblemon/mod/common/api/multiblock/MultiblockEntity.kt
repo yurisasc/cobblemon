@@ -29,7 +29,7 @@ abstract class MultiblockEntity(
     pos: BlockPos,
     state: BlockState,
     var multiblockBuilder: MultiblockStructureBuilder?
-    ) : BlockEntity(type, pos, state) {
+) : BlockEntity(type, pos, state) {
 
     abstract var multiblockStructure: MultiblockStructure?
     abstract var masterBlockPos: BlockPos?

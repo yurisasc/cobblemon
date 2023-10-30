@@ -1,0 +1,25 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.kabuto_fetus.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [-20, 0, 0]
+				},
+				"right_front_leg": {
+					"rotation": [0, 0, -35]
+				},
+				"right_back_leg": {
+					"rotation": [0, 0, -35]
+				},
+				"left_front_leg": {
+					"rotation": [0, 0, 35]
+				},
+				"left_back_leg": {
+					"rotation": [0, 0, 35]
+				}
+			}
+		}
+	}
+}
