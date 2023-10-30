@@ -7,8 +7,8 @@
 				"texture_width": 128,
 				"texture_height": 64,
 				"visible_bounds_width": 7,
-				"visible_bounds_height": 4,
-				"visible_bounds_offset": [0, 1, 0]
+				"visible_bounds_height": 5,
+				"visible_bounds_offset": [0, 1.5, 0]
 			},
 			"bones": [
 				{
@@ -70,7 +70,10 @@
 						{"origin": [2.5, 29.5, -9.5], "size": [0, 1, 1], "inflate": 0.01, "pivot": [2.5, 30.5, -9.5], "rotation": [45, 0, 0], "uv": [7, 24], "mirror": true},
 						{"origin": [-2.5, 32.5, 2.25], "size": [1, 2, 6], "pivot": [-2, 33.25, 2.5], "rotation": [5, -5, 0], "uv": [81, 49]},
 						{"origin": [1.5, 32.5, 2.25], "size": [1, 2, 6], "pivot": [2, 33.25, 2.5], "rotation": [5, 5, 0], "uv": [81, 49], "mirror": true}
-					]
+					],
+					"locators": {
+						"source": [0, 29, -9]
+					}
 				},
 				{
 					"name": "eyes",
@@ -158,7 +161,13 @@
 					"cubes": [
 						{"origin": [-19.5, 20, -1], "size": [3, 1, 1], "uv": [112, 46]},
 						{"origin": [-20.5, 20.5, -1], "size": [1, 0, 1], "pivot": [-19.5, 20.5, -0.5], "rotation": [-120, 0, 0], "uv": [6, 31]}
-					]
+					],
+					"locators": {
+						"claw": {
+							"offset": [-20, 20, -0.5],
+							"rotation": [0, 90, 0]
+						}
+					}
 				},
 				{
 					"name": "finger_right3",

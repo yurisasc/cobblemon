@@ -12,6 +12,7 @@ import com.bedrockk.molang.runtime.MoLangEnvironment
 import com.bedrockk.molang.runtime.MoParams
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.cobblemon.mod.common.Cobblemon
 import net.minecraft.block.Block
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -30,7 +31,11 @@ import net.minecraft.world.dimension.DimensionType
  * @since October 2nd, 2023
  */
 object MoLangFunctions {
-    val generalFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
+    val generalFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>(
+        "do_effect_walks" to java.util.function.Function { _ ->
+            DoubleValue(Cobblemon.config.walkingInBattleAnimations)
+        }
+    )
     val biomeFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
     val worldFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
     val dimensionTypeFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>()

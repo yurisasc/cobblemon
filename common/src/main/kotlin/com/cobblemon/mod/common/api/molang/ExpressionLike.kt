@@ -23,6 +23,7 @@ interface ExpressionLike {
     fun resolve(runtime: MoLangRuntime): MoValue
 
     fun resolveDouble(runtime: MoLangRuntime) = resolve(runtime).asDouble()
+    fun resolveFloat(runtime: MoLangRuntime) = resolveDouble(runtime).toFloat()
     fun resolveString(runtime: MoLangRuntime) = resolve(runtime).asString()
     fun resolveInt(runtime: MoLangRuntime) = resolveDouble(runtime).toInt()
     fun resolveBoolean(runtime: MoLangRuntime) = resolveDouble(runtime) == 1.0

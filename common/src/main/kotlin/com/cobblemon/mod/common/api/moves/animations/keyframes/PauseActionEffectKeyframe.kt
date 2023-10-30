@@ -9,11 +9,10 @@
 package com.cobblemon.mod.common.api.moves.animations.keyframes
 
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
-import java.util.concurrent.CompletableFuture
+import com.cobblemon.mod.common.api.scheduling.delayedFuture
+import com.cobblemon.mod.common.util.asExpressionLike
 
-class CannotInterruptActionEffectKeyframe : ConditionalActionEffectKeyframe() {
-    override fun playWhenTrue(context: ActionEffectContext): CompletableFuture<Unit> {
-        context.canBeInterrupted = true
-        return CompletableFuture.completedFuture(Unit)
-    }
+class PauseActionEffectKeyframe : ConditionalActionEffectKeyframe() {
+    val pause = "1".asExpressionLike()
+    override fun playWhenTrue(context: ActionEffectContext) = delayedFuture(seconds = pause.resolveFloat(context.runtime), serverThread = true)
 }

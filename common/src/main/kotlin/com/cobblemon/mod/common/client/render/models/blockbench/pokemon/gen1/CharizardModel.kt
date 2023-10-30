@@ -50,7 +50,11 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        animations["physical"] = "q.bedrock_stateful('charizard', 'physical', 'pauses_pose', 'prevents_idle')".asExpressionLike()
+        animations["physical"] = "q.bedrock_stateful('charizard', 'physical', 'prevents_idle')".asExpressionLike()
+        animations["special"] = "q.bedrock_stateful('charizard', 'special', 'prevents_idle')".asExpressionLike()
+        animations["status"] = "q.bedrock_stateful('charizard', 'status', 'prevents_idle')".asExpressionLike()
+        animations["recoil"] = "q.bedrock_stateful('charizard', 'recoil')".asExpressionLike()
+
         animations["cry"] = "q.bedrock_stateful('charizard', 'cry', 'pauses_pose')".asExpressionLike()
 
         val faint = "q.bedrock_stateful('charizard', 'faint', 'prevents_idle')".asExpressionLike()
@@ -75,7 +79,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         )
 
         registerPose(
-            poseTypes = STANDING_POSES,
+            poseTypes = setOf(PoseType.STAND),
             poseName = "battle_standing",
             condition = { it.isBattling },
             animations = mutableMapOf("faint" to faint),

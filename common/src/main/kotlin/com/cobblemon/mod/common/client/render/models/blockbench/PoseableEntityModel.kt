@@ -105,7 +105,7 @@ abstract class PoseableEntityModel<T : Entity>(
         return animation
             // Backwards compatibility for how we used to do cries and faints
             ?: if (name == "cry" && this is PokemonPoseableModel) {
-                cryAnimation.invoke(state.getEntity() as PokemonEntity, state as PoseableEntityState<PokemonEntity>) as StatefulAnimation<T, *>
+                cryAnimation.invoke(state.getEntity() as PokemonEntity, state as PoseableEntityState<PokemonEntity>) as? StatefulAnimation<T, *>
             } else if (name == "faint" && this is PokemonPoseableModel) {
                 getFaintAnimation(state.getEntity() as PokemonEntity, state as PoseableEntityState<PokemonEntity>) as? StatefulAnimation<T, *>
             } else {

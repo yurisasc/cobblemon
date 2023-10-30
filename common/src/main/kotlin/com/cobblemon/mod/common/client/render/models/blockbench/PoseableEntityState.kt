@@ -9,12 +9,18 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
+import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.ObjectValue
+import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
+import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -25,8 +31,16 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.resolve
 import java.util.concurrent.ConcurrentLinkedQueue
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvent
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -44,9 +58,9 @@ abstract class PoseableEntityState<T : Entity> {
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     val poseParticles = mutableListOf<BedrockParticleKeyframe>()
-    val runtime = MoLangRuntime().also {
-        val reusableAnimTime = DoubleValue(0.0) // This gets called 500 million times so use a mutable value for it
-        it.environment.getQueryStruct().addFunctions(mapOf(
+    val runtime = MoLangRuntime().also { runtime ->
+        val reusableAnimTime = DoubleValue(0.0) // This gets called 500 million times so use a mutable value for runtime
+        runtime.environment.getQueryStruct().addFunctions(mapOf(
             "anim_time" to java.util.function.Function { return@Function reusableAnimTime.also { it.value = animationSeconds.toDouble() } },
             "bedrock_stateful" to java.util.function.Function { params ->
                 val group = params.getString(0)
@@ -71,7 +85,78 @@ abstract class PoseableEntityState<T : Entity> {
                 )
             },
             "pose_type" to java.util.function.Function { return@Function StringValue((getEntity() as Poseable).getPoseType().name) },
-            "pose" to java.util.function.Function { _ -> return@Function StringValue(currentPose ?: "") }
+            "pose" to java.util.function.Function { _ -> return@Function StringValue(currentPose ?: "") },
+            "say" to java.util.function.Function { params -> MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text()) ?: Unit },
+            "sound" to java.util.function.Function { params ->
+                val entity = getEntity() ?: return@Function Unit
+                if (params.get<MoValue>(0) !is StringValue) {
+                    return@Function Unit
+                }
+                val soundEvent = SoundEvent.of(params.getString(0).asIdentifierDefaultingNamespace())
+                if (soundEvent != null) {
+                    val volume = if (params.contains(1)) params.getDouble(1).toFloat() else 1F
+                    val pitch = if (params.contains(2)) params.getDouble(2).toFloat() else 1F
+                    MinecraftClient.getInstance().soundManager.play(
+                        PositionedSoundInstance(soundEvent, SoundCategory.NEUTRAL, volume, pitch, entity.world.random, entity.x, entity.y, entity.z)
+                    )
+                }
+            },
+            "random" to java.util.function.Function { params ->
+                val options = mutableListOf<MoValue>()
+                var index = 0
+                while (params.contains(index)) {
+                    options.add(params.get(index))
+                    index++
+                }
+                return@Function options.random() // Can throw an exception if they specified no args. They'd be idiots though.
+            },
+            "particle" to java.util.function.Function { params ->
+                val particlesParam = params.get<MoValue>(0)
+                val particles = mutableListOf<String>()
+                if (particlesParam is StringValue) {
+                    particles.add(particlesParam.value)
+                } else if (particlesParam is VariableStruct) {
+                    particles.addAll(particlesParam.map.values.map { it.asString() })
+                } else {
+                    return@Function Unit
+                }
+
+                val effectIds = particles.map { it.asIdentifierDefaultingNamespace() }
+                for (effectId in effectIds) {
+                    val locator = if (params.params.size > 1) params.getString(1) else "root"
+                    val effect = BedrockParticleEffectRepository.getEffect(effectId) ?: run {
+                        LOGGER.error("Unable to find a particle effect with id $effectId")
+                        return@Function Unit
+                    }
+
+                    val entity = getEntity() ?: return@Function Unit
+                    val world = entity.world as ClientWorld
+                    val matrixWrapper = locatorStates[locator] ?: locatorStates["root"]!!
+
+                    val particleRuntime = MoLangRuntime()
+                    particleRuntime.environment.structs["query"] = runtime.environment.getQueryStruct()
+
+                    for (index in 2 until params.params.size) {
+                        val variableName = params.getString(index) ?: continue
+                        particleRuntime.environment.setSimpleVariable(
+                            variableName,
+                            runtime.resolve("v.$variableName".asExpression())
+                        )
+                    }
+
+                    val storm = ParticleStorm(
+                        effect = effect,
+                        matrixWrapper = matrixWrapper,
+                        world = world,
+                        runtime = particleRuntime,
+                        sourceVelocity = { entity.velocity },
+                        sourceAlive = { !entity.isRemoved },
+                        sourceVisible = { !entity.isInvisible }
+                    )
+
+                    storm.spawn()
+                }
+            }
         ))
     }
 

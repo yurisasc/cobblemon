@@ -8,24 +8,14 @@
 
 package com.cobblemon.mod.common.api.moves.animations
 
+import com.bedrockk.molang.Expression
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.api.moves.animations.keyframes.ActionEffectKeyframe
-import com.cobblemon.mod.common.api.moves.animations.keyframes.AnimationActionEffectKeyframe
-import com.cobblemon.mod.common.api.moves.animations.keyframes.CanInterruptActionEffectKeyframe
-import com.cobblemon.mod.common.api.moves.animations.keyframes.CannotInterruptActionEffectKeyframe
-import com.cobblemon.mod.common.api.moves.animations.keyframes.ParallelActionEffectKeyframe
-import com.cobblemon.mod.common.api.moves.animations.keyframes.ParticleActionEffectKeyframe
+import com.cobblemon.mod.common.api.molang.ExpressionLike
+import com.cobblemon.mod.common.api.moves.animations.keyframes.*
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.pokemon.adapters.CobblemonStatTypeAdapter
-import com.cobblemon.mod.common.util.adapters.ActionEffectKeyframeAdapter
-import com.cobblemon.mod.common.util.adapters.BoxAdapter
-import com.cobblemon.mod.common.util.adapters.BoxCollectionAdapter
-import com.cobblemon.mod.common.util.adapters.FloatNumberRangeAdapter
-import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
-import com.cobblemon.mod.common.util.adapters.LiteralHexColorAdapter
-import com.cobblemon.mod.common.util.adapters.VerboseIntRangeAdapter
-import com.cobblemon.mod.common.util.adapters.VerboseVec3dAdapter
+import com.cobblemon.mod.common.util.adapters.*
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -50,10 +40,17 @@ object ActionEffects : JsonDataRegistry<ActionEffectTimeline> {
 
     init {
         ActionEffectKeyframe.register<AnimationActionEffectKeyframe>("animation")
-        ActionEffectKeyframe.register<ParticleActionEffectKeyframe>("particle")
+        ActionEffectKeyframe.register<MoLangActionEffectKeyframe>("molang")
         ActionEffectKeyframe.register<ParallelActionEffectKeyframe>("parallel")
         ActionEffectKeyframe.register<CanInterruptActionEffectKeyframe>("can_interrupt")
         ActionEffectKeyframe.register<CannotInterruptActionEffectKeyframe>("cannot_interrupt")
+        ActionEffectKeyframe.register<RemoveHoldsActionEffectKeyframe>("remove_holds")
+        ActionEffectKeyframe.register<MoveToTargetActionEffectKeyframe>("move_to_target")
+        ActionEffectKeyframe.register<ReturnToPositionActionEffectKeyframe>("return_to_position")
+        ActionEffectKeyframe.register<PauseActionEffectKeyframe>("pause")
+        ActionEffectKeyframe.register<SavePositionActionEffectKeyframe>("save_position")
+        ActionEffectKeyframe.register<ForkActionEffectKeyframe>("fork")
+        ActionEffectKeyframe.register<SequenceActionEffectKeyframe>("sequence")
     }
 
     override val gson = GsonBuilder()
@@ -68,6 +65,15 @@ object ActionEffects : JsonDataRegistry<ActionEffectTimeline> {
         .registerTypeAdapter(IntRange::class.java, VerboseIntRangeAdapter)
         .registerTypeAdapter(Color::class.java, LiteralHexColorAdapter)
         .registerTypeAdapter(Stat::class.java, CobblemonStatTypeAdapter)
+        .registerTypeAdapter(Expression::class.java, ExpressionAdapter)
+        .registerTypeAdapter(ExpressionLike::class.java, ExpressionLikeAdapter)
+        .registerTypeAdapter(
+            TypeToken.getParameterized(
+                TypeToken.get(List::class.java).type,
+                TypeToken.get(ActionEffectKeyframe::class.java).type
+            ).type,
+            SingleToPluralAdapter(ActionEffectKeyframe::class.java) { it }
+        )
         .create()
 
     override val typeToken: TypeToken<ActionEffectTimeline> = TypeToken.get(ActionEffectTimeline::class.java)

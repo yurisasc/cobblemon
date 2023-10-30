@@ -24,9 +24,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityMo
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.math.geometry.toRadians
+import com.cobblemon.mod.common.util.resolve
 import com.cobblemon.mod.common.util.resolveDouble
 import java.util.SortedMap
 import net.minecraft.client.MinecraftClient
@@ -80,10 +82,16 @@ class BedrockParticleKeyframe(
 
         state.poseParticles.add(this)
 
+        val particleRuntime = MoLangRuntime()
+
+        // Share the query struct from the entity so the particle can query entity properties
+        particleRuntime.environment.structs["query"] = state.runtime.environment.getQueryStruct()
+
         val storm = ParticleStorm(
             effect = effect,
             matrixWrapper = matrixWrapper,
             world = world,
+            runtime = particleRuntime,
             sourceVelocity = { entity.velocity },
             sourceAlive = { !entity.isRemoved && this in state.poseParticles },
             sourceVisible = { !entity.isInvisible },
@@ -123,7 +131,7 @@ class BedrockInstructionKeyframe(
     val expressions: List<Expression>
 ): BedrockEffectKeyframe(seconds) {
     override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
-        expressions.forEach { expression -> BedrockAnimation.runInstruction(entity, state, expression) }
+        expressions.forEach { expression -> state.runtime.resolve(expression) }
     }
 }
 
@@ -134,67 +142,11 @@ data class BedrockAnimation(
     val boneTimelines: Map<String, BedrockBoneTimeline>
 ) {
     companion object {
-        val functionMappings = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
         val sharedRuntime = MoLangRuntime().also {
             val zero = DoubleValue(0.0)
             it.environment.getQueryStruct().addFunctions(mapOf(
                 "anim_time" to java.util.function.Function { return@Function zero }
             ))
-            it.environment.structs["script"] = QueryStruct(functionMappings)
-        }
-
-        var context: InstructionContext? = null
-
-        inline fun <reified T : Entity> registerInstruction(name: String, crossinline function: (entity: T, state: PoseableEntityState<T>, params: MoParams) -> Any) {
-            functionMappings[name] = java.util.function.Function { args ->
-                val ctx = context ?: return@Function Unit
-                if (ctx.entity is T) {
-                    val ret = function(ctx.entity, ctx.state as PoseableEntityState<T>, args)
-                    if (ret is Unit) {
-                        return@Function 0.0
-                    } else {
-                        return@Function ret
-                    }
-                }
-                Unit
-            }
-        }
-
-        class InstructionContext(val entity: Entity, val state: PoseableEntityState<*>)
-
-        fun <T : Entity> runInstruction(entity: T, state: PoseableEntityState<T>, expression: Expression) {
-            val ctx = InstructionContext(entity, state)
-            context = ctx
-            expression.evaluate(MoScope(), sharedRuntime.environment)
-            context = null
-        }
-
-        init {
-            registerInstruction<Entity>("say") { entity, _, params ->
-                MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text())
-                Unit
-            }
-            registerInstruction<Entity>("sound") { entity, _, params ->
-                // Means we don't need to setup a sound registry entry for every single thing
-                val soundEvent = SoundEvent.of(params.getString(0).asIdentifierDefaultingNamespace())
-                if (soundEvent != null) {
-                    val volume = if (params.contains(1)) params.getDouble(1).toFloat() else 1F
-                    val pitch = if (params.contains(2)) params.getDouble(2).toFloat() else 1F
-                    MinecraftClient.getInstance().soundManager.play(
-                        PositionedSoundInstance(soundEvent, SoundCategory.NEUTRAL, volume, pitch, entity.world.random, entity.x, entity.y, entity.z)
-                    )
-                }
-                Unit
-            }
-            registerInstruction<Entity>("random") { entity, _, params ->
-                val options = mutableListOf<MoValue>()
-                var index = 0
-                while (params.contains(index)) {
-                    options.add(params.get(index))
-                    index++
-                }
-                return@registerInstruction options.random() // Can throw an exception if they specified no args. They'd be idiots though.
-            }
         }
     }
 

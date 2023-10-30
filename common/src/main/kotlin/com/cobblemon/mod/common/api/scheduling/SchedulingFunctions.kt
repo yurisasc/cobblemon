@@ -22,7 +22,11 @@ fun after(ticks: Int = 0, seconds: Float = 0F, serverThread: Boolean = false, ac
 
 fun delayedFuture(ticks: Int = 0, seconds: Float = 0F, serverThread: Boolean = false): CompletableFuture<Unit> {
     val future = CompletableFuture<Unit>()
-    after(ticks = ticks, seconds = seconds, serverThread = serverThread) { future.complete(Unit) }
+    if (ticks == 0 && seconds == 0F) {
+        future.complete(Unit)
+    } else {
+        after(ticks = ticks, seconds = seconds, serverThread = serverThread) { future.complete(Unit) }
+    }
     return future
 }
 

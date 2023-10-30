@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
@@ -147,7 +148,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.labelLevel.get() != entity.pokemon.level) {
             entity.labelLevel.set(entity.pokemon.level)
         }
-        val isMoving = !entity.navigation.isIdle
+        val isMoving = (entity.moveControl as? PokemonMoveControl)?.isMoving == true
         if (isMoving && !entity.isMoving.get()) {
             entity.isMoving.set(true)
         } else if (!isMoving && entity.isMoving.get()) {

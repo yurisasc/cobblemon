@@ -8,9 +8,8 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.interpreter.*
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
@@ -20,8 +19,12 @@ import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFaintedEvent
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.moves.Moves
-import com.cobblemon.mod.common.api.moves.categories.DamageCategories
+import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
+import com.cobblemon.mod.common.api.moves.animations.TargetsProvider
+import com.cobblemon.mod.common.api.moves.animations.UsersProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.scheduling.after
@@ -34,7 +37,6 @@ import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
@@ -658,7 +660,7 @@ object ShowdownInterpreter {
         val pokemonName = userPokemon.getName()
         broadcastOptionalAbility(battle, optionalEffect, pokemonName)
 
-        battle.dispatchGo {
+        battle.dispatch {
             this.lastCauser[battle.battleId] = message
 
             userPokemon.effectedPokemon.let { pokemon ->
@@ -678,14 +680,24 @@ object ShowdownInterpreter {
             }
             battle.broadcastChatMessage(lang)
 
-            if (move.damageCategory == DamageCategories.PHYSICAL) {
-                userPokemon.entity?.let {
-                    val pkt = PlayPoseableAnimationPacket(it.id, setOf("${move.name}", "physical"), setOf("v.type=${move.elementalType.name}", "v.power=${move.power}"))
-                    server()?.playerManager?.playerList?.forEach { it.sendPacket(pkt) }
-                }
+            battle.majorBattleActions[userPokemon.uuid] = message
+
+            val providers = mutableListOf<Any>(battle)
+            userPokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            targetPokemon?.effectedPokemon?.entity?.let { TargetsProvider(it) }?.let(providers::add)
+            val runtime = MoLangRuntime().also {
+                battle.addQueryFunctions(it.environment.getQueryStruct()).addStandardFunctions()
             }
 
-            battle.majorBattleActions[userPokemon.uuid] = message
+            val actionEffect = move.actionEffect ?: return@dispatch GO
+            val context = ActionEffectContext(
+                actionEffect = actionEffect,
+                flags = setOf(),
+                runtime = runtime,
+                providers = providers
+            )
+            val future = actionEffect.run(context)
+            return@dispatch UntilDispatch { future.isDone }
         }
     }
 

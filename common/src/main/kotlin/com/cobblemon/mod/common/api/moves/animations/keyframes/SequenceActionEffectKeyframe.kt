@@ -11,9 +11,16 @@ package com.cobblemon.mod.common.api.moves.animations.keyframes
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
 import java.util.concurrent.CompletableFuture
 
-class CannotInterruptActionEffectKeyframe : ConditionalActionEffectKeyframe() {
+/**
+ * A sequence of action effects that are dependent on a condition.
+ *
+ * @author Hiroku
+ * @since October 29th, 2023
+ */
+class SequenceActionEffectKeyframe(val keyframes: List<ActionEffectKeyframe> = listOf()) : ConditionalActionEffectKeyframe() {
     override fun playWhenTrue(context: ActionEffectContext): CompletableFuture<Unit> {
-        context.canBeInterrupted = true
-        return CompletableFuture.completedFuture(Unit)
+        val future = CompletableFuture<Unit>()
+        context.actionEffect.chainKeyframes(context, keyframes.toList().iterator(), future)
+        return future
     }
 }

@@ -11,13 +11,15 @@ package com.cobblemon.mod.common.api.moves.animations.keyframes
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
 import java.util.concurrent.CompletableFuture
 
-class ParallelActionEffectKeyframe : ActionEffectKeyframe {
+class ParallelActionEffectKeyframe : ConditionalActionEffectKeyframe() {
     var keyframes: MutableList<ActionEffectKeyframe> = mutableListOf()
 
-    override fun interrupt(context: ActionEffectContext) {
-        keyframes.forEach { it.interrupt(context) }
-    }
-    override fun play(context: ActionEffectContext): CompletableFuture<Unit> {
-        return CompletableFuture.allOf(*keyframes.map { it.play(context) }.toTypedArray()).thenApply {} // Map Void -> Unit at the end
+    override fun playWhenTrue(context: ActionEffectContext): CompletableFuture<Unit> {
+        return CompletableFuture.allOf(
+            *keyframes.map {
+                context.currentKeyframes.add(it)
+                it.play(context).thenRun { context.currentKeyframes.remove(it) }
+            }.toTypedArray()
+        ).thenApply {} // Map Void -> Unit at the end
     }
 }
