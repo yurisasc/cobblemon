@@ -33,6 +33,8 @@
 - Fixed advancement crash from bad datapack evolution data.
 - Fixed global influences being applied to TickingSpawners twice.
 - Reverted the default SpawningSelector back to FlatContextWeightedSelector. This fixes multiple weight related issues, including weights with SpawningInfluences.
+- Apricorn Planting advancement should work again.
+- Advancement "Patterned Wings" should now allow High Plains and Icy Snow Vivillon to register.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
