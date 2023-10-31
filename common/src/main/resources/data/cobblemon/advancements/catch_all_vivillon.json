@@ -153,27 +153,7 @@
 				"pokemon": "cobblemon:vivillon",
 				"aspects": ["vivillon-wings-tundra"]
 			}
-		},
-		"blazing": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-blazing"]
-			}
-		},
-		"ender": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-ender"]
-			}
-		},
-		"forsaken": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-forsaken"]
-			}
+		}
 		}
 	},
 	"requirements": [
@@ -196,10 +176,7 @@
 		["sandstorm"],
 		["savanna"],
 		["sun"],
-		["tundra"],
-		["blazing"],
-		["ender"],
-		["forsaken"]
+		["tundra"]
 	],
   "rewards": {
     "experience": 100
