@@ -18,7 +18,6 @@
   ],
   "mixins": [
     "ExplosionMixin",
-    "FenceBlockMixin",
     "LivingEntityMixin",
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
@@ -35,10 +34,16 @@
     "invoker.BlocksInvoker",
     "invoker.BooleanRuleInvoker",
     "invoker.DoorBlockInvoker",
+    "invoker.FireBlockInvoker",
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
-    "pokeball.ThrownEntityMixin"
+    "pokeball.ThrownEntityMixin",
+    "StructurePoolGeneratorMixin",
+    "StructurePoolAccessor",
+    "StructureProcessorListMixin",
+    "PotionSlotMixin",
+    "entity.BrewingStandBlockEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

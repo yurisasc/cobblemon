@@ -765,6 +765,10 @@
   "cobblemon.battle.weather.hail.end": "The hail stopped.",
 
   "cobblemon.battle.start.bide": "%1$s begins storing energy!",
+  "cobblemon.battle.start.disable": "%1$s's %2$s was disabled!",
+  "cobblemon.battle.start.foresight": "%1$s was identified!",
+  "cobblemon.battle.start.telekinesis": "%1$s was hurled into the air!",
+  "cobblemon.battle.start.laserfocus": "%1$s concentrated intensely!",
   "cobblemon.battle.start.yawn": "%1$s grew drowsy!",
   "cobblemon.battle.start.perish": "%1$s's perish count fell to %2$s.",
   "cobblemon.battle.start.leechseed": "%1$s was seeded!",
@@ -929,6 +933,7 @@
   "cobblemon.battle.damage.whirlpool": "%1$s was hurt by Whirlpool!",
   "cobblemon.battle.damage.clamp": "%1$s was hurt by Clamp!",
   "cobblemon.battle.damage.curse": "%1$s was afflicted by the curse!",
+  "cobblemon.battle.damage.firespin": "%1$s is hurt by Fire Spin!",
 
   "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
   "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
@@ -941,6 +946,7 @@
   "cobblemon.battle.end.whirlpool": "%1$s was freed from the vortex!",
   "cobblemon.battle.end.clamp": "%1$s was freed from Clamp!",
   "cobblemon.battle.end.dynamax": "%1$s returned to normal!",
+  "cobblemon.battle.end.telekinesis": "%1$s was freed from the telekinesis!",
 
   "cobblemon.battle.sethp.painsplit": "The battlers shared their pain!",
 

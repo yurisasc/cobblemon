@@ -28,13 +28,12 @@ abstract class SpawnAction<T : Entity>(
 ) {
     abstract fun createEntity(): T?
 
-    fun run() {
+    open fun run() {
         ctx.influences.forEach { it.affectAction(this) }
         val e = createEntity() ?: return
         e.setPosition(ctx.position.toVec3d().add(0.5, 1.0, 0.5))
         entity.emit(e)
-        CobblemonEvents.ENTITY_SPAWN.post(SpawnEvent(e, ctx))
-        ctx.world.spawnEntity(e)
+        CobblemonEvents.ENTITY_SPAWN.postThen(SpawnEvent(e, ctx), ifSucceeded = { ctx.world.spawnEntity(e) })
     }
 
     /**

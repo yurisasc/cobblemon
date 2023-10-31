@@ -56,7 +56,8 @@
                 "biomes": [
                     "#cobblemon:is_hills"
                 ],
-                "timeRange": "night"
+                "timeRange": "night",
+                "moonPhase": 0
             }
         },
         {
