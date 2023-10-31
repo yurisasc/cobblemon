@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " PW",
+        "PRP",
+		"WP "
+    ],
+    "key": {
+        "P": {
+            "item": "minecraft:paper"
+        },
+        "R": {
+            "item": "minecraft:red_dye"
+        },
+        "W": {
+            "item": "minecraft:white_dye"
+        }
+    },
+    "result": {
+        "item": "cobblemon:cleanse_tag"
+    }
+}
