@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.mixin.entity;
 
-import com.cobblemon.mod.common.CobblemonItems;
+import com.cobblemon.mod.common.brewing.BrewingRecipes;
 import net.minecraft.block.entity.BrewingStandBlockEntity;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,12 +28,7 @@ public abstract class BrewingStandBlockEntityMixin
         final BrewingStandBlockEntity entity = (BrewingStandBlockEntity) (Object) this;
         if (slot < 3)
         {
-            if ((stack.isOf(CobblemonItems.MEDICINAL_BREW) ||
-                    stack.isOf(CobblemonItems.POTION) ||
-                    stack.isOf(CobblemonItems.SUPER_POTION) ||
-                    stack.isOf(CobblemonItems.HYPER_POTION) ||
-                    stack.isOf(CobblemonItems.MAX_POTION))
-                    && entity.getStack(slot).isEmpty())
+            if (entity.getStack(slot).isEmpty() && BrewingRecipes.brewableItems.contains(stack.getItem()))
                 cir.setReturnValue(true);
         }
     }

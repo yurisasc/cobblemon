@@ -31,12 +31,16 @@ open class SpawnerManager {
 
     open fun registerSpawner(spawner: Spawner) {
         spawners.add(spawner)
-        spawner.influences.addAll(influences)
+        if (spawner !is TickingSpawner) {
+            spawner.influences.addAll(influences)
+        }
     }
 
     open fun unregisterSpawner(spawner: Spawner) {
         spawners.remove(spawner)
-        spawner.influences.removeAll(influences)
+        if (spawner !is TickingSpawner) {
+            spawner.influences.removeAll(influences)
+        }
     }
 
     open fun onServerStarted() {
