@@ -8,14 +8,16 @@
 
 package com.cobblemon.mod.common.api.pokemon.evolution.progress
 
-import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
-import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
+import com.cobblemon.mod.common.pokemon.evolution.progress.*
 
 object EvolutionProgressFactory {
 
     private val variants = hashMapOf<String, () -> EvolutionProgress<*>>()
 
     init {
+        registerVariant(DamageTakenEvolutionProgress.ID.toString()) { DamageTakenEvolutionProgress() }
+        registerVariant(DefeatEvolutionProgress.ID.toString()) { DefeatEvolutionProgress() }
+        registerVariant(LastBattleCriticalHitsEvolutionProgress.ID.toString()) { LastBattleCriticalHitsEvolutionProgress() }
         registerVariant(RecoilEvolutionProgress.ID.toString()) { RecoilEvolutionProgress() }
         registerVariant(UseMoveEvolutionProgress.ID.toString()) { UseMoveEvolutionProgress() }
     }

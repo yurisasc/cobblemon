@@ -35,6 +35,9 @@
 - Reverted the default SpawningSelector back to FlatContextWeightedSelector. This fixes multiple weight related issues, including weights with SpawningInfluences.
 - Apricorn Planting advancement should work again.
 - Advancement "Patterned Wings" should now allow High Plains and Icy Snow Vivillon to register.
+- Fixed the last battle critical hits evolution requirement not working.
+- Fixed the damage taken evolution requirement not saving progress.
+- Fixed the defeated Pokémon evolution requirement not saving progress.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
