@@ -40,6 +40,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
+import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHitsEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.requirements.DefeatRequirement
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
@@ -55,6 +56,7 @@ import net.minecraft.text.Text
  * @since January 16th, 2022
  * @author Deltric, Hiroku
  */
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 open class PokemonBattle(
     val format: BattleFormat,
     val side1: BattleSide,
@@ -68,7 +70,9 @@ open class PokemonBattle(
         side2.battle = this
         this.actors.forEach { actor ->
             actor.pokemonList.forEach { battlePokemon ->
-                battlePokemon.criticalHits = 0
+                battlePokemon.effectedPokemon.evolutionProxy.current().progress()
+                    .filterIsInstance<LastBattleCriticalHitsEvolutionProgress>()
+                    .forEach { it.reset() }
             }
         }
     }

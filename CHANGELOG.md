@@ -11,6 +11,7 @@
 - The nature of cobblemon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
 - Giving Pokémon items now plays a sound
 - A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft' equivalent with Apricorn planks as replacements.
+- Added the Cleanse Tag held item.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
@@ -33,6 +34,11 @@
 - Fixed advancement crash from bad datapack evolution data.
 - Fixed global influences being applied to TickingSpawners twice.
 - Reverted the default SpawningSelector back to FlatContextWeightedSelector. This fixes multiple weight related issues, including weights with SpawningInfluences.
+- Apricorn Planting advancement should work again.
+- Advancement "Patterned Wings" should now allow High Plains and Icy Snow Vivillon to register.
+- Fixed the last battle critical hits evolution requirement not working.
+- Fixed the damage taken evolution requirement not saving progress.
+- Fixed the defeated Pokémon evolution requirement not saving progress.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.

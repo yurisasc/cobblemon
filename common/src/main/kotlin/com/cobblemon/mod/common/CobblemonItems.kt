@@ -571,9 +571,13 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val CHOICE_SPECS = heldItem("choice_specs")
     @JvmField
+    val CLEANSE_TAG = heldItem("cleanse_tag")
+    @JvmField
     val DRAGON_FANG = heldItem("dragon_fang")
     @JvmField
     val EXP_SHARE = heldItem("exp_share")
+    @JvmField
+    val FAIRY_FEATHER = heldItem("fairy_feather")
     @JvmField
     val FOCUS_BAND = heldItem("focus_band")
     @JvmField

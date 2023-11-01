@@ -170,8 +170,8 @@ object CobblemonFabric : CobblemonImplementation {
 
             return@register ActionResult.PASS
         }
-        LootTableEvents.MODIFY.register { _, lootManager, id, tableBuilder, _ ->
-            LootInjector.attemptInjection(id, lootManager, tableBuilder::pool)
+        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, _ ->
+            LootInjector.attemptInjection(id, tableBuilder::pool)
         }
 
         CommandRegistrationCallback.EVENT.register(CobblemonCommands::register)

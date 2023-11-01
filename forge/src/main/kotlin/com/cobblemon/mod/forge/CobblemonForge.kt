@@ -14,8 +14,8 @@ import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.integration.adorn.AdornCompatibility
 import com.cobblemon.mod.common.item.MedicinalLeekItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
+import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
-import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.world.CobblemonStructures
@@ -61,6 +61,7 @@ import net.minecraftforge.common.brewing.BrewingRecipeRegistry
 import net.minecraftforge.common.brewing.IBrewingRecipe
 import net.minecraftforge.event.AddPackFindersEvent
 import net.minecraftforge.event.AddReloadListenerEvent
+import net.minecraftforge.event.LootTableLoadEvent
 import net.minecraftforge.event.OnDatapackSyncEvent
 import net.minecraftforge.event.RegisterCommandsEvent
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
@@ -118,6 +119,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::addCobblemonStructures)
             addListener(::onVillagerTradesRegistry)
             addListener(::onWanderingTraderRegistry)
+            addListener(::onLootTableLoad)
         }
         ForgePlatformEventHandler.register()
         DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable(CobblemonForgeClient::init) }
@@ -395,6 +397,10 @@ class CobblemonForge : CobblemonImplementation {
         CobblemonTradeOffers.resolveWanderingTradeOffers().forEach { tradeOffer ->
             if (tradeOffer.isRareTrade) e.rareTrades.addAll(tradeOffer.tradeOffers) else e.genericTrades.addAll(tradeOffer.tradeOffers)
         }
+    }
+
+    private fun onLootTableLoad(e: LootTableLoadEvent) {
+        LootInjector.attemptInjection(e.name) { builder -> e.table.addPool(builder.build()) }
     }
 
     private fun attemptModCompat() {

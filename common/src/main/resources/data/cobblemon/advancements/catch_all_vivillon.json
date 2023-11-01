@@ -60,14 +60,14 @@
 			"trigger": "cobblemon:aspects_collected",
 			"conditions": {
 				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-high_plains"]
+				"aspects": ["vivillon-wings-high-plains"]
 			}
 		},
 		"icy_snow": {
 			"trigger": "cobblemon:aspects_collected",
 			"conditions": {
 				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-icy_snow"]
+				"aspects": ["vivillon-wings-icy-snow"]
 			}
 		},
 		"jungle": {
@@ -153,20 +153,7 @@
 				"pokemon": "cobblemon:vivillon",
 				"aspects": ["vivillon-wings-tundra"]
 			}
-		},
-		"blazing": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-blazing"]
-			}
-		},
-		"ender": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-ender"]
-			}
+		}
 		}
 	},
 	"requirements": [
@@ -189,9 +176,7 @@
 		["sandstorm"],
 		["savanna"],
 		["sun"],
-		["tundra"],
-		["blazing"],
-		["ender"]
+		["tundra"]
 	],
   "rewards": {
     "experience": 100
