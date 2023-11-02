@@ -9,7 +9,6 @@
 package com.cobblemon.mod.forge.client
 
 import com.cobblemon.mod.common.CobblemonClientImplementation
-import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.client.render.CobblemonAtlases
 import com.cobblemon.mod.common.client.CobblemonClient
@@ -31,17 +30,20 @@ import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
+import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.EntityRenderers
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.util.ModelIdentifier
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
+import net.minecraft.item.ItemConvertible
+import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
 import net.minecraft.resource.ReloadableResourceManagerImpl
-import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
-import net.minecraft.resource.SynchronousResourceReloader
-import net.minecraft.util.profiler.Profiler
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.ModelEvent
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent
@@ -50,11 +52,11 @@ import net.minecraftforge.client.event.RegisterParticleProvidersEvent
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.common.util.MutableHashedLinkedMap
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
 import java.util.function.Supplier
 
 object CobblemonForgeClient : CobblemonClientImplementation {
@@ -74,8 +76,6 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     private fun onClientSetup(event: FMLClientSetupEvent) {
         event.enqueueWork {
             CobblemonClient.initialize(this)
-            EntityRenderers.register(CobblemonEntities.POKEMON) { CobblemonClient.registerPokemonRenderer(it) }
-            EntityRenderers.register(CobblemonEntities.EMPTY_POKEBALL) { CobblemonClient.registerPokeBallRenderer(it) }
         }
         ForgeClientPlatformEventHandler.register()
     }
@@ -129,8 +129,12 @@ object CobblemonForgeClient : CobblemonClientImplementation {
         MinecraftClient.getInstance().blockColors.registerColorProvider(provider, *blocks)
     }
 
-    override fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<T>, factory: BlockEntityRendererFactory<T>) {
+    override fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererFactory<T>) {
         BlockEntityRendererFactories.register(type, factory)
+    }
+
+    override fun <T : Entity> registerEntityRenderer(type: EntityType<out T>, factory: EntityRendererFactory<T>) {
+        EntityRenderers.register(type, factory)
     }
 
     private fun register3dPokeballModels(event: ModelEvent.RegisterAdditional) {
@@ -166,11 +170,28 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     }
 
     private fun onBuildContents(e: BuildCreativeModeTabContentsEvent) {
-        CobblemonItemGroups.inject { injector ->
-            if (e.tabKey == injector.key) {
-                injector.entryInjector(e.parameters).forEach(e::add)
-            }
+        val forgeInject = ForgeItemGroupInject(e.entries)
+        CobblemonItemGroups.inject(e.tabKey, forgeInject)
+    }
+
+    private class ForgeItemGroupInject(private val entries: MutableHashedLinkedMap<ItemStack, ItemGroup.StackVisibility>) : CobblemonItemGroups.Injector {
+
+        override fun putFirst(item: ItemConvertible) {
+            this.entries.putFirst(ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
         }
+
+        override fun putBefore(item: ItemConvertible, target: ItemConvertible) {
+            this.entries.putBefore(ItemStack(target), ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+        }
+
+        override fun putAfter(item: ItemConvertible, target: ItemConvertible) {
+            this.entries.putAfter(ItemStack(target), ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+        }
+
+        override fun putLast(item: ItemConvertible) {
+            this.entries.put(ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+        }
+
     }
 
 }

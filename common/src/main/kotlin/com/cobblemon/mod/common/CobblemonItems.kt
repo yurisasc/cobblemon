@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.MintBlock.MintType
+import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.battle.DireHitItem
 import com.cobblemon.mod.common.item.battle.GuardSpecItem
@@ -123,19 +124,19 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val VIVICHOKE_SEEDS = compostableItem("vivichoke_seeds", VivichokeItem(CobblemonBlocks.VIVICHOKE_SEEDS))
 
     @JvmField
-    val RED_APRICORN = apricronItem("red", ApricornItem(CobblemonBlocks.RED_APRICORN))
+    val RED_APRICORN = apricornItem("red", ApricornItem(CobblemonBlocks.RED_APRICORN))
     @JvmField
-    val YELLOW_APRICORN = apricronItem("yellow", ApricornItem(CobblemonBlocks.YELLOW_APRICORN))
+    val YELLOW_APRICORN = apricornItem("yellow", ApricornItem(CobblemonBlocks.YELLOW_APRICORN))
     @JvmField
-    val GREEN_APRICORN = apricronItem("green", ApricornItem(CobblemonBlocks.GREEN_APRICORN))
+    val GREEN_APRICORN = apricornItem("green", ApricornItem(CobblemonBlocks.GREEN_APRICORN))
     @JvmField
-    val BLUE_APRICORN = apricronItem("blue", ApricornItem(CobblemonBlocks.BLUE_APRICORN))
+    val BLUE_APRICORN = apricornItem("blue", ApricornItem(CobblemonBlocks.BLUE_APRICORN))
     @JvmField
-    val PINK_APRICORN = apricronItem("pink", ApricornItem(CobblemonBlocks.PINK_APRICORN))
+    val PINK_APRICORN = apricornItem("pink", ApricornItem(CobblemonBlocks.PINK_APRICORN))
     @JvmField
-    val BLACK_APRICORN = apricronItem("black", ApricornItem(CobblemonBlocks.BLACK_APRICORN))
+    val BLACK_APRICORN = apricornItem("black", ApricornItem(CobblemonBlocks.BLACK_APRICORN))
     @JvmField
-    val WHITE_APRICORN = apricronItem("white", ApricornItem(CobblemonBlocks.WHITE_APRICORN))
+    val WHITE_APRICORN = apricornItem("white", ApricornItem(CobblemonBlocks.WHITE_APRICORN))
 
     @JvmField
     val RED_APRICORN_SEED = apricronSeedItem("red", ApricornSeedItem(CobblemonBlocks.RED_APRICORN_SAPLING))
@@ -164,6 +165,10 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val APRICORN_PLANKS = blockItem("apricorn_planks", CobblemonBlocks.APRICORN_PLANKS)
     @JvmField
     val APRICORN_LEAVES = compostableBlockItem("apricorn_leaves", CobblemonBlocks.APRICORN_LEAVES)
+    @JvmField
+    val APRICORN_BOAT = create("apricorn_boat", CobblemonBoatItem(CobblemonBoatType.APRICORN, false, Item.Settings().maxCount(1)))
+    @JvmField
+    val APRICORN_CHEST_BOAT = create("apricorn_chest_boat", CobblemonBoatItem(CobblemonBoatType.APRICORN, true, Item.Settings().maxCount(1)))
 
     @JvmField
     val APRICORN_DOOR = blockItem("apricorn_door", CobblemonBlocks.APRICORN_DOOR)
@@ -177,12 +182,14 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val APRICORN_BUTTON = blockItem("apricorn_button", CobblemonBlocks.APRICORN_BUTTON)
     @JvmField
     val APRICORN_PRESSURE_PLATE = blockItem("apricorn_pressure_plate", CobblemonBlocks.APRICORN_PRESSURE_PLATE)
-    //@JvmField
-//    val APRICORN_SIGN = create("apricorn_sign", SignItem(Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_DECORATIONS), CobblemonBlocks.APRICORN_SIGN, CobblemonBlocks.APRICORN_WALL_SIGN))
     @JvmField
     val APRICORN_SLAB = blockItem("apricorn_slab", CobblemonBlocks.APRICORN_SLAB)
     @JvmField
     val APRICORN_STAIRS = blockItem("apricorn_stairs", CobblemonBlocks.APRICORN_STAIRS)
+    @JvmField
+    val APRICORN_SIGN = this.create("apricorn_sign", SignItem(Item.Settings().maxCount(16), CobblemonBlocks.APRICORN_SIGN, CobblemonBlocks.APRICORN_WALL_SIGN))
+    @JvmField
+    val APRICORN_HANGING_SIGN = this.create("apricorn_hanging_sign", HangingSignItem(CobblemonBlocks.APRICORN_HANGING_SIGN, CobblemonBlocks.APRICORN_WALL_HANGING_SIGN, Item.Settings().maxCount(16)))
 
     @JvmField
     val HEALING_MACHINE = blockItem("healing_machine", CobblemonBlocks.HEALING_MACHINE)
@@ -721,7 +728,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         return item
     }
 
-    private fun apricronItem(name: String, apricornItem: ApricornItem): ApricornItem {
+    private fun apricornItem(name: String, apricornItem: ApricornItem): ApricornItem {
         val finalName = "${name}_apricorn"
         val item = this.create(finalName, apricornItem)
         compostable(item, .65f)
