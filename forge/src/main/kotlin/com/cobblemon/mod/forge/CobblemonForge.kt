@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifi
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonProcessorTypes
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProcessorListOverrides
-import com.cobblemon.mod.forge.brewing.ForgeCobblemonBrewingRegistry
+import com.cobblemon.mod.forge.brewing.CobblemonForgeBrewingRegistry
 import com.cobblemon.mod.forge.client.CobblemonForgeClient
 import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
@@ -137,7 +137,7 @@ class CobblemonForge : CobblemonImplementation {
         this.networkManager.registerServerBound()
         event.enqueueWork {
             this.queuedWork.forEach { it.invoke() }
-            ForgeCobblemonBrewingRegistry.register()
+            CobblemonForgeBrewingRegistry.register()
         }
         Cobblemon.initialize()
     }

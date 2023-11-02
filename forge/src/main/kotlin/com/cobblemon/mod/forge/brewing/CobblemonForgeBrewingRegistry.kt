@@ -27,7 +27,7 @@ import net.minecraftforge.common.crafting.CraftingHelper
 import net.minecraftforge.common.crafting.IIngredientSerializer
 import net.minecraftforge.registries.ForgeRegistries
 
-internal object ForgeCobblemonBrewingRegistry {
+internal object CobblemonForgeBrewingRegistry {
 
     fun register() {
         this.registerIngredientTypes()
