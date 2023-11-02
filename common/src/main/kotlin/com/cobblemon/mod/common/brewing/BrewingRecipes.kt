@@ -9,74 +9,47 @@
 package com.cobblemon.mod.common.brewing
 
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.brewing.ingredient.CobblemonIngredient
+import com.cobblemon.mod.common.brewing.ingredient.CobblemonItemIngredient
+import com.cobblemon.mod.common.brewing.ingredient.CobblemonPotionIngredient
 import net.minecraft.item.Item
-import net.minecraft.potion.Potion
 import net.minecraft.potion.Potions
-import net.minecraft.recipe.BrewingRecipeRegistry
-import net.minecraft.recipe.Ingredient
 
 object BrewingRecipes {
-    // Put things here if you want them to be add-able to the bottom of the brewing stand (like where potions go)
-    @JvmField
-    val brewableItems = mutableListOf(
-        CobblemonItems.MEDICINAL_BREW,
-        CobblemonItems.POTION,
-        CobblemonItems.SUPER_POTION,
-        CobblemonItems.HYPER_POTION,
-        CobblemonItems.MAX_POTION,
-        CobblemonItems.FULL_RESTORE,
-        CobblemonItems.FULL_HEAL,
-        CobblemonItems.ANTIDOTE,
-        CobblemonItems.AWAKENING,
-        CobblemonItems.BURN_HEAL,
-        CobblemonItems.ICE_HEAL,
-        CobblemonItems.PARALYZE_HEAL,
-        CobblemonItems.ETHER,
-        CobblemonItems.MAX_ETHER,
-        CobblemonItems.ELIXIR,
-        CobblemonItems.MAX_ELIXIR
-    )
 
-    fun registerPotionTypes() {
-        brewableItems.forEach { item ->
-            BrewingRecipeRegistry.POTION_TYPES.add(Ingredient.ofItems(item))
-        }
-    }
-
-    fun getPotionRecipes(): List<Triple<Potion, Ingredient, Potion>> {
-        return listOf(
-            Triple(Potions.WATER, Ingredient.ofItems(CobblemonItems.MEDICINAL_LEEK), Potions.WATER), // This one is Mixin'd to result in brew rather than water
+    val recipes: List<Triple<CobblemonIngredient, CobblemonIngredient, Item>> by lazy {
+        listOf(
+            Triple(CobblemonPotionIngredient(Potions.WATER), CobblemonItemIngredient(CobblemonItems.MEDICINAL_LEEK), CobblemonItems.MEDICINAL_BREW),
+            convert(CobblemonItems.MEDICINAL_BREW, CobblemonItems.LEPPA_BERRY, CobblemonItems.ETHER),
+            convert(CobblemonItems.MEDICINAL_BREW, CobblemonItems.HOPO_BERRY, CobblemonItems.ELIXIR),
+            convert(CobblemonItems.MEDICINAL_BREW, CobblemonItems.ORAN_BERRY, CobblemonItems.POTION),
+            convert(CobblemonItems.MEDICINAL_BREW, CobblemonItems.SITRUS_BERRY, CobblemonItems.HYPER_POTION),
+            convert(CobblemonItems.MEDICINAL_BREW, CobblemonItems.LUM_BERRY, CobblemonItems.FULL_HEAL),
+            convert(CobblemonItems.MEDICINAL_BREW, CobblemonItems.PECHA_BERRY, CobblemonItems.ANTIDOTE),
+            convert(CobblemonItems.MEDICINAL_BREW, CobblemonItems.CHESTO_BERRY, CobblemonItems.AWAKENING),
+            convert(CobblemonItems.MEDICINAL_BREW, CobblemonItems.RAWST_BERRY, CobblemonItems.BURN_HEAL),
+            convert(CobblemonItems.MEDICINAL_BREW, CobblemonItems.ASPEAR_BERRY, CobblemonItems.ICE_HEAL),
+            convert(CobblemonItems.MEDICINAL_BREW, CobblemonItems.CHERI_BERRY, CobblemonItems.PARALYZE_HEAL),
+            convert(CobblemonItems.BURN_HEAL, CobblemonItems.LUM_BERRY, CobblemonItems.FULL_HEAL),
+            convert(CobblemonItems.ANTIDOTE, CobblemonItems.LUM_BERRY, CobblemonItems.FULL_HEAL),
+            convert(CobblemonItems.AWAKENING, CobblemonItems.LUM_BERRY, CobblemonItems.FULL_HEAL),
+            convert(CobblemonItems.ICE_HEAL, CobblemonItems.LUM_BERRY, CobblemonItems.FULL_HEAL),
+            convert(CobblemonItems.PARALYZE_HEAL, CobblemonItems.LUM_BERRY, CobblemonItems.FULL_HEAL),
+            convert(CobblemonItems.ETHER, CobblemonItems.PEP_UP_FLOWER, CobblemonItems.MAX_ETHER),
+            convert(CobblemonItems.ELIXIR, CobblemonItems.PEP_UP_FLOWER, CobblemonItems.MAX_ELIXIR),
+            convert(CobblemonItems.POTION, CobblemonItems.ENERGY_ROOT, CobblemonItems.SUPER_POTION),
+            convert(CobblemonItems.SUPER_POTION, CobblemonItems.FIGY_BERRY, CobblemonItems.HYPER_POTION),
+            convert(CobblemonItems.SUPER_POTION, CobblemonItems.WIKI_BERRY, CobblemonItems.HYPER_POTION),
+            convert(CobblemonItems.SUPER_POTION, CobblemonItems.MAGO_BERRY, CobblemonItems.HYPER_POTION),
+            convert(CobblemonItems.SUPER_POTION, CobblemonItems.AGUAV_BERRY, CobblemonItems.HYPER_POTION),
+            convert(CobblemonItems.SUPER_POTION, CobblemonItems.IAPAPA_BERRY, CobblemonItems.HYPER_POTION),
+            convert(CobblemonItems.HYPER_POTION, CobblemonItems.VIVICHOKE, CobblemonItems.MAX_POTION),
+            convert(CobblemonItems.MAX_POTION, CobblemonItems.LUM_BERRY, CobblemonItems.FULL_RESTORE)
         )
     }
-
-    fun getItemRecipes(): List<Triple<Item, Ingredient, Item>> {
-        // This is where the majority of our recipes go. First arg is thing down the bottom, second is thing up the top, third is results.
-        return listOf(
-            Triple(CobblemonItems.MEDICINAL_BREW, Ingredient.ofItems(CobblemonItems.LEPPA_BERRY), CobblemonItems.ETHER),
-            Triple(CobblemonItems.MEDICINAL_BREW, Ingredient.ofItems(CobblemonItems.HOPO_BERRY), CobblemonItems.ELIXIR),
-            Triple(CobblemonItems.MEDICINAL_BREW, Ingredient.ofItems(CobblemonItems.ORAN_BERRY), CobblemonItems.POTION),
-            Triple(CobblemonItems.MEDICINAL_BREW, Ingredient.ofItems(CobblemonItems.SITRUS_BERRY), CobblemonItems.HYPER_POTION),
-            Triple(CobblemonItems.MEDICINAL_BREW, Ingredient.ofItems(CobblemonItems.LUM_BERRY), CobblemonItems.FULL_HEAL),
-            Triple(CobblemonItems.MEDICINAL_BREW, Ingredient.ofItems(CobblemonItems.PECHA_BERRY), CobblemonItems.ANTIDOTE),
-            Triple(CobblemonItems.MEDICINAL_BREW, Ingredient.ofItems(CobblemonItems.CHESTO_BERRY), CobblemonItems.AWAKENING),
-            Triple(CobblemonItems.MEDICINAL_BREW, Ingredient.ofItems(CobblemonItems.RAWST_BERRY), CobblemonItems.BURN_HEAL),
-            Triple(CobblemonItems.MEDICINAL_BREW, Ingredient.ofItems(CobblemonItems.ASPEAR_BERRY), CobblemonItems.ICE_HEAL),
-            Triple(CobblemonItems.MEDICINAL_BREW, Ingredient.ofItems(CobblemonItems.CHERI_BERRY), CobblemonItems.PARALYZE_HEAL),
-            Triple(CobblemonItems.BURN_HEAL, Ingredient.ofItems(CobblemonItems.LUM_BERRY), CobblemonItems.FULL_HEAL),
-            Triple(CobblemonItems.ANTIDOTE, Ingredient.ofItems(CobblemonItems.LUM_BERRY), CobblemonItems.FULL_HEAL),
-            Triple(CobblemonItems.AWAKENING, Ingredient.ofItems(CobblemonItems.LUM_BERRY), CobblemonItems.FULL_HEAL),
-            Triple(CobblemonItems.ICE_HEAL, Ingredient.ofItems(CobblemonItems.LUM_BERRY), CobblemonItems.FULL_HEAL),
-            Triple(CobblemonItems.PARALYZE_HEAL, Ingredient.ofItems(CobblemonItems.LUM_BERRY), CobblemonItems.FULL_HEAL),
-            Triple(CobblemonItems.ETHER, Ingredient.ofItems(CobblemonItems.PEP_UP_FLOWER), CobblemonItems.MAX_ETHER),
-            Triple(CobblemonItems.ELIXIR, Ingredient.ofItems(CobblemonItems.PEP_UP_FLOWER), CobblemonItems.MAX_ELIXIR),
-            Triple(CobblemonItems.POTION, Ingredient.ofItems(CobblemonItems.ENERGY_ROOT), CobblemonItems.SUPER_POTION),
-            Triple(CobblemonItems.SUPER_POTION, Ingredient.ofItems(CobblemonItems.FIGY_BERRY), CobblemonItems.HYPER_POTION),
-            Triple(CobblemonItems.SUPER_POTION, Ingredient.ofItems(CobblemonItems.WIKI_BERRY), CobblemonItems.HYPER_POTION),
-            Triple(CobblemonItems.SUPER_POTION, Ingredient.ofItems(CobblemonItems.MAGO_BERRY), CobblemonItems.HYPER_POTION),
-            Triple(CobblemonItems.SUPER_POTION, Ingredient.ofItems(CobblemonItems.AGUAV_BERRY), CobblemonItems.HYPER_POTION),
-            Triple(CobblemonItems.SUPER_POTION, Ingredient.ofItems(CobblemonItems.IAPAPA_BERRY), CobblemonItems.HYPER_POTION),
-            Triple(CobblemonItems.HYPER_POTION, Ingredient.ofItems(CobblemonItems.VIVICHOKE), CobblemonItems.MAX_POTION),
-            Triple(CobblemonItems.MAX_POTION, Ingredient.ofItems(CobblemonItems.LUM_BERRY), CobblemonItems.FULL_RESTORE)
-        )
+    
+    private fun convert(input: Item, ingredient: Item, output: Item): Triple<CobblemonIngredient, CobblemonIngredient, Item> {
+        return Triple(CobblemonItemIngredient(input), CobblemonItemIngredient(ingredient), output)
     }
+
 }

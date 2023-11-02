@@ -8,11 +8,8 @@
 
 package com.cobblemon.mod.fabric.mixin;
 
-import com.cobblemon.mod.common.CobblemonItems;
+import com.cobblemon.mod.fabric.brewing.CobblemonFabricBreweryRegistry;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.PotionItem;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.potion.Potions;
 import net.minecraft.recipe.BrewingRecipeRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,15 +18,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BrewingRecipeRegistry.class)
 public class BrewingRecipeRegistryMixin {
-    @Inject(
-        method = "craft",
-        at = @At(value = "HEAD"),
-        cancellable = true
-    )
-    private static void beforeCraft(ItemStack ingredient, ItemStack input, CallbackInfoReturnable<ItemStack> cir) {
-        // This exists because brewing is Item -> Item or Potion -> Potion - here we want to do Potion -> Item. It's annoying.
-        if (ingredient.getItem() == CobblemonItems.MEDICINAL_LEEK && input.getItem() instanceof PotionItem && PotionUtil.getPotion(input) == Potions.WATER) {
-            cir.setReturnValue(CobblemonItems.MEDICINAL_BREW.getDefaultStack());
+
+    @Inject(method = "isValidIngredient", at = @At("RETURN"), cancellable = true)
+    private static void cobblemon$isValidIngredient(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (cir.getReturnValue()) {
+            return;
+        }
+        cir.setReturnValue(CobblemonFabricBreweryRegistry.INSTANCE.isValidIngredientSlot(stack));
+    }
+
+    @Inject(method = "hasRecipe", at = @At(value = "HEAD"), cancellable = true)
+    private static void cobblemon$hasRecipe(ItemStack input, ItemStack ingredient, CallbackInfoReturnable<Boolean> cir) {
+        if (CobblemonFabricBreweryRegistry.INSTANCE.hasRecipe(input, ingredient)) {
+            cir.setReturnValue(true);
         }
     }
+
+    @Inject(method = "craft", at = @At("RETURN"), cancellable = true)
+    private static void cobblemon$craft(ItemStack ingredient, ItemStack input, CallbackInfoReturnable<ItemStack> cir) {
+        if (!cir.getReturnValue().isEmpty()) {
+            final ItemStack result = CobblemonFabricBreweryRegistry.INSTANCE.recipeResultOf(input, ingredient);
+            if (!result.isEmpty()) {
+                cir.setReturnValue(result);
+            }
+        }
+    }
+
+
 }
