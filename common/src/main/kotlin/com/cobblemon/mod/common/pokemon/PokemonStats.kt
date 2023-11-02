@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
+import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
@@ -73,12 +74,9 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
 
     fun loadFromNBT(nbt: NbtCompound): PokemonStats {
         stats.clear()
-        nbt.keys.forEach { statId ->
-            try {
-                val identifier = statId.asIdentifierDefaultingNamespace()
-                val stat = Cobblemon.statProvider.fromIdentifier(identifier) ?: return@forEach
-                this[stat] = nbt.getShort(statId).toInt()
-            } catch (_: InvalidIdentifierException) {}
+        Stats.PERMANENT.forEach { stat ->
+            val identifier = this.cleanStatIdentifier(stat.identifier)
+            this[stat] = nbt.getShort(identifier).toInt().coerceIn(this.acceptableRange)
         }
         return this
     }
@@ -95,12 +93,11 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
 
     fun loadFromJSON(json: JsonObject): PokemonStats {
         stats.clear()
-        json.entrySet().forEach { (key, element) ->
-            try {
-                val identifier = key.asIdentifierDefaultingNamespace()
-                val stat = Cobblemon.statProvider.fromIdentifier(identifier) ?: return@forEach
-                this[stat] = element.asInt
-            } catch (_: InvalidIdentifierException) {}
+
+        Stats.PERMANENT.forEach { stat ->
+            val identifier = this.cleanStatIdentifier(stat.identifier)
+            this[stat] = json.get(identifier)?.asInt?.coerceIn(this.acceptableRange)
+                ?: this.defaultValue
         }
         return this
     }

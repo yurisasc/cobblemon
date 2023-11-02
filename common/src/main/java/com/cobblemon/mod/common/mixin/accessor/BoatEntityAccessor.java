@@ -6,21 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge.mixin.accessor;
+package com.cobblemon.mod.common.mixin.accessor;
 
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.function.LootFunction;
+import net.minecraft.entity.vehicle.BoatEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-import java.util.List;
-
-@Mixin(LootTable.Builder.class)
-public interface LootTableBuilderAccessor {
-    @Accessor
-    List<LootPool> getPools();
+@Mixin(BoatEntity.class)
+public interface BoatEntityAccessor {
 
     @Accessor
-    List<LootFunction> getFunctions();
+    void setFallVelocity(double fallVelocity);
+
+    @Accessor
+    BoatEntity.Location getLocation();
 }
