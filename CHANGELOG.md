@@ -6,8 +6,9 @@
 - Updated Pokeball animations and model.
 - Added cries to Raticate, Onix, Unfezant, Bergmite, Avalugg, Boltund, Revavroom.
 - Turtwig can now be put on shoulder.
+- Updated Zubat line model, texture, and animations.
 - Added animations for Hitmontop, Tyrogue, and Mightyena.
-- Tweaked animations for Bewear, Exeggutor, and Alolan Exeggutor.
+- Tweaked animations for Dusknoir, Ratatta, Bewear, Exeggutor, and Alolan Exeggutor.
 - Sized Kantonian Exeggutor down. Still big but not TOO BIG.
 - Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
 
@@ -18,6 +19,7 @@
 - Giving Pokémon items now plays a sound
 - A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft' equivalent with Apricorn planks as replacements.
 - Added the Cleanse Tag held item.
+- Added the Litwick line.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.

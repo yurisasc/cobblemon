@@ -47,6 +47,12 @@
       "walk": {
         "walkSpeed": 0.26
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [

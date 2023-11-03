@@ -62,5 +62,5 @@ class EiscueModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("eiscue_ice", "faint") else null
+    ) = bedrockStateful("eiscue_ice", "faint")
 }

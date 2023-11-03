@@ -5,15 +5,15 @@
     {
       "aspects": [],
       "poser": "cobblemon:zubat",
-      "model": "cobblemon:zubat.geo",
-      "texture": "cobblemon:textures/pokemon/0041_zubat/zubat_male.png",
+      "model": "cobblemon:zubat_male.geo",
+      "texture": "cobblemon:textures/pokemon/0041_zubat/zubat.png",
       "layers": []
     },
     {
       "aspects": [
         "shiny"
       ],
-      "texture": "cobblemon:textures/pokemon/0041_zubat/zubat_male_shiny.png"
+      "texture": "cobblemon:textures/pokemon/0041_zubat/zubat_shiny.png"
     }
   ]
 }

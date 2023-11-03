@@ -10,9 +10,11 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.EarJoint
 import com.cobblemon.mod.common.client.render.models.blockbench.RangeOfMotion
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
@@ -27,81 +29,97 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.Vec3d
 
-class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, EaredFrame {
+class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("zubat")
 
-    override val leftWing = getPart("leftwing")
-    override val rightWing = getPart("rightwing")
+    val wings_folded = getPart("wings_folded")
+    val wings_open = getPart("wings_open")
 
-    private val leftEar = getPart("leftear")
-    private val rightEar = getPart("rightear")
-    override val leftEarJoint = EarJoint(leftEar, Z_AXIS, RangeOfMotion(70F.toRadians(), 40F.toRadians()))
-    override val rightEarJoint = EarJoint(rightEar, Z_AXIS, RangeOfMotion((-70F).toRadians(), (-40F).toRadians()))
+    override val portraitScale = 1.7F
+    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(0.0, -0.5, 0.0)
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.36, 0.0)
+    override val profileScale = 0.7F
+    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var fly: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("zubat", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
+        val twitch = quirk("twitch") { bedrockStateful("zubat", "eartwitch").setPreventsIdle(false) }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
+            transformedParts = arrayOf(
+                wings_folded.asTransformed().withVisibility(visibility = false),
+                wings_open.asTransformed().withVisibility(visibility = true),
+            ),
+            quirks = arrayOf(twitch),
             idleAnimations = arrayOf(bedrock("zubat", "sleep"))
         )
 
-        registerPose(
-            poseName = "hover",
-            poseTypes = ALL_POSES - SHOULDER_POSES - PoseType.FLY - PoseType.SLEEP,
+        standing = registerPose(
+            poseName = "standing",
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
+            transformedParts = arrayOf(
+                wings_folded.asTransformed().withVisibility(visibility = false),
+                wings_open.asTransformed().withVisibility(visibility = true),
+            ),
+            transformTicks = 10,
+            quirks = arrayOf(twitch),
             idleAnimations = arrayOf(
                 bedrock("zubat", "ground_idle")
             )
         )
 
-        registerPose(
-            poseName = "fly",
-            poseType = PoseType.FLY,
+        walk = registerPose(
+            poseName = "walk",
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
+            transformedParts = arrayOf(
+                wings_folded.asTransformed().withVisibility(visibility = false),
+                wings_open.asTransformed().withVisibility(visibility = true),
+            ),
+            transformTicks = 10,
+            quirks = arrayOf(twitch),
             idleAnimations = arrayOf(
                 bedrock("zubat", "ground_walk")
             )
         )
 
-        registerPose(
-            poseType = PoseType.SHOULDER_LEFT,
-            idleAnimations = arrayOf(
-                leftWing.rotation(
-                    function = sineFunction(
-                        amplitude = PI / 3,
-                        period = 1F
-                    ),
-                    axis = Z_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                )
-            ),
+        hover = registerPose(
+            poseName = "hover",
+            poseType = PoseType.HOVER,
             transformedParts = arrayOf(
-                rootPart.asTransformed().addRotation(X_AXIS, PI / 9).addPosition(Y_AXIS, 4F).addPosition(Z_AXIS, 3F),
-                leftWing.asTransformed().addRotation(X_AXIS, PI / 3),
-                rightWing.asTransformed().addRotation(X_AXIS, PI / 3).addRotation(Z_AXIS, -PI / 2)
+                wings_folded.asTransformed().withVisibility(visibility = false),
+                wings_open.asTransformed().withVisibility(visibility = true),
+            ),
+            transformTicks = 10,
+            quirks = arrayOf(twitch),
+            idleAnimations = arrayOf(
+                bedrock("zubat", "air_idle")
             )
         )
-        registerPose(
-            poseType = PoseType.SHOULDER_RIGHT,
-            idleAnimations = arrayOf(
-                rightWing.rotation(
-                    function = sineFunction(
-                        amplitude = PI / 3,
-                        period = 1F
-                    ),
-                    axis = Z_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                )
-            ),
+
+        fly = registerPose(
+            poseName = "fly",
+            poseType = PoseType.FLY,
             transformedParts = arrayOf(
-                rootPart.asTransformed().addRotation(X_AXIS, PI / 9).addPosition(Y_AXIS, 4F).addPosition(Z_AXIS, 3F),
-                leftWing.asTransformed().addRotation(X_AXIS, PI / 3).addRotation(Z_AXIS, PI / 2),
-                rightWing.asTransformed().addRotation(X_AXIS, PI / 3)
+                wings_folded.asTransformed().withVisibility(visibility = false),
+                wings_open.asTransformed().withVisibility(visibility = true),
+            ),
+            quirks = arrayOf(twitch),
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("zubat", "air_fly")
             )
         )
     }
+
+//    override fun getFaintAnimation(
+//        pokemonEntity: PokemonEntity,
+//        state: PoseableEntityState<PokemonEntity>
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("zubat", "faint") else null
 }
