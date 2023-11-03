@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockParticleKeyframe
+import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
@@ -110,15 +111,25 @@ abstract class PoseableEntityState<T : Entity> {
                 }
                 return@Function options.random() // Can throw an exception if they specified no args. They'd be idiots though.
             },
+            "animation" to java.util.function.Function { params ->
+                val animationParameter = params.get<MoValue>(0)
+                val animation = if (animationParameter is ObjectValue<*>) {
+                    animationParameter.obj as BedrockStatefulAnimation<T>
+                } else {
+                    currentModel?.getAnimation(this, animationParameter.asString(), runtime)
+                }
+                if (animation != null) {
+                    statefulAnimations.add(animation)
+                }
+                return@Function Unit
+            },
             "particle" to java.util.function.Function { params ->
                 val particlesParam = params.get<MoValue>(0)
                 val particles = mutableListOf<String>()
-                if (particlesParam is StringValue) {
-                    particles.add(particlesParam.value)
-                } else if (particlesParam is VariableStruct) {
-                    particles.addAll(particlesParam.map.values.map { it.asString() })
-                } else {
-                    return@Function Unit
+                when (particlesParam) {
+                    is StringValue -> particles.add(particlesParam.value)
+                    is VariableStruct -> particles.addAll(particlesParam.map.values.map { it.asString() })
+                    else -> return@Function Unit
                 }
 
                 val effectIds = particles.map { it.asIdentifierDefaultingNamespace() }
