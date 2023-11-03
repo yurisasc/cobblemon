@@ -38,6 +38,7 @@ class RemedyItem(val remedyStrength: String) : CobblemonItem(Settings()), Pokemo
         override val itemName = "item.cobblemon.${ remedyStrength.takeIf(NORMAL::equals)?.let { "${it}_" } }remedy" // remedy, fine_remedy, superb_remedy
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) = target.health > 0 && target.health < target.maxHealth
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?): String {
+            battlePokemon.effectedPokemon.decrementFriendship(CobblemonMechanics.remedies.getFriendshipDrop(runtime))
             return "potion ${CobblemonMechanics.remedies.getHealingAmount(remedyStrength, runtime, 20)}"
         }
     }
