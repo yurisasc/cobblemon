@@ -205,10 +205,6 @@ class CobblemonConfig {
     @NodeCategory(Category.Spawning)
     var teraTypeRate = 20F
 
-    @NodeCategory(Category.Pokemon)
-    @LastChangedVersion("1.4.0")
-    var consumeHeldItems = true
-
     @NodeCategory(Category.World)
     var defaultPasturedPokemonLimit = 16
 
