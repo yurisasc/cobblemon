@@ -22,7 +22,6 @@
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
-    "PotionSlotMixin",
     "ShearsDispenserBehaviorMixin",
     "StructurePoolAccessor",
     "StructurePoolGeneratorMixin",
@@ -41,9 +40,7 @@
     "pokeball.ThrownEntityMixin",
     "StructurePoolGeneratorMixin",
     "StructurePoolAccessor",
-    "StructureProcessorListMixin",
-    "PotionSlotMixin",
-    "entity.BrewingStandBlockEntityMixin"
+    "StructureProcessorListMixin"
   ],
   "injectors": {
     "defaultRequire": 1
