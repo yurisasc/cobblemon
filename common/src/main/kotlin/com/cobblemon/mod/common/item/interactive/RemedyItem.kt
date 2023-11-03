@@ -52,6 +52,7 @@ class RemedyItem(val remedyStrength: String) : CobblemonItem(Settings()), Pokemo
             val amount = CobblemonMechanics.remedies.getHealingAmount(remedyStrength, runtime, 20)
             pokemon.currentHealth += amount
             player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+            pokemon.decrementFriendship(CobblemonMechanics.remedies.getFriendshipDrop(runtime))
             if (!player.isCreative) {
                 stack.decrement(1)
             }
