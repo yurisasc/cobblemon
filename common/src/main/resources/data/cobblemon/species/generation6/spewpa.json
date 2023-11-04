@@ -474,6 +474,63 @@
           "biomeCondition": "#cobblemon:is_glacial"
         }
       ]
+    },
+    {
+      "id": "spewpa_vivillon_inferno",
+      "variant": "level_up",
+      "result": "vivillon vivillon_wings=inferno",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "gust"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 12
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#minecraft:is_nether"
+        }
+      ]
+    },
+    {
+      "id": "spewpa_vivillon_void",
+      "variant": "level_up",
+      "result": "vivillon vivillon_wings=void",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "gust"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 12
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#minecraft:is_end"
+        }
+      ]
+    },
+    {
+      "id": "spewpa_vivillon_forsaken",
+      "variant": "level_up",
+      "result": "vivillon vivillon_wings=forsaken",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "gust"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 12
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_deep_dark"
+        }
+      ]
     }
   ],
   "baseScale": 0.8,
