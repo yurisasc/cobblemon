@@ -26,7 +26,7 @@ public abstract class BrewingStandBlockEntityMixin
     )
     private void cobblemon$isValid(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         final BrewingStandBlockEntity entity = (BrewingStandBlockEntity) (Object) this;
-        if (slot == 1 && !cir.getReturnValue())
+        if (slot < 3 && !cir.getReturnValue())
         {
             if (entity.getStack(slot).isEmpty() && CobblemonFabricBreweryRegistry.INSTANCE.isValidPotionSlot(stack))
                 cir.setReturnValue(true);
