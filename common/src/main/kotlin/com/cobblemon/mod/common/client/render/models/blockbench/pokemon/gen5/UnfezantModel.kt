@@ -10,14 +10,14 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.math.geometry.toRadians
@@ -62,10 +62,10 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                openWingLeft.asTransformed().withVisibility(visibility = false),
-                openWingRight.asTransformed().withVisibility(visibility = false),
-                closedWingLeft.asTransformed().withVisibility(visibility = true),
-                closedWingRight.asTransformed().withVisibility(visibility = true)
+                openWingLeft.createTransformation().withVisibility(visibility = false),
+                openWingRight.createTransformation().withVisibility(visibility = false),
+                closedWingLeft.createTransformation().withVisibility(visibility = true),
+                closedWingRight.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -78,10 +78,10 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                openWingLeft.asTransformed().withVisibility(visibility = false),
-                openWingRight.asTransformed().withVisibility(visibility = false),
-                closedWingLeft.asTransformed().withVisibility(visibility = true),
-                closedWingRight.asTransformed().withVisibility(visibility = true)
+                openWingLeft.createTransformation().withVisibility(visibility = false),
+                openWingRight.createTransformation().withVisibility(visibility = false),
+                closedWingLeft.createTransformation().withVisibility(visibility = true),
+                closedWingRight.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -95,10 +95,10 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                openWingLeft.asTransformed().withVisibility(visibility = true),
-                openWingRight.asTransformed().withVisibility(visibility = true),
-                closedWingLeft.asTransformed().withVisibility(visibility = false),
-                closedWingRight.asTransformed().withVisibility(visibility = false)
+                openWingLeft.createTransformation().withVisibility(visibility = true),
+                openWingRight.createTransformation().withVisibility(visibility = true),
+                closedWingLeft.createTransformation().withVisibility(visibility = false),
+                closedWingRight.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -106,7 +106,7 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )
@@ -116,10 +116,10 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                openWingLeft.asTransformed().withVisibility(visibility = true),
-                openWingRight.asTransformed().withVisibility(visibility = true),
-                closedWingLeft.asTransformed().withVisibility(visibility = false),
-                closedWingRight.asTransformed().withVisibility(visibility = false)
+                openWingLeft.createTransformation().withVisibility(visibility = true),
+                openWingRight.createTransformation().withVisibility(visibility = true),
+                closedWingLeft.createTransformation().withVisibility(visibility = false),
+                closedWingRight.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -127,7 +127,7 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )

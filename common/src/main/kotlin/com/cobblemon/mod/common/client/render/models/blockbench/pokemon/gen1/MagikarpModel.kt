@@ -9,11 +9,10 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
-import com.cobblemon.mod.common.client.render.models.blockbench.withRotation
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STANDING_POSES
@@ -41,9 +40,9 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("magikarp","flop")),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(Y_AXIS, 6),
-                leftMustache.withRotation(Y_AXIS, (-75F).toRadians()),
-                rightMustache.withRotation(Y_AXIS, 75F.toRadians())
+                rootPart.createTransformation().addPosition(Y_AXIS, 6),
+                leftMustache.createTransformation().withRotation(Y_AXIS, (-75F).toRadians()),
+                rightMustache.createTransformation().withRotation(Y_AXIS, 75F.toRadians())
             )
         )
 
@@ -71,8 +70,8 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
             quirks = arrayOf(blink),
             idleAnimations = emptyArray<StatelessAnimation<PokemonEntity, out ModelFrame>>(),
             transformedParts = arrayOf(
-                leftMustache.withRotation(Y_AXIS, (-75F).toRadians()),
-                rightMustache.withRotation(Y_AXIS, 75F.toRadians())
+                leftMustache.createTransformation().withRotation(Y_AXIS, (-75F).toRadians()),
+                rightMustache.createTransformation().withRotation(Y_AXIS, 75F.toRadians())
             )
         )
     }

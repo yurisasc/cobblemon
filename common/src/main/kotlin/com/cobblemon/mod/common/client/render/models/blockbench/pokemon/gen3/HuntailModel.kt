@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSe
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -63,8 +63,8 @@ class HuntailModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                     basedOnLimbSwing = true,
                     oscillationsScalar = 5F,
                     head = head,
-                    rotationAxis = TransformedModelPart.Y_AXIS,
-                    motionAxis = TransformedModelPart.X_AXIS,
+                    rotationAxis = ModelPartTransformation.Y_AXIS,
+                    motionAxis = ModelPartTransformation.X_AXIS,
                     moveHead = false,
                     headLength = 16F,
                     segments = arrayOf(

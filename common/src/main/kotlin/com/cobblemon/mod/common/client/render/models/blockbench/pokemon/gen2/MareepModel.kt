@@ -8,10 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -50,7 +48,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseType = PoseType.SLEEP,
             condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
             transformedParts = arrayOf(
-                wool.asTransformed().withVisibility(visibility = true)
+                wool.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(bedrock("mareep", "sleep"))
         )
@@ -60,7 +58,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseType = PoseType.SLEEP,
             condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
             transformedParts = arrayOf(
-                wool.asTransformed().withVisibility(visibility = false)
+                wool.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(bedrock("mareep", "sleep"))
         )
@@ -72,7 +70,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() && !it.isBattling },
             transformedParts = arrayOf(
-                wool.asTransformed().withVisibility(visibility = true)
+                wool.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -87,7 +85,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
             transformedParts = arrayOf(
-                wool.asTransformed().withVisibility(visibility = true)
+                wool.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -102,7 +100,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() && !it.isBattling},
             transformedParts = arrayOf(
-                wool.asTransformed().withVisibility(visibility = false)
+                wool.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -116,7 +114,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
             transformedParts = arrayOf(
-                wool.asTransformed().withVisibility(visibility = false)
+                wool.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -131,7 +129,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             transformedParts = arrayOf(
-                wool.asTransformed().withVisibility(visibility = true)
+                wool.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -146,7 +144,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() && it.isBattling },
             transformedParts = arrayOf(
-                wool.asTransformed().withVisibility(visibility = false)
+                wool.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),

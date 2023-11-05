@@ -22,9 +22,9 @@ class WingFlapIdleAnimation<T : Entity>(
 ) : StatelessAnimation<T, BiWingedFrame>(frame) {
     override val targetFrame = BiWingedFrame::class.java
 
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val time = timeVariable(state, limbSwing, ageInTicks) ?: 0F
-        frame.leftWing.addRotation(axis, model.scaleForPart(frame.leftWing, flapFunction(time)))
-        frame.rightWing.addRotation(axis, model.scaleForPart(frame.rightWing, -flapFunction(time)))
+        frame.leftWing.addRotation(axis, flapFunction(time) * intensity)
+        frame.rightWing.addRotation(axis, -flapFunction(time) * intensity)
     }
 }

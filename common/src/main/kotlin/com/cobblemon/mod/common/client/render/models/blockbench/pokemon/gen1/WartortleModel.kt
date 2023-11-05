@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -35,8 +35,8 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     private val rightEar = getPart("ear_right")
     private val leftEar = getPart("ear_left")
-    override val leftEarJoint = EarJoint(leftEar, TransformedModelPart.Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
-    override val rightEarJoint = EarJoint(rightEar, TransformedModelPart.Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
+    override val leftEarJoint = EarJoint(leftEar, ModelPartTransformation.Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
+    override val rightEarJoint = EarJoint(rightEar, ModelPartTransformation.Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
     override val portraitScale = 2.0F
     override val portraitTranslation = Vec3d(-0.3, 0.44, 0.0)

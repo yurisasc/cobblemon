@@ -9,8 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -92,7 +91,7 @@ class KricketotModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Hea
                 bedrock("kricketot", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(shoulderOffsetX, shoulderOffsetY, shoulderOffsetZ)
+                rootPart.createTransformation().addPosition(shoulderOffsetX, shoulderOffsetY, shoulderOffsetZ)
             )
         )
 
@@ -104,7 +103,7 @@ class KricketotModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Hea
                 bedrock("kricketot", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(-shoulderOffsetX, shoulderOffsetY, shoulderOffsetZ)
+                rootPart.createTransformation().addPosition(-shoulderOffsetX, shoulderOffsetY, shoulderOffsetZ)
             )
         )
     }

@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -48,8 +48,8 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformTicks = 10,
             condition = { !it.isBattling },
             transformedParts = arrayOf(
-                scalchop.asTransformed().withVisibility(visibility = false),
-                scalchopbody.asTransformed().withVisibility(visibility = true)
+                scalchop.createTransformation().withVisibility(visibility = false),
+                scalchopbody.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(bedrock("oshawott", "sleep"))
         )
@@ -61,8 +61,8 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             transformedParts = arrayOf(
-                scalchop.asTransformed().withVisibility(visibility = false),
-                scalchopbody.asTransformed().withVisibility(visibility = true)
+                scalchop.createTransformation().withVisibility(visibility = false),
+                scalchopbody.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -77,8 +77,8 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             transformedParts = arrayOf(
-                scalchop.asTransformed().withVisibility(visibility = false),
-                scalchopbody.asTransformed().withVisibility(visibility = true)
+                scalchop.createTransformation().withVisibility(visibility = false),
+                scalchopbody.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -93,8 +93,8 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             transformedParts = arrayOf(
-                scalchop.asTransformed().withVisibility(visibility = true),
-                scalchopbody.asTransformed().withVisibility(visibility = false)
+                scalchop.createTransformation().withVisibility(visibility = true),
+                scalchopbody.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),

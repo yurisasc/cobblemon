@@ -126,6 +126,7 @@ class PokemonEntity(
         set(value) {
             field = value
             delegate.changePokemon(value)
+            stepHeight = behaviour.moving.stepHeight
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
             this.updateEyeHeight()
         }

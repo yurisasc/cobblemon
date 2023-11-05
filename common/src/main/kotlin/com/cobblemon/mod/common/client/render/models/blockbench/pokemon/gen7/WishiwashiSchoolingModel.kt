@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -45,7 +45,7 @@ class WishiwashiSchoolingModel (root: ModelPart) : PokemonPoseableModel(){
                 bedrock("wishiwashi_school", "water_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
+                rootPart.createTransformation().addPosition(0.0, offsetY, 0.0)
             )
         )
 
@@ -56,7 +56,7 @@ class WishiwashiSchoolingModel (root: ModelPart) : PokemonPoseableModel(){
                 bedrock("wishiwashi_school", "water_swim")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
+                rootPart.createTransformation().addPosition(0.0, offsetY, 0.0)
             )
         )
 

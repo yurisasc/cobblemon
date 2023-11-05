@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -54,8 +54,8 @@ class SamurottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             transformTicks = 10,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                seamitar_right.asTransformed().withVisibility(visibility = false),
-                seamitar_left.asTransformed().withVisibility(visibility = false)
+                seamitar_right.createTransformation().withVisibility(visibility = false),
+                seamitar_left.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -69,8 +69,8 @@ class SamurottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             transformTicks = 10,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                seamitar_right.asTransformed().withVisibility(visibility = false),
-                seamitar_left.asTransformed().withVisibility(visibility = false)
+                seamitar_right.createTransformation().withVisibility(visibility = false),
+                seamitar_left.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),

@@ -10,10 +10,10 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -47,7 +47,7 @@ class CutieflyModel(root: ModelPart) : PokemonPoseableModel(){
             idleAnimations = arrayOf(
                 bedrock("cutiefly", "ground_idle")
             ),
-           transformedParts = arrayOf(rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, -12F))
+           transformedParts = arrayOf(rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -12F))
         )
 
         walk = registerPose(
@@ -56,7 +56,7 @@ class CutieflyModel(root: ModelPart) : PokemonPoseableModel(){
             idleAnimations = arrayOf(
                 bedrock("cutiefly", "ground_walk"),
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, -12F))
+            transformedParts = arrayOf(rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -12F))
         )
     }
         override fun getFaintAnimation(

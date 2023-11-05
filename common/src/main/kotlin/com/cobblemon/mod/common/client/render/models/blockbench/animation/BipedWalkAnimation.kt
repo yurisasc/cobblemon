@@ -30,8 +30,8 @@ class BipedWalkAnimation<T : Entity>(
     val amplitudeMultiplier: Float = 1.4F
 ) : StatelessAnimation<T, BipedFrame>(frame) {
     override val targetFrame: Class<BipedFrame> = BipedFrame::class.java
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        frame.rightLeg.pitch += MathHelper.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier
-        frame.leftLeg.pitch += MathHelper.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+        frame.rightLeg.pitch += MathHelper.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier * intensity
+        frame.leftLeg.pitch += MathHelper.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier * intensity
     }
 }

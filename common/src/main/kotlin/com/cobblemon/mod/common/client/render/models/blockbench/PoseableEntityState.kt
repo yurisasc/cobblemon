@@ -18,7 +18,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.Vec3d
@@ -34,6 +33,7 @@ import net.minecraft.util.math.Vec3d
 abstract class PoseableEntityState<T : Entity> {
     var currentModel: PoseableEntityModel<T>? = null
     var currentPose: String? = null
+    val primaryAnimation: StatefulAnimation<T, *>? = null
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
@@ -46,6 +46,9 @@ abstract class PoseableEntityState<T : Entity> {
 
     protected var age = 0
     protected var currentPartialTicks = 0F
+
+    var poseTransitionPortion = 1F
+    var statefulOverridePortion = 1F
 
     abstract fun getEntity(): T?
     fun getPartialTicks() = currentPartialTicks

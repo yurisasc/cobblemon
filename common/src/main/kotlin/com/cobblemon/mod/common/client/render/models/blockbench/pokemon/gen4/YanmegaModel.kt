@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.triangleFunction
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -56,16 +56,16 @@ class YanmegaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 wingFrame1.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 ),
                 wingFrame2.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, -4)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -4)
             )
         )
 
@@ -78,17 +78,17 @@ class YanmegaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 wingFrame1.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 ),
                 wingFrame2.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
                     timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
                 //bedrock("yanmega", "ground_walk")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, -4)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -4)
             )
         )
     }

@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -50,7 +50,7 @@ class WailordModel(root: ModelPart) : PokemonPoseableModel() {
                 bedrock("wailord", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
+                rootPart.createTransformation().addPosition(0.0, offsetY, 0.0)
             )
         )
 
@@ -63,7 +63,7 @@ class WailordModel(root: ModelPart) : PokemonPoseableModel() {
                 bedrock("wailord", "ground_walk")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
+                rootPart.createTransformation().addPosition(0.0, offsetY, 0.0)
             )
         )
 
@@ -95,7 +95,7 @@ class WailordModel(root: ModelPart) : PokemonPoseableModel() {
                 bedrock("wailord", "battle_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
+                rootPart.createTransformation().addPosition(0.0, offsetY, 0.0)
             )
         )
     }

@@ -25,7 +25,8 @@ interface StatefulAnimation<T : Entity, F : ModelFrame> {
     val isTransform: Boolean
     val isPosePauser: Boolean
     /**
-     * Whether this animation should prevent the given idle animation from occurring.
+     * Whether this animation should prevent the given idle animation from occurring when this animation is
+     * applied as the primary animation.
      *
      * This is for cases where this animation and the idle animation work on the same parts
      * of the model and would conflict.

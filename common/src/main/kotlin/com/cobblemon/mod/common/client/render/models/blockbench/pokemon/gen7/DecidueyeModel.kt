@@ -8,18 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -60,10 +58,10 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "standing",
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
             transformedParts = arrayOf(
-                folded_wings.asTransformed().withVisibility(visibility = true),
-                leftWing.asTransformed().withVisibility(visibility = false),
-                rightWing.asTransformed().withVisibility(visibility = false),
-                arrow.asTransformed().withVisibility(visibility = false)
+                folded_wings.createTransformation().withVisibility(visibility = true),
+                leftWing.createTransformation().withVisibility(visibility = false),
+                rightWing.createTransformation().withVisibility(visibility = false),
+                arrow.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -76,10 +74,10 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
             transformedParts = arrayOf(
-                folded_wings.asTransformed().withVisibility(visibility = true),
-                leftWing.asTransformed().withVisibility(visibility = false),
-                rightWing.asTransformed().withVisibility(visibility = false),
-                arrow.asTransformed().withVisibility(visibility = false)
+                folded_wings.createTransformation().withVisibility(visibility = true),
+                leftWing.createTransformation().withVisibility(visibility = false),
+                rightWing.createTransformation().withVisibility(visibility = false),
+                arrow.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -93,10 +91,10 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "hover",
             poseType = PoseType.HOVER,
             transformedParts = arrayOf(
-                folded_wings.asTransformed().withVisibility(visibility = false),
-                leftWing.asTransformed().withVisibility(visibility = true),
-                rightWing.asTransformed().withVisibility(visibility = true),
-                arrow.asTransformed().withVisibility(visibility = false)
+                folded_wings.createTransformation().withVisibility(visibility = false),
+                leftWing.createTransformation().withVisibility(visibility = true),
+                rightWing.createTransformation().withVisibility(visibility = true),
+                arrow.createTransformation().withVisibility(visibility = false)
             ),
             transformTicks = 10,
             quirks = arrayOf(blink),
@@ -105,7 +103,7 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 )
             )
         )
@@ -114,10 +112,10 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "fly",
             poseType = PoseType.FLY,
             transformedParts = arrayOf(
-                folded_wings.asTransformed().withVisibility(visibility = false),
-                leftWing.asTransformed().withVisibility(visibility = true),
-                rightWing.asTransformed().withVisibility(visibility = true),
-                arrow.asTransformed().withVisibility(visibility = false)
+                folded_wings.createTransformation().withVisibility(visibility = false),
+                leftWing.createTransformation().withVisibility(visibility = true),
+                rightWing.createTransformation().withVisibility(visibility = true),
+                arrow.createTransformation().withVisibility(visibility = false)
             ),
             transformTicks = 10,
             quirks = arrayOf(blink),
@@ -126,7 +124,7 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 )
             )
         )
