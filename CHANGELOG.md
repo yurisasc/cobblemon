@@ -1,4 +1,13 @@
 # Changelog
+
+## [1.5.0](#1-5-0)
+
+### Changes
+- Pokémon now transition more smoothly between different poses.
+
+### Datapack & Resourcepack Creators
+- Fixed an issue with transformed parts in posers causing whacky positional issues.
+
 ## [1.4.1](#1-4-1)
 
 ### Changes
