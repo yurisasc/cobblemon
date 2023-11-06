@@ -11,6 +11,8 @@
 - Tweaked animations for Dusknoir, Ratatta, Bewear, Exeggutor, and Alolan Exeggutor.
 - Sized Kantonian Exeggutor down. Still big but not TOO BIG.
 - Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
+- Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
+- Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
 - The Healing Machine now has a more difficult recipe, placing it later game.
 
 ### Additions
@@ -52,6 +54,7 @@
 - Fixed potion brewing recipes not showing up JEI and similar mods on the Forge version.
 - Fixed an exploit that could convert a single piece of Blaze Powder into an extra Medicinal Brew on the Forge version.
 - Fixed an issue where health percentages would show incorrectly after healing
+- Fixed the move Revival Blessing not allowing you to select from fainted party members.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
