@@ -83,6 +83,7 @@ object ShowdownInterpreter {
         updateInstructions["|-mustrecharge|"] = this::handleRechargeInstructions
         updateInstructions["|-fail|"] = this::handleFailInstruction
         updateInstructions["|-start|"] = this::handleStartInstructions
+        updateInstructions["|-block|"] = this::handleBlockInstructions
         updateInstructions["|-activate|"] = this::handleActivateInstructions
         updateInstructions["|-curestatus|"] = this::handleCureStatusInstruction
         updateInstructions["|-fieldstart|"] = this::handleFieldStartInstructions
@@ -827,10 +828,13 @@ object ShowdownInterpreter {
      *
      * The specified ACTION has failed against the POKEMON targetted.
      */
-    private fun handleFailInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>){
-        battle.dispatchWaiting(1.5F){
+    private fun handleFailInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        battle.dispatchWaiting(1.5F) {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            battle.broadcastChatMessage(battleLang("fail").red())
+            val pokemonName = pokemon.getName()
+            val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
+            val lang = battleLang("fail.$effectID", pokemonName)
+            battle.broadcastChatMessage(lang)
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -953,6 +957,27 @@ object ShowdownInterpreter {
 
     /**
      * Format:
+     * |-block|POKEMON|MOVE
+     *
+     * The Pokémon POKEMON used move MOVE which blocked damage
+     */
+    private fun handleBlockInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        battle.dispatchWaiting(1.5F) {
+            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemonName = pokemon.getName()
+            val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
+            val lang = when (effectID) {
+                "matblock" -> battleLang("block.matblock", message.effectAt(2)!!.rawData)
+                else -> battleLang("block.$effectID", pokemonName)
+            }
+
+            battle.broadcastChatMessage(lang)
+            battle.minorBattleActions[pokemon.uuid] = message
+        }
+    }
+
+    /**
+     * Format:
      * |-activate|POKEMON|EFFECT
      *
      * A miscellaneous effect has activated.This is triggered whenever an effect could not be better described by one of the other minor messages.
@@ -975,6 +1000,7 @@ object ShowdownInterpreter {
                 "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
                 // Don't need additional lang, announced elsewhere
                 "toxicdebris", "shedskin" -> return@dispatch GO
+                "matblock" -> battleLang("activate.matblock", message.effectAt(2)!!.rawData)
                 // Add activation to each Pokemon's history
                 "destinybond" -> {
                     battle.activePokemon.mapNotNull { it.battlePokemon?.uuid }.forEach { battle.minorBattleActions[it] = message }
@@ -1120,6 +1146,8 @@ object ShowdownInterpreter {
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
+
+
 
     /**
      * Format:
