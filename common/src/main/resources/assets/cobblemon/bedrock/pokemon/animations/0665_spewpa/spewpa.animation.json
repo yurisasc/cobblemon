@@ -122,11 +122,6 @@
 						}
 					}
 				}
-			},
-			"sound_effects": {
-				"0.1667": {
-					"effect": "pokemon.spewpa.cry"
-				}
 			}
 		},
 		"animation.spewpa.pose": {
@@ -154,8 +149,7 @@
 			}
 		},
 		"animation.spewpa.faint": {
-			"loop": true,
-			"animation_length": 2.6667,
+			"animation_length": 3,
 			"bones": {
 				"body": {
 					"rotation": {
@@ -377,20 +371,25 @@
 				"eyelid_left": {
 					"position": {
 						"1.375": [0, 0, 0],
-						"1.4167": {"pre": [0, 0, 0], "post": [0.1, 0, -0.1]}
+						"1.4167": {
+							"pre": [0, 0, 0],
+							"post": [0.1, 0, -0.1]
+						}
 					}
 				},
 				"eyelid_right": {
 					"position": {
 						"1.375": [0, 0, 0],
-						"1.4167": {"pre": [0, 0, 0], "post": [-0.1, 0, -0.1]}
+						"1.4167": {
+							"pre": [0, 0, 0],
+							"post": [-0.1, 0, -0.1]
+						}
 					}
 				}
 			},
 			"particle_effects": {
 				"1.4583": {
-					"effect": "confetti",
-					"locator": "confetti"
+					"effect": "confetti"
 				}
 			}
 		},

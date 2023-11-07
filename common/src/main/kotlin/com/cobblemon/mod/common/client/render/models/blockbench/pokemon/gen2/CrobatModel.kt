@@ -34,6 +34,7 @@ class CrobatModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("crobat", "cry").setPreventsIdle(false) }
 
@@ -48,6 +49,7 @@ class CrobatModel(root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
+            condition = { !it.isBattling },
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("crobat", "ground_idle")
@@ -69,7 +71,7 @@ class CrobatModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("golbat", "air_idle")
+                bedrock("crobat", "air_idle")
             )
         )
 
@@ -79,7 +81,18 @@ class CrobatModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("golbat", "air_fly")
+                bedrock("crobat", "air_fly")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("crobat", "battle_idle")
             )
         )
     }
