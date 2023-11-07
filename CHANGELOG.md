@@ -2,11 +2,12 @@
 ## [1.4.1](#1-4-1)
 
 ### Changes
-- Slightly lowered the volume of all cries
+- Slightly lowered the volume of all cries.
 - Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
-- Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
-- Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
+- Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle.
+- Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon.
 - The Healing Machine now has a more difficult recipe, placing it later game.
+- Black Augurite can now be used to craft stone axes and obsidian.
 
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
