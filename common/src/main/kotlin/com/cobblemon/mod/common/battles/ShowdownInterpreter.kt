@@ -480,7 +480,7 @@ object ShowdownInterpreter {
                 if (actor.uuid.getPlayer() != null) {
                     val initializePacket = BattleInitializePacket(battle, actor.getSide())
                     actor.sendUpdate(initializePacket)
-                    actor.sendUpdate(BattleMusicPacket(battle))
+                    actor.sendUpdate(BattleMusicPacket(actor.getSide().getOppositeSide()))
                 }
             }
             battle.actors.forEach { actor ->

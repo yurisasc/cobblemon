@@ -8,11 +8,14 @@
 
 package com.cobblemon.mod.common.net.messages.client.battle
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.getPlayer
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundEvent
@@ -48,9 +51,12 @@ class BattleMusicPacket : NetworkPacket<BattleMusicPacket> {
         this.pitch = pitch
     }
 
-    constructor(battle: PokemonBattle, volume: Float = 1.0f, pitch: Float = 1.0f) {
+    constructor(opposingSide: BattleSide, volume: Float = 1.0f, pitch: Float = 1.0f) {
+        val battle = opposingSide.battle
         this.music = if (battle.isPvP) {
-            CobblemonSounds.PVP_BATTLE
+            val player = opposingSide.actors.flatMap { actor -> actor.getPlayerUUIDs().mapNotNull { id -> id.getPlayer() } }.random()
+            val theme = Cobblemon.playerData.get(player).battleTheme
+            theme?.let { Registries.SOUND_EVENT.get(it) } ?: CobblemonSounds.PVP_BATTLE
         }
         else if (battle.isPvN) {
             CobblemonSounds.PVN_BATTLE
