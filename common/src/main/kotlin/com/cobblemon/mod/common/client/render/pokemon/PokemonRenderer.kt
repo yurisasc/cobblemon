@@ -161,6 +161,7 @@ class PokemonRenderer(
         if (this.shouldRenderLabel(entity)) {
             this.renderLabelIfPresent(entity, entity.displayName, poseMatrix, buffer, packedLight)
         }
+//        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
     }
 
     override fun scale(pEntity: PokemonEntity, pMatrixStack: MatrixStack, pPartialTickTime: Float) {

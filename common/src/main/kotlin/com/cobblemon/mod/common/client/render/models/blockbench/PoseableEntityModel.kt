@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
+import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -353,9 +354,9 @@ abstract class PoseableEntityModel<T : Entity>(
 
     fun getLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
         return if (!emissive && !translucent) {
-            RenderLayer.getEntityCutout(texture)
+            CobblemonRenderLayers.ENTITY_CUTOUT.apply(texture)
         } else if (!emissive) {
-            RenderLayer.getEntityTranslucent(texture)
+            CobblemonRenderLayers.ENTITY_TRANSLUCENT.apply(texture, true)
         } else {
             makeLayer(texture, emissive = emissive, translucent = translucent)
         }
