@@ -7,6 +7,7 @@
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
 - Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
 - The Healing Machine now has a more difficult recipe, placing it later game.
+- Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
 
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
