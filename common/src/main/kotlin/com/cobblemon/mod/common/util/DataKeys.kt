@@ -123,12 +123,14 @@ object DataKeys {
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
 
+    // Variants
+    const val IS_MOOSHTANK = "mooshtank"
+
     // Persistent Data
     const val POKEMON_PERSISTENT_DATA = "PersistentData"
 
     // Item Tooltips
     const val HIDE_TOOLTIP = "HideTooltip"
-
 
     // Shoulder Mount
     const val SHOULDER_UUID = "shoulder_uuid"
