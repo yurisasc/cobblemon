@@ -7,6 +7,8 @@
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
 - Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
 - The Healing Machine now has a more difficult recipe, placing it later game.
+- Heal Powder can now be composted with a 75% chance of adding a layer
+- Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer
 - Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
 
 ### Additions
@@ -17,13 +19,17 @@
 - A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft's equivalent with Apricorn planks as replacements.
 - Added the Cleanse Tag held item.
 - Added the Inferno, Void, and Forsaken patterns for Vivillon. These can be obtained by evolving a Spewpa in the Nether, End, or Deep Dark respectively.
+- Bees can now be fed using Pep-Up Flowers.
+- Mooshtank can now be milked with a bowl for Mushroom Stew.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
 - Updated the registration of compostable items to improve compatibility with Fabric forks such as Quilt. Please note this does not mean we officially support Quilt, this change was only done since it was possible by correcting the registration to use the new intended way in the Fabric API.
 - Fixed Dispensers being unable to shear grown Apricorns.
 - Fixed Bowl not being given back to player after using Berry Juice
-- Fixed Battle text for Disable, Laser Focus, Foresight, Fire Spin, Telekinesis, and Curse
+- Fixed Battle text for Disable, Laser Focus, Foresight, Fire Spin, Telekinesis, Curse, Recharge and Encore
+- Fixed missing text for snowy weather in battles
+- Fixed missing text for attempting to catch an uncatchable Pokémon
 - Fixed Moonphases for Clefairy line
 - Fixed issue where Potions, Super Potions, and Hyper Potions did not work during battle
 - Fixed the compatibility patch with the Forge version of [Carry On](https://modrinth.com/mod/carry-on) due to a bug on the mod, the Fabric version was unchanged and is still compatible.
