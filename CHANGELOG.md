@@ -15,7 +15,8 @@
 - Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
 - The Healing Machine now has a more difficult recipe, placing it later game.
 - Heal Powder can now be composted with a 75% chance of adding a layer
-- Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer
+- Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer.
+- Added emissive to Hoothoot.
 
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
@@ -61,6 +62,7 @@
 - Fixed an exploit that could convert a single piece of Blaze Powder into an extra Medicinal Brew on the Forge version.
 - Fixed an issue where health percentages would show incorrectly after healing
 - Fixed the move Revival Blessing not allowing you to select from fainted party members.
+- Fixed Exeggcute faint.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
