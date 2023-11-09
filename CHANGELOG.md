@@ -7,8 +7,8 @@
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
 - Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
 - The Healing Machine now has a more difficult recipe, placing it later game.
-- Heal Powder now has a 75% chance of adding a layer to a Composter, as opposed to the previous 65%
-- In addition, Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer
+- Heal Powder can now be composted with a 75% chance of adding a layer
+- Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer
 
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
