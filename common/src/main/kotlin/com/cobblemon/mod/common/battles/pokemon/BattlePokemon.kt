@@ -84,7 +84,12 @@ open class BattlePokemon(
     }
 
     fun isSentOut() = actor.battle.activePokemon.any { it.battlePokemon == this }
-    fun canBeSentOut() = !isSentOut() && !willBeSwitchedIn && health > 0
+    fun canBeSentOut() =
+            if (actor.request?.side?.pokemon?.get(0)?.reviving == true) {
+                !isSentOut() && !willBeSwitchedIn && health <= 0
+            } else {
+                !isSentOut() && !willBeSwitchedIn && health > 0
+            }
 
     fun writeVariables(struct: VariableStruct) {
         effectedPokemon.writeVariables(struct)

@@ -643,6 +643,188 @@
 					"effect": "zubat"
 				}
 			}
+		},
+		"animation.zubat.shoulder_left": {
+			"loop": true,
+			"animation_length": 2.54167,
+			"bones": {
+				"body": {
+					"rotation": ["-5+math.cos(q.anim_time*90*1.5)*0.2", 0, 0],
+					"position": [1, -7.8, 0]
+				},
+				"ear_left": {
+					"rotation": [0, -2.5, -27.5],
+					"position": [-1, 0, 0]
+				},
+				"ear_right": {
+					"rotation": [0, -2.5, 27.5],
+					"position": [1, 0, 0]
+				},
+				"wing_left": {
+					"rotation": [3.05656, 42.60004, -5.08658],
+					"scale": [0.5, 1, 1]
+				},
+				"wing_left2": {
+					"rotation": [0, 135, 0]
+				},
+				"wing_right": {
+					"rotation": [12.66289, -50.29336, -2.03936],
+					"position": [0, 0, 0],
+					"scale": [0.5, 1, 1]
+				},
+				"wing_right2": {
+					"rotation": [0, -117.5, 0]
+				},
+				"leg_left": {
+					"rotation": [47.5, 0, -2.5]
+				},
+				"leg_left2": {
+					"rotation": [-30, 0, 0]
+				},
+				"leg_left3": {
+					"rotation": [-10, 0, 0]
+				},
+				"leg_right": {
+					"rotation": [47.5, 0, 2.5]
+				},
+				"leg_right2": {
+					"rotation": [-30, 0, 0]
+				},
+				"leg_right3": {
+					"rotation": [-10, 0, 0]
+				},
+				"mouth_open": {
+					"position": [0, 0, 1]
+				},
+				"mouth_closed": {
+					"position": [0, 0, -1]
+				},
+				"teeth_closed_top_right": {
+					"scale": 1
+				},
+				"wing_folded_right": {
+					"rotation": [6.30117, -52.67334, -3.47564],
+					"position": [0, 0, -1],
+					"scale": [0.6, 1, 0.75]
+				},
+				"wing_folded_right2": {
+					"rotation": [0, -67.5, 0]
+				},
+				"wing_folded_right3": {
+					"rotation": [0, -70, 0]
+				},
+				"wing_folded_right4": {
+					"rotation": [0, -25, 0]
+				},
+				"wing_folded_left": {
+					"rotation": [9.65097, 54.75649, 7.2616],
+					"position": [0, 0, -1],
+					"scale": [0.3, 1, 1]
+				},
+				"wing_folded_left2": {
+					"rotation": [0, 20, 0]
+				},
+				"wing_folded_left3": {
+					"rotation": [0, 110, 0]
+				},
+				"wing_folded_left4": {
+					"rotation": [0, 37.5, 0]
+				},
+				"torso": {
+					"rotation": [0, 0, 0]
+				}
+			}
+		},
+		"animation.zubat.shoulder_right": {
+			"loop": true,
+			"animation_length": 2.54167,
+			"bones": {
+				"body": {
+					"rotation": ["-5+math.cos(q.anim_time*90*1.5)*0.2", 0, 0],
+					"position": [-1, -7.8, 0]
+				},
+				"ear_left": {
+					"rotation": [0, -2.5, -27.5],
+					"position": [-1, 0, 0]
+				},
+				"ear_right": {
+					"rotation": [0, -2.5, 27.5],
+					"position": [1, 0, 0]
+				},
+				"wing_left": {
+					"rotation": [3.05656, 42.60004, -5.08658],
+					"scale": [0.5, 1, 1]
+				},
+				"wing_left2": {
+					"rotation": [0, 135, 0]
+				},
+				"wing_right": {
+					"rotation": [12.66289, -50.29336, -2.03936],
+					"position": [0, 0, 0],
+					"scale": [0.5, 1, 1]
+				},
+				"wing_right2": {
+					"rotation": [0, -117.5, 0]
+				},
+				"leg_left": {
+					"rotation": [47.5, 0, -2.5]
+				},
+				"leg_left2": {
+					"rotation": [-30, 0, 0]
+				},
+				"leg_left3": {
+					"rotation": [-10, 0, 0]
+				},
+				"leg_right": {
+					"rotation": [47.5, 0, 2.5]
+				},
+				"leg_right2": {
+					"rotation": [-30, 0, 0]
+				},
+				"leg_right3": {
+					"rotation": [-10, 0, 0]
+				},
+				"mouth_open": {
+					"position": [0, 0, 1]
+				},
+				"mouth_closed": {
+					"position": [0, 0, -1]
+				},
+				"teeth_closed_top_right": {
+					"scale": 1
+				},
+				"wing_folded_right": {
+					"rotation": [6.30117, -52.67334, -3.47564],
+					"position": [0, 0, -1],
+					"scale": [0.6, 1, 0.75]
+				},
+				"wing_folded_right2": {
+					"rotation": [0, -67.5, 0]
+				},
+				"wing_folded_right3": {
+					"rotation": [0, -70, 0]
+				},
+				"wing_folded_right4": {
+					"rotation": [0, -25, 0]
+				},
+				"wing_folded_left": {
+					"rotation": [9.65097, 54.75649, 7.2616],
+					"position": [0, 0, -1],
+					"scale": [0.3, 1, 1]
+				},
+				"wing_folded_left2": {
+					"rotation": [0, 20, 0]
+				},
+				"wing_folded_left3": {
+					"rotation": [0, 110, 0]
+				},
+				"wing_folded_left4": {
+					"rotation": [0, 37.5, 0]
+				},
+				"torso": {
+					"rotation": [0, 0, 0]
+				}
+			}
 		}
 	}
 }

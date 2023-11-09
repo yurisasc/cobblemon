@@ -11,14 +11,18 @@
 - Tweaked animations for Dusknoir, Ratatta, Bewear, Exeggutor, and Alolan Exeggutor.
 - Sized Kantonian Exeggutor down. Still big but not TOO BIG.
 - Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
+- Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
+- Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
+- The Healing Machine now has a more difficult recipe, placing it later game.
 
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
 - Berries can now be used in recipes from [Farmer's Delight](https://modrinth.com/mod/farmers-delight) and [Farmer's Delight (Fabric)](https://modrinth.com/mod/farmers-delight-fabric), as well as any other mods using the same berry tags.
 - The nature of cobblemon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
 - Giving Pokémon items now plays a sound
-- A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft' equivalent with Apricorn planks as replacements.
+- A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft's equivalent with Apricorn planks as replacements.
 - Added the Cleanse Tag held item.
+- Added the Inferno, Void, and Forsaken patterns for Vivillon. These can be obtained by evolving a Spewpa in the Nether, End, or Deep Dark respectively.
 - Added the Litwick line.
 
 ### Fixes
@@ -49,6 +53,8 @@
 - Fixed the defeated Pokémon evolution requirement not saving progress.
 - Fixed potion brewing recipes not showing up JEI and similar mods on the Forge version.
 - Fixed an exploit that could convert a single piece of Blaze Powder into an extra Medicinal Brew on the Forge version.
+- Fixed an issue where health percentages would show incorrectly after healing
+- Fixed the move Revival Blessing not allowing you to select from fainted party members.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.

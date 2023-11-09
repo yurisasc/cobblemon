@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
@@ -46,6 +47,10 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+    lateinit var shoulderLeft: PokemonPose
+    lateinit var shoulderRight: PokemonPose
+
+    val shoulderOffset = 0
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("zubat", "cry").setPreventsIdle(false) }
 
@@ -114,6 +119,26 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("zubat", "air_fly")
+            )
+        )
+
+        shoulderLeft = registerPose(
+            poseType = PoseType.SHOULDER_LEFT,
+            idleAnimations = arrayOf(
+                bedrock("zubat", "shoulder_left")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+            )
+        )
+
+        shoulderRight = registerPose(
+            poseType = PoseType.SHOULDER_RIGHT,
+            idleAnimations = arrayOf(
+                bedrock("zubat", "shoulder_right")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
             )
         )
     }
