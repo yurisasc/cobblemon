@@ -52,10 +52,12 @@ class FossilMultiblockStructure (
 
     // TODO: API method for this
     private var organicMaterialInside = 0
-    private var createdPokemon: Pokemon? = null
-    private var timeRemaining = -1
 
-    private var resultingFossil: Fossil? = null
+    private var createdPokemon: Pokemon? = null
+    var timeRemaining = -1
+        private set
+    var resultingFossil: Fossil? = null
+        private set
 
     override fun onUse(
         blockState: BlockState,

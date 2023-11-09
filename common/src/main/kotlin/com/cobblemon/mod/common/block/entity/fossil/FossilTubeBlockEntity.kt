@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.block.entity.fossil
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
+import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilState
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.block.BlockState
 import net.minecraft.nbt.NbtCompound
@@ -25,6 +26,7 @@ class FossilTubeBlockEntity(
 ) : FossilMultiblockEntity(pos, state, multiblockBuilder, CobblemonBlockEntities.FOSSIL_TUBE) {
     var fillLevel = 0
     var connectorPosition: Direction? = null
+    val state = FossilState()
 
     override fun toUpdatePacket(): Packet<ClientPlayPacketListener>? {
         return BlockEntityUpdateS2CPacket.create(this)

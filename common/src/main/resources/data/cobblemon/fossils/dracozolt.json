@@ -3,7 +3,5 @@
     "fossils": [
         "cobblemon:bird_fossil",
         "cobblemon:drake_fossil"
-    ],
-    "babyModel": "cobblemon:dracozolt_baby.geo",
-    "babyTexture": "cobblemon:textures/fossil_babies/dracozolt.png"
+    ]
 }
