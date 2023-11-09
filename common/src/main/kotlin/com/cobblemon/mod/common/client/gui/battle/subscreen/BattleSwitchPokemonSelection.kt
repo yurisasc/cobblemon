@@ -83,7 +83,6 @@ class BattleSwitchPokemonSelection(
                     partialTicks = deltaTicks
                 )
             } catch (exception: Exception) {
-                println(showdownPokemon.condition)
                 throw exception
             }
         }
