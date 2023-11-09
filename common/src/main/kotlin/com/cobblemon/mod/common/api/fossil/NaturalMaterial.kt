@@ -8,11 +8,10 @@
 
 package com.cobblemon.mod.common.api.fossil
 
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.util.Identifier
 
-class NaturalMaterial {
-    val content = 0
-    val item: Identifier? = null
-}
+data class NaturalMaterial(
+    val content: Int = 0,
+    val item: Identifier?,
+    val returnItem: Identifier? = null
+)

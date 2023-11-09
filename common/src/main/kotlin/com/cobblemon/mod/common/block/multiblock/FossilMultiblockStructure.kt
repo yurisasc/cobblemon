@@ -23,11 +23,13 @@ import com.cobblemon.mod.common.block.fossilmachine.FossilMonitorBlock
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.giveOrDropItemStack
 import com.cobblemon.mod.common.util.party
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.registry.Registries
@@ -134,6 +136,7 @@ class FossilMultiblockStructure (
 
             if (!player.isCreative) {
                 stack?.decrement(1)
+                player.giveOrDropItemStack(ItemStack(Registries.ITEM.get(NaturalMaterials.getReturnItem(itemId))), false)
             }
 
             this.markDirty(world)
