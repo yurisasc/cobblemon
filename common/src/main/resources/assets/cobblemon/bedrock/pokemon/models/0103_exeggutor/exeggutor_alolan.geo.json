@@ -859,7 +859,7 @@
 				{
 					"name": "leg_right2",
 					"parent": "leg_right",
-					"pivot": [-9, 12, -6.5],
+					"pivot": [-9, 12, -5],
 					"cubes": [
 						{"origin": [-14, 2, -5], "size": [10, 10, 10], "inflate": 0.02, "uv": [192, 185]}
 					]
@@ -899,7 +899,7 @@
 				{
 					"name": "leg_left2",
 					"parent": "leg_left",
-					"pivot": [9, 12, -6.5],
+					"pivot": [9, 12, -5],
 					"cubes": [
 						{"origin": [4, 2, -5], "size": [10, 10, 10], "inflate": 0.02, "uv": [189, 57]}
 					]
