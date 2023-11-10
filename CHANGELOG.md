@@ -3,12 +3,20 @@
 
 ### Changes
 - Slightly lowered the volume of all cries
+- Updated Pokeball animations and model.
+- Added cries to Raticate, Onix, Unfezant, Bergmite, Avalugg, Boltund, Revavroom.
+- Turtwig can now be put on shoulder.
+- Updated Zubat line model, texture, and animations.
+- Added animations for Hitmontop, Tyrogue, and Mightyena.
+- Tweaked animations for Dusknoir, Ratatta, Bewear, Exeggutor, and Alolan Exeggutor.
+- Sized Kantonian Exeggutor down. Still big but not TOO BIG.
 - Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
 - Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
 - The Healing Machine now has a more difficult recipe, placing it later game.
 - Heal Powder can now be composted with a 75% chance of adding a layer
-- Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer
+- Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer.
+- Added emissive to Hoothoot.
 - Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
 
 ### Additions
@@ -19,6 +27,7 @@
 - A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft's equivalent with Apricorn planks as replacements.
 - Added the Cleanse Tag held item.
 - Added the Inferno, Void, and Forsaken patterns for Vivillon. These can be obtained by evolving a Spewpa in the Nether, End, or Deep Dark respectively.
+- Added the Litwick line.
 - Bees can now be fed using Pep-Up Flowers.
 - Mooshtank can now be milked with a bowl for Mushroom Stew.
 
@@ -54,10 +63,13 @@
 - Fixed an exploit that could convert a single piece of Blaze Powder into an extra Medicinal Brew on the Forge version.
 - Fixed an issue where health percentages would show incorrectly after healing
 - Fixed the move Revival Blessing not allowing you to select from fainted party members.
+- Fixed Exeggcute faint.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
 - Added the `EvolutionTestedEvent`, this allows listening and overriding the final result of evolution requirement tests.
+- Fixed Quaxwell not doing its cry.
+- Fixed Shroomish not using its idle.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
