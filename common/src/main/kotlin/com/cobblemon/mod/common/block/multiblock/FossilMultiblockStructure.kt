@@ -84,7 +84,7 @@ class FossilMultiblockStructure (
             }
 
             if (this.fossilOwner != null && player != this.fossilOwner) {
-                player.sendMessage(lang("fossilmachine.protected", this.fossilOwner!!.name))
+                player.sendMessage(lang("fossilmachine.protected", this.fossilOwner!!.name), true)
                 return ActionResult.FAIL
             }
 
