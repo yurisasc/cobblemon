@@ -87,6 +87,30 @@
   "berry.eat": {
     "sounds": [ "cobblemon:berry_eat" ]
   },
+  "fossilmachine.activate": {
+    "sounds": [ "cobblemon:fossilmachine/activate" ]
+  },
+  "fossilmachine.active_loop": {
+    "sounds": [ "cobblemon:fossilmachine/active_loop" ]
+  },
+  "fossilmachine.dna_full": {
+    "sounds": [ "cobblemon:fossilmachine/dna_full" ]
+  },
+  "fossilmachine.finished": {
+    "sounds": [ "cobblemon:fossilmachine/finished" ]
+  },
+  "fossilmachine.insert_dna": {
+    "sounds": [ "cobblemon:fossilmachine/insert_dna" ]
+  },
+  "fossilmachine.insert_dna_small": {
+    "sounds": [ "cobblemon:fossilmachine/insert_dna_small" ]
+  },
+  "fossilmachine.retrieve_pokemon": {
+    "sounds": [ "cobblemon:fossilmachine/retrieve_pokemon" ]
+  },
+  "fossilmachine.unprotected": {
+    "sounds": [ "cobblemon:fossilmachine/unprotected" ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },

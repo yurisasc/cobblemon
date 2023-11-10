@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.block.multiblock
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.fossil.Fossil
 import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
@@ -28,12 +29,14 @@ import com.cobblemon.mod.common.util.party
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -58,6 +61,8 @@ class FossilMultiblockStructure (
         private set
     var resultingFossil: Fossil? = null
         private set
+    private var lastInteraction: Long = 0
+    private var machineStartTime: Long = 0
 
     override fun onUse(
         blockState: BlockState,
@@ -90,6 +95,7 @@ class FossilMultiblockStructure (
 
             this.createdPokemon!!.caughtBall = ballType
             player.party().add(this.createdPokemon!!)
+            player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS, 1.0F, 1.0F)
 
             this.createdPokemon = null
             return ActionResult.SUCCESS
@@ -134,7 +140,20 @@ class FossilMultiblockStructure (
             val natureValue = NaturalMaterials.getContent(itemId) ?: return ActionResult.FAIL
 
             if (timeRemaining > 0) return ActionResult.FAIL
+
+            if (this.organicMaterialInside >= 64) return ActionResult.FAIL
+
             organicMaterialInside += natureValue
+
+            if (this.organicMaterialInside >= 64) {
+                player.playSound(CobblemonSounds.FOSSIL_MACHINE_DNA_FULL, SoundCategory.BLOCKS, 1.0F, 1.0F)
+            } else if (world.time - this.lastInteraction < 10) {
+                player.playSound(CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F)
+            } else {
+                player.playSound(CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA, SoundCategory.BLOCKS, 1.0F, 1.0F)
+            }
+
+            this.lastInteraction = world.time
 
             if (!player.isCreative) {
                 stack?.decrement(1)
@@ -162,6 +181,8 @@ class FossilMultiblockStructure (
         tubeBaseEntity.multiblockStructure = null
         tubeTopEntity.multiblockStructure = null
 
+        MinecraftClient.getInstance().soundManager.stopSounds(CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id, SoundCategory.BLOCKS)
+
         this.stopMachine(world)
         this.syncToClient(world)
         this.markDirty(world)
@@ -170,6 +191,10 @@ class FossilMultiblockStructure (
     override fun tick(world: World) {
         if (this.createdPokemon != null) {
             return
+        }
+
+        if (this.isRunning() && (world.time - this.machineStartTime) % 160L == 0L) {
+            world.playSound(null, this.tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP, SoundCategory.BLOCKS, 1.0F, 1.0F)
         }
 
         if (this.timeRemaining == -1 && this.organicMaterialInside >= MATERIAL_TO_START && this.resultingFossil != null) {
@@ -190,6 +215,8 @@ class FossilMultiblockStructure (
 
         if (this.timeRemaining == 0) {
             val compartmentEntity = world.getBlockEntity(compartmentPos) as FossilCompartmentBlockEntity
+            world.playSound(null, tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_FINISHED, SoundCategory.BLOCKS)
+            MinecraftClient.getInstance().soundManager.stopSounds(CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id, SoundCategory.BLOCKS)
             compartmentEntity.clear()
 
             this.resultingFossil?.let {
@@ -224,6 +251,11 @@ class FossilMultiblockStructure (
 
     fun startMachine(world: World) {
         this.timeRemaining = TIME_TO_TAKE
+        this.machineStartTime = world.time
+
+        world.playSound(null, tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_ACTIVATE, SoundCategory.BLOCKS)
+        world.playSound(null, tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP, SoundCategory.BLOCKS)
+
         this.updateOnStatus(world)
         this.updateProgress(world)
         this.updateFillLevel(world)
@@ -234,6 +266,10 @@ class FossilMultiblockStructure (
     fun stopMachine(world: World){
         this.timeRemaining = -1
         this.organicMaterialInside = 0
+
+        val compartmentEntity = world.getBlockEntity(compartmentPos) as FossilCompartmentBlockEntity
+        compartmentEntity.clear()
+
         this.updateOnStatus(world)
         this.updateProgress(world)
         this.updateFillLevel(world)

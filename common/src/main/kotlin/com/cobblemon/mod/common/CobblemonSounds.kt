@@ -88,6 +88,24 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     @JvmField
     val MULCH_REMOVE = this.create("mulch.remove")
 
+    @JvmField
+    val FOSSIL_MACHINE_ACTIVATE = this.create("fossilmachine.activate")
+    @JvmField
+    val FOSSIL_MACHINE_ACTIVE_LOOP = this.create("fossilmachine.active_loop")
+    @JvmField
+    val FOSSIL_MACHINE_DNA_FULL = this.create("fossilmachine.dna_full")
+    @JvmField
+    val FOSSIL_MACHINE_FINISHED = this.create("fossilmachine.finished")
+    @JvmField
+    val FOSSIL_MACHINE_INSERT_DNA = this.create("fossilmachine.insert_dna")
+    @JvmField
+    val FOSSIL_MACHINE_INSERT_DNA_SMALL = this.create("fossilmachine.insert_dna_small")
+    @JvmField
+    val FOSSIL_MACHINE_RETRIEVE_POKEMON = this.create("fossilmachine.retrieve_pokemon")
+    @JvmField
+    val FOSSIL_MACHINE_UNPROTECTED = this.create("fossilmachine.unprotected")
+
+
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }
