@@ -49,7 +49,11 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
     lateinit var side1: BattleSideDTO
     lateinit var side2: BattleSideDTO
 
-    constructor(battle: PokemonBattle, allySide: BattleSide): this() {
+    /**
+     * @param battle The battle to initialize on the client
+     * @param allySide The [BattleSide] the client is on, null if the client is a spectator
+     */
+    constructor(battle: PokemonBattle, allySide: BattleSide?): this() {
         battleId = battle.battleId
         battleFormat = battle.format
         val sides = arrayOf(battle.side1, battle.side2).map { side ->
@@ -59,7 +63,9 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
                         uuid = actor.uuid,
                         showdownId = actor.showdownId,
                         displayName = actor.getName(),
-                        activePokemon = actor.activePokemon.map { it.battlePokemon?.let { pkm -> ActiveBattlePokemonDTO.fromPokemon(pkm, allySide == side) } },
+                        activePokemon = actor.activePokemon.map { it.battlePokemon?.let {
+                            pkm -> ActiveBattlePokemonDTO.fromPokemon(pkm, allySide == side)
+                        } },
                         type = actor.type
                     )
                 }

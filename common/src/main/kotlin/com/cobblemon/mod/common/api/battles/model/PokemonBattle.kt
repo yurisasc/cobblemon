@@ -86,12 +86,13 @@ open class PokemonBattle(
     val playerUUIDs: Iterable<UUID>
         get() = actors.flatMap { it.getPlayerUUIDs() }
     val players = playerUUIDs.mapNotNull { it.getPlayer() }
-    val spectators = mutableListOf<UUID>()
+    val spectators = mutableSetOf<UUID>()
 
     val battleId = UUID.randomUUID()
 
     val showdownMessages = mutableListOf<String>()
     val battleLog = mutableListOf<String>()
+    val chatLog = mutableListOf<Text>()
     var started = false
     var ended = false
     // TEMP battle showcase stuff
@@ -179,11 +180,8 @@ open class PokemonBattle(
     }
 
     fun broadcastChatMessage(component: Text) {
-        spectators.forEach { spectatorId ->
-            spectatorId.getPlayer()?.let {
-                CobblemonNetwork.sendPacketToPlayer(it, BattleMessagePacket(component))
-            }
-        }
+        chatLog.add(component)
+        sendSpectatorUpdate(BattleMessagePacket(component))
         return actors.forEach { it.sendMessage(component) }
     }
 
