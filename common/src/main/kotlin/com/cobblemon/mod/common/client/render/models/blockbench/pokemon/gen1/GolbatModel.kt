@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -23,44 +24,50 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GolbatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame {
+class GolbatModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("golbat")
-    override val leftWing = getPart("leftwing")
-    override val rightWing = getPart("rightwing")
 
     override val portraitScale = 1.55F
-    override val portraitTranslation = Vec3d(0.0, -0.55, 0.0)
+    override val portraitTranslation = Vec3d(-0.1, -0.1, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override val profileScale = 0.7F
+    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golbat", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-        standing = registerPose(
-            poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,
-            transformTicks = 10,
-            idleAnimations = arrayOf(
-                //bedrock("golbat", "ground_idle")
-            )
-        )
+        val blink = quirk("blink") { bedrockStateful("golbat", "blink").setPreventsIdle(false) }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("golbat", "sleep"))
         )
 
+        standing = registerPose(
+            poseName = "standing",
+            poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("golbat", "ground_idle")
+            )
+        )
+
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                //bedrock("golbat", "ground_walk")
+                bedrock("golbat", "ground_walk")
             )
         )
 
@@ -68,12 +75,9 @@ class GolbatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame {
             poseName = "hover",
             poseType = PoseType.HOVER,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Y_AXIS
-                )
+                bedrock("golbat", "air_idle")
             )
         )
 
@@ -81,12 +85,20 @@ class GolbatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame {
             poseName = "fly",
             poseType = PoseType.FLY,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Y_AXIS
-                )
+                bedrock("golbat", "air_fly")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("golbat", "battle_idle")
             )
         )
     }

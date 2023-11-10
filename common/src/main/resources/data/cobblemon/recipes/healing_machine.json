@@ -1,9 +1,9 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "  I",
-        "CCI",
-        "III"
+        "CGC",
+        "IRI",
+        "IDI"
     ],
     "key": {
         "C": {
@@ -11,6 +11,15 @@
         },
         "I": {
             "item": "minecraft:iron_ingot"
+        },
+        "G": {
+            "item": "minecraft:ghast_tear"
+        },
+        "D": {
+            "item": "minecraft:diamond"
+        },
+        "R": {
+            "item": "cobblemon:max_revive"
         }
     },
     "result": {

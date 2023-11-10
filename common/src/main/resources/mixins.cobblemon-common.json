@@ -24,7 +24,11 @@
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
     "ShearsDispenserBehaviorMixin",
+    "StructurePoolAccessor",
+    "StructurePoolGeneratorMixin",
+    "StructureProcessorListMixin",
     "accessor.AccessorEntity",
+    "accessor.BoatEntityAccessor",
     "accessor.StatusEffectInstanceAccessor",
     "entity.TameableEntityMixin",
     "invoker.BlocksInvoker",
@@ -37,9 +41,7 @@
     "pokeball.ThrownEntityMixin",
     "StructurePoolGeneratorMixin",
     "StructurePoolAccessor",
-    "StructureProcessorListMixin",
-    "PotionSlotMixin",
-    "entity.BrewingStandBlockEntityMixin"
+    "StructureProcessorListMixin"
   ],
   "injectors": {
     "defaultRequire": 1

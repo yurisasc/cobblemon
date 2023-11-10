@@ -20,6 +20,7 @@ import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.entity.player.ItemTooltipEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
+
 @OnlyIn(Dist.CLIENT)
 object ForgeClientPlatformEventHandler {
 

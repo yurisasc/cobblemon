@@ -139,11 +139,15 @@
   "aspects": [],
   "cannotDynamax": false,
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:kebia_berry",
         "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:fairy_feather",
+        "quantityRange": "0-2"
       }
     ]
   }

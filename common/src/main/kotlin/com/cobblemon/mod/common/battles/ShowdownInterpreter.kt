@@ -35,6 +35,7 @@ import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
+import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHitsEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
@@ -47,6 +48,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
+@Suppress("KotlinPlaceholderCountMatchesArgumentCount", "UNUSED_PARAMETER")
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, BattleMessage, MutableList<String>) -> Unit>()
     private val sideUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, BattleMessage) -> Unit>()
@@ -779,7 +781,10 @@ object ShowdownInterpreter {
             battle.broadcastChatMessage(battleLang("crit").yellow())
             this.lastCauser[battle.battleId]?.let { message ->
                 val battlePokemon = message.getBattlePokemon(0, battle) ?: return@let
-                battlePokemon.criticalHits++
+                if (LastBattleCriticalHitsEvolutionProgress.supports(battlePokemon.effectedPokemon)) {
+                    val progress = battlePokemon.effectedPokemon.evolutionProxy.current().progressFirstOrCreate({ it is LastBattleCriticalHitsEvolutionProgress }) { LastBattleCriticalHitsEvolutionProgress() }
+                    progress.updateProgress(LastBattleCriticalHitsEvolutionProgress.Progress(progress.currentProgress().amount + 1))
+                }
             }
             battle.minorBattleActions[pokemon.uuid] = message
         }
@@ -1048,7 +1053,7 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-ability|POKEMON|ABILITY|[from]EFFECT
+     * |-ability|POKEMON|ABILITY|&#91from&#93EFFECT
      *
      * The ABILITY of the POKEMON has been changed due to a move/ability EFFECT.
      *
@@ -1503,7 +1508,7 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-item|POKEMON|ITEM|[from]EFFECT
+     * |-item|POKEMON|ITEM|&#91from&#93EFFECT
      *
      * The ITEM held by the POKEMON has been changed or revealed due to a move or ability EFFECT.
      *
@@ -1526,7 +1531,7 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-enditem|POKEMON|ITEM|[from]EFFECT
+     * |-enditem|POKEMON|ITEM|&#91from&#93EFFECT
      *
      * The ITEM held by POKEMON has been destroyed by a move or ability, and it now holds no item.
      *
@@ -1560,7 +1565,7 @@ object ShowdownInterpreter {
         val rawHpAndStatus = privateMessage.argumentAt(1)?.split(" ") ?: return
         val rawHpRatio = rawHpAndStatus.getOrNull(0) ?: return
         val newHealth = rawHpRatio.split("/").map { it.toFloatOrNull() ?: return }
-        val newHealthRatio = rawHpRatio.split("/").map { it.toFloatOrNull()?.div(100) ?: return }
+        val newHealthRatio = rawHpRatio.split("/").map { it.toFloatOrNull()?.div(newHealth[1]) ?: return }
         val effect = privateMessage.effect()
         val pokemonName = battlePokemon.getName()
         broadcastOptionalAbility(battle, effect, pokemonName)

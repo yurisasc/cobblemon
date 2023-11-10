@@ -20,10 +20,12 @@ import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
 import com.cobblemon.mod.common.client.render.block.FossilCompartmentRenderer
 import com.cobblemon.mod.common.client.render.block.FossilTubeRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
+import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
@@ -32,6 +34,7 @@ import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
+import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
@@ -40,9 +43,12 @@ import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer
+import net.minecraft.client.render.block.entity.SignBlockEntityRenderer
 import net.minecraft.client.render.entity.EntityRenderer
-import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.LivingEntityRenderer
+import net.minecraft.client.render.entity.model.BoatEntityModel
+import net.minecraft.client.render.entity.model.ChestBoatEntityModel
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -92,9 +98,11 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_TUBE, ::FossilTubeRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_COMPARTMENT, ::FossilCompartmentRenderer)
 
+        this.registerBlockEntityRenderers()
         registerBlockRenderTypes()
         //registerColors()
         registerFlywheelRenderers()
+        this.registerEntityRenderers()
 
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
@@ -150,6 +158,10 @@ object CobblemonClient {
             CobblemonBlocks.FOSSIL_COMPARTMENT,
             CobblemonBlocks.APRICORN_DOOR,
             CobblemonBlocks.APRICORN_TRAPDOOR,
+            CobblemonBlocks.APRICORN_SIGN,
+            CobblemonBlocks.APRICORN_WALL_SIGN,
+            CobblemonBlocks.APRICORN_HANGING_SIGN,
+            CobblemonBlocks.APRICORN_WALL_HANGING_SIGN,
             CobblemonBlocks.BLACK_APRICORN_SAPLING,
             CobblemonBlocks.BLUE_APRICORN_SAPLING,
             CobblemonBlocks.GREEN_APRICORN_SAPLING,
@@ -185,6 +197,8 @@ object CobblemonClient {
             CobblemonBlocks.POTTED_PEP_UP_FLOWER,
             CobblemonBlocks.FOSSIL_TUBE
         )
+
+        this.createBoatModelLayers()
     }
 
     fun beforeChatRender(context: DrawContext, partialDeltaTicks: Float) {
@@ -203,14 +217,22 @@ object CobblemonClient {
         renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
     }
 
-    fun registerPokemonRenderer(context: EntityRendererFactory.Context): PokemonRenderer {
-        LOGGER.info("Registering Pokémon renderer")
-        return PokemonRenderer(context)
+    private fun registerBlockEntityRenderers() {
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.SIGN, ::SignBlockEntityRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
     }
 
-    fun registerPokeBallRenderer(context: EntityRendererFactory.Context): PokeBallRenderer {
+    private fun registerEntityRenderers() {
+        LOGGER.info("Registering Pokémon renderer")
+        this.implementation.registerEntityRenderer(CobblemonEntities.POKEMON, ::PokemonRenderer)
         LOGGER.info("Registering PokéBall renderer")
-        return PokeBallRenderer(context)
+        this.implementation.registerEntityRenderer(CobblemonEntities.EMPTY_POKEBALL, ::PokeBallRenderer)
+        LOGGER.info("Registering Boat renderer")
+        this.implementation.registerEntityRenderer(CobblemonEntities.BOAT) { ctx -> CobblemonBoatRenderer(ctx, false) }
+        LOGGER.info("Registering Boat with Chest renderer")
+        this.implementation.registerEntityRenderer(CobblemonEntities.CHEST_BOAT) { ctx -> CobblemonBoatRenderer(ctx, true) }
     }
 
     fun reloadCodedAssets(resourceManager: ResourceManager) {
@@ -225,7 +247,6 @@ object CobblemonClient {
         BerryModelRepository.reload(resourceManager)
         FossilModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
-//        PokeBallModelRepository.reload(resourceManager)
     }
 
     fun endBattle() {
@@ -238,6 +259,13 @@ object CobblemonClient {
             return "item.${asPokeball.pokeBall.name.namespace}.${asPokeball.pokeBall.name.path}.tooltip"
         }
         return "${stack.translationKey}.tooltip"
+    }
+
+    private fun createBoatModelLayers() {
+        CobblemonBoatType.values().forEach { type ->
+            this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, false), BoatEntityModel::getTexturedModelData)
+            this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, true), ChestBoatEntityModel::getTexturedModelData)
+        }
     }
 
 }

@@ -198,7 +198,7 @@
   "aspects": [],
   "cannotDynamax": false,
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "cobblemon:lucky_egg",
@@ -206,6 +206,10 @@
       },
       {
         "item": "cobblemon:shiny_stone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:fairy_feather",
         "percentage": 10.0
       }
     ]

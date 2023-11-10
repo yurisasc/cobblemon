@@ -22,6 +22,10 @@ import com.cobblemon.mod.common.mixin.invoker.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.block.BerryBlock
+import com.cobblemon.mod.common.block.sign.CobblemonHangingSignBlock
+import com.cobblemon.mod.common.block.sign.CobblemonSignBlock
+import com.cobblemon.mod.common.block.sign.CobblemonWallHangingSignBlock
+import com.cobblemon.mod.common.block.sign.CobblemonWallSignBlock
 import net.minecraft.block.*
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.entity.effect.StatusEffects
@@ -110,9 +114,14 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val APRICORN_BUTTON = this.create("apricorn_button", BlocksInvoker.createWoodenButtonBlock(BlockSetType.OAK))
     @JvmField
     val APRICORN_PRESSURE_PLATE = this.create("apricorn_pressure_plate", PressurePlateBlockInvoker.`cobblemon$create`(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), APRICORN_BLOCK_SET_TYPE))
-    // Tag was removed be sure to add it back when implemented
-    //val APRICORN_SIGN = queue("apricorn_sign") { StandingSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE) }
-    //val APRICORN_WALL_SIGN = queue("apricorn_wall_sign") { WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD).dropsLike(APRICORN_SIGN), APRICORN_WOOD_TYPE) }
+    @JvmField
+    val APRICORN_SIGN = this.create("apricorn_sign", CobblemonSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_SIGN), APRICORN_WOOD_TYPE))
+    @JvmField
+    val APRICORN_WALL_SIGN = this.create("apricorn_wall_sign", CobblemonWallSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_WALL_SIGN), APRICORN_WOOD_TYPE))
+    @JvmField
+    val APRICORN_HANGING_SIGN = this.create("apricorn_hanging_sign", CobblemonHangingSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_WALL_HANGING_SIGN), APRICORN_WOOD_TYPE))
+    @JvmField
+    val APRICORN_WALL_HANGING_SIGN = this.create("apricorn_wall_hanging_sign", CobblemonWallHangingSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_HANGING_SIGN), APRICORN_WOOD_TYPE))
     @JvmField
     val APRICORN_SLAB = this.create("apricorn_slab", SlabBlock(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
     @JvmField

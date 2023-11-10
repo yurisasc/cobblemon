@@ -22,7 +22,10 @@
     "sandstorm",
     "savanna",
     "sun",
-    "tundra"
+    "tundra",
+    "inferno",
+    "void",
+    "forsaken"
   ],
   "isAspect": true,
   "aspectFormat": "vivillon-wings-{{choice}}"

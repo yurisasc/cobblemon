@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.block.entity.fossil.FossilCompartmentBlockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.multiblock.ResurrectionMachineMultiblockBuilder
+import com.cobblemon.mod.common.block.entity.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries
@@ -39,6 +40,10 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
 
     @JvmField
     val PASTURE: BlockEntityType<PokemonPastureBlockEntity> = this.create("pasture", BlockEntityType.Builder.create(::PokemonPastureBlockEntity, CobblemonBlocks.PASTURE).build(null))
+    @JvmField
+    val SIGN: BlockEntityType<CobblemonSignBlockEntity> = this.create("sign", BlockEntityType.Builder.create(::CobblemonSignBlockEntity, CobblemonBlocks.APRICORN_SIGN, CobblemonBlocks.APRICORN_WALL_SIGN).build(null))
+    @JvmField
+    val HANGING_SIGN: BlockEntityType<CobblemonHangingSignBlockEntity> = this.create("hanging_sign", BlockEntityType.Builder.create(::CobblemonHangingSignBlockEntity, CobblemonBlocks.APRICORN_HANGING_SIGN, CobblemonBlocks.APRICORN_WALL_HANGING_SIGN).build(null))
 
     @JvmField
     val FOSSIL_MULTIBLOCK: BlockEntityType<FossilMultiblockEntity> = this.create("fossil_multiblock",
