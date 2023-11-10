@@ -951,24 +951,14 @@
   "cobblemon.battle.end.dynamax": "%1$s returned to normal!",
   "cobblemon.battle.end.telekinesis": "%1$s was freed from the telekinesis!",
 
-  "cobblemon.battle.block.ingrain": "%1$s is anchored in place with its roots!",
-  "cobblemon.battle.block.protect": "%1$s protected itself!",
   "cobblemon.battle.block.uproar": "But the uproar kept %1$s awake!",
-  "cobblemon.battle.block.matblock": "%2$s was blocked by the kicked-up mat!",
-  "cobblemon.battle.block.craftyshield": "Crafty Shield protected %1$s!",
-  "cobblemon.battle.block.wideguard": "Wide Guard protected %1$s!",
-  "cobblemon.battle.block.quickguard": "Quick Guard protected %1$s!",
-  "cobblemon.battle.block.safeguard": "%1$s is protected by Safeguard!",
-  "cobblemon.battle.block.mist": "%1$s is protected by the mist!",
 
-  "cobblemon.battle.fail.substitute": "But it does not have enough HP left to make a substitute!",
+  "cobblemon.battle.fail.substitute": "But it could not create a substitute!",
   "cobblemon.battle.fail.healblock": "But it failed to affect %1$s!",
-  "cobblemon.battle.fail.corrosivegas": "But it failed to affect %1$s!",
   "cobblemon.battle.fail.darkvoid": "But %1$s can't use the move!",
-  "cobblemon.battle.fail.hyperspacefury": "But %1$s can't use the move!",
-  "cobblemon.battle.fail.shedtail": "But it does not have enough HP left to make a substitute!",
   "cobblemon.battle.fail.teatime": "But nothing happened!",
   "cobblemon.battle.fail.slp": "But the target is already asleep!",
+  "cobblemon.battle.fail.uproar": "%1$s can't sleep in an uproar!",
 
   "cobblemon.battle.sethp.painsplit": "The battlers shared their pain!",
 

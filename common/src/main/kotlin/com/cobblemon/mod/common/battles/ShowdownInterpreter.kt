@@ -829,12 +829,18 @@ object ShowdownInterpreter {
      * The specified ACTION has failed against the POKEMON targetted.
      */
     private fun handleFailInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
-        battle.dispatchWaiting(1.5F) {
+        battle.dispatchWaiting(1.5F){
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
-            val lang = battleLang("fail.$effectID", pokemonName)
-            battle.broadcastChatMessage(lang)
+
+            val lang = when (effectID) {
+                "shedtail" -> battleLang("fail.substitute", pokemonName)
+                "hyperspacefury" -> battleLang("fail.darkvoid", pokemonName)
+                "corrosivegas" -> battleLang("fail.healblock", pokemonName)
+                else -> battleLang("fail.$effectID", pokemonName)
+            }
+            battle.broadcastChatMessage(lang.red())
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -957,9 +963,9 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-block|POKEMON|MOVE
+     * |-block|POKEMON|EFFECT|MOVE|ATTACKER
      *
-     * The Pokémon POKEMON used move MOVE which blocked damage
+     * An effect targeted at POKEMON was blocked by EFFECT. This may optionally specify that the effect was a MOVE from ATTACKER. [of]SOURCE will note the owner of the EFFECT, in the case that it's not EFFECT (for instance, an ally with Aroma Veil.)
      */
     private fun handleBlockInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         battle.dispatchWaiting(1.5F) {
