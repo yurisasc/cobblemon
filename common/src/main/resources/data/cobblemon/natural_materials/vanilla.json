@@ -1,19 +1,59 @@
 [
 	{
-		"content": 32,
+		"content": 1,
 		"item": "minecraft:wheat_seeds"
 	},
 	{
 		"content": 1,
-		"item": "minecraft:carrot"
+		"item": "minecraft:beetroot_seeds"
 	},
 	{
 		"content": 1,
-		"item": "minecraft:potato"
+		"item": "minecraft:melon_seeds"
 	},
 	{
 		"content": 1,
-		"item": "minecraft:sweet_berries"
+		"item": "minecraft:pumpkin_seeds"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:dried_kelp"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:nether_wart"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:baked_potato"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:bread"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:beetroot_soup",
+		"returnItem": "minecraft:bowl"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:mushroom_stew",
+		"returnItem": "minecraft:bowl"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:pumpkin_pie"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:rabbit_stew",
+		"returnItem": "minecraft:bowl"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:suspicious_stew",
+		"returnItem": "minecraft:bowl"
 	},
 	{
 		"content": 1,
@@ -21,6 +61,548 @@
 	},
 	{
 		"content": 1,
-		"item": "minecraft:beetroot_seeds"
+		"item": "minecraft:cookie"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:melon_slice"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:bamboo"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:sugar"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:charcoal"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:paper"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:wooden_fences"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:hanging_signs"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:planks"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:signs"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:wooden_buttons"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:wooden_doors"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:wooden_pressure_plates"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:wooden_slabs"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:wooden_stairs"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:wooden_trapdoors"
+	},
+	{
+		"content": 1,
+		"tag": "#c:dyes"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:crimson_roots"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:nether_sprouts"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:twisting_vines"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:weeping_vines"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:warped_roots"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:warped_fungus"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:crimson_fungus"
+	},
+	{
+		"content": 1,
+		"tag": "#minecraft:wart_blocks"
+	},
+	{
+		"content": 1,
+		"item": "minecraft:dead_bush"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:wheat"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:carrot"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:potato"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:beetroot"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:egg"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:glow_berries"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:kelp"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:sweet_berries"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:golden_carrot"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:honeycomb"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:honey_bottle",
+		"returnItem": "minecraft:glass_bottle"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:blaze_powder"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:bone_meal"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:sugar_cane"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:glistening_melon_slice"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:rabbit_hide"
+	},
+	{
+		"content": 2,
+		"tag": "#minecraft:logs"
+	},
+	{
+		"content": 2,
+		"tag": "#minecraft:flowers"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:grass"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:tall_grass"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:fern"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:tall_fern"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:seagrass"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:tall_seagrass"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:dripleaf"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:small_dripleaf"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:moss_carpet"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:lily_pad"
+	},
+	{
+		"content": 2,
+		"tag": "#minecraft:leaves"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:hanging_roots"
+	},
+	{
+		"content": 2,
+		"tag": "#minecraft:wool"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:carved_pumpkin"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:jack_o_lantern"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:cactus"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:glow_lichen"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:brown_mushroom_block"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:red_mushroom_block"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:mushroom_stem"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:sculk"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:sculk_vein"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:sculk_sensor"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:sculk_catalyst"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:sculk_shrieker"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:grass_block"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:mycelium"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:podzol"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:warped_nylium"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:crimson_nylium"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:mangrove_roots"
+	},
+	{
+		"content": 4,
+		"tag": "#cobblemon:cooked_meat"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:torchflower_seeds"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:pitcher_pod"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:apple"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:ink_sac"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:glow_ink_sac"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:rotten_flesh"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:spider_eye"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:bone"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:ender_pearl"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:blaze_rod"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:feather"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:gunpowder"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:leather"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:magma_cream"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:nautilus_shell"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:phantom_membrane"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:slime_ball"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:scute"
+	},
+	{
+		"content": 4,
+		"tag": "#minecraft:saplings"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:moss_block"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:shroomlight"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:pumpkin"
+	},
+	{
+		"content": 4,
+		"tag": "#minecraft:tall_flowers"
+	},
+	{
+		"content": 4,
+		"tag": "#minecraft:corals"
+	},
+	{
+		"content": 4,
+		"tag": "#minecraft:mushrooms"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:cake"
+	},
+	{
+		"content": 4,
+		"tag": "#cobblemon:azalea_tree"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:cobweb"
+	},
+	{
+		"content": 8,
+		"tag": "#cobblemon:raw_meat"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:pufferfish"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:milk_bucket",
+		"returnItem": "minecraft:bucket"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:cod_bucket",
+		"returnItem": "minecraft:water_bucket"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:salmon_bucket",
+		"returnItem": "minecraft:water_bucket"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:pufferfish_bucket",
+		"returnItem": "minecraft:water_bucket"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:tropical_fish_bucket",
+		"returnItem": "minecraft:water_bucket"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:axolotl_bucket",
+		"returnItem": "minecraft:water_bucket"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:tadpole_bucket",
+		"returnItem": "minecraft:water_bucket"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:fermented_spider_eye"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:honey_block"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:pitcher_plant"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:torchflower"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:golden_apple"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:dragons_breath",
+		"returnItem": "minecraft:glass_bottle"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:ghast_tear"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:rabbits_foot"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:sniffer_egg"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:turtle_egg"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:hay_bale"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:spore_blossom"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:wet_sponge"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:sponge"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:bone_block"
+	},
+	{
+		"content": 16,
+		"item": "minecraft:frogspawn"
+	},
+	{
+		"content": 32,
+		"tag": "#minecraft:noteblock_top_instruments",
+		"note": "this tag is just all of the mob heads"
+	},
+	{
+		"content": 32,
+		"item": "minecraft:bee_nest"
+	},
+	{
+		"content": 64,
+		"item": "minecraft:enchanted_golden_apple"
+	},
+	{
+		"content": 64,
+		"item": "minecraft:nether_star"
+	},
+	{
+		"content": 64,
+		"item": "minecraft:dragon_egg"
 	}
 ]
