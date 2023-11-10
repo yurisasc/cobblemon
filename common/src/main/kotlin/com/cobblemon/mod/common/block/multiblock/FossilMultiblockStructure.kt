@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.giveOrDropItemStack
+import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -63,6 +64,8 @@ class FossilMultiblockStructure (
         private set
     private var lastInteraction: Long = 0
     private var machineStartTime: Long = 0
+    private var protectionTime: Int = -1
+    private var fossilOwner: PlayerEntity? = null
 
     override fun onUse(
         blockState: BlockState,
@@ -78,6 +81,11 @@ class FossilMultiblockStructure (
 
         if (this.createdPokemon != null) {
             if (player !is ServerPlayerEntity) {
+                return ActionResult.FAIL
+            }
+
+            if (this.fossilOwner != null && player != this.fossilOwner) {
+                player.sendMessage(lang("fossilmachine.protected", this.fossilOwner!!.name))
                 return ActionResult.FAIL
             }
 
@@ -100,6 +108,8 @@ class FossilMultiblockStructure (
 
             this.createdPokemon = null
             compartmentEntity.clear()
+            this.fossilOwner = null
+            this.protectionTime = -1
             this.updateFillLevel(world)
             this.updateFossilType(world)
             return ActionResult.SUCCESS
@@ -132,6 +142,7 @@ class FossilMultiblockStructure (
                 stack?.decrement(1)
             }
 
+            fossilOwner = player
             compartmentEntity.insertFossilStack(copyFossilStack)
             this.updateFossilType(world)
             world.playSound(null, compartmentPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_FOSSIL, SoundCategory.BLOCKS)
@@ -192,6 +203,13 @@ class FossilMultiblockStructure (
     }
 
     override fun tick(world: World) {
+        if (protectionTime > 0) protectionTime--
+        if (protectionTime == 0) {
+            protectionTime = -1
+            this.fossilOwner = null
+            world.playSound(null, tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_UNPROTECTED, SoundCategory.BLOCKS)
+        }
+
         if (this.createdPokemon != null) {
             return
         }
@@ -225,6 +243,8 @@ class FossilMultiblockStructure (
             this.resultingFossil?.let {
                 this.createdPokemon = it.result.create()
             }
+
+            protectionTime = PROTECTION_TIME
 
             this.stopMachine(world)
         }
@@ -361,6 +381,7 @@ class FossilMultiblockStructure (
         const val MATERIAL_TO_START = 64
         const val TIME_TO_TAKE = TICKS_PER_MINUTE * 1
         const val TIME_PER_STAGE = TIME_TO_TAKE / 8
+        const val PROTECTION_TIME = 6000
 
         fun fromNbt(nbt: NbtCompound): FossilMultiblockStructure {
             val monitorPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.MONITOR_POS))

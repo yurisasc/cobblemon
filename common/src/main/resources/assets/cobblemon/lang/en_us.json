@@ -307,6 +307,8 @@
   "cobblemon.fossil.sail": "Sail",
   "cobblemon.fossil.skull": "Skull",
 
+  "cobblemon.fossilmachine.protected": "This fossil belongs to %s!",
+
   "itemGroup.cobblemon.blocks": "Blocks",
   "itemGroup.cobblemon.pokeball": "Poké Balls",
   "itemGroup.cobblemon.agriculture": "Agriculture",
