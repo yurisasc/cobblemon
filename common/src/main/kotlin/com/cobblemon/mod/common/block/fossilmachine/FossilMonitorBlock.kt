@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.block.fossilmachine
 
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
-import com.cobblemon.mod.common.block.multiblock.ResurrectionMachineMultiblockBuilder
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
@@ -34,7 +34,7 @@ class FossilMonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         state: BlockState
     ): FossilMultiblockEntity {
         return FossilMultiblockEntity(
-            pos, state, ResurrectionMachineMultiblockBuilder(pos)
+            pos, state, FossilMultiblockBuilder(pos)
         )
     }
 

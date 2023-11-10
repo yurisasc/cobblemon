@@ -29,7 +29,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 
-class ResurrectionMachineMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuilder {
+class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuilder {
     override val boundingBox: VoxelShape =
         VoxelShapes.union(
             VoxelShapes.cuboid(

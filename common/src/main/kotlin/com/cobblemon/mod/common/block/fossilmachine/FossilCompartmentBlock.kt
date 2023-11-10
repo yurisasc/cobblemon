@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
 import com.cobblemon.mod.common.block.entity.fossil.FossilCompartmentBlockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
-import com.cobblemon.mod.common.block.multiblock.ResurrectionMachineMultiblockBuilder
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
@@ -35,7 +35,7 @@ class FossilCompartmentBlock(properties: Settings) : MultiblockBlock(properties)
     }
 
     override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {
-        return FossilCompartmentBlockEntity(pos, state, ResurrectionMachineMultiblockBuilder(pos))
+        return FossilCompartmentBlockEntity(pos, state, FossilMultiblockBuilder(pos))
     }
 
     override fun <T : BlockEntity?> getTicker(

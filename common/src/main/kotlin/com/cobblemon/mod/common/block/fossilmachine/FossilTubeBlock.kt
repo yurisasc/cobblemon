@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.block.fossilmachine
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
-import com.cobblemon.mod.common.block.multiblock.ResurrectionMachineMultiblockBuilder
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -79,9 +79,9 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
 
     override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {
         return if (state.get(PART) == TubePart.BOTTOM) {
-            FossilTubeBlockEntity(pos, state, ResurrectionMachineMultiblockBuilder(pos))
+            FossilTubeBlockEntity(pos, state, FossilMultiblockBuilder(pos))
         } else {
-            FossilMultiblockEntity(pos, state, ResurrectionMachineMultiblockBuilder(pos))
+            FossilMultiblockEntity(pos, state, FossilMultiblockBuilder(pos))
         }
     }
 
