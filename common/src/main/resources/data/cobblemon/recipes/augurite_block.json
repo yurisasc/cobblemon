@@ -11,8 +11,7 @@
     "AA"
   ],
   "result": {
-    "item": "minecraft:obsidian",
-	"count": 2	
+    "item": "minecraft:obsidian"
   },
   "show_notification": true
 }
