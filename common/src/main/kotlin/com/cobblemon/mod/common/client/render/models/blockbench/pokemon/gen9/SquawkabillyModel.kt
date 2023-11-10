@@ -45,7 +45,6 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     lateinit var flying: PokemonPose
     lateinit var shoulderLeft: PokemonPose
     lateinit var shoulderRight: PokemonPose
-    lateinit var sleep: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("squawkabilly", "cry").setPreventsIdle(false) }
 

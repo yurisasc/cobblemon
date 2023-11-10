@@ -12,22 +12,41 @@
 
 ### Changes
 - Slightly lowered the volume of all cries
+- Updated Pokeball animations and model.
+- Added cries to Raticate, Onix, Unfezant, Bergmite, Avalugg, Boltund, Revavroom.
+- Turtwig can now be put on shoulder.
+- Updated Zubat line model, texture, and animations.
+- Added animations for Hitmontop, Tyrogue, and Mightyena.
+- Tweaked animations for Dusknoir, Ratatta, Bewear, Exeggutor, and Alolan Exeggutor.
+- Sized Kantonian Exeggutor down. Still big but not TOO BIG.
 - Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
+- Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
+- Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
+- The Healing Machine now has a more difficult recipe, placing it later game.
+- Heal Powder can now be composted with a 75% chance of adding a layer
+- Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer.
+- Added emissive to Hoothoot.
 
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
 - Berries can now be used in recipes from [Farmer's Delight](https://modrinth.com/mod/farmers-delight) and [Farmer's Delight (Fabric)](https://modrinth.com/mod/farmers-delight-fabric), as well as any other mods using the same berry tags.
 - The nature of cobblemon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
 - Giving Pokémon items now plays a sound
-- A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft' equivalent with Apricorn planks as replacements.
+- A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft's equivalent with Apricorn planks as replacements.
 - Added the Cleanse Tag held item.
+- Added the Inferno, Void, and Forsaken patterns for Vivillon. These can be obtained by evolving a Spewpa in the Nether, End, or Deep Dark respectively.
+- Added the Litwick line.
+- Bees can now be fed using Pep-Up Flowers.
+- Mooshtank can now be milked with a bowl for Mushroom Stew.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
 - Updated the registration of compostable items to improve compatibility with Fabric forks such as Quilt. Please note this does not mean we officially support Quilt, this change was only done since it was possible by correcting the registration to use the new intended way in the Fabric API.
 - Fixed Dispensers being unable to shear grown Apricorns.
 - Fixed Bowl not being given back to player after using Berry Juice
-- Fixed Battle text for Disable, Laser Focus, Foresight, Fire Spin, Telekinesis, and Curse
+- Fixed Battle text for Disable, Laser Focus, Foresight, Fire Spin, Telekinesis, Curse, Recharge and Encore
+- Fixed missing text for snowy weather in battles
+- Fixed missing text for attempting to catch an uncatchable Pokémon
 - Fixed Moonphases for Clefairy line
 - Fixed issue where Potions, Super Potions, and Hyper Potions did not work during battle
 - Fixed the compatibility patch with the Forge version of [Carry On](https://modrinth.com/mod/carry-on) due to a bug on the mod, the Fabric version was unchanged and is still compatible.
@@ -50,10 +69,15 @@
 - Fixed the defeated Pokémon evolution requirement not saving progress.
 - Fixed potion brewing recipes not showing up JEI and similar mods on the Forge version.
 - Fixed an exploit that could convert a single piece of Blaze Powder into an extra Medicinal Brew on the Forge version.
+- Fixed an issue where health percentages would show incorrectly after healing
+- Fixed the move Revival Blessing not allowing you to select from fainted party members.
+- Fixed Exeggcute faint.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
 - Added the `EvolutionTestedEvent`, this allows listening and overriding the final result of evolution requirement tests.
+- Fixed Quaxwell not doing its cry.
+- Fixed Shroomish not using its idle.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions

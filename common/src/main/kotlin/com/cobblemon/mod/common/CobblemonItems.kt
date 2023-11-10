@@ -139,19 +139,19 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val WHITE_APRICORN = apricornItem("white", ApricornItem(CobblemonBlocks.WHITE_APRICORN))
 
     @JvmField
-    val RED_APRICORN_SEED = apricronSeedItem("red", ApricornSeedItem(CobblemonBlocks.RED_APRICORN_SAPLING))
+    val RED_APRICORN_SEED = apricornSeedItem("red", ApricornSeedItem(CobblemonBlocks.RED_APRICORN_SAPLING))
     @JvmField
-    val YELLOW_APRICORN_SEED = apricronSeedItem("yellow", ApricornSeedItem(CobblemonBlocks.YELLOW_APRICORN_SAPLING))
+    val YELLOW_APRICORN_SEED = apricornSeedItem("yellow", ApricornSeedItem(CobblemonBlocks.YELLOW_APRICORN_SAPLING))
     @JvmField
-    val GREEN_APRICORN_SEED = apricronSeedItem("green", ApricornSeedItem(CobblemonBlocks.GREEN_APRICORN_SAPLING))
+    val GREEN_APRICORN_SEED = apricornSeedItem("green", ApricornSeedItem(CobblemonBlocks.GREEN_APRICORN_SAPLING))
     @JvmField
-    val BLUE_APRICORN_SEED = apricronSeedItem("blue", ApricornSeedItem(CobblemonBlocks.BLUE_APRICORN_SAPLING))
+    val BLUE_APRICORN_SEED = apricornSeedItem("blue", ApricornSeedItem(CobblemonBlocks.BLUE_APRICORN_SAPLING))
     @JvmField
-    val PINK_APRICORN_SEED = apricronSeedItem("pink", ApricornSeedItem(CobblemonBlocks.PINK_APRICORN_SAPLING))
+    val PINK_APRICORN_SEED = apricornSeedItem("pink", ApricornSeedItem(CobblemonBlocks.PINK_APRICORN_SAPLING))
     @JvmField
-    val BLACK_APRICORN_SEED = apricronSeedItem("black", ApricornSeedItem(CobblemonBlocks.BLACK_APRICORN_SAPLING))
+    val BLACK_APRICORN_SEED = apricornSeedItem("black", ApricornSeedItem(CobblemonBlocks.BLACK_APRICORN_SAPLING))
     @JvmField
-    val WHITE_APRICORN_SEED = apricronSeedItem("white", ApricornSeedItem(CobblemonBlocks.WHITE_APRICORN_SAPLING))
+    val WHITE_APRICORN_SEED = apricornSeedItem("white", ApricornSeedItem(CobblemonBlocks.WHITE_APRICORN_SAPLING))
 
     @JvmField
     val APRICORN_LOG = blockItem("apricorn_log", CobblemonBlocks.APRICORN_LOG)
@@ -623,13 +623,13 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val WISE_GLASSES = heldItem("wise_glasses")
     @JvmField
-    val MENTAL_HERB = compostableHeldItem("mental_herb")
+    val MENTAL_HERB = compostableHeldItem("mental_herb", null, 1F)
     @JvmField
-    val MIRROR_HERB = compostableHeldItem("mirror_herb")
+    val MIRROR_HERB = compostableHeldItem("mirror_herb", null, 1F)
     @JvmField
-    val POWER_HERB = compostableHeldItem("power_herb")
+    val POWER_HERB = compostableHeldItem("power_herb", null, 1F)
     @JvmField
-    val WHITE_HERB = heldItem("white_herb")
+    val WHITE_HERB = compostableHeldItem("white_herb", null, 1F)
     @JvmField
     val BRIGHT_POWDER = heldItem("bright_powder")
     @JvmField
@@ -735,9 +735,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         return item
     }
 
-    private fun apricronSeedItem(name: String, apricronSeedItem: ApricornSeedItem): ApricornSeedItem {
+    private fun apricornSeedItem(name: String, apricornSeedItem: ApricornSeedItem): ApricornSeedItem {
         val finalName = "${name}_apricorn_seed"
-        val item = this.create(finalName, apricronSeedItem)
+        val item = this.create(finalName, apricornSeedItem)
         compostable(item, .65f)
         return item
     }

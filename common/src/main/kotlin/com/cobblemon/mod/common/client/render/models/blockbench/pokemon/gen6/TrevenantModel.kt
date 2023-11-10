@@ -39,9 +39,10 @@ class TrevenantModel  (root: ModelPart) : PokemonPoseableModel() {
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("trevenant", "sleep"))
         )
+
         standing = registerPose(
             poseName = "stand",
-            poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
@@ -51,7 +52,7 @@ class TrevenantModel  (root: ModelPart) : PokemonPoseableModel() {
         )
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
+            poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

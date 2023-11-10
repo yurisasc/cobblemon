@@ -683,7 +683,7 @@
   "advancements.cobblemon.obtain_all_berries.description": "Obtain one of every Berry in Cobblemon",
   "advancements.cobblemon.use_pasture": "Free Roam: Enabled",
   "advancements.cobblemon.use_pasture.description": "Craft a Pasture Block and allow your friends to wander",
-  "advancements.cobblemon.catch_all_vivillon": "Patterned Wings",
+  "advancements.cobblemon.catch_all_vivillon": "Vivillonaire",
   "advancements.cobblemon.catch_all_vivillon.description": "Obtain all patterns of Vivillon",
   "advancements.cobblemon.evolve_veevees": "Valued Veevees",
   "advancements.cobblemon.evolve_veevees.description": "Evolve Eevee into 8 different forms",
@@ -748,6 +748,7 @@
   "cobblemon.capture.busy": "The %1$s is busy!",
   "cobblemon.capture.you_in_battle": "You are in a battle.",
   "cobblemon.capture.not_single": "You can only capture wild Pokémon in a 1v1 battle.",
+  "cobblemon.capture.cannot_be_caught": "This Pokémon cannot be captured.",
   "cobblemon.you_in_battle": "You can't do that while in a battle!",
   "cobblemon.battle.turn": "It is now turn %1$s",
   "cobblemon.battle.side_subject.ally": "your",
@@ -765,6 +766,9 @@
   "cobblemon.battle.weather.hail.start": "It started to hail!",
   "cobblemon.battle.weather.hail.upkeep": "The hail is crashing down.",
   "cobblemon.battle.weather.hail.end": "The hail stopped.",
+  "cobblemon.battle.weather.snow.start": "It started to snow!",
+  "cobblemon.battle.weather.snow.upkeep": "The snow is falling down.",
+  "cobblemon.battle.weather.snow.end": "The snow stopped.",
 
   "cobblemon.battle.start.bide": "%1$s begins storing energy!",
   "cobblemon.battle.start.disable": "%1$s's %2$s was disabled!",
@@ -785,6 +789,7 @@
   "cobblemon.battle.start.miracleeye": "%1$s was identified!",
   "cobblemon.battle.start.dynamax": "%1$s Dynamaxed!",
   "cobblemon.battle.start.gmax": "%1$s Gigantamaxed!",
+  "cobblemon.battle.start.encore": "%1$s must do an encore!",
 
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.fieldstart.grassyterrain": "Grass grew to cover the battlefield!",
@@ -949,6 +954,7 @@
   "cobblemon.battle.end.clamp": "%1$s was freed from Clamp!",
   "cobblemon.battle.end.dynamax": "%1$s returned to normal!",
   "cobblemon.battle.end.telekinesis": "%1$s was freed from the telekinesis!",
+  "cobblemon.battle.end.encore": "%1$s's encore ended.",
 
   "cobblemon.battle.sethp.painsplit": "The battlers shared their pain!",
 
@@ -2454,6 +2460,7 @@
   "cobblemon.move.razorshell.desc": "The user cuts its target with sharp shells. This may also lower the target’s Defense stat.",
   "cobblemon.move.razorwind": "Razor Wind",
   "cobblemon.move.razorwind.desc": "In this two-turn attack, blades of wind hit opposing Pokémon on the second turn. Critical hits land more easily.",
+  "cobblemon.move.recharge": "Recharge",
   "cobblemon.move.recover": "Recover",
   "cobblemon.move.recover.desc": "Restoring its own cells, the user restores its own HP by half of its max HP.",
   "cobblemon.move.recycle": "Recycle",
