@@ -17,6 +17,7 @@
 - Heal Powder can now be composted with a 75% chance of adding a layer
 - Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer.
 - Added emissive to Hoothoot.
+- Mining Evolution Stone Ores with a Fortune pickaxe will now increase the amount of items recieved
 
 ### Additions
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
