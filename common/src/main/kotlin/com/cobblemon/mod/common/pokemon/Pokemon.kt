@@ -62,6 +62,7 @@ import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
+import com.cobblemon.mod.common.pokemon.summaryvalue.SummaryValue
 import com.cobblemon.mod.common.util.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -247,6 +248,9 @@ open class Pokemon : ShowdownIdentifiable {
                 _friendship.emit(it.newFriendship)
             }
         }
+
+    var summaryValues: MutableSet<SummaryValue> = this.species.summaryValues
+
     var state: PokemonState = InactivePokemonState()
         set(value) {
             field = value

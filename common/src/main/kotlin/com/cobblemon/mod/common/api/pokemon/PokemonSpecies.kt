@@ -38,6 +38,8 @@ import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPack
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.SpeciesAdditions
+import com.cobblemon.mod.common.pokemon.summaryvalue.SummaryValue
+import com.cobblemon.mod.common.pokemon.summaryvalue.SummaryValueAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonPreEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonRequirementAdapter
@@ -96,6 +98,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(EggGroup::class.java, EggGroupAdapter)
         .registerTypeAdapter(StatusEffect::class.java, RegistryElementAdapter<StatusEffect> { Registries.STATUS_EFFECT })
         .registerTypeAdapter(NbtItemPredicate::class.java, NbtItemPredicateAdapter)
+        .registerTypeAdapter(SummaryValue::class.java, SummaryValueAdapter)
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()
         .create()

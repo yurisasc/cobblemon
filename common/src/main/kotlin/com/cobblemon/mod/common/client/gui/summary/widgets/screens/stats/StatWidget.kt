@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.summaryvalue.SummaryValue
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
@@ -382,6 +383,68 @@ class StatWidget(
                 scale = SCALE,
                 centered = true
             )
+
+            val tempSummaryValues: MutableSet<SummaryValue> = mutableSetOf()
+            tempSummaryValues.add(SummaryValue("gold_hoard", "cobblemon.ui.gold_hoard", 999, 300))
+
+            if (tempSummaryValues.isNotEmpty()) {
+                for (value in tempSummaryValues) {
+                    val barWidthMax = 108
+                    val barRatio = value.currentValue / value.maxValue.toFloat()
+                    val barWidth = ceil(barRatio * barWidthMax)
+
+                    blitk(
+                        matrixStack = matrices,
+                        texture = CobblemonResources.WHITE,
+                        x = x,
+                        y = y,
+                        height = 8,
+                        width = barWidth,
+                        red = 0,
+                        green = 1,
+                        blue = 1
+                    )
+
+                    blitk(
+                        matrixStack = matrices,
+                        texture = friendshipOverlayResource,
+                        x = (x + 5) / SCALE,
+                        y = (y + 26) / SCALE,
+                        height = 20,
+                        width = 248,
+                        scale = SCALE
+                    )
+
+                    // Label
+                    drawScaledText(
+                        context = context,
+                        font = CobblemonResources.DEFAULT_LARGE,
+                        text = lang(value.displayName).bold(),
+                        x = x + 67,
+                        y = y + 12.5,
+                        centered = true,
+                        shadow = true
+                    )
+
+                    drawScaledText(
+                        context = context,
+                        text = value.currentValue.toString().text(),
+                        x = x + 16,
+                        y = y + 16,
+                        scale = SCALE,
+                        centered = true
+                    )
+
+                    drawScaledText(
+                        context = context,
+                        text = "${floor(barRatio * 100)}%".text(),
+                        x = x + 118,
+                        y = y + 16,
+                        scale = SCALE,
+                        centered = true
+                    )
+                }
+            }
         }
     }
 

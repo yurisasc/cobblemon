@@ -55,6 +55,13 @@
   "labels": [
     "gen9"
   ],
+  "summaryValues": [
+    {
+      "id": "gold_hoard",
+      "displayName": "cobblemon.ui.gold_hoard",
+      "maxValue": 999
+    }
+  ],
   "aspects": [],
   "height": 3,
   "weight": 50,
