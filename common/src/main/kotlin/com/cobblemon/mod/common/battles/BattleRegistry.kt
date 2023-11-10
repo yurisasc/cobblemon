@@ -221,6 +221,10 @@ object BattleRegistry {
         return battleMap.values.find { it.getActor(serverPlayerEntity) != null }
     }
 
+    fun getBattleByParticipatingPlayerId(playerId: UUID): PokemonBattle? {
+        return battleMap.values.find { playerId in it.playerUUIDs }
+    }
+
     fun tick() {
         battleMap.forEachValue(Long.MAX_VALUE) { it.tick() }
     }
