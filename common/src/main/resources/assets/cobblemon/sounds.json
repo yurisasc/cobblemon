@@ -93,6 +93,9 @@
   "fossilmachine.active_loop": {
     "sounds": [ "cobblemon:fossilmachine/active_loop" ]
   },
+  "fossilmachine.assemble": {
+    "sounds": [ "cobblemon:fossilmachine/assemble" ]
+  },
   "fossilmachine.dna_full": {
     "sounds": [ "cobblemon:fossilmachine/dna_full" ]
   },
@@ -104,6 +107,9 @@
   },
   "fossilmachine.insert_dna_small": {
     "sounds": [ "cobblemon:fossilmachine/insert_dna_small" ]
+  },
+  "fossilmachine.insert_fossil": {
+    "sounds": [ "cobblemon:fossilmachine/insert_fossil" ]
   },
   "fossilmachine.retrieve_pokemon": {
     "sounds": [ "cobblemon:fossilmachine/retrieve_pokemon" ]

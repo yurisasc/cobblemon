@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.block.multiblock
 
 import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
@@ -22,6 +23,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.predicate.BlockPredicate
 import net.minecraft.predicate.StatePredicate
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -96,6 +98,8 @@ class ResurrectionMachineMultiblockBuilder(val centerPos: BlockPos) : Multiblock
         monitorEntity.multiblockStructure = structure
         structure.syncToClient(world)
         structure.markDirty(world)
+
+        world.playSound(null, centerPos, CobblemonSounds.FOSSIL_MACHINE_ASSEMBLE, SoundCategory.BLOCKS)
 
         //Set these to null so the builders can be freed
         compEntity.multiblockBuilder = null

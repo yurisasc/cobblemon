@@ -93,6 +93,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     @JvmField
     val FOSSIL_MACHINE_ACTIVE_LOOP = this.create("fossilmachine.active_loop")
     @JvmField
+    val FOSSIL_MACHINE_ASSEMBLE = this.create("fossilmachine.assemble")
+    @JvmField
     val FOSSIL_MACHINE_DNA_FULL = this.create("fossilmachine.dna_full")
     @JvmField
     val FOSSIL_MACHINE_FINISHED = this.create("fossilmachine.finished")
@@ -100,6 +102,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val FOSSIL_MACHINE_INSERT_DNA = this.create("fossilmachine.insert_dna")
     @JvmField
     val FOSSIL_MACHINE_INSERT_DNA_SMALL = this.create("fossilmachine.insert_dna_small")
+    @JvmField
+    val FOSSIL_MACHINE_INSERT_FOSSIL = this.create("fossilmachine.insert_fossil")
     @JvmField
     val FOSSIL_MACHINE_RETRIEVE_POKEMON = this.create("fossilmachine.retrieve_pokemon")
     @JvmField

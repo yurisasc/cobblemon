@@ -53,7 +53,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
             return
         }
 
-        renderBaby(entity, tickDelta, matrices, vertexConsumers, light, overlay)
+        if (fillLevel == 8) renderBaby(entity, tickDelta, matrices, vertexConsumers, light, overlay)
 
         matrices.push()
         val transparentBuffer = vertexConsumers.getBuffer(RenderLayer.getTranslucent())
@@ -77,7 +77,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
     ) {
         val struc = entity.multiblockStructure as? FossilMultiblockStructure ?: return
         val fossil = struc.resultingFossil ?: return
-        val timeRemaining = struc.timeRemaining.takeIf { it != -1 } ?: return
+        val timeRemaining = struc.timeRemaining
 
         val aspects = emptySet<String>()
         val state = entity.state
@@ -91,7 +91,11 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         state.setPose(pose.poseName)
         state.timeEnteredPose = 0F
 
-        val scale = (1 - (timeRemaining / FossilMultiblockStructure.TIME_TO_TAKE.toFloat())) * model.maxScale
+        val scale: Float = if (timeRemaining == 0) {
+            model.maxScale
+        } else {
+            (1 - (timeRemaining / FossilMultiblockStructure.TIME_TO_TAKE.toFloat())) * model.maxScale
+        }
 
         matrices.push()
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90F))

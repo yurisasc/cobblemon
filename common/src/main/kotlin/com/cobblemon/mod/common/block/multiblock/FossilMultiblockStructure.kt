@@ -72,6 +72,7 @@ class FossilMultiblockStructure (
         interactionHand: Hand,
         blockHitResult: BlockHitResult
     ): ActionResult {
+        val compartmentEntity = world.getBlockEntity(compartmentPos) as FossilCompartmentBlockEntity
         val stack = player.getStackInHand(interactionHand)
         val itemId = Registries.ITEM.getId(stack.item)
 
@@ -98,14 +99,15 @@ class FossilMultiblockStructure (
             player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS, 1.0F, 1.0F)
 
             this.createdPokemon = null
+            compartmentEntity.clear()
+            this.updateFillLevel(world)
+            this.updateFossilType(world)
             return ActionResult.SUCCESS
         }
 
         if (this.isRunning()) {
             return ActionResult.FAIL
         }
-
-        val compartmentEntity = world.getBlockEntity(compartmentPos) as FossilCompartmentBlockEntity
 
         // Reclaim the last fossil from the machine if their hand is empty
         if (player.getStackInHand(interactionHand).isEmpty) {
@@ -132,6 +134,7 @@ class FossilMultiblockStructure (
 
             compartmentEntity.insertFossilStack(copyFossilStack)
             this.updateFossilType(world)
+            world.playSound(null, compartmentPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_FOSSIL, SoundCategory.BLOCKS)
             return ActionResult.SUCCESS
         }
 
@@ -280,6 +283,11 @@ class FossilMultiblockStructure (
     fun updateFillLevel(world: World) {
         val tubeEntity = world.getBlockEntity(tubeBasePos) as FossilTubeBlockEntity
         val currentFillLevel =  (this.organicMaterialInside / 8).coerceAtMost(8)
+
+        if (this.createdPokemon != null) {
+            tubeEntity.fillLevel = 8
+            return
+        }
 
         if (currentFillLevel != tubeEntity.fillLevel) {
             tubeEntity.fillLevel = currentFillLevel
