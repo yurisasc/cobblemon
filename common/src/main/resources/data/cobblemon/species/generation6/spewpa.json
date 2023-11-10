@@ -50,6 +50,12 @@
         "canSwimInWater": false
       },
       "canLook": false
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [
@@ -244,6 +250,10 @@
         {
           "variant": "biome",
           "biomeCondition": "#cobblemon:is_ocean"
+        },
+        {
+          "variant": "biome",
+          "biomeAnticondition": "#cobblemon:is_warm_ocean"
         }
       ]
     },
