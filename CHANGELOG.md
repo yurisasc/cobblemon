@@ -7,6 +7,7 @@
 
 ### Datapack & Resourcepack Creators
 - Fixed an issue with transformed parts in posers causing whacky positional issues.
+- Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
 
 ## [1.4.1](#1-4-1)
 
