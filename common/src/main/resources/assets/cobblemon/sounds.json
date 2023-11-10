@@ -111,6 +111,9 @@
   "fossilmachine.insert_fossil": {
     "sounds": [ "cobblemon:fossilmachine/insert_fossil" ]
   },
+  "fossilmachine.retrieve_fossil": {
+    "sounds": [ "cobblemon:fossilmachine/retrieve_fossil" ]
+  },
   "fossilmachine.retrieve_pokemon": {
     "sounds": [ "cobblemon:fossilmachine/retrieve_pokemon" ]
   },

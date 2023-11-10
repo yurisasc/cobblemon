@@ -38,7 +38,6 @@ import net.minecraft.nbt.NbtHelper
 import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -126,7 +125,7 @@ class FossilMultiblockStructure (
             }
 
             player.setStackInHand(interactionHand, compartmentEntity.withdrawLastFossilStack())
-            player.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 0.8f, 1.0f)
+            world.playSound(null, compartmentPos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_FOSSIL, SoundCategory.BLOCKS)
             this.updateFossilType(world)
             return ActionResult.SUCCESS
         }
