@@ -72,12 +72,13 @@
 - Fixed an issue where health percentages would show incorrectly after healing
 - Fixed the move Revival Blessing not allowing you to select from fainted party members.
 - Fixed Exeggcute faint.
+- Fixed Quaxwell not doing its cry.
+- Fixed Shroomish not using its idle.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
 - Added the `EvolutionTestedEvent`, this allows listening and overriding the final result of evolution requirement tests.
-- Fixed Quaxwell not doing its cry.
-- Fixed Shroomish not using its idle.
+- Rebuilt the scheduling API to more clearly force side choices and allow more local temporal frames of reference for tasks. 
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions

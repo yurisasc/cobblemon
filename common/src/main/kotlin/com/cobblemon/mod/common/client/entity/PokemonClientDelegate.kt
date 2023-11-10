@@ -8,10 +8,12 @@
 
 package com.cobblemon.mod.common.client.entity
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
-import com.cobblemon.mod.common.api.scheduling.after
-import com.cobblemon.mod.common.api.scheduling.lerp
+import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
+import com.cobblemon.mod.common.api.scheduling.afterOnClient
+import com.cobblemon.mod.common.api.scheduling.lerpOnClient
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.EarBounceAdditive
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -92,16 +94,17 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                 entityScaleModifier = 0F
                 beamStartTime = System.currentTimeMillis()
                 currentEntity.isInvisible = true
-                after(seconds = BEAM_EXTEND_TIME) {
-                    lerp(BEAM_SHRINK_TIME) { entityScaleModifier = it }
+                afterOnClient(seconds = BEAM_EXTEND_TIME) {
+                    lerpOnClient(BEAM_SHRINK_TIME) { entityScaleModifier = it }
                     currentEntity.isInvisible = false
                 }
             } else {
                 // Scaling down into pokeball
                 entityScaleModifier = 1F
                 beamStartTime = System.currentTimeMillis()
-                after(seconds = BEAM_EXTEND_TIME) {
-                    lerp(BEAM_SHRINK_TIME) {
+                afterOnClient(seconds = BEAM_EXTEND_TIME) {
+                    val afterPoint2 = System.currentTimeMillis()
+                    lerpOnClient(BEAM_SHRINK_TIME) {
                         entityScaleModifier = (1 - it)
                     }
                 }

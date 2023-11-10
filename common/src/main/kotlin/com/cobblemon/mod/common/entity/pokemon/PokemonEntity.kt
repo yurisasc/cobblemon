@@ -27,7 +27,8 @@ import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.scheduling.Schedulable
+import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
@@ -112,10 +113,12 @@ class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
-) : TameableShoulderEntity(type, world), Poseable, Shearable {
+) : TameableShoulderEntity(type, world), Poseable, Shearable, Schedulable {
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
     val subscriptions = mutableListOf<ObservableSubscription<*>>()
+
+    override val schedulingTracker = SchedulingTracker()
 
     val form: FormData
         get() = pokemon.form
@@ -178,7 +181,6 @@ class PokemonEntity(
     // properties like the above are synced and can be subscribed to for changes on either side
 
     val delegate = if (world.isClient) {
-        // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
         PokemonClientDelegate()
     } else {
         PokemonServerDelegate()
@@ -278,6 +280,8 @@ class PokemonEntity(
             this.tethering = null
             this.pokemon.recall()
         }
+
+        schedulingTracker.update(1/20F)
     }
 
 
@@ -343,7 +347,7 @@ class PokemonEntity(
             owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
             phasingTargetId.set(owner.id)
             beamModeEmitter.set(2)
-            afterOnMain(seconds = SEND_OUT_DURATION) {
+            after(seconds = SEND_OUT_DURATION) {
                 pokemon.recall()
                 future.complete(pokemon)
             }
@@ -749,7 +753,7 @@ class PokemonEntity(
                 velocity = dirToPlayer.multiply(0.8).add(0.0, 0.5, 0.0)
                 val lock = Any()
                 busyLocks.add(lock)
-                afterOnMain(seconds = 0.5F) {
+                after(seconds = 0.5F) {
                     busyLocks.remove(lock)
                     if (!isBusy && isAlive) {
                         val isLeft = player.shoulderEntityLeft.isEmpty
