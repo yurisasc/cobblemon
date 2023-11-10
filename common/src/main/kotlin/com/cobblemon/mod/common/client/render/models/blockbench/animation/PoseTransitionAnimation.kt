@@ -32,6 +32,8 @@ class PoseTransitionAnimation<T : Entity>(
     override val isTransform = true
     override val isPosePauser = false
 
+    override val duration: Float = durationTicks * 20F
+
     var initialized = false
     var startTime = 0F
     var endTime = 0F// startTime + durationTicks * 50L
@@ -40,8 +42,6 @@ class PoseTransitionAnimation<T : Entity>(
         startTime = state.animationSeconds
         endTime = startTime + durationTicks / 20F
         initialized = true
-        println("Beginning pose transition from ${beforePose.poseName} to ${afterPose.poseName}")
-        System.out.flush()
     }
 
     override fun preventsIdle(entity: T?, state: PoseableEntityState<T>, idleAnimation: StatelessAnimation<T, *>) = false
@@ -84,8 +84,6 @@ class PoseTransitionAnimation<T : Entity>(
             state.poseTransitionPortion = 1F
             state.setPose(afterPose.poseName)
             model.applyPose(afterPose.poseName, state.statefulOverridePortion)
-            println("Finished transition from ${beforePose.poseName} to ${afterPose.poseName}, start time was $startTime and end time $endTime")
-            System.out.flush()
         }
 
         return ratio < 1F

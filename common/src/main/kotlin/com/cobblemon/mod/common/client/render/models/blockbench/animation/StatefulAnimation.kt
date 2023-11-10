@@ -24,6 +24,7 @@ import net.minecraft.entity.Entity
 interface StatefulAnimation<T : Entity, F : ModelFrame> {
     val isTransform: Boolean
     val isPosePauser: Boolean
+    val duration: Float
     /**
      * Whether this animation should prevent the given idle animation from occurring when this animation is
      * applied as the primary animation.

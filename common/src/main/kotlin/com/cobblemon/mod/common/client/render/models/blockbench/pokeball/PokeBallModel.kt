@@ -53,11 +53,11 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
             idleAnimations = arrayOf(
                 bedrock("poke_ball", "open_idle")
             ),
-            transformTicks = 10
+            transformTicks = 0
         )
 
-        shut.transitions[open] = { _, _ -> bedrockStateful("poke_ball", "open").andThen { entity, state -> state.setPose(open.poseName) } }
-        open.transitions[shut] = { _, _ -> bedrockStateful("poke_ball", "shut").andThen { entity, state -> state.setPose(shut.poseName) } }
+        shut.transitions[open] = { _, _ -> bedrockStateful("poke_ball", "open").andThen { entity, state -> /*state.setPose(open.poseName)*/ } }
+        open.transitions[shut] = { _, _ -> bedrockStateful("poke_ball", "shut").andThen { entity, state -> /*state.setPose(shut.poseName)*/ } }
         midair.transitions[open] = shut.transitions[open]!!
     }
 }

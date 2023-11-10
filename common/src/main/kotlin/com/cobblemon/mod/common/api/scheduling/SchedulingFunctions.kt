@@ -25,7 +25,7 @@ fun afterOnServer(ticks: Int = 0, seconds: Float = 0F, action: () -> Unit) = Ser
 fun afterOnClient(ticks: Int = 0, seconds: Float, action: () -> Unit) = ClientTaskTracker.after(seconds + ticks / 20F, action)
 
 @Deprecated("Use lerpOnServer or lerpOnClient, side-ambiguity causes problems now")
-fun lerp(seconds: Float = 0F, serverThread: Boolean = false, action: (Float) -> Unit) = (if (serverThread) ServerTaskTracker else ClientTaskTracker).lerp(seconds, action)
+fun lerp(seconds: Float = 0F, serverThread: Boolean = false, action: (Float) -> Unit) = (if (serverThread) ServerTaskTracker else ClientTaskTracker).lerp(seconds, action = action)
 
 @JvmOverloads
 fun lerpOnServer(seconds: Float = 0F, action: (Float) -> Unit) = ServerTaskTracker.lerp(seconds = seconds, action = action)

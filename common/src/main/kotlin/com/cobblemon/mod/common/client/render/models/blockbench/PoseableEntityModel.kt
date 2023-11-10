@@ -489,15 +489,17 @@ abstract class PoseableEntityModel<T : Entity>(
         if (state.statefulAnimations.none { it.isTransform }) {
             val transition = previousPose.transitions[desirablePose]
             if (transition == null && previousPose.transformTicks > 0) {
-                state.statefulAnimations.add(
+                state.addStatefulAnimation(
                     PoseTransitionAnimation(
                         beforePose = previousPose,
                         afterPose = desirablePose,
                         durationTicks = previousPose.transformTicks
                     )
-                )
+                ) {
+                    state.setPose(desirablePose.poseName)
+                }
             } else if (transition != null) {
-                state.statefulAnimations.add(transition(previousPose, desirablePose))
+                state.addStatefulAnimation(transition(previousPose, desirablePose)) { state.setPose(desirablePose.poseName) }
             } else {
                 getState(entity).setPose(poses.values.first { desirablePoseType in it.poseTypes && it.condition(entity) }.poseName)
             }

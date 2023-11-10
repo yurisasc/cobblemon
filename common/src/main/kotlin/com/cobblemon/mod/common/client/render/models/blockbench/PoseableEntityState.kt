@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -30,7 +31,7 @@ import net.minecraft.util.math.Vec3d
  * @author Hiroku
  * @since December 5th, 2021
  */
-abstract class PoseableEntityState<T : Entity> {
+abstract class PoseableEntityState<T : Entity> : Schedulable {
     var currentModel: PoseableEntityModel<T>? = null
     var currentPose: String? = null
     val primaryAnimation: StatefulAnimation<T, *>? = null
@@ -122,6 +123,16 @@ abstract class PoseableEntityState<T : Entity> {
 
     fun updateLocatorPosition(position: Vec3d) {
         locatorStates.values.toList().forEach { it.updatePosition(position) }
+    }
+
+    fun addStatefulAnimation(animation: StatefulAnimation<T, *>, whenComplete: (state: PoseableEntityState<T>) -> Unit = {}) {
+        this.statefulAnimations.add(animation)
+        val duration = animation.duration
+        if (duration > 0F) {
+            after(seconds = (duration * 20F).toInt() / 20F) {
+                whenComplete(this)
+            }
+        }
     }
 
     fun runEffects(entity: T, previousAge: Int, newAge: Int) {

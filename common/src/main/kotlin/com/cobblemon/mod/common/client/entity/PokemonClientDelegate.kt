@@ -8,10 +8,9 @@
 
 package com.cobblemon.mod.common.client.entity
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
-import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
+import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.api.scheduling.lerpOnClient
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
@@ -31,6 +30,8 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         const val BEAM_EXTEND_TIME = 0.2F
     }
 
+    override val schedulingTracker: SchedulingTracker
+        get() = currentEntity.schedulingTracker
     lateinit var currentEntity: PokemonEntity
     var phaseTarget: Entity? = null
     var entityScaleModifier = 1F
@@ -39,6 +40,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
 
     override fun updatePartialTicks(partialTicks: Float) {
         this.currentPartialTicks = partialTicks
+        schedulingTracker.update(0F)
     }
 
     var previousVerticalVelocity = 0F
@@ -67,7 +69,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             if (it) {
                 val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
                 val animation = try { model.getFaintAnimation(currentEntity, this) } catch (e: Exception) { e.printStackTrace(); null } ?: return@subscribe
-                statefulAnimations.add(animation)
+                addStatefulAnimation(animation) { entityScaleModifier = 0F }
             }
         })
 
@@ -103,7 +105,6 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                 entityScaleModifier = 1F
                 beamStartTime = System.currentTimeMillis()
                 afterOnClient(seconds = BEAM_EXTEND_TIME) {
-                    val afterPoint2 = System.currentTimeMillis()
                     lerpOnClient(BEAM_SHRINK_TIME) {
                         entityScaleModifier = (1 - it)
                     }

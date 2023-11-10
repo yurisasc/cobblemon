@@ -34,6 +34,7 @@ open class BedrockStatefulAnimation<T : Entity>(
     var startedSeconds = -1F
     var isTransformAnimation = false
     var isPosePauserAnimation = true
+    override val duration = if (!animation.shouldLoop) animation.animationLength.toFloat() else -1F
     private var afterAction: (T, PoseableEntityState<T>) -> Unit = { _, _ -> }
 
     override val isTransform: Boolean
