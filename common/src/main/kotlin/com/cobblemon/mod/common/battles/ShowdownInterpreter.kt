@@ -1448,7 +1448,9 @@ object ShowdownInterpreter {
                     GO
                 }
             }
-            privateMessage.pnxAndUuid(0)?.let { (pnx, _) -> battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, remainingHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio)) }
+            privateMessage.pnxAndUuid(0)?.let { (pnx, _) -> {
+                battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, remainingHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio))
+            }}
 
             battle.minorBattleActions[battlePokemon.uuid] = privateMessage
             WaitDispatch(1F)

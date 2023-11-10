@@ -20,6 +20,7 @@
 - Mining Evolution Stone Ores with a Fortune pickaxe will now increase the amount of items recieved
 
 ### Additions
+- Added battle spectating, can disable in config
 - Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
 - Berries can now be used in recipes from [Farmer's Delight](https://modrinth.com/mod/farmers-delight) and [Farmer's Delight (Fabric)](https://modrinth.com/mod/farmers-delight-fabric), as well as any other mods using the same berry tags.
 - The nature of cobblemon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
