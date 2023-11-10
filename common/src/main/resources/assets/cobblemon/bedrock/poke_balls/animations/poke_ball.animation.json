@@ -49,7 +49,7 @@
 				},
 				"ball": {
 					"rotation": ["22.5-math.sin(q.anim_time*90*10)*0.4-math.sin(q.anim_time*90*1)*2", 0, "0-math.sin(q.anim_time*90*2)*0.5"],
-					"position": [0, "-6+math.sin(q.anim_time*90*2-60)*0.1", 0]
+					"position": [0, "math.sin(q.anim_time*90*2-60)*0.1", 0]
 				}
 			}
 		},
