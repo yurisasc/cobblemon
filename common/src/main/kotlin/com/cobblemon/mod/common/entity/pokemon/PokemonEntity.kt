@@ -556,6 +556,13 @@ class PokemonEntity(
                 player.setStackInHand(hand, milkBucket)
                 return ActionResult.success(world.isClient)
             }
+        } else if (itemStack.isOf(Items.BOWL)) {
+            if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.IS_MOOSHTANK) != null) {
+                player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
+                val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
+                player.setStackInHand(hand, mushroomStew)
+                return ActionResult.success(world.isClient)
+            }
         }
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
