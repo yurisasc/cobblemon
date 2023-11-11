@@ -68,6 +68,7 @@
 - Fixed the move Revival Blessing not allowing you to select from fainted party members.
 - Fixed Exeggcute faint.
 - Fixed Raticate, Onix, Unfezant, Bergmite, Avalugg, Boltund and Revavroom cries not playing.
+- Fixed Alolan Ratticate animations causing a crash.
 - Fixed Quaxwell not doing its cry.
 - Fixed Shroomish not using its idle.
 
