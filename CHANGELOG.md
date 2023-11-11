@@ -4,12 +4,12 @@
 ### Changes
 - Slightly lowered the volume of all cries
 - Updated Pokeball animations and model.
-- Added cries to Raticate, Onix, Unfezant, Bergmite, Avalugg, Boltund, Revavroom.
 - Turtwig can now be put on shoulder.
 - Updated Zubat line model, texture, and animations.
 - Added animations for Hitmontop, Tyrogue, and Mightyena.
 - Tweaked animations for Dusknoir, Ratatta, Bewear, Exeggutor, and Alolan Exeggutor.
 - Sized Kantonian Exeggutor down. Still big but not TOO BIG.
+- Tweaked cries for Pikachu, Raichu and Alolan Raichu.
 - Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
 - Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
@@ -31,6 +31,7 @@
 - Added the Litwick line.
 - Bees can now be fed using Pep-Up Flowers.
 - Mooshtank can now be milked with a bowl for Mushroom Stew.
+- Added cries to Beldum, Metang and Metagross.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
@@ -65,6 +66,7 @@
 - Fixed an issue where health percentages would show incorrectly after healing
 - Fixed the move Revival Blessing not allowing you to select from fainted party members.
 - Fixed Exeggcute faint.
+- Fixed Raticate, Onix, Unfezant, Bergmite, Avalugg, Boltund and Revavroom cries not playing.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
