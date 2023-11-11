@@ -68,6 +68,8 @@
 - Fixed the move Revival Blessing not allowing you to select from fainted party members.
 - Fixed Exeggcute faint.
 - Fixed Raticate, Onix, Unfezant, Bergmite, Avalugg, Boltund and Revavroom cries not playing.
+- Fixed Quaxwell not doing its cry.
+- Fixed Shroomish not using its idle.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
@@ -76,8 +78,6 @@
 
 ### Datapack & Resourcepack Creators
 - Added 3 new item tags: `cobblemon:held/consumed_in_npc_battle`, `cobblemon:held/consumed_in_pvp_battle` & `cobblemon:held/consumed_in_wild_battle` these will determine which items get consumed in the implied battle types by Cobblemon, keep in mind the controller for this behaviour can be overriden by 3rd party.
-- Fixed Quaxwell not doing its cry.
-- Fixed Shroomish not using its idle.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
