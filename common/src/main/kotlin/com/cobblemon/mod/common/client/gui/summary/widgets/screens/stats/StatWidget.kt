@@ -65,6 +65,7 @@ class StatWidget(
         private val statsBaseResource = cobblemonResource("textures/gui/summary/summary_stats_chart_base.png")
         private val statsChartResource = cobblemonResource("textures/gui/summary/summary_stats_chart.png")
         private val statsOtherBaseResource = cobblemonResource("textures/gui/summary/summary_stats_other_base.png")
+        private val statsOtherBarTemplate = cobblemonResource("textures/gui/summary/summary_stats_other_bar.png")
         private val friendshipOverlayResource = cobblemonResource("textures/gui/summary/summary_stats_friendship_overlay.png")
         private val tabMarkerResource = cobblemonResource("textures/gui/summary/summary_stats_tab_marker.png")
         private val statIncreaseResource = cobblemonResource("textures/gui/summary/summary_stats_icon_increase.png")
@@ -179,6 +180,85 @@ class StatWidget(
 //        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)
     }
 
+    private fun drawBarModule(moduleX: Int, moduleY: Int, matrices: MatrixStack, context: DrawContext, value: SummaryValue) {
+        val barRatio = value.currentValue / value.maxValue.toFloat()
+        val barWidth = ceil(barRatio * 108)
+
+        blitk(
+            matrixStack = matrices,
+            texture = statsOtherBarTemplate,
+            x = moduleX,
+            y = moduleY,
+            height = 28,
+            width = 124
+        )
+
+        val red: Number
+        val green: Number
+        val blue: Number
+
+
+        if (value.id == "friendship") {
+            red = value.barRed
+            green = if (pokemon.friendship >= 160) 0.28 else value.barGreen
+            blue = if (pokemon.friendship >= 160) 0.4 else value.barBlue
+        } else {
+            red = value.barRed
+            green = value.barGreen
+            blue = value.barBlue
+        }
+
+        blitk(
+            matrixStack = matrices,
+            texture = CobblemonResources.WHITE,
+            x = moduleX + 8,
+            y = moduleY + 16,
+            height = 8,
+            width = barWidth,
+            red = red,
+            green = green,
+            blue = blue
+        )
+
+        blitk(
+            matrixStack = matrices,
+            texture = friendshipOverlayResource,
+            x = moduleX / SCALE,
+            y = (moduleY + 14) / SCALE,
+            height = 20,
+            width = 248,
+            scale = SCALE
+        )
+
+        // Label
+        drawScaledText(
+            context = context,
+            font = CobblemonResources.DEFAULT_LARGE,
+            text = lang(value.displayName).bold(),
+            x = moduleX + 62,
+            y = moduleY + 2.5,
+            centered = true,
+            shadow = true
+        )
+
+        drawScaledText(
+            context = context,
+            text = value.currentValue.toString().text(),
+            x = moduleX + 11,
+            y = moduleY + 6,
+            scale = SCALE,
+            centered = true
+        )
+
+        drawScaledText(
+            context = context,
+            text = "${floor(barRatio * 100)}%".text(),
+            x = moduleX + 113,
+            y = moduleY + 6,
+            scale = SCALE,
+            centered = true
+        )
+    }
 
     override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val renderChart = statTabIndex != OTHER
@@ -329,122 +409,21 @@ class StatWidget(
                 renderModifiedStatIcon(matrices, nature.decreasedStat, false)
             }
         } else {
-            // Friendship
-            val friendshipBarWidthMax = 108
-            val friendshipRatio = pokemon.friendship / 255F
-            val friendshipBarWidth = ceil(friendshipRatio * friendshipBarWidthMax)
-            blitk(
-                matrixStack = matrices,
-                texture = CobblemonResources.WHITE,
-                x = x + 13,
-                y = y + 27,
-                height = 8,
-                width = friendshipBarWidth,
-                red = 0.92,
-                green = if (pokemon.friendship >= 160) 0.28 else 0.7,
-                blue = if (pokemon.friendship >= 160) 0.4 else 0.28
+            // this will eventually just be pokemon.summaryValues
+            val tempSummaryValues: MutableSet<SummaryValue> = mutableSetOf(
+                SummaryValue("gold_hoard", "ui.gold_hoard", 999, 300)
             )
 
-            blitk(
-                matrixStack = matrices,
-                texture = friendshipOverlayResource,
-                x = (x + 5) / SCALE,
-                y = (y + 26) / SCALE,
-                height = 20,
-                width = 248,
-                scale = SCALE
-            )
+            val summaries: MutableSet<SummaryValue> = tempSummaryValues
+            summaries.add(SummaryValue("friendship", "ui.stats.friendship", 255, pokemon.friendship))
 
-            // Label
-            drawScaledText(
-                context = context,
-                font = CobblemonResources.DEFAULT_LARGE,
-                text = lang("ui.stats.friendship").bold(),
-                x = x + 67,
-                y = y + 12.5,
-                centered = true,
-                shadow = true
-            )
+            var drawY = y + 11
 
-            drawScaledText(
-                context = context,
-                text = pokemon.friendship.toString().text(),
-                x = x + 16,
-                y = y + 16,
-                scale = SCALE,
-                centered = true
-            )
-
-            drawScaledText(
-                context = context,
-                text = "${floor(friendshipRatio * 100)}%".text(),
-                x = x + 118,
-                y = y + 16,
-                scale = SCALE,
-                centered = true
-            )
-
-            val tempSummaryValues: MutableSet<SummaryValue> = mutableSetOf()
-            tempSummaryValues.add(SummaryValue("gold_hoard", "cobblemon.ui.gold_hoard", 999, 300))
-
-            if (tempSummaryValues.isNotEmpty()) {
-                for (value in tempSummaryValues) {
-                    val barWidthMax = 108
-                    val barRatio = value.currentValue / value.maxValue.toFloat()
-                    val barWidth = ceil(barRatio * barWidthMax)
-
-                    blitk(
-                        matrixStack = matrices,
-                        texture = CobblemonResources.WHITE,
-                        x = x,
-                        y = y,
-                        height = 8,
-                        width = barWidth,
-                        red = 0,
-                        green = 1,
-                        blue = 1
-                    )
-
-                    blitk(
-                        matrixStack = matrices,
-                        texture = friendshipOverlayResource,
-                        x = (x + 5) / SCALE,
-                        y = (y + 26) / SCALE,
-                        height = 20,
-                        width = 248,
-                        scale = SCALE
-                    )
-
-                    // Label
-                    drawScaledText(
-                        context = context,
-                        font = CobblemonResources.DEFAULT_LARGE,
-                        text = lang(value.displayName).bold(),
-                        x = x + 67,
-                        y = y + 12.5,
-                        centered = true,
-                        shadow = true
-                    )
-
-                    drawScaledText(
-                        context = context,
-                        text = value.currentValue.toString().text(),
-                        x = x + 16,
-                        y = y + 16,
-                        scale = SCALE,
-                        centered = true
-                    )
-
-                    drawScaledText(
-                        context = context,
-                        text = "${floor(barRatio * 100)}%".text(),
-                        x = x + 118,
-                        y = y + 16,
-                        scale = SCALE,
-                        centered = true
-                    )
-                }
+            for (value in summaries) {
+                drawBarModule(x + 5, drawY, matrices, context, value)
+                drawY += 30
             }
+
         }
     }
 

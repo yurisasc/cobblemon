@@ -9,7 +9,10 @@ class SummaryValue(
     val id: String,
     val displayName: String,
     val maxValue: Int = 100,
-    var currentValue: Int = 0
+    var currentValue: Int = 0,
+    val barRed: Number = 0.92,
+    val barGreen: Number = 0.7,
+    val barBlue: Number = 0.28,
 ) {
     fun encode(buffer: PacketByteBuf) {
         buffer.writeString(id)
