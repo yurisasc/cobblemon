@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.rattata.ground_idle": {
+		"animation.rattata_alolan.ground_idle": {
 			"loop": true,
 			"animation_length": 21.375,
 			"bones": {
@@ -49,7 +49,7 @@
 				}
 			}
 		},
-		"animation.rattata.ground_walk": {
+		"animation.rattata_alolan.ground_walk": {
 			"loop": true,
 			"bones": {
 				"body": {
@@ -112,7 +112,7 @@
 				}
 			}
 		},
-		"animation.rattata.mouth_open": {
+		"animation.rattata_alolan.mouth_open": {
 			"animation_length": 1.25,
 			"bones": {
 				"jaw": {
@@ -134,7 +134,7 @@
 				}
 			}
 		},
-		"animation.rattata.standing": {
+		"animation.rattata_alolan.standing": {
 			"animation_length": 2.5,
 			"bones": {
 				"body": {
@@ -366,7 +366,7 @@
 				}
 			}
 		},
-		"animation.rattata.faint": {
+		"animation.rattata_alolan.faint": {
 			"animation_length": 3,
 			"bones": {
 				"body": {
@@ -530,7 +530,7 @@
 				}
 			}
 		},
-		"animation.rattata.sleep": {
+		"animation.rattata_alolan.sleep": {
 			"loop": true,
 			"bones": {
 				"body": {
@@ -587,7 +587,7 @@
 				}
 			}
 		},
-		"animation.rattata.blink": {
+		"animation.rattata_alolan.blink": {
 			"animation_length": 0.16667,
 			"bones": {
 				"eyelid_right": {
@@ -606,7 +606,7 @@
 				}
 			}
 		},
-		"animation.rattata.blink2": {
+		"animation.rattata_alolan.blink2": {
 			"animation_length": 0.16667,
 			"bones": {
 				"eyelid_right": {
