@@ -131,6 +131,9 @@ class CobblemonConfig {
     @NodeCategory(category = Category.Battles)
     var luckyEggMultiplier = 1.5
 
+    @NodeCategory(category = Category.Battles)
+    var allowSpectating = true
+
     @NodeCategory(category = Category.Pokemon)
     var experienceMultiplier = 2F
 

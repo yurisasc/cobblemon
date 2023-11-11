@@ -1448,7 +1448,9 @@ object ShowdownInterpreter {
                     GO
                 }
             }
-            privateMessage.pnxAndUuid(0)?.let { (pnx, _) -> battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, remainingHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio)) }
+            privateMessage.pnxAndUuid(0)?.let { (pnx, _) -> {
+                battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, remainingHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio))
+            }}
 
             battle.minorBattleActions[battlePokemon.uuid] = privateMessage
             WaitDispatch(1F)
@@ -1565,7 +1567,7 @@ object ShowdownInterpreter {
         val rawHpAndStatus = privateMessage.argumentAt(1)?.split(" ") ?: return
         val rawHpRatio = rawHpAndStatus.getOrNull(0) ?: return
         val newHealth = rawHpRatio.split("/").map { it.toFloatOrNull() ?: return }
-        val newHealthRatio = rawHpRatio.split("/").map { it.toFloatOrNull()?.div(100) ?: return }
+        val newHealthRatio = rawHpRatio.split("/").map { it.toFloatOrNull()?.div(newHealth[1]) ?: return }
         val effect = privateMessage.effect()
         val pokemonName = battlePokemon.getName()
         broadcastOptionalAbility(battle, effect, pokemonName)

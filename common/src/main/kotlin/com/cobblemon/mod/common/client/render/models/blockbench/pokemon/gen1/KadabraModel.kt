@@ -37,7 +37,6 @@ class KadabraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileScale = 0.75F
     override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
-    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
