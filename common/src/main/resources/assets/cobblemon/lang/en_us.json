@@ -857,6 +857,7 @@
   "cobblemon.battle.activate.aromatherapy": "A soothing aroma wafted through the area!",
   "cobblemon.battle.activate.trapped": "%1$s can no longer escape!",
   "cobblemon.battle.activate.bind": "%1$s was squeezed by %2$s!",
+  "cobblemon.battle.activate.matblock": "%1$s was blocked by the kicked-up mat!",
   "cobblemon.battle.activate.wrap": "%1$s was wrapped by %2$s!",
   "cobblemon.battle.activate.struggle": "%1$s has no moves left!",
   "cobblemon.battle.activate.courtchange": "%1$s swapped the battle effects affecting each side of the field!",
@@ -955,6 +956,15 @@
   "cobblemon.battle.end.dynamax": "%1$s returned to normal!",
   "cobblemon.battle.end.telekinesis": "%1$s was freed from the telekinesis!",
   "cobblemon.battle.end.encore": "%1$s's encore ended.",
+
+  "cobblemon.battle.block.uproar": "But the uproar kept %1$s awake!",
+
+  "cobblemon.battle.fail.substitute": "But it could not create a substitute!",
+  "cobblemon.battle.fail.healblock": "But it failed to affect %1$s!",
+  "cobblemon.battle.fail.darkvoid": "But %1$s can't use the move!",
+  "cobblemon.battle.fail.teatime": "But nothing happened!",
+  "cobblemon.battle.fail.slp": "But the target is already asleep!",
+  "cobblemon.battle.fail.uproar": "%1$s can't sleep in an uproar!",
 
   "cobblemon.battle.sethp.painsplit": "The battlers shared their pain!",
 

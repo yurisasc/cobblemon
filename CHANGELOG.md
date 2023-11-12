@@ -40,6 +40,7 @@
 - Updated the registration of compostable items to improve compatibility with Fabric forks such as Quilt. Please note this does not mean we officially support Quilt, this change was only done since it was possible by correcting the registration to use the new intended way in the Fabric API.
 - Fixed Dispensers being unable to shear grown Apricorns.
 - Fixed Bowl not being given back to player after using Berry Juice
+- Added context for -fail and -block handlers for battle text and added 16 related battle texts for them
 - Fixed Battle text for Disable, Laser Focus, Foresight, Fire Spin, Telekinesis, Curse, Recharge and Encore
 - Fixed missing text for snowy weather in battles
 - Fixed missing text for attempting to catch an uncatchable Pokémon
