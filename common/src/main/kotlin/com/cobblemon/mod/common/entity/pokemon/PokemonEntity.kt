@@ -342,8 +342,12 @@ class PokemonEntity(
             owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
             phasingTargetId.set(owner.id)
             beamModeEmitter.set(2)
+            val state = pokemon.state;
             afterOnMain(seconds = SEND_OUT_DURATION) {
-                pokemon.recall()
+                // only recall if the pokemon hasn't been recalled yet for this state
+                if (state == pokemon.state) {
+                    pokemon.recall()
+                }
                 future.complete(pokemon)
             }
         } else {
