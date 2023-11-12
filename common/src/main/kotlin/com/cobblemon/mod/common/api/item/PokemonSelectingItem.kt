@@ -66,7 +66,15 @@ interface PokemonSelectingItem {
                 return if (entity != null) {
                     val pokemon = entity.pokemon
                     if (entity.ownerUuid == player.uuid) {
-                        applyToPokemon(player, stack, pokemon) ?: TypedActionResult.pass(stack)
+                        val typedActionResult = applyToPokemon(player, stack, pokemon)
+                        if (typedActionResult != null)
+                        {
+                            CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(pokemon.species.resourceIdentifier, Registries.ITEM.getId(stack.item)))
+                            typedActionResult
+                        }
+                        else {
+                            TypedActionResult.pass(stack)
+                        }
                     } else {
                         TypedActionResult.fail(stack)
                     }

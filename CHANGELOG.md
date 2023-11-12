@@ -4,13 +4,14 @@
 ### Changes
 - Slightly lowered the volume of all cries
 - Updated Pokeball animations and model.
-- Added cries to Raticate, Onix, Unfezant, Bergmite, Avalugg, Boltund, Revavroom.
 - Turtwig can now be put on shoulder.
 - Updated Zubat line model, texture, and animations.
 - Added animations for Hitmontop, Tyrogue, and Mightyena.
 - Tweaked animations for Dusknoir, Ratatta, Bewear, Exeggutor, and Alolan Exeggutor.
 - Sized Kantonian Exeggutor down. Still big but not TOO BIG.
+- Tweaked cries for Pikachu, Raichu and Alolan Raichu.
 - Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
+- The config option `consumeHeldItems` has been removed, please see the Datapack & Resourcepack Creators for instructions on the updated method.
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
 - Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
 - The Healing Machine now has a more difficult recipe, placing it later game.
@@ -19,6 +20,7 @@
 - Added emissive to Hoothoot.
 - Mining Evolution Stone Ores with a Fortune pickaxe will now increase the amount of items recieved
 - Black Augurite can now be used to craft stone axes and obsidian.
+- Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
 
 ### Additions
 - Added battle spectating, can disable in config
@@ -32,12 +34,14 @@
 - Added the Litwick line.
 - Bees can now be fed using Pep-Up Flowers.
 - Mooshtank can now be milked with a bowl for Mushroom Stew.
+- Added cries to Beldum, Metang and Metagross.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
 - Updated the registration of compostable items to improve compatibility with Fabric forks such as Quilt. Please note this does not mean we officially support Quilt, this change was only done since it was possible by correcting the registration to use the new intended way in the Fabric API.
 - Fixed Dispensers being unable to shear grown Apricorns.
 - Fixed Bowl not being given back to player after using Berry Juice
+- Added context for -fail and -block handlers for battle text and added 16 related battle texts for them
 - Fixed Battle text for Disable, Laser Focus, Foresight, Fire Spin, Telekinesis, Curse, Recharge and Encore
 - Fixed missing text for snowy weather in battles
 - Fixed missing text for attempting to catch an uncatchable Pokémon
@@ -66,12 +70,19 @@
 - Fixed an issue where health percentages would show incorrectly after healing
 - Fixed the move Revival Blessing not allowing you to select from fainted party members.
 - Fixed Exeggcute faint.
+- Fixed Raticate, Onix, Unfezant, Bergmite, Avalugg, Boltund and Revavroom cries not playing.
+- Fixed Alolan Ratticate animations causing a crash.
+- Fixed Quaxwell not doing its cry.
+- Fixed Shroomish not using its idle.
+- Fixed a possible visual duplication of sent out Pokémon.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
 - Added the `EvolutionTestedEvent`, this allows listening and overriding the final result of evolution requirement tests.
-- Fixed Quaxwell not doing its cry.
-- Fixed Shroomish not using its idle.
+- The `HeldItemManager` has a new method `shouldConsumeItem`, this will return false by default to prevent breaking changes, see the documentation and update your implementations as needed.
+
+### Datapack & Resourcepack Creators
+- Added 3 new item tags: `cobblemon:held/consumed_in_npc_battle`, `cobblemon:held/consumed_in_pvp_battle` & `cobblemon:held/consumed_in_wild_battle` these will determine which items get consumed in the implied battle types by Cobblemon, keep in mind the controller for this behaviour can be overriden by 3rd party.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
