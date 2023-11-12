@@ -43,7 +43,6 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents.Modify
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.`object`.builder.v1.trade.TradeOfferHelper
@@ -58,9 +57,6 @@ import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
-import net.minecraft.loot.LootTables
-import net.minecraft.loot.entry.ItemEntry
-import net.minecraft.recipe.BrewingRecipeRegistry
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -165,12 +161,6 @@ object CobblemonFabric : CobblemonImplementation {
 
             return@register ActionResult.PASS
         }
-
-        LootTableEvents.MODIFY.register(Modify { _, _, id, tableBuilder, _ ->
-            if (LootTables.DESERT_PYRAMID_ARCHAEOLOGY.equals(id)) {
-                tableBuilder.modifyPools { builder -> builder.with(ItemEntry.builder(CobblemonItems.POKE_BALL).weight(10)) }
-            }
-        })
 
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, _ ->
             LootInjector.attemptInjection(id, tableBuilder::pool)
