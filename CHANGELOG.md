@@ -73,6 +73,7 @@
 - Fixed Alolan Ratticate animations causing a crash.
 - Fixed Quaxwell not doing its cry.
 - Fixed Shroomish not using its idle.
+- Fixed a possible visual duplication of sent out Pokémon.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
