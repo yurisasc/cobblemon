@@ -9,6 +9,7 @@
   ],
   "mixins": [
     "BrewingRecipeRegistryMixin",
+    "BrewingStandBlockEntityMixin",
     "PotionSlotMixin"
   ]
 }

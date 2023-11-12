@@ -439,6 +439,11 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.0417": {
+					"effect": "pokemon.revavroom.cry"
+				}
 			}
 		},
 		"animation.revavroom.blink": {
