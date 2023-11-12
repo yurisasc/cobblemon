@@ -19,6 +19,7 @@
 - Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer.
 - Added emissive to Hoothoot.
 - Mining Evolution Stone Ores with a Fortune pickaxe will now increase the amount of items recieved
+- Black Augurite can now be used to craft stone axes and obsidian.
 - Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
 
 ### Additions
