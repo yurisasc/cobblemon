@@ -33,6 +33,7 @@ import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEv
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionDisplayEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionTestedEvent
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
+import com.cobblemon.mod.common.api.events.pokemon.interaction.HeldItemUpdatedEvent
 import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.events.storage.ReleasePokemonEvent
 import com.cobblemon.mod.common.api.events.world.BigRootPropagatedEvent
@@ -65,6 +66,8 @@ object CobblemonEvents {
     val EVOLUTION_COMPLETE = EventObservable<EvolutionCompleteEvent>()
     @JvmField
     val POKEMON_NICKNAMED = CancelableObservable<PokemonNicknamedEvent>()
+    @JvmField
+    val HELD_ITEM_UPDATED = EventObservable<HeldItemUpdatedEvent>()
 
     @JvmField
     val THROWN_POKEBALL_HIT = CancelableObservable<ThrownPokeballHitEvent>()

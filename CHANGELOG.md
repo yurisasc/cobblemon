@@ -80,6 +80,7 @@
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
 - Added the `EvolutionTestedEvent`, this allows listening and overriding the final result of evolution requirement tests.
+- Added the `HeldItemUpdatedEvent`, allows listening for updates to a Pokémon's held item.
 - The `HeldItemManager` has a new method `shouldConsumeItem`, this will return false by default to prevent breaking changes, see the documentation and update your implementations as needed.
 
 ### Datapack & Resourcepack Creators
