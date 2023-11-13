@@ -736,8 +736,10 @@
   "advancements.cobblemon.use_candy.description": "Use any XP Candy on a Pokémon",
   "advancements.cobblemon.own_zangoose_seviper": "Begrudging Partners",
   "advancements.cobblemon.own_zangoose_seviper.description": "Have a Zangoose and Seviper in your party at the same time",
-  "advancements.cobblemon.obtain_fossil": "Consult the fossil",
+  "advancements.cobblemon.obtain_fossil": "Consult the Fossil",
   "advancements.cobblemon.obtain_fossil.description": "Discover a fossil buried in ancient ruins",
+  "advancements.cobblemon.resurrect_pokemon": "Life finds a way",
+  "advancements.cobblemon.resurrect_pokemon.description": "Obtain a Fossil Pokémon from a Resurrection Machine",
 
   "cobblemon.battle.crash": "A battle error has occurred. If playing single-player, report this to the mod team. Otherwise, report this to the servers administrator.",
   "cobblemon.battle.damage_dealt": "%1$s took %2$s damage!",

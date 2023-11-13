@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.block.multiblock
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.fossil.Fossil
 import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
@@ -104,6 +105,7 @@ class FossilMultiblockStructure (
             this.createdPokemon!!.caughtBall = ballType
             player.party().add(this.createdPokemon!!)
             player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS, 1.0F, 1.0F)
+            CobblemonCriteria.RESURRECT_POKEMON.trigger(player, createdPokemon!!)
 
             this.createdPokemon = null
             compartmentEntity.clear()
