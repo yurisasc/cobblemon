@@ -574,6 +574,77 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
+    // Section for Pokemon Hunger levels and feeding in general
+    private val timesFed: MutableList<Long> = ArrayList()
+
+    //base Hunger value for all pokemon
+    var baseHunger = 5
+
+    // function to return the max hunger for the pokemon
+    private fun getMaxHunger(pokemon: Pokemon): Int {
+        // get base HP stat of the referenced Pokemon
+        var baseHP = pokemon.species.baseStats.getOrDefault(Stats.HP,0)
+
+        return (baseHunger + scaleHunger(baseHP))
+    }
+
+    // Method to add a new feeding time
+    fun feedPokemon(time: Long, pokemon: Pokemon) {
+        timesFed.add(time)
+
+        // Ensure that the list of times they can be fed is scaled to the proper amount according to HP of the pokemon and keep it within those bounds
+        while (timesFed.size > getMaxHunger(pokemon)) {
+            timesFed.removeAt(0) // Remove the oldest feeding time if one more is added
+        }
+    }
+
+    // function to scale Hunger based off of the base HP stat of a Pokemon
+    fun scaleHunger(stat: Int): Int {
+        // lowest base HP stat of a pokemon before adding more hunger
+        var lowerThreshold = 25
+
+        // highest base HP stat of a pokemon to be at max extra hunger
+        var upperThreshold = 150
+
+        // Value of the highest additional hunger allowed to be given
+        var maxAdditionalHunger = 15
+
+        // To adjust the curvature of the hunger scale increase as base HP gets larger
+        var hungerScaleExponent = 2.0
+
+        return when {
+            stat <= lowerThreshold -> 0
+            stat > upperThreshold -> maxAdditionalHunger
+            else -> {
+                // Scale the thresholds for hunger to be 0-1
+                val scaledStat = (stat - lowerThreshold) / (upperThreshold - lowerThreshold).toDouble()
+                // Apply exponential function for non-linear growth of the hunger increase
+                val result = maxAdditionalHunger * Math.pow(scaledStat, hungerScaleExponent)
+                // Ensure the result is within the bounds of the min and max thresholds
+                result.toInt().coerceIn(0, maxAdditionalHunger)
+            }
+        }
+    }
+
+
+    // Boolean function that checks if a Pokemon can eat food based on fedTimes
+    fun isHungry(currentTime: Long, pokemon: Pokemon): Boolean {
+
+        // Check if the timesFed list has as many entries as the maximum hunger of the pokemon
+        if (timesFed.size == getMaxHunger(pokemon)) {
+            // Check if all entries in the list are within the last 10 minutes of the given time
+            return timesFed.any { currentTime - it > 10 * 60 * 1000 } // 10 minutes in milliseconds
+        }
+
+        // The list does not contain as many entries as the maximum hunger or has an entry older than 10 minutes
+        return true
+    }
+
+
+
+
+
+
     /**
      * A utility method that checks if this Pokémon species or form data contains the [CobblemonPokemonLabels.LEGENDARY] label.
      * This is used in Pokémon officially considered legendary.

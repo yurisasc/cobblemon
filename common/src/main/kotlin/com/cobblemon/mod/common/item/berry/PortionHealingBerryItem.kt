@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.item.PokemonSelectingItem
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.item.battle.BagItem
@@ -27,6 +28,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+
 
 /**
  * A berry that heals the Pokémon by some portion of their max HP.
@@ -50,7 +52,7 @@ class PortionHealingBerryItem(block: BerryBlock, val canCauseConfusion: Boolean,
         stack: ItemStack,
         pokemon: Pokemon
     ): TypedActionResult<ItemStack>? {
-        if (pokemon.isFullHealth() || pokemon.isFainted()) {
+        if (pokemon.isFullHealth() || pokemon.isFainted()){
             return TypedActionResult.fail(stack)
         }
 
