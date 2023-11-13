@@ -55,13 +55,6 @@
   "labels": [
     "gen9"
   ],
-  "summaryValues": [
-    {
-      "id": "gold_hoard",
-      "displayName": "cobblemon.ui.gold_hoard",
-      "maxValue": 999
-    }
-  ],
   "aspects": [],
   "height": 3,
   "weight": 50,
@@ -72,7 +65,12 @@
       "result": "gholdengo",
       "consumeHeldItem": false,
       "learnableMoves": [],
-      "requirements": []
+      "requirements": [
+        {
+          "variant": "properties",
+          "target": "gimmighoul gimmighoul_coins=999"
+        }
+      ]
     }
   ],
   "cannotDynamax": false,
@@ -123,7 +121,12 @@
           "result": "gholdengo",
           "consumeHeldItem": false,
           "learnableMoves": [],
-          "requirements": []
+          "requirements": [
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_coins=999"
+            }
+          ]
         }
       ],
       "cannotDynamax": false,

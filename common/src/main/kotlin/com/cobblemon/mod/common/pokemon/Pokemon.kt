@@ -21,6 +21,8 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
 import com.cobblemon.mod.common.api.events.pokemon.*
 import com.cobblemon.mod.common.api.moves.*
+import com.cobblemon.mod.common.api.net.Decodable
+import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
@@ -32,6 +34,7 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceSource
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.friendship.FriendshipMutationCalculator
 import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
 import com.cobblemon.mod.common.api.pokemon.moves.LearnsetQuery
@@ -62,7 +65,6 @@ import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
-import com.cobblemon.mod.common.pokemon.summaryvalue.SummaryValue
 import com.cobblemon.mod.common.util.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -104,9 +106,11 @@ open class Pokemon : ShowdownIdentifiable {
             }
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             field = value
-            val newFeatures = SpeciesFeatures.getFeaturesFor(species).mapNotNull { it.invoke(this) }
-            features.clear()
-            features.addAll(newFeatures)
+            if (!isClient) {
+                val newFeatures = SpeciesFeatures.getFeaturesFor(species).mapNotNull { it.invoke(this) }
+                features.clear()
+                features.addAll(newFeatures)
+            }
             this.evolutionProxy.current().clear()
             updateAspects()
             updateForm()
@@ -248,8 +252,6 @@ open class Pokemon : ShowdownIdentifiable {
                 _friendship.emit(it.newFriendship)
             }
         }
-
-    var summaryValues: MutableSet<SummaryValue> = this.species.summaryValues
 
     var state: PokemonState = InactivePokemonState()
         set(value) {
@@ -1298,11 +1300,14 @@ open class Pokemon : ShowdownIdentifiable {
         storeCoordinates.get()?.run { sendPacketToPlayers(store.getObservingPlayers(), packet) }
     }
 
-    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket<*>)? = null): SimpleObservable<T> {
+    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket<*>?)? = null): SimpleObservable<T> {
         observables.add(observable)
         observable.subscribe {
             if (notifyPacket != null && storeCoordinates.get() != null) {
-                notify(notifyPacket(it))
+                val packet = notifyPacket(it)
+                if (packet != null) {
+                    notify(packet)
+                }
             }
             anyChangeObservable.emit(this)
         }
@@ -1391,7 +1396,13 @@ open class Pokemon : ShowdownIdentifiable {
     private val _dmaxLevel = registerObservable(SimpleObservable<Int>()) { DmaxLevelUpdatePacket({ this }, it) }
     private val _gmaxFactor = registerObservable(SimpleObservable<Boolean>()) { GmaxFactorUpdatePacket({ this }, it) }
 
-    private val _features = registerObservable(SimpleObservable<SpeciesFeature>())
+    private val _features = registerObservable(SimpleObservable<SpeciesFeature>()) {
+        if (it is SynchronizedSpeciesFeature) {
+            SpeciesFeatureUpdatePacket({ this }, species.resourceIdentifier, it)
+        } else {
+            null
+        }
+    }
 
     companion object {
         /**

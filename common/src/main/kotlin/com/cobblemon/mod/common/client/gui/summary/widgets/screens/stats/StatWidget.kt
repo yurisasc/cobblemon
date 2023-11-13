@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.client.gui.summary.widgets.screens.stats
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.text.bold
@@ -18,7 +20,6 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.summaryvalue.SummaryValue
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
@@ -55,7 +56,7 @@ class StatWidget(
 
         private const val WIDTH = 134
         private const val HEIGHT = 148
-        private const val SCALE = 0.5F
+        const val SCALE = 0.5F
 
         private const val WHITE = 0x00FFFFFF
         private const val GREY = 0x00AAAAAA
@@ -86,6 +87,10 @@ class StatWidget(
     }
 
     var statTabIndex = tabIndex
+    val renderableFeatures = SpeciesFeatures
+        .getFeaturesFor(pokemon.species)
+        .filterIsInstance<SynchronizedSpeciesFeatureProvider<*>>()
+        .mapNotNull { it.getRenderer(pokemon) }
 
     private fun drawTriangle(
         colour: Vector3f,
@@ -180,8 +185,8 @@ class StatWidget(
 //        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)
     }
 
-    private fun drawBarModule(moduleX: Int, moduleY: Int, matrices: MatrixStack, context: DrawContext, value: SummaryValue) {
-        val barRatio = value.currentValue / value.maxValue.toFloat()
+    private fun drawFriendship(moduleX: Int, moduleY: Int, matrices: MatrixStack, context: DrawContext, friendship: Int) {
+        val barRatio = friendship / 255F
         val barWidth = ceil(barRatio * 108)
 
         blitk(
@@ -193,20 +198,9 @@ class StatWidget(
             width = 124
         )
 
-        val red: Number
-        val green: Number
-        val blue: Number
-
-
-        if (value.id == "friendship") {
-            red = value.barRed
-            green = if (pokemon.friendship >= 160) 0.28 else value.barGreen
-            blue = if (pokemon.friendship >= 160) 0.4 else value.barBlue
-        } else {
-            red = value.barRed
-            green = value.barGreen
-            blue = value.barBlue
-        }
+        val red = 0.92
+        val green: Number = if (pokemon.friendship >= 160) 0.28 else 0.7
+        val blue: Number = if (pokemon.friendship >= 160) 0.4 else 0.28
 
         blitk(
             matrixStack = matrices,
@@ -234,7 +228,7 @@ class StatWidget(
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = lang(value.displayName).bold(),
+            text = lang("ui.stats.friendship").bold(),
             x = moduleX + 62,
             y = moduleY + 2.5,
             centered = true,
@@ -243,7 +237,7 @@ class StatWidget(
 
         drawScaledText(
             context = context,
-            text = value.currentValue.toString().text(),
+            text = friendship.toString().text(),
             x = moduleX + 11,
             y = moduleY + 6,
             scale = SCALE,
@@ -409,20 +403,27 @@ class StatWidget(
                 renderModifiedStatIcon(matrices, nature.decreasedStat, false)
             }
         } else {
-            // this will eventually just be pokemon.summaryValues
-            val tempSummaryValues: MutableSet<SummaryValue> = mutableSetOf(
-                SummaryValue("gold_hoard", "ui.gold_hoard", 999, 300)
-            )
-
-            val summaries: MutableSet<SummaryValue> = tempSummaryValues
-            summaries.add(SummaryValue("friendship", "ui.stats.friendship", 255, pokemon.friendship))
-
             var drawY = y + 11
 
-            for (value in summaries) {
-                drawBarModule(x + 5, drawY, matrices, context, value)
-                drawY += 30
+            drawFriendship(x + 5, drawY, matrices, context, pokemon.friendship)
+            drawY += 30
+
+            for (renderableFeature in renderableFeatures) {
+                val rendered = renderableFeature.render(
+                    drawContext = context,
+                    x = x + 5F,
+                    y = drawY.toFloat(),
+                    pokemon = pokemon
+                )
+
+                if (rendered) {
+                    drawY += 30
+                }
             }
+
+//            for (value in summaries) {
+//                drawBarModule(x + 5, drawY, matrices, context, value)
+//            }
 
         }
     }

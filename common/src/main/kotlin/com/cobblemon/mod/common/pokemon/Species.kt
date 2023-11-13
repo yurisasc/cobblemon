@@ -29,7 +29,6 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
-import com.cobblemon.mod.common.pokemon.summaryvalue.SummaryValue
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.entity.EntityDimensions
@@ -122,8 +121,6 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var preEvolution: PreEvolution? = null
         private set
 
-    var summaryValues: MutableSet<SummaryValue> = hashSetOf()
-
     @Transient
     lateinit var resourceIdentifier: Identifier
 
@@ -193,7 +190,6 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.moves.encode(buffer)
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
-        buffer.writeCollection(this.summaryValues) { pb, value ->  value.encode(pb) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
