@@ -21,6 +21,7 @@
 - Mining Evolution Stone Ores with a Fortune pickaxe will now increase the amount of items recieved
 - Black Augurite can now be used to craft stone axes and obsidian.
 - Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
+- Added tab completion for statuses to commands
 
 ### Additions
 - Added battle spectating, can disable in config
