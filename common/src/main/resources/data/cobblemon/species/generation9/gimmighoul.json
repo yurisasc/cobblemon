@@ -30,6 +30,17 @@
   "eggGroups": [
     "undiscovered"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "canWalk": true
+      },
+      "swim": {
+        "canSwimInWater": true
+      }
+    }
+  },
+  "features": ["minecraft"],
   "moves": [
     "1:astonish",
     "1:tackle",
@@ -92,6 +103,16 @@
       "catchRate": 45,
       "maleRatio": -1,
       "baseFriendship": 50,
+      "behaviour": {
+        "moving": {
+          "walk": {
+            "canWalk": false
+          },
+          "swim": {
+            "canSwimInWater": false
+          }
+        }
+      },
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -135,5 +156,11 @@
   ],
   "pokedex": [
     "cobblemon.species.gimmighoul.desc"
-  ]
+  ],
+  "baseScale": 0.4,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  }
 }
