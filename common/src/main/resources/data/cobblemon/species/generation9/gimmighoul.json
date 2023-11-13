@@ -150,6 +150,12 @@
           ]
         }
       ],
+      "baseScale": 0.5,
+      "hitbox": {
+        "width": 0.6,
+        "height": 0.8,
+        "fixed": false
+      },
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -157,7 +163,7 @@
   "pokedex": [
     "cobblemon.species.gimmighoul.desc"
   ],
-  "baseScale": 0.4,
+  "baseScale": 1,
   "hitbox": {
     "width": 1,
     "height": 1,

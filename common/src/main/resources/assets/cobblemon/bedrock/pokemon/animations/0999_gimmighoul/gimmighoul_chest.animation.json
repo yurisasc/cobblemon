@@ -8,7 +8,8 @@
 					"position": [0, 5, 1]
 				},
 				"gimmighoul_body": {
-					"position": [0, -1, 0]
+					"position": [0, -1, 0],
+					"scale": 0.5
 				},
 				"torso": {
 					"rotation": [-20, 0, 0]
