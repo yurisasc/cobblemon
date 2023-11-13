@@ -18,8 +18,10 @@ import com.cobblemon.mod.common.api.abilities.Ability
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
+import com.cobblemon.mod.common.api.events.CobblemonEvents.HELD_ITEM_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
 import com.cobblemon.mod.common.api.events.pokemon.*
+import com.cobblemon.mod.common.api.events.pokemon.interaction.HeldItemUpdatedEvent
 import com.cobblemon.mod.common.api.moves.*
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
@@ -638,13 +640,15 @@ open class Pokemon : ShowdownIdentifiable {
      *
      * @param stack The new [ItemStack] being set as the held item.
      * @param decrement If the given [stack] should have [ItemStack.decrement] invoked with the parameter of 1. Default is true.
+     * @param postEvent Whether to notify subscribers of [HELD_ITEM_UPDATED] that the item has been updated.
      * @return The existing [ItemStack] being held.
      */
-    fun swapHeldItem(stack: ItemStack, decrement: Boolean = true): ItemStack {
+    fun swapHeldItem(stack: ItemStack, decrement: Boolean = true, postEvent: Boolean = true): ItemStack {
         val giving = stack.copy().apply { count = 1 }
         if (decrement) {
             stack.decrement(1)
         }
+        if (postEvent) HELD_ITEM_UPDATED.post(HeldItemUpdatedEvent(this, this.heldItem, giving))
         val existing = this.heldItem()
         this.heldItem = giving
         this._heldItem.emit(giving)
