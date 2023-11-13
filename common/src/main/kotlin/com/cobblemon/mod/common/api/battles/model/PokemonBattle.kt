@@ -49,6 +49,7 @@ import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
+import java.util.concurrent.ConcurrentLinkedDeque
 
 /**
  * Individual battle instance
@@ -102,7 +103,7 @@ open class PokemonBattle(
 
 
     var dispatchResult = GO
-    val dispatches = ConcurrentLinkedQueue<BattleDispatch>()
+    val dispatches = ConcurrentLinkedDeque<BattleDispatch>()
     val afterDispatches = mutableListOf<() -> Unit>()
 
     val captureActions = mutableListOf<BattleCaptureAction>()
@@ -319,6 +320,12 @@ open class PokemonBattle(
 
     fun dispatch(dispatcher: () -> DispatchResult) {
         dispatches.add(BattleDispatch { dispatcher() })
+
+    }
+
+    fun dispatchHead(dispatcher: () -> DispatchResult) {
+        dispatches.addFirst(BattleDispatch { dispatcher() })
+
     }
 
     fun dispatchGo(dispatcher: () -> Unit) {
@@ -348,6 +355,10 @@ open class PokemonBattle(
 
     fun dispatch(dispatcher: BattleDispatch) {
         dispatches.add(dispatcher)
+    }
+
+    fun dispatchHead(dispatcher: BattleDispatch) {
+        dispatches.addFirst(dispatcher)
     }
 
     fun doWhenClear(action: () -> Unit) {
