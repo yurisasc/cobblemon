@@ -18,6 +18,7 @@
         "B": {
             "item": "minecraft:bone_meal"
         }
+    },
     "result": {
         "item": "cobblemon:terrain_extender"
     }

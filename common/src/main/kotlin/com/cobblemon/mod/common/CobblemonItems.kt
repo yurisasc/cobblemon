@@ -746,6 +746,14 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val IRON_BALL = heldItem("iron_ball")
     @JvmField
     val SMOKE_BALL = heldItem("smoke_ball")
+    @JvmField
+    val HEAT_ROCK = heldItem("heat_rock")
+    @JvmField
+    val DAMP_ROCK = heldItem("damp_rock")
+    @JvmField
+    val SMOOTH_ROCK = heldItem("smooth_rock")
+    @JvmField
+    val ICY_ROCK = heldItem("icy_rock")
 
     // Mulch
     @JvmField
@@ -770,8 +778,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     // Misc
     @JvmField
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
-    @JvmField
-    val CLEANSE_TAG = this.noSettingsItem("cleanse_tag")
 
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 
