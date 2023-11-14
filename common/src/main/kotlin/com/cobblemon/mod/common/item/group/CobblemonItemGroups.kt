@@ -401,7 +401,6 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.TWISTED_SPOON)
         entries.add(CobblemonItems.UTILITY_UMBRELLA)
         entries.add(CobblemonItems.WEAKNESS_POLICY)
-        entries.add(CobblemonItems.WEATHER_ROCKS)
         entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WIDE_LENS)
         entries.add(CobblemonItems.WISE_GLASSES)
