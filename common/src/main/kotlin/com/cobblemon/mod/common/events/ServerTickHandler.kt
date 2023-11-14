@@ -28,6 +28,12 @@ object ServerTickHandler {
             // Party tick
             for (player in server.playerManager.playerList) {
                 player.party().onSecondPassed(player)
+                for (pokemon in player.party()) {
+                    // only run on pokemon who have a fullness value above 0 to save on resources for the server
+                    if (pokemon.currentFullness > 0) {
+                        pokemon.onSecondPassed(player, pokemon)
+                    }
+                }
             }
         }
     }

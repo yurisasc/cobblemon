@@ -82,6 +82,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val BERRY_HARVEST = this.create("berry.harvest")
     @JvmField
     val BERRY_EAT = this.create("berry.eat")
+    @JvmField
+    val BERRY_EAT_FULL = this.create("berry.eat.full")
 
     @JvmField
     val MULCH_PLACE = this.create("mulch.place")

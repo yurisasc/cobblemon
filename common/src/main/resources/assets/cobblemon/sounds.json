@@ -87,6 +87,9 @@
   "berry.eat": {
     "sounds": [ "cobblemon:berry_eat" ]
   },
+  "berry.eat.full": {
+    "sounds": [ "cobblemon:berry_eat_full" ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },

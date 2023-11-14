@@ -591,6 +591,21 @@ open class Pokemon : ShowdownIdentifiable {
         // if pokemon is full then no food
         if (this.isFull() == false)
             this.currentFullness += feedCount
+
+        // pokemon was fed the first berry so we should reset their metabolism cycle so there is no inconsistencies
+        if (this.currentFullness == 1) {
+            this.resetMetabolismCycle()
+        }
+    }
+
+    // decrease a pokemon's Fullness value by a certain amount
+    fun loseFullness(value: Int) {
+        this.currentFullness -= value
+
+        // handle possible case of fullness being less than 0
+        if (this.currentFullness < 0) {
+            this.currentFullness = 0
+        }
     }
 
     // function to scale Hunger based off of the base HP stat of a Pokemon
@@ -653,8 +668,36 @@ open class Pokemon : ShowdownIdentifiable {
         return false
     }
 
+    // The value that will increase per second until it hits a Pokemon's metabolism Factor then be set back to zero
+    var metabolismCycle = 0
 
-    // Do something with the onSecondsPassed function here so that we can tick down the fullness meter after a certain amount of seconds
+    // for setting the metabolism cycle of a pokemon back to 0 in certain cases
+    fun resetMetabolismCycle() {
+        this.metabolismCycle = 0
+    }
+
+    /**
+     * Called every second on the Pokémon for their fullness
+     */
+    open fun onSecondPassed(player: ServerPlayerEntity, pokemon: Pokemon) {
+        // have metabolism cycle increase each second
+        metabolismCycle += 1
+
+        // if the metabolismCycle value equals the Pokemon's metabolism rate then decrease Fullness by 1
+        if (metabolismCycle >= pokemon.getMetabolismRate()) {
+            // as a baseline we will decrement the Fullness by 1 for each metabolism cycle
+            val message = "${pokemon.species.name}'s Fullness went down by 1"
+
+            if (pokemon.currentFullness > 0) {
+                player.sendMessage(Text.of(message))
+                pokemon.loseFullness(1)
+            }
+
+            //reset the metabolic cycle back to zero
+            metabolismCycle = 0
+        }
+    }
+
 
 
 

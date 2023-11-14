@@ -55,7 +55,16 @@ class FriendshipRaisingBerryItem(block: BerryBlock, val stat: Stat) : BerryItem(
 
         return if ((increasedFriendship || decreasedEVs) && !pokemon.isFull()) {
             pokemon.feedPokemon(1)
-            player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
+
+            val fullnessPercent = ((pokemon.currentFullness).toFloat() / (pokemon.getMaxFullness()).toFloat()) * (.5).toFloat()
+
+            if (pokemon.currentFullness >= pokemon.getMaxFullness()) {
+                player.playSound(CobblemonSounds.BERRY_EAT_FULL, SoundCategory.PLAYERS, 1F, 1F)
+            }
+            else {
+                player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F + fullnessPercent)
+            }
+
             if (!player.isCreative) {
                 stack.decrement(1)
             }

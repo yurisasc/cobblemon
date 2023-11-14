@@ -63,11 +63,22 @@ class HealingBerryItem(block: BerryBlock, val amount: () -> Expression): BerryIt
             return TypedActionResult.fail(stack)
         }
         pokemon.feedPokemon(1)
-        val message = "Fullness for ${pokemon.species.name} is ${pokemon.currentFullness}. It can eat ${(pokemon.getMaxFullness() - pokemon.currentFullness)} more poke_food"
-        player.sendMessage(Text.of(message))
+        //var message = "Fullness for ${pokemon.species.name} is ${pokemon.currentFullness}. It can eat ${(pokemon.getMaxFullness() - pokemon.currentFullness)} more poke_food"
+        //player.sendMessage(Text.of(message))
 
         pokemon.currentHealth = Integer.min(pokemon.currentHealth + genericRuntime.resolveInt(amount(), pokemon), pokemon.hp)
-        player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
+
+        val fullnessPercent = ((pokemon.currentFullness).toFloat() / (pokemon.getMaxFullness()).toFloat()) * (.5).toFloat()
+
+        //message = "Pitch for Berry Food is at ${(fullnessPercent) + 1F}"
+        //player.sendMessage(Text.of(message))
+        if (pokemon.currentFullness >= pokemon.getMaxFullness()) {
+            player.playSound(CobblemonSounds.BERRY_EAT_FULL, SoundCategory.PLAYERS, 1F, 1F)
+        }
+        else {
+            player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F + fullnessPercent)
+        }
+
         if (!player.isCreative) {
             stack.decrement(1)
         }
