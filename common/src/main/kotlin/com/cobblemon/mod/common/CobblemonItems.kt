@@ -635,6 +635,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val METAL_POWDER = heldItem("metal_powder")
     @JvmField
+    val LIGHT_POWDER = heldItem("light_powder")
+    @JvmField
     val QUICK_POWDER = heldItem("quick_powder")
     @JvmField
     val DESTINY_KNOT = heldItem("destiny_knot")
@@ -652,6 +654,98 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val POWER_LENS = heldItem("power_lens")
     @JvmField
     val POWER_WEIGHT = heldItem("power_weight")
+    @JvmField
+    val ABSORB_BULB = heldItem("absorb_bulb")
+    @JvmField
+    val ELECTRIC_SEED = heldItem("electric_seed")
+    @JvmField
+    val GRASSY_SEED = heldItem("grassy_seed")
+    @JvmField
+    val MISTY_SEED = heldItem("misty_seed")
+    @JvmField
+    val PSYCHIC_SEED = heldItem("psychic_seed")
+    @JvmField
+    val FLOAT_STONE = heldItem("float_stone")
+    @JvmField
+    val GRIP_CLAW = heldItem("grip_claw")
+    @JvmField
+    val LIGHT_BALL = heldItem("light_ball")
+    @JvmField
+    val SHED_SHELL = heldItem("shed_shell")
+    @JvmField
+    val STICKY_BARB = heldItem("sticky_barb")
+    @JvmField
+    val ABILITY_SHIELD = heldItem("ability_shield")
+    @JvmField
+    val AIR_BALLOON = heldItem("air_balloon")
+    @JvmField
+    val AMULET_COIN = heldItem("amulet_coin")
+    @JvmField
+    val BINDING_BAND = heldItem("binding_band")
+    @JvmField
+    val BLUNDER_POLICY = heldItem("blunder_policy")
+    @JvmField
+    val CELL_BATTERY = heldItem("cell_battery")
+    @JvmField
+    val CLEAR_AMULET = heldItem("clear_amulet")
+    @JvmField
+    val COVERT_CLOAK = heldItem("covert_cloak")
+    @JvmField
+    val EJECT_BUTTON = heldItem("eject_button")
+    @JvmField
+    val EJECT_PACK = heldItem("eject_pack")
+    @JvmField
+    val EXPERT_BELT = heldItem("expert_belt")
+    @JvmField
+    val FLAME_ORB = heldItem("flame_orb")
+    @JvmField
+    val FOCUS_SASH = heldItem("focus_sash")
+    @JvmField
+    val LAGGING_TAIL = heldItem("lagging_tail")
+    @JvmField
+    val LIFE_ORB = heldItem("life_orb")
+    @JvmField
+    val LOADED_DICE = heldItem("loaded_dice")
+    @JvmField
+    val LUMINOUS_MOSS = heldItem("luminous_moss")
+    @JvmField
+    val METRONOME = heldItem("metronome")
+    @JvmField
+    val PROTECTIVE_PADS = heldItem("protective_pads")
+    @JvmField
+    val PUNCHING_GLOVE = heldItem("punching_glove")
+    @JvmField
+    val RED_CARD = heldItem("red_card")
+    @JvmField
+    val RING_TARGET = heldItem("ring_target")
+    @JvmField
+    val ROOM_SERVICE = heldItem("room_service")
+    @JvmField
+    val SCOPE_LENS = heldItem("scope_lens")
+    @JvmField
+    val SHELL_BELL = heldItem("shell_bell")
+    @JvmField
+    val SOOTHE_BELL = heldItem("soothe_bell")
+    @JvmField
+    val TERRAIN_EXTRUDER = heldItem("terrain_extruder")
+    @JvmField
+    val THROAT_SPRAY = heldItem("throat_spray")
+    @JvmField
+    val TOXIC_ORB = heldItem("toxic_orb")
+    @JvmField
+    val UTILITY_UMBRELLA = heldItem("utility_umbrella")
+    @JvmField
+    val WEAKNESS_POLICY = heldItem("weakness_policy")
+    @JvmField
+    val WEATHER_ROCKS = heldItem("weather_rocks")
+    @JvmField
+    val WIDE_LENS = heldItem("wide_lens")
+    @JvmField
+    val ZOOM_LENS = heldItem("zoom_lens")
+    @JvmField
+    val IRON_BALL = heldItem("iron_ball")
+    @JvmField
+    val SMOKE_BALL = heldItem("smoke_ball")
 
     // Mulch
     @JvmField
@@ -676,8 +770,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     // Misc
     @JvmField
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
-    @JvmField
-    val CLEANSE_TAG = this.noSettingsItem("cleanse_tag")
 
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 
