@@ -21,7 +21,7 @@ class HeldItemUpdatePacket(pokemon: () -> Pokemon, value: ItemStack): SingleUpda
         buffer.writeItemStack(this.value)
     }
 
-    override fun set(pokemon: Pokemon, value: ItemStack) { pokemon.swapHeldItem(this.value, false, false) }
+    override fun set(pokemon: Pokemon, value: ItemStack) { pokemon.swapHeldItem(this.value, false, null,false) }
 
     companion object {
         val ID = cobblemonResource("held_item_update")

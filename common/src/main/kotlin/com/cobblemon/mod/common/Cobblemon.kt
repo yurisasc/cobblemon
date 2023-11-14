@@ -372,10 +372,14 @@ object Cobblemon {
             val itemId = Registries.ITEM.getId(event.newItem.item)
             val goldHoard = event.pokemon.getFeature<IntSpeciesFeature>("gimmighoul_coins")
 
-
             if (goldHoard != null && GoldMaterials.isGoldMaterial(itemId)) {
                 goldHoard.value += GoldMaterials.getContent(itemId)!!
-                event.pokemon.removeHeldItem()
+                if (event.decrement) {
+                    event.originalStack.decrement(1)
+                }
+                // Features need to be marked dirty to update the client + trigger storage saving
+                event.pokemon.markFeatureDirty(goldHoard)
+                event.cancel()
             }
         }
 

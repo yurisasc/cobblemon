@@ -653,16 +653,23 @@ open class Pokemon : ShowdownIdentifiable {
      *
      * @param stack The new [ItemStack] being set as the held item.
      * @param decrement If the given [stack] should have [ItemStack.decrement] invoked with the parameter of 1. Default is true.
+     * @param cause The entity causing the held item to change. Can be null.
      * @param postEvent Whether to notify subscribers of [HELD_ITEM_UPDATED] that the item has been updated.
      * @return The existing [ItemStack] being held.
      */
-    fun swapHeldItem(stack: ItemStack, decrement: Boolean = true, postEvent: Boolean = true): ItemStack {
+    fun swapHeldItem(stack: ItemStack, decrement: Boolean = true, cause: LivingEntity? = null, postEvent: Boolean = true): ItemStack {
         val giving = stack.copy().apply { count = 1 }
+        val existing = this.heldItem()
+        if (postEvent) {
+            val event = HeldItemUpdatedEvent(cause, this, stack, decrement, this.heldItem, giving)
+            HELD_ITEM_UPDATED.post(event)
+            if (event.isCanceled) {
+                return ItemStack.EMPTY
+            }
+        }
         if (decrement) {
             stack.decrement(1)
         }
-        if (postEvent) HELD_ITEM_UPDATED.post(HeldItemUpdatedEvent(this, this.heldItem, giving))
-        val existing = this.heldItem()
         this.heldItem = giving
         this._heldItem.emit(giving)
         return existing

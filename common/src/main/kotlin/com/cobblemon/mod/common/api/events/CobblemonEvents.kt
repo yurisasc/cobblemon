@@ -67,7 +67,7 @@ object CobblemonEvents {
     @JvmField
     val POKEMON_NICKNAMED = CancelableObservable<PokemonNicknamedEvent>()
     @JvmField
-    val HELD_ITEM_UPDATED = EventObservable<HeldItemUpdatedEvent>()
+    val HELD_ITEM_UPDATED = CancelableObservable<HeldItemUpdatedEvent>()
 
     @JvmField
     val THROWN_POKEBALL_HIT = CancelableObservable<ThrownPokeballHitEvent>()

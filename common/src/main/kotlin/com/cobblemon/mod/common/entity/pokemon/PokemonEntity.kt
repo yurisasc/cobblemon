@@ -733,7 +733,7 @@ class PokemonEntity(
             player.sendMessage(lang("held_item.already_holding", this.pokemon.getDisplayName(), stack.name))
             return true
         }
-        val returned = this.pokemon.swapHeldItem(stack, !player.isCreative)
+        val returned = this.pokemon.swapHeldItem(stack = stack, cause = player, decrement = !player.isCreative)
         val text = when {
             giving.isEmpty -> lang("held_item.take", returned.name, this.pokemon.getDisplayName())
             returned.isEmpty -> lang("held_item.give", this.pokemon.getDisplayName(), giving.name)
