@@ -25,6 +25,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
+import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
@@ -52,9 +53,22 @@ class PortionHealingBerryItem(block: BerryBlock, val canCauseConfusion: Boolean,
         stack: ItemStack,
         pokemon: Pokemon
     ): TypedActionResult<ItemStack>? {
-        if (pokemon.isFullHealth() || pokemon.isFainted()){
+        if (pokemon.isFullHealth() || pokemon.isFainted() || pokemon.isFull()) {
+            if (pokemon.isFull()) {
+                val message = "${pokemon.species.name} has eaten ${pokemon.currentFullness}/${pokemon.getMaxFullness()} times. It is too full!"
+                player.sendMessage(Text.of(message))
+            }
+            else if (pokemon.isFullHealth()) {
+                val message = "${pokemon.species.name} is at Max HP already!"
+                player.sendMessage(Text.of(message))
+            }
+
             return TypedActionResult.fail(stack)
         }
+
+        // count these berries as multiple feedings due to the amount they heal
+        pokemon.feedPokemon(5)
+
 
         pokemon.currentHealth = Integer.min(pokemon.currentHealth + (genericRuntime.resolveFloat(portion(), pokemon) * pokemon.hp).toInt(), pokemon.hp)
         player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)

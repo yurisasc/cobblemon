@@ -48,6 +48,7 @@ import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
@@ -88,10 +89,7 @@ import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
 import java.util.*
 import java.util.concurrent.CompletableFuture
-import kotlin.math.absoluteValue
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.roundToInt
+import kotlin.math.*
 import kotlin.random.Random
 
 open class Pokemon : ShowdownIdentifiable {
@@ -574,32 +572,29 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
-    // Section for Pokemon Hunger levels and feeding in general
-    private val timesFed: MutableList<Long> = ArrayList()
+    // Value of current Fullness level
+    var currentFullness = 0
 
     //base Hunger value for all pokemon
-    var baseHunger = 5
+    var baseFullness = 5
 
     // function to return the max hunger for the pokemon
-    private fun getMaxHunger(pokemon: Pokemon): Int {
+    fun getMaxFullness(): Int {
         // get base HP stat of the referenced Pokemon
-        var baseHP = pokemon.species.baseStats.getOrDefault(Stats.HP,0)
+        var baseHP = this.species.baseStats.getOrDefault(Stats.HP,0)
 
-        return (baseHunger + scaleHunger(baseHP))
+        return (baseFullness + scaleFullnessRates(baseHP))
     }
 
     // Method to add a new feeding time
-    fun feedPokemon(time: Long, pokemon: Pokemon) {
-        timesFed.add(time)
-
-        // Ensure that the list of times they can be fed is scaled to the proper amount according to HP of the pokemon and keep it within those bounds
-        while (timesFed.size > getMaxHunger(pokemon)) {
-            timesFed.removeAt(0) // Remove the oldest feeding time if one more is added
-        }
+    fun feedPokemon(feedCount: Int) {
+        // if pokemon is full then no food
+        if (this.isFull() == false)
+            this.currentFullness += feedCount
     }
 
     // function to scale Hunger based off of the base HP stat of a Pokemon
-    fun scaleHunger(stat: Int): Int {
+    fun scaleFullnessRates(stat: Int): Int {
         // lowest base HP stat of a pokemon before adding more hunger
         var lowerThreshold = 25
 
@@ -627,21 +622,39 @@ open class Pokemon : ShowdownIdentifiable {
     }
 
 
+    // Amount of seconds that need to pass for the pokemon to lose 1 fullness value
+    fun getMetabolismRate(): Int {
+        var baseSpeed = this.species.baseStats.getOrDefault(Stats.SPEED, 0)
+
+        // maximum time it can take for a pokemon to lose 1 fullness
+        val maxRate = 705.0
+        // minimum time it can take for a pokemon to lose 1 fullness
+        val minRate = 150.0
+
+        // inflection point of the graph
+        val metabolismInflection = 80
+
+        // steepness of the curve near the inflection point
+        val steepness = 0.1
+
+        val metabolismRate = (maxRate - minRate) / (1 + Math.exp(steepness * (baseSpeed - metabolismInflection))) + minRate
+
+        // Ensure the metabolism rate is within a reasonable range
+        return metabolismRate.toInt().coerceIn(minRate.toInt(), maxRate.toInt())
+    }
+
     // Boolean function that checks if a Pokemon can eat food based on fedTimes
-    fun isHungry(currentTime: Long, pokemon: Pokemon): Boolean {
+    fun isFull(): Boolean {
 
-        // Check if the timesFed list has as many entries as the maximum hunger of the pokemon
-        if (timesFed.size == getMaxHunger(pokemon)) {
-            // Check if all entries in the list are within the last 10 minutes of the given time
-            return timesFed.any { currentTime - it > 10 * 60 * 1000 } // 10 minutes in milliseconds
+        // Check if the pokemon is at max fullness
+        if (currentFullness >= this.getMaxFullness()) {
+            return true
         }
-
-        // The list does not contain as many entries as the maximum hunger or has an entry older than 10 minutes
-        return true
+        return false
     }
 
 
-
+    // Do something with the onSecondsPassed function here so that we can tick down the fullness meter after a certain amount of seconds
 
 
 

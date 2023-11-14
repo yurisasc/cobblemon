@@ -45,9 +45,10 @@ class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
         stack: ItemStack,
         pokemon: Pokemon
     ): TypedActionResult<ItemStack>? {
-        if (pokemon.isFullHealth()) {
+        if (pokemon.isFullHealth() || !pokemon.isFull()) {
             return TypedActionResult.fail(stack)
         }
+        pokemon.feedPokemon(1)
         pokemon.currentHealth = Integer.min(pokemon.currentHealth + 20, pokemon.hp)
         player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
         if (!player.isCreative)  {

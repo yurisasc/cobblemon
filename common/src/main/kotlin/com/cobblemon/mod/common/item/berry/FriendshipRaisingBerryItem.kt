@@ -48,10 +48,13 @@ class FriendshipRaisingBerryItem(block: BerryBlock, val stat: Stat) : BerryItem(
 
         val currentStat = pokemon.evs.getOrDefault(stat)
         val newEV = max(currentStat - genericRuntime.resolveInt(CobblemonMechanics.berries.evLowerAmount), 0)
-        pokemon.setEV(stat, newEV)
+        if (!pokemon.isFull()) {
+            pokemon.setEV(stat, newEV)
+        }
         val decreasedEVs = currentStat != pokemon.evs.getOrDefault(stat)
 
-        return if (increasedFriendship || decreasedEVs) {
+        return if ((increasedFriendship || decreasedEVs) && !pokemon.isFull()) {
+            pokemon.feedPokemon(1)
             player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
             if (!player.isCreative) {
                 stack.decrement(1)

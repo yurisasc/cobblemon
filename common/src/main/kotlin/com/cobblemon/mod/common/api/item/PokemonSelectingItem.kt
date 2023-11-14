@@ -132,8 +132,13 @@ interface PokemonSelectingItem {
             canSelect = ::canUseOnPokemon,
             handler = { pk ->
                 if (stack.isHeld(player)) {
-                    if (stack.isIn(CobblemonItemTags.POKE_FOOD) && pk.isHungry(System.currentTimeMillis(), pk)){
-                        pk.feedPokemon(System.currentTimeMillis(), pk)
+                    if (stack.isIn(CobblemonItemTags.POKE_FOOD)) {
+                        if (!pk.isFull()) {
+                            //pk.feedPokemon()
+                            applyToPokemon(player, stack, pk)
+                            CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(pk.species.resourceIdentifier, Registries.ITEM.getId(stack.item)))
+                        }
+                        // If the pokemon is full then it will not hit the above if statement and it will skip over the else statement below
                     }
                     else {
                         applyToPokemon(player, stack, pk)

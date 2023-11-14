@@ -46,7 +46,8 @@ class StatusCuringBerryItem(block: BerryBlock, vararg val status: Status): Berry
         pokemon: Pokemon
     ): TypedActionResult<ItemStack>? {
         val currentStatus = pokemon.status?.status
-        return if (currentStatus != null && (status.isEmpty() || currentStatus in status)) {
+        return if (currentStatus != null && (status.isEmpty() || currentStatus in status) && !pokemon.isFull()) {
+            pokemon.feedPokemon(1)
             pokemon.status = null
             player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
             if (!player.isCreative) {
