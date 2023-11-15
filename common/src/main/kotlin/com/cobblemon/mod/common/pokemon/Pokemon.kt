@@ -642,9 +642,9 @@ open class Pokemon : ShowdownIdentifiable {
         var baseSpeed = this.species.baseStats.getOrDefault(Stats.SPEED, 0)
 
         // maximum time it can take for a pokemon to lose 1 fullness
-        val maxRate = 705.0
+        val maxRate = 480
         // minimum time it can take for a pokemon to lose 1 fullness
-        val minRate = 150.0
+        val minRate = 120
 
         // inflection point of the graph
         val metabolismInflection = 80
