@@ -46,7 +46,6 @@ import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import java.io.File
 import java.util.UUID
-import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import java.util.concurrent.ConcurrentLinkedDeque
@@ -323,7 +322,7 @@ open class PokemonBattle(
 
     }
 
-    fun dispatchHead(dispatcher: () -> DispatchResult) {
+    fun dispatchToFront(dispatcher: () -> DispatchResult) {
         dispatches.addFirst(BattleDispatch { dispatcher() })
 
     }
@@ -357,7 +356,7 @@ open class PokemonBattle(
         dispatches.add(dispatcher)
     }
 
-    fun dispatchHead(dispatcher: BattleDispatch) {
+    fun dispatchToFront(dispatcher: BattleDispatch) {
         dispatches.addFirst(dispatcher)
     }
 
