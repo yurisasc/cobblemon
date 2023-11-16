@@ -549,6 +549,11 @@ open class Pokemon : ShowdownIdentifiable {
         val entity = entity
         entity?.heal(entity.maxHealth - entity.health)
         this.moveSet.partialHeal()
+
+        if (this.currentFullness > 0) {
+            // reduce current fullness of the pokemon by 75% of the capacity
+            this.loseFullness((this.getMaxFullness() * .75).toInt())
+        }
     }
 
     /**
@@ -572,6 +577,11 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
+    // fullness may decrease after certain actions
+    // sleeping ( 75% )
+    // battling ( 1 fullness)
+    // playing
+
     // Value of current Fullness level
     var currentFullness = 0
 
@@ -588,6 +598,11 @@ open class Pokemon : ShowdownIdentifiable {
 
     // Method to add a new feeding time
     fun feedPokemon(feedCount: Int) {
+        // get the fullness set to 0 in case something weird happens
+        if (this.currentFullness < 0) {
+            this.currentFullness = 0
+        }
+
         // if pokemon is full then no food
         if (this.isFull() == false)
             this.currentFullness += feedCount
