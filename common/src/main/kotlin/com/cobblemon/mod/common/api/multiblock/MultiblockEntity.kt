@@ -16,6 +16,9 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.util.math.BlockPos
 
 /**
@@ -33,6 +36,16 @@ abstract class MultiblockEntity(
 
     abstract var multiblockStructure: MultiblockStructure?
     abstract var masterBlockPos: BlockPos?
+
+    override fun toUpdatePacket(): Packet<ClientPlayPacketListener>? {
+        return BlockEntityUpdateS2CPacket.create(this)
+    }
+
+    override fun toInitialChunkDataNbt(): NbtCompound {
+        val result = NbtCompound()
+        writeNbt(result)
+        return result
+    }
 
     override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)

@@ -24,33 +24,5 @@ class FossilTubeBlockEntity(
     pos: BlockPos, state: BlockState,
     multiblockBuilder: MultiblockStructureBuilder
 ) : FossilMultiblockEntity(pos, state, multiblockBuilder, CobblemonBlockEntities.FOSSIL_TUBE) {
-    var fillLevel = 0
-    var connectorPosition: Direction? = null
-    val state = FossilState()
 
-    override fun toUpdatePacket(): Packet<ClientPlayPacketListener>? {
-        return BlockEntityUpdateS2CPacket.create(this)
-    }
-
-    override fun toInitialChunkDataNbt(): NbtCompound {
-        return createNbt()
-    }
-
-    override fun writeNbt(nbt: NbtCompound) {
-        super.writeNbt(nbt)
-        nbt.putInt(DataKeys.TUBE_FILL_LEVEL, fillLevel)
-        if (connectorPosition != null) {
-            nbt.putString(DataKeys.DIRECTION, connectorPosition?.name)
-        }
-    }
-
-    override fun readNbt(nbt: NbtCompound) {
-        super.readNbt(nbt)
-        fillLevel = nbt.getInt(DataKeys.TUBE_FILL_LEVEL)
-        connectorPosition = if (nbt.contains(DataKeys.DIRECTION)) {
-            Direction.valueOf(nbt.getString(DataKeys.DIRECTION))
-        } else {
-            null
-        }
-    }
 }

@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
 import com.cobblemon.mod.common.block.fossilmachine.FossilMonitorBlock
+import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilState
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
@@ -36,6 +37,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.nbt.NbtList
 import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
@@ -44,6 +46,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
 class FossilMultiblockStructure (
@@ -66,7 +69,12 @@ class FossilMultiblockStructure (
     private var machineStartTime: Long = 0
     private var protectionTime: Int = -1
     private var fossilOwner: PlayerEntity? = null
+    val fossilState = FossilState()
+    var fossilInventory: MutableList<ItemStack> = mutableListOf<ItemStack>()
+    var tubeConnectorDirection: Direction? = null
 
+    //Only updated clientside
+    var fillLevel = 0
     override fun onUse(
         blockState: BlockState,
         world: World,
@@ -75,7 +83,6 @@ class FossilMultiblockStructure (
         interactionHand: Hand,
         blockHitResult: BlockHitResult
     ): ActionResult {
-        val compartmentEntity = world.getBlockEntity(compartmentPos) as FossilCompartmentBlockEntity
         val stack = player.getStackInHand(interactionHand)
         val itemId = Registries.ITEM.getId(stack.item)
 
@@ -108,10 +115,8 @@ class FossilMultiblockStructure (
             CobblemonCriteria.RESURRECT_POKEMON.trigger(player, createdPokemon!!)
 
             this.createdPokemon = null
-            compartmentEntity.clear()
             this.fossilOwner = null
             this.protectionTime = -1
-            this.updateFillLevel(world)
             this.updateFossilType(world)
             return ActionResult.SUCCESS
         }
@@ -122,11 +127,11 @@ class FossilMultiblockStructure (
 
         // Reclaim the last fossil from the machine if their hand is empty
         if (player.getStackInHand(interactionHand).isEmpty) {
-            if (compartmentEntity.isEmpty()) {
+            if (fossilInventory.isEmpty()) {
                 return ActionResult.CONSUME
             }
 
-            player.setStackInHand(interactionHand, compartmentEntity.withdrawLastFossilStack())
+            player.setStackInHand(interactionHand, fossilInventory.last())
             world.playSound(null, compartmentPos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_FOSSIL, SoundCategory.BLOCKS)
             this.updateFossilType(world)
             return ActionResult.SUCCESS
@@ -134,7 +139,7 @@ class FossilMultiblockStructure (
 
         // Check if the player is holding a fossil and if so insert it into the machine.
         if (Fossils.isFossilIngredient(stack)) {
-            if (compartmentEntity.isFull()) {
+            if (fossilInventory.size > Cobblemon.config.maxInsertedFossilItems) {
                 return ActionResult.FAIL
             }
 
@@ -144,7 +149,7 @@ class FossilMultiblockStructure (
             }
 
             fossilOwner = player
-            compartmentEntity.insertFossilStack(copyFossilStack)
+            fossilInventory.add(copyFossilStack)
             this.updateFossilType(world)
             world.playSound(null, compartmentPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_FOSSIL, SoundCategory.BLOCKS)
             return ActionResult.SUCCESS
@@ -157,7 +162,7 @@ class FossilMultiblockStructure (
             if (timeRemaining > 0) return ActionResult.FAIL
 
             if (this.organicMaterialInside >= 64) return ActionResult.FAIL
-
+            val oldFillStage = organicMaterialInside / 8
             organicMaterialInside += natureValue
 
             if (this.organicMaterialInside >= 64) {
@@ -176,7 +181,9 @@ class FossilMultiblockStructure (
             }
 
             this.markDirty(world)
-            this.updateFillLevel(world)
+            if (oldFillStage != (organicMaterialInside / 8)) {
+                this.syncToClient(world)
+            }
             return ActionResult.SUCCESS
         }
 
@@ -189,8 +196,6 @@ class FossilMultiblockStructure (
         val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as FossilTubeBlockEntity
         val tubeTopEntity = world.getBlockEntity(tubeBasePos.up()) as MultiblockEntity
 
-        tubeBaseEntity.connectorPosition = null
-        tubeBaseEntity.fillLevel = 0
         monitorEntity.multiblockStructure = null
         compartmentEntity.multiblockStructure = null
         tubeBaseEntity.multiblockStructure = null
@@ -220,7 +225,6 @@ class FossilMultiblockStructure (
         }
 
         if (this.timeRemaining == -1 && this.organicMaterialInside >= MATERIAL_TO_START && this.resultingFossil != null) {
-            // TODO: Set fossil to tube entity
             this.startMachine(world)
             return
         }
@@ -236,10 +240,9 @@ class FossilMultiblockStructure (
         }
 
         if (this.timeRemaining == 0) {
-            val compartmentEntity = world.getBlockEntity(compartmentPos) as FossilCompartmentBlockEntity
             world.playSound(null, tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_FINISHED, SoundCategory.BLOCKS)
             MinecraftClient.getInstance().soundManager.stopSounds(CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id, SoundCategory.BLOCKS)
-            compartmentEntity.clear()
+            fossilInventory.clear()
 
             this.resultingFossil?.let {
                 this.createdPokemon = it.result.create()
@@ -253,12 +256,12 @@ class FossilMultiblockStructure (
 
     override fun syncToClient(world: World) {
         val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as MultiblockEntity
-        val controllerEntity = world.getBlockEntity(controllerBlockPos) as MultiblockEntity
-        val compartmentEntity = world.getBlockEntity(tubeBasePos) as MultiblockEntity
+        val compartmentEntity = world.getBlockEntity(controllerBlockPos) as MultiblockEntity
+        val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
 
-        world.updateListeners(controllerBlockPos, controllerEntity.cachedState, controllerEntity.cachedState, Block.NOTIFY_LISTENERS)
         world.updateListeners(tubeBasePos, tubeBaseEntity.cachedState, tubeBaseEntity.cachedState, Block.NOTIFY_LISTENERS)
         world.updateListeners(compartmentPos, compartmentEntity.cachedState, compartmentEntity.cachedState, Block.NOTIFY_LISTENERS)
+        world.updateListeners(monitorPos, monitorEntity.cachedState, monitorEntity.cachedState, Block.NOTIFY_LISTENERS)
     }
 
     override fun markDirty(world: World) {
@@ -282,7 +285,6 @@ class FossilMultiblockStructure (
 
         this.updateOnStatus(world)
         this.updateProgress(world)
-        this.updateFillLevel(world)
         this.syncToClient(world)
         this.markDirty(world)
     }
@@ -291,30 +293,12 @@ class FossilMultiblockStructure (
         this.timeRemaining = -1
         this.organicMaterialInside = 0
 
-        val compartmentEntity = world.getBlockEntity(compartmentPos) as FossilCompartmentBlockEntity
-        compartmentEntity.clear()
+        fossilInventory.clear()
 
         this.updateOnStatus(world)
         this.updateProgress(world)
-        this.updateFillLevel(world)
         this.syncToClient(world)
         this.markDirty(world)
-    }
-
-    fun updateFillLevel(world: World) {
-        val tubeEntity = world.getBlockEntity(tubeBasePos) as FossilTubeBlockEntity
-        val currentFillLevel =  (this.organicMaterialInside / 8).coerceAtMost(8)
-
-        if (this.createdPokemon != null) {
-            tubeEntity.fillLevel = 8
-            return
-        }
-
-        if (currentFillLevel != tubeEntity.fillLevel) {
-            tubeEntity.fillLevel = currentFillLevel
-            this.syncToClient(world)
-            tubeEntity.markDirty()
-        }
     }
 
     fun updateOnStatus(world: World) {
@@ -334,14 +318,13 @@ class FossilMultiblockStructure (
      * @return The resulting fossil type if found, otherwise null.
      */
     fun updateFossilType(world: World) {
-        val compartmentEntity = world.getBlockEntity(compartmentPos) as FossilCompartmentBlockEntity
-        if (compartmentEntity.isEmpty()) {
+        if (fossilInventory.isEmpty()) {
             if (this.resultingFossil == null) {
                 return
             }
             this.resultingFossil = null
         } else {
-            this.resultingFossil = Fossils.getFossilByItemStacks(compartmentEntity.getInsertedFossilStacks())
+            this.resultingFossil = Fossils.getFossilByItemStacks(fossilInventory)
         }
     }
 
@@ -359,6 +342,12 @@ class FossilMultiblockStructure (
         result.put(DataKeys.TUBE_BASE_POS, NbtHelper.fromBlockPos(tubeBasePos))
         result.putInt(DataKeys.TIME_LEFT, timeRemaining)
         result.putInt(DataKeys.ORGANIC_MATERIAL, organicMaterialInside)
+        val fossilInv = NbtList()
+        fossilInventory.forEach{ item ->
+            fossilInv.add(item.writeNbt(NbtCompound()))
+        }
+        result.put(DataKeys.FOSSIL_INVENTORY, fossilInv)
+        result.putString(DataKeys.CONNECTOR_DIRECTION, tubeConnectorDirection?.toString())
 
         if (this.resultingFossil != null) {
             result.putString(DataKeys.INSERTED_FOSSIL, this.resultingFossil!!.asString())
@@ -393,6 +382,14 @@ class FossilMultiblockStructure (
             result.organicMaterialInside = nbt.getInt(DataKeys.ORGANIC_MATERIAL)
             result.timeRemaining = nbt.getInt(DataKeys.TIME_LEFT)
 
+            val fossilInv = (nbt.get(DataKeys.FOSSIL_INVENTORY) as NbtList)
+            val actualFossilList = mutableListOf<ItemStack>()
+            fossilInv.forEach {
+                actualFossilList.add(ItemStack.fromNbt(it as NbtCompound))
+            }
+            result.fossilInventory = actualFossilList
+            result.tubeConnectorDirection = Direction.byName(nbt.getString(DataKeys.CONNECTOR_DIRECTION))
+
             if (nbt.contains(DataKeys.INSERTED_FOSSIL)) {
                 val id = Identifier(nbt.getString(DataKeys.INSERTED_FOSSIL))
                 val fossil = Fossils.getByIdentifier(id)
@@ -407,6 +404,7 @@ class FossilMultiblockStructure (
             if (nbt.contains(DataKeys.CREATED_POKEMON)) {
                 result.createdPokemon = Pokemon.loadFromNBT(nbt.getCompound(DataKeys.CREATED_POKEMON))
             }
+            result.fillLevel = result.organicMaterialInside / 8
             return result
         }
 

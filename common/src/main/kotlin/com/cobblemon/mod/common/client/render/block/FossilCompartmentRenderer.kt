@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.fossil.FossilCompartmentBlockEntity
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.client.MinecraftClient
@@ -34,8 +35,13 @@ class FossilCompartmentRenderer(ctx: BlockEntityRendererFactory.Context) : Block
         val blockState = if (entity.world != null) entity.cachedState
             else (CobblemonBlocks.FOSSIL_COMPARTMENT.defaultState.with(HorizontalFacingBlock.FACING, Direction.SOUTH) as BlockState)
         val yRot = blockState.get(HorizontalFacingBlock.FACING).asRotation()
+        //We shouldnt have to do any complex rendering when the block isn't a multiblock
+        if (entity.multiblockStructure == null) {
+            return
+        }
+        val struct = entity.multiblockStructure as FossilMultiblockStructure
 
-        entity.getInsertedFossilStacks().forEachIndexed { index, fossilStack ->
+        struct.fossilInventory.forEachIndexed { index, fossilStack ->
             matrices.push()
 
             matrices.translate(0.5, 0.4 + (index * 0.05F), 0.5)

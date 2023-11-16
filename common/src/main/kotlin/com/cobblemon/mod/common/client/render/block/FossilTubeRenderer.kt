@@ -30,7 +30,11 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         light: Int,
         overlay: Int
     ) {
-        val connectionDir = entity.connectorPosition
+        if (entity.multiblockStructure == null) {
+            return
+        }
+        val struct = entity.multiblockStructure as FossilMultiblockStructure
+        val connectionDir = struct.tubeConnectorDirection
         // FYI, rendering models this way ignores the pivots set in the model, so set the pivots manually
         when (connectionDir) {
             Direction.NORTH -> matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(0f), 0.5f, 0f, 0.5f)
@@ -48,7 +52,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
             }
             matrices.pop()
         }
-        val fillLevel = entity.fillLevel
+        val fillLevel = struct.fillLevel
         if (fillLevel == 0) {
             return
         }
@@ -80,7 +84,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         val timeRemaining = struc.timeRemaining
 
         val aspects = emptySet<String>()
-        val state = entity.state
+        val state = struc.fossilState
         state.updatePartialTicks(tickDelta)
 
         val model = FossilModelRepository.getPoser(fossil.identifier, aspects)
