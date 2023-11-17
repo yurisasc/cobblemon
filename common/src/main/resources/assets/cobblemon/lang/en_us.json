@@ -917,6 +917,7 @@
   "cobblemon.battle.activate.infestation": "%1$s has become infested!",
   "cobblemon.battle.activate.phantomforce": "It broke through %1$s's protection!",
   "cobblemon.battle.activate.matblock": "%1$s was blocked by the kicked-up mat!",
+  "cobblemon.battle.activate.electricterrain": "%1$s surrounds itself with electrified terrain!",
 
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
