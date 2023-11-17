@@ -30,7 +30,8 @@
 - The nature of cobblemon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
 - Giving Pokémon items now plays a sound
 - A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft's equivalent with Apricorn planks as replacements.
-- Added the Cleanse Tag held item.
+- Added the Cleanse Tag, Flame Orb, Life Orb, Smoke Ball, and Toxic Orb held items.
+- Added Fairy Feather drops to some pokemon.
 - Added the Inferno, Void, and Forsaken patterns for Vivillon. These can be obtained by evolving a Spewpa in the Nether, End, or Deep Dark respectively.
 - Added the Litwick line.
 - Bees can now be fed using Pep-Up Flowers.
@@ -877,17 +878,17 @@
 - Fixed spawning in several biome tag categories.
 - Fixed resource pack support for Pokémon models and textures.
 - **Model Fixes**
-    - Fixed Paras and Nidoqueen looking very weird.
-    - Fixed Hitmonchan asserting dominance with a T-pose as well as Grimer and Muk pointing their hands to the sky.
-    - Fixed specific Pokémon suddenly pausing their animation after staying still for a long time.
-    - Fixed Mankey's feet being buried in the ground.
-    - Updated the Substitute model and updated its shiny texture to be better for the red-green colorblind.
-    - Improved Horsea, Seadra, and Kingdra animations, especially on land.
+  - Fixed Paras and Nidoqueen looking very weird.
+  - Fixed Hitmonchan asserting dominance with a T-pose as well as Grimer and Muk pointing their hands to the sky.
+  - Fixed specific Pokémon suddenly pausing their animation after staying still for a long time.
+  - Fixed Mankey's feet being buried in the ground.
+  - Updated the Substitute model and updated its shiny texture to be better for the red-green colorblind.
+  - Improved Horsea, Seadra, and Kingdra animations, especially on land.
 - **Battle Fixes**
-    - Fixed an issue with battles where Pokémon had a different max HP causing some desync issues with the health bars.
-    - Fixed Magnitude battle messages.
-    - Moves that are disabled or out of PP now show transparently in the battle GUI instead of being hidden completely.
-    - Statuses like sleep and frozen no longer last forever if it was carried over from a previous battle.
+  - Fixed an issue with battles where Pokémon had a different max HP causing some desync issues with the health bars.
+  - Fixed Magnitude battle messages.
+  - Moves that are disabled or out of PP now show transparently in the battle GUI instead of being hidden completely.
+  - Statuses like sleep and frozen no longer last forever if it was carried over from a previous battle.
 
 ### Localization
 - Added species, ability, and move translations for `ko_ko`, `jp_jp`, `fr_fr`, `es_es`, `it_it`, and `zh_cn`.
