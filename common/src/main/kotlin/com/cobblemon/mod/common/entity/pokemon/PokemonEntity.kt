@@ -8,11 +8,8 @@
 
 package com.cobblemon.mod.common.entity.pokemon
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonEntities
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
-import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -561,6 +558,12 @@ class PokemonEntity(
                 player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
                 val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
                 player.setStackInHand(hand, mushroomStew)
+                return ActionResult.success(world.isClient)
+            }
+            else if (pokemon.species.name == "Shuckle") {
+                player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
+                val berryJuice = ItemUsage.exchangeStack(itemStack, player, CobblemonItems.BERRY_JUICE.defaultStack)
+                player.setStackInHand(hand, berryJuice)
                 return ActionResult.success(world.isClient)
             }
         }

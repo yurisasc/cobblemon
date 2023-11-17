@@ -5,6 +5,7 @@
 - Slightly lowered the volume of all cries
 - Updated Pokeball animations and model.
 - Turtwig can now be put on shoulder.
+- Shuckles can now be milked for Berry Juice using a wooden bowl
 - Updated Zubat line model, texture, and animations.
 - Added animations for Hitmontop, Tyrogue, and Mightyena.
 - Tweaked animations for Dusknoir, Ratatta, Bewear, Exeggutor, and Alolan Exeggutor.
