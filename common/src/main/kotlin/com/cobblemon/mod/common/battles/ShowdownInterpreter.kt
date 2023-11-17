@@ -1471,7 +1471,7 @@ object ShowdownInterpreter {
                 val maxHealth = newHealth.split("/")[1].toInt()
                 val difference = maxHealth - remainingHealth
                 newHealthRatio = remainingHealth.toFloat() / maxHealth
-                battle.dispatch {
+                battle.dispatchToFront {
                     battlePokemon.effectedPokemon.currentHealth = remainingHealth
                     if (difference > 0) {
                         battlePokemon.effectedPokemon.let { pokemon ->
