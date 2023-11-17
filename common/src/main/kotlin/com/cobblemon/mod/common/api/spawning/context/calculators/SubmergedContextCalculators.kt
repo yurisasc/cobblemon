@@ -45,6 +45,7 @@ object SubmergedSpawningContextCalculator : AreaSpawningContextCalculator<Submer
             world = input.world,
             position = input.position.toImmutable(),
             light = getLight(input),
+            skyLight = getSkyLight(input),
             canSeeSky = getCanSeeSky(input),
             influences = input.spawner.copyInfluences(),
             height = getHeight(input, fluidCondition, ceil(config.maxVerticalSpace / 2F)),
