@@ -1020,6 +1020,8 @@
   "cobblemon.battle.ability.unnerve": "%1$s made the opponent too nervous to eat berries!",
   "cobblemon.battle.ability.anticipation": "%1$s shuddered in anticipation!",
   "cobblemon.battle.ability.airlock": "The effects of the weather disappeared.",
+  "cobblemon.battle.ability.trace": "%1$s traced the opposing %2$s's %3$s!",
+  "cobblemon.battle.ability.receiver": "%1$s's %2$s was taken over!",
   "cobblemon.battle.ability.generic": "%1$s's %2$s activated!",
   "cobblemon.battle.ability.magicbounce": "%1$s bounced the %2$s back!",
 

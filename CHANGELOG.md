@@ -77,6 +77,7 @@
 - Fixed Quaxwell not doing its cry.
 - Fixed Shroomish not using its idle.
 - Fixed a possible visual duplication of sent out Pokémon.
+- Fixed battle text for Trace, Receiver, and Power of Alchemy.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
