@@ -34,6 +34,7 @@
 - Added the Litwick line.
 - Bees can now be fed using Pep-Up Flowers.
 - Mooshtank can now be milked with a bowl for Mushroom Stew.
+- Updated Showdown version to use gen9 battle data
 - Added cries to Beldum, Metang and Metagross.
 
 ### Fixes
