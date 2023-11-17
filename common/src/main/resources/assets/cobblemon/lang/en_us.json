@@ -801,6 +801,16 @@
   "cobblemon.battle.start.gmax": "%1$s Gigantamaxed!",
   "cobblemon.battle.start.encore": "%1$s must do an encore!",
   "cobblemon.battle.start.futuresight": "%1$s foresaw an attack!",
+  "cobblemon.battle.start.ingrain": "%1$s planted its roots!",
+  "cobblemon.battle.start.healblock": "%1$s was prevented from healing!",
+  "cobblemon.battle.start.mimic": "%1$s learned %2$s!",
+  "cobblemon.battle.start.octolock": "%1$s can no longer escape because of Octolock!",
+  "cobblemon.battle.start.burnup": "%1$s burned itself out!",
+  "cobblemon.battle.start.conversion": "Converted type to  %1$s's!",
+  "cobblemon.battle.start.conversion2": "Converted type to  %1$s's!",
+  "cobblemon.battle.start.doomdesire": "%1$s chose Doom Desire as its destiny!",
+  "cobblemon.battle.start.doubleshock": "%1$s used up all of its electricity!",
+
 
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.fieldstart.grassyterrain": "Grass grew to cover the battlefield!",
