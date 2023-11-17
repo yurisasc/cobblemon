@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -40,11 +40,6 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
-                ]
             }
         },
         {
@@ -52,7 +47,7 @@
             "pokemon": "kirlia",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",

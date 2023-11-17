@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -20,7 +20,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "alcremie-2",
             "pokemon": "alcremie",
             "type": "pokemon",
@@ -37,10 +37,10 @@
                 ]
             }
         },
-		{
+        {
             "id": "alcremie-3",
             "pokemon": "alcremie",
-			"presets": [
+            "presets": [
                 "mansion"
             ],
             "type": "pokemon",
@@ -49,14 +49,14 @@
             "level": "22-50",
             "weight": 0.2,
             "condition": {
-				"canSeeSky": false,
+                "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
                 "neededNearbyBlocks": [
                     "minecraft:light_grey_carpet",
-					"minecraft:magenta_carpet",
-					"minecraft:white_carpet"
+                    "minecraft:magenta_carpet",
+                    "minecraft:white_carpet"
                 ]
             }
         }

@@ -14,12 +14,12 @@
             "bucket": "common",
             "level": "8-33",
             "weight": 1.8,
-			"weightMultiplier": {
-				"multiplier": 1.5,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -27,33 +27,28 @@
                 ]
             }
         },
-		{
+        {
             "id": "grimer-2",
             "pokemon": "grimer",
             "presets": [
                 "water_surface",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "surface",
             "bucket": "common",
             "level": "8-33",
             "weight": 5.4,
-			"weightMultiplier": {
-				"multiplier": 1.5,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
@@ -62,19 +57,19 @@
             "pokemon": "grimer",
             "presets": [
                 "water_surface",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "surface",
             "bucket": "common",
             "level": "8-33",
             "weight": 5.4,
-			"weightMultiplier": {
-				"multiplier": 1.5,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -82,7 +77,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "grimer-4",
             "pokemon": "grimer",
             "presets": [

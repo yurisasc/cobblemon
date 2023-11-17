@@ -8,28 +8,23 @@
             "pokemon": "electrode",
             "presets": [
                 "natural",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "30-49",
             "weight": 0.2,
-			"weightMultiplier": {
-				"multiplier": 5.0,
-				"condition": {
-					"isThundering": true
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 5.0,
+                "condition": {
+                    "isThundering": true
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
@@ -38,19 +33,19 @@
             "pokemon": "electrode",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "30-49",
             "weight": 0.2,
-			"weightMultiplier": {
-				"multiplier": 5.0,
-				"condition": {
-					"isThundering": true
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 5.0,
+                "condition": {
+                    "isThundering": true
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -58,7 +53,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "electrode-3",
             "pokemon": "electrode",
             "type": "pokemon",
@@ -66,18 +61,18 @@
             "bucket": "uncommon",
             "level": "30-49",
             "weight": 0.6,
-			"weightMultiplier": {
-				"multiplier": 5.0,
-				"condition": {
-					"isThundering": true
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 5.0,
+                "condition": {
+                    "isThundering": true
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "minecraft:lightning_rod"
                 ]
             }

@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -27,11 +27,6 @@
                     "#cobblemon:is_freezing",
                     "#cobblemon:is_taiga"
                 ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
-                ]
             }
         },
         {
@@ -39,7 +34,7 @@
             "pokemon": "perrserker",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",

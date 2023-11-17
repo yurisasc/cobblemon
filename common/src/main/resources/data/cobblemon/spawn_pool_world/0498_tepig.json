@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -21,7 +21,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "tepig-2",
             "pokemon": "tepig",
             "presets": [
@@ -33,11 +33,11 @@
             "level": "5-31",
             "weight": 9.0,
             "condition": {
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_nether_crimson",
-					"#cobblemon:is_nether_overgrowth"
+                    "#cobblemon:is_nether_overgrowth"
                 ]
-			}
+            }
         }
     ]
 }

@@ -8,36 +8,17 @@ from sqlalchemy import create_engine
 
 
 def main():
-    # Configuration data
-    drops_spreadsheet_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR51bmzKMTvCfa1UKf454nnlNBCUVMtVNQvxdAiYU09E5pWS7mbsrVt45ABsCGZTByt9N_YEgnSwj8V/pub?gid=0&single=true&output=csv'
-    conversion_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmvHzUc6_UUKbcvRche7AVebNoljqC1bf3iccusJqW9-C3k0KtESJxOCXShykSejIarAB2jHJ2bHCb/pub?gid=0&single=true&output=csv'
-    pokemon_data_dir = '../common/src/main/resources/data/cobblemon/species'
-    sqlite_db_name = 'pokemon_drops_data.sqlite'
-    sqlite_table_name = 'pokemon_drops'
-
-    # Download the CSV from the Google Spreadsheet
-    csv_data = download_spreadsheet_data(drops_spreadsheet_csv_url)
-    csv_data_for_matching = download_spreadsheet_data(conversion_csv_url)
-
-    # Load the data into a DataFrame
-    df = load_data_from_csv(csv_data)
-    mapping_df = load_data_from_csv(csv_data_for_matching)
-
-    # Create a mapping dictionary from the Pokémon names to the Minecraft IDs
-    mapping_dict = dict(zip(mapping_df['natural_name'], mapping_df['minecraft_ID']))
-
-    # Replace the Item names with the Minecraft IDs
-    df['Drops'] = df['Drops'].apply(lambda x: replace_names_in_string(x, mapping_dict))
+    drops_df, pokemon_data_dir, sqlite_db_name, sqlite_table_name = getDropsDF()
 
     # Filter filenames from ..\common\src\main\resources\data\cobblemon\species based on Pokémon names that have drops
-    filesToChange = filter_filenames_by_pokemon_names(pokemon_data_dir, df['Pokémon'])
+    filesToChange = filter_filenames_by_pokemon_names(pokemon_data_dir, drops_df['Pokémon'])
 
     # For each file, replace the drops or create them if not present
     for file in filesToChange:
         with open(pokemon_data_dir + "/" + file, 'r', encoding="utf8") as f:
             data = json.load(f)  # Deserialize JSON to Python object
 
-        for index, row in df.iterrows():
+        for index, row in drops_df.iterrows():
             if row['Pokémon'].lower() == file.split('/')[-1][:-5].lower():
                 if row['Drops'] != row['Drops'] or row['Drops'] == '':
                     # Remove drops field
@@ -52,7 +33,29 @@ def main():
             json.dump(data, f, ensure_ascii=False, indent=2)  # Serialize Python object to JSON
 
     # Save data to SQLite
-    write_to_sqlite(df, sqlite_db_name, sqlite_table_name)
+    write_to_sqlite(drops_df, sqlite_db_name, sqlite_table_name)
+
+
+def getDropsDF():
+    # Configuration data
+    drops_spreadsheet_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR51bmzKMTvCfa1UKf454nnlNBCUVMtVNQvxdAiYU09E5pWS7mbsrVt45ABsCGZTByt9N_YEgnSwj8V/pub?gid=0&single=true&output=csv'
+    conversion_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmvHzUc6_UUKbcvRche7AVebNoljqC1bf3iccusJqW9-C3k0KtESJxOCXShykSejIarAB2jHJ2bHCb/pub?gid=0&single=true&output=csv'
+    pokemon_data_dir = '../common/src/main/resources/data/cobblemon/species'
+    sqlite_db_name = 'pokemon_drops_data.sqlite'
+    sqlite_table_name = 'pokemon_drops'
+    # Download the CSV from the Google Spreadsheet
+    csv_data = download_spreadsheet_data(drops_spreadsheet_csv_url)
+    csv_data_for_matching = download_spreadsheet_data(conversion_csv_url)
+    # Load the data into a DataFrame
+    drops_df = load_data_from_csv(csv_data)
+    mapping_df = load_data_from_csv(csv_data_for_matching)
+    # Create a mapping dictionary from the Pokémon names to the Minecraft IDs
+    mapping_dict = dict(zip(mapping_df['natural_name'], mapping_df['minecraft_ID']))
+    # Replace the Item names with the Minecraft IDs
+    drops_df['Drops'] = drops_df['Drops'].apply(lambda x: replace_names_in_string(x, mapping_dict))
+    # Do the same for the "Spawn Specific Drops" column
+    drops_df['Spawn Specific Drops'] = drops_df['Spawn Specific Drops'].apply(lambda x: replace_names_in_string(x, mapping_dict))
+    return drops_df, pokemon_data_dir, sqlite_db_name, sqlite_table_name
 
 
 def parse_drops(drops_str):

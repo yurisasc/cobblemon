@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -32,11 +32,12 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_freezing"
+                    "#cobblemon:is_freezing",
+                    "#cobblemon:is_spooky"
                 ]
             }
         },
-		{
+        {
             "id": "combee-2",
             "pokemon": "combee",
             "type": "pokemon",
@@ -51,8 +52,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

@@ -20,21 +20,16 @@
                     "#cobblemon:is_hills"
                 ],
                 "isRaining": false,
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "#minecraft:lava",
-					"minecraft:magma_block"
-                ]
-            },
-            "anticondition": {
-                "biomes": [
-                    "#cobblemon:is_volcanic"
+                    "minecraft:magma_block"
                 ]
             }
         },
         {
             "id": "magmortar-2",
             "pokemon": "magmortar",
-			"presets": [
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",
@@ -53,7 +48,7 @@
         {
             "id": "magmortar-3",
             "pokemon": "magmortar",
-			"presets": [
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",
