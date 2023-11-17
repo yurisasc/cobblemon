@@ -14,12 +14,12 @@
             "bucket": "uncommon",
             "level": "34-52",
             "weight": 0.2,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

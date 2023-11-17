@@ -24,7 +24,7 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_freezing",
-					"#cobblemon:is_spooky"
+                    "#cobblemon:is_spooky"
                 ]
             }
         },
@@ -32,7 +32,7 @@
             "id": "metapod-2",
             "pokemon": "metapod",
             "presets": [
-				"natural",
+                "natural",
                 "foliage",
                 "treetop"
             ],
@@ -48,8 +48,8 @@
                 ]
             }
         },
-		{
-            "id": "metapod-valencian-1",
+        {
+            "id": "metapod-valencian-3",
             "pokemon": "metapod valencian",
             "presets": [
                 "natural",
@@ -64,12 +64,12 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_jungle",
-					"#cobblemon:is_tropical_island"
+                    "#cobblemon:is_tropical_island"
                 ]
             }
         },
-		{
-            "id": "metapod-valencian-2",
+        {
+            "id": "metapod-valencian-4",
             "pokemon": "metapod valencian",
             "type": "pokemon",
             "context": "grounded",
@@ -83,8 +83,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

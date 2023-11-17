@@ -8,28 +8,23 @@
             "pokemon": "chansey",
             "presets": [
                 "natural",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
             "level": "17-45",
             "weight": 0.9,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
@@ -38,19 +33,19 @@
             "pokemon": "chansey",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
             "level": "17-45",
             "weight": 0.9,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -15,10 +15,10 @@
             "level": "24-49",
             "weight": 2.0,
             "condition": {
-                "maxY": 48,
                 "biomes": [
                     "#cobblemon:is_deep_ocean"
-                ]
+                ],
+                "maxY": 48
             }
         },
         {
@@ -36,7 +36,7 @@
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
-                    "#minecraft:is_ocean"
+                    "#cobblemon:is_ocean"
                 ]
             }
         },
@@ -59,7 +59,7 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#minecraft:is_ocean"
+                    "#cobblemon:is_ocean"
                 ]
             }
         }

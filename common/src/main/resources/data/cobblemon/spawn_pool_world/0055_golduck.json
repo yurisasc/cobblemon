@@ -8,7 +8,7 @@
             "pokemon": "golduck",
             "presets": [
                 "natural",
-				"freshwater"
+                "freshwater"
             ],
             "type": "pokemon",
             "context": "grounded",

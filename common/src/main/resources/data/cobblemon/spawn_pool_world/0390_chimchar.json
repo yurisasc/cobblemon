@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -23,7 +23,7 @@
                 "isRaining": false
             }
         },
-		{
+        {
             "id": "chimchar-2",
             "pokemon": "chimchar",
             "presets": [

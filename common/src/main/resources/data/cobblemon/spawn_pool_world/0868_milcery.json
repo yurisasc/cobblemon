@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -20,7 +20,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "milcery-2",
             "pokemon": "milcery",
             "type": "pokemon",
@@ -33,14 +33,14 @@
                     "#cobblemon:is_overworld"
                 ],
                 "neededNearbyBlocks": [
-					"minecraft:sugar_cane"
+                    "minecraft:sugar_cane"
                 ]
             }
         },
-		{
+        {
             "id": "milcery-3",
             "pokemon": "milcery",
-			"presets": [
+            "presets": [
                 "mansion"
             ],
             "type": "pokemon",
@@ -49,14 +49,14 @@
             "level": "2-27",
             "weight": 1.8,
             "condition": {
-				"canSeeSky": false,
+                "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
                 "neededNearbyBlocks": [
-					"minecraft:light_grey_carpet",
-					"minecraft:magenta_carpet",
-					"minecraft:white_carpet"
+                    "minecraft:light_grey_carpet",
+                    "minecraft:magenta_carpet",
+                    "minecraft:white_carpet"
                 ]
             }
         }

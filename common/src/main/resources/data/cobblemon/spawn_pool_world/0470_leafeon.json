@@ -24,16 +24,16 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_freezing",
-					"#cobblemon:is_spooky"
+                    "#cobblemon:is_spooky"
                 ]
             }
         },
-		{
+        {
             "id": "leafeon-2",
             "pokemon": "leafeon",
             "presets": [
                 "natural",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -44,11 +44,6 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
@@ -57,7 +52,7 @@
             "pokemon": "leafeon",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -71,7 +66,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "leafeon-4",
             "pokemon": "leafeon",
             "presets": [

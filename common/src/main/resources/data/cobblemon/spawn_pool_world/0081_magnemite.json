@@ -25,7 +25,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "magnemite-2",
             "pokemon": "magnemite",
             "type": "pokemon",
@@ -33,42 +33,18 @@
             "bucket": "uncommon",
             "level": "8-33",
             "weight": 9.0,
-			"weightMultiplier": {
-				"multiplier": 5.0,
-				"condition": {
-					"isThundering": true
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 5.0,
+                "condition": {
+                    "isThundering": true
+                }
+            },
             "condition": {
-				"canSeeSky": true,
+                "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-				"neededNearbyBlocks": [
-                    "minecraft:lightning_rod"
-                ]
-            }
-        },
-		{
-            "id": "magnemite-3",
-            "pokemon": "magnemite",
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "uncommon",
-            "level": "8-33",
-            "weight": 9.0,
-			"weightMultiplier": {
-				"multiplier": 5.0,
-				"condition": {
-					"isThundering": true
-				}
-			},
-            "condition": {
-				"canSeeSky": true,
-                "biomes": [
-                    "#cobblemon:is_overworld"
-                ],
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "minecraft:lightning_rod"
                 ]
             }

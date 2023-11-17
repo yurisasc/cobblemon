@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -28,11 +28,11 @@
             }
         },
         {
-            "id": "zigzagoon-galarian-1",
+            "id": "zigzagoon-galarian-2",
             "pokemon": "zigzagoon galarian",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
