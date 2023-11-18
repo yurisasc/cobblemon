@@ -133,8 +133,14 @@ class FossilMultiblockStructure (
             }
 
             player.setStackInHand(interactionHand, fossilInventory.last())
+
+            // remove last fossil in the fossil machine stack when grabbed out of the machine
+            this.fossilInventory.removeAt(fossilInventory.size - 1)
+
             world.playSound(null, compartmentPos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_FOSSIL, SoundCategory.BLOCKS)
             this.updateFossilType(world)
+            this.syncToClient(world)
+            this.markDirty(world)
             return ActionResult.SUCCESS
         }
 
