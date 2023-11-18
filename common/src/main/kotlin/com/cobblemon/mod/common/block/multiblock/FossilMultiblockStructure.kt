@@ -153,6 +153,8 @@ class FossilMultiblockStructure (
             fossilInventory.add(copyFossilStack)
             this.updateFossilType(world)
             world.playSound(null, compartmentPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_FOSSIL, SoundCategory.BLOCKS)
+            this.syncToClient(world)
+            this.markDirty(world)
             return ActionResult.SUCCESS
         }
 
@@ -203,13 +205,18 @@ class FossilMultiblockStructure (
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
         val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
         val compartmentEntity = world.getBlockEntity(compartmentPos) as MultiblockEntity
-        val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as FossilTubeBlockEntity
+        val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as MultiblockEntity
         val tubeTopEntity = world.getBlockEntity(tubeBasePos.up()) as MultiblockEntity
 
         monitorEntity.multiblockStructure = null
         compartmentEntity.multiblockStructure = null
         tubeBaseEntity.multiblockStructure = null
         tubeTopEntity.multiblockStructure = null
+        monitorEntity.masterBlockPos = null
+        compartmentEntity.masterBlockPos = null
+        tubeBaseEntity.masterBlockPos = null
+        tubeTopEntity.masterBlockPos = null
+
 
         // Drop fossils from machine as long as the machine is not running
         if (this.timeRemaining == TIME_TO_TAKE || this.timeRemaining == -1) {
