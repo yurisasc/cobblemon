@@ -53,16 +53,18 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
             matrices.pop()
         }
         val fillLevel = struct.fillLevel
-        if (fillLevel == 0) {
+        if (fillLevel == 0 && struct.createdPokemon == null) {
             return
         }
 
-        if (fillLevel == 8) renderBaby(entity, tickDelta, matrices, vertexConsumers, light, overlay)
+        if (struct.isRunning() or (struct.createdPokemon != null)) renderBaby(entity, tickDelta, matrices, vertexConsumers, light, overlay)
 
         matrices.push()
         val transparentBuffer = vertexConsumers.getBuffer(RenderLayer.getTranslucent())
 
-        val fluidModel = if (struct.timeRemaining != -1) FLUID_MODELS[8] else FLUID_MODELS[fillLevel-1]
+        val fluidModel = if (struct.isRunning()) FLUID_MODELS[8]
+        else if (struct.createdPokemon != null) FLUID_MODELS[7]
+        else FLUID_MODELS[fillLevel-1]
         fluidModel.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
             transparentBuffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
         }

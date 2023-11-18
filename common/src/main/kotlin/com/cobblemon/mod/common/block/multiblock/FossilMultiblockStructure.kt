@@ -61,7 +61,8 @@ class FossilMultiblockStructure (
     // TODO: API method for this
     private var organicMaterialInside = 0
 
-    private var createdPokemon: Pokemon? = null
+    var createdPokemon: Pokemon? = null
+        private set
     var timeRemaining = -1
         private set
     var resultingFossil: Fossil? = null
