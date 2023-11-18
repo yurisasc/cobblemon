@@ -832,11 +832,12 @@ object ShowdownInterpreter {
         battle.dispatchWaiting(1.5F){
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
-            val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
+            val effectID = message.effectAt(1)?.id
 
             val lang = when (effectID) {
+                null -> battleLang("fail") // Some moves fail with no effect, so we default to generic fail lang (Example: Baton Pass when unable to switch)
                 "shedtail" -> battleLang("fail.substitute", pokemonName)
-                "hyperspacefury" -> battleLang("fail.darkvoid", pokemonName)
+                "hyperspacefury", "aurawheel" -> battleLang("fail.darkvoid", pokemonName) // Moves that can only be used by one species and fail when any others try
                 "corrosivegas" -> battleLang("fail.healblock", pokemonName)
                 else -> battleLang("fail.$effectID", pokemonName)
             }

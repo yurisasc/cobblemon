@@ -929,6 +929,8 @@
   "cobblemon.battle.activate.grudge": "%1$s's %2$s lost all of its PP due to the grudge!",
   "cobblemon.battle.activate.speedswap": "%1$s switched Speed with its target!",
   "cobblemon.battle.activate.switcheroo": "%1$s switched items with its target!",
+  "cobblemon.battle.activate.skillswap": "%1$s swapped Abilities with its target!",
+  "cobblemon.battle.activate.wideguard": "Wide Guard protected %1$s!",
   
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
@@ -1085,6 +1087,8 @@
   "cobblemon.battle.enditem.powerherb": "%1$s became fully charged due to its Power Herb!",
   "cobblemon.battle.enditem.mirrorherb": "%1$s copied stat changes with its Mirror Herb!",
   "cobblemon.battle.enditem.whiteherb": "%1$s returned its status to normal using its White Herb!",
+  "cobblemon.battle.enditem.corrosivegas": "%3$s corroded %1$s's %2$s!",
+  "cobblemon.battle.enditem.stealeat": "%3$s stole and ate its target's %2$s!",
 
   "cobblemon.battle.heal.zeffect": "%1$s's HP was restored by the Z-Power!",
   "cobblemon.battle.heal.wish": "%1$s's wish came true!",
