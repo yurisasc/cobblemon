@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -8,9 +8,9 @@
             "pokemon": "komala",
             "presets": [
                 "natural",
-				"foliage",
+                "foliage",
                 "treetop",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",

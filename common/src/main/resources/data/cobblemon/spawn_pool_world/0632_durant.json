@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -16,13 +16,13 @@
             "weight": 2.0,
             "condition": {
                 "canSeeSky": true,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_badlands",
                     "#cobblemon:is_hills"
                 ]
             }
         },
-		{
+        {
             "id": "durant-2",
             "pokemon": "durant",
             "presets": [
@@ -35,7 +35,7 @@
             "weight": 10.0,
             "condition": {
                 "canSeeSky": false,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_badlands",
                     "#cobblemon:is_hills"
                 ]

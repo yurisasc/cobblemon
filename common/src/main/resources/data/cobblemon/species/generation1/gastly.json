@@ -8,7 +8,7 @@
     "levitate"
   ],
   "drops": {
-    "amount": 3,
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:spell_tag",
@@ -16,10 +16,6 @@
       },
       {
         "item": "cobblemon:payapa_berry",
-        "percentage": 2.5
-      },
-      {
-        "item": "minecraft:ghast_tear",
         "percentage": 2.5
       }
     ]

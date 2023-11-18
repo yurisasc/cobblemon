@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -15,11 +15,11 @@
             "level": "7-32",
             "weight": 5.4,
             "weightMultiplier": {
-				"multiplier": 5.0,
-				"condition": {
-					"isThundering": true
-				}
-			},
+                "multiplier": 5.0,
+                "condition": {
+                    "isThundering": true
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -50,6 +50,24 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_deep_dark"
+                ]
+            }
+        },
+        {
+            "id": "joltik-3",
+            "pokemon": "joltik",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "7-32",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "terralith:cave/infested_caves"
                 ]
             }
         }

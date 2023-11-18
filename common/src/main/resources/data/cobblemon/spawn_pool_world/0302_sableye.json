@@ -8,7 +8,7 @@
             "pokemon": "sableye",
             "presets": [
                 "natural",
-				"gemstones"
+                "gemstones"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -17,12 +17,12 @@
             "weight": 6.0,
             "condition": {
                 "canSeeSky": false,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_overworld"
                 ]
             }
         },
-		{
+        {
             "id": "sableye-2",
             "pokemon": "sableye",
             "type": "pokemon",
@@ -31,14 +31,14 @@
             "level": "13-38",
             "weight": 2.0,
             "condition": {
-				"biomes": [
+                "biomes": [
                     "the_bumblezone:crystal_canyon"
                 ]
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

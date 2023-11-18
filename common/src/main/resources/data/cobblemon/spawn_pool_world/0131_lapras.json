@@ -6,10 +6,11 @@
         {
             "id": "lapras-1",
             "pokemon": "lapras",
-			"presets": [
+            "presets": [
                 "water_surface"
             ],
             "type": "pokemon",
+            "context": "surface",
             "bucket": "uncommon",
             "level": "29-54",
             "weight": 2.0,
@@ -20,13 +21,14 @@
                 ]
             }
         },
-		{
+        {
             "id": "lapras-2",
             "pokemon": "lapras",
-			"presets": [
+            "presets": [
                 "water_surface"
             ],
             "type": "pokemon",
+            "context": "surface",
             "bucket": "rare",
             "level": "29-54",
             "weight": 2.0,
@@ -39,28 +41,6 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_frozen_ocean"
-                ]
-            }
-        },
-		{
-            "id": "lapras-3",
-            "pokemon": "lapras",
-			"presets": [
-                "water_surface"
-            ],
-            "type": "pokemon",
-            "bucket": "rare",
-            "level": "29-54",
-            "weight": 2.0,
-            "condition": {
-                "canSeeSky": true,
-                "biomes": [
-                    "#cobblemon:is_ocean"
-                ]
-            },
-            "anticondition": {
-                "biomes": [
-                    "#cobblemon:is_frozen"
                 ]
             }
         }

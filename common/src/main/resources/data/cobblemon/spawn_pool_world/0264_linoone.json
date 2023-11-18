@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -28,17 +28,17 @@
             }
         },
         {
-            "id": "linoone-galarian-1",
+            "id": "linoone-galarian-2",
             "pokemon": "linoone galarian",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "20-42",
-            "weight": 1.0,
+            "weight": 0.9,
             "weightMultiplier": {
                 "multiplier": 1.5,
                 "condition": {

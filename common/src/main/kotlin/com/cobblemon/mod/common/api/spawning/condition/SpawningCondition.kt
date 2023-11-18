@@ -52,6 +52,8 @@ abstract class SpawningCondition<T : SpawningContext> {
     var maxZ: Float? = null
     var minLight: Int? = null
     var maxLight: Int? = null
+    var minSkyLight: Int? = null
+    var maxSkyLight: Int? = null
     var isRaining: Boolean? = null
     var isThundering: Boolean? = null
     var timeRange: TimeRange? = null
@@ -87,6 +89,8 @@ abstract class SpawningCondition<T : SpawningContext> {
         } else if (biomes != null && biomes!!.isNotEmpty() && biomes!!.none { condition -> condition.fits(ctx.biome, ctx.biomeRegistry) }) {
             return false
         } else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
+            return false
+        } else if (ctx.skyLight > maxSkyLight.orMax() || ctx.skyLight < minSkyLight.orMin()) {
             return false
         } else if (timeRange != null && !timeRange!!.contains((ctx.world.timeOfDay % 24000).toInt())) {
             return false
@@ -134,6 +138,8 @@ abstract class SpawningCondition<T : SpawningContext> {
         maxZ = merger.mergeSingle(maxZ, other.maxZ)
         minLight = merger.mergeSingle(minLight, other.minLight)
         maxLight = merger.mergeSingle(maxLight, other.maxLight)
+        minSkyLight = merger.mergeSingle(minSkyLight, other.minSkyLight)
+        maxSkyLight = merger.mergeSingle(maxSkyLight, other.maxSkyLight)
         timeRange = merger.mergeSingle(timeRange, other.timeRange)
         structures = merger.merge(structures, other.structures)?.toMutableList()
     }

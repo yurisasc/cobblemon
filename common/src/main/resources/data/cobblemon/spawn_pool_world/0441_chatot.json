@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -23,7 +23,7 @@
                 "timeRange": "day"
             }
         },
-		{
+        {
             "id": "chatot-2",
             "pokemon": "chatot",
             "presets": [
@@ -43,7 +43,7 @@
                 "timeRange": "day"
             }
         },
-		{
+        {
             "id": "chatot-3",
             "pokemon": "chatot",
             "presets": [
