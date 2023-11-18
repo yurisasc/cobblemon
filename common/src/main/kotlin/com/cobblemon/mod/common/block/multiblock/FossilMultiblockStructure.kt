@@ -163,7 +163,16 @@ class FossilMultiblockStructure (
 
             if (this.organicMaterialInside >= 64) return ActionResult.FAIL
             val oldFillStage = organicMaterialInside / 8
-            organicMaterialInside += natureValue
+
+            // to prevent over filling the tank causing a crash
+            if ((organicMaterialInside + natureValue) > 64) {
+                organicMaterialInside = 64
+            }
+            else {
+                organicMaterialInside += natureValue
+            }
+
+
 
             if (this.organicMaterialInside >= 64) {
                 player.playSound(CobblemonSounds.FOSSIL_MACHINE_DNA_FULL, SoundCategory.BLOCKS, 1.0F, 1.0F)
