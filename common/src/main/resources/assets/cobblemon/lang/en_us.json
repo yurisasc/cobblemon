@@ -926,7 +926,10 @@
   "cobblemon.battle.activate.quickguard": "Quick Guard protected %1$s",
   "cobblemon.battle.activate.safeguard": "%1$s is protected by Safeguard!",
   "cobblemon.battle.activate.sketch": "%1$s sketched %2$s!",
-
+  "cobblemon.battle.activate.grudge": "%1$s's %2$s lost all of its PP due to the grudge!",
+  "cobblemon.battle.activate.speedswap": "%1$s switched Speed with its target!",
+  "cobblemon.battle.activate.switcheroo": "%1$s switched items with its target!",
+  
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
   "cobblemon.battle.prepare.shelltrap": "%1$s set a shell trap!",

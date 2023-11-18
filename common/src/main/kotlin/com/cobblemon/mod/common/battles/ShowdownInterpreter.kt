@@ -1017,6 +1017,10 @@ object ShowdownInterpreter {
                     val moveName = message.moveAt(2)?.displayName ?: run { println(message.argumentAt(2)); "(Unrecognized: ${message.argumentAt(2)})".text() }
                     battleLang("activate.forewarn", sourceName, moveName)
                 }
+                "grudge" -> {
+                    val moveName = message.moveAt(2)?.displayName ?: run { println(message.argumentAt(2)); "(Unrecognized: ${message.argumentAt(2)})".text() }
+                    battleLang("activate.grudge", pokemonName, moveName)
+                }
                 // Includes held item of the target
                 "poltergeist" -> battleLang("activate.poltergeist", pokemonName, message.argumentAt(2)!!)
                 // Includes sketched move
