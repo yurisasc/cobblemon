@@ -44,6 +44,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -209,6 +210,18 @@ class FossilMultiblockStructure (
         compartmentEntity.multiblockStructure = null
         tubeBaseEntity.multiblockStructure = null
         tubeTopEntity.multiblockStructure = null
+
+        // Drop fossils from machine as long as the machine is not running
+        if (this.timeRemaining == TIME_TO_TAKE || this.timeRemaining == -1) {
+            this.fossilInventory.forEach {
+                val stack = ItemStack(it.item, 1)
+                ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), stack)
+            }
+        }
+
+
+
+
 
         MinecraftClient.getInstance().soundManager.stopSounds(CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id, SoundCategory.BLOCKS)
 
