@@ -1027,6 +1027,8 @@
   "cobblemon.battle.end.substitute": "%1$s's substitute faded!",
   "cobblemon.battle.end.uproar": "%1$s calmed down.",
   "cobblemon.battle.end.powertrick": "%1$s switched its Attack and Defense!",
+  "cobblemon.battle.end.healblock": "%1$s's Heal Block wore off!",
+  "cobblemon.battle.end.skydrop": "%1$s was freed from the Sky Drop!",
 
   "cobblemon.battle.block.uproar": "But the uproar kept %1$s awake!",
 
@@ -1036,6 +1038,7 @@
   "cobblemon.battle.fail.teatime": "But nothing happened!",
   "cobblemon.battle.fail.slp": "But the target is already asleep!",
   "cobblemon.battle.fail.uproar": "%1$s can't sleep in an uproar!",
+  "cobblemon.battle.fail.skydrop": "%1$s is too heavy to be lifted!",
 
   "cobblemon.battle.sethp.painsplit": "The battlers shared their pain!",
 
