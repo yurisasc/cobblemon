@@ -86,7 +86,6 @@ class FossilMultiblockStructure (
         blockHitResult: BlockHitResult
     ): ActionResult {
         val stack = player.getStackInHand(interactionHand)
-        val itemId = Registries.ITEM.getId(stack.item)
 
         if (this.createdPokemon != null) {
             if (player !is ServerPlayerEntity) {
@@ -166,8 +165,8 @@ class FossilMultiblockStructure (
         }
 
         // Check if the player is holding a natural material and if so, feed it to the machine.
-        if (NaturalMaterials.isNaturalMaterial(itemId)) {
-            val natureValue = NaturalMaterials.getContent(itemId) ?: return ActionResult.FAIL
+        if (NaturalMaterials.isNaturalMaterial(stack)) {
+            val natureValue = NaturalMaterials.getContent(stack) ?: return ActionResult.FAIL
 
             if (timeRemaining > 0) return ActionResult.FAIL
 
@@ -196,7 +195,7 @@ class FossilMultiblockStructure (
 
             if (!player.isCreative) {
                 stack?.decrement(1)
-                player.giveOrDropItemStack(ItemStack(Registries.ITEM.get(NaturalMaterials.getReturnItem(itemId))), false)
+                player.giveOrDropItemStack(ItemStack(Registries.ITEM.get(NaturalMaterials.getReturnItem(stack))), false)
             }
 
             this.markDirty(world)

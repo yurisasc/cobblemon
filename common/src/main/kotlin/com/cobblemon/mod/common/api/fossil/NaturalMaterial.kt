@@ -8,10 +8,12 @@
 
 package com.cobblemon.mod.common.api.fossil
 
+import com.cobblemon.mod.common.registry.ItemTagCondition
 import net.minecraft.util.Identifier
 
 data class NaturalMaterial(
     val content: Int = 0,
     val item: Identifier?,
+    val tag: ItemTagCondition? = null,
     val returnItem: Identifier? = null
 )
