@@ -62,7 +62,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         matrices.push()
         val transparentBuffer = vertexConsumers.getBuffer(RenderLayer.getTranslucent())
 
-        val fluidModel = FLUID_MODELS[fillLevel-1]
+        val fluidModel = if (struct.timeRemaining != -1) FLUID_MODELS[8] else FLUID_MODELS[fillLevel-1]
         fluidModel.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
             transparentBuffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
         }
@@ -133,6 +133,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
             CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_5.getModel(),
             CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_6.getModel(),
             CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_7.getModel(),
+            CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_8.getModel(),
             CobblemonBakingOverrides.FOSSIL_FLUID_BUBBLING.getModel()
         )
 
