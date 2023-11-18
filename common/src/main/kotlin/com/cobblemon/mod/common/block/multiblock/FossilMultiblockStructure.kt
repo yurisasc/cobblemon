@@ -119,6 +119,8 @@ class FossilMultiblockStructure (
             this.fossilOwner = null
             this.protectionTime = -1
             this.updateFossilType(world)
+            this.syncToClient(world)
+            this.markDirty(world)
             return ActionResult.SUCCESS
         }
 
