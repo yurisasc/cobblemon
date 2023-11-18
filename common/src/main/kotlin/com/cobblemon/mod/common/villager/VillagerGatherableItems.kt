@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.CobblemonItems
 import net.minecraft.item.Item
 
 object VillagerGatherableItems {
-    val VillagerGatherableItems = setOf<Item> (
+    val villagerGatherableItems = setOf<Item> (
             CobblemonItems.BLUE_MINT_SEEDS,
             CobblemonItems.CYAN_MINT_SEEDS,
             CobblemonItems.GREEN_MINT_SEEDS,
