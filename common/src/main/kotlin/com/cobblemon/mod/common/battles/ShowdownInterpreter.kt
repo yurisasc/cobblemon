@@ -1590,11 +1590,26 @@ object ShowdownInterpreter {
      */
     fun handleEndItemInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         battle.dispatchGo {
+            val moveEffect = message.effect()?.id
             val battlePokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
-            val item = message.effectAt(1) ?: return@dispatchGo
+            val itemEffect = message.effectAt(1) ?: return@dispatchGo
+            val itemText = message.argumentAt(1)!!
+            val pokemonName = battlePokemon.getName()
+
+            val lang = when (moveEffect) {
+                "incinerate" -> {
+                    battleLang("enditem.${moveEffect}", pokemonName, itemText.asTranslated())
+                }
+                else -> null
+            }
+
+            if(lang != null) {
+                battle.broadcastChatMessage(lang)
+            }
+
             battlePokemon.heldItemManager.handleEndInstruction(battlePokemon, battle, message)
             battle.minorBattleActions[battlePokemon.uuid] = message
-            battlePokemon.contextManager.remove(item.id, BattleContext.Type.ITEM)
+            battlePokemon.contextManager.remove(itemEffect.id, BattleContext.Type.ITEM)
             if (message.hasOptionalArgument("eat")) {
                 battlePokemon.entity?.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
             }
