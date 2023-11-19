@@ -25,6 +25,8 @@ class ClientStorageManager {
     var myParty = ClientParty(UUID.randomUUID(), 1)
     val partyStores = mutableMapOf<UUID, ClientParty>()
     val pcStores = mutableMapOf<UUID, ClientPC>()
+    var myPokedex = ClientPokedex(UUID.randomUUID())
+    val pokedexStores = mutableMapOf<UUID, ClientPokedex>()
 
     var selectedSlot = -1
     private var selectedPokemon: UUID? = null
@@ -89,6 +91,12 @@ class ClientStorageManager {
         }
     }
 
+    fun createPokedex(mine: Boolean, uuid: UUID){
+        val pokedex = ClientPokedex(uuid)
+        pokedexStores[uuid] = pokedex
+        if(mine) myPokedex = pokedex
+    }
+
     fun setPartyPokemon(storeID: UUID, position: PartyPosition, pokemon: Pokemon) {
         val party = partyStores[storeID]
             ?: return LOGGER.error("Tried setting a Pokémon in position $position for party store $storeID but no such store found.")
@@ -105,6 +113,10 @@ class ClientStorageManager {
     fun setPartyStore(storeID: UUID) {
         myParty = partyStores[storeID] ?: throw IllegalArgumentException("Was told to set party store to $storeID but no such store is known!")
         checkSelectedPokemon()
+    }
+
+    fun setPokedexStore(storeID: UUID) {
+        myPokedex = pokedexStores[storeID] ?: throw IllegalArgumentException("Was told to set Pokedex store to $storeID but no such store is known!")
     }
 
     fun removeFromParty(storeID: UUID, pokemonID: UUID) {
@@ -137,11 +149,13 @@ class ClientStorageManager {
 
     fun onLogin() {
         myParty = ClientParty(UUID.randomUUID(), 1)
+        myPokedex = ClientPokedex(UUID.randomUUID())
         checkSelectedPokemon()
     }
 
     fun onLogout() {
         partyStores.clear()
         pcStores.clear()
+        pokedexStores.clear()
     }
 }
