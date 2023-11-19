@@ -108,12 +108,12 @@ object CobblemonClient {
                 val language = Language.getInstance()
                 val key = this.baseLangKeyForItem(stack)
                 if (language.hasTranslation(key)) {
-                    lines.add(key.asTranslated().gray())
+                    lines.add(lines.size - 1, key.asTranslated().gray())
                 }
                 var i = 1
                 var listKey = "${key}_$i"
                 while(language.hasTranslation(listKey)) {
-                    lines.add(listKey.asTranslated().gray())
+                    lines.add(lines.size - 1, listKey.asTranslated().gray())
                     listKey = "${key}_${++i}"
                 }
             }
