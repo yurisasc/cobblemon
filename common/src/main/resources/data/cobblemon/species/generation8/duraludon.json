@@ -55,7 +55,6 @@
         "mineral",
         "dragon"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -163,5 +162,14 @@
   "height": 18,
   "weight": 400,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:iron_ingot",
+        "quantityRange": "0-1"
+      }
+    ]
+  }
 }

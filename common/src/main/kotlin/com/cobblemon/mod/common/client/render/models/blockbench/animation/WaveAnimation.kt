@@ -14,9 +14,9 @@ import com.cobblemon.mod.common.client.render.models.blockbench.addPosition
 import com.cobblemon.mod.common.client.render.models.blockbench.addRotation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
-import kotlin.math.atan
 import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
+import kotlin.math.atan
 
 /**
  * An animation that interpolates some segment of limbs onto a given wave function. This wave function

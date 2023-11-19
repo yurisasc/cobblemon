@@ -46,11 +46,17 @@
     "tm:brickbreak",
     "tm:captivate",
     "tm:confide",
+    "tm:dig",
     "tm:doubleteam",
+    "tm:drainpunch",
+    "tm:endure",
     "tm:facade",
+    "tm:flash",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:gigaimpact",
     "tm:hiddenpower",
     "tm:hyperbeam",
@@ -67,6 +73,7 @@
     "tm:round",
     "tm:safeguard",
     "tm:secretpower",
+    "tm:silverwind",
     "tm:sleeptalk",
     "tm:solarbeam",
     "tm:strength",
@@ -96,11 +103,9 @@
     "tutor:focuspunch",
     "tutor:frustration",
     "tutor:gigadrain",
-    "tutor:gigadrain",
     "tutor:headbutt",
     "tutor:hiddenpower",
     "tutor:hyperbeam",
-    "tutor:icepunch",
     "tutor:icepunch",
     "tutor:knockoff",
     "tutor:lightscreen",
@@ -112,21 +117,22 @@
     "tutor:rest",
     "tutor:return",
     "tutor:rollout",
+    "tutor:roost",
     "tutor:safeguard",
     "tutor:sleeptalk",
     "tutor:snore",
-    "tutor:snore",
     "tutor:solarbeam",
     "tutor:stringshot",
+    "tutor:substitute",
     "tutor:sunnyday",
     "tutor:supersonic",
     "tutor:swagger",
     "tutor:sweetscent",
     "tutor:swift",
+    "tutor:swordsdance",
     "tutor:tackle",
     "tutor:tailwind",
     "tutor:thief",
-    "tutor:thunderpunch",
     "tutor:thunderpunch",
     "tutor:toxic",
     "tutor:uproar"
@@ -157,5 +163,14 @@
   "height": 14,
   "weight": 356,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

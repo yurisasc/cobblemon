@@ -8,6 +8,23 @@
     "synchronize",
     "h:analytic"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 55,
@@ -46,17 +63,25 @@
     "24:powersplit",
     "29:simplebeam",
     "30:headbutt",
+    "36:psychup",
     "36:zenheadbutt",
     "43:recover",
     "48:calmmind",
     "53:synchronoise",
     "54:wonderroom",
     "60:psychic",
+    "egg:allyswitch",
     "egg:astonish",
     "egg:barrier",
+    "egg:cosmicpower",
     "egg:destinybond",
     "egg:disable",
+    "egg:guardswap",
+    "egg:nastyplot",
+    "egg:powerswap",
     "egg:psychup",
+    "egg:skillswap",
+    "egg:teleport",
     "tm:agility",
     "tm:allyswitch",
     "tm:attract",
@@ -82,6 +107,7 @@
     "tm:powerswap",
     "tm:protect",
     "tm:psychic",
+    "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
     "tm:reflect",
@@ -101,6 +127,7 @@
     "tm:storedpower",
     "tm:substitute",
     "tm:swagger",
+    "tm:telekinesis",
     "tm:thief",
     "tm:thunderbolt",
     "tm:thunderwave",
@@ -111,17 +138,29 @@
     "tm:wonderroom",
     "tm:zenheadbutt",
     "tutor:afteryou",
+    "tutor:allyswitch",
+    "tutor:barrier",
+    "tutor:darkpulse",
     "tutor:expandingforce",
     "tutor:gravity",
+    "tutor:healblock",
     "tutor:magiccoat",
     "tutor:meteorbeam",
+    "tutor:nastyplot",
     "tutor:painsplit",
     "tutor:recycle",
     "tutor:roleplay",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
-    "tutor:telekinesis"
+    "tutor:snore",
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:uproar",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

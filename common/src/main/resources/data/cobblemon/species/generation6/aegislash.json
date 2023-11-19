@@ -33,6 +33,23 @@
   "eggGroups": [
     "mineral"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:iron_nugget",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "minecraft:iron_sword",
+        "percentage": 25.0
+      },
+      {
+        "item": "cobblemon:dusk_stone",
+        "percentage": 10.0
+      }
+    ]
+  },
   "moves": [
     "1:aerialace",
     "1:autotomize",
@@ -40,6 +57,7 @@
     "1:headsmash",
     "1:irondefense",
     "1:ironhead",
+    "1:kingsshield",
     "1:metalsound",
     "1:nightslash",
     "1:powertrick",
@@ -50,6 +68,7 @@
     "1:slash",
     "1:swordsdance",
     "1:tackle",
+    "tm:aerialace",
     "tm:airslash",
     "tm:attract",
     "tm:brickbreak",
@@ -94,9 +113,15 @@
     "tm:toxic",
     "tutor:afteryou",
     "tutor:block",
+    "tutor:flashcannon",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:kingsshield",
     "tutor:laserfocus",
     "tutor:magnetrise",
+    "tutor:shadowball",
     "tutor:shockwave",
+    "tutor:snore",
     "tutor:spite",
     "tutor:steelbeam",
     "tutor:wideguard"
@@ -144,7 +169,6 @@
       "eggGroups": [
         "mineral"
       ],
-      "moves": [],
       "labels": [
         "gen6"
       ],

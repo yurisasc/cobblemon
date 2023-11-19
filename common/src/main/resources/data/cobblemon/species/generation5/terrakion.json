@@ -6,6 +6,14 @@
   "abilities": [
     "justified"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:hard_stone"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 91,
     "attack": 129,
@@ -81,6 +89,7 @@
     "tm:scaryface",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:smartstrike",
     "tm:snore",
     "tm:stealthrock",
@@ -100,10 +109,23 @@
     "tutor:block",
     "tutor:closecombat",
     "tutor:coaching",
+    "tutor:earthpower",
+    "tutor:helpinghand",
+    "tutor:ironhead",
     "tutor:laserfocus",
+    "tutor:quickguard",
+    "tutor:retaliate",
+    "tutor:rockslide",
     "tutor:sacredsword",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
     "tutor:stoneedge",
-    "tutor:swordsdance"
+    "tutor:superpower",
+    "tutor:swordsdance",
+    "tutor:workup",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5",

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Ninjask",
   "nationalPokedexNumber": 291,
   "primaryType": "bug",
@@ -24,16 +25,33 @@
   "eggGroups": [
     "bug"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:aerialace",
     "1:batonpass",
     "1:dig",
+    "1:doubleteam",
     "1:falseswipe",
+    "1:furycutter",
     "1:harden",
+    "1:leechlife",
     "1:metalclaw",
     "1:mudslap",
     "1:sandattack",
     "1:scratch",
+    "1:screech",
     "15:agility",
     "23:absorb",
     "29:bugbite",
@@ -43,6 +61,7 @@
     "57:swordsdance",
     "64:xscissor",
     "tm:acrobatics",
+    "tm:aerialace",
     "tm:agility",
     "tm:airslash",
     "tm:attract",
@@ -51,7 +70,9 @@
     "tm:captivate",
     "tm:confide",
     "tm:cut",
+    "tm:defog",
     "tm:dig",
+    "tm:doubleteam",
     "tm:endure",
     "tm:facade",
     "tm:falseswipe",
@@ -89,15 +110,28 @@
     "tm:uturn",
     "tm:xscissor",
     "tutor:aircutter",
+    "tutor:bugbite",
     "tutor:defog",
     "tutor:doubleedge",
     "tutor:dualwingbeat",
+    "tutor:endure",
+    "tutor:furycutter",
+    "tutor:gigadrain",
     "tutor:laserfocus",
     "tutor:mimic",
+    "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:roost",
     "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:stringshot"
+    "tutor:stringshot",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:swordsdance",
+    "tutor:uproar"
   ],
   "labels": [
     "gen3"
@@ -107,10 +141,10 @@
   ],
   "preEvolution": "nincada",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

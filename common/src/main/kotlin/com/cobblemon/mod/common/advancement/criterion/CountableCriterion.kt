@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.advancement.criterion
 
 import com.google.gson.JsonObject
-import net.minecraft.predicate.entity.EntityPredicate.Extended
+import net.minecraft.predicate.entity.LootContextPredicate
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier
  * @author Hiroku
  * @since November 4th, 2022
  */
-abstract class CountableCriterionCondition<T : CountableContext>(id: Identifier, entity: Extended) : SimpleCriterionCondition<T>(id, entity) {
+abstract class CountableCriterionCondition<T : CountableContext>(id: Identifier, predicate: LootContextPredicate) : SimpleCriterionCondition<T>(id, predicate) {
     var count = 0
     override fun fromJson(json: JsonObject) {
         count = json.get("count")?.asInt ?: 0
@@ -43,7 +43,7 @@ abstract class CountableCriterionCondition<T : CountableContext>(id: Identifier,
  * @author Hiroku
  * @since November 4th, 2022
  */
-class SimpleCountableCriterionCondition(id: Identifier, entity: Extended) : CountableCriterionCondition<CountableContext>(id, entity)
+class SimpleCountableCriterionCondition(id: Identifier, predicate: LootContextPredicate) : CountableCriterionCondition<CountableContext>(id, predicate)
 fun SimpleCriterionTrigger<CountableContext, SimpleCountableCriterionCondition>.trigger(player: ServerPlayerEntity, times: Int) = trigger(player, CountableContext(times))
 
 /**

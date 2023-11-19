@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Masquerain",
   "nationalPokedexNumber": 284,
   "primaryType": "bug",
@@ -7,6 +8,23 @@
     "intimidate",
     "h:unnerve"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:honey_bottle",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 60,
@@ -25,6 +43,19 @@
     "water_1",
     "bug"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.4
+      },
+      "swim": {
+        "canWalkOnWater": true
+      },
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:bubble",
     "1:ominouswind",
@@ -55,6 +86,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
     "tm:endure",
     "tm:energyball",
@@ -90,6 +122,7 @@
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:silverwind",
     "tm:sleeptalk",
     "tm:solarbeam",
     "tm:strugglebug",
@@ -106,15 +139,30 @@
     "tm:uturn",
     "tm:waterfall",
     "tm:waterpulse",
+    "tutor:aircutter",
     "tutor:bugbite",
     "tutor:defog",
     "tutor:doubleedge",
+    "tutor:endure",
+    "tutor:gigadrain",
+    "tutor:icywind",
+    "tutor:liquidation",
     "tutor:mimic",
+    "tutor:mudslap",
     "tutor:nightmare",
+    "tutor:ominouswind",
+    "tutor:psychup",
+    "tutor:roost",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stringshot",
-    "tutor:twister"
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:tailwind",
+    "tutor:twister",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"
@@ -124,7 +172,7 @@
   ],
   "preEvolution": "surskit",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
     "height": 1,

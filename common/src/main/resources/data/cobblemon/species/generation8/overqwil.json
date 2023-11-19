@@ -19,11 +19,11 @@
   "catchRate": 135,
   "maleRatio": 0.5,
   "shoulderMountable": false,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 179,
   "baseFriendship": 0,
   "evYield": {
     "hp": 0,
-    "attack": 1,
+    "attack": 2,
     "defence": 0,
     "special_attack": 0,
     "special_defence": 0,
@@ -100,5 +100,21 @@
   "preEvolution": "qwilfish form=hisui",
   "evolutions": [],
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:pufferfish"
+      },
+      {
+        "item": "minecraft:prismarine_shard",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

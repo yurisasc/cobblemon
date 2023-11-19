@@ -18,9 +18,20 @@
   "behaviour": {
     "resting": {
       "canSleep": true,
-      "willSleepOnBed": true,
+      "willSleepOnBed": false,
       "depth": "normal",
       "light": "0-4"
+    },
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.2,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
     }
   },
   "catchRate": 25,
@@ -32,6 +43,19 @@
   "eggGroups": [
     "mineral"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:kelp",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
   "moves": [
     "1:absorb",
     "1:rapidspin",
@@ -107,12 +131,18 @@
     "tm:thief",
     "tm:toxic",
     "tm:whirlpool",
+    "tutor:allyswitch",
     "tutor:block",
+    "tutor:gigadrain",
     "tutor:grassyglide",
+    "tutor:helpinghand",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:knockoff",
     "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:roleplay",
+    "tutor:snore",
     "tutor:spite",
     "tutor:steelroller",
     "tutor:synthesis",

@@ -7,6 +7,22 @@
     "hydration",
     "h:regenerator"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:cod"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:deep_sea_scale",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 165,
     "attack": 75,
@@ -84,6 +100,7 @@
     "tm:rest",
     "tm:return",
     "tm:round",
+    "tm:safeguard",
     "tm:scald",
     "tm:secretpower",
     "tm:shadowball",
@@ -99,9 +116,18 @@
     "tm:waterfall",
     "tm:waterpulse",
     "tm:zenheadbutt",
+    "tutor:aquaring",
+    "tutor:bounce",
+    "tutor:helpinghand",
+    "tutor:icywind",
     "tutor:knockoff",
+    "tutor:liquidation",
     "tutor:magiccoat",
-    "tutor:snore"
+    "tutor:mirrorcoat",
+    "tutor:painsplit",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen5"

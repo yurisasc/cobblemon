@@ -8,9 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.item
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.item.Item
-import net.minecraft.util.Identifier
 
 /**
  * A registry of [CobblemonBuiltinItemRenderer]s.
@@ -20,16 +18,12 @@ import net.minecraft.util.Identifier
  */
 object CobblemonBuiltinItemRendererRegistry {
 
-    private val renderers = hashMapOf<Identifier, CobblemonBuiltinItemRenderer>()
+    private val renderers = hashMapOf<Item, CobblemonBuiltinItemRenderer>()
 
-    fun register(item: RegistrySupplier<out Item>, renderer: CobblemonBuiltinItemRenderer) {
-        this.register(item.id, renderer)
+    fun register(item: Item, renderer: CobblemonBuiltinItemRenderer) {
+        this.renderers[item] = renderer
     }
 
-    fun register(itemIdentifier: Identifier, renderer: CobblemonBuiltinItemRenderer) {
-        this.renderers[itemIdentifier] = renderer
-    }
-
-    fun rendererOf(item: Item): CobblemonBuiltinItemRenderer? = this.renderers[item.`arch$registryName`()]
+    fun rendererOf(item: Item): CobblemonBuiltinItemRenderer? = this.renderers[item]
 
 }

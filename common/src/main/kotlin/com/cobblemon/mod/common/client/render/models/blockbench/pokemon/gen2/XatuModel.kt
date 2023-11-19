@@ -48,5 +48,5 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing)) bedrockStateful("xatu", "faint") else null
+    ) = if (state.isPosedIn(standing, sleep)) bedrockStateful("xatu", "faint") else null
 }

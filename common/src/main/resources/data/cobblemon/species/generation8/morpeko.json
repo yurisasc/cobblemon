@@ -151,7 +151,6 @@
         "field",
         "fairy"
       ],
-      "moves": [],
       "labels": [
         "gen8"
       ],
@@ -166,5 +165,14 @@
     }
   ],
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

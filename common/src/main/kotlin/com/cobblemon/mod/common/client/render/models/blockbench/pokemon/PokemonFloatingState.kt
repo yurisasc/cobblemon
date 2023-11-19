@@ -12,11 +12,21 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 
 /**
- * A [PoseableEntityState] that exists even without an entity or other concrete state. This is
- * for when a Pokémon needs to be continuously animated and there isn't an entity to attach state
- * to.
+ * A [PoseableEntityState] that exists even without an entity or age-based state. This is
+ * for when a Pokémon needs to be continuously animated from GUIs and there isn't an entity
+ * to attach state to. It has no age, and updating the partial ticks will increment rather
+ * than replace.
+ *
+ * What to look out for: Don't run updatePartialTicks multiple times in a single frame. For
+ * other [PoseableEntityState] this is fine as it just replaces what was there before, but
+ * since this is incremental it would actually mess up the animation speeds.
  *
  * @author Hiroku
  * @since May 1st, 2022
  */
-class PokemonFloatingState : PoseableEntityState<PokemonEntity>()
+class PokemonFloatingState : PoseableEntityState<PokemonEntity>() {
+    override fun getEntity() = null
+    override fun updatePartialTicks(partialTicks: Float) {
+        this.currentPartialTicks += partialTicks
+    }
+}

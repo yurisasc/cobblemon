@@ -8,201 +8,780 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
-import com.cobblemon.mod.common.item.ApricornItem
-import com.cobblemon.mod.common.item.ApricornSeedItem
-import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.CobblemonItemGroups
-import com.cobblemon.mod.common.item.PokeBallItem
-import com.cobblemon.mod.common.item.PokemonItem
-import com.cobblemon.mod.common.item.interactive.CandyItem
-import com.cobblemon.mod.common.item.interactive.LinkCableItem
-import com.cobblemon.mod.common.item.interactive.VitaminItem
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.block.BerryBlock
+import com.cobblemon.mod.common.block.MintBlock
+import com.cobblemon.mod.common.block.MintBlock.MintType
+import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
+import com.cobblemon.mod.common.item.*
+import com.cobblemon.mod.common.item.battle.DireHitItem
+import com.cobblemon.mod.common.item.battle.GuardSpecItem
+import com.cobblemon.mod.common.item.battle.XStatItem
+import com.cobblemon.mod.common.item.berry.FriendshipRaisingBerryItem
+import com.cobblemon.mod.common.item.berry.HealingBerryItem
+import com.cobblemon.mod.common.item.berry.PPRestoringBerryItem
+import com.cobblemon.mod.common.item.berry.PortionHealingBerryItem
+import com.cobblemon.mod.common.item.berry.StatusCuringBerryItem
+import com.cobblemon.mod.common.item.berry.VolatileCuringBerryItem
+import com.cobblemon.mod.common.item.interactive.*
+import com.cobblemon.mod.common.item.interactive.PotionItem
+import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.registry.CompletableRegistry
-import dev.architectury.registry.registries.RegistrySupplier
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.Block
-import net.minecraft.item.AliasedBlockItem
-import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
-import net.minecraft.util.registry.Registry
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.item.*
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.util.Identifier
+import net.minecraft.world.World
 
-object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
+@Suppress("unused")
+object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<Item>>, Item>() {
+    override val registry: Registry<Item> = Registries.ITEM
+    override val registryKey: RegistryKey<Registry<Item>> = RegistryKeys.ITEM
 
-    private val pokeballs = mutableListOf<RegistrySupplier<PokeBallItem>>()
+    @JvmField
+    val pokeBalls = mutableListOf<PokeBallItem>()
+    @JvmField
+    val POKE_BALL = pokeBallItem(PokeBalls.POKE_BALL)
+    @JvmField
+    val CITRINE_BALL = pokeBallItem(PokeBalls.CITRINE_BALL)
+    @JvmField
+    val VERDANT_BALL = pokeBallItem(PokeBalls.VERDANT_BALL)
+    @JvmField
+    val AZURE_BALL = pokeBallItem(PokeBalls.AZURE_BALL)
+    @JvmField
+    val ROSEATE_BALL = pokeBallItem(PokeBalls.ROSEATE_BALL)
+    @JvmField
+    val SLATE_BALL = pokeBallItem(PokeBalls.SLATE_BALL)
+    @JvmField
+    val PREMIER_BALL = pokeBallItem(PokeBalls.PREMIER_BALL)
+    @JvmField
+    val GREAT_BALL = pokeBallItem(PokeBalls.GREAT_BALL)
+    @JvmField
+    val ULTRA_BALL = pokeBallItem(PokeBalls.ULTRA_BALL)
+    @JvmField
+    val SAFARI_BALL = pokeBallItem(PokeBalls.SAFARI_BALL)
+    @JvmField
+    val FAST_BALL = pokeBallItem(PokeBalls.FAST_BALL)
+    @JvmField
+    val LEVEL_BALL = pokeBallItem(PokeBalls.LEVEL_BALL)
+    @JvmField
+    val LURE_BALL = pokeBallItem(PokeBalls.LURE_BALL)
+    @JvmField
+    val HEAVY_BALL = pokeBallItem(PokeBalls.HEAVY_BALL)
+    @JvmField
+    val LOVE_BALL = pokeBallItem(PokeBalls.LOVE_BALL)
+    @JvmField
+    val FRIEND_BALL = pokeBallItem(PokeBalls.FRIEND_BALL)
+    @JvmField
+    val MOON_BALL = pokeBallItem(PokeBalls.MOON_BALL)
+    @JvmField
+    val SPORT_BALL = pokeBallItem(PokeBalls.SPORT_BALL)
+    @JvmField
+    val PARK_BALL = pokeBallItem(PokeBalls.PARK_BALL)
+    @JvmField
+    val NET_BALL = pokeBallItem(PokeBalls.NET_BALL)
+    @JvmField
+    val DIVE_BALL = pokeBallItem(PokeBalls.DIVE_BALL)
+    @JvmField
+    val NEST_BALL = pokeBallItem(PokeBalls.NEST_BALL)
+    @JvmField
+    val REPEAT_BALL = pokeBallItem(PokeBalls.REPEAT_BALL)
+    @JvmField
+    val TIMER_BALL = pokeBallItem(PokeBalls.TIMER_BALL)
+    @JvmField
+    val LUXURY_BALL = pokeBallItem(PokeBalls.LUXURY_BALL)
+    @JvmField
+    val DUSK_BALL = pokeBallItem(PokeBalls.DUSK_BALL)
+    @JvmField
+    val HEAL_BALL = pokeBallItem(PokeBalls.HEAL_BALL)
+    @JvmField
+    val QUICK_BALL = pokeBallItem(PokeBalls.QUICK_BALL)
+    @JvmField
+    val DREAM_BALL = pokeBallItem(PokeBalls.DREAM_BALL)
+    @JvmField
+    val BEAST_BALL = pokeBallItem(PokeBalls.BEAST_BALL)
+    @JvmField
+    val MASTER_BALL = pokeBallItem(PokeBalls.MASTER_BALL)
+    @JvmField
+    val CHERISH_BALL = pokeBallItem(PokeBalls.CHERISH_BALL)
 
-    val POKE_BALL = pokeballItem(PokeBalls.POKE_BALL)
-    val CITRINE_BALL = pokeballItem(PokeBalls.CITRINE_BALL)
-    val VERDANT_BALL = pokeballItem(PokeBalls.VERDANT_BALL)
-    val AZURE_BALL = pokeballItem(PokeBalls.AZURE_BALL)
-    val ROSEATE_BALL = pokeballItem(PokeBalls.ROSEATE_BALL)
-    val SLATE_BALL = pokeballItem(PokeBalls.SLATE_BALL)
-    val PREMIER_BALL = pokeballItem(PokeBalls.PREMIER_BALL)
-    val GREAT_BALL = pokeballItem(PokeBalls.GREAT_BALL)
-    val ULTRA_BALL = pokeballItem(PokeBalls.ULTRA_BALL)
-    val SAFARI_BALL = pokeballItem(PokeBalls.SAFARI_BALL)
-    val FAST_BALL = pokeballItem(PokeBalls.FAST_BALL)
-    val LEVEL_BALL = pokeballItem(PokeBalls.LEVEL_BALL)
-    val LURE_BALL = pokeballItem(PokeBalls.LURE_BALL)
-    val HEAVY_BALL = pokeballItem(PokeBalls.HEAVY_BALL)
-    val LOVE_BALL = pokeballItem(PokeBalls.LOVE_BALL)
-    val FRIEND_BALL = pokeballItem(PokeBalls.FRIEND_BALL)
-    val MOON_BALL = pokeballItem(PokeBalls.MOON_BALL)
-    val SPORT_BALL = pokeballItem(PokeBalls.SPORT_BALL)
-    val PARK_BALL = pokeballItem(PokeBalls.PARK_BALL)
-    val NET_BALL = pokeballItem(PokeBalls.NET_BALL)
-    val DIVE_BALL = pokeballItem(PokeBalls.DIVE_BALL)
-    val NEST_BALL = pokeballItem(PokeBalls.NEST_BALL)
-    val REPEAT_BALL = pokeballItem(PokeBalls.REPEAT_BALL)
-    val TIMER_BALL = pokeballItem(PokeBalls.TIMER_BALL)
-    val LUXURY_BALL = pokeballItem(PokeBalls.LUXURY_BALL)
-    val DUSK_BALL = pokeballItem(PokeBalls.DUSK_BALL)
-    val HEAL_BALL = pokeballItem(PokeBalls.HEAL_BALL)
-    val QUICK_BALL = pokeballItem(PokeBalls.QUICK_BALL)
-    val DREAM_BALL = pokeballItem(PokeBalls.DREAM_BALL)
-    val BEAST_BALL = pokeballItem(PokeBalls.BEAST_BALL)
-    val MASTER_BALL = pokeballItem(PokeBalls.MASTER_BALL)
-    val CHERISH_BALL = pokeballItem(PokeBalls.CHERISH_BALL)
+    @JvmField
+    val VIVICHOKE = compostableItem("vivichoke")
 
-    val RED_APRICORN = queue("red_apricorn") { ApricornItem(CobblemonBlocks.RED_APRICORN.get()) }
-    val YELLOW_APRICORN = queue("yellow_apricorn") { ApricornItem(CobblemonBlocks.YELLOW_APRICORN.get()) }
-    val GREEN_APRICORN = queue("green_apricorn") { ApricornItem(CobblemonBlocks.GREEN_APRICORN.get()) }
-    val BLUE_APRICORN = queue("blue_apricorn") { ApricornItem(CobblemonBlocks.BLUE_APRICORN.get()) }
-    val PINK_APRICORN = queue("pink_apricorn") { ApricornItem(CobblemonBlocks.PINK_APRICORN.get()) }
-    val BLACK_APRICORN = queue("black_apricorn") { ApricornItem(CobblemonBlocks.BLACK_APRICORN.get()) }
-    val WHITE_APRICORN = queue("white_apricorn") { ApricornItem(CobblemonBlocks.WHITE_APRICORN.get()) }
+    @JvmField
+    val VIVICHOKE_SEEDS = compostableItem("vivichoke_seeds", VivichokeItem(CobblemonBlocks.VIVICHOKE_SEEDS))
 
-    val RED_APRICORN_SEED = queue("red_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.RED_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val YELLOW_APRICORN_SEED = queue("yellow_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.YELLOW_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val GREEN_APRICORN_SEED = queue("green_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.GREEN_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val BLUE_APRICORN_SEED = queue("blue_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.BLUE_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val PINK_APRICORN_SEED = queue("pink_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.PINK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val BLACK_APRICORN_SEED = queue("black_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.BLACK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val WHITE_APRICORN_SEED = queue("white_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.WHITE_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    @JvmField
+    val RED_APRICORN = apricornItem("red", ApricornItem(CobblemonBlocks.RED_APRICORN))
+    @JvmField
+    val YELLOW_APRICORN = apricornItem("yellow", ApricornItem(CobblemonBlocks.YELLOW_APRICORN))
+    @JvmField
+    val GREEN_APRICORN = apricornItem("green", ApricornItem(CobblemonBlocks.GREEN_APRICORN))
+    @JvmField
+    val BLUE_APRICORN = apricornItem("blue", ApricornItem(CobblemonBlocks.BLUE_APRICORN))
+    @JvmField
+    val PINK_APRICORN = apricornItem("pink", ApricornItem(CobblemonBlocks.PINK_APRICORN))
+    @JvmField
+    val BLACK_APRICORN = apricornItem("black", ApricornItem(CobblemonBlocks.BLACK_APRICORN))
+    @JvmField
+    val WHITE_APRICORN = apricornItem("white", ApricornItem(CobblemonBlocks.WHITE_APRICORN))
 
-    val APRICORN_LOG = queue("apricorn_log") { blockItem(CobblemonBlocks.APRICORN_LOG.get(), ItemGroup.BUILDING_BLOCKS) }
-    val STRIPPED_APRICORN_LOG = queue("stripped_apricorn_log") { blockItem(CobblemonBlocks.STRIPPED_APRICORN_LOG.get(), ItemGroup.BUILDING_BLOCKS) }
-    val APRICORN_WOOD = queue("apricorn_wood") { blockItem(CobblemonBlocks.APRICORN_WOOD.get(), ItemGroup.BUILDING_BLOCKS) }
-    val STRIPPED_APRICORN_WOOD = queue("stripped_apricorn_wood") { blockItem(CobblemonBlocks.STRIPPED_APRICORN_WOOD.get(), ItemGroup.BUILDING_BLOCKS) }
-    val APRICORN_PLANKS = queue("apricorn_planks") { blockItem(CobblemonBlocks.APRICORN_PLANKS.get(), ItemGroup.BUILDING_BLOCKS) }
-    val APRICORN_LEAVES = queue("apricorn_leaves") { blockItem(CobblemonBlocks.APRICORN_LEAVES.get(), ItemGroup.BUILDING_BLOCKS) }
+    @JvmField
+    val RED_APRICORN_SEED = apricornSeedItem("red", ApricornSeedItem(CobblemonBlocks.RED_APRICORN_SAPLING))
+    @JvmField
+    val YELLOW_APRICORN_SEED = apricornSeedItem("yellow", ApricornSeedItem(CobblemonBlocks.YELLOW_APRICORN_SAPLING))
+    @JvmField
+    val GREEN_APRICORN_SEED = apricornSeedItem("green", ApricornSeedItem(CobblemonBlocks.GREEN_APRICORN_SAPLING))
+    @JvmField
+    val BLUE_APRICORN_SEED = apricornSeedItem("blue", ApricornSeedItem(CobblemonBlocks.BLUE_APRICORN_SAPLING))
+    @JvmField
+    val PINK_APRICORN_SEED = apricornSeedItem("pink", ApricornSeedItem(CobblemonBlocks.PINK_APRICORN_SAPLING))
+    @JvmField
+    val BLACK_APRICORN_SEED = apricornSeedItem("black", ApricornSeedItem(CobblemonBlocks.BLACK_APRICORN_SAPLING))
+    @JvmField
+    val WHITE_APRICORN_SEED = apricornSeedItem("white", ApricornSeedItem(CobblemonBlocks.WHITE_APRICORN_SAPLING))
 
-    val APRICORN_DOOR = queue("apricorn_door") { blockItem(CobblemonBlocks.APRICORN_DOOR.get(), ItemGroup.REDSTONE) }
-    val APRICORN_TRAPDOOR = queue("apricorn_trapdoor") { blockItem(CobblemonBlocks.APRICORN_TRAPDOOR.get(), ItemGroup.REDSTONE) }
-    val APRICORN_FENCE = queue("apricorn_fence") { blockItem(CobblemonBlocks.APRICORN_FENCE.get(), ItemGroup.DECORATIONS) }
-    val APRICORN_FENCE_GATE = queue("apricorn_fence_gate") { blockItem(CobblemonBlocks.APRICORN_FENCE_GATE.get(), ItemGroup.REDSTONE) }
-    val APRICORN_BUTTON = queue("apricorn_button") { blockItem(CobblemonBlocks.APRICORN_BUTTON.get(), ItemGroup.REDSTONE) }
-    val APRICORN_PRESSURE_PLATE = queue("apricorn_pressure_plate") { blockItem(CobblemonBlocks.APRICORN_PRESSURE_PLATE.get(), ItemGroup.REDSTONE) }
-    //val APRICORN_SIGN = queue("apricorn_sign", SignItem(Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_DECORATIONS), CobblemonBlocks.APRICORN_SIGN, CobblemonBlocks.APRICORN_WALL_SIGN))
-    val APRICORN_SLAB = queue("apricorn_slab") { blockItem(CobblemonBlocks.APRICORN_SLAB.get(), ItemGroup.BUILDING_BLOCKS) }
-    val APRICORN_STAIRS = queue("apricorn_stairs") { blockItem(CobblemonBlocks.APRICORN_STAIRS.get(), ItemGroup.BUILDING_BLOCKS) }
+    @JvmField
+    val APRICORN_LOG = blockItem("apricorn_log", CobblemonBlocks.APRICORN_LOG)
+    @JvmField
+    val STRIPPED_APRICORN_LOG = blockItem("stripped_apricorn_log", CobblemonBlocks.STRIPPED_APRICORN_LOG)
+    @JvmField
+    val APRICORN_WOOD = blockItem("apricorn_wood", CobblemonBlocks.APRICORN_WOOD)
+    @JvmField
+    val STRIPPED_APRICORN_WOOD = blockItem("stripped_apricorn_wood", CobblemonBlocks.STRIPPED_APRICORN_WOOD)
+    @JvmField
+    val APRICORN_PLANKS = blockItem("apricorn_planks", CobblemonBlocks.APRICORN_PLANKS)
+    @JvmField
+    val APRICORN_LEAVES = compostableBlockItem("apricorn_leaves", CobblemonBlocks.APRICORN_LEAVES)
+    @JvmField
+    val APRICORN_BOAT = create("apricorn_boat", CobblemonBoatItem(CobblemonBoatType.APRICORN, false, Item.Settings().maxCount(1)))
+    @JvmField
+    val APRICORN_CHEST_BOAT = create("apricorn_chest_boat", CobblemonBoatItem(CobblemonBoatType.APRICORN, true, Item.Settings().maxCount(1)))
 
-    val HEALING_MACHINE = queue("healing_machine") { blockItem(CobblemonBlocks.HEALING_MACHINE.get(), ItemGroup.REDSTONE) }
-    val PC = queue("pc") { blockItem(CobblemonBlocks.PC.get(), ItemGroup.REDSTONE) }
+    @JvmField
+    val APRICORN_DOOR = blockItem("apricorn_door", CobblemonBlocks.APRICORN_DOOR)
+    @JvmField
+    val APRICORN_TRAPDOOR = blockItem("apricorn_trapdoor", CobblemonBlocks.APRICORN_TRAPDOOR)
+    @JvmField
+    val APRICORN_FENCE = blockItem("apricorn_fence", CobblemonBlocks.APRICORN_FENCE)
+    @JvmField
+    val APRICORN_FENCE_GATE = blockItem("apricorn_fence_gate", CobblemonBlocks.APRICORN_FENCE_GATE)
+    @JvmField
+    val APRICORN_BUTTON = blockItem("apricorn_button", CobblemonBlocks.APRICORN_BUTTON)
+    @JvmField
+    val APRICORN_PRESSURE_PLATE = blockItem("apricorn_pressure_plate", CobblemonBlocks.APRICORN_PRESSURE_PLATE)
+    @JvmField
+    val APRICORN_SLAB = blockItem("apricorn_slab", CobblemonBlocks.APRICORN_SLAB)
+    @JvmField
+    val APRICORN_STAIRS = blockItem("apricorn_stairs", CobblemonBlocks.APRICORN_STAIRS)
+    @JvmField
+    val APRICORN_SIGN = this.create("apricorn_sign", SignItem(Item.Settings().maxCount(16), CobblemonBlocks.APRICORN_SIGN, CobblemonBlocks.APRICORN_WALL_SIGN))
+    @JvmField
+    val APRICORN_HANGING_SIGN = this.create("apricorn_hanging_sign", HangingSignItem(CobblemonBlocks.APRICORN_HANGING_SIGN, CobblemonBlocks.APRICORN_WALL_HANGING_SIGN, Item.Settings().maxCount(16)))
+
+    @JvmField
+    val HEALING_MACHINE = blockItem("healing_machine", CobblemonBlocks.HEALING_MACHINE)
+    @JvmField
+    val PC = blockItem("pc", CobblemonBlocks.PC)
+    @JvmField
+    val PASTURE = blockItem("pasture", CobblemonBlocks.PASTURE)
 
     // Evolution items
-    val LINK_CABLE = queue("link_cable") { LinkCableItem() }
-    val KINGS_ROCK = queue("kings_rock") { evolutionItem() }
-    val METAL_COAT = queue("metal_coat") { evolutionItem() }
-    val BLACK_AUGURITE = queue("black_augurite") { evolutionItem() }
-    val PROTECTOR = queue("protector") { evolutionItem() }
-    val OVAL_STONE = queue("oval_stone") { evolutionItem() }
-    val DRAGON_SCALE = queue("dragon_scale") { evolutionItem() }
-    val ELECTIRIZER = queue("electirizer") { evolutionItem() }
-    val MAGMARIZER = queue("magmarizer") { evolutionItem() }
-    val UPGRADE = queue("upgrade") { evolutionItem() }
-    val DUBIOUS_DISC = queue("dubious_disc") { evolutionItem() }
+    @JvmField val LINK_CABLE = create("link_cable", LinkCableItem())
+    @JvmField val DRAGON_SCALE = noSettingsItem("dragon_scale")
+    @JvmField val KINGS_ROCK = noSettingsItem("kings_rock")
+    @JvmField val METAL_COAT = noSettingsItem("metal_coat")
+    @JvmField val UPGRADE = noSettingsItem("upgrade")
+    @JvmField val DUBIOUS_DISC = noSettingsItem("dubious_disc")
+    @JvmField val DEEP_SEA_SCALE = noSettingsItem("deep_sea_scale")
+    @JvmField val DEEP_SEA_TOOTH = noSettingsItem("deep_sea_tooth")
+    @JvmField val ELECTIRIZER = noSettingsItem("electirizer")
+    @JvmField val MAGMARIZER = noSettingsItem("magmarizer")
+    @JvmField val OVAL_STONE = noSettingsItem("oval_stone")
+    @JvmField val PROTECTOR = noSettingsItem("protector")
+    @JvmField val REAPER_CLOTH = noSettingsItem("reaper_cloth")
+    @JvmField val PRISM_SCALE = noSettingsItem("prism_scale")
+    @JvmField val SACHET = noSettingsItem("sachet")
+    @JvmField val WHIPPED_DREAM = noSettingsItem("whipped_dream")
+    @JvmField val STRAWBERRY_SWEET = noSettingsItem("strawberry_sweet")
+    @JvmField val LOVE_SWEET = noSettingsItem("love_sweet")
+    @JvmField val BERRY_SWEET = noSettingsItem("berry_sweet")
+    @JvmField val CLOVER_SWEET = noSettingsItem("clover_sweet")
+    @JvmField val FLOWER_SWEET = noSettingsItem("flower_sweet")
+    @JvmField val STAR_SWEET = noSettingsItem("star_sweet")
+    @JvmField val RIBBON_SWEET = noSettingsItem("ribbon_sweet")
+    @JvmField val CHIPPED_POT = noSettingsItem("chipped_pot")
+    @JvmField val CRACKED_POT = noSettingsItem("cracked_pot")
+    @JvmField val SWEET_APPLE = noSettingsItem("sweet_apple")
+    @JvmField val TART_APPLE = noSettingsItem("tart_apple")
+    @JvmField val GALARICA_CUFF = noSettingsItem("galarica_cuff")
+    @JvmField val GALARICA_WREATH = noSettingsItem("galarica_wreath")
+    @JvmField val BLACK_AUGURITE = noSettingsItem("black_augurite")
+    @JvmField val PEAT_BLOCK = noSettingsItem("peat_block")
+    @JvmField val RAZOR_CLAW = noSettingsItem("razor_claw")
+    @JvmField val RAZOR_FANG = noSettingsItem("razor_fang")
+    @JvmField val AUSPICIOUS_ARMOR = heldItem("auspicious_armor")
+    @JvmField val MALICIOUS_ARMOR = heldItem("malicious_armor")
+
+    private val berries = mutableMapOf<Identifier, BerryItem>()
+    // Plants
+    @JvmField val ORAN_BERRY = berryItem("oran", HealingBerryItem(CobblemonBlocks.ORAN_BERRY) { CobblemonMechanics.berries.oranRestoreAmount })
+    @JvmField val CHERI_BERRY = berryItem("cheri", StatusCuringBerryItem(CobblemonBlocks.CHERI_BERRY, Statuses.PARALYSIS))
+    @JvmField val CHESTO_BERRY = berryItem("chesto", StatusCuringBerryItem(CobblemonBlocks.CHESTO_BERRY, Statuses.SLEEP))
+    @JvmField val PECHA_BERRY = berryItem("pecha", StatusCuringBerryItem(CobblemonBlocks.PECHA_BERRY, Statuses.POISON, Statuses.POISON_BADLY))
+    @JvmField val RAWST_BERRY = berryItem("rawst", StatusCuringBerryItem(CobblemonBlocks.RAWST_BERRY, Statuses.BURN))
+    @JvmField val ASPEAR_BERRY = berryItem("aspear", StatusCuringBerryItem(CobblemonBlocks.ASPEAR_BERRY, Statuses.FROZEN))
+    @JvmField val PERSIM_BERRY = berryItem("persim", VolatileCuringBerryItem(CobblemonBlocks.PERSIM_BERRY, "confusion"))
+    @JvmField val RAZZ_BERRY = berryItem("razz", CobblemonBlocks.RAZZ_BERRY)
+    @JvmField val BLUK_BERRY = berryItem("bluk", CobblemonBlocks.BLUK_BERRY)
+    @JvmField val NANAB_BERRY = berryItem("nanab", CobblemonBlocks.NANAB_BERRY)
+    @JvmField val WEPEAR_BERRY = berryItem("wepear", CobblemonBlocks.WEPEAR_BERRY)
+    @JvmField val PINAP_BERRY = berryItem("pinap", CobblemonBlocks.PINAP_BERRY)
+    @JvmField val OCCA_BERRY = berryItem("occa", CobblemonBlocks.OCCA_BERRY)
+    @JvmField val PASSHO_BERRY = berryItem("passho", CobblemonBlocks.PASSHO_BERRY)
+    @JvmField val WACAN_BERRY = berryItem("wacan", CobblemonBlocks.WACAN_BERRY)
+    @JvmField val RINDO_BERRY = berryItem("rindo", CobblemonBlocks.RINDO_BERRY)
+    @JvmField val YACHE_BERRY = berryItem("yache", CobblemonBlocks.YACHE_BERRY)
+    @JvmField val CHOPLE_BERRY = berryItem("chople", CobblemonBlocks.CHOPLE_BERRY)
+    @JvmField val KEBIA_BERRY = berryItem("kebia", CobblemonBlocks.KEBIA_BERRY)
+    @JvmField val SHUCA_BERRY = berryItem("shuca", CobblemonBlocks.SHUCA_BERRY)
+    @JvmField val COBA_BERRY = berryItem("coba", CobblemonBlocks.COBA_BERRY)
+    @JvmField val PAYAPA_BERRY = berryItem("payapa", CobblemonBlocks.PAYAPA_BERRY)
+    @JvmField val TANGA_BERRY = berryItem("tanga", CobblemonBlocks.TANGA_BERRY)
+    @JvmField val CHARTI_BERRY = berryItem("charti", CobblemonBlocks.CHARTI_BERRY)
+    @JvmField val KASIB_BERRY = berryItem("kasib", CobblemonBlocks.KASIB_BERRY)
+    @JvmField val HABAN_BERRY = berryItem("haban", CobblemonBlocks.HABAN_BERRY)
+    @JvmField val COLBUR_BERRY = berryItem("colbur", CobblemonBlocks.COLBUR_BERRY)
+    @JvmField val BABIRI_BERRY = berryItem("babiri", CobblemonBlocks.BABIRI_BERRY)
+    @JvmField val CHILAN_BERRY = berryItem("chilan", CobblemonBlocks.CHILAN_BERRY)
+    @JvmField val ROSELI_BERRY = berryItem("roseli", CobblemonBlocks.ROSELI_BERRY)
+    @JvmField val LEPPA_BERRY = berryItem("leppa", PPRestoringBerryItem(CobblemonBlocks.LEPPA_BERRY) { CobblemonMechanics.berries.ppRestoreAmount })
+    @JvmField val LUM_BERRY = berryItem("lum", StatusCuringBerryItem(CobblemonBlocks.LUM_BERRY))
+    @JvmField val FIGY_BERRY = berryItem("figy", PortionHealingBerryItem(CobblemonBlocks.FIGY_BERRY, true) { CobblemonMechanics.berries.portionHealRatio })
+    @JvmField val WIKI_BERRY = berryItem("wiki", PortionHealingBerryItem(CobblemonBlocks.WIKI_BERRY, true) { CobblemonMechanics.berries.portionHealRatio })
+    @JvmField val MAGO_BERRY = berryItem("mago", PortionHealingBerryItem(CobblemonBlocks.MAGO_BERRY, true) { CobblemonMechanics.berries.portionHealRatio })
+    @JvmField val AGUAV_BERRY = berryItem("aguav", PortionHealingBerryItem(CobblemonBlocks.AGUAV_BERRY, true) { CobblemonMechanics.berries.portionHealRatio })
+    @JvmField val IAPAPA_BERRY = berryItem("iapapa", PortionHealingBerryItem(CobblemonBlocks.IAPAPA_BERRY, true) { CobblemonMechanics.berries.portionHealRatio })
+    @JvmField val SITRUS_BERRY = berryItem("sitrus", HealingBerryItem(CobblemonBlocks.SITRUS_BERRY) { CobblemonMechanics.berries.sitrusHealAmount })
+    @JvmField val TOUGA_BERRY = berryItem("touga", CobblemonBlocks.TOUGA_BERRY)
+    @JvmField val CORNN_BERRY = berryItem("cornn", CobblemonBlocks.CORNN_BERRY)
+    @JvmField val MAGOST_BERRY = berryItem("magost", CobblemonBlocks.MAGOST_BERRY)
+    @JvmField val RABUTA_BERRY = berryItem("rabuta", CobblemonBlocks.RABUTA_BERRY)
+    @JvmField val NOMEL_BERRY = berryItem("nomel", CobblemonBlocks.NOMEL_BERRY)
+    @JvmField val ENIGMA_BERRY = berryItem("enigma", CobblemonBlocks.ENIGMA_BERRY)
+    @JvmField val POMEG_BERRY = berryItem("pomeg", FriendshipRaisingBerryItem(CobblemonBlocks.POMEG_BERRY, Stats.HP))
+    @JvmField val KELPSY_BERRY = berryItem("kelpsy", FriendshipRaisingBerryItem(CobblemonBlocks.KELPSY_BERRY, Stats.ATTACK))
+    @JvmField val QUALOT_BERRY = berryItem("qualot", FriendshipRaisingBerryItem(CobblemonBlocks.QUALOT_BERRY, Stats.DEFENCE))
+    @JvmField val HONDEW_BERRY = berryItem("hondew", FriendshipRaisingBerryItem(CobblemonBlocks.HONDEW_BERRY, Stats.SPECIAL_ATTACK))
+    @JvmField val GREPA_BERRY = berryItem("grepa", FriendshipRaisingBerryItem(CobblemonBlocks.GREPA_BERRY, Stats.SPECIAL_DEFENCE))
+    @JvmField val TAMATO_BERRY = berryItem("tamato", FriendshipRaisingBerryItem(CobblemonBlocks.TAMATO_BERRY, Stats.SPEED))
+    @JvmField val SPELON_BERRY = berryItem("spelon", CobblemonBlocks.SPELON_BERRY)
+    @JvmField val PAMTRE_BERRY = berryItem("pamtre", CobblemonBlocks.PAMTRE_BERRY)
+    @JvmField val WATMEL_BERRY = berryItem("watmel", CobblemonBlocks.WATMEL_BERRY)
+    @JvmField val DURIN_BERRY = berryItem("durin", CobblemonBlocks.DURIN_BERRY)
+    @JvmField val BELUE_BERRY = berryItem("belue", CobblemonBlocks.BELUE_BERRY)
+    @JvmField val KEE_BERRY = berryItem("kee", CobblemonBlocks.KEE_BERRY)
+    @JvmField val MARANGA_BERRY = berryItem("maranga", CobblemonBlocks.MARANGA_BERRY)
+    @JvmField val HOPO_BERRY = berryItem("hopo", PPRestoringBerryItem(CobblemonBlocks.HOPO_BERRY) { CobblemonMechanics.berries.ppRestoreAmount })
+    @JvmField val LIECHI_BERRY = berryItem("liechi", CobblemonBlocks.LIECHI_BERRY)
+    @JvmField val GANLON_BERRY = berryItem("ganlon", CobblemonBlocks.GANLON_BERRY)
+    @JvmField val SALAC_BERRY = berryItem("salac", CobblemonBlocks.SALAC_BERRY)
+    @JvmField val PETAYA_BERRY = berryItem("petaya", CobblemonBlocks.PETAYA_BERRY)
+    @JvmField val APICOT_BERRY = berryItem("apicot", CobblemonBlocks.APICOT_BERRY)
+    @JvmField val LANSAT_BERRY = berryItem("lansat", CobblemonBlocks.LANSAT_BERRY)
+    @JvmField val STARF_BERRY = berryItem("starf", CobblemonBlocks.STARF_BERRY)
+    @JvmField val MICLE_BERRY = berryItem("micle", CobblemonBlocks.MICLE_BERRY)
+    @JvmField val CUSTAP_BERRY = berryItem("custap", CobblemonBlocks.CUSTAP_BERRY)
+    @JvmField val JABOCA_BERRY = berryItem("jaboca", CobblemonBlocks.JABOCA_BERRY)
+    @JvmField val ROWAP_BERRY = berryItem("rowap", CobblemonBlocks.ROWAP_BERRY)
+
+    @JvmField val BERRY_JUICE = this.create("berry_juice", BerryJuiceItem())
 
     // Medicine
-    val RARE_CANDY = queue("rare_candy") { CandyItem { _, pokemon -> pokemon.getExperienceToNextLevel() } }
-    val EXPERIENCE_CANDY_XS = queue("exp_candy_xs") { CandyItem { _, _ -> CandyItem.DEFAULT_XS_CANDY_YIELD } }
-    val EXPERIENCE_CANDY_S = queue("exp_candy_s") { CandyItem { _, _ -> CandyItem.DEFAULT_S_CANDY_YIELD } }
-    val EXPERIENCE_CANDY_M = queue("exp_candy_m") { CandyItem { _, _ -> CandyItem.DEFAULT_M_CANDY_YIELD } }
-    val EXPERIENCE_CANDY_L = queue("exp_candy_l") { CandyItem { _, _ -> CandyItem.DEFAULT_L_CANDY_YIELD } }
-    val EXPERIENCE_CANDY_XL = queue("exp_candy_xl") { CandyItem { _, _ -> CandyItem.DEFAULT_XL_CANDY_YIELD } }
-    val CALCIUM = queue("calcium") { VitaminItem(Stats.SPECIAL_ATTACK) }
-    val CARBOS = queue("carbos") { VitaminItem(Stats.SPEED) }
-    val HP_UP = queue("hp_up") { VitaminItem(Stats.HP) }
-    val IRON = queue("iron") { VitaminItem(Stats.DEFENCE) }
-    val PROTEIN = queue("protein") { VitaminItem(Stats.ATTACK) }
-    val ZINC = queue("zinc") { VitaminItem(Stats.SPECIAL_DEFENCE) }
+    @JvmField
+    val RARE_CANDY = candyItem("rare_candy") { _, pokemon -> pokemon.getExperienceToNextLevel() }
+    @JvmField
+    val EXPERIENCE_CANDY_XS = candyItem("exp_candy_xs") { _, _ -> CandyItem.DEFAULT_XS_CANDY_YIELD }
+    @JvmField
+    val EXPERIENCE_CANDY_S = candyItem("exp_candy_s") { _, _ -> CandyItem.DEFAULT_S_CANDY_YIELD }
+    @JvmField
+    val EXPERIENCE_CANDY_M = candyItem("exp_candy_m") { _, _ -> CandyItem.DEFAULT_M_CANDY_YIELD }
+    @JvmField
+    val EXPERIENCE_CANDY_L = candyItem("exp_candy_l") { _, _ -> CandyItem.DEFAULT_L_CANDY_YIELD }
+    @JvmField
+    val EXPERIENCE_CANDY_XL = candyItem("exp_candy_xl") { _, _ -> CandyItem.DEFAULT_XL_CANDY_YIELD }
+    @JvmField
+    val CALCIUM = create("calcium", VitaminItem(Stats.SPECIAL_ATTACK))
+    @JvmField
+    val CARBOS = create("carbos", VitaminItem(Stats.SPEED))
+    @JvmField
+    val HP_UP = create("hp_up", VitaminItem(Stats.HP))
+    @JvmField
+    val IRON = create("iron", VitaminItem(Stats.DEFENCE))
+    @JvmField
+    val PROTEIN = create("protein", VitaminItem(Stats.ATTACK))
+    @JvmField
+    val ZINC = create("zinc", VitaminItem(Stats.SPECIAL_DEFENCE))
+    @JvmField
+    val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().hunger(1).saturationModifier(0.2f).build())))
+    @JvmField
+    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(3).saturationModifier(0.3f).build())))
+    @JvmField
+    val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().food(FoodComponent.Builder().hunger(6).saturationModifier(0.6f).build())))
+    @JvmField
+    val VIVICHOKE_DIP = create("vivichoke_dip", object : StewItem(Settings().maxCount(1)
+        .food(FoodComponent.Builder()
+            .hunger(10)
+            .saturationModifier(1.2F)
+            .statusEffect(StatusEffectInstance(StatusEffects.ABSORPTION, 900, 0), 1F)
+            .alwaysEdible()
+            .build())) {
+        override fun finishUsing(stack: ItemStack?, world: World?, user: LivingEntity?): ItemStack {
+            user?.clearStatusEffects()
+            return super.finishUsing(stack, world, user)
+        }
+    })
+    @JvmField
+    val ENERGY_ROOT = compostableItem("energy_root", EnergyRootItem(CobblemonBlocks.ENERGY_ROOT, Item.Settings().food(FoodComponent.Builder().hunger(1).snack().saturationModifier(0.2f).build())))
+    @JvmField
+    val REVIVAL_HERB = compostableItem("revival_herb", RevivalHerbItem(CobblemonBlocks.REVIVAL_HERB))
+    @JvmField
+    val PEP_UP_FLOWER = compostableBlockItem("pep_up_flower", CobblemonBlocks.PEP_UP_FLOWER)
+    @JvmField
+    val MEDICINAL_BREW = create("medicinal_brew", Item(Item.Settings()))
+    @JvmField
+    val REMEDY = create("remedy", RemedyItem(RemedyItem.NORMAL))
+    @JvmField
+    val FINE_REMEDY = create("fine_remedy", RemedyItem(RemedyItem.FINE))
+    @JvmField
+    val SUPERB_REMEDY = create("superb_remedy", RemedyItem(RemedyItem.SUPERB))
+
+    @JvmField
+    val POTION = create("potion", PotionItem(PotionType.POTION))
+    @JvmField
+    val SUPER_POTION = create("super_potion", PotionItem(PotionType.SUPER_POTION))
+    @JvmField
+    val HYPER_POTION = create("hyper_potion", PotionItem(PotionType.HYPER_POTION))
+    @JvmField
+    val MAX_POTION = create("max_potion", PotionItem(PotionType.MAX_POTION))
+    @JvmField
+    val FULL_RESTORE = create("full_restore", PotionItem(PotionType.FULL_RESTORE))
+
+    @JvmField
+    val HEAL_POWDER = create("heal_powder", HealPowderItem())
+    @JvmField
+    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(8).saturationModifier(0.6f).build()).maxCount(1)))
+    @JvmField
+    val REVIVE = create("revive", ReviveItem(max = false))
+    @JvmField
+    val MAX_REVIVE = create("max_revive", ReviveItem(max = true))
+    @JvmField
+    val PP_UP = create("pp_up", PPUpItem(1))
+    @JvmField
+    val PP_MAX = create("pp_max", PPUpItem(3))
+
+    @JvmField
+    val RED_MINT_SEEDS = mintSeed("red", MintType.RED.getCropBlock())
+    @JvmField
+    val RED_MINT_LEAF = mintLeaf("red", MintLeafItem(MintType.RED))
+    @JvmField
+    val BLUE_MINT_SEEDS = mintSeed("blue", MintType.BLUE.getCropBlock())
+    @JvmField
+    val BLUE_MINT_LEAF = mintLeaf("blue", MintLeafItem(MintType.BLUE))
+    @JvmField
+    val CYAN_MINT_SEEDS = mintSeed("cyan", MintType.CYAN.getCropBlock())
+    @JvmField
+    val CYAN_MINT_LEAF = mintLeaf("cyan", MintLeafItem(MintType.CYAN))
+    @JvmField
+    val PINK_MINT_SEEDS = mintSeed("pink", MintType.PINK.getCropBlock())
+    @JvmField
+    val PINK_MINT_LEAF = mintLeaf("pink", MintLeafItem(MintType.PINK))
+    @JvmField
+    val GREEN_MINT_SEEDS = mintSeed("green", MintType.GREEN.getCropBlock())
+    @JvmField
+    val GREEN_MINT_LEAF = mintLeaf("green", MintLeafItem(MintType.GREEN))
+    @JvmField
+    val WHITE_MINT_SEEDS = mintSeed("white", MintType.WHITE.getCropBlock())
+    @JvmField
+    val WHITE_MINT_LEAF = mintLeaf("white", MintLeafItem(MintType.WHITE))
+
+    val mints = mutableMapOf<String, MintItem>()
+
+    @JvmField
+    val LONELY_MINT = mintItem("lonely_mint", MintItem(Natures.LONELY))
+    @JvmField
+    val ADAMANT_MINT = mintItem("adamant_mint", MintItem(Natures.ADAMANT))
+    @JvmField
+    val NAUGHTY_MINT = mintItem("naughty_mint", MintItem(Natures.NAUGHTY))
+    @JvmField
+    val BRAVE_MINT = mintItem("brave_mint", MintItem(Natures.BRAVE))
+    @JvmField
+    val BOLD_MINT = mintItem("bold_mint", MintItem(Natures.BOLD))
+    @JvmField
+    val IMPISH_MINT = mintItem("impish_mint", MintItem(Natures.IMPISH))
+    @JvmField
+    val LAX_MINT = mintItem("lax_mint", MintItem(Natures.LAX))
+    @JvmField
+    val RELAXED_MINT = mintItem("relaxed_mint", MintItem(Natures.RELAXED))
+    @JvmField
+    val MODEST_MINT = mintItem("modest_mint", MintItem(Natures.MODEST))
+    @JvmField
+    val MILD_MINT = mintItem("mild_mint", MintItem(Natures.MILD))
+    @JvmField
+    val RASH_MINT = mintItem("rash_mint", MintItem(Natures.RASH))
+    @JvmField
+    val QUIET_MINT = mintItem("quiet_mint", MintItem(Natures.QUIET))
+    @JvmField
+    val CALM_MINT = mintItem("calm_mint", MintItem(Natures.CALM))
+    @JvmField
+    val GENTLE_MINT = mintItem("gentle_mint", MintItem(Natures.GENTLE))
+    @JvmField
+    val CAREFUL_MINT = mintItem("careful_mint", MintItem(Natures.CAREFUL))
+    @JvmField
+    val SASSY_MINT = mintItem("sassy_mint", MintItem(Natures.SASSY))
+    @JvmField
+    val TIMID_MINT = mintItem("timid_mint", MintItem(Natures.TIMID))
+    @JvmField
+    val HASTY_MINT = mintItem("hasty_mint", MintItem(Natures.HASTY))
+    @JvmField
+    val JOLLY_MINT = mintItem("jolly_mint", MintItem(Natures.JOLLY))
+    @JvmField
+    val NAIVE_MINT = mintItem("naive_mint", MintItem(Natures.NAIVE))
+    @JvmField
+    val SERIOUS_MINT = mintItem("serious_mint", MintItem(Natures.SERIOUS))
+
+    @JvmField val X_ACCURACY = create("x_${Stats.ACCURACY.identifier.path}", XStatItem(Stats.ACCURACY))
+    @JvmField val X_ATTACK = create("x_${Stats.ATTACK.identifier.path}", XStatItem(Stats.ATTACK))
+    @JvmField val X_DEFENSE = create("x_${Stats.DEFENCE.identifier.path}", XStatItem(Stats.DEFENCE))
+    @JvmField val X_SP_ATK = create("x_${Stats.SPECIAL_ATTACK.identifier.path}", XStatItem(Stats.SPECIAL_ATTACK))
+    @JvmField val X_SP_DEF = create("x_${Stats.SPECIAL_DEFENCE.identifier.path}", XStatItem(Stats.SPECIAL_DEFENCE))
+    @JvmField val X_SPEED = create("x_${Stats.SPEED.identifier.path}", XStatItem(Stats.SPEED))
+
+    @JvmField val DIRE_HIT = create("dire_hit", DireHitItem())
+    @JvmField val GUARD_SPEC = create("guard_spec", GuardSpecItem())
+
+    @JvmField val BURN_HEAL = create("burn_heal", StatusCureItem("item.cobblemon.burn_heal", Statuses.BURN))
+    @JvmField val PARALYZE_HEAL = create("paralyze_heal", StatusCureItem("item.cobblemon.paralyze_heal", Statuses.PARALYSIS))
+    @JvmField val ICE_HEAL = create("ice_heal", StatusCureItem("item.cobblemon.ice_heal", Statuses.FROZEN))
+    @JvmField val ANTIDOTE = create("antidote", StatusCureItem("item.cobblemon.antidote", Statuses.POISON, Statuses.POISON_BADLY))
+    @JvmField val AWAKENING = create("awakening", StatusCureItem("item.cobblemon.awakening", Statuses.SLEEP))
+
+    @JvmField val FULL_HEAL = create("full_heal", StatusCureItem("item.cobblemon.full_heal"))
+
+    @JvmField val ETHER = create("ether", EtherItem(max = false))
+    @JvmField val MAX_ETHER = create("max_ether", EtherItem(max = true))
+    @JvmField val ELIXIR = create("elixir", ElixirItem(max = false))
+    @JvmField val MAX_ELIXIR = create("max_elixir", ElixirItem(max = true))
 
     /**
      * Evolution Ores and Stones
      */
-    val DAWN_STONE_ORE = queue("dawn_stone_ore") { blockItem(CobblemonBlocks.DAWN_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DUSK_STONE_ORE = queue("dusk_stone_ore") { blockItem(CobblemonBlocks.DUSK_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val FIRE_STONE_ORE = queue("fire_stone_ore") { blockItem(CobblemonBlocks.FIRE_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val ICE_STONE_ORE = queue("ice_stone_ore") { blockItem(CobblemonBlocks.ICE_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val LEAF_STONE_ORE = queue("leaf_stone_ore") { blockItem(CobblemonBlocks.LEAF_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val MOON_STONE_ORE = queue("moon_stone_ore") { blockItem(CobblemonBlocks.MOON_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val SHINY_STONE_ORE = queue("shiny_stone_ore") { blockItem(CobblemonBlocks.SHINY_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val SUN_STONE_ORE = queue("sun_stone_ore") { blockItem(CobblemonBlocks.SUN_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val THUNDER_STONE_ORE = queue("thunder_stone_ore") { blockItem(CobblemonBlocks.THUNDER_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val WATER_STONE_ORE = queue("water_stone_ore") { blockItem(CobblemonBlocks.WATER_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DEEPSLATE_DAWN_STONE_ORE = queue("deepslate_dawn_stone_ore") { blockItem(CobblemonBlocks.DEEPSLATE_DAWN_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DEEPSLATE_DUSK_STONE_ORE = queue("deepslate_dusk_stone_ore") { blockItem(CobblemonBlocks.DEEPSLATE_DUSK_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DEEPSLATE_FIRE_STONE_ORE = queue("deepslate_fire_stone_ore") { blockItem(CobblemonBlocks.DEEPSLATE_FIRE_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DEEPSLATE_ICE_STONE_ORE = queue("deepslate_ice_stone_ore") { blockItem(CobblemonBlocks.DEEPSLATE_ICE_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DEEPSLATE_LEAF_STONE_ORE = queue("deepslate_leaf_stone_ore") { blockItem(CobblemonBlocks.DEEPSLATE_LEAF_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DEEPSLATE_MOON_STONE_ORE = queue("deepslate_moon_stone_ore") { blockItem(CobblemonBlocks.DEEPSLATE_MOON_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DEEPSLATE_SHINY_STONE_ORE = queue("deepslate_shiny_stone_ore") { blockItem(CobblemonBlocks.DEEPSLATE_SHINY_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DEEPSLATE_SUN_STONE_ORE = queue("deepslate_sun_stone_ore") { blockItem(CobblemonBlocks.DEEPSLATE_SUN_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DEEPSLATE_THUNDER_STONE_ORE = queue("deepslate_thunder_stone_ore") { blockItem(CobblemonBlocks.DEEPSLATE_THUNDER_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DEEPSLATE_WATER_STONE_ORE = queue("deepslate_water_stone_ore") { blockItem(CobblemonBlocks.DEEPSLATE_WATER_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DRIPSTONE_MOON_STONE_ORE = queue("dripstone_moon_stone_ore") { blockItem(CobblemonBlocks.DRIPSTONE_MOON_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
-    val DAWN_STONE = queue("dawn_stone") { evolutionItem() }
-    val DUSK_STONE = queue("dusk_stone") { evolutionItem() }
-    val FIRE_STONE = queue("fire_stone") { evolutionItem() }
-    val ICE_STONE = queue("ice_stone") { evolutionItem() }
-    val LEAF_STONE = queue("leaf_stone") { evolutionItem() }
-    val MOON_STONE = queue("moon_stone") { evolutionItem() }
-    val SHINY_STONE = queue("shiny_stone") { evolutionItem() }
-    val SUN_STONE = queue("sun_stone") { evolutionItem() }
-    val THUNDER_STONE = queue("thunder_stone") { evolutionItem() }
-    val WATER_STONE = queue("water_stone") { evolutionItem() }
+    @JvmField
+    val DAWN_STONE_ORE = blockItem("dawn_stone_ore", CobblemonBlocks.DAWN_STONE_ORE)
+    @JvmField
+    val DUSK_STONE_ORE = blockItem("dusk_stone_ore", CobblemonBlocks.DUSK_STONE_ORE)
+    @JvmField
+    val FIRE_STONE_ORE = blockItem("fire_stone_ore", CobblemonBlocks.FIRE_STONE_ORE)
+    @JvmField
+    val ICE_STONE_ORE = blockItem("ice_stone_ore", CobblemonBlocks.ICE_STONE_ORE)
+    @JvmField
+    val LEAF_STONE_ORE = blockItem("leaf_stone_ore", CobblemonBlocks.LEAF_STONE_ORE)
+    @JvmField
+    val MOON_STONE_ORE = blockItem("moon_stone_ore", CobblemonBlocks.MOON_STONE_ORE)
+    @JvmField
+    val SHINY_STONE_ORE = blockItem("shiny_stone_ore", CobblemonBlocks.SHINY_STONE_ORE)
+    @JvmField
+    val SUN_STONE_ORE = blockItem("sun_stone_ore", CobblemonBlocks.SUN_STONE_ORE)
+    @JvmField
+    val THUNDER_STONE_ORE = blockItem("thunder_stone_ore", CobblemonBlocks.THUNDER_STONE_ORE)
+    @JvmField
+    val WATER_STONE_ORE = blockItem("water_stone_ore", CobblemonBlocks.WATER_STONE_ORE)
+    @JvmField
+    val DEEPSLATE_DAWN_STONE_ORE = blockItem("deepslate_dawn_stone_ore", CobblemonBlocks.DEEPSLATE_DAWN_STONE_ORE)
+    @JvmField
+    val DEEPSLATE_DUSK_STONE_ORE = blockItem("deepslate_dusk_stone_ore", CobblemonBlocks.DEEPSLATE_DUSK_STONE_ORE)
+    @JvmField
+    val DEEPSLATE_FIRE_STONE_ORE = blockItem("deepslate_fire_stone_ore", CobblemonBlocks.DEEPSLATE_FIRE_STONE_ORE)
+    @JvmField
+    val DEEPSLATE_ICE_STONE_ORE = blockItem("deepslate_ice_stone_ore", CobblemonBlocks.DEEPSLATE_ICE_STONE_ORE)
+    @JvmField
+    val DEEPSLATE_LEAF_STONE_ORE = blockItem("deepslate_leaf_stone_ore", CobblemonBlocks.DEEPSLATE_LEAF_STONE_ORE)
+    @JvmField
+    val DEEPSLATE_MOON_STONE_ORE = blockItem("deepslate_moon_stone_ore", CobblemonBlocks.DEEPSLATE_MOON_STONE_ORE)
+    @JvmField
+    val DEEPSLATE_SHINY_STONE_ORE = blockItem("deepslate_shiny_stone_ore", CobblemonBlocks.DEEPSLATE_SHINY_STONE_ORE)
+    @JvmField
+    val DEEPSLATE_SUN_STONE_ORE = blockItem("deepslate_sun_stone_ore", CobblemonBlocks.DEEPSLATE_SUN_STONE_ORE)
+    @JvmField
+    val DEEPSLATE_THUNDER_STONE_ORE = blockItem("deepslate_thunder_stone_ore", CobblemonBlocks.DEEPSLATE_THUNDER_STONE_ORE)
+    @JvmField
+    val DEEPSLATE_WATER_STONE_ORE = blockItem("deepslate_water_stone_ore", CobblemonBlocks.DEEPSLATE_WATER_STONE_ORE)
+    @JvmField
+    val DRIPSTONE_MOON_STONE_ORE = blockItem("dripstone_moon_stone_ore", CobblemonBlocks.DRIPSTONE_MOON_STONE_ORE)
+    @JvmField
+    val DAWN_STONE = noSettingsItem("dawn_stone")
+    @JvmField
+    val DUSK_STONE = noSettingsItem("dusk_stone")
+    @JvmField
+    val FIRE_STONE = noSettingsItem("fire_stone")
+    @JvmField
+    val ICE_STONE = noSettingsItem("ice_stone")
+    @JvmField
+    val LEAF_STONE = noSettingsItem("leaf_stone")
+    @JvmField
+    val MOON_STONE = noSettingsItem("moon_stone")
+    @JvmField
+    val SHINY_STONE = noSettingsItem("shiny_stone")
+    @JvmField
+    val SUN_STONE = noSettingsItem("sun_stone")
+    @JvmField
+    val THUNDER_STONE = noSettingsItem("thunder_stone")
+    @JvmField
+    val WATER_STONE = noSettingsItem("water_stone")
 
     // Held Items
-    val ASSAULT_VEST = this.heldItem("assault_vest")
-    val BLACK_GLASSES = this.heldItem("black_glasses")
-    val CHOICE_BAND = this.heldItem("choice_band")
-    val CHOICE_SPECS = this.heldItem("choice_specs")
-    val EXP_SHARE = this.heldItem("exp_share")
-    val FOCUS_BAND = this.heldItem("focus_band")
-    val HARD_STONE = this.heldItem("hard_stone")
-    val HEAVY_DUTY_BOOTS = this.heldItem("heavy_duty_boots")
-    val LUCKY_EGG = this.heldItem("lucky_egg")
-    val MUSCLE_BAND = this.heldItem("muscle_band")
-    val ROCKY_HELMET = this.heldItem("rocky_helmet")
-    val SAFETY_GOGGLES = this.heldItem("safety_goggles")
-    val WISE_GLASSES = this.heldItem("wise_glasses")
+    @JvmField
+    val ASSAULT_VEST = heldItem("assault_vest")
+    @JvmField
+    val BIG_ROOT = blockItem("big_root", CobblemonBlocks.BIG_ROOT)
+    @JvmField
+    val BLACK_BELT = heldItem("black_belt")
+    @JvmField
+    val BLACK_GLASSES = heldItem("black_glasses")
+    @JvmField
+    val BLACK_SLUDGE = heldItem("black_sludge")
+    @JvmField
+    val CHARCOAL = heldItem("charcoal_stick", remappedName = "charcoal")
+    @JvmField
+    val CHOICE_BAND = heldItem("choice_band")
+    @JvmField
+    val CHOICE_SCARF = heldItem("choice_scarf")
+    @JvmField
+    val CHOICE_SPECS = heldItem("choice_specs")
+    @JvmField
+    val CLEANSE_TAG = heldItem("cleanse_tag")
+    @JvmField
+    val DRAGON_FANG = heldItem("dragon_fang")
+    @JvmField
+    val EXP_SHARE = heldItem("exp_share")
+    @JvmField
+    val FAIRY_FEATHER = heldItem("fairy_feather")
+    @JvmField
+    val FOCUS_BAND = heldItem("focus_band")
+    @JvmField
+    val HARD_STONE = heldItem("hard_stone")
+    @JvmField
+    val HEAVY_DUTY_BOOTS = heldItem("heavy_duty_boots")
+    @JvmField
+    val LEFTOVERS = heldItem("leftovers")
+    @JvmField
+    val LIGHT_CLAY = heldItem("light_clay")
+    @JvmField
+    val LUCKY_EGG = heldItem("lucky_egg")
+    @JvmField
+    val MAGNET = heldItem("magnet")
+    @JvmField
+    val MIRACLE_SEED = heldItem("miracle_seed")
+    @JvmField
+    val MUSCLE_BAND = heldItem("muscle_band")
+    @JvmField
+    val MYSTIC_WATER = heldItem("mystic_water")
+    @JvmField
+    val NEVER_MELT_ICE = heldItem("never_melt_ice")
+    @JvmField
+    val POISON_BARB = heldItem("poison_barb")
+    @JvmField
+    val QUICK_CLAW = heldItem("quick_claw")
+    @JvmField
+    val ROCKY_HELMET = heldItem("rocky_helmet")
+    @JvmField
+    val SAFETY_GOGGLES = heldItem("safety_goggles")
+    @JvmField
+    val SHARP_BEAK = heldItem("sharp_beak")
+    @JvmField
+    val SILK_SCARF = heldItem("silk_scarf")
+    @JvmField
+    val SILVER_POWDER = heldItem("silver_powder")
+    @JvmField
+    val SOFT_SAND = heldItem("soft_sand")
+    @JvmField
+    val SPELL_TAG = heldItem("spell_tag")
+    @JvmField
+    val TWISTED_SPOON = heldItem("twisted_spoon")
+    @JvmField
+    val WISE_GLASSES = heldItem("wise_glasses")
+    @JvmField
+    val MENTAL_HERB = compostableHeldItem("mental_herb", null, 1F)
+    @JvmField
+    val MIRROR_HERB = compostableHeldItem("mirror_herb", null, 1F)
+    @JvmField
+    val POWER_HERB = compostableHeldItem("power_herb", null, 1F)
+    @JvmField
+    val WHITE_HERB = compostableHeldItem("white_herb", null, 1F)
+    @JvmField
+    val BRIGHT_POWDER = heldItem("bright_powder")
+    @JvmField
+    val METAL_POWDER = heldItem("metal_powder")
+    @JvmField
+    val LIGHT_POWDER = heldItem("light_powder")
+    @JvmField
+    val QUICK_POWDER = heldItem("quick_powder")
+    @JvmField
+    val DESTINY_KNOT = heldItem("destiny_knot")
+    @JvmField
+    val EVERSTONE = heldItem("everstone")
+    @JvmField
+    val POWER_ANKLET = heldItem("power_anklet")
+    @JvmField
+    val POWER_BAND = heldItem("power_band")
+    @JvmField
+    val POWER_BELT = heldItem("power_belt")
+    @JvmField
+    val POWER_BRACER = heldItem("power_bracer")
+    @JvmField
+    val POWER_LENS = heldItem("power_lens")
+    @JvmField
+    val POWER_WEIGHT = heldItem("power_weight")
+    @JvmField
+    val FLAME_ORB = heldItem("flame_orb")
+    @JvmField
+    val LIFE_ORB = heldItem("life_orb")
+    @JvmField
+    val TOXIC_ORB = heldItem("toxic_orb")
+    @JvmField
+    val SMOKE_BALL = heldItem("smoke_ball")
+
+    // Mulch
+    @JvmField
+    val MULCH_BASE = noSettingsItem("mulch_base")
+    @JvmField
+    val COARSE_MULCH = mulchItem("coarse_mulch", MulchVariant.COARSE)
+    @JvmField
+    val GROWTH_MULCH = mulchItem("growth_mulch", MulchVariant.GROWTH)
+    @JvmField
+    val HUMID_MULCH = mulchItem("humid_mulch", MulchVariant.HUMID)
+    @JvmField
+    val LOAMY_MULCH = mulchItem("loamy_mulch", MulchVariant.LOAMY)
+    @JvmField
+    val PEAT_MULCH = mulchItem("peat_mulch", MulchVariant.PEAT)
+    @JvmField
+    val RICH_MULCH = mulchItem("rich_mulch", MulchVariant.RICH)
+    @JvmField
+    val SANDY_MULCH = mulchItem("sandy_mulch", MulchVariant.SANDY)
+    @JvmField
+    val SURPRISE_MULCH = mulchItem("surprise_mulch", MulchVariant.SURPRISE)
 
     // Misc
-    val POKEMON_MODEL = queue("pokemon_model") { PokemonItem() }
+    @JvmField
+    val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
 
-    fun pokeballs(): List<RegistrySupplier<PokeBallItem>> = this.pokeballs
+    private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 
-    private fun blockItem(block: Block, tab: ItemGroup) : BlockItem {
-        return BlockItem(block, Item.Settings().group(tab))
+    private fun noSettingsItem(name: String): CobblemonItem = this.create(name, CobblemonItem(Item.Settings()))
+
+    fun berries() = this.berries.toMap()
+
+    private fun mulchItem(name: String, mulchVariant: MulchVariant): MulchItem = this.create(name, MulchItem(mulchVariant))
+
+    private fun pokeBallItem(pokeBall: PokeBall): PokeBallItem {
+        val item = create(pokeBall.name.path, PokeBallItem(pokeBall))
+        pokeBall.item = item
+        pokeBalls.add(item)
+        return item
     }
 
-    private fun itemNameBlockItem(block: Block, tab: ItemGroup) : BlockItem {
-        return AliasedBlockItem(block, Item.Settings().group(tab))
+    private fun candyItem(name: String, calculator: CandyItem.Calculator): CandyItem  = this.create(name, CandyItem(calculator))
+
+    private fun heldItem(name: String, remappedName: String? = null): CobblemonItem = create(
+        name,
+        CobblemonItem(Item.Settings()).also {
+            if (remappedName != null) {
+                CobblemonHeldItemManager.registerRemap(it, remappedName)
+            }
+        }
+    )
+
+    private fun compostable(item: Item, increaseLevelChance: Float) = Cobblemon.implementation.registerCompostable(item, increaseLevelChance)
+
+    private fun berryItem(name: String, berryBlock: BerryBlock): BerryItem {
+        val finalName = "${name}_berry"
+        val item = this.create(finalName, BerryItem(berryBlock))
+        compostable(item, .65f)
+        this.berries[cobblemonResource(finalName)] = item
+        return item
     }
 
-    private fun evolutionItem(): CobblemonItem {
-        return CobblemonItem(Item.Settings().group(CobblemonItemGroups.EVOLUTION_ITEM_GROUP))
+    private fun berryItem(name: String, berryItem: BerryItem): BerryItem {
+        val finalName = "${name}_berry"
+        val item = this.create(finalName, berryItem)
+        compostable(item, .65f)
+        this.berries[cobblemonResource(finalName)] = item
+        return item
     }
 
-    private fun pokeballItem(pokeBall: PokeBall): RegistrySupplier<PokeBallItem> {
-        val supplier = this.queue(pokeBall.name.path) { PokeBallItem(pokeBall) }
-        pokeBall.itemSupplier = supplier
-        this.pokeballs.add(supplier)
-        return supplier
+    private fun mintItem(name: String, mintItem: MintItem): MintItem {
+        val item = this.create(name, mintItem)
+        mints[item.nature.displayName] = item
+        compostable(item, .65f)
+        return item
     }
 
-    private fun heldItem(name: String): RegistrySupplier<CobblemonItem> = queue(name) { CobblemonItem(Item.Settings().group(CobblemonItemGroups.HELD_ITEM_GROUP)) }
+    private fun apricornItem(name: String, apricornItem: ApricornItem): ApricornItem {
+        val finalName = "${name}_apricorn"
+        val item = this.create(finalName, apricornItem)
+        compostable(item, .65f)
+        return item
+    }
+
+    private fun apricornSeedItem(name: String, apricornSeedItem: ApricornSeedItem): ApricornSeedItem {
+        val finalName = "${name}_apricorn_seed"
+        val item = this.create(finalName, apricornSeedItem)
+        compostable(item, .65f)
+        return item
+    }
+
+    private fun mintSeed(name: String, mintBlock: MintBlock): Item {
+        val finalName = "${name}_mint_seeds"
+        val item = this.blockItem(finalName, mintBlock)
+        compostable(item, .65f)
+        return item
+    }
+
+    private fun mintLeaf(name: String, mintLeafItem: MintLeafItem): MintLeafItem {
+        val finalName = "${name}_mint_leaf"
+        val item = this.create(finalName, mintLeafItem)
+        compostable(item, .65f)
+        return item
+    }
+
+    private fun compostableItem(name: String, item: Item? = null, increaseLevelChance: Float = .65f): Item {
+        val createdItem = this.create(name, item ?: Item(Item.Settings()))
+        compostable(createdItem, increaseLevelChance)
+        return createdItem
+    }
+
+    private fun compostableHeldItem(name: String, remappedName: String? = null, increaseLevelChance: Float = .65f): CobblemonItem {
+        val createdItem = heldItem(name, remappedName)
+        compostable(createdItem, increaseLevelChance)
+        return createdItem
+    }
+
+    private fun compostableBlockItem(name: String, block: Block, increaseLevelChance: Float = .65f): Item {
+        val createdItem = this.blockItem(name, block)
+        compostable(createdItem, increaseLevelChance)
+        return createdItem
+    }
 
 }

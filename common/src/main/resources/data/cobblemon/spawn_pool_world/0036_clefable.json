@@ -6,10 +6,13 @@
         {
             "id": "clefable-1",
             "pokemon": "clefable",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "33-48",
+            "level": "27-48",
             "weight": 0.1,
             "condition": {
                 "canSeeSky": true,
@@ -23,12 +26,12 @@
             "id": "clefable-2",
             "pokemon": "clefable",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "33-48",
+            "level": "27-48",
             "weight": 0.1,
             "condition": {
                 "canSeeSky": false,
@@ -40,26 +43,33 @@
         {
             "id": "clefable-3",
             "pokemon": "clefable",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "33-48",
+            "level": "27-48",
             "weight": 0.1,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_hills"
                 ],
-                "timeRange": "night"
+                "timeRange": "night",
+                "moonPhase": "0"
             }
         },
         {
             "id": "clefable-4",
             "pokemon": "clefable",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "33-48",
+            "level": "27-48",
             "weight": 0.1,
             "condition": {
                 "canSeeSky": true,

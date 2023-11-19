@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Gigalith",
   "nationalPokedexNumber": 526,
   "primaryType": "rock",
@@ -7,6 +8,27 @@
     "sandstream",
     "h:sandforce"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:raw_copper",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:everstone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:black_augurite",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 135,
@@ -24,6 +46,19 @@
   "eggGroups": [
     "mineral"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.12
+      }
+    }
+  },
   "moves": [
     "1:harden",
     "1:powergem",
@@ -47,6 +82,7 @@
     "tm:earthpower",
     "tm:earthquake",
     "tm:endure",
+    "tm:explosion",
     "tm:facade",
     "tm:flashcannon",
     "tm:frustration",
@@ -72,6 +108,7 @@
     "tm:secretpower",
     "tm:selfdestruct",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:solarbeam",
     "tm:stealthrock",
@@ -85,9 +122,18 @@
     "tm:toxic",
     "tm:weatherball",
     "tutor:block",
+    "tutor:earthpower",
     "tutor:gravity",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:laserfocus",
-    "tutor:meteorbeam"
+    "tutor:meteorbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:throatchop"
   ],
   "labels": [
     "gen5"
@@ -97,10 +143,10 @@
   ],
   "preEvolution": "boldore",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.4,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.4,
+    "height": 1.8,
     "fixed": false
   },
   "baseFriendship": 50,

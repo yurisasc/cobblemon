@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "cobblemon:blocks/deepslate_leaf_stone_ore"
+    "all": "cobblemon:block/deepslate_leaf_stone_ore"
   }
 }

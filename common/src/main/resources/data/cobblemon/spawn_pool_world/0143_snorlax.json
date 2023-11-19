@@ -6,10 +6,13 @@
         {
             "id": "snorlax-1",
             "pokemon": "snorlax",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "20-54",
+            "level": "34-54",
             "weight": 1.0,
             "condition": {
                 "canSeeSky": true,

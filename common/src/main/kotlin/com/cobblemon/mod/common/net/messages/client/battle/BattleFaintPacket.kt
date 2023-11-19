@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 
@@ -20,20 +21,14 @@ import net.minecraft.text.MutableText
  * @author Hiroku
  * @since May 22nd, 2022
  */
-class BattleFaintPacket() : NetworkPacket {
-    lateinit var pnx: String
-    lateinit var message: MutableText
-    constructor(pnx: String, message: MutableText): this() {
-        this.pnx = pnx
-        this.message = message
-    }
+class BattleFaintPacket(val pnx: String, val message: MutableText) : NetworkPacket<BattleFaintPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(pnx)
         buffer.writeText(message)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        pnx = buffer.readString()
-        message = buffer.readText().copy()
+    companion object {
+        val ID = cobblemonResource("battle_faint")
+        fun decode(buffer: PacketByteBuf) = BattleFaintPacket(buffer.readString(), buffer.readText().copy())
     }
 }

@@ -25,14 +25,18 @@
     "field"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:feather",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 5.0
       }
     ]
   },
@@ -43,8 +47,10 @@
     "6:quickattack",
     "9:flamecharge",
     "12:detect",
+    "14:peck",
     "15:sandattack",
     "18:aerialace",
+    "19:firespin",
     "21:slash",
     "24:bounce",
     "27:focusenergy",
@@ -54,15 +60,24 @@
     "36:reversal",
     "39:flareblitz",
     "41:mirrormove",
+    "egg:agility",
+    "egg:batonpass",
     "egg:counter",
     "egg:crushclaw",
     "egg:curse",
+    "egg:endure",
+    "egg:featherdance",
     "egg:feint",
     "egg:flameburst",
     "egg:lastresort",
+    "egg:lowkick",
     "egg:nightslash",
     "egg:peck",
+    "egg:reversal",
+    "egg:rockslide",
     "egg:smellingsalts",
+    "egg:swagger",
+    "tm:aerialace",
     "tm:agility",
     "tm:assurance",
     "tm:attract",
@@ -79,6 +94,7 @@
     "tm:facade",
     "tm:fireblast",
     "tm:firespin",
+    "tm:flamecharge",
     "tm:flamethrower",
     "tm:flareblitz",
     "tm:focusenergy",
@@ -113,14 +129,34 @@
     "tm:toxic",
     "tm:willowisp",
     "tm:workup",
+    "tutor:bodyslam",
+    "tutor:bounce",
+    "tutor:counter",
     "tutor:defog",
     "tutor:doubleedge",
+    "tutor:ember",
+    "tutor:endure",
     "tutor:firepledge",
+    "tutor:focusenergy",
+    "tutor:growl",
     "tutor:headbutt",
+    "tutor:heatwave",
+    "tutor:helpinghand",
+    "tutor:lastresort",
+    "tutor:lowkick",
+    "tutor:megakick",
+    "tutor:megapunch",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:rockslide",
+    "tutor:scratch",
     "tutor:seismictoss",
-    "tutor:swift"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:swordsdance"
   ],
   "labels": [
     "gen3"

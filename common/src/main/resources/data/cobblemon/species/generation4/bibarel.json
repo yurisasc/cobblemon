@@ -9,6 +9,19 @@
     "unaware",
     "h:moody"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:stick",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 79,
     "attack": 85,
@@ -30,21 +43,12 @@
   "behaviour": {
     "moving": {
       "swim": {
+        "swimSpeed": 0.25,
         "canSwimInWater": true,
         "canBreatheUnderwater": true,
-        "swimSpeed": 0.25
+        "canWalkOnWater": true
       }
     }
-  },
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "minecraft:stick",
-        "quantityRange": "1-2",
-        "percentage": 66
-      }
-    ]
   },
   "moves": [
     "1:aquajet",
@@ -53,15 +57,26 @@
     "1:tackle",
     "1:watergun",
     "5:defensecurl",
+    "9:defensecurl",
     "9:rollout",
     "13:headbutt",
+    "13:rollout",
+    "15:watergun",
+    "18:headbutt",
     "18:hyperfang",
+    "23:hyperfang",
     "23:yawn",
     "28:crunch",
+    "28:yawn",
+    "33:amnesia",
     "33:takedown",
     "38:superfang",
+    "38:takedown",
+    "43:superfang",
     "43:swordsdance",
     "48:amnesia",
+    "48:superpower",
+    "53:curse",
     "53:superpower",
     "58:curse",
     "tm:attract",
@@ -78,12 +93,14 @@
     "tm:endure",
     "tm:facade",
     "tm:fling",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:grassknot",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:icebeam",
+    "tm:irontail",
     "tm:naturalgift",
     "tm:pluck",
     "tm:protect",
@@ -97,7 +114,9 @@
     "tm:scald",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
+    "tm:stealthrock",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
@@ -111,18 +130,23 @@
     "tm:thunderwave",
     "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tm:workup",
     "tutor:aquatail",
     "tutor:covet",
+    "tutor:dive",
     "tutor:focuspunch",
     "tutor:furycutter",
+    "tutor:headbutt",
     "tutor:icywind",
     "tutor:irontail",
     "tutor:lastresort",
     "tutor:liquidation",
     "tutor:mudslap",
+    "tutor:rollout",
     "tutor:shockwave",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stealthrock",
     "tutor:stompingtantrum",

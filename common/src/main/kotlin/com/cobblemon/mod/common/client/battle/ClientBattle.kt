@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
 import java.util.UUID
+
 class ClientBattle(
     val battleId: UUID,
     val battleFormat: BattleFormat
@@ -32,7 +33,7 @@ class ClientBattle(
     fun getFirstUnansweredRequest() = pendingActionRequests.firstOrNull { it.response == null }
     fun checkForFinishedChoosing() {
         if (getFirstUnansweredRequest() == null) {
-            CobblemonNetwork.sendToServer(
+            CobblemonNetwork.sendPacketToServer(
                 BattleSelectActionsPacket(
                     battleId = battleId,
                     pendingActionRequests.map { it.response!! }
@@ -49,5 +50,9 @@ class ClientBattle(
         val pokemon = actor.side.activeClientBattlePokemon.find { it.getLetter() == letter }
             ?: throw IllegalStateException("Invalid pnx: $pnx - unknown pokemon")
         return actor to pokemon
+    }
+
+    fun getParticipatingActor(uuid: UUID): ClientBattleActor? {
+        return sides.flatMap { it.actors }.find { it.uuid == uuid }
     }
 }

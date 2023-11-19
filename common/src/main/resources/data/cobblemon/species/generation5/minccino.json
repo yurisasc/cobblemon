@@ -7,6 +7,19 @@
     "technician",
     "h:skilllink"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:silk_scarf",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 50,
@@ -44,9 +57,13 @@
     "44:hypervoice",
     "48:lastresort",
     "egg:aquatail",
+    "egg:endure",
+    "egg:faketears",
     "egg:flail",
+    "egg:irontail",
     "egg:knockoff",
     "egg:mudslap",
+    "egg:sleeptalk",
     "egg:tailwhip",
     "tm:attract",
     "tm:calmmind",
@@ -55,6 +72,7 @@
     "tm:dazzlinggleam",
     "tm:dig",
     "tm:doubleteam",
+    "tm:echoedvoice",
     "tm:encore",
     "tm:endure",
     "tm:facade",
@@ -91,9 +109,21 @@
     "tm:uproar",
     "tm:uturn",
     "tm:workup",
+    "tutor:afteryou",
+    "tutor:aquatail",
     "tutor:covet",
+    "tutor:gunkshot",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:irontail",
+    "tutor:knockoff",
+    "tutor:lastresort",
+    "tutor:seedbomb",
     "tutor:shockwave",
-    "tutor:tripleaxel"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:tripleaxel",
+    "tutor:uproar"
   ],
   "labels": [
     "gen5"

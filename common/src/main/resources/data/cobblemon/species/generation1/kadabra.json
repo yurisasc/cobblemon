@@ -16,14 +16,7 @@
     "special_defence": 70,
     "speed": 105
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
+  "behaviour": {},
   "catchRate": 100,
   "maleRatio": 0.75,
   "shoulderMountable": false,
@@ -34,20 +27,24 @@
     "human_like"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:ender_pearl",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
-        "item": "cobblemon:link_cable",
-        "percentage": 5
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 5.0
       }
     ]
   },
   "moves": [
+    "1:confusion",
     "1:disable",
     "1:kinesis",
     "1:teleport",
@@ -62,6 +59,7 @@
     "35:psychic",
     "40:roleplay",
     "45:futuresight",
+    "46:trick",
     "50:calmmind",
     "tm:allyswitch",
     "tm:attract",
@@ -73,13 +71,16 @@
     "tm:dazzlinggleam",
     "tm:doubleteam",
     "tm:drainpunch",
+    "tm:dreameater",
     "tm:embargo",
     "tm:encore",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
     "tm:firepunch",
+    "tm:flash",
     "tm:fling",
+    "tm:focuspunch",
     "tm:foulplay",
     "tm:frustration",
     "tm:futuresight",
@@ -102,6 +103,7 @@
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
+    "tm:recycle",
     "tm:reflect",
     "tm:rest",
     "tm:return",
@@ -109,8 +111,10 @@
     "tm:safeguard",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:skillswap",
     "tm:sleeptalk",
+    "tm:snatch",
     "tm:snore",
     "tm:speedswap",
     "tm:substitute",
@@ -118,16 +122,21 @@
     "tm:swagger",
     "tm:swift",
     "tm:taunt",
+    "tm:telekinesis",
     "tm:thief",
     "tm:thunderpunch",
     "tm:thunderwave",
     "tm:torment",
+    "tm:toxic",
     "tm:triattack",
     "tm:trick",
     "tm:trickroom",
     "tm:wonderroom",
     "tm:zenheadbutt",
+    "tutor:allyswitch",
+    "tutor:attract",
     "tutor:bide",
+    "tutor:bodyslam",
     "tutor:calmmind",
     "tutor:confusion",
     "tutor:counter",
@@ -137,8 +146,10 @@
     "tutor:disable",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:drainpunch",
     "tutor:dreameater",
     "tutor:dynamicpunch",
+    "tutor:endure",
     "tutor:expandingforce",
     "tutor:facade",
     "tutor:firepunch",
@@ -146,6 +157,7 @@
     "tutor:focuspunch",
     "tutor:foulplay",
     "tutor:frustration",
+    "tutor:futuresight",
     "tutor:gravity",
     "tutor:headbutt",
     "tutor:hiddenpower",
@@ -155,6 +167,10 @@
     "tutor:knockoff",
     "tutor:lightscreen",
     "tutor:magiccoat",
+    "tutor:magicroom",
+    "tutor:megakick",
+    "tutor:megapunch",
+    "tutor:metronome",
     "tutor:mimic",
     "tutor:nightmare",
     "tutor:nightshade",
@@ -164,29 +180,39 @@
     "tutor:psychup",
     "tutor:psywave",
     "tutor:rage",
+    "tutor:raindance",
     "tutor:recover",
     "tutor:recycle",
     "tutor:reflect",
     "tutor:rest",
     "tutor:return",
+    "tutor:roleplay",
     "tutor:seismictoss",
     "tutor:shadowball",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
     "tutor:skullbash",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
     "tutor:submission",
     "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
     "tutor:takedown",
     "tutor:taunt",
     "tutor:telekinesis",
     "tutor:teleport",
+    "tutor:thief",
     "tutor:thunderpunch",
     "tutor:thunderwave",
     "tutor:toxic",
     "tutor:triattack",
-    "tutor:zapcannon"
+    "tutor:trick",
+    "tutor:wonderroom",
+    "tutor:zapcannon",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen1"
@@ -205,7 +231,7 @@
       "requirements": []
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.85,
   "hitbox": {
     "width": 1,
     "height": 1.4,

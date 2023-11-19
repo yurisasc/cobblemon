@@ -7,6 +7,19 @@
     "stormdrain",
     "h:sandforce"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "percentage": 50
+      },
+      {
+        "item": "minecraft:rindo_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 76,
     "attack": 48,
@@ -29,22 +42,31 @@
     "1:mudslap",
     "1:watergun",
     "2:mudsport",
+    "4:harden",
     "5:harden",
+    "7:waterpulse",
     "10:recover",
     "11:mudbomb",
     "15:waterpulse",
     "16:hiddenpower",
     "20:ancientpower",
+    "22:raindance",
     "25:bodyslam",
+    "29:bodyslam",
     "31:muddywater",
     "35:earthpower",
+    "37:muddywater",
     "40:raindance",
     "45:memento",
+    "46:recover",
     "egg:acidarmor",
+    "egg:amnesia",
+    "egg:brine",
     "egg:clearsmog",
     "egg:counter",
     "egg:curse",
     "egg:fissure",
+    "egg:memento",
     "egg:mirrorcoat",
     "egg:mist",
     "egg:sludge",
@@ -76,6 +98,7 @@
     "tm:icywind",
     "tm:infestation",
     "tm:liquidation",
+    "tm:muddywater",
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
@@ -103,10 +126,20 @@
     "tm:waterfall",
     "tm:waterpulse",
     "tm:whirlpool",
+    "tutor:ancientpower",
+    "tutor:dive",
+    "tutor:earthpower",
     "tutor:headbutt",
+    "tutor:icywind",
+    "tutor:mudslap",
     "tutor:painsplit",
+    "tutor:secretpower",
     "tutor:skittersmack",
-    "tutor:stringshot"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stringshot",
+    "tutor:waterpulse",
+    "tutor:yawn"
   ],
   "labels": [
     "gen4"

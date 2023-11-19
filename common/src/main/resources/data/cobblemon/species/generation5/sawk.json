@@ -7,6 +7,19 @@
     "innerfocus",
     "h:moldbreaker"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_belt",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:bluk_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 125,
@@ -76,6 +89,7 @@
     "tm:revenge",
     "tm:reversal",
     "tm:rockslide",
+    "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
     "tm:scaryface",
@@ -97,10 +111,21 @@
     "tutor:block",
     "tutor:coaching",
     "tutor:dualchop",
+    "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:helpinghand",
+    "tutor:icepunch",
     "tutor:knockoff",
     "tutor:laserfocus",
-    "tutor:painsplit"
+    "tutor:lowkick",
+    "tutor:painsplit",
+    "tutor:rocksmash",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:superpower",
+    "tutor:throatchop",
+    "tutor:thunderpunch",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

@@ -11,12 +11,18 @@ package com.cobblemon.mod.common.pokeball.catching.calculators
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
-import com.cobblemon.mod.common.pokeball.PokeBall
+import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.status.statuses.*
-import net.minecraft.entity.LivingEntity
+import com.cobblemon.mod.common.pokemon.status.statuses.BurnStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.FrozenStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.ParalysisStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.PoisonBadlyStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.PoisonStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.SleepStatus
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import net.minecraft.entity.LivingEntity
 
 /**
  * An implementation of the capture calculator used in the generation 1 games.
@@ -32,7 +38,9 @@ object Gen1CaptureCalculator : CaptureCalculator {
 
     override fun id(): String = "generation_1"
 
-    override fun processCapture(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon): CaptureContext {
+    override fun processCapture(thrower: LivingEntity, pokeBallEntity: EmptyPokeBallEntity, target: PokemonEntity): CaptureContext {
+        val pokeBall = pokeBallEntity.pokeBall
+        val pokemon = target.pokemon
         if (pokeBall.catchRateModifier.isGuaranteed()) {
             return CaptureContext.successful()
         }
@@ -44,7 +52,7 @@ object Gen1CaptureCalculator : CaptureCalculator {
         }
         val n = Random.nextInt(nBound + 1)
         var usedThreshold = 0
-        val status = target.status?.status
+        val status = pokemon.status?.status
         if ((status is FrozenStatus || status is SleepStatus) && n < FRZ_SLEEP_THRESHOLD) {
             usedThreshold = FRZ_SLEEP_THRESHOLD
             return CaptureContext.successful()
@@ -53,7 +61,7 @@ object Gen1CaptureCalculator : CaptureCalculator {
             usedThreshold = PARA_BRN_PSN_THRESHOLD
             return CaptureContext.successful()
         }
-        else if (n - usedThreshold > target.form.catchRate) {
+        if (n - usedThreshold > pokemon.form.catchRate) {
             return CaptureContext(numberOfShakes = 0, isSuccessfulCapture = false, isCriticalCapture = false)
         }
         val m = Random.nextInt(256)
@@ -61,19 +69,19 @@ object Gen1CaptureCalculator : CaptureCalculator {
             PokeBalls.GREAT_BALL -> 8F
             else -> 12F
         }
-        val f = ((target.hp * 255F * 4F) / (target.currentHealth * ballValue)).coerceIn(1F, 255F).roundToInt()
+        val f = ((pokemon.hp * 255F * 4F) / (pokemon.currentHealth * ballValue)).coerceIn(1F, 255F).roundToInt()
         if (f >= m) {
             return CaptureContext.successful()
         }
-        return CaptureContext(numberOfShakes = this.calculateShakes(target, nBound, f), isSuccessfulCapture = false, isCriticalCapture = false)
+        return CaptureContext(numberOfShakes = this.calculateShakes(pokemon, getCatchRate(thrower, pokeBallEntity, target, pokemon.form.catchRate.toFloat()), nBound, f), isSuccessfulCapture = false, isCriticalCapture = false)
     }
 
-    private fun calculateShakes(target: Pokemon, ballValue: Int, f: Int): Int {
-        val d = (target.form.catchRate * 100F) / ballValue
+    private fun calculateShakes(pokemon: Pokemon, catchRate: Float, ballValue: Int, f: Int): Int {
+        val d = (catchRate * 100F) / ballValue
         if (d >= 256) {
             return 3
         }
-        val s = when (target.status?.status) {
+        val s = when (pokemon.status?.status) {
             is FrozenStatus, is SleepStatus -> 10
             is ParalysisStatus, is BurnStatus, is PoisonStatus, is PoisonBadlyStatus -> 5
             else -> 0

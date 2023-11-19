@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -15,33 +16,46 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class HaunterModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("haunter")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.1, -0.8, 0.0)
+    override val portraitScale = 1.3F
+    override val portraitTranslation = Vec3d(-0.25, -0.1, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.1, 0.1, 0.0)
+    override val profileScale = 0.7F
+    override val profileTranslation = Vec3d(-0.1, 0.75, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    val offsetY = -3.0
+
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("haunter", "blink").setPreventsIdle(false)}
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("haunter", "ground_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("haunter", "ground_idle")
                 //bedrock("haunter", "ground_walk")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
             )
         )
     }

@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.command.argument
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
-import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import com.mojang.brigadier.StringReader
@@ -19,8 +18,8 @@ import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import net.minecraft.command.CommandSource
 import java.util.concurrent.CompletableFuture
+import net.minecraft.command.CommandSource
 
 class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
 

@@ -43,12 +43,14 @@
     "tm:attract",
     "tm:captivate",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
     "tm:flash",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:gigaimpact",
     "tm:hiddenpower",
     "tm:hyperbeam",
@@ -63,6 +65,7 @@
     "tm:round",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:silverwind",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:solarbeam",
@@ -79,13 +82,18 @@
     "tutor:defog",
     "tutor:doubleedge",
     "tutor:electroweb",
+    "tutor:endure",
     "tutor:gigadrain",
     "tutor:laserfocus",
     "tutor:mimic",
     "tutor:ominouswind",
+    "tutor:roost",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stringshot",
+    "tutor:substitute",
+    "tutor:swagger",
     "tutor:swift",
     "tutor:tailwind",
     "tutor:twister"
@@ -116,5 +124,18 @@
   "height": 12,
   "weight": 316,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

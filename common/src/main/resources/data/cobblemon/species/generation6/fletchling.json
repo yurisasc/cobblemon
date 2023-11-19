@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Fletchling",
   "nationalPokedexNumber": 661,
   "primaryType": "normal",
@@ -7,6 +8,22 @@
     "bigpecks",
     "h:galewings"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 50,
@@ -24,6 +41,13 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:growl",
     "1:peck",
@@ -36,6 +60,7 @@
     "25:razorwind",
     "29:naturalgift",
     "30:aerialace",
+    "34:flamecharge",
     "35:tailwind",
     "40:steelwing",
     "41:mefirst",
@@ -45,6 +70,7 @@
     "egg:flamecharge",
     "egg:quickguard",
     "egg:snatch",
+    "egg:tailwind",
     "tm:acrobatics",
     "tm:aerialace",
     "tm:agility",
@@ -68,10 +94,12 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -86,8 +114,12 @@
     "tm:uturn",
     "tm:willowisp",
     "tm:workup",
+    "tutor:defog",
     "tutor:dualwingbeat",
-    "tutor:snatch"
+    "tutor:heatwave",
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:tailwind"
   ],
   "labels": [
     "gen6"
@@ -112,10 +144,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.45,
+    "height": 0.7,
     "fixed": false
   },
   "baseFriendship": 50,

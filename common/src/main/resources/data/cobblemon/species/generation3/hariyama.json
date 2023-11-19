@@ -51,6 +51,7 @@
     "tm:bodypress",
     "tm:bodyslam",
     "tm:brickbreak",
+    "tm:brine",
     "tm:bulkup",
     "tm:bulldoze",
     "tm:captivate",
@@ -66,6 +67,7 @@
     "tm:firepunch",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:heavyslam",
@@ -115,17 +117,35 @@
     "tm:whirlpool",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:bodyslam",
     "tutor:counter",
     "tutor:doubleedge",
     "tutor:dynamicpunch",
+    "tutor:endure",
+    "tutor:firepunch",
+    "tutor:focuspunch",
     "tutor:headbutt",
+    "tutor:helpinghand",
+    "tutor:icepunch",
+    "tutor:ironhead",
+    "tutor:knockoff",
+    "tutor:lowkick",
     "tutor:megakick",
     "tutor:megapunch",
+    "tutor:metronome",
     "tutor:mimic",
+    "tutor:mudslap",
+    "tutor:rockslide",
     "tutor:roleplay",
+    "tutor:seismictoss",
+    "tutor:sleeptalk",
     "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:substitute",
     "tutor:superpower",
+    "tutor:swagger",
     "tutor:throatchop",
+    "tutor:thunderpunch",
     "tutor:vacuumwave"
   ],
   "labels": [
@@ -154,5 +174,22 @@
   "height": 23,
   "weight": 2538,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:black_belt",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kings_rock",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

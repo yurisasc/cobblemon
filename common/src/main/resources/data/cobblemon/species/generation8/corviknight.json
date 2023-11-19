@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Corviknight",
   "nationalPokedexNumber": 823,
   "primaryType": "flying",
@@ -8,6 +9,26 @@
     "unnerve",
     "h:mirrorarmor"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:metal_coat",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 98,
     "attack": 87,
@@ -54,7 +75,6 @@
       "eggGroups": [
         "flying"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -75,6 +95,19 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:honeclaws",
     "1:irondefense",
@@ -125,9 +158,11 @@
     "tm:reversal",
     "tm:round",
     "tm:scaryface",
+    "tm:screech",
     "tm:sleeptalk",
     "tm:snore",
     "tm:steelbeam",
+    "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swift",
@@ -138,7 +173,8 @@
     "tm:thief",
     "tm:uturn",
     "tm:workup",
-    "tutor:dualwingbeat"
+    "tutor:dualwingbeat",
+    "tutor:steelbeam"
   ],
   "labels": [
     "gen8"
@@ -148,10 +184,10 @@
   ],
   "preEvolution": "corvisquire",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2.0,
+    "height": 4.4,
     "fixed": false
   },
   "baseFriendship": 50,

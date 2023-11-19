@@ -6,11 +6,14 @@
         {
             "id": "sylveon-1",
             "pokemon": "sylveon",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "15-52",
-            "weight": 0.1,
+            "level": "28-53",
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -21,6 +24,62 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_spooky"
+                ]
+            }
+        },
+        {
+            "id": "sylveon-2",
+            "pokemon": "sylveon",
+            "presets": [
+                "natural",
+                "urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 0.025,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
+        },
+        {
+            "id": "sylveon-3",
+            "pokemon": "sylveon",
+            "presets": [
+                "natural",
+                "village"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 0.025,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
+        },
+        {
+            "id": "sylveon-4",
+            "pokemon": "sylveon",
+            "presets": [
+                "mansion"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-53",
+            "weight": 0.125,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
                 ]
             }
         }

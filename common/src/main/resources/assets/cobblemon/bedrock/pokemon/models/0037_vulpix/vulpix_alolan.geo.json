@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "vulpix",
+					"name": "vulpix_alolan",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "vulpix",
+					"parent": "vulpix_alolan",
 					"pivot": [0, 0, 0]
 				},
 				{

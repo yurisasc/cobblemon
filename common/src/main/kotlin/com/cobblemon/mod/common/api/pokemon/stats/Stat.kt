@@ -38,6 +38,11 @@ interface Stat {
     val type: Type
 
     /**
+     * The name used by Showdown to store the stats (attack is 'atk', for example)
+     */
+    val showdownId: String
+
+    /**
      * Represents the type of this stat.
      */
     enum class Type {

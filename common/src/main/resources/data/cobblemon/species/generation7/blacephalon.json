@@ -6,6 +6,15 @@
   "abilities": [
     "beastboost"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:echo_shard",
+        "quantityRange": "1-3"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 53,
     "attack": 127,
@@ -28,6 +37,7 @@
     "1:firespin",
     "5:lightscreen",
     "10:ember",
+    "13:storedpower",
     "15:nightshade",
     "17:flameburst",
     "20:confuseray",
@@ -94,13 +104,20 @@
     "tutor:afteryou",
     "tutor:expandingforce",
     "tutor:fireblast",
+    "tutor:foulplay",
+    "tutor:heatwave",
     "tutor:knockoff",
     "tutor:lastresort",
+    "tutor:mindblown",
     "tutor:painsplit",
     "tutor:recycle",
+    "tutor:shadowball",
     "tutor:shadowclaw",
+    "tutor:snore",
     "tutor:spite",
     "tutor:taunt",
+    "tutor:trick",
+    "tutor:uproar",
     "tutor:zenheadbutt"
   ],
   "labels": [

@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper
 
@@ -33,9 +33,9 @@ class MoveSlotWidget(
 ): SoundlessWidget(pX, pY, MOVE_WIDTH, MOVE_HEIGHT, Text.literal(move.name)) {
 
     companion object {
-        private val moveResource = cobblemonResource("ui/summary/summary_move.png")
-        private val moveOverlayResource = cobblemonResource("ui/summary/summary_move_overlay.png")
-        private val moveSelectedOverlayResource = cobblemonResource("ui/summary/summary_move_selected_overlay.png")
+        private val moveResource = cobblemonResource("textures/gui/summary/summary_move.png")
+        private val moveOverlayResource = cobblemonResource("textures/gui/summary/summary_move_overlay.png")
+        private val moveSelectedOverlayResource = cobblemonResource("textures/gui/summary/summary_move_selected_overlay.png")
 
         const val MOVE_WIDTH = 108
         const val MOVE_HEIGHT = 22
@@ -65,7 +65,8 @@ class MoveSlotWidget(
         addWidget(this)
     }
 
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        val matrices = context.matrices
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
 
         val moveTemplate = Moves.getByNameOrDummy(move.name)
@@ -73,7 +74,7 @@ class MoveSlotWidget(
 
         if (movesWidget.selectedMove == move) {
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = moveSelectedOverlayResource,
                 x = x - 1,
                 y = y - 1,
@@ -83,7 +84,7 @@ class MoveSlotWidget(
         }
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = moveResource,
             x = x,
             y = y,
@@ -97,7 +98,7 @@ class MoveSlotWidget(
         )
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = moveOverlayResource,
             x = x,
             y = y,
@@ -112,7 +113,7 @@ class MoveSlotWidget(
         }
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = movePPText,
             x = x + 93,
@@ -125,18 +126,18 @@ class MoveSlotWidget(
             x = x + 2,
             y = y + 2,
             type = moveTemplate.elementalType
-        ).render(pMatrixStack)
+        ).render(context)
 
         // Move Category
         MoveCategoryIcon(
             x = x + 66,
             y = y + 13.5,
             category = move.damageCategory
-        ).render(pMatrixStack)
+        ).render(context)
 
         // Move Name
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = move.displayName.bold(),
             x = x + 28,
@@ -145,11 +146,11 @@ class MoveSlotWidget(
         )
 
         // Reorder Buttons
-        moveUpButton.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
-        moveDownButton.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+        moveUpButton.render(context, pMouseX, pMouseY, pPartialTicks)
+        moveDownButton.render(context, pMouseX, pMouseY, pPartialTicks)
 
         // Switch Move Button
-        switchMoveButton.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+        switchMoveButton.render(context, pMouseX, pMouseY, pPartialTicks)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

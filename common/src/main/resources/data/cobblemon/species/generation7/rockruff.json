@@ -43,9 +43,11 @@
     "48:stoneedge",
     "egg:crushclaw",
     "egg:endeavor",
+    "egg:firefang",
     "egg:lastresort",
     "egg:suckerpunch",
     "egg:thrash",
+    "egg:thunderfang",
     "tm:attract",
     "tm:bodyslam",
     "tm:bulldoze",
@@ -53,6 +55,7 @@
     "tm:confide",
     "tm:crunch",
     "tm:dig",
+    "tm:doubleteam",
     "tm:earthpower",
     "tm:echoedvoice",
     "tm:endure",
@@ -71,6 +74,7 @@
     "tm:psychicfangs",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:rockpolish",
     "tm:rockslide",
     "tm:rocktomb",
@@ -93,7 +97,18 @@
     "tm:toxic",
     "tm:trailblaze",
     "tm:zenheadbutt",
-    "tutor:covet"
+    "tutor:covet",
+    "tutor:earthpower",
+    "tutor:endeavor",
+    "tutor:hypervoice",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:irontail",
+    "tutor:lastresort",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen7"
@@ -178,5 +193,26 @@
   "height": 5,
   "weight": 92,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

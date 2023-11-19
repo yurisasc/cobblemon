@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.storage
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.party.PartyStore
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -22,18 +23,11 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 18th, 2022
  */
-class SwapClientPokemonPacket() : NetworkPacket {
-    var storeIsParty = false
-    lateinit var storeID: UUID
-    lateinit var pokemonID1: UUID
-    lateinit var pokemonID2: UUID
+class SwapClientPokemonPacket internal constructor(val storeIsParty: Boolean, val storeID: UUID, val pokemonID1: UUID, val pokemonID2: UUID) : NetworkPacket<SwapClientPokemonPacket> {
 
-    constructor(store: PokemonStore<*>, pokemonID1: UUID, pokemonID2: UUID): this() {
-        this.storeIsParty = store is PartyStore
-        this.storeID = store.uuid
-        this.pokemonID1 = pokemonID1
-        this.pokemonID2 = pokemonID2
-    }
+    override val id = ID
+
+    constructor(store: PokemonStore<*>, pokemonID1: UUID, pokemonID2: UUID): this(store is PartyStore, store.uuid, pokemonID1, pokemonID2)
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(storeIsParty)
@@ -42,10 +36,8 @@ class SwapClientPokemonPacket() : NetworkPacket {
         buffer.writeUuid(pokemonID2)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        storeIsParty = buffer.readBoolean()
-        storeID = buffer.readUuid()
-        pokemonID1 = buffer.readUuid()
-        pokemonID2 = buffer.readUuid()
+    companion object {
+        val ID = cobblemonResource("swap_client_pokemon")
+        fun decode(buffer: PacketByteBuf) = SwapClientPokemonPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readUuid(), buffer.readUuid())
     }
 }

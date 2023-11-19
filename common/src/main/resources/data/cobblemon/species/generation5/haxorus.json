@@ -7,6 +7,19 @@
     "moldbreaker",
     "h:unnerve"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 76,
     "attack": 147,
@@ -48,8 +61,10 @@
     "53:guillotine",
     "60:gigaimpact",
     "tm:aerialace",
+    "tm:assurance",
     "tm:attract",
     "tm:bodyslam",
+    "tm:breakingswipe",
     "tm:brickbreak",
     "tm:brutalswing",
     "tm:bulldoze",
@@ -70,6 +85,7 @@
     "tm:falseswipe",
     "tm:fling",
     "tm:focusblast",
+    "tm:focusenergy",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:grassknot",
@@ -117,9 +133,23 @@
     "tm:trailblaze",
     "tm:xscissor",
     "tutor:aquatail",
+    "tutor:dracometeor",
+    "tutor:dragondance",
+    "tutor:dragonpulse",
+    "tutor:dualchop",
+    "tutor:earthquake",
     "tutor:endeavor",
+    "tutor:irontail",
+    "tutor:laserfocus",
+    "tutor:lowkick",
+    "tutor:outrage",
     "tutor:scaleshot",
-    "tutor:shockwave"
+    "tutor:shockwave",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:xscissor"
   ],
   "labels": [
     "gen5"

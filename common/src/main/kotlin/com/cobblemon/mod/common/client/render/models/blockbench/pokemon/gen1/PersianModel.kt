@@ -19,17 +19,18 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class PersianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("persian")
-    override val head = getPart("head")
+    override val head = getPart("neck")
 
-    override val foreLeftLeg = getPart("leg_front_left1")
+    override val foreLeftLeg= getPart("leg_front_left1")
     override val foreRightLeg = getPart("leg_front_right1")
     override val hindLeftLeg = getPart("leg_back_left1")
     override val hindRightLeg = getPart("leg_back_right1")
 
     override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.4, -0.03, 0.0)
+    override val portraitTranslation = Vec3d(-0.8, 0.3, 0.0)
 
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.38, 0.0)

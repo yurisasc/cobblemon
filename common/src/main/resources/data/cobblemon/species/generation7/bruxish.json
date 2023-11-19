@@ -8,6 +8,22 @@
     "strongjaw",
     "h:wonderskin"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:cod"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 68,
     "attack": 105,
@@ -101,7 +117,9 @@
     "tm:waterpulse",
     "tutor:afteryou",
     "tutor:allyswitch",
+    "tutor:aquatail",
     "tutor:irontail",
+    "tutor:liquidation",
     "tutor:magiccoat",
     "tutor:magicroom",
     "tutor:painsplit",
@@ -110,6 +128,7 @@
     "tutor:snore",
     "tutor:telekinesis",
     "tutor:uproar",
+    "tutor:waterpulse",
     "tutor:wonderroom"
   ],
   "labels": [

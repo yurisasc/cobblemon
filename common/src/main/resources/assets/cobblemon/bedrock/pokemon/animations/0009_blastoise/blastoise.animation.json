@@ -569,6 +569,124 @@
 					}
 				}
 			}
+		},
+		"animation.blastoise.cry": {
+			"animation_length": 1.5,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.125": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2917": {
+							"post": [-5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.4583": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.9167": {
+							"post": [-5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.25": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"jaw": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.125": {
+							"post": [27.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2917": {
+							"post": [12.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.4583": {
+							"post": [22.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.9167": {
+							"post": [15, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.25": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "pokemon.blastoise.cry"
+				}
+			}
+		},
+		"animation.blastoise.render": {
+			"loop": true,
+			"bones": {
+				"blastoise": {
+					"rotation": [0, -160, 0]
+				},
+				"body": {
+					"rotation": [0, 22.5, 0]
+				},
+				"torso": {
+					"rotation": [7.5, 0, 0]
+				},
+				"head_angle": {
+					"rotation": [-126.75911, 71.36898, -108.42018]
+				},
+				"arm_right": {
+					"rotation": [0, -10, -12.5]
+				},
+				"arm_right2": {
+					"rotation": [3.10627, -29.76116, -10.13286]
+				},
+				"arm_right3": {
+					"rotation": [0, -12, 0]
+				},
+				"arm_left": {
+					"rotation": [0, 10, 22.5]
+				},
+				"arm_left2": {
+					"rotation": [0, 22.5, 0]
+				},
+				"arm_left3": {
+					"rotation": [0, 15, 0]
+				},
+				"cannon_right": {
+					"rotation": [-12.98705, 14.71314, -32.26469],
+					"position": [0, -3.7, 0]
+				},
+				"cannon_left": {
+					"rotation": [-14.92774, 4.29771, 30.75906],
+					"position": [0, -3.7, 0]
+				},
+				"tail": {
+					"rotation": [-65, 0, 0]
+				},
+				"leg_right": {
+					"rotation": [10, 0, 0]
+				},
+				"leg_left": {
+					"rotation": [-10, 0, 0]
+				}
+			}
 		}
 	}
 }

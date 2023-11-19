@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Samurott",
   "nationalPokedexNumber": 503,
   "primaryType": "water",
@@ -6,6 +7,19 @@
     "torrent",
     "h:shellarmor"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 25.0
+      },
+      {
+        "item": "minecraft:nautilus_shell",
+        "percentage": 25.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 95,
     "attack": 100,
@@ -36,7 +50,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.875,
-      "baseExperienceYield": 0,
+      "baseExperienceYield": 238,
       "baseFriendship": 70,
       "evYield": {
         "hp": 0,
@@ -136,8 +150,17 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:megahorn",
+    "1:slash",
     "1:soak",
     "1:tackle",
     "1:tailwhip",
@@ -191,6 +214,7 @@
     "tm:protect",
     "tm:raindance",
     "tm:rest",
+    "tm:retaliate",
     "tm:return",
     "tm:rocksmash",
     "tm:round",
@@ -216,13 +240,26 @@
     "tm:waterpulse",
     "tm:workup",
     "tm:xscissor",
+    "tutor:aquatail",
     "tutor:block",
+    "tutor:confide",
     "tutor:covet",
+    "tutor:helpinghand",
     "tutor:holdback",
+    "tutor:hydrocannon",
+    "tutor:hydropump",
+    "tutor:icebeam",
+    "tutor:icywind",
     "tutor:irontail",
     "tutor:knockoff",
+    "tutor:liquidation",
+    "tutor:megahorn",
+    "tutor:razorshell",
+    "tutor:sleeptalk",
     "tutor:snore",
-    "tutor:superpower"
+    "tutor:superpower",
+    "tutor:waterpledge",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen5",
@@ -235,8 +272,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.6,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 70,

@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget
+import com.cobblemon.mod.common.client.gui.summary.widgets.common.reformatNatureTextIfMinted
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.storage.ClientPC
 import com.cobblemon.mod.common.client.storage.ClientParty
@@ -27,20 +28,24 @@ import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.util.InputUtil
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 
 class PCGUI(
-    private val pc: ClientPC,
-    private val party: ClientParty
+    val pc: ClientPC,
+    val party: ClientParty,
+    val configuration: PCGUIConfiguration
 ) : Screen(Text.translatable("cobblemon.ui.pc.title")) {
 
     companion object {
         const val BASE_WIDTH = 349
         const val BASE_HEIGHT = 205
+        const val RIGHT_PANEL_WIDTH = 82
+        const val RIGHT_PANEL_HEIGHT = 169
         const val TYPE_SPACER_WIDTH = 128
         const val TYPE_SPACER_HEIGHT = 12
         const val PC_SPACER_WIDTH = 342
@@ -48,14 +53,14 @@ class PCGUI(
         const val PORTRAIT_SIZE = 66
         const val SCALE = 0.5F
 
-        private val baseResource = cobblemonResource("ui/pc/pc_base.png")
-        private val portraitBackgroundResource = cobblemonResource("ui/pc/portrait_background.png")
-        private val topSpacerResource = cobblemonResource("ui/pc/pc_spacer_top.png")
-        private val bottomSpacerResource = cobblemonResource("ui/pc/pc_spacer_bottom.png")
-        private val rightSpacerResource = cobblemonResource("ui/pc/pc_spacer_right.png")
-        private val typeSpacerResource = cobblemonResource("ui/pc/type_spacer.png")
-        private val typeSpacerSingleResource = cobblemonResource("ui/pc/type_spacer_single.png")
-        private val typeSpacerDoubleResource = cobblemonResource("ui/pc/type_spacer_double.png")
+        private val baseResource = cobblemonResource("textures/gui/pc/pc_base.png")
+        private val portraitBackgroundResource = cobblemonResource("textures/gui/pc/portrait_background.png")
+        private val topSpacerResource = cobblemonResource("textures/gui/pc/pc_spacer_top.png")
+        private val bottomSpacerResource = cobblemonResource("textures/gui/pc/pc_spacer_bottom.png")
+        private val rightSpacerResource = cobblemonResource("textures/gui/pc/pc_spacer_right.png")
+        private val typeSpacerResource = cobblemonResource("textures/gui/pc/type_spacer.png")
+        private val typeSpacerSingleResource = cobblemonResource("textures/gui/pc/type_spacer_single.png")
+        private val typeSpacerDoubleResource = cobblemonResource("textures/gui/pc/type_spacer_double.png")
     }
 
     private lateinit var storageWidget: StorageWidget
@@ -71,13 +76,7 @@ class PCGUI(
         val y = (height - BASE_HEIGHT) / 2
 
         // Add Exit Button
-        this.addDrawableChild(
-            ExitButton(pX = x + 320, pY = y + 186) {
-                playSound(CobblemonSounds.PC_OFF.get())
-                MinecraftClient.getInstance().setScreen(null)
-                UnlinkPlayerFromPCPacket().sendToServer()
-            }
-        )
+        this.addDrawableChild(ExitButton(pX = x + 320, pY = y + 186) { configuration.exitFunction(this) })
 
         // Add Forward Button
         this.addDrawableChild(
@@ -111,8 +110,9 @@ class PCGUI(
         super.init()
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        renderBackground(matrices)
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        val matrices = context.matrices
+        renderBackground(context)
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
@@ -128,7 +128,7 @@ class PCGUI(
         )
 
         // Render Model Portrait
-        modelWidget?.render(matrices, mouseX, mouseY, delta)
+        modelWidget?.render(context, mouseX, mouseY, delta)
 
         // Render Base Resource
         blitk(
@@ -141,7 +141,7 @@ class PCGUI(
 
         // Render Info Labels
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.info.nature").bold(),
             x = x + 39,
             y = y + 129.5,
@@ -150,7 +150,7 @@ class PCGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.info.ability").bold(),
             x = x + 39,
             y = y + 146.5,
@@ -159,7 +159,7 @@ class PCGUI(
         )
 
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.moves").bold(),
             x = x + 39,
             y = y + 163.5,
@@ -176,7 +176,7 @@ class PCGUI(
                 val statusName = if (pokemon.isFainted()) "fnt" else status?.showdownName
                 blitk(
                     matrixStack = matrices,
-                    texture = cobblemonResource("ui/battle/battle_status_$statusName.png"),
+                    texture = cobblemonResource("textures/gui/battle/battle_status_$statusName.png"),
                     x = x + 34,
                     y = y + 1,
                     height = 7,
@@ -187,7 +187,7 @@ class PCGUI(
 
                 blitk(
                     matrixStack = matrices,
-                    texture = cobblemonResource("ui/summary/status_trim.png"),
+                    texture = cobblemonResource("textures/gui/summary/status_trim.png"),
                     x = x + 34,
                     y = y + 2,
                     height = 6,
@@ -195,7 +195,7 @@ class PCGUI(
                 )
 
                 drawScaledText(
-                    matrixStack = matrices,
+                    context = context,
                     font = CobblemonResources.DEFAULT_LARGE,
                     text = lang("ui.status.$statusName").bold(),
                     x = x + 39,
@@ -205,7 +205,7 @@ class PCGUI(
 
             // Level
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = lang("ui.lv").bold(),
                 x = x + 6,
@@ -214,7 +214,7 @@ class PCGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = pokemon.level.toString().text().bold(),
                 x = x + 19,
@@ -223,7 +223,7 @@ class PCGUI(
             )
 
             // Poké Ball
-            val ballResource = cobblemonResource("textures/items/poke_balls/" + pokemon.caughtBall.name.path + ".png")
+            val ballResource = cobblemonResource("textures/item/poke_balls/" + pokemon.caughtBall.name.path + ".png")
             blitk(
                 matrixStack = matrices,
                 texture = ballResource,
@@ -235,9 +235,9 @@ class PCGUI(
             )
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
-                text = pokemon.displayName.bold(),
+                text = pokemon.getDisplayName().bold(),
                 x = x + 12,
                 y = y + 11.5,
                 shadow = true
@@ -247,7 +247,7 @@ class PCGUI(
                 val isMale = pokemon.gender == Gender.MALE
                 val textSymbol = if (isMale) "♂".text().bold() else "♀".text().bold()
                 drawScaledText(
-                    matrixStack = matrices,
+                    context = context,
                     font = CobblemonResources.DEFAULT_LARGE,
                     text = textSymbol,
                     x = x + 69, // 64 when tag icon is implemented
@@ -262,12 +262,12 @@ class PCGUI(
             val itemX = x + 3
             val itemY = y + 98
             if (!heldItem.isEmpty) {
-                MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem, itemX, itemY)
-                MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+                context.drawItem(heldItem, itemX, itemY)
+                context.drawItemInSlot(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
             }
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = lang("held_item"),
                 x = x + 27,
                 y = y + 108.5,
@@ -306,22 +306,26 @@ class PCGUI(
                 secondaryOffset = 10F,
                 small = true,
                 centeredX = true
-            ).render(matrices)
+            ).render(context)
 
             // Nature
+            val natureText = reformatNatureTextIfMinted(pokemon)
             drawScaledText(
-                matrixStack = matrices,
-                text = pokemon.nature.displayName.asTranslated(),
+                context = context,
+                text = natureText,
                 x = x + 39,
                 y = y + 137,
                 centered = true,
                 shadow = true,
-                scale = SCALE
+                scale = SCALE,
+                colour = 0x32CBFF,
+                pMouseX = mouseX,
+                pMouseY = mouseY
             )
 
             // Ability
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = pokemon.ability.displayName.asTranslated(),
                 x = x + 39,
                 y = y + 154,
@@ -334,7 +338,7 @@ class PCGUI(
             val moves = pokemon.moveSet.getMoves()
             for (i in moves.indices) {
                 drawScaledText(
-                    matrixStack = matrices,
+                    context = context,
                     text = moves[i].displayName,
                     x = x + 39,
                     y = y + 170.5 + (7 * i),
@@ -358,7 +362,7 @@ class PCGUI(
 
         // Box Label
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = Text.translatable("cobblemon.ui.pc.box.title", (this.storageWidget.box + 1).toString()).bold(),
             x = x + 172,
@@ -396,21 +400,67 @@ class PCGUI(
             scale = SCALE
         )
 
-        super.render(matrices, mouseX, mouseY, delta)
+        super.render(context, mouseX, mouseY, delta)
 
         // Item Tooltip
         if (pokemon != null && !pokemon.heldItemNoCopy().isEmpty) {
             val itemX = x + 3
             val itemY = y + 98
-            val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) renderTooltip(matrices, pokemon.heldItemNoCopy(), mouseX, mouseY)
+            val itemHovered =
+                mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
+            if (itemHovered) context.drawItemTooltip(
+                MinecraftClient.getInstance().textRenderer,
+                pokemon.heldItemNoCopy(),
+                mouseX,
+                mouseY
+            )
         }
     }
 
-    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
-        if (keyCode == 256) {
-            playSound(CobblemonSounds.PC_OFF.get())
+    fun closeNormally(unlink: Boolean = true) {
+        playSound(CobblemonSounds.PC_OFF)
+        MinecraftClient.getInstance().setScreen(null)
+        if (unlink) {
             UnlinkPlayerFromPCPacket().sendToServer()
+        }
+    }
+
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
+        if (storageWidget.pastureWidget != null) storageWidget.pastureWidget!!.pastureScrollList.mouseScrolled(
+            mouseX,
+            mouseY,
+            amount
+        )
+        return children().any { it.mouseScrolled(mouseX, mouseY, amount) }
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
+        if (storageWidget.pastureWidget != null) storageWidget.pastureWidget!!.pastureScrollList.mouseDragged(
+            mouseX,
+            mouseY,
+            button,
+            deltaX,
+            deltaY
+        )
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+    }
+
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        when (keyCode) {
+            InputUtil.GLFW_KEY_ESCAPE -> {
+                playSound(CobblemonSounds.PC_OFF)
+                UnlinkPlayerFromPCPacket().sendToServer()
+            }
+
+            InputUtil.GLFW_KEY_RIGHT -> {
+                playSound(CobblemonSounds.PC_CLICK)
+                this.storageWidget.box += 1
+            }
+
+            InputUtil.GLFW_KEY_LEFT -> {
+                playSound(CobblemonSounds.PC_CLICK)
+                this.storageWidget.box -= 1
+            }
         }
         return super.keyPressed(keyCode, scanCode, modifiers)
     }
@@ -426,12 +476,12 @@ class PCGUI(
         ticksElapsed++
 
         // Calculate select pointer offset
-        var delayFactor = 3
+        val delayFactor = 3
         if (ticksElapsed % (2 * delayFactor) == 0) selectPointerOffsetIncrement = !selectPointerOffsetIncrement
         if (ticksElapsed % delayFactor == 0) selectPointerOffsetY += if (selectPointerOffsetIncrement) 1 else -1
     }
 
-    private fun playSound(soundEvent: SoundEvent) {
+    fun playSound(soundEvent: SoundEvent) {
         MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 
@@ -452,8 +502,8 @@ class PCGUI(
                 offsetY = -10.0
             )
         } else {
-            previewPokemon = null;
-            modelWidget = null;
+            previewPokemon = null
+            modelWidget = null
         }
     }
 }

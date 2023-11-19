@@ -21,11 +21,12 @@ import kotlin.math.sqrt
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.tag.BlockTags
-import net.minecraft.tag.FluidTags
+import net.minecraft.registry.tag.BlockTags
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
+
 class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemonEntity) {
     companion object {
         const val VERY_CLOSE = 2.500000277905201E-3
@@ -37,6 +38,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             pokemonEntity.upwardSpeed = 0F
             return
         }
+
         val behaviour = pokemonEntity.behaviour
         val mediumSpeed = if (pokemonEntity.getPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
             behaviour.moving.fly.flySpeedHorizontal
@@ -60,7 +62,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             val adjustedForward = forwardMovement * movingDistanceTotal
             val adjustedStrafe = sidewaysMovement * movingDistanceTotal
 
-            val xComponent = MathHelper.sin(entity.yaw.toRadians())
+            val xComponent = -MathHelper.sin(entity.yaw.toRadians())
             val zComponent = MathHelper.cos(entity.yaw.toRadians())
             val xMovement = adjustedForward * zComponent - adjustedStrafe * xComponent
             val zMovement = adjustedStrafe * zComponent + adjustedForward * xComponent
@@ -117,8 +119,12 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
 
             if (!verticalHandled) {
                 val tooBigToStep = yDist > entity.stepHeight.toDouble()
+                val xComponent = -MathHelper.sin(entity.yaw.toRadians()).toDouble()
+                val zComponent = MathHelper.cos(entity.yaw.toRadians()).toDouble()
 
-                val closeEnoughToJump = sqrt(xDist * xDist + zDist * zDist) < 1.0f.coerceAtLeast(entity.width).toDouble() + 1
+                val motion = Vec3d(xComponent, 0.0, zComponent).normalize()
+                val offset = motion.multiply(entity.movementSpeed.toDouble())
+                val closeEnoughToJump = !entity.doesNotCollide(offset.x, 0.0, offset.z)// sqrt(xDist * xDist + zDist * zDist) - 0.5 <  entity.width / 2 + entity.movementSpeed * 4
 
                 if (tooBigToStep &&
                     closeEnoughToJump ||
@@ -150,6 +156,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
                 pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
             }
 
+            // Float
             if (entity.isSubmergedIn(FluidTags.WATER) && behaviour.moving.swim.canSwimInWater) {
                 pokemonEntity.setUpwardSpeed(0.2F)
             }

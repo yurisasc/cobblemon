@@ -23,9 +23,9 @@ class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val head = getPart("head")
 
     override val foreLeftLeg = getPart("leg_front_left")
-    override val foreRightLeg = getPart("leg_front_right1")
+    override val foreRightLeg = getPart("leg_front_right")
     override val hindLeftLeg = getPart("leg_back_left")
-    override val hindRightLeg = getPart("leg_back_right1")
+    override val hindRightLeg = getPart("leg_back_right")
 
     override val portraitScale = 1.5F
     override val portraitTranslation = Vec3d(-0.4, 0.7, 0.0)
@@ -43,7 +43,6 @@ class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                //bedrock("arcanine", "ground_idle")
             )
         )
 

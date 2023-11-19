@@ -35,18 +35,22 @@
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:clay_ball",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 10.0
       }
     ]
   },
   "moves": [
     "1:earthquake",
     "1:growl",
+    "1:mudshot",
     "1:mudslap",
     "1:rocksmash",
     "1:surf",
@@ -105,6 +109,7 @@
     "tm:rest",
     "tm:return",
     "tm:rockslide",
+    "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
     "tm:sandtomb",
@@ -123,19 +128,41 @@
     "tm:toxic",
     "tm:uproar",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tm:workup",
     "tutor:ancientpower",
     "tutor:aquatail",
+    "tutor:bodyslam",
     "tutor:counter",
     "tutor:defensecurl",
+    "tutor:dive",
     "tutor:doubleedge",
     "tutor:dynamicpunch",
+    "tutor:earthpower",
+    "tutor:endeavor",
+    "tutor:endure",
     "tutor:headbutt",
+    "tutor:icepunch",
+    "tutor:icywind",
+    "tutor:irontail",
+    "tutor:lowkick",
+    "tutor:megakick",
+    "tutor:megapunch",
     "tutor:mimic",
+    "tutor:mudslap",
+    "tutor:rockslide",
     "tutor:rollout",
     "tutor:seismictoss",
-    "tutor:waterpledge"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:substitute",
+    "tutor:superpower",
+    "tutor:swagger",
+    "tutor:uproar",
+    "tutor:waterpledge",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"

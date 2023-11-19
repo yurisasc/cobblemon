@@ -13,9 +13,9 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.withPosition
-import java.lang.Float.min
 import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
+import java.lang.Float.min
 
 /**
  * An animation that gradually moves any [ModelFrame] from one pose to another.
@@ -26,14 +26,15 @@ import net.minecraft.entity.Entity
 class PoseTransitionAnimation<T : Entity>(
     val beforePose: Pose<T, *>,
     val afterPose: Pose<T, *>,
-    durationTicks: Int = 20
+    val durationTicks: Int = 20
 ) : StatefulAnimation<T, ModelFrame> {
     override val isTransform = true
+    override val isPosePauser = false
 
-    var changedPose = false
     val transforms = mutableListOf<GradualTransform>()
-    val startTime = System.currentTimeMillis()
-    val endTime = startTime + durationTicks * 50L
+    var initialized = false
+    var startTime = System.currentTimeMillis()
+    var endTime = startTime + durationTicks * 50L
 
     inner class GradualTransform(
         val modelPart: ModelPart,
@@ -56,14 +57,14 @@ class PoseTransitionAnimation<T : Entity>(
         }
     }
 
-    init {
+    fun initialize() {
         val beforeTransforms = beforePose.transformedParts
         val afterTransforms = afterPose.transformedParts
 
         val checkedParts = mutableListOf<ModelPart>()
 
         beforeTransforms.forEach { before ->
-            val destination = afterTransforms.find { it.modelPart == before.modelPart }
+            val destination = afterTransforms.find { it.modelPart === before.modelPart }
                 ?: before.modelPart
                     .withPosition(before.initialPosition[0], before.initialPosition[1], before.initialPosition[2])
                     .withRotation(before.initialRotation[0], before.initialRotation[1], before.initialRotation[2])
@@ -92,8 +93,11 @@ class PoseTransitionAnimation<T : Entity>(
                 )
             )
         }
-    }
 
+        this.startTime = System.currentTimeMillis()
+        this.endTime = startTime + durationTicks * 50L
+        initialized = true
+    }
     override fun preventsIdle(entity: T?, state: PoseableEntityState<T>, idleAnimation: StatelessAnimation<T, *>) = false
     override fun run(
         entity: T?,
@@ -105,6 +109,14 @@ class PoseTransitionAnimation<T : Entity>(
         headYaw: Float,
         headPitch: Float
     ): Boolean {
+        if (state.allStatefulAnimations.any { it.isPosePauser }) {
+            return true
+        } else if (!initialized) {
+            initialize()
+        }
+        if (state.allStatefulAnimations.any { it.isPosePauser }) {
+            println("There is a pose pauser during our transition")
+        }
         val now = System.currentTimeMillis()
         val durationMillis = (endTime - startTime).toFloat()
         val passedMillis = (now - startTime).toFloat()

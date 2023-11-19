@@ -8,13 +8,20 @@
 
 package com.cobblemon.mod.common.api.spawning
 
+import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
 import kotlin.math.max
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.registry.tag.TagKey
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.gen.StructureAccessor
+import net.minecraft.world.gen.structure.Structure
 
 /**
  * A slice of the world that can be accessed safely from an async thread. This includes all of the information
@@ -27,7 +34,7 @@ import net.minecraft.world.World
  */
 class WorldSlice(
     val cause: SpawnCause,
-    val world: World,
+    val world: ServerWorld,
     val baseX: Int,
     val baseY: Int,
     val baseZ: Int,
@@ -37,12 +44,19 @@ class WorldSlice(
 ) {
     class BlockData(
         val state: BlockState,
-        val light: Int
+        val light: Int,
+        val skyLight: Int
     )
 
     val length = blocks.size
     val height = blocks[0].size
     val width = blocks[0][0].size
+
+    private val structureChunkCaches = mutableMapOf<ChunkPos, SpawningContext.StructureChunkCache>()
+
+    fun getStructureCache(pos: BlockPos): SpawningContext.StructureChunkCache {
+        return structureChunkCaches.getOrPut(ChunkPos(pos), SpawningContext::StructureChunkCache)
+    }
 
     companion object {
         val stoneState = Blocks.STONE.defaultState
@@ -69,6 +83,15 @@ class WorldSlice(
         }
     }
     fun getLight(position: BlockPos, elseLight: Int = 0) = getLight(position.x, position.y, position.z, elseLight)
+
+    fun getSkyLight(x: Int, y: Int, z: Int, elseLight: Int = 0): Int {
+        return if (!isInBounds(x, y, z)) {
+            elseLight
+        } else {
+            getBlockData(x, y, z).skyLight
+        }
+    }
+    fun getSkyLight(position: BlockPos, elseLight: Int = 0) = getSkyLight(position.x, position.y, position.z, elseLight)
 
     fun skySpaceAbove(x: Int, y: Int, z: Int): Int {
         return if (!isInBounds(x, y, z) || skyLevel[x - baseX][z - baseZ] > y) {

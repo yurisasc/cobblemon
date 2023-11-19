@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Cacturne",
   "nationalPokedexNumber": 332,
   "primaryType": "grass",
@@ -7,6 +8,23 @@
     "sandveil",
     "h:waterabsorb"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:cactus",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 115,
@@ -25,6 +43,19 @@
     "grass",
     "human_like"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    }
+  },
   "moves": [
     "1:absorb",
     "1:destinybond",
@@ -32,6 +63,7 @@
     "1:leer",
     "1:poisonsting",
     "1:revenge",
+    "1:spikyshield",
     "10:leechseed",
     "13:sandattack",
     "16:bulletseed",
@@ -66,6 +98,7 @@
     "tm:flash",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:foulplay",
     "tm:frustration",
     "tm:gigadrain",
@@ -81,6 +114,7 @@
     "tm:nastyplot",
     "tm:naturalgift",
     "tm:naturepower",
+    "tm:payback",
     "tm:poisonjab",
     "tm:poweruppunch",
     "tm:protect",
@@ -115,22 +149,41 @@
     "tm:venoshock",
     "tm:zenheadbutt",
     "tutor:block",
+    "tutor:bodyslam",
     "tutor:counter",
+    "tutor:darkpulse",
     "tutor:doubleedge",
+    "tutor:drainpunch",
     "tutor:dynamicpunch",
+    "tutor:endure",
+    "tutor:feintattack",
     "tutor:focuspunch",
+    "tutor:foulplay",
     "tutor:furycutter",
+    "tutor:gigadrain",
     "tutor:headbutt",
+    "tutor:ingrain",
+    "tutor:lowkick",
     "tutor:megakick",
     "tutor:megapunch",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:needlearm",
     "tutor:roleplay",
+    "tutor:seedbomb",
     "tutor:seismictoss",
+    "tutor:sleeptalk",
     "tutor:snore",
+    "tutor:spikes",
     "tutor:spite",
+    "tutor:stompingtantrum",
+    "tutor:substitute",
+    "tutor:suckerpunch",
     "tutor:superpower",
+    "tutor:swagger",
+    "tutor:swordsdance",
     "tutor:synthesis",
+    "tutor:thunderpunch",
     "tutor:worryseed"
   ],
   "labels": [

@@ -7,13 +7,28 @@
       "poser": "cobblemon:staryu",
       "model": "cobblemon:staryu.geo",
       "texture": "cobblemon:textures/pokemon/0120_staryu/staryu.png",
-      "layers": []
+      "layers": [
+        {
+          "name": "glow",
+          "texture": "cobblemon:textures/pokemon/0120_staryu/staryu_gem_emissive.png",
+          "emissive": true,
+          "translucent": true
+        }
+      ]
     },
     {
       "aspects": [
         "shiny"
       ],
-      "texture": "cobblemon:textures/pokemon/0120_staryu/staryu_shiny.png"
+      "texture": "cobblemon:textures/pokemon/0120_staryu/staryu_shiny.png",
+      "layers": [
+        {
+          "name": "glow",
+          "texture": "cobblemon:textures/pokemon/0120_staryu/staryu_gem_shiny_emissive.png",
+          "emissive": true,
+          "translucent": true
+        }
+      ]
     }
   ]
 }

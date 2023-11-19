@@ -10,13 +10,17 @@ package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
+import com.cobblemon.mod.common.api.item.PokemonSelectingItem
 import com.cobblemon.mod.common.api.pokemon.experience.CandyExperienceSource
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.item.CobblemonItemGroups
+import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.interactive.CandyItem.Calculator
 import com.cobblemon.mod.common.pokemon.Pokemon
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.Hand
+import net.minecraft.util.TypedActionResult
+import net.minecraft.world.World
 
 /**
  * An experience candy item.
@@ -27,30 +31,45 @@ import net.minecraft.server.network.ServerPlayerEntity
  * @author Licious
  * @since May 5th, 2022
  */
-class CandyItem(
-    val calculator: Calculator
-) : PokemonInteractiveItem(Settings().group(CobblemonItemGroups.MEDICINE_ITEM_GROUP), Ownership.OWNER) {
+class CandyItem(val calculator: Calculator) : CobblemonItem(Settings()), PokemonSelectingItem {
+    override val bagItem = null
 
-    override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
-        val pokemon = entity.pokemon
+    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+        if (user is ServerPlayerEntity) {
+            return use(user, user.getStackInHand(hand))
+        }
+        return TypedActionResult.success(user.getStackInHand(hand))
+    }
+
+    override fun applyToPokemon(player: ServerPlayerEntity, stack: ItemStack, pokemon: Pokemon): TypedActionResult<ItemStack>? {
         val experience = this.calculator.calculate(player, pokemon)
         CobblemonEvents.EXPERIENCE_CANDY_USE_PRE.postThen(
-            event = ExperienceCandyUseEvent.Pre(player, pokemon, this, experience, experience),
-            ifSucceeded = { preEvent ->
-                val finalExperience = preEvent.experienceYield
-                val source = CandyExperienceSource(player, stack)
-                val result = pokemon.addExperienceWithPlayer(player, source, finalExperience)
-                // We do this just so we can post the event once the item has been consumed if needed instead of repeating the even post
-                var returnValue = false
-                if (result.experienceAdded > 0) {
-                    this.consumeItem(player, stack)
-                    returnValue = true
+                event = ExperienceCandyUseEvent.Pre(player, pokemon, this, experience, experience),
+                ifSucceeded = { preEvent ->
+                    val finalExperience = preEvent.experienceYield
+                    val source = CandyExperienceSource(player, stack)
+                    val result = pokemon.addExperienceWithPlayer(player, source, finalExperience)
+                    // We do this just so we can post the event once the item has been consumed if needed instead of repeating the even post
+                    var returnValue = false
+                    if (result.experienceAdded > 0) {
+                        if (!player.isCreative) {
+                            stack.decrement(1)
+                        }
+                        returnValue = true
+                    }
+                    CobblemonEvents.EXPERIENCE_CANDY_USE_POST.post(ExperienceCandyUseEvent.Post(player, pokemon, this, result))
+
+                    return if (returnValue)
+                        TypedActionResult.success(stack)
+                    else
+                        TypedActionResult.fail(stack)
                 }
-                CobblemonEvents.EXPERIENCE_CANDY_USE_POST.post(ExperienceCandyUseEvent.Post(player, pokemon, this, result))
-                return returnValue
-            }
         )
-        return false
+        return TypedActionResult.fail(stack)
+    }
+
+    override fun canUseOnPokemon(pokemon: Pokemon): Boolean {
+        return pokemon.isPlayerOwned()
     }
 
     /**
@@ -73,13 +92,10 @@ class CandyItem(
     }
 
     companion object {
-
         const val DEFAULT_XS_CANDY_YIELD = 100
         const val DEFAULT_S_CANDY_YIELD = 800
         const val DEFAULT_M_CANDY_YIELD = 3000
         const val DEFAULT_L_CANDY_YIELD = 10000
         const val DEFAULT_XL_CANDY_YIELD = 30000
-
     }
-
 }

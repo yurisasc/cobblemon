@@ -97,13 +97,22 @@
     "tm:torment",
     "tm:toxic",
     "tm:wonderroom",
+    "tutor:allyswitch",
     "tutor:charm",
+    "tutor:extrasensory",
+    "tutor:flatter",
     "tutor:gravity",
+    "tutor:irondefense",
     "tutor:magiccoat",
     "tutor:magicroom",
+    "tutor:moonblast",
+    "tutor:naturesmadness",
     "tutor:playrough",
     "tutor:psychic",
-    "tutor:telekinesis"
+    "tutor:skillswap",
+    "tutor:snore",
+    "tutor:telekinesis",
+    "tutor:wonderroom"
   ],
   "labels": [
     "gen7",

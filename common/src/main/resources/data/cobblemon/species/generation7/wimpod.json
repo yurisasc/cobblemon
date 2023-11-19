@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Wimpod",
   "nationalPokedexNumber": 767,
   "primaryType": "bug",
@@ -6,6 +7,15 @@
   "abilities": [
     "wimpout"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:bluk_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 25,
     "attack": 35,
@@ -24,6 +34,14 @@
     "bug",
     "water_3"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:defensecurl",
     "1:sandattack",
@@ -32,6 +50,7 @@
     "egg:harden",
     "egg:metalclaw",
     "egg:rollout",
+    "egg:spikes",
     "egg:wideguard",
     "tm:assurance",
     "tm:attract",
@@ -62,7 +81,8 @@
     "tm:taunt",
     "tm:toxic",
     "tm:waterfall",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:snore"
   ],
   "labels": [
     "gen7"
@@ -87,10 +107,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 0.4,
     "fixed": false
   },
   "baseFriendship": 50,

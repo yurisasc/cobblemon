@@ -16,6 +16,9 @@
     "special_defence": 65,
     "speed": 90
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -143,17 +146,39 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.3
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:leather",
-        "percentage": 50
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:blaze_powder",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 2.5
       }
     ]
   },
   "moves": [
     "1:growl",
+    "1:quickattack",
     "1:tackle",
     "5:tailwhip",
     "10:ember",
@@ -163,14 +188,20 @@
     "30:stomp",
     "35:firespin",
     "41:takedown",
+    "45:bounce",
     "45:inferno",
     "50:fireblast",
     "55:flareblitz",
+    "egg:allyswitch",
     "egg:captivate",
+    "egg:charm",
     "egg:doubleedge",
     "egg:doublekick",
+    "egg:flamewheel",
+    "egg:highhorsepower",
     "egg:horndrill",
     "egg:hypnosis",
+    "egg:lowkick",
     "egg:morningsun",
     "egg:thrash",
     "tm:agility",
@@ -178,6 +209,7 @@
     "tm:attract",
     "tm:bodyslam",
     "tm:bounce",
+    "tm:captivate",
     "tm:charm",
     "tm:confide",
     "tm:doubleteam",
@@ -186,6 +218,7 @@
     "tm:facade",
     "tm:fireblast",
     "tm:firespin",
+    "tm:flamecharge",
     "tm:flamethrower",
     "tm:flareblitz",
     "tm:frustration",
@@ -213,24 +246,37 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:swift",
+    "tm:toxic",
     "tm:wildcharge",
     "tm:willowisp",
     "tutor:agility",
+    "tutor:allyswitch",
+    "tutor:attract",
     "tutor:bide",
+    "tutor:bodyslam",
+    "tutor:bounce",
+    "tutor:charm",
     "tutor:curse",
+    "tutor:doubleedge",
     "tutor:doublekick",
     "tutor:doubleteam",
     "tutor:ember",
+    "tutor:endure",
     "tutor:facade",
     "tutor:fireblast",
     "tutor:firespin",
     "tutor:flamethrower",
+    "tutor:flamewheel",
     "tutor:flareblitz",
     "tutor:frustration",
     "tutor:growl",
     "tutor:headbutt",
+    "tutor:heatwave",
     "tutor:hiddenpower",
+    "tutor:horndrill",
+    "tutor:hypnosis",
     "tutor:irontail",
+    "tutor:lowkick",
     "tutor:mimic",
     "tutor:protect",
     "tutor:quickattack",
@@ -239,13 +285,18 @@
     "tutor:rest",
     "tutor:return",
     "tutor:skullbash",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:solarbeam",
     "tutor:stomp",
     "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
+    "tutor:swift",
     "tutor:tackle",
     "tutor:tailwhip",
     "tutor:takedown",
+    "tutor:thrash",
     "tutor:toxic",
     "tutor:willowisp"
   ],

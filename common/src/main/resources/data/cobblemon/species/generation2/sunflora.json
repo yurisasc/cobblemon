@@ -49,6 +49,7 @@
     "tm:bulletseed",
     "tm:captivate",
     "tm:confide",
+    "tm:cut",
     "tm:dazzlinggleam",
     "tm:doubleteam",
     "tm:earthpower",
@@ -56,6 +57,7 @@
     "tm:endure",
     "tm:energyball",
     "tm:facade",
+    "tm:flash",
     "tm:frustration",
     "tm:gigadrain",
     "tm:gigaimpact",
@@ -67,6 +69,7 @@
     "tm:leafstorm",
     "tm:lightscreen",
     "tm:magicalleaf",
+    "tm:naturalgift",
     "tm:naturepower",
     "tm:protect",
     "tm:raindance",
@@ -87,24 +90,44 @@
     "tm:terablast",
     "tm:toxic",
     "tm:trailblaze",
+    "tutor:absorb",
     "tutor:afteryou",
     "tutor:attract",
     "tutor:curse",
     "tutor:cut",
+    "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:earthpower",
     "tutor:endeavor",
+    "tutor:endure",
     "tutor:flash",
     "tutor:frustration",
+    "tutor:gigadrain",
+    "tutor:growth",
+    "tutor:helpinghand",
     "tutor:hiddenpower",
+    "tutor:hyperbeam",
     "tutor:mimic",
+    "tutor:petaldance",
+    "tutor:pound",
+    "tutor:protect",
+    "tutor:razorleaf",
+    "tutor:rest",
     "tutor:return",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:sludgebomb",
     "tutor:snore",
-    "tutor:snore",
+    "tutor:solarbeam",
+    "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
     "tutor:sweetscent",
+    "tutor:swordsdance",
     "tutor:synthesis",
     "tutor:toxic",
-    "tutor:uproar"
+    "tutor:uproar",
+    "tutor:worryseed"
   ],
   "labels": [
     "gen2"
@@ -132,5 +155,17 @@
   "height": 8,
   "weight": 85,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:sunflower"
+      },
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

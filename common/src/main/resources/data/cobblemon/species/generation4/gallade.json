@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Gallade",
   "nationalPokedexNumber": 475,
   "primaryType": "psychic",
@@ -37,7 +38,7 @@
       },
       "catchRate": 45,
       "maleRatio": 1,
-      "baseExperienceYield": 278,
+      "baseExperienceYield": 259,
       "baseFriendship": 35,
       "evYield": {
         "hp": 0,
@@ -52,7 +53,6 @@
       "eggGroups": [
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -74,10 +74,19 @@
     "human_like",
     "amorphous"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:aquacutter",
     "1:calmmind",
     "1:charm",
+    "1:closecombat",
     "1:confusion",
     "1:disarmingvoice",
     "1:doubleteam",
@@ -95,18 +104,50 @@
     "1:psybeam",
     "1:psychic",
     "1:sacredsword",
+    "1:slash",
+    "1:storedpower",
+    "1:teleport",
     "9:helpinghand",
+    "11:quickguard",
     "12:feint",
+    "14:furycutter",
     "15:teleport",
+    "17:aerialace",
+    "17:furycutter",
+    "17:slash",
     "18:aerialace",
+    "19:healpulse",
+    "22:slash",
     "23:falseswipe",
+    "23:wideguard",
+    "25:healpulse",
+    "25:swordsdance",
+    "26:swordsdance",
     "28:protect",
+    "31:psychocut",
+    "31:swordsdance",
+    "35:helpinghand",
     "35:swordsdance",
+    "36:helpinghand",
+    "36:psychocut",
+    "39:feint",
+    "39:helpinghand",
+    "40:feint",
     "42:psychocut",
+    "44:falseswipe",
+    "45:falseswipe",
+    "45:feint",
     "49:healpulse",
+    "49:protect",
+    "50:falseswipe",
+    "50:protect",
+    "53:closecombat",
+    "53:protect",
     "56:quickguard",
     "56:wideguard",
+    "59:closecombat",
     "63:closecombat",
+    "64:storedpower",
     "tm:aerialace",
     "tm:agility",
     "tm:airslash",
@@ -127,8 +168,10 @@
     "tm:cut",
     "tm:dazzlinggleam",
     "tm:disarmingvoice",
+    "tm:doubleteam",
     "tm:drainingkiss",
     "tm:drainpunch",
+    "tm:dreameater",
     "tm:earthquake",
     "tm:echoedvoice",
     "tm:encore",
@@ -140,7 +183,9 @@
     "tm:flash",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
+    "tm:futuresight",
     "tm:gigaimpact",
     "tm:grassknot",
     "tm:helpinghand",
@@ -151,6 +196,7 @@
     "tm:icepunch",
     "tm:icywind",
     "tm:imprison",
+    "tm:leafblade",
     "tm:lightscreen",
     "tm:lowkick",
     "tm:lowsweep",
@@ -167,9 +213,11 @@
     "tm:psybeam",
     "tm:psychic",
     "tm:psychicterrain",
+    "tm:psychocut",
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
+    "tm:recycle",
     "tm:reflect",
     "tm:rest",
     "tm:retaliate",
@@ -184,8 +232,10 @@
     "tm:secretpower",
     "tm:shadowball",
     "tm:shadowclaw",
+    "tm:shockwave",
     "tm:skillswap",
     "tm:sleeptalk",
+    "tm:snatch",
     "tm:snore",
     "tm:solarblade",
     "tm:stoneedge",
@@ -198,6 +248,7 @@
     "tm:swordsdance",
     "tm:takedown",
     "tm:taunt",
+    "tm:telekinesis",
     "tm:terablast",
     "tm:thief",
     "tm:throatchop",
@@ -213,23 +264,41 @@
     "tm:workup",
     "tm:xscissor",
     "tm:zenheadbutt",
+    "tutor:allyswitch",
     "tutor:coaching",
+    "tutor:drainpunch",
     "tutor:dualchop",
     "tutor:expandingforce",
+    "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:furycutter",
     "tutor:headbutt",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icepunch",
     "tutor:knockoff",
     "tutor:laserfocus",
+    "tutor:lowkick",
     "tutor:magiccoat",
+    "tutor:magicroom",
     "tutor:mudslap",
     "tutor:painsplit",
     "tutor:recycle",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
+    "tutor:swift",
     "tutor:telekinesis",
+    "tutor:throatchop",
+    "tutor:thunderpunch",
+    "tutor:trick",
     "tutor:tripleaxel",
-    "tutor:vacuumwave"
+    "tutor:vacuumwave",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen4"
@@ -241,8 +310,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 2.25,
     "fixed": false
   },
   "baseFriendship": 35,
@@ -257,5 +326,26 @@
   "height": 16,
   "weight": 520,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

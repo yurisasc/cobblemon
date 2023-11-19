@@ -6,6 +6,19 @@
   "abilities": [
     "hustle"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:dragon_breath",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 52,
     "attack": 65,
@@ -42,10 +55,18 @@
     "52:dragonrush",
     "56:nastyplot",
     "60:outrage",
+    "egg:assurance",
     "egg:astonish",
     "egg:belch",
+    "egg:darkpulse",
     "egg:doublehit",
+    "egg:earthpower",
+    "egg:firefang",
     "egg:headsmash",
+    "egg:icefang",
+    "egg:screech",
+    "egg:thunderfang",
+    "tm:assurance",
     "tm:attract",
     "tm:bodyslam",
     "tm:confide",
@@ -59,6 +80,7 @@
     "tm:endure",
     "tm:facade",
     "tm:firefang",
+    "tm:focusenergy",
     "tm:frustration",
     "tm:hiddenpower",
     "tm:hypervoice",
@@ -71,6 +93,7 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:rocksmash",
     "tm:round",
     "tm:scaryface",
@@ -93,10 +116,24 @@
     "tm:torment",
     "tm:toxic",
     "tm:uproar",
+    "tm:workup",
     "tm:zenheadbutt",
     "tutor:aquatail",
+    "tutor:darkpulse",
+    "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:dragonrage",
+    "tutor:earthpower",
+    "tutor:hypervoice",
+    "tutor:outrage",
     "tutor:shockwave",
-    "tutor:spite"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:spite",
+    "tutor:superpower",
+    "tutor:tackle",
+    "tutor:uproar",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

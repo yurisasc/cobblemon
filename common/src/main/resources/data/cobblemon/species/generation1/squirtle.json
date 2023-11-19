@@ -33,6 +33,11 @@
       "light": "0-4"
     },
     "moving": {
+      "moving": {
+        "walk": {
+          "walkSpeed": 0.29
+        }
+      },
       "swim": {
         "canSwimInWater": true,
         "canBreatheUnderwater": true
@@ -40,11 +45,15 @@
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:scute",
-        "percentage": 50
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5.0
       }
     ]
   },
@@ -55,6 +64,7 @@
     "6:withdraw",
     "9:rapidspin",
     "12:bite",
+    "13:bubble",
     "15:waterpulse",
     "18:protect",
     "21:raindance",
@@ -65,6 +75,9 @@
     "36:skullbash",
     "egg:aquajet",
     "egg:aquaring",
+    "egg:aurasphere",
+    "egg:brine",
+    "egg:dragonpulse",
     "egg:fakeout",
     "egg:flail",
     "egg:foresight",
@@ -72,6 +85,7 @@
     "egg:lifedew",
     "egg:mirrorcoat",
     "egg:mist",
+    "egg:muddywater",
     "egg:mudsport",
     "egg:refresh",
     "egg:waterspout",
@@ -92,6 +106,7 @@
     "tm:facade",
     "tm:falseswipe",
     "tm:fling",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gyroball",
     "tm:hail",
@@ -112,24 +127,31 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
     "tm:scald",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:strength",
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
+    "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:weatherball",
     "tm:whirlpool",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:aquatail",
+    "tutor:attract",
     "tutor:bide",
     "tutor:bite",
     "tutor:blizzard",
     "tutor:block",
+    "tutor:bodyslam",
     "tutor:brickbreak",
     "tutor:bubble",
     "tutor:bubblebeam",
@@ -139,28 +161,41 @@
     "tutor:curse",
     "tutor:defensecurl",
     "tutor:dig",
+    "tutor:dive",
     "tutor:doubleedge",
     "tutor:doubleteam",
     "tutor:dragonpulse",
     "tutor:dynamicpunch",
+    "tutor:endure",
     "tutor:facade",
+    "tutor:falseswipe",
+    "tutor:flail",
     "tutor:flipturn",
     "tutor:focuspunch",
     "tutor:followme",
     "tutor:foresight",
     "tutor:frustration",
+    "tutor:haze",
     "tutor:headbutt",
     "tutor:hiddenpower",
     "tutor:hydrocannon",
     "tutor:hydropump",
     "tutor:icebeam",
     "tutor:icepunch",
+    "tutor:icywind",
+    "tutor:irondefense",
     "tutor:irontail",
+    "tutor:megakick",
+    "tutor:megapunch",
     "tutor:mimic",
+    "tutor:mirrorcoat",
+    "tutor:mist",
     "tutor:mudslap",
     "tutor:outrage",
     "tutor:protect",
     "tutor:rage",
+    "tutor:raindance",
+    "tutor:rapidspin",
     "tutor:reflect",
     "tutor:rest",
     "tutor:return",
@@ -170,6 +205,8 @@
     "tutor:scald",
     "tutor:seismictoss",
     "tutor:skullbash",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:strength",
     "tutor:submission",
     "tutor:substitute",
@@ -182,7 +219,10 @@
     "tutor:waterfall",
     "tutor:watergun",
     "tutor:waterpledge",
-    "tutor:withdraw"
+    "tutor:waterpulse",
+    "tutor:whirlpool",
+    "tutor:withdraw",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen1"

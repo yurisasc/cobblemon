@@ -35,11 +35,15 @@
     "35:nightslash",
     "40:synthesis",
     "45:laserfocus",
+    "47:xscissor",
     "50:defog",
     "55:leafblade",
+    "59:airslash",
     "60:sacredsword",
     "65:swordsdance",
+    "67:psychocut",
     "70:guillotine",
+    "tm:aerialace",
     "tm:airslash",
     "tm:brickbreak",
     "tm:calmmind",
@@ -69,13 +73,22 @@
     "tm:toxic",
     "tm:xscissor",
     "tutor:aircutter",
+    "tutor:airslash",
+    "tutor:defog",
+    "tutor:detect",
+    "tutor:gigadrain",
+    "tutor:irondefense",
     "tutor:knockoff",
+    "tutor:laserfocus",
     "tutor:lastresort",
     "tutor:leafblade",
+    "tutor:snore",
     "tutor:steelbeam",
     "tutor:swordsdance",
+    "tutor:synthesis",
     "tutor:tailwind",
-    "tutor:vacuumwave"
+    "tutor:vacuumwave",
+    "tutor:xscissor"
   ],
   "labels": [
     "gen7",
@@ -103,5 +116,14 @@
   "height": 3,
   "weight": 1,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:echo_shard",
+        "quantityRange": "1-3"
+      }
+    ]
+  }
 }

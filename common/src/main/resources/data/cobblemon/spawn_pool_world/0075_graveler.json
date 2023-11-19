@@ -6,6 +6,10 @@
         {
             "id": "graveler-1",
             "pokemon": "graveler",
+            "presets": [
+                "natural",
+                "wild"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -22,7 +26,7 @@
             "id": "graveler-2",
             "pokemon": "graveler",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -37,7 +41,7 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_abyss"
+                    "#cobblemon:is_deep_dark"
                 ]
             }
         }

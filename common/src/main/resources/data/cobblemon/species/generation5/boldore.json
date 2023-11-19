@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Boldore",
   "nationalPokedexNumber": 525,
   "primaryType": "rock",
@@ -7,6 +8,27 @@
     "weakarmor",
     "h:sandforce"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:raw_copper",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:everstone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:black_augurite",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 105,
@@ -24,8 +46,22 @@
   "eggGroups": [
     "mineral"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.12
+      }
+    }
+  },
   "moves": [
     "1:harden",
+    "1:powergem",
     "1:sandattack",
     "1:stealthrock",
     "1:tackle",
@@ -46,6 +82,7 @@
     "tm:earthpower",
     "tm:earthquake",
     "tm:endure",
+    "tm:explosion",
     "tm:facade",
     "tm:flashcannon",
     "tm:frustration",
@@ -67,6 +104,7 @@
     "tm:sandtomb",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:stealthrock",
     "tm:stompingtantrum",
@@ -77,8 +115,16 @@
     "tm:toxic",
     "tutor:block",
     "tutor:curse",
+    "tutor:earthpower",
     "tutor:gravity",
-    "tutor:meteorbeam"
+    "tutor:heavyslam",
+    "tutor:irondefense",
+    "tutor:meteorbeam",
+    "tutor:sleeptalk",
+    "tutor:smackdown",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum"
   ],
   "labels": [
     "gen5"
@@ -99,8 +145,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

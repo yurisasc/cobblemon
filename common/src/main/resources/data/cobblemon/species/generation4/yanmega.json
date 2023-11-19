@@ -28,11 +28,11 @@
   ],
   "behaviour": {
     "moving": {
-      "swim": {
-        "canWalkOnWater": true
-      },
       "fly": {
         "canFly": true
+      },
+      "swim": {
+        "canWalkOnWater": true
       }
     }
   },
@@ -52,19 +52,28 @@
     "30:pursuit",
     "33:ancientpower",
     "38:feint",
+    "38:slash",
+    "43:screech",
     "43:slash",
     "46:screech",
+    "46:uturn",
+    "49:airslash",
     "49:uturn",
+    "54:airslash",
+    "54:bugbuzz",
+    "57:bugbuzz",
     "tm:aerialace",
     "tm:attract",
     "tm:captivate",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:endure",
     "tm:facade",
     "tm:flash",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:gigaimpact",
     "tm:hiddenpower",
     "tm:hyperbeam",
@@ -91,6 +100,7 @@
     "tm:toxic",
     "tm:uturn",
     "tutor:aircutter",
+    "tutor:ancientpower",
     "tutor:bugbite",
     "tutor:defog",
     "tutor:gigadrain",
@@ -98,7 +108,9 @@
     "tutor:laserfocus",
     "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:roost",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stringshot",
     "tutor:swift",
@@ -131,5 +143,14 @@
   "height": 19,
   "weight": 515,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

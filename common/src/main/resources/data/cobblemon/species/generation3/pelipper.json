@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Pelipper",
   "nationalPokedexNumber": 279,
   "primaryType": "water",
@@ -8,6 +9,22 @@
     "drizzle",
     "h:raindish"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 50,
@@ -26,6 +43,24 @@
     "water_1",
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:agility",
     "1:airslash",
@@ -38,7 +73,9 @@
     "1:watergun",
     "1:watersport",
     "15:wingattack",
+    "19:payback",
     "20:waterpulse",
+    "22:brine",
     "28:spitup",
     "28:stockpile",
     "28:swallow",
@@ -60,6 +97,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
     "tm:echoedvoice",
     "tm:endure",
@@ -85,10 +123,12 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:scald",
     "tm:secretpower",
     "tm:seedbomb",
+    "tm:shockwave",
     "tm:skydrop",
     "tm:sleeptalk",
     "tm:snore",
@@ -109,16 +149,31 @@
     "tm:waterpulse",
     "tm:weatherball",
     "tm:whirlpool",
+    "tutor:aircutter",
     "tutor:defog",
     "tutor:doubleedge",
     "tutor:dualwingbeat",
+    "tutor:endure",
+    "tutor:gunkshot",
+    "tutor:icywind",
     "tutor:knockoff",
+    "tutor:liquidation",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:roost",
+    "tutor:seedbomb",
     "tutor:shockwave",
     "tutor:skyattack",
-    "tutor:twister"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:tailwind",
+    "tutor:twister",
+    "tutor:uproar",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"
@@ -128,10 +183,10 @@
   ],
   "preEvolution": "wingull",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.2,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 50,

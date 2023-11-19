@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Diggersby",
   "nationalPokedexNumber": 660,
   "primaryType": "normal",
@@ -8,6 +9,30 @@
     "cheekpouch",
     "h:hugepower"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:rabbit"
+      },
+      {
+        "item": "minecraft:rabbit_hide",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:rabbit_foot",
+        "percentage": 5.0
+      },
+      {
+        "item": "minecraft:carrot",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 56,
@@ -25,7 +50,21 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
+    "1:agility",
     "1:laserfocus",
     "1:leer",
     "1:mudslap",
@@ -44,6 +83,7 @@
     "43:swordsdance",
     "48:earthquake",
     "53:superfang",
+    "54:facade",
     "58:hammerarm",
     "tm:agility",
     "tm:attract",
@@ -112,14 +152,29 @@
     "tm:uturn",
     "tm:wildcharge",
     "tm:workup",
+    "tutor:bounce",
+    "tutor:earthpower",
     "tutor:endeavor",
+    "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:foulplay",
     "tutor:gastroacid",
+    "tutor:gunkshot",
+    "tutor:icepunch",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:knockoff",
     "tutor:lastresort",
+    "tutor:lowkick",
     "tutor:recycle",
     "tutor:scorchingsands",
-    "tutor:snatch"
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superfang",
+    "tutor:superpower",
+    "tutor:thunderpunch",
+    "tutor:uproar"
   ],
   "labels": [
     "gen6"
@@ -129,10 +184,10 @@
   ],
   "preEvolution": "bunnelby",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.25,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 50,

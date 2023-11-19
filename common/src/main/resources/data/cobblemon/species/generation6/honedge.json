@@ -24,6 +24,23 @@
   "eggGroups": [
     "mineral"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:iron_nugget",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:iron_sword",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:dusk_stone",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:furycutter",
     "1:tackle",
@@ -42,7 +59,10 @@
     "48:sacredsword",
     "egg:block",
     "egg:destinybond",
+    "egg:metalsound",
+    "egg:shadowsneak",
     "egg:wideguard",
+    "tm:aerialace",
     "tm:attract",
     "tm:brickbreak",
     "tm:brutalswing",
@@ -81,9 +101,12 @@
     "tm:swordsdance",
     "tm:toxic",
     "tutor:afteryou",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:laserfocus",
     "tutor:magnetrise",
     "tutor:shockwave",
+    "tutor:snore",
     "tutor:spite",
     "tutor:steelbeam"
   ],

@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.entity
 
 import com.cobblemon.mod.common.api.entity.EntitySideDelegate
-import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
@@ -21,11 +20,27 @@ class EmptyPokeBallClientDelegate : PokeBallPoseableState(), EntitySideDelegate<
     override val stateEmitter: SettableObservable<CaptureState> = SettableObservable(NOT)
     override val shakeEmitter = SimpleObservable<Unit>()
 
+    lateinit var currentEntity: EmptyPokeBallEntity
+
+    override fun getEntity() = currentEntity
+
+    override fun updatePartialTicks(partialTicks: Float) {
+        this.currentPartialTicks = partialTicks
+    }
+
     override fun initialize(entity: EmptyPokeBallEntity) {
+        this.currentEntity = entity
+        age = entity.age
         initSubscriptions()
         entity.captureState.subscribe {
             stateEmitter.set(CaptureState.values()[it.toInt()])
         }
         entity.shakeEmitter.subscribe { shakeEmitter.emit(Unit) }
+    }
+
+    override fun tick(entity: EmptyPokeBallEntity) {
+        super.tick(entity)
+        updateLocatorPosition(entity.pos)
+        incrementAge(entity)
     }
 }

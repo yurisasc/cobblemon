@@ -9,6 +9,19 @@
     "hustle",
     "h:truant"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 58,
     "attack": 109,
@@ -43,13 +56,17 @@
     "48:entrainment",
     "52:irondefense",
     "56:guillotine",
+    "egg:batonpass",
+    "egg:endure",
     "egg:feintattack",
     "egg:firstimpression",
     "egg:flail",
     "egg:infestation",
     "egg:metalburst",
     "egg:rockclimb",
+    "egg:screech",
     "egg:strugglebug",
+    "egg:thunderfang",
     "tm:aerialace",
     "tm:agility",
     "tm:attract",
@@ -89,6 +106,7 @@
     "tm:stompingtantrum",
     "tm:stoneedge",
     "tm:strength",
+    "tm:strugglebug",
     "tm:substitute",
     "tm:superpower",
     "tm:swagger",
@@ -96,9 +114,18 @@
     "tm:thunderwave",
     "tm:toxic",
     "tm:xscissor",
+    "tutor:bugbite",
     "tutor:endeavor",
+    "tutor:endure",
+    "tutor:furycutter",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:skittersmack",
-    "tutor:steelbeam"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:steelbeam",
+    "tutor:superpower",
+    "tutor:thunderfang"
   ],
   "labels": [
     "gen5"

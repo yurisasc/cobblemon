@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cobblemon:items/medicine/zinc"
+    "layer0": "cobblemon:item/medicine/zinc"
   }
 }

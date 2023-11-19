@@ -33,15 +33,18 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:feather",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
         "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 10.0
       }
     ]
   },
@@ -84,6 +87,7 @@
     "tm:grassyterrain",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:leafblade",
     "tm:leafstorm",
     "tm:lightscreen",
     "tm:magicalleaf",
@@ -116,8 +120,13 @@
     "tutor:covet",
     "tutor:defog",
     "tutor:dualwingbeat",
+    "tutor:gigadrain",
+    "tutor:grasspledge",
     "tutor:grassyglide",
+    "tutor:seedbomb",
     "tutor:skyattack",
+    "tutor:snore",
+    "tutor:synthesis",
     "tutor:worryseed"
   ],
   "labels": [

@@ -8,6 +8,15 @@
     "oblivious",
     "h:sweetveil"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 52,
     "attack": 40,
@@ -84,14 +93,22 @@
     "tm:toxic",
     "tm:trailblaze",
     "tm:zenheadbutt",
+    "tutor:bounce",
     "tutor:covet",
     "tutor:doubleslap",
     "tutor:endeavor",
+    "tutor:gigadrain",
     "tutor:grassyglide",
+    "tutor:helpinghand",
     "tutor:knockoff",
+    "tutor:magicalleaf",
+    "tutor:seedbomb",
+    "tutor:snore",
+    "tutor:sweetscent",
     "tutor:synthesis",
     "tutor:tripleaxel",
-    "tutor:worryseed"
+    "tutor:worryseed",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen7"

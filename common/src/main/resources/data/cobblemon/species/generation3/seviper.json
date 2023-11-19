@@ -36,9 +36,11 @@
     "21:poisonfang",
     "24:venomdrench",
     "24:venoshock",
+    "26:nightslash",
     "29:gastroacid",
     "31:poisonjab",
     "34:haze",
+    "36:swordsdance",
     "39:crunch",
     "41:belch",
     "44:coil",
@@ -84,6 +86,7 @@
     "tm:icefang",
     "tm:infestation",
     "tm:ironhead",
+    "tm:irontail",
     "tm:naturalgift",
     "tm:payback",
     "tm:poisonjab",
@@ -105,9 +108,11 @@
     "tm:sludgebomb",
     "tm:sludgewave",
     "tm:snarl",
+    "tm:snatch",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:swordsdance",
     "tm:takedown",
     "tm:taunt",
@@ -121,18 +126,33 @@
     "tm:zenheadbutt",
     "tutor:aquatail",
     "tutor:bind",
+    "tutor:bite",
+    "tutor:bodyslam",
+    "tutor:crunch",
+    "tutor:darkpulse",
     "tutor:doubleedge",
+    "tutor:endure",
     "tutor:furycutter",
+    "tutor:gastroacid",
+    "tutor:gigadrain",
+    "tutor:glare",
     "tutor:headbutt",
     "tutor:irontail",
     "tutor:knockoff",
+    "tutor:lick",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:poisontail",
+    "tutor:screech",
+    "tutor:sleeptalk",
     "tutor:snatch",
     "tutor:snore",
+    "tutor:substitute",
     "tutor:suckerpunch",
+    "tutor:swagger",
     "tutor:swift",
-    "tutor:throatchop"
+    "tutor:throatchop",
+    "tutor:wrap"
   ],
   "labels": [
     "gen3"
@@ -159,5 +179,22 @@
   "height": 27,
   "weight": 525,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

@@ -36,6 +36,9 @@ interface Effect {
      */
     val rawData: String
 
+    val typelessData: String
+        get() = rawData.substringAfter(type.prefix).trim()
+
     /**
      * Represents the type of the [Effect].
      *
@@ -49,6 +52,7 @@ interface Effect {
         ABILITY("ability:"),
         ITEM("item:"),
         MOVE("move:"),
+        BAGITEM("bagitem:"),
         PURE(""),
 
     }

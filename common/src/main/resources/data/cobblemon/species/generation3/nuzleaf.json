@@ -9,6 +9,19 @@
     "earlybird",
     "h:pickpocket"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:dark_oak_sapling",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 70,
@@ -35,6 +48,7 @@
     "1:fakeout",
     "1:harden",
     "1:pound",
+    "1:razorleaf",
     "1:swagger",
     "1:synthesis",
     "1:tackle",
@@ -66,6 +80,7 @@
     "tm:embargo",
     "tm:endure",
     "tm:energyball",
+    "tm:explosion",
     "tm:facade",
     "tm:falseswipe",
     "tm:flash",
@@ -83,6 +98,7 @@
     "tm:megakick",
     "tm:nastyplot",
     "tm:naturalgift",
+    "tm:naturepower",
     "tm:payback",
     "tm:powerswap",
     "tm:poweruppunch",
@@ -107,20 +123,41 @@
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:swift",
     "tm:swordsdance",
     "tm:thief",
+    "tm:torment",
     "tm:toxic",
+    "tutor:bodyslam",
+    "tutor:darkpulse",
     "tutor:defensecurl",
     "tutor:defog",
     "tutor:doubleedge",
+    "tutor:endure",
+    "tutor:explosion",
+    "tutor:foulplay",
     "tutor:furycutter",
+    "tutor:gigadrain",
     "tutor:grassyglide",
     "tutor:headbutt",
     "tutor:lashout",
+    "tutor:lowkick",
+    "tutor:megakick",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:psychup",
+    "tutor:rollout",
+    "tutor:seedbomb",
+    "tutor:selfdestruct",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:spite",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:swordsdance",
+    "tutor:synthesis",
     "tutor:worryseed"
   ],
   "labels": [

@@ -9,7 +9,16 @@
 package com.cobblemon.mod.common.api.pokeball.catching.calculators
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.pokeball.catching.calculators.*
+import com.cobblemon.mod.common.pokeball.catching.calculators.CobblemonCaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.DebugCaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen1CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen2CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen3And4CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen5CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen6CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen7CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen8CaptureCalculator
+import com.cobblemon.mod.common.pokeball.catching.calculators.Gen9CaptureCalculator
 
 object CaptureCalculators {
 

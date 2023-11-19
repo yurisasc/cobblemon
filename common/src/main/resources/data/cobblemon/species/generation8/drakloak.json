@@ -46,6 +46,7 @@
     "tm:acrobatics",
     "tm:agility",
     "tm:allyswitch",
+    "tm:assurance",
     "tm:attract",
     "tm:batonpass",
     "tm:beatup",
@@ -89,7 +90,8 @@
     "tm:thunderbolt",
     "tm:thunderwave",
     "tm:uturn",
-    "tm:willowisp"
+    "tm:willowisp",
+    "tutor:dracometeor"
   ],
   "labels": [
     "gen8"
@@ -133,5 +135,14 @@
   "height": 14,
   "weight": 110,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

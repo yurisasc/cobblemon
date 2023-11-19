@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Greninja",
   "nationalPokedexNumber": 658,
   "primaryType": "water",
@@ -7,6 +8,19 @@
     "torrent",
     "h:protean"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:pearlescent_froglight",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 25.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 72,
     "attack": 95,
@@ -14,6 +28,20 @@
     "special_attack": 103,
     "special_defence": 71,
     "speed": 122
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
   },
   "catchRate": 45,
   "maleRatio": 0.875,
@@ -36,7 +64,7 @@
       },
       "catchRate": 45,
       "maleRatio": 1,
-      "baseExperienceYield": 288,
+      "baseExperienceYield": 239,
       "baseFriendship": 70,
       "evYield": {
         "hp": 0,
@@ -61,6 +89,7 @@
         "1:quickattack",
         "1:roleplay",
         "1:watergun",
+        "1:watershuriken",
         "10:lick",
         "14:waterpulse",
         "19:smokescreen",
@@ -82,6 +111,7 @@
         "tm:confide",
         "tm:darkpulse",
         "tm:dig",
+        "tm:doubleteam",
         "tm:echoedvoice",
         "tm:endure",
         "tm:facade",
@@ -133,10 +163,22 @@
         "tm:waterpledge",
         "tm:waterpulse",
         "tm:workup",
+        "tutor:aerialace",
         "tutor:bounce",
+        "tutor:doubleteam",
+        "tutor:gunkshot",
+        "tutor:hydrocannon",
+        "tutor:icepunch",
+        "tutor:icywind",
+        "tutor:lowkick",
+        "tutor:nightslash",
+        "tutor:roleplay",
         "tutor:snatch",
         "tutor:snore",
-        "tutor:spite"
+        "tutor:spite",
+        "tutor:waterpledge",
+        "tutor:waterpulse",
+        "tutor:watershuriken"
       ],
       "labels": [
         "gen7"
@@ -167,6 +209,7 @@
     "1:quickattack",
     "1:roleplay",
     "1:watergun",
+    "1:watershuriken",
     "10:lick",
     "14:waterpulse",
     "19:smokescreen",
@@ -190,6 +233,7 @@
     "tm:darkpulse",
     "tm:dig",
     "tm:dive",
+    "tm:doubleteam",
     "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
@@ -246,10 +290,23 @@
     "tm:waterpulse",
     "tm:workup",
     "tutor:bounce",
+    "tutor:gunkshot",
     "tutor:happyhour",
+    "tutor:hydrocannon",
+    "tutor:hydropump",
+    "tutor:icepunch",
+    "tutor:icywind",
+    "tutor:lowkick",
+    "tutor:matblock",
+    "tutor:roleplay",
+    "tutor:shadowsneak",
     "tutor:snatch",
     "tutor:snore",
-    "tutor:spite"
+    "tutor:spite",
+    "tutor:substitute",
+    "tutor:waterpledge",
+    "tutor:waterpulse",
+    "tutor:watershuriken"
   ],
   "labels": [
     "gen6"
@@ -259,10 +316,10 @@
   ],
   "preEvolution": "frogadier",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2,
     "fixed": false
   },
   "baseFriendship": 70,

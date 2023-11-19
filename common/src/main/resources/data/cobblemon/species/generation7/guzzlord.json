@@ -30,10 +30,12 @@
     "5:stockpile",
     "5:swallow",
     "10:knockoff",
+    "13:brutalswing",
     "15:stomp",
     "19:steamroller",
     "20:stompingtantrum",
     "25:wideguard",
+    "29:irontail",
     "30:crunch",
     "35:bodyslam",
     "40:gastroacid",
@@ -55,6 +57,7 @@
     "tm:doubleteam",
     "tm:dragonclaw",
     "tm:dragonpulse",
+    "tm:dragontail",
     "tm:drainpunch",
     "tm:earthquake",
     "tm:endure",
@@ -100,15 +103,28 @@
     "tutor:brutalswing",
     "tutor:corrosivegas",
     "tutor:dracometeor",
+    "tutor:dragonpulse",
     "tutor:dragonrush",
+    "tutor:drainpunch",
     "tutor:dualchop",
+    "tutor:gastroacid",
+    "tutor:hammerarm",
+    "tutor:heatwave",
+    "tutor:heavyslam",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:irontail",
+    "tutor:knockoff",
     "tutor:lashout",
     "tutor:lastresort",
     "tutor:magnetrise",
     "tutor:megapunch",
+    "tutor:outrage",
     "tutor:shockwave",
+    "tutor:snore",
     "tutor:steelroller",
     "tutor:stompingtantrum",
+    "tutor:thrash",
     "tutor:wringout"
   ],
   "labels": [
@@ -137,5 +153,14 @@
   "height": 55,
   "weight": 8880,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:echo_shard",
+        "quantityRange": "1-3"
+      }
+    ]
+  }
 }

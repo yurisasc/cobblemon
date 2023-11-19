@@ -45,8 +45,12 @@
     "egg:barrier",
     "egg:bind",
     "egg:curse",
+    "egg:endure",
+    "egg:megadrain",
     "egg:mirrorcoat",
     "egg:recover",
+    "egg:rockslide",
+    "egg:stealthrock",
     "egg:tickle",
     "egg:wringout",
     "tm:amnesia",
@@ -91,13 +95,31 @@
     "tm:swagger",
     "tm:swordsdance",
     "tm:toxic",
+    "tutor:acid",
+    "tutor:ancientpower",
+    "tutor:bind",
+    "tutor:bodyslam",
+    "tutor:constrict",
     "tutor:doubleedge",
+    "tutor:earthpower",
+    "tutor:endure",
+    "tutor:gastroacid",
+    "tutor:gigadrain",
     "tutor:meteorbeam",
     "tutor:mimic",
+    "tutor:mirrorcoat",
     "tutor:mudslap",
     "tutor:painsplit",
     "tutor:psychup",
+    "tutor:recover",
+    "tutor:rockslide",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
     "tutor:stringshot",
+    "tutor:substitute",
+    "tutor:swagger",
     "tutor:synthesis",
     "tutor:worryseed"
   ],
@@ -140,5 +162,14 @@
   "height": 10,
   "weight": 238,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

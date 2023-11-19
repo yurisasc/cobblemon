@@ -8,6 +8,22 @@
     "flamebody",
     "h:infiltrator"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:candle"
+      },
+      {
+        "item": "cobblemon:dusk_stone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 40,
@@ -84,17 +100,25 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:taunt",
+    "tm:telekinesis",
     "tm:thief",
     "tm:toxic",
     "tm:trick",
     "tm:trickroom",
     "tm:willowisp",
+    "tutor:allyswitch",
     "tutor:burningjealousy",
+    "tutor:darkpulse",
+    "tutor:heatwave",
+    "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:shockwave",
     "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:telekinesis"
+    "tutor:telekinesis",
+    "tutor:trick"
   ],
   "labels": [
     "gen5"

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Ariados",
   "nationalPokedexNumber": 168,
   "primaryType": "bug",
@@ -8,6 +9,27 @@
     "insomnia",
     "h:sniper"
   ],
+  "drops": {
+    "amount": 7,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:spider_eye",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 90,
@@ -36,6 +58,7 @@
     "1:swordsdance",
     "1:venomdrench",
     "8:infestation",
+    "12:leechlife",
     "12:scaryface",
     "15:nightshade",
     "19:shadowsneak",
@@ -52,9 +75,13 @@
     "tm:attract",
     "tm:captivate",
     "tm:confide",
+    "tm:dig",
     "tm:doubleteam",
+    "tm:endure",
     "tm:facade",
+    "tm:flash",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:gigaimpact",
     "tm:hiddenpower",
     "tm:honeclaws",
@@ -99,7 +126,6 @@
     "tutor:frustration",
     "tutor:furyswipes",
     "tutor:gigadrain",
-    "tutor:gigadrain",
     "tutor:hiddenpower",
     "tutor:hyperbeam",
     "tutor:leechlife",
@@ -116,11 +142,12 @@
     "tutor:sleeptalk",
     "tutor:sludgebomb",
     "tutor:snore",
-    "tutor:snore",
     "tutor:solarbeam",
     "tutor:spiderweb",
     "tutor:stompingtantrum",
     "tutor:stringshot",
+    "tutor:substitute",
+    "tutor:suckerpunch",
     "tutor:sunnyday",
     "tutor:swagger",
     "tutor:thief",
@@ -135,7 +162,7 @@
   ],
   "preEvolution": "spinarak",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
     "height": 1,

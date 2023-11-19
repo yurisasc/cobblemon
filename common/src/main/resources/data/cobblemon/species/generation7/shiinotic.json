@@ -26,6 +26,19 @@
   "eggGroups": [
     "grass"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:brown_mushroom",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "moves": [
     "1:absorb",
     "1:astonish",
@@ -50,6 +63,7 @@
     "tm:doubleteam",
     "tm:drainingkiss",
     "tm:drainpunch",
+    "tm:dreameater",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -82,10 +96,15 @@
     "tm:weatherball",
     "tm:wonderroom",
     "tutor:afteryou",
+    "tutor:gigadrain",
     "tutor:magiccoat",
+    "tutor:magicroom",
     "tutor:recycle",
+    "tutor:seedbomb",
     "tutor:signalbeam",
+    "tutor:snore",
     "tutor:synthesis",
+    "tutor:wonderroom",
     "tutor:worryseed"
   ],
   "labels": [

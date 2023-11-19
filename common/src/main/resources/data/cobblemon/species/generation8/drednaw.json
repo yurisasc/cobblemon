@@ -55,7 +55,6 @@
         "monster",
         "water_1"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -123,6 +122,7 @@
     "tm:poisonjab",
     "tm:protect",
     "tm:raindance",
+    "tm:razorshell",
     "tm:rest",
     "tm:revenge",
     "tm:rockblast",
@@ -179,5 +179,18 @@
   "height": 10,
   "weight": 1155,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

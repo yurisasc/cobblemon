@@ -7,6 +7,15 @@
     "soundproof",
     "h:scrappy"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 84,
     "attack": 71,
@@ -27,6 +36,7 @@
   ],
   "moves": [
     "1:astonish",
+    "1:bite",
     "1:echoedvoice",
     "1:howl",
     "1:pound",
@@ -48,6 +58,7 @@
     "tm:confide",
     "tm:doubleteam",
     "tm:earthquake",
+    "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -73,6 +84,7 @@
     "tm:rest",
     "tm:retaliate",
     "tm:return",
+    "tm:roar",
     "tm:rockslide",
     "tm:rocksmash",
     "tm:rocktomb",
@@ -80,6 +92,7 @@
     "tm:screech",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:smackdown",
     "tm:snore",
@@ -94,21 +107,40 @@
     "tm:torment",
     "tm:toxic",
     "tm:uproar",
+    "tm:waterpulse",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:bodyslam",
     "tutor:counter",
     "tutor:defensecurl",
     "tutor:doubleedge",
     "tutor:dynamicpunch",
     "tutor:endeavor",
+    "tutor:endure",
+    "tutor:firepunch",
     "tutor:headbutt",
+    "tutor:hypervoice",
+    "tutor:icepunch",
+    "tutor:icywind",
+    "tutor:lowkick",
+    "tutor:megakick",
+    "tutor:megapunch",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:psychup",
+    "tutor:rockslide",
     "tutor:rollout",
     "tutor:seismictoss",
     "tutor:shockwave",
-    "tutor:waterpulse"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:thunderpunch",
+    "tutor:uproar",
+    "tutor:waterpulse",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen3"

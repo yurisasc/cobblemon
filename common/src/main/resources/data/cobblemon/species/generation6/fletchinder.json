@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Fletchinder",
   "nationalPokedexNumber": 662,
   "primaryType": "fire",
@@ -7,6 +8,26 @@
     "flamebody",
     "h:galewings"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 62,
     "attack": 73,
@@ -24,6 +45,13 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:ember",
     "1:feint",
@@ -37,6 +65,7 @@
     "29:agility",
     "31:naturalgift",
     "36:aerialace",
+    "38:flamecharge",
     "43:tailwind",
     "46:mefirst",
     "50:steelwing",
@@ -69,10 +98,12 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -89,7 +120,10 @@
     "tm:workup",
     "tutor:defog",
     "tutor:dualwingbeat",
-    "tutor:snatch"
+    "tutor:heatwave",
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:tailwind"
   ],
   "labels": [
     "gen6"
@@ -113,10 +147,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

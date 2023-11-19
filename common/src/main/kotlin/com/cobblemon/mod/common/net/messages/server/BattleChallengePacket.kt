@@ -9,24 +9,18 @@
 package com.cobblemon.mod.common.net.messages.server
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-class BattleChallengePacket() : NetworkPacket {
-    var targetedEntityId: Int = -1
-    lateinit var selectedPokemonId: UUID
 
-    constructor(targetedEntityId: Int, selectedPokemonId: UUID): this() {
-        this.targetedEntityId = targetedEntityId
-        this.selectedPokemonId = selectedPokemonId
-    }
-
+class BattleChallengePacket(val targetedEntityId: Int, val selectedPokemonId: UUID) : NetworkPacket<BattleChallengePacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeInt(this.targetedEntityId)
         buffer.writeUuid(this.selectedPokemonId)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        this.targetedEntityId = buffer.readInt()
-        this.selectedPokemonId = buffer.readUuid()
+    companion object {
+        val ID = cobblemonResource("battle_challenge")
+        fun decode(buffer: PacketByteBuf) = BattleChallengePacket(buffer.readInt(), buffer.readUuid())
     }
 }

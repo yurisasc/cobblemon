@@ -6,11 +6,12 @@
         {
             "id": "bidoof-1",
             "pokemon": "bidoof",
-			"presets": [
-                "freshwater"
+            "presets": [
+                "freshwater",
+                "water_surface"
             ],
             "type": "pokemon",
-            "context": "grounded",
+            "context": "surface",
             "bucket": "common",
             "level": "1-25",
             "weight": 9.0,
@@ -21,11 +22,12 @@
         {
             "id": "bidoof-2",
             "pokemon": "bidoof",
-			"presets": [
-                "water_surface",
+            "presets": [
+                "natural",
                 "freshwater"
             ],
             "type": "pokemon",
+            "context": "grounded",
             "bucket": "common",
             "level": "1-25",
             "weight": 9.0,

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Phantump",
   "nationalPokedexNumber": 708,
   "primaryType": "ghost",
@@ -8,6 +9,19 @@
     "frisk",
     "h:harvest"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 43,
     "attack": 70,
@@ -15,6 +29,14 @@
     "special_attack": 50,
     "special_defence": 60,
     "speed": 38
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 120,
   "maleRatio": 0.5,
@@ -46,8 +68,10 @@
     "egg:bestow",
     "egg:disable",
     "egg:grudge",
+    "egg:imprison",
     "egg:poweruppunch",
     "egg:suckerpunch",
+    "egg:venomdrench",
     "tm:allyswitch",
     "tm:attract",
     "tm:bulldoze",
@@ -98,14 +122,21 @@
     "tm:trickroom",
     "tm:venomdrench",
     "tm:willowisp",
+    "tutor:allyswitch",
+    "tutor:foulplay",
+    "tutor:gigadrain",
     "tutor:grassyglide",
     "tutor:magiccoat",
     "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:roleplay",
+    "tutor:seedbomb",
+    "tutor:skillswap",
     "tutor:skittersmack",
+    "tutor:snore",
     "tutor:spite",
     "tutor:telekinesis",
+    "tutor:trick",
     "tutor:worryseed"
   ],
   "labels": [
@@ -126,10 +157,10 @@
       "requirements": []
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

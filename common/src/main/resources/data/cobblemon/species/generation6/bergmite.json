@@ -8,6 +8,19 @@
     "icebody",
     "h:sturdy"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 69,
@@ -26,6 +39,25 @@
     "monster",
     "mineral"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      },
+      "walk": {
+        "walkSpeed": 0.15
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:harden",
     "1:rapidspin",
@@ -49,6 +81,7 @@
     "egg:barrier",
     "egg:mirrorcoat",
     "egg:mist",
+    "egg:recover",
     "tm:attract",
     "tm:avalanche",
     "tm:blizzard",
@@ -96,6 +129,9 @@
     "tm:terablast",
     "tm:toxic",
     "tutor:afteryou",
+    "tutor:icywind",
+    "tutor:irondefense",
+    "tutor:snore",
     "tutor:waterpulse"
   ],
   "labels": [

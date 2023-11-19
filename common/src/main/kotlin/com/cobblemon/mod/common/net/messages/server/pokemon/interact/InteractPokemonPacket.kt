@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.server.pokemon.interact
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.serverhandling.pokemon.interact.InteractPokemonHandler
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -21,22 +22,14 @@ import net.minecraft.network.PacketByteBuf
  * @author Village
  * @since January 7th, 2023
  */
-class InteractPokemonPacket() : NetworkPacket {
-    lateinit var pokemonID: UUID
-    var mountShoulder: Boolean = false
-
-    constructor(pokemonID: UUID, mountShoulder: Boolean): this() {
-        this.pokemonID = pokemonID
-        this.mountShoulder = mountShoulder
-    }
-
+class InteractPokemonPacket(val pokemonID: UUID, val mountShoulder: Boolean) : NetworkPacket<InteractPokemonPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writeBoolean(mountShoulder)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        pokemonID = buffer.readUuid()
-        mountShoulder = buffer.readBoolean()
+    companion object {
+        val ID = cobblemonResource("interact_pokemon")
+        fun decode(buffer: PacketByteBuf) = InteractPokemonPacket(buffer.readUuid(), buffer.readBoolean())
     }
 }

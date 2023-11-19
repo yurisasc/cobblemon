@@ -7,6 +7,7 @@
             "id": "squirtle-1",
             "pokemon": "squirtle",
             "presets": [
+                "natural",
                 "river"
             ],
             "type": "pokemon",

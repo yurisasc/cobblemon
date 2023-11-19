@@ -8,6 +8,15 @@
     "blaze",
     "h:ironfist"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 25.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 76,
     "attack": 104,
@@ -15,6 +24,14 @@
     "special_attack": 104,
     "special_defence": 71,
     "speed": 108
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": false,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 45,
   "maleRatio": 0.875,
@@ -34,13 +51,24 @@
     "1:machpunch",
     "1:scratch",
     "1:taunt",
+    "14:machpunch",
     "16:furyswipes",
+    "17:furyswipes",
     "19:flamewheel",
+    "21:flamewheel",
     "26:feint",
+    "29:feint",
     "29:punishment",
+    "33:punishment",
+    "36:closecombat",
+    "41:closecombat",
     "42:firespin",
+    "45:firespin",
     "52:acrobatics",
+    "53:calmmind",
+    "57:flareblitz",
     "58:calmmind",
+    "68:flareblitz",
     "tm:acrobatics",
     "tm:aerialace",
     "tm:attract",
@@ -61,6 +89,7 @@
     "tm:flamethrower",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:grassknot",
@@ -68,6 +97,7 @@
     "tm:honeclaws",
     "tm:hyperbeam",
     "tm:incinerate",
+    "tm:irontail",
     "tm:lowsweep",
     "tm:naturalgift",
     "tm:overheat",
@@ -87,6 +117,7 @@
     "tm:shadowclaw",
     "tm:sleeptalk",
     "tm:solarbeam",
+    "tm:stealthrock",
     "tm:stoneedge",
     "tm:strength",
     "tm:substitute",
@@ -100,12 +131,15 @@
     "tm:willowisp",
     "tm:workup",
     "tutor:blastburn",
+    "tutor:closecombat",
     "tutor:covet",
     "tutor:dualchop",
     "tutor:endeavor",
+    "tutor:fireblast",
     "tutor:firepledge",
     "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:grassknot",
     "tutor:gunkshot",
     "tutor:headbutt",
     "tutor:heatwave",
@@ -116,10 +150,12 @@
     "tutor:mudslap",
     "tutor:roleplay",
     "tutor:rollout",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stealthrock",
     "tutor:swift",
     "tutor:thunderpunch",
+    "tutor:uturn",
     "tutor:vacuumwave"
   ],
   "labels": [

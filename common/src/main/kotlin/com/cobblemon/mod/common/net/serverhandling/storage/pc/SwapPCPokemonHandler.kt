@@ -8,16 +8,16 @@
 
 package com.cobblemon.mod.common.net.serverhandling.storage.pc
 
-import com.cobblemon.mod.common.CobblemonNetwork.NetworkContext
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.net.messages.client.storage.pc.ClosePCPacket
 import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket
-import com.cobblemon.mod.common.net.serverhandling.ServerPacketHandler
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-object SwapPCPokemonHandler : ServerPacketHandler<SwapPCPokemonPacket> {
-    override fun invokeOnServer(packet: SwapPCPokemonPacket, ctx: NetworkContext, player: ServerPlayerEntity) {
-        val pc = PCLinkManager.getPC(player) ?: return run { ClosePCPacket().sendToPlayer(player) }
+object SwapPCPokemonHandler : ServerNetworkPacketHandler<SwapPCPokemonPacket> {
+    override fun handle(packet: SwapPCPokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
+        val pc = PCLinkManager.getPC(player) ?: return run { ClosePCPacket(null).sendToPlayer(player) }
         if (pc[packet.position1]?.uuid != packet.pokemon1ID || pc[packet.position2]?.uuid != packet.pokemon2ID) {
             return
         }

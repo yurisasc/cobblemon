@@ -6,6 +6,15 @@
   "abilities": [
     "beastboost"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:echo_shard",
+        "quantityRange": "1-3"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 97,
     "attack": 101,
@@ -25,16 +34,19 @@
   ],
   "moves": [
     "1:absorb",
+    "1:airslash",
     "1:tackle",
     "5:harden",
     "10:wideguard",
     "15:megadrain",
     "20:smackdown",
     "25:ingrain",
+    "29:ironhead",
     "30:autotomize",
     "35:gigadrain",
     "40:flashcannon",
     "45:metalsound",
+    "47:seedbomb",
     "50:irondefense",
     "55:leechseed",
     "60:heavyslam",
@@ -76,6 +88,7 @@
     "tm:seedbomb",
     "tm:selfdestruct",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:smartstrike",
     "tm:snore",
     "tm:solarbeam",
@@ -86,17 +99,27 @@
     "tm:swagger",
     "tm:toxic",
     "tm:zenheadbutt",
+    "tutor:autotomize",
     "tutor:block",
     "tutor:earthquake",
+    "tutor:gigadrain",
     "tutor:gravity",
     "tutor:gyroball",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:leechseed",
     "tutor:magnetrise",
     "tutor:meteorbeam",
+    "tutor:seedbomb",
     "tutor:shockwave",
+    "tutor:skullbash",
     "tutor:smackdown",
+    "tutor:snore",
     "tutor:steelbeam",
-    "tutor:steelroller"
+    "tutor:steelroller",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen7",

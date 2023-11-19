@@ -7,6 +7,23 @@
     "flamebody",
     "h:swarm"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:blaze_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 60,
@@ -33,6 +50,7 @@
     "1:flamecharge",
     "1:flareblitz",
     "1:gust",
+    "1:quiverdance",
     "1:stringshot",
     "1:strugglebug",
     "1:takedown",
@@ -90,6 +108,7 @@
     "tm:roost",
     "tm:round",
     "tm:safeguard",
+    "tm:screech",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
@@ -107,11 +126,27 @@
     "tm:wildcharge",
     "tm:willowisp",
     "tm:zenheadbutt",
+    "tutor:bugbite",
+    "tutor:bugbuzz",
     "tutor:defog",
     "tutor:dualwingbeat",
+    "tutor:firespin",
+    "tutor:gigadrain",
+    "tutor:gust",
+    "tutor:heatwave",
+    "tutor:hyperbeam",
+    "tutor:leechlife",
     "tutor:magnetrise",
+    "tutor:overheat",
+    "tutor:quiverdance",
+    "tutor:roost",
     "tutor:signalbeam",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stringshot",
+    "tutor:tailwind",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Glimmet",
   "nationalPokedexNumber": 969,
   "primaryType": "rock",
@@ -7,6 +8,19 @@
     "toxicdebris",
     "h:corrosion"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:amethyst_shard",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 48,
     "attack": 35,
@@ -15,9 +29,22 @@
     "special_defence": 60,
     "speed": 60
   },
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 70,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 70,
   "baseFriendship": 50,
   "evYield": {
     "hp": 0,
@@ -102,6 +129,12 @@
       ]
     }
   ],
+  "baseScale": 0.45,
+  "hitbox": {
+    "width": 1,
+    "height": 2,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.glimmet.desc"

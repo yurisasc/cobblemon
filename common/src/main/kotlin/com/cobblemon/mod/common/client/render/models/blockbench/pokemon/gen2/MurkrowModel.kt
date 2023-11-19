@@ -31,6 +31,8 @@ class MurkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("murkrow", "blink").setPreventsIdle(false) }
@@ -42,21 +44,44 @@ class MurkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         )
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink), idleAnimations = arrayOf(
+            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("murkrow", "ground_idle")
             )
         )
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink), idleAnimations = arrayOf(
+            poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("murkrow", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.8F)
-//                bedrock("murkrow", "ground_walk")
+                bedrock("murkrow", "ground_walk")
             )
         )
+
+        hover = registerPose(
+            poseName = "hover",
+            poseType = PoseType.HOVER,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("murkrow", "air_idle")
+            )
+        )
+
+        fly = registerPose(
+            poseName = "fly",
+            poseType = PoseType.FLY,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("murkrow", "air_fly")
+            )
+        )
+
     }
 }

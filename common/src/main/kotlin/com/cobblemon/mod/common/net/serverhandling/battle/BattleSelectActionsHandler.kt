@@ -8,29 +8,23 @@
 
 package com.cobblemon.mod.common.net.serverhandling.battle
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.exception.IllegalActionChoiceException
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
-import com.cobblemon.mod.common.net.serverhandling.ServerPacketHandler
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-object BattleSelectActionsHandler : ServerPacketHandler<BattleSelectActionsPacket> {
-    override fun invokeOnServer(
-        packet: BattleSelectActionsPacket,
-        ctx: CobblemonNetwork.NetworkContext,
-        player: ServerPlayerEntity
-    ) {
+object BattleSelectActionsHandler : ServerNetworkPacketHandler<BattleSelectActionsPacket> {
+    override fun handle(packet: BattleSelectActionsPacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val battle = BattleRegistry.getBattle(packet.battleId) ?: return
         val actor = battle.actors.find { player.uuid in it.getPlayerUUIDs() } ?: return
-
         if (!actor.mustChoose) {
             return
         }
-
         try {
             actor.setActionResponses(packet.showdownActionResponses)
         } catch (e: IllegalActionChoiceException) {

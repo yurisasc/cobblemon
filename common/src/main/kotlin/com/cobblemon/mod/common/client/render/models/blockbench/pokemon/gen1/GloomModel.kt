@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class GloomModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("gloom")
 
@@ -42,8 +43,8 @@ class GloomModel(root: ModelPart) : PokemonPoseableModel() {
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("gloom", "sleep"))
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("gloom", "sleep"))
         )
 
         walk = registerPose(
@@ -58,6 +59,6 @@ class GloomModel(root: ModelPart) : PokemonPoseableModel() {
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("gloom", "faint") else null
+        state: PoseableEntityState<PokemonEntity>,
+    ) = bedrockStateful("gloom", "faint")
 }

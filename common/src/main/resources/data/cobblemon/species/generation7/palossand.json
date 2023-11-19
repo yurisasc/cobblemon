@@ -79,6 +79,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:shadowball",
     "tm:skillswap",
@@ -95,14 +96,21 @@
     "tm:trick",
     "tutor:afteryou",
     "tutor:block",
+    "tutor:earthpower",
+    "tutor:gigadrain",
     "tutor:gravity",
+    "tutor:irondefense",
     "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:recycle",
     "tutor:roleplay",
     "tutor:scorchingsands",
+    "tutor:skillswap",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:terrainpulse"
+    "tutor:stealthrock",
+    "tutor:terrainpulse",
+    "tutor:trick"
   ],
   "labels": [
     "gen7"
@@ -130,5 +138,18 @@
   "height": 13,
   "weight": 2500,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

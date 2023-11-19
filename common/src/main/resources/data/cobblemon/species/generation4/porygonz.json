@@ -8,6 +8,15 @@
     "download",
     "h:analytic"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:dubious_disc",
+        "percentage": 25
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 80,
@@ -33,29 +42,48 @@
       "walk": {
         "canWalk": false
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [
+    "1:conversion2",
     "1:conversion",
     "1:defensecurl",
+    "1:magiccoat",
     "1:magnetrise",
     "1:nastyplot",
     "1:recycle",
     "1:tackle",
     "1:trickroom",
+    "1:zapcannon",
+    "7:psybeam",
+    "12:agility",
     "15:thundershock",
+    "18:recover",
     "20:psybeam",
+    "23:magnetrise",
     "25:conversion2",
     "29:signalbeam",
     "30:agility",
     "34:embargo",
     "35:recover",
     "40:discharge",
+    "45:lockon",
     "45:triattack",
     "50:magiccoat",
+    "50:triattack",
+    "51:triattack",
     "55:lockon",
+    "56:magiccoat",
     "60:zapcannon",
+    "62:zapcannon",
     "65:hyperbeam",
+    "67:hyperbeam",
     "tm:aerialace",
     "tm:agility",
     "tm:allyswitch",
@@ -88,11 +116,13 @@
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
+    "tm:recycle",
     "tm:rest",
     "tm:return",
     "tm:round",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snore",
     "tm:solarbeam",
@@ -112,12 +142,28 @@
     "tm:uproar",
     "tm:wonderroom",
     "tm:zenheadbutt",
+    "tutor:allyswitch",
+    "tutor:darkpulse",
+    "tutor:electroweb",
+    "tutor:foulplay",
     "tutor:gravity",
+    "tutor:icywind",
+    "tutor:irontail",
     "tutor:lastresort",
+    "tutor:magiccoat",
+    "tutor:magnetrise",
     "tutor:painsplit",
+    "tutor:recycle",
     "tutor:shockwave",
     "tutor:signalbeam",
-    "tutor:telekinesis"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:swift",
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:uproar",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen4"
@@ -127,7 +173,7 @@
   ],
   "preEvolution": "porygon2",
   "evolutions": [],
-  "baseScale": 0.4,
+  "baseScale": 0.7,
   "hitbox": {
     "width": 0.9,
     "height": 1.7,

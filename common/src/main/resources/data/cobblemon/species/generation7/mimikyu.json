@@ -17,13 +17,26 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 167,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "amorphous"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "moves": [
     "1:astonish",
     "1:copycat",
@@ -54,6 +67,7 @@
     "tm:confuseray",
     "tm:darkpulse",
     "tm:dazzlinggleam",
+    "tm:doubleteam",
     "tm:drainingkiss",
     "tm:drainpunch",
     "tm:dreameater",
@@ -109,13 +123,26 @@
     "tm:workup",
     "tm:xscissor",
     "tutor:afteryou",
+    "tutor:astonish",
+    "tutor:babydolleyes",
     "tutor:burningjealousy",
+    "tutor:copycat",
     "tutor:covet",
+    "tutor:destinybond",
+    "tutor:drainpunch",
+    "tutor:gigadrain",
     "tutor:lastresort",
+    "tutor:magicroom",
+    "tutor:mimic",
+    "tutor:painsplit",
+    "tutor:playrough",
     "tutor:snatch",
-    "tutor:snatch",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:telekinesis"
+    "tutor:splash",
+    "tutor:substitute",
+    "tutor:telekinesis",
+    "tutor:trick"
   ],
   "labels": [
     "gen7"
@@ -174,7 +201,6 @@
       "eggGroups": [
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen7"
       ],
@@ -339,7 +365,6 @@
       "eggGroups": [
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen7",
         "totem"

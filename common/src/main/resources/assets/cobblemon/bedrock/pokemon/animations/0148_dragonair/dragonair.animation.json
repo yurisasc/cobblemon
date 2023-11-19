@@ -4,196 +4,50 @@
 		"animation.dragonair.ground_idle": {
 			"loop": true,
 			"bones": {
-				"tail1": {
-					"rotation": [-15, 0, 0]
-				},
-				"tail2": {
-					"rotation": [-12.5, 0, 0]
-				},
-				"tail3": {
-					"rotation": [32.5, 0, 0]
-				},
-				"tail_mid": {
-					"rotation": [42.5, 0, 0]
-				},
-				"tail4": {
-					"rotation": [42.5, 0, 0]
-				},
-				"tail6": {
-					"rotation": [-2.5, 0, 0]
-				},
-				"tail7": {
-					"rotation": [-2.5, 0, 0]
-				},
-				"tail8": {
-					"rotation": [5, 0, 0]
-				},
-				"tail9": {
-					"rotation": [5, 0, 0]
-				},
-				"tail10": {
-					"rotation": [5, 0, 0]
-				}
-			}
-		},
-		"animation.dragonair.water_idle": {
-			"loop": true,
-			"bones": {
-				"tail1": {
-					"rotation": [5, 0, 0]
-				},
-				"tail2": {
-					"rotation": [25, 0, 0]
-				},
-				"tail3": {
-					"rotation": [25, 0, 0]
-				},
-				"tail_mid": {
-					"rotation": [25, 0, 0]
-				},
-				"tail4": {
-					"rotation": [25, 0, 0]
-				},
-				"tail6": {
-					"rotation": [-25, 0, 0]
-				},
-				"tail7": {
-					"rotation": [-25, 0, 0]
-				},
-				"tail8": {
-					"rotation": [-25, 0, 0]
-				},
-				"tail9": {
-					"rotation": [25, 0, 0]
-				},
-				"tail10": {
-					"rotation": [25, 0, 0]
-				},
-				"tail5": {
-					"rotation": [25, 0, 0]
-				},
 				"body": {
-					"position": [0, -5, -5]
-				}
-			}
-		},
-		"animation.dragonair.water_swim": {
-			"loop": true,
-			"bones": {
-				"tail1": {
-					"rotation": [30, 0, 0]
+					"position": [0, 1, 0]
 				},
-				"tail2": {
-					"rotation": [20, 0, 0]
+				"neck": {
+					"rotation": [-10, 0, 0]
 				},
-				"tail3": {
-					"rotation": [20, 0, 0]
-				},
-				"tail_mid": {
-					"rotation": [20, 0, 0]
-				},
-				"tail4": {
-					"rotation": [20, 0, 0]
-				},
-				"tail6": {
-					"rotation": [-20, 0, 0]
-				},
-				"tail7": {
-					"rotation": [-20, 0, 0]
-				},
-				"tail8": {
-					"rotation": [-20, 0, 0]
-				},
-				"tail9": {
-					"rotation": [20, 0, 0]
-				},
-				"tail10": {
-					"rotation": [20, 0, 0]
-				},
-				"tail5": {
-					"rotation": [20, 0, 0]
-				},
-				"body": {
-					"position": [0, -5, -5]
-				}
-			}
-		},
-		"animation.dragonair.surface_idle": {
-			"loop": true,
-			"bones": {
-				"tail1": {
+				"gem": {
 					"rotation": [-15, 0, 0]
 				},
-				"tail2": {
-					"rotation": [-12.5, 0, 0]
-				},
-				"tail3": {
-					"rotation": [32.5, 0, 0]
-				},
-				"tail_mid": {
-					"rotation": [42.5, 0, 0]
-				},
-				"tail4": {
-					"rotation": [30, 0, 0]
-				},
-				"tail6": {
-					"rotation": [-15, 0, 0]
-				},
-				"tail7": {
-					"rotation": [-15, 0, 0]
-				},
-				"tail8": {
+				"head": {
 					"rotation": [15, 0, 0]
 				},
-				"tail9": {
-					"rotation": [15, 0, 0]
+				"segment1": {
+					"rotation": [-17.49088, 10.27748, 0.00804]
 				},
-				"tail10": {
-					"rotation": [15, 0, 0]
+				"segment2": {
+					"rotation": [20.3407, 11.55793, 3.57608]
 				},
-				"tail5": {
-					"rotation": [30, 0, 0]
-				}
-			}
-		},
-		"animation.dragonair.surface_swim": {
-			"loop": true,
-			"bones": {
-				"tail1": {
-					"rotation": [5, 0, 0]
+				"segment3": {
+					"rotation": [42.15073, 24.42283, -1.24131]
 				},
-				"tail2": {
-					"rotation": [15, 0, 0]
+				"segment4": {
+					"rotation": [39.75386, -5.29571, 5.31847]
 				},
-				"tail3": {
-					"rotation": [15, 0, 0]
+				"segment5": {
+					"rotation": [-0.11554, -0.42219, 29.98124]
 				},
-				"tail_mid": {
-					"rotation": [30, 0, 0]
+				"segment6": {
+					"rotation": [-1.36259, -2.45586, 32.41091]
 				},
-				"tail4": {
-					"rotation": [30, 0, 0]
+				"segment7": {
+					"rotation": [0, 0, 42.5]
 				},
-				"tail6": {
-					"rotation": [-15, 0, 0]
+				"segment8": {
+					"rotation": [17.55501, -0.87703, 389.90863]
 				},
-				"tail7": {
-					"rotation": [-15, 0, 0]
+				"segment9": {
+					"rotation": [30.27273, -0.85406, 27.41494]
 				},
-				"tail8": {
-					"rotation": [15, 0, 0]
+				"segment10": {
+					"rotation": [16.50613, 1.70246, 29.92188]
 				},
-				"tail9": {
-					"rotation": [15, 0, 0]
-				},
-				"tail10": {
-					"rotation": [15, 0, 0]
-				},
-				"tail5": {
-					"rotation": [15, 0, 0]
-				},
-				"body": {
-					"position": [0, 0, -5]
+				"mouth": {
+					"position": [0, 0, 0]
 				}
 			}
 		},

@@ -7,6 +7,23 @@
     "snowcloak",
     "h:weakarmor"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:snowball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 36,
     "attack": 50,
@@ -45,6 +62,8 @@
     "egg:explosion",
     "egg:iceshard",
     "egg:iciclecrash",
+    "egg:imprison",
+    "egg:irondefense",
     "egg:magnetrise",
     "egg:naturalgift",
     "egg:powdersnow",
@@ -56,6 +75,7 @@
     "tm:confide",
     "tm:doubleteam",
     "tm:endure",
+    "tm:explosion",
     "tm:facade",
     "tm:flashcannon",
     "tm:frostbreath",
@@ -83,8 +103,15 @@
     "tm:taunt",
     "tm:toxic",
     "tm:uproar",
+    "tutor:allyswitch",
+    "tutor:icywind",
+    "tutor:irondefense",
     "tutor:magiccoat",
+    "tutor:magnetrise",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:uproar",
     "tutor:waterpulse"
   ],
   "labels": [

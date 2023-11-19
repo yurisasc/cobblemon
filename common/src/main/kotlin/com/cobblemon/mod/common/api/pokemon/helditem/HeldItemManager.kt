@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.api.pokemon.helditem
 
-import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
+import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.helditem.BaseCobblemonHeldItemManager
@@ -79,6 +79,15 @@ interface HeldItemManager {
      */
     fun take(pokemon: BattlePokemon, showdownId: String)
 
+    /**
+     * Tests if the given [BattlePokemon] should have their item consumed.
+     * This method is expected to be used in each implementation when needed.
+     *
+     * @param pokemon The [BattlePokemon] being tested.
+     * @param battle The [PokemonBattle] the [pokemon] is participating in.
+     * @param showdownId The literal ID of the held item on Showdown.
+     */
+    fun shouldConsumeItem(pokemon: BattlePokemon, battle: PokemonBattle, showdownId: String): Boolean = false
 
     companion object {
 

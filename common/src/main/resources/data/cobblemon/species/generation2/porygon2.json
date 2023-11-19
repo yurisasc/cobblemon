@@ -26,11 +26,11 @@
     "mineral"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
-        "item": "cobblemon:dubious_disc",
-        "percentage": 50
+        "item": "cobblemon:upgrade",
+        "percentage": 25.0
       }
     ]
   },
@@ -42,6 +42,12 @@
       "walk": {
         "canWalk": false
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [
@@ -74,6 +80,7 @@
     "tm:electroweb",
     "tm:endure",
     "tm:facade",
+    "tm:flash",
     "tm:foulplay",
     "tm:frustration",
     "tm:gigaimpact",
@@ -90,11 +97,13 @@
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
+    "tm:recycle",
     "tm:rest",
     "tm:return",
     "tm:round",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snore",
     "tm:solarbeam",
@@ -113,29 +122,63 @@
     "tm:trickroom",
     "tm:wonderroom",
     "tm:zenheadbutt",
+    "tutor:agility",
+    "tutor:allyswitch",
+    "tutor:blizzard",
+    "tutor:conversion",
+    "tutor:conversion2",
     "tutor:curse",
+    "tutor:defensecurl",
     "tutor:doubleedge",
     "tutor:doubleteam",
     "tutor:dreameater",
+    "tutor:electroweb",
+    "tutor:endure",
     "tutor:flash",
+    "tutor:foulplay",
     "tutor:frustration",
     "tutor:gravity",
     "tutor:hiddenpower",
+    "tutor:hyperbeam",
     "tutor:icebeam",
+    "tutor:icywind",
+    "tutor:irontail",
     "tutor:lastresort",
+    "tutor:lockon",
+    "tutor:magiccoat",
+    "tutor:magnetrise",
     "tutor:mimic",
     "tutor:nightmare",
     "tutor:painsplit",
+    "tutor:protect",
+    "tutor:psybeam",
+    "tutor:psychic",
     "tutor:psychup",
+    "tutor:raindance",
     "tutor:recover",
+    "tutor:recycle",
+    "tutor:rest",
     "tutor:return",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
+    "tutor:swift",
     "tutor:telekinesis",
+    "tutor:thief",
+    "tutor:thunder",
     "tutor:thunderbolt",
+    "tutor:thunderwave",
     "tutor:toxic",
-    "tutor:trickroom"
+    "tutor:triattack",
+    "tutor:trick",
+    "tutor:trickroom",
+    "tutor:wonderroom",
+    "tutor:zapcannon",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen2"
@@ -159,7 +202,7 @@
       ]
     }
   ],
-  "baseScale": 0.6,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 0.9,
     "height": 0.9,

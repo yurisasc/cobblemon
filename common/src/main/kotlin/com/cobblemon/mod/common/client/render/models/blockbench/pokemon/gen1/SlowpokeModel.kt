@@ -22,13 +22,13 @@ class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val rootPart = root.registerChildWithAllChildren("slowpoke")
     override val head = getPart("head")
 
-    override val foreLeftLeg = getPart("leftfrontleg")
+    override val foreLeftLeg= getPart("leftfrontleg")
     override val foreRightLeg = getPart("rightfrontleg")
     override val hindLeftLeg = getPart("leftbackleg")
     override val hindRightLeg = getPart("rightbackleg")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.7, -1.07, 0.0)
+    override val portraitScale = 2.2F
+    override val portraitTranslation = Vec3d(-0.6, -1.6, 0.0)
 
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.52, 0.0)
@@ -37,11 +37,20 @@ class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var walk: PokemonPose
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("slowpoke", "blink").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("slowpoke", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowpoke", "ground_idle")
@@ -51,17 +60,18 @@ class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
+                QuadrupedWalkAnimation(this, periodMultiplier = 3.6F, amplitudeMultiplier = 2.2F),
                 singleBoneLook(),
-                bedrock("slowpoke", "ground_idle")
-                //bedrock("slowpoke", "ground_walk")
+                bedrock("slowpoke", "ground_walk")
             )
         )
 
         float = registerPose(
             poseName = "float",
             poseType = PoseType.FLOAT,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowpoke", "water_idle")
@@ -71,6 +81,7 @@ class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
         swim = registerPose(
             poseName = "swim",
             poseType = PoseType.SWIM,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowpoke", "water_swim")

@@ -6,10 +6,13 @@
         {
             "id": "rattata-1",
             "pokemon": "rattata",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-25",
+            "level": "1-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
@@ -25,35 +28,111 @@
             }
         },
         {
-            "id": "rattata-alolan-1",
-            "pokemon": "rattata alolan",
+            "id": "rattata-2",
+            "pokemon": "rattata",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-25",
+            "level": "1-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "minY": 0
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_abyss"
+                    "#cobblemon:is_deep_dark"
                 ]
             }
         },
         {
-            "id": "rattata-alolan-2",
+            "id": "rattata-3",
+            "pokemon": "rattata",
+            "presets": [
+                "derelict"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "1-25",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+                "minY": 0
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_deep_dark"
+                ]
+            }
+        },
+        {
+            "id": "rattata-alolan-4",
             "pokemon": "rattata alolan",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-25",
+            "level": "1-25",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+                "maxY": 0
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_deep_dark"
+                ]
+            }
+        },
+        {
+            "id": "rattata-alolan-5",
+            "pokemon": "rattata alolan",
+            "presets": [
+                "derelict"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "1-25",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+                "maxY": 0
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_deep_dark"
+                ]
+            }
+        },
+        {
+            "id": "rattata-alolan-6",
+            "pokemon": "rattata alolan",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "1-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
@@ -61,6 +140,24 @@
                     "#cobblemon:is_spooky"
                 ],
                 "timeRange": "night"
+            }
+        },
+        {
+            "id": "rattata-alolan-7",
+            "pokemon": "rattata alolan",
+            "presets": [
+                "derelict"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "1-25",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_spooky"
+                ]
             }
         }
     ]

@@ -38,7 +38,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 0,
+      "baseExperienceYield": 300,
       "baseFriendship": 35,
       "evYield": {
         "hp": 0,
@@ -145,9 +145,11 @@
   "moves": [
     "1:absorb",
     "1:acidspray",
+    "1:aquatail",
     "1:bubble",
     "1:dragonbreath",
     "1:feint",
+    "1:outrage",
     "1:poisontail",
     "1:tackle",
     "1:tearfullook",
@@ -157,6 +159,7 @@
     "20:flail",
     "25:waterpulse",
     "30:raindance",
+    "35:dragonpulse",
     "43:curse",
     "49:bodyslam",
     "58:muddywater",
@@ -197,9 +200,11 @@
     "tm:irontail",
     "tm:megakick",
     "tm:megapunch",
+    "tm:muddywater",
     "tm:mudshot",
     "tm:outrage",
     "tm:poisontail",
+    "tm:powerwhip",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -227,10 +232,21 @@
     "tm:toxic",
     "tm:waterpulse",
     "tm:weatherball",
+    "tutor:aquatail",
+    "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:irontail",
     "tutor:laserfocus",
+    "tutor:outrage",
     "tutor:shockwave",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:thunderpunch",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen6",
@@ -260,5 +276,18 @@
   "height": 20,
   "weight": 1505,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:slime_ball",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

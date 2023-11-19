@@ -1,10 +1,20 @@
 {
+  "implemented": true,
   "name": "Cofagrigus",
   "nationalPokedexNumber": 563,
   "primaryType": "ghost",
   "abilities": [
     "mummy"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 58,
     "attack": 50,
@@ -12,6 +22,19 @@
     "special_attack": 95,
     "special_defence": 105,
     "speed": 30
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
   },
   "catchRate": 90,
   "maleRatio": 0.5,
@@ -88,6 +111,7 @@
     "tm:snore",
     "tm:substitute",
     "tm:swagger",
+    "tm:telekinesis",
     "tm:thief",
     "tm:toxic",
     "tm:toxicspikes",
@@ -97,16 +121,28 @@
     "tm:wonderroom",
     "tm:zenheadbutt",
     "tutor:afteryou",
+    "tutor:allyswitch",
     "tutor:block",
+    "tutor:darkpulse",
+    "tutor:irondefense",
     "tutor:knockoff",
     "tutor:magiccoat",
     "tutor:painsplit",
     "tutor:poltergeist",
+    "tutor:powersplit",
     "tutor:roleplay",
+    "tutor:shadowball",
     "tutor:shockwave",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:telekinesis"
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:willowisp",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"
@@ -116,10 +152,10 @@
   ],
   "preEvolution": "yamask",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.5,
+    "height": 3.3,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -8,6 +8,19 @@
     "shellarmor",
     "h:overcoat"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:iron_helmet",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 135,
@@ -99,9 +112,15 @@
     "tm:toxic",
     "tm:xscissor",
     "tutor:bugbite",
+    "tutor:drillrun",
+    "tutor:gigadrain",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:knockoff",
     "tutor:laserfocus",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:steelbeam"
   ],
   "labels": [

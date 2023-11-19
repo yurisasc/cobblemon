@@ -7,6 +7,15 @@
     "shellarmor",
     "h:overcoat"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:iron_helmet",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 40,
@@ -26,6 +35,7 @@
   ],
   "moves": [
     "1:absorb",
+    "1:leechlife",
     "1:protect",
     "4:acid",
     "8:bide",
@@ -40,12 +50,17 @@
     "40:recover",
     "44:bugbuzz",
     "48:finalgambit",
+    "egg:batonpass",
     "egg:doubleedge",
+    "egg:encore",
+    "egg:endure",
     "egg:feint",
     "egg:guardsplit",
     "egg:mindreader",
     "egg:mudslap",
     "egg:pursuit",
+    "egg:spikes",
+    "egg:toxicspikes",
     "tm:attract",
     "tm:batonpass",
     "tm:bodyslam",
@@ -73,15 +88,28 @@
     "tm:sludgebomb",
     "tm:snore",
     "tm:spikes",
+    "tm:strugglebug",
     "tm:substitute",
     "tm:swagger",
     "tm:toxic",
     "tm:toxicspikes",
     "tm:venoshock",
+    "tutor:acid",
+    "tutor:batonpass",
+    "tutor:bodyslam",
     "tutor:bugbite",
+    "tutor:bugbuzz",
+    "tutor:encore",
     "tutor:gastroacid",
+    "tutor:gigadrain",
+    "tutor:megadrain",
+    "tutor:protect",
     "tutor:signalbeam",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:strugglebug",
+    "tutor:yawn"
   ],
   "labels": [
     "gen5"

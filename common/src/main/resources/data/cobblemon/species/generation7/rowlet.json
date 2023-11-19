@@ -33,14 +33,18 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:feather",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5.0
       }
     ]
   },
@@ -62,6 +66,7 @@
     "30:leafblade",
     "33:featherdance",
     "36:bravebird",
+    "egg:batonpass",
     "egg:confuseray",
     "egg:curse",
     "egg:defog",
@@ -79,6 +84,7 @@
     "tm:bulletseed",
     "tm:confide",
     "tm:confuseray",
+    "tm:doubleteam",
     "tm:echoedvoice",
     "tm:endure",
     "tm:energyball",
@@ -91,6 +97,7 @@
     "tm:grassyterrain",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:leafblade",
     "tm:leafstorm",
     "tm:lightscreen",
     "tm:magicalleaf",
@@ -101,6 +108,7 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:safeguard",
     "tm:seedbomb",
@@ -120,9 +128,15 @@
     "tm:trailblaze",
     "tm:workup",
     "tutor:covet",
+    "tutor:defog",
     "tutor:dualwingbeat",
+    "tutor:gigadrain",
+    "tutor:grasspledge",
     "tutor:grassyglide",
+    "tutor:seedbomb",
     "tutor:skyattack",
+    "tutor:snore",
+    "tutor:synthesis",
     "tutor:worryseed"
   ],
   "labels": [

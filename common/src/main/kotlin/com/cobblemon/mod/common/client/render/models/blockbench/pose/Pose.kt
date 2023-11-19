@@ -37,11 +37,13 @@ class Pose<T : Entity, F : ModelFrame>(
     }
 
     fun idleStateful(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        idleAnimations.forEach { idleAnimation ->
-            val allStatefuls = state.statefulAnimations + state.quirks.flatMap { it.value.animations }
-            if (allStatefuls.none { it.preventsIdle(entity, state, idleAnimation) }) {
-                idleAnimation.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
-            }
+        getApplicableIdleAnimations(entity, state).forEach { idleAnimation ->
+            idleAnimation.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         }
+    }
+
+    fun getApplicableIdleAnimations(entity: T?, state: PoseableEntityState<T>): List<StatelessAnimation<T, out F>> {
+        val allStatefulAnimations = state.allStatefulAnimations
+        return idleAnimations.filter { idle -> allStatefulAnimations.none { it.preventsIdle(entity, state, idle) } }
     }
 }

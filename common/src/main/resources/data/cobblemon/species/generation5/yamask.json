@@ -1,10 +1,20 @@
 {
+  "implemented": true,
   "name": "Yamask",
   "nationalPokedexNumber": 562,
   "primaryType": "ghost",
   "abilities": [
     "mummy"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 38,
     "attack": 30,
@@ -12,6 +22,19 @@
     "special_attack": 55,
     "special_defence": 65,
     "speed": 30
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
   },
   "catchRate": 190,
   "maleRatio": 0.5,
@@ -160,9 +183,17 @@
     "48:guardsplit",
     "48:powersplit",
     "52:destinybond",
+    "egg:allyswitch",
+    "egg:craftyshield",
+    "egg:disable",
+    "egg:endure",
+    "egg:faketears",
     "egg:healblock",
+    "egg:imprison",
     "egg:memento",
+    "egg:nastyplot",
     "egg:nightmare",
+    "egg:toxicspikes",
     "tm:allyswitch",
     "tm:attract",
     "tm:calmmind",
@@ -199,6 +230,7 @@
     "tm:snore",
     "tm:substitute",
     "tm:swagger",
+    "tm:telekinesis",
     "tm:thief",
     "tm:toxic",
     "tm:toxicspikes",
@@ -208,16 +240,25 @@
     "tm:wonderroom",
     "tm:zenheadbutt",
     "tutor:afteryou",
+    "tutor:allyswitch",
     "tutor:block",
+    "tutor:darkpulse",
+    "tutor:irondefense",
     "tutor:knockoff",
     "tutor:magiccoat",
     "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:roleplay",
     "tutor:shockwave",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:telekinesis"
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5",
@@ -243,10 +284,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.5,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 50,

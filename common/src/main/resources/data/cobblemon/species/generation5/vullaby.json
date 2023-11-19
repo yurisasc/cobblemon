@@ -8,6 +8,26 @@
     "overcoat",
     "h:weakarmor"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:bluk_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 55,
@@ -45,8 +65,13 @@
     "64:mirrormove",
     "66:attract",
     "72:bravebird",
+    "egg:faketears",
+    "egg:foulplay",
+    "egg:knockoff",
     "egg:meanlook",
     "egg:roost",
+    "egg:scaryface",
+    "egg:steelwing",
     "egg:toxic",
     "tm:aerialace",
     "tm:airslash",
@@ -70,6 +95,7 @@
     "tm:irondefense",
     "tm:nastyplot",
     "tm:payback",
+    "tm:pluck",
     "tm:protect",
     "tm:psychup",
     "tm:raindance",
@@ -78,6 +104,7 @@
     "tm:return",
     "tm:rocksmash",
     "tm:rocktomb",
+    "tm:roost",
     "tm:round",
     "tm:scaryface",
     "tm:secretpower",
@@ -93,11 +120,22 @@
     "tm:taunt",
     "tm:thief",
     "tm:torment",
+    "tm:toxic",
     "tm:uturn",
     "tutor:block",
+    "tutor:darkpulse",
+    "tutor:defog",
     "tutor:dualwingbeat",
+    "tutor:foulplay",
+    "tutor:heatwave",
+    "tutor:irondefense",
+    "tutor:knockoff",
     "tutor:lashout",
-    "tutor:snatch"
+    "tutor:roost",
+    "tutor:sleeptalk",
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:tailwind"
   ],
   "labels": [
     "gen5"

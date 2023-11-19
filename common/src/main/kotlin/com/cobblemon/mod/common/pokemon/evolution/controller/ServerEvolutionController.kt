@@ -14,13 +14,14 @@ import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEv
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
+import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressFactory
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.convertToDisplay
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.encode
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.EvolutionUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressFactory
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.toJsonArray
 import com.google.gson.JsonArray
@@ -104,10 +105,11 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         for (tag in progressList.filterIsInstance<NbtCompound>()) {
             EvolutionProgressFactory.create(tag.getString(ID))?.let { progress ->
                 progress.loadFromNBT(tag)
-                this.progress.add(progress)
+                if (progress.shouldKeep(this.pokemon)) {
+                    this.progress.add(progress)
+                }
             }
         }
-        this.verifyProgress()
     }
 
     override fun saveToJson(): JsonElement {
@@ -144,25 +146,18 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
             val jObject = element as? JsonObject ?: continue
             EvolutionProgressFactory.create(jObject.get(ID).asString)?.let { progress ->
                 progress.loadFromJson(jObject)
-                this.progress.add(progress)
+                if (progress.shouldKeep(this.pokemon)) {
+                    this.progress.add(progress)
+                }
             }
         }
-        this.verifyProgress()
-    }
-
-    private fun verifyProgress() {
-        this.progress.removeIf { progress -> !progress.shouldKeep(this.pokemon) }
     }
 
     override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
         if (!toClient) {
             return
         }
-        buffer.writeInt(this.size)
-        this.evolutions.forEach { evolution ->
-            val display = EvolutionUpdatePacket.createSending(this.pokemon, evolution)
-            EvolutionUpdatePacket.encodeSending(display, buffer)
-        }
+        buffer.writeCollection(this.evolutions) { pb, value -> value.convertToDisplay(this.pokemon).encode(pb) }
     }
 
     override fun loadFromBuffer(buffer: PacketByteBuf) {
@@ -171,9 +166,9 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
 
     override fun add(element: Evolution): Boolean {
         if (this.evolutions.add(element)) {
-            this.pokemon.getOwnerPlayer()?.sendMessage("cobblemon.ui.evolve.hint".asTranslated(pokemon.displayName).green())
+            this.pokemon.getOwnerPlayer()?.sendMessage("cobblemon.ui.evolve.hint".asTranslated(pokemon.getDisplayName()).green())
             this.pokemon.notify(AddEvolutionPacket(this.pokemon, element))
-            this.pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.CAN_EVOLVE.get(), SoundCategory.NEUTRAL, 1F, 1F)
+            this.pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.CAN_EVOLVE, SoundCategory.NEUTRAL, 1F, 1F)
             return true
         }
         return false
@@ -191,9 +186,10 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
 
     override fun clear() {
         // We don't want to send unnecessary packets
+        val pokemon = this.pokemon
         if (this.evolutions.isNotEmpty()) {
             this.evolutions.clear()
-            this.pokemon.notify(ClearEvolutionsPacket(this.pokemon))
+            this.pokemon.notify(ClearEvolutionsPacket { pokemon })
         }
         this.progress.clear()
     }
@@ -238,13 +234,11 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         return result
     }
 
-    private fun findEvolutionFromId(id: String) = this.pokemon.evolutions
-        .firstOrNull { evolution -> evolution.id.equals(id, true) }
+    private fun findEvolutionFromId(id: String) = this.pokemon.evolutions.firstOrNull { evolution -> evolution.id.equals(id, true) }
 
     companion object {
         private const val PENDING = "pending"
         private const val PROGRESS = "progress"
         private const val ID = "id"
     }
-
 }

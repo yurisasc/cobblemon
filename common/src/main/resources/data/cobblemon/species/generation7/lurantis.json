@@ -110,7 +110,6 @@
         "tutor:snore",
         "tutor:superpower",
         "tutor:synthesis",
-        "tutor:synthesis",
         "tutor:worryseed"
       ],
       "labels": [
@@ -140,6 +139,7 @@
     "1:ingrain",
     "1:leafage",
     "1:nightslash",
+    "1:petalblizzard",
     "1:solarbeam",
     "15:razorleaf",
     "20:sweetscent",
@@ -168,6 +168,7 @@
     "tm:grassyterrain",
     "tm:hiddenpower",
     "tm:hyperbeam",
+    "tm:leafblade",
     "tm:leafstorm",
     "tm:leechlife",
     "tm:lowsweep",
@@ -188,6 +189,7 @@
     "tm:sleeptalk",
     "tm:snore",
     "tm:solarbeam",
+    "tm:solarblade",
     "tm:substitute",
     "tm:sunnyday",
     "tm:superpower",
@@ -201,10 +203,16 @@
     "tm:xscissor",
     "tutor:bugbite",
     "tutor:defog",
+    "tutor:dualchop",
+    "tutor:gigadrain",
     "tutor:grassyglide",
     "tutor:knockoff",
     "tutor:laserfocus",
+    "tutor:seedbomb",
     "tutor:signalbeam",
+    "tutor:snore",
+    "tutor:superpower",
+    "tutor:synthesis",
     "tutor:worryseed"
   ],
   "labels": [
@@ -233,5 +241,18 @@
   "height": 9,
   "weight": 185,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

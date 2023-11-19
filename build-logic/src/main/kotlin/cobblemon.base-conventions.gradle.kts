@@ -1,8 +1,19 @@
+/*
+ *
+ *  * Copyright (C) 2023 Cobblemon Contributors
+ *  *
+ *  * This Source Code Form is subject to the terms of the Mozilla Public
+ *  * License, v. 2.0. If a copy of the MPL was not distributed with this
+ *  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ */
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val accessWidenerFile = "src/main/resources/cobblemon-common.accesswidener"
 
 plugins {
+    java
     `java-library`
     id("org.cadixdev.licenser")
     id("dev.architectury.loom")
@@ -12,6 +23,9 @@ plugins {
 
 repositories {
     mavenCentral()
+    //JEI
+    maven("https://maven.blamejared.com/")
+    maven("https://maven.tterrag.com/")
 }
 
 license {
@@ -38,7 +52,7 @@ loom {
 
 dependencies {
     minecraft("net.minecraft:minecraft:${rootProject.property("mc_version")}")
-    mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}")
+    mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")
 }
 
 tasks {

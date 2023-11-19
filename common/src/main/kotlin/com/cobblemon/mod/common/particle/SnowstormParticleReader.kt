@@ -10,45 +10,14 @@ package com.cobblemon.mod.common.particle
 
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.ast.NumberExpression
-import com.cobblemon.mod.common.api.snowstorm.AnimatedParticleUVMode
-import com.cobblemon.mod.common.api.snowstorm.BedrockParticle
-import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
-import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEmitter
-import com.cobblemon.mod.common.api.snowstorm.BezierMoLangCurve
-import com.cobblemon.mod.common.api.snowstorm.BoxParticleEmitterShape
-import com.cobblemon.mod.common.api.snowstorm.CatmullRomMoLangCurve
-import com.cobblemon.mod.common.api.snowstorm.CustomMotionDirection
-import com.cobblemon.mod.common.api.snowstorm.DiscParticleEmitterShape
-import com.cobblemon.mod.common.api.snowstorm.DynamicParticleMotion
-import com.cobblemon.mod.common.api.snowstorm.DynamicParticleRotation
-import com.cobblemon.mod.common.api.snowstorm.EntityBoundingBoxParticleEmitterShape
-import com.cobblemon.mod.common.api.snowstorm.ExpressionEmitterLifetime
-import com.cobblemon.mod.common.api.snowstorm.ExpressionParticleTinting
-import com.cobblemon.mod.common.api.snowstorm.GradientParticleTinting
-import com.cobblemon.mod.common.api.snowstorm.InstantParticleEmitterRate
-import com.cobblemon.mod.common.api.snowstorm.InwardsMotionDirection
-import com.cobblemon.mod.common.api.snowstorm.LinearMoLangCurve
-import com.cobblemon.mod.common.api.snowstorm.LoopingEmitterLifetime
-import com.cobblemon.mod.common.api.snowstorm.OnceEmitterLifetime
-import com.cobblemon.mod.common.api.snowstorm.OutwardsMotionDirection
-import com.cobblemon.mod.common.api.snowstorm.ParticleCollision
-import com.cobblemon.mod.common.api.snowstorm.ParticleMaterial
-import com.cobblemon.mod.common.api.snowstorm.ParticleMotionDirection
-import com.cobblemon.mod.common.api.snowstorm.ParticleSpace
-import com.cobblemon.mod.common.api.snowstorm.PointParticleEmitterShape
-import com.cobblemon.mod.common.api.snowstorm.RotateXYZCameraMode
-import com.cobblemon.mod.common.api.snowstorm.RotateYCameraMode
-import com.cobblemon.mod.common.api.snowstorm.SphereParticleEmitterShape
-import com.cobblemon.mod.common.api.snowstorm.StaticParticleMotion
-import com.cobblemon.mod.common.api.snowstorm.StaticParticleUVMode
-import com.cobblemon.mod.common.api.snowstorm.SteadyParticleEmitterRate
+import com.cobblemon.mod.common.api.snowstorm.*
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Vector4f
+import org.joml.Vector4f
 
 object SnowstormParticleReader {
     fun loadEffect(json: JsonObject): BedrockParticleEffect {
@@ -74,6 +43,7 @@ object SnowstormParticleReader {
         val sizeJson = particleAppearanceJson.get("size")?.asJsonArray
         val particleLifetimeJson = componentsJson.get("minecraft:particle_lifetime_expression")?.asJsonObject
         val cameraModeJson = particleAppearanceJson.get("facing_camera_mode") ?: JsonPrimitive("rotate_xyz")
+        val particleDirectionJson = particleAppearanceJson.get("direction") ?: null
         val uvModeJson = particleAppearanceJson.get("uv").asJsonObject
         val particleInitialSpinJson = componentsJson.get("minecraft:particle_initial_spin")?.asJsonObject
         val tintingJson = componentsJson.get("minecraft:particle_appearance_tinting")?.asJsonObject
@@ -85,7 +55,7 @@ object SnowstormParticleReader {
         val maxAge = particleLifetimeJson?.get("max_lifetime")?.asString?.asExpression() ?: 0.0.asExpression()
         val killExpression = particleLifetimeJson?.get("expiration_expression")?.asString?.asExpression() ?: 0.0.asExpression()
         val material = ParticleMaterial.valueOf(basicRenderParametersJson.get("material").asString.substringAfter("_").uppercase())
-        val texture = basicRenderParametersJson.get("texture").asString.let { if (it.endsWith(".png")) it.replace(".png", "") else it }.replace("particles/", "particle/").replace("textures/", "").asIdentifierDefaultingNamespace()
+        val texture = basicRenderParametersJson.get("texture").asString.let { if (it.endsWith(".png")) it.replace(".png", "") else it }.replace("particles/", "").replace("textures/", "").asIdentifierDefaultingNamespace()
         val sizeX = sizeJson?.get(0)?.asString?.asExpression() ?: 1.0.asExpression()
         val sizeY = sizeJson?.get(1)?.asString?.asExpression() ?: 1.0.asExpression()
 
@@ -241,13 +211,30 @@ object SnowstormParticleReader {
         } else {
             StaticParticleMotion()
         }
-        val cameraMode = if (cameraModeJson.isJsonPrimitive && cameraModeJson.asString == "rotate_xyz") {
-            RotateXYZCameraMode()
-        } else if (cameraModeJson.isJsonPrimitive && cameraModeJson.asString == "rotate_y") {
-            RotateYCameraMode()
-        } else {
-            TODO("Missing or unimplemented camera mode")
+
+        val viewDirection: ParticleViewDirection = particleDirectionJson?.asJsonObject?.let {
+            if (it.get("mode").asString == "custom") {
+                return@let CustomViewDirection(it.get("custom_direction").asJsonArray.map { it.asString.asExpression() }.let { Triple(it[0], it[1], it[2]) })
+            } else {
+                return@let FromMotionViewDirection(it.get("min_speed_threshold")?.asDouble ?: 0.01)
+            }
+        } ?: FromMotionViewDirection()
+
+        val cameraModeType = if (cameraModeJson.isJsonPrimitive) cameraModeJson.asString else "rotate_xyz"
+        val cameraMode = when (cameraModeType) {
+            "rotate_xyz" -> RotateXYZCameraMode()
+            "rotate_y" -> RotateYCameraMode()
+            "lookat_xyz" -> LookAtXYZ()
+            "lookat_y" -> LookAtY()
+            "lookat_direction" -> LookAtDirection()
+            "direction_x" -> DirectionX()
+            "direction_y" -> DirectionY()
+            "direction_z" -> DirectionZ()
+            "emitter_transform_xy" -> EmitterXYPlane()
+            "emitter_transform_xz" -> EmitterXZPlane()
+            else -> EmitterYZPlane()
         }
+
         val uvMode = if (uvModeJson.has("flipbook")) {
             val flipbook = uvModeJson.get("flipbook").asJsonObject
             val baseUV = flipbook.get("base_UV").asJsonArray
@@ -349,6 +336,7 @@ object SnowstormParticleReader {
                 killExpression = killExpression,
                 updateExpressions = particleUpdateExpressions.toMutableList(),
                 renderExpressions = particleRenderExpressions.toMutableList(),
+                viewDirection = viewDirection,
                 cameraMode = cameraMode,
                 collision = collision,
                 environmentLighting = environmentLighting,

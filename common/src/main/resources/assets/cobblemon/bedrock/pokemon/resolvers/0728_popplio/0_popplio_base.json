@@ -10,7 +10,10 @@
       "layers": []
     },
     {
-      "aspects": []
+      "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0728_popplio/popplio_shiny.png"
     }
   ]
 }

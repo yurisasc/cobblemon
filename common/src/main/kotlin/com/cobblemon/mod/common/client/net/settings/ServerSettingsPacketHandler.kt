@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.net.settings
 
-import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.settings.ServerSettings
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
+import net.minecraft.client.MinecraftClient
 
-object ServerSettingsPacketHandler : ClientPacketHandler<ServerSettingsPacket> {
-
-    override fun invokeOnClient(packet: ServerSettingsPacket, ctx: CobblemonNetwork.NetworkContext) {
+object ServerSettingsPacketHandler : ClientNetworkPacketHandler<ServerSettingsPacket> {
+    override fun handle(packet: ServerSettingsPacket, client: MinecraftClient) {
         ServerSettings.preventCompletePartyDeposit = packet.preventCompletePartyDeposit
         ServerSettings.displayEntityLevelLabel = packet.displayEntityLevelLabel
     }

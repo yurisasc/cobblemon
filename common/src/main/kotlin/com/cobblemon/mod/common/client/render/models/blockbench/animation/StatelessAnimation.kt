@@ -28,4 +28,6 @@ abstract class StatelessAnimation<T : Entity, F : ModelFrame>(val frame: F) {
     fun apply(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         setAngles(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
+
+    open fun applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {}
 }

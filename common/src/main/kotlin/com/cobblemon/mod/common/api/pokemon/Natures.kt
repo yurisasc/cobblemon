@@ -8,11 +8,10 @@
 
 package com.cobblemon.mod.common.api.pokemon
 
-import com.cobblemon.mod.common.api.item.Flavor
+import com.cobblemon.mod.common.api.berry.Flavor
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.lang
 import net.minecraft.util.Identifier
 
 /**
@@ -165,6 +164,16 @@ object Natures {
      */
     fun getNature(name: Identifier): Nature? {
         return allNatures.find { nature -> nature.name == name }
+    }
+
+    /**
+     * Utility method to get a nature by string
+     * @return a nature type or null
+     */
+    fun getNature(identifier: String): Nature? {
+        val nature = getNature(cobblemonResource(identifier))
+        if(nature != null) return nature
+        return getNature(Identifier(identifier))
     }
 
     /**

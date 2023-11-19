@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Hoothoot",
   "nationalPokedexNumber": 163,
   "primaryType": "normal",
@@ -8,6 +9,26 @@
     "keeneye",
     "h:tintedlens"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:wise_glasses",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 30,
@@ -25,6 +46,19 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:foresight",
     "1:growl",
@@ -34,6 +68,7 @@
     "9:confusion",
     "12:reflect",
     "15:psychoshift",
+    "16:zenheadbutt",
     "18:airslash",
     "21:extrasensory",
     "24:takedown",
@@ -43,9 +78,11 @@
     "36:hypnosis",
     "39:dreameater",
     "43:synchronoise",
+    "egg:agility",
     "egg:defog",
     "egg:featherdance",
     "egg:feintattack",
+    "egg:hurricane",
     "egg:meanlook",
     "egg:mirrormove",
     "egg:nightshade",
@@ -61,9 +98,13 @@
     "tm:calmmind",
     "tm:captivate",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
+    "tm:dreameater",
+    "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
+    "tm:flash",
     "tm:fly",
     "tm:frustration",
     "tm:heatwave",
@@ -78,9 +119,11 @@
     "tm:psychic",
     "tm:psychup",
     "tm:raindance",
+    "tm:recycle",
     "tm:reflect",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:screech",
     "tm:secretpower",
@@ -100,30 +143,59 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:aircutter",
+    "tutor:attract",
+    "tutor:confusion",
     "tutor:curse",
+    "tutor:defog",
     "tutor:detect",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:dreameater",
     "tutor:dualwingbeat",
+    "tutor:endure",
     "tutor:feintattack",
     "tutor:flash",
+    "tutor:fly",
     "tutor:foresight",
     "tutor:frustration",
+    "tutor:growl",
+    "tutor:heatwave",
     "tutor:hiddenpower",
+    "tutor:hypervoice",
+    "tutor:hypnosis",
     "tutor:magiccoat",
     "tutor:mimic",
     "tutor:mirrormove",
     "tutor:mudslap",
     "tutor:nightmare",
+    "tutor:nightshade",
     "tutor:ominouswind",
+    "tutor:peck",
+    "tutor:protect",
     "tutor:recycle",
+    "tutor:reflect",
+    "tutor:rest",
     "tutor:return",
+    "tutor:roost",
     "tutor:skyattack",
-    "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:steelwing",
+    "tutor:substitute",
+    "tutor:sunnyday",
+    "tutor:supersonic",
     "tutor:swagger",
+    "tutor:swift",
+    "tutor:tackle",
     "tutor:tailwind",
+    "tutor:takedown",
+    "tutor:thief",
     "tutor:toxic",
-    "tutor:twister"
+    "tutor:twister",
+    "tutor:uproar",
+    "tutor:whirlwind",
+    "tutor:wingattack",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen2"
@@ -146,9 +218,9 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
+    "width": 0.7,
     "height": 1,
     "fixed": false
   },

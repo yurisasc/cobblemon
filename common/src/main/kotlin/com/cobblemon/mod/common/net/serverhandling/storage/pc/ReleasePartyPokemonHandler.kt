@@ -9,24 +9,33 @@
 package com.cobblemon.mod.common.net.serverhandling.storage.pc
 
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.storage.ReleasePokemonEvent
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.client.settings.ServerSettings
 import com.cobblemon.mod.common.net.messages.server.storage.party.ReleasePartyPokemonPacket
-import com.cobblemon.mod.common.net.serverhandling.ServerPacketHandler
 import com.cobblemon.mod.common.util.party
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-object ReleasePartyPokemonHandler : ServerPacketHandler<ReleasePartyPokemonPacket> {
-    override fun invokeOnServer(packet: ReleasePartyPokemonPacket, ctx: CobblemonNetwork.NetworkContext, player: ServerPlayerEntity) {
+object ReleasePartyPokemonHandler : ServerNetworkPacketHandler<ReleasePartyPokemonPacket> {
+    override fun handle(packet: ReleasePartyPokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val party = player.party()
         val pokemon = party[packet.position] ?: return
         if (pokemon.uuid != packet.pokemonID) {
             return // Desync
         }
-
-        if (ServerSettings.preventCompletePartyDeposit && party.filterNotNull().size <= 1) {
+CobblemonEvents.POKEMON_RELEASED_EVENT_PRE.postThen(
+                event = ReleasePokemonEvent.Pre(player, pokemon, party),
+                ifSucceeded = { preEvent ->        if (ServerSettings.preventCompletePartyDeposit && party.filterNotNull().size <= 1) {
             return // Don't allow empty party
         }
-
-        party.remove(pokemon)
+                    party.remove(pokemon)
+                    CobblemonEvents.POKEMON_RELEASED_EVENT_POST.post(ReleasePokemonEvent.Post(player, pokemon, party))
+                },
+                ifCanceled = { preEvent ->
+                    party[packet.position] = pokemon
+                }
+        )
     }
 }

@@ -8,31 +8,27 @@
 
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
-import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-class AspectsUpdatePacket() : SingleUpdatePacket<Set<String>>(emptySet()) {
-    constructor(pokemon: Pokemon, aspects: Set<String>): this() {
-        setTarget(pokemon)
-        value = aspects
-    }
 
-    override fun encodeValue(buffer: PacketByteBuf, value: Set<String>) {
-        buffer.writeSizedInt(IntSize.U_BYTE, value.size)
-        value.forEach { buffer.writeString(it) }
-    }
-
-    override fun decodeValue(buffer: PacketByteBuf): Set<String> {
-        val aspects = mutableSetOf<String>()
-        repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
-            aspects.add(buffer.readString())
-        }
-        return aspects
+class AspectsUpdatePacket(pokemon: () -> Pokemon, value: Set<String>): SingleUpdatePacket<Set<String>, AspectsUpdatePacket>(pokemon, value) {
+    override val id = ID
+    override fun encodeValue(buffer: PacketByteBuf) {
+        buffer.writeCollection(this.value) { pb, value -> pb.writeString(value) }
     }
 
     override fun set(pokemon: Pokemon, value: Set<String>) {
         pokemon.aspects = value
     }
+
+    companion object {
+        val ID = cobblemonResource("aspects_update")
+        fun decode(buffer: PacketByteBuf): AspectsUpdatePacket {
+            val pokemon = decodePokemon(buffer)
+            val aspects = buffer.readList(PacketByteBuf::readString).toSet()
+            return AspectsUpdatePacket(pokemon, aspects)
+        }
+    }
+
 }

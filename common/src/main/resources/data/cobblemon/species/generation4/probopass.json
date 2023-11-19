@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Probopass",
   "nationalPokedexNumber": 476,
   "primaryType": "rock",
@@ -15,6 +16,14 @@
     "special_attack": 75,
     "special_defence": 150,
     "speed": 40
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 60,
   "maleRatio": 0.5,
@@ -37,16 +46,33 @@
     "1:wideguard",
     "13:thunderwave",
     "16:rest",
+    "18:rockblast",
     "19:spark",
     "22:rockslide",
     "25:powergem",
+    "25:spark",
+    "25:thunderwave",
     "28:rockblast",
     "31:discharge",
+    "31:rockslide",
     "34:sandstorm",
     "37:earthpower",
+    "37:sandstorm",
     "40:stoneedge",
     "43:lockon",
+    "43:rest",
     "43:zapcannon",
+    "49:discharge",
+    "49:powergem",
+    "55:discharge",
+    "55:stoneedge",
+    "61:stoneedge",
+    "61:zapcannon",
+    "67:lockon",
+    "67:zapcannon",
+    "73:earthpower",
+    "73:lockon",
+    "79:earthpower",
     "tm:attract",
     "tm:bulldoze",
     "tm:captivate",
@@ -73,8 +99,10 @@
     "tm:round",
     "tm:sandstorm",
     "tm:secretpower",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:smackdown",
+    "tm:stealthrock",
     "tm:stoneedge",
     "tm:strength",
     "tm:substitute",
@@ -103,6 +131,7 @@
     "tutor:painsplit",
     "tutor:rollout",
     "tutor:shockwave",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stealthrock",
     "tutor:stompingtantrum",
@@ -119,8 +148,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.5,
+    "height": 2,
     "fixed": false
   },
   "baseFriendship": 70,
@@ -135,5 +164,26 @@
   "height": 14,
   "weight": 3400,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:flint",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:magnet",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

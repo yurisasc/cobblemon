@@ -9,6 +9,15 @@
     "shellarmor",
     "h:weakarmor"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 65,
@@ -46,9 +55,13 @@
     "egg:block",
     "egg:counter",
     "egg:curse",
+    "egg:endure",
+    "egg:irondefense",
     "egg:knockoff",
     "egg:nightslash",
     "egg:rototiller",
+    "egg:sandtomb",
+    "egg:spikes",
     "egg:wideguard",
     "tm:aerialace",
     "tm:attract",
@@ -70,6 +83,7 @@
     "tm:rest",
     "tm:return",
     "tm:rockblast",
+    "tm:rockpolish",
     "tm:rockslide",
     "tm:rocksmash",
     "tm:rocktomb",
@@ -79,6 +93,7 @@
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:solarbeam",
     "tm:spikes",
@@ -91,7 +106,14 @@
     "tm:swordsdance",
     "tm:toxic",
     "tm:xscissor",
-    "tutor:skittersmack"
+    "tutor:block",
+    "tutor:bugbite",
+    "tutor:irondefense",
+    "tutor:knockoff",
+    "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock"
   ],
   "labels": [
     "gen5"

@@ -25,7 +25,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.math.abs
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Vector4f
+import org.joml.Vector4f
 
 interface ParticleTinting : CodecMapped {
     companion object : ArbitrarilyMappedSerializableCompanion<ParticleTinting, ParticleTintingType>(

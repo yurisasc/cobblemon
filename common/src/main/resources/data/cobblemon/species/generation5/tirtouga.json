@@ -8,6 +8,15 @@
     "sturdy",
     "h:swiftswim"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 54,
     "attack": 78,
@@ -31,6 +40,7 @@
     "1:watergun",
     "1:withdraw",
     "3:protect",
+    "5:rollout",
     "6:aquajet",
     "9:smackdown",
     "12:ancientpower",
@@ -47,12 +57,17 @@
     "45:shellsmash",
     "egg:bide",
     "egg:block",
+    "egg:bodyslam",
     "egg:flail",
+    "egg:guardswap",
+    "egg:irondefense",
     "egg:knockoff",
+    "egg:liquidation",
     "egg:rockthrow",
     "egg:rollout",
     "egg:slam",
     "egg:waterpulse",
+    "egg:whirlpool",
     "tm:attract",
     "tm:blizzard",
     "tm:bodyslam",
@@ -92,6 +107,7 @@
     "tm:scald",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:stealthrock",
     "tm:stoneedge",
@@ -103,7 +119,26 @@
     "tm:waterfall",
     "tm:whirlpool",
     "tm:zenheadbutt",
-    "tutor:meteorbeam"
+    "tutor:aquajet",
+    "tutor:aquatail",
+    "tutor:bite",
+    "tutor:block",
+    "tutor:bodyslam",
+    "tutor:earthpower",
+    "tutor:flail",
+    "tutor:icywind",
+    "tutor:irondefense",
+    "tutor:irontail",
+    "tutor:knockoff",
+    "tutor:liquidation",
+    "tutor:meteorbeam",
+    "tutor:protect",
+    "tutor:rollout",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:waterpulse",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

@@ -6,6 +6,15 @@
     "sheerforce",
     "h:zenmode"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 105,
     "attack": 140,
@@ -35,6 +44,7 @@
   "moves": [
     "1:bite",
     "1:ember",
+    "1:hammerarm",
     "1:rage",
     "1:rollout",
     "1:tackle",
@@ -42,6 +52,7 @@
     "12:incinerate",
     "16:workup",
     "17:swagger",
+    "19:facade",
     "20:firefang",
     "24:headbutt",
     "28:firepunch",
@@ -49,6 +60,7 @@
     "38:bellydrum",
     "44:flareblitz",
     "50:thrash",
+    "54:overheat",
     "56:superpower",
     "tm:attract",
     "tm:bodypress",
@@ -82,6 +94,7 @@
     "tm:heatwave",
     "tm:hiddenpower",
     "tm:hyperbeam",
+    "tm:incinerate",
     "tm:irondefense",
     "tm:ironhead",
     "tm:megakick",
@@ -122,13 +135,24 @@
     "tm:willowisp",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:bellydrum",
     "tutor:burningjealousy",
     "tutor:endeavor",
     "tutor:expandingforce",
+    "tutor:firepunch",
+    "tutor:flareblitz",
     "tutor:focuspunch",
+    "tutor:hammerarm",
+    "tutor:heatwave",
     "tutor:laserfocus",
     "tutor:lashout",
-    "tutor:snatch"
+    "tutor:sleeptalk",
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:superpower",
+    "tutor:thrash",
+    "tutor:uproar",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5",
@@ -160,7 +184,7 @@
       },
       "catchRate": 60,
       "maleRatio": 0.5,
-      "baseExperienceYield": 189,
+      "baseExperienceYield": 168,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -175,7 +199,6 @@
       "eggGroups": [
         "field"
       ],
-      "moves": [],
       "labels": [
         "gen5"
       ],
@@ -326,7 +349,7 @@
       },
       "catchRate": 60,
       "maleRatio": 0.5,
-      "baseExperienceYield": 189,
+      "baseExperienceYield": 168,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -341,7 +364,6 @@
       "eggGroups": [
         "field"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "galar_regional"

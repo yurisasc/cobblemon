@@ -111,7 +111,6 @@
         "tutor:irontail",
         "tutor:lastresort",
         "tutor:magnetrise",
-        "tutor:magnetrise",
         "tutor:nuzzle",
         "tutor:roleplay",
         "tutor:shockwave",
@@ -158,9 +157,11 @@
     "55:wildcharge",
     "60:spikyshield",
     "egg:disarmingvoice",
+    "egg:encore",
     "egg:fakeout",
     "egg:flail",
     "egg:present",
+    "egg:reversal",
     "egg:tickle",
     "egg:twineedle",
     "egg:wish",
@@ -213,16 +214,24 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:afteryou",
+    "tutor:bounce",
     "tutor:covet",
+    "tutor:electroweb",
     "tutor:endeavor",
     "tutor:gravity",
+    "tutor:helpinghand",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:lastresort",
+    "tutor:magnetrise",
     "tutor:risingvoltage",
     "tutor:roleplay",
     "tutor:shockwave",
+    "tutor:snore",
     "tutor:steelbeam",
     "tutor:steelroller",
-    "tutor:superfang"
+    "tutor:superfang",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen7"
@@ -249,5 +258,14 @@
   "height": 3,
   "weight": 33,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Feraligatr",
   "nationalPokedexNumber": 160,
   "primaryType": "water",
@@ -6,6 +7,15 @@
     "torrent",
     "h:sheerforce"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 25.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 105,
@@ -24,6 +34,23 @@
     "monster",
     "water_1"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      },
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    }
+  },
   "moves": [
     "1:agility",
     "1:leer",
@@ -50,14 +77,19 @@
     "tm:bulldoze",
     "tm:captivate",
     "tm:confide",
+    "tm:cut",
+    "tm:dig",
     "tm:dive",
     "tm:doubleteam",
     "tm:dragonclaw",
+    "tm:dragonpulse",
     "tm:dragontail",
     "tm:earthquake",
+    "tm:endure",
     "tm:facade",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hail",
@@ -65,6 +97,7 @@
     "tm:honeclaws",
     "tm:hyperbeam",
     "tm:icebeam",
+    "tm:irontail",
     "tm:naturalgift",
     "tm:poweruppunch",
     "tm:protect",
@@ -74,18 +107,22 @@
     "tm:roar",
     "tm:rockclimb",
     "tm:rockslide",
+    "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
     "tm:scald",
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:sleeptalk",
+    "tm:strength",
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
     "tm:swordsdance",
     "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
+    "tm:whirlpool",
     "tm:workup",
     "tutor:ancientpower",
     "tutor:aquatail",
@@ -95,10 +132,12 @@
     "tutor:block",
     "tutor:bodyslam",
     "tutor:counter",
+    "tutor:crunch",
     "tutor:curse",
     "tutor:cut",
     "tutor:detect",
     "tutor:dig",
+    "tutor:dive",
     "tutor:doubleedge",
     "tutor:doubleteam",
     "tutor:dragonpulse",
@@ -114,10 +153,7 @@
     "tutor:hydropump",
     "tutor:hyperbeam",
     "tutor:icepunch",
-    "tutor:icepunch",
     "tutor:icywind",
-    "tutor:icywind",
-    "tutor:irontail",
     "tutor:irontail",
     "tutor:leer",
     "tutor:liquidation",
@@ -133,6 +169,7 @@
     "tutor:rest",
     "tutor:return",
     "tutor:roar",
+    "tutor:rockslide",
     "tutor:rocksmash",
     "tutor:scaryface",
     "tutor:scratch",
@@ -141,14 +178,16 @@
     "tutor:slash",
     "tutor:sleeptalk",
     "tutor:snore",
-    "tutor:snore",
     "tutor:spite",
     "tutor:strength",
+    "tutor:substitute",
     "tutor:superpower",
     "tutor:surf",
     "tutor:swagger",
+    "tutor:swordsdance",
     "tutor:toxic",
     "tutor:uproar",
+    "tutor:waterfall",
     "tutor:watergun",
     "tutor:waterpledge",
     "tutor:waterpulse",
@@ -162,10 +201,10 @@
   ],
   "preEvolution": "croconaw",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.05,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.2,
+    "height": 2.1,
     "fixed": false
   },
   "baseFriendship": 70,

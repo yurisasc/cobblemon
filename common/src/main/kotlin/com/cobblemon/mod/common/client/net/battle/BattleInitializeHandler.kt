@@ -8,19 +8,18 @@
 
 package com.cobblemon.mod.common.client.net.battle
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ActiveClientBattlePokemon
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.battle.ClientBattleActor
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
 import net.minecraft.client.MinecraftClient
 
-object BattleInitializeHandler : ClientPacketHandler<BattleInitializePacket> {
-    override fun invokeOnClient(packet: BattleInitializePacket, ctx: CobblemonNetwork.NetworkContext) {
+object BattleInitializeHandler : ClientNetworkPacketHandler<BattleInitializePacket> {
+    override fun handle(packet: BattleInitializePacket, client: MinecraftClient) {
         val playerUUID = MinecraftClient.getInstance().player?.uuid
         CobblemonClient.battle = ClientBattle(
             packet.battleId,
@@ -33,10 +32,10 @@ object BattleInitializeHandler : ClientPacketHandler<BattleInitializePacket> {
             }
 
             val otherSide = if (mySide == packet.side1) packet.side2 else packet.side1
-
-            side1.actors.addAll(mySide.actors.map{ actorFromDTO(it, true) })
+            val sides = listOf(packet.side1, packet.side2)
+            spectating = !sides.any { it.actors.any { it.uuid == MinecraftClient.getInstance().player?.uuid } }
+            side1.actors.addAll(mySide.actors.map{ actorFromDTO(it, !spectating) })
             side2.actors.addAll(otherSide.actors.map{ actorFromDTO(it, false) })
-            spectating = sides.any { it.actors.any { it.uuid == MinecraftClient.getInstance().player?.uuid } }
             for (side in listOf(side1, side2)) {
                 side.battle = this
                 for (actor in side.actors) {
@@ -67,6 +66,7 @@ object BattleInitializeHandler : ClientPacketHandler<BattleInitializePacket> {
                         aspects = it.aspects,
                         displayName = it.displayName,
                         hpValue = it.hpValue,
+                        maxHp = it.maxHp,
                         isHpFlat = isAlly,
                         status = it.status,
                         statChanges = it.statChanges,

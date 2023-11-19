@@ -11,6 +11,12 @@
     },
     {
       "aspects": [
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0585_deerling/deerling_spring_shiny.png"
+    },
+    {
+      "aspects": [
         "autumn"
       ],
       "texture": "cobblemon:textures/pokemon/0585_deerling/deerling_autumn.png"
@@ -26,6 +32,27 @@
         "winter"
       ],
       "texture": "cobblemon:textures/pokemon/0585_deerling/deerling_winter.png"
+    },
+    {
+      "aspects": [
+        "autumn",
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0585_deerling/deerling_autumn_shiny.png"
+    },
+    {
+      "aspects": [
+        "summer",
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0585_deerling/deerling_summer_shiny.png"
+    },
+    {
+      "aspects": [
+        "winter",
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0585_deerling/deerling_winter_shiny.png"
     }
   ]
 }

@@ -30,16 +30,24 @@
     "1:growth",
     "1:stunspore",
     "1:worryseed",
+    "4:growth",
     "7:watersport",
+    "10:stunspore",
     "13:megadrain",
+    "16:worryseed",
     "egg:cottonspore",
     "egg:extrasensory",
+    "egg:gigadrain",
     "egg:grasswhistle",
+    "egg:leafstorm",
     "egg:lifedew",
     "egg:mindreader",
     "egg:naturalgift",
+    "egg:pinmissile",
     "egg:razorleaf",
+    "egg:seedbomb",
     "egg:sleeppowder",
+    "egg:spikes",
     "egg:synthesis",
     "tm:attract",
     "tm:bulletseed",
@@ -57,6 +65,7 @@
     "tm:grassknot",
     "tm:hiddenpower",
     "tm:leafstorm",
+    "tm:naturalgift",
     "tm:naturepower",
     "tm:pinmissile",
     "tm:protect",
@@ -83,8 +92,16 @@
     "tm:venoshock",
     "tm:weatherball",
     "tutor:covet",
+    "tutor:gigadrain",
     "tutor:grassyglide",
-    "tutor:mudslap"
+    "tutor:mudslap",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:swift",
+    "tutor:synthesis",
+    "tutor:uproar",
+    "tutor:worryseed"
   ],
   "labels": [
     "gen4",
@@ -130,5 +147,18 @@
   "height": 2,
   "weight": 12,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

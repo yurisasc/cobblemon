@@ -12,9 +12,9 @@
             ],
             "type": "pokemon",
             "context": "submerged",
-            "bucket": "rare",
+            "bucket": "common",
             "level": "20-54",
-            "weight": 10.0,
+            "weight": 0.1,
             "condition": {
                 "canSeeSky": true
             }
@@ -23,17 +23,51 @@
             "id": "gyarados-2",
             "pokemon": "gyarados",
             "presets": [
+                "freshwater",
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "common",
+            "level": "20-54",
+            "weight": 0.02,
+            "condition": {
+                "canSeeSky": true
+            }
+        },
+        {
+            "id": "gyarados-3",
+            "pokemon": "gyarados",
+            "presets": [
                 "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "20-54",
-            "weight": 6.0,
+            "weight": 0.1,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_ocean"
+                    "#cobblemon:is_ocean"
+                ]
+            }
+        },
+        {
+            "id": "gyarados-4",
+            "pokemon": "gyarados",
+            "presets": [
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "common",
+            "level": "20-54",
+            "weight": 0.02,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_ocean"
                 ]
             }
         }

@@ -7,6 +7,22 @@
     "stormdrain",
     "h:waterveil"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:cod"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 69,
     "attack": 69,
@@ -25,11 +41,13 @@
     "water_2"
   ],
   "moves": [
+    "1:attract",
     "1:gust",
     "1:pound",
     "1:soak",
     "1:watergun",
     "13:raindance",
+    "17:gust",
     "22:waterpulse",
     "26:attract",
     "26:captivate",
@@ -40,17 +58,21 @@
     "53:bounce",
     "59:silverwind",
     "59:tailwind",
+    "66:soak",
     "tm:acrobatics",
     "tm:agility",
     "tm:aircutter",
     "tm:airslash",
+    "tm:attract",
     "tm:blizzard",
     "tm:brine",
+    "tm:captivate",
     "tm:charm",
     "tm:chillingwater",
     "tm:confide",
     "tm:confuseray",
     "tm:dazzlinggleam",
+    "tm:defog",
     "tm:dive",
     "tm:doubleteam",
     "tm:encore",
@@ -75,8 +97,10 @@
     "tm:rest",
     "tm:return",
     "tm:round",
+    "tm:safeguard",
     "tm:scald",
     "tm:secretpower",
+    "tm:silverwind",
     "tm:sleeptalk",
     "tm:substitute",
     "tm:surf",
@@ -90,12 +114,21 @@
     "tm:uturn",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:whirlpool",
+    "tutor:aircutter",
     "tutor:aquatail",
+    "tutor:bounce",
     "tutor:defog",
+    "tutor:dive",
+    "tutor:icywind",
     "tutor:ominouswind",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
     "tutor:snore",
-    "tutor:twister"
+    "tutor:swift",
+    "tutor:tailwind",
+    "tutor:twister",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen4"

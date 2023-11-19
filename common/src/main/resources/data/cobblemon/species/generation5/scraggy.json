@@ -8,6 +8,19 @@
     "moxie",
     "h:intimidate"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_belt",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 75,
@@ -46,12 +59,19 @@
     "48:focuspunch",
     "52:headsmash",
     "egg:acidspray",
+    "egg:amnesia",
     "egg:counter",
     "egg:detect",
+    "egg:dragondance",
+    "egg:drainpunch",
     "egg:fakeout",
     "egg:feintattack",
+    "egg:firepunch",
+    "egg:icepunch",
     "egg:poweruppunch",
     "egg:quickguard",
+    "egg:thunderpunch",
+    "egg:zenheadbutt",
     "tm:amnesia",
     "tm:assurance",
     "tm:attract",
@@ -89,6 +109,7 @@
     "tm:megapunch",
     "tm:payback",
     "tm:poisonjab",
+    "tm:poweruppunch",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -111,6 +132,7 @@
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:taunt",
     "tm:thief",
     "tm:thunderpunch",
@@ -119,12 +141,31 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:coaching",
+    "tutor:darkpulse",
+    "tutor:dragonpulse",
+    "tutor:drainpunch",
     "tutor:dualchop",
+    "tutor:fakeout",
+    "tutor:firepunch",
+    "tutor:focuspunch",
+    "tutor:foulplay",
+    "tutor:headbutt",
+    "tutor:highjumpkick",
+    "tutor:icepunch",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:knockoff",
     "tutor:lashout",
+    "tutor:leer",
+    "tutor:lowkick",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:superfang"
+    "tutor:superfang",
+    "tutor:thunderpunch",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

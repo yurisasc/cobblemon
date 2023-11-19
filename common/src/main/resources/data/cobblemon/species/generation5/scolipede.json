@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Scolipede",
   "nationalPokedexNumber": 545,
   "primaryType": "bug",
@@ -8,6 +9,19 @@
     "swarm",
     "h:speedboost"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 100,
@@ -15,6 +29,19 @@
     "special_attack": 55,
     "special_defence": 69,
     "speed": 112
+  },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.24
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "11-15"
+    }
   },
   "catchRate": 45,
   "maleRatio": 0.5,
@@ -95,16 +122,27 @@
     "tm:swagger",
     "tm:swordsdance",
     "tm:throatchop",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:venomdrench",
     "tm:venoshock",
     "tm:xscissor",
     "tutor:aquatail",
+    "tutor:bugbite",
     "tutor:endeavor",
+    "tutor:irondefense",
+    "tutor:irontail",
+    "tutor:poisontail",
     "tutor:signalbeam",
     "tutor:skittersmack",
+    "tutor:sleeptalk",
     "tutor:snatch",
-    "tutor:steelroller"
+    "tutor:snore",
+    "tutor:steelroller",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:throatchop",
+    "tutor:toxicspikes"
   ],
   "labels": [
     "gen5"
@@ -114,10 +152,10 @@
   ],
   "preEvolution": "whirlipede",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.0,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2.5,
+    "height": 3.0,
     "fixed": false
   },
   "baseFriendship": 50,

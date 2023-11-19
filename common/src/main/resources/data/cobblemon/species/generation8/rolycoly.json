@@ -45,6 +45,7 @@
     "tm:endure",
     "tm:facade",
     "tm:gyroball",
+    "tm:heatcrash",
     "tm:irondefense",
     "tm:ironhead",
     "tm:mudslap",
@@ -111,5 +112,22 @@
   "height": 3,
   "weight": 120,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:coal",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:black_augurite",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

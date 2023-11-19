@@ -8,6 +8,19 @@
     "sandveil",
     "h:roughskin"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 68,
     "attack": 90,
@@ -33,10 +46,19 @@
     "1:sandattack",
     "1:sandtomb",
     "1:tackle",
+    "7:dragonrage",
+    "13:sandstorm",
+    "15:takedown",
     "18:bulldoze",
+    "19:sandtomb",
+    "24:dualchop",
     "27:bite",
+    "28:slash",
+    "33:dragonclaw",
     "34:slash",
+    "40:dig",
     "42:dragonclaw",
+    "49:dragonrush",
     "50:dig",
     "58:sandstorm",
     "66:takedown",
@@ -86,6 +108,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowclaw",
@@ -103,12 +126,23 @@
     "tm:terablast",
     "tm:thunderfang",
     "tm:toxic",
+    "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:dualchop",
+    "tutor:earthpower",
     "tutor:furycutter",
     "tutor:headbutt",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:laserfocus",
     "tutor:mudslap",
+    "tutor:outrage",
     "tutor:scaleshot",
     "tutor:scorchingsands",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:swift",
     "tutor:twister"
   ],
   "labels": [

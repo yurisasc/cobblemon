@@ -9,40 +9,37 @@
 package com.cobblemon.mod.common.net.serverhandling.storage
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.api.moves.Moves
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.net.messages.client.storage.pc.ClosePCPacket
 import com.cobblemon.mod.common.net.messages.server.BenchMovePacket
-import com.cobblemon.mod.common.net.serverhandling.ServerPacketHandler
 import com.cobblemon.mod.common.util.party
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-object BenchMoveHandler : ServerPacketHandler<BenchMovePacket> {
-    override fun invokeOnServer(packet: BenchMovePacket, ctx: CobblemonNetwork.NetworkContext, player: ServerPlayerEntity) {
+object BenchMoveHandler : ServerNetworkPacketHandler<BenchMovePacket> {
+    override fun handle(packet: BenchMovePacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val pokemonStore: PokemonStore<*> = if (packet.isParty) {
             player.party()
         } else {
-            PCLinkManager.getPC(player) ?: return run { ClosePCPacket().sendToPlayer(player) }
+            PCLinkManager.getPC(player) ?: return run { ClosePCPacket(null).sendToPlayer(player) }
         }
 
         val pokemon = pokemonStore[packet.uuid] ?: return
-        val oldMove = Moves.getByName(packet.oldMove) ?: return
-        val newMove = Moves.getByName(packet.newMove) ?: return
 
-        if (pokemon.moveSet.none { it.template == oldMove } || pokemon.moveSet.any { it.template == newMove }) {
+        if (pokemon.moveSet.none { it.template == packet.oldMove } || pokemon.moveSet.any { it.template == packet.newMove }) {
             // Something inconsistent in the information they're sending, better give them an update on their moveset
             // in case they're just out of date somehow.
             pokemon.moveSet.update()
             return
         }
 
-        if (newMove !in pokemon.allAccessibleMoves) {
-            LOGGER.warn("${player.name} tried to bench ${oldMove.name} for ${newMove.name} but it doesn't have ${newMove.name} learned. Could be a hacker!")
+        if (packet.newMove !in pokemon.allAccessibleMoves) {
+            LOGGER.warn("${player.name} tried to bench ${packet.oldMove.name} for ${packet.newMove.name} but it doesn't have ${packet.newMove.name} learned. Could be a hacker!")
             return
         }
 
-        pokemon.exchangeMove(oldMove, newMove)
+        pokemon.exchangeMove(packet.oldMove, packet.newMove)
     }
 }

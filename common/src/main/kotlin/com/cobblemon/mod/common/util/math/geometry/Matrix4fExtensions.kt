@@ -8,10 +8,9 @@
 
 package com.cobblemon.mod.common.util.math.geometry
 
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.Matrix4f
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.Vector4f
+import org.joml.Matrix4f
+import org.joml.Vector4f
 
 fun Matrix4f.getOrigin(): Vec3d {
     return transformPosition(Vec3d.ZERO)
@@ -19,20 +18,20 @@ fun Matrix4f.getOrigin(): Vec3d {
 
 fun Matrix4f.transformPosition(pos: Vec3d): Vec3d {
     val vector = Vector4f(pos.x.toFloat(), pos.y.toFloat(), pos.z.toFloat(), 1F)
-    vector.transform(this)
-    vector.normalizeProjectiveCoordinates()
+    transform(vector)
+    vector.mul(1 / vector.w)
     return Vec3d(vector.x.toDouble(), vector.y.toDouble(), vector.z.toDouble())
 }
 
 fun Matrix4f.transformDirection(direction: Vec3d): Vec3d {
     val origin = Vector4f(0F, 0F, 0F, 1F)
-    origin.transform(this)
-    origin.normalizeProjectiveCoordinates()
+    transform(origin)
+    origin.mul(1 / origin.w)
     val originVec = Vec3d(origin.x.toDouble(), origin.y.toDouble(), origin.z.toDouble())
     val magnitude = direction.length()
     val vector = Vector4f(direction.x.toFloat(), direction.y.toFloat(), direction.z.toFloat(), 1F)
-    vector.transform(this)
-    vector.normalizeProjectiveCoordinates()
+    this.transform(vector)
+    vector.mul(1 / vector.w)
     val newVector = Vec3d(vector.x.toDouble(), vector.y.toDouble(), vector.z.toDouble())
         .subtract(originVec)
         .normalize()

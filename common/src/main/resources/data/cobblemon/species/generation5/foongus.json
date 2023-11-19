@@ -7,6 +7,19 @@
     "effectspore",
     "h:regenerator"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:red_mushroom",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 69,
     "attack": 55,
@@ -41,10 +54,14 @@
     "40:ragepowder",
     "44:solarbeam",
     "48:spore",
+    "egg:bodyslam",
     "egg:defensecurl",
+    "egg:endure",
     "egg:gastroacid",
+    "egg:growth",
     "egg:poisonpowder",
     "egg:rollout",
+    "egg:stunspore",
     "egg:worryseed",
     "tm:attract",
     "tm:bodyslam",
@@ -81,9 +98,17 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:terablast",
+    "tm:toxic",
     "tm:venoshock",
     "tutor:afteryou",
-    "tutor:gastroacid"
+    "tutor:foulplay",
+    "tutor:gastroacid",
+    "tutor:gigadrain",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:synthesis",
+    "tutor:worryseed"
   ],
   "labels": [
     "gen5"

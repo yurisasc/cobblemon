@@ -6,10 +6,13 @@
         {
             "id": "munchlax-1",
             "pokemon": "munchlax",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "12-39",
+            "level": "24-39",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,

@@ -17,7 +17,7 @@
   },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 158,
   "baseFriendship": 50,
   "evYield": {
     "hp": 0,
@@ -105,5 +105,14 @@
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.klawf.desc"
-  ]
+  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:pinap_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

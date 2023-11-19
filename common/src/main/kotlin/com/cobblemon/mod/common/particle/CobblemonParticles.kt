@@ -8,18 +8,18 @@
 
 package com.cobblemon.mod.common.particle
 
-import com.cobblemon.mod.common.registry.CompletableRegistry
-import dev.architectury.registry.registries.RegistrySupplier
-import java.util.function.Supplier
+import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.particle.ParticleType
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 
-object CobblemonParticles : CompletableRegistry<ParticleType<*>>(Registry.PARTICLE_TYPE_KEY) {
-    private fun <T : ParticleType<*>> register(name: String, particleType: Supplier<T>): RegistrySupplier<T> {
-        return queue(name, particleType)
-    }
+object CobblemonParticles : PlatformRegistry<Registry<ParticleType<*>>, RegistryKey<Registry<ParticleType<*>>>, ParticleType<*>>() {
 
-    val SNOWSTORM_PARTICLE = SnowstormParticleType()
+    override val registry: Registry<ParticleType<*>> = Registries.PARTICLE_TYPE
+    override val registryKey: RegistryKey<Registry<ParticleType<*>>> = RegistryKeys.PARTICLE_TYPE
 
-    val SNOWSTORM_PARTICLE_TYPE = register("snowstorm") { SNOWSTORM_PARTICLE }
+    val SNOWSTORM_PARTICLE_TYPE = this.create("snowstorm", SnowstormParticleType())
+
 }

@@ -11,12 +11,13 @@ package com.cobblemon.mod.common.net.messages.client.data
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.pokemon.Species
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 // We do not need to know every single attribute as a client, as such, we only sync the aspects that matter
-class SpeciesRegistrySyncPacket : DataRegistrySyncPacket<Species> {
-    constructor(): super(emptyList())
-    constructor(species: Collection<Species>): super(species)
+class SpeciesRegistrySyncPacket(species: Collection<Species>) : DataRegistrySyncPacket<Species, SpeciesRegistrySyncPacket>(species) {
+
+    override val id = ID
 
     override fun encodeEntry(buffer: PacketByteBuf, entry: Species) {
         try {
@@ -42,5 +43,10 @@ class SpeciesRegistrySyncPacket : DataRegistrySyncPacket<Species> {
 
     override fun synchronizeDecoded(entries: Collection<Species>) {
         PokemonSpecies.reload(entries.associateBy { it.resourceIdentifier })
+    }
+
+    companion object {
+        val ID = cobblemonResource("species_sync")
+        fun decode(buffer: PacketByteBuf): SpeciesRegistrySyncPacket = SpeciesRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 }

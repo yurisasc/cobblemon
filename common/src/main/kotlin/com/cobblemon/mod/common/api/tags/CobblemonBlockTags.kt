@@ -9,54 +9,45 @@
 package com.cobblemon.mod.common.api.tags
 
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.tag.TagKey
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 
 /**
- * A collection of the Cobblemon [TagKey]s related to the [Registry.BLOCK].
+ * A collection of the Cobblemon [TagKey]s related to the [Registries.BLOCK].
  *
  * @author Licious
  * @since October 29th, 2022
  */
+@Suppress("HasPlatformType", "unused")
 object CobblemonBlockTags {
 
-    val APRICORN_LEAVES = createTag("apricorn_leaves")
-    val APRICORN_LOGS = createTag("apricorn_logs")
-    val APRICORN_SAPLINGS = createTag("apricorn_saplings")
-    val APRICORNS = createTag("apricorns")
-    val DRIPSTONE_GROWABLE = createTag("dripstone_growable")
-    val DRIPSTONE_REPLACEABLES = createTag("dripstone_replaceables")
+    @JvmField val ALL_HANGING_SIGNS = createTag("all_hanging_signs")
+    @JvmField val ALL_SIGNS = createTag("all_signs")
+    @JvmField val APRICORN_LEAVES = createTag("apricorn_leaves")
+    @JvmField val APRICORN_LOGS = createTag("apricorn_logs")
+    @JvmField val APRICORN_SAPLINGS = createTag("apricorn_saplings")
+    @JvmField val APRICORNS = createTag("apricorns")
+    @JvmField val BERRY_WILD_SOIL = createTag("berry_wild_soil")
+    @JvmField val BERRY_SOIL = createTag("berry_soil")
+    @JvmField val BERRY_REPLACEABLE = createTag("berry_replaceable")
+    @JvmField val CEILING_HANGING_SIGNS = createTag("ceiling_hanging_signs")
+    @JvmField val CROPS = createTag("crops")
+    @JvmField val DRIPSTONE_GROWABLE = createTag("dripstone_growable")
+    @JvmField val DRIPSTONE_REPLACEABLES = createTag("dripstone_replaceables")
+    @JvmField val FLOWERS = createTag("flowers")
+    @JvmField val MEDICINAL_LEEK_PLANTABLE = createTag("medicinal_leek_plantable")
+    @JvmField val MINTS = createTag("mints")
+    @JvmField val ROOTS_SPREADABLE = createTag("roots_spreadable")
+    @JvmField val SIGNS = createTag("signs")
+    @JvmField val SMALL_FLOWERS = createTag("small_flowers")
+    @JvmField val SEES_SKY = createTag("sees_sky")
+    @JvmField val SNOW_BLOCK = createTag("snow_block")
+    @JvmField val ROOTS = createTag("roots")
+    @JvmField val STANDING_SIGNS = createTag("standing_signs")
+    @JvmField val WALL_HANGING_SIGNS = createTag("wall_hanging_signs")
+    @JvmField val WALL_SIGNS = createTag("wall_signs")
 
-    // ToDo remove in 1.3
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val FENCE_GATES = createTag("fence_gates")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val FENCES = createTag("fences")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val LEAVES = createTag("leaves")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val LOGS = createTag("logs")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val LOGS_THAT_BURN = createTag("logs_that_burn")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val PLANKS = createTag("planks")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val SAPLINGS = createTag("saplings")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val STANDING_SIGNS = createTag("standing_signs")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val WALL_SIGNS = createTag("wall_signs")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val WOODEN_BUTTONS = createTag("wooden_buttons")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val WOODEN_FENCES = createTag("wooden_fences")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val WOODEN_PRESSURE_PLATES = createTag("wooden_pressure_plates")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val WOODEN_SLABS = createTag("wooden_slabs")
-    @Deprecated(message = "This tag no longer exists", level = DeprecationLevel.ERROR)
-    val WOODEN_STAIRS = createTag("wooden_stairs")
-
-    private fun createTag(name: String) = TagKey.of(Registry.BLOCK_KEY, cobblemonResource(name))
+    private fun createTag(name: String) = TagKey.of(RegistryKeys.BLOCK, cobblemonResource(name))
 
 }

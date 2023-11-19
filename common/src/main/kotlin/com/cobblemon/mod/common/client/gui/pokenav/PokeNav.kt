@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.gui.pokenav
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.summary.Summary
@@ -18,6 +19,7 @@ import com.cobblemon.mod.common.util.lang
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.InputUtil
@@ -42,10 +44,10 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
         private const val buttonHeight = 39
         private const val buttonWidth = 64
         // Textures
-        private val background = cobblemonResource("ui/pokenav/pokenav_base.png")
-        private val exit = cobblemonResource("ui/pokenav/pokenav_exit.png")
-        private val pokemon = cobblemonResource("ui/pokenav/pokenav_pokemon.png")
-        private val select = cobblemonResource("ui/pokenav/pokenav_select.png")
+        private val background = cobblemonResource("textures/gui/pokenav/pokenav_base.png")
+        private val exit = cobblemonResource("textures/gui/pokenav/pokenav_exit.png")
+        private val pokemon = cobblemonResource("textures/gui/pokenav/pokenav_pokemon.png")
+        private val select = cobblemonResource("textures/gui/pokenav/pokenav_select.png")
     }
 
     /**
@@ -116,18 +118,18 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
     /**
      * Rendering the background texture
      */
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        renderBackground(pMatrixStack)
+    override fun render(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        renderBackground(context)
 
         // Rendering UI Background
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             texture = background,
             x = (width - backgroundWidth) / 2, y = (height - backgroundHeight) / 2,
             width = backgroundWidth, height = backgroundHeight
         )
 
-        super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+        super.render(context, pMouseX, pMouseY, pPartialTicks)
 
         /**
          * Rendering Selection
@@ -145,7 +147,7 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
             }
         }
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             texture = select,
             x = getWidthForPos(currentSelectionPos.first) + 2.55, y = getHeightFor(currentSelectionPos.second) + 2.45,
             width = 59, height = 34.5,
@@ -327,7 +329,12 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
      */
 
     private fun onPressPokemon(button: ButtonWidget) {
-        MinecraftClient.getInstance().setScreen(Summary(CobblemonClient.storage.myParty))
+        try {
+            Summary.open(CobblemonClient.storage.myParty.slots, true, CobblemonClient.storage.selectedSlot)
+        } catch (e: Exception) {
+            MinecraftClient.getInstance().setScreen(null)
+            Cobblemon.LOGGER.debug("Failed to open the summary from the PokeNav screen", e)
+        }
     }
 
     private fun onPressExit(button: ButtonWidget) {

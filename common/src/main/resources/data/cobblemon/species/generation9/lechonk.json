@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Lechonk",
   "nationalPokedexNumber": 915,
   "primaryType": "normal",
@@ -7,6 +8,19 @@
     "gluttony",
     "h:thickfat"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:porkchop",
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 54,
     "attack": 45,
@@ -17,7 +31,7 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 51,
   "baseFriendship": 50,
   "evYield": {
     "hp": 1,
@@ -84,6 +98,12 @@
   "aspects": [],
   "height": 5,
   "weight": 102,
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.6,
+    "fixed": false
+  },
   "evolutions": [
     {
       "id": "lechonk_oinkologne",

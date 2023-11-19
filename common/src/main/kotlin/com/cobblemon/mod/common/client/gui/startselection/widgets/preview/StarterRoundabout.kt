@@ -11,12 +11,12 @@ package com.cobblemon.mod.common.client.gui.startselection.widgets.preview
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
+import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
+import org.joml.Quaternionf
+import org.joml.Vector3f
 
 /**
  * The current/next/previous pokemon display thingy
@@ -29,7 +29,9 @@ import net.minecraft.util.math.Vec3f
 class StarterRoundabout(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    var pokemon: RenderablePokemon
+    var pokemon: RenderablePokemon,
+    private val clickAction: (mouseX: Double, mouseY: Double) -> Unit = { _, _ -> },
+    private val rotationVector: Vector3f
 ): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("StarterRoundabout")) {
 
     companion object {
@@ -37,13 +39,12 @@ class StarterRoundabout(
         const val MODEL_HEIGHT = 30
     }
 
-    val minecraft = MinecraftClient.getInstance()
-
-    init {
-
-    }
-
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        if (!this.visible) {
+            return
+        }
+        val matrices = context.matrices
+        this.hovered = mouseX >= this.x && mouseX < this.x + this.width && mouseY >= (this.y - MODEL_HEIGHT) && mouseY < this.y
         matrices.push()
         /*
          * This correction term is due to where scaling comes from in a render. We are giving the drawProfilePokemon
@@ -58,7 +59,7 @@ class StarterRoundabout(
         matrices.translate(x.toDouble() + MODEL_WIDTH / 2.0, y.toDouble() - MODEL_HEIGHT.toDouble() + correctionTerm, 0.0)
 
         // This uses more weird x and y because the component is in an abnormal position, could fix it but also who cares at this point
-        DrawableHelper.enableScissor(
+        context.enableScissor(
             x,
             y - MODEL_HEIGHT,
             x + MODEL_WIDTH,
@@ -67,13 +68,29 @@ class StarterRoundabout(
         drawProfilePokemon(
             renderablePokemon = pokemon,
             matrixStack = matrices,
-            rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
+            rotation = Quaternionf().fromEulerXYZDegrees(rotationVector),
             state = null,
-            scale = 18F
+            scale = 18F,
+            partialTicks = delta
         )
 
-        DrawableHelper.disableScissor()
+        context.disableScissor()
 
         matrices.pop()
+    }
+
+    override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
+        if (this.clicked(pMouseX, pMouseY) && this.isValidClickButton(pButton)) {
+            this.onClick(pMouseX, pMouseY)
+        }
+        return super.mouseClicked(pMouseX, pMouseY, pButton)
+    }
+
+    override fun clicked(mouseX: Double, mouseY: Double): Boolean {
+        return this.active && this.visible && this.hovered
+    }
+
+    override fun onClick(mouseX: Double, mouseY: Double) {
+        this.clickAction(mouseX, mouseY)
     }
 }

@@ -25,17 +25,19 @@
     "human_like"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:redstone",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
         "item": "cobblemon:electirizer",
-        "quantityRange": "1",
-        "percentage": 5
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -47,6 +49,7 @@
     "12:swift",
     "16:shockwave",
     "20:thunderwave",
+    "22:electroball",
     "24:screech",
     "28:thunderpunch",
     "34:discharge",
@@ -67,8 +70,10 @@
     "tm:endure",
     "tm:facade",
     "tm:firepunch",
+    "tm:flash",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:helpinghand",
@@ -89,11 +94,14 @@
     "tm:rest",
     "tm:return",
     "tm:rockclimb",
+    "tm:rocksmash",
     "tm:round",
     "tm:screech",
     "tm:secretpower",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:strength",
     "tm:substitute",
     "tm:swagger",
     "tm:swift",
@@ -102,10 +110,13 @@
     "tm:thunderbolt",
     "tm:thunderpunch",
     "tm:thunderwave",
+    "tm:toxic",
     "tm:uproar",
     "tm:voltswitch",
     "tm:wildcharge",
+    "tutor:attract",
     "tutor:bide",
+    "tutor:bodyslam",
     "tutor:brickbreak",
     "tutor:counter",
     "tutor:covet",
@@ -116,6 +127,8 @@
     "tutor:doubleteam",
     "tutor:dualchop",
     "tutor:dynamicpunch",
+    "tutor:electroweb",
+    "tutor:endure",
     "tutor:facade",
     "tutor:firepunch",
     "tutor:flash",
@@ -132,6 +145,8 @@
     "tutor:lightscreen",
     "tutor:lowkick",
     "tutor:magnetrise",
+    "tutor:megakick",
+    "tutor:megapunch",
     "tutor:metronome",
     "tutor:mimic",
     "tutor:mudslap",
@@ -140,6 +155,7 @@
     "tutor:psywave",
     "tutor:quickattack",
     "tutor:rage",
+    "tutor:raindance",
     "tutor:reflect",
     "tutor:rest",
     "tutor:return",
@@ -147,8 +163,11 @@
     "tutor:rocksmash",
     "tutor:screech",
     "tutor:seismictoss",
+    "tutor:shockwave",
     "tutor:signalbeam",
     "tutor:skullbash",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:strength",
     "tutor:submission",
     "tutor:substitute",
@@ -157,6 +176,7 @@
     "tutor:takedown",
     "tutor:taunt",
     "tutor:teleport",
+    "tutor:thief",
     "tutor:thunder",
     "tutor:thunderbolt",
     "tutor:thunderpunch",

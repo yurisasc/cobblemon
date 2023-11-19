@@ -16,7 +16,6 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
-import net.minecraft.util.Identifier
 import java.lang.reflect.Type
 
 /** Handles JSON adapting between a Stat and its serialized form; its id.*/

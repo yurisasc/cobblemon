@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
-import java.lang.NumberFormatException
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 
 const val QUOTE = '"'
 
@@ -91,3 +91,6 @@ fun String.isLaterVersion(otherVersion: String): Boolean {
 
     return smaller != this
 }
+
+fun String.toProperties() = PokemonProperties.parse(this)
+fun String.toPokemon() = toProperties().create()

@@ -7,6 +7,15 @@
     "sturdy",
     "h:soundproof"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:bones",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 52,
@@ -34,9 +43,11 @@
     "19:irondefense",
     "24:swagger",
     "28:ancientpower",
+    "30:block",
     "36:endure",
     "43:metalburst",
     "51:ironhead",
+    "52:ironhead",
     "58:heavyslam",
     "tm:attract",
     "tm:avalanche",
@@ -47,6 +58,7 @@
     "tm:dig",
     "tm:doubleteam",
     "tm:earthquake",
+    "tm:endure",
     "tm:facade",
     "tm:fireblast",
     "tm:flamethrower",
@@ -57,6 +69,7 @@
     "tm:hyperbeam",
     "tm:icebeam",
     "tm:incinerate",
+    "tm:irontail",
     "tm:naturalgift",
     "tm:protect",
     "tm:raindance",
@@ -70,8 +83,10 @@
     "tm:round",
     "tm:sandstorm",
     "tm:secretpower",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:smackdown",
+    "tm:stealthrock",
     "tm:stoneedge",
     "tm:strength",
     "tm:substitute",
@@ -82,6 +97,7 @@
     "tm:thunderbolt",
     "tm:torment",
     "tm:toxic",
+    "tutor:ancientpower",
     "tutor:block",
     "tutor:earthpower",
     "tutor:headbutt",
@@ -93,6 +109,7 @@
     "tutor:mudslap",
     "tutor:outrage",
     "tutor:shockwave",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stealthrock",
     "tutor:stompingtantrum"

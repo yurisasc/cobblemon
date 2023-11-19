@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.client.render.models.blockbench.BedrockAnimationReferenceFactory
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cobblemon.mod.common.util.fromJson
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
@@ -32,16 +34,22 @@ object BedrockAnimationRepository {
     private val animationGroups = mutableMapOf<String, BedrockAnimationGroup>()
 
     fun loadAnimations(resourceManager: ResourceManager, directories: List<String>) {
+        JsonPokemonPoseableModel.registerFactory("bedrock", BedrockAnimationReferenceFactory)
+
         LOGGER.info("Loading animations...")
         var animationCount = 0
         animationGroups.clear()
         for (directory in directories) {
             resourceManager.findResources(directory) { it.path.endsWith(".animation.json") }
                 .forEach { (identifier, resource) ->
-                    val animationGroup = gson.fromJson<BedrockAnimationGroup>(resource.inputStream.reader())
-                    val animationGroupName = identifier.path.substringAfterLast("/").replace(".animation.json", "")
-                    animationGroups[animationGroupName] = animationGroup
-                    animationCount += animationGroup.animations.size
+                    try {
+                        val animationGroup = gson.fromJson<BedrockAnimationGroup>(resource.inputStream.reader())
+                        val animationGroupName = identifier.path.substringAfterLast("/").replace(".animation.json", "")
+                        animationGroups[animationGroupName] = animationGroup
+                        animationCount += animationGroup.animations.size
+                    } catch (e: Exception) {
+                        LOGGER.error("Failed to load animation group $identifier", e)
+                    }
                 }
         }
         LOGGER.info("Loaded $animationCount animations from ${animationGroups.size} animation groups")

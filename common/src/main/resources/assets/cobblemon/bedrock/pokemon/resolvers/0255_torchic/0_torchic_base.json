@@ -5,7 +5,7 @@
     {
       "aspects": [],
       "poser": "cobblemon:torchic",
-      "model": "cobblemon:torchic.geo",
+      "model": "cobblemon:torchic_male.geo",
       "texture": "cobblemon:textures/pokemon/0255_torchic/torchic.png",
       "layers": []
     },

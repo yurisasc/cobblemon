@@ -6,6 +6,19 @@
   "abilities": [
     "ironbarbs"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 44,
     "attack": 50,
@@ -38,12 +51,17 @@
     "35:irondefense",
     "41:curse",
     "45:gyroball",
+    "47:payback",
     "50:explosion",
     "egg:acidspray",
+    "egg:bulletseed",
     "egg:gravity",
     "egg:knockoff",
     "egg:leechseed",
     "egg:rockclimb",
+    "egg:seedbomb",
+    "egg:spikes",
+    "egg:stealthrock",
     "egg:toxic",
     "egg:worryseed",
     "tm:assurance",
@@ -53,6 +71,7 @@
     "tm:doubleteam",
     "tm:endure",
     "tm:energyball",
+    "tm:explosion",
     "tm:facade",
     "tm:flash",
     "tm:flashcannon",
@@ -87,8 +106,18 @@
     "tm:swagger",
     "tm:thunderbolt",
     "tm:thunderwave",
+    "tm:toxic",
     "tutor:endeavor",
+    "tutor:gigadrain",
+    "tutor:gravity",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:knockoff",
     "tutor:magnetrise",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
     "tutor:steelbeam",
     "tutor:steelroller",
     "tutor:worryseed"

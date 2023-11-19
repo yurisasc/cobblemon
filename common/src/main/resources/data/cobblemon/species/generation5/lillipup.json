@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Lillipup",
   "nationalPokedexNumber": 506,
   "primaryType": "normal",
@@ -7,6 +8,22 @@
     "pickup",
     "h:runaway"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:blue_wool"
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 60,
@@ -41,12 +58,18 @@
     "44:lastresort",
     "48:gigaimpact",
     "egg:afteryou",
+    "egg:charm",
     "egg:covet",
+    "egg:endure",
+    "egg:firefang",
     "egg:howl",
+    "egg:icefang",
     "egg:lick",
     "egg:mudslap",
+    "egg:psychicfangs",
     "egg:pursuit",
     "egg:sandattack",
+    "egg:thunderfang",
     "egg:yawn",
     "tm:aerialace",
     "tm:attract",
@@ -73,6 +96,7 @@
     "tm:retaliate",
     "tm:return",
     "tm:reversal",
+    "tm:roar",
     "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
@@ -91,7 +115,15 @@
     "tm:uproar",
     "tm:wildcharge",
     "tm:workup",
-    "tutor:shockwave"
+    "tutor:afteryou",
+    "tutor:covet",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:lastresort",
+    "tutor:shockwave",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:uproar"
   ],
   "labels": [
     "gen5"
@@ -114,10 +146,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -10,9 +10,9 @@ package com.cobblemon.mod.common.api.apricorn
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.item.ApricornItem
 import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
+import com.cobblemon.mod.common.item.ApricornItem
 import net.minecraft.block.MapColor
 import net.minecraft.item.BlockItem
 
@@ -33,43 +33,43 @@ enum class Apricorn {
     YELLOW;
 
     fun item(): ApricornItem = when(this) {
-        BLACK -> CobblemonItems.BLACK_APRICORN.get()
-        BLUE -> CobblemonItems.BLUE_APRICORN.get()
-        GREEN -> CobblemonItems.GREEN_APRICORN.get()
-        PINK -> CobblemonItems.PINK_APRICORN.get()
-        RED -> CobblemonItems.RED_APRICORN.get()
-        WHITE -> CobblemonItems.WHITE_APRICORN.get()
-        YELLOW -> CobblemonItems.YELLOW_APRICORN.get()
+        BLACK -> CobblemonItems.BLACK_APRICORN
+        BLUE -> CobblemonItems.BLUE_APRICORN
+        GREEN -> CobblemonItems.GREEN_APRICORN
+        PINK -> CobblemonItems.PINK_APRICORN
+        RED -> CobblemonItems.RED_APRICORN
+        WHITE -> CobblemonItems.WHITE_APRICORN
+        YELLOW -> CobblemonItems.YELLOW_APRICORN
     }
 
     fun seed(): BlockItem = when(this) {
-        BLACK -> CobblemonItems.BLACK_APRICORN_SEED.get()
-        BLUE -> CobblemonItems.BLUE_APRICORN_SEED.get()
-        GREEN -> CobblemonItems.GREEN_APRICORN_SEED.get()
-        PINK -> CobblemonItems.PINK_APRICORN_SEED.get()
-        RED -> CobblemonItems.RED_APRICORN_SEED.get()
-        WHITE -> CobblemonItems.WHITE_APRICORN_SEED.get()
-        YELLOW -> CobblemonItems.YELLOW_APRICORN_SEED.get()
+        BLACK -> CobblemonItems.BLACK_APRICORN_SEED
+        BLUE -> CobblemonItems.BLUE_APRICORN_SEED
+        GREEN -> CobblemonItems.GREEN_APRICORN_SEED
+        PINK -> CobblemonItems.PINK_APRICORN_SEED
+        RED -> CobblemonItems.RED_APRICORN_SEED
+        WHITE -> CobblemonItems.WHITE_APRICORN_SEED
+        YELLOW -> CobblemonItems.YELLOW_APRICORN_SEED
     }
 
     fun block(): ApricornBlock = when(this) {
-        BLACK -> CobblemonBlocks.BLACK_APRICORN.get()
-        BLUE -> CobblemonBlocks.BLUE_APRICORN.get()
-        GREEN -> CobblemonBlocks.GREEN_APRICORN.get()
-        PINK -> CobblemonBlocks.PINK_APRICORN.get()
-        RED -> CobblemonBlocks.RED_APRICORN.get()
-        WHITE -> CobblemonBlocks.WHITE_APRICORN.get()
-        YELLOW -> CobblemonBlocks.YELLOW_APRICORN.get()
+        BLACK -> CobblemonBlocks.BLACK_APRICORN
+        BLUE -> CobblemonBlocks.BLUE_APRICORN
+        GREEN -> CobblemonBlocks.GREEN_APRICORN
+        PINK -> CobblemonBlocks.PINK_APRICORN
+        RED -> CobblemonBlocks.RED_APRICORN
+        WHITE -> CobblemonBlocks.WHITE_APRICORN
+        YELLOW -> CobblemonBlocks.YELLOW_APRICORN
     }
 
     fun sapling(): ApricornSaplingBlock = when(this) {
-        BLACK -> CobblemonBlocks.BLACK_APRICORN_SAPLING.get()
-        BLUE -> CobblemonBlocks.BLUE_APRICORN_SAPLING.get()
-        GREEN -> CobblemonBlocks.GREEN_APRICORN_SAPLING.get()
-        PINK -> CobblemonBlocks.PINK_APRICORN_SAPLING.get()
-        RED -> CobblemonBlocks.RED_APRICORN_SAPLING.get()
-        WHITE -> CobblemonBlocks.WHITE_APRICORN_SAPLING.get()
-        YELLOW -> CobblemonBlocks.YELLOW_APRICORN_SAPLING.get()
+        BLACK -> CobblemonBlocks.BLACK_APRICORN_SAPLING
+        BLUE -> CobblemonBlocks.BLUE_APRICORN_SAPLING
+        GREEN -> CobblemonBlocks.GREEN_APRICORN_SAPLING
+        PINK -> CobblemonBlocks.PINK_APRICORN_SAPLING
+        RED -> CobblemonBlocks.RED_APRICORN_SAPLING
+        WHITE -> CobblemonBlocks.WHITE_APRICORN_SAPLING
+        YELLOW -> CobblemonBlocks.YELLOW_APRICORN_SAPLING
     }
 
     fun mapColor(): MapColor = when(this) {

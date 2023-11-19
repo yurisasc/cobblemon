@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Vespiquen",
   "nationalPokedexNumber": 416,
   "primaryType": "bug",
@@ -7,6 +8,27 @@
     "pressure",
     "h:unnerve"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:honey_bottle",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "minecraft:honeycomb",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 80,
@@ -24,29 +46,68 @@
   "eggGroups": [
     "bug"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "fly": {
+        "canFly": true,
+        "flySpeedHorizontal": 0.6
+      }
+    }
+  },
   "moves": [
     "1:bugbite",
     "1:confuseray",
+    "1:destinybond",
+    "1:fellstinger",
     "1:gust",
     "1:poisonsting",
+    "1:slash",
     "1:strugglebug",
     "1:sweetscent",
+    "3:poisonsting",
     "4:furycutter",
+    "5:furycutter",
+    "7:confuseray",
     "8:aromaticmist",
+    "9:furycutter",
     "9:pursuit",
     "12:fellstinger",
+    "13:defendorder",
+    "13:furyswipes",
+    "15:pursuit",
     "16:furyswipes",
+    "17:defendorder",
+    "19:furyswipes",
     "20:swagger",
+    "21:powergem",
+    "21:slash",
     "24:aromatherapy",
     "24:roost",
+    "25:healorder",
+    "25:powergem",
+    "27:toxic",
     "28:airslash",
     "29:healorder",
+    "31:slash",
     "32:powergem",
+    "33:captivate",
+    "33:toxic",
     "36:toxic",
+    "37:airslash",
+    "37:attackorder",
+    "39:swagger",
     "40:attackorder",
     "40:defendorder",
     "41:captivate",
+    "43:destinybond",
     "44:destinybond",
+    "45:attackorder",
+    "49:swagger",
     "tm:acrobatics",
     "tm:aerialace",
     "tm:agility",
@@ -55,10 +116,12 @@
     "tm:attract",
     "tm:beatup",
     "tm:bugbuzz",
+    "tm:captivate",
     "tm:confide",
     "tm:confuseray",
     "tm:crosspoison",
     "tm:cut",
+    "tm:defog",
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",
@@ -85,6 +148,7 @@
     "tm:return",
     "tm:revenge",
     "tm:reversal",
+    "tm:roost",
     "tm:round",
     "tm:scaryface",
     "tm:screech",
@@ -97,25 +161,33 @@
     "tm:strugglebug",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:swift",
     "tm:takedown",
     "tm:taunt",
     "tm:terablast",
     "tm:thief",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:uproar",
     "tm:uturn",
     "tm:venoshock",
     "tm:xscissor",
     "tutor:aircutter",
+    "tutor:bugbite",
     "tutor:defog",
     "tutor:dualwingbeat",
     "tutor:endeavor",
+    "tutor:furycutter",
     "tutor:laserfocus",
     "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:roost",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:stringshot",
+    "tutor:swift",
     "tutor:tailwind"
   ],
   "labels": [
@@ -126,10 +198,10 @@
   ],
   "preEvolution": "combee",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.7,
     "fixed": false
   },
   "baseFriendship": 50,

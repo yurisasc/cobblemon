@@ -35,7 +35,7 @@
       },
       "catchRate": 45,
       "maleRatio": -1,
-      "baseExperienceYield": 182,
+      "baseExperienceYield": 154,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -51,7 +51,8 @@
         "amorphous"
       ],
       "moves": [
-        "1:overheat"
+        "1:overheat",
+        "form_change:overheat"
       ],
       "labels": [
         "gen4"
@@ -82,7 +83,7 @@
       },
       "catchRate": 45,
       "maleRatio": -1,
-      "baseExperienceYield": 182,
+      "baseExperienceYield": 154,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -98,7 +99,8 @@
         "amorphous"
       ],
       "moves": [
-        "1:hydropump"
+        "1:hydropump",
+        "form_change:hydropump"
       ],
       "labels": [
         "gen4"
@@ -129,7 +131,7 @@
       },
       "catchRate": 45,
       "maleRatio": -1,
-      "baseExperienceYield": 182,
+      "baseExperienceYield": 154,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -145,7 +147,8 @@
         "amorphous"
       ],
       "moves": [
-        "1:blizzard"
+        "1:blizzard",
+        "form_change:blizzard"
       ],
       "labels": [
         "gen4"
@@ -176,7 +179,7 @@
       },
       "catchRate": 45,
       "maleRatio": -1,
-      "baseExperienceYield": 182,
+      "baseExperienceYield": 154,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -192,7 +195,8 @@
         "amorphous"
       ],
       "moves": [
-        "1:airslash"
+        "1:airslash",
+        "form_change:airslash"
       ],
       "labels": [
         "gen4"
@@ -223,7 +227,7 @@
       },
       "catchRate": 45,
       "maleRatio": -1,
-      "baseExperienceYield": 182,
+      "baseExperienceYield": 154,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -239,7 +243,8 @@
         "amorphous"
       ],
       "moves": [
-        "1:leafstorm"
+        "1:leafstorm",
+        "form_change:leafstorm"
       ],
       "labels": [
         "gen4"
@@ -262,24 +267,40 @@
   ],
   "moves": [
     "1:astonish",
+    "1:charge",
+    "1:confuseray",
+    "1:discharge",
     "1:doubleteam",
+    "1:thundershock",
+    "1:thunderwave",
+    "1:trick",
     "5:thundershock",
+    "8:uproar",
     "10:confuseray",
     "15:charge",
+    "15:doubleteam",
     "20:electroball",
+    "22:shockwave",
     "25:thunderwave",
     "29:ominouswind",
     "30:shockwave",
     "35:hex",
+    "36:substitute",
     "40:substitute",
+    "43:charge",
+    "43:electroball",
     "45:trick",
     "50:discharge",
+    "50:hex",
     "55:uproar",
+    "57:charge",
+    "64:discharge",
     "tm:allyswitch",
     "tm:chargebeam",
     "tm:confide",
     "tm:confuseray",
     "tm:darkpulse",
+    "tm:doubleteam",
     "tm:dreameater",
     "tm:eerieimpulse",
     "tm:electricterrain",
@@ -307,13 +328,16 @@
     "tm:round",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
+    "tm:snatch",
     "tm:snore",
     "tm:storedpower",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:swift",
+    "tm:telekinesis",
     "tm:terablast",
     "tm:thief",
     "tm:thunder",
@@ -321,20 +345,35 @@
     "tm:thunderwave",
     "tm:toxic",
     "tm:trick",
+    "tm:uproar",
     "tm:voltswitch",
     "tm:willowisp",
+    "tutor:allyswitch",
+    "tutor:astonish",
     "tutor:confide",
+    "tutor:darkpulse",
     "tutor:defog",
     "tutor:disarmingvoice",
+    "tutor:electroweb",
+    "tutor:foulplay",
     "tutor:mudslap",
+    "tutor:ominouswind",
     "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:risingvoltage",
+    "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
     "tutor:spite",
     "tutor:suckerpunch",
-    "tutor:telekinesis"
+    "tutor:swift",
+    "tutor:telekinesis",
+    "tutor:thundershock",
+    "tutor:thunderwave",
+    "tutor:trick",
+    "tutor:uproar"
   ],
   "labels": [
     "gen4"

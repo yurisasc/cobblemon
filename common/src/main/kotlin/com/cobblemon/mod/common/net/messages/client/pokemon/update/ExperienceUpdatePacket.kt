@@ -10,12 +10,17 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.Pokemon
-class ExperienceUpdatePacket() : IntUpdatePacket() {
-    constructor(pokemon: Pokemon, value: Int): this() {
-        this.setTarget(pokemon)
-        this.value = value
-    }
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readSizedInt
+import net.minecraft.network.PacketByteBuf
 
+class ExperienceUpdatePacket(pokemon: () -> Pokemon, value: Int) : IntUpdatePacket<ExperienceUpdatePacket>(pokemon, value) {
+    override val id = ID
     override fun getSize() = IntSize.INT
     override fun set(pokemon: Pokemon, value: Int) = pokemon.setExperienceAndUpdateLevel(value)
+
+    companion object {
+        val ID = cobblemonResource("experience_update")
+        fun decode(buffer: PacketByteBuf) = ExperienceUpdatePacket(decodePokemon(buffer), buffer.readSizedInt(IntSize.INT))
+    }
 }

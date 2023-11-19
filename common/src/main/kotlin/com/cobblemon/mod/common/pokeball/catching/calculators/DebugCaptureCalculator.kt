@@ -10,14 +10,14 @@ package com.cobblemon.mod.common.pokeball.catching.calculators
 
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
-import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.entity.LivingEntity
 
 object DebugCaptureCalculator : CaptureCalculator {
 
     override fun id(): String = "debug"
 
-    override fun processCapture(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon): CaptureContext = CaptureContext(numberOfShakes = 1, isSuccessfulCapture = true, isCriticalCapture = true)
+    override fun processCapture(thrower: LivingEntity, pokeBallEntity: EmptyPokeBallEntity, target: PokemonEntity): CaptureContext = CaptureContext(numberOfShakes = 1, isSuccessfulCapture = true, isCriticalCapture = true)
 
 }

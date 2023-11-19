@@ -40,41 +40,68 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 5,
     "entries": [
       {
         "item": "minecraft:feather",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
         "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 5.0
       }
     ]
   },
   "moves": [
+    "1:gust",
+    "1:sandattack",
+    "1:tackle",
+    "13:quickattack",
+    "17:whirlwind",
     "22:twister",
     "27:featherdance",
+    "32:agility",
+    "37:wingattack",
+    "42:roost",
     "47:tailwind",
+    "52:mirrormove",
+    "57:airslash",
     "62:hurricane",
     "tm:aerialace",
     "tm:attract",
     "tm:captivate",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
+    "tm:endure",
+    "tm:facade",
+    "tm:fly",
     "tm:frustration",
     "tm:hiddenpower",
     "tm:naturalgift",
     "tm:pluck",
+    "tm:protect",
     "tm:raindance",
+    "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:steelwing",
+    "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:thief",
+    "tm:toxic",
+    "tm:uturn",
     "tm:workup",
     "tutor:agility",
     "tutor:aircutter",
@@ -88,6 +115,7 @@
     "tutor:doubleteam",
     "tutor:endure",
     "tutor:facade",
+    "tutor:featherdance",
     "tutor:fly",
     "tutor:frustration",
     "tutor:gust",
@@ -109,9 +137,7 @@
     "tutor:roost",
     "tutor:sandattack",
     "tutor:skyattack",
-    "tutor:skyattack",
     "tutor:sleeptalk",
-    "tutor:snore",
     "tutor:snore",
     "tutor:steelwing",
     "tutor:substitute",
@@ -123,6 +149,7 @@
     "tutor:takedown",
     "tutor:thief",
     "tutor:toxic",
+    "tutor:twister",
     "tutor:uproar",
     "tutor:uturn",
     "tutor:whirlwind",

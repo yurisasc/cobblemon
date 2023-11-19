@@ -10,8 +10,9 @@ package com.cobblemon.mod.common.net.messages.client.ui
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
-import net.minecraft.network.PacketByteBuf
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
+import net.minecraft.network.PacketByteBuf
 
 /**
  * Tells the client to open the Pokémon interaction interface.
@@ -21,22 +22,17 @@ import java.util.UUID
  * @author Village
  * @since January 7th, 2023
  */
-class InteractPokemonUIPacket internal constructor(): NetworkPacket {
-    constructor(pokemonID: UUID, canMountShoulder: Boolean) : this() {
-        this.pokemonID = pokemonID
-        this.canMountShoulder = canMountShoulder
-    }
+class InteractPokemonUIPacket(val pokemonID: UUID, val canMountShoulder: Boolean): NetworkPacket<InteractPokemonUIPacket> {
 
-    lateinit var pokemonID: UUID
-    var canMountShoulder: Boolean = false
+    override val id = ID
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writeBoolean(canMountShoulder)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        pokemonID = buffer.readUuid()
-        canMountShoulder = buffer.readBoolean()
+    companion object {
+        val ID = cobblemonResource("interact_pokemon_ui")
+        fun decode(buffer: PacketByteBuf) = InteractPokemonUIPacket(buffer.readUuid(), buffer.readBoolean())
     }
 }

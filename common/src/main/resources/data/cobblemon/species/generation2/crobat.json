@@ -8,6 +8,19 @@
     "innerfocus",
     "h:infiltrator"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 90,
@@ -27,17 +40,24 @@
   ],
   "behaviour": {
     "moving": {
-      "swim": {
-        "canWalkOnWater": true
+      "walk": {
+        "canWalk": false
       },
       "fly": {
         "canFly": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [
     "1:absorb",
     "1:astonish",
+    "1:crosspoison",
     "1:meanlook",
     "1:screech",
     "1:supersonic",
@@ -46,7 +66,9 @@
     "13:wingattack",
     "15:poisonfang",
     "20:quickguard",
+    "24:swift",
     "27:aircutter",
+    "33:acrobatics",
     "34:bite",
     "41:haze",
     "48:venoshock",
@@ -65,6 +87,7 @@
     "tm:crosspoison",
     "tm:crunch",
     "tm:darkpulse",
+    "tm:defog",
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",
@@ -93,6 +116,7 @@
     "tm:shadowball",
     "tm:sleeptalk",
     "tm:sludgebomb",
+    "tm:snatch",
     "tm:snore",
     "tm:steelwing",
     "tm:substitute",
@@ -102,29 +126,61 @@
     "tm:taunt",
     "tm:thief",
     "tm:torment",
+    "tm:toxic",
     "tm:uproar",
     "tm:uturn",
     "tm:venomdrench",
     "tm:venoshock",
     "tm:xscissor",
     "tm:zenheadbutt",
+    "tutor:aircutter",
+    "tutor:airslash",
+    "tutor:attract",
+    "tutor:bite",
+    "tutor:confuseray",
     "tutor:curse",
+    "tutor:darkpulse",
     "tutor:defog",
     "tutor:detect",
     "tutor:doubleedge",
     "tutor:doubleteam",
     "tutor:dualwingbeat",
+    "tutor:endure",
+    "tutor:fly",
     "tutor:frustration",
+    "tutor:gigadrain",
+    "tutor:haze",
+    "tutor:heatwave",
     "tutor:hiddenpower",
+    "tutor:hyperbeam",
+    "tutor:leechlife",
+    "tutor:meanlook",
     "tutor:mimic",
     "tutor:ominouswind",
+    "tutor:protect",
+    "tutor:rest",
     "tutor:return",
+    "tutor:roost",
+    "tutor:screech",
     "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:sludgebomb",
     "tutor:snatch",
+    "tutor:snore",
+    "tutor:steelwing",
+    "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:superfang",
+    "tutor:supersonic",
     "tutor:swagger",
+    "tutor:swift",
+    "tutor:tailwind",
+    "tutor:thief",
+    "tutor:toxic",
     "tutor:twister",
-    "tutor:wingattack"
+    "tutor:uproar",
+    "tutor:wingattack",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen2"
@@ -134,10 +190,10 @@
   ],
   "preEvolution": "golbat",
   "evolutions": [],
-  "baseScale": 1.5,
+  "baseScale": 1.0,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 50,

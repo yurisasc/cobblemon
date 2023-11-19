@@ -7,6 +7,22 @@
     "stormdrain",
     "h:waterveil"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:cod"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 49,
     "attack": 49,
@@ -27,6 +43,7 @@
   "moves": [
     "1:pound",
     "6:watergun",
+    "10:attract",
     "13:raindance",
     "17:gust",
     "22:waterpulse",
@@ -54,12 +71,16 @@
     "egg:tickle",
     "tm:acrobatics",
     "tm:agility",
+    "tm:attract",
     "tm:blizzard",
+    "tm:brine",
+    "tm:captivate",
     "tm:charm",
     "tm:chillingwater",
     "tm:confide",
     "tm:confuseray",
     "tm:dazzlinggleam",
+    "tm:defog",
     "tm:dive",
     "tm:doubleteam",
     "tm:endure",
@@ -82,8 +103,10 @@
     "tm:rest",
     "tm:return",
     "tm:round",
+    "tm:safeguard",
     "tm:scald",
     "tm:secretpower",
+    "tm:silverwind",
     "tm:sleeptalk",
     "tm:substitute",
     "tm:surf",
@@ -97,12 +120,23 @@
     "tm:uturn",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:whirlpool",
     "tutor:aircutter",
+    "tutor:aquatail",
+    "tutor:attract",
+    "tutor:bounce",
     "tutor:defog",
+    "tutor:dive",
+    "tutor:icywind",
     "tutor:ominouswind",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
     "tutor:snore",
-    "tutor:twister"
+    "tutor:sweetkiss",
+    "tutor:swift",
+    "tutor:tailwind",
+    "tutor:twister",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen4"

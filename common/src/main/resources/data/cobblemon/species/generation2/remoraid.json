@@ -24,8 +24,7 @@
         "swimSpeed": 0.15,
         "canSwimInWater": true,
         "canBreatheUnderwater": true
-      },
-      "wanderChance": 1
+      }
     }
   },
   "catchRate": 190,
@@ -54,11 +53,19 @@
     "40:soak",
     "44:hyperbeam",
     "egg:acidspray",
+    "egg:aurorabeam",
     "egg:entrainment",
     "egg:flail",
     "egg:haze",
+    "egg:mudshot",
     "egg:octazooka",
+    "egg:rockblast",
+    "egg:screech",
+    "egg:snore",
     "egg:supersonic",
+    "egg:swift",
+    "egg:thunderwave",
+    "egg:waterpulse",
     "egg:waterspout",
     "tm:assurance",
     "tm:attract",
@@ -110,20 +117,54 @@
     "tm:thunderwave",
     "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:whirlpool",
+    "tutor:attract",
+    "tutor:aurorabeam",
+    "tutor:bounce",
+    "tutor:brine",
+    "tutor:bubblebeam",
     "tutor:curse",
     "tutor:defensecurl",
+    "tutor:dive",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:endure",
+    "tutor:focusenergy",
     "tutor:frustration",
+    "tutor:gunkshot",
+    "tutor:haze",
     "tutor:hiddenpower",
+    "tutor:hyperbeam",
+    "tutor:icebeam",
+    "tutor:icywind",
+    "tutor:lockon",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:octazooka",
+    "tutor:protect",
+    "tutor:psybeam",
+    "tutor:raindance",
+    "tutor:rest",
     "tutor:return",
+    "tutor:rockblast",
+    "tutor:screech",
+    "tutor:seedbomb",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:stringshot",
+    "tutor:substitute",
+    "tutor:supersonic",
+    "tutor:surf",
     "tutor:swagger",
-    "tutor:toxic"
+    "tutor:swift",
+    "tutor:thief",
+    "tutor:thunderwave",
+    "tutor:toxic",
+    "tutor:watergun",
+    "tutor:waterpulse",
+    "tutor:whirlpool"
   ],
   "labels": [
     "gen2"
@@ -166,5 +207,21 @@
   "height": 6,
   "weight": 120,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:cod"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

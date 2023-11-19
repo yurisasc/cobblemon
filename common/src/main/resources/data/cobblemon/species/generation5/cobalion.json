@@ -6,6 +6,14 @@
   "abilities": [
     "justified"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:metal_coat"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 91,
     "attack": 90,
@@ -97,14 +105,26 @@
     "tm:xscissor",
     "tm:zenheadbutt",
     "tutor:block",
+    "tutor:bounce",
     "tutor:closecombat",
     "tutor:coaching",
+    "tutor:helpinghand",
+    "tutor:irondefense",
     "tutor:ironhead",
     "tutor:laserfocus",
     "tutor:magnetrise",
+    "tutor:quickattack",
+    "tutor:quickguard",
+    "tutor:retaliate",
     "tutor:sacredsword",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
     "tutor:steelbeam",
-    "tutor:swordsdance"
+    "tutor:superpower",
+    "tutor:swordsdance",
+    "tutor:workup",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5",

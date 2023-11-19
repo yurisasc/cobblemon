@@ -18,6 +18,14 @@
     "speed": 91
   },
   "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      },
+      "walk": {
+        "walkSpeed": 0.28
+      }
+    },
     "resting": {
       "canSleep": true,
       "times": "day"
@@ -32,6 +40,22 @@
   "eggGroups": [
     "flying"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:bluk_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:astonish",
     "1:peck",
@@ -46,8 +70,10 @@
     "35:meanlook",
     "40:foulplay",
     "50:suckerpunch",
+    "50:tailwind",
     "55:torment",
     "60:quash",
+    "egg:assurance",
     "egg:bravebird",
     "egg:confuseray",
     "egg:drillpeck",
@@ -61,6 +87,7 @@
     "egg:screech",
     "egg:skyattack",
     "egg:whirlwind",
+    "egg:wingattack",
     "tm:acrobatics",
     "tm:aerialace",
     "tm:aircutter",
@@ -72,6 +99,7 @@
     "tm:confide",
     "tm:confuseray",
     "tm:darkpulse",
+    "tm:defog",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:embargo",
@@ -96,6 +124,7 @@
     "tm:protect",
     "tm:psychic",
     "tm:psychup",
+    "tm:quash",
     "tm:raindance",
     "tm:rest",
     "tm:retaliate",
@@ -107,6 +136,7 @@
     "tm:shadowball",
     "tm:sleeptalk",
     "tm:snarl",
+    "tm:snatch",
     "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
@@ -117,36 +147,65 @@
     "tm:terablast",
     "tm:thief",
     "tm:thunderwave",
+    "tm:torment",
     "tm:toxic",
     "tm:uturn",
+    "tutor:aircutter",
+    "tutor:astonish",
     "tutor:attract",
+    "tutor:confuseray",
     "tutor:curse",
+    "tutor:darkpulse",
     "tutor:defog",
     "tutor:detect",
     "tutor:doubleedge",
     "tutor:doubleteam",
     "tutor:dreameater",
+    "tutor:drillpeck",
+    "tutor:endure",
     "tutor:feintattack",
+    "tutor:fly",
+    "tutor:foulplay",
     "tutor:frustration",
+    "tutor:haze",
+    "tutor:heatwave",
     "tutor:hiddenpower",
+    "tutor:icywind",
+    "tutor:meanlook",
     "tutor:mimic",
     "tutor:mirrormove",
+    "tutor:mudslap",
     "tutor:nightmare",
+    "tutor:nightshade",
     "tutor:ominouswind",
+    "tutor:peck",
+    "tutor:protect",
     "tutor:psychup",
     "tutor:pursuit",
     "tutor:quickattack",
+    "tutor:rest",
     "tutor:return",
+    "tutor:roost",
+    "tutor:shadowball",
+    "tutor:skyattack",
+    "tutor:sleeptalk",
     "tutor:snatch",
-    "tutor:snore",
     "tutor:snore",
     "tutor:spite",
     "tutor:steelwing",
+    "tutor:substitute",
+    "tutor:suckerpunch",
+    "tutor:sunnyday",
     "tutor:swagger",
     "tutor:swift",
+    "tutor:tailwind",
+    "tutor:thief",
+    "tutor:thunderwave",
     "tutor:toxic",
     "tutor:twister",
-    "tutor:uproar"
+    "tutor:uproar",
+    "tutor:whirlwind",
+    "tutor:wingattack"
   ],
   "labels": [
     "gen2"
@@ -165,7 +224,7 @@
       "requiredContext": "cobblemon:dusk_stone"
     }
   ],
-  "baseScale": 0.9,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 0.65,
     "height": 1,

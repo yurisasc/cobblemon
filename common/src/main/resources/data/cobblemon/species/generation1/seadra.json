@@ -35,20 +35,20 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
-        "item": "minecraft:prismarine_crystals",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "item": "minecraft:prismarine_shard",
+        "quantityRange": "0-2"
       },
       {
         "item": "cobblemon:dragon_scale",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
   "moves": [
+    "1:bubble",
     "1:leer",
     "1:smokescreen",
     "1:twister",
@@ -57,6 +57,7 @@
     "20:dragonbreath",
     "25:bubblebeam",
     "30:agility",
+    "31:brine",
     "37:laserfocus",
     "44:dragonpulse",
     "51:hydropump",
@@ -102,19 +103,26 @@
     "tm:surf",
     "tm:swagger",
     "tm:swift",
+    "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tutor:agility",
+    "tutor:attract",
     "tutor:bide",
     "tutor:blizzard",
+    "tutor:bounce",
     "tutor:bubble",
     "tutor:bubblebeam",
     "tutor:clearsmog",
     "tutor:curse",
     "tutor:disable",
+    "tutor:dive",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:dragonbreath",
     "tutor:dragonpulse",
+    "tutor:endure",
     "tutor:facade",
     "tutor:flashcannon",
     "tutor:flipturn",
@@ -125,26 +133,34 @@
     "tutor:hydropump",
     "tutor:hyperbeam",
     "tutor:icebeam",
+    "tutor:icywind",
+    "tutor:laserfocus",
     "tutor:leer",
     "tutor:mimic",
     "tutor:outrage",
     "tutor:protect",
     "tutor:rage",
+    "tutor:raindance",
     "tutor:rest",
     "tutor:return",
     "tutor:scald",
     "tutor:scaleshot",
     "tutor:signalbeam",
     "tutor:skullbash",
+    "tutor:sleeptalk",
     "tutor:smokescreen",
+    "tutor:snore",
     "tutor:substitute",
     "tutor:surf",
     "tutor:swagger",
+    "tutor:swift",
     "tutor:takedown",
     "tutor:toxic",
+    "tutor:twister",
     "tutor:waterfall",
     "tutor:watergun",
-    "tutor:waterpulse"
+    "tutor:waterpulse",
+    "tutor:whirlpool"
   ],
   "labels": [
     "gen1"

@@ -7,6 +7,19 @@
     "innerfocus",
     "h:moldbreaker"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_belt",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 120,
     "attack": 100,
@@ -33,6 +46,7 @@
     "10:circlethrow",
     "15:wideguard",
     "20:revenge",
+    "21:bodyslam",
     "25:bulkup",
     "30:stormthrow",
     "35:vitalthrow",
@@ -95,12 +109,23 @@
     "tm:toxic",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:bind",
     "tutor:block",
     "tutor:coaching",
+    "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:helpinghand",
+    "tutor:icepunch",
     "tutor:knockoff",
     "tutor:laserfocus",
-    "tutor:painsplit"
+    "tutor:lowkick",
+    "tutor:painsplit",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:thunderpunch",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

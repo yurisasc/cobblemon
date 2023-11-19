@@ -6,6 +6,9 @@
         {
             "id": "empoleon-1",
             "pokemon": "empoleon",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
@@ -14,7 +17,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_frozen"
+                    "#cobblemon:is_frozen_ocean"
                 ]
             }
         },
@@ -32,7 +35,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_frozen"
+                    "#cobblemon:is_frozen_ocean"
                 ]
             }
         }

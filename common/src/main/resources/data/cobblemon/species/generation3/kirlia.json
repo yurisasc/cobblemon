@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Kirlia",
   "nationalPokedexNumber": 281,
   "primaryType": "psychic",
@@ -8,6 +9,27 @@
     "trace",
     "h:telepathy"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 38,
     "attack": 35,
@@ -35,13 +57,16 @@
     "12:drainingkiss",
     "14:luckychant",
     "15:teleport",
+    "17:magicalleaf",
     "18:psybeam",
     "23:lifedew",
     "28:charm",
     "33:calmmind",
+    "33:imprison",
     "38:psychic",
     "43:healpulse",
     "48:dreameater",
+    "51:storedpower",
     "53:futuresight",
     "tm:allyswitch",
     "tm:attract",
@@ -54,7 +79,9 @@
     "tm:confuseray",
     "tm:dazzlinggleam",
     "tm:disarmingvoice",
+    "tm:doubleteam",
     "tm:drainingkiss",
+    "tm:dreameater",
     "tm:echoedvoice",
     "tm:encore",
     "tm:endure",
@@ -63,6 +90,7 @@
     "tm:flash",
     "tm:fling",
     "tm:frustration",
+    "tm:futuresight",
     "tm:grassknot",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -86,6 +114,7 @@
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
+    "tm:recycle",
     "tm:reflect",
     "tm:rest",
     "tm:return",
@@ -93,8 +122,10 @@
     "tm:safeguard",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:skillswap",
     "tm:sleeptalk",
+    "tm:snatch",
     "tm:snore",
     "tm:storedpower",
     "tm:substitute",
@@ -102,6 +133,7 @@
     "tm:swagger",
     "tm:swift",
     "tm:taunt",
+    "tm:telekinesis",
     "tm:terablast",
     "tm:thief",
     "tm:thunderbolt",
@@ -114,21 +146,43 @@
     "tm:willowisp",
     "tm:wonderroom",
     "tm:zenheadbutt",
+    "tutor:allyswitch",
+    "tutor:bodyslam",
     "tutor:defensecurl",
     "tutor:doubleedge",
+    "tutor:dreameater",
+    "tutor:endure",
     "tutor:expandingforce",
+    "tutor:firepunch",
     "tutor:headbutt",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icepunch",
+    "tutor:icywind",
     "tutor:magiccoat",
+    "tutor:magicroom",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:nightmare",
     "tutor:painsplit",
+    "tutor:psychup",
     "tutor:recycle",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
     "tutor:telekinesis",
-    "tutor:tripleaxel"
+    "tutor:thunderpunch",
+    "tutor:thunderwave",
+    "tutor:trick",
+    "tutor:tripleaxel",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen3"
@@ -159,14 +213,19 @@
       "result": "gallade",
       "consumeHeldItem": false,
       "learnableMoves": [],
-      "requirements": [],
+      "requirements": [
+        {
+          "variant": "properties",
+          "target": "gender=male"
+        }
+      ],
       "requiredContext": "cobblemon:dawn_stone"
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 35,

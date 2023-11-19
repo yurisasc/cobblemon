@@ -6,6 +6,14 @@
   "abilities": [
     "justified"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 91,
     "attack": 90,
@@ -99,15 +107,26 @@
     "tm:xscissor",
     "tm:zenheadbutt",
     "tutor:block",
+    "tutor:bounce",
     "tutor:closecombat",
     "tutor:coaching",
+    "tutor:gigadrain",
     "tutor:grassyglide",
+    "tutor:helpinghand",
     "tutor:laserfocus",
     "tutor:leafblade",
+    "tutor:quickguard",
+    "tutor:retaliate",
     "tutor:sacredsword",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:superpower",
     "tutor:swordsdance",
     "tutor:synthesis",
-    "tutor:worryseed"
+    "tutor:workup",
+    "tutor:worryseed",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5",

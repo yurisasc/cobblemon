@@ -35,7 +35,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 225,
+      "baseExperienceYield": 250,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -132,6 +132,7 @@
     "bug"
   ],
   "moves": [
+    "1:airslash",
     "1:bugbite",
     "1:charge",
     "1:crunch",
@@ -140,9 +141,11 @@
     "1:irondefense",
     "1:mudslap",
     "1:stringshot",
+    "1:thunderbolt",
     "1:visegrip",
     "1:xscissor",
     "15:bite",
+    "19:acrobatics",
     "23:spark",
     "29:stickyweb",
     "36:bugbuzz",
@@ -196,13 +199,17 @@
     "tm:voltswitch",
     "tm:wildcharge",
     "tm:xscissor",
+    "tutor:bugbite",
     "tutor:dualwingbeat",
+    "tutor:electroweb",
+    "tutor:irondefense",
     "tutor:laserfocus",
     "tutor:magnetrise",
     "tutor:risingvoltage",
     "tutor:shockwave",
     "tutor:signalbeam",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:snore"
   ],
   "labels": [
     "gen7"
@@ -230,5 +237,14 @@
   "height": 15,
   "weight": 450,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

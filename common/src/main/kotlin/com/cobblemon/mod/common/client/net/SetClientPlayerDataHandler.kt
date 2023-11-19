@@ -8,18 +8,25 @@
 
 package com.cobblemon.mod.common.client.net
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
+import net.minecraft.client.MinecraftClient
 
-object SetClientPlayerDataHandler : ClientPacketHandler<SetClientPlayerDataPacket> {
-    override fun invokeOnClient(packet: SetClientPlayerDataPacket, ctx: CobblemonNetwork.NetworkContext) {
+object SetClientPlayerDataHandler : ClientNetworkPacketHandler<SetClientPlayerDataPacket> {
+    override fun handle(packet: SetClientPlayerDataPacket, client: MinecraftClient) {
         CobblemonClient.clientPlayerData = ClientPlayerData(
             promptStarter = packet.promptStarter,
             starterLocked = packet.starterLocked,
             starterSelected = packet.starterSelected,
             starterUUID = packet.starterUUID
         )
+        packet.resetStarterPrompt.let {
+            if (it == true) {
+                CobblemonClient.checkedStarterScreen = false
+                CobblemonClient.overlay.resetAttachedToast()
+            }
+        }
     }
 }

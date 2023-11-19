@@ -10,14 +10,18 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.Pokemon
-class FriendshipUpdatePacket() : IntUpdatePacket() {
-    constructor(pokemon: Pokemon, value: Int) : this() {
-        this.setTarget(pokemon)
-        this.value = value
-    }
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readSizedInt
+import net.minecraft.network.PacketByteBuf
 
+class FriendshipUpdatePacket(pokemon: () -> Pokemon, value: Int) : IntUpdatePacket<FriendshipUpdatePacket>(pokemon, value) {
+    override val id = ID
     override fun getSize() = IntSize.U_BYTE
     override fun set(pokemon: Pokemon, value: Int) {
         pokemon.setFriendship(value)
+    }
+    companion object {
+        val ID = cobblemonResource("friendship_update")
+        fun decode(buffer: PacketByteBuf) = FriendshipUpdatePacket(decodePokemon(buffer), buffer.readSizedInt(IntSize.U_BYTE))
     }
 }

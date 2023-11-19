@@ -26,19 +26,23 @@
     "field"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:feather",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
         "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 10.0
       }
     ]
   },
   "moves": [
+    "1:doublekick",
     "1:ember",
     "1:featherdance",
     "1:flamethrower",
@@ -59,6 +63,7 @@
     "50:reversal",
     "53:skyuppercut",
     "55:flareblitz",
+    "tm:aerialace",
     "tm:agility",
     "tm:assurance",
     "tm:attract",
@@ -79,11 +84,13 @@
     "tm:fireblast",
     "tm:firepunch",
     "tm:firespin",
+    "tm:flamecharge",
     "tm:flamethrower",
     "tm:flareblitz",
     "tm:fling",
     "tm:focusblast",
     "tm:focusenergy",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:heatwave",
     "tm:helpinghand",
@@ -121,20 +128,37 @@
     "tm:toxic",
     "tm:willowisp",
     "tm:workup",
+    "tutor:bodyslam",
+    "tutor:bounce",
     "tutor:coaching",
     "tutor:counter",
     "tutor:defog",
     "tutor:doubleedge",
     "tutor:dualchop",
     "tutor:dynamicpunch",
+    "tutor:endure",
     "tutor:firepledge",
+    "tutor:firepunch",
     "tutor:focuspunch",
     "tutor:furycutter",
     "tutor:headbutt",
+    "tutor:heatwave",
+    "tutor:helpinghand",
     "tutor:lastresort",
+    "tutor:lowkick",
+    "tutor:megakick",
+    "tutor:megapunch",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:rockslide",
     "tutor:seismictoss",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:swordsdance",
+    "tutor:thunderpunch",
     "tutor:vacuumwave"
   ],
   "labels": [

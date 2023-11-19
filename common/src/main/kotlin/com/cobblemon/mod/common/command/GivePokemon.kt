@@ -20,7 +20,8 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.argument.EntityArgumentType
-import net.minecraft.server.command.CommandManager.*
+import net.minecraft.server.command.CommandManager.argument
+import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -58,7 +59,7 @@ object GivePokemon {
             val pokemon = pokemonProperties.create()
             val party = Cobblemon.storage.getParty(player)
             party.add(pokemon)
-            context.source.sendFeedback(commandLang("${NAME}.give", pokemon.species.translatedName, player.name), true)
+            context.source.sendFeedback({ commandLang("${NAME}.give", pokemon.species.translatedName, player.name) }, true)
         } catch (e: Exception) {
             e.printStackTrace()
         }

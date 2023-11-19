@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -50,8 +51,10 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail4WaveSegment = WaveSegment(modelPart = tail4, length = 11F)
     val tail5WaveSegment = WaveSegment(modelPart = tail5, length = 11F)
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arbok", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("arbok", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("arbok", "blink").setPreventsIdle(false) }
         // TODO tongue_flick
 
         val wave = WaveAnimation<PokemonEntity>(
@@ -76,8 +79,8 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("arbok", "sleep"))
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("arbok", "sleep"))
         )
 
 
@@ -118,6 +121,6 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("arbok", "faint") else null
+        state: PoseableEntityState<PokemonEntity>,
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("arbok", "faint") else null
 }

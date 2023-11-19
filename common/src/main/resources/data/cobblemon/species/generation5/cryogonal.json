@@ -6,6 +6,19 @@
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 80,
     "attack": 50,
@@ -58,6 +71,7 @@
     "egg:frostbreath",
     "tm:acrobatics",
     "tm:attract",
+    "tm:auroraveil",
     "tm:avalanche",
     "tm:blizzard",
     "tm:bodyslam",
@@ -66,8 +80,10 @@
     "tm:confuseray",
     "tm:doubleteam",
     "tm:endure",
+    "tm:explosion",
     "tm:facade",
     "tm:flashcannon",
+    "tm:frostbreath",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hail",
@@ -99,11 +115,18 @@
     "tm:terablast",
     "tm:toxic",
     "tm:waterpulse",
+    "tutor:bind",
     "tutor:defog",
+    "tutor:icywind",
+    "tutor:irondefense",
     "tutor:knockoff",
+    "tutor:laserfocus",
     "tutor:magiccoat",
     "tutor:signalbeam",
-    "tutor:tripleaxel"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:tripleaxel",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen5"

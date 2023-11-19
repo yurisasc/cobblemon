@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
@@ -21,7 +22,7 @@ class ReorderMoveButton(
     val pX: Int, val pY: Int,
     private val isUp: Boolean,
     onPress: PressAction
-): ButtonWidget((pX - OFFSET_X).toInt(), (pY + (if (isUp) OFFSET_Y_UP else OFFSET_Y_DOWN)), (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal(""), onPress) {
+): ButtonWidget((pX - OFFSET_X).toInt(), (pY + (if (isUp) OFFSET_Y_UP else OFFSET_Y_DOWN)), (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal(""), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 8
@@ -30,8 +31,8 @@ class ReorderMoveButton(
         private const val OFFSET_Y_UP = 6
         private const val OFFSET_Y_DOWN = 13
         private const val SCALE = 0.5F
-        private val moveReorderUpResource = cobblemonResource("ui/summary/summary_move_reorder_up.png")
-        private val moveReorderDownResource = cobblemonResource("ui/summary/summary_move_reorder_down.png")
+        private val moveReorderUpResource = cobblemonResource("textures/gui/summary/summary_move_reorder_up.png")
+        private val moveReorderDownResource = cobblemonResource("textures/gui/summary/summary_move_reorder_down.png")
         private var blocked = false
     }
 
@@ -39,11 +40,11 @@ class ReorderMoveButton(
         return false
     }
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val offsetY = if (isUp) OFFSET_Y_UP else OFFSET_Y_DOWN
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             x = (pX - OFFSET_X) / SCALE,
             y = (pY + offsetY) / SCALE,
             texture = if (isUp) moveReorderUpResource else moveReorderDownResource,
@@ -67,7 +68,7 @@ class ReorderMoveButton(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
     fun isHovered(mouseX: Double, mouseY: Double, offsetY: Float) = mouseX.toFloat() in ((pX - OFFSET_X)..((pX - OFFSET_X) + (WIDTH * SCALE))) && mouseY.toFloat() in ((pY + offsetY)..((pY + offsetY) + (HEIGHT * SCALE) - 0.5F))

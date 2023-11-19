@@ -8,6 +8,19 @@
     "icebody",
     "h:sturdy"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 95,
     "attack": 117,
@@ -39,7 +52,7 @@
       },
       "catchRate": 55,
       "maleRatio": 0.5,
-      "baseExperienceYield": 0,
+      "baseExperienceYield": 180,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -134,7 +147,27 @@
     "monster",
     "mineral"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      },
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
+    "1:bodyslam",
     "1:harden",
     "1:powdersnow",
     "1:rapidspin",
@@ -216,6 +249,12 @@
     "tm:toxic",
     "tutor:afteryou",
     "tutor:block",
+    "tutor:icywind",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
     "tutor:waterpulse"
   ],
   "labels": [

@@ -32,6 +32,7 @@
     "8:ancientpower",
     "12:bide",
     "12:charm",
+    "15:stealthrock",
     "16:bite",
     "20:dragontail",
     "24:stomp",
@@ -42,9 +43,13 @@
     "44:earthquake",
     "48:horndrill",
     "egg:curse",
+    "egg:dragondance",
+    "egg:firefang",
+    "egg:icefang",
     "egg:poisonfang",
     "egg:rockpolish",
     "egg:rockthrow",
+    "egg:thunderfang",
     "tm:aerialace",
     "tm:assurance",
     "tm:attract",
@@ -61,6 +66,7 @@
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
+    "tm:dragontail",
     "tm:earthpower",
     "tm:earthquake",
     "tm:endure",
@@ -80,7 +86,9 @@
     "tm:psychicfangs",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:rockblast",
+    "tm:rockpolish",
     "tm:rockslide",
     "tm:rocksmash",
     "tm:rocktomb",
@@ -103,9 +111,25 @@
     "tm:zenheadbutt",
     "tutor:block",
     "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:earthpower",
+    "tutor:hypervoice",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:lashout",
     "tutor:meteorbeam",
-    "tutor:scaleshot"
+    "tutor:outrage",
+    "tutor:roar",
+    "tutor:scaleshot",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stomp",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:tackle",
+    "tutor:tailwhip",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6"
@@ -150,5 +174,14 @@
   "height": 8,
   "weight": 260,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

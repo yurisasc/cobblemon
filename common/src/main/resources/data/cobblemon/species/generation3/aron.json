@@ -29,6 +29,7 @@
     "1:harden",
     "1:tackle",
     "4:metalclaw",
+    "4:mudslap",
     "8:rocktomb",
     "12:roar",
     "16:headbutt",
@@ -43,13 +44,19 @@
     "52:heavyslam",
     "56:doubleedge",
     "60:metalburst",
+    "egg:bodyslam",
     "egg:curse",
     "egg:dragonrush",
     "egg:endeavor",
     "egg:headsmash",
+    "egg:ironhead",
     "egg:mudslap",
+    "egg:reversal",
+    "egg:screech",
     "egg:smellingsalts",
+    "egg:stealthrock",
     "egg:stomp",
+    "egg:superpower",
     "tm:aerialace",
     "tm:attract",
     "tm:bodypress",
@@ -77,6 +84,7 @@
     "tm:rest",
     "tm:return",
     "tm:reversal",
+    "tm:roar",
     "tm:rockpolish",
     "tm:rockslide",
     "tm:rocksmash",
@@ -86,6 +94,7 @@
     "tm:screech",
     "tm:secretpower",
     "tm:shadowclaw",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snore",
     "tm:stealthrock",
@@ -96,16 +105,37 @@
     "tm:swagger",
     "tm:toxic",
     "tm:uproar",
+    "tm:waterpulse",
     "tutor:ancientpower",
+    "tutor:bodyslam",
     "tutor:defensecurl",
+    "tutor:doubleedge",
+    "tutor:earthpower",
+    "tutor:endeavor",
+    "tutor:endure",
     "tutor:furycutter",
+    "tutor:harden",
+    "tutor:headbutt",
+    "tutor:headsmash",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:magnetrise",
     "tutor:mimic",
+    "tutor:mudslap",
+    "tutor:rockslide",
     "tutor:rollout",
     "tutor:shockwave",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:spite",
+    "tutor:stealthrock",
     "tutor:steelbeam",
     "tutor:steelroller",
+    "tutor:substitute",
+    "tutor:superpower",
+    "tutor:swagger",
+    "tutor:uproar",
     "tutor:waterpulse"
   ],
   "labels": [
@@ -147,5 +177,22 @@
   "height": 4,
   "weight": 600,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

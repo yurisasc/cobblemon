@@ -14,6 +14,6 @@ class ParalysisStatus : PersistentStatus(
     name = cobblemonResource("paralysis"),
     showdownName = "par",
     applyMessage = "cobblemon.status.paralysis.apply",
-    removeMessage = null,
+    removeMessage = "cobblemon.status.paralysis.cure",
     defaultDuration = IntRange(180, 300)
 )

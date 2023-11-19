@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Armarouge",
   "nationalPokedexNumber": 936,
   "primaryType": "fire",
@@ -7,6 +8,27 @@
     "flashfire",
     "h:weakarmor"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:charcoal",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:auspicious_armor",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 60,
@@ -15,10 +37,29 @@
     "special_defence": 80,
     "speed": 75
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.23
+      }
+    }
+  },
   "catchRate": 25,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 263,
   "baseFriendship": 20,
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.9,
+    "height": 2.1,
+    "fixed": false
+  },
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -38,6 +79,7 @@
     "1:leer",
     "1:mysticalfire",
     "1:wideguard",
+    "1:psyshock",
     "8:clearsmog",
     "12:firespin",
     "16:willowisp",

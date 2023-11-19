@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Relicanth",
   "nationalPokedexNumber": 369,
   "primaryType": "water",
@@ -8,6 +9,19 @@
     "rockhead",
     "h:sturdy"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:deep_sea_scale",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 100,
     "attack": 90,
@@ -26,12 +40,26 @@
     "water_1",
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:harden",
     "1:mudsport",
     "1:tackle",
     "5:watergun",
     "10:ancientpower",
+    "15:rocktomb",
     "15:yawn",
     "20:dive",
     "25:takedown",
@@ -41,10 +69,19 @@
     "45:hydropump",
     "50:doubleedge",
     "55:headsmash",
+    "egg:amnesia",
+    "egg:aquatail",
+    "egg:brine",
     "egg:magnitude",
+    "egg:muddywater",
+    "egg:mudshot",
     "egg:mudslap",
+    "egg:rockslide",
     "egg:skullbash",
+    "egg:sleeptalk",
+    "egg:snore",
     "egg:watersport",
+    "egg:zenheadbutt",
     "tm:amnesia",
     "tm:attract",
     "tm:blizzard",
@@ -101,13 +138,34 @@
     "tm:swagger",
     "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tm:zenheadbutt",
+    "tutor:ancientpower",
+    "tutor:aquatail",
+    "tutor:bodyslam",
+    "tutor:bounce",
+    "tutor:dive",
+    "tutor:doubleedge",
+    "tutor:earthpower",
+    "tutor:endure",
     "tutor:headbutt",
+    "tutor:icywind",
     "tutor:meteorbeam",
     "tutor:mimic",
+    "tutor:mudslap",
+    "tutor:psychup",
+    "tutor:rockslide",
     "tutor:scaleshot",
-    "tutor:waterpulse"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:watergun",
+    "tutor:waterpulse",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen3"
@@ -116,10 +174,10 @@
     "cobblemon.species.relicanth.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 0.8,
     "fixed": false
   },
   "baseFriendship": 50,

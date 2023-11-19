@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.api.storage.PokemonStore
+import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.pokemon.Pokemon
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
@@ -20,28 +20,33 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 28th, 2021
  */
-abstract class PokemonUpdatePacket : NetworkPacket {
-    /** The UUID of the [PokemonStore] the Pokémon is in. */
-    var storeID = UUID.randomUUID()
-    /** The UUID of the [Pokemon] to update. */
-    var pokemonID = UUID.randomUUID()
+abstract class PokemonUpdatePacket<T>(val pokemon: () -> Pokemon) : NetworkPacket<T> where T : NetworkPacket<T> {
 
-    fun setTarget(pokemon: Pokemon) {
+    final override fun encode(buffer: PacketByteBuf) {
+        val pokemon = pokemon()
         // This won't ever happen in instances where packets get sent out, but they protect us from NPEs on fields that require synchronization on load/save
-        this.storeID = pokemon.storeCoordinates.get()?.store?.uuid ?: UUID.randomUUID()
-        this.pokemonID = pokemon.uuid
+        buffer.writeUuid(pokemon.storeCoordinates.get()?.store?.uuid ?: UUID.randomUUID())
+        buffer.writeUuid(pokemon.uuid)
+        encodeDetails(buffer)
     }
 
-    override fun encode(buffer: PacketByteBuf) {
-        buffer.writeUuid(storeID)
-        buffer.writeUuid(pokemonID)
-    }
-
-    override fun decode(buffer: PacketByteBuf) {
-        storeID = buffer.readUuid()
-        pokemonID = buffer.readUuid()
-    }
+    abstract fun encodeDetails(buffer: PacketByteBuf)
 
     /** Applies the update to the located Pokémon. */
-    abstract fun applyToPokemon(pokemon: Pokemon)
+    abstract fun applyToPokemon()
+
+    companion object {
+
+        /**
+         * Reads the current Pokémon from the given [buffer].
+         *
+         * @param buffer The [PacketByteBuf] being decoded.
+         * @return The [Pokemon] found.
+         */
+        fun decodePokemon(buffer: PacketByteBuf) : () -> Pokemon {
+            val storeId = buffer.readUuid()
+            val pokemonId = buffer.readUuid()
+            return { CobblemonClient.storage.locatePokemon(storeId, pokemonId)!! }
+        }
+    }
 }

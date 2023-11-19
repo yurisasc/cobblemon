@@ -9,7 +9,8 @@
 		},
 		"description": {
 			"translate": "advancements.cobblemon.first_shiny_catch.description"
-		}
+		},
+		"frame": "challenge"
 	},
 	"parent": "cobblemon:first_catch",
 	"criteria": {
@@ -19,5 +20,6 @@
 				"count": 1
 			}
 		}
-	}
+	},
+  "sends_telemetry_event": false
 }

@@ -8,6 +8,22 @@
     "flamebody",
     "h:infiltrator"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:candle"
+      },
+      {
+        "item": "cobblemon:dusk_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 30,
@@ -47,7 +63,9 @@
     "egg:acidarmor",
     "egg:captivate",
     "egg:clearsmog",
+    "egg:endure",
     "egg:haze",
+    "egg:heatwave",
     "egg:powersplit",
     "tm:allyswitch",
     "tm:attract",
@@ -90,17 +108,25 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:taunt",
+    "tm:telekinesis",
     "tm:thief",
     "tm:toxic",
     "tm:trick",
     "tm:trickroom",
     "tm:willowisp",
+    "tutor:allyswitch",
     "tutor:burningjealousy",
+    "tutor:darkpulse",
+    "tutor:heatwave",
+    "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:shockwave",
     "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:telekinesis"
+    "tutor:telekinesis",
+    "tutor:trick"
   ],
   "labels": [
     "gen5"

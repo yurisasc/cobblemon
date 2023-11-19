@@ -10,36 +10,45 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.pokemon.Natures
+import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
+import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-class NatureUpdatePacket(
-    private var mintNature : Boolean = false
-) : StringUpdatePacket() {
-    constructor(pokemon: Pokemon, value: String, mintNature: Boolean): this() {
-        this.setTarget(pokemon)
-        this.value = value
-        this.mintNature = mintNature
+import net.minecraft.network.PacketByteBuf
+
+class NatureUpdatePacket(pokemon: () -> Pokemon, val nature: Nature?, val minted: Boolean) : PokemonUpdatePacket<NatureUpdatePacket>(pokemon) {
+
+    override val id = ID
+
+    override fun encodeDetails(buffer: PacketByteBuf) {
+        buffer.writeNullable(nature) { _, v -> buffer.writeIdentifier(v.name) }
+        buffer.writeBoolean(this.minted)
     }
 
-    override fun set(pokemon: Pokemon, value: String) {
+    override fun applyToPokemon() {
         // Check for removing mint
-        if (mintNature && value.isEmpty()) {
-            pokemon.mintedNature = null
+        if (minted && nature == null) {
+            pokemon().mintedNature = null
             return
-        }
-
-        val nature = Natures.getNature(cobblemonResource(value))
-        // Validate the nature locally
-        if (nature == null) {
-            LOGGER.warn("A invalid nature of '$value' was attempted to be put onto: '$pokemon'")
-            return
-        }
-
-        // Check which nature to modify
-        if (!mintNature) {
-            pokemon.nature = nature
         } else {
-            pokemon.mintedNature = nature
+            // Validate the nature locally
+            if (nature == null) {
+                LOGGER.warn("A null nature was attempted to be put onto: '$pokemon'")
+                return
+            }
+
+            // Check which nature to modify
+            if (!minted) {
+                pokemon().nature = nature
+            } else {
+                pokemon().mintedNature = nature
+            }
         }
     }
+
+    companion object {
+        val ID = cobblemonResource("nature_update")
+        fun decode(buffer: PacketByteBuf) = NatureUpdatePacket(decodePokemon(buffer), buffer.readNullable { Natures.getNature(buffer.readIdentifier()) }, buffer.readBoolean())
+    }
+
 }

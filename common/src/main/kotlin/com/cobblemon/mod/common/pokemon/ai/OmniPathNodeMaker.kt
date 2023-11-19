@@ -16,6 +16,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
 import java.util.EnumSet
 import net.minecraft.block.AbstractRailBlock
+import net.minecraft.block.FenceGateBlock
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.ai.pathing.PathNode
 import net.minecraft.entity.ai.pathing.PathNodeMaker
@@ -23,10 +24,12 @@ import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.ai.pathing.TargetPathNode
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.fluid.FluidState
-import net.minecraft.tag.FluidTags
+import net.minecraft.registry.tag.BlockTags
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.BlockView
 import net.minecraft.world.chunk.ChunkCache
 
@@ -51,19 +54,35 @@ class OmniPathNodeMaker : PathNodeMaker() {
         nodePosToType.clear()
     }
 
-    override fun getStart(): PathNode? {
-        return super.getNode(
-            MathHelper.floor(entity.boundingBox.minX),
-            MathHelper.floor(entity.boundingBox.minY + 0.5),
-            MathHelper.floor(entity.boundingBox.minZ)
-        )
-    }
-
     override fun getNode(x: Double, y: Double, z: Double): TargetPathNode? {
         return asTargetPathNode(super.getNode(MathHelper.floor(x), MathHelper.floor(y + 0.5), MathHelper.floor(z)))
     }
 
-    override fun getSuccessors(successors: Array<PathNode>, node: PathNode): Int {
+    override fun getStart(): PathNode? {
+        val x = MathHelper.floor(entity.boundingBox.minX)
+        val y = MathHelper.floor(entity.boundingBox.minY + 0.5)
+        val z = MathHelper.floor(entity.boundingBox.minZ)
+        val node = super.getNode(x, y, z)
+        node.type = this.getNodeType(entity, node.blockPos)
+        node.penalty = entity.getPathfindingPenalty(node.type)
+        return node
+    }
+
+    fun getNodeType(entity: MobEntity, pos: BlockPos): PathNodeType? {
+        return this.getNodeType(entity, pos.x, pos.y, pos.z)
+    }
+
+    fun getNodeType(entity: MobEntity, x: Int, y: Int, z: Int): PathNodeType? {
+        return this.nodePosToType.computeIfAbsent(BlockPos.asLong(x, y, z),
+            Long2ObjectFunction<PathNodeType?> {
+                this.getNodeType(
+                    cachedWorld, x, y, z,
+                    entity
+                )
+            })
+    }
+    
+    override fun getSuccessors(successors: Array<PathNode?>, node: PathNode): Int {
         var i = 0
         val map = Maps.newEnumMap<Direction, PathNode?>(Direction::class.java)
         val upperMap = Maps.newEnumMap<Direction, PathNode?>(Direction::class.java)
@@ -87,7 +106,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
             val x = node.x + direction.offsetX + direction2.offsetX
             val z = node.z + direction.offsetZ + direction2.offsetZ
             val pathNode2 = this.getNode(x, node.y, z) ?: continue
-            if (isAccessibleDiagonal(pathNode2, map[direction], map[direction2])) {
+            // Skip 'inaccessible' diagonals if we're pathing from a blocked node since we're trying to get unstuck
+            if (isAccessibleDiagonal(pathNode2, map[direction], map[direction2]) || (node.type == PathNodeType.BLOCKED && !pathNode2.visited)) {
                 successors[i++] = pathNode2
             }
         }
@@ -132,6 +152,34 @@ class OmniPathNodeMaker : PathNodeMaker() {
             }
         }
 
+        // If they're in a blocked node and there are multiple successors, choose whichever is closest to get out of the blocked position.
+        // This addresses instances where they're next to a fence and should move away from the fence in the nearest open
+        // direction before regular pathing.
+        if (entity.getPathfindingPenalty(node.type) < 0 && i > 1) {
+            val x = entity.boundingBox.minX
+            val y = entity.boundingBox.minY + 0.5
+            val z = entity.boundingBox.minZ
+            val pos = Vec3d(x, y, z)
+
+            var n = 1
+            var closestSuccessor = successors[0]!!
+            var closestDistance = closestSuccessor.pos.add(0.5, 0.0, 0.5).distanceTo(pos)
+
+            while (n < i) {
+                val next = successors[n]!!
+                val nextDist = next.pos.add(0.5, 0.0, 0.5).distanceTo(pos)
+                if (nextDist < closestDistance) {
+                    closestSuccessor = next
+                    closestDistance = nextDist
+                }
+
+                n++
+            }
+
+            successors[0] = closestSuccessor
+            i = 1
+        }
+
         return i
     }
 
@@ -168,7 +216,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
     }
 
     fun addPathNodePos(x: Int, y: Int, z: Int): PathNodeType {
-        return nodePosToType.computeIfAbsent(BlockPos.asLong(x, y, z), Long2ObjectFunction { getNodeType(cachedWorld, x, y, z, entity, entityBlockXSize, entityBlockYSize, entityBlockZSize, false, true) })
+        return nodePosToType.computeIfAbsent(BlockPos.asLong(x, y, z), Long2ObjectFunction { getNodeType(cachedWorld, x, y, z, entity) })
     }
 
     override fun getDefaultNodeType(world: BlockView, x: Int, y: Int, z: Int): PathNodeType {
@@ -180,10 +228,10 @@ class OmniPathNodeMaker : PathNodeMaker() {
         val isWater = blockState.fluidState.isIn(FluidTags.WATER)
         val isLava = blockState.fluidState.isIn(FluidTags.LAVA)
         val canBreatheUnderFluid = canSwimUnderFluid(blockState.fluidState)
-        return if (isWater && belowSolid && !canSwimInWater() && canBreatheUnderFluid) {
+        return if (blockStateBelow.isIn(BlockTags.FENCES) || blockStateBelow.isIn(BlockTags.WALLS) || (blockStateBelow.block is FenceGateBlock && !blockStateBelow.get(FenceGateBlock.OPEN))) {
+            PathNodeType.FENCE
+        } else if (isWater && belowSolid && !canSwimInWater() && canBreatheUnderFluid) {
             PathNodeType.WALKABLE
-//        } else if (isWater && !belowSolid && !canSwimInWater() && canBreatheUnderFluid) {
-//            PathNodeType.OPEN
         } else if (isWater || (isLava && canSwimUnderlava())) {
             PathNodeType.WATER
         } else if (blockState.canPathfindThrough(world, pos, NavigationType.LAND) && !blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
@@ -193,34 +241,23 @@ class OmniPathNodeMaker : PathNodeMaker() {
         } else PathNodeType.BLOCKED
     }
 
-    override fun getNodeType(
-        world: BlockView,
-        x: Int,
-        y: Int,
-        z: Int,
-        mob: MobEntity?,
-        sizeX: Int,
-        sizeY: Int,
-        sizeZ: Int,
-        canOpenDoors: Boolean,
-        canEnterOpenDoors: Boolean
-    ): PathNodeType {
+    override fun getNodeType(world: BlockView, x: Int, y: Int, z: Int, mob: MobEntity): PathNodeType? {
         val set = EnumSet.noneOf(PathNodeType::class.java)
-        var type = findNearbyNodeTypes(world, x, y, z, sizeX, sizeY, sizeZ, canOpenDoors, canEnterOpenDoors, set, PathNodeType.BLOCKED, BlockPos(x, y, z))
-//        if (type == PathNodeType.WATER && PathNodeType.WALKABLE in set) {
-//            type = PathNodeType.WALKABLE
-//        }
+        val sizeX = (mob.boundingBox.maxX - mob.boundingBox.minX).toInt() + 1
+        val sizeY = (mob.boundingBox.maxY - mob.boundingBox.minY).toInt() + 1
+        val sizeZ = (mob.boundingBox.maxZ - mob.boundingBox.minZ).toInt() + 1
+        val type = findNearbyNodeTypes(world, x, y, z, sizeX, sizeY, sizeZ, canOpenDoors, canEnterOpenDoors, set, PathNodeType.BLOCKED, BlockPos(x, y, z))
 
-        return if (set.contains(PathNodeType.FENCE)) {
+        return if (PathNodeType.FENCE in set) {
             PathNodeType.FENCE
-        } else if (set.contains(PathNodeType.UNPASSABLE_RAIL)) {
+        } else if (PathNodeType.UNPASSABLE_RAIL in set) {
             PathNodeType.UNPASSABLE_RAIL
         } else {
             var pathNodeType2: PathNodeType? = PathNodeType.BLOCKED
             val nearbyTypeIterator = set.iterator()
             while (nearbyTypeIterator.hasNext()) {
                 val nearbyType = nearbyTypeIterator.next()
-                if (mob!!.getPathfindingPenalty(nearbyType) < 0) {
+                if (mob.getPathfindingPenalty(nearbyType) < 0) {
                     return nearbyType
                 }
                 // The || is because we prefer WALKABLE where possible - OPEN is legit but if there's either OPEN or WALKABLE then WALKABLE is better since land pokes can read that.
@@ -229,9 +266,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
                 } else if (type == PathNodeType.WATER && nearbyType == PathNodeType.WATER) {
                     pathNodeType2 = PathNodeType.WATER
                 }
-
             }
-            if (type == PathNodeType.OPEN && mob!!.getPathfindingPenalty(pathNodeType2) == 0.0f && sizeX <= 1) {
+            if (type == PathNodeType.OPEN && mob.getPathfindingPenalty(pathNodeType2) == 0.0f && sizeX <= 1) {
                 PathNodeType.OPEN
             } else {
                 pathNodeType2!!

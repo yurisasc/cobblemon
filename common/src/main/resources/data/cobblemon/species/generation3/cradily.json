@@ -96,16 +96,29 @@
     "tm:swagger",
     "tm:swordsdance",
     "tm:toxic",
+    "tutor:ancientpower",
     "tutor:bind",
     "tutor:block",
+    "tutor:bodyslam",
     "tutor:doubleedge",
+    "tutor:earthpower",
+    "tutor:endure",
+    "tutor:gastroacid",
+    "tutor:gigadrain",
     "tutor:headbutt",
     "tutor:meteorbeam",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:painsplit",
     "tutor:psychup",
+    "tutor:rockslide",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
     "tutor:stringshot",
+    "tutor:substitute",
+    "tutor:swagger",
     "tutor:synthesis",
     "tutor:worryseed"
   ],
@@ -135,5 +148,14 @@
   "height": 15,
   "weight": 604,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

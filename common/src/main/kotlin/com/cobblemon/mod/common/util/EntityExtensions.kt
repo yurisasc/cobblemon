@@ -9,20 +9,46 @@
 package com.cobblemon.mod.common.util
 
 import net.minecraft.entity.Entity
+import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
 import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
 
 fun Entity.setPositionSafely(pos: Vec3d): Boolean {
     var result = pos
-    val width = this.width * 0.8F
     val eyes = pos.withAxis(Direction.Axis.Y, pos.y + this.standingEyeHeight)
 
-    val box = Box.of(eyes, width.toDouble(), 1.0E-6, width.toDouble())
+    var box = boundingBox.offset(pos)
     val conflicts = mutableSetOf<Direction>()
+
+    if (!world.getBlockCollisions(this, box).iterator().hasNext()) {
+        setPosition(pos)
+        return true
+    }
+
+    val yChanges = listOf(1.0, -1.0, 2.0, -2.0)
+    var previousChange = 0.0
+    for (yChange in yChanges) {
+        box = box.offset(0.0, yChange - previousChange, 0.0)
+        val it = world.getBlockCollisions(this, box).iterator()
+        previousChange = yChange
+        if (it.hasNext()) {
+            continue
+        } else {
+            val roundedY = (pos.y + yChange).toInt()
+            box = box.offset(0.0, roundedY - pos.y, 0.0)
+            // If the rounded position actually collides again, then don't round at all.
+            if (world.getBlockCollisions(this, box).iterator().hasNext()) {
+                setPosition(pos.add(0.0, yChange, 0.0))
+                return true
+            }
+            setPosition(Vec3d(pos.x, roundedY.toDouble(), pos.z))
+            return true
+        }
+    }
 
     for (target in BlockPos.stream(box)) {
         val blockState = this.world.getBlockState(target)
@@ -34,7 +60,7 @@ fun Entity.setPositionSafely(pos: Vec3d): Boolean {
                     BooleanBiFunction.AND
                 )
         if (collides) {
-            val x = BlockPos(eyes)
+            val x = eyes.toBlockPos()
             for (direction in Direction.values()) {
                 if (conflicts.contains(direction)) continue
 
@@ -93,4 +119,12 @@ fun Entity.closestPosition(positions: Iterable<BlockPos>, filter: (BlockPos) -> 
     }
 
     return closest
+}
+
+fun <T> DataTracker.update(data: TrackedData<T>, mutator: (T) -> T) {
+    val value = get(data)
+    val newValue = mutator(value)
+    if (value != newValue) {
+        set(data, newValue)
+    }
 }

@@ -16,6 +16,14 @@
     "special_defence": 75,
     "speed": 64
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": false,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -25,6 +33,15 @@
   "eggGroups": [
     "field"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 25.0
+      }
+    ]
+  },
   "moves": [
     "1:bellydrum",
     "1:feint",
@@ -32,6 +49,7 @@
     "1:hammerarm",
     "1:needlearm",
     "1:rollout",
+    "1:spikyshield",
     "1:tackle",
     "1:vinewhip",
     "11:bite",
@@ -131,15 +149,28 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:block",
+    "tutor:drainpunch",
     "tutor:dualchop",
     "tutor:endeavor",
     "tutor:focuspunch",
+    "tutor:frenzyplant",
+    "tutor:gigadrain",
+    "tutor:grasspledge",
+    "tutor:helpinghand",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:irontail",
+    "tutor:lowkick",
+    "tutor:painsplit",
+    "tutor:seedbomb",
     "tutor:snore",
+    "tutor:stompingtantrum",
     "tutor:superfang",
     "tutor:superpower",
     "tutor:synthesis",
-    "tutor:worryseed"
+    "tutor:thunderpunch",
+    "tutor:worryseed",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6"

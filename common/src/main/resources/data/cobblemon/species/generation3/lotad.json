@@ -27,6 +27,42 @@
     "water_1",
     "grass"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      },
+      "swim": {
+        "swimSpeed": 0.3,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:lily_pad",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:mental_herb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "moves": [
     "1:astonish",
     "1:growl",
@@ -44,12 +80,15 @@
     "38:zenheadbutt",
     "43:energyball",
     "egg:counter",
+    "egg:flail",
+    "egg:gigadrain",
     "egg:leechseed",
     "egg:razorleaf",
     "egg:sweetscent",
     "egg:synthesis",
     "egg:teeterdance",
     "egg:tickle",
+    "egg:watergun",
     "tm:attract",
     "tm:blizzard",
     "tm:bodyslam",
@@ -69,6 +108,8 @@
     "tm:hiddenpower",
     "tm:icebeam",
     "tm:icywind",
+    "tm:naturalgift",
+    "tm:naturepower",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -88,13 +129,31 @@
     "tm:thief",
     "tm:toxic",
     "tm:uproar",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tm:zenheadbutt",
+    "tutor:absorb",
+    "tutor:astonish",
+    "tutor:bodyslam",
     "tutor:doubleedge",
+    "tutor:endure",
+    "tutor:gigadrain",
     "tutor:grassyglide",
+    "tutor:growl",
     "tutor:headbutt",
+    "tutor:icywind",
+    "tutor:leechseed",
     "tutor:mimic",
-    "tutor:waterpulse"
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swordsdance",
+    "tutor:synthesis",
+    "tutor:uproar",
+    "tutor:waterpulse",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen3"

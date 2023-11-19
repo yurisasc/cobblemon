@@ -7,6 +7,19 @@
     "magicguard",
     "h:regenerator"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:slime_ball",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 110,
     "attack": 65,
@@ -106,6 +119,7 @@
     "tm:substitute",
     "tm:superpower",
     "tm:swagger",
+    "tm:telekinesis",
     "tm:thunder",
     "tm:thunderpunch",
     "tm:thunderwave",
@@ -115,18 +129,34 @@
     "tm:wonderroom",
     "tm:zenheadbutt",
     "tutor:afteryou",
+    "tutor:allyswitch",
+    "tutor:drainpunch",
+    "tutor:endeavor",
     "tutor:expandingforce",
+    "tutor:firepunch",
     "tutor:focuspunch",
     "tutor:gravity",
+    "tutor:helpinghand",
+    "tutor:icepunch",
+    "tutor:irondefense",
     "tutor:knockoff",
     "tutor:laserfocus",
     "tutor:magiccoat",
+    "tutor:painsplit",
     "tutor:roleplay",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
     "tutor:steelroller",
-    "tutor:telekinesis"
+    "tutor:superpower",
+    "tutor:telekinesis",
+    "tutor:thunderpunch",
+    "tutor:trick",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

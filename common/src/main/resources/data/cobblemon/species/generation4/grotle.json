@@ -3,7 +3,19 @@
   "name": "Grotle",
   "nationalPokedexNumber": 388,
   "primaryType": "grass",
-  "abilities": ["overgrow", "h:shellarmor"],
+  "abilities": [
+    "overgrow",
+    "h:shellarmor"
+  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 89,
@@ -12,17 +24,32 @@
     "special_defence": 65,
     "speed": 36
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "walk": {
+      "walkSpeed": 0.2
+    }
+  },
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
   "baseExperienceYield": 142,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
-  "eggGroups": ["monster", "grass"],
+  "eggGroups": [
+    "monster",
+    "grass"
+  ],
   "moves": [
     "1:absorb",
     "1:tackle",
     "1:withdraw",
+    "9:absorb",
     "13:razorleaf",
     "17:curse",
     "22:bite",
@@ -43,8 +70,10 @@
     "tm:facade",
     "tm:flash",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:grassknot",
     "tm:hiddenpower",
+    "tm:irontail",
     "tm:lightscreen",
     "tm:naturalgift",
     "tm:naturepower",
@@ -59,6 +88,7 @@
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:solarbeam",
+    "tm:stealthrock",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
@@ -73,14 +103,19 @@
     "tutor:irontail",
     "tutor:mudslap",
     "tutor:seedbomb",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stealthrock",
     "tutor:superpower",
     "tutor:synthesis",
     "tutor:worryseed"
   ],
-  "labels": ["gen4"],
-  "pokedex": ["cobblemon.species.grotle.desc"],
+  "labels": [
+    "gen4"
+  ],
+  "pokedex": [
+    "cobblemon.species.grotle.desc"
+  ],
   "preEvolution": "turtwig",
   "evolutions": [
     {
@@ -237,6 +272,23 @@
         {
           "variant": "held_item",
           "itemCondition": "minecraft:mangrove_propagule"
+        }
+      ]
+    },
+    {
+      "id": "grotle_torterra_cherry",
+      "variant": "level_up",
+      "result": "torterra tree=cherry",
+      "consumeHeldItem": true,
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 32
+        },
+        {
+          "variant": "held_item",
+          "itemCondition": "minecraft:cherry_sapling"
         }
       ]
     },

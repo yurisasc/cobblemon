@@ -7,6 +7,19 @@
     "hydration",
     "h:waterabsorb"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 50,
@@ -41,18 +54,23 @@
     "44:raindance",
     "48:hydropump",
     "egg:afteryou",
+    "egg:earthpower",
     "egg:mist",
     "egg:mudbomb",
     "egg:mudslap",
     "egg:mudsport",
     "egg:refresh",
+    "egg:sleeptalk",
+    "egg:snore",
     "egg:toxic",
+    "egg:venomdrench",
     "egg:waterpulse",
     "tm:attract",
     "tm:bounce",
     "tm:confide",
     "tm:doubleteam",
     "tm:earthpower",
+    "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
     "tm:frustration",
@@ -79,11 +97,21 @@
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
+    "tm:toxic",
     "tm:uproar",
     "tm:venomdrench",
     "tm:weatherball",
     "tutor:afteryou",
-    "tutor:endeavor"
+    "tutor:bounce",
+    "tutor:earthpower",
+    "tutor:endeavor",
+    "tutor:hypervoice",
+    "tutor:icywind",
+    "tutor:round",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:uproar",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen5"

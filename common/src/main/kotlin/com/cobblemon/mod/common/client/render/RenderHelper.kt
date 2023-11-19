@@ -14,17 +14,25 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.*
-import net.minecraft.client.render.model.json.ModelTransformation
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.render.DiffuseLighting
+import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.Tessellator
+import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.VertexFormats
+import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Matrix3f
-import net.minecraft.util.math.Matrix4f
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Matrix3f
+import org.joml.Matrix4f
 
 fun renderImage(texture: Identifier, x: Double, y: Double, height: Double, width: Double) {
     val textureManager = MinecraftClient.getInstance().textureManager
@@ -53,7 +61,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
     val modelViewStack = matrixStack ?: RenderSystem.getModelViewStack()
     modelViewStack.push()
-    modelViewStack.translate(x, y, (zTranslation + itemRenderer.zOffset).toDouble())
+    modelViewStack.translate(x, y, (zTranslation + 0).toDouble())
     modelViewStack.translate(8.0 * scale, 8.0 * scale, 0.0)
     modelViewStack.scale(1.0F, -1.0F, 1.0F)
     modelViewStack.scale(16.0F * scale.toFloat(), 16.0F * scale.toFloat(), 16.0F * scale.toFloat())
@@ -66,7 +74,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
 
     itemRenderer.renderItem(
         itemStack,
-        ModelTransformation.Mode.GUI,
+        ModelTransformationMode.GUI,
         false,
         stack,
         immediate,
@@ -107,8 +115,9 @@ fun getDepletableRedGreen(
     return r.toFloat() to g.toFloat()
 }
 
+
 fun drawScaledText(
-    matrixStack: MatrixStack,
+    context: DrawContext,
     font: Identifier? = null,
     text: MutableText,
     x: Number,
@@ -118,7 +127,9 @@ fun drawScaledText(
     maxCharacterWidth: Int = Int.MAX_VALUE,
     colour: Int = 0x00FFFFFF + ((opacity.toFloat() * 255).toInt() shl 24),
     centered: Boolean = false,
-    shadow: Boolean = false
+    shadow: Boolean = false,
+    pMouseX: Int? = null,
+    pMouseY: Int? = null
 ) {
     if (opacity.toFloat() < 0.05F) {
         return
@@ -127,24 +138,30 @@ fun drawScaledText(
     val textWidth = MinecraftClient.getInstance().textRenderer.getWidth(if (font != null) text.font(font) else text)
     val extraScale = if (textWidth < maxCharacterWidth) 1F else (maxCharacterWidth / textWidth.toFloat())
     val fontHeight = if (font == null) 5 else 6
-
-    matrixStack.push()
-    matrixStack.scale(scale * extraScale, scale * extraScale, 1F)
-    drawText(
-        poseStack = matrixStack,
+    val matrices = context.matrices
+    matrices.push()
+    matrices.scale(scale * extraScale, scale * extraScale, 1F)
+    val isHovered = drawText(
+        context = context,
         font = font,
         text = text,
         x = x.toFloat() / (scale * extraScale),
         y = y.toFloat() / (scale * extraScale) + (1 - extraScale) * fontHeight * scale,
         centered = centered,
         colour = colour,
-        shadow = shadow
+        shadow = shadow,
+        pMouseX = pMouseX?.toFloat()?.div((scale * extraScale)),
+        pMouseY = pMouseY?.toFloat()?.div(scale * extraScale)?.plus((1 - extraScale) * fontHeight * scale)
     )
-    matrixStack.pop()
+    matrices.pop()
+    // Draw tooltip that was created with onHover and is attached to the MutableText
+    if (isHovered) {
+        context.drawHoverEvent(MinecraftClient.getInstance().textRenderer, text.style, pMouseX!!, pMouseY!!)
+    }
 }
 
 fun drawScaledText(
-    matrixStack: MatrixStack,
+    context: DrawContext,
     text: OrderedText,
     x: Number,
     y: Number,
@@ -158,10 +175,11 @@ fun drawScaledText(
     if (opacity.toFloat() < 0.05F) {
         return
     }
+    val matrixStack = context.matrices
     matrixStack.push()
     matrixStack.scale(scaleX, scaleY, 1F)
     drawText(
-        poseStack = matrixStack,
+        context = context,
         text = text,
         x = x.toFloat() / scaleX,
         y = y.toFloat() / scaleY,
@@ -191,7 +209,7 @@ fun renderBeaconBeam(
     val i = yOffset + height
     val beamRotation = Math.floorMod(totalLevelTime, 40).toFloat() + partialTicks
     matrixStack.push()
-    matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(beamRotation * 2.25f - 45.0f))
+    matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(beamRotation * 2.25f - 45.0f))
     var f9 = -beamRadius
     val f12 = -beamRadius
     renderPart(

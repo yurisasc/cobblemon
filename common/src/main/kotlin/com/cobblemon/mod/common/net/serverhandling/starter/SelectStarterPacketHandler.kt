@@ -9,13 +9,13 @@
 package com.cobblemon.mod.common.net.serverhandling.starter
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.server.SelectStarterPacket
-import com.cobblemon.mod.common.net.serverhandling.ServerPacketHandler
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-object SelectStarterPacketHandler : ServerPacketHandler<SelectStarterPacket> {
-    override fun invokeOnServer(packet: SelectStarterPacket, ctx: CobblemonNetwork.NetworkContext, player: ServerPlayerEntity) {
+object SelectStarterPacketHandler : ServerNetworkPacketHandler<SelectStarterPacket> {
+    override fun handle(packet: SelectStarterPacket, server: MinecraftServer, player: ServerPlayerEntity) {
         Cobblemon.starterHandler.chooseStarter(player, packet.categoryName, packet.selected)
     }
 }

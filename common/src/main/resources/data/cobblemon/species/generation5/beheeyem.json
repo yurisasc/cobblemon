@@ -8,6 +8,23 @@
     "synchronize",
     "h:analytic"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 75,
@@ -104,6 +121,7 @@
     "tm:storedpower",
     "tm:substitute",
     "tm:swagger",
+    "tm:telekinesis",
     "tm:thief",
     "tm:thunderbolt",
     "tm:thunderwave",
@@ -115,6 +133,8 @@
     "tm:wonderroom",
     "tm:zenheadbutt",
     "tutor:afteryou",
+    "tutor:allyswitch",
+    "tutor:darkpulse",
     "tutor:expandingforce",
     "tutor:gravity",
     "tutor:magiccoat",
@@ -124,8 +144,15 @@
     "tutor:roleplay",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
-    "tutor:telekinesis"
+    "tutor:snore",
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:uproar",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

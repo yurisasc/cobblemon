@@ -34,7 +34,7 @@
       },
       "catchRate": 3,
       "maleRatio": -1,
-      "baseExperienceYield": 347,
+      "baseExperienceYield": 335,
       "baseFriendship": 0,
       "evYield": {
         "hp": 0,
@@ -49,7 +49,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "primal",
@@ -150,6 +149,7 @@
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowclaw",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:smackdown",
     "tm:snore",
@@ -173,19 +173,54 @@
     "tm:uproar",
     "tm:willowisp",
     "tm:zenheadbutt",
+    "tutor:ancientpower",
     "tutor:block",
+    "tutor:bodyslam",
+    "tutor:bulkup",
     "tutor:counter",
     "tutor:defensecurl",
     "tutor:doubleedge",
+    "tutor:dragonpulse",
     "tutor:dynamicpunch",
+    "tutor:earthpower",
+    "tutor:earthquake",
+    "tutor:endure",
+    "tutor:eruption",
+    "tutor:fireblast",
+    "tutor:firepunch",
+    "tutor:fissure",
     "tutor:furycutter",
+    "tutor:hammerarm",
     "tutor:headbutt",
+    "tutor:ironhead",
+    "tutor:irontail",
+    "tutor:lavaplume",
+    "tutor:megakick",
+    "tutor:megapunch",
     "tutor:mimic",
+    "tutor:mudslap",
+    "tutor:precipiceblades",
+    "tutor:psychup",
+    "tutor:rest",
+    "tutor:rockslide",
     "tutor:rollout",
+    "tutor:scaryface",
     "tutor:scorchingsands",
     "tutor:seismictoss",
     "tutor:shockwave",
-    "tutor:swift"
+    "tutor:slash",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:solarbeam",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:swordsdance",
+    "tutor:thunderpunch",
+    "tutor:thunderwave",
+    "tutor:uproar"
   ],
   "labels": [
     "gen3",
@@ -213,5 +248,13 @@
   "height": 35,
   "weight": 9500,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:nether_star"
+      }
+    ]
+  }
 }

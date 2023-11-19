@@ -38,7 +38,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 0,
+      "baseExperienceYield": 158,
       "baseFriendship": 35,
       "evYield": {
         "hp": 0,
@@ -170,6 +170,7 @@
     "tm:icebeam",
     "tm:infestation",
     "tm:irontail",
+    "tm:muddywater",
     "tm:mudshot",
     "tm:outrage",
     "tm:protect",
@@ -192,8 +193,14 @@
     "tm:thunderbolt",
     "tm:toxic",
     "tm:waterpulse",
+    "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:irontail",
+    "tutor:outrage",
     "tutor:shockwave",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:snore",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen6",
@@ -238,5 +245,18 @@
   "height": 8,
   "weight": 175,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:slime_ball",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

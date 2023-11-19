@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Nosepass",
   "nationalPokedexNumber": 299,
   "primaryType": "rock",
@@ -7,6 +8,27 @@
     "magnetpull",
     "h:sandforce"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:flint",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:magnet",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 30,
     "attack": 45,
@@ -14,6 +36,17 @@
     "special_attack": 45,
     "special_defence": 90,
     "speed": 30
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "idle": {
+      "pointsAtSpawn": true
+    }
   },
   "catchRate": 255,
   "maleRatio": 0.5,
@@ -44,6 +77,7 @@
     "egg:block",
     "egg:doubleedge",
     "egg:endure",
+    "egg:explosion",
     "egg:magnitude",
     "egg:rollout",
     "egg:stealthrock",
@@ -55,6 +89,7 @@
     "tm:dazzlinggleam",
     "tm:doubleteam",
     "tm:earthquake",
+    "tm:endure",
     "tm:explosion",
     "tm:facade",
     "tm:frustration",
@@ -70,8 +105,10 @@
     "tm:round",
     "tm:sandstorm",
     "tm:secretpower",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:smackdown",
+    "tm:stealthrock",
     "tm:stoneedge",
     "tm:strength",
     "tm:substitute",
@@ -88,8 +125,11 @@
     "tutor:block",
     "tutor:bodyslam",
     "tutor:defensecurl",
+    "tutor:doubleedge",
     "tutor:dynamicpunch",
     "tutor:earthpower",
+    "tutor:endure",
+    "tutor:explosion",
     "tutor:firepunch",
     "tutor:gravity",
     "tutor:headbutt",
@@ -101,12 +141,20 @@
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:painsplit",
+    "tutor:rockslide",
+    "tutor:rollout",
     "tutor:selfdestruct",
     "tutor:shockwave",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stealthrock",
     "tutor:stompingtantrum",
-    "tutor:thunderpunch"
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:tackle",
+    "tutor:thunderbolt",
+    "tutor:thunderpunch",
+    "tutor:thunderwave"
   ],
   "labels": [
     "gen3"
@@ -125,10 +173,10 @@
       "requiredContext": "cobblemon:thunder_stone"
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 1.35,
     "fixed": false
   },
   "baseFriendship": 70,

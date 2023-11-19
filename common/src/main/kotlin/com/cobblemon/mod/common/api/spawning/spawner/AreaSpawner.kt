@@ -17,9 +17,9 @@ import com.cobblemon.mod.common.api.spawning.context.calculators.AreaSpawningCon
 import com.cobblemon.mod.common.api.spawning.context.calculators.SpawningContextCalculator.Companion.prioritizedAreaCalculators
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
-import com.cobblemon.mod.common.api.spawning.mixins.CachedOnlyChunkAccessor
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBoxLoaded
 import com.cobblemon.mod.common.util.squeezeWithinBounds
 import com.cobblemon.mod.common.util.toVec3f
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -30,6 +30,8 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.ChunkStatus
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules.DO_POKEMON_SPAWNING
+import net.minecraft.util.math.ChunkPos
 
 /**
  * A type of [TickingSpawner] that operates within some area. When this spawner type
@@ -58,13 +60,23 @@ abstract class AreaSpawner(
     var resolver: AreaContextResolver = Cobblemon.areaContextResolver
     var contextCalculators: List<AreaSpawningContextCalculator<*>> = prioritizedAreaCalculators
 
+
     override fun run(cause: SpawnCause): Pair<SpawningContext, SpawnDetail>? {
         val area = getArea(cause)
+        if (area?.world?.gameRules?.getBoolean(DO_POKEMON_SPAWNING) == false) {
+            return null
+        }
         val constrainedArea = if (area != null) constrainArea(area) else null
         if (constrainedArea != null) {
+
+            val areaBox = Box.of(Vec3d(constrainedArea.getCenter().toVec3f()), CHUNK_REACH * 16.0 * 2, 1000.0, CHUNK_REACH * 16.0 * 2)
+            if (!constrainedArea.world.isBoxLoaded(areaBox)) {
+                return null
+            }
+
             val numberNearby = constrainedArea.world.getEntitiesByClass(
                 PokemonEntity::class.java,
-                Box.of(Vec3d(constrainedArea.getCenter().toVec3f()), CHUNK_REACH * 16.0 * 2, 1000.0, CHUNK_REACH * 16.0 * 2)
+                areaBox
             ) { true }.size
 
             val chunksCovered = CHUNK_REACH * CHUNK_REACH
@@ -108,12 +120,16 @@ abstract class AreaSpawner(
         return true
     }
 
-    private fun constrainArea(area: SpawningArea): SpawningArea? {
+    fun constrainArea(area: SpawningArea): SpawningArea? {
         val basePos = BlockPos.Mutable(area.baseX, area.baseY, area.baseZ)
         val originalY = area.baseY
 
         val (chunkX, chunkZ) = Pair(ChunkSectionPos.getSectionCoord(area.baseX), ChunkSectionPos.getSectionCoord(area.baseZ))
-        val chunk = (area.world.chunkManager as CachedOnlyChunkAccessor).`cobblemon$request`(chunkX, chunkZ, ChunkStatus.FULL) ?: return null
+
+        // if the chunk isn't loaded, we don't want to go further & we don't want the getChunk function below to load/create the chunk.
+        if (!area.world.isChunkLoaded(ChunkPos.toLong(chunkX, chunkZ))) return null
+
+        val chunk = area.world.getChunk(chunkX, chunkZ, ChunkStatus.FULL) ?: return null
 
         var valid = isValidStartPoint(area.world, chunk, basePos)
 
@@ -136,16 +152,18 @@ abstract class AreaSpawner(
         if (valid) {
             val min = area.world.squeezeWithinBounds(basePos)
             val max = area.world.squeezeWithinBounds(basePos.add(area.length, area.height, area.width))
-            if (area.world.canSetBlock(min) && area.world.canSetBlock(max) && min.y != max.y) {
+            if (area.world.canSetBlock(min) && area.world.canSetBlock(max) &&
+                min.x < max.x && min.y < max.y && min.z < max.z
+            ) {
                 return SpawningArea(
                     cause = area.cause,
                     world = area.world,
                     baseX = min.x,
                     baseY = min.y,
                     baseZ = min.z,
-                    length = area.length,
+                    length = max.x - min.x,
                     height = max.y - min.y,
-                    width = area.width
+                    width = max.z - min.z
                 )
             }
         }

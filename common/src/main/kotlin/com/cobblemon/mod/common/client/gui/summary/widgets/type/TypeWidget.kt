@@ -22,7 +22,7 @@ abstract class TypeWidget(
 ): SoundlessWidget(pX, pY, pWidth, pHeight, pMessage) {
 
     companion object {
-        val typeResource = cobblemonResource("ui/types.png")
+        val typeResource = cobblemonResource("textures/gui/types.png")
         private const val OFFSET = 0.5
     }
 

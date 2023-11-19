@@ -36,7 +36,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 207,
+      "baseExperienceYield": 172,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -52,7 +52,6 @@
         "flying",
         "dragon"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -88,8 +87,10 @@
     "24:safeguard",
     "26:refresh",
     "28:sing",
+    "30:dragondance",
     "32:cottonguard",
     "38:takedown",
+    "40:dragonpulse",
     "44:moonblast",
     "50:perishsong",
     "56:skyattack",
@@ -132,8 +133,10 @@
     "tm:icebeam",
     "tm:incinerate",
     "tm:irontail",
+    "tm:naturalgift",
     "tm:outrage",
     "tm:playrough",
+    "tm:pluck",
     "tm:powerswap",
     "tm:protect",
     "tm:psychup",
@@ -143,6 +146,8 @@
     "tm:roar",
     "tm:rocksmash",
     "tm:roost",
+    "tm:round",
+    "tm:safeguard",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
@@ -162,15 +167,46 @@
     "tm:uproar",
     "tm:willowisp",
     "tm:wonderroom",
+    "tutor:aerialace",
+    "tutor:agility",
     "tutor:aircutter",
+    "tutor:bodyslam",
     "tutor:defog",
     "tutor:doubleedge",
+    "tutor:dracometeor",
+    "tutor:dragonbreath",
+    "tutor:dragondance",
+    "tutor:dragonpulse",
+    "tutor:dreameater",
     "tutor:dualwingbeat",
+    "tutor:endure",
+    "tutor:falseswipe",
+    "tutor:fireblast",
     "tutor:healbell",
+    "tutor:heatwave",
+    "tutor:hypervoice",
+    "tutor:irontail",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:naturalgift",
     "tutor:ominouswind",
-    "tutor:twister"
+    "tutor:outrage",
+    "tutor:protect",
+    "tutor:psychup",
+    "tutor:refresh",
+    "tutor:roost",
+    "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:solarbeam",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:tailwind",
+    "tutor:takedown",
+    "tutor:twister",
+    "tutor:uproar",
+    "tutor:wonderroom"
   ],
   "labels": [
     "gen3"
@@ -198,5 +234,21 @@
   "height": 11,
   "weight": 206,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:white_wool",
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Venipede",
   "nationalPokedexNumber": 543,
   "primaryType": "bug",
@@ -8,6 +9,19 @@
     "swarm",
     "h:speedboost"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 30,
     "attack": 45,
@@ -15,6 +29,14 @@
     "special_attack": 30,
     "special_defence": 39,
     "speed": 57
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "11-15"
+    }
   },
   "catchRate": 255,
   "maleRatio": 0.5,
@@ -44,7 +66,11 @@
     "44:doubleedge",
     "egg:bite",
     "egg:furycutter",
+    "egg:pinmissile",
     "egg:rockclimb",
+    "egg:spikes",
+    "egg:takedown",
+    "egg:toxicspikes",
     "egg:twineedle",
     "tm:agility",
     "tm:attract",
@@ -77,12 +103,17 @@
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:venomdrench",
     "tm:venoshock",
+    "tutor:bugbite",
     "tutor:endeavor",
+    "tutor:irondefense",
     "tutor:signalbeam",
     "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:steelroller"
   ],
   "labels": [
@@ -108,10 +139,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -7,6 +7,19 @@
     "swarm",
     "h:tintedlens"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 94,
@@ -29,6 +42,8 @@
     "1:protect",
     "1:quiverdance",
     "1:tackle",
+    "10:protect",
+    "15:bugbite",
     "20:hiddenpower",
     "23:confusion",
     "26:gust",
@@ -38,13 +53,16 @@
     "38:silverwind",
     "41:airslash",
     "44:psychic",
+    "47:bugbuzz",
     "47:lunge",
     "50:bugbuzz",
+    "50:quiverdance",
     "tm:acrobatics",
     "tm:aerialace",
     "tm:attract",
     "tm:captivate",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:endure",
@@ -52,6 +70,7 @@
     "tm:facade",
     "tm:flash",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:gigaimpact",
     "tm:hiddenpower",
     "tm:hyperbeam",
@@ -68,6 +87,8 @@
     "tm:safeguard",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:silverwind",
+    "tm:skillswap",
     "tm:sleeptalk",
     "tm:solarbeam",
     "tm:strugglebug",
@@ -85,8 +106,10 @@
     "tutor:gigadrain",
     "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:roost",
     "tutor:signalbeam",
     "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stringshot",
     "tutor:swift",

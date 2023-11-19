@@ -7,6 +7,22 @@
     "torrent",
     "h:defiant"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 53,
     "attack": 51,
@@ -30,20 +46,17 @@
       "swim": {
         "canSwimInWater": true,
         "canBreatheUnderwater": true
-      }
-    }
-  },
-  "drops": {
-    "amount": "2",
-    "entries": [
-      {
-        "item": "minecraft:feather",
-        "percentage": 50
       },
-      {
-        "item": "minecraft:chicken"
+      "walk": {
+        "walkSpeed": 0.25
       }
-    ]
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:pound",
@@ -51,6 +64,7 @@
     "8:bubble",
     "11:watersport",
     "15:peck",
+    "18:bide",
     "18:bubblebeam",
     "22:bide",
     "25:furyattack",
@@ -77,9 +91,11 @@
     "tm:attract",
     "tm:blizzard",
     "tm:brickbreak",
+    "tm:brine",
     "tm:captivate",
     "tm:confide",
     "tm:cut",
+    "tm:defog",
     "tm:dig",
     "tm:dive",
     "tm:doubleteam",
@@ -104,25 +120,39 @@
     "tm:scald",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:stealthrock",
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
     "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
+    "tm:whirlpool",
     "tm:workup",
+    "tutor:bubble",
     "tutor:bubblebeam",
     "tutor:covet",
     "tutor:defog",
+    "tutor:dive",
     "tutor:drillpeck",
+    "tutor:featherdance",
+    "tutor:growl",
     "tutor:headbutt",
     "tutor:hydropump",
     "tutor:icywind",
+    "tutor:mudslap",
+    "tutor:peck",
+    "tutor:pound",
+    "tutor:return",
+    "tutor:round",
     "tutor:signalbeam",
     "tutor:sing",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stealthrock",
     "tutor:waterpledge",
     "tutor:waterpulse",
+    "tutor:watersport",
     "tutor:whirlpool"
   ],
   "labels": [

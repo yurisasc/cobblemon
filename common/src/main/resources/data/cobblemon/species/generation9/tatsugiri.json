@@ -18,7 +18,8 @@
   },
   "catchRate": 100,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
+  "shoulderMountable": false,
+  "baseExperienceYield": 166,
   "baseFriendship": 50,
   "evYield": {
     "hp": 0,
@@ -33,6 +34,30 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "swim": {
+      "swimSpeed": 0.1,
+      "canSwimInWater": true,
+      "canBreatheUnderwater": true,
+      "canWalkOnWater": true
+    }
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:salmon"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "moves": [
     "1:splash",
     "1:watergun",

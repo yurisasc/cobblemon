@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.gui
 
 import java.util.stream.Collectors
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.StringVisitable
 import net.minecraft.text.Style
@@ -38,7 +39,7 @@ class MultiLineLabelK(
     }
 
     fun renderLeftAligned(
-        poseStack: MatrixStack,
+        context: DrawContext,
         x: Number, y: Number,
         ySpacing: Number,
         colour: Int,
@@ -46,7 +47,7 @@ class MultiLineLabelK(
     ) {
         comps.forEachIndexed { index, textWithWidth ->
             drawString(
-                poseStack = poseStack,
+                context = context,
                 x = x, y = y.toFloat() + ySpacing.toFloat() * index,
                 colour = colour,
                 shadow = shadow,

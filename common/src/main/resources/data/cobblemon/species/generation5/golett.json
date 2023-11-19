@@ -9,6 +9,23 @@
     "klutz",
     "h:noguard"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 59,
     "attack": 74,
@@ -16,6 +33,14 @@
     "special_attack": 35,
     "special_defence": 50,
     "speed": 35
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 190,
   "maleRatio": -1,
@@ -100,18 +125,33 @@
     "tm:substitute",
     "tm:superpower",
     "tm:swagger",
+    "tm:telekinesis",
     "tm:thief",
     "tm:thunderpunch",
     "tm:toxic",
+    "tutor:allyswitch",
     "tutor:block",
+    "tutor:drainpunch",
+    "tutor:earthpower",
+    "tutor:firepunch",
     "tutor:focuspunch",
     "tutor:gravity",
+    "tutor:icepunch",
+    "tutor:icywind",
+    "tutor:irondefense",
+    "tutor:lowkick",
     "tutor:magiccoat",
     "tutor:poltergeist",
+    "tutor:rollout",
     "tutor:scorchingsands",
     "tutor:shockwave",
     "tutor:signalbeam",
-    "tutor:telekinesis"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:superpower",
+    "tutor:telekinesis",
+    "tutor:thunderpunch"
   ],
   "labels": [
     "gen5"

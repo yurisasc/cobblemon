@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Swellow",
   "nationalPokedexNumber": 277,
   "primaryType": "normal",
@@ -7,6 +8,26 @@
     "guts",
     "h:scrappy"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 85,
@@ -24,6 +45,19 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:airslash",
     "1:bravebird",
@@ -43,6 +77,7 @@
     "tm:attract",
     "tm:captivate",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
     "tm:echoedvoice",
     "tm:endure",
@@ -53,6 +88,7 @@
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:naturalgift",
+    "tm:pluck",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -69,19 +105,26 @@
     "tm:toxic",
     "tm:uturn",
     "tm:workup",
+    "tutor:agility",
     "tutor:aircutter",
     "tutor:batonpass",
     "tutor:counter",
     "tutor:defog",
     "tutor:doubleedge",
     "tutor:endeavor",
+    "tutor:endure",
+    "tutor:facade",
     "tutor:heatwave",
     "tutor:laserfocus",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:roost",
     "tutor:skyattack",
+    "tutor:sleeptalk",
     "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
     "tutor:swift",
     "tutor:tailwind",
     "tutor:twister"
@@ -94,10 +137,10 @@
   ],
   "preEvolution": "taillow",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 70,

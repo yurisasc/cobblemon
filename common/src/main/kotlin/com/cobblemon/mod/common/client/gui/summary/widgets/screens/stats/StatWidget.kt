@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.gui.summary.widgets.screens.stats
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
@@ -20,17 +21,22 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
+import kotlin.math.cos
+import kotlin.math.sin
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
+import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.util.math.Vec2f
-import net.minecraft.util.math.Vec3f
+import org.joml.Vector3f
 
 class StatWidget(
     pX: Int, pY: Int,
@@ -55,13 +61,13 @@ class StatWidget(
         private const val BLUE = 0x00548BFB
         private const val RED = 0x00FB5454
 
-        private val statsBaseResource = cobblemonResource("ui/summary/summary_stats_chart_base.png")
-        private val statsChartResource = cobblemonResource("ui/summary/summary_stats_chart.png")
-        private val statsOtherBaseResource = cobblemonResource("ui/summary/summary_stats_other_base.png")
-        private val friendshipOverlayResource = cobblemonResource("ui/summary/summary_stats_friendship_overlay.png")
-        private val tabMarkerResource = cobblemonResource("ui/summary/summary_stats_tab_marker.png")
-        private val statIncreaseResource = cobblemonResource("ui/summary/summary_stats_icon_increase.png")
-        private val statDecreaseResource = cobblemonResource("ui/summary/summary_stats_icon_decrease.png")
+        private val statsBaseResource = cobblemonResource("textures/gui/summary/summary_stats_chart_base.png")
+        private val statsChartResource = cobblemonResource("textures/gui/summary/summary_stats_chart.png")
+        private val statsOtherBaseResource = cobblemonResource("textures/gui/summary/summary_stats_other_base.png")
+        private val friendshipOverlayResource = cobblemonResource("textures/gui/summary/summary_stats_friendship_overlay.png")
+        private val tabMarkerResource = cobblemonResource("textures/gui/summary/summary_stats_tab_marker.png")
+        private val statIncreaseResource = cobblemonResource("textures/gui/summary/summary_stats_icon_increase.png")
+        private val statDecreaseResource = cobblemonResource("textures/gui/summary/summary_stats_icon_decrease.png")
 
         private val statsLabel = lang("ui.stats")
         private val baseLabel = lang("ui.stats.base")
@@ -80,7 +86,7 @@ class StatWidget(
     var statTabIndex = tabIndex
 
     private fun drawTriangle(
-        colour: Vec3f,
+        colour: Vector3f,
         v1: Vec2f,
         v2: Vec2f,
         v3: Vec2f
@@ -92,10 +98,11 @@ class StatWidget(
         bufferBuilder.vertex(v1.x.toDouble(), v1.y.toDouble(), 10.0).next()
         bufferBuilder.vertex(v2.x.toDouble(), v2.y.toDouble(), 10.0).next()
         bufferBuilder.vertex(v3.x.toDouble(), v3.y.toDouble(), 10.0).next()
-        BufferRenderer.drawWithShader(bufferBuilder.end())
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
     }
 
-    private fun drawStatHexagon(stats: Map<Stat, Int>, colour: Vec3f, maximum: Int) {
+    private fun drawStatHexagon(stats: Map<Stat, Int>, colour: Vector3f, maximum: Int) {
         val hexLeftX = x + 25.5
         val hexTopY = y + 22
         val hexAttackY = hexTopY + 24.5
@@ -104,45 +111,49 @@ class StatWidget(
         val hexRightX = x + 108.5
         val hexCenterX = (hexLeftX + hexRightX) / 2
         val hexCenterY = (hexTopY + hexBottomY) / 2
+        val minTriangleSize = 8F
+        val minXTriangleLen = sin(Math.toRadians(61.0)).toFloat() * minTriangleSize * 0.95F
+        val minYTriangleLen = cos(Math.toRadians(60.0)).toFloat() * minTriangleSize
 
-        val triangleWidth = (hexCenterX - hexLeftX).toFloat()
-        val triangleHeight = ((hexBottomY - hexTopY) / 2).toFloat()
+        val triangleLongEdge = (hexCenterY - hexTopY - minTriangleSize).toFloat()
+        val triangleMediumEdge = (triangleLongEdge * sin(Math.toRadians(61.0))).toFloat()
+        val triangleShortEdge = (triangleLongEdge * cos(Math.toRadians(61.0))).toFloat()
 
-        val hpRatio = (stats.getOrDefault(Stats.HP, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val atkRatio = (stats.getOrDefault(Stats.ATTACK, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val defRatio = (stats.getOrDefault(Stats.DEFENCE, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val spAtkRatio = (stats.getOrDefault(Stats.SPECIAL_ATTACK, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val spDefRatio = (stats.getOrDefault(Stats.SPECIAL_DEFENCE, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val spdRatio = (stats.getOrDefault(Stats.SPEED, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
+        val hpRatio = (stats.getOrDefault(Stats.HP, 0).toFloat() / maximum).coerceIn(0F, 1F)
+        val atkRatio = (stats.getOrDefault(Stats.ATTACK, 0).toFloat() / maximum).coerceIn(0F, 1F)
+        val defRatio = (stats.getOrDefault(Stats.DEFENCE, 0).toFloat() / maximum).coerceIn(0F, 1F)
+        val spAtkRatio = (stats.getOrDefault(Stats.SPECIAL_ATTACK, 0).toFloat() / maximum).coerceIn(0F, 1F)
+        val spDefRatio = (stats.getOrDefault(Stats.SPECIAL_DEFENCE, 0).toFloat() / maximum).coerceIn(0F, 1F)
+        val spdRatio = (stats.getOrDefault(Stats.SPEED, 0).toFloat() / maximum).coerceIn(0F, 1F)
 
         val hpPoint = Vec2f(
             hexCenterX.toFloat(),
-            hexCenterY.toFloat() - hpRatio * triangleHeight
+            hexCenterY.toFloat() - minTriangleSize - hpRatio * triangleLongEdge
         )
 
         val attackPoint = Vec2f(
-            hexCenterX.toFloat() + atkRatio * triangleWidth,
-            hexCenterY.toFloat() - atkRatio * triangleHeight / 2
+            hexCenterX.toFloat() + minXTriangleLen + atkRatio * triangleMediumEdge,
+            hexCenterY.toFloat() - minYTriangleLen - atkRatio * triangleShortEdge
         )
 
         val defencePoint = Vec2f(
-            hexCenterX.toFloat() + defRatio * triangleWidth,
-            hexCenterY.toFloat() + defRatio * triangleHeight / 2
+            hexCenterX.toFloat() + minXTriangleLen + defRatio * triangleMediumEdge,
+            hexCenterY.toFloat() + minYTriangleLen + defRatio * triangleShortEdge
         )
 
         val specialAttackPoint = Vec2f(
-            hexCenterX.toFloat() - spAtkRatio * triangleWidth,
-            hexCenterY.toFloat() - spAtkRatio * triangleHeight / 2
+            hexCenterX.toFloat() - minXTriangleLen - spAtkRatio * triangleMediumEdge,
+            hexCenterY.toFloat() - minYTriangleLen - spAtkRatio * triangleShortEdge
         )
 
         val specialDefencePoint = Vec2f(
-            hexCenterX.toFloat() - spDefRatio * triangleWidth,
-            hexCenterY.toFloat() + spDefRatio * triangleHeight / 2
+            hexCenterX.toFloat() - minXTriangleLen - spDefRatio * triangleMediumEdge,
+            hexCenterY.toFloat() + minYTriangleLen + spDefRatio * triangleShortEdge
         )
 
         val speedPoint = Vec2f(
             hexCenterX.toFloat(),
-            hexCenterY.toFloat() + spdRatio * triangleHeight
+            hexCenterY.toFloat() + minTriangleSize + spdRatio * triangleLongEdge
         )
 
         val centerPoint = Vec2f(
@@ -161,19 +172,20 @@ class StatWidget(
         // 9-o'clock
         drawTriangle(colour, specialDefencePoint, centerPoint, specialAttackPoint)
         // 11-o'clock
-        drawTriangle(colour, hpPoint, specialAttackPoint, centerPoint)
+        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)
 
 
 //        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)
     }
 
 
-    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val renderChart = statTabIndex != OTHER
+        val matrices = context.matrices
 
         // Background
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = matrices,
             texture = if (renderChart) statsBaseResource else statsOtherBaseResource,
             x= x,
             y = y,
@@ -184,7 +196,7 @@ class StatWidget(
         // Chart
         if (renderChart) {
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = statsChartResource,
                 x= (x + 25.5) / SCALE,
                 y = (y + 22) / SCALE,
@@ -204,28 +216,28 @@ class StatWidget(
                     Stats.SPECIAL_DEFENCE to pokemon.specialDefence,
                     Stats.SPEED to pokemon.speed
                 ),
-                colour = Vec3f(50F/255, 215F/255F, 1F),
+                colour = Vector3f(50F/255, 215F/255F, 1F),
                 maximum = 400
             )
             BASE -> drawStatHexagon(
                 pokemon.form.baseStats,
-                colour = Vec3f(1F, 107F/255, 50F/255),
+                colour = Vector3f(1F, 107F/255, 50F/255),
                 maximum = 200
             )
             IV -> drawStatHexagon(
                 pokemon.ivs.associate { it.key to it.value },
-                colour = Vec3f(216F/255, 100F/255, 1F),
+                colour = Vector3f(216F/255, 100F/255, 1F),
                 maximum = 31
             )
             EV -> drawStatHexagon(
                 pokemon.evs.associate { it.key to it.value },
-                colour = Vec3f(1F, 1F, 100F/255),
+                colour = Vector3f(1F, 1F, 100F/255),
                 maximum = 252
             )
         }
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = statsLabel.bold(),
             x = x + 29,
             y = y + 143,
@@ -235,7 +247,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = ivLabel.bold(),
             x = x + 48,
             y = y + 143,
@@ -245,7 +257,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = evLabel.bold(),
             x = x + 67,
             y = y + 143,
@@ -255,7 +267,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = baseLabel.bold(),
             x = x + 86,
             y = y + 143,
@@ -265,7 +277,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = otherLabel.bold(),
             x = x + 105,
             y = y + 143,
@@ -275,7 +287,7 @@ class StatWidget(
         )
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             texture = tabMarkerResource,
             x= (x + 27 + (statTabIndex * 19)) / SCALE,
             y = (y + 140) / SCALE,
@@ -287,7 +299,7 @@ class StatWidget(
         if (renderChart) {
             // Stat Labels
             renderTextAtVertices(
-                pMatrixStack = pMatrixStack,
+                context = context,
                 hp = hpLabel.bold(),
                 spAtk = spAtkLabel.bold(),
                 atk = atkLabel.bold(),
@@ -298,7 +310,7 @@ class StatWidget(
 
             // Stat Values
             renderTextAtVertices(
-                pMatrixStack = pMatrixStack,
+                context = context,
                 offsetY = 5.5,
                 enableColour = false,
                 hp = getStatValueAsText(Stats.HP),
@@ -311,8 +323,9 @@ class StatWidget(
 
             // Nature-modified Stat Icons
             if (statTabIndex == STATS) {
-                renderModifiedStatIcon(pMatrixStack, pokemon.nature.increasedStat, true)
-                renderModifiedStatIcon(pMatrixStack, pokemon.nature.decreasedStat, false)
+                val nature = pokemon.effectiveNature
+                renderModifiedStatIcon(matrices, nature.increasedStat, true)
+                renderModifiedStatIcon(matrices, nature.decreasedStat, false)
             }
         } else {
             // Friendship
@@ -320,7 +333,7 @@ class StatWidget(
             val friendshipRatio = pokemon.friendship / 255F
             val friendshipBarWidth = ceil(friendshipRatio * friendshipBarWidthMax)
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = CobblemonResources.WHITE,
                 x = x + 13,
                 y = y + 27,
@@ -332,7 +345,7 @@ class StatWidget(
             )
 
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = matrices,
                 texture = friendshipOverlayResource,
                 x = (x + 5) / SCALE,
                 y = (y + 26) / SCALE,
@@ -343,7 +356,7 @@ class StatWidget(
 
             // Label
             drawScaledText(
-                matrixStack = pMatrixStack,
+                context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = lang("ui.stats.friendship").bold(),
                 x = x + 67,
@@ -353,7 +366,7 @@ class StatWidget(
             )
 
             drawScaledText(
-                matrixStack = pMatrixStack,
+                context = context,
                 text = pokemon.friendship.toString().text(),
                 x = x + 16,
                 y = y + 16,
@@ -362,7 +375,7 @@ class StatWidget(
             )
 
             drawScaledText(
-                matrixStack = pMatrixStack,
+                context = context,
                 text = "${floor(friendshipRatio * 100)}%".text(),
                 x = x + 118,
                 y = y + 16,
@@ -374,7 +387,11 @@ class StatWidget(
 
     override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
         val index = getTabIndexFromPos(pMouseX, pMouseY)
-        if (index in 0..4) statTabIndex = index
+        // Only play sound here as the rest of the widget is meant to be silent
+        if (index in 0..4) {
+            statTabIndex = index
+            MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+        }
         return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 
@@ -417,14 +434,16 @@ class StatWidget(
 
     private fun getModifiedStatColour(stat: Stat, enableColour: Boolean): Int {
         if (statTabIndex == STATS && enableColour) {
-            if (pokemon.nature.increasedStat == stat) return RED
-            if (pokemon.nature.decreasedStat == stat) return BLUE
+            val nature = pokemon.effectiveNature
+
+            if (nature.increasedStat == stat) return RED
+            if (nature.decreasedStat == stat) return BLUE
         }
         return WHITE
     }
 
     private fun renderTextAtVertices(
-        pMatrixStack: MatrixStack,
+        context: DrawContext,
         offsetY: Double = 0.0,
         enableColour: Boolean = true,
         hp: MutableText,
@@ -435,7 +454,7 @@ class StatWidget(
         speed: MutableText
     ) {
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = hp,
             x = x + 67,
             y = y + 10.5 + offsetY,
@@ -445,7 +464,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = spAtk,
             x = x + 12,
             y = y + 42.5 + offsetY,
@@ -455,7 +474,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = atk,
             x = x + 122,
             y = y + 42.5 + offsetY,
@@ -465,7 +484,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = spDef,
             x = x + 12,
             y = y + 93.5 + offsetY,
@@ -475,7 +494,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = def,
             x = x + 122,
             y = y + 93.5 + offsetY,
@@ -485,7 +504,7 @@ class StatWidget(
         )
 
         drawScaledText(
-            matrixStack = pMatrixStack,
+            context = context,
             text = speed,
             x = x + 67,
             y = y + 124.5 + offsetY,

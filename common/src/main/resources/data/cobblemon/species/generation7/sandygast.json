@@ -39,6 +39,7 @@
     "50:earthpower",
     "55:shoreup",
     "60:sandstorm",
+    "egg:amnesia",
     "egg:ancientpower",
     "egg:curse",
     "egg:destinybond",
@@ -80,6 +81,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:shadowball",
     "tm:skillswap",
@@ -96,13 +98,20 @@
     "tm:trick",
     "tutor:afteryou",
     "tutor:block",
+    "tutor:earthpower",
+    "tutor:gigadrain",
     "tutor:gravity",
+    "tutor:irondefense",
     "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:recycle",
     "tutor:roleplay",
     "tutor:scorchingsands",
-    "tutor:spite"
+    "tutor:skillswap",
+    "tutor:snore",
+    "tutor:spite",
+    "tutor:stealthrock",
+    "tutor:trick"
   ],
   "labels": [
     "gen7"
@@ -143,5 +152,18 @@
   "height": 5,
   "weight": 700,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

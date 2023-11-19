@@ -47,7 +47,10 @@
     "egg:bellydrum",
     "egg:curse",
     "egg:fissure",
+    "egg:rockslide",
+    "egg:rollout",
     "egg:signalbeam",
+    "egg:sleeptalk",
     "egg:spitup",
     "egg:stockpile",
     "egg:swallow",
@@ -93,16 +96,34 @@
     "tm:swagger",
     "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tutor:aquatail",
+    "tutor:aurorabeam",
+    "tutor:bodyslam",
     "tutor:charm",
+    "tutor:defensecurl",
+    "tutor:dive",
     "tutor:doubleedge",
+    "tutor:endure",
+    "tutor:fissure",
     "tutor:headbutt",
+    "tutor:icywind",
+    "tutor:irontail",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:powdersnow",
+    "tutor:rockslide",
+    "tutor:rollout",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:steelroller",
-    "tutor:superfang"
+    "tutor:substitute",
+    "tutor:superfang",
+    "tutor:swagger",
+    "tutor:watergun",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"
@@ -145,5 +166,18 @@
   "height": 8,
   "weight": 395,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:cod",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

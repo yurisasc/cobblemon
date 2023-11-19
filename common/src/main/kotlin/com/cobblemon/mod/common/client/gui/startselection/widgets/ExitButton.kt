@@ -10,7 +10,9 @@ package com.cobblemon.mod.common.client.gui.startselection.widgets
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.TexturedButtonWidget
+import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 class ExitButton(
     pX: Int, pY: Int,
@@ -22,19 +24,21 @@ class ExitButton(
     companion object {
         private const val EXIT_BUTTON_WIDTH = 15.95F
         private const val EXIT_BUTTON_HEIGHT = 11.95F
-        private val exitButtonResource = cobblemonResource("ui/starterselection/starterselection_exit.png")
+        private val exitButtonResource = cobblemonResource("textures/gui/starterselection/starterselection_exit.png")
     }
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
         if (isHovered) {
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = context.matrices,
                 x = x + 0.075f, y = y + 1.05f,
                 texture = exitButtonResource,
                 width = EXIT_BUTTON_WIDTH, height = EXIT_BUTTON_HEIGHT
             )
         }
     }
+
+    override fun playDownSound(soundManager: SoundManager) { }
 
 }

@@ -8,17 +8,28 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ZapdosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class ZapdosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("zapdos")
     override val head = getPart("head")
+    override val leftLeg = getPart("leftleg")
+    override val rightLeg = getPart("rightleg")
+    override val leftWing = getPart("left_wing")
+    override val rightWing = getPart("right_wing")
 
     override val portraitScale = 2.7F
     override val portraitTranslation = Vec3d(-0.9, -0.65, 0.0)
@@ -27,15 +38,26 @@ class ZapdosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.STATIONARY_POSES + UI_POSES - PoseType.HOVER,
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                bedrock("zapdos", "ground_idle")
+            )
+        )
+
+        walk = registerPose(
+            poseName = "walk",
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F),
                 bedrock("zapdos", "ground_idle")
             )
         )
@@ -45,7 +67,12 @@ class ZapdosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("zapdos", "air_idle")
+                bedrock("zapdos", "air_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Y_AXIS
+                )
             )
         )
 
@@ -54,7 +81,12 @@ class ZapdosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("zapdos", "air_fly")
+                bedrock("zapdos", "air_fly"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Y_AXIS
+                )
             )
         )
     }

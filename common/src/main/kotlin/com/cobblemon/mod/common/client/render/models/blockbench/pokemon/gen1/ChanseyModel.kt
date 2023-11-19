@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -15,14 +17,17 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class ChanseyModel(root: ModelPart) : PokemonPoseableModel() {
+
+class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("chansey")
+    override val leftLeg = getPart("left_foot")
+    override val rightLeg = getPart("right_foot")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.2, -0.5, 0.0)
+    override val portraitScale = 1.5F
+    override val portraitTranslation = Vec3d(-0.35, 0.3, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.2, 0.0)
+    override val profileScale = 0.8F
+    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -44,7 +49,8 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("chansey", "ground_idle")
+                bedrock("chansey", "ground_idle"),
+                BipedWalkAnimation(this),
                 //bedrock("chansey", "ground_walk")
             )
         )

@@ -21,7 +21,7 @@ import kotlin.reflect.full.createInstance
  * A spawning selector that compiles a distinct list of all spawn details that
  * are possible across the context list, chooses which context type to spawn based
  * on a weighted selection of the number of spawns possible in it, performs a weighted
- * selection of them of spawns in that context type, and then chooses which of its contexts
+ * selection of spawns in that context type, and then chooses which of its contexts
  * to spawn them on based on their context-adjusted weights.
  *
  * The goal of this algorithm is to be kinder to spawns that are only possible
@@ -78,11 +78,12 @@ open class FlatContextWeightedSelector : SpawningSelector {
 
             val possible = spawner.getMatchingSpawns(ctx)
             if (possible.isNotEmpty()) {
-
                 val contextSelectionData = contextTypesToSpawns.getOrPut(contextType) { ContextSelectionData(mutableMapOf(), 0F) }
-
                 possible.forEach {
-                    if (it.percentage > 0) {
+                    // Only add to percentSum if this is the first time we've seen this SpawnDetail for this context
+                    // type, otherwise the percentage will get amplified for every context the thing was possible,
+                    // completely ruining the point of this pre-selection percentage.
+                    if (it.percentage > 0 && !contextSelectionData.spawnsToContexts.containsKey(it)) {
                         contextSelectionData.percentSum += it.percentage
                     }
 
@@ -107,8 +108,8 @@ open class FlatContextWeightedSelector : SpawningSelector {
         if (selectionData.isEmpty()) {
             return null
         }
-
-        // Which context should we use?
+ 
+        // Which context type should we use?
         val contextSelectionData = selectionData.entries.toList().weightedSelection { getWeight(it.key) * it.value.size }!!.value
 
         val spawnsToContexts = contextSelectionData.spawnsToContexts

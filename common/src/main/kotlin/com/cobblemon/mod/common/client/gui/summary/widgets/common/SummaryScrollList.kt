@@ -14,9 +14,8 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 
 abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
@@ -37,9 +36,11 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         const val HEIGHT = 114
         const val SLOT_WIDTH = 91
 
-        private val backgroundResource = cobblemonResource("ui/summary/summary_scroll_background.png")
-        private val scrollOverlayResource = cobblemonResource("ui/summary/summary_scroll_overlay.png")
+        private val backgroundResource = cobblemonResource("textures/gui/summary/summary_scroll_background.png")
+        private val scrollOverlayResource = cobblemonResource("textures/gui/summary/summary_scroll_overlay.png")
     }
+
+    private var scrolling = false
 
     override fun getRowWidth(): Int {
         return SLOT_WIDTH
@@ -56,11 +57,11 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         return left + width - 3
     }
 
-    override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+        val matrices = context.matrices
         correctSize()
-
         blitk(
-            matrixStack = poseStack,
+            matrixStack = matrices,
             texture = backgroundResource,
             x = left,
             y = top,
@@ -68,19 +69,19 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
             width = WIDTH
         )
 
-        DrawableHelper.enableScissor(
+        context.enableScissor(
             left,
             top + 1,
             left + width,
             top + 1 + height
         )
-        super.render(poseStack, mouseX, mouseY, partialTicks)
-        DrawableHelper.disableScissor()
+        super.render(context, mouseX, mouseY, partialTicks)
+        context.disableScissor()
 
         // Scroll Overlay
         val scrollOverlayOffset = 4
         blitk(
-            matrixStack = poseStack,
+            matrixStack = matrices,
             texture = scrollOverlayResource,
             x = left,
             y = top - (scrollOverlayOffset / 2),
@@ -90,7 +91,7 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
 
         // Label
         drawScaledText(
-            matrixStack = poseStack,
+            context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = label.bold(),
             x = left + 32.5,
@@ -98,6 +99,35 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
             centered = true,
             shadow = true
         )
+    }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        updateScrollingState(mouseX, mouseY)
+        if (scrolling) {
+            focused = getEntryAtPosition(mouseX, mouseY)
+            isDragging = true
+        }
+        return super.mouseClicked(mouseX, mouseY, button)
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
+        if (scrolling) {
+            if (mouseY < top) {
+                setScrollAmount(0.0)
+            } else if (mouseY > bottom) {
+                setScrollAmount(maxScroll.toDouble())
+            } else {
+                setScrollAmount(scrollAmount + deltaY)
+            }
+        }
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+    }
+
+    private fun updateScrollingState(mouseX: Double, mouseY: Double) {
+        scrolling = mouseX >= this.scrollbarPositionX.toDouble()
+                && mouseX < (this.scrollbarPositionX + 3).toDouble()
+                && mouseY >= top
+                && mouseY < bottom
     }
 
     private fun correctSize() {

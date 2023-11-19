@@ -25,8 +25,30 @@
   "eggGroups": [
     "human_like"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_belt",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "moves": [
     "1:bulletpunch",
+    "1:cometpunch",
     "1:fakeout",
     "1:feint",
     "1:focusenergy",
@@ -67,6 +89,7 @@
     "tm:fling",
     "tm:focusblast",
     "tm:focusenergy",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -77,6 +100,7 @@
     "tm:megapunch",
     "tm:metronome",
     "tm:naturalgift",
+    "tm:poweruppunch",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -85,12 +109,14 @@
     "tm:revenge",
     "tm:rockclimb",
     "tm:rockslide",
+    "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
     "tm:stoneedge",
+    "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -98,10 +124,13 @@
     "tm:thief",
     "tm:throatchop",
     "tm:thunderpunch",
+    "tm:toxic",
     "tm:uproar",
     "tm:workup",
     "tutor:agility",
+    "tutor:attract",
     "tutor:bide",
+    "tutor:bodyslam",
     "tutor:brickbreak",
     "tutor:bulkup",
     "tutor:coaching",
@@ -109,15 +138,19 @@
     "tutor:counter",
     "tutor:covet",
     "tutor:curse",
+    "tutor:detect",
     "tutor:dizzypunch",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:drainpunch",
     "tutor:dynamicpunch",
     "tutor:earthquake",
+    "tutor:endure",
     "tutor:facade",
     "tutor:feint",
     "tutor:firepunch",
     "tutor:focusenergy",
+    "tutor:focuspunch",
     "tutor:frustration",
     "tutor:headbutt",
     "tutor:helpinghand",
@@ -125,7 +158,11 @@
     "tutor:icepunch",
     "tutor:laserfocus",
     "tutor:leer",
+    "tutor:lowkick",
+    "tutor:machpunch",
+    "tutor:megakick",
     "tutor:megapunch",
+    "tutor:metronome",
     "tutor:mimic",
     "tutor:mindreader",
     "tutor:mudslap",
@@ -139,14 +176,21 @@
     "tutor:roleplay",
     "tutor:seismictoss",
     "tutor:skullbash",
+    "tutor:skyuppercut",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:strength",
     "tutor:submission",
     "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
     "tutor:swift",
     "tutor:takedown",
+    "tutor:thief",
+    "tutor:throatchop",
     "tutor:thunderpunch",
-    "tutor:toxic"
+    "tutor:toxic",
+    "tutor:vacuumwave"
   ],
   "labels": [
     "gen1"

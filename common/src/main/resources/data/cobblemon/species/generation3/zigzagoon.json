@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Zigzagoon",
   "nationalPokedexNumber": 263,
   "primaryType": "normal",
@@ -7,6 +8,15 @@
     "gluttony",
     "h:quickfeet"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 38,
     "attack": 30,
@@ -15,9 +25,12 @@
     "special_defence": 41,
     "speed": 60
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "forms": [
     {
       "name": "Galar",
@@ -127,7 +140,7 @@
       "weight": 175,
       "evolutions": [
         {
-          "id": "zigzagoon_linoone",
+          "id": "galarian_zigzagoon_linoone",
           "variant": "level_up",
           "result": "linoone form=galar",
           "consumeHeldItem": false,
@@ -142,6 +155,12 @@
           ]
         }
       ],
+      "baseScale": 0.8,
+      "hitbox": {
+        "width": 0.6,
+        "height": 0.4,
+        "fixed": false
+      },
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -152,6 +171,14 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:growl",
     "1:tackle",
@@ -170,12 +197,17 @@
     "30:flail",
     "33:bellydrum",
     "36:doubleedge",
+    "egg:charm",
     "egg:extremespeed",
+    "egg:helpinghand",
     "egg:mudslap",
     "egg:pursuit",
     "egg:rockclimb",
     "egg:simplebeam",
+    "egg:sleeptalk",
+    "egg:substitute",
     "egg:tickle",
+    "egg:trick",
     "tm:attract",
     "tm:blizzard",
     "tm:bodyslam",
@@ -213,6 +245,7 @@
     "tm:secretpower",
     "tm:seedbomb",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snore",
     "tm:substitute",
@@ -227,15 +260,39 @@
     "tm:thunderwave",
     "tm:toxic",
     "tm:trick",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tm:workup",
+    "tutor:bodyslam",
+    "tutor:covet",
     "tutor:defensecurl",
+    "tutor:doubleedge",
+    "tutor:endure",
+    "tutor:extremespeed",
     "tutor:furycutter",
+    "tutor:growl",
+    "tutor:gunkshot",
+    "tutor:headbutt",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icywind",
+    "tutor:irontail",
     "tutor:lastresort",
     "tutor:mimic",
+    "tutor:mudslap",
     "tutor:rollout",
+    "tutor:seedbomb",
     "tutor:shockwave",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
     "tutor:superfang",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:tackle",
+    "tutor:tailwhip",
+    "tutor:thunderwave",
+    "tutor:trick",
     "tutor:waterpulse"
   ],
   "labels": [
@@ -262,10 +319,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 0.4,
     "fixed": false
   },
   "baseFriendship": 50,

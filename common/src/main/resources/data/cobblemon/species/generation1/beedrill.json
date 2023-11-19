@@ -37,7 +37,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 223,
+      "baseExperienceYield": 178,
       "baseFriendship": 70,
       "evYield": {
         "hp": 0,
@@ -52,7 +52,6 @@
       "eggGroups": [
         "bug"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -80,6 +79,9 @@
       "light": "0-4"
     },
     "moving": {
+      "walk": {
+        "walkSpeed": 0.4
+      },
       "swim": {
         "canWalkOnWater": true
       },
@@ -88,40 +90,77 @@
       }
     }
   },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:pinap_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "moves": [
+    "1:furyattack",
+    "1:twineedle",
+    "14:rage",
     "17:pursuit",
+    "20:focusenergy",
     "23:venoshock",
     "26:assurance",
     "29:toxicspikes",
+    "32:pinmissile",
+    "35:poisonjab",
+    "38:agility",
     "41:endeavor",
     "44:fellstinger",
     "tm:acrobatics",
     "tm:aerialace",
     "tm:attract",
+    "tm:brickbreak",
     "tm:brutalswing",
     "tm:captivate",
     "tm:confide",
+    "tm:cut",
+    "tm:defog",
     "tm:doubleteam",
+    "tm:endure",
+    "tm:facade",
     "tm:falseswipe",
     "tm:flash",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:gigaimpact",
     "tm:hiddenpower",
+    "tm:hyperbeam",
     "tm:infestation",
     "tm:naturalgift",
     "tm:payback",
+    "tm:poisonjab",
+    "tm:protect",
+    "tm:rest",
     "tm:return",
     "tm:rocksmash",
+    "tm:roost",
     "tm:round",
     "tm:secretpower",
     "tm:silverwind",
     "tm:sleeptalk",
+    "tm:sludgebomb",
+    "tm:solarbeam",
     "tm:strugglebug",
+    "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:swordsdance",
     "tm:thief",
+    "tm:toxic",
+    "tm:uturn",
     "tm:venoshock",
+    "tm:xscissor",
     "tutor:agility",
     "tutor:aircutter",
     "tutor:attract",
@@ -143,7 +182,6 @@
     "tutor:frustration",
     "tutor:furyattack",
     "tutor:furycutter",
-    "tutor:gigadrain",
     "tutor:gigadrain",
     "tutor:headbutt",
     "tutor:hiddenpower",
@@ -167,7 +205,6 @@
     "tutor:skullbash",
     "tutor:sleeptalk",
     "tutor:sludgebomb",
-    "tutor:snore",
     "tutor:snore",
     "tutor:solarbeam",
     "tutor:stringshot",

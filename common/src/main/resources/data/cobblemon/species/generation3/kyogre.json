@@ -33,7 +33,7 @@
       },
       "catchRate": 3,
       "maleRatio": -1,
-      "baseExperienceYield": 347,
+      "baseExperienceYield": 335,
       "baseFriendship": 0,
       "evYield": {
         "hp": 0,
@@ -48,7 +48,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "primal",
@@ -81,6 +80,7 @@
     "27:muddywater",
     "36:icebeam",
     "45:sheercold",
+    "50:rest",
     "54:aquaring",
     "72:hydropump",
     "81:doubleedge",
@@ -111,6 +111,7 @@
     "tm:icywind",
     "tm:ironhead",
     "tm:liquidation",
+    "tm:muddywater",
     "tm:naturalgift",
     "tm:protect",
     "tm:psychup",
@@ -126,6 +127,7 @@
     "tm:scald",
     "tm:scaryface",
     "tm:secretpower",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snore",
     "tm:strength",
@@ -142,14 +144,43 @@
     "tm:waterfall",
     "tm:waterpulse",
     "tm:whirlpool",
+    "tutor:ancientpower",
+    "tutor:aquaring",
+    "tutor:aquatail",
     "tutor:block",
+    "tutor:bodyslam",
+    "tutor:calmmind",
     "tutor:defensecurl",
+    "tutor:dive",
+    "tutor:doubleedge",
+    "tutor:endure",
     "tutor:headbutt",
+    "tutor:hydropump",
+    "tutor:icebeam",
+    "tutor:icywind",
+    "tutor:ironhead",
+    "tutor:liquidation",
     "tutor:mimic",
+    "tutor:muddywater",
     "tutor:mudslap",
+    "tutor:originpulse",
+    "tutor:psychup",
+    "tutor:rest",
+    "tutor:rockslide",
+    "tutor:sheercold",
     "tutor:shockwave",
     "tutor:signalbeam",
-    "tutor:swift"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:surf",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:thunder",
+    "tutor:thunderwave",
+    "tutor:uproar",
+    "tutor:waterpulse",
+    "tutor:waterspout"
   ],
   "labels": [
     "gen3",
@@ -177,5 +208,13 @@
   "height": 45,
   "weight": 3520,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:heart_of_the_sea"
+      }
+    ]
+  }
 }

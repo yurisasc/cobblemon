@@ -53,6 +53,13 @@ class ClientStorageManager {
         }
     }
 
+    fun switchToPokemon(pokemon: UUID) {
+        selectedPokemon = pokemon
+        selectedSlot = myParty.indexOf(myParty.findByUUID(pokemon))
+        // Check selected Pokémon in-case it's been set to -1 (Pokémon was not in the party for some reason)
+        checkSelectedPokemon()
+    }
+
     fun checkSelectedPokemon() {
         if (selectedSlot == -1) {
             val pokemon = myParty.firstOrNull { it != null } ?: return
@@ -79,7 +86,7 @@ class ClientStorageManager {
     }
 
     fun locatePokemon(storeID: UUID, pokemonID: UUID): Pokemon? {
-        partyStores[storeID]?.let { return it.findByUUID(pokemonID) } ?: return pcStores[storeID]?.findByUUID(pokemonID)
+        return partyStores[storeID]?.findByUUID(pokemonID) ?: pcStores[storeID]?.findByUUID(pokemonID)
     }
 
     fun createParty(mine: Boolean, uuid: UUID, slots: Int) {

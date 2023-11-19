@@ -8,18 +8,19 @@
 
 package com.cobblemon.mod.common.net.serverhandling.pokemon.interact
 
-import com.cobblemon.mod.common.CobblemonNetwork.NetworkContext
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
-import com.cobblemon.mod.common.net.serverhandling.ServerPacketHandler
+import com.cobblemon.mod.common.util.party
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-object InteractPokemonHandler : ServerPacketHandler<InteractPokemonPacket> {
-    override fun invokeOnServer(packet: InteractPokemonPacket, ctx: NetworkContext, player: ServerPlayerEntity) {
-        val pokemonEntity = player.getWorld().getEntity(packet.pokemonID);
+object InteractPokemonHandler : ServerNetworkPacketHandler<InteractPokemonPacket> {
+    override fun handle(packet: InteractPokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
+        val pokemonEntity = player.serverWorld.getEntity(packet.pokemonID)
         if (pokemonEntity is PokemonEntity) {
             if (packet.mountShoulder) {
-                if (!pokemonEntity.isReadyToSitOnPlayer) {
+                if (!pokemonEntity.isReadyToSitOnPlayer || player.party().none { it == pokemonEntity.pokemon }) {
                     return
                 }
                 pokemonEntity.tryMountingShoulder(player)

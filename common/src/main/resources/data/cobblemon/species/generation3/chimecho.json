@@ -1,10 +1,20 @@
 {
+  "implemented": true,
   "name": "Chimecho",
   "nationalPokedexNumber": 358,
   "primaryType": "psychic",
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 50,
@@ -22,6 +32,19 @@
   "eggGroups": [
     "amorphous"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:confusion",
@@ -37,11 +60,13 @@
     "32:uproar",
     "37:safeguard",
     "42:doubleedge",
+    "46:psychic",
     "47:healpulse",
     "egg:cosmicpower",
     "egg:craftyshield",
     "egg:curse",
     "egg:disable",
+    "egg:dreameater",
     "egg:futuresight",
     "egg:hypnosis",
     "egg:perishsong",
@@ -72,6 +97,7 @@
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
+    "tm:recycle",
     "tm:reflect",
     "tm:rest",
     "tm:return",
@@ -79,23 +105,33 @@
     "tm:safeguard",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
+    "tm:skillswap",
     "tm:sleeptalk",
+    "tm:snatch",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:taunt",
+    "tm:telekinesis",
     "tm:thunderwave",
     "tm:torment",
     "tm:toxic",
     "tm:trickroom",
     "tutor:allyswitch",
+    "tutor:astonish",
     "tutor:bind",
     "tutor:defensecurl",
     "tutor:defog",
+    "tutor:doubleedge",
+    "tutor:dreameater",
+    "tutor:endure",
     "tutor:gravity",
+    "tutor:growl",
     "tutor:healbell",
     "tutor:helpinghand",
     "tutor:hypervoice",
+    "tutor:hypnosis",
     "tutor:icywind",
     "tutor:knockoff",
     "tutor:laserfocus",
@@ -103,16 +139,21 @@
     "tutor:magiccoat",
     "tutor:mimic",
     "tutor:nightmare",
+    "tutor:psychup",
     "tutor:recycle",
     "tutor:rollout",
     "tutor:shockwave",
     "tutor:signalbeam",
     "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
     "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
     "tutor:telekinesis",
     "tutor:trick",
     "tutor:uproar",
+    "tutor:wrap",
     "tutor:zenheadbutt"
   ],
   "labels": [
@@ -123,10 +164,10 @@
   ],
   "preEvolution": "chingling",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.4,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 70,

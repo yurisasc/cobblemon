@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Ribombee",
   "nationalPokedexNumber": 743,
   "primaryType": "bug",
@@ -8,6 +9,19 @@
     "shielddust",
     "h:sweetveil"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:honey_bottle",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 55,
@@ -19,6 +33,22 @@
   "catchRate": 75,
   "maleRatio": 0.5,
   "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canWalkOnWater": true
+      },
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "forms": [
     {
       "name": "Totem",
@@ -130,7 +160,13 @@
       "weight": 20,
       "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "baseScale": 0.9,
+      "hitbox": {
+        "width": 0.9,
+        "height": 2.6,
+        "fixed": false
+      }
     }
   ],
   "baseExperienceYield": 162,
@@ -144,6 +180,7 @@
     "1:absorb",
     "1:covet",
     "1:fairywind",
+    "1:pollenpuff",
     "1:stunspore",
     "1:sweetscent",
     "13:silverwind",
@@ -209,13 +246,21 @@
     "tm:uturn",
     "tm:wonderroom",
     "tutor:afteryou",
+    "tutor:allyswitch",
     "tutor:bugbite",
+    "tutor:covet",
     "tutor:defog",
     "tutor:dualwingbeat",
+    "tutor:helpinghand",
     "tutor:lastresort",
+    "tutor:magicroom",
     "tutor:signalbeam",
+    "tutor:skillswap",
+    "tutor:snore",
     "tutor:tailwind",
-    "tutor:telekinesis"
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:wonderroom"
   ],
   "labels": [
     "gen7"
@@ -225,10 +270,10 @@
   ],
   "preEvolution": "cutiefly",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.35,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.85,
+    "height": 2.6,
     "fixed": false
   },
   "baseFriendship": 50,

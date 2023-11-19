@@ -25,12 +25,11 @@
     "water_1"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:slime_ball",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       }
     ]
   },
@@ -66,10 +65,12 @@
     "55:toxic",
     "60:memento",
     "egg:bestow",
+    "egg:endure",
     "egg:mirrorcoat",
     "egg:spite",
     "egg:swagger",
     "egg:tickle",
+    "egg:venomdrench",
     "tm:attract",
     "tm:batonpass",
     "tm:confide",
@@ -88,10 +89,16 @@
     "tm:screech",
     "tm:sleeptalk",
     "tm:substitute",
+    "tm:swagger",
     "tm:taunt",
+    "tm:toxic",
     "tm:venomdrench",
     "tutor:block",
-    "tutor:recycle"
+    "tutor:gastroacid",
+    "tutor:helpinghand",
+    "tutor:painsplit",
+    "tutor:recycle",
+    "tutor:spite"
   ],
   "labels": [
     "gen7"

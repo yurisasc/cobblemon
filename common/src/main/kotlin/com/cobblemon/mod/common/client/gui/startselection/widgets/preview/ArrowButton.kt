@@ -8,9 +8,14 @@
 
 package com.cobblemon.mod.common.client.gui.startselection.widgets.preview
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.TexturedButtonWidget
+import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 class ArrowButton(
@@ -24,18 +29,22 @@ class ArrowButton(
     texture, onPress) {
 
     companion object {
-        private val RIGHT_ARROW_BUTTON_RESOURCE = cobblemonResource("ui/starterselection/starterselection_arrow_right.png")
-        private val LEFT_ARROW_BUTTON_RESOURCE = cobblemonResource("ui/starterselection/starterselection_arrow_left.png")
+        private val RIGHT_ARROW_BUTTON_RESOURCE = cobblemonResource("textures/gui/starterselection/starterselection_arrow_right.png")
+        private val LEFT_ARROW_BUTTON_RESOURCE = cobblemonResource("textures/gui/starterselection/starterselection_arrow_left.png")
 
         private const val ARROW_BUTTON_WIDTH = 9f
         private const val ARROW_BUTTON_HEIGHT = 14f
     }
 
-    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun playDownSound(soundManager: SoundManager?) {
+        return
+    }
+
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height
         if (isHovered) {
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 x = x + 2.4F, y = y - 0.0F,
                 texture = texture,
                 width = ARROW_BUTTON_WIDTH, height = ARROW_BUTTON_HEIGHT,
@@ -43,7 +52,7 @@ class ArrowButton(
             )
         } else {
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 x = x + 2.4F, y = y - 0.0F,
                 texture = texture,
                 width = ARROW_BUTTON_WIDTH, height = ARROW_BUTTON_HEIGHT

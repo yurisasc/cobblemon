@@ -19,4 +19,5 @@ data class StoreCoordinates<T : StorePosition>(
     }
 
     fun get() = store[position]
+    fun remove() = store.remove(position)
 }

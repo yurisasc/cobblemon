@@ -23,6 +23,6 @@ import com.cobblemon.mod.common.pokemon.Pokemon
  * @since April 28th, 2022
  */
 data class EvolutionAcceptedEvent(
-    val pokemon: Pokemon,
-    val evolution: Evolution
-) : Cancelable()
+    override val pokemon: Pokemon,
+    override val evolution: Evolution
+) : Cancelable(), EvolutionEvent

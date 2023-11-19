@@ -34,12 +34,15 @@
     "grass"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:melon_seeds",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 10.0
       }
     ]
   },
@@ -66,12 +69,14 @@
     "tm:captivate",
     "tm:charm",
     "tm:confide",
+    "tm:cut",
     "tm:doubleteam",
     "tm:echoedvoice",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
     "tm:falseswipe",
+    "tm:flash",
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
@@ -101,20 +106,25 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:toxic",
     "tm:venoshock",
     "tm:weatherball",
     "tm:workup",
+    "tutor:attract",
     "tutor:bide",
     "tutor:bind",
+    "tutor:bodyslam",
     "tutor:curse",
     "tutor:cut",
     "tutor:defensecurl",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:endure",
     "tutor:facade",
     "tutor:flash",
     "tutor:frustration",
     "tutor:furycutter",
+    "tutor:gigadrain",
     "tutor:grasspledge",
     "tutor:grassyglide",
     "tutor:growl",
@@ -135,16 +145,24 @@
     "tutor:reflect",
     "tutor:rest",
     "tutor:return",
+    "tutor:seedbomb",
     "tutor:sleeppowder",
+    "tutor:sleeptalk",
     "tutor:sludgebomb",
+    "tutor:snore",
     "tutor:solarbeam",
     "tutor:stringshot",
     "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
+    "tutor:sweetscent",
+    "tutor:swordsdance",
+    "tutor:synthesis",
     "tutor:tackle",
     "tutor:takedown",
     "tutor:toxic",
-    "tutor:vinewhip"
+    "tutor:vinewhip",
+    "tutor:worryseed"
   ],
   "labels": [
     "gen1"

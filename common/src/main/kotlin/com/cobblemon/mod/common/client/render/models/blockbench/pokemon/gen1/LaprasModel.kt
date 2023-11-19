@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("lapras")
     override val head = getPart("head_ai")
@@ -33,7 +34,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var underwaterMove: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lapras", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("lapras", "blink").setPreventsIdle(false) }
         landIdle = registerPose(
             poseName = "land_idle",
             poseTypes = UI_POSES + PoseType.STAND,

@@ -8,6 +8,15 @@
     "minus",
     "h:clearbody"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-1"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 55,
@@ -15,6 +24,14 @@
     "special_attack": 45,
     "special_defence": 60,
     "speed": 30
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 130,
   "maleRatio": -1,
@@ -42,6 +59,7 @@
     "44:zapcannon",
     "48:hyperbeam",
     "tm:assurance",
+    "tm:chargebeam",
     "tm:confide",
     "tm:doubleteam",
     "tm:endure",
@@ -71,16 +89,21 @@
     "tm:uproar",
     "tm:voltswitch",
     "tm:wildcharge",
+    "tutor:bind",
     "tutor:gravity",
+    "tutor:irondefense",
     "tutor:magiccoat",
     "tutor:magnetrise",
     "tutor:recycle",
     "tutor:risingvoltage",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:steelbeam",
     "tutor:steelroller",
-    "tutor:telekinesis"
+    "tutor:telekinesis",
+    "tutor:uproar"
   ],
   "labels": [
     "gen5"

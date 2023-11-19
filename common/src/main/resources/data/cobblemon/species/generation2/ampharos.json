@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Ampharos",
   "nationalPokedexNumber": 181,
   "primaryType": "electric",
@@ -6,6 +7,19 @@
     "static",
     "h:plus"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:mutton",
+        "quantityRange": "2-4"
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 75,
@@ -35,7 +49,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 275,
+      "baseExperienceYield": 230,
       "baseFriendship": 70,
       "evYield": {
         "hp": 0,
@@ -51,7 +65,6 @@
         "monster",
         "field"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -73,6 +86,18 @@
     "monster",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:dragonpulse",
     "1:firepunch",
@@ -80,6 +105,7 @@
     "1:iondeluge",
     "1:magneticflux",
     "1:tackle",
+    "1:thunderpunch",
     "1:thundershock",
     "1:thunderwave",
     "1:zapcannon",
@@ -117,14 +143,17 @@
     "tm:endure",
     "tm:facade",
     "tm:firepunch",
+    "tm:flash",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:icepunch",
+    "tm:irontail",
     "tm:lightscreen",
     "tm:lowkick",
     "tm:naturalgift",
@@ -137,11 +166,14 @@
     "tm:rest",
     "tm:return",
     "tm:rockclimb",
+    "tm:rocksmash",
     "tm:round",
     "tm:safeguard",
     "tm:secretpower",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:stompingtantrum",
+    "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -158,36 +190,55 @@
     "tm:wildcharge",
     "tutor:afteryou",
     "tutor:attract",
+    "tutor:bodyslam",
+    "tutor:cottonspore",
     "tutor:counter",
     "tutor:curse",
     "tutor:defensecurl",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:dragonpulse",
     "tutor:dynamicpunch",
     "tutor:electroweb",
+    "tutor:endure",
+    "tutor:firepunch",
     "tutor:flash",
     "tutor:focuspunch",
     "tutor:frustration",
+    "tutor:growl",
     "tutor:headbutt",
     "tutor:healbell",
     "tutor:hiddenpower",
-    "tutor:irontail",
+    "tutor:hyperbeam",
     "tutor:irontail",
     "tutor:laserfocus",
+    "tutor:lightscreen",
     "tutor:magnetrise",
     "tutor:megakick",
     "tutor:megapunch",
     "tutor:mimic",
+    "tutor:outrage",
+    "tutor:protect",
+    "tutor:raindance",
+    "tutor:rest",
     "tutor:return",
     "tutor:rocksmash",
     "tutor:seismictoss",
     "tutor:shockwave",
     "tutor:signalbeam",
-    "tutor:snore",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:strength",
+    "tutor:substitute",
     "tutor:swagger",
-    "tutor:toxic"
+    "tutor:swift",
+    "tutor:tackle",
+    "tutor:thunder",
+    "tutor:thunderpunch",
+    "tutor:thundershock",
+    "tutor:thunderwave",
+    "tutor:toxic",
+    "tutor:zapcannon"
   ],
   "labels": [
     "gen2"
@@ -197,10 +248,10 @@
   ],
   "preEvolution": "flaaffy",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2.5,
     "fixed": false
   },
   "baseFriendship": 70,

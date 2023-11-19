@@ -25,6 +25,7 @@
     "amorphous"
   ],
   "moves": [
+    "1:bodyslam",
     "1:gunkshot",
     "1:poisongas",
     "1:pound",
@@ -86,9 +87,11 @@
     "tm:secretpower",
     "tm:seedbomb",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:sludgewave",
+    "tm:snatch",
     "tm:solarbeam",
     "tm:strength",
     "tm:substitute",
@@ -100,24 +103,41 @@
     "tm:thief",
     "tm:thunderpunch",
     "tm:thunderwave",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:venoshock",
     "tm:waterpulse",
     "tm:zenheadbutt",
     "tutor:block",
+    "tutor:bodyslam",
     "tutor:counter",
     "tutor:defensecurl",
     "tutor:doubleedge",
+    "tutor:dreameater",
     "tutor:dynamicpunch",
+    "tutor:endure",
+    "tutor:explosion",
+    "tutor:firepunch",
+    "tutor:gastroacid",
+    "tutor:gigadrain",
+    "tutor:gunkshot",
     "tutor:headbutt",
+    "tutor:icepunch",
     "tutor:mimic",
+    "tutor:mudslap",
     "tutor:nightmare",
     "tutor:painsplit",
     "tutor:rollout",
+    "tutor:seedbomb",
     "tutor:selfdestruct",
     "tutor:shockwave",
+    "tutor:sleeptalk",
     "tutor:snatch",
-    "tutor:snore"
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:thunderpunch",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"
@@ -145,5 +165,18 @@
   "height": 17,
   "weight": 800,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_sludge",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

@@ -6,10 +6,13 @@
         {
             "id": "marshtomp-1",
             "pokemon": "marshtomp",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "16-40",
+            "level": "16-41",
             "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
@@ -28,7 +31,7 @@
             "type": "pokemon",
             "context": "submerged",
             "bucket": "ultra-rare",
-            "level": "16-40",
+            "level": "16-41",
             "weight": 0.9,
             "condition": {
                 "canSeeSky": true,

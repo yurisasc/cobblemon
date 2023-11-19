@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/pressure_plate_down",
   "textures": {
-    "texture": "cobblemon:blocks/apricorn_planks"
+    "texture": "cobblemon:block/apricorn_planks"
   }
 }

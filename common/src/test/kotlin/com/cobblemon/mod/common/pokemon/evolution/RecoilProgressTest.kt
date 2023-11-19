@@ -10,8 +10,8 @@ package com.cobblemon.mod.common.pokemon.evolution
 
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
-import org.junit.jupiter.api.Test
 import kotlin.math.roundToInt
+import org.junit.jupiter.api.Test
 
 internal class RecoilProgressTest {
 

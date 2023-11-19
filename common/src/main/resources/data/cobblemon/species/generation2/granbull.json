@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Granbull",
   "nationalPokedexNumber": 210,
   "primaryType": "fairy",
@@ -7,6 +8,19 @@
     "quickfeet",
     "h:rattled"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 120,
@@ -25,6 +39,19 @@
     "field",
     "fairy"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.25
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:charm",
     "1:firefang",
@@ -40,6 +67,7 @@
     "27:roar",
     "35:rage",
     "43:playrough",
+    "43:takedown",
     "51:payback",
     "59:crunch",
     "tm:attract",
@@ -52,16 +80,19 @@
     "tm:dig",
     "tm:doubleteam",
     "tm:earthquake",
+    "tm:endure",
     "tm:facade",
     "tm:fireblast",
     "tm:flamethrower",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:incinerate",
+    "tm:irontail",
     "tm:naturalgift",
     "tm:overheat",
     "tm:payback",
@@ -75,15 +106,18 @@
     "tm:roar",
     "tm:rockclimb",
     "tm:rockslide",
+    "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:snarl",
     "tm:solarbeam",
     "tm:stoneedge",
+    "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -94,6 +128,7 @@
     "tm:thunderwave",
     "tm:torment",
     "tm:toxic",
+    "tm:waterpulse",
     "tm:wildcharge",
     "tm:workup",
     "tutor:attract",
@@ -110,7 +145,6 @@
     "tutor:dynamicpunch",
     "tutor:endure",
     "tutor:firepunch",
-    "tutor:firepunch",
     "tutor:focuspunch",
     "tutor:frustration",
     "tutor:headbutt",
@@ -118,7 +152,6 @@
     "tutor:hiddenpower",
     "tutor:hyperbeam",
     "tutor:hypervoice",
-    "tutor:icepunch",
     "tutor:icepunch",
     "tutor:irontail",
     "tutor:lastresort",
@@ -136,6 +169,7 @@
     "tutor:rest",
     "tutor:return",
     "tutor:roar",
+    "tutor:rockslide",
     "tutor:rocksmash",
     "tutor:scaryface",
     "tutor:seismictoss",
@@ -144,9 +178,9 @@
     "tutor:sleeptalk",
     "tutor:sludgebomb",
     "tutor:snore",
-    "tutor:snore",
     "tutor:stompingtantrum",
     "tutor:strength",
+    "tutor:substitute",
     "tutor:sunnyday",
     "tutor:superfang",
     "tutor:superpower",
@@ -157,7 +191,7 @@
     "tutor:thief",
     "tutor:thunder",
     "tutor:thunderpunch",
-    "tutor:thunderpunch",
+    "tutor:thunderwave",
     "tutor:toxic",
     "tutor:waterpulse",
     "tutor:zapcannon"
@@ -170,10 +204,10 @@
   ],
   "preEvolution": "snubbull",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2,
     "fixed": false
   },
   "baseFriendship": 70,

@@ -6,10 +6,14 @@
         {
             "id": "spearow-1",
             "pokemon": "spearow",
+            "presets": [
+                "natural",
+                "treetop"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-26",
+            "level": "1-26",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
@@ -18,8 +22,7 @@
                     "#cobblemon:is_savanna",
                     "#cobblemon:is_sky"
                 ],
-                "timeRange": "day",
-                "isRaining": false
+                "timeRange": "day"
             }
         }
     ]

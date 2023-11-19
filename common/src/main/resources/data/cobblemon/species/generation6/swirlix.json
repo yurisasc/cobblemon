@@ -39,6 +39,8 @@
     "33:playrough",
     "36:cottonguard",
     "39:endeavor",
+    "58:lightscreen",
+    "67:safeguard",
     "egg:afteryou",
     "egg:bellydrum",
     "egg:copycat",
@@ -82,11 +84,15 @@
     "tm:thief",
     "tm:thunderbolt",
     "tm:toxic",
+    "tutor:afteryou",
     "tutor:covet",
+    "tutor:endeavor",
     "tutor:gastroacid",
     "tutor:healbell",
+    "tutor:helpinghand",
     "tutor:magiccoat",
-    "tutor:mistyexplosion"
+    "tutor:mistyexplosion",
+    "tutor:snore"
   ],
   "labels": [
     "gen6"
@@ -127,5 +133,22 @@
   "height": 4,
   "weight": 35,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:sugar",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:cake",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

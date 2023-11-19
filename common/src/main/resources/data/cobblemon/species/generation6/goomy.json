@@ -41,6 +41,9 @@
     "50:muddywater",
     "egg:acidarmor",
     "egg:counter",
+    "egg:curse",
+    "egg:endure",
+    "egg:irontail",
     "egg:lifedew",
     "egg:poisontail",
     "tm:attract",
@@ -57,6 +60,7 @@
     "tm:hiddenpower",
     "tm:infestation",
     "tm:irontail",
+    "tm:muddywater",
     "tm:mudshot",
     "tm:outrage",
     "tm:protect",
@@ -78,8 +82,16 @@
     "tm:thunderbolt",
     "tm:toxic",
     "tm:waterpulse",
+    "tutor:bodyslam",
+    "tutor:counter",
+    "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:irontail",
+    "tutor:outrage",
     "tutor:shockwave",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:snore",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen6"
@@ -137,5 +149,18 @@
   "height": 3,
   "weight": 28,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:slime_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

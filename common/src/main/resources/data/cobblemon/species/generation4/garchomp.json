@@ -8,6 +8,19 @@
     "sandveil",
     "h:roughskin"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 108,
     "attack": 130,
@@ -19,7 +32,7 @@
   "behaviour": {
     "moving": {
       "walk": {
-        "walkSpeed": 0.5
+        "walkSpeed": 0.55
       },
       "fly": {
         "canFly": true
@@ -47,7 +60,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 315,
+      "baseExperienceYield": 300,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -63,7 +76,6 @@
         "monster",
         "dragon"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega",
@@ -87,17 +99,28 @@
     "dragon"
   ],
   "moves": [
+    "1:crunch",
     "1:dragonbreath",
     "1:dragonrage",
     "1:dualchop",
+    "1:firefang",
     "1:sandattack",
+    "1:sandstorm",
     "1:sandtomb",
     "1:tackle",
+    "15:takedown",
     "18:bulldoze",
+    "19:sandtomb",
+    "24:dualchop",
     "27:bite",
+    "28:slash",
+    "33:dragonclaw",
     "34:slash",
+    "40:dig",
     "42:dragonclaw",
+    "48:crunch",
     "52:dig",
+    "55:dragonrush",
     "62:sandstorm",
     "72:takedown",
     "82:dragonrush",
@@ -154,6 +177,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowclaw",
@@ -176,12 +200,34 @@
     "tm:toxic",
     "tm:whirlpool",
     "tutor:aquatail",
+    "tutor:brickbreak",
+    "tutor:crunch",
+    "tutor:dig",
+    "tutor:dracometeor",
+    "tutor:dragonclaw",
+    "tutor:dragonpulse",
+    "tutor:dragonrush",
+    "tutor:dualchop",
+    "tutor:earthpower",
+    "tutor:earthquake",
     "tutor:furycutter",
+    "tutor:gigaimpact",
     "tutor:headbutt",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:laserfocus",
     "tutor:mudslap",
+    "tutor:outrage",
     "tutor:scaleshot",
     "tutor:scorchingsands",
+    "tutor:slash",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
+    "tutor:stoneedge",
+    "tutor:swift",
+    "tutor:swordsdance",
     "tutor:twister"
   ],
   "labels": [

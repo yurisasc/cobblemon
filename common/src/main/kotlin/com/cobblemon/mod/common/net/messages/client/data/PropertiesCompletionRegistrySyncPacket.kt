@@ -9,11 +9,12 @@
 package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-internal class PropertiesCompletionRegistrySyncPacket : DataRegistrySyncPacket<PropertiesCompletionProvider.SuggestionHolder> {
-    constructor(): super(emptyList())
-    constructor(suggestions: Collection<PropertiesCompletionProvider.SuggestionHolder>): super(suggestions)
+internal class PropertiesCompletionRegistrySyncPacket(suggestions: Collection<PropertiesCompletionProvider.SuggestionHolder>) : DataRegistrySyncPacket<PropertiesCompletionProvider.SuggestionHolder, PropertiesCompletionRegistrySyncPacket>(suggestions) {
+
+    override val id = ID
 
     override fun encodeEntry(buffer: PacketByteBuf, entry: PropertiesCompletionProvider.SuggestionHolder) {
         buffer.writeCollection(entry.keys) { pb, value -> pb.writeString(value) }
@@ -31,4 +32,10 @@ internal class PropertiesCompletionRegistrySyncPacket : DataRegistrySyncPacket<P
             PropertiesCompletionProvider.inject(suggestionHolder.keys, suggestionHolder.suggestions)
         }
     }
+
+    companion object {
+        val ID = cobblemonResource("properties_completion_sync")
+        fun decode(buffer: PacketByteBuf): PropertiesCompletionRegistrySyncPacket = PropertiesCompletionRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
+    }
+
 }

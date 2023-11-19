@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.api.data
 import com.cobblemon.mod.common.api.codec.CodecMapped
 import com.cobblemon.mod.common.api.codec.MappedCodec
 import com.mojang.serialization.Codec
-import java.lang.IllegalArgumentException
 import net.minecraft.network.PacketByteBuf
 
 /**

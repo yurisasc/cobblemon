@@ -6,6 +6,15 @@
     "hustle",
     "h:innerfocus"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 90,
@@ -158,18 +167,24 @@
     "9:rage",
     "12:incinerate",
     "16:workup",
+    "19:facade",
     "20:firefang",
     "24:headbutt",
     "28:firepunch",
     "32:uproar",
     "36:bellydrum",
     "40:flareblitz",
+    "42:overheat",
     "44:thrash",
     "48:superpower",
+    "egg:encore",
+    "egg:endure",
     "egg:extrasensory",
     "egg:flamewheel",
+    "egg:focusenergy",
     "egg:focuspunch",
     "egg:hammerarm",
+    "egg:sleeptalk",
     "egg:snatch",
     "egg:takedown",
     "egg:yawn",
@@ -195,6 +210,7 @@
     "tm:gyroball",
     "tm:heatwave",
     "tm:hiddenpower",
+    "tm:incinerate",
     "tm:megakick",
     "tm:megapunch",
     "tm:overheat",
@@ -225,7 +241,15 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:endeavor",
-    "tutor:snatch"
+    "tutor:firepunch",
+    "tutor:focuspunch",
+    "tutor:heatwave",
+    "tutor:sleeptalk",
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:superpower",
+    "tutor:uproar",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5",

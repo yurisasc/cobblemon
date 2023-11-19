@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Chingling",
   "nationalPokedexNumber": 433,
   "primaryType": "psychic",
@@ -15,25 +16,48 @@
   },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 57,
   "experienceGroup": "fast",
   "eggCycles": 25,
   "eggGroups": [
     "undiscovered"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      },
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:wrap",
     "4:growl",
+    "6:growl",
     "7:astonish",
+    "9:astonish",
     "10:confusion",
     "13:yawn",
+    "14:confusion",
     "16:lastresort",
+    "17:uproar",
     "19:entrainment",
+    "22:lastresort",
+    "25:entrainment",
     "32:uproar",
     "egg:cosmicpower",
     "egg:curse",
     "egg:disable",
+    "egg:dreameater",
     "egg:futuresight",
     "egg:hypnosis",
     "egg:recover",
@@ -62,6 +86,7 @@
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
+    "tm:recycle",
     "tm:reflect",
     "tm:rest",
     "tm:return",
@@ -69,11 +94,15 @@
     "tm:safeguard",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
+    "tm:skillswap",
     "tm:sleeptalk",
+    "tm:snatch",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:taunt",
+    "tm:telekinesis",
     "tm:thunderwave",
     "tm:torment",
     "tm:toxic",
@@ -93,6 +122,7 @@
     "tutor:shockwave",
     "tutor:signalbeam",
     "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
     "tutor:snore",
     "tutor:swift",
@@ -127,10 +157,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.45,
+    "height": 0.5,
     "fixed": false
   },
   "baseFriendship": 70,
@@ -145,5 +175,14 @@
   "height": 2,
   "weight": 6,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

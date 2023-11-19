@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Skeledirge",
   "nationalPokedexNumber": 911,
   "primaryType": "fire",
@@ -7,6 +8,15 @@
     "blaze",
     "h:unaware"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 25.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 104,
     "attack": 75,
@@ -17,7 +27,7 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 265,
   "baseFriendship": 50,
   "evYield": {
     "hp": 0,
@@ -32,11 +42,20 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:ember",
     "1:leer",
     "1:sing",
     "1:tackle",
+    "1:torchsong",
     "7:lick",
     "10:round",
     "12:scaryface",
@@ -105,6 +124,12 @@
   "weight": 3265,
   "preEvolution": "crocalor",
   "evolutions": [],
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 2.4,
+    "height": 1.8,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.skeledirge.desc"

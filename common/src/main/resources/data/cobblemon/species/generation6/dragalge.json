@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Dragalge",
   "nationalPokedexNumber": 691,
   "primaryType": "poison",
@@ -8,6 +9,19 @@
     "poisontouch",
     "h:adaptability"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:kelp",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 75,
@@ -26,6 +40,17 @@
     "water_1",
     "dragon"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:acid",
     "1:dragontail",
@@ -52,6 +77,7 @@
     "tm:chillingwater",
     "tm:confide",
     "tm:dive",
+    "tm:doubleteam",
     "tm:dracometeor",
     "tm:dragonpulse",
     "tm:dragontail",
@@ -95,14 +121,25 @@
     "tm:thief",
     "tm:thunder",
     "tm:thunderbolt",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:venomdrench",
     "tm:venoshock",
     "tm:waterfall",
     "tm:waterpulse",
+    "tutor:aquatail",
+    "tutor:bounce",
+    "tutor:dracometeor",
+    "tutor:dragonpulse",
     "tutor:flipturn",
+    "tutor:gunkshot",
+    "tutor:icywind",
+    "tutor:irontail",
+    "tutor:outrage",
     "tutor:scaleshot",
-    "tutor:shockwave"
+    "tutor:shockwave",
+    "tutor:snore",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen6"
@@ -115,7 +152,7 @@
   "baseScale": 1,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 50,

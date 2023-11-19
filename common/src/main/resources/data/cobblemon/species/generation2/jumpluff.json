@@ -61,6 +61,7 @@
     "tm:endure",
     "tm:energyball",
     "tm:facade",
+    "tm:flash",
     "tm:fling",
     "tm:frustration",
     "tm:gigadrain",
@@ -100,21 +101,44 @@
     "tm:trailblaze",
     "tm:uturn",
     "tutor:attract",
+    "tutor:bounce",
+    "tutor:bulletseed",
+    "tutor:cottonspore",
     "tutor:curse",
     "tutor:defensecurl",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:endure",
     "tutor:falseswipe",
     "tutor:flash",
     "tutor:frustration",
+    "tutor:gigadrain",
     "tutor:headbutt",
+    "tutor:helpinghand",
     "tutor:hiddenpower",
+    "tutor:hyperbeam",
+    "tutor:leechseed",
+    "tutor:megadrain",
     "tutor:mimic",
+    "tutor:poisonpowder",
+    "tutor:protect",
+    "tutor:rest",
     "tutor:return",
+    "tutor:seedbomb",
+    "tutor:sleeppowder",
+    "tutor:sleeptalk",
     "tutor:snore",
-    "tutor:snore",
+    "tutor:solarbeam",
+    "tutor:splash",
+    "tutor:stunspore",
+    "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
     "tutor:sweetscent",
+    "tutor:swordsdance",
+    "tutor:synthesis",
+    "tutor:tackle",
+    "tutor:tailwhip",
     "tutor:toxic",
     "tutor:worryseed"
   ],
@@ -144,5 +168,18 @@
   "height": 8,
   "weight": 30,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:white_wool",
+        "quantityRange": "1-3"
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

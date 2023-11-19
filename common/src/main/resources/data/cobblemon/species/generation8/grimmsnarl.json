@@ -55,7 +55,6 @@
         "fairy",
         "human_like"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -95,6 +94,7 @@
     "48:playrough",
     "56:foulplay",
     "64:hammerarm",
+    "tm:assurance",
     "tm:attract",
     "tm:bodypress",
     "tm:bodyslam",
@@ -184,5 +184,14 @@
   "height": 15,
   "weight": 610,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

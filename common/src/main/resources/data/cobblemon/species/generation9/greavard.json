@@ -16,7 +16,7 @@
   },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 58,
   "baseFriendship": 50,
   "evYield": {
     "hp": 0,
@@ -118,5 +118,26 @@
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.greavard.desc"
-  ]
+  ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:candle",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

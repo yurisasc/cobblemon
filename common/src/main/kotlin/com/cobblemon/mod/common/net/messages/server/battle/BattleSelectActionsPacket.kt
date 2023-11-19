@@ -11,18 +11,15 @@ package com.cobblemon.mod.common.net.messages.server.battle
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.battles.ShowdownActionResponse
 import com.cobblemon.mod.common.net.IntSize
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-class BattleSelectActionsPacket() : NetworkPacket {
-    lateinit var battleId: UUID
-    lateinit var showdownActionResponses: List<ShowdownActionResponse>
 
-    constructor(battleId: UUID, showdownActionResponses: List<ShowdownActionResponse>): this() {
-        this.battleId = battleId
-        this.showdownActionResponses = showdownActionResponses
-    }
+class BattleSelectActionsPacket(val battleId: UUID, val showdownActionResponses: List<ShowdownActionResponse>) : NetworkPacket<BattleSelectActionsPacket> {
+
+    override val id = ID
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(battleId)
@@ -30,13 +27,16 @@ class BattleSelectActionsPacket() : NetworkPacket {
         showdownActionResponses.forEach { it.saveToBuffer(buffer) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        battleId = buffer.readUuid()
-        val responses = mutableListOf<ShowdownActionResponse>()
-        repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
-            responses.add(ShowdownActionResponse.loadFromBuffer(buffer))
+    companion object {
+        val ID = cobblemonResource("battle_select_actions")
+        fun decode(buffer: PacketByteBuf): BattleSelectActionsPacket {
+            val battleId = buffer.readUuid()
+            val responses = mutableListOf<ShowdownActionResponse>()
+            repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
+                responses.add(ShowdownActionResponse.loadFromBuffer(buffer))
+            }
+            return BattleSelectActionsPacket(battleId, responses)
         }
-        showdownActionResponses = responses
     }
 
 }

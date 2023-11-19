@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.client.net.starter
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.net.messages.client.starter.OpenStarterUIPacket
 import net.minecraft.client.MinecraftClient
 
-object StarterUIPacketHandler : ClientPacketHandler<OpenStarterUIPacket> {
-    override fun invokeOnClient(packet: OpenStarterUIPacket, ctx: CobblemonNetwork.NetworkContext) {
+object StarterUIPacketHandler : ClientNetworkPacketHandler<OpenStarterUIPacket> {
+    override fun handle(packet: OpenStarterUIPacket, client: MinecraftClient) {
         CobblemonClient.checkedStarterScreen = true
-        MinecraftClient.getInstance().setScreen(StarterSelectionScreen(categories = packet.categories))
+        client.setScreen(StarterSelectionScreen(categories = packet.categories))
     }
 }

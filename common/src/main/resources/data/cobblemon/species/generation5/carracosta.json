@@ -8,6 +8,15 @@
     "sturdy",
     "h:swiftswim"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-3"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 74,
     "attack": 108,
@@ -91,6 +100,7 @@
     "tm:scald",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:stealthrock",
     "tm:stoneedge",
@@ -103,10 +113,23 @@
     "tm:waterfall",
     "tm:whirlpool",
     "tm:zenheadbutt",
+    "tutor:aquatail",
     "tutor:block",
+    "tutor:earthpower",
+    "tutor:icywind",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:knockoff",
+    "tutor:liquidation",
+    "tutor:lowkick",
     "tutor:meteorbeam",
-    "tutor:waterpulse"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:superpower",
+    "tutor:waterpulse",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

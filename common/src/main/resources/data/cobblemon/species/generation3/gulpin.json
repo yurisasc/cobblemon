@@ -46,7 +46,10 @@
     "egg:clearsmog",
     "egg:curse",
     "egg:destinybond",
+    "egg:dreameater",
+    "egg:gunkshot",
     "egg:mudslap",
+    "egg:painsplit",
     "egg:smog",
     "egg:stuffcheeks",
     "egg:venomdrench",
@@ -87,9 +90,11 @@
     "tm:secretpower",
     "tm:seedbomb",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:sludgewave",
+    "tm:snatch",
     "tm:solarbeam",
     "tm:strength",
     "tm:substitute",
@@ -101,22 +106,44 @@
     "tm:thief",
     "tm:thunderpunch",
     "tm:thunderwave",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:venoshock",
     "tm:waterpulse",
+    "tutor:acidarmor",
+    "tutor:bodyslam",
     "tutor:counter",
     "tutor:defensecurl",
     "tutor:doubleedge",
+    "tutor:dreameater",
     "tutor:dynamicpunch",
+    "tutor:endure",
+    "tutor:explosion",
+    "tutor:firepunch",
+    "tutor:gastroacid",
+    "tutor:gigadrain",
+    "tutor:gunkshot",
     "tutor:headbutt",
+    "tutor:icepunch",
     "tutor:mimic",
+    "tutor:mudslap",
     "tutor:nightmare",
+    "tutor:painsplit",
+    "tutor:poisongas",
     "tutor:rollout",
+    "tutor:seedbomb",
     "tutor:selfdestruct",
     "tutor:shockwave",
     "tutor:sing",
+    "tutor:sleeptalk",
+    "tutor:sludge",
     "tutor:snatch",
-    "tutor:snore"
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:thunderpunch",
+    "tutor:toxic",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"
@@ -159,5 +186,18 @@
   "height": 4,
   "weight": 103,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_sludge",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

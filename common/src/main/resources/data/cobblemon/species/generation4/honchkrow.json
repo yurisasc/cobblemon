@@ -18,6 +18,11 @@
     "speed": 71
   },
   "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
     "resting": {
       "canSleep": true,
       "times": "day"
@@ -32,6 +37,22 @@
   "eggGroups": [
     "flying"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:bluk_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "moves": [
     "1:astonish",
     "1:haze",
@@ -43,8 +64,12 @@
     "25:swagger",
     "35:nastyplot",
     "45:foulplay",
+    "45:nightslash",
     "55:darkpulse",
+    "55:nightslash",
     "65:comeuppance",
+    "65:quash",
+    "75:darkpulse",
     "tm:acrobatics",
     "tm:aerialace",
     "tm:aircutter",
@@ -57,6 +82,7 @@
     "tm:confide",
     "tm:confuseray",
     "tm:darkpulse",
+    "tm:defog",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:embargo",
@@ -83,6 +109,7 @@
     "tm:protect",
     "tm:psychic",
     "tm:psychup",
+    "tm:quash",
     "tm:raindance",
     "tm:rest",
     "tm:retaliate",
@@ -94,9 +121,11 @@
     "tm:shadowball",
     "tm:sleeptalk",
     "tm:snarl",
+    "tm:snatch",
     "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:tailwind",
     "tm:takedown",
     "tm:taunt",
@@ -106,15 +135,25 @@
     "tm:torment",
     "tm:toxic",
     "tm:uturn",
+    "tutor:aircutter",
+    "tutor:darkpulse",
     "tutor:defog",
+    "tutor:foulplay",
+    "tutor:heatwave",
+    "tutor:icywind",
+    "tutor:mudslap",
+    "tutor:nightslash",
     "tutor:ominouswind",
+    "tutor:roost",
     "tutor:skyattack",
-    "tutor:skyattack",
+    "tutor:sleeptalk",
     "tutor:snatch",
     "tutor:snore",
     "tutor:spite",
+    "tutor:suckerpunch",
     "tutor:superpower",
     "tutor:swift",
+    "tutor:tailwind",
     "tutor:twister",
     "tutor:uproar"
   ],

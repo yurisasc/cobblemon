@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Chinchou",
   "nationalPokedexNumber": 170,
   "primaryType": "water",
@@ -8,6 +9,23 @@
     "illuminate",
     "h:waterabsorb"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:prismarine_crystals",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:deep_sea_scale",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 38,
@@ -25,6 +43,19 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:bubble",
     "1:supersonic",
@@ -42,11 +73,17 @@
     "40:takedown",
     "44:hydropump",
     "47:iondeluge",
+    "egg:agility",
+    "egg:amnesia",
+    "egg:brine",
+    "egg:flail",
     "egg:mist",
     "egg:psybeam",
+    "egg:screech",
     "egg:shockwave",
     "egg:soak",
     "egg:waterpulse",
+    "egg:whirlpool",
     "tm:agility",
     "tm:amnesia",
     "tm:attract",
@@ -62,6 +99,7 @@
     "tm:electroball",
     "tm:endure",
     "tm:facade",
+    "tm:flash",
     "tm:frustration",
     "tm:hail",
     "tm:hiddenpower",
@@ -77,6 +115,7 @@
     "tm:scald",
     "tm:screech",
     "tm:secretpower",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snore",
     "tm:substitute",
@@ -88,24 +127,51 @@
     "tm:toxic",
     "tm:voltswitch",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tm:wildcharge",
+    "tutor:amnesia",
+    "tutor:attract",
+    "tutor:bounce",
     "tutor:bubble",
+    "tutor:confuseray",
     "tutor:curse",
+    "tutor:dive",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:endure",
+    "tutor:flail",
     "tutor:flash",
     "tutor:frustration",
     "tutor:healbell",
     "tutor:hiddenpower",
+    "tutor:hydropump",
+    "tutor:icywind",
     "tutor:mimic",
+    "tutor:protect",
+    "tutor:raindance",
+    "tutor:rest",
     "tutor:return",
     "tutor:risingvoltage",
+    "tutor:screech",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:spark",
+    "tutor:substitute",
     "tutor:suckerpunch",
+    "tutor:supersonic",
+    "tutor:surf",
     "tutor:swagger",
+    "tutor:takedown",
+    "tutor:thunder",
+    "tutor:thunderwave",
     "tutor:toxic",
+    "tutor:waterfall",
+    "tutor:watergun",
+    "tutor:waterpulse",
+    "tutor:whirlpool",
     "tutor:zapcannon"
   ],
   "labels": [
@@ -133,7 +199,7 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
     "width": 1,
     "height": 1,

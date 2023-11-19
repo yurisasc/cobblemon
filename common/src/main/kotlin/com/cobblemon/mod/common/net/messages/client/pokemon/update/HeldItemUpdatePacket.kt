@@ -9,24 +9,27 @@
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 
-class HeldItemUpdatePacket internal constructor() : SingleUpdatePacket<ItemStack>(ItemStack.EMPTY) {
+class HeldItemUpdatePacket(pokemon: () -> Pokemon, value: ItemStack): SingleUpdatePacket<ItemStack, HeldItemUpdatePacket>(pokemon, value) {
 
-    constructor(pokemon: Pokemon, value: ItemStack) : this() {
-        setTarget(pokemon)
-        this.value = value
+    override val id = ID
+
+    override fun encodeValue(buffer: PacketByteBuf) {
+        buffer.writeItemStack(this.value)
     }
 
-    override fun encodeValue(buffer: PacketByteBuf, value: ItemStack) {
-        buffer.writeItemStack(value)
-    }
+    override fun set(pokemon: Pokemon, value: ItemStack) { pokemon.swapHeldItem(this.value, false) }
 
-    override fun decodeValue(buffer: PacketByteBuf): ItemStack = buffer.readItemStack()
-
-    override fun set(pokemon: Pokemon, value: ItemStack) {
-        pokemon.swapHeldItem(value, false)
+    companion object {
+        val ID = cobblemonResource("held_item_update")
+        fun decode(buffer: PacketByteBuf): HeldItemUpdatePacket {
+            val pokemon = decodePokemon(buffer)
+            val stack = buffer.readItemStack()
+            return HeldItemUpdatePacket(pokemon, stack)
+        }
     }
 
 }

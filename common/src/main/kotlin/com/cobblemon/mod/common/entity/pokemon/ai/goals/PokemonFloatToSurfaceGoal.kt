@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.entity.pokemon.ai.goals
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import java.util.EnumSet
 import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.tag.FluidTags
+import net.minecraft.registry.tag.FluidTags
 
 class PokemonFloatToSurfaceGoal(val pokemonEntity: PokemonEntity) : Goal() {
     companion object {

@@ -18,6 +18,13 @@
     "speed": 30
   },
   "behaviour": {
+    "moving": {
+      "canLook": false,
+      "wanderChance": 20,
+      "walking": {
+        "walkSpeed": 0.45
+      }
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": false,
@@ -36,44 +43,75 @@
     "grass"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:red_mushroom"
+      },
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 5.0
       }
     ]
   },
   "moves": [
+    "1:absorb",
     "1:crosspoison",
+    "1:leechlife",
+    "1:poisonpowder",
+    "1:scratch",
+    "1:stunspore",
     "17:furycutter",
+    "22:spore",
+    "29:slash",
+    "37:growth",
     "44:gigadrain",
     "51:aromatherapy",
     "59:ragepowder",
+    "66:xscissor",
     "tm:aerialace",
     "tm:attract",
+    "tm:brickbreak",
     "tm:bulletseed",
     "tm:captivate",
     "tm:confide",
+    "tm:cut",
+    "tm:dig",
     "tm:doubleteam",
+    "tm:endure",
     "tm:energyball",
+    "tm:facade",
     "tm:falseswipe",
+    "tm:flash",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:gigaimpact",
     "tm:grassknot",
     "tm:hiddenpower",
     "tm:honeclaws",
+    "tm:hyperbeam",
+    "tm:leechlife",
+    "tm:lightscreen",
     "tm:naturalgift",
     "tm:naturepower",
+    "tm:protect",
+    "tm:rest",
     "tm:return",
+    "tm:rocksmash",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:sludgebomb",
+    "tm:solarbeam",
     "tm:strugglebug",
+    "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:swordsdance",
     "tm:thief",
+    "tm:toxic",
     "tm:venoshock",
+    "tm:xscissor",
     "tutor:absorb",
     "tutor:afteryou",
     "tutor:attract",
@@ -93,7 +131,6 @@
     "tutor:frustration",
     "tutor:furycutter",
     "tutor:furyswipes",
-    "tutor:gigadrain",
     "tutor:gigadrain",
     "tutor:growth",
     "tutor:headbutt",
@@ -120,7 +157,6 @@
     "tutor:sleeppowder",
     "tutor:sleeptalk",
     "tutor:sludgebomb",
-    "tutor:snore",
     "tutor:snore",
     "tutor:solarbeam",
     "tutor:spore",

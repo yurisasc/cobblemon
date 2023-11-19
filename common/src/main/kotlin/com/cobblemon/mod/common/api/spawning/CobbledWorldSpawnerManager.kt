@@ -11,9 +11,7 @@ package com.cobblemon.mod.common.api.spawning
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawner
 import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory
-import dev.architectury.event.events.common.PlayerEvent
-import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
-import dev.architectury.event.events.common.PlayerEvent.PLAYER_QUIT
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -26,19 +24,12 @@ import net.minecraft.server.network.ServerPlayerEntity
  * @since February 14th, 2022
  */
 object CobblemonWorldSpawnerManager : SpawnerManager() {
+
     var spawnersForPlayers = mutableMapOf<UUID, PlayerSpawner>()
 
-    val playerJoinListener = PlayerEvent.PlayerJoin(this::onPlayerLogin)
-    val playerLeaveListener = PlayerEvent.PlayerQuit(this::onPlayerLogout)
-
-    override fun onServerStarted() {
-        super.onServerStarted()
-        if (!PLAYER_JOIN.isRegistered(playerJoinListener)) {
-            PLAYER_JOIN.register(playerJoinListener)
-        }
-        if (!PLAYER_QUIT.isRegistered(playerLeaveListener)) {
-            PLAYER_QUIT.register(playerLeaveListener)
-        }
+    init {
+        PlatformEvents.SERVER_PLAYER_LOGIN.subscribe { this.onPlayerLogin(it.player) }
+        PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe { this.onPlayerLogout(it.player) }
     }
 
     fun onPlayerLogin(player: ServerPlayerEntity) {

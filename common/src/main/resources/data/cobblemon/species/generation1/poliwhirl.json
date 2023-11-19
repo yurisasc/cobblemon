@@ -8,6 +8,19 @@
     "damp",
     "h:swiftswim"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:kings_rock",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 65,
@@ -17,6 +30,12 @@
     "speed": 90
   },
   "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": false,
@@ -33,29 +52,14 @@
   "eggGroups": [
     "water_1"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true
-      }
-    }
-  },
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:kings_rock",
-        "percentage": 5
-      }
-    ]
-  },
   "moves": [
     "1:hypnosis",
     "1:mudshot",
     "1:pound",
     "1:watergun",
     "1:watersport",
+    "11:bubble",
+    "15:doubleslap",
     "18:bubblebeam",
     "24:raindance",
     "32:bodyslam",
@@ -81,6 +85,7 @@
     "tm:endure",
     "tm:facade",
     "tm:fling",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:hail",
     "tm:helpinghand",
@@ -101,18 +106,24 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:rocksmash",
     "tm:round",
     "tm:scald",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:strength",
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
     "tm:thief",
+    "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tutor:amnesia",
+    "tutor:attract",
+    "tutor:bellydrum",
     "tutor:bide",
     "tutor:blizzard",
     "tutor:bodyslam",
@@ -124,10 +135,13 @@
     "tutor:defensecurl",
     "tutor:detect",
     "tutor:dig",
+    "tutor:dive",
+    "tutor:doubleedge",
     "tutor:doubleslap",
     "tutor:doubleteam",
     "tutor:earthquake",
     "tutor:endeavor",
+    "tutor:endure",
     "tutor:facade",
     "tutor:fissure",
     "tutor:focuspunch",
@@ -139,7 +153,11 @@
     "tutor:hypnosis",
     "tutor:icebeam",
     "tutor:icepunch",
+    "tutor:icywind",
     "tutor:lowkick",
+    "tutor:megakick",
+    "tutor:megapunch",
+    "tutor:metronome",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:pound",
@@ -147,22 +165,27 @@
     "tutor:psychic",
     "tutor:psywave",
     "tutor:rage",
+    "tutor:raindance",
     "tutor:rest",
     "tutor:return",
     "tutor:rocksmash",
     "tutor:scald",
     "tutor:seismictoss",
     "tutor:skullbash",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:strength",
     "tutor:submission",
     "tutor:substitute",
     "tutor:surf",
     "tutor:swagger",
     "tutor:takedown",
+    "tutor:thief",
     "tutor:toxic",
     "tutor:waterfall",
     "tutor:watergun",
-    "tutor:waterpulse"
+    "tutor:waterpulse",
+    "tutor:whirlpool"
   ],
   "labels": [
     "gen1"
@@ -197,7 +220,7 @@
       ]
     }
   ],
-  "baseScale": 0.8,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1,
     "height": 1.1,

@@ -31,6 +31,7 @@
     "1:splash",
     "1:tackle",
     "1:watergun",
+    "1:waterpulse",
     "1:watersport",
     "1:wrap",
     "4:disarmingvoice",
@@ -55,11 +56,13 @@
     "tm:brine",
     "tm:brutalswing",
     "tm:bulldoze",
+    "tm:captivate",
     "tm:confide",
     "tm:dive",
     "tm:doubleteam",
     "tm:dragondance",
     "tm:dragonpulse",
+    "tm:dragontail",
     "tm:endure",
     "tm:facade",
     "tm:frustration",
@@ -95,19 +98,42 @@
     "tm:swift",
     "tm:toxic",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:weatherball",
     "tm:whirlpool",
+    "tutor:aquatail",
     "tutor:bind",
+    "tutor:bodyslam",
+    "tutor:dive",
     "tutor:doubleedge",
+    "tutor:dragonpulse",
+    "tutor:endure",
     "tutor:flipturn",
+    "tutor:hydropump",
+    "tutor:icebeam",
+    "tutor:icywind",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:laserfocus",
     "tutor:magiccoat",
     "tutor:mimic",
     "tutor:mirrorcoat",
     "tutor:mudslap",
+    "tutor:psychup",
+    "tutor:raindance",
+    "tutor:recover",
     "tutor:scaleshot",
     "tutor:skittersmack",
-    "tutor:tripleaxel"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:surf",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:toxic",
+    "tutor:tripleaxel",
+    "tutor:twister",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"
@@ -135,5 +161,18 @@
   "height": 62,
   "weight": 1620,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:prism_scale",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

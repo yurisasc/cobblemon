@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.api.spawning.detail
 
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.entity.SpawnEvent
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.util.toVec3d
@@ -26,12 +28,12 @@ abstract class SpawnAction<T : Entity>(
 ) {
     abstract fun createEntity(): T?
 
-    fun run() {
+    open fun run() {
         ctx.influences.forEach { it.affectAction(this) }
         val e = createEntity() ?: return
         e.setPosition(ctx.position.toVec3d().add(0.5, 1.0, 0.5))
         entity.emit(e)
-        ctx.world.spawnEntity(e)
+        CobblemonEvents.ENTITY_SPAWN.postThen(SpawnEvent(e, ctx), ifSucceeded = { ctx.world.spawnEntity(e) })
     }
 
     /**

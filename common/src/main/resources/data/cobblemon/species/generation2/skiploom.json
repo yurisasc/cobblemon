@@ -61,6 +61,7 @@
     "tm:endure",
     "tm:energyball",
     "tm:facade",
+    "tm:flash",
     "tm:fling",
     "tm:frustration",
     "tm:gigadrain",
@@ -97,20 +98,41 @@
     "tm:trailblaze",
     "tm:uturn",
     "tutor:attract",
+    "tutor:bounce",
+    "tutor:cottonspore",
     "tutor:curse",
     "tutor:defensecurl",
     "tutor:doubleedge",
     "tutor:doubleteam",
+    "tutor:endure",
     "tutor:flash",
     "tutor:frustration",
+    "tutor:gigadrain",
     "tutor:headbutt",
+    "tutor:helpinghand",
     "tutor:hiddenpower",
+    "tutor:leechseed",
+    "tutor:megadrain",
     "tutor:mimic",
+    "tutor:poisonpowder",
+    "tutor:protect",
+    "tutor:rest",
     "tutor:return",
+    "tutor:seedbomb",
+    "tutor:sleeppowder",
+    "tutor:sleeptalk",
     "tutor:snore",
-    "tutor:snore",
+    "tutor:solarbeam",
+    "tutor:splash",
+    "tutor:stunspore",
+    "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
     "tutor:sweetscent",
+    "tutor:swordsdance",
+    "tutor:synthesis",
+    "tutor:tackle",
+    "tutor:tailwhip",
     "tutor:toxic",
     "tutor:worryseed"
   ],
@@ -154,5 +176,17 @@
   "height": 6,
   "weight": 10,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:sunflower"
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

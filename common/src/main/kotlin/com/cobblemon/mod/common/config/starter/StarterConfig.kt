@@ -40,13 +40,22 @@ class StarterConfig {
             )
         ),
         StarterCategory(
-                name = "Hoenn",
-                displayName = "cobblemon.starterselection.category.hoenn",
-                pokemon = mutableListOf(
-                        PokemonProperties.parse("Treecko level=10"),
-                        PokemonProperties.parse("Torchic level=10"),
-                        PokemonProperties.parse("Mudkip level=10"),
-                )
+            name = "Johto",
+            displayName = "cobblemon.starterselection.category.johto",
+            pokemon = mutableListOf(
+                PokemonProperties.parse("Chikorita level=10"),
+                PokemonProperties.parse("Cyndaquil level=10"),
+                PokemonProperties.parse("Totodile level=10"),
+            )
+        ),
+        StarterCategory(
+            name = "Hoenn",
+            displayName = "cobblemon.starterselection.category.hoenn",
+            pokemon = mutableListOf(
+                    PokemonProperties.parse("Treecko level=10"),
+                    PokemonProperties.parse("Torchic level=10"),
+                    PokemonProperties.parse("Mudkip level=10"),
+            )
         ),
         StarterCategory(
             name = "Sinnoh",
@@ -58,12 +67,48 @@ class StarterConfig {
             )
         ),
         StarterCategory(
+            name = "Unova",
+            displayName = "cobblemon.starterselection.category.unova",
+            pokemon = mutableListOf(
+                PokemonProperties.parse("Snivy level=10"),
+                PokemonProperties.parse("Tepig level=10"),
+                PokemonProperties.parse("Oshawott level=10"),
+            )
+        ),
+        StarterCategory(
+            name = "Kalos",
+            displayName = "cobblemon.starterselection.category.kalos",
+            pokemon = mutableListOf(
+                PokemonProperties.parse("Chespin level=10"),
+                PokemonProperties.parse("Fennekin level=10"),
+                PokemonProperties.parse("Froakie level=10"),
+            )
+        ),
+        StarterCategory(
             name = "Alola",
             displayName = "cobblemon.starterselection.category.alola",
             pokemon = mutableListOf(
                 PokemonProperties.parse("Rowlet level=10"),
                 PokemonProperties.parse("Litten level=10"),
                 PokemonProperties.parse("Popplio level=10"),
+            )
+        ),
+        StarterCategory(
+            name = "Galar",
+            displayName = "cobblemon.starterselection.category.galar",
+            pokemon = mutableListOf(
+                PokemonProperties.parse("Grookey level=10"),
+                PokemonProperties.parse("Scorbunny level=10"),
+                PokemonProperties.parse("Sobble level=10"),
+            )
+        ),
+        StarterCategory(
+            name = "Paldea",
+            displayName = "cobblemon.starterselection.category.paldea",
+            pokemon = mutableListOf(
+                PokemonProperties.parse("Sprigatito level=10"),
+                PokemonProperties.parse("Fuecoco level=10"),
+                PokemonProperties.parse("Quaxly level=10"),
             )
         )
     //,

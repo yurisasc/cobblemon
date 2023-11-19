@@ -8,9 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
@@ -25,15 +27,15 @@ import net.minecraft.util.math.Vec3d
 
 class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame{
     override val rootPart = root.registerChildWithAllChildren("pidgey")
-    override val leftWing = getPart("wing_left")
-    override val rightWing = getPart("wing_right")
+    override val leftWing = getPart("wing_open_left")
+    override val rightWing = getPart("wing_open_right")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
     override val head = getPart("head")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(0.0, -1.3, 0.0)
+    override val portraitScale = 3.5F
+    override val portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
 
     override val profileScale = 1.2F
     override val profileTranslation = Vec3d(0.0, -0.01, 0.0)
@@ -43,6 +45,8 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidgey", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -68,7 +72,12 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgey", "air_idle")
+                bedrock("pidgey", "air_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Z_AXIS
+                )
             )
         )
 
@@ -79,7 +88,12 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgey", "air_fly")
+                bedrock("pidgey", "air_fly"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = TransformedModelPart.Z_AXIS
+                )
             )
         )
 

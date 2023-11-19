@@ -6,6 +6,15 @@
   "abilities": [
     "defeatist"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-3"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 140,
@@ -37,6 +46,7 @@
     "21:uturn",
     "24:rockslide",
     "27:scaryface",
+    "28:acrobatics",
     "30:crunch",
     "33:agility",
     "36:tailwind",
@@ -75,6 +85,7 @@
     "tm:irondefense",
     "tm:irontail",
     "tm:outrage",
+    "tm:pluck",
     "tm:protect",
     "tm:rest",
     "tm:return",
@@ -105,13 +116,29 @@
     "tm:uproar",
     "tm:uturn",
     "tm:zenheadbutt",
+    "tutor:allyswitch",
     "tutor:aquatail",
+    "tutor:bounce",
     "tutor:defog",
+    "tutor:dragonpulse",
     "tutor:dualwingbeat",
+    "tutor:earthpower",
+    "tutor:endeavor",
+    "tutor:heatwave",
+    "tutor:irondefense",
+    "tutor:irontail",
     "tutor:knockoff",
     "tutor:lashout",
     "tutor:meteorbeam",
-    "tutor:skyattack"
+    "tutor:outrage",
+    "tutor:roost",
+    "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:tailwind",
+    "tutor:uproar",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

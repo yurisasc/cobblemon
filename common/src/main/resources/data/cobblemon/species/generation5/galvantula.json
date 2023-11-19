@@ -9,6 +9,27 @@
     "unnerve",
     "h:swarm"
   ],
+  "drops": {
+    "amount": 7,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:spider_eye",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 77,
@@ -26,12 +47,21 @@
   "eggGroups": [
     "bug"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.4
+      }
+    }
+  },
   "moves": [
     "1:absorb",
     "1:bugbite",
     "1:electroweb",
     "1:furycutter",
+    "1:leechlife",
     "1:spiderweb",
+    "1:stickyweb",
     "12:stringshot",
     "16:thunderwave",
     "20:electroball",
@@ -91,13 +121,22 @@
     "tm:voltswitch",
     "tm:wildcharge",
     "tm:xscissor",
+    "tutor:bounce",
+    "tutor:bugbite",
     "tutor:disable",
+    "tutor:electroball",
+    "tutor:electroweb",
+    "tutor:gastroacid",
+    "tutor:gigadrain",
     "tutor:magnetrise",
     "tutor:pursuit",
     "tutor:risingvoltage",
     "tutor:shockwave",
     "tutor:signalbeam",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:throatchop"
   ],
   "labels": [
     "gen5"

@@ -26,6 +26,11 @@ class ClientBallDisplay(val pokeBall: PokeBall, val aspects: Set<String>) : Poke
     override val stateEmitter = SettableObservable(EmptyPokeBallEntity.CaptureState.FALL)
     override val shakeEmitter = SimpleObservable<Unit>()
 
+    override fun getEntity() = null
+    override fun updatePartialTicks(partialTicks: Float) {
+        this.currentPartialTicks += partialTicks
+    }
+
     var scale = 1F
 
     fun start() {
@@ -36,16 +41,6 @@ class ClientBallDisplay(val pokeBall: PokeBall, val aspects: Set<String>) : Poke
             after(seconds = 0.3F) {
                 stateEmitter.set(EmptyPokeBallEntity.CaptureState.SHAKE)
                 lerp(seconds = 0.3F) { scale = it }
-            }
-        }
-    }
-
-    fun finish() {
-        lerp(seconds = 0.3F) { scale = 1 - it }
-        after(seconds = 0.3F) {
-            lerp(seconds = 0.3F) { scale = it }
-            after(seconds = 0.3F) {
-
             }
         }
     }

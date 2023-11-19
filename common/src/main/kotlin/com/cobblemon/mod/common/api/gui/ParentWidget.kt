@@ -91,7 +91,7 @@ abstract class ParentWidget(
         return super.charTyped(pCodePoint, pModifiers)
     }
 
-    override fun appendNarrations(pNarrationElementOutput: NarrationMessageBuilder) {
+    override fun appendDefaultNarrations(pNarrationElementOutput: NarrationMessageBuilder) {
     }
 
     /**
@@ -105,5 +105,7 @@ abstract class ParentWidget(
      * @since April 29th, 2022
      */
     fun ishHovered(mouseX: Number, mouseY: Number) = mouseX in this.x..(this.x + this.width) && mouseY in this.y..(this.y + this.height)
+
+    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {}
 
 }

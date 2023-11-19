@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.conditional.RegistryLikeIdentifierCondition
 import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import net.minecraft.item.Item
-import net.minecraft.tag.TagKey
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 
 /**

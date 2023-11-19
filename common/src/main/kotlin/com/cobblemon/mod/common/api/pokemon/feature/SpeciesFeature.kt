@@ -9,8 +9,6 @@
 package com.cobblemon.mod.common.api.pokemon.feature
 
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
-import com.cobblemon.mod.common.pokemon.Species
-import com.google.common.collect.HashBiMap
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
 

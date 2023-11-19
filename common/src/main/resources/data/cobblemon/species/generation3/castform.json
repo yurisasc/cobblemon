@@ -49,7 +49,6 @@
         "fairy",
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen3"
       ],
@@ -94,7 +93,6 @@
         "fairy",
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen3"
       ],
@@ -139,7 +137,6 @@
         "fairy",
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen3"
       ],
@@ -183,6 +180,7 @@
     "egg:hex",
     "egg:luckychant",
     "egg:ominouswind",
+    "egg:psychup",
     "egg:reflecttype",
     "tm:attract",
     "tm:avalanche",
@@ -213,6 +211,7 @@
     "tm:scald",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:solarbeam",
     "tm:substitute",
@@ -223,18 +222,27 @@
     "tm:thunderbolt",
     "tm:thunderwave",
     "tm:toxic",
+    "tm:waterpulse",
     "tm:workup",
     "tutor:bodyslam",
     "tutor:defensecurl",
     "tutor:defog",
     "tutor:doubleedge",
+    "tutor:ember",
+    "tutor:endure",
     "tutor:icywind",
     "tutor:lastresort",
     "tutor:mimic",
+    "tutor:ominouswind",
+    "tutor:psychup",
     "tutor:shockwave",
+    "tutor:sleeptalk",
     "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
     "tutor:swift",
     "tutor:tailwind",
+    "tutor:thunderwave",
     "tutor:waterpulse"
   ],
   "labels": [
@@ -262,5 +270,14 @@
   "height": 3,
   "weight": 8,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

@@ -34,17 +34,9 @@
         "special_defence": 85,
         "speed": 145
       },
-      "behaviour": {
-        "resting": {
-          "canSleep": true,
-          "willSleepOnBed": false,
-          "depth": "normal",
-          "light": "0-4"
-        }
-      },
       "catchRate": 45,
       "maleRatio": 0.875,
-      "baseExperienceYield": 284,
+      "baseExperienceYield": 265,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -60,7 +52,6 @@
         "monster",
         "dragon"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -82,8 +73,30 @@
     "monster",
     "dragon"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:stick",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 25.0
+      }
+    ]
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:absorb",
+    "1:dualchop",
     "1:energyball",
     "1:falseswipe",
     "1:furycutter",
@@ -99,6 +112,7 @@
     "18:pursuit",
     "20:assurance",
     "25:gigadrain",
+    "28:agility",
     "30:slam",
     "35:doubleteam",
     "42:leafblade",
@@ -122,6 +136,7 @@
     "tm:crunch",
     "tm:cut",
     "tm:dig",
+    "tm:doubleteam",
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
@@ -134,6 +149,7 @@
     "tm:flash",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigadrain",
     "tm:gigaimpact",
@@ -182,20 +198,45 @@
     "tm:toxic",
     "tm:workup",
     "tm:xscissor",
+    "tutor:bodyslam",
     "tutor:counter",
     "tutor:doubleedge",
+    "tutor:dragonpulse",
+    "tutor:drainpunch",
+    "tutor:dualchop",
     "tutor:dynamicpunch",
+    "tutor:endeavor",
+    "tutor:endure",
+    "tutor:focusblast",
     "tutor:focuspunch",
     "tutor:frenzyplant",
+    "tutor:furycutter",
+    "tutor:gigadrain",
     "tutor:grasspledge",
     "tutor:grassyglide",
     "tutor:headbutt",
+    "tutor:irontail",
     "tutor:laserfocus",
+    "tutor:leafstorm",
+    "tutor:lowkick",
+    "tutor:megakick",
+    "tutor:megapunch",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:outrage",
+    "tutor:rockslide",
     "tutor:scaleshot",
+    "tutor:seedbomb",
     "tutor:seismictoss",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:swordsdance",
     "tutor:synthesis",
+    "tutor:throatchop",
+    "tutor:thunderpunch",
     "tutor:worryseed"
   ],
   "labels": [

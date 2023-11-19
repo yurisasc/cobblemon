@@ -11,13 +11,18 @@ package com.cobblemon.mod.common.pokeball.catching.calculators
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
-import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.status.statuses.*
-import net.minecraft.entity.LivingEntity
+import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.pokemon.status.statuses.BurnStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.FrozenStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.ParalysisStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.PoisonBadlyStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.PoisonStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.SleepStatus
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 import kotlin.random.Random
+import net.minecraft.entity.LivingEntity
 
 /**
  * An implementation of the capture calculator used in the generation 3 and 4 games.
@@ -40,28 +45,30 @@ object Gen3And4CaptureCalculator : CaptureCalculator {
         PokeBalls.MOON_BALL
     )
 
-    override fun processCapture(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon): CaptureContext {
+    override fun processCapture(thrower: LivingEntity, pokeBallEntity: EmptyPokeBallEntity, target: PokemonEntity): CaptureContext {
+        val pokeBall = pokeBallEntity.pokeBall
+        val pokemon = target.pokemon
         if (pokeBall.catchRateModifier.isGuaranteed()) {
             return CaptureContext.successful()
         }
-        val catchRate = target.form.catchRate.toFloat()
-        val validModifier = pokeBall.catchRateModifier.isValid(thrower, target)
-        val bonusStatus = when (target.status?.status) {
+        val catchRate = getCatchRate(thrower, pokeBallEntity, target, pokemon.form.catchRate.toFloat())
+        val validModifier = pokeBall.catchRateModifier.isValid(thrower, pokemon)
+        val bonusStatus = when (pokemon.status?.status) {
             is SleepStatus, is FrozenStatus -> 2F
             is ParalysisStatus, is BurnStatus, is PoisonStatus, is PoisonBadlyStatus -> 1.5F
             else -> 1F
         }
         val rate: Float
-        val ballBonus: Float
-        if (this.apricornPokeballs.contains(pokeBall)) {
-            rate = if (validModifier) pokeBall.catchRateModifier.modifyCatchRate(catchRate, thrower, target) else 1F
-            ballBonus = 1F
+        val ballBonus = if (this.apricornPokeballs.contains(pokeBall)) {
+            rate = if (validModifier) pokeBall.catchRateModifier.modifyCatchRate(catchRate, thrower, pokemon) else 1F
+            1F
         }
         else {
             rate = catchRate
-            ballBonus = if (validModifier) pokeBall.catchRateModifier.value(thrower, target) else 1F
+            if (validModifier) pokeBall.catchRateModifier.value(thrower, pokemon) else 1F
         }
-        val modifiedCatchRate = (pokeBall.catchRateModifier.behavior(thrower, target).mutator((3F * target.hp - 2F * target.currentHealth) * rate, ballBonus) / 3F * target.hp) * bonusStatus
+
+        val modifiedCatchRate = (pokeBall.catchRateModifier.behavior(thrower, pokemon).mutator((3F * pokemon.hp - 2F * pokemon.currentHealth) * rate, ballBonus) / (3F * pokemon.hp)) * bonusStatus
         val shakeProbability = (1048560F / sqrt(sqrt((16711680F / modifiedCatchRate).roundToInt().toDouble())).roundToInt()).roundToInt()
         var shakes = 0
         repeat(4) {

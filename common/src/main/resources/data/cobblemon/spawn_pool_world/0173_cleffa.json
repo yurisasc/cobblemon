@@ -6,13 +6,16 @@
         {
             "id": "cleffa-1",
             "pokemon": "cleffa",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-22",
+            "level": "1-22",
             "weight": 9.0,
             "condition": {
-				"canSeeSky": true,
+                "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_dripstone"
                 ],
@@ -23,12 +26,12 @@
             "id": "cleffa-2",
             "pokemon": "cleffa",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-22",
+            "level": "1-22",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
@@ -40,27 +43,32 @@
         {
             "id": "cleffa-3",
             "pokemon": "cleffa",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-22",
+            "level": "1-22",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_hills"
                 ],
-                "timeRange": "night",
-				"moonPhase": 1
+                "timeRange": "night"
             }
         },
         {
             "id": "cleffa-4",
             "pokemon": "cleffa",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-22",
+            "level": "1-22",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,

@@ -28,7 +28,7 @@ import net.minecraft.world.World
 class PCBlockEntity(
     val blockPos: BlockPos,
     val blockState: BlockState
-) : BlockEntity(CobblemonBlockEntities.PC.get(), blockPos, blockState) {
+) : BlockEntity(CobblemonBlockEntities.PC, blockPos, blockState) {
 
     companion object {
         internal val TICKER = BlockEntityTicker<PCBlockEntity> { world, _, _, blockEntity ->
@@ -62,7 +62,7 @@ class PCBlockEntity(
                     world.setBlockState(pos.down(), Blocks.AIR.defaultState)
                 }
                 world.setBlockState(pos, Blocks.AIR.defaultState)
-                world.spawnEntity(ItemEntity(world, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5, ItemStack(CobblemonBlocks.PC.get())))
+                world.spawnEntity(ItemEntity(world, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5, ItemStack(CobblemonBlocks.PC)))
             }
         }
     }

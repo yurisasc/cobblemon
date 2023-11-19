@@ -53,7 +53,9 @@
     "egg:helpinghand",
     "egg:lastresort",
     "egg:mudbomb",
+    "egg:psychup",
     "egg:simplebeam",
+    "egg:substitute",
     "egg:suckerpunch",
     "egg:tickle",
     "egg:uproar",
@@ -62,6 +64,7 @@
     "tm:attract",
     "tm:blizzard",
     "tm:calmmind",
+    "tm:captivate",
     "tm:chargebeam",
     "tm:confide",
     "tm:dig",
@@ -75,6 +78,7 @@
     "tm:grassknot",
     "tm:hiddenpower",
     "tm:icebeam",
+    "tm:irontail",
     "tm:naturalgift",
     "tm:payback",
     "tm:protect",
@@ -87,6 +91,7 @@
     "tm:safeguard",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:solarbeam",
     "tm:substitute",
@@ -96,11 +101,19 @@
     "tm:thunderbolt",
     "tm:thunderwave",
     "tm:toxic",
+    "tm:waterpulse",
     "tm:wildcharge",
     "tm:workup",
+    "tutor:attract",
     "tutor:bodyslam",
+    "tutor:captivate",
     "tutor:covet",
     "tutor:defensecurl",
+    "tutor:doubleedge",
+    "tutor:dreameater",
+    "tutor:endure",
+    "tutor:foresight",
+    "tutor:growl",
     "tutor:headbutt",
     "tutor:healbell",
     "tutor:helpinghand",
@@ -111,10 +124,19 @@
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:payday",
+    "tutor:psychup",
     "tutor:rollout",
     "tutor:shockwave",
+    "tutor:sleeptalk",
     "tutor:snore",
+    "tutor:substitute",
+    "tutor:suckerpunch",
+    "tutor:swagger",
     "tutor:swift",
+    "tutor:tackle",
+    "tutor:tailwhip",
+    "tutor:thunderwave",
+    "tutor:tickle",
     "tutor:uproar",
     "tutor:waterpulse",
     "tutor:zenheadbutt"
@@ -154,5 +176,18 @@
   "height": 6,
   "weight": 110,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:silk_scarf",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

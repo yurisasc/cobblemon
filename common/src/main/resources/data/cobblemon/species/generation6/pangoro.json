@@ -135,14 +135,31 @@
     "tutor:block",
     "tutor:coaching",
     "tutor:covet",
+    "tutor:drainpunch",
     "tutor:dualchop",
     "tutor:endeavor",
+    "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:foulplay",
+    "tutor:gunkshot",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icepunch",
+    "tutor:ironhead",
     "tutor:knockoff",
     "tutor:laserfocus",
     "tutor:lashout",
+    "tutor:lowkick",
+    "tutor:outrage",
     "tutor:snatch",
-    "tutor:spite"
+    "tutor:snore",
+    "tutor:spite",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:throatchop",
+    "tutor:thunderpunch",
+    "tutor:uproar",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6"
@@ -170,5 +187,22 @@
   "height": 21,
   "weight": 1360,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:bamboo",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:mental_herb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

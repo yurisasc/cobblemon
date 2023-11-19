@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Surskit",
   "nationalPokedexNumber": 283,
   "primaryType": "bug",
@@ -7,6 +8,19 @@
     "swiftswim",
     "h:raindish"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:honey_bottle",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 30,
@@ -25,6 +39,18 @@
     "water_1",
     "bug"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      },
+      "walk": {
+        "avoidsLand": true
+      }
+    }
+  },
   "moves": [
     "1:bubble",
     "1:watergun",
@@ -36,10 +62,12 @@
     "22:agility",
     "25:haze",
     "25:mist",
+    "30:aquajet",
     "35:batonpass",
     "38:stickyweb",
     "egg:aquajet",
     "egg:bugbite",
+    "egg:endure",
     "egg:fellstinger",
     "egg:foresight",
     "egg:hydropump",
@@ -99,13 +127,27 @@
     "tm:toxic",
     "tm:waterfall",
     "tm:waterpulse",
+    "tutor:bubble",
+    "tutor:bugbite",
     "tutor:doubleedge",
+    "tutor:endure",
+    "tutor:gigadrain",
+    "tutor:hydropump",
+    "tutor:icywind",
+    "tutor:liquidation",
     "tutor:mimic",
+    "tutor:mudslap",
     "tutor:mudsport",
+    "tutor:psychup",
+    "tutor:quickattack",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stringshot",
-    "tutor:swift"
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"
@@ -128,10 +170,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 1.6,
     "fixed": false
   },
   "baseFriendship": 70,

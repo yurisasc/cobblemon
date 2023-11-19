@@ -25,16 +25,14 @@ open class PersistentStatus(
     name: Identifier,
     showdownName: String,
     applyMessage: String,
-    removeMessage: String?,
+    removeMessage: String,
     private val defaultDuration: IntRange = 0..0
 ) : Status(name, showdownName, applyMessage, removeMessage) {
     /**
      * Called when a status duration is expired.
      */
     open fun onStatusExpire(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
-        if (removeMessage != null) {
-            player.sendMessage(removeMessage.asTranslated(pokemon.displayName))
-        }
+        player.sendMessage(removeMessage.asTranslated(pokemon.getDisplayName()))
     }
 
     /**

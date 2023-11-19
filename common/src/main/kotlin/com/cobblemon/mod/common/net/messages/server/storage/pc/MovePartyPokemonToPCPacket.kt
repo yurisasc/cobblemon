@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePartyPokemonToPCHandler
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 
@@ -28,29 +29,15 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 20th, 2022
  */
-class MovePartyPokemonToPCPacket() : NetworkPacket {
-    lateinit var pokemonID: UUID
-    lateinit var partyPosition: PartyPosition
-    var pcPosition: PCPosition? = null
-
-    constructor(pokemonID: UUID, partyPosition: PartyPosition, pcPosition: PCPosition?): this() {
-        this.pokemonID = pokemonID
-        this.partyPosition = partyPosition
-        this.pcPosition = pcPosition
-    }
-
+class MovePartyPokemonToPCPacket(val pokemonID: UUID, val partyPosition: PartyPosition, val pcPosition: PCPosition?) : NetworkPacket<MovePartyPokemonToPCPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writePartyPosition(partyPosition)
-        buffer.writeBoolean(pcPosition != null)
-        pcPosition?.let { buffer.writePCPosition(it) }
+        buffer.writeNullable(pcPosition) { pb, value -> pb.writePCPosition(value) }
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        pokemonID = buffer.readUuid()
-        partyPosition = buffer.readPartyPosition()
-        if (buffer.readBoolean()) {
-            pcPosition = buffer.readPCPosition()
-        }
+    companion object {
+        val ID = cobblemonResource("move_party_pokemon_to_pc")
+        fun decode(buffer: PacketByteBuf) = MovePartyPokemonToPCPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readNullable { it.readPCPosition() })
     }
 }

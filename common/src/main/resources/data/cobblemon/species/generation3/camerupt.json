@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Camerupt",
   "nationalPokedexNumber": 323,
   "primaryType": "fire",
@@ -8,6 +9,19 @@
     "solidrock",
     "h:angerpoint"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:magma_cream",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 100,
@@ -37,7 +51,7 @@
       },
       "catchRate": 150,
       "maleRatio": 0.5,
-      "baseExperienceYield": 196,
+      "baseExperienceYield": 161,
       "baseFriendship": 70,
       "evYield": {
         "hp": 0,
@@ -52,7 +66,6 @@
       "eggGroups": [
         "field"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -79,6 +92,7 @@
     "1:fissure",
     "1:focusenergy",
     "1:growl",
+    "1:rockslide",
     "1:tackle",
     "12:bulldoze",
     "12:magnitude",
@@ -120,6 +134,7 @@
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
+    "tm:incinerate",
     "tm:ironhead",
     "tm:mudshot",
     "tm:mudslap",
@@ -155,13 +170,29 @@
     "tm:willowisp",
     "tm:zenheadbutt",
     "tutor:afteryou",
+    "tutor:bodyslam",
+    "tutor:curse",
     "tutor:defensecurl",
     "tutor:doubleedge",
+    "tutor:earthpower",
+    "tutor:endure",
+    "tutor:explosion",
     "tutor:headbutt",
+    "tutor:heatwave",
+    "tutor:ironhead",
     "tutor:mimic",
+    "tutor:mudslap",
+    "tutor:rockslide",
     "tutor:rollout",
     "tutor:selfdestruct",
-    "tutor:snore"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:takedown",
+    "tutor:yawn"
   ],
   "labels": [
     "gen3"
@@ -171,10 +202,10 @@
   ],
   "preEvolution": "numel",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.2,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 70,

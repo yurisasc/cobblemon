@@ -8,25 +8,27 @@
 
 package com.cobblemon.mod.common.item
 
+import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
-import com.cobblemon.mod.common.item.CobblemonItemGroups.POKE_BALL_GROUP
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.isServerSide
 import com.cobblemon.mod.common.util.math.geometry.toRadians
-import net.minecraft.client.item.TooltipContext
 import kotlin.math.cos
+import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ArrowItem
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+
 class PokeBallItem(
     val pokeBall : PokeBall
-) : CobblemonItem(Settings().group(POKE_BALL_GROUP)) {
+) : CobblemonItem(Settings()) {
 
     override fun use(world: World, player: PlayerEntity, usedHand: Hand): TypedActionResult<ItemStack> {
         val itemStack = player.getStackInHand(usedHand)
@@ -49,7 +51,8 @@ class PokeBallItem(
         world.spawnEntity(pokeBallEntity)
     }
 
-    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        tooltip.add("item.${this.pokeBall.name.namespace}.${this.pokeBall.name.path}.tooltip".asTranslated().gray())
+    override fun isFireproof(): Boolean {
+        return pokeBall.name == PokeBalls.MASTER_BALL.name || super.isFireproof()
     }
+
 }

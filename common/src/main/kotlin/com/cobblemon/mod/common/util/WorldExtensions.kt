@@ -10,18 +10,14 @@ package com.cobblemon.mod.common.util
 
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.fluid.Fluids
 import net.minecraft.particle.ParticleEffect
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
-import net.minecraft.tag.FluidTags
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
+import net.minecraft.util.math.*
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
-import net.minecraft.util.math.Vec3d
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
@@ -42,13 +38,29 @@ fun <T : ParticleEffect> World.sendParticlesServer(
 ) = (this as ServerWorld).spawnParticles(particleType, position.x, position.y, position.z, particles, offset.x, offset.y, offset.z, speed)
 
 fun World.squeezeWithinBounds(pos: BlockPos): BlockPos {
-    return if (pos.y < bottomY) {
-        BlockPos(pos.x, bottomY, pos.z)
-    } else if (pos.y > topY) {
-        BlockPos(pos.x, topY, pos.z)
-    } else {
-        pos
+    val border = worldBorder
+    return BlockPos(
+        pos.x.coerceIn(border.boundWest.toInt(), border.boundEast.toInt()),
+        pos.y.coerceIn(bottomY, topY),
+        pos.z.coerceIn(border.boundNorth.toInt(), border.boundSouth.toInt())
+    )
+}
+
+fun ServerWorld.isBoxLoaded(box: Box): Boolean {
+    val startChunkX = ChunkSectionPos.getSectionCoord(box.minX)
+    val startChunkZ = ChunkSectionPos.getSectionCoord(box.minZ)
+    val endChunkX = ChunkSectionPos.getSectionCoord(box.maxX)
+    val endChunkZ = ChunkSectionPos.getSectionCoord(box.maxZ)
+
+    for (chunkX in startChunkX..endChunkX) {
+        for (chunkZ in startChunkZ..endChunkZ) {
+            if (!this.isChunkLoaded(ChunkPos.toLong(chunkX, chunkZ))) {
+                return false
+            }
+        }
     }
+
+    return true
 }
 
 fun Box.getRanges(): Triple<IntRange, IntRange, IntRange> {
@@ -75,6 +87,12 @@ fun BlockView.getBlockStates(box: Box): Iterable<BlockState> {
     return states
 }
 
+fun BlockView.getBlockStatesWithPos(box: Box): Iterable<Pair<BlockState, BlockPos>> {
+    val states = mutableListOf<Pair<BlockState, BlockPos>>()
+    doForAllBlocksIn(box, useMutablePos = true) { state, pos -> states.add(state to pos) }
+    return states
+}
+
 fun BlockView.getWaterAndLavaIn(box: Box): Pair<Boolean, Boolean> {
     var hasWater = false
     var hasLava = false
@@ -91,7 +109,9 @@ fun BlockView.getWaterAndLavaIn(box: Box): Pair<Boolean, Boolean> {
     return hasWater to hasLava
 }
 
-fun Entity.canFit(pos: BlockPos): Boolean {
-    val box = boundingBox.offset(pos.toVec3d().subtract(this.pos))
+fun Entity.canFit(pos: BlockPos) = canFit(pos.toVec3d())
+
+fun Entity.canFit(vec: Vec3d): Boolean {
+    val box = boundingBox.offset(vec.subtract(this.pos))
     return world.isSpaceEmpty(box)
 }

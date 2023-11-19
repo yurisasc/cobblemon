@@ -8,17 +8,17 @@
 
 package com.cobblemon.mod.common.client.net.battle
 
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon
 import com.cobblemon.mod.common.client.battle.animations.MoveTileOffscreenAnimation
 import com.cobblemon.mod.common.client.battle.animations.SwapAndMoveTileOnscreenAnimation
-import com.cobblemon.mod.common.client.net.ClientPacketHandler
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import net.minecraft.client.MinecraftClient
 
-object BattleSwitchPokemonHandler : ClientPacketHandler<BattleSwitchPokemonPacket> {
-    override fun invokeOnClient(packet: BattleSwitchPokemonPacket, ctx: CobblemonNetwork.NetworkContext) {
+object BattleSwitchPokemonHandler : ClientNetworkPacketHandler<BattleSwitchPokemonPacket> {
+    override fun handle(packet: BattleSwitchPokemonPacket, client: MinecraftClient) {
         val battle = CobblemonClient.battle ?: return
         val (actor, activeBattlePokemon) = battle.getPokemonFromPNX(packet.pnx)
 
@@ -36,6 +36,7 @@ object BattleSwitchPokemonHandler : ClientPacketHandler<BattleSwitchPokemonPacke
                         properties = properties,
                         aspects = aspects,
                         hpValue = hpValue,
+                        maxHp = maxHp,
                         isHpFlat = packet.isAlly,
                         status = status,
                         statChanges = statChanges
@@ -46,5 +47,10 @@ object BattleSwitchPokemonHandler : ClientPacketHandler<BattleSwitchPokemonPacke
                 }
             )
         )
+
+        // Only update currently selected Pokémon if it's our Pokémon being switched in
+        if (actor == battle.getParticipatingActor(client.session.profile.id)) {
+            CobblemonClient.storage.switchToPokemon(packet.newPokemon.uuid)
+        }
     }
 }

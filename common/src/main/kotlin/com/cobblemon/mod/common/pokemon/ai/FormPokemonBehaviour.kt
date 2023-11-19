@@ -27,9 +27,15 @@ class FormPokemonBehaviour {
     @SerializedName("moving")
     private val _moving: MoveBehaviour? = null
 
+    @SerializedName("idle")
+    private val _idle: IdleBehaviour? = null
+
     val resting: RestBehaviour
         get() = _resting ?: parent.resting
 
     val moving: MoveBehaviour
         get() = _moving ?: parent.moving
+
+    val idle: IdleBehaviour
+        get() = _idle ?: parent.idle
 }

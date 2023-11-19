@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.properties.CustomPokemonProperty.Companion.r
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
-import com.cobblemon.mod.common.util.getServer
+import com.cobblemon.mod.common.util.server
 
 /**
  * A custom property that can be parsed from a string and applied/matched against
@@ -54,7 +54,7 @@ interface CustomPokemonProperty {
 
         // We do this every time a new property is registered if the server is running in order to synchronize all players with the new property for tab completion purposes
         private fun triggerSyncAttempt() {
-            val server = getServer() ?: return
+            val server = server() ?: return
             if (!server.isSingleplayer) {
                 PropertiesCompletionProvider.reload()
                 server.playerManager.playerList.forEach { player -> PropertiesCompletionProvider.sync(player) }

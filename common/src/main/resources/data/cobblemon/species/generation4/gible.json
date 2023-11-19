@@ -8,6 +8,19 @@
     "sandveil",
     "h:roughskin"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 58,
     "attack": 70,
@@ -29,20 +42,36 @@
   "moves": [
     "1:sandtomb",
     "1:tackle",
+    "3:sandattack",
     "6:sandattack",
     "7:dragonrage",
     "12:dragonbreath",
+    "13:sandstorm",
+    "15:takedown",
     "18:bulldoze",
+    "19:sandtomb",
     "25:bite",
+    "25:slash",
+    "27:dragonclaw",
     "30:slash",
+    "31:dig",
     "36:dragonclaw",
+    "37:dragonrush",
     "42:dig",
     "48:sandstorm",
     "54:takedown",
     "60:dragonrush",
+    "egg:bodyslam",
     "egg:doubleedge",
+    "egg:dragonbreath",
+    "egg:ironhead",
+    "egg:irontail",
     "egg:metalclaw",
+    "egg:mudshot",
+    "egg:outrage",
     "egg:rockclimb",
+    "egg:sandtomb",
+    "egg:scaryface",
     "egg:thrash",
     "egg:twister",
     "tm:aerialace",
@@ -82,11 +111,13 @@
     "tm:rest",
     "tm:return",
     "tm:roar",
+    "tm:rockclimb",
     "tm:rockslide",
     "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowclaw",
@@ -104,11 +135,24 @@
     "tm:terablast",
     "tm:thunderfang",
     "tm:toxic",
+    "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:dragonrage",
+    "tutor:earthpower",
+    "tutor:endure",
     "tutor:furycutter",
     "tutor:headbutt",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:mudslap",
+    "tutor:outrage",
     "tutor:scaleshot",
-    "tutor:scorchingsands"
+    "tutor:scorchingsands",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:swift",
+    "tutor:twister"
   ],
   "labels": [
     "gen4"

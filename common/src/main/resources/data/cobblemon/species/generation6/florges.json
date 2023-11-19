@@ -73,6 +73,7 @@
     "tm:rest",
     "tm:return",
     "tm:round",
+    "tm:safeguard",
     "tm:secretpower",
     "tm:seedbomb",
     "tm:skillswap",
@@ -92,9 +93,13 @@
     "tutor:covet",
     "tutor:defog",
     "tutor:endeavor",
+    "tutor:gigadrain",
     "tutor:healbell",
+    "tutor:helpinghand",
     "tutor:magiccoat",
+    "tutor:seedbomb",
     "tutor:snore",
+    "tutor:synthesis",
     "tutor:worryseed"
   ],
   "labels": [
@@ -123,5 +128,14 @@
   "height": 11,
   "weight": 100,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

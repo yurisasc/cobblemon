@@ -54,7 +54,6 @@
       "eggGroups": [
         "fairy"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -93,6 +92,7 @@
     "tm:agility",
     "tm:attract",
     "tm:batonpass",
+    "tm:brutalswing",
     "tm:calmmind",
     "tm:charm",
     "tm:darkpulse",
@@ -121,6 +121,7 @@
     "tm:psybeam",
     "tm:psychic",
     "tm:psychicterrain",
+    "tm:psychocut",
     "tm:psyshock",
     "tm:reflect",
     "tm:rest",
@@ -169,5 +170,14 @@
   "height": 21,
   "weight": 51,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

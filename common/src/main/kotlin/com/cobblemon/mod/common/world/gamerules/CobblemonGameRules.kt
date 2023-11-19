@@ -8,12 +8,17 @@
 
 package com.cobblemon.mod.common.world.gamerules
 
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.mixin.invoker.BooleanRuleInvoker
 import net.minecraft.world.GameRules
 
 object CobblemonGameRules {
-    lateinit var DO_POKEMON_SPAWNING: GameRules.Key<GameRules.BooleanRule>
 
-    fun register() {
-        DO_POKEMON_SPAWNING = GameRules.register("doPokemonSpawning", GameRules.Category.SPAWNING, GameRules.BooleanRule.create(true))
-    }
+    @JvmField
+    val DO_POKEMON_SPAWNING: GameRules.Key<GameRules.BooleanRule> = Cobblemon.implementation.registerGameRule("doPokemonSpawning", GameRules.Category.SPAWNING, BooleanRuleInvoker.`cobblemon$create`(true))
+    @JvmField
+    val DO_POKEMON_LOOT: GameRules.Key<GameRules.BooleanRule> = Cobblemon.implementation.registerGameRule("doPokemonLoot", GameRules.Category.DROPS, BooleanRuleInvoker.`cobblemon$create`(true))
+    @JvmField
+    val SHINY_STARTERS: GameRules.Key<GameRules.BooleanRule> = Cobblemon.implementation.registerGameRule("doShinyStarters", GameRules.Category.MISC, BooleanRuleInvoker.`cobblemon$create`(false))
+
 }

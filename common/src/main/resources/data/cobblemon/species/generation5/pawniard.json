@@ -8,6 +8,19 @@
     "innerfocus",
     "h:pressure"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:iron_helmet",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 85,
@@ -46,11 +59,15 @@
     "65:guillotine",
     "egg:headbutt",
     "egg:meanlook",
+    "egg:psychocut",
     "egg:pursuit",
     "egg:quickguard",
+    "egg:revenge",
+    "egg:stealthrock",
     "egg:suckerpunch",
     "tm:aerialace",
     "tm:airslash",
+    "tm:assurance",
     "tm:attract",
     "tm:beatup",
     "tm:brickbreak",
@@ -82,6 +99,7 @@
     "tm:psychocut",
     "tm:raindance",
     "tm:rest",
+    "tm:retaliate",
     "tm:return",
     "tm:revenge",
     "tm:rockpolish",
@@ -107,15 +125,28 @@
     "tm:terablast",
     "tm:thief",
     "tm:thunderwave",
+    "tm:torment",
     "tm:toxic",
     "tm:xscissor",
+    "tutor:darkpulse",
     "tutor:dualchop",
+    "tutor:foulplay",
+    "tutor:furycutter",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:knockoff",
     "tutor:lashout",
+    "tutor:lowkick",
     "tutor:magnetrise",
+    "tutor:psychocut",
     "tutor:roleplay",
+    "tutor:sleeptalk",
     "tutor:snatch",
-    "tutor:spite"
+    "tutor:snore",
+    "tutor:spite",
+    "tutor:stealthrock",
+    "tutor:steelbeam",
+    "tutor:suckerpunch"
   ],
   "labels": [
     "gen5"

@@ -11,21 +11,16 @@ package com.cobblemon.mod.common.pokemon.activestate
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.getPlayer
-import com.cobblemon.mod.common.util.isPokemonEntity
-import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.*
 import com.google.gson.JsonObject
-import java.util.UUID
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.registry.RegistryKey
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
+import java.util.*
 
 sealed class PokemonState {
     companion object {
@@ -79,7 +74,7 @@ class SentOutState() : ActivePokemonState() {
         this.dimension = entity.world.registryKey
     }
 
-    override fun getIcon(pokemon: Pokemon) = cobblemonResource("ui/party/party_icon_released.png")
+    override fun getIcon(pokemon: Pokemon) = cobblemonResource("textures/gui/party/party_icon_released.png")
     override fun writeToNBT(nbt: NbtCompound) = null
     override fun writeToJSON(json: JsonObject) = null
 
@@ -121,7 +116,7 @@ class ShoulderedState() : ActivePokemonState() {
 
     override fun getIcon(pokemon: Pokemon): Identifier {
         val suffix = if (isLeftShoulder) "left" else "right"
-        return cobblemonResource("ui/party/party_icon_shoulder_$suffix.png")
+        return cobblemonResource("textures/gui/party/party_icon_shoulder_$suffix.png")
     }
     override fun writeToNBT(nbt: NbtCompound): NbtCompound {
         super.writeToNBT(nbt)
@@ -176,6 +171,9 @@ class ShoulderedState() : ActivePokemonState() {
         return this
     }
 
+    /**
+     * Removes the cobblemon from the player's shoulder. (currently not used)
+     */
     override fun recall() {
         val player = playerUUID.getPlayer() ?: return
         val nbt = if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight

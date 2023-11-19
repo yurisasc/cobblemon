@@ -9,6 +9,19 @@
     "magicguard",
     "h:tintedlens"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 72,
     "attack": 58,
@@ -16,6 +29,19 @@
     "special_attack": 103,
     "special_defence": 80,
     "speed": 97
+  },
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 45,
   "maleRatio": 0.5,
@@ -47,8 +73,12 @@
     "55:skyattack",
     "60:skillswap",
     "egg:ancientpower",
+    "egg:futuresight",
     "egg:psychoshift",
     "egg:roost",
+    "egg:skillswap",
+    "egg:steelwing",
+    "egg:storedpower",
     "tm:aerialace",
     "tm:airslash",
     "tm:attract",
@@ -88,6 +118,7 @@
     "tm:reflect",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:safeguard",
     "tm:secretpower",
@@ -103,19 +134,35 @@
     "tm:substitute",
     "tm:swagger",
     "tm:swift",
+    "tm:telekinesis",
     "tm:thief",
     "tm:thunderwave",
     "tm:toxic",
     "tm:trick",
     "tm:trickroom",
     "tm:zenheadbutt",
+    "tutor:darkpulse",
     "tutor:defog",
     "tutor:dualwingbeat",
     "tutor:expandingforce",
+    "tutor:gravity",
+    "tutor:heatwave",
+    "tutor:hypnosis",
+    "tutor:icywind",
     "tutor:magiccoat",
+    "tutor:magicroom",
+    "tutor:roost",
     "tutor:shockwave",
     "tutor:signalbeam",
-    "tutor:telekinesis"
+    "tutor:skillswap",
+    "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:storedpower",
+    "tutor:tailwind",
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

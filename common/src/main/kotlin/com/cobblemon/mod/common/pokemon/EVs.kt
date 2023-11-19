@@ -35,13 +35,13 @@ class EVs : PokemonStats() {
      */
     fun add(key: Stat, value: Int): Int {
         val currentTotal = this.sumOf { it.value }
-        if (currentTotal == MAX_TOTAL_VALUE) {
+        if (currentTotal == MAX_TOTAL_VALUE && value > 0) {
             return 0
         }
         val currentStat = this.getOrDefault(key)
         val possibleForStat = MAX_STAT_VALUE - currentStat
         val possibleForTotal = MAX_TOTAL_VALUE - currentTotal
-        val coercedValue = value.coerceAtMost(min(possibleForStat, possibleForTotal))
+        val coercedValue = value.coerceIn(-currentStat, min(possibleForStat, possibleForTotal))
         val newValue = currentStat + coercedValue
         // avoid unnecessary updates
         if (newValue != currentStat) {

@@ -28,6 +28,7 @@
   "moves": [
     "1:growl",
     "1:peck",
+    "3:astonish",
     "4:disarmingvoice",
     "8:mist",
     "12:furyattack",
@@ -40,16 +41,22 @@
     "30:mirrormove",
     "32:cottonguard",
     "36:takedown",
+    "38:dragonpulse",
     "40:moonblast",
     "44:perishsong",
+    "egg:agility",
     "egg:astonish",
     "egg:defog",
     "egg:dragonrush",
     "egg:featherdance",
     "egg:haze",
+    "egg:hypervoice",
+    "egg:playrough",
+    "egg:powerswap",
     "egg:pursuit",
     "egg:rage",
     "egg:roost",
+    "egg:steelwing",
     "egg:tailwind",
     "tm:acrobatics",
     "tm:aerialace",
@@ -76,6 +83,7 @@
     "tm:hurricane",
     "tm:hypervoice",
     "tm:icebeam",
+    "tm:naturalgift",
     "tm:outrage",
     "tm:playrough",
     "tm:pluck",
@@ -85,6 +93,9 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
+    "tm:round",
+    "tm:safeguard",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
@@ -102,14 +113,35 @@
     "tm:trailblaze",
     "tm:uproar",
     "tutor:aircutter",
+    "tutor:bodyslam",
+    "tutor:defog",
     "tutor:doubleedge",
+    "tutor:dragonpulse",
+    "tutor:dreameater",
     "tutor:dualwingbeat",
+    "tutor:endure",
+    "tutor:falseswipe",
+    "tutor:featherdance",
+    "tutor:growl",
     "tutor:healbell",
+    "tutor:heatwave",
+    "tutor:hypervoice",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:outrage",
+    "tutor:peck",
+    "tutor:psychup",
+    "tutor:roost",
     "tutor:skyattack",
-    "tutor:twister"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:tailwind",
+    "tutor:twister",
+    "tutor:uproar"
   ],
   "labels": [
     "gen3"
@@ -152,5 +184,20 @@
   "height": 4,
   "weight": 12,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:white_wool"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

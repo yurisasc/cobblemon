@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Floragato",
   "nationalPokedexNumber": 907,
   "primaryType": "grass",
@@ -6,6 +7,15 @@
     "overgrow",
     "h:protean"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 61,
     "attack": 80,
@@ -16,7 +26,7 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 144,
   "baseFriendship": 50,
   "evYield": {
     "hp": 0,
@@ -32,6 +42,17 @@
     "field",
     "grass"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "walk": {
+      "walkSpeed": 0.25
+    }
+  },
   "moves": [
     "1:leafage",
     "1:scratch",
@@ -109,6 +130,12 @@
       ]
     }
   ],
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 1,
+    "height": 1.9,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.floragato.desc"

@@ -16,6 +16,9 @@
     "special_defence": 80,
     "speed": 105
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 60,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -136,18 +139,37 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "walk": {
+      "walkSpeed": 0.35
+    }
+  },
   "drops": {
-    "amount": "1",
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:leather",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:blaze_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 5.0
       }
     ]
   },
   "moves": [
     "1:ember",
+    "1:furyattack",
     "1:growl",
     "1:megahorn",
     "1:poisonjab",
@@ -160,6 +182,7 @@
     "30:stomp",
     "35:firespin",
     "43:takedown",
+    "45:bounce",
     "49:inferno",
     "56:fireblast",
     "63:flareblitz",
@@ -179,6 +202,7 @@
     "tm:facade",
     "tm:fireblast",
     "tm:firespin",
+    "tm:flamecharge",
     "tm:flamethrower",
     "tm:flareblitz",
     "tm:frustration",
@@ -214,16 +238,23 @@
     "tm:swift",
     "tm:swordsdance",
     "tm:throatchop",
+    "tm:toxic",
     "tm:wildcharge",
     "tm:willowisp",
     "tutor:agility",
+    "tutor:allyswitch",
+    "tutor:attract",
+    "tutor:batonpass",
     "tutor:bide",
+    "tutor:bodyslam",
+    "tutor:bounce",
     "tutor:curse",
     "tutor:doubleedge",
     "tutor:doublekick",
     "tutor:doubleteam",
     "tutor:drillrun",
     "tutor:ember",
+    "tutor:endure",
     "tutor:facade",
     "tutor:fireblast",
     "tutor:firespin",
@@ -233,11 +264,13 @@
     "tutor:furyattack",
     "tutor:growl",
     "tutor:headbutt",
+    "tutor:heatwave",
     "tutor:hiddenpower",
     "tutor:horndrill",
     "tutor:hyperbeam",
     "tutor:hypnosis",
     "tutor:irontail",
+    "tutor:lowkick",
     "tutor:megahorn",
     "tutor:mimic",
     "tutor:poisonjab",
@@ -249,13 +282,18 @@
     "tutor:return",
     "tutor:scorchingsands",
     "tutor:skullbash",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:solarbeam",
     "tutor:stomp",
     "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
+    "tutor:swift",
     "tutor:tackle",
     "tutor:tailwhip",
     "tutor:takedown",
+    "tutor:throatchop",
     "tutor:toxic",
     "tutor:willowisp"
   ],

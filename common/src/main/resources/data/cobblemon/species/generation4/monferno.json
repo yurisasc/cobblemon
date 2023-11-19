@@ -8,6 +8,15 @@
     "blaze",
     "h:ironfist"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 64,
     "attack": 78,
@@ -15,6 +24,14 @@
     "special_attack": 78,
     "special_defence": 52,
     "speed": 81
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 45,
   "maleRatio": 0.875,
@@ -32,6 +49,7 @@
     "1:machpunch",
     "1:scratch",
     "9:taunt",
+    "14:machpunch",
     "16:furyswipes",
     "19:flamewheel",
     "26:feint",
@@ -39,6 +57,8 @@
     "36:closecombat",
     "39:firespin",
     "46:acrobatics",
+    "46:slackoff",
+    "49:flareblitz",
     "49:slackoff",
     "56:flareblitz",
     "tm:acrobatics",
@@ -58,11 +78,13 @@
     "tm:flamethrower",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:grassknot",
     "tm:hiddenpower",
     "tm:honeclaws",
     "tm:incinerate",
+    "tm:irontail",
     "tm:lowsweep",
     "tm:naturalgift",
     "tm:overheat",
@@ -80,6 +102,7 @@
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:sleeptalk",
+    "tm:stealthrock",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
@@ -106,6 +129,7 @@
     "tutor:mudslap",
     "tutor:roleplay",
     "tutor:rollout",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stealthrock",
     "tutor:swift",

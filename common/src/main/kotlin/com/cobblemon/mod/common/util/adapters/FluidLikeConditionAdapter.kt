@@ -14,11 +14,11 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import com.cobblemon.mod.common.registry.FluidIdentifierCondition
 import com.cobblemon.mod.common.registry.FluidTagCondition
 import net.minecraft.fluid.Fluid
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.RegistryKeys
 
 object FluidLikeConditionAdapter : RegistryLikeAdapter<Fluid> {
     override val registryLikeConditions = mutableListOf(
-        RegistryLikeTagCondition.resolver(Registry.FLUID_KEY, ::FluidTagCondition),
+        RegistryLikeTagCondition.resolver(RegistryKeys.FLUID, ::FluidTagCondition),
         RegistryLikeIdentifierCondition.resolver(::FluidIdentifierCondition)
     )
 }

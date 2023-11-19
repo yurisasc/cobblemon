@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Gurdurr",
   "nationalPokedexNumber": 533,
   "primaryType": "fighting",
@@ -7,6 +8,19 @@
     "sheerforce",
     "h:ironfist"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:muscle_band",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 105,
@@ -98,8 +112,18 @@
     "tm:workup",
     "tutor:block",
     "tutor:coaching",
+    "tutor:drainpunch",
+    "tutor:firepunch",
+    "tutor:focuspunch",
+    "tutor:helpinghand",
+    "tutor:icepunch",
     "tutor:knockoff",
-    "tutor:machpunch"
+    "tutor:lowkick",
+    "tutor:machpunch",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:superpower",
+    "tutor:thunderpunch"
   ],
   "labels": [
     "gen5"
@@ -118,10 +142,10 @@
       "requirements": []
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 1.9,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -38,7 +38,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 168,
+      "baseExperienceYield": 133,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -54,7 +54,6 @@
         "field",
         "fairy"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -76,6 +75,27 @@
     "field",
     "fairy"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:growl",
@@ -97,12 +117,21 @@
     "48:playrough",
     "egg:ancientpower",
     "egg:captivate",
+    "egg:falseswipe",
+    "egg:firefang",
+    "egg:guardswap",
+    "egg:icefang",
     "egg:metalburst",
+    "egg:mistyterrain",
     "egg:poisonfang",
     "egg:poweruppunch",
+    "egg:psychup",
     "egg:punishment",
     "egg:seismictoss",
     "egg:slam",
+    "egg:suckerpunch",
+    "egg:swordsdance",
+    "egg:thunderfang",
     "egg:tickle",
     "tm:assurance",
     "tm:attract",
@@ -110,6 +139,7 @@
     "tm:bodyslam",
     "tm:brickbreak",
     "tm:brutalswing",
+    "tm:captivate",
     "tm:chargebeam",
     "tm:confide",
     "tm:crunch",
@@ -127,6 +157,7 @@
     "tm:flashcannon",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:foulplay",
     "tm:frustration",
     "tm:gigaimpact",
@@ -148,6 +179,7 @@
     "tm:naturalgift",
     "tm:payback",
     "tm:playrough",
+    "tm:poweruppunch",
     "tm:protect",
     "tm:psychicfangs",
     "tm:psychup",
@@ -177,22 +209,51 @@
     "tm:thunderpunch",
     "tm:torment",
     "tm:toxic",
+    "tutor:ancientpower",
+    "tutor:astonish",
+    "tutor:bodyslam",
     "tutor:counter",
+    "tutor:darkpulse",
     "tutor:doubleedge",
     "tutor:dynamicpunch",
+    "tutor:endure",
+    "tutor:faketears",
+    "tutor:falseswipe",
+    "tutor:firefang",
     "tutor:focuspunch",
+    "tutor:foulplay",
     "tutor:headbutt",
+    "tutor:icepunch",
+    "tutor:icywind",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:knockoff",
     "tutor:laserfocus",
     "tutor:lastresort",
     "tutor:magnetrise",
+    "tutor:megakick",
+    "tutor:megapunch",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:painsplit",
+    "tutor:playrough",
+    "tutor:protect",
+    "tutor:psychup",
+    "tutor:rockslide",
+    "tutor:seismictoss",
     "tutor:sing",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
+    "tutor:stealthrock",
     "tutor:steelbeam",
-    "tutor:superfang"
+    "tutor:substitute",
+    "tutor:suckerpunch",
+    "tutor:superfang",
+    "tutor:swagger",
+    "tutor:swordsdance",
+    "tutor:thunderpunch",
+    "tutor:visegrip"
   ],
   "labels": [
     "gen3"

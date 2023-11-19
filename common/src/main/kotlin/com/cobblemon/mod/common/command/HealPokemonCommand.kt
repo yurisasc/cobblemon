@@ -10,7 +10,12 @@ package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.alias
+import com.cobblemon.mod.common.util.commandLang
+import com.cobblemon.mod.common.util.isInBattle
+import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.permission
+import com.cobblemon.mod.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
@@ -43,7 +48,7 @@ object HealPokemonCommand {
         if (!target.world.isClient) {
             val party = target.party()
             party.heal()
-            source.sendFeedback(commandLang("healpokemon.heal", target.name), true)
+            source.sendFeedback({ commandLang("healpokemon.heal", target.name) }, true)
         }
         return Command.SINGLE_SUCCESS
     }

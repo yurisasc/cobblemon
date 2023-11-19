@@ -16,27 +16,18 @@ import com.cobblemon.mod.common.api.spawning.condition.SpawningCondition
 import com.cobblemon.mod.common.api.spawning.context.RegisteredSpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.PossibleHeldItem
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
-import com.cobblemon.mod.common.util.adapters.BiomeLikeConditionAdapter
-import com.cobblemon.mod.common.util.adapters.BlockLikeConditionAdapter
-import com.cobblemon.mod.common.util.adapters.DropEntryAdapter
-import com.cobblemon.mod.common.util.adapters.FluidLikeConditionAdapter
-import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
-import com.cobblemon.mod.common.util.adapters.IntRangeAdapter
-import com.cobblemon.mod.common.util.adapters.IntRangesAdapter
-import com.cobblemon.mod.common.util.adapters.NbtCompoundAdapter
-import com.cobblemon.mod.common.util.adapters.PossibleHeldItemAdapter
-import com.cobblemon.mod.common.util.adapters.RegisteredSpawningContextAdapter
-import com.cobblemon.mod.common.util.adapters.SpawnBucketAdapter
-import com.cobblemon.mod.common.util.adapters.SpawnDetailAdapter
-import com.cobblemon.mod.common.util.adapters.SpawningConditionAdapter
-import com.cobblemon.mod.common.util.adapters.pokemonPropertiesShortAdapter
+import com.cobblemon.mod.common.util.adapters.*
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.mojang.datafixers.util.Either
 import net.minecraft.block.Block
 import net.minecraft.fluid.Fluid
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.structure.Structure
 
 /**
  * Object responsible for actually deserializing spawns. You should probably
@@ -53,6 +44,17 @@ object SpawnLoader {
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Fluid::class.java).type, FluidLikeConditionAdapter)
+        .registerTypeAdapter(
+            TypeToken.getParameterized(
+                Either::class.java,
+                Identifier::class.java,
+                TypeToken.getParameterized(
+                    TagKey::class.java,
+                    Structure::class.java
+                ).type
+            ).type,
+            EitherIdentifierOrTagAdapter(RegistryKeys.STRUCTURE)
+        )
         .registerTypeAdapter(RegisteredSpawningContext::class.java, RegisteredSpawningContextAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .registerTypeAdapter(SpawnDetail::class.java, SpawnDetailAdapter)

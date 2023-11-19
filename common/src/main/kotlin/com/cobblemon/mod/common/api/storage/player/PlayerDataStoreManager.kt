@@ -9,23 +9,39 @@
 package com.cobblemon.mod.common.api.storage.player
 
 import com.cobblemon.mod.common.api.scheduling.ScheduledTask
-import com.cobblemon.mod.common.api.storage.player.adapter.JsonPlayerData
+import com.cobblemon.mod.common.api.storage.player.factory.JsonPlayerDataStoreFactory
+import com.cobblemon.mod.common.api.storage.player.factory.PlayerDataStoreFactory
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.network.ServerPlayerEntity
+
 class PlayerDataStoreManager {
 
-    private val jpd = JsonPlayerData()
 
-    private fun registerSaveScheduler() = ScheduledTask.Builder().execute { jpd.saveCache() }.delay(30f).interval(120f).build()
+    private var factory: PlayerDataStoreFactory = JsonPlayerDataStoreFactory()
+    fun setFactory(factory: PlayerDataStoreFactory) {
+        this.factory = factory;
+    }
+
+    private fun registerSaveScheduler() = ScheduledTask.Builder()
+        .execute { saveAll() }
+        .delay(30f)
+        .interval(120f)
+        .infiniteIterations()
+        .build()
 
     fun setup(server: MinecraftServer) {
         registerSaveScheduler()
-        jpd.setup(server)
+        (factory as? JsonPlayerDataStoreFactory)?.setup(server)
     }
 
-    fun get(player: PlayerEntity) = jpd.load(player.uuid)
+    fun get(player: PlayerEntity): PlayerData = factory.load(player.uuid);
 
-    fun saveAll() = jpd.saveCache()
+    fun saveAll() = factory.saveAll();
 
-    fun saveSingle(playerData: PlayerData) = jpd.save(playerData)
+    fun saveSingle(playerData: PlayerData) = factory.save(playerData)
+
+    fun onPlayerDisconnect(player: ServerPlayerEntity) {
+        factory.onPlayerDisconnect(player.uuid);
+    }
 }

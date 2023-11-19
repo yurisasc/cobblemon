@@ -29,12 +29,15 @@
     "1:powdersnow",
     "4:encore",
     "8:ancientpower",
+    "10:rockthrow",
     "12:icywind",
+    "15:takedown",
     "16:round",
     "20:mist",
     "24:aurorabeam",
     "28:thunderwave",
     "32:naturepower",
+    "34:avalanche",
     "36:freezedry",
     "40:icebeam",
     "44:lightscreen",
@@ -81,6 +84,7 @@
     "tm:irontail",
     "tm:lightscreen",
     "tm:mudshot",
+    "tm:naturepower",
     "tm:outrage",
     "tm:protect",
     "tm:psychup",
@@ -110,9 +114,23 @@
     "tm:weatherball",
     "tm:zenheadbutt",
     "tutor:aquatail",
+    "tutor:earthpower",
+    "tutor:growl",
+    "tutor:hypervoice",
+    "tutor:icywind",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:magnetrise",
     "tutor:meteorbeam",
-    "tutor:waterpulse"
+    "tutor:outrage",
+    "tutor:powdersnow",
+    "tutor:rockthrow",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:thunderwave",
+    "tutor:waterpulse",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6"
@@ -157,5 +175,14 @@
   "height": 13,
   "weight": 252,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

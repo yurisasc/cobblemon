@@ -6,6 +6,20 @@
     "healer",
     "h:aromaveil"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:fairy_feather",
+        "quantityRange": "1-2",
+        "percentage": 66
+      }
+    ]
+  },
   "baseStats": {
     "hp": 101,
     "attack": 72,
@@ -43,6 +57,7 @@
     "36:moonblast",
     "39:skillswap",
     "42:psychup",
+    "57:reflect",
     "tm:allyswitch",
     "tm:attract",
     "tm:calmmind",
@@ -54,6 +69,7 @@
     "tm:drainingkiss",
     "tm:drainpunch",
     "tm:dreameater",
+    "tm:echoedvoice",
     "tm:encore",
     "tm:endure",
     "tm:energyball",
@@ -73,6 +89,7 @@
     "tm:nastyplot",
     "tm:protect",
     "tm:psychic",
+    "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
     "tm:reflect",
@@ -92,13 +109,21 @@
     "tm:toxic",
     "tm:trickroom",
     "tutor:afteryou",
+    "tutor:allyswitch",
     "tutor:covet",
     "tutor:disable",
+    "tutor:drainpunch",
     "tutor:endeavor",
     "tutor:healbell",
+    "tutor:healpulse",
+    "tutor:helpinghand",
     "tutor:magiccoat",
     "tutor:mistyexplosion",
-    "tutor:telekinesis"
+    "tutor:moonblast",
+    "tutor:skillswap",
+    "tutor:snore",
+    "tutor:telekinesis",
+    "tutor:trickroom"
   ],
   "labels": [
     "gen6"

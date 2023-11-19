@@ -102,10 +102,10 @@
 					"rotation": [15, 0, 0]
 				},
 				"jaw_lower": {
-					"rotation": [-45, 0, 0]
+					"rotation": [-42.5, 0, 0]
 				},
 				"jaw_lower2": {
-					"rotation": [-45, 0, 0]
+					"rotation": [-65, 0, 0]
 				},
 				"whisker_left": {
 					"rotation": [-15, -25, -15]

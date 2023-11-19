@@ -38,12 +38,17 @@
     "15:bounce",
     "egg:aquajet",
     "egg:bellydrum",
+    "egg:bodyslam",
     "egg:camouflage",
     "egg:copycat",
+    "egg:encore",
+    "egg:faketears",
+    "egg:muddywater",
     "egg:perishsong",
     "egg:present",
     "egg:refresh",
     "egg:sing",
+    "egg:slam",
     "egg:soak",
     "egg:supersonic",
     "egg:tickle",
@@ -51,6 +56,7 @@
     "tm:attract",
     "tm:blizzard",
     "tm:bodyslam",
+    "tm:bounce",
     "tm:brutalswing",
     "tm:captivate",
     "tm:charm",
@@ -91,16 +97,30 @@
     "tm:toxic",
     "tm:uproar",
     "tm:waterfall",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tm:workup",
+    "tutor:bodyslam",
+    "tutor:bounce",
     "tutor:covet",
     "tutor:defensecurl",
     "tutor:doubleedge",
+    "tutor:endure",
     "tutor:headbutt",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icywind",
+    "tutor:irontail",
     "tutor:knockoff",
     "tutor:mimic",
+    "tutor:mudslap",
     "tutor:rollout",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
     "tutor:swift",
+    "tutor:uproar",
     "tutor:waterpulse"
   ],
   "labels": [
@@ -143,5 +163,14 @@
   "height": 2,
   "weight": 20,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

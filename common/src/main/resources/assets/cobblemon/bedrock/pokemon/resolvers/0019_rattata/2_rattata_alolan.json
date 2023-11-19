@@ -6,6 +6,7 @@
       "aspects": [
         "alolan"
       ],
+      "poser": "cobblemon:rattata_alolan",
       "model": "cobblemon:rattata_alolan.geo",
       "texture": "cobblemon:textures/pokemon/0019_rattata/rattata_alolan.png"
     },

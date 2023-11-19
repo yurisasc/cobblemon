@@ -33,6 +33,7 @@
     "8:sharpen",
     "10:smackdown",
     "15:flail",
+    "18:reflect",
     "20:ancientpower",
     "25:rockpolish",
     "30:lightscreen",
@@ -42,6 +43,7 @@
     "50:stealthrock",
     "55:moonblast",
     "60:stoneedge",
+    "70:safeguard",
     "tm:allyswitch",
     "tm:bodypress",
     "tm:bodyslam",
@@ -78,6 +80,7 @@
     "tm:rest",
     "tm:return",
     "tm:rockblast",
+    "tm:rockpolish",
     "tm:rockslide",
     "tm:rocktomb",
     "tm:round",
@@ -87,6 +90,7 @@
     "tm:secretpower",
     "tm:skillswap",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:spikes",
     "tm:stealthrock",
@@ -101,14 +105,22 @@
     "tm:trickroom",
     "tm:wonderroom",
     "tutor:afteryou",
+    "tutor:allyswitch",
     "tutor:covet",
+    "tutor:earthpower",
     "tutor:gravity",
+    "tutor:irondefense",
     "tutor:magiccoat",
     "tutor:magnetrise",
     "tutor:meteorbeam",
     "tutor:mistyexplosion",
+    "tutor:skillswap",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
     "tutor:telekinesis",
-    "tutor:terrainpulse"
+    "tutor:terrainpulse",
+    "tutor:wonderroom"
   ],
   "labels": [
     "gen6"
@@ -135,5 +147,18 @@
   "height": 3,
   "weight": 57,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:diamond",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

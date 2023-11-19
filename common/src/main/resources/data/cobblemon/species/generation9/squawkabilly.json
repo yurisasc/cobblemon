@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Squawkabilly",
   "nationalPokedexNumber": 931,
   "primaryType": "normal",
@@ -8,6 +9,22 @@
     "hustle",
     "h:guts"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 82,
     "attack": 96,
@@ -18,7 +35,8 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
+  "shoulderMountable": true,
+  "baseExperienceYield": 146,
   "baseFriendship": 50,
   "evYield": {
     "hp": 0,
@@ -33,6 +51,13 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:growl",
     "1:mimic",
@@ -91,6 +116,12 @@
   "height": 6,
   "weight": 24,
   "evolutions": [],
+  "baseScale": 0.55,
+  "hitbox": {
+    "width": 0.5,
+    "height": 1.1,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "forms": [
     {
@@ -112,7 +143,6 @@
       },
       "catchRate": 190,
       "maleRatio": 0.5,
-      "baseExperienceYield": 0,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -159,7 +189,6 @@
       },
       "catchRate": 190,
       "maleRatio": 0.5,
-      "baseExperienceYield": 0,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -206,7 +235,6 @@
       },
       "catchRate": 190,
       "maleRatio": 0.5,
-      "baseExperienceYield": 0,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,

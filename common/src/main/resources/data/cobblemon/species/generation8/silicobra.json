@@ -45,6 +45,7 @@
     "egg:poisontail",
     "tm:attract",
     "tm:bodyslam",
+    "tm:brutalswing",
     "tm:bulldoze",
     "tm:dig",
     "tm:drillrun",
@@ -62,6 +63,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:screech",
     "tm:sleeptalk",
@@ -114,5 +116,14 @@
   "height": 22,
   "weight": 76,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

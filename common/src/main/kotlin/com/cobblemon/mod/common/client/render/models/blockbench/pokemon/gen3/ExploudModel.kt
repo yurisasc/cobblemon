@@ -42,7 +42,6 @@ class ExploudModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("exploud", "idle")
             )
         )
@@ -51,7 +50,6 @@ class ExploudModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("exploud", "idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
                 BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)

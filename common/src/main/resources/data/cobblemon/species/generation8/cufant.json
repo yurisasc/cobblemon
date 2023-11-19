@@ -60,6 +60,7 @@
     "tm:flashcannon",
     "tm:fling",
     "tm:heavyslam",
+    "tm:highhorsepower",
     "tm:irondefense",
     "tm:ironhead",
     "tm:megakick",
@@ -81,10 +82,12 @@
     "tm:stompingtantrum",
     "tm:stoneedge",
     "tm:substitute",
+    "tm:superpower",
     "tm:takedown",
     "tm:terablast",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:steelbeam",
     "tutor:steelroller"
   ],
   "labels": [
@@ -128,5 +131,18 @@
   "height": 12,
   "weight": 1000,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:raw_copper",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

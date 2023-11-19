@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -16,16 +17,19 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.ALL_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("metapod")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.15, -1.35, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.15, -1.25, 0.0)
     override val profileScale = 1.1F
     override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metapod", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("metapod", "blink").setPreventsIdle(false)}
@@ -45,5 +49,5 @@ class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing)) bedrockStateful("metapod", "faint") else null
+    ) = bedrockStateful("metapod", "faint")
 }

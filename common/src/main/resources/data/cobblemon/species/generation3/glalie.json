@@ -35,7 +35,7 @@
       },
       "catchRate": 75,
       "maleRatio": 0.5,
-      "baseExperienceYield": 203,
+      "baseExperienceYield": 168,
       "baseFriendship": 50,
       "evYield": {
         "hp": 2,
@@ -51,7 +51,6 @@
         "fairy",
         "mineral"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -76,6 +75,7 @@
   "moves": [
     "1:astonish",
     "1:doubleteam",
+    "1:freezedry",
     "1:headbutt",
     "1:leer",
     "1:powdersnow",
@@ -85,6 +85,7 @@
     "25:icywind",
     "30:frostbreath",
     "35:bite",
+    "37:icebeam",
     "40:icefang",
     "47:hail",
     "47:snowscape",
@@ -101,6 +102,7 @@
     "tm:confide",
     "tm:crunch",
     "tm:darkpulse",
+    "tm:doubleteam",
     "tm:earthquake",
     "tm:endure",
     "tm:explosion",
@@ -108,6 +110,7 @@
     "tm:faketears",
     "tm:flash",
     "tm:foulplay",
+    "tm:frostbreath",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:gyroball",
@@ -148,16 +151,30 @@
     "tm:toxic",
     "tm:trailblaze",
     "tm:waterpulse",
+    "tm:weatherball",
     "tutor:block",
+    "tutor:bodyslam",
+    "tutor:darkpulse",
     "tutor:defensecurl",
     "tutor:doubleedge",
+    "tutor:endure",
+    "tutor:explosion",
+    "tutor:headbutt",
+    "tutor:icywind",
+    "tutor:ironhead",
     "tutor:laserfocus",
     "tutor:mimic",
     "tutor:rollout",
+    "tutor:selfdestruct",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:spite",
     "tutor:steelroller",
-    "tutor:superfang"
+    "tutor:substitute",
+    "tutor:superfang",
+    "tutor:swagger",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"
@@ -185,5 +202,26 @@
   "height": 15,
   "weight": 2565,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:snowball",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

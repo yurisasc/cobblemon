@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.util.math
 
+import kotlin.math.round
 import net.minecraft.util.math.Vec3d
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -21,7 +22,8 @@ class SimpleMathExtensionsKtTest {
         val vec3 = Vec3d(-2.0, 0.0, 0.0)
         val result = rotation * vec3
         assertEquals(0.0, result.x)
-        assertEquals(2.0, result.y)
+        // Rounding bs on 2.0
+        assertEquals(2.0, round(result.y))
         assertEquals(0.0, result.z)
     }
 }

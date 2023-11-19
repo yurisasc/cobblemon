@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.api.pokeball
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -16,7 +15,11 @@ import com.cobblemon.mod.common.api.pokeball.catching.CaptureEffect
 import com.cobblemon.mod.common.api.pokeball.catching.CatchRateModifier
 import com.cobblemon.mod.common.api.pokeball.catching.effects.CaptureEffects
 import com.cobblemon.mod.common.api.pokeball.catching.effects.FriendshipEarningBoostEffect
-import com.cobblemon.mod.common.api.pokeball.catching.modifiers.*
+import com.cobblemon.mod.common.api.pokeball.catching.modifiers.BaseStatModifier
+import com.cobblemon.mod.common.api.pokeball.catching.modifiers.CatchRateModifiers
+import com.cobblemon.mod.common.api.pokeball.catching.modifiers.GuaranteedModifier
+import com.cobblemon.mod.common.api.pokeball.catching.modifiers.LabelModifier
+import com.cobblemon.mod.common.api.pokeball.catching.modifiers.MultiplierModifier
 import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
@@ -27,12 +30,10 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import kotlin.math.roundToInt
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
-import java.io.File
-import kotlin.io.path.Path
-import kotlin.math.roundToInt
 
 /**
  * The data registry for [PokeBall]s.
@@ -142,7 +143,7 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         createDefault("moon_ball", CatchRateModifiers.MOON_PHASES)
         createDefault("sport_ball", MultiplierModifier(1.5F))
         createDefault("net_ball", CatchRateModifiers.typeBoosting(3F, ElementalTypes.BUG, ElementalTypes.WATER))
-        createDefault("dive_ball", CatchRateModifiers.SUBMERGED_IN_WATER)
+        createDefault("dive_ball", CatchRateModifiers.SUBMERGED_IN_WATER, waterDragValue = 0.99F)
         createDefault("nest_ball", CatchRateModifiers.NEST)
         // ToDo implement effect once pokedex is implemented, we have a custom multiplier of 2.5 instead of the official pokeball
         createDefault("repeat_ball")
@@ -188,12 +189,13 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         name: String,
         modifier: CatchRateModifier = MultiplierModifier(1F) { _, _ -> true },
         effects: List<CaptureEffect> = emptyList(),
-        model2d: String = "${Cobblemon.MODID}:${name}#inventory",
-        model3d: String = "${Cobblemon.MODID}:${name}_model#inventory"
+        waterDragValue: Float = 0.8F,
+        model2d: Identifier = cobblemonResource(name),
+        model3d: Identifier = cobblemonResource("${name}_model")
     ): PokeBall {
         val identifier = cobblemonResource(name)
         //val finalModifiers = if (appendUltraBeastPenalty) modifiers + listOf(LabelModifier(0.1F, true, CobblemonPokemonLabels.ULTRA_BEAST)) else modifiers
-        val pokeball = PokeBall(identifier, modifier, effects, model2d, model3d)
+        val pokeball = PokeBall(identifier, modifier, effects, waterDragValue, model2d, model3d)
         this.defaults[identifier] = pokeball
         return pokeball
     }

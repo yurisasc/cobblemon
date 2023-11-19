@@ -4,8 +4,19 @@
   "portraitTranslation": [0, -0.6, 0],
   "profileScale": 1,
   "profileTranslation": [0, 0.15, 0],
-  "faint": "bedrock(0001_bulbasaur/bulbasaur, faint)",
+  "faint": "bedrock(0001_bulbasaur/bulbasaur, faint, true)",
   "poses": {
+    "battle-standing": {
+      "poseName": "battle-standing",
+      "poseTypes": ["STAND"],
+      "isBattle": true,
+      "transformedParts": [
+        {
+          "part": "bulb",
+          "visible": false
+        }
+      ]
+    },
     "standing": {
       "poseName": "standing",
       "transformTicks": 10,
@@ -17,7 +28,6 @@
     },
     "walking": {
       "poseName": "walking",
-      "transformTicks": 10,
       "poseTypes": ["WALK"],
       "animations": [
         "look",

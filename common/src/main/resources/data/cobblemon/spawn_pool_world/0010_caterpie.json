@@ -6,10 +6,14 @@
         {
             "id": "caterpie-1",
             "pokemon": "caterpie",
+            "presets": [
+                "natural",
+                "treetop"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "2-19",
+            "level": "1-20",
             "weight": 7.0,
             "condition": {
                 "canSeeSky": true,
@@ -19,6 +23,7 @@
             },
             "anticondition": {
                 "biomes": [
+                    "#cobblemon:is_freezing",
                     "#cobblemon:is_spooky"
                 ]
             }
@@ -27,12 +32,14 @@
             "id": "caterpie-2",
             "pokemon": "caterpie",
             "presets": [
-                "foliage"
+                "natural",
+                "foliage",
+                "treetop"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "2-19",
+            "level": "1-20",
             "weight": 7.0,
             "condition": {
                 "canSeeSky": true,
@@ -41,18 +48,42 @@
                 ]
             }
         },
-		{
-            "id": "caterpie-valencian-1",
+        {
+            "id": "caterpie-valencian-3",
             "pokemon": "caterpie valencian",
+            "presets": [
+                "natural",
+                "treetop"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "2-19",
+            "level": "1-20",
             "weight": 7.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_jungle"
+                    "#cobblemon:is_jungle",
+                    "#cobblemon:is_tropical_island"
+                ]
+            }
+        },
+        {
+            "id": "caterpie-valencian-4",
+            "pokemon": "caterpie valencian",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 3.0,
+            "condition": {
+                "biomes": [
+                    "the_bumblezone:floral_meadow"
+                ]
+            },
+            "anticondition": {
+                "structures": [
+                    "#the_bumblezone:sempiternal_sanctums"
                 ]
             }
         }

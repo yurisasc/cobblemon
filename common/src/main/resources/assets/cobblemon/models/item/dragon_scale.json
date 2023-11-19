@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cobblemon:items/evolution/dragon_scale"
+    "layer0": "cobblemon:item/evolution/dragon_scale"
   }
 }

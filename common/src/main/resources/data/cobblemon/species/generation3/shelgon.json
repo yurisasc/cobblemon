@@ -28,6 +28,7 @@
     "1:dragonbreath",
     "1:ember",
     "1:leer",
+    "1:protect",
     "1:rage",
     "15:headbutt",
     "20:scaryface",
@@ -58,6 +59,7 @@
     "tm:firefang",
     "tm:firespin",
     "tm:flamethrower",
+    "tm:focusenergy",
     "tm:frustration",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -93,11 +95,27 @@
     "tm:thunderfang",
     "tm:toxic",
     "tm:zenheadbutt",
+    "tutor:bodyslam",
     "tutor:defensecurl",
+    "tutor:doubleedge",
+    "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:endure",
     "tutor:furycutter",
+    "tutor:headbutt",
+    "tutor:hypervoice",
+    "tutor:irondefense",
     "tutor:mimic",
+    "tutor:mudslap",
+    "tutor:outrage",
+    "tutor:rockslide",
     "tutor:rollout",
-    "tutor:twister"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:twister",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen3"
@@ -141,5 +159,22 @@
   "height": 11,
   "weight": 1105,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:dragon_scale",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

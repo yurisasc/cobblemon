@@ -9,6 +9,19 @@
     "sapsipper",
     "h:serenegrace"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:leather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 80,
     "attack": 100,
@@ -29,19 +42,10 @@
   "eggGroups": [
     "field"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "minecraft:leather",
-        "quantityRange": "1-2",
-        "percentage": 66
-      }
-    ]
-  },
   "moves": [
     "1:camouflage",
     "1:growl",
+    "1:hornleech",
     "1:megahorn",
     "1:sandattack",
     "1:tackle",
@@ -116,8 +120,12 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:bounce",
+    "tutor:gigadrain",
     "tutor:lastresort",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
     "tutor:snore",
+    "tutor:stompingtantrum",
     "tutor:synthesis",
     "tutor:worryseed"
   ],

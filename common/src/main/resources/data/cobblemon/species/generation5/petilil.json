@@ -7,6 +7,23 @@
     "owntempo",
     "h:leafguard"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:revival_herb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 35,
@@ -43,6 +60,9 @@
     "39:entrainment",
     "42:leafstorm",
     "egg:bide",
+    "egg:charm",
+    "egg:encore",
+    "egg:endure",
     "egg:grasswhistle",
     "egg:healingwish",
     "egg:ingrain",
@@ -86,10 +106,21 @@
     "tm:terablast",
     "tm:toxic",
     "tm:trailblaze",
+    "tutor:afteryou",
+    "tutor:charm",
     "tutor:covet",
+    "tutor:gigadrain",
     "tutor:grassyglide",
     "tutor:healbell",
-    "tutor:laserfocus"
+    "tutor:helpinghand",
+    "tutor:laserfocus",
+    "tutor:seedbomb",
+    "tutor:sleeppowder",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:sweetscent",
+    "tutor:synthesis",
+    "tutor:worryseed"
   ],
   "labels": [
     "gen5"

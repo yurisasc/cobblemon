@@ -8,6 +8,22 @@
     "bigpecks",
     "h:hydration"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 62,
     "attack": 44,
@@ -77,10 +93,14 @@
     "tm:surf",
     "tm:swagger",
     "tm:toxic",
+    "tutor:brine",
     "tutor:defog",
     "tutor:endeavor",
     "tutor:icywind",
     "tutor:liquidation",
+    "tutor:mefirst",
+    "tutor:roost",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:tailwind",
     "tutor:uproar",

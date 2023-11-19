@@ -27,8 +27,10 @@
   "moves": [
     "1:leafage",
     "1:rocksmash",
+    "1:superpower",
     "5:withdraw",
     "10:disable",
+    "14:gigadrain",
     "15:leechseed",
     "20:megadrain",
     "25:whirlwind",
@@ -107,13 +109,20 @@
     "tm:zenheadbutt",
     "tutor:dualchop",
     "tutor:focuspunch",
+    "tutor:gigadrain",
+    "tutor:irondefense",
     "tutor:megahorn",
+    "tutor:naturesmadness",
     "tutor:scaryface",
+    "tutor:seedbomb",
+    "tutor:skullbash",
+    "tutor:snore",
     "tutor:superpower",
     "tutor:synthesis",
     "tutor:telekinesis",
     "tutor:woodhammer",
-    "tutor:worryseed"
+    "tutor:worryseed",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen7",

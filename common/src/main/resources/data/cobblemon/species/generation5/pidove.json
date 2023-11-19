@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Pidove",
   "nationalPokedexNumber": 519,
   "primaryType": "normal",
@@ -8,6 +9,22 @@
     "superluck",
     "h:rivalry"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 55,
@@ -25,6 +42,13 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:growl",
     "1:gust",
@@ -39,6 +63,7 @@
     "32:razorwind",
     "36:roost",
     "40:tailwind",
+    "43:facade",
     "44:skyattack",
     "egg:bestow",
     "egg:defog",
@@ -46,6 +71,8 @@
     "egg:luckychant",
     "egg:morningsun",
     "egg:nightslash",
+    "egg:steelwing",
+    "egg:uproar",
     "egg:wish",
     "tm:aerialace",
     "tm:agility",
@@ -66,6 +93,7 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
@@ -73,13 +101,27 @@
     "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:swift",
     "tm:taunt",
     "tm:toxic",
     "tm:uproar",
     "tm:uturn",
     "tm:workup",
-    "tutor:dualwingbeat"
+    "tutor:aircutter",
+    "tutor:defog",
+    "tutor:dualwingbeat",
+    "tutor:gust",
+    "tutor:heatwave",
+    "tutor:hypnosis",
+    "tutor:morningsun",
+    "tutor:quickattack",
+    "tutor:roost",
+    "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:tailwind",
+    "tutor:uproar"
   ],
   "labels": [
     "gen5"
@@ -102,10 +144,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.8,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -17,7 +17,7 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 64,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
@@ -25,6 +25,32 @@
     "water_1",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.15
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5.0
+      }
+    ]
+  },
   "moves": [
     "1:growl",
     "1:pound",
@@ -42,10 +68,13 @@
     "33:moonblast",
     "36:hydropump",
     "39:captivate",
+    "egg:amnesia",
     "egg:aquaring",
     "egg:aromaticmist",
+    "egg:charm",
     "egg:lifedew",
     "egg:perishsong",
+    "egg:wonderroom",
     "tm:acrobatics",
     "tm:amnesia",
     "tm:attract",
@@ -91,9 +120,16 @@
     "tutor:aquatail",
     "tutor:covet",
     "tutor:flipturn",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icywind",
+    "tutor:irontail",
+    "tutor:snore",
     "tutor:tripleaxel",
+    "tutor:uproar",
     "tutor:waterpledge",
-    "tutor:waterpulse"
+    "tutor:waterpulse",
+    "tutor:wonderroom"
   ],
   "labels": [
     "gen7"

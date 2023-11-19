@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.render.MatrixWrapper
-import net.minecraft.client.model.ModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import net.minecraft.client.util.math.MatrixStack
 
 /**
@@ -21,14 +21,14 @@ import net.minecraft.client.util.math.MatrixStack
  * @since February 10th, 2023
  */
 class LocatorAccess(
-    val joint: ModelPart,
-    val locators: Map<String, ModelPart> = mapOf(),
+    val joint: Bone,
+    val locators: Map<String, Bone> = mapOf(),
     val children: List<LocatorAccess> = listOf()
 ) {
     companion object {
         const val PREFIX = "locator_"
 
-        fun resolve(part: ModelPart): LocatorAccess? {
+        fun resolve(part: Bone): LocatorAccess? {
             val (
                 locatorChildren,
                 nonLocatorChildren
@@ -70,12 +70,13 @@ class LocatorAccess(
      */
     fun update(matrixStack: MatrixStack, state: MutableMap<String, MatrixWrapper>) {
         matrixStack.push()
-        joint.rotate(matrixStack)
+        joint.transform(matrixStack)
+        state.getOrPut("root") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
 
         for ((name, locator) in locators) {
             matrixStack.push()
-            locator.rotate(matrixStack)
-            state.getOrPut(name) { MatrixWrapper() }.update(matrixStack.peek().positionMatrix)
+            locator.transform(matrixStack)
+            state.getOrPut(name) { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
             matrixStack.pop()
         }
 

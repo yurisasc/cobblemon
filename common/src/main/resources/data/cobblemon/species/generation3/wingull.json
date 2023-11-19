@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Wingull",
   "nationalPokedexNumber": 278,
   "primaryType": "water",
@@ -8,6 +9,22 @@
     "hydration",
     "h:raindish"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 30,
@@ -26,6 +43,27 @@
     "water_1",
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      },
+      "walk": {
+        "walkSpeed": 0.3
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:growl",
     "1:watergun",
@@ -33,17 +71,23 @@
     "10:supersonic",
     "15:wingattack",
     "20:waterpulse",
+    "22:aircutter",
     "26:agility",
     "26:pursuit",
+    "29:aerialace",
     "30:airslash",
     "35:mist",
     "40:roost",
     "45:hurricane",
     "egg:aerialace",
+    "egg:agility",
     "egg:aircutter",
     "egg:aquaring",
+    "egg:brine",
     "egg:gust",
     "egg:knockoff",
+    "egg:mist",
+    "egg:roost",
     "egg:soak",
     "egg:twister",
     "egg:watersport",
@@ -60,6 +104,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
     "tm:echoedvoice",
     "tm:endure",
@@ -80,9 +125,11 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:scald",
     "tm:secretpower",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snore",
     "tm:snowscape",
@@ -100,14 +147,30 @@
     "tm:uturn",
     "tm:waterfall",
     "tm:waterpulse",
+    "tutor:aircutter",
     "tutor:defog",
     "tutor:doubleedge",
     "tutor:dualwingbeat",
+    "tutor:endure",
+    "tutor:icywind",
+    "tutor:knockoff",
+    "tutor:liquidation",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:roost",
     "tutor:shockwave",
-    "tutor:skyattack"
+    "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:tailwind",
+    "tutor:twister",
+    "tutor:uproar",
+    "tutor:watergun",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen3"
@@ -130,10 +193,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

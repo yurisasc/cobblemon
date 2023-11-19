@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Numel",
   "nationalPokedexNumber": 322,
   "primaryType": "fire",
@@ -8,6 +9,19 @@
     "simple",
     "h:owntempo"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:magma_cream",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 60,
@@ -39,12 +53,14 @@
     "26:earthpower",
     "29:curse",
     "31:takedown",
+    "36:yawn",
     "40:earthquake",
     "43:flamethrower",
     "47:doubleedge",
     "egg:ancientpower",
     "egg:bodyslam",
     "egg:defensecurl",
+    "egg:endure",
     "egg:growth",
     "egg:heatwave",
     "egg:heavyslam",
@@ -84,6 +100,7 @@
     "tm:heavyslam",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:incinerate",
     "tm:ironhead",
     "tm:mudshot",
     "tm:mudslap",
@@ -116,9 +133,29 @@
     "tm:willowisp",
     "tm:zenheadbutt",
     "tutor:afteryou",
+    "tutor:bodyslam",
+    "tutor:charm",
+    "tutor:defensecurl",
+    "tutor:dig",
+    "tutor:doubleedge",
+    "tutor:earthpower",
+    "tutor:ember",
+    "tutor:endure",
+    "tutor:growl",
     "tutor:headbutt",
+    "tutor:heatwave",
+    "tutor:ironhead",
     "tutor:mimic",
-    "tutor:snore"
+    "tutor:mudslap",
+    "tutor:rockslide",
+    "tutor:rollout",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:tackle",
+    "tutor:takedown"
   ],
   "labels": [
     "gen3"

@@ -8,17 +8,26 @@
 
 package com.cobblemon.mod.common.net.messages.server.pokemon.update.evolution
 
+import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
 import com.cobblemon.mod.common.pokemon.Pokemon
-class AcceptEvolutionPacket() : EvolutionDisplayUpdatePacket() {
+import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.PacketByteBuf
+import java.util.*
 
-    constructor(pokemon: Pokemon, evolution: EvolutionDisplay): this() {
-        this.setTarget(pokemon)
-        this.current = evolution
+class AcceptEvolutionPacket(val pokemonUUID: UUID, val evolutionId: String) : NetworkPacket<AcceptEvolutionPacket> {
+
+    constructor(pokemon: Pokemon, evolution: EvolutionDisplay) : this(pokemon.uuid, evolution.id)
+
+    override val id = ID
+
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeUuid(this.pokemonUUID)
+        buffer.writeString(this.evolutionId)
     }
 
-    override fun applyToPokemon(pokemon: Pokemon) {
-        val evolution = pokemon.evolutionProxy.server().firstOrNull { evolution -> evolution.id.equals(this.evolutionId, true) } ?: return
-        pokemon.evolutionProxy.server().start(evolution)
+    companion object {
+        val ID = cobblemonResource("accept_evolution")
+        fun decode(buffer: PacketByteBuf) = AcceptEvolutionPacket(buffer.readUuid(), buffer.readString())
     }
 }

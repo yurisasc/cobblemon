@@ -19,23 +19,15 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 18th, 2022
  */
-abstract class MoveClientPokemonPacket<T : StorePosition> : NetworkPacket {
-    lateinit var storeID: UUID
-    lateinit var pokemonID: UUID
-    lateinit var newPosition: T
-
+abstract class MoveClientPokemonPacket<T : StorePosition, N : NetworkPacket<N>>(
+    val storeID: UUID,
+    val pokemonID: UUID,
+    val newPosition: T
+) : NetworkPacket<N> {
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeUuid(storeID)
-        buffer.writeUuid(pokemonID)
-        encodePosition(buffer, newPosition)
+        buffer.writeUuid(this.storeID)
+        buffer.writeUuid(this.pokemonID)
+        encodePosition(buffer, this.newPosition)
     }
-
-    override fun decode(buffer: PacketByteBuf) {
-        storeID = buffer.readUuid()
-        pokemonID = buffer.readUuid()
-        newPosition = decodePosition(buffer)
-    }
-
     abstract fun encodePosition(buffer: PacketByteBuf, position: T)
-    abstract fun decodePosition(buffer: PacketByteBuf): T
 }

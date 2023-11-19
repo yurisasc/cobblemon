@@ -42,6 +42,7 @@
     "40:partingshot",
     "44:entrainment",
     "48:skyuppercut",
+    "egg:foulplay",
     "egg:mefirst",
     "egg:powertrip",
     "egg:quash",
@@ -112,16 +113,33 @@
     "tm:uproar",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:armthrust",
     "tutor:block",
     "tutor:coaching",
     "tutor:covet",
+    "tutor:darkpulse",
+    "tutor:drainpunch",
     "tutor:dualchop",
     "tutor:endeavor",
+    "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:foulplay",
+    "tutor:gunkshot",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icepunch",
+    "tutor:ironhead",
     "tutor:knockoff",
     "tutor:lashout",
+    "tutor:lowkick",
     "tutor:snatch",
-    "tutor:spite"
+    "tutor:snore",
+    "tutor:spite",
+    "tutor:stoneedge",
+    "tutor:superpower",
+    "tutor:thunderpunch",
+    "tutor:uproar",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6"
@@ -169,5 +187,22 @@
   "height": 6,
   "weight": 80,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:bamboo",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:mental_herb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

@@ -87,6 +87,7 @@
         "tm:firepunch",
         "tm:fling",
         "tm:focusblast",
+        "tm:focusenergy",
         "tm:gigaimpact",
         "tm:helpinghand",
         "tm:icepunch",
@@ -175,7 +176,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "legendary",
@@ -222,7 +222,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "legendary",
@@ -283,6 +282,7 @@
     "tm:firepunch",
     "tm:fling",
     "tm:focusblast",
+    "tm:focusenergy",
     "tm:foulplay",
     "tm:gigaimpact",
     "tm:helpinghand",

@@ -8,6 +8,19 @@
     "moxie",
     "h:intimidate"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_belt",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 90,
@@ -109,6 +122,7 @@
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:swagger",
     "tm:taunt",
     "tm:thief",
     "tm:throatchop",
@@ -118,12 +132,31 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:coaching",
+    "tutor:darkpulse",
+    "tutor:dragonpulse",
+    "tutor:drainpunch",
     "tutor:dualchop",
+    "tutor:firepunch",
+    "tutor:focuspunch",
+    "tutor:foulplay",
+    "tutor:icepunch",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:irontail",
     "tutor:knockoff",
     "tutor:lashout",
+    "tutor:lowkick",
+    "tutor:outrage",
+    "tutor:payback",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
     "tutor:spite",
-    "tutor:superfang"
+    "tutor:substitute",
+    "tutor:superfang",
+    "tutor:throatchop",
+    "tutor:thunderpunch",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

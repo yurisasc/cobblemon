@@ -8,6 +8,30 @@
     "klutz",
     "h:limber"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:rabbit"
+      },
+      {
+        "item": "minecraft:rabbit_hide",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:rabbit_foot",
+        "percentage": 5.0
+      },
+      {
+        "item": "minecraft:carrot",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 76,
@@ -37,7 +61,7 @@
       },
       "catchRate": 60,
       "maleRatio": 0.5,
-      "baseExperienceYield": 203,
+      "baseExperienceYield": 168,
       "baseFriendship": 140,
       "evYield": {
         "hp": 0,
@@ -53,7 +77,6 @@
         "field",
         "human_like"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -75,49 +98,46 @@
     "field",
     "human_like"
   ],
-  "drops": {
-    "amount": "3",
-    "entries": [
-      {
-        "item": "minecraft:carrot",
-        "quantityRange": "1-2",
-        "percentage": 66
-      },
-      {
-        "item": "minecraft:rabbit_hide",
-        "quantityRange": "1-2",
-        "percentage": 66
-      },
-      {
-        "item": "minecraft:rabbit_foot",
-        "percentage": 10
-      }
-    ]
-  },
   "moves": [
     "1:babydolleyes",
+    "1:bounce",
     "1:defensecurl",
     "1:foresight",
+    "1:healingwish",
     "1:magiccoat",
     "1:mirrorcoat",
     "1:pound",
     "1:return",
     "1:rototiller",
     "1:splash",
+    "6:endure",
     "12:afteryou",
+    "13:babydolleyes",
+    "13:return",
     "16:quickattack",
     "20:doublekick",
     "23:jumpkick",
     "24:charm",
+    "26:batonpass",
     "28:batonpass",
     "32:headbutt",
+    "33:agility",
     "36:agility",
     "36:dizzypunch",
     "40:entrainment",
+    "43:afteryou",
+    "43:charm",
     "44:flatter",
+    "46:bounce",
+    "46:charm",
     "48:bounce",
     "52:healingwish",
+    "53:entrainment",
+    "53:healingwish",
+    "56:bounce",
     "56:highjumpkick",
+    "63:healingwish",
+    "66:highjumpkick",
     "tm:acrobatics",
     "tm:agility",
     "tm:assurance",
@@ -144,6 +164,7 @@
     "tm:firepunch",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:grassknot",
@@ -172,6 +193,7 @@
     "tm:round",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snore",
     "tm:solarbeam",
@@ -187,17 +209,34 @@
     "tm:toxic",
     "tm:uproar",
     "tm:uturn",
+    "tm:waterpulse",
     "tm:workup",
+    "tutor:afteryou",
+    "tutor:bounce",
     "tutor:covet",
+    "tutor:drainpunch",
     "tutor:endeavor",
+    "tutor:firepunch",
     "tutor:focuspunch",
     "tutor:furycutter",
+    "tutor:headbutt",
     "tutor:healbell",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icepunch",
+    "tutor:irontail",
     "tutor:laserfocus",
     "tutor:lastresort",
+    "tutor:lowkick",
+    "tutor:magiccoat",
     "tutor:mudslap",
     "tutor:shockwave",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:swift",
+    "tutor:thunderpunch",
     "tutor:tripleaxel",
+    "tutor:uproar",
     "tutor:waterpulse"
   ],
   "labels": [

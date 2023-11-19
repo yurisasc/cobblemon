@@ -12,12 +12,14 @@ import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Species
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.GameRenderer
@@ -31,8 +33,9 @@ import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Matrix4f
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Matrix4f
+import org.joml.Vector3f
 
 fun blitk(
     matrixStack: MatrixStack,
@@ -53,7 +56,7 @@ fun blitk(
     blend: Boolean = true,
     scale: Float = 1F
 ) {
-    RenderSystem.setShader { GameRenderer.getPositionTexShader() }
+    RenderSystem.setShader { GameRenderer.getPositionTexProgram() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
     if (blend) {
         RenderSystem.enableBlend()
@@ -71,6 +74,7 @@ fun blitk(
         vOffset.toFloat() / textureHeight.toFloat(), (vOffset.toFloat() + height.toFloat()) / textureHeight.toFloat()
     )
     matrixStack.pop()
+    RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
 }
 
 fun drawRectangle(
@@ -93,11 +97,11 @@ fun drawRectangle(
     bufferbuilder.vertex(matrix, x, y, blitOffset).texture(minU, minV).next()
     // TODO: Figure out if this is correct replacement.
     // OLD: BufferRenderer.draw(bufferbuilder)
-    BufferRenderer.drawWithShader(bufferbuilder.end())
+    BufferRenderer.drawWithGlobalProgram(bufferbuilder.end())
 }
 
 fun drawCenteredText(
-    poseStack: MatrixStack,
+    context: DrawContext,
     font: Identifier? = null,
     text: Text,
     x: Number,
@@ -106,40 +110,43 @@ fun drawCenteredText(
     shadow: Boolean = true
 ) {
     val comp = (text as MutableText).let { if (font != null) it.font(font) else it }
-    val mcFont = MinecraftClient.getInstance().textRenderer
-    if (shadow)
-        mcFont.drawWithShadow(poseStack, comp, x.toFloat() - mcFont.getWidth(comp) / 2, y.toFloat(), colour)
-    else
-        mcFont.draw(poseStack, comp, x.toFloat() - mcFont.getWidth(comp) / 2, y.toFloat(), colour)
+    val textRenderer = MinecraftClient.getInstance().textRenderer
+    context.drawText(textRenderer, comp, x.toInt() - textRenderer.getWidth(comp) / 2, y.toInt(), colour, shadow)
 }
 
 fun drawText(
-    poseStack: MatrixStack,
+    context: DrawContext,
     font: Identifier? = null,
     text: MutableText,
     x: Number,
     y: Number,
     centered: Boolean = false,
     colour: Int,
-    shadow: Boolean = true
-) {
+    shadow: Boolean = true,
+    pMouseX: Number? = null,
+    pMouseY: Number? = null
+): Boolean {
     val comp = if (font == null) text else text.setStyle(text.style.withFont(font))
-    val mcFont = MinecraftClient.getInstance().textRenderer
+    val textRenderer = MinecraftClient.getInstance().textRenderer
     var x = x
+    val width = textRenderer.getWidth(comp)
     if (centered) {
-        val width = mcFont.getWidth(comp)
         x = x.toDouble() - width / 2
     }
-
-    if (shadow) {
-        mcFont.drawWithShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
-    } else {
-        mcFont.draw(poseStack, comp, x.toFloat(), y.toFloat(), colour)
+    context.drawText(textRenderer, comp, x.toInt(), y.toInt(), colour, shadow)
+    var isHovered = false
+    if (pMouseY != null && pMouseX != null) {
+        if (pMouseX.toInt() >= x.toInt() && pMouseX.toInt() <= x.toInt() + width &&
+            pMouseY.toInt() >= y.toInt() && pMouseY.toInt() <= y.toInt() + textRenderer.fontHeight
+        ) {
+            isHovered = true
+        }
     }
+    return isHovered
 }
 
 fun drawText(
-    poseStack: MatrixStack,
+    context: DrawContext,
     text: OrderedText,
     x: Number,
     y: Number,
@@ -147,21 +154,17 @@ fun drawText(
     colour: Int,
     shadow: Boolean = true
 ) {
-    val mcFont = MinecraftClient.getInstance().textRenderer
-    var x = x
+    val textRenderer = MinecraftClient.getInstance().textRenderer
+    var tweakedX = x
     if (centered) {
-        val width = mcFont.getWidth(text)
-        x = x.toDouble() - width / 2
+        val width = textRenderer.getWidth(text)
+        tweakedX = tweakedX.toDouble() - width / 2
     }
-
-    if (shadow)
-        mcFont.drawWithShadow(poseStack, text, x.toFloat(), y.toFloat(), colour)
-    else
-        mcFont.draw(poseStack, text, x.toFloat(), y.toFloat(), colour)
+    context.drawText(textRenderer, text, tweakedX.toInt(), y.toInt(), colour, shadow)
 }
 
 fun drawString(
-    poseStack: MatrixStack,
+    context: DrawContext,
     text: String,
     x: Number,
     y: Number,
@@ -174,11 +177,8 @@ fun drawString(
             it.getWithStyle(it.style.withFont(this))
         }
     }
-    val mcFont = MinecraftClient.getInstance().textRenderer
-    if (shadow)
-        mcFont.drawWithShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
-    else
-        mcFont.draw(poseStack, comp, x.toFloat(), y.toFloat(), colour)
+    val textRenderer = MinecraftClient.getInstance().textRenderer
+    context.drawText(textRenderer, comp, x.toInt(), y.toInt(), colour, shadow)
 }
 
 fun drawPortraitPokemon(
@@ -187,22 +187,28 @@ fun drawPortraitPokemon(
     matrixStack: MatrixStack,
     scale: Float = 13F,
     reversed: Boolean = false,
-    state: PoseableEntityState<PokemonEntity>? = null
+    state: PoseableEntityState<PokemonEntity>? = null,
+    partialTicks: Float
 ) {
     val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
-    val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state)
+    val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state?.animationSeconds ?: 0F)
+
+    val context = RenderContext()
+    PokemonModelRepository.getTextureNoSubstitute(species.resourceIdentifier, aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
+    context.put(RenderContext.SCALE, species.getForm(aspects).baseScale)
 
     val renderType = model.getLayer(texture)
 
     RenderSystem.applyModelViewMatrix()
-    val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F * if (reversed) -1F else 1F)
-    val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
+    val quaternion1 = RotationAxis.POSITIVE_Y.rotationDegrees(-32F * if (reversed) -1F else 1F)
+    val quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(5F)
 
     if (state == null) {
         model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
     } else {
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
+        state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     }
 
@@ -211,25 +217,26 @@ fun drawPortraitPokemon(
     matrixStack.scale(scale, scale, -scale)
     matrixStack.translate(0.0, -PORTRAIT_DIAMETER / 18.0, 0.0)
     matrixStack.translate(model.portraitTranslation.x * if (reversed) -1F else 1F, model.portraitTranslation.y, model.portraitTranslation.z - 4)
-    matrixStack.scale(model.portraitScale, model.portraitScale, 0.1F)
+    matrixStack.scale(model.portraitScale, model.portraitScale, 1 / model.portraitScale)
     matrixStack.multiply(quaternion1)
     matrixStack.multiply(quaternion2)
 
-    val light1 = Vec3f(0.2F, 1.0F, -1.0F)
-    val light2 = Vec3f(0.1F, 0.0F, 8.0F)
+    val light1 = Vector3f(0.2F, 1.0F, -1.0F)
+    val light2 = Vector3f(0.1F, 0.0F, 8.0F)
     RenderSystem.setShaderLights(light1, light2)
     quaternion1.conjugate()
 
     val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
     val buffer = immediate.getBuffer(renderType)
-    val packedLight = LightmapTextureManager.pack(8, 4)
+    val packedLight = LightmapTextureManager.pack(11, 7)
 
     model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
-        model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         immediate.draw()
     }
 
     matrixStack.pop()
+    model.setDefault()
 
     DiffuseLighting.enableGuiDepthLighting()
 }

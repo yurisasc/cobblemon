@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Typhlosion",
   "nationalPokedexNumber": 157,
   "primaryType": "fire",
@@ -6,6 +7,15 @@
     "blaze",
     "h:flashfire"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 25.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 78,
     "attack": 84,
@@ -36,7 +46,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.875,
-      "baseExperienceYield": 0,
+      "baseExperienceYield": 240,
       "baseFriendship": 70,
       "evYield": {
         "hp": 0,
@@ -138,6 +148,19 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.15
+      }
+    }
+  },
   "moves": [
     "1:doubleedge",
     "1:ember",
@@ -165,6 +188,7 @@
     "tm:bulldoze",
     "tm:captivate",
     "tm:confide",
+    "tm:cut",
     "tm:dig",
     "tm:doubleteam",
     "tm:earthquake",
@@ -180,8 +204,10 @@
     "tm:flareblitz",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
+    "tm:gyroball",
     "tm:heatwave",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -201,6 +227,7 @@
     "tm:roar",
     "tm:rockclimb",
     "tm:rockslide",
+    "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
     "tm:secretpower",
@@ -209,6 +236,7 @@
     "tm:sleeptalk",
     "tm:solarbeam",
     "tm:stompingtantrum",
+    "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -222,33 +250,64 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:attract",
+    "tutor:blastburn",
+    "tutor:bodyslam",
     "tutor:counter",
     "tutor:covet",
     "tutor:curse",
     "tutor:cut",
+    "tutor:defensecurl",
     "tutor:detect",
+    "tutor:dig",
+    "tutor:doubleedge",
     "tutor:doubleteam",
     "tutor:dynamicpunch",
+    "tutor:earthquake",
+    "tutor:ember",
+    "tutor:endure",
+    "tutor:fireblast",
+    "tutor:firepledge",
+    "tutor:firepunch",
+    "tutor:flamecharge",
+    "tutor:flamethrower",
+    "tutor:flamewheel",
     "tutor:focuspunch",
     "tutor:frustration",
     "tutor:furycutter",
     "tutor:headbutt",
+    "tutor:heatwave",
     "tutor:hiddenpower",
+    "tutor:hyperbeam",
     "tutor:irontail",
     "tutor:laserfocus",
+    "tutor:leer",
+    "tutor:lowkick",
     "tutor:megakick",
     "tutor:megapunch",
     "tutor:mimic",
     "tutor:mudslap",
+    "tutor:overheat",
+    "tutor:protect",
+    "tutor:quickattack",
+    "tutor:rest",
     "tutor:return",
     "tutor:roar",
+    "tutor:rockslide",
     "tutor:rocksmash",
+    "tutor:rollout",
     "tutor:seismictoss",
+    "tutor:sleeptalk",
+    "tutor:smokescreen",
     "tutor:snore",
-    "tutor:snore",
+    "tutor:stompingtantrum",
     "tutor:strength",
+    "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:swagger",
+    "tutor:swift",
+    "tutor:tackle",
     "tutor:throatchop",
+    "tutor:thunderpunch",
     "tutor:toxic"
   ],
   "labels": [
@@ -260,10 +319,10 @@
   ],
   "preEvolution": "quilava",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.35,
+    "height": 2.65,
     "fixed": false
   },
   "baseFriendship": 70,

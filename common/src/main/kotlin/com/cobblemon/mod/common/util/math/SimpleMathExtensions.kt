@@ -14,8 +14,10 @@ import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.random.Random
-import net.minecraft.util.math.Matrix3f
 import net.minecraft.util.math.Vec3d
+import org.joml.Matrix3f
+import org.joml.Quaternionf
+import org.joml.Vector3f
 
 infix fun Int.pow(power: Int): Int {
     return toDouble().pow(power.toDouble()).toInt()
@@ -115,14 +117,19 @@ fun convertSphericalToCartesian(radius: Double, theta: Double, psi: Double): Vec
 
 /** Based on [this answer](https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d) */
 fun getRotationMatrix(from: Vec3d, to: Vec3d): Matrix3f {
+
+    val q = Quaternionf(0.0, 0.0, 0.0, 1.0)
+    q.rotateTo(Vector3f(from.x.toFloat(), from.y.toFloat(), from.z.toFloat()), Vector3f(to.x.toFloat(), to.y.toFloat(), to.z.toFloat()))
+    val m = Matrix3f()
+    return m.identity().rotation(q)
+
     val v = from.crossProduct(to)
     val c = from.dotProduct(to)
 
-    val identity = Matrix3f()
-    identity.loadIdentity()
+    val identity = Matrix3f().identity()
 
     if (c == -1.0) {
-        identity.multiply(-1F)
+        identity.scale(-1F)
         return identity
     } else if (c == 1.0) {
         return identity
@@ -137,10 +144,10 @@ fun getRotationMatrix(from: Vec3d, to: Vec3d): Matrix3f {
     vx.set(2, 1, v.x.toFloat())
 
     val vx2 = Matrix3f(vx)
-    vx2.multiply(vx2)
+    vx2.mul(vx2)
 
     val r = Matrix3f(identity)
-    vx2.multiply((1 / (1 + c)).toFloat())
+    vx2.scale((1 / (1 + c)).toFloat())
     r.add(vx)
     r.add(vx2)
 
@@ -148,9 +155,12 @@ fun getRotationMatrix(from: Vec3d, to: Vec3d): Matrix3f {
 }
 
 operator fun Matrix3f.times(vec3d: Vec3d): Vec3d {
-    return Vec3d(
-        a00 * vec3d.x + a01 * vec3d.y + a02 * vec3d.z,
-        a10 * vec3d.x + a11 * vec3d.y + a12 * vec3d.z,
-        a20 * vec3d.x + a21 * vec3d.y + a22 * vec3d.z
-    )
+    val vec3f = Vector3f()
+    this.transform(vec3d.x.toFloat(), vec3d.y.toFloat(), vec3d.z.toFloat(), vec3f)
+    return Vec3d(vec3f.x.toDouble(), vec3f.y.toDouble(), vec3f.z.toDouble())
+//    return Vec3d(
+//        a00 * vec3d.x + a01 * vec3d.y + a02 * vec3d.z,
+//        a10 * vec3d.x + a11 * vec3d.y + a12 * vec3d.z,
+//        a20 * vec3d.x + a21 * vec3d.y + a22 * vec3d.z
+//    )
 }

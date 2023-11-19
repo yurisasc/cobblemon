@@ -43,7 +43,9 @@
     "50:hypervoice",
     "55:outrage",
     "egg:dragonrush",
+    "egg:hurricane",
     "egg:mist",
+    "egg:playrough",
     "egg:razorwind",
     "egg:tickle",
     "tm:amnesia",
@@ -59,6 +61,7 @@
     "tm:dragonpulse",
     "tm:dragontail",
     "tm:earthquake",
+    "tm:echoedvoice",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -115,12 +118,25 @@
     "tutor:block",
     "tutor:defog",
     "tutor:dracometeor",
+    "tutor:dragonpulse",
+    "tutor:echoedvoice",
     "tutor:endeavor",
+    "tutor:heatwave",
+    "tutor:helpinghand",
+    "tutor:hurricane",
+    "tutor:hypervoice",
+    "tutor:icywind",
     "tutor:lashout",
+    "tutor:outrage",
+    "tutor:playnice",
     "tutor:scaleshot",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
     "tutor:tailwind",
+    "tutor:uproar",
     "tutor:waterpulse"
   ],
   "labels": [
@@ -148,5 +164,18 @@
   "height": 30,
   "weight": 1850,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:dragon_breath",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

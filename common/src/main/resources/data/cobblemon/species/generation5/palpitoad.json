@@ -8,6 +8,19 @@
     "hydration",
     "h:waterabsorb"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 65,
@@ -47,6 +60,7 @@
     "tm:confide",
     "tm:doubleteam",
     "tm:earthpower",
+    "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
     "tm:frustration",
@@ -81,9 +95,17 @@
     "tm:venomdrench",
     "tm:weatherball",
     "tutor:afteryou",
+    "tutor:bounce",
+    "tutor:earthpower",
     "tutor:endeavor",
     "tutor:focuspunch",
     "tutor:gastroacid",
+    "tutor:hypervoice",
+    "tutor:icywind",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:uproar",
     "tutor:waterpulse"
   ],
   "labels": [

@@ -8,6 +8,19 @@
     "moxie",
     "h:angerpoint"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_glasses",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 95,
     "attack": 117,
@@ -34,7 +47,9 @@
     "9:sandtomb",
     "12:scaryface",
     "15:bite",
+    "16:assurance",
     "18:torment",
+    "19:mudslap",
     "21:dig",
     "22:embargo",
     "24:swagger",
@@ -81,6 +96,7 @@
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:highhorsepower",
+    "tm:honeclaws",
     "tm:hyperbeam",
     "tm:incinerate",
     "tm:irontail",
@@ -104,6 +120,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowclaw",
@@ -118,26 +135,43 @@
     "tm:strength",
     "tm:substitute",
     "tm:superpower",
+    "tm:swagger",
     "tm:takedown",
     "tm:taunt",
     "tm:terablast",
     "tm:thief",
     "tm:throatchop",
     "tm:thunderfang",
+    "tm:torment",
     "tm:toxic",
     "tm:uproar",
     "tutor:aquatail",
     "tutor:block",
     "tutor:counter",
+    "tutor:crunch",
+    "tutor:darkpulse",
+    "tutor:dragonpulse",
+    "tutor:earthpower",
     "tutor:focuspunch",
+    "tutor:foulplay",
+    "tutor:irontail",
     "tutor:knockoff",
     "tutor:lashout",
+    "tutor:lowkick",
     "tutor:meanlook",
+    "tutor:outrage",
     "tutor:scaleshot",
     "tutor:scorchingsands",
     "tutor:skittersmack",
+    "tutor:sleeptalk",
     "tutor:snatch",
-    "tutor:spite"
+    "tutor:snore",
+    "tutor:spite",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:throatchop",
+    "tutor:uproar"
   ],
   "labels": [
     "gen5"

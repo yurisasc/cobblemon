@@ -7,6 +7,15 @@
     "synchronize",
     "h:telepathy"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 76,
     "attack": 25,
@@ -49,8 +58,12 @@
     "egg:batonpass",
     "egg:curse",
     "egg:healingwish",
+    "egg:helpinghand",
+    "egg:magiccoat",
     "egg:secretpower",
+    "egg:sleeptalk",
     "egg:sonicboom",
+    "egg:swift",
     "tm:allyswitch",
     "tm:amnesia",
     "tm:attract",
@@ -59,6 +72,7 @@
     "tm:confide",
     "tm:dazzlinggleam",
     "tm:doubleteam",
+    "tm:dreameater",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -84,6 +98,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:safeguard",
+    "tm:secretpower",
     "tm:shadowball",
     "tm:skillswap",
     "tm:sleeptalk",
@@ -92,6 +107,7 @@
     "tm:substitute",
     "tm:swagger",
     "tm:swift",
+    "tm:telekinesis",
     "tm:thunderwave",
     "tm:torment",
     "tm:toxic",
@@ -100,14 +116,26 @@
     "tm:wonderroom",
     "tm:zenheadbutt",
     "tutor:afteryou",
+    "tutor:allyswitch",
+    "tutor:dreameater",
     "tutor:expandingforce",
     "tutor:gravity",
     "tutor:healbell",
+    "tutor:helpinghand",
+    "tutor:hypnosis",
+    "tutor:magiccoat",
     "tutor:painsplit",
+    "tutor:rest",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:telekinesis",
-    "tutor:worryseed"
+    "tutor:trick",
+    "tutor:wonderroom",
+    "tutor:worryseed",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

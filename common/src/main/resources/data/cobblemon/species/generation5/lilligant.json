@@ -7,6 +7,23 @@
     "owntempo",
     "h:leafguard"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:revival_herb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 60,
@@ -38,7 +55,7 @@
       },
       "catchRate": 75,
       "maleRatio": 0,
-      "baseExperienceYield": 0,
+      "baseExperienceYield": 168,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -157,6 +174,7 @@
     "1:synthesis",
     "1:teeterdance",
     "5:magicalleaf",
+    "46:petaldance",
     "tm:attract",
     "tm:bulletseed",
     "tm:charm",
@@ -201,11 +219,18 @@
     "tm:terablast",
     "tm:toxic",
     "tm:trailblaze",
+    "tutor:afteryou",
     "tutor:covet",
+    "tutor:gigadrain",
     "tutor:grassyglide",
     "tutor:healbell",
+    "tutor:helpinghand",
     "tutor:laserfocus",
     "tutor:roleplay",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:synthesis",
     "tutor:worryseed"
   ],
   "labels": [

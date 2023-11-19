@@ -1,10 +1,28 @@
 {
+  "implemented": true,
   "name": "Carnivine",
   "nationalPokedexNumber": 455,
   "primaryType": "grass",
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 74,
     "attack": 100,
@@ -31,12 +49,19 @@
     "21:ingrain",
     "27:feintattack",
     "31:leaftornado",
+    "31:spitup",
+    "31:stockpile",
+    "31:swallow",
+    "37:crunch",
     "37:spitup",
     "37:stockpile",
     "37:swallow",
     "41:crunch",
+    "41:wringout",
+    "47:powerwhip",
     "47:wringout",
     "50:powerwhip",
+    "51:powerwhip",
     "egg:acidspray",
     "egg:gigadrain",
     "egg:grasswhistle",
@@ -61,6 +86,7 @@
     "tm:flash",
     "tm:fling",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:gigaimpact",
     "tm:grassknot",
     "tm:hiddenpower",
@@ -84,6 +110,7 @@
     "tm:thief",
     "tm:toxic",
     "tutor:bind",
+    "tutor:bite",
     "tutor:bugbite",
     "tutor:defog",
     "tutor:furycutter",
@@ -91,7 +118,9 @@
     "tutor:gigadrain",
     "tutor:knockoff",
     "tutor:mudslap",
+    "tutor:ragepowder",
     "tutor:seedbomb",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:synthesis",
     "tutor:throatchop",
@@ -104,10 +133,10 @@
     "cobblemon.species.carnivine.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 2.1,
     "fixed": false
   },
   "baseFriendship": 70,

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Gardevoir",
   "nationalPokedexNumber": 282,
   "primaryType": "psychic",
@@ -8,6 +9,27 @@
     "trace",
     "h:telepathy"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 68,
     "attack": 65,
@@ -37,7 +59,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 278,
+      "baseExperienceYield": 259,
       "baseFriendship": 35,
       "evYield": {
         "hp": 0,
@@ -52,7 +74,6 @@
       "eggGroups": [
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -84,13 +105,16 @@
     "1:healpulse",
     "1:mistyterrain",
     "1:mysticalfire",
+    "1:storedpower",
     "9:hypnosis",
     "12:drainingkiss",
     "15:teleport",
+    "17:magicalleaf",
     "18:psybeam",
     "23:lifedew",
     "28:wish",
     "35:calmmind",
+    "35:imprison",
     "42:psychic",
     "44:captivate",
     "49:moonblast",
@@ -101,13 +125,16 @@
     "tm:aurasphere",
     "tm:bodyslam",
     "tm:calmmind",
+    "tm:captivate",
     "tm:chargebeam",
     "tm:charm",
     "tm:confide",
     "tm:confuseray",
     "tm:dazzlinggleam",
     "tm:disarmingvoice",
+    "tm:doubleteam",
     "tm:drainingkiss",
+    "tm:dreameater",
     "tm:echoedvoice",
     "tm:encore",
     "tm:endure",
@@ -118,6 +145,7 @@
     "tm:fling",
     "tm:focusblast",
     "tm:frustration",
+    "tm:futuresight",
     "tm:gigaimpact",
     "tm:grassknot",
     "tm:guardswap",
@@ -135,6 +163,7 @@
     "tm:megapunch",
     "tm:metronome",
     "tm:mistyterrain",
+    "tm:mysticalfire",
     "tm:naturalgift",
     "tm:nightshade",
     "tm:powerswap",
@@ -145,6 +174,7 @@
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
+    "tm:recycle",
     "tm:reflect",
     "tm:rest",
     "tm:return",
@@ -152,8 +182,10 @@
     "tm:safeguard",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
     "tm:skillswap",
     "tm:sleeptalk",
+    "tm:snatch",
     "tm:snore",
     "tm:storedpower",
     "tm:substitute",
@@ -161,6 +193,7 @@
     "tm:swagger",
     "tm:swift",
     "tm:taunt",
+    "tm:telekinesis",
     "tm:terablast",
     "tm:thief",
     "tm:thunderbolt",
@@ -173,24 +206,54 @@
     "tm:willowisp",
     "tm:wonderroom",
     "tm:zenheadbutt",
+    "tutor:allyswitch",
+    "tutor:bodyslam",
+    "tutor:calmmind",
+    "tutor:dazzlinggleam",
     "tutor:defensecurl",
     "tutor:doubleedge",
+    "tutor:dreameater",
+    "tutor:endure",
     "tutor:expandingforce",
+    "tutor:firepunch",
+    "tutor:focusblast",
     "tutor:headbutt",
     "tutor:healbell",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:hypnosis",
+    "tutor:icepunch",
+    "tutor:icywind",
     "tutor:laserfocus",
     "tutor:magiccoat",
+    "tutor:magicroom",
     "tutor:mimic",
     "tutor:mistyexplosion",
+    "tutor:moonblast",
     "tutor:mudslap",
     "tutor:nightmare",
     "tutor:painsplit",
+    "tutor:psychic",
+    "tutor:psychup",
     "tutor:recycle",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
+    "tutor:snore",
+    "tutor:storedpower",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
     "tutor:telekinesis",
-    "tutor:tripleaxel"
+    "tutor:thunderbolt",
+    "tutor:thunderpunch",
+    "tutor:thunderwave",
+    "tutor:trick",
+    "tutor:tripleaxel",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen3"
@@ -200,10 +263,10 @@
   ],
   "preEvolution": "kirlia",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 35,

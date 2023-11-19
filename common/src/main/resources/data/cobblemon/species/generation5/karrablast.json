@@ -7,6 +7,15 @@
     "shedskin",
     "h:noguard"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 75,
@@ -35,6 +44,7 @@
     "20:headbutt",
     "24:flail",
     "28:scaryface",
+    "32:slash",
     "32:xscissor",
     "36:swordsdance",
     "40:takedown",
@@ -42,11 +52,14 @@
     "48:doubleedge",
     "egg:bugbite",
     "egg:counter",
+    "egg:drillrun",
     "egg:feintattack",
     "egg:hornattack",
     "egg:knockoff",
+    "egg:megahorn",
     "egg:nightslash",
     "egg:pursuit",
+    "egg:screech",
     "egg:slash",
     "tm:aerialace",
     "tm:attract",
@@ -83,7 +96,23 @@
     "tm:swordsdance",
     "tm:toxic",
     "tm:xscissor",
-    "tutor:signalbeam"
+    "tutor:bugbite",
+    "tutor:bugbuzz",
+    "tutor:drillrun",
+    "tutor:endure",
+    "tutor:falseswipe",
+    "tutor:flail",
+    "tutor:furyattack",
+    "tutor:gigadrain",
+    "tutor:headbutt",
+    "tutor:irondefense",
+    "tutor:knockoff",
+    "tutor:megahorn",
+    "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:takedown",
+    "tutor:xscissor"
   ],
   "labels": [
     "gen5"

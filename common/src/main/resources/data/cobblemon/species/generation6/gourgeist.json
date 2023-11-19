@@ -17,12 +17,29 @@
     "special_defence": 75,
     "speed": 84
   },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      },
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "11-15"
+    }
+  },
   "catchRate": 60,
   "maleRatio": 0.5,
   "shoulderMountable": false,
   "forms": [
     {
       "name": "Small",
+      "baseScale": 0.43,
       "primaryType": "ghost",
       "secondaryType": "grass",
       "abilities": [
@@ -55,7 +72,6 @@
       "eggGroups": [
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen6"
       ],
@@ -64,19 +80,14 @@
       ],
       "height": 7,
       "weight": 95,
-      "preEvolution": "pumpkaboo pumpkin_size=small",
+      "preEvolution": "pumpkaboo form=small",
       "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false,
-      "baseScale": 0.6,
-      "hitbox": {
-        "width": 1,
-        "height": 1,
-        "fixed": false
-      }
+      "battleOnly": false
     },
     {
       "name": "Large",
+      "baseScale": 0.7,
       "primaryType": "ghost",
       "secondaryType": "grass",
       "abilities": [
@@ -109,7 +120,6 @@
       "eggGroups": [
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen6"
       ],
@@ -118,19 +128,14 @@
       ],
       "height": 11,
       "weight": 140,
-      "preEvolution": "pumpkaboo pumpkin_size=large",
+      "preEvolution": "pumpkaboo form=large",
       "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false,
-      "baseScale": 2,
-      "hitbox": {
-        "width": 1.5,
-        "height": 1.5,
-        "fixed": false
-      }
+      "battleOnly": false
     },
     {
       "name": "Super",
+      "baseScale": 1,
       "primaryType": "ghost",
       "secondaryType": "grass",
       "abilities": [
@@ -163,7 +168,6 @@
       "eggGroups": [
         "amorphous"
       ],
-      "moves": [],
       "labels": [
         "gen6"
       ],
@@ -172,16 +176,10 @@
       ],
       "height": 17,
       "weight": 390,
-      "preEvolution": "pumpkaboo pumpkin_size=super",
+      "preEvolution": "pumpkaboo form=super",
       "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false,
-      "baseScale": 3,
-      "hitbox": {
-        "width": 2,
-        "height": 2,
-        "fixed": false
-      }
+      "battleOnly": false
     }
   ],
   "baseExperienceYield": 173,
@@ -190,6 +188,23 @@
   "eggGroups": [
     "amorphous"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:pumpkin_seeds",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "moves": [
     "1:astonish",
     "1:confuseray",
@@ -218,6 +233,7 @@
     "tm:dreameater",
     "tm:endure",
     "tm:energyball",
+    "tm:explosion",
     "tm:facade",
     "tm:fireblast",
     "tm:flamecharge",
@@ -266,14 +282,22 @@
     "tm:trick",
     "tm:trickroom",
     "tm:willowisp",
+    "tutor:allyswitch",
+    "tutor:foulplay",
+    "tutor:gigadrain",
     "tutor:grassyglide",
     "tutor:magiccoat",
+    "tutor:painsplit",
     "tutor:poltergeist",
     "tutor:roleplay",
+    "tutor:seedbomb",
+    "tutor:skillswap",
     "tutor:skittersmack",
     "tutor:spite",
     "tutor:synthesis",
-    "tutor:telekinesis"
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:worryseed"
   ],
   "labels": [
     "gen6"
@@ -281,12 +305,12 @@
   "pokedex": [
     "cobblemon.species.gourgeist.desc"
   ],
-  "preEvolution": "pumpkaboo pumpkin_size=average",
+  "preEvolution": "pumpkaboo",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.57,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 1.6,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -300,6 +324,8 @@
   },
   "height": 9,
   "weight": 125,
-  "aspects": ["pumpkin-size-average"],
+  "aspects": [
+    "pumpkin-size-average"
+  ],
   "cannotDynamax": false
 }

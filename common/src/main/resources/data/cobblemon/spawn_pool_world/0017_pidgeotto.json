@@ -6,6 +6,10 @@
         {
             "id": "pidgeotto-1",
             "pokemon": "pidgeotto",
+            "presets": [
+                "natural",
+                "treetop"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -17,8 +21,7 @@
                     "#cobblemon:is_temperate",
                     "#cobblemon:is_sky"
                 ],
-                "timeRange": "day",
-                "isRaining": false
+                "timeRange": "day"
             },
             "anticondition": {
                 "biomes": [

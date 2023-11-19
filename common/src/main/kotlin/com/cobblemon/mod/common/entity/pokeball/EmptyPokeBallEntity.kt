@@ -10,8 +10,11 @@ package com.cobblemon.mod.common.entity.pokeball
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.pokeball.PokeBallCaptureCalculatedEvent
+import com.cobblemon.mod.common.api.events.pokeball.ThrownPokeballHitEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
@@ -27,23 +30,22 @@ import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleTypes
+import com.cobblemon.mod.common.battles.ForcePassActionResponse
+import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyCaptureResponsePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
+import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.util.asResource
+import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.util.isServerSide
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.sendParticlesServer
 import com.cobblemon.mod.common.util.setPositionSafely
-import dev.architectury.extensions.network.EntitySpawnExtension
-import dev.architectury.networking.NetworkManager
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.atomic.AtomicInteger
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
@@ -53,8 +55,9 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity
 import net.minecraft.item.Item
-import net.minecraft.network.Packet
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
@@ -65,7 +68,7 @@ import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
+class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
     enum class CaptureState {
         NOT,
         HIT,
@@ -102,7 +105,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
     val captureFuture = CompletableFuture<Boolean>()
 
     val delegate = if (world.isClient) {
-        com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate()
+        EmptyPokeBallClientDelegate()
     } else {
         EmptyPokeBallServerDelegate()
     }
@@ -124,7 +127,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
     constructor(
         pokeBall: PokeBall,
         world: World,
-        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL.get()
+        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL
     ): super(entityType, world) {
         this.pokeBall = pokeBall
     }
@@ -133,7 +136,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         pokeBall: PokeBall,
         world: World,
         ownerEntity: LivingEntity,
-        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL.get()
+        entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL
     ): super(entityType, ownerEntity, world) {
         this.pokeBall = pokeBall
     }
@@ -155,7 +158,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         } else {
             setNoGravity(false)
             velocity = Vec3d.ZERO
-            isOnGround = true
+
         }
     }
 
@@ -169,6 +172,11 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
 
                 if (!pokemonEntity.pokemon.isWild()) {
                     owner?.sendMessage(lang("capture.not_wild", pokemonEntity.pokemon.species.translatedName).red())
+                    return drop()
+                }
+
+                if (!UncatchableProperty.isCatchable(pokemonEntity)) {
+                    owner?.sendMessage(lang("capture.cannot_be_caught").red())
                     return drop()
                 }
 
@@ -191,29 +199,23 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
                         return drop()
                     }
 
-                    val request = throwerActor.request?.takeIf { throwerActor.mustChoose } ?: run {
+                    val canFitForcedAction = throwerActor.canFitForcedAction()
+                    if (!canFitForcedAction) {
                         owner.sendMessage(lang("capture.not_your_turn").red())
                         return drop()
                     }
 
-                    val countMovable = (request.active?.count() ?: 0) - request.forceSwitch.count { it }
-                    if (countMovable > throwerActor.expectingCaptureActions) {
-                        throwerActor.expectingCaptureActions++
-                        battle.captureActions.add(BattleCaptureAction(battle, hitBattlePokemon, this).also { it.attach() })
-                        battle.broadcastChatMessage(
-                            lang(
-                                "capture.attempted_capture",
-                                throwerActor.getName(),
-                                pokeBall.item().name,
-                                pokemonEntity.pokemon.species.translatedName
-                            ).yellow()
-                        )
-                        battle.sendUpdate(BattleCaptureStartPacket(pokeBall.name, aspects.get(), hitBattlePokemon.getPNX()))
-                        throwerActor.sendUpdate(BattleApplyCaptureResponsePacket())
-                    } else {
-                        owner.sendMessage(lang("capture.not_your_turn").red())
-                        return drop()
-                    }
+                    battle.captureActions.add(BattleCaptureAction(battle, hitBattlePokemon, this).also { it.attach() })
+                    battle.broadcastChatMessage(
+                        lang(
+                            "capture.attempted_capture",
+                            throwerActor.getName(),
+                            pokeBall.item().name,
+                            pokemonEntity.pokemon.species.translatedName
+                        ).yellow()
+                    )
+                    battle.sendUpdate(BattleCaptureStartPacket(pokeBall.name, aspects.get(), hitBattlePokemon.getPNX()))
+                    throwerActor.forceChoose(ForcePassActionResponse())
                 } else if (pokemonEntity.isBusy) {
                     owner?.sendMessage(lang("capture.busy", pokemonEntity.pokemon.species.translatedName).red())
                     return drop()
@@ -244,14 +246,27 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
     override fun shouldSave() = false
 
     override fun tick() {
+        super.tick()
         delegate.tick(this)
         entityProperties.forEach { it.checkForUpdate() }
-        super.tick()
+
         if (world.isServerSide()) {
             capturingPokemon?.let {
                 if (hitTargetPosition.get() != it.pos && !it.isInvisible) {
                     hitTargetPosition.set(it.pos)
                 }
+                CobblemonEvents.THROWN_POKEBALL_HIT.postThen(
+                    event = ThrownPokeballHitEvent(this, it),
+                    ifSucceeded = {},
+                    ifCanceled = {
+                        drop()
+                        return
+                    }
+                )
+            }
+
+            if(this.age > 600 && this.capturingPokemon == null) {
+                this.remove(RemovalReason.DISCARDED)
             }
 
             if (owner == null || !owner!!.isAlive || (captureState.get() != CaptureState.NOT.ordinal.toByte() && capturingPokemon?.isAlive != true)) {
@@ -265,7 +280,12 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
                     // We have hit the ground, time to stop falling and start shaking! Calculate capture.
                     capturingPokemon?.setPositionSafely(pos)
                     captureState.set(CaptureState.SHAKE.ordinal.toByte())
-                    val captureResult = Cobblemon.config.captureCalculator.processCapture(owner as ServerPlayerEntity, pokeBall, capturingPokemon!!.pokemon)
+                    val thrower = owner as LivingEntity
+                    val captureResult = Cobblemon.config.captureCalculator.processCapture(thrower, this, capturingPokemon!!).let {
+                        val event = PokeBallCaptureCalculatedEvent(thrower = thrower, pokemonEntity = capturingPokemon!!, pokeBallEntity = this, captureResult = it)
+                        CobblemonEvents.POKE_BALL_CAPTURE_CALCULATED.post(event)
+                        event.captureResult
+                    }
 
                     var rollsRemaining = captureResult.numberOfShakes
                     if (rollsRemaining == 4) {
@@ -293,11 +313,11 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
     }
 
     private fun shakeBall(task: ScheduledTask, rollsRemaining: Int, captureResult: CaptureContext) {
-        if (capturingPokemon?.isAlive != true) {
-            discard()
-        }
-
-        if (!isAlive) {
+        if (this.capturingPokemon?.isAlive != true || !this.isAlive || this.owner == null|| owner?.isAlive != true) {
+            if (this.capturingPokemon?.isAlive == true) {
+                this.breakFree()
+            }
+            this.discard()
             task.expire()
             return
         }
@@ -307,19 +327,22 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
                 captureState.set((if (captureResult.isCriticalCapture) CaptureState.CAPTURED_CRITICAL else CaptureState.CAPTURED).ordinal.toByte())
                 // Do a capture
                 world.sendParticlesServer(ParticleTypes.CRIT, pos, 10, Vec3d(0.1, -0.5, 0.1), 0.2)
-                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED.get(), volume = 0.3F, pitch = 1F)
+                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED, volume = 0.8F, pitch = 1F)
                 val pokemon = capturingPokemon ?: return
                 val player = this.owner as? ServerPlayerEntity ?: return
 
                 afterOnMain(seconds = 1F) {
-                    pokemon.discard()
-                    discard()
-                    captureFuture.complete(true)
-                    val party = Cobblemon.storage.getParty(player.uuid)
-                    pokemon.pokemon.caughtBall = pokeBall
-                    pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
-                    party.add(pokemon.pokemon)
-                    CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
+                    // Dupes occurred by double-adding Pokémon, this hopefully prevents it triple-condom style
+                    if (pokemon.pokemon.isWild() && pokemon.isAlive && !captureFuture.isDone) {
+                        pokemon.discard()
+                        discard()
+                        captureFuture.complete(true)
+                        val party = Cobblemon.storage.getParty(player.uuid)
+                        pokemon.pokemon.caughtBall = pokeBall
+                        pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
+                        party.add(pokemon.pokemon)
+                        CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player, this))
+                    }
                 }
                 return
             } else {
@@ -328,7 +351,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
             return
         }
 
-        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE.get())
+        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE, volume = 0.8F)
         shakeEmitter.set(!shakeEmitter.get())
     }
 
@@ -346,16 +369,12 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
             pokemon.busyLocks.remove(this)
             captureFuture.complete(false)
             world.sendParticlesServer(ParticleTypes.CLOUD, pos, 20, Vec3d(0.0, 0.2, 0.0), 0.05)
-            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_OPEN.get())
+            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_OPEN, volume = 0.8F)
             discard()
         }
     }
 
     override fun getDefaultItem(): Item = pokeBall.item()
-
-    override fun createSpawnPacket(): Packet<*> {
-        return NetworkManager.createAddEntityPacket(this)
-    }
 
     override fun getDimensions(pPose: EntityPose) = DIMENSIONS
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
@@ -373,7 +392,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         val displace = velocity
         captureState.set(CaptureState.HIT.ordinal.toByte())
         val mul = if (random.nextBoolean()) 1 else -1
-        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_HIT.get())
+        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_HIT, volume = 0.4F)
         // Bounce backwards away from the hit Pokémon
         velocity = displace.multiply(-1.0, 0.0, -1.0).normalize().rotateY(mul * PI/3).multiply(0.1, 0.0, 0.1).add(0.0, 1.0 / 3, 0.0)
         pokemonEntity.phasingTargetId.set(this.id)
@@ -381,7 +400,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
             // Start beaming them up.
             velocity = Vec3d.ZERO
             setNoGravity(true)
-            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED.get(), volume = 0.2F)
+            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED, volume = 0.6F)
             pokemonEntity.beamModeEmitter.set(2.toByte())
         }
 
@@ -402,17 +421,14 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, EntitySpawnExtension {
         }
     }
 
-    override fun saveAdditionalSpawnData(buf: PacketByteBuf) {
-        buf.writeString(pokeBall.name.toString())
-        buf.writeCollection(aspects.get()) { _, aspect -> buf.writeString(aspect)}
-    }
-
-    override fun loadAdditionalSpawnData(buf: PacketByteBuf) {
-        pokeBall = PokeBalls.getPokeBall(buf.readString().asResource()) ?: PokeBalls.POKE_BALL
-        aspects.set(buf.readList { it.readString() }.toSet())
-    }
-
     override fun getPoseType(): PoseType {
         return PoseType.NONE
     }
+
+    override fun canUsePortals() = false
+
+    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokeballPacket(this.pokeBall, this.aspects.get(), super.createSpawnPacket() as EntitySpawnS2CPacket))
+
+    override fun waterDrag(): Float = this.pokeBall.waterDragValue
+
 }

@@ -38,6 +38,9 @@
     "50:solarbeam",
     "egg:aromatherapy",
     "egg:defog",
+    "egg:gigadrain",
+    "egg:leafstorm",
+    "egg:weatherball",
     "egg:worryseed",
     "tm:attract",
     "tm:bulletseed",
@@ -53,6 +56,7 @@
     "tm:grassknot",
     "tm:grassyterrain",
     "tm:hiddenpower",
+    "tm:leafblade",
     "tm:leafstorm",
     "tm:leechlife",
     "tm:magicalleaf",
@@ -79,9 +83,15 @@
     "tm:weatherball",
     "tm:xscissor",
     "tutor:bugbite",
+    "tutor:defog",
     "tutor:dualchop",
+    "tutor:gigadrain",
     "tutor:grassyglide",
-    "tutor:signalbeam"
+    "tutor:seedbomb",
+    "tutor:signalbeam",
+    "tutor:snore",
+    "tutor:synthesis",
+    "tutor:worryseed"
   ],
   "labels": [
     "gen7"
@@ -128,5 +138,18 @@
   "height": 3,
   "weight": 15,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

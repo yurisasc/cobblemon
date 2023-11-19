@@ -14,6 +14,6 @@ class BurnStatus : PersistentStatus(
     name = cobblemonResource("burn"),
     showdownName = "brn",
     applyMessage = "cobblemon.status.burn.apply",
-    removeMessage = null,
+    removeMessage = "cobblemon.status.burn.cure",
     defaultDuration = IntRange(180, 300)
 )

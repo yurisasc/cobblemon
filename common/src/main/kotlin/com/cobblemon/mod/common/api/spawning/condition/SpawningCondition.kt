@@ -18,8 +18,11 @@ import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.util.Merger
 import com.cobblemon.mod.common.util.math.orMax
 import com.cobblemon.mod.common.util.math.orMin
+import com.mojang.datafixers.util.Either
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.structure.Structure
 
 /**
  * The root of spawning conditions that can be applied to a spawning context. What type
@@ -49,11 +52,14 @@ abstract class SpawningCondition<T : SpawningContext> {
     var maxZ: Float? = null
     var minLight: Int? = null
     var maxLight: Int? = null
+    var minSkyLight: Int? = null
+    var maxSkyLight: Int? = null
     var isRaining: Boolean? = null
     var isThundering: Boolean? = null
     var timeRange: TimeRange? = null
     var labels: MutableList<String>? = null
     var labelMode = ANY
+    var structures: MutableList<Either<Identifier, TagKey<Structure>>>? = null
 
     @Transient
     var appendages = mutableListOf<AppendageCondition>()
@@ -78,11 +84,13 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (dimensions != null && dimensions!!.isNotEmpty() && ctx.world.dimension.effects !in dimensions!!) {
             return false
-        } else if (moonPhase != null && ctx.moonPhase in moonPhase!!) {
+        } else if (moonPhase != null && ctx.moonPhase !in moonPhase!!) {
             return false
         } else if (biomes != null && biomes!!.isNotEmpty() && biomes!!.none { condition -> condition.fits(ctx.biome, ctx.biomeRegistry) }) {
             return false
         } else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
+            return false
+        } else if (ctx.skyLight > maxSkyLight.orMax() || ctx.skyLight < minSkyLight.orMin()) {
             return false
         } else if (timeRange != null && !timeRange!!.contains((ctx.world.timeOfDay % 24000).toInt())) {
             return false
@@ -100,6 +108,16 @@ abstract class SpawningCondition<T : SpawningContext> {
         ) {
             return false
         } else if (appendages.any { !it.fits(ctx, detail) }) {
+            return false
+        } else if (structures != null && structures!!.isNotEmpty() &&
+            structures!!.let { structures ->
+                val structureAccess = ctx.world.structureAccessor
+                val cache = ctx.getStructureCache(ctx.position)
+                return@let structures.none {
+                    it.map({ cache.check(structureAccess, ctx.position, it) }, { cache.check(structureAccess, ctx.position, it) })
+                }
+            }
+        ) {
             return false
         }
 
@@ -120,6 +138,9 @@ abstract class SpawningCondition<T : SpawningContext> {
         maxZ = merger.mergeSingle(maxZ, other.maxZ)
         minLight = merger.mergeSingle(minLight, other.minLight)
         maxLight = merger.mergeSingle(maxLight, other.maxLight)
+        minSkyLight = merger.mergeSingle(minSkyLight, other.minSkyLight)
+        maxSkyLight = merger.mergeSingle(maxSkyLight, other.maxSkyLight)
         timeRange = merger.mergeSingle(timeRange, other.timeRange)
+        structures = merger.merge(structures, other.structures)?.toMutableList()
     }
 }

@@ -9,17 +9,34 @@
 package com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution
 
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
+import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.SingleUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.convertToDisplay
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.decodeDisplay
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.encode
 import com.cobblemon.mod.common.pokemon.Pokemon
-class RemoveEvolutionPacket() : EvolutionUpdatePacket() {
+import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.PacketByteBuf
 
-    constructor(pokemon: Pokemon, evolution: Evolution): this() {
-        this.setTarget(pokemon)
-        this.current = evolution
-        this.sending = this.createSending(pokemon)
+class RemoveEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, RemoveEvolutionPacket>(pokemon, value) {
+
+    override val id = ID
+
+    constructor(pokemon: Pokemon, value: Evolution) : this({ pokemon }, value.convertToDisplay(pokemon))
+
+    override fun encodeValue(buffer: PacketByteBuf) {
+        this.value.encode(buffer)
     }
 
-    override fun applyToPokemon(pokemon: Pokemon) {
-        pokemon.evolutionProxy.client().remove(this.sending)
+    override fun set(pokemon: Pokemon, value: EvolutionDisplay) {
+        pokemon.evolutionProxy.client().remove(value)
+    }
+
+    companion object {
+        val ID = cobblemonResource("remove_evolution")
+
+        fun decode(buffer: PacketByteBuf) = RemoveEvolutionPacket(decodePokemon(buffer), decodeDisplay(buffer))
+
     }
 
 }

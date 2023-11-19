@@ -10,14 +10,14 @@ package com.cobblemon.mod.common.api.storage.factory
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.emitWhile
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.api.storage.adapter.SerializedStore
-import com.cobblemon.mod.common.api.storage.adapter.flatifle.FileStoreAdapter
+import com.cobblemon.mod.common.api.storage.adapter.flatfile.FileStoreAdapter
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.subscribeOnServer
 import java.util.UUID
 import java.util.concurrent.Executors
@@ -37,7 +37,7 @@ open class FileBackedPokemonStoreFactory<S>(
 ) : PokemonStoreFactory {
 
     var passedTicks = 0
-    protected val saveSubscription = CobblemonEvents.TICK_PRE.subscribe {
+    protected val saveSubscription = PlatformEvents.SERVER_TICK_PRE.subscribe {
         passedTicks++
         if (passedTicks > 20 * Cobblemon.config.pokemonSaveIntervalSeconds) {
             saveAll()
@@ -120,6 +120,11 @@ open class FileBackedPokemonStoreFactory<S>(
         saveSubscription.unsubscribe()
         saveAll()
         saveExecutor.shutdown()
+    }
+
+    override fun onPlayerDisconnect(playerID: UUID) {
+        dirtyStores.filter { it.uuid == playerID }.forEach(::save)
+        storeCaches.forEach { (_, cache) -> cache.cacheMap.remove(playerID) }
     }
 
 }

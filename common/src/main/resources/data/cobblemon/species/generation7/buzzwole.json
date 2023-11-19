@@ -6,6 +6,15 @@
   "abilities": [
     "beastboost"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:echo_shard",
+        "quantityRange": "1-3"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 107,
     "attack": 139,
@@ -25,13 +34,16 @@
   ],
   "moves": [
     "1:harden",
+    "1:icepunch",
     "1:poweruppunch",
+    "1:thunderpunch",
     "5:taunt",
     "7:cometpunch",
     "10:fellstinger",
     "15:vitalthrow",
     "20:bulkup",
     "25:endure",
+    "29:leechlife",
     "30:reversal",
     "35:megapunch",
     "40:lunge",
@@ -91,15 +103,28 @@
     "tm:thunderpunch",
     "tm:toxic",
     "tm:workup",
+    "tutor:bounce",
     "tutor:bugbite",
     "tutor:coaching",
+    "tutor:counter",
+    "tutor:drainpunch",
     "tutor:dualchop",
     "tutor:dualwingbeat",
     "tutor:dynamicpunch",
     "tutor:endeavor",
+    "tutor:focuspunch",
+    "tutor:hammerarm",
+    "tutor:icepunch",
+    "tutor:ironhead",
     "tutor:leechlife",
+    "tutor:lunge",
+    "tutor:outrage",
     "tutor:poweruppunch",
-    "tutor:taunt"
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:taunt",
+    "tutor:thunderpunch"
   ],
   "labels": [
     "gen7",

@@ -10,25 +10,32 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.MoParams
 import com.bedrockk.molang.runtime.MoScope
+import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.MoValue
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.util.math.geometry.getOrigin
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveDouble
 import java.util.SortedMap
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
+import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
-import net.minecraft.sound.SoundEvents
+import net.minecraft.util.Identifier
 import net.minecraft.util.crash.CrashException
 import net.minecraft.util.crash.CrashReport
-import net.minecraft.util.math.Matrix4f
 import net.minecraft.util.math.Vec3d
 
 data class BedrockAnimationGroup(
@@ -36,70 +43,169 @@ data class BedrockAnimationGroup(
     val animations: Map<String, BedrockAnimation>
 )
 
-data class BedrockParticleKeyframe(
-    val seconds: Float,
+abstract class BedrockEffectKeyframe(val seconds: Float) {
+    abstract fun <T : Entity> run(entity: T, state: PoseableEntityState<T>)
+}
+
+class BedrockParticleKeyframe(
+    seconds: Float,
     val effect: BedrockParticleEffect,
     val locator: String,
     val scripts: List<Expression>
-)
+) : BedrockEffectKeyframe(seconds) {
+    fun isSameAs(other: BedrockParticleKeyframe): Boolean {
+        return if (seconds != other.seconds) {
+            false
+        } else if (effect != other.effect) {
+            false
+        } else if (locator != other.locator) {
+            false
+        } else if (scripts.map { it.getString() }.toSet() != other.scripts.map { it.getString() }.toSet()) {
+            false
+        } else {
+            true
+        }
+    }
+
+    override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
+        val world = entity.world as? ClientWorld ?: return
+        val matrixWrapper = state.locatorStates[locator] ?: state.locatorStates["root"]!!
+        val effect = effect
+
+        if (this in state.poseParticles) {
+            return
+        }
+
+        state.poseParticles.add(this)
+
+        val storm = ParticleStorm(
+            effect = effect,
+            matrixWrapper = matrixWrapper,
+            world = world,
+            sourceVelocity = { entity.velocity },
+            sourceAlive = { !entity.isRemoved && this in state.poseParticles },
+            sourceVisible = { !entity.isInvisible },
+            onDespawn = { state.poseParticles.remove(this) }
+        )
+
+        storm.runtime.execute(this.scripts)
+        storm.spawn()
+    }
+}
+
+class BedrockSoundKeyframe(
+    seconds: Float,
+    val sound: Identifier
+): BedrockEffectKeyframe(seconds) {
+    override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
+        val soundEvent = SoundEvent.of(sound) // Means we don't need to setup a sound registry entry for every single thing
+        if (soundEvent != null) {
+            MinecraftClient.getInstance().soundManager.play(
+                PositionedSoundInstance(
+                    soundEvent,
+                    SoundCategory.NEUTRAL,
+                    1F,
+                    1F,
+                    entity.world.random,
+                    entity.x,
+                    entity.y,
+                    entity.z
+                )
+            )
+        }
+    }
+}
+
+class BedrockInstructionKeyframe(
+    seconds: Float,
+    val expressions: List<Expression>
+): BedrockEffectKeyframe(seconds) {
+    override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
+        expressions.forEach { expression -> BedrockAnimation.runInstruction(entity, state, expression) }
+    }
+}
 
 data class BedrockAnimation(
     val shouldLoop: Boolean,
     val animationLength: Double,
-    val particleEffects: List<BedrockParticleKeyframe>,
+    val effects: List<BedrockEffectKeyframe>,
     val boneTimelines: Map<String, BedrockBoneTimeline>
 ) {
     companion object {
+        val functionMappings = mutableMapOf<String, java.util.function.Function<MoParams, Any>>()
         val sharedRuntime = MoLangRuntime().also {
             it.environment.structs["query"] = it.environment.structs["variable"]
+            it.environment.structs["script"] = QueryStruct(functionMappings)
+        }
+
+        var context: InstructionContext? = null
+
+        inline fun <reified T : Entity> registerInstruction(name: String, crossinline function: (entity: T, state: PoseableEntityState<T>, params: MoParams) -> Any) {
+            functionMappings[name] = java.util.function.Function { args ->
+                val ctx = context ?: return@Function Unit
+                if (ctx.entity is T) {
+                    val ret = function(ctx.entity, ctx.state as PoseableEntityState<T>, args)
+                    if (ret is Unit) {
+                        return@Function 0.0
+                    } else {
+                        return@Function ret
+                    }
+                }
+                Unit
+            }
+        }
+
+        class InstructionContext(val entity: Entity, val state: PoseableEntityState<*>)
+
+        fun <T : Entity> runInstruction(entity: T, state: PoseableEntityState<T>, expression: Expression) {
+            val ctx = InstructionContext(entity, state)
+            context = ctx
+            expression.evaluate(MoScope(), sharedRuntime.environment)
+            context = null
+        }
+
+        init {
+            registerInstruction<Entity>("say") { entity, _, params ->
+                MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text())
+                Unit
+            }
+            registerInstruction<Entity>("sound") { entity, _, params ->
+                // Means we don't need to setup a sound registry entry for every single thing
+                val soundEvent = SoundEvent.of(params.getString(0).asIdentifierDefaultingNamespace())
+                if (soundEvent != null) {
+                    val volume = if (params.contains(1)) params.getDouble(1).toFloat() else 1F
+                    val pitch = if (params.contains(2)) params.getDouble(2).toFloat() else 1F
+                    MinecraftClient.getInstance().soundManager.play(
+                        PositionedSoundInstance(soundEvent, SoundCategory.NEUTRAL, volume, pitch, entity.world.random, entity.x, entity.y, entity.z)
+                    )
+                }
+                Unit
+            }
+            registerInstruction<Entity>("random") { entity, _, params ->
+                val options = mutableListOf<MoValue>()
+                var index = 0
+                while (params.contains(index)) {
+                    options.add(params.get(index))
+                    index++
+                }
+                return@registerInstruction options.random() // Can throw an exception if they specified no args. They'd be idiots though.
+            }
         }
     }
 
-    fun run(model: PoseableEntityModel<*>, entity: Entity?, state: PoseableEntityState<*>?, previousSecondsPassed: Double, secondsPassed: Double): Boolean {
-        var animationSeconds = secondsPassed
+    fun run(model: PoseableEntityModel<*>, state: PoseableEntityState<*>?, animationSeconds: Float): Boolean {
+        var animationSeconds = animationSeconds
         if (shouldLoop) {
-            animationSeconds %= animationLength
+            animationSeconds %= animationLength.toFloat()
         } else if (animationSeconds > animationLength && animationLength > 0) {
             return false
-        }
-
-        if (entity != null && state != null) {
-            val particleEffectsToPlay = mutableListOf<BedrockParticleKeyframe>()
-            if (previousSecondsPassed > animationSeconds) {
-                particleEffectsToPlay.addAll(particleEffects.filter { it.seconds >= previousSecondsPassed || it.seconds <= animationSeconds })
-            } else {
-                particleEffectsToPlay.addAll(particleEffects.filter { it.seconds in previousSecondsPassed..animationSeconds })
-            }
-
-            for (particleEffect in particleEffectsToPlay) {
-                val world = entity.world as ClientWorld
-                val matrixWrapper = state.locatorStates[particleEffect.locator] ?: state.locatorStates["root"]!!
-                val effect = particleEffect.effect
-
-                if (particleEffect in state.poseParticles) {
-                    continue
-                }
-
-                val storm = ParticleStorm(
-                    effect = effect,
-                    matrixWrapper = matrixWrapper,
-                    world = world,
-                    sourceVelocity = { entity.velocity },
-                    sourceAlive = { !entity.isRemoved && particleEffect in state.poseParticles },
-                    sourceVisible = { !entity.isInvisible }
-                )
-
-                state.poseParticles.add(particleEffect)
-                storm.runtime.execute(particleEffect.scripts)
-                storm.spawn()
-            }
         }
 
         boneTimelines.forEach { (boneName, timeline) ->
             val part = model.relevantPartsByName[boneName]
             if (part != null) {
                 if (!timeline.position.isEmpty()) {
-                    val position = timeline.position.resolve(animationSeconds, state?.runtime ?: sharedRuntime).multiply(model.getChangeFactor(part.modelPart).toDouble())
+                    val position = timeline.position.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime).multiply(model.getChangeFactor(part.modelPart).toDouble())
                     part.modelPart.apply {
                         pivotX += position.x.toFloat()
                         pivotY += position.y.toFloat()
@@ -109,14 +215,14 @@ data class BedrockAnimation(
 
                 if (!timeline.rotation.isEmpty()) {
                     try {
-                        val rotation = timeline.rotation.resolve(animationSeconds, state?.runtime ?: sharedRuntime).multiply(model.getChangeFactor(part.modelPart).toDouble())
+                        val rotation = timeline.rotation.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime).multiply(model.getChangeFactor(part.modelPart).toDouble())
                         part.modelPart.apply {
                             pitch += rotation.x.toFloat().toRadians()
                             yaw += rotation.y.toFloat().toRadians()
                             roll += rotation.z.toFloat().toRadians()
                         }
                     } catch (e: Exception) {
-                        val exception = IllegalStateException("Bad animation for species: ${((model.currentEntity)!! as PokemonEntity).pokemon.species.name}", e)
+                        val exception = IllegalStateException("Bad animation for species: ${((model.context.request(RenderContext.ENTITY))!! as PokemonEntity).pokemon.species.name}", e)
                         val crash = CrashReport("Cobblemon encountered an unexpected crash", exception)
                         val section = crash.addElement("Animation Details")
                         state?.let {
@@ -127,9 +233,30 @@ data class BedrockAnimation(
                         throw CrashException(crash)
                     }
                 }
+
+                if (!timeline.scale.isEmpty()) {
+                    var scale = timeline.scale.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime)
+                    val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0).multiply(model.getChangeFactor(part.modelPart).toDouble())
+                    scale = deviation.subtract(1.0, 1.0, 1.0).multiply(-1.0)
+                    val mp = part.modelPart
+                    mp.xScale *= scale.x.toFloat()
+                    mp.yScale *= scale.y.toFloat()
+                    mp.zScale *= scale.z.toFloat()
+                }
             }
         }
         return true
+    }
+
+    fun <T : Entity> applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {
+        val effectCondition: (effectKeyframe: BedrockEffectKeyframe) -> Boolean =
+            if (previousSeconds > newSeconds) {
+                { it.seconds >= previousSeconds || it.seconds <= newSeconds }
+            } else {
+                { it.seconds in previousSeconds..newSeconds }
+            }
+
+        effects.filter(effectCondition).forEach { it.run(entity, state) }
     }
 }
 
@@ -145,7 +272,8 @@ object EmptyBoneValue : BedrockBoneValue {
 
 data class BedrockBoneTimeline (
     val position: BedrockBoneValue,
-    val rotation: BedrockBoneValue
+    val rotation: BedrockBoneValue,
+    val scale: BedrockBoneValue
 )
 class MolangBoneValue(
     val x: Expression,
@@ -157,7 +285,6 @@ class MolangBoneValue(
     override fun isEmpty() = false
     override fun resolve(time: Double, runtime: MoLangRuntime): Vec3d {
         val environment = runtime.environment
-        val scope = MoScope()
         environment.setSimpleVariable("anim_time", DoubleValue(time))
         environment.setSimpleVariable("camera_rotation_x", DoubleValue(MinecraftClient.getInstance().gameRenderer.camera.rotation.x.toDouble()))
         environment.setSimpleVariable("camera_rotation_y", DoubleValue(MinecraftClient.getInstance().gameRenderer.camera.rotation.y.toDouble()))
@@ -189,8 +316,8 @@ class BedrockKeyFrameBoneValue : HashMap<Double, BedrockAnimationKeyFrame>(), Be
         val after = sortedTimeline.getAtIndex(afterIndex)
         val before = sortedTimeline.getAtIndex(beforeIndex)
 
-        val afterData = after?.data?.resolve(time, runtime) ?: Vec3d.ZERO
-        val beforeData = before?.data?.resolve(time, runtime) ?: Vec3d.ZERO
+        val afterData = after?.pre?.resolve(time, runtime) ?: Vec3d.ZERO
+        val beforeData = before?.post?.resolve(time, runtime) ?: Vec3d.ZERO
 
         if (before != null || after != null) {
             if (before != null && before.interpolationType == InterpolationType.SMOOTH || after != null && after.interpolationType == InterpolationType.SMOOTH) {
@@ -227,17 +354,37 @@ class BedrockKeyFrameBoneValue : HashMap<Double, BedrockAnimationKeyFrame>(), Be
 
 }
 
-data class BedrockAnimationKeyFrame(
+abstract class BedrockAnimationKeyFrame(
     val time: Double,
     val transformation: Transformation,
-    val data: MolangBoneValue,
     val interpolationType: InterpolationType
-)
+) {
+    abstract val pre: MolangBoneValue
+    abstract val post: MolangBoneValue
+}
+
+class SimpleBedrockAnimationKeyFrame(
+    time: Double,
+    transformation: Transformation,
+    interpolationType: InterpolationType,
+    val data: MolangBoneValue
+): BedrockAnimationKeyFrame(time, transformation, interpolationType) {
+    override val pre = data
+    override val post = data
+}
+
+class JumpBedrockAnimationKeyFrame(
+    time: Double,
+    transformation: Transformation,
+    interpolationType: InterpolationType,
+    override val pre: MolangBoneValue,
+    override val post: MolangBoneValue
+): BedrockAnimationKeyFrame(time, transformation, interpolationType)
 
 enum class InterpolationType {
     SMOOTH, LINEAR
 }
 
 enum class Transformation {
-    POSITION, ROTATION
+    POSITION, ROTATION, SCALE
 }

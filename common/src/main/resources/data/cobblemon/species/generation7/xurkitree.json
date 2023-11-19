@@ -87,11 +87,18 @@
     "tutor:brutalswing",
     "tutor:discharge",
     "tutor:eerieimpulse",
+    "tutor:electricterrain",
+    "tutor:electroweb",
     "tutor:gravity",
+    "tutor:hypnosis",
     "tutor:magiccoat",
+    "tutor:magnetrise",
     "tutor:powerwhip",
     "tutor:risingvoltage",
-    "tutor:signalbeam"
+    "tutor:shockwave",
+    "tutor:signalbeam",
+    "tutor:snore",
+    "tutor:thunderpunch"
   ],
   "labels": [
     "gen7",
@@ -119,5 +126,14 @@
   "height": 38,
   "weight": 1000,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:echo_shard",
+        "quantityRange": "1-3"
+      }
+    ]
+  }
 }

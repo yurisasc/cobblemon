@@ -18,7 +18,7 @@
   },
   "catchRate": 25,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 243,
   "baseFriendship": 50,
   "evYield": {
     "hp": 0,
@@ -108,5 +108,21 @@
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.bombirdier.desc"
-  ]
+  ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

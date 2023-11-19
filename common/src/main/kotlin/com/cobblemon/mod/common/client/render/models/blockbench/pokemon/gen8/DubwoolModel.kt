@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -23,7 +24,7 @@ import net.minecraft.util.math.Vec3d
 class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("dubwool")
     override val head = getPart("head")
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
@@ -42,6 +43,8 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     lateinit var shearedstanding: PokemonPose
     lateinit var shearedwalk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dubwool", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("dubwool", "blink").setPreventsIdle(false) }
         sleep = registerPose(
@@ -58,7 +61,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
-                transformTicks = 0,
+                transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
                 transformedParts = arrayOf(
@@ -74,7 +77,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         walk = registerPose(
                 poseName = "walking",
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
-                transformTicks = 0,
+                transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
                 transformedParts = arrayOf(
@@ -104,7 +107,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         shearedstanding = registerPose(
                 poseName = "shearedstanding",
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
-                transformTicks = 0,
+                transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
                 transformedParts = arrayOf(
@@ -119,7 +122,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         shearedwalk = registerPose(
                 poseName = "shearedwalking",
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
-                transformTicks = 0,
+                transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
                 transformedParts = arrayOf(
@@ -136,5 +139,10 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, shearedwalk, shearedstanding)) bedrockStateful("dubwool", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, shearedwalk, shearedstanding, sleep)) bedrockStateful("dubwool", "faint") else null
+
+    override fun getEatAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isNotPosedIn(sleep, shearedsleep)) bedrockStateful("dubwool", "eat") else null
 }

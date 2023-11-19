@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -19,7 +20,11 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since May 6th, 2022
  */
-class BattleEndPacket : NetworkPacket {
+class BattleEndPacket : NetworkPacket<BattleEndPacket> {
+    override val id = ID
     override fun encode(buffer: PacketByteBuf) {}
-    override fun decode(buffer: PacketByteBuf) {}
+    companion object {
+        val ID = cobblemonResource("battle_end")
+        fun decode(buffer: PacketByteBuf) = BattleEndPacket()
+    }
 }

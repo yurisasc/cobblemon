@@ -9,11 +9,12 @@
 package com.cobblemon.mod.common.api.pokemon.stats
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.pokemon.*
+import com.cobblemon.mod.common.pokemon.EVs
+import com.cobblemon.mod.common.pokemon.FormData
+import com.cobblemon.mod.common.pokemon.IVs
+import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 

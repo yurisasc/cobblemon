@@ -7,6 +7,19 @@
     "regenerator",
     "h:klutz"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:fairy_feather",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 103,
     "attack": 60,
@@ -36,7 +49,7 @@
       },
       "catchRate": 255,
       "maleRatio": 0.5,
-      "baseExperienceYield": 425,
+      "baseExperienceYield": 390,
       "baseFriendship": 50,
       "evYield": {
         "hp": 2,
@@ -51,7 +64,6 @@
       "eggGroups": [
         "fairy"
       ],
-      "moves": [],
       "labels": [
         "gen6",
         "mega"
@@ -82,6 +94,7 @@
     "16:growl",
     "17:doubleslap",
     "20:zenheadbutt",
+    "21:attract",
     "24:lifedew",
     "25:secretpower",
     "28:afteryou",
@@ -93,10 +106,14 @@
     "52:entrainment",
     "56:mistyterrain",
     "60:lastresort",
+    "egg:amnesia",
     "egg:bestow",
+    "egg:drainingkiss",
+    "egg:encore",
     "egg:healbell",
     "egg:healingwish",
     "egg:luckychant",
+    "egg:sleeptalk",
     "egg:sweetkiss",
     "egg:wish",
     "egg:yawn",
@@ -152,6 +169,7 @@
     "tm:return",
     "tm:round",
     "tm:safeguard",
+    "tm:secretpower",
     "tm:shadowball",
     "tm:skillswap",
     "tm:sleeptalk",
@@ -162,6 +180,7 @@
     "tm:sunnyday",
     "tm:surf",
     "tm:swagger",
+    "tm:telekinesis",
     "tm:throatchop",
     "tm:thunder",
     "tm:thunderbolt",
@@ -173,20 +192,46 @@
     "tm:wildcharge",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:afteryou",
+    "tutor:allyswitch",
     "tutor:covet",
+    "tutor:doubleslap",
+    "tutor:drainpunch",
+    "tutor:encore",
+    "tutor:firepunch",
     "tutor:focuspunch",
     "tutor:gravity",
     "tutor:healbell",
+    "tutor:healpulse",
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:icepunch",
+    "tutor:icywind",
+    "tutor:irontail",
     "tutor:knockoff",
     "tutor:laserfocus",
+    "tutor:lastresort",
+    "tutor:lowkick",
     "tutor:magiccoat",
     "tutor:painsplit",
     "tutor:present",
-    "tutor:present",
+    "tutor:refresh",
     "tutor:roleplay",
     "tutor:signalbeam",
+    "tutor:simplebeam",
+    "tutor:skillswap",
+    "tutor:sleeptalk",
     "tutor:snatch",
-    "tutor:telekinesis"
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:telekinesis",
+    "tutor:throatchop",
+    "tutor:thunderbolt",
+    "tutor:thunderpunch",
+    "tutor:trickroom",
+    "tutor:uproar",
+    "tutor:yawn",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5"

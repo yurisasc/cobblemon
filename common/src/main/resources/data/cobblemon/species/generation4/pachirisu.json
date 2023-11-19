@@ -8,6 +8,15 @@
     "pickup",
     "h:voltabsorb"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 45,
@@ -37,8 +46,12 @@
     "19:nuzzle",
     "21:swift",
     "25:electroball",
+    "25:sweetkiss",
+    "29:discharge",
     "29:sweetkiss",
+    "33:superfang",
     "33:thunderwave",
+    "37:lastresort",
     "37:superfang",
     "41:discharge",
     "45:lastresort",
@@ -85,6 +98,7 @@
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
+    "tm:irontail",
     "tm:lightscreen",
     "tm:mudshot",
     "tm:mudslap",
@@ -97,6 +111,7 @@
     "tm:round",
     "tm:secretpower",
     "tm:seedbomb",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:substitute",
     "tm:sunnyday",
@@ -115,13 +130,28 @@
     "tm:uturn",
     "tm:voltswitch",
     "tm:wildcharge",
+    "tutor:covet",
     "tutor:electroweb",
+    "tutor:followme",
+    "tutor:gunkshot",
     "tutor:headbutt",
+    "tutor:helpinghand",
     "tutor:irontail",
     "tutor:laserfocus",
+    "tutor:lastresort",
     "tutor:magnetrise",
+    "tutor:mudslap",
+    "tutor:nuzzle",
+    "tutor:protect",
+    "tutor:quickattack",
+    "tutor:rollout",
+    "tutor:seedbomb",
     "tutor:shockwave",
+    "tutor:sleeptalk",
     "tutor:snore",
+    "tutor:superfang",
+    "tutor:swift",
+    "tutor:thunderpunch",
     "tutor:uproar"
   ],
   "labels": [

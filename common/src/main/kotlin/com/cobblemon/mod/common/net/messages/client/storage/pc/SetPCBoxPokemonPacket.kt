@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.pc.PCBox
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.net.messages.PokemonDTO
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readMapK
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeMapK
@@ -29,16 +30,11 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 18th, 2022
  */
-class SetPCBoxPokemonPacket() : NetworkPacket {
-    lateinit var storeID: UUID
-    var boxNumber = 0
-    var pokemon = mapOf<Int, PokemonDTO>()
+class SetPCBoxPokemonPacket internal constructor(val storeID: UUID, val boxNumber: Int, val pokemon: Map<Int, PokemonDTO>) : NetworkPacket<SetPCBoxPokemonPacket> {
 
-    constructor(box: PCBox): this() {
-        this.storeID = box.pc.uuid
-        this.boxNumber = box.boxNumber
-        this.pokemon = box.getNonEmptySlots().map { it.key to PokemonDTO(it.value, toClient = true) }.toMap()
-    }
+    override val id = ID
+
+    constructor(box: PCBox): this(box.pc.uuid, box.boxNumber, box.getNonEmptySlots().map { it.key to PokemonDTO(it.value, toClient = true) }.toMap())
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(storeID)
@@ -49,11 +45,14 @@ class SetPCBoxPokemonPacket() : NetworkPacket {
         }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        storeID = buffer.readUuid()
-        boxNumber = buffer.readSizedInt(IntSize.U_BYTE)
-        val pokemonMap = mutableMapOf<Int, PokemonDTO>()
-        buffer.readMapK(map = pokemonMap) { buffer.readSizedInt(IntSize.U_BYTE) to PokemonDTO().also { it.decode(buffer) } }
-        pokemon = pokemonMap
+    companion object {
+        val ID = cobblemonResource("set_pc_box")
+        fun decode(buffer: PacketByteBuf): SetPCBoxPokemonPacket {
+            val storeID = buffer.readUuid()
+            val boxNumber = buffer.readSizedInt(IntSize.U_BYTE)
+            val pokemonMap = mutableMapOf<Int, PokemonDTO>()
+            buffer.readMapK(map = pokemonMap) { buffer.readSizedInt(IntSize.U_BYTE) to PokemonDTO().also { it.decode(buffer) } }
+            return SetPCBoxPokemonPacket(storeID, boxNumber, pokemonMap)
+        }
     }
 }

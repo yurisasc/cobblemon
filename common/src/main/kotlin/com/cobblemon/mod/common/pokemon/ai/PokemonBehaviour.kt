@@ -17,4 +17,5 @@ package com.cobblemon.mod.common.pokemon.ai
 open class PokemonBehaviour {
     val resting = RestBehaviour()
     var moving = MoveBehaviour()
+    val idle = IdleBehaviour()
 }

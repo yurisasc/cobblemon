@@ -726,6 +726,76 @@
 					}
 				}
 			}
+		},
+		"animation.squirtle.cry": {
+			"animation_length": 0.875,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2083": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3333": {
+							"post": [-5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.4167": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5417": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"mouth": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.0417": [0, 0, -0.1],
+						"0.625": [0, 0, -0.1],
+						"0.6667": [0, 0, 0]
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "pokemon.squirtle.cry"
+				}
+			}
+		},
+		"animation.squirtle.render": {
+			"loop": true,
+			"bones": {
+				"torso": {
+					"rotation": [5, 0, 0],
+					"position": [0, 0, 0]
+				},
+				"head_angle": {
+					"rotation": [0, 10, 0]
+				},
+				"tail": {
+					"rotation": [0, 52.5, 0],
+					"position": [1.4, 0, 0]
+				},
+				"arm_right": {
+					"rotation": [10.55935, -54.30595, -12.92714]
+				},
+				"arm_left": {
+					"rotation": [11.06563, 43.5694, 20.41093]
+				},
+				"leg_right": {
+					"rotation": [0, 0, 10]
+				},
+				"leg_left": {
+					"rotation": [-15, 0, -10]
+				}
+			}
 		}
 	}
 }

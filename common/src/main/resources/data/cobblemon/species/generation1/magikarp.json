@@ -35,15 +35,22 @@
         "swimSpeed": 0.1,
         "canSwimInWater": true,
         "canBreatheUnderwater": true
-      },
-      "wanderChance": 1
+      }
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:salmon"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 2.5
       }
     ]
   },
@@ -53,8 +60,13 @@
     "25:flail",
     "tm:bounce",
     "tm:hydropump",
+    "tutor:bounce",
     "tutor:celebrate",
-    "tutor:happyhour"
+    "tutor:flail",
+    "tutor:happyhour",
+    "tutor:hydropump",
+    "tutor:splash",
+    "tutor:tackle"
   ],
   "labels": [
     "gen1"

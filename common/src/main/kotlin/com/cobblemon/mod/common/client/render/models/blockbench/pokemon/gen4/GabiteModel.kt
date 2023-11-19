@@ -33,32 +33,45 @@ class GabiteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
 
         val blink = quirk("blink") { bedrockStateful("gabite", "blink").setPreventsIdle(false) }
 
         standing = registerPose(
-                poseName = "standing",
-                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("gabite", "ground_idle")
-                )
+            poseName = "standing",
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            transformTicks = 10,
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("gabite", "ground_idle")
+            )
         )
 
         walk = registerPose(
-                poseName = "walk",
-                poseTypes = PoseType.MOVING_POSES,
-                transformTicks = 5,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("gabite", "ground_idle"),
-                        bedrock("gabite", "ground_walk")
-                )
+            poseName = "walk",
+            poseTypes = PoseType.MOVING_POSES,
+            transformTicks = 5,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("gabite", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("gabite", "battle_idle")
+            )
         )
     }
 }

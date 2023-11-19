@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Buizel",
   "nationalPokedexNumber": 418,
   "primaryType": "water",
@@ -6,6 +7,19 @@
     "swiftswim",
     "h:waterveil"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:salmon",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 65,
@@ -24,27 +38,48 @@
     "water_1",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.4,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
+    "1:growl",
     "1:sonicboom",
     "1:tackle",
+    "1:watersport",
+    "3:quickattack",
     "4:growl",
+    "6:watergun",
     "7:soak",
     "7:watersport",
+    "10:pursuit",
     "11:quickattack",
+    "15:swift",
     "15:watergun",
     "18:bite",
     "18:pursuit",
+    "21:aquajet",
     "21:swift",
     "24:aquajet",
     "27:doublehit",
+    "28:agility",
     "31:whirlpool",
     "35:liquidation",
     "35:razorwind",
+    "36:whirlpool",
     "38:aquatail",
     "41:agility",
     "45:hydropump",
+    "45:razorwind",
     "49:wavecrash",
+    "55:aquatail",
     "egg:aquaring",
+    "egg:aquatail",
     "egg:batonpass",
     "egg:doubleslap",
     "egg:furycutter",
@@ -55,6 +90,7 @@
     "egg:mudslap",
     "egg:odorsleuth",
     "egg:slash",
+    "egg:soak",
     "egg:switcheroo",
     "egg:tailslap",
     "tm:agility",
@@ -75,6 +111,7 @@
     "tm:endure",
     "tm:facade",
     "tm:fling",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:hail",
     "tm:helpinghand",
@@ -85,6 +122,7 @@
     "tm:icepunch",
     "tm:icespinner",
     "tm:icywind",
+    "tm:irontail",
     "tm:liquidation",
     "tm:lowkick",
     "tm:lowsweep",
@@ -113,9 +151,23 @@
     "tm:toxic",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:whirlpool",
+    "tutor:aquatail",
+    "tutor:dive",
     "tutor:focuspunch",
+    "tutor:headbutt",
+    "tutor:helpinghand",
+    "tutor:icepunch",
+    "tutor:icywind",
     "tutor:irontail",
-    "tutor:snore"
+    "tutor:mudslap",
+    "tutor:slash",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:swift",
+    "tutor:watergun",
+    "tutor:waterpulse",
+    "tutor:watersport"
   ],
   "labels": [
     "gen4"
@@ -138,10 +190,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 70,

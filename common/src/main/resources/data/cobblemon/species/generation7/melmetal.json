@@ -33,7 +33,7 @@
       },
       "catchRate": 3,
       "maleRatio": -1,
-      "baseExperienceYield": 270,
+      "baseExperienceYield": 300,
       "baseFriendship": 0,
       "evYield": {
         "hp": 0,
@@ -48,7 +48,6 @@
       "eggGroups": [
         "undiscovered"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "mythical",
@@ -98,6 +97,7 @@
     "tm:flashcannon",
     "tm:gigaimpact",
     "tm:gyroball",
+    "tm:headbutt",
     "tm:heavyslam",
     "tm:highhorsepower",
     "tm:hyperbeam",
@@ -122,9 +122,9 @@
     "tm:thunderbolt",
     "tm:thunderpunch",
     "tm:thunderwave",
+    "tm:toxic",
     "tutor:acidarmor",
     "tutor:brickbreak",
-    "tutor:doubleironbash",
     "tutor:doubleironbash",
     "tutor:dynamicpunch",
     "tutor:earthquake",
@@ -132,7 +132,6 @@
     "tutor:flashcannon",
     "tutor:harden",
     "tutor:headbutt",
-    "tutor:hyperbeam",
     "tutor:hyperbeam",
     "tutor:icebeam",
     "tutor:icepunch",
@@ -149,7 +148,6 @@
     "tutor:tailwhip",
     "tutor:thunder",
     "tutor:thunderbolt",
-    "tutor:thunderpunch",
     "tutor:thunderpunch",
     "tutor:thundershock",
     "tutor:thunderwave",

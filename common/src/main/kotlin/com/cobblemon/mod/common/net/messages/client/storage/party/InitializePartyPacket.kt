@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.storage.party
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.IntSize
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
@@ -27,19 +28,9 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 29th, 2021
  */
-class InitializePartyPacket() : NetworkPacket {
-    /** Whether this should be set as the player's party for rendering immediately. */
-    var isThisPlayerParty: Boolean = false
-    /** The UUID of the party storage. Does not need to be the player's UUID. */
-    var uuid = UUID.randomUUID()
-    /** The number of slots in the party. Defaults to 6. */
-    var slots: Int = 6
+class InitializePartyPacket(val isThisPlayerParty: Boolean, val uuid: UUID, val slots: Int) : NetworkPacket<InitializePartyPacket> {
 
-    constructor(isThisPlayerParty: Boolean, uuid: UUID, slots: Int): this() {
-        this.isThisPlayerParty = isThisPlayerParty
-        this.uuid = uuid
-        this.slots = slots
-    }
+    override val id = ID
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(isThisPlayerParty)
@@ -47,9 +38,8 @@ class InitializePartyPacket() : NetworkPacket {
         buffer.writeSizedInt(IntSize.U_BYTE, slots)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        isThisPlayerParty = buffer.readBoolean()
-        uuid = buffer.readUuid()
-        slots = buffer.readSizedInt(IntSize.U_BYTE)
+    companion object {
+        val ID = cobblemonResource("initialize_party")
+        fun decode(buffer: PacketByteBuf) = InitializePartyPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE))
     }
 }

@@ -8,64 +8,65 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.entity.EntityAttributeEvent
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
-import com.cobblemon.mod.common.entity.data.CobblemonTrackedDataHandlerRegistry
+import com.cobblemon.mod.common.entity.boat.CobblemonBoatEntity
+import com.cobblemon.mod.common.entity.boat.CobblemonChestBoatEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.registry.CompletableRegistry
+import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
-import dev.architectury.registry.level.entity.EntityAttributeRegistry
-import dev.architectury.registry.registries.RegistrySupplier
-import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnGroup
-import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.util.registry.Registry
+import net.minecraft.entity.attribute.DefaultAttributeContainer
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 
-object CobblemonEntities : CompletableRegistry<EntityType<*>>(Registry.ENTITY_TYPE_KEY) {
+object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey<Registry<EntityType<*>>>, EntityType<*>>() {
 
-    override fun register() {
-        super.register()
-        CobblemonTrackedDataHandlerRegistry.register()
-        EntityAttributeRegistry.register(
-            { POKEMON.get() },
-            {
-                LivingEntity.createLivingAttributes()
-                    .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
-                    .also { CobblemonEvents.ENTITY_ATTRIBUTE.post(EntityAttributeEvent(POKEMON.get(), it)) }
-            }
-        )
-    }
-    private fun <T : Entity> entity(
-        name: String,
-        entityTypeBuilder: EntityType.Builder<T>
-    ): RegistrySupplier<EntityType<T>> {
-        return queue(name) { entityTypeBuilder.build(cobblemonResource(name).toString()) }
-    }
 
-    private fun <T : LivingEntity> livingEntity(
-        name: String,
-        entityTypeBuilder: EntityType.Builder<T>
-    ): RegistrySupplier<EntityType<T>> {
-        return queue(name) { entityTypeBuilder.build(cobblemonResource("pokemon").toString()) }
-    }
-
-    val POKEMON = livingEntity(
-        name = "pokemon",
-        entityTypeBuilder = EntityType.Builder.create<PokemonEntity>(
-            { _, world -> PokemonEntity(world) },
-            SpawnGroup.CREATURE
-        )
+    override val registry: Registry<EntityType<*>> = Registries.ENTITY_TYPE
+    override val registryKey: RegistryKey<Registry<EntityType<*>>> = RegistryKeys.ENTITY_TYPE
+    @JvmField
+    val POKEMON_KEY = cobblemonResource("pokemon")
+    @JvmField
+    val POKEMON: EntityType<PokemonEntity> = this.create(
+        POKEMON_KEY.path,
+        EntityType.Builder.create({ _, world -> PokemonEntity(world) }, SpawnGroup.CREATURE)
+            .build(POKEMON_KEY.toString())
     )
 
-    val EMPTY_POKEBALL = entity(
-        name = "empty_pokeball",
-        entityTypeBuilder = EntityType.Builder.create<EmptyPokeBallEntity>(
-            { _, world -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, world) },
-            SpawnGroup.MISC
-        )
+    @JvmField
+    val EMPTY_POKEBALL_KEY = cobblemonResource("empty_pokeball")
+    @JvmField
+    val EMPTY_POKEBALL: EntityType<EmptyPokeBallEntity> = this.create(
+        EMPTY_POKEBALL_KEY.path,
+        EntityType.Builder.create({ _, world -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, world) }, SpawnGroup.MISC)
+            .build(EMPTY_POKEBALL_KEY.toString())
     )
+
+    @JvmField
+    val BOAT_KEY = cobblemonResource("boat")
+    @JvmField
+    val BOAT: EntityType<CobblemonBoatEntity> = this.create(
+        BOAT_KEY.path,
+        EntityType.Builder.create(::CobblemonBoatEntity, SpawnGroup.MISC).setDimensions(1.375F, 0.5625F).maxTrackingRange(10)
+            .build(BOAT_KEY.toString())
+    )
+
+    @JvmField
+    val CHEST_BOAT_KEY = cobblemonResource("chest_boat")
+    @JvmField
+    val CHEST_BOAT: EntityType<CobblemonChestBoatEntity> = this.create(
+        CHEST_BOAT_KEY.path,
+        EntityType.Builder.create(::CobblemonChestBoatEntity, SpawnGroup.MISC).setDimensions(1.375F, 0.5625F).maxTrackingRange(10)
+            .build(CHEST_BOAT_KEY.toString())
+    )
+
+    fun registerAttributes(consumer: (EntityType<out LivingEntity>, DefaultAttributeContainer.Builder) -> Unit) {
+        consumer(POKEMON, PokemonEntity.createAttributes())
+    }
+
 }

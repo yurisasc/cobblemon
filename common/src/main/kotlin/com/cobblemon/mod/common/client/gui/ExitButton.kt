@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -18,19 +19,19 @@ import net.minecraft.text.Text
 class ExitButton(
     pX: Int, pY: Int,
     onPress: PressAction
-): ButtonWidget(pX, pY, WIDTH.toInt(), HEIGHT.toInt(), Text.literal("Exit"), onPress) {
+): ButtonWidget(pX, pY, WIDTH.toInt(), HEIGHT.toInt(), Text.literal("Exit"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 26F
         private const val HEIGHT = 13F
         private const val SCALE = 0.5F
-        private val buttonResource = cobblemonResource("ui/common/back_button.png")
-        private val iconResource = cobblemonResource("ui/common/back_button_icon.png")
+        private val buttonResource = cobblemonResource("textures/gui/common/back_button.png")
+        private val iconResource = cobblemonResource("textures/gui/common/back_button_icon.png")
     }
 
-    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             texture = buttonResource,
             x = x,
             y = y,
@@ -41,7 +42,7 @@ class ExitButton(
         )
 
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = context.matrices,
             texture = iconResource,
             x = (x + 7) / SCALE,
             y = (y + 4) / SCALE,

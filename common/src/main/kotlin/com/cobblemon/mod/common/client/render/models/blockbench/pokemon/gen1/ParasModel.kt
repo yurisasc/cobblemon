@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class ParasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("paras")
     override val head = getPart("head")
@@ -35,7 +36,7 @@ class ParasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("paras", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("paras", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES + SHOULDER_POSES,
@@ -48,8 +49,8 @@ class ParasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("paras", "sleep"))
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("paras", "sleep"))
         )
 
         walk = registerPose(
@@ -63,8 +64,9 @@ class ParasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
+
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("paras", "faint") else null
+        state: PoseableEntityState<PokemonEntity>,
+    ) = bedrockStateful("paras", "faint")
 }

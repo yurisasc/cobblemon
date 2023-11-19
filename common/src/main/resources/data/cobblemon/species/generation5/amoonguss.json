@@ -7,6 +7,19 @@
     "effectspore",
     "h:regenerator"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:red_mushroom",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 114,
     "attack": 85,
@@ -81,9 +94,21 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:terablast",
+    "tm:toxic",
     "tm:venoshock",
     "tutor:afteryou",
+    "tutor:clearsmog",
+    "tutor:foulplay",
     "tutor:gastroacid",
+    "tutor:gigadrain",
+    "tutor:protect",
+    "tutor:ragepowder",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:spore",
+    "tutor:stompingtantrum",
+    "tutor:synthesis",
     "tutor:worryseed"
   ],
   "labels": [

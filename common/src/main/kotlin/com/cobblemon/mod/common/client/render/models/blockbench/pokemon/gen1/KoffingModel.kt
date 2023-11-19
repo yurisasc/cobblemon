@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class KoffingModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("koffing")
 
@@ -34,7 +35,7 @@ class KoffingModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("koffing", "ground_idle")
+                bedrock("koffing", "air_idle")
             )
         )
 
@@ -43,7 +44,7 @@ class KoffingModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("koffing", "ground_walk")
+                bedrock("koffing", "air_fly")
             )
         )
     }

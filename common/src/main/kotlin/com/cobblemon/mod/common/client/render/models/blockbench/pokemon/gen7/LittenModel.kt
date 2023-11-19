@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -25,7 +26,7 @@ class LittenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
 
     override val hindLeftLeg = getPart("leg_back_left1")
     override val hindRightLeg = getPart("leg_back_right1")
-    override val foreLeftLeg = getPart("leg_front_left1")
+    override val foreLeftLeg= getPart("leg_front_left1")
     override val foreRightLeg = getPart("leg_front_right1")
 
     override val portraitScale = 2.2F
@@ -36,6 +37,8 @@ class LittenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("litten", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("litten", "blink").setPreventsIdle(false) }

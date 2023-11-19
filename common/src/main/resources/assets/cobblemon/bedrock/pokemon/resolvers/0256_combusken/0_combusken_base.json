@@ -5,7 +5,7 @@
     {
       "aspects": [],
       "poser": "cobblemon:combusken",
-      "model": "cobblemon:combusken.geo",
+      "model": "cobblemon:combusken_male.geo",
       "texture": "cobblemon:textures/pokemon/0256_combusken/combusken.png",
       "layers": []
     },

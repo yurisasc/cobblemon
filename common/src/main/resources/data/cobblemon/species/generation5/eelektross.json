@@ -5,6 +5,15 @@
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:slime_ball",
+        "quantityRange": "0-3"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 115,
@@ -108,16 +117,24 @@
     "tutor:aquatail",
     "tutor:bind",
     "tutor:bounce",
+    "tutor:dragonpulse",
+    "tutor:drainpunch",
+    "tutor:firepunch",
     "tutor:focuspunch",
+    "tutor:gastroacid",
+    "tutor:gigadrain",
     "tutor:irontail",
     "tutor:knockoff",
     "tutor:magnetrise",
+    "tutor:outrage",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:superfang",
     "tutor:superpower",
-    "tutor:throatchop"
+    "tutor:throatchop",
+    "tutor:thunderpunch"
   ],
   "labels": [
     "gen5"

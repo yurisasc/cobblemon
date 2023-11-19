@@ -8,12 +8,10 @@
 
 package com.cobblemon.mod.common.api.spawning.detail
 
-import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.spawning.SpawnLoader
 import com.cobblemon.mod.common.api.spawning.SpawnSet
-import com.cobblemon.mod.common.api.spawning.condition.FinalPrecalculationResult
 import com.cobblemon.mod.common.api.spawning.condition.PrecalculationResult
 import com.cobblemon.mod.common.api.spawning.condition.RootPrecalculation
 import com.cobblemon.mod.common.api.spawning.condition.SpawningPrecalculation
@@ -48,7 +46,7 @@ class SpawnPool(val name: String) : JsonDataRegistry<SpawnSet>, Iterable<SpawnDe
     override fun reload(data: Map<Identifier, SpawnSet>) {
         details.clear()
         for (set in data.values) {
-            details.addAll(set.filter { it.isModDependencySatisfied() })
+            details.addAll(set.filter { it.isValid() })
         }
         precalculate()
     }

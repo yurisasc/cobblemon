@@ -7,6 +7,27 @@
     "stickyhold",
     "h:aftermath"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "cobblemon:black_sludge",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:leftovers",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:silk_scarf",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 50,
@@ -47,8 +68,11 @@
     "egg:curse",
     "egg:haze",
     "egg:mudsport",
+    "egg:rockblast",
     "egg:rollout",
     "egg:sandattack",
+    "egg:selfdestruct",
+    "egg:spikes",
     "tm:amnesia",
     "tm:attract",
     "tm:confide",
@@ -56,6 +80,7 @@
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:endure",
+    "tm:explosion",
     "tm:facade",
     "tm:frustration",
     "tm:gigadrain",
@@ -81,10 +106,20 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:thief",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:venomdrench",
     "tm:venoshock",
     "tutor:corrosivegas",
+    "tutor:darkpulse",
+    "tutor:drainpunch",
+    "tutor:gigadrain",
+    "tutor:gunkshot",
+    "tutor:painsplit",
+    "tutor:recycle",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:spite"
   ],
   "labels": [

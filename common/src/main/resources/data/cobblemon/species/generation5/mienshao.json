@@ -7,6 +7,15 @@
     "regenerator",
     "h:reckless"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 125,
@@ -35,6 +44,7 @@
     "15:furyswipes",
     "17:doubleslap",
     "20:wideguard",
+    "21:swift",
     "25:forcepalm",
     "30:uturn",
     "35:drainpunch",
@@ -108,13 +118,22 @@
     "tm:toxic",
     "tm:uturn",
     "tm:workup",
+    "tutor:allyswitch",
+    "tutor:bounce",
     "tutor:coaching",
+    "tutor:drainpunch",
     "tutor:dualchop",
-    "tutor:dualchop",
+    "tutor:fakeout",
     "tutor:focuspunch",
+    "tutor:helpinghand",
+    "tutor:highjumpkick",
     "tutor:knockoff",
     "tutor:laserfocus",
-    "tutor:roleplay"
+    "tutor:lowkick",
+    "tutor:roleplay",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:uturn"
   ],
   "labels": [
     "gen5"

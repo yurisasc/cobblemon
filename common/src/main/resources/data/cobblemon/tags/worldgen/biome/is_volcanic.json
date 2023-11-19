@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     {
-      "id": "terralith:mantle_caves",
+      "id": "terralith:cave/mantle_caves",
       "required": false
     },
 	{
@@ -11,6 +11,26 @@
     },
 	{
       "id": "terralith:volcanic_peaks",
+      "required": false
+    },
+    {
+      "id": "wythers:icy_volcano",
+       "required": false
+    },
+	{
+      "id": "wythers:tropical_volcano",
+       "required": false
+    },
+	{
+      "id": "wythers:volcano",
+       "required": false
+    },
+	{
+      "id": "wythers:volcanic_chamber",
+      "required": false
+    },
+	{
+      "id": "wythers:volcanic_crater",
       "required": false
     }
   ]

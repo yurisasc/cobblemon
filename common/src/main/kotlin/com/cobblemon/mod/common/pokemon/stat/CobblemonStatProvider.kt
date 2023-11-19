@@ -8,16 +8,23 @@
 
 package com.cobblemon.mod.common.pokemon.stat
 
-import com.cobblemon.mod.common.api.pokemon.stats.*
+import com.cobblemon.mod.common.api.pokemon.stats.Stat
+import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
+import com.cobblemon.mod.common.api.pokemon.stats.StatTypeAdapter
+import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.pokemon.*
+import com.cobblemon.mod.common.pokemon.EVs
+import com.cobblemon.mod.common.pokemon.FormData
+import com.cobblemon.mod.common.pokemon.IVs
+import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.adapters.CobblemonStatTypeAdapter
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.util.Identifier
 import kotlin.math.truncate
 import kotlin.random.Random
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 
 /**
  * The default implementation of a [StatProvider].
@@ -93,7 +100,7 @@ object CobblemonStatProvider : StatProvider {
                 truncate(truncate(2.0 * base + iv + truncate(ev / 4.0) + 100) * level / 100.0 + 10).toInt()
             }
         } else {
-            pokemon.nature.modifyStat(stat, ((2 * base + iv + (ev / 4)) * level) / 100 + 5)
+            pokemon.effectiveNature.modifyStat(stat, ((2 * base + iv + (ev / 4)) * level) / 100 + 5)
         }
     }
 

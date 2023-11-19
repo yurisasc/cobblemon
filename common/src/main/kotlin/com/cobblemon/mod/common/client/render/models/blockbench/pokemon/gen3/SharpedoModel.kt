@@ -33,7 +33,6 @@ class SharpedoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("sharpedo", "water_idle")
             )
         )
@@ -42,7 +41,6 @@ class SharpedoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("sharpedo", "water_idle")
             )
         )

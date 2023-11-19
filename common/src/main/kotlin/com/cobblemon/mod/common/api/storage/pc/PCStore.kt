@@ -144,7 +144,25 @@ open class PCStore(
         } else {
             tryRestoreBackedUpPokemon()
         }
+
+        removeDuplicates()
+
         return this
+    }
+
+    fun removeDuplicates() {
+        val knownUUIDs = mutableListOf<UUID>()
+        for (box in boxes) {
+            for (i in 0 until POKEMON_PER_BOX) {
+                val pokemon = box[i] ?: continue
+                if (pokemon.uuid !in knownUUIDs) {
+                    knownUUIDs.add(pokemon.uuid)
+                } else {
+                    box[i] = null
+                    pcChangeObservable.emit(Unit)
+                }
+            }
+        }
     }
 
     override fun saveToJSON(json: JsonObject): JsonObject {
@@ -195,6 +213,9 @@ open class PCStore(
         } else {
             tryRestoreBackedUpPokemon()
         }
+
+        removeDuplicates()
+
         return this
     }
 
@@ -221,6 +242,14 @@ open class PCStore(
             null
         } else {
             boxes[position.box][position.slot]
+        }
+    }
+
+    fun clearPC() {
+        boxes.forEach { box ->
+            box.getNonEmptySlots().forEach{
+                remove(PCPosition(box.boxNumber, it.key))
+            }
         }
     }
 }

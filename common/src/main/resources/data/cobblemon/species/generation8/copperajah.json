@@ -51,7 +51,6 @@
         "field",
         "mineral"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -103,6 +102,7 @@
     "tm:gigaimpact",
     "tm:heatcrash",
     "tm:heavyslam",
+    "tm:highhorsepower",
     "tm:hyperbeam",
     "tm:irondefense",
     "tm:ironhead",
@@ -130,11 +130,13 @@
     "tm:stompingtantrum",
     "tm:stoneedge",
     "tm:substitute",
+    "tm:superpower",
     "tm:takedown",
     "tm:taunt",
     "tm:terablast",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:steelbeam",
     "tutor:steelroller"
   ],
   "labels": [
@@ -163,5 +165,18 @@
   "height": 30,
   "weight": 6500,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:raw_copper",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

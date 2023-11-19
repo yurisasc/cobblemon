@@ -8,28 +8,33 @@
 
 package com.cobblemon.mod.common.util
 
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.Environment
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.reactive.Observable
-import dev.architectury.utils.Env
-import dev.architectury.utils.EnvExecutor
-import dev.architectury.utils.GameInstance
 import java.util.concurrent.CompletableFuture
-import net.fabricmc.api.EnvType
+import net.minecraft.server.MinecraftServer
 import net.minecraft.world.World
 
 /** Runs the given [Runnable] if the caller is on the CLIENT side. */
 fun ifClient(runnable: Runnable) {
-    EnvExecutor.runInEnv(Env.CLIENT) { runnable }
+    if (Cobblemon.implementation.environment() == Environment.CLIENT) {
+        runnable.run()
+    }
 }
 
 /** Runs the given [Runnable] if the caller is on the SERVER side. */
 fun ifServer(runnable: Runnable) {
-    EnvExecutor.runInEnv(Env.SERVER) { runnable }
+    if (Cobblemon.implementation.environment() == Environment.SERVER) {
+        runnable.run()
+    }
 }
 
 /** Runs the given [Runnable] if the caller is a dedicated server. */
 fun ifDedicatedServer(action: Runnable) {
-    EnvExecutor.runInEnv(EnvType.SERVER) { action }
+    if (Cobblemon.implementation.environment() == Environment.SERVER) {
+        action.run()
+    }
 }
 
 /*
@@ -37,7 +42,7 @@ fun ifDedicatedServer(action: Runnable) {
  */
 fun <T> runOnServer(block: () -> T): CompletableFuture<T> {
     val future = CompletableFuture<T>()
-    val server = getServer()
+    val server = server()
     if (server == null) {
         future.completeExceptionally(IllegalStateException("There is no server to schedule it on."))
     } else {
@@ -47,7 +52,7 @@ fun <T> runOnServer(block: () -> T): CompletableFuture<T> {
 }
 fun <T> Observable<T>.subscribeOnServer(priority: Priority = Priority.NORMAL, block: () -> Unit) = subscribe(priority) { runOnServer(block) }
 
-fun getServer() = GameInstance.getServer()
+fun server(): MinecraftServer? = Cobblemon.implementation.server()
 
 ///** If you are not Cobblemon, don't touch this. If you end up doing client side stuff, you'll probably break stuff. */
 //internal fun <T> runOnSide(side: LogicalSide, block: () -> T): CompletableFuture<T> {

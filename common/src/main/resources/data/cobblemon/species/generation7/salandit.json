@@ -99,16 +99,24 @@
     "tm:thief",
     "tm:thunderwave",
     "tm:torment",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:trailblaze",
     "tm:venomdrench",
     "tm:venoshock",
     "tm:willowisp",
     "tutor:covet",
+    "tutor:dragonpulse",
+    "tutor:foulplay",
+    "tutor:gunkshot",
+    "tutor:heatwave",
+    "tutor:helpinghand",
+    "tutor:irontail",
     "tutor:knockoff",
     "tutor:scaleshot",
     "tutor:skittersmack",
-    "tutor:snatch"
+    "tutor:snatch",
+    "tutor:snore"
   ],
   "labels": [
     "gen7"
@@ -129,6 +137,10 @@
         {
           "variant": "level",
           "minLevel": 33
+        },
+        {
+          "variant": "properties",
+          "target": "gender=female"
         }
       ]
     }
@@ -151,5 +163,18 @@
   "height": 6,
   "weight": 48,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

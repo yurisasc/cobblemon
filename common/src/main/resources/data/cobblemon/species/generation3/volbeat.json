@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Volbeat",
   "nationalPokedexNumber": 313,
   "primaryType": "bug",
@@ -7,6 +8,19 @@
     "swarm",
     "h:prankster"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:bright_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 73,
@@ -25,6 +39,22 @@
     "bug",
     "human_like"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      },
+      "swim": {
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:flash",
     "1:tackle",
@@ -61,8 +91,11 @@
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",
+    "tm:flash",
     "tm:fling",
+    "tm:focuspunch",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:hiddenpower",
     "tm:infestation",
     "tm:lightscreen",
@@ -77,8 +110,11 @@
     "tm:round",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:shockwave",
+    "tm:silverwind",
     "tm:sleeptalk",
     "tm:solarbeam",
+    "tm:strugglebug",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -88,12 +124,16 @@
     "tm:thunderwave",
     "tm:toxic",
     "tm:uturn",
+    "tm:waterpulse",
     "tutor:aircutter",
     "tutor:bodyslam",
     "tutor:bugbite",
     "tutor:counter",
     "tutor:defog",
+    "tutor:doubleedge",
     "tutor:dynamicpunch",
+    "tutor:endure",
+    "tutor:flash",
     "tutor:focuspunch",
     "tutor:gigadrain",
     "tutor:helpinghand",
@@ -104,13 +144,20 @@
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:ominouswind",
+    "tutor:psychup",
+    "tutor:roost",
+    "tutor:seismictoss",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:sleeptalk",
     "tutor:snore",
     "tutor:stringshot",
+    "tutor:substitute",
+    "tutor:swagger",
     "tutor:swift",
     "tutor:tailwind",
     "tutor:thunderpunch",
+    "tutor:thunderwave",
     "tutor:trick",
     "tutor:waterpulse",
     "tutor:zenheadbutt"
@@ -122,10 +169,10 @@
     "cobblemon.species.volbeat.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.1,
     "fixed": false
   },
   "baseFriendship": 70,

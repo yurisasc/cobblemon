@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.gui.battle.widgets.BattleOptionTile
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.sound.PositionedSoundInstance
@@ -84,9 +85,9 @@ class BattleGeneralActionSelection(
         )
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         for (tile in tiles) {
-            tile.render(matrices, mouseX, mouseY, delta)
+            tile.render(context, mouseX, mouseY, delta)
         }
     }
 
@@ -94,11 +95,11 @@ class BattleGeneralActionSelection(
         return tiles.any { it.mouseClicked(mouseX, mouseY, button) }
     }
 
-    override fun appendNarrations(builder: NarrationMessageBuilder) {
+    override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK.get(), 1.0F))
+        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
     override fun getType() = Selectable.SelectionType.NONE

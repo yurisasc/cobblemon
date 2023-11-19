@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Stoutland",
   "nationalPokedexNumber": 508,
   "primaryType": "normal",
@@ -7,6 +8,23 @@
     "sandrush",
     "h:scrappy"
   ],
+  "drops": {
+    "amount": 7,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "minecraft:blue_wool",
+        "quantityRange": "2-3"
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 110,
@@ -70,6 +88,7 @@
     "tm:retaliate",
     "tm:return",
     "tm:reversal",
+    "tm:roar",
     "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
@@ -95,7 +114,16 @@
     "tm:workup",
     "tutor:afteryou",
     "tutor:covet",
-    "tutor:shockwave"
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:ironhead",
+    "tutor:lastresort",
+    "tutor:shockwave",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stompingtantrum",
+    "tutor:superpower",
+    "tutor:uproar"
   ],
   "labels": [
     "gen5"
@@ -107,8 +135,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.4,
+    "height": 1.8,
     "fixed": false
   },
   "baseFriendship": 50,

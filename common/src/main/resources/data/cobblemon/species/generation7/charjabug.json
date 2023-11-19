@@ -6,6 +6,19 @@
   "abilities": [
     "battery"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 57,
     "attack": 82,
@@ -25,10 +38,12 @@
   ],
   "moves": [
     "1:bugbite",
+    "1:charge",
     "1:mudslap",
     "1:stringshot",
     "1:visegrip",
     "15:bite",
+    "19:acrobatics",
     "23:spark",
     "29:stickyweb",
     "36:xscissor",
@@ -70,10 +85,14 @@
     "tm:voltswitch",
     "tm:wildcharge",
     "tm:xscissor",
+    "tutor:bugbite",
+    "tutor:electroweb",
+    "tutor:irondefense",
     "tutor:magnetrise",
     "tutor:risingvoltage",
     "tutor:shockwave",
-    "tutor:skittersmack"
+    "tutor:skittersmack",
+    "tutor:snore"
   ],
   "labels": [
     "gen7"

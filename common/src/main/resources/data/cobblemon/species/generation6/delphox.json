@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Delphox",
   "nationalPokedexNumber": 655,
   "primaryType": "fire",
@@ -24,10 +25,34 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.4
+      }
+    }
+  },
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:stick"
+      },
+      {
+        "item": "minecraft:blaze_powder",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 25.0
+      }
+    ]
+  },
   "moves": [
     "1:ember",
     "1:futuresight",
     "1:howl",
+    "1:mysticalfire",
     "1:roleplay",
     "1:scratch",
     "1:shadowball",
@@ -123,17 +148,29 @@
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:allyswitch",
+    "tutor:blastburn",
     "tutor:covet",
+    "tutor:firepledge",
+    "tutor:firepunch",
+    "tutor:foulplay",
+    "tutor:heatwave",
     "tutor:irontail",
     "tutor:laserfocus",
+    "tutor:lowkick",
     "tutor:magiccoat",
+    "tutor:magicroom",
     "tutor:recycle",
+    "tutor:roleplay",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
     "tutor:snatch",
     "tutor:snore",
     "tutor:telekinesis",
-    "tutor:wonderroom"
+    "tutor:thunderpunch",
+    "tutor:trick",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6"
@@ -143,10 +180,10 @@
   ],
   "preEvolution": "braixen",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 3,
     "fixed": false
   },
   "baseFriendship": 70,

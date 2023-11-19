@@ -42,6 +42,8 @@ abstract class SpawnDetail : ModDependant {
     var anticonditions = mutableListOf<SpawningCondition<*>>()
     var compositeCondition: CompositeSpawningCondition? = null
     var weightMultipliers = mutableListOf<WeightMultiplier>()
+    var width = -1
+    var height = -1
 
     var weight = -1F
     var percentage = -1F
@@ -63,9 +65,14 @@ abstract class SpawnDetail : ModDependant {
             return false
         } else if (compositeCondition?.satisfiedBy(ctx, this) == false) {
             return false
+        } else if (!ctx.postFilter(this)) {
+            return false
         }
+
         return true
     }
+
+    open fun isValid(): Boolean = isModDependencySatisfied()
 
     abstract fun doSpawn(ctx: SpawningContext): SpawnAction<*>
 }

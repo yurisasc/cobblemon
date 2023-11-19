@@ -8,6 +8,19 @@
     "chlorophyll",
     "h:stormdrain"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:cactus",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 86,
@@ -47,7 +60,13 @@
     "52:acupressure",
     "56:petaldance",
     "60:cottonguard",
+    "egg:bounce",
+    "egg:bulletseed",
     "egg:grasswhistle",
+    "egg:grassyterrain",
+    "egg:leechseed",
+    "egg:seedbomb",
+    "egg:spikes",
     "egg:woodhammer",
     "egg:worryseed",
     "tm:aerialace",
@@ -92,9 +111,25 @@
     "tm:toxic",
     "tm:uproar",
     "tm:weatherball",
+    "tutor:afteryou",
+    "tutor:bounce",
+    "tutor:drainpunch",
     "tutor:endeavor",
+    "tutor:gigadrain",
     "tutor:grassyglide",
-    "tutor:knockoff"
+    "tutor:helpinghand",
+    "tutor:hypervoice",
+    "tutor:knockoff",
+    "tutor:leechseed",
+    "tutor:pinmissile",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:spikes",
+    "tutor:synthesis",
+    "tutor:throatchop",
+    "tutor:uproar",
+    "tutor:worryseed"
   ],
   "labels": [
     "gen5"

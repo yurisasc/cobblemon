@@ -7,6 +7,19 @@
     "sandforce",
     "h:moldbreaker"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:pinap_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 85,
@@ -34,13 +47,18 @@
     "16:metalclaw",
     "20:sandstorm",
     "24:crushclaw",
+    "26:slash",
     "28:rockslide",
     "32:dig",
     "36:swordsdance",
     "40:drillrun",
     "44:earthquake",
     "48:fissure",
+    "egg:crushclaw",
+    "egg:earthpower",
+    "egg:irondefense",
     "egg:metalsound",
+    "egg:rapidspin",
     "egg:rockclimb",
     "egg:skullbash",
     "egg:slash",
@@ -62,6 +80,7 @@
     "tm:frustration",
     "tm:hiddenpower",
     "tm:highhorsepower",
+    "tm:honeclaws",
     "tm:irondefense",
     "tm:mudshot",
     "tm:poisonjab",
@@ -86,7 +105,16 @@
     "tm:swordsdance",
     "tm:toxic",
     "tm:xscissor",
-    "tutor:scorchingsands"
+    "tutor:drillrun",
+    "tutor:earthpower",
+    "tutor:irondefense",
+    "tutor:metalsound",
+    "tutor:rapidspin",
+    "tutor:rockclimb",
+    "tutor:scorchingsands",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock"
   ],
   "labels": [
     "gen5"

@@ -38,7 +38,7 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 178,
+      "baseExperienceYield": 198,
       "baseFriendship": 50,
       "evYield": {
         "hp": 0,
@@ -53,7 +53,6 @@
       "eggGroups": [
         "bug"
       ],
-      "moves": [],
       "labels": [
         "gen8",
         "gmax"
@@ -89,11 +88,28 @@
       },
       "fly": {
         "canFly": true
+      },
+      "walk": {
+        "walkSpeed": 0.4
       }
     }
   },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "moves": [
     "1:bugbite",
+    "1:gust",
     "1:harden",
     "1:stringshot",
     "1:tackle",
@@ -118,13 +134,17 @@
     "tm:attract",
     "tm:batonpass",
     "tm:bugbuzz",
+    "tm:captivate",
     "tm:confide",
+    "tm:defog",
     "tm:doubleteam",
     "tm:drainingkiss",
+    "tm:dreameater",
     "tm:electroweb",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
+    "tm:flash",
     "tm:frustration",
     "tm:gigadrain",
     "tm:gigaimpact",
@@ -141,10 +161,12 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roost",
     "tm:round",
     "tm:safeguard",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:silverwind",
     "tm:skillswap",
     "tm:sleeptalk",
     "tm:snore",
@@ -155,11 +177,15 @@
     "tm:swagger",
     "tm:swift",
     "tm:thief",
+    "tm:toxic",
     "tm:uturn",
     "tm:venoshock",
+    "tutor:aerialace",
     "tutor:aircutter",
     "tutor:airslash",
+    "tutor:attract",
     "tutor:bide",
+    "tutor:bugbite",
     "tutor:bugbuzz",
     "tutor:confusion",
     "tutor:curse",
@@ -168,9 +194,12 @@
     "tutor:doubleteam",
     "tutor:dreameater",
     "tutor:dualwingbeat",
+    "tutor:electroweb",
+    "tutor:endure",
     "tutor:facade",
     "tutor:flash",
     "tutor:frustration",
+    "tutor:gigadrain",
     "tutor:gust",
     "tutor:headbutt",
     "tutor:hiddenpower",
@@ -192,15 +221,23 @@
     "tutor:rest",
     "tutor:return",
     "tutor:roost",
+    "tutor:safeguard",
     "tutor:shadowball",
     "tutor:signalbeam",
+    "tutor:skillswap",
     "tutor:sleeppowder",
+    "tutor:sleeptalk",
+    "tutor:snore",
     "tutor:solarbeam",
+    "tutor:stringshot",
     "tutor:stunspore",
     "tutor:substitute",
+    "tutor:sunnyday",
     "tutor:supersonic",
     "tutor:swagger",
     "tutor:sweetscent",
+    "tutor:swift",
+    "tutor:tailwind",
     "tutor:takedown",
     "tutor:teleport",
     "tutor:toxic",

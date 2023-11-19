@@ -6,6 +6,27 @@
   "abilities": [
     "dancer"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "percentage": 66,
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "minecraft:honey_bottle",
+        "percentage": 5
+      },
+      {
+        "item": "cobblemon:pinap_berry",
+        "percentage": 5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 70,
@@ -57,11 +78,13 @@
     "egg:pluck",
     "egg:quiverdance",
     "egg:safeguard",
+    "egg:tailwind",
     "tm:acrobatics",
     "tm:aerialace",
     "tm:agility",
     "tm:aircutter",
     "tm:airslash",
+    "tm:attract",
     "tm:batonpass",
     "tm:calmmind",
     "tm:charm",
@@ -82,7 +105,9 @@
     "tm:rest",
     "tm:return",
     "tm:reversal",
+    "tm:roost",
     "tm:round",
+    "tm:safeguard",
     "tm:sandstorm",
     "tm:sleeptalk",
     "tm:steelwing",
@@ -100,9 +125,13 @@
     "tm:uturn",
     "tm:workup",
     "tutor:covet",
+    "tutor:defog",
+    "tutor:helpinghand",
+    "tutor:icywind",
     "tutor:roleplay",
     "tutor:skyattack",
-    "tutor:snore"
+    "tutor:snore",
+    "tutor:tailwind"
   ],
   "labels": [
     "gen7"
@@ -146,7 +175,6 @@
       "eggGroups": [
         "flying"
       ],
-      "moves": [],
       "labels": [
         "gen7"
       ],
@@ -191,7 +219,6 @@
       "eggGroups": [
         "flying"
       ],
-      "moves": [],
       "labels": [
         "gen7"
       ],
@@ -236,7 +263,6 @@
       "eggGroups": [
         "flying"
       ],
-      "moves": [],
       "labels": [
         "gen7"
       ],

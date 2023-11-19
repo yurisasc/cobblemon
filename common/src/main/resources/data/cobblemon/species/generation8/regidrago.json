@@ -50,6 +50,7 @@
     "tm:endure",
     "tm:facade",
     "tm:firefang",
+    "tm:focusenergy",
     "tm:gigaimpact",
     "tm:hyperbeam",
     "tm:icefang",
@@ -68,6 +69,10 @@
     "tm:takedown",
     "tm:terablast",
     "tm:thunderfang",
+    "tutor:dracometeor",
+    "tutor:dragonclaw",
+    "tutor:dragonenergy",
+    "tutor:hammerarm",
     "tutor:laserfocus",
     "tutor:scaleshot"
   ],

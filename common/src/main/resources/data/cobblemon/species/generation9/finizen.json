@@ -15,7 +15,7 @@
   },
   "catchRate": 200,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
+  "baseExperienceYield": 63,
   "baseFriendship": 50,
   "evYield": {
     "hp": 0,
@@ -106,5 +106,14 @@
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.finizen.desc"
-  ]
+  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:cod",
+        "quantityRange": "0-1"
+      }
+    ]
+  }
 }

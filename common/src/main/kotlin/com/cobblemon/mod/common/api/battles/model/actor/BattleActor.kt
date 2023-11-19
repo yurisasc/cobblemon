@@ -11,12 +11,13 @@ package com.cobblemon.mod.common.api.battles.model.actor
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.battles.ActiveBattlePokemon
-import com.cobblemon.mod.common.battles.BallActionResponse
+import com.cobblemon.mod.common.battles.ForcePassActionResponse
 import com.cobblemon.mod.common.battles.ShowdownActionRequest
 import com.cobblemon.mod.common.battles.ShowdownActionResponse
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.exception.IllegalActionChoiceException
+import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyPassResponsePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
 import java.util.UUID
@@ -40,10 +41,23 @@ abstract class BattleActor(
 
     var request: ShowdownActionRequest? = null
     var responses = mutableListOf<ShowdownActionResponse>()
-    var expectingCaptureActions = 0
+    val expectingPassActions = mutableListOf<ShowdownActionResponse>()
     var mustChoose = false
 
+    /** For when battles start, it's the number of Pokémon that are still in the process of being sent out (animation wise) */
+    var stillSendingOutCount = 0
+
     abstract val type: ActorType
+
+    fun canFitForcedAction() = mustChoose && request?.let { request ->
+        val countMovable = (request.active?.count() ?: 0) - request.forceSwitch.count { it }
+        return@let countMovable > expectingPassActions.size && !battle.ended
+    } ?: false
+
+    fun forceChoose(response: ShowdownActionResponse) {
+        expectingPassActions.add(response)
+        sendUpdate(BattleApplyPassResponsePacket())
+    }
 
     fun getSide() = if (this in battle.side1.actors) battle.side1 else battle.side2
     open fun getPlayerUUIDs(): Iterable<UUID> = emptyList()
@@ -60,7 +74,7 @@ abstract class BattleActor(
         val requestActive = request.active
         if (requestActive == null || requestActive.isEmpty() || request.wait) {
             this.request = null
-            expectingCaptureActions = 0
+            expectingPassActions.clear()
             return
         }
     }
@@ -78,23 +92,24 @@ abstract class BattleActor(
 
     fun setActionResponses(responses: List<ShowdownActionResponse>) {
         val request = request ?: return
-        val originalCaptureActions = expectingCaptureActions
+        val originalPassActions = expectingPassActions.toList()
         responses.forEachIndexed { index, response ->
             val activeBattlePokemon = activePokemon.let { if (it.size > index) it[index] else return }
             val showdownMoveSet = request.active?.let { if (it.size > index) it[index] else null }
             val forceSwitch = request.forceSwitch.let { if (it.size > index) it[index] else false }
             if (!response.isValid(activeBattlePokemon, showdownMoveSet, forceSwitch)) {
-                expectingCaptureActions = originalCaptureActions
+                expectingPassActions.clear()
+                expectingPassActions.addAll(originalPassActions)
                 throw IllegalActionChoiceException(this, "Invalid action choice for ${activeBattlePokemon.battlePokemon!!.getName().string}: $response")
-            } else if (response is BallActionResponse) {
-                expectingCaptureActions--
+            } else if (response is ForcePassActionResponse) {
+                this.responses.add(expectingPassActions.removeAt(0))
+            } else {
+                this.responses.add(response)
             }
-            this.responses.add(response)
         }
-        if (expectingCaptureActions > 0) {
+        if (expectingPassActions.size > 0) {
             throw IllegalActionChoiceException(this, "Invalid action choice: a capture was expected. Are you hacking me?")
         }
-        expectingCaptureActions = originalCaptureActions
         mustChoose = false
         battle.checkForInputDispatch()
     }
@@ -110,7 +125,7 @@ abstract class BattleActor(
         }
         responses.clear()
         request = null
-        expectingCaptureActions = 0
+        expectingPassActions.clear()
         battle.writeShowdownAction(">$showdownId ${showdownMessages.joinToString()}")
     }
 
@@ -129,5 +144,5 @@ abstract class BattleActor(
         sendUpdate(BattleMessagePacket(component))
     }
     open fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {}
-    open fun sendUpdate(packet: NetworkPacket) {}
+    open fun sendUpdate(packet: NetworkPacket<*>) {}
 }

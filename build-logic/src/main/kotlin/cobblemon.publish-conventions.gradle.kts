@@ -15,8 +15,8 @@ publishing {
         maven("https://maven.impactdev.net/repository/development/") {
             name = "ImpactDev-Public"
             credentials {
-                username = System.getenv("NEXUS_USER")
-                password = System.getenv("NEXUS_PW")
+                username = System.getenv("COBBLEMON_MAVEN_USER")
+                password = System.getenv("COBBLEMON_MAVEN_PASSWORD")
             }
         }
     }

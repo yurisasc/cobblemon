@@ -8,6 +8,19 @@
     "cursedbody",
     "h:damp"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:glow_ink_sac",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 100,
     "attack": 60,
@@ -97,11 +110,21 @@
     "tm:whirlpool",
     "tm:willowisp",
     "tutor:bind",
+    "tutor:brine",
+    "tutor:darkpulse",
+    "tutor:gigadrain",
+    "tutor:icywind",
     "tutor:magiccoat",
+    "tutor:ominouswind",
     "tutor:painsplit",
     "tutor:poltergeist",
+    "tutor:raindance",
     "tutor:shockwave",
-    "tutor:spite"
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:spite",
+    "tutor:trick",
+    "tutor:waterpulse"
   ],
   "labels": [
     "gen5"

@@ -116,15 +116,26 @@
     "tm:wonderroom",
     "tm:workup",
     "tm:zenheadbutt",
+    "tutor:allyswitch",
+    "tutor:covet",
     "tutor:expandingforce",
     "tutor:gravity",
     "tutor:healbell",
+    "tutor:helpinghand",
+    "tutor:irontail",
     "tutor:magiccoat",
+    "tutor:magicroom",
     "tutor:recycle",
+    "tutor:roleplay",
     "tutor:shockwave",
     "tutor:signalbeam",
+    "tutor:skillswap",
     "tutor:snatch",
-    "tutor:telekinesis"
+    "tutor:snore",
+    "tutor:telekinesis",
+    "tutor:trick",
+    "tutor:wonderroom",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen6"
@@ -195,6 +206,7 @@
         "tm:allyswitch",
         "tm:attract",
         "tm:calmmind",
+        "tm:chargebeam",
         "tm:charm",
         "tm:confide",
         "tm:cut",
@@ -254,15 +266,26 @@
         "tm:wonderroom",
         "tm:workup",
         "tm:zenheadbutt",
+        "tutor:allyswitch",
+        "tutor:covet",
         "tutor:expandingforce",
         "tutor:gravity",
         "tutor:healbell",
+        "tutor:helpinghand",
+        "tutor:irontail",
         "tutor:magiccoat",
+        "tutor:magicroom",
         "tutor:recycle",
+        "tutor:roleplay",
         "tutor:shockwave",
         "tutor:signalbeam",
+        "tutor:skillswap",
         "tutor:snatch",
-        "tutor:telekinesis"
+        "tutor:snore",
+        "tutor:telekinesis",
+        "tutor:trick",
+        "tutor:wonderroom",
+        "tutor:zenheadbutt"
       ],
       "labels": [
         "gen6"
@@ -279,5 +302,14 @@
     }
   ],
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

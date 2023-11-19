@@ -8,8 +8,9 @@
 
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
+import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 
@@ -21,14 +22,11 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 28th, 2021
  */
-abstract class IntUpdatePacket : SingleUpdatePacket<Int>(1) {
+abstract class IntUpdatePacket<T : NetworkPacket<T>>(pokemon: () -> Pokemon, value: Int) : SingleUpdatePacket<Int, T>(pokemon, value) {
+
     abstract fun getSize(): IntSize
 
-    override fun encodeValue(buffer: PacketByteBuf, value: Int) {
-        buffer.writeSizedInt(getSize(), value)
-    }
-
-    override fun decodeValue(buffer: PacketByteBuf): Int {
-        return buffer.readSizedInt(getSize())
+    override fun encodeValue(buffer: PacketByteBuf) {
+        buffer.writeSizedInt(this.getSize(), this.value)
     }
 }

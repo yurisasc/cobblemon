@@ -7,6 +7,15 @@
     "owntempo",
     "h:defiant"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 71,
     "attack": 82,
@@ -36,12 +45,15 @@
     "29:assist",
     "32:captivate",
     "37:slash",
+    "38:swagger",
     "45:bodyslam",
     "52:attract",
+    "53:attract",
     "60:honeclaws",
     "tm:aerialace",
     "tm:attract",
     "tm:bulldoze",
+    "tm:captivate",
     "tm:confide",
     "tm:cut",
     "tm:dig",
@@ -54,7 +66,9 @@
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hiddenpower",
+    "tm:honeclaws",
     "tm:hyperbeam",
+    "tm:irontail",
     "tm:naturalgift",
     "tm:payback",
     "tm:protect",
@@ -68,7 +82,9 @@
     "tm:secretpower",
     "tm:shadowball",
     "tm:shadowclaw",
+    "tm:shockwave",
     "tm:sleeptalk",
+    "tm:snatch",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -79,6 +95,7 @@
     "tm:torment",
     "tm:toxic",
     "tm:uturn",
+    "tm:waterpulse",
     "tm:workup",
     "tutor:covet",
     "tutor:foulplay",
@@ -91,6 +108,7 @@
     "tutor:mudslap",
     "tutor:rollout",
     "tutor:shockwave",
+    "tutor:sleeptalk",
     "tutor:snatch",
     "tutor:snore",
     "tutor:stompingtantrum",

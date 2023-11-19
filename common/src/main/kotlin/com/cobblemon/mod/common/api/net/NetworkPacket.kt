@@ -9,33 +9,71 @@
 package com.cobblemon.mod.common.api.net
 
 import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.util.getServer
+import com.cobblemon.mod.common.util.server
+import io.netty.buffer.Unpooled
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.registry.RegistryKey
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.registry.RegistryKey
+import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
-/*
- * Simple packet interface to make a more traditional layout for netcode
+/**
+ * Platform abstract blueprint of a packet being sent out.
+ * The handling of encoding, decoding and resolving the packet is done on the individual platform implementations.
  *
- * @author Hiroku
+ * @author Hiroku, Licious
  * @since November 27th, 2021
  */
-interface NetworkPacket {
-    fun encode(buffer: PacketByteBuf)
-    fun decode(buffer: PacketByteBuf)
+interface NetworkPacket<T: NetworkPacket<T>> : Encodable {
 
-    fun sendToPlayer(player: ServerPlayerEntity) = CobblemonNetwork.sendToPlayer(player, this)
+    /**
+     *
+     */
+    val id: Identifier
+
+    /**
+     * TODO
+     *
+     * @param player
+     */
+    fun sendToPlayer(player: ServerPlayerEntity) = CobblemonNetwork.sendPacketToPlayer(player, this)
+
+    /**
+     * TODO
+     *
+     * @param players
+     */
     fun sendToPlayers(players: Iterable<ServerPlayerEntity>) {
         if (players.any()) {
-            CobblemonNetwork.sendToPlayers(players, this)
+            CobblemonNetwork.sendPacketToPlayers(players, this)
         }
     }
+
+    /**
+     * TODO
+     *
+     */
     fun sendToAllPlayers() = CobblemonNetwork.sendToAllPlayers(this)
-    fun sendToServer() = CobblemonNetwork.sendToServer(this)
+
+    /**
+     * TODO
+     *
+     */
+    fun sendToServer() = CobblemonNetwork.sendPacketToServer(this)
+
     // A copy from PlayerManager#sendToAround to work with our packets
+    /**
+     * TODO
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param distance
+     * @param worldKey
+     * @param exclusionCondition
+     */
     fun sendToPlayersAround(x: Double, y: Double, z: Double, distance: Double, worldKey: RegistryKey<World>, exclusionCondition: (ServerPlayerEntity) -> Boolean = { false }) {
-        val server = getServer() ?: return
+        val server = server() ?: return
         server.playerManager.playerList.filter { player ->
             if (exclusionCondition.invoke(player))
                 return@filter false
@@ -44,6 +82,18 @@ interface NetworkPacket {
             val zDiff = z - player.z
             return@filter (xDiff * xDiff + yDiff * yDiff + zDiff) < distance * distance
         }
-        .forEach { player -> CobblemonNetwork.sendToPlayer(player, this) }
+        .forEach { player -> CobblemonNetwork.sendPacketToPlayer(player, this) }
     }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    fun toBuffer(): PacketByteBuf {
+        val buffer = PacketByteBuf(Unpooled.buffer())
+        this.encode(buffer)
+        return buffer
+    }
+
 }

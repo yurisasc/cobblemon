@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Mudbray",
   "nationalPokedexNumber": 749,
   "primaryType": "ground",
@@ -7,6 +8,27 @@
     "stamina",
     "h:innerfocus"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:leather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 100,
@@ -14,6 +36,14 @@
     "special_attack": 45,
     "special_defence": 55,
     "speed": 45
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 190,
   "maleRatio": 0.5,
@@ -41,6 +71,8 @@
     "36:earthquake",
     "40:megakick",
     "44:superpower",
+    "egg:bodyslam",
+    "egg:closecombat",
     "egg:doubleedge",
     "egg:endeavor",
     "egg:fissure",
@@ -61,15 +93,18 @@
     "tm:frustration",
     "tm:heavyslam",
     "tm:hiddenpower",
+    "tm:highhorsepower",
     "tm:irondefense",
     "tm:ironhead",
     "tm:lowkick",
     "tm:lowsweep",
+    "tm:megakick",
     "tm:mudslap",
     "tm:payback",
     "tm:protect",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:rockslide",
     "tm:rocktomb",
     "tm:round",
@@ -82,10 +117,20 @@
     "tm:stoneedge",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:superpower",
     "tm:swagger",
     "tm:takedown",
     "tm:terablast",
-    "tm:toxic"
+    "tm:toxic",
+    "tutor:earthpower",
+    "tutor:endeavor",
+    "tutor:irondefense",
+    "tutor:ironhead",
+    "tutor:lowkick",
+    "tutor:snore",
+    "tutor:stealthrock",
+    "tutor:stompingtantrum",
+    "tutor:superpower"
   ],
   "labels": [
     "gen7"

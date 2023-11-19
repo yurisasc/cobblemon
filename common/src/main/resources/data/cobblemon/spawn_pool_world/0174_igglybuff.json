@@ -6,11 +6,20 @@
         {
             "id": "igglybuff-1",
             "pokemon": "igglybuff",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-21",
+            "level": "1-21",
             "weight": 9.0,
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -18,14 +27,23 @@
                 ]
             }
         },
-		{
+        {
             "id": "igglybuff-2",
             "pokemon": "igglybuff",
+            "presets": [
+                "natural"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-21",
+            "level": "1-21",
             "weight": 1.8,
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

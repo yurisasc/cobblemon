@@ -41,6 +41,7 @@
     "60:gigaimpact",
     "egg:counter",
     "egg:feint",
+    "egg:ironhead",
     "egg:knockoff",
     "egg:quickattack",
     "egg:quickguard",
@@ -51,6 +52,7 @@
     "tm:assurance",
     "tm:attract",
     "tm:batonpass",
+    "tm:beatup",
     "tm:bodyslam",
     "tm:brickbreak",
     "tm:brutalswing",
@@ -68,6 +70,7 @@
     "tm:facade",
     "tm:fling",
     "tm:focusblast",
+    "tm:focusenergy",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:grassknot",
@@ -113,12 +116,26 @@
     "tm:workup",
     "tutor:bestow",
     "tutor:block",
+    "tutor:closecombat",
     "tutor:coaching",
+    "tutor:drainpunch",
+    "tutor:electroweb",
     "tutor:endeavor",
+    "tutor:feint",
+    "tutor:fling",
     "tutor:focuspunch",
+    "tutor:gunkshot",
+    "tutor:ironhead",
+    "tutor:irontail",
+    "tutor:knockoff",
     "tutor:laserfocus",
+    "tutor:seedbomb",
     "tutor:shockwave",
-    "tutor:snatch"
+    "tutor:snatch",
+    "tutor:snore",
+    "tutor:superpower",
+    "tutor:uproar",
+    "tutor:uturn"
   ],
   "labels": [
     "gen7"
@@ -145,5 +162,18 @@
   "height": 20,
   "weight": 828,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:muscle_band",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

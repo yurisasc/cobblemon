@@ -7,6 +7,19 @@
     "ironbarbs",
     "h:anticipation"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 74,
     "attack": 94,
@@ -29,6 +42,7 @@
     "1:harden",
     "1:metalclaw",
     "1:pinmissile",
+    "1:powerwhip",
     "1:rockclimb",
     "1:rollout",
     "1:tackle",
@@ -40,6 +54,7 @@
     "35:irondefense",
     "43:curse",
     "49:gyroball",
+    "53:payback",
     "56:explosion",
     "tm:aerialace",
     "tm:assurance",
@@ -53,6 +68,7 @@
     "tm:doubleteam",
     "tm:endure",
     "tm:energyball",
+    "tm:explosion",
     "tm:facade",
     "tm:flash",
     "tm:flashcannon",
@@ -100,9 +116,16 @@
     "tm:toxic",
     "tutor:block",
     "tutor:endeavor",
+    "tutor:gigadrain",
     "tutor:gravity",
+    "tutor:irondefense",
+    "tutor:ironhead",
     "tutor:knockoff",
     "tutor:magnetrise",
+    "tutor:seedbomb",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:stealthrock",
     "tutor:steelbeam",
     "tutor:steelroller",
     "tutor:worryseed"

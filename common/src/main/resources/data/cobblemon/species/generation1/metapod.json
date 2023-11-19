@@ -43,20 +43,26 @@
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:string",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 2.5
       }
     ]
   },
   "moves": [
+    "1:harden",
     "tm:electroweb",
     "tm:irondefense",
     "tutor:bugbite",
+    "tutor:electroweb",
     "tutor:harden",
+    "tutor:irondefense",
     "tutor:stringshot"
   ],
   "labels": [

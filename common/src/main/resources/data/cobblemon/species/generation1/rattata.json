@@ -8,6 +8,19 @@
     "guts",
     "h:hustle"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 30,
     "attack": 56,
@@ -17,6 +30,11 @@
     "speed": 72
   },
   "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.41
+      }
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": true,
@@ -40,6 +58,15 @@
         "hustle",
         "h:thickfat"
       ],
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "minecraft:rotten_flesh",
+            "percentage": 50
+          }
+        ]
+      },
       "baseStats": {
         "hp": 30,
         "attack": 56,
@@ -66,8 +93,18 @@
         "field"
       ],
       "moves": [
+        "1:tackle",
+        "1:tailwhip",
+        "4:quickattack",
+        "7:focusenergy",
+        "10:bite",
         "13:pursuit",
+        "16:hyperfang",
         "19:assurance",
+        "22:crunch",
+        "25:suckerpunch",
+        "28:superfang",
+        "31:doubleedge",
         "34:endeavor",
         "egg:counter",
         "egg:finalgambit",
@@ -81,23 +118,35 @@
         "egg:switcheroo",
         "egg:uproar",
         "tm:attract",
+        "tm:blizzard",
         "tm:confide",
+        "tm:darkpulse",
         "tm:doubleteam",
         "tm:embargo",
+        "tm:facade",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
+        "tm:icebeam",
+        "tm:protect",
         "tm:quash",
         "tm:raindance",
+        "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:shadowball",
         "tm:shadowclaw",
         "tm:sleeptalk",
+        "tm:sludgebomb",
         "tm:snarl",
+        "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
+        "tm:taunt",
         "tm:thief",
         "tm:torment",
+        "tm:toxic",
+        "tm:uturn",
         "tutor:bite",
         "tutor:blizzard",
         "tutor:covet",
@@ -172,9 +221,20 @@
     "field"
   ],
   "moves": [
+    "1:tackle",
+    "1:tailwhip",
+    "4:quickattack",
+    "7:focusenergy",
+    "10:bite",
     "13:pursuit",
+    "16:hyperfang",
     "19:assurance",
+    "22:crunch",
+    "25:suckerpunch",
+    "28:superfang",
+    "31:doubleedge",
     "34:endeavor",
+    "egg:bite",
     "egg:counter",
     "egg:finalgambit",
     "egg:flamewheel",
@@ -184,27 +244,46 @@
     "egg:revenge",
     "egg:reversal",
     "egg:screech",
+    "egg:swagger",
     "egg:uproar",
     "tm:attract",
+    "tm:blizzard",
     "tm:captivate",
     "tm:chargebeam",
     "tm:confide",
     "tm:cut",
+    "tm:dig",
     "tm:doubleteam",
+    "tm:endure",
+    "tm:facade",
     "tm:frustration",
     "tm:grassknot",
     "tm:hiddenpower",
+    "tm:icebeam",
+    "tm:irontail",
     "tm:naturalgift",
     "tm:pluck",
+    "tm:protect",
     "tm:raindance",
+    "tm:rest",
     "tm:retaliate",
     "tm:return",
+    "tm:rocksmash",
     "tm:round",
     "tm:secretpower",
+    "tm:shadowball",
+    "tm:shockwave",
     "tm:sleeptalk",
+    "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:taunt",
     "tm:thief",
+    "tm:thunder",
+    "tm:thunderbolt",
+    "tm:thunderwave",
+    "tm:toxic",
+    "tm:uturn",
     "tm:wildcharge",
     "tm:workup",
     "tutor:attract",
@@ -233,9 +312,9 @@
     "tutor:hyperfang",
     "tutor:icebeam",
     "tutor:icywind",
-    "tutor:icywind",
     "tutor:irontail",
     "tutor:lastresort",
+    "tutor:mefirst",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:protect",
@@ -251,7 +330,6 @@
     "tutor:shockwave",
     "tutor:skullbash",
     "tutor:sleeptalk",
-    "tutor:snore",
     "tutor:snore",
     "tutor:substitute",
     "tutor:suckerpunch",

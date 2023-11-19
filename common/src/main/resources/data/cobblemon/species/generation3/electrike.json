@@ -30,6 +30,7 @@
     "4:leer",
     "8:howl",
     "12:quickattack",
+    "13:spark",
     "16:odorsleuth",
     "16:shockwave",
     "20:bite",
@@ -39,11 +40,21 @@
     "36:charge",
     "40:wildcharge",
     "44:thunder",
+    "egg:crunch",
     "egg:curse",
+    "egg:discharge",
+    "egg:eerieimpulse",
+    "egg:electroball",
+    "egg:firefang",
     "egg:flameburst",
     "egg:headbutt",
+    "egg:icefang",
+    "egg:shockwave",
     "egg:spark",
+    "egg:swift",
     "egg:switcheroo",
+    "egg:thunderfang",
+    "egg:uproar",
     "tm:agility",
     "tm:attract",
     "tm:bodyslam",
@@ -70,8 +81,10 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:round",
     "tm:secretpower",
+    "tm:shockwave",
     "tm:sleeptalk",
     "tm:snarl",
     "tm:snore",
@@ -88,12 +101,25 @@
     "tm:uproar",
     "tm:voltswitch",
     "tm:wildcharge",
+    "tutor:bodyslam",
     "tutor:doubleedge",
+    "tutor:endure",
+    "tutor:headbutt",
+    "tutor:icefang",
+    "tutor:irontail",
     "tutor:magnetrise",
     "tutor:mimic",
     "tutor:mudslap",
     "tutor:risingvoltage",
-    "tutor:signalbeam"
+    "tutor:shockwave",
+    "tutor:signalbeam",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:substitute",
+    "tutor:swagger",
+    "tutor:swift",
+    "tutor:thunderwave",
+    "tutor:uproar"
   ],
   "labels": [
     "gen3"
@@ -134,5 +160,22 @@
   "height": 6,
   "weight": 152,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }
