@@ -835,10 +835,11 @@ object ShowdownInterpreter {
             val effectID = message.effectAt(1)?.id
 
             val lang = when (effectID) {
-                null -> battleLang("fail") // Some moves fail with no effect, so we default to generic fail lang (Example: Baton Pass when unable to switch)
+                null, "burnup", "doubleshock" -> battleLang("fail") // Moves that use default fail lang. (Null included for moves that fail with no effect, for example: Baton Pass.)
                 "shedtail" -> battleLang("fail.substitute", pokemonName)
                 "hyperspacefury", "aurawheel" -> battleLang("fail.darkvoid", pokemonName) // Moves that can only be used by one species and fail when any others try
                 "corrosivegas" -> battleLang("fail.healblock", pokemonName)
+                "dynamax" -> battleLang("fail.grassknot", pokemonName) // Covers weight moves that fail against dynamaxed Pokémon
                 else -> battleLang("fail.$effectID", pokemonName)
             }
             battle.broadcastChatMessage(lang.red())

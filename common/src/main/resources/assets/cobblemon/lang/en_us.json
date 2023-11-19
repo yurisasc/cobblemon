@@ -1041,6 +1041,8 @@
   "cobblemon.battle.fail.slp": "But the target is already asleep!",
   "cobblemon.battle.fail.uproar": "%1$s can't sleep in an uproar!",
   "cobblemon.battle.fail.skydrop": "%1$s is too heavy to be lifted!",
+  "cobblemon.battle.fail.heal": "%1$s's HP is full!",
+  "cobblemon.battle.fail.grassknot": "%1$s shook its head. It seems like it can't use this move...",
 
   "cobblemon.battle.sethp.painsplit": "The battlers shared their pain!",
 
@@ -1080,7 +1082,6 @@
   "cobblemon.battle.enditem.incinerate": "%1$s's %2$s was burned up!",
   "cobblemon.battle.enditem.airballoon": "%1$s's Air Balloon popped!",
   "cobblemon.battle.enditem.redcard": "%1$s held up its Red Card against %3$s!",
-  "cobblemon.battle.enditem.pluck": "%3$s stole and ate %1$s's %2$s!",
   "cobblemon.battle.enditem.berryjuice": "%1$s's Berry Juice activated!",
   "cobblemon.battle.enditem.generic": "%1$s used its %2$s!",
   "cobblemon.battle.enditem.mentalherb": "%1$s shook off mental effects due to its Mental Herb!",
