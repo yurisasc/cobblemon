@@ -294,7 +294,12 @@
   "item.cobblemon.plume_fossil": "Plume Fossil",
   "item.cobblemon.root_fossil": "Root Fossil",
   "item.cobblemon.sail_fossil": "Sail Fossil",
-  "item.cobblemon.skull_fossil": "Skull Fossil",
+  "item.cobbleemon.skull_fossil": "Skull Fossil",
+  "item.cobblemon.bygone_sherd": "Bygone Sherd",
+  "item.cobblemon.capture_sherd": "Capture Sherd",
+  "item.cobblemon.dome_sherd":  "Dome Sherd",
+  "item.cobblemon.helix_sherd": "Helix Sherd",
+  "item.cobblemon.nostalgic_sherd":  "Nostalgic Sherd",
 
   "cobblemon.fossil.armor": "Armor",
   "cobblemon.fossil.bird": "Bird",
@@ -320,6 +325,7 @@
   "itemGroup.cobblemon.consumables": "Consumables",
   "itemGroup.cobblemon.held_item": "Held Items",
   "itemGroup.cobblemon.evolution_item": "Evolution Items",
+  "itemGroup.cobblemon.archeology": "Archeology",
 
   "block.cobblemon.apricorn_log": "Apricorn Log",
   "block.cobblemon.stripped_apricorn_log": "Stripped Apricorn Log",

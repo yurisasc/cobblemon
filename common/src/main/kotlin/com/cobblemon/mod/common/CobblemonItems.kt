@@ -711,6 +711,17 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val SKULL_FOSSIL = noSettingsItem("skull_fossil")
 
+    @JvmField
+    val BYGONE_SHERD = noSettingsItem("bygone_sherd")
+    @JvmField
+    val CAPTURE_SHERD = noSettingsItem("capture_sherd")
+    @JvmField
+    val DOME_SHERD = noSettingsItem("dome_sherd")
+    @JvmField
+    val HELIX_SHERD = noSettingsItem("helix_sherd")
+    @JvmField
+    val NOSTALGIC_SHERD = noSettingsItem("nostalgic_sherd")
+
     // Misc
     @JvmField
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())

@@ -31,6 +31,7 @@ object CobblemonItemGroups {
     @JvmStatic val BLOCKS_KEY = this.create("blocks", this::blockEntries) { ItemStack(CobblemonItems.PC) }
     @JvmStatic val POKEBALLS_KEY = this.create("pokeball", this::pokeballentries) { ItemStack(CobblemonItems.POKE_BALL) }
     @JvmStatic val AGRICULTURE_KEY = this.create("agriculture", this::agricultureEntries) { ItemStack(CobblemonItems.MEDICINAL_LEEK) }
+    @JvmStatic val ARCHEOLOGY_KEY = this.create("archeology", this::archeologyEntries) { ItemStack(CobblemonItems.HELIX_FOSSIL) }
     @JvmStatic val CONSUMABLES_KEY = this.create("consumables", this::consumableEntries) { ItemStack(CobblemonItems.ROASTED_LEEK) }
     @JvmStatic val HELD_ITEMS_KEY = this.create("held_item", this::heldItemEntries) { ItemStack(CobblemonItems.EXP_SHARE) }
     @JvmStatic val EVOLUTION_ITEMS_KEY = this.create("evolution_item", this::evolutionItemEntries) { ItemStack(CobblemonItems.BLACK_AUGURITE) }
@@ -38,6 +39,7 @@ object CobblemonItemGroups {
     @JvmStatic val BLOCKS get() = Registries.ITEM_GROUP.get(BLOCKS_KEY)
     @JvmStatic val POKEBALLS get() = Registries.ITEM_GROUP.get(POKEBALLS_KEY)
     @JvmStatic val AGRICULTURE get() = Registries.ITEM_GROUP.get(AGRICULTURE_KEY)
+    @JvmStatic val ARCHEOLOGY get() = Registries.ITEM_GROUP.get(ARCHEOLOGY_KEY)
     @JvmStatic val CONSUMABLES get() = Registries.ITEM_GROUP.get(CONSUMABLES_KEY)
     @JvmStatic val HELD_ITEMS get() = Registries.ITEM_GROUP.get(HELD_ITEMS_KEY)
     @JvmStatic val EVOLUTION_ITEMS get() = Registries.ITEM_GROUP.get(EVOLUTION_ITEMS_KEY)
@@ -125,6 +127,29 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.MULCH_BASE)
 
         CobblemonItems.berries().values.forEach(entries::add)
+    }
+
+    private fun archeologyEntries(displayContext: DisplayContext, entries: Entries) {
+        entries.add(CobblemonItems.HELIX_FOSSIL)
+        entries.add(CobblemonItems.DOME_FOSSIL)
+        entries.add(CobblemonItems.OLD_AMBER_FOSSIL)
+        entries.add(CobblemonItems.ROOT_FOSSIL)
+        entries.add(CobblemonItems.CLAW_FOSSIL)
+        entries.add(CobblemonItems.SKULL_FOSSIL)
+        entries.add(CobblemonItems.ARMOR_FOSSIL)
+        entries.add(CobblemonItems.COVER_FOSSIL)
+        entries.add(CobblemonItems.PLUME_FOSSIL)
+        entries.add(CobblemonItems.JAW_FOSSIL)
+        entries.add(CobblemonItems.SAIL_FOSSIL)
+        entries.add(CobblemonItems.BIRD_FOSSIL)
+        entries.add(CobblemonItems.FISH_FOSSIL)
+        entries.add(CobblemonItems.DRAKE_FOSSIL)
+        entries.add(CobblemonItems.DINO_FOSSIL)
+        entries.add(CobblemonItems.BYGONE_SHERD)
+        entries.add(CobblemonItems.CAPTURE_SHERD)
+        entries.add(CobblemonItems.DOME_SHERD)
+        entries.add(CobblemonItems.HELIX_SHERD)
+        entries.add(CobblemonItems.NOSTALGIC_SHERD)
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
