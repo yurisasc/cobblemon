@@ -253,7 +253,6 @@ open class PokemonBattle(
             }
         }
         sendUpdate(BattleEndPacket())
-        sendUpdate(BattleMusicPacket(null))
         BattleRegistry.closeBattle(this)
     }
 
