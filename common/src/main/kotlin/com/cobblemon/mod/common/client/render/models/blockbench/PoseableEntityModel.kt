@@ -448,7 +448,7 @@ abstract class PoseableEntityModel<T : Entity>(
         }
 
         val currentPose = getPose(poseName)
-        applyPose(poseName, state.poseTransitionPortion)
+        applyPose(poseName, 1F)
 
         val primaryAnimation = state.primaryAnimation
 
@@ -457,7 +457,7 @@ abstract class PoseableEntityModel<T : Entity>(
             state.quirks.keys.filterNot(currentPose.quirks::contains).forEach(state.quirks::remove)
             // Tick all the quirks
             currentPose.quirks.forEach {
-                it.tick(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.poseTransitionPortion)
+                it.tick(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F)
             }
         }
 
@@ -473,7 +473,7 @@ abstract class PoseableEntityModel<T : Entity>(
             .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F) }
         state.statefulAnimations.removeAll(removedStatefuls)
         state.currentPose?.let { getPose(it) }
-            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.poseTransitionPortion * state.primaryOverridePortion)
+            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.primaryOverridePortion)
         updateLocators(state)
     }
 
@@ -501,13 +501,16 @@ abstract class PoseableEntityModel<T : Entity>(
         if (state.statefulAnimations.none { it.isTransform }) {
             val transition = previousPose.transitions[desirablePose]
             if (transition == null && previousPose.transformTicks > 0) {
-                state.addStatefulAnimation(
+                val primaryAnimation = PrimaryAnimation(
                     PoseTransitionAnimation(
                         beforePose = previousPose,
                         afterPose = desirablePose,
                         durationTicks = previousPose.transformTicks
-                    )
-                ) {
+                    ),
+                    curve = { 1F }
+                )
+                state.addPrimaryAnimation(primaryAnimation)
+                afterOnClient(seconds = primaryAnimation.duration) {
                     state.setPose(desirablePose.poseName)
                 }
             } else if (transition != null) {

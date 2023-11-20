@@ -49,7 +49,6 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
     protected var age = 0
     protected var currentPartialTicks = 0F
 
-    var poseTransitionPortion = 1F
     var primaryOverridePortion = 1F
 
     abstract fun getEntity(): T?
@@ -97,7 +96,6 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
 
     fun setPose(pose: String) {
         currentPose = pose
-        poseTransitionPortion = 1F
         primaryOverridePortion = 1F
         val model = currentModel
         if (model != null) {

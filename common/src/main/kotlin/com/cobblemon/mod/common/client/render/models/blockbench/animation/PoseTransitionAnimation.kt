@@ -31,7 +31,7 @@ class PoseTransitionAnimation<T : Entity>(
 ) : StatefulAnimation<T, ModelFrame> {
     override val isTransform = true
 
-    override val duration: Float = durationTicks * 20F
+    override val duration: Float = durationTicks / 20F
 
     var initialized = false
     var startTime = 0F
@@ -54,10 +54,7 @@ class PoseTransitionAnimation<T : Entity>(
         headPitch: Float,
         intensity: Float
     ): Boolean {
-        if (state.primaryAnimation != null) {
-            state.poseTransitionPortion = 1F
-            return false
-        } else if (!initialized) {
+        if (!initialized) {
             initialize(state)
         }
 
@@ -66,23 +63,18 @@ class PoseTransitionAnimation<T : Entity>(
         val passedSeconds = (now - startTime)
         val ratio = min(passedSeconds / durationSeconds, 1F)
         val newIntensity = curve(ratio).coerceIn(0F..1F)
-        state.poseTransitionPortion = 1 - newIntensity
-        if (state.primaryAnimation != null) {
-            state.poseTransitionPortion = 1F
-            // There is a pose pauser, so don't show pose transitioning (we are still gonna transition)
-            return true
+        val oldIntensity = 1 - newIntensity
+
+        model.setDefault()
+
+        model.applyPose(beforePose.poseName, oldIntensity)
+        beforePose.idleAnimations.forEach {
+            it.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, oldIntensity)
         }
 
-        if (ratio < 1F) {
-            model.applyPose(afterPose.poseName, newIntensity * state.primaryOverridePortion)
-            afterPose.idleAnimations.forEach {
-                it.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, newIntensity)
-            }
-        } else {
-            // We finished transitioning, set the pose and apply the new one at full strength. The idle animations run after this so we don't need to call it here.
-            state.poseTransitionPortion = 1F
-            state.setPose(afterPose.poseName)
-            model.applyPose(afterPose.poseName, state.primaryOverridePortion)
+        model.applyPose(afterPose.poseName, newIntensity)
+        afterPose.idleAnimations.forEach {
+            it.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, newIntensity)
         }
 
         return ratio < 1F
