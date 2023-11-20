@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.events
 
 import com.cobblemon.mod.common.api.events.battles.BattleFaintedEvent
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
+import com.cobblemon.mod.common.util.party
 
 object BellyHandler {
 
@@ -22,9 +23,17 @@ object BellyHandler {
     }
 
     fun onVictory(event : BattleVictoryEvent) {
-        event.battle.activePokemon.forEach() {
+        event.battle.players.forEach() {
+            it.party().forEach() {
+                it.loseFullness(1)
+            }
+        }
+
+        // Redacted code which only made last 2 active pokemon lose fullness
+        /*event.battle.activePokemon.forEach() {
             // every pokemon that took part in the battle loses 1 fullness
             it.battlePokemon?.entity?.pokemon?.loseFullness(1)
-        }
+        }*/
+
     }
 }

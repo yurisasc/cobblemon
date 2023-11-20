@@ -586,6 +586,7 @@ open class Pokemon : ShowdownIdentifiable {
     // Value of current Fullness level
     var currentFullness = 0
 
+    // DEPRECATED
     //base Hunger value for all pokemon
     var baseFullness = 5
 
@@ -690,7 +691,7 @@ open class Pokemon : ShowdownIdentifiable {
         val spdef = this.species.baseStats.getOrDefault(Stats.SPECIAL_DEFENCE,0)
         val speed = this.species.baseStats.getOrDefault(Stats.SPEED,0)
 
-        // Total base stats for the pokemon
+        // Base Stat Total for the pokemon
         val BST = hp + atk + spatk + def + spdef + speed
 
         // multiplying scaling value
@@ -699,13 +700,16 @@ open class Pokemon : ShowdownIdentifiable {
         //base berry count
         val baseBerryCount = 20
 
+        //rate of metabolism in seconds
+        var metabolismRate = ((baseBerryCount.toDouble() - ((speed.toDouble() / BST.toDouble()) * baseBerryCount.toDouble()) * multiplier.toDouble()) * 60.0).toInt()
+
         // returns value in seconds for the onSecondPassed function
         // check for below 0 value and set to minimum to 1 minute
-        if (((baseBerryCount - ((speed / BST) * baseBerryCount) * 4)     * 60) <= 0) {
+        if (metabolismRate <= 0) {
             return 1    * 60
         }
         else {
-            return ((baseBerryCount - ((speed / BST) * baseBerryCount) * 4)     * 60)
+            return metabolismRate
         }
 
 
