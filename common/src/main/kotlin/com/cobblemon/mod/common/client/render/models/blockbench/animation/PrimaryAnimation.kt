@@ -13,6 +13,14 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import net.minecraft.entity.Entity
 
+/**
+ * An animation that plays to the exclusion of other primary animations. This can control
+ * whether other animations are blocked or faded in or out. It is able to prevent some idle
+ * animations based on labels.
+ *
+ * @author Hiroku
+ * @since November 20th, 2023
+ */
 class PrimaryAnimation<T : Entity>(
     val animation: StatefulAnimation<T, *>,
     var curve: WaveFunction = { t ->
