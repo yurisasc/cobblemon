@@ -110,6 +110,7 @@ class FossilMultiblockStructure (
 
             this.createdPokemon!!.caughtBall = ballType
             player.party().add(this.createdPokemon!!)
+            this.fossilState.growthState = "Taken"
             player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS, 1.0F, 1.0F)
             CobblemonCriteria.RESURRECT_POKEMON.trigger(player, createdPokemon!!)
 
@@ -243,7 +244,6 @@ class FossilMultiblockStructure (
             world.spawnEntity(wildPokemon)
 
         }
-
 
         MinecraftClient.getInstance().soundManager.stopSounds(CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id, SoundCategory.BLOCKS)
 
