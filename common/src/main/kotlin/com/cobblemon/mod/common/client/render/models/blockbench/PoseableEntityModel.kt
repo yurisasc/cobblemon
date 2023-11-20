@@ -78,16 +78,14 @@ abstract class PoseableEntityModel<T : Entity>(
     @Transient
     var currentState: PoseableEntityState<T>? = null
 
-    val defaultPositions = mutableListOf<ModelPartTransformation>()
-
     /**
-     * A list of [TransformedModelPart] that are relevant to any frame or animation.
+     * A list of [ModelPartTransformation] that record the original
      * This allows the original rotations to be reset.
      */
+    val defaultPositions = mutableListOf<ModelPartTransformation>()
+
     val relevantParts = mutableListOf<ModelPart>()
     val relevantPartsByName = mutableMapOf<String, ModelPart>()
-
-
 
     /** Registers the different poses this model is capable of ahead of time. Should use [registerPose] religiously. */
     abstract fun registerPoses()
@@ -446,22 +444,31 @@ abstract class PoseableEntityModel<T : Entity>(
         }
 
         val currentPose = getPose(poseName)
-        applyPose(poseName, state.poseTransitionPortion * state.statefulOverridePortion)
-        if (currentPose != null) {
+        applyPose(poseName, state.poseTransitionPortion)
+
+        val primaryAnimation = state.primaryAnimation
+
+        if (currentPose != null && primaryAnimation == null) {
             // Remove any quirk animations that don't exist in our current pose
             state.quirks.keys.filterNot(currentPose.quirks::contains).forEach(state.quirks::remove)
             // Tick all the quirks
             currentPose.quirks.forEach {
-                it.tick(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+                it.tick(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.poseTransitionPortion)
+            }
+        }
+
+        if (primaryAnimation != null) {
+            state.primaryOverridePortion = 1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
+            if (!primaryAnimation.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1 - state.primaryOverridePortion)) {
+                state.primaryAnimation = null
             }
         }
 
         val removedStatefuls = state.statefulAnimations.toList()
-            .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch) }
+            .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.poseTransitionPortion * state.primaryOverridePortion) }
         state.statefulAnimations.removeAll(removedStatefuls)
         state.currentPose?.let { getPose(it) }
-            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.poseTransitionPortion * state.statefulOverridePortion)
-        state.applyAdditives(entity, this, state)
+            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.poseTransitionPortion * state.primaryOverridePortion)
         updateLocators(state)
     }
 
@@ -499,7 +506,10 @@ abstract class PoseableEntityModel<T : Entity>(
                     state.setPose(desirablePose.poseName)
                 }
             } else if (transition != null) {
-                state.addStatefulAnimation(transition(previousPose, desirablePose)) { state.setPose(desirablePose.poseName) }
+                state.addStatefulAnimation(transition(previousPose, desirablePose)) {
+                    println("Transition complete! Setting pose")
+                    state.setPose(desirablePose.poseName)
+                }
             } else {
                 getState(entity).setPose(poses.values.first { desirablePoseType in it.poseTypes && it.condition(entity) }.poseName)
             }

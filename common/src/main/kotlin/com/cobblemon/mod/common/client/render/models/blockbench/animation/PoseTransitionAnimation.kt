@@ -30,7 +30,6 @@ class PoseTransitionAnimation<T : Entity>(
     val curve: WaveFunction = sineFunction(amplitude = 0.5F, period = 2F, phaseShift = 0.5F, verticalShift = 0.5F)
 ) : StatefulAnimation<T, ModelFrame> {
     override val isTransform = true
-    override val isPosePauser = false
 
     override val duration: Float = durationTicks * 20F
 
@@ -44,7 +43,6 @@ class PoseTransitionAnimation<T : Entity>(
         initialized = true
     }
 
-    override fun preventsIdle(entity: T?, state: PoseableEntityState<T>, idleAnimation: StatelessAnimation<T, *>) = false
     override fun run(
         entity: T?,
         model: PoseableEntityModel<T>,
@@ -53,9 +51,10 @@ class PoseTransitionAnimation<T : Entity>(
         limbSwingAmount: Float,
         ageInTicks: Float,
         headYaw: Float,
-        headPitch: Float
+        headPitch: Float,
+        intensity: Float
     ): Boolean {
-        if (state.allStatefulAnimations.any { it.isPosePauser }) {
+        if (state.primaryAnimation != null) {
             state.poseTransitionPortion = 1F
             return false
         } else if (!initialized) {
@@ -68,14 +67,14 @@ class PoseTransitionAnimation<T : Entity>(
         val ratio = min(passedSeconds / durationSeconds, 1F)
         val newIntensity = curve(ratio).coerceIn(0F..1F)
         state.poseTransitionPortion = 1 - newIntensity
-        if (state.allStatefulAnimations.any { it.isPosePauser }) {
+        if (state.primaryAnimation != null) {
             state.poseTransitionPortion = 1F
             // There is a pose pauser, so don't show pose transitioning (we are still gonna transition)
             return true
         }
 
         if (ratio < 1F) {
-            model.applyPose(afterPose.poseName, newIntensity * state.statefulOverridePortion)
+            model.applyPose(afterPose.poseName, newIntensity * state.primaryOverridePortion)
             afterPose.idleAnimations.forEach {
                 it.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, newIntensity)
             }
@@ -83,7 +82,7 @@ class PoseTransitionAnimation<T : Entity>(
             // We finished transitioning, set the pose and apply the new one at full strength. The idle animations run after this so we don't need to call it here.
             state.poseTransitionPortion = 1F
             state.setPose(afterPose.poseName)
-            model.applyPose(afterPose.poseName, state.statefulOverridePortion)
+            model.applyPose(afterPose.poseName, state.primaryOverridePortion)
         }
 
         return ratio < 1F

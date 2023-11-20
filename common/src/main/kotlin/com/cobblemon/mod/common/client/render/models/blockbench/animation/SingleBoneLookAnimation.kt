@@ -27,6 +27,7 @@ import net.minecraft.entity.Entity
  */
 class SingleBoneLookAnimation<T : Entity>(frame: HeadedFrame, val invertX: Boolean, val invertY: Boolean, val disableX: Boolean, val disableY: Boolean) : StatelessAnimation<T, HeadedFrame>(frame) {
     override val targetFrame: Class<HeadedFrame> = HeadedFrame::class.java
+    override var labels = setOf("look")
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val pitch = (if (invertX) -1 else 1) * headPitch.coerceIn(-45F, 70F)
         val yaw = (if (invertY) -1 else 1) * headYaw.coerceIn(-45F, 45F)

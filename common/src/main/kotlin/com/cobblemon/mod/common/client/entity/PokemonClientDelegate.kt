@@ -14,13 +14,11 @@ import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.api.scheduling.lerpOnClient
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.additives.EarBounceAdditive
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
-import java.lang.Float.min
-import kotlin.math.abs
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
 
@@ -43,14 +41,10 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         schedulingTracker.update(0F)
     }
 
-    var previousVerticalVelocity = 0F
     var beamStartTime = System.currentTimeMillis()
 
     val secondsSinceBeamEffectStarted: Float
         get() = (System.currentTimeMillis() - beamStartTime) / 1000F
-
-    private val minimumFallSpeed = -0.1F
-    private val intensityVelocityCap = -0.5F
 
     private var cryAnimation: StatefulAnimation<PokemonEntity, *>? = null
 
@@ -61,20 +55,17 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             currentEntity.pokemon.species = PokemonSpecies.getByIdentifier(Identifier(it))!! // TODO exception handling
         })
 
-//        currentEntity.subscriptions.add(currentEntity.nickname.subscribeIncludingCurrent {
-//            currentEntity.pokemon.nickname = it?.copy()
-//        })
-
         currentEntity.subscriptions.add(currentEntity.deathEffectsStarted.subscribe {
             if (it) {
                 val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
                 val animation = try { model.getFaintAnimation(currentEntity, this) } catch (e: Exception) { e.printStackTrace(); null } ?: return@subscribe
-                addStatefulAnimation(animation) { entityScaleModifier = 0F }
+                val primaryAnimation = PrimaryAnimation(animation)
+                after(seconds = 3F) { entityScaleModifier = 0F }
+                this.addPrimaryAnimation(primaryAnimation)
             }
         })
 
         currentEntity.subscriptions.add(currentEntity.labelLevel.subscribeIncludingCurrent { if (it > 0) currentEntity.pokemon.level = it })
-
         currentEntity.subscriptions.add(currentEntity.phasingTargetId.subscribe {
             if (it != -1) {
                 setPhaseTarget(it)
@@ -119,21 +110,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     }
 
     override fun tick(entity: PokemonEntity) {
-        val downSpeed = entity.velocity.y
-        if (downSpeed > previousVerticalVelocity && downSpeed > minimumFallSpeed) {
-            // Stopped falling
-            val highestFallVelocity = previousVerticalVelocity
-            if (abs(highestFallVelocity) > abs(minimumFallSpeed)) {
-                val intensity = abs(min(highestFallVelocity / intensityVelocityCap, 1F))
-                if (additives.none { it is EarBounceAdditive }) {
-                    additives.add(EarBounceAdditive(intensity, 18))
-                }
-            }
-        }
-
         updateLocatorPosition(entity.pos)
-        previousVerticalVelocity = entity.velocity.y.toFloat()
-
         incrementAge(entity)
     }
 

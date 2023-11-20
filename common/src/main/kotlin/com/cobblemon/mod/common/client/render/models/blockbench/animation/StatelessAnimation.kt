@@ -23,6 +23,7 @@ import net.minecraft.entity.Entity
  */
 abstract class StatelessAnimation<T : Entity, F : ModelFrame>(val frame: F) {
     abstract val targetFrame: Class<F>
+    open var labels: Set<String> = setOf()
     protected abstract fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float)
 
     fun apply(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {

@@ -50,16 +50,17 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charizard", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("charizard", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("charizard", "blink").setPreventsIdle(false)}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("charizard", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
-//            quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "ground_idle")
@@ -69,7 +70,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
-//            quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "ground_idle"),
@@ -80,7 +81,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         flyIdle = registerPose(
             poseName = "hover",
             poseType = PoseType.HOVER,
-//            quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "air_idle")
@@ -91,7 +92,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         fly = registerPose(
             poseName = "fly",
             poseType = PoseType.FLY,
-//            quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "air_fly")

@@ -11,8 +11,9 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.render.MatrixWrapper
-import com.cobblemon.mod.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockParticleKeyframe
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
@@ -34,10 +35,9 @@ import net.minecraft.util.math.Vec3d
 abstract class PoseableEntityState<T : Entity> : Schedulable {
     var currentModel: PoseableEntityModel<T>? = null
     var currentPose: String? = null
-    val primaryAnimation: StatefulAnimation<T, *>? = null
+    var primaryAnimation: PrimaryAnimation<T>? = null
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
-    val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     val poseParticles = mutableListOf<BedrockParticleKeyframe>()
     val runtime = MoLangRuntime().also {
         it.environment.structs["query"] = it.environment.structs["variable"]
@@ -49,7 +49,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
     protected var currentPartialTicks = 0F
 
     var poseTransitionPortion = 1F
-    var statefulOverridePortion = 1F
+    var primaryOverridePortion = 1F
 
     abstract fun getEntity(): T?
     fun getPartialTicks() = currentPartialTicks
@@ -112,10 +112,6 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         }
     }
 
-    fun applyAdditives(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?) {
-        additives.removeIf { !it.run(entity, model, state) }
-    }
-
     fun setStatefulAnimations(vararg animations: StatefulAnimation<T, out ModelFrame>) {
         statefulAnimations.clear()
         statefulAnimations.addAll(animations)
@@ -135,6 +131,14 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         }
     }
 
+    fun addPrimaryAnimation(primaryAnimation: PrimaryAnimation<T>) {
+        this.primaryAnimation = primaryAnimation
+        this.statefulAnimations.clear()
+        this.quirks.clear()
+        this.primaryOverridePortion = 1F
+        primaryAnimation.started = animationSeconds
+    }
+
     fun runEffects(entity: T, previousAge: Int, newAge: Int) {
         val previousSeconds = previousAge / 20F
         val currentSeconds = newAge / 20F
@@ -142,7 +146,26 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         currentModel?.let { model ->
             val pose = currentPose?.let(model::getPose)
             allStatefulAnimations.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
-            pose?.getApplicableIdleAnimations(entity, this)?.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
+            primaryAnimation?.animation?.applyEffects(entity, this, previousSeconds, currentSeconds)
+            pose?.idleAnimations?.filter { shouldIdleRun(it, 0.5F) }
+        }
+    }
+
+    fun shouldIdleRun(idleAnimation: StatelessAnimation<T, *>, requiredIntensity: Float): Boolean {
+        val primaryAnimation = primaryAnimation
+        return if (primaryAnimation != null) {
+            !primaryAnimation.prevents(idleAnimation) && this.primaryOverridePortion >= requiredIntensity
+        } else {
+            true
+        }
+    }
+
+    fun getIdleIntensity(idleAnimation: StatelessAnimation<T, *>): Float {
+        val primaryAnimation = primaryAnimation
+        return if (primaryAnimation != null && primaryAnimation.prevents(idleAnimation)) {
+            this.primaryOverridePortion
+        } else {
+            1F
         }
     }
 }
