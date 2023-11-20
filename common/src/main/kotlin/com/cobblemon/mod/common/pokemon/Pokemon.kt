@@ -700,7 +700,14 @@ open class Pokemon : ShowdownIdentifiable {
         val baseBerryCount = 20
 
         // returns value in seconds for the onSecondPassed function
-        return ((baseBerryCount - ((speed / BST) * baseBerryCount) * 4)     * 60)
+        // check for below 0 value and set to minimum to 1 minute
+        if (((baseBerryCount - ((speed / BST) * baseBerryCount) * 4)     * 60) <= 0) {
+            return 1    * 60
+        }
+        else {
+            return ((baseBerryCount - ((speed / BST) * baseBerryCount) * 4)     * 60)
+        }
+
 
 
         /*var baseSpeed = this.species.baseStats.getOrDefault(Stats.SPEED, 0)
