@@ -8,10 +8,12 @@
 
 package com.cobblemon.mod.common.block.fossilmachine
 
+import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
+import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
-import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -107,6 +109,25 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
         builder.add(PART)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun hasComparatorOutput(state: BlockState?): Boolean {
+        return true
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
+        if(world == null || pos == null) {
+            return 0
+        }
+        val tubeEntity = world.getBlockEntity(pos) as MultiblockEntity
+        if(tubeEntity.isRemoved) return 0
+        if (tubeEntity.multiblockStructure != null) {
+            val fossilMultiblockStructure: FossilMultiblockStructure = tubeEntity.multiblockStructure as FossilMultiblockStructure
+            return fossilMultiblockStructure.organicMaterialInside * 15 / 64
+        }
+        return 0
     }
 
     @Deprecated("Deprecated in Java")
