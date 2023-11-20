@@ -81,6 +81,7 @@ import net.minecraft.nbt.NbtString
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
@@ -1018,4 +1019,7 @@ class PokemonEntity(
     override fun canBeLeashedBy(player: PlayerEntity): Boolean {
         return this.ownerUuid == null || this.ownerUuid == player.uuid
     }
+
+    /** Retrieves the battle theme associated with this Pokemon's Species/Form, or the default PVW theme if not found. */
+    fun getBattleTheme() = Registries.SOUND_EVENT.get(this.form.battleTheme) ?: CobblemonSounds.PVW_BATTLE
 }

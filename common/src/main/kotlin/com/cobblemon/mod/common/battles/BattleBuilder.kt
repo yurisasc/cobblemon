@@ -129,7 +129,7 @@ object BattleBuilder {
                 if (!cloneParties) {
                     pokemonEntity.battleId.set(Optional.of(it.battleId))
                 }
-                playerActor.battleTheme = CobblemonSounds.PVW_BATTLE
+                playerActor.battleTheme = pokemonEntity.getBattleTheme()
             }
         } else {
             errors

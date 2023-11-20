@@ -98,6 +98,7 @@
 
 ### Datapack & Resourcepack Creators
 - Added 3 new item tags: `cobblemon:held/consumed_in_npc_battle`, `cobblemon:held/consumed_in_pvp_battle` & `cobblemon:held/consumed_in_wild_battle` these will determine which items get consumed in the implied battle types by Cobblemon, keep in mind the controller for this behaviour can be overriden by 3rd party.
+- Unique wild encounter themes can now be associated with a specific species (or form) by assigning a SoundEvent identifier to the `battleTheme` field in the species' data configuration.
 
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
