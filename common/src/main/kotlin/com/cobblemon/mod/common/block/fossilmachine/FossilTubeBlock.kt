@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.state.StateManager
@@ -26,10 +27,11 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
 
-class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
+class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), InventoryProvider {
     init {
         defaultState = defaultState
             .with(HorizontalFacingBlock.FACING, Direction.NORTH)
@@ -127,6 +129,17 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties) {
             shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.1875, 1.0))
             shape
         }
+    }
+    override fun getInventory(
+        state: BlockState,
+        world: WorldAccess,
+        pos: BlockPos
+    ): SidedInventory {
+        val tubeEntity =
+            (if (state.get(PART) == TubePart.TOP) world.getBlockEntity(pos.down())
+            else world.getBlockEntity(pos)) as FossilTubeBlockEntity
+
+        return tubeEntity.inv
     }
 
     enum class TubePart(private val label: String) : StringIdentifiable {

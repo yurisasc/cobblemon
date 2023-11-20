@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.fossil.Fossil
 import com.cobblemon.mod.common.api.fossil.Fossils
+import com.cobblemon.mod.common.api.fossil.NaturalMaterial
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockStructure
@@ -57,7 +58,8 @@ class FossilMultiblockStructure (
     override val controllerBlockPos = compartmentPos
 
     // TODO: API method for this
-    private var organicMaterialInside = 0
+    var organicMaterialInside = 0
+        private set
 
     var createdPokemon: Pokemon? = null
         private set
@@ -167,43 +169,28 @@ class FossilMultiblockStructure (
 
         // Check if the player is holding a natural material and if so, feed it to the machine.
         if (NaturalMaterials.isNaturalMaterial(stack)) {
-            val natureValue = NaturalMaterials.getContent(stack) ?: return ActionResult.FAIL
 
             if (timeRemaining > 0) return ActionResult.FAIL
 
             if (this.organicMaterialInside >= 64) return ActionResult.FAIL
-            val oldFillStage = organicMaterialInside / 8
 
-            // to prevent over filling the tank causing a crash
-            if ((organicMaterialInside + natureValue) > 64) {
-                organicMaterialInside = 64
-            }
-            else {
-                organicMaterialInside += natureValue
-            }
-
-
-
-            if (this.organicMaterialInside >= 64) {
-                player.playSound(CobblemonSounds.FOSSIL_MACHINE_DNA_FULL, SoundCategory.BLOCKS, 1.0F, 1.0F)
-            } else if (world.time - this.lastInteraction < 10) {
-                player.playSound(CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F)
-            } else {
-                player.playSound(CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA, SoundCategory.BLOCKS, 1.0F, 1.0F)
+            if (insertOrganicMaterial(stack, world)) {
+                if (this.organicMaterialInside >= 64) {
+                    world.playSoundAtBlockCenter(blockPos, CobblemonSounds.FOSSIL_MACHINE_DNA_FULL, SoundCategory.BLOCKS, 1.0F, 1.0F, false)
+                } else if (world.time - this.lastInteraction < 10) {
+                    world.playSoundAtBlockCenter(blockPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F, false)
+                } else {
+                    world.playSoundAtBlockCenter(blockPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA, SoundCategory.BLOCKS, 1.0F, 1.0F, false)
+                }
+                this.lastInteraction = world.time
+                if (!player.isCreative) {
+                    stack?.decrement(1)
+                    player.giveOrDropItemStack(ItemStack(Registries.ITEM.get(NaturalMaterials.getReturnItem(stack))), false)
+                }
+                return ActionResult.SUCCESS
             }
 
-            this.lastInteraction = world.time
-
-            if (!player.isCreative) {
-                stack?.decrement(1)
-                player.giveOrDropItemStack(ItemStack(Registries.ITEM.get(NaturalMaterials.getReturnItem(stack))), false)
-            }
-
-            this.markDirty(world)
-            if (oldFillStage != (organicMaterialInside / 8)) {
-                this.syncToClient(world)
-            }
-            return ActionResult.SUCCESS
+            return ActionResult.FAIL
         }
 
         return ActionResult.CONSUME
@@ -378,6 +365,25 @@ class FossilMultiblockStructure (
      */
     fun isRunning(): Boolean {
         return this.timeRemaining > 0
+    }
+
+    //Returns false if material wasnt inserted
+    fun insertOrganicMaterial(stack: ItemStack, world: World): Boolean {
+        val natureValue = NaturalMaterials.getContent(stack) ?: return false
+        val oldFillStage = organicMaterialInside / 8
+
+        // to prevent over filling the tank causing a crash
+        if ((organicMaterialInside + natureValue) > 64) {
+            organicMaterialInside = 64
+        }
+        else {
+            organicMaterialInside += natureValue
+        }
+        this.markDirty(world)
+        if (oldFillStage != (organicMaterialInside / 8)) {
+            this.syncToClient(world)
+        }
+        return true
     }
 
     override fun writeToNbt(): NbtCompound {
