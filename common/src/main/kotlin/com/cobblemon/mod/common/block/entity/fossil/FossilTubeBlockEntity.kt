@@ -84,6 +84,7 @@ class FossilTubeBlockEntity(
                 val structure = tubeEntity.multiblockStructure as FossilMultiblockStructure
                 return stack?.let { NaturalMaterials.isNaturalMaterial(it) } == true
                         && structure.organicMaterialInside < FossilMultiblockStructure.MATERIAL_TO_START
+                        && structure.createdPokemon == null
             }
             return false
         }

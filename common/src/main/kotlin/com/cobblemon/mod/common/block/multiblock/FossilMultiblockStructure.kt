@@ -169,19 +169,7 @@ class FossilMultiblockStructure (
 
         // Check if the player is holding a natural material and if so, feed it to the machine.
         if (NaturalMaterials.isNaturalMaterial(stack)) {
-
-            if (timeRemaining > 0) return ActionResult.FAIL
-
-            if (this.organicMaterialInside >= 64) return ActionResult.FAIL
-
             if (insertOrganicMaterial(stack, world)) {
-                if (this.organicMaterialInside >= 64) {
-                    world.playSoundAtBlockCenter(blockPos, CobblemonSounds.FOSSIL_MACHINE_DNA_FULL, SoundCategory.BLOCKS, 1.0F, 1.0F, false)
-                } else if (world.time - this.lastInteraction < 10) {
-                    world.playSoundAtBlockCenter(blockPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F, false)
-                } else {
-                    world.playSoundAtBlockCenter(blockPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA, SoundCategory.BLOCKS, 1.0F, 1.0F, false)
-                }
                 this.lastInteraction = world.time
                 if (!player.isCreative) {
                     stack?.decrement(1)
@@ -369,7 +357,10 @@ class FossilMultiblockStructure (
 
     //Returns false if material wasnt inserted
     fun insertOrganicMaterial(stack: ItemStack, world: World): Boolean {
-        val natureValue = NaturalMaterials.getContent(stack) ?: return false
+        val natureValue = NaturalMaterials.getContent(stack)
+        if (timeRemaining > 0 || this.organicMaterialInside >= 64 || natureValue == null) {
+            return false
+        }
         val oldFillStage = organicMaterialInside / 8
 
         // to prevent over filling the tank causing a crash
@@ -378,6 +369,13 @@ class FossilMultiblockStructure (
         }
         else {
             organicMaterialInside += natureValue
+        }
+        if (this.organicMaterialInside >= 64) {
+            world.playSound(null, this.tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_DNA_FULL, SoundCategory.BLOCKS, 1.0F, 1.0F)
+        } else if (world.time - this.lastInteraction < 10) {
+            world.playSound(null, this.tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F)
+        } else {
+            world.playSound(null, this.tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA, SoundCategory.BLOCKS, 1.0F, 1.0F)
         }
         this.markDirty(world)
         if (oldFillStage != (organicMaterialInside / 8)) {
