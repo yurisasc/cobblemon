@@ -25,10 +25,7 @@ import com.cobblemon.mod.common.block.fossilmachine.FossilMonitorBlock
 import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilState
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.giveOrDropItemStack
-import com.cobblemon.mod.common.util.lang
-import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.*
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntityTicker
@@ -40,6 +37,7 @@ import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtList
 import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -235,7 +233,16 @@ class FossilMultiblockStructure (
         }
 
 
+        // if the machine is broken while the pokemon is done then spawn the pokemon at the location and make it a wild pokemon
+        if (this.fossilState.growthState == "Fully Grown") {
+            //world.createExplosion(this.createdPokemon?.entity, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), 5F, World.ExplosionSourceType.TNT)
 
+            // instantiate the pokemon as a new entity and spawn it at the location of the machine
+            var wildPokemon = this.createdPokemon?.sendOut(world as ServerWorld, pos.toVec3d())
+
+            world.spawnEntity(wildPokemon)
+
+        }
 
 
         MinecraftClient.getInstance().soundManager.stopSounds(CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id, SoundCategory.BLOCKS)
@@ -327,6 +334,7 @@ class FossilMultiblockStructure (
     }
 
     fun stopMachine(world: World){
+        this.fossilState.growthState = "Fully Grown"
         this.timeRemaining = -1
         this.organicMaterialInside = 0
 
