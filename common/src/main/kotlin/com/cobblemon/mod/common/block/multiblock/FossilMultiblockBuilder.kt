@@ -117,7 +117,7 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
             Cobblemon.LOGGER.error("FossilMultiblockBuilder form called on invalid structure! This should never happen!")
             return
         }
-        val fossilMonitorPos = fossilMonitorPositions[fossilTubeIndex]!!
+        val fossilMonitorPos = fossilMonitorPositions[fossilTubeIndex]
         val fossilCompPos = fossilCompPositions[fossilTubeIndex]!!
         val fossilTubePos = fossilTubePositions[fossilTubeIndex]!!
         val monitorEntity = world.getBlockEntity(fossilMonitorPos) as MultiblockEntity
