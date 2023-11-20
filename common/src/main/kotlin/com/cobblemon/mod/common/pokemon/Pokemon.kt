@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.pokemon
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToPlayers
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.Abilities
@@ -551,8 +552,8 @@ open class Pokemon : ShowdownIdentifiable {
         this.moveSet.partialHeal()
 
         if (this.currentFullness > 0) {
-            // reduce current fullness of the pokemon by 75% of the capacity
-            this.loseFullness((this.getMaxFullness() * .75).toInt())
+            // reduce current fullness of the pokemon by 2
+            this.loseFullness(2)
         }
     }
 
@@ -591,9 +592,26 @@ open class Pokemon : ShowdownIdentifiable {
     // function to return the max hunger for the pokemon
     fun getMaxFullness(): Int {
         // get base HP stat of the referenced Pokemon
-        var baseHP = this.species.baseStats.getOrDefault(Stats.HP,0)
+        //var baseHP = this.species.baseStats.getOrDefault(Stats.HP,0)
 
-        return (baseFullness + scaleFullnessRates(baseHP))
+        // get weight of the pokemon
+        var weight = this.species.weight.toDouble()
+
+        //return (baseFullness + scaleFullnessRates(baseHP))
+        return ((getGrassKnotPower(weight) / 10 / 2) + 1)
+    }
+
+    // function to get grassKnot power based on weight (in Lbs)
+    fun getGrassKnotPower(weight: Double): Int {
+        return when {
+            weight in 0.1..21.8 -> 20
+            weight in 21.9..54.9 -> 40
+            weight in 55.0..110.1 -> 60
+            weight in 110.2..220.3 -> 80
+            weight in 220.4..440.8 -> 100
+            weight >= 440.9 -> 120
+            else -> 0 // For weights less than 0.1
+        }
     }
 
     // Method to add a new feeding time
@@ -621,8 +639,18 @@ open class Pokemon : ShowdownIdentifiable {
         if (this.currentFullness < 0) {
             this.currentFullness = 0
         }
+
+        // if Pokemon is Shuckle and it has at least 1 fullness then try to make it hold a Berry Juice
+        if (this.species.name == "Shuckle") {
+            // if it doesn't have an item already
+            if (this.heldItem.isEmpty) {
+                this.swapHeldItem(ItemStack(CobblemonItems.BERRY_JUICE))
+            }
+        }
+
     }
 
+    // DEPRECATED FOR NOW
     // function to scale Hunger based off of the base HP stat of a Pokemon
     fun scaleFullnessRates(stat: Int): Int {
         // lowest base HP stat of a pokemon before adding more hunger
@@ -654,7 +682,28 @@ open class Pokemon : ShowdownIdentifiable {
 
     // Amount of seconds that need to pass for the pokemon to lose 1 fullness value
     fun getMetabolismRate(): Int {
-        var baseSpeed = this.species.baseStats.getOrDefault(Stats.SPEED, 0)
+
+        val hp = this.species.baseStats.getOrDefault(Stats.HP,0)
+        val atk = this.species.baseStats.getOrDefault(Stats.ATTACK,0)
+        val spatk = this.species.baseStats.getOrDefault(Stats.SPECIAL_ATTACK,0)
+        val def = this.species.baseStats.getOrDefault(Stats.DEFENCE,0)
+        val spdef = this.species.baseStats.getOrDefault(Stats.SPECIAL_DEFENCE,0)
+        val speed = this.species.baseStats.getOrDefault(Stats.SPEED,0)
+
+        // Total base stats for the pokemon
+        val BST = hp + atk + spatk + def + spdef + speed
+
+        // multiplying scaling value
+        val multiplier = 4
+
+        //base berry count
+        val baseBerryCount = 20
+
+        // returns value in seconds for the onSecondPassed function
+        return ((baseBerryCount - ((speed / BST) * baseBerryCount) * 4)     * 60)
+
+
+        /*var baseSpeed = this.species.baseStats.getOrDefault(Stats.SPEED, 0)
 
         // maximum time it can take for a pokemon to lose 1 fullness
         val maxRate = 480
@@ -670,7 +719,7 @@ open class Pokemon : ShowdownIdentifiable {
         val metabolismRate = (maxRate - minRate) / (1 + Math.exp(steepness * (baseSpeed - metabolismInflection))) + minRate
 
         // Ensure the metabolism rate is within a reasonable range
-        return metabolismRate.toInt().coerceIn(minRate.toInt(), maxRate.toInt())
+        return metabolismRate.toInt().coerceIn(minRate.toInt(), maxRate.toInt())*/
     }
 
     // Boolean function that checks if a Pokemon can eat food based on fedTimes

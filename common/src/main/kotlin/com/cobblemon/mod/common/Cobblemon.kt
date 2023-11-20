@@ -369,7 +369,8 @@ object Cobblemon {
         LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
         TRADE_COMPLETED.subscribe { AdvancementHandler.onTradeCompleted(it) }
 
-        BATTLE_FAINTED.subscribe { BellyHandler.onFaint(it) }
+        //BATTLE_FAINTED.subscribe { BellyHandler.onFaint(it) }
+        BATTLE_VICTORY.subscribe { BellyHandler.onVictory(it) }
 
         BagItems.observable.subscribe {
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
