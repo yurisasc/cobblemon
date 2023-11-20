@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
@@ -96,6 +97,8 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
 
     fun setPose(pose: String) {
         currentPose = pose
+        poseTransitionPortion = 1F
+        primaryOverridePortion = 1F
         val model = currentModel
         if (model != null) {
             val poseImpl = model.getPose(pose) ?: return

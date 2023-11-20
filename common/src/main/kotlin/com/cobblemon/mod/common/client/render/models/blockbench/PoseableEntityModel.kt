@@ -8,9 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
+import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
@@ -433,7 +435,9 @@ abstract class PoseableEntityModel<T : Entity>(
 
             // If this condition matches then it just no longer fits this pose
             if (pose != null && poseName != null) {
-                moveToPose(entity, state, desirablePose)
+                if (state.primaryAnimation == null) {
+                    moveToPose(entity, state, desirablePose)
+                }
             } else {
                 pose = desirablePose
                 poseName = desirablePose.poseName
@@ -461,11 +465,12 @@ abstract class PoseableEntityModel<T : Entity>(
             state.primaryOverridePortion = 1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
             if (!primaryAnimation.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1 - state.primaryOverridePortion)) {
                 state.primaryAnimation = null
+                state.primaryOverridePortion = 1F
             }
         }
 
         val removedStatefuls = state.statefulAnimations.toList()
-            .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.poseTransitionPortion * state.primaryOverridePortion) }
+            .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F) }
         state.statefulAnimations.removeAll(removedStatefuls)
         state.currentPose?.let { getPose(it) }
             ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.poseTransitionPortion * state.primaryOverridePortion)
@@ -506,8 +511,10 @@ abstract class PoseableEntityModel<T : Entity>(
                     state.setPose(desirablePose.poseName)
                 }
             } else if (transition != null) {
-                state.addStatefulAnimation(transition(previousPose, desirablePose)) {
-                    println("Transition complete! Setting pose")
+                val animation = transition(previousPose, desirablePose)
+                val primaryAnimation = PrimaryAnimation(animation, curve = { 1F })
+                state.addPrimaryAnimation(primaryAnimation)
+                afterOnClient(seconds = primaryAnimation.duration) {
                     state.setPose(desirablePose.poseName)
                 }
             } else {
