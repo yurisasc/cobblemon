@@ -69,6 +69,7 @@ open class PokemonBattle(
         side1.battle = this
         side2.battle = this
         this.actors.forEach { actor ->
+            actor.battle = this
             actor.pokemonList.forEach { battlePokemon ->
                 battlePokemon.effectedPokemon.evolutionProxy.current().progress()
                     .filterIsInstance<LastBattleCriticalHitsEvolutionProgress>()

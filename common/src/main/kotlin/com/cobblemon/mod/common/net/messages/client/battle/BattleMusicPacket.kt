@@ -8,14 +8,9 @@
 
 package com.cobblemon.mod.common.net.messages.client.battle
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.getPlayer
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundEvent
@@ -29,7 +24,7 @@ import net.minecraft.sound.SoundEvent
  * @author Segfault Guy
  * @since April 20th, 2023
  */
-class BattleMusicPacket : NetworkPacket<BattleMusicPacket> {
+class BattleMusicPacket(var music : SoundEvent? = null, var volume: Float = 1.0f, var pitch: Float = 1.0f) : NetworkPacket<BattleMusicPacket> {
     companion object {
         val ID = cobblemonResource("battle_music")
         fun decode(buffer: PacketByteBuf) =  BattleMusicPacket(
@@ -40,33 +35,6 @@ class BattleMusicPacket : NetworkPacket<BattleMusicPacket> {
     }
 
     override val id = ID
-
-    var music : SoundEvent? = null
-    var volume = 1.0f
-    var pitch = 1.0f
-
-    constructor(music: SoundEvent?, volume: Float = 1.0f, pitch: Float = 1.0f) {
-        this.music = music
-        this.volume = volume
-        this.pitch = pitch
-    }
-
-    constructor(opposingSide: BattleSide, volume: Float = 1.0f, pitch: Float = 1.0f) {
-        val battle = opposingSide.battle
-        this.music = if (battle.isPvP) {
-            val player = opposingSide.actors.flatMap { actor -> actor.getPlayerUUIDs().mapNotNull { id -> id.getPlayer() } }.random()
-            val theme = Cobblemon.playerData.get(player).battleTheme
-            theme?.let { Registries.SOUND_EVENT.get(it) } ?: CobblemonSounds.PVP_BATTLE
-        }
-        else if (battle.isPvN) {
-            CobblemonSounds.PVN_BATTLE
-        }
-        else {
-            CobblemonSounds.PVW_BATTLE
-        }
-        this.volume = volume
-        this.pitch = pitch
-    }
 
     override fun encode(buffer: PacketByteBuf) {
         music?.let { buffer.writeIdentifier(it.id) } ?: buffer.writeIdentifier("".asIdentifierDefaultingNamespace())

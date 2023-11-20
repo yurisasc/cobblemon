@@ -16,9 +16,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import net.minecraft.client.MinecraftClient
 
 /**
- * The handler for [BattleMusicPacket]s.
- *
- * Interfaces with [BattleMusicController] to change battle music.
+ * The handler for [BattleMusicPacket]s. Interfaces with [BattleMusicController] to change battle music.
  *
  * @author Segfault Guy
  * @since April 22nd, 2023

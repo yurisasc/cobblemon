@@ -26,7 +26,7 @@ import net.minecraft.util.math.MathHelper
  * @author Segfault Guy
  * @since April 22nd, 2023
  */
-class BattleMusicInstance(sound: SoundEvent, volume: Float, pitch: Float) :
+class BattleMusicInstance(sound: SoundEvent, volume: Float = 1.0F, pitch: Float = 1.0F) :
         PositionedSoundInstance(sound, SoundCategory.MUSIC, volume, pitch, SoundInstance.createRandom(), BlockPos.ORIGIN), TickableSoundInstance {
 
     private val soundManager = MinecraftClient.getInstance().soundManager;

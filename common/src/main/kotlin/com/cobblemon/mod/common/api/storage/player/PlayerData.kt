@@ -41,7 +41,7 @@ data class PlayerData(
             starterSelected =  false,
             starterUUID =  null,
             keyItems = mutableSetOf(),
-            battleTheme = null,
+            battleTheme = CobblemonSounds.PVP_BATTLE.id,
             extraData = mutableMapOf()
         )
     }
