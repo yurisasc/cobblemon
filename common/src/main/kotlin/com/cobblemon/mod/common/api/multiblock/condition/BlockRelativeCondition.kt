@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.api.multiblock.condition
 import com.cobblemon.mod.common.util.blockPositionsAsList
 import net.minecraft.predicate.BlockPredicate
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 
@@ -33,10 +32,12 @@ class BlockRelativeCondition(
     val directionsToCheck: Array<Direction> = Direction.values()
 ) : MultiblockCondition {
     override fun test(world: ServerWorld, box: VoxelShape): Boolean {
-        val relToBlockBlockPos = box.blockPositionsAsList().filter { relToBlock.test(world, it) }.randomOrNull() ?: return false
-        directionsToCheck.forEach {
-            if (targetBlock.test(world, relToBlockBlockPos.offset(it))) {
-                return true
+        val relToBlockBlockPositions = box.blockPositionsAsList().filter { relToBlock.test(world, it) }
+        relToBlockBlockPositions.forEach { pos ->
+            directionsToCheck.forEach {
+                if (targetBlock.test(world, pos.offset(it))) {
+                    return true
+                }
             }
         }
         return false
