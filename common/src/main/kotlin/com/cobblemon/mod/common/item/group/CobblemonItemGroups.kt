@@ -250,6 +250,8 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.JOLLY_MINT)
         entries.add(CobblemonItems.NAIVE_MINT)
         entries.add(CobblemonItems.SERIOUS_MINT)
+
+        entries.add(CobblemonItems.MOOMOO_MILK)
     }
 
     private fun evolutionItemEntries(displayContext: DisplayContext, entries: Entries) {
