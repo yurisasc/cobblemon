@@ -578,10 +578,32 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
-    // fullness may decrease after certain actions
-    // sleeping ( 75% )
-    // battling ( 1 fullness)
-    // playing
+
+    //last time this pokemon was milked (this will increase overtime)
+    var lastMilked = 0
+
+    // reset the lastMilked timer whenever this pokemon is milked
+    fun milk() {
+        lastMilked = 0
+    }
+
+    // returns true depending on the type of pokemon
+    fun isMilkable(pokemon: Pokemon): Boolean {
+        if (
+            pokemon.species.name == "Miltank" ||
+            pokemon.species.name == "Camerupt" ||
+            pokemon.species.name == "Vespiqueen" ||
+            pokemon.species.name == "Combee" ||
+            (pokemon.species.name == "Gogoat" && pokemon.gender.name == "Female") ||
+            (pokemon.species.name == "Bouffalant" && pokemon.gender.name == "Female")
+        ) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
 
     // Value of current Fullness level
     var currentFullness = 0
@@ -757,6 +779,11 @@ open class Pokemon : ShowdownIdentifiable {
     open fun onSecondPassed(player: ServerPlayerEntity, pokemon: Pokemon) {
         // have metabolism cycle increase each second
         metabolismCycle += 1
+
+        // set cap for lastMilked to save on resources potentially  [CURRENTLY SET TO 3 HOURS]
+        if (lastMilked != 10800) {
+            lastMilked += 1
+        }
 
         // if the metabolismCycle value equals the Pokemon's metabolism rate then decrease Fullness by 1
         if (metabolismCycle >= pokemon.getMetabolismRate()) {

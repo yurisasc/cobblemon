@@ -8,11 +8,8 @@
 
 package com.cobblemon.mod.common.entity.pokemon
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonEntities
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
-import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -563,6 +560,28 @@ class PokemonEntity(
                 player.setStackInHand(hand, milkBucket)
                 return ActionResult.success(world.isClient)
             }
+            //Camerupt gives Lava Bucket if player uses Bucket on it
+            else if (pokemon.species.name == "Camerupt" && pokemon.lastMilked >= 120) {
+                player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
+                val lavaBucket = ItemUsage.exchangeStack(itemStack, player, Items.LAVA_BUCKET.defaultStack)
+                player.setStackInHand(hand, lavaBucket)
+                pokemon.milk()
+                return ActionResult.success(world.isClient)
+            }
+            //Gogoat gives Milk Bucket if player uses Bucket on it
+            else if (pokemon.species.name == "Gogoat" && pokemon.gender.name == "Female") {
+                player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
+                val milkBucket = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.defaultStack)
+                player.setStackInHand(hand, milkBucket)
+                return ActionResult.success(world.isClient)
+            }
+            //Bouffalant  gives Milk Bucket if player uses Bucket on it
+            else if (pokemon.species.name == "Bouffalant" && pokemon.gender.name == "Female") {
+                player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
+                val milkBucket = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.defaultStack)
+                player.setStackInHand(hand, milkBucket)
+                return ActionResult.success(world.isClient)
+            }
         } else if (itemStack.isOf(Items.BOWL)) {
             if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.IS_MOOSHTANK) != null) {
                 player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
@@ -570,6 +589,21 @@ class PokemonEntity(
                 player.setStackInHand(hand, mushroomStew)
                 return ActionResult.success(world.isClient)
             }
+        } else if (itemStack.isOf(Items.GLASS_BOTTLE)) {
+            if ((pokemon.species.name == "Vespiqueen" || pokemon.species.name == "Combee") && pokemon.lastMilked >= 120) {
+                player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
+                val honeyBottle = ItemUsage.exchangeStack(itemStack, player, Items.HONEY_BOTTLE.defaultStack)
+                player.setStackInHand(hand, honeyBottle)
+                pokemon.milk()
+                return ActionResult.success(world.isClient)
+            }
+            /*//Miltank gives MooMoo Milk if player uses Glass Bottle on it
+            else if (pokemon.species.name == "Miltank"  && pokemon.lastMilked >= 900) {
+                player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
+                val moomooMilk = ItemUsage.exchangeStack(itemStack, player, CobblemonItems.MOOMOO_MILK.defaultStack)
+                player.setStackInHand(hand, moomooMilk)
+                return ActionResult.success(world.isClient)
+            }*/
         }
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
