@@ -369,6 +369,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val SUPERB_REMEDY = create("superb_remedy", RemedyItem(RemedyItem.SUPERB))
 
     @JvmField
+    val MOOMOO_MILK = create("moomoo_milk", Item(Item.Settings()))
+
+    @JvmField
     val POTION = create("potion", PotionItem(PotionType.POTION))
     @JvmField
     val SUPER_POTION = create("super_potion", PotionItem(PotionType.SUPER_POTION))
