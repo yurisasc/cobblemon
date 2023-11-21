@@ -561,7 +561,7 @@ class PokemonEntity(
                 return ActionResult.success(world.isClient)
             }
             //Camerupt gives Lava Bucket if player uses Bucket on it
-            else if (pokemon.species.name == "Camerupt" && pokemon.lastMilked >= 120) {
+            else if (pokemon.species.name == "Camerupt" && pokemon.lastMilked >= 900) {
                 player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
                 val lavaBucket = ItemUsage.exchangeStack(itemStack, player, Items.LAVA_BUCKET.defaultStack)
                 player.setStackInHand(hand, lavaBucket)
@@ -598,7 +598,7 @@ class PokemonEntity(
                 return ActionResult.success(world.isClient)
             }
         } else if (itemStack.isOf(Items.GLASS_BOTTLE)) {
-            if ((pokemon.species.name == "Vespiqueen" || pokemon.species.name == "Combee") && pokemon.lastMilked >= 120) {
+            if ((pokemon.species.name == "Vespiqueen") && pokemon.lastMilked >= 900) {
                 player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
                 val honeyBottle = ItemUsage.exchangeStack(itemStack, player, Items.HONEY_BOTTLE.defaultStack)
                 player.setStackInHand(hand, honeyBottle)
@@ -610,6 +610,7 @@ class PokemonEntity(
                 player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
                 val moomooMilk = ItemUsage.exchangeStack(itemStack, player, CobblemonItems.MOOMOO_MILK.defaultStack)
                 player.setStackInHand(hand, moomooMilk)
+                pokemon.milk()
                 return ActionResult.success(world.isClient)
             }
         }

@@ -791,8 +791,8 @@ open class Pokemon : ShowdownIdentifiable {
         metabolismCycle += 1
 
         // set cap for lastMilked to save on resources potentially  [CURRENTLY SET TO 3 HOURS]
-        if (lastMilked != 10800) {
-            lastMilked += 1
+        if (pokemon.lastMilked != 10800) {
+            pokemon.lastMilked += 1
         }
 
         // if the metabolismCycle value equals the Pokemon's metabolism rate then decrease Fullness by 1
