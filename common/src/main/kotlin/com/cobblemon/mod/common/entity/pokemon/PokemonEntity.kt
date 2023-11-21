@@ -589,6 +589,14 @@ class PokemonEntity(
                 player.setStackInHand(hand, mushroomStew)
                 return ActionResult.success(world.isClient)
             }
+            //Shuckle uses its Berry Juice meter to dispense Berry Juice if a player uses Wooden Bowl on it
+            else if (pokemon.species.name == "Shuckle" && pokemon.berryJuiceMeter > 0) {
+                player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
+                val berryJuice = ItemUsage.exchangeStack(itemStack, player, CobblemonItems.BERRY_JUICE.defaultStack)
+                player.setStackInHand(hand, berryJuice)
+                pokemon.getBerryJuice()
+                return ActionResult.success(world.isClient)
+            }
         } else if (itemStack.isOf(Items.GLASS_BOTTLE)) {
             if ((pokemon.species.name == "Vespiqueen" || pokemon.species.name == "Combee") && pokemon.lastMilked >= 120) {
                 player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)

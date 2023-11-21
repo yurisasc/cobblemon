@@ -579,6 +579,15 @@ open class Pokemon : ShowdownIdentifiable {
     }
 
 
+    // code for Shuckle Berry Juice farming
+    var berryJuiceMeter = 0
+
+    fun getBerryJuice() {
+        if (berryJuiceMeter != 0) {
+            berryJuiceMeter -= 1
+        }
+    }
+
     //last time this pokemon was milked (this will increase overtime)
     var lastMilked = 0
 
@@ -586,6 +595,9 @@ open class Pokemon : ShowdownIdentifiable {
     fun milk() {
         lastMilked = 0
     }
+
+
+
 
     // returns true depending on the type of pokemon
     fun isMilkable(pokemon: Pokemon): Boolean {
@@ -644,9 +656,16 @@ open class Pokemon : ShowdownIdentifiable {
             this.currentFullness = 0
         }
 
-        // if pokemon is full then no food
-        if (this.isFull() == false)
+        // if pokemon is not full then feed
+        if (this.isFull() == false) {
             this.currentFullness += feedCount
+
+            // if that pokemon is Shuckle and the berry juice meter if not full then increase the berry juice meter
+            if (this.species.name == "Shuckle" && this.berryJuiceMeter < 12){
+                this.berryJuiceMeter += 1
+            }
+        }
+
 
         // pokemon was fed the first berry so we should reset their metabolism cycle so there is no inconsistencies
         if (this.currentFullness == 1) {
