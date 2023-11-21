@@ -596,8 +596,19 @@ open class Pokemon : ShowdownIdentifiable {
         lastMilked = 0
     }
 
+    // Silly Magikarp Jump mechanics
 
+    var jumpPower = 0.0
 
+    // reset Magikarp Jump Power
+    fun resetJumpPower() {
+        this.jumpPower = 0.0
+    }
+
+    // function to add incremental jump power to Magikarp
+    fun addJumpPower(value: Double) {
+        this.jumpPower = value / 100
+    }
 
     // returns true depending on the type of pokemon
     fun isMilkable(pokemon: Pokemon): Boolean {
@@ -665,6 +676,11 @@ open class Pokemon : ShowdownIdentifiable {
         // pokemon was fed the first berry so we should reset their metabolism cycle so there is no inconsistencies
         if (this.currentFullness == 1) {
             this.resetMetabolismCycle()
+        }
+
+        // Every time Magikarp gets fed his JumpPower increases
+        if (this.species.name == "Magikarp") {
+            this.addJumpPower(feedCount.toDouble())
         }
     }
 
