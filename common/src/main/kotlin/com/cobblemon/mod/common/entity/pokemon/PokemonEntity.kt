@@ -605,13 +605,13 @@ class PokemonEntity(
                 pokemon.milk()
                 return ActionResult.success(world.isClient)
             }
-            /*//Miltank gives MooMoo Milk if player uses Glass Bottle on it
+            //Miltank gives MooMoo Milk if player uses Glass Bottle on it
             else if (pokemon.species.name == "Miltank"  && pokemon.lastMilked >= 900) {
                 player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
                 val moomooMilk = ItemUsage.exchangeStack(itemStack, player, CobblemonItems.MOOMOO_MILK.defaultStack)
                 player.setStackInHand(hand, moomooMilk)
                 return ActionResult.success(world.isClient)
-            }*/
+            }
         }
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {

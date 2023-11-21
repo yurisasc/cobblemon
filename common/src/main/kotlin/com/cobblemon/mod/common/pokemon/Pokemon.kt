@@ -583,8 +583,8 @@ open class Pokemon : ShowdownIdentifiable {
     var berryJuiceMeter = 0
 
     fun getBerryJuice() {
-        if (berryJuiceMeter != 0) {
-            berryJuiceMeter -= 1
+        if (this.berryJuiceMeter != 0) {
+            this.berryJuiceMeter -= 1
         }
     }
 
@@ -681,7 +681,6 @@ open class Pokemon : ShowdownIdentifiable {
         if (this.species.name == "Shuckle" && this.berryJuiceMeter < 12){
             this.berryJuiceMeter += 1
         }
-
     }
 
     // DEPRECATED FOR NOW
