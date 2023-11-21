@@ -127,9 +127,9 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
         val structure = FossilMultiblockStructure(fossilMonitorPos, fossilCompPos, fossilTubePos)
 
         structure.tubeConnectorDirection = dirsToCheck.filter {
-            val adjState = world.getBlockState(fossilTubePos.offset(it))
-            return@filter adjState.block is FossilCompartmentBlock
-        }.random()
+            val adjPos = fossilTubePos.offset(it)
+            return@filter adjPos == fossilCompPos
+        }.first()
 
         compEntity.multiblockStructure = structure
         tubeBaseEntity.multiblockStructure = structure
