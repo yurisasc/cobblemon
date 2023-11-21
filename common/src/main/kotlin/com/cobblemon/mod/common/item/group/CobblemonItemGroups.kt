@@ -278,22 +278,6 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.JOLLY_MINT)
         entries.add(CobblemonItems.NAIVE_MINT)
         entries.add(CobblemonItems.SERIOUS_MINT)
-
-        entries.add(CobblemonItems.HELIX_FOSSIL)
-        entries.add(CobblemonItems.DOME_FOSSIL)
-        entries.add(CobblemonItems.OLD_AMBER_FOSSIL)
-        entries.add(CobblemonItems.ROOT_FOSSIL)
-        entries.add(CobblemonItems.CLAW_FOSSIL)
-        entries.add(CobblemonItems.SKULL_FOSSIL)
-        entries.add(CobblemonItems.ARMOR_FOSSIL)
-        entries.add(CobblemonItems.COVER_FOSSIL)
-        entries.add(CobblemonItems.PLUME_FOSSIL)
-        entries.add(CobblemonItems.JAW_FOSSIL)
-        entries.add(CobblemonItems.SAIL_FOSSIL)
-        entries.add(CobblemonItems.BIRD_FOSSIL)
-        entries.add(CobblemonItems.FISH_FOSSIL)
-        entries.add(CobblemonItems.DRAKE_FOSSIL)
-        entries.add(CobblemonItems.DINO_FOSSIL)
     }
 
     private fun evolutionItemEntries(displayContext: DisplayContext, entries: Entries) {
