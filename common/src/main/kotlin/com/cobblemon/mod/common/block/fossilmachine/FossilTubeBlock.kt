@@ -125,7 +125,7 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
         if(tubeEntity.isRemoved) return 0
         if (tubeEntity.multiblockStructure != null) {
             val fossilMultiblockStructure: FossilMultiblockStructure = tubeEntity.multiblockStructure as FossilMultiblockStructure
-            return fossilMultiblockStructure.organicMaterialInside * 15 / 64
+            return fossilMultiblockStructure.organicMaterialInside * 15 / FossilMultiblockStructure.MATERIAL_TO_START
         }
         return 0
     }

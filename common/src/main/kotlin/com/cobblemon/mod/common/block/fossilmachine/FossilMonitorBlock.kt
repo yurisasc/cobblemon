@@ -10,7 +10,9 @@ package com.cobblemon.mod.common.block.fossilmachine
 
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
+import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
@@ -23,6 +25,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
+import net.minecraft.world.World
 
 class FossilMonitorBlock(properties: Settings) : MultiblockBlock(properties) {
     init {
@@ -45,6 +48,31 @@ class FossilMonitorBlock(properties: Settings) : MultiblockBlock(properties) {
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
         builder.add(PROGRESS)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun hasComparatorOutput(state: BlockState?): Boolean {
+        return true
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
+        if(world == null || pos == null) {
+            return 0
+        }
+        val monitorEntity = world.getBlockEntity(pos) as MultiblockEntity
+        if(monitorEntity.isRemoved) return 0
+        if (monitorEntity.multiblockStructure != null) {
+            val fossilMultiblockStructure: FossilMultiblockStructure = monitorEntity.multiblockStructure as FossilMultiblockStructure
+            if(fossilMultiblockStructure.createdPokemon != null) {
+                return 15
+            }
+            if(!fossilMultiblockStructure.isRunning()) {
+                return 0
+            }
+            return Math.max(15 - fossilMultiblockStructure.timeRemaining * 15 / FossilMultiblockStructure.TIME_TO_TAKE, 1)
+        }
+        return 0
     }
 
     override fun getOutlineShape(
