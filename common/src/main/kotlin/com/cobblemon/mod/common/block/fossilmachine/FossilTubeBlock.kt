@@ -20,11 +20,14 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
+import net.minecraft.state.property.Properties
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
@@ -38,7 +41,9 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
         defaultState = defaultState
             .with(HorizontalFacingBlock.FACING, Direction.NORTH)
             .with(PART, TubePart.BOTTOM)
+            .with(TRIGGERED, false)
     }
+
 
     fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
         return if (state.get(PART) == TubePart.BOTTOM) {
@@ -109,10 +114,13 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
         builder.add(PART)
+        builder.add(TRIGGERED)
+
     }
 
     @Deprecated("Deprecated in Java")
     override fun hasComparatorOutput(state: BlockState?): Boolean {
+        // TODO: return false if not attached to a multiblock structure
         return true
     }
 
@@ -124,6 +132,7 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
         val tubeEntity = world.getBlockEntity(pos) as MultiblockEntity
         if(tubeEntity.isRemoved) return 0
         if (tubeEntity.multiblockStructure != null) {
+            //TODO: add getComparatorOutput to interface to eliminate downcast, may need to parameter in the block type
             val fossilMultiblockStructure: FossilMultiblockStructure = tubeEntity.multiblockStructure as FossilMultiblockStructure
             return fossilMultiblockStructure.organicMaterialInside * 15 / FossilMultiblockStructure.MATERIAL_TO_START
         }
@@ -133,6 +142,31 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
     @Deprecated("Deprecated in Java")
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos?, newState: BlockState, moved: Boolean) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, sourceBlock: Block?, sourcePos: BlockPos?, notify: Boolean) {
+        val bl = world.isReceivingRedstonePower(pos) || world.isReceivingRedstonePower(pos.up())
+        val bl2 = state.get(TRIGGERED)
+        if (bl && !bl2) {
+            world.scheduleBlockTick(pos, this, 4)
+            world.setBlockState(pos, state.with(TRIGGERED, true) as BlockState, NO_REDRAW)
+        } else if (!bl && bl2) {
+            world.setBlockState(pos, state.with(TRIGGERED, false) as BlockState, NO_REDRAW)
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun scheduledTick(state: BlockState?, world: ServerWorld?, pos: BlockPos?, random: Random?) {
+        if(world == null || pos == null) {
+            return
+        }
+        val tubeEntity = world.getBlockEntity(pos) as MultiblockEntity
+        if (tubeEntity.multiblockStructure != null) {
+            //TODO: onRedstoneTriggerEvent to interface to eliminate downcast
+            val fossilMultiblockStructure: FossilMultiblockStructure = tubeEntity.multiblockStructure as FossilMultiblockStructure
+            fossilMultiblockStructure.onRedstoneTriggerEvent(world, pos)
+        }
     }
 
     override fun getOutlineShape(
@@ -171,5 +205,6 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
 
     companion object {
         val PART = EnumProperty.of("part", TubePart::class.java)
+        val TRIGGERED = Properties.TRIGGERED
     }
 }

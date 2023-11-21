@@ -52,6 +52,7 @@ class FossilMonitorBlock(properties: Settings) : MultiblockBlock(properties) {
 
     @Deprecated("Deprecated in Java")
     override fun hasComparatorOutput(state: BlockState?): Boolean {
+        // TODO: return false if not attached to a multiblock structure
         return true
     }
 
@@ -63,6 +64,7 @@ class FossilMonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         val monitorEntity = world.getBlockEntity(pos) as MultiblockEntity
         if(monitorEntity.isRemoved) return 0
         if (monitorEntity.multiblockStructure != null) {
+            //TODO: add getComparatorOutput to interface to eliminate downcast, may need to parameter in the block type
             val fossilMultiblockStructure: FossilMultiblockStructure = monitorEntity.multiblockStructure as FossilMultiblockStructure
             if(fossilMultiblockStructure.createdPokemon != null) {
                 return 15

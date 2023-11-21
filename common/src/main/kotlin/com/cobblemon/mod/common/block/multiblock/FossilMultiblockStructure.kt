@@ -13,30 +13,31 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.fossil.Fossil
 import com.cobblemon.mod.common.api.fossil.Fossils
-import com.cobblemon.mod.common.api.fossil.NaturalMaterial
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockStructure
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
-import com.cobblemon.mod.common.block.entity.fossil.FossilCompartmentBlockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
-import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
 import com.cobblemon.mod.common.block.fossilmachine.FossilMonitorBlock
 import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilState
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.*
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.client.MinecraftClient
+import net.minecraft.entity.EntityPose
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtList
 import net.minecraft.registry.Registries
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
@@ -46,8 +47,10 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import kotlin.math.ceil
 
 class FossilMultiblockStructure (
     val monitorPos: BlockPos,
@@ -56,6 +59,7 @@ class FossilMultiblockStructure (
 ) : MultiblockStructure {
 
     override val controllerBlockPos = compartmentPos
+
 
     // TODO: API method for this
     var organicMaterialInside = 0
@@ -182,6 +186,88 @@ class FossilMultiblockStructure (
         }
 
         return ActionResult.CONSUME
+    }
+
+    public fun spawn(world: World, pos: BlockPos, directionToBehind: Direction, pokemon: Pokemon) : Boolean {
+        val world = world ?: return false
+        val entity = PokemonEntity(world, pokemon = pokemon)
+        entity.calculateDimensions()
+        val width = entity.boundingBox.xLength
+
+        val idealPlace = pos.add(directionToBehind.vector.multiply(ceil(width).toInt() + 1))
+        var box = entity.getDimensions(EntityPose.STANDING).getBoxAt(idealPlace.toCenterPos().subtract(0.0, 0.5, 0.0))
+
+        for (i in 0..5) {
+            box = box.offset(directionToBehind.vector.x.toDouble(), 0.0, directionToBehind.vector.z.toDouble())
+            val fixedPosition = makeSuitableY(world, idealPlace.add(directionToBehind.vector), entity, box)
+            if (fixedPosition != null) {
+                entity.setPosition(fixedPosition.toCenterPos().subtract(0.0, 0.5, 0.0))
+                // TODO: Find a correct way to set the new entity's Yaw rotation. (Face away from the machine)
+                if (world.spawnEntity(entity)) {
+                    return true
+                } else {
+                    Cobblemon.LOGGER.warn("Couldn't spawn resurrected Pokémon for some reason")
+                }
+                break
+            }
+        }
+        return false
+    }
+
+    fun isSafeFloor(world: World, pos: BlockPos, entity: PokemonEntity): Boolean {
+        val state = world.getBlockState(pos)
+        return if (state.isAir) {
+            false
+        } else if (state.hasSolidTopSurface(world, pos, entity) || state.isSolidSurface(world, pos, entity, Direction.DOWN)) {
+            true
+        } else if ((entity.behaviour.moving.swim.canWalkOnWater || entity.behaviour.moving.swim.canSwimInWater) && state.fluidState.isIn(FluidTags.WATER)) {
+            true
+        } else {
+            (entity.behaviour.moving.swim.canWalkOnLava || entity.behaviour.moving.swim.canSwimInLava) && state.fluidState.isIn(FluidTags.LAVA)
+        }
+    }
+
+    fun makeSuitableY(world: World, pos: BlockPos, entity: PokemonEntity, box: Box): BlockPos? {
+        if (world.canCollide(entity, box)) {
+            for (i in 1..15) {
+                val newBox = box.offset(0.5, i.toDouble(), 0.5)
+
+                if (!world.canCollide(entity, newBox) && isSafeFloor(world, pos.add(0, i - 1, 0), entity)) {
+                    return pos.add(0, i, 0)
+                }
+            }
+        } else {
+            for (i in 1..15) {
+                val newBox = box.offset(0.5, -i.toDouble(), 0.5)
+
+                if (world.canCollide(entity, newBox) && isSafeFloor(world, pos.add(0, -i, 0), entity)) {
+                    return pos.add(0, -i + 1, 0)
+                }
+            }
+        }
+
+        return null
+    }
+
+    fun onRedstoneTriggerEvent(world: World, pos: BlockPos) {
+        // TODO: Enable additional check once it's possible to hopper in a fossil
+        if (this.fossilState.growthState == "Fully Grown" /* && this.protectionTime < 0 */) {
+            // instantiate the pokemon as a new entity and spawn it at the location of the machine
+            val wildPokemon: Pokemon = this.createdPokemon ?: return
+            val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
+            val state = world.getBlockState(monitorEntity.pos)
+            val direction = state.get(HorizontalFacingBlock.FACING).getOpposite()
+            val success = this.spawn(world, pos, direction, wildPokemon)
+            if(success) {
+                this.fossilState.growthState = "Taken"
+                this.createdPokemon = null
+                this.fossilOwner = null
+                this.protectionTime = -1
+                this.updateFossilType(world)
+                this.syncToClient(world)
+                this.markDirty(world)
+            }
+        }
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
@@ -358,19 +444,19 @@ class FossilMultiblockStructure (
     //Returns false if material wasnt inserted
     fun insertOrganicMaterial(stack: ItemStack, world: World): Boolean {
         val natureValue = NaturalMaterials.getContent(stack)
-        if (timeRemaining > 0 || this.organicMaterialInside >= 64 || natureValue == null) {
+        if (timeRemaining > 0 || this.organicMaterialInside >= MATERIAL_TO_START || natureValue == null) {
             return false
         }
         val oldFillStage = organicMaterialInside / 8
 
         // to prevent over filling the tank causing a crash
-        if ((organicMaterialInside + natureValue) > 64) {
-            organicMaterialInside = 64
+        if ((organicMaterialInside + natureValue) > MATERIAL_TO_START) {
+            organicMaterialInside = MATERIAL_TO_START
         }
         else {
             organicMaterialInside += natureValue
         }
-        if (this.organicMaterialInside >= 64) {
+        if (this.organicMaterialInside >= MATERIAL_TO_START) {
             world.playSound(null, this.tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_DNA_FULL, SoundCategory.BLOCKS, 1.0F, 1.0F)
         } else if (world.time - this.lastInteraction < 10) {
             world.playSound(null, this.tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F)
