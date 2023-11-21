@@ -660,12 +660,7 @@ open class Pokemon : ShowdownIdentifiable {
         if (this.isFull() == false) {
             this.currentFullness += feedCount
 
-            // if that pokemon is Shuckle and the berry juice meter if not full then increase the berry juice meter
-            if (this.species.name == "Shuckle" && this.berryJuiceMeter < 12){
-                this.berryJuiceMeter += 1
-            }
         }
-
 
         // pokemon was fed the first berry so we should reset their metabolism cycle so there is no inconsistencies
         if (this.currentFullness == 1) {
@@ -682,12 +677,9 @@ open class Pokemon : ShowdownIdentifiable {
             this.currentFullness = 0
         }
 
-        // if Pokemon is Shuckle and it has at least 1 fullness then try to make it hold a Berry Juice
-        if (this.species.name == "Shuckle") {
-            // if it doesn't have an item already
-            if (this.heldItem.isEmpty) {
-                this.swapHeldItem(ItemStack(CobblemonItems.BERRY_JUICE))
-            }
+        // if that pokemon is Shuckle and the berry juice meter if not full then increase the berry juice meter
+        if (this.species.name == "Shuckle" && this.berryJuiceMeter < 12){
+            this.berryJuiceMeter += 1
         }
 
     }
