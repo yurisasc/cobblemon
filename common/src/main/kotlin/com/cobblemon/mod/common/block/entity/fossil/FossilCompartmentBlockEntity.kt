@@ -80,7 +80,7 @@ class FossilCompartmentBlockEntity(
                 val structure = compartmentEntity.multiblockStructure as FossilMultiblockStructure
                 return stack?.let { Fossils.isFossilIngredient(it) } == true
                         && structure.fossilInventory.size < Cobblemon.config.maxInsertedFossilItems
-                        && structure.isRunning() == false
+                        && structure.isRunning() == false && structure.resultingFossil == null
             }
             return false
         }
