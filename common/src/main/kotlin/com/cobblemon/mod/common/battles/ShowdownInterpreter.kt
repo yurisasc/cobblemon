@@ -1005,7 +1005,7 @@ object ShowdownInterpreter {
                 // Includes a 3rd argument being the magnitude level as a number
                 "magnitude" -> battleLang("activate.magnitude", message.argumentAt(2)?.toIntOrNull() ?: 1)
                 // Includes spited move and the PP it was reduced by
-                "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
+                "spite", "eeriespell" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
                 // Don't need additional lang, announced elsewhere
                 "toxicdebris", "shedskin" -> return@dispatch GO
                 "matblock" -> battleLang("activate.matblock", message.effectAt(2)!!.rawData)

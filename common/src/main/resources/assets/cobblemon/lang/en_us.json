@@ -931,6 +931,7 @@
   "cobblemon.battle.activate.switcheroo": "%1$s switched items with its target!",
   "cobblemon.battle.activate.skillswap": "%1$s swapped Abilities with its target!",
   "cobblemon.battle.activate.wideguard": "Wide Guard protected %1$s!",
+  "cobblemon.battle.activate.craftyshield": "Crafty Shield protected %1$s!",
   
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
