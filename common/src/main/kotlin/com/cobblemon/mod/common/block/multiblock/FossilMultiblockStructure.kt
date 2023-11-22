@@ -475,7 +475,7 @@ class FossilMultiblockStructure (
         return true
     }
 
-    // insert fossil to fossileInventory - returns false if failed
+    // insert fossil to fossilInventory - returns false if failed
     fun insertFossil(stack: ItemStack, world: World): Boolean {
         // if machine is running or fossil inventory is equal to 3 return false
         if (timeRemaining > 0 || this.fossilInventory.size == 3) {
