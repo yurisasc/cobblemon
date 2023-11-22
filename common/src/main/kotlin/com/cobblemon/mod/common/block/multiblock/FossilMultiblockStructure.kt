@@ -277,7 +277,7 @@ class FossilMultiblockStructure (
         val tubeTopEntity = world.getBlockEntity(tubeBasePos.up()) as MultiblockEntity
         val state = world.getBlockState(monitorEntity.pos)
         val direction = state.get(HorizontalFacingBlock.FACING).getOpposite()
-        val wildPokemon: Pokemon = this.createdPokemon ?: return
+        val wildPokemon: Pokemon? = this.createdPokemon
 
         monitorEntity.multiblockStructure = null
         compartmentEntity.multiblockStructure = null
@@ -299,7 +299,7 @@ class FossilMultiblockStructure (
 
 
         // if the machine is broken while the pokemon is done then spawn the pokemon at the location and make it a wild pokemon
-        if (this.fossilState.growthState == "Fully Grown") {
+        if (this.fossilState.growthState == "Fully Grown" && wildPokemon != null) {
             //world.createExplosion(this.createdPokemon?.entity, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), 5F, World.ExplosionSourceType.TNT)
 
             // instantiate the pokemon as a new entity and spawn it at the location of the machine
