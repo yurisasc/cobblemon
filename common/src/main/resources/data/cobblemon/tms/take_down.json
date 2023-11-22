@@ -1,0 +1,9 @@
+{
+	"moveId": "cobblemon:take_down",
+	"recipe": {
+		"ingredients": {
+			"cobblemon:poke_ball": 3
+		}
+	},
+	"obtainMethods": []
+}
