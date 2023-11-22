@@ -554,16 +554,10 @@ class PokemonEntity(
                 return ActionResult.success(world.isClient)
             }
         } else if (itemStack.isOf(Items.BOWL)) {
-            if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.IS_MOOSHTANK) != null) {
+            if (pokemon.aspects.any() {it.contains("mooshtank")}) {
                 player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
                 val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
                 player.setStackInHand(hand, mushroomStew)
-                return ActionResult.success(world.isClient)
-            }
-            else if (pokemon.species.name == "Shuckle") {
-                player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
-                val berryJuice = ItemUsage.exchangeStack(itemStack, player, CobblemonItems.BERRY_JUICE.defaultStack)
-                player.setStackInHand(hand, berryJuice)
                 return ActionResult.success(world.isClient)
             }
         }
