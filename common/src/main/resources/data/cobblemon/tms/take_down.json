@@ -1,9 +1,13 @@
 {
-	"moveId": "cobblemon:take_down",
+	"moveName": "takedown",
 	"recipe": {
 		"ingredients": {
 			"cobblemon:poke_ball": 3
 		}
 	},
-	"obtainMethods": []
+	"obtainMethods": [
+		{
+			"variant": "cobblemon:pokemon_learn"
+		}
+	]
 }
