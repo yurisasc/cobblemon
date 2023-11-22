@@ -275,6 +275,9 @@ class FossilMultiblockStructure (
         val compartmentEntity = world.getBlockEntity(compartmentPos) as MultiblockEntity
         val tubeBaseEntity = world.getBlockEntity(tubeBasePos) as MultiblockEntity
         val tubeTopEntity = world.getBlockEntity(tubeBasePos.up()) as MultiblockEntity
+        val state = world.getBlockState(monitorEntity.pos)
+        val direction = state.get(HorizontalFacingBlock.FACING).getOpposite()
+        val wildPokemon: Pokemon = this.createdPokemon ?: return
 
         monitorEntity.multiblockStructure = null
         compartmentEntity.multiblockStructure = null
@@ -300,14 +303,16 @@ class FossilMultiblockStructure (
             //world.createExplosion(this.createdPokemon?.entity, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), 5F, World.ExplosionSourceType.TNT)
 
             // instantiate the pokemon as a new entity and spawn it at the location of the machine
-            var wildPokemon = this.createdPokemon?.sendOut(world as ServerWorld, pos.toVec3d())
+            //var wildPokemon = this.createdPokemon?.sendOut(world as ServerWorld, pos.toVec3d())
 
-            world.spawnEntity(wildPokemon)
+            //world.spawnEntity(wildPokemon)
+            this.spawn(world, pos, direction, wildPokemon)
 
         }
 
         MinecraftClient.getInstance().soundManager.stopSounds(CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id, SoundCategory.BLOCKS)
 
+        this.updateFossilType(world)
         this.stopMachine(world)
         this.syncToClient(world)
         this.markDirty(world)
@@ -465,6 +470,26 @@ class FossilMultiblockStructure (
         }
         this.markDirty(world)
         if (oldFillStage != (organicMaterialInside / 8)) {
+            this.syncToClient(world)
+        }
+        return true
+    }
+
+    // insert fossil to fossileInventory - returns false if failed
+    fun insertFossil(stack: ItemStack, world: World): Boolean {
+        // if machine is running or fossil inventory is equal to 3 return false
+        if (timeRemaining > 0 || this.fossilInventory.size == 3) {
+            return false
+        }
+        val oldFillStage = this.fossilInventory.size
+
+        //add fossil to the stack in the Compartment
+        this.fossilInventory.add(stack)
+        world.playSound(null, compartmentPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_FOSSIL, SoundCategory.BLOCKS)
+
+        this.updateFossilType(world)
+        this.markDirty(world)
+        if (oldFillStage != this.fossilInventory.size) {
             this.syncToClient(world)
         }
         return true
