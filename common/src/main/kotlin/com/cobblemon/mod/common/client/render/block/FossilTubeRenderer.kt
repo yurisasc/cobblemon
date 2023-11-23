@@ -8,10 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.block
 
+import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.client.CobblemonBakingOverrides
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
+import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
@@ -85,6 +87,15 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         val fossil = struc.resultingFossil ?: return
         val timeRemaining = struc.timeRemaining
 
+        val tankBlockState = entity.world?.getBlockState(entity.pos) ?: return
+        if(tankBlockState.block != CobblemonBlocks.FOSSIL_TUBE) {
+            // Block has been destroyed/replaced
+            return
+        }
+        val tankDirection = tankBlockState.get(HorizontalFacingBlock.FACING)
+        val struct = entity.multiblockStructure as FossilMultiblockStructure
+        val connectionDir = struct.tubeConnectorDirection
+
         val aspects = emptySet<String>()
         val state = struc.fossilState
         state.updatePartialTicks(tickDelta)
@@ -104,9 +115,17 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         }
 
         matrices.push()
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90F))
-        matrices.scale(1F, -1F, -1F)
-        matrices.translate(0.5, -0.5 + model.yTranslation, 0.5)
+        matrices.translate(0.5, 0.5 + model.yTranslation, 0.5);
+        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180F))
+        if(tankDirection.rotateCounterclockwise(Direction.Axis.Y) == connectionDir) {
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90F))
+        } else if(tankDirection == connectionDir) {
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180F))
+        } else if(tankDirection.opposite != connectionDir) {
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90F))
+        }
+
+        matrices.push()
         matrices.scale(scale, scale, scale)
 
         model.setupAnimStateful(
@@ -124,6 +143,8 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         }
         model.setDefault()
         matrices.pop()
+        matrices.pop()
+
     }
 
     companion object {
