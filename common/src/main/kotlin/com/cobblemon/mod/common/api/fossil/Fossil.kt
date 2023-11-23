@@ -53,6 +53,22 @@ class Fossil(
     }
 
     /**
+     * Whether the fossil ingredients match a subset of this fossil.
+     * @param ingredients The ingredients to check.
+     * @return True if the ingredients are a subset, false otherwise.
+     */
+    fun matchesIngredientsSubSet(ingredients: List<ItemStack>): Boolean {
+        if (this.fossils.size < ingredients.size) {
+            return false
+        }
+
+        return ingredients.all { ingredient ->
+            ingredients.count { item -> ingredient.itemMatches(item.registryEntry) }  <=
+                    this.fossils.count { fossil -> fossil.item.fits(ingredient.item, Registries.ITEM) && fossil.nbt.test(ingredient) }
+        }
+    }
+
+    /**
      * Whether the [ItemStack] is an ingredient for this fossil.
      * @param itemStack The [ItemStack] to check.
      * @return True if the [ItemStack] is an ingredient, false otherwise.

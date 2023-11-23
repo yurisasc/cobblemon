@@ -87,6 +87,14 @@ object Fossils: JsonDataRegistry<Fossil> {
     }
 
     /**
+     * Looks for a [Fossil] that is a superset of [ItemStack].
+     * @param fossilStacks The fossil [ItemStack]'s.
+     * @return The [Fossil] if found to be a superset, otherwise null.
+     */
+    fun getSubFossilByItemStacks(fossilStacks: List<ItemStack>): Fossil? {
+        return this.all().firstOrNull { it.matchesIngredientsSubSet(fossilStacks) }
+    }
+    /**
      * Checks if a [ItemStack] is a fossil ingredient.
      * @param itemStack The ingredient [ItemStack].
      * @return true if it's a fossil ingredient, otherwise false.
