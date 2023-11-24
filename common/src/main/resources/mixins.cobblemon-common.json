@@ -17,6 +17,7 @@
     "pokeball.ItemRendererMixin"
   ],
   "mixins": [
+    "EntityVillagerMixin",
     "ExplosionMixin",
     "LivingEntityMixin",
     "MinecraftDedicatedServerMixin",

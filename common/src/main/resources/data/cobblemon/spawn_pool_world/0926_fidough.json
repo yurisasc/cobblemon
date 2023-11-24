@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -20,11 +20,6 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
-                ]
             }
         },
         {
@@ -32,7 +27,7 @@
             "pokemon": "fidough",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",

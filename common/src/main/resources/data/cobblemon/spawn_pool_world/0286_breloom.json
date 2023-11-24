@@ -5,7 +5,7 @@
     "spawns": [
         {
             "id": "breloom-1",
-            "pokemon": "shroomish",
+            "pokemon": "breloom",
             "presets": [
                 "natural"
             ],

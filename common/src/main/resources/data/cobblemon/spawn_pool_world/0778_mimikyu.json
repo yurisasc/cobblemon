@@ -15,12 +15,13 @@
             "level": "23-48",
             "weight": 10.0,
             "condition": {
+                "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_spooky"
                 ]
             }
         },
-		{
+        {
             "id": "mimikyu-2",
             "pokemon": "mimikyu",
             "presets": [
@@ -32,7 +33,7 @@
             "level": "23-48",
             "weight": 10.0,
             "condition": {
-				"canSeeSky": false,
+                "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]

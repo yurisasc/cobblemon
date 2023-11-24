@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -21,7 +21,7 @@
                 "isRaining": false
             }
         },
-		{
+        {
             "id": "surskit-2",
             "pokemon": "surskit",
             "presets": [
@@ -39,8 +39,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

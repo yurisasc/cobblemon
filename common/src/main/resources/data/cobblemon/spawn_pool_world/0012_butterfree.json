@@ -25,12 +25,12 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_floral",
-					"#cobblemon:is_freezing",
-					"#cobblemon:is_spooky"
+                    "#cobblemon:is_freezing",
+                    "#cobblemon:is_spooky"
                 ]
             }
         },
-		{
+        {
             "id": "butterfree-2",
             "pokemon": "butterfree",
             "presets": [
@@ -50,8 +50,8 @@
                 "isRaining": false
             }
         },
-		{
-            "id": "butterfree-valencian-1",
+        {
+            "id": "butterfree-valencian-3",
             "pokemon": "butterfree valencian",
             "presets": [
                 "natural"
@@ -65,14 +65,14 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_jungle",
-					"#cobblemon:is_tropical_island"
+                    "#cobblemon:is_tropical_island"
                 ],
                 "timeRange": "day",
                 "isRaining": false
             }
         },
-		{
-            "id": "butterfree-valencian-2",
+        {
+            "id": "butterfree-valencian-4",
             "pokemon": "butterfree valencian",
             "type": "pokemon",
             "context": "grounded",
@@ -86,8 +86,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

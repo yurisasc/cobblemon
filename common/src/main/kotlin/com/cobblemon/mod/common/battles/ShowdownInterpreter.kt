@@ -83,6 +83,7 @@ object ShowdownInterpreter {
         updateInstructions["|-mustrecharge|"] = this::handleRechargeInstructions
         updateInstructions["|-fail|"] = this::handleFailInstruction
         updateInstructions["|-start|"] = this::handleStartInstructions
+        updateInstructions["|-block|"] = this::handleBlockInstructions
         updateInstructions["|-activate|"] = this::handleActivateInstructions
         updateInstructions["|-curestatus|"] = this::handleCureStatusInstruction
         updateInstructions["|-fieldstart|"] = this::handleFieldStartInstructions
@@ -827,10 +828,19 @@ object ShowdownInterpreter {
      *
      * The specified ACTION has failed against the POKEMON targetted.
      */
-    private fun handleFailInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>){
+    private fun handleFailInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         battle.dispatchWaiting(1.5F){
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            battle.broadcastChatMessage(battleLang("fail").red())
+            val pokemonName = pokemon.getName()
+            val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
+
+            val lang = when (effectID) {
+                "shedtail" -> battleLang("fail.substitute", pokemonName)
+                "hyperspacefury" -> battleLang("fail.darkvoid", pokemonName)
+                "corrosivegas" -> battleLang("fail.healblock", pokemonName)
+                else -> battleLang("fail.$effectID", pokemonName)
+            }
+            battle.broadcastChatMessage(lang.red())
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -953,6 +963,27 @@ object ShowdownInterpreter {
 
     /**
      * Format:
+     * |-block|POKEMON|EFFECT|MOVE|ATTACKER
+     *
+     * An effect targeted at POKEMON was blocked by EFFECT. This may optionally specify that the effect was a MOVE from ATTACKER. [of]SOURCE will note the owner of the EFFECT, in the case that it's not EFFECT (for instance, an ally with Aroma Veil.)
+     */
+    private fun handleBlockInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        battle.dispatchWaiting(1.5F) {
+            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemonName = pokemon.getName()
+            val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
+            val lang = when (effectID) {
+                "matblock" -> battleLang("block.matblock", message.effectAt(2)!!.rawData)
+                else -> battleLang("block.$effectID", pokemonName)
+            }
+
+            battle.broadcastChatMessage(lang)
+            battle.minorBattleActions[pokemon.uuid] = message
+        }
+    }
+
+    /**
+     * Format:
      * |-activate|POKEMON|EFFECT
      *
      * A miscellaneous effect has activated.This is triggered whenever an effect could not be better described by one of the other minor messages.
@@ -975,6 +1006,7 @@ object ShowdownInterpreter {
                 "spite" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
                 // Don't need additional lang, announced elsewhere
                 "toxicdebris", "shedskin" -> return@dispatch GO
+                "matblock" -> battleLang("activate.matblock", message.effectAt(2)!!.rawData)
                 // Add activation to each Pokemon's history
                 "destinybond" -> {
                     battle.activePokemon.mapNotNull { it.battlePokemon?.uuid }.forEach { battle.minorBattleActions[it] = message }
@@ -987,6 +1019,7 @@ object ShowdownInterpreter {
                 }
                 "focussash", "focusband" -> battleLang("activate.focusband", pokemonName, message.effectAt(1)!!.typelessData)
                 "maxguard", "protect" -> battleLang("activate.protect", pokemonName)
+                "shadowforce", "hyperspacefury", "hyperspacehole" -> battleLang("activate.phantomforce", pokemonName)
                 else -> battleLang("activate.${effect.id}", pokemonName, sourceName)
             }
             battle.broadcastChatMessage(lang)
@@ -1066,15 +1099,28 @@ object ShowdownInterpreter {
         val pokemon = message.getBattlePokemon(0, battle) ?: return
         val pokemonName = pokemon.getName()
         val effect = message.effectAt(1) ?: return
-        broadcastAbility(battle, effect, pokemonName)
+        val optionalEffect = message.effect()
+        val optionalPokemon = message.getSourceBattlePokemon(battle)
+        val optionalPokemonName = optionalPokemon?.getName()
+
+        // If there is an optional effect causing the activation, broadcast that instead of the standard effect
+        if (optionalEffect != null) {
+            broadcastAbility(battle, optionalEffect, pokemonName)
+        } else {
+            broadcastAbility(battle, effect, pokemonName)
+        }
 
         battle.dispatch {
             this.lastCauser[battle.battleId] = message
 
-            val lang = when (effect.id) {
-                "sturdy", "unnerve", "anticipation" -> battleLang("ability.${effect.id}", pokemonName) // Unique message
-                "airlock", "cloudnine" -> battleLang("ability.airlock") // Cloud Nine shares the same text as Air Lock
-                else -> null // Effect broadcasted by a succeeding instruction
+            val lang = when (optionalEffect?.id) {
+                "trace" -> optionalPokemonName?.let { battleLang("ability.trace", pokemonName, it, effect.typelessData) }
+                "receiver", "powerofalchemy" -> optionalPokemonName?.let { battleLang("ability.receiver", it, effect.typelessData) } // Receiver and Power of Alchemy share the same text
+                else -> when (effect.id) {
+                    "sturdy", "unnerve", "anticipation" -> battleLang("ability.${effect.id}", pokemonName) // Unique message
+                    "airlock", "cloudnine" -> battleLang("ability.airlock") // Cloud Nine shares the same text as Air Lock
+                    else -> null // Effect broadcasted by a succeeding instruction
+                }
             }
 
             battle.minorBattleActions[pokemon.uuid] = message
@@ -1120,6 +1166,8 @@ object ShowdownInterpreter {
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
+
+
 
     /**
      * Format:
@@ -1418,6 +1466,8 @@ object ShowdownInterpreter {
                         lang("status.$status.hurt", pokemonName)
                     }
                     "aftermath" -> battleLang("damage.generic", pokemonName)
+                    "chloroblast", "steelbeam" -> battleLang("damage.mindblown", pokemonName)
+                    "jumpkick" -> battleLang("damage.highjumpkick", pokemonName)
                     else -> battleLang("damage.${effect.id}", pokemonName, sourceName)
                 }
                 battle.broadcastChatMessage(lang.red())
@@ -1434,7 +1484,7 @@ object ShowdownInterpreter {
                 val maxHealth = newHealth.split("/")[1].toInt()
                 val difference = maxHealth - remainingHealth
                 newHealthRatio = remainingHealth.toFloat() / maxHealth
-                battle.dispatch {
+                battle.dispatchToFront {
                     battlePokemon.effectedPokemon.currentHealth = remainingHealth
                     if (difference > 0) {
                         battlePokemon.effectedPokemon.let { pokemon ->
@@ -1449,6 +1499,7 @@ object ShowdownInterpreter {
                 }
             }
             privateMessage.pnxAndUuid(0)?.let { (pnx, _) -> battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, remainingHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio)) }
+
 
             battle.minorBattleActions[battlePokemon.uuid] = privateMessage
             WaitDispatch(1F)

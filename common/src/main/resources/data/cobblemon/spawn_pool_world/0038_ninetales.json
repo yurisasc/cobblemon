@@ -14,17 +14,17 @@
             "bucket": "uncommon",
             "level": "25-51",
             "weight": 0.6,
-			"weightMultiplier": {
-				"multiplier": 2.5,
-				"condition": {
-					"timeRange": "twilight"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 2.5,
+                "condition": {
+                    "timeRange": "twilight"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_forest",
-					"#cobblemon:is_taiga"
+                    "#cobblemon:is_taiga"
                 ]
             },
             "anticondition": {
@@ -33,7 +33,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "ninetales-2",
             "pokemon": "ninetales",
             "presets": [
@@ -56,7 +56,7 @@
             }
         },
         {
-            "id": "ninetales-alolan-1",
+            "id": "ninetales-alolan-3",
             "pokemon": "ninetales alolan",
             "presets": [
                 "natural"
@@ -66,12 +66,12 @@
             "bucket": "uncommon",
             "level": "25-51",
             "weight": 0.6,
-			"weightMultiplier": {
-				"multiplier": 2.5,
-				"condition": {
-					"timeRange": "twilight"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 2.5,
+                "condition": {
+                    "timeRange": "twilight"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -79,8 +79,8 @@
                 ]
             }
         },
-		{
-            "id": "ninetales-alolan-2",
+        {
+            "id": "ninetales-alolan-4",
             "pokemon": "ninetales alolan",
             "presets": [
                 "natural"

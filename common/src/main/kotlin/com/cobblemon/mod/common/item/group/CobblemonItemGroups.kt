@@ -72,7 +72,7 @@ object CobblemonItemGroups {
         this.INJECTORS[key] = consumer
         return consumer
     }
-    
+
     private fun agricultureEntries(displayContext: DisplayContext, entries: Entries) {
         entries.add(CobblemonItems.MEDICINAL_LEEK)
         entries.add(CobblemonItems.BIG_ROOT)
@@ -169,7 +169,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.WATER_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_WATER_STONE_ORE)
     }
-    
+
     private fun consumableEntries(displayContext: DisplayContext, entries: Entries) {
         entries.add(CobblemonItems.ROASTED_LEEK)
         entries.add(CobblemonItems.LEEK_AND_POTATO_STEW)
@@ -319,11 +319,13 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.EVERSTONE)
         entries.add(CobblemonItems.EXP_SHARE)
         entries.add(CobblemonItems.FAIRY_FEATHER)
+        entries.add(CobblemonItems.FLAME_ORB)
         entries.add(CobblemonItems.FOCUS_BAND)
         entries.add(CobblemonItems.HARD_STONE)
         entries.add(CobblemonItems.HEAVY_DUTY_BOOTS)
         entries.add(CobblemonItems.KINGS_ROCK)
         entries.add(CobblemonItems.LEFTOVERS)
+        entries.add(CobblemonItems.LIFE_ORB)
         entries.add(CobblemonItems.LIGHT_CLAY)
         entries.add(CobblemonItems.LUCKY_EGG)
         entries.add(CobblemonItems.MAGNET)
@@ -335,7 +337,13 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.MYSTIC_WATER)
         entries.add(CobblemonItems.NEVER_MELT_ICE)
         entries.add(CobblemonItems.POISON_BARB)
+        entries.add(CobblemonItems.POWER_ANKLET)
+        entries.add(CobblemonItems.POWER_BAND)
+        entries.add(CobblemonItems.POWER_BELT)
+        entries.add(CobblemonItems.POWER_BRACER)
         entries.add(CobblemonItems.POWER_HERB)
+        entries.add(CobblemonItems.POWER_LENS)
+        entries.add(CobblemonItems.POWER_WEIGHT)
         entries.add(CobblemonItems.QUICK_CLAW)
         entries.add(CobblemonItems.QUICK_POWDER)
         entries.add(CobblemonItems.RAZOR_CLAW)
@@ -345,17 +353,13 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.SHARP_BEAK)
         entries.add(CobblemonItems.SILK_SCARF)
         entries.add(CobblemonItems.SILVER_POWDER)
+        entries.add(CobblemonItems.SMOKE_BALL)
         entries.add(CobblemonItems.SOFT_SAND)
         entries.add(CobblemonItems.SPELL_TAG)
+        entries.add(CobblemonItems.TOXIC_ORB)
         entries.add(CobblemonItems.TWISTED_SPOON)
         entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
-        entries.add(CobblemonItems.POWER_ANKLET)
-        entries.add(CobblemonItems.POWER_BAND)
-        entries.add(CobblemonItems.POWER_BELT)
-        entries.add(CobblemonItems.POWER_BRACER)
-        entries.add(CobblemonItems.POWER_LENS)
-        entries.add(CobblemonItems.POWER_WEIGHT)
     }
 
     private fun pokeballentries(displayContext: DisplayContext, entries: Entries) {

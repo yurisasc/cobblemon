@@ -1,12 +1,12 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
             "id": "klinklang-1",
             "pokemon": "klinklang",
-			"presets": [
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",

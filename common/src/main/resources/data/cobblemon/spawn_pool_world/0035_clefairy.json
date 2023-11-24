@@ -15,7 +15,7 @@
             "level": "17-32",
             "weight": 0.9,
             "condition": {
-				"canSeeSky": true,
+                "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_dripstone"
                 ],
@@ -43,7 +43,7 @@
         {
             "id": "clefairy-3",
             "pokemon": "clefairy",
-			"presets": [
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",
@@ -57,13 +57,13 @@
                     "#cobblemon:is_hills"
                 ],
                 "timeRange": "night",
-				"moonPhase": 0
+                "moonPhase": "0"
             }
         },
         {
             "id": "clefairy-4",
             "pokemon": "clefairy",
-			"presets": [
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",

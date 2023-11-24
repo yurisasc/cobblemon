@@ -14,12 +14,12 @@
             "bucket": "uncommon",
             "level": "40-50",
             "weight": 0.6,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -42,33 +42,33 @@
             "condition": {
                 "biomes": [
                     "#cobblemon:is_nether_overgrowth",
-					"#cobblemon:is_nether_wasteland"
+                    "#cobblemon:is_nether_wasteland"
                 ]
             }
         },
-		{
-            "id": "rapidash-galarian-1",
+        {
+            "id": "rapidash-galarian-3",
             "pokemon": "rapidash galarian",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
             "level": "40-50",
             "weight": 1.0,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_floral",
-					"#cobblemon:is_magical"
+                    "#cobblemon:is_magical"
                 ]
             }
         }

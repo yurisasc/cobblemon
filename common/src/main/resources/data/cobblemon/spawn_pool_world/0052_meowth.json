@@ -127,8 +127,8 @@
                 ]
             }
         },
-		{
-            "id": "meowth-alolan-1",
+        {
+            "id": "meowth-alolan-5",
             "pokemon": "meowth alolan",
             "presets": [
                 "natural",
@@ -160,7 +160,7 @@
             }
         },
         {
-            "id": "meowth-alolan-2",
+            "id": "meowth-alolan-6",
             "pokemon": "meowth alolan",
             "presets": [
                 "natural",
@@ -181,12 +181,12 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_arid",
-					"#cobblemon:is_freezing"
+                    "#cobblemon:is_freezing"
                 ]
             }
         },
         {
-            "id": "meowth-alolan-3",
+            "id": "meowth-alolan-7",
             "pokemon": "meowth alolan",
             "presets": [
                 "illager_structures"
@@ -201,11 +201,11 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-				"minY": 62
+                "minY": 62
             }
         },
-		{
-            "id": "meowth-galarian-1",
+        {
+            "id": "meowth-galarian-8",
             "pokemon": "meowth galarian",
             "presets": [
                 "natural",
@@ -226,7 +226,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_freezing",
-					"#cobblemon:is_taiga"
+                    "#cobblemon:is_taiga"
                 ]
             },
             "anticondition": {
@@ -236,7 +236,7 @@
             }
         },
         {
-            "id": "meowth-galarian-2",
+            "id": "meowth-galarian-9",
             "pokemon": "meowth galarian",
             "presets": [
                 "natural",
@@ -257,7 +257,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_freezing",
-					"#cobblemon:is_taiga"
+                    "#cobblemon:is_taiga"
                 ]
             }
         }

@@ -17,11 +17,11 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_frigid"
+                    "#cobblemon:is_cold_ocean"
                 ]
             }
         },
-		{
+        {
             "id": "cloyster-2",
             "pokemon": "cloyster",
             "presets": [
