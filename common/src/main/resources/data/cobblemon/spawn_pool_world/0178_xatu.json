@@ -8,7 +8,7 @@
             "pokemon": "xatu",
             "presets": [
                 "natural",
-				"treetop"
+                "treetop"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -22,10 +22,10 @@
                     "#cobblemon:is_plateau"
                 ],
                 "timeRange": "day"
-			}
+            }
         },
-		{
-            "id": "xatu-2",
+        {
+            "id": "xatu-3",
             "pokemon": "xatu",
             "presets": [
                 "trail_ruins"
@@ -41,7 +41,7 @@
                     "#cobblemon:is_overworld"
                 ],
                 "timeRange": "day"
-			}
+            }
         }
     ]
 }

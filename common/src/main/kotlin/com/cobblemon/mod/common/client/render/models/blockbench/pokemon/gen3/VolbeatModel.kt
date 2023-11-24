@@ -8,17 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -68,7 +63,6 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "air_idle")
@@ -80,7 +74,6 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "air_fly")

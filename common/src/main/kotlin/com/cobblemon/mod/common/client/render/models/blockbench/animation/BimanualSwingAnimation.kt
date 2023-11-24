@@ -29,15 +29,15 @@ class BimanualSwingAnimation<T : Entity>(
     val amplitudeMultiplier: Float = 1F
 ) : StatelessAnimation<T, BimanualFrame>(frame) {
     override val targetFrame: Class<BimanualFrame> = BimanualFrame::class.java
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         // Movement swing
-        frame.rightArm.yaw += MathHelper.cos(limbSwing * swingPeriodMultiplier) * limbSwingAmount * amplitudeMultiplier
-        frame.leftArm.yaw += MathHelper.cos(limbSwing * swingPeriodMultiplier) * limbSwingAmount * amplitudeMultiplier
+        frame.rightArm.yaw += MathHelper.cos(limbSwing * swingPeriodMultiplier) * limbSwingAmount * amplitudeMultiplier * intensity
+        frame.leftArm.yaw += MathHelper.cos(limbSwing * swingPeriodMultiplier) * limbSwingAmount * amplitudeMultiplier * intensity
 
         // Idle sway
-        frame.rightArm.roll += 1.0f * (MathHelper.cos(ageInTicks * 0.09f) * 0.05f + 0.05f)
-        frame.rightArm.yaw += 1.0f * MathHelper.sin(ageInTicks * 0.067f) * 0.05f
-        frame.leftArm.roll += -1.0f * (MathHelper.cos(ageInTicks * 0.09f) * 0.05f + 0.05f)
-        frame.leftArm.yaw += -1.0f * MathHelper.sin(ageInTicks * 0.067f) * 0.05f
+        frame.rightArm.roll += 1.0f * (MathHelper.cos(ageInTicks * 0.09f) * 0.05f + 0.05f) * intensity
+        frame.rightArm.yaw += 1.0f * MathHelper.sin(ageInTicks * 0.067f) * 0.05f * intensity
+        frame.leftArm.roll += -1.0f * (MathHelper.cos(ageInTicks * 0.09f) * 0.05f + 0.05f) * intensity
+        frame.leftArm.yaw += -1.0f * MathHelper.sin(ageInTicks * 0.067f) * 0.05f * intensity
     }
 }

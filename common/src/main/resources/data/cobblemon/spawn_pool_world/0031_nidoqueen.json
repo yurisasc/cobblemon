@@ -8,7 +8,7 @@
             "pokemon": "nidoqueen",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",

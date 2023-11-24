@@ -1,10 +1,10 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "vivillon-highplains-1",
+            "id": "vivillon-high-plains-1",
             "pokemon": "vivillon vivillon_wings=high-plains",
             "presets": [
                 "natural",
@@ -24,7 +24,7 @@
             }
         },
         {
-            "id": "vivillon-fancy-1",
+            "id": "vivillon-fancy-2",
             "pokemon": "vivillon vivillon_wings=fancy",
             "presets": [
                 "natural",
@@ -45,7 +45,7 @@
             }
         },
         {
-            "id": "vivillon-ocean-1",
+            "id": "vivillon-ocean-3",
             "pokemon": "vivillon vivillon_wings=ocean",
             "presets": [
                 "natural",
@@ -67,7 +67,7 @@
             }
         },
         {
-            "id": "vivillon-sandstorm-1",
+            "id": "vivillon-sandstorm-4",
             "pokemon": "vivillon vivillon_wings=sandstorm",
             "presets": [
                 "natural",
@@ -87,7 +87,7 @@
             }
         },
         {
-            "id": "vivillon-meadow-1",
+            "id": "vivillon-meadow-5",
             "pokemon": "vivillon vivillon_wings=meadow",
             "presets": [
                 "natural",
@@ -107,8 +107,8 @@
                 "isRaining": false
             }
         },
-		{
-            "id": "vivillon-meadow-2",
+        {
+            "id": "vivillon-meadow-6",
             "pokemon": "vivillon vivillon_wings=meadow",
             "type": "pokemon",
             "context": "grounded",
@@ -122,12 +122,12 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         },
         {
-            "id": "vivillon-garden-1",
+            "id": "vivillon-garden-7",
             "pokemon": "vivillon vivillon_wings=garden",
             "presets": [
                 "natural",
@@ -148,12 +148,12 @@
             }
         },
         {
-            "id": "vivillon-river-1",
+            "id": "vivillon-river-8",
             "pokemon": "vivillon vivillon_wings=river",
             "presets": [
                 "natural",
-                "freshwater",
-                "flowers"
+                "flowers",
+                "freshwater"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -167,7 +167,7 @@
             }
         },
         {
-            "id": "vivillon-polar-1",
+            "id": "vivillon-polar-9",
             "pokemon": "vivillon vivillon_wings=polar",
             "presets": [
                 "natural",
@@ -188,7 +188,7 @@
             }
         },
         {
-            "id": "vivillon-tundra-1",
+            "id": "vivillon-tundra-10",
             "pokemon": "vivillon vivillon_wings=tundra",
             "presets": [
                 "natural",
@@ -211,7 +211,7 @@
             }
         },
         {
-            "id": "vivillon-jungle-1",
+            "id": "vivillon-jungle-11",
             "pokemon": "vivillon vivillon_wings=jungle",
             "presets": [
                 "natural",
@@ -232,7 +232,7 @@
             }
         },
         {
-            "id": "vivillon-monsoon-1",
+            "id": "vivillon-monsoon-12",
             "pokemon": "vivillon vivillon_wings=monsoon",
             "presets": [
                 "natural",
@@ -253,7 +253,7 @@
             }
         },
         {
-            "id": "vivillon-archipelago-1",
+            "id": "vivillon-archipelago-13",
             "pokemon": "vivillon vivillon_wings=archipelago",
             "presets": [
                 "natural",
@@ -274,7 +274,7 @@
             }
         },
         {
-            "id": "vivillon-marine-1",
+            "id": "vivillon-marine-14",
             "pokemon": "vivillon vivillon_wings=marine",
             "presets": [
                 "natural",
@@ -288,18 +288,17 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_ocean"
+                    "#cobblemon:is_ocean"
                 ],
                 "timeRange": "day",
                 "isRaining": false
             }
         },
         {
-            "id": "vivillon-modern-1",
+            "id": "vivillon-modern-15",
             "pokemon": "vivillon vivillon_wings=modern",
             "presets": [
                 "natural",
-                "urban",
                 "flowers"
             ],
             "type": "pokemon",
@@ -317,7 +316,7 @@
             }
         },
         {
-            "id": "vivillon-continental-1",
+            "id": "vivillon-continental-16",
             "pokemon": "vivillon vivillon_wings=continental",
             "presets": [
                 "natural",
@@ -338,7 +337,7 @@
             }
         },
         {
-            "id": "vivillon-savanna-1",
+            "id": "vivillon-savanna-17",
             "pokemon": "vivillon vivillon_wings=savanna",
             "presets": [
                 "natural",
@@ -358,7 +357,7 @@
             }
         },
         {
-            "id": "vivillon-sun-1",
+            "id": "vivillon-sun-18",
             "pokemon": "vivillon vivillon_wings=sun",
             "presets": [
                 "natural",
@@ -372,16 +371,16 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
+                    "minecraft:sunflower_plains",
                     "#cobblemon:is_sky",
-					"#cobblemon:is_tropical_island",
-                    "minecraft:sunflower_plains"
+                    "#cobblemon:is_tropical_island"
                 ],
                 "timeRange": "day",
                 "isRaining": false
             }
         },
         {
-            "id": "vivillon-elegant-1",
+            "id": "vivillon-elegant-19",
             "pokemon": "vivillon vivillon_wings=elegant",
             "presets": [
                 "natural",
@@ -396,14 +395,14 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_magical",
-					"#cobblemon:is_spooky"
+                    "#cobblemon:is_spooky"
                 ],
                 "timeRange": "day",
                 "isRaining": false
             }
         },
         {
-            "id": "vivillon-icysnow-1",
+            "id": "vivillon-icy-snow-20",
             "pokemon": "vivillon vivillon_wings=icy-snow",
             "presets": [
                 "natural",

@@ -17,27 +17,31 @@
     "pokeball.ItemRendererMixin"
   ],
   "mixins": [
+    "EntityVillagerMixin",
     "ExplosionMixin",
-    "FenceBlockMixin",
     "LivingEntityMixin",
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
     "ShearsDispenserBehaviorMixin",
+    "StructurePoolAccessor",
+    "StructurePoolGeneratorMixin",
+    "StructureProcessorListMixin",
     "accessor.AccessorEntity",
+    "accessor.BoatEntityAccessor",
     "accessor.StatusEffectInstanceAccessor",
     "entity.TameableEntityMixin",
     "invoker.BlocksInvoker",
     "invoker.BooleanRuleInvoker",
     "invoker.DoorBlockInvoker",
+    "invoker.FireBlockInvoker",
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
     "pokeball.ThrownEntityMixin",
     "StructurePoolGeneratorMixin",
     "StructurePoolAccessor",
-    "StructureProcessorListMixin",
-    "PotionSlotMixin"
+    "StructureProcessorListMixin"
   ],
   "injectors": {
     "defaultRequire": 1

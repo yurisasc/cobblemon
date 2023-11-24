@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
+import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
@@ -24,8 +26,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animatio
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
@@ -85,11 +87,13 @@ abstract class PoseableEntityModel<T : Entity>(
     val animations = mutableMapOf<String, ExpressionLike>()
 
     /**
-     * A list of [TransformedModelPart] that are relevant to any frame or animation.
+     * A list of [ModelPartTransformation] that record the original
      * This allows the original rotations to be reset.
      */
-    val relevantParts = mutableListOf<TransformedModelPart>()
-    val relevantPartsByName = mutableMapOf<String, TransformedModelPart>()
+    val defaultPositions = mutableListOf<ModelPartTransformation>()
+
+    val relevantParts = mutableListOf<ModelPart>()
+    val relevantPartsByName = mutableMapOf<String, ModelPart>()
 
     /** Registers the different poses this model is capable of ahead of time. Should use [registerPose] religiously. */
     abstract fun registerPoses()
@@ -175,7 +179,7 @@ abstract class PoseableEntityModel<T : Entity>(
         animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
-        transformedParts: Array<TransformedModelPart> = emptyArray(),
+        transformedParts: Array<ModelPartTransformation> = emptyArray(),
         quirks: Array<ModelQuirk<T, *>> = emptyArray()
     ): Pose<T, F> {
         return Pose(
@@ -201,7 +205,7 @@ abstract class PoseableEntityModel<T : Entity>(
         animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
-        transformedParts: Array<TransformedModelPart> = emptyArray(),
+        transformedParts: Array<ModelPartTransformation> = emptyArray(),
         quirks: Array<ModelQuirk<T, *>> = emptyArray()
     ): Pose<T, F> {
         return Pose(
@@ -227,7 +231,7 @@ abstract class PoseableEntityModel<T : Entity>(
         animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
-        transformedParts: Array<TransformedModelPart> = emptyArray(),
+        transformedParts: Array<ModelPartTransformation> = emptyArray(),
         quirks: Array<ModelQuirk<T, *>> = emptyArray()
     ): Pose<T, F> {
         return Pose(
@@ -263,14 +267,15 @@ abstract class PoseableEntityModel<T : Entity>(
         locatorAccess = LocatorAccess.resolve(rootPart) ?: LocatorAccess(rootPart)
     }
 
-    fun getPart(name: String) = relevantPartsByName[name]!!.modelPart
+    fun getPart(name: String) = relevantPartsByName[name]!!
 
     private fun loadSpecificNamedChildren(modelPart: ModelPart, nameList: Iterable<String>) {
         for ((name, child) in modelPart.children.entries) {
             if (name in nameList) {
-                val transformed = child.asTransformed()
-                relevantParts.add(transformed)
-                relevantPartsByName[name] = transformed
+                val default = ModelPartTransformation.derive(child)
+                relevantParts.add(child)
+                relevantPartsByName[name] = child
+                defaultPositions.add(default)
                 loadAllNamedChildren(child)
             }
         }
@@ -282,17 +287,19 @@ abstract class PoseableEntityModel<T : Entity>(
 
     fun loadAllNamedChildren(modelPart: ModelPart) {
         for ((name, child) in modelPart.children.entries) {
-            val transformed = child.asTransformed()
-            relevantParts.add(transformed)
-            relevantPartsByName[name] = transformed
+            val default = ModelPartTransformation.derive(child)
+            relevantParts.add(child)
+            relevantPartsByName[name] = child
+            defaultPositions.add(default)
             loadAllNamedChildren(child)
         }
     }
 
     fun registerRelevantPart(name: String, part: ModelPart): ModelPart {
-        val transformedPart = part.asTransformed()
-        relevantParts.add(transformedPart)
-        relevantPartsByName[name] = transformedPart
+        val default = ModelPartTransformation.derive(part)
+        relevantParts.add(part)
+        relevantPartsByName[name] = part
+        defaultPositions.add(default)
         return part
     }
 
@@ -397,12 +404,12 @@ abstract class PoseableEntityModel<T : Entity>(
 
 
     /** Applies the given pose type to the model, if there is a matching pose. */
-    fun applyPose(pose: String) = getPose(pose)?.transformedParts?.forEach { it.apply() }
+    fun applyPose(pose: String, intensity: Float) = getPose(pose)?.transformedParts?.forEach { it.apply(intensity) }
     fun getPose(pose: PoseType) = poses.values.firstOrNull { pose in it.poseTypes }
     fun getPose(name: String) = poses[name]
 
     /** Puts the model back to its original location and rotations. */
-    fun setDefault() = relevantParts.forEach { it.applyDefaults() }
+    fun setDefault() = defaultPositions.forEach { it.set() }
 
     val quirks = mutableListOf<ModelQuirk<T, *>>()
 
@@ -436,8 +443,8 @@ abstract class PoseableEntityModel<T : Entity>(
         this.context.pop(RenderContext.ENTITY)
         setDefault()
         val pose = poseTypes.firstNotNullOfOrNull { getPose(it) } ?: poses.values.first()
-        pose.transformedParts.forEach { it.apply() }
-        pose.idleStateless(this, null, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+        pose.transformedParts.forEach { it.apply(intensity = 1F) }
+        pose.idleStateless(this, null, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F)
     }
 
     fun setupAnimStateful(
@@ -467,7 +474,9 @@ abstract class PoseableEntityModel<T : Entity>(
 
             // If this condition matches then it just no longer fits this pose
             if (pose != null && poseName != null) {
-                moveToPose(entity, state, desirablePose)
+                if (state.primaryAnimation == null) {
+                    moveToPose(entity, state, desirablePose)
+                }
             } else {
                 pose = desirablePose
                 poseName = desirablePose.poseName
@@ -478,32 +487,32 @@ abstract class PoseableEntityModel<T : Entity>(
         }
 
         val currentPose = getPose(poseName)
-        applyPose(poseName)
-        if (currentPose != null) {
+        applyPose(poseName, 1F)
+
+        val primaryAnimation = state.primaryAnimation
+
+        if (currentPose != null && primaryAnimation == null) {
             // Remove any quirk animations that don't exist in our current pose
             state.quirks.keys.filterNot(currentPose.quirks::contains).forEach(state.quirks::remove)
             // Tick all the quirks
             currentPose.quirks.forEach {
-                it.tick(
-                    entity,
-                    this,
-                    state,
-                    limbSwing,
-                    limbSwingAmount,
-                    ageInTicks,
-                    headYaw,
-                    headPitch
-                )
+                it.tick(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F)
+            }
+        }
+
+        if (primaryAnimation != null) {
+            state.primaryOverridePortion = 1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
+            if (!primaryAnimation.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1 - state.primaryOverridePortion)) {
+                state.primaryAnimation = null
+                state.primaryOverridePortion = 1F
             }
         }
 
         val removedStatefuls = state.statefulAnimations.toList()
-            .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch) }
+            .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F) }
         state.statefulAnimations.removeAll(removedStatefuls)
         state.currentPose?.let { getPose(it) }
-            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
-        state.applyAdditives(entity, this, state)
-        relevantParts.forEach { it.changeFactor = 1F }
+            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.primaryOverridePortion)
         updateLocators(state)
     }
 
@@ -531,15 +540,25 @@ abstract class PoseableEntityModel<T : Entity>(
         if (state.statefulAnimations.none { it.isTransform }) {
             val transition = previousPose.transitions[desirablePose]
             if (transition == null && previousPose.transformTicks > 0) {
-                state.statefulAnimations.add(
+                val primaryAnimation = PrimaryAnimation(
                     PoseTransitionAnimation(
                         beforePose = previousPose,
                         afterPose = desirablePose,
                         durationTicks = previousPose.transformTicks
-                    )
+                    ),
+                    curve = { 1F }
                 )
+                state.addPrimaryAnimation(primaryAnimation)
+                afterOnClient(seconds = primaryAnimation.duration) {
+                    state.setPose(desirablePose.poseName)
+                }
             } else if (transition != null) {
-                state.statefulAnimations.add(transition(previousPose, desirablePose))
+                val animation = transition(previousPose, desirablePose)
+                val primaryAnimation = PrimaryAnimation(animation, curve = { 1F })
+                state.addPrimaryAnimation(primaryAnimation)
+                afterOnClient(seconds = primaryAnimation.duration) {
+                    state.setPose(desirablePose.poseName)
+                }
             } else {
                 getState(entity).setPose(poses.values.first { desirablePoseType in it.poseTypes && it.condition(entity) }.poseName)
             }

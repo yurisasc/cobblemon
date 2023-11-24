@@ -8,15 +8,7 @@
 
 package com.cobblemon.mod.common.item
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
 import net.minecraft.item.AliasedBlockItem
 
-class ApricornSeedItem(block: ApricornSaplingBlock) : AliasedBlockItem(block, Settings()) {
-
-    init {
-        // 65% to raise composter level
-        Cobblemon.implementation.registerCompostable(this, .65F)
-    }
-
-}
+class ApricornSeedItem(block: ApricornSaplingBlock) : AliasedBlockItem(block, Settings())

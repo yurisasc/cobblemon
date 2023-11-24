@@ -131,6 +131,9 @@ class CobblemonConfig {
     @NodeCategory(category = Category.Battles)
     var luckyEggMultiplier = 1.5
 
+    @NodeCategory(category = Category.Battles)
+    var allowSpectating = true
+
     @NodeCategory(category = Category.Pokemon)
     var experienceMultiplier = 2F
 
@@ -204,10 +207,6 @@ class CobblemonConfig {
 
     @NodeCategory(Category.Spawning)
     var teraTypeRate = 20F
-
-    @NodeCategory(Category.Pokemon)
-    @LastChangedVersion("1.4.0")
-    var consumeHeldItems = true
 
     @NodeCategory(Category.World)
     var defaultPasturedPokemonLimit = 16

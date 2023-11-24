@@ -28,7 +28,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "alakazam-2",
             "pokemon": "alakazam",
             "presets": [
@@ -47,7 +47,7 @@
                 "timeRange": "night"
             }
         },
-		{
+        {
             "id": "alakazam-3",
             "pokemon": "alakazam",
             "presets": [
@@ -59,7 +59,7 @@
             "level": "35-50",
             "weight": 0.02,
             "condition": {
-				"canSeeSky": false,
+                "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]

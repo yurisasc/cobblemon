@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -17,9 +17,9 @@
             "condition": {
                 "biomes": [
                     "#cobblemon:is_mountain",
-					"#cobblemon:is_thermal"
+                    "#cobblemon:is_thermal"
                 ],
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "minecraft:coal_ore"
                 ]
             }
@@ -38,21 +38,21 @@
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
-                    "#minecraft:is_overworld"
+                    "#cobblemon:is_overworld"
                 ],
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "minecraft:coal_ore"
                 ]
             },
-			"anticondition": {
-				"biomes": [
+            "anticondition": {
+                "biomes": [
                     "#cobblemon:is_deep_dark",
-					"#cobblemon:is_mountain",
-					"#cobblemon:is_thermal"
+                    "#cobblemon:is_mountain",
+                    "#cobblemon:is_thermal"
                 ]
-			}
+            }
         },
-		{
+        {
             "id": "torkoal-3",
             "pokemon": "torkoal",
             "presets": [
@@ -64,10 +64,10 @@
             "level": "22-47",
             "weight": 2.0,
             "condition": {
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_nether_basalt"
                 ]
-			}
+            }
         }
     ]
 }

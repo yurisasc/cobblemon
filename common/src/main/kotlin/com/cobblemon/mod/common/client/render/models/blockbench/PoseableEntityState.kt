@@ -21,9 +21,12 @@ import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.render.MatrixWrapper
-import com.cobblemon.mod.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockParticleKeyframe
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
@@ -52,12 +55,12 @@ import net.minecraft.util.math.Vec3d
  * @author Hiroku
  * @since December 5th, 2021
  */
-abstract class PoseableEntityState<T : Entity> {
+abstract class PoseableEntityState<T : Entity> : Schedulable {
     var currentModel: PoseableEntityModel<T>? = null
     var currentPose: String? = null
+    var primaryAnimation: PrimaryAnimation<T>? = null
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
-    val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     val poseParticles = mutableListOf<BedrockParticleKeyframe>()
     val runtime = MoLangRuntime().also { runtime ->
         val reusableAnimTime = DoubleValue(0.0) // This gets called 500 million times so use a mutable value for runtime
@@ -176,6 +179,8 @@ abstract class PoseableEntityState<T : Entity> {
     protected var age = 0
     protected var currentPartialTicks = 0F
 
+    var primaryOverridePortion = 1F
+
     abstract fun getEntity(): T?
     fun getPartialTicks() = currentPartialTicks
     open fun updateAge(age: Int) {
@@ -234,6 +239,7 @@ abstract class PoseableEntityState<T : Entity> {
 
     fun setPose(pose: String) {
         currentPose = pose
+        primaryOverridePortion = 1F
         val model = currentModel
         if (model != null) {
             val poseImpl = model.getPose(pose) ?: return
@@ -250,10 +256,6 @@ abstract class PoseableEntityState<T : Entity> {
         }
     }
 
-    fun applyAdditives(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?) {
-        additives.removeIf { !it.run(entity, model, state) }
-    }
-
     fun setStatefulAnimations(vararg animations: StatefulAnimation<T, out ModelFrame>) {
         statefulAnimations.clear()
         statefulAnimations.addAll(animations)
@@ -263,6 +265,24 @@ abstract class PoseableEntityState<T : Entity> {
         locatorStates.values.toList().forEach { it.updatePosition(position) }
     }
 
+    fun addStatefulAnimation(animation: StatefulAnimation<T, *>, whenComplete: (state: PoseableEntityState<T>) -> Unit = {}) {
+        this.statefulAnimations.add(animation)
+        val duration = animation.duration
+        if (duration > 0F) {
+            after(seconds = (duration * 20F).toInt() / 20F) {
+                whenComplete(this)
+            }
+        }
+    }
+
+    fun addPrimaryAnimation(primaryAnimation: PrimaryAnimation<T>) {
+        this.primaryAnimation = primaryAnimation
+        this.statefulAnimations.clear()
+        this.quirks.clear()
+        this.primaryOverridePortion = 1F
+        primaryAnimation.started = animationSeconds
+    }
+
     fun runEffects(entity: T, previousAge: Int, newAge: Int) {
         val previousSeconds = previousAge / 20F
         val currentSeconds = newAge / 20F
@@ -270,7 +290,26 @@ abstract class PoseableEntityState<T : Entity> {
         currentModel?.let { model ->
             val pose = currentPose?.let(model::getPose)
             allStatefulAnimations.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
-            pose?.getApplicableIdleAnimations(entity, this)?.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
+            primaryAnimation?.animation?.applyEffects(entity, this, previousSeconds, currentSeconds)
+            pose?.idleAnimations?.filter { shouldIdleRun(it, 0.5F) }
+        }
+    }
+
+    fun shouldIdleRun(idleAnimation: StatelessAnimation<T, *>, requiredIntensity: Float): Boolean {
+        val primaryAnimation = primaryAnimation
+        return if (primaryAnimation != null) {
+            !primaryAnimation.prevents(idleAnimation) && this.primaryOverridePortion >= requiredIntensity
+        } else {
+            true
+        }
+    }
+
+    fun getIdleIntensity(idleAnimation: StatelessAnimation<T, *>): Float {
+        val primaryAnimation = primaryAnimation
+        return if (primaryAnimation != null && primaryAnimation.prevents(idleAnimation)) {
+            this.primaryOverridePortion
+        } else {
+            1F
         }
     }
 }

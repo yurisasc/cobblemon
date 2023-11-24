@@ -18,7 +18,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_lukewarm_ocean",
-					"#cobblemon:is_warm_ocean"
+                    "#cobblemon:is_warm_ocean"
                 ]
             }
         }

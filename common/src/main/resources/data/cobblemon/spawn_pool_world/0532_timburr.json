@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -29,10 +29,8 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_sandy"
-                ],
-                "structures": [
-                    "#minecraft:village"
+                    "#cobblemon:is_sandy",
+                    "#cobblemon:is_tundra"
                 ]
             }
         },
@@ -41,7 +39,7 @@
             "pokemon": "timburr",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -62,7 +60,8 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_sandy"
+                    "#cobblemon:is_sandy",
+                    "#cobblemon:is_tundra"
                 ]
             }
         }

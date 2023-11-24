@@ -4,8 +4,8 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "shroomish-1",
-            "pokemon": "shroomish",
+            "id": "breloom-1",
+            "pokemon": "breloom",
             "presets": [
                 "natural"
             ],

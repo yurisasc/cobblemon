@@ -8,7 +8,7 @@
             "pokemon": "poliwag",
             "presets": [
                 "natural",
-				"freshwater"
+                "freshwater"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -17,7 +17,10 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
-                "isRaining": true
+                "isRaining": true,
+                "neededNearbyBlocks": [
+                    "minecraft:lily_pad"
+                ]
             }
         },
         {
@@ -34,12 +37,12 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "minecraft:lily_pad"
                 ]
             }
         },
-		{
+        {
             "id": "poliwag-3",
             "pokemon": "poliwag",
             "presets": [
@@ -52,7 +55,7 @@
             "weight": 1.8,
             "condition": {
                 "canSeeSky": false,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_lush"
                 ]
             }
@@ -70,7 +73,7 @@
             "weight": 5.4,
             "condition": {
                 "canSeeSky": false,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_lush"
                 ]
             }

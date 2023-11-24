@@ -8,7 +8,7 @@
             "pokemon": "bounsweet",
             "presets": [
                 "natural",
-				"treetop"
+                "treetop"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -19,7 +19,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_jungle",
-					"#cobblemon:is_tropical_island"
+                    "#cobblemon:is_tropical_island"
                 ]
             }
         }

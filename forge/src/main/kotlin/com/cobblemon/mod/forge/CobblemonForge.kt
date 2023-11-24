@@ -10,12 +10,10 @@ package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.integration.adorn.AdornCompatibility
-import com.cobblemon.mod.common.item.MedicinalLeekItem
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
+import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
-import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.world.CobblemonStructures
@@ -24,22 +22,19 @@ import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifi
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonProcessorTypes
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProcessorListOverrides
+import com.cobblemon.mod.forge.brewing.CobblemonForgeBrewingRegistry
 import com.cobblemon.mod.forge.client.CobblemonForgeClient
 import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
-import java.util.UUID
-import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.*
-import net.minecraft.potion.PotionUtil
-import net.minecraft.potion.Potions
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -57,12 +52,7 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.ToolActions
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry
-import net.minecraftforge.common.brewing.IBrewingRecipe
-import net.minecraftforge.event.AddPackFindersEvent
-import net.minecraftforge.event.AddReloadListenerEvent
-import net.minecraftforge.event.OnDatapackSyncEvent
-import net.minecraftforge.event.RegisterCommandsEvent
+import net.minecraftforge.event.*
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
@@ -83,7 +73,9 @@ import net.minecraftforge.resource.PathPackResources
 import net.minecraftforge.server.ServerLifecycleHooks
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import java.io.File
+import java.util.*
 import java.util.concurrent.ExecutionException
+import kotlin.reflect.KClass
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
@@ -118,6 +110,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::addCobblemonStructures)
             addListener(::onVillagerTradesRegistry)
             addListener(::onWanderingTraderRegistry)
+            addListener(::onLootTableLoad)
         }
         ForgePlatformEventHandler.register()
         DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable(CobblemonForgeClient::init) }
@@ -144,36 +137,12 @@ class CobblemonForge : CobblemonImplementation {
         this.networkManager.registerServerBound()
         event.enqueueWork {
             this.queuedWork.forEach { it.invoke() }
+            CobblemonForgeBrewingRegistry.register()
         }
         Cobblemon.initialize()
     }
 
     fun on(event: RegisterEvent) {
-        event.register(RegistryKeys.POTION) {
-            BrewingRecipes.registerPotionTypes()
-            BrewingRecipes.getPotionRecipes().forEach { (inputDef, ingredientDef, output) ->
-                BrewingRecipeRegistry.addRecipe(object : IBrewingRecipe {
-                    override fun isInput(arg: ItemStack) = arg.item is PotionItem && PotionUtil.getPotion(arg) == inputDef
-                    override fun isIngredient(arg: ItemStack) = ingredientDef.test(arg)
-                    override fun getOutput(input: ItemStack, ingredient: ItemStack): ItemStack {
-                        return if (inputDef == Potions.WATER && ingredient.item is MedicinalLeekItem) {
-                            ItemStack(CobblemonItems.MEDICINAL_BREW)
-                        } else if (isInput(input) && isIngredient(ingredient)) {
-                            PotionUtil.setPotion(ItemStack(Items.POTION), output)
-                        } else {
-                            ItemStack.EMPTY
-                        }
-                    }
-                })
-            }
-            BrewingRecipes.getItemRecipes().forEach { (input, ingredient, output) ->
-                BrewingRecipeRegistry.addRecipe(object : IBrewingRecipe {
-                    override fun isInput(arg: ItemStack) = arg.item === input
-                    override fun isIngredient(arg: ItemStack) = ingredient.test(arg)
-                    override fun getOutput(input: ItemStack, ingredient: ItemStack) = if (isIngredient(ingredient) && isInput(input)) ItemStack(output) else ItemStack.EMPTY
-                })
-            }
-        }
 
         event.register(RegistryKeys.BLOCK_PREDICATE_TYPE) {
             CobblemonBlockPredicates.touch()
@@ -395,6 +364,10 @@ class CobblemonForge : CobblemonImplementation {
         CobblemonTradeOffers.resolveWanderingTradeOffers().forEach { tradeOffer ->
             if (tradeOffer.isRareTrade) e.rareTrades.addAll(tradeOffer.tradeOffers) else e.genericTrades.addAll(tradeOffer.tradeOffers)
         }
+    }
+
+    private fun onLootTableLoad(e: LootTableLoadEvent) {
+        LootInjector.attemptInjection(e.name) { builder -> e.table.addPool(builder.build()) }
     }
 
     private fun attemptModCompat() {

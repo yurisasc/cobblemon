@@ -27,7 +27,7 @@ class RotationFunctionStatelessAnimation<T : Entity>(
     frame: ModelFrame
 ) : StatelessAnimation<T, ModelFrame>(frame) {
     override val targetFrame = ModelFrame::class.java
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        part.addRotation(axis, function(timeVariable(state, limbSwing, ageInTicks) ?: 0F))
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+        part.addRotation(axis, function(timeVariable(state, limbSwing, ageInTicks) ?: 0F) * intensity)
     }
 }

@@ -34,10 +34,10 @@
             "weight": 0.9,
             "condition": {
                 "canSeeSky": false,
-				"maxLight": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "maxLight": 0
             },
             "anticondition": {
                 "biomes": [
@@ -45,7 +45,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "haunter-3",
             "pokemon": "haunter",
             "presets": [
@@ -81,10 +81,10 @@
             "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
-                "maxLight": 0,
                 "biomes": [
                     "#cobblemon:is_spooky"
-                ]
+                ],
+                "maxLight": 0
             }
         },
         {
@@ -103,15 +103,23 @@
                     "#minecraft:is_nether"
                 ]
             },
-			"drops": {
-				"amount": "1",
-				"entries": [
-					{
-					"item": "minecraft:ghast_tear",
-					"percentage": 5
-					}
-				]
-			}
+            "drops": {
+                "amount": 3,
+                "entries": [
+                    {
+                        "item": "cobblemon:spell_tag",
+                        "percentage": 5.0
+                    },
+                    {
+                        "item": "cobblemon:payapa_berry",
+                        "percentage": 5.0
+                    },
+                    {
+                        "item": "minecraft:ghast_tear",
+                        "percentage": 5.0
+                    }
+                ]
+            }
         }
     ]
 }

@@ -7,8 +7,7 @@
             "id": "vileplume-1",
             "pokemon": "vileplume",
             "presets": [
-                "natural",
-                "treetop"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -43,7 +42,7 @@
             }
         },
         {
-            "id": "vileplume-valencian-1",
+            "id": "vileplume-valencian-3",
             "pokemon": "vileplume valencian",
             "presets": [
                 "natural"
@@ -57,7 +56,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_savanna",
-					"#cobblemon:is_tropical_island"
+                    "#cobblemon:is_tropical_island"
                 ],
                 "timeRange": "night"
             }

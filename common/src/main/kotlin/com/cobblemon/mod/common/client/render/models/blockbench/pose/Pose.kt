@@ -29,23 +29,18 @@ class Pose<T : Entity, F : ModelFrame>(
     val transformTicks: Int,
     val animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
     val idleAnimations: Array<StatelessAnimation<T, out F>>,
-    val transformedParts: Array<TransformedModelPart>,
+    val transformedParts: Array<ModelPartTransformation>,
     val quirks: Array<ModelQuirk<T, *>>
 ) {
     val transitions = mutableMapOf<Pose<T, F>, (Pose<T, out ModelFrame>, Pose<T, out ModelFrame>) -> StatefulAnimation<T, ModelFrame>>()
 
-    fun idleStateless(model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, ageInTicks: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F) {
-        idleAnimations.forEach { it.apply(null, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch) }
+    fun idleStateless(model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, ageInTicks: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, intensity: Float) {
+        idleAnimations.forEach { it.apply(null, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity) }
     }
 
-    fun idleStateful(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        getApplicableIdleAnimations(entity, state).forEach { idleAnimation ->
-            idleAnimation.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+    fun idleStateful(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+        idleAnimations.filter { state.shouldIdleRun(it, 0F) }.forEach { idleAnimation ->
+            idleAnimation.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity * state.getIdleIntensity(idleAnimation))
         }
-    }
-
-    fun getApplicableIdleAnimations(entity: T?, state: PoseableEntityState<T>): List<StatelessAnimation<T, out F>> {
-        val allStatefulAnimations = state.allStatefulAnimations
-        return idleAnimations.filter { idle -> allStatefulAnimations.none { it.preventsIdle(entity, state, idle) } }
     }
 }

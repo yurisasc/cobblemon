@@ -29,7 +29,8 @@
     "amount": 1,
     "entries": [
       {
-        "item": "minecraft:egg"
+        "item": "minecraft:egg",
+        "percentage": 33.0
       },
       {
         "item": "cobblemon:oval_stone",

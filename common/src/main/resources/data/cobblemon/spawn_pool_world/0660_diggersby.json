@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -18,7 +18,8 @@
                 "biomes": [
                     "#cobblemon:is_hills",
                     "#cobblemon:is_temperate"
-                ]
+                ],
+                "minY": 32
             }
         }
     ]

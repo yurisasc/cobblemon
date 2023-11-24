@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity.CaptureState
@@ -24,6 +25,8 @@ class EmptyPokeBallClientDelegate : PokeBallPoseableState(), EntitySideDelegate<
     override val shakeEmitter = SimpleObservable<Unit>()
 
     lateinit var currentEntity: EmptyPokeBallEntity
+    override val schedulingTracker
+        get() = getEntity().schedulingTracker
 
     override fun getEntity() = currentEntity
 

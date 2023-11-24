@@ -44,7 +44,8 @@ class WorldSlice(
 ) {
     class BlockData(
         val state: BlockState,
-        val light: Int
+        val light: Int,
+        val skyLight: Int
     )
 
     val length = blocks.size
@@ -82,6 +83,15 @@ class WorldSlice(
         }
     }
     fun getLight(position: BlockPos, elseLight: Int = 0) = getLight(position.x, position.y, position.z, elseLight)
+
+    fun getSkyLight(x: Int, y: Int, z: Int, elseLight: Int = 0): Int {
+        return if (!isInBounds(x, y, z)) {
+            elseLight
+        } else {
+            getBlockData(x, y, z).skyLight
+        }
+    }
+    fun getSkyLight(position: BlockPos, elseLight: Int = 0) = getSkyLight(position.x, position.y, position.z, elseLight)
 
     fun skySpaceAbove(x: Int, y: Int, z: Int): Int {
         return if (!isInBounds(x, y, z) || skyLevel[x - baseX][z - baseZ] > y) {

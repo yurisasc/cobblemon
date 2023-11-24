@@ -9,15 +9,17 @@
 package com.cobblemon.mod.common.api.tags
 
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 
 /**
- * A collection of the Cobblemon [TagKey]s related to the [Registry.ENTITY_TYPE].
+ * A collection of the Cobblemon [TagKey]s related to the [Registries.ENTITY_TYPE].
  *
  * @author Licious
  * @since March 6th, 2023
  */
+@Suppress("HasPlatformType", "unused")
 object CobblemonEntityTypeTags {
 
 
@@ -26,6 +28,9 @@ object CobblemonEntityTypeTags {
      */
     @JvmField
     val CANNOT_HAVE_NAME_TAG = create("cannot_have_name_tag")
+
+    @JvmField
+    val BOATS = create("boats")
 
     private fun create(path: String) = TagKey.of(RegistryKeys.ENTITY_TYPE, cobblemonResource(path))
 
