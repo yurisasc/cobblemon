@@ -263,6 +263,7 @@ class FossilMultiblockStructure (
                 this.createdPokemon = null
                 this.fossilOwner = null
                 this.protectionTime = -1
+                world.playSound(null, tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS)
                 this.updateFossilType(world)
                 this.syncToClient(world)
                 this.markDirty(world)
