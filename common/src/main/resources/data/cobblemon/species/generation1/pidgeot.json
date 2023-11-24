@@ -81,10 +81,8 @@
       "light": "0-4"
     },
     "moving": {
-      "moving": {
-        "walk": {
-          "walkSpeed": 0.42
-        }
+      "walk": {
+        "walkSpeed": 0.42
       },
       "fly": {
         "canFly": true
