@@ -30,7 +30,7 @@ class HorseaModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("horsea", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("horsea", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,

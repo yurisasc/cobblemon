@@ -36,10 +36,10 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bulbasaur", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bulbasaur", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bulbasaur", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("bulbasaur", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

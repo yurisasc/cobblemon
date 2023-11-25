@@ -31,10 +31,10 @@ class SylveonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sylveon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sylveon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sylveon", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("sylveon", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

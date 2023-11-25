@@ -36,10 +36,10 @@ class StoutlandModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qu
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("stoutland", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("stoutland", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("stoutland", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("stoutland", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,

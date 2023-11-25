@@ -34,7 +34,7 @@ class KingdraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("kingdra", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("kingdra", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,

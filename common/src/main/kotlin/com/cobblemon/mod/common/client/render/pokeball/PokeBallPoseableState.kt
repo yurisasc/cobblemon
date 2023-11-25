@@ -42,16 +42,16 @@ abstract class PokeBallPoseableState : PoseableEntityState<EmptyPokeBallEntity>(
                 }
                 EmptyPokeBallEntity.CaptureState.FALL -> {}
                 EmptyPokeBallEntity.CaptureState.SHAKE -> {
-                    doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", "bounce").setPreventsIdle(false)) }
+                    doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", "bounce")) }
                     shakeEmitter
                         .pipe(Observable.emitWhile { stateEmitter.get() == EmptyPokeBallEntity.CaptureState.SHAKE })
                         .subscribe {
                             val bob = "bob${Random.Default.nextInt(6) + 1}"
-                            doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", bob).setPreventsIdle(false)) }
+                            doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", bob)) }
                         }
                 }
-                EmptyPokeBallEntity.CaptureState.CAPTURED -> doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", "capture").setPreventsIdle(false)) }
-                EmptyPokeBallEntity.CaptureState.CAPTURED_CRITICAL -> doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", "critical").setPreventsIdle(false)) }
+                EmptyPokeBallEntity.CaptureState.CAPTURED -> doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", "capture")) }
+                EmptyPokeBallEntity.CaptureState.CAPTURED_CRITICAL -> doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", "critical")) }
                 else -> {}
             }
         }

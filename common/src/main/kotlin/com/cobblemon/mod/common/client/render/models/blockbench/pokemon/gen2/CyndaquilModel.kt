@@ -31,10 +31,10 @@ class CyndaquilModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("cyndaquil", "battle_cry").setPreventsIdle(false) else bedrockStateful("cyndaquil", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("cyndaquil", "battle_cry") else bedrockStateful("cyndaquil", "cry") }
 
     override fun registerPoses() {
-//        val sneeze = quirk("sneeze") { bedrockStateful("cyndaquil", "sneeze_quirk").setPreventsIdle(false) }
+//        val sneeze = quirk("sneeze") { bedrockStateful("cyndaquil", "sneeze_quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

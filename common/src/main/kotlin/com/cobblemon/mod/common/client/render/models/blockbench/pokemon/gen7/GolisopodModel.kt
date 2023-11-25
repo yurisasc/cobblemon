@@ -36,10 +36,10 @@ class GolisopodModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golisopod", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golisopod", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("golisopod", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("golisopod", "blink")}
 
         sleep = registerPose(
             poseName = "sleeping",

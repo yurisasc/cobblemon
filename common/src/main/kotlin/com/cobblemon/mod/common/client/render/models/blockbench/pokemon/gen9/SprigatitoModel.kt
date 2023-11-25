@@ -31,12 +31,12 @@ class SprigatitoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sprigatito", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sprigatito", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sprigatito", "blink").setPreventsIdle(false) }
-        val earTwitchRight = quirk("ear_twitch_right", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("sprigatito", "quirk_ear-twitch-left").setPreventsIdle(false) }
-        val earTwitchLeft = quirk("ear_twitch_left", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("sprigatito", "quirk_ear-twitch-right").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("sprigatito", "blink") }
+        val earTwitchRight = quirk("ear_twitch_right", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("sprigatito", "quirk_ear-twitch-left") }
+        val earTwitchLeft = quirk("ear_twitch_left", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("sprigatito", "quirk_ear-twitch-right") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(earTwitchRight, earTwitchLeft),

@@ -41,7 +41,7 @@ class GolettModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("golett", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("golett", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

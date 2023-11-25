@@ -45,10 +45,10 @@ class RowletModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWinge
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rowlet", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rowlet", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rowlet", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("rowlet", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,

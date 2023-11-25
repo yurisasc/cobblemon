@@ -38,10 +38,10 @@ class GardevoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gardevoir", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gardevoir", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("gardevoir", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("gardevoir", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

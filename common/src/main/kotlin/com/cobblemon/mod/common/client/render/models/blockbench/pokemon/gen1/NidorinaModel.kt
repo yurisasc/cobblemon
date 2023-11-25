@@ -40,7 +40,7 @@ class NidorinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("nidorina", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("nidorina", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

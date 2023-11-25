@@ -36,10 +36,10 @@ class BlazikenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("blaziken", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("blaziken", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("blaziken", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("blaziken", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

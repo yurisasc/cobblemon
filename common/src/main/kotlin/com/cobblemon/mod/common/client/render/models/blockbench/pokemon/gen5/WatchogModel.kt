@@ -30,10 +30,10 @@ class WatchogModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("watchog", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("watchog", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("watchog", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("watchog", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

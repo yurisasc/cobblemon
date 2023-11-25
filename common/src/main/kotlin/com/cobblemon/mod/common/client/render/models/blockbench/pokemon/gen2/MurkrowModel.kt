@@ -34,7 +34,7 @@ class MurkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("murkrow", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("murkrow", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(

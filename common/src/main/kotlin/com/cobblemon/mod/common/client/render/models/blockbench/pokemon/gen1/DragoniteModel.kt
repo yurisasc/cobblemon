@@ -47,7 +47,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dragonite", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("dragonite", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

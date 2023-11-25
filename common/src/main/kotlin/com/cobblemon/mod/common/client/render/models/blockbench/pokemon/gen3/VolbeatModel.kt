@@ -39,7 +39,7 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("volbeat", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("volbeat", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

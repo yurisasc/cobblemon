@@ -35,7 +35,7 @@ class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val wateroffset = -8
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("surskit", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("surskit", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

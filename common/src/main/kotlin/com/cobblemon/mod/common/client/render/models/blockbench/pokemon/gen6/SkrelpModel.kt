@@ -29,10 +29,10 @@ class SkrelpModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("skrelp", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("skrelp", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("skrelp", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("skrelp", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

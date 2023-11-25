@@ -101,8 +101,6 @@ abstract class PoseableEntityModel<T : Entity>(
     /** Gets the [PoseableEntityState] for an entity. */
     abstract fun getState(entity: T): PoseableEntityState<T>
 
-    fun getChangeFactor(part: ModelPart) = relevantParts.find { it.modelPart === part }?.changeFactor ?: 1F
-    fun scaleForPart(part: ModelPart, value: Float) = getChangeFactor(part) * value
     fun getAnimation(state: PoseableEntityState<*>, name: String, runtime: MoLangRuntime): StatefulAnimation<T, *>? {
         val poseAnimations = state.currentPose?.let(this::getPose)?.animations ?: mapOf()
         val animation = resolveFromAnimationMap(poseAnimations, name, runtime) ?: resolveFromAnimationMap(animations, name, runtime)
@@ -512,7 +510,7 @@ abstract class PoseableEntityModel<T : Entity>(
             .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F) }
         state.statefulAnimations.removeAll(removedStatefuls)
         state.currentPose?.let { getPose(it) }
-            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.primaryOverridePortion)
+            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         updateLocators(state)
     }
 
@@ -631,11 +629,9 @@ abstract class PoseableEntityModel<T : Entity>(
     fun bedrockStateful(
         animationGroup: String,
         animation: String,
-        animationPrefix: String = "animation.$animationGroup",
-        preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean = { _, _, _ -> true }
-    ) = BedrockStatefulAnimation(
+        animationPrefix: String = "animation.$animationGroup"
+    ) = BedrockStatefulAnimation<T>(
         BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation"),
-        preventsIdleCheck
     )
 
     fun quirk(

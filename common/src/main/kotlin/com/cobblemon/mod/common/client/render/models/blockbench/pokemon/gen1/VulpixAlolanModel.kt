@@ -40,7 +40,7 @@ class VulpixAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("vulpix_alolan", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("vulpix_alolan", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("vulpix_alolan", "sleep"))

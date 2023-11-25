@@ -56,8 +56,8 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
             transformTicks = 0
         )
 
-        shut.transitions[open] = { _, _ -> bedrockStateful("poke_ball", "open").isTransformAnimation(true) }
-        open.transitions[shut] = { _, _ -> bedrockStateful("poke_ball", "shut").isTransformAnimation(true) }
+        shut.transitions[open] = { _, _ -> bedrockStateful("poke_ball", "open") }
+        open.transitions[shut] = { _, _ -> bedrockStateful("poke_ball", "shut") }
         midair.transitions[open] = shut.transitions[open]!!
     }
 }

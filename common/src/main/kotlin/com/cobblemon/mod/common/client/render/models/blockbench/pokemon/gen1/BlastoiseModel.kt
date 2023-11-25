@@ -42,7 +42,7 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val profileScale = 0.63F
     override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("blastoise", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("blastoise", "cry") }
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -51,7 +51,7 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("blastoise", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("blastoise", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

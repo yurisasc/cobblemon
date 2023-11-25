@@ -40,7 +40,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val shoulderOffsetZ = -0.5
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("zigzagoon", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("zigzagoon", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("zigzagoon", "sleep"))

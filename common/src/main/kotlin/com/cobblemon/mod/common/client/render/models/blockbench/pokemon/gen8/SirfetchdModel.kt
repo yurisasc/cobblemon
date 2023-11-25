@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -34,11 +35,11 @@ class SirfetchdModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sirfetchd", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sirfetchd", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sirfetchd", "blink").setPreventsIdle(false) }
-        val swag = quirk("swag") { bedrockStateful("sirfetchd", "quirk").setPreventsIdle(true) }
+        val blink = quirk("blink") { bedrockStateful("sirfetchd", "blink") }
+        val swag = quirk("swag") { PrimaryAnimation(bedrockStateful("sirfetchd", "quirk")) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

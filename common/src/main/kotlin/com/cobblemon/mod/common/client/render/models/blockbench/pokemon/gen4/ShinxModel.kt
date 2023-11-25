@@ -36,7 +36,7 @@ class ShinxModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("shinx", "blink").setPreventsIdle(false) }
+//        val blink = quirk("blink") { bedrockStateful("shinx", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,

@@ -40,10 +40,10 @@ class RaticateAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("raticate_alolan", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("raticate_alolan", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("raticate_alolan", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("raticate_alolan", "blink")}
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(bedrock("raticate_alolan", "sleep"))

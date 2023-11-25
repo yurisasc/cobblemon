@@ -36,7 +36,7 @@ class CameruptModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("camerupt", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("camerupt", "blink") }
 
         standing = registerPose(
             poseName = "standing",

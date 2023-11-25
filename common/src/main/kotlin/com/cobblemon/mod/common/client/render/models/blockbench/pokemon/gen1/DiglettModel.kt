@@ -32,7 +32,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("diglett", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("diglett", "blink")}
         stand = registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,

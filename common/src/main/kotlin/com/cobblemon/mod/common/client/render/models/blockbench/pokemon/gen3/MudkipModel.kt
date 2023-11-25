@@ -39,10 +39,10 @@ class MudkipModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudkip", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudkip", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mudkip", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("mudkip", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

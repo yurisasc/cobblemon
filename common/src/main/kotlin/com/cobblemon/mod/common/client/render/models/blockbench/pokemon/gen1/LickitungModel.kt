@@ -39,7 +39,7 @@ class LickitungModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lickitung", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("lickitung", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

@@ -34,10 +34,10 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("caterpie", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("caterpie", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("caterpie", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("caterpie", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

@@ -32,10 +32,10 @@ class GourgeistModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gourgeist", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gourgeist", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("gourgeist", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("gourgeist", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,

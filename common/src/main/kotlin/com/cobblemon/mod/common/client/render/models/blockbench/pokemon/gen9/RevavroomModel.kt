@@ -28,10 +28,10 @@ class RevavroomModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("revavroom", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("revavroom", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("revavroom", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("revavroom", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("revavroom", "sleep"))

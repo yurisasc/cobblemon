@@ -48,7 +48,7 @@ class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("scizor", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("scizor", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

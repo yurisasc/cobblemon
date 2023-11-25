@@ -38,7 +38,7 @@ class ShiftryModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("shiftry", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("shiftry", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

@@ -34,6 +34,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunctions
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
@@ -66,27 +68,40 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         val reusableAnimTime = DoubleValue(0.0) // This gets called 500 million times so use a mutable value for runtime
         runtime.environment.getQueryStruct().addFunctions(mapOf(
             "anim_time" to java.util.function.Function { return@Function reusableAnimTime.also { it.value = animationSeconds.toDouble() } },
+            "bedrock_primary" to java.util.function.Function { params ->
+                val group = params.getString(0)
+                val animation = params.getString(1)
+                val anim = currentModel?.bedrockStateful(group, animation) ?: return@Function ObjectValue<Int>(0)
+                val excludedLabels = mutableSetOf<String>()
+                var curve: WaveFunction = { t ->
+                    if (t < 0.1) {
+                        t * 10
+                    } else if (t < 0.9) {
+                        1F
+                    } else {
+                        1F
+                    }
+                }
+                for (index in 2 until params.params.size) {
+                    val label = params.getString(index) ?: continue
+                    val regex = "curve[ =]+([a-zA-Z0-9]+)".toRegex()
+                    val curveName = regex.find(label)
+                    if (curveName != null && curveName.groupValues.size > 1) {
+                        val curveId = curveName.groupValues[1]
+                        WaveFunctions.functions[curveId]?.let { curve = it }
+                    } else {
+                        excludedLabels.add(label)
+                    }
+
+                }
+
+                return@Function ObjectValue(PrimaryAnimation(animation = anim, excludedLabels = excludedLabels, curve = curve))
+            },
             "bedrock_stateful" to java.util.function.Function { params ->
                 val group = params.getString(0)
                 val animation = params.getString(1)
-                var preventsIdle = false
-                var posePauser = false
-                for (i in 2 until params.params.size) {
-                    val value = params.getString(i).lowercase()
-                    if (value.equals("prevents_idle")) {
-                        preventsIdle = true
-                    } else if (value == "pauses_pose") {
-                        posePauser = true
-                    }
-                }
                 val anim = currentModel?.bedrockStateful(group, animation) ?: return@Function ObjectValue<Int>(0)
-                anim.setPreventsIdle(preventsIdle)
-                anim.isPosePauserAnimation(posePauser)
-                return@Function ObjectValue(anim).addFunction(
-                    "prevents_idle", java.util.function.Function { anim.setPreventsIdle(it.getString(0).toBoolean()) }
-                ).addFunction(
-                    "pauses_pose", java.util.function.Function { anim.isPosePauserAnimation = it.getString(0).toBoolean() }
-                )
+                return@Function ObjectValue(anim)
             },
             "pose_type" to java.util.function.Function { return@Function StringValue((getEntity() as Poseable).getPoseType().name) },
             "pose" to java.util.function.Function { _ -> return@Function StringValue(currentPose ?: "") },
@@ -216,7 +231,11 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
     fun addFirstAnimation(animation: Set<String>) {
         val model = currentModel ?: return
         val animation = animation.firstNotNullOfOrNull { model.getAnimation(this, it, runtime) } ?: return
-        statefulAnimations.add(animation)
+        if (animation is PrimaryAnimation<T>) {
+            addPrimaryAnimation(animation)
+        } else {
+            addStatefulAnimation(animation)
+        }
     }
 
     fun isPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.any { it.poseName == currentPose }
@@ -298,7 +317,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
     fun shouldIdleRun(idleAnimation: StatelessAnimation<T, *>, requiredIntensity: Float): Boolean {
         val primaryAnimation = primaryAnimation
         return if (primaryAnimation != null) {
-            !primaryAnimation.prevents(idleAnimation) && this.primaryOverridePortion >= requiredIntensity
+            !primaryAnimation.prevents(idleAnimation) || this.primaryOverridePortion > requiredIntensity
         } else {
             true
         }

@@ -33,7 +33,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var waterbattleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("barraskewda", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("barraskewda", "blink")}
         sleep = registerPose(
             poseName = "sleeping",
             transformTicks = 10,

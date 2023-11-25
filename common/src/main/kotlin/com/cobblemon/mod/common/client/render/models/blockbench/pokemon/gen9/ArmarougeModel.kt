@@ -43,10 +43,10 @@ class ArmarougeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("armarouge", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("armarouge", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("armarouge", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("armarouge", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("armarouge", "sleep"))

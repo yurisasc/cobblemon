@@ -42,7 +42,7 @@ class MamoswineModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
             idleAnimations = arrayOf(bedrock("mamoswine", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("mamoswine", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("mamoswine", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

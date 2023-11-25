@@ -34,10 +34,10 @@ class RaichuAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("raichu_alolan", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("raichu_alolan", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("raichu_alolan", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("raichu_alolan", "blink") }
 
         standing = registerPose(
             poseName = "standing",

@@ -27,8 +27,8 @@ class GalvantulaModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink1") { bedrockStateful("galvantula", "blink1").setPreventsIdle(false) }
-        val blink2 = quirk("blink2") { bedrockStateful("galvantula", "blink2").setPreventsIdle(false) }
+        val blink1 = quirk("blink1") { bedrockStateful("galvantula", "blink1") }
+        val blink2 = quirk("blink2") { bedrockStateful("galvantula", "blink2") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

@@ -44,10 +44,10 @@ class FearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fearow", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fearow", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("fearow", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("fearow", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

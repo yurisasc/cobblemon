@@ -33,7 +33,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileTranslation = Vec3d(0.0, 0.40, 0.0)
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("magikarp", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("magikarp", "blink")}
         registerPose(
             poseName = "land",
             poseTypes = STANDING_POSES + PoseType.PROFILE,

@@ -33,8 +33,8 @@ class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var waterbattleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("arrokuda", "blink").setPreventsIdle(false)}
-        val flop = quirk("flop") { bedrockStateful("arrokuda", "ground_quirk").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("arrokuda", "blink")}
+        val flop = quirk("flop") { bedrockStateful("arrokuda", "ground_quirk")}
 
         sleep = registerPose(
             poseName = "sleeping",

@@ -47,7 +47,7 @@ class NinetalesAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ninetales_alolan", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("ninetales_alolan", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("ninetales_alolan", "sleep"))

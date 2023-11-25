@@ -33,7 +33,7 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chansey", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("chansey", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

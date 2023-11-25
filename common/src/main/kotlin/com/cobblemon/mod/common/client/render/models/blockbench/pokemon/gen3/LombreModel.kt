@@ -47,7 +47,7 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     val wateroffset = 1
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lombre", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("lombre", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,

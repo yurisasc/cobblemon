@@ -30,10 +30,10 @@ class SerperiorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("serperior", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("serperior", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("serperior", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("serperior", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("serperior", "sleep"))

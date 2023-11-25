@@ -36,10 +36,10 @@ class LillipupModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("lillipup", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("lillipup", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lillipup", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("lillipup", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,

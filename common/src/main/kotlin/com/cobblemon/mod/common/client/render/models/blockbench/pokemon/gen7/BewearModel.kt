@@ -43,10 +43,10 @@ class BewearModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bewear", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bewear", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bewear", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("bewear", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

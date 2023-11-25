@@ -37,10 +37,10 @@ class BergmiteModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bergmite", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bergmite", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bergmite", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("bergmite", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("bergmite", "sleep"))

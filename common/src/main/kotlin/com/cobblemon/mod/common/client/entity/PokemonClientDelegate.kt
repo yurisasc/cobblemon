@@ -63,7 +63,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             if (it) {
                 val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
                 val animation = model.getAnimation(this, "faint", runtime) ?: return@subscribe
-                val primaryAnimation = PrimaryAnimation(animation)
+                val primaryAnimation = if (animation is PrimaryAnimation<PokemonEntity>) animation else PrimaryAnimation(animation, curve = { 1F })
                 after(seconds = 3F) { entityScaleModifier = 0F }
                 this.addPrimaryAnimation(primaryAnimation)
             }
@@ -158,12 +158,16 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     fun cry() {
         val model = currentModel ?: return
         if (model is PokemonPoseableModel) {
-           if (cryAnimation != null && cryAnimation in statefulAnimations) {
+           if (cryAnimation != null && (cryAnimation in statefulAnimations || cryAnimation == primaryAnimation)) {
                return
            }
 
             val animation = model.cryAnimation(currentEntity, this) ?: return
-            statefulAnimations.add(animation)
+            if (animation is PrimaryAnimation) {
+                addPrimaryAnimation(animation)
+            } else {
+                statefulAnimations.add(animation)
+            }
             cryAnimation = animation
         }
     }

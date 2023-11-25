@@ -36,10 +36,10 @@ class BrionneModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battleidle: PokemonPose
 //    lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("brionne", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("brionne", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("brionne", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("brionne", "blink") }
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("brionne", "sleep"))

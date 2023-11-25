@@ -36,10 +36,10 @@ class MudbrayModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudbray", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudbray", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mudbray", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("mudbray", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

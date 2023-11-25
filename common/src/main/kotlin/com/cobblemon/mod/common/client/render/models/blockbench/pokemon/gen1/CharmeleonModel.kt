@@ -39,10 +39,10 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charmeleon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charmeleon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("charmeleon", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("charmeleon", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

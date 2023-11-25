@@ -29,10 +29,10 @@ class SkeledirgeModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("skeledirge", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("skeledirge", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("skeledirge", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("skeledirge", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("skeledirge", "sleep"))

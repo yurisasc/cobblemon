@@ -27,7 +27,7 @@ class LanturnModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lanturn", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("lanturn", "blink")}
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

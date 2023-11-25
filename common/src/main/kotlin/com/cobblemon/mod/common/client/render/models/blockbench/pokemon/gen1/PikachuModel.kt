@@ -40,10 +40,10 @@ class PikachuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     val shoulderOffset = 1.5
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pikachu", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pikachu", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("pikachu", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("pikachu", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
 import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.getFirst
 import com.google.gson.*
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
@@ -100,7 +101,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
     val cry: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
 
     override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint?.get()
-    override val cryAnimation = CryProvider { _, _ -> cry?.get()?.also { if (it is BedrockStatefulAnimation) it.setPreventsIdle(false) } }
+    override val cryAnimation = CryProvider { _, _ -> cry?.get() }
 
     object JsonModelExclusion: ExclusionStrategy {
         override fun shouldSkipField(f: FieldAttributes): Boolean {
@@ -118,7 +119,6 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
     }
 
     object StatefulAnimationAdapter : JsonDeserializer<Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>> {
-        var preventsIdleDefault = true
         override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Supplier<StatefulAnimation<PokemonEntity, ModelFrame>> {
             json as JsonPrimitive
             val animString = json.asString
@@ -137,6 +137,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             }
         }
     }
+
     object PoseAdapter : JsonDeserializer<Pose<PokemonEntity, ModelFrame>> {
         override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Pose<PokemonEntity, ModelFrame> {
             val model = JsonPokemonPoseableModelAdapter.model!!
@@ -150,7 +151,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
             val conditionsList = mutableListOf<(PokemonEntity) -> Boolean>()
 
-            val animations = json.get("animations")?.asJsonObject?.let {
+            val animations = json.get("namedAnimations")?.takeIf { it is JsonObject }?.asJsonObject?.let {
                 val map = mutableMapOf<String, ExpressionLike>()
                 for ((key, value) in it.entrySet()) {
                     map[key] = value.asString.asExpressionLike()
@@ -179,7 +180,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
                 return@map transformation.withPosition(position.x, position.y, position.z).withRotationDegrees(rotation.x, rotation.y, rotation.z).withVisibility(isVisible)
             }?.toTypedArray() ?: arrayOf()
 
-            val idleAnimations = (obj.get("animations")?.asJsonArray ?: JsonArray()).asJsonArray.mapNotNull {
+            val idleAnimations = (json.getFirst("idleAnimations", "animations")?.takeIf { it is JsonArray }?.asJsonArray?.mapNotNull {
                 val animString = it.asString
                 if (animString == "look") {
                     return@mapNotNull JsonPokemonPoseableModelAdapter.model!!.singleBoneLook<PokemonEntity>()
@@ -191,7 +192,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
                     }
                 }
                 return@mapNotNull null
-            }.toTypedArray()
+            }?.toTypedArray() ?: arrayOf())
 
             val quirks = (obj.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
                 json as JsonObject
@@ -199,16 +200,12 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
                 val animations: (state: PoseableEntityState<PokemonEntity>) -> List<StatefulAnimation<PokemonEntity, *>> = { _ ->
                     (json.get("animations")?.asJsonArray ?: JsonArray()).map { animJson ->
                         val animString = animJson.asString
-
                         val anim = animString.substringBefore("(")
-
-                        StatefulAnimationAdapter.preventsIdleDefault = false
                         val animation = if(ANIMATION_FACTORIES.contains(anim)) {
                             ANIMATION_FACTORIES[anim]?.stateful(model, animString)
                         } else {
                             null
                         }
-                        StatefulAnimationAdapter.preventsIdleDefault = true
                         animation
                     }.filterNotNull()
                 }

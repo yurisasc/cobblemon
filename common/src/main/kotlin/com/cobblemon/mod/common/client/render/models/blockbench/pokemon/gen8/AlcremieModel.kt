@@ -42,7 +42,7 @@ class AlcremieModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
     val shoulderOffset = 5.5
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("alcremie", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("alcremie", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("alcremie", "sleep"))

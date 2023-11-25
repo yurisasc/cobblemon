@@ -29,7 +29,7 @@ class LitwickModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("litwick", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("litwick", "blink") }
 
         standing = registerPose(
             poseName = "standing",

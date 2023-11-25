@@ -32,7 +32,7 @@ class CryogonalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cryogonal", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("cryogonal", "blink") }
 
         standing = registerPose(
             poseName = "standing",

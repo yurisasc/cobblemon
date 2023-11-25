@@ -28,10 +28,10 @@ class ShroodleModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var walking: PokemonPose
     lateinit var sleeping: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shroodle", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shroodle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("shroodle", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("shroodle", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

@@ -29,7 +29,7 @@ class DrifblimModel (root: ModelPart) : PokemonPoseableModel() {
 
 
     override fun registerPoses() {
-        val blink = quirk(name = "blink") { bedrockStateful("drifblim", "blink").setPreventsIdle(false) }
+        val blink = quirk(name = "blink") { bedrockStateful("drifblim", "blink") }
 
         standing = registerPose(
             poseName = "standing",

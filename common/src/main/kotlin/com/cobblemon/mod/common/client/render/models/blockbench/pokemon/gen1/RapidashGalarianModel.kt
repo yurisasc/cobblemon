@@ -36,10 +36,10 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFr
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rapidash_galar", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rapidash_galar", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rapidash_galar", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("rapidash_galar", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,

@@ -36,10 +36,10 @@ class MaschiffModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("maschiff", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("maschiff", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("maschiff", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("maschiff", "blink") }
 
         standing = registerPose(
             poseName = "standing",

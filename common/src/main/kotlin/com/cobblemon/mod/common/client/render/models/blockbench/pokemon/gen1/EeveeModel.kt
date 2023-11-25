@@ -49,12 +49,12 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     lateinit var shoulderLeft: PokemonPose
     lateinit var shoulderRight: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("eevee", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("eevee", "cry") }
 
     val shoulderOffset = 4
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("eevee", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("eevee", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

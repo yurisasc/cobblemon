@@ -46,14 +46,14 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidgey", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidgey", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(bedrock("pidgey", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("pidgey", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("pidgey", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = SHOULDER_POSES + UI_POSES + PoseType.STAND,

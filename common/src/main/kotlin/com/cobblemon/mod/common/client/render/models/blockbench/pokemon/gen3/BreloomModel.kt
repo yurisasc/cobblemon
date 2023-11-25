@@ -40,10 +40,10 @@ class BreloomModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var sleeping: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("breloom", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("breloom", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("breloom", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("breloom", "blink") }
 
         standing = registerPose(
             poseName = "standing",

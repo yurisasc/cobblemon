@@ -40,7 +40,7 @@ class LickilickyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var battleidle: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lickilicky", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("lickilicky", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("lickilicky", "sleep"))

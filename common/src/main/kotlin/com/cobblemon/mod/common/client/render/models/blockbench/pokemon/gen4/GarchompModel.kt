@@ -39,7 +39,7 @@ class GarchompModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
     override fun registerPoses() {
 
-        val blink = quirk("blink") { bedrockStateful("garchomp", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("garchomp", "blink") }
 
         standing = registerPose(
             poseName = "standing",

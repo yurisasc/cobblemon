@@ -48,10 +48,10 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink").setPreventsIdle(false) }
-        val blink2 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink2").setPreventsIdle(false) }
-        val blink3 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink3").setPreventsIdle(false) }
-        val blink4 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink4").setPreventsIdle(false) }
+        val blink1 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink") }
+        val blink2 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink2") }
+        val blink3 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink3") }
+        val blink4 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink4") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("exeggutor_alolan", "sleep"))

@@ -34,11 +34,11 @@ class SteelixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("steelix", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("steelix", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("steelix", "blink").setPreventsIdle(false) }
-        val jitter = quirk("jitter") { bedrockStateful("steelix", "quirk_jawjitter").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("steelix", "blink") }
+        val jitter = quirk("jitter") { bedrockStateful("steelix", "quirk_jawjitter") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("steelix", "sleep"))

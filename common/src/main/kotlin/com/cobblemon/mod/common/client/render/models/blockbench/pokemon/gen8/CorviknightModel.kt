@@ -45,10 +45,10 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("corviknight", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("corviknight", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("corviknight", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("corviknight", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("corviknight", "sleep"))

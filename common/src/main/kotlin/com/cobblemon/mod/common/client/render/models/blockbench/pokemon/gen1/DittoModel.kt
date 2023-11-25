@@ -33,10 +33,10 @@ class DittoModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ditto", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ditto", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ditto", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("ditto", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

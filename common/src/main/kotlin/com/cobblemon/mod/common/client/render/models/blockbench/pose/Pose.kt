@@ -38,9 +38,9 @@ class Pose<T : Entity, F : ModelFrame>(
         idleAnimations.forEach { it.apply(null, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity) }
     }
 
-    fun idleStateful(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+    fun idleStateful(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         idleAnimations.filter { state.shouldIdleRun(it, 0F) }.forEach { idleAnimation ->
-            idleAnimation.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity * state.getIdleIntensity(idleAnimation))
+            idleAnimation.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.getIdleIntensity(idleAnimation))
         }
     }
 }

@@ -30,11 +30,11 @@ class HoothootModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hoothoot", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hoothoot", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("hoothoot", "blink").setPreventsIdle(false)}
-        val quirk = quirk("quirk") { bedrockStateful("hoothoot", "quirk_foot").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("hoothoot", "blink")}
+        val quirk = quirk("quirk") { bedrockStateful("hoothoot", "quirk_foot")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

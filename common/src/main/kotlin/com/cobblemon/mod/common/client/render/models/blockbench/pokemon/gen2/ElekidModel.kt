@@ -37,7 +37,7 @@ class ElekidModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanua
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("elekid", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("elekid", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

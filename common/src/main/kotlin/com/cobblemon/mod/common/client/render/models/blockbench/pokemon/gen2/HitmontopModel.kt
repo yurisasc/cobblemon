@@ -32,10 +32,10 @@ class HitmontopModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hitmontop", "cry").setPreventsIdle(false) }
+//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hitmontop", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("hitmontop", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("hitmontop", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("hitmontop", "sleep"))

@@ -38,7 +38,7 @@ class BuizelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 //    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("buizel", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("buizel", "blink") }
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("buizel", "sleep"))

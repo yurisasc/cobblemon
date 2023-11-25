@@ -47,7 +47,7 @@ class StaraptorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 //            idleAnimations = arrayOf(bedrock("staraptor", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("staraptor", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("staraptor", "blink")}
         stand = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,

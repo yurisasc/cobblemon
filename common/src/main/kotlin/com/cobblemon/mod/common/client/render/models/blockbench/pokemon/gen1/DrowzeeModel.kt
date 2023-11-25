@@ -38,7 +38,7 @@ class DrowzeeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("drowzee", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("drowzee", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("drowzee", "sleep"))

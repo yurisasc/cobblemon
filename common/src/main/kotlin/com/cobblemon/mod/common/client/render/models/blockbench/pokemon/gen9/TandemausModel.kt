@@ -33,12 +33,12 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 //    lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tandemaus", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tandemaus", "cry") }
 
     override fun registerPoses() {
 
-        val blink1 = quirk("blink1") { bedrockStateful("tandemaus", "blink1").setPreventsIdle(false)}
-        val blink2 = quirk("blink2") { bedrockStateful("tandemaus", "blink2").setPreventsIdle(false)}
+        val blink1 = quirk("blink1") { bedrockStateful("tandemaus", "blink1")}
+        val blink2 = quirk("blink2") { bedrockStateful("tandemaus", "blink2")}
 
         val head2 = object : HeadedFrame {
             override val rootPart = this@TandemausModel.rootPart

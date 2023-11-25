@@ -28,11 +28,11 @@ class VenipedeModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("venipede", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("venipede", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("venipede", "blink").setPreventsIdle(false) }
-        val twitch = quirk("twitch") { bedrockStateful("venipede", "twitch").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("venipede", "blink") }
+        val twitch = quirk("twitch") { bedrockStateful("venipede", "twitch") }
 
         standing = registerPose(
             poseName = "standing",

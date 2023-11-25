@@ -36,7 +36,7 @@ class MawileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mawile", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("mawile", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("mawile", "sleep"))

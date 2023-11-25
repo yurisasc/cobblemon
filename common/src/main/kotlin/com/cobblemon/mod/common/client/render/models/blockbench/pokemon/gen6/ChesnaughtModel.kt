@@ -40,10 +40,10 @@ class ChesnaughtModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chesnaught", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chesnaught", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chesnaught", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("chesnaught", "blink")}
 
         standing = registerPose(
             poseName = "standing",

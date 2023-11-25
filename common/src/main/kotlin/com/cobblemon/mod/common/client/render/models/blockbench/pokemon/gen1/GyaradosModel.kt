@@ -61,7 +61,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileTranslation = Vec3d(-0.1, 0.65, 0.0)
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("gyarados", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("gyarados", "blink")}
         registerPose(
             poseName = "land",
             poseTypes = STANDING_POSES + UI_POSES,

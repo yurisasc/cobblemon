@@ -30,9 +30,9 @@ class CombeeModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink") { bedrockStateful("combee", "blink_right").setPreventsIdle(false) }
-        val blink2 = quirk("blink") { bedrockStateful("combee", "blink_gender").setPreventsIdle(false) }
-        val blink3 = quirk("blink") { bedrockStateful("combee", "blink_left").setPreventsIdle(false) }
+        val blink1 = quirk("blink") { bedrockStateful("combee", "blink_right") }
+        val blink2 = quirk("blink") { bedrockStateful("combee", "blink_gender") }
+        val blink3 = quirk("blink") { bedrockStateful("combee", "blink_left") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

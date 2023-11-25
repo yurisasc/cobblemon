@@ -31,10 +31,10 @@ class ChikoritaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chikorita", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chikorita", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chikorita", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("chikorita", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("chikorita", "sleep"))
