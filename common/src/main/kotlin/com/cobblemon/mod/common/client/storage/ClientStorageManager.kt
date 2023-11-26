@@ -11,6 +11,9 @@ package com.cobblemon.mod.common.client.storage
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
+import com.cobblemon.mod.common.client.gui.pokedex.Pokedex
+import com.cobblemon.mod.common.pokedex.PokedexEntry
+import com.cobblemon.mod.common.pokedex.Progress
 import com.cobblemon.mod.common.pokemon.Pokemon
 import java.util.UUID
 
@@ -25,6 +28,8 @@ class ClientStorageManager {
     var myParty = ClientParty(UUID.randomUUID(), 1)
     val partyStores = mutableMapOf<UUID, ClientParty>()
     val pcStores = mutableMapOf<UUID, ClientPC>()
+    var myPokedex = ClientPokedex(UUID.randomUUID())
+    val pokedexStores = mutableMapOf<UUID, ClientPokedex>()
 
     var selectedSlot = -1
     private var selectedPokemon: UUID? = null
@@ -142,13 +147,24 @@ class ClientStorageManager {
         pcStores[storeID]?.remove(pokemonID)
     }
 
+    fun createPokedex(mine: Boolean, uuid: UUID, slots: Int){
+        val pokedex = ClientPokedex(uuid)
+        pokedexStores[uuid] = pokedex
+        if (mine) {
+            myPokedex = pokedex
+        }
+    }
+
     fun onLogin() {
         myParty = ClientParty(UUID.randomUUID(), 1)
         checkSelectedPokemon()
+
+        myPokedex = ClientPokedex(UUID.randomUUID())
     }
 
     fun onLogout() {
         partyStores.clear()
         pcStores.clear()
+        pokedexStores.clear()
     }
 }
