@@ -1037,6 +1037,7 @@
   "cobblemon.battle.error.insufficient_pokemon": "%1$s has %2 Pokémon when %3 are required.",
   "cobblemon.battle.error.insufficient_pokemon.personal": "You have %1 usable Pokémon but you need %2.",
   "cobblemon.battle.error.pokemon_is_trapped": "[Unavailable choice] Can't switch: The active Pokémon is trapped",
+  "cobblemon.battle.error.canceled": "There's a time and place for everything, but not now!",
   "cobblemon.battle.immune": "But %1$s is immune!",
   "cobblemon.battle.missed": "But it missed.",
   "cobblemon.battle.hit_count": "Hit %1$s times!",

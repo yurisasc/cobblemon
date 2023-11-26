@@ -85,6 +85,8 @@
 - Fixed a possible visual duplication of sent out Pokémon.
 - Fixed battle text for Trace, Receiver, and Power of Alchemy.
 - Fixed tooltips being appended too late in items.
+- Fixed battles ending background music when battle music is not present.
+- Fixed battles ending background music, instead of pausing, when battle music is played.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
@@ -92,9 +94,12 @@
 - Added utility script that can be used to generate all Spawn JSONS for all pokemon from the spawning spreadsheet in 1 click ([cobblemon_spawn_csv_to_json.py](utilityscripts%2Fcobblemon_spawn_csv_to_json.py)).
 - The `HeldItemManager` has a new method `shouldConsumeItem`, this will return false by default to prevent breaking changes, see the documentation and update your implementations as needed.
 - Added and implemented minSkyLight and maxSkyLight as config options for SpawnConditions
+- Player specific battle themes can now be assigned to `PlayerData#battleTheme`.
+- Changed design of `BattleStartedPreEvent`. Will now expose the `PokemonBattle`.
 
 ### Datapack & Resourcepack Creators
 - Added 3 new item tags: `cobblemon:held/consumed_in_npc_battle`, `cobblemon:held/consumed_in_pvp_battle` & `cobblemon:held/consumed_in_wild_battle` these will determine which items get consumed in the implied battle types by Cobblemon, keep in mind the controller for this behaviour can be overriden by 3rd party.
+- Unique wild encounter themes can now be associated with a specific species (or form) by assigning a SoundEvent identifier to the `battleTheme` field in the species' data configuration.
 
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
