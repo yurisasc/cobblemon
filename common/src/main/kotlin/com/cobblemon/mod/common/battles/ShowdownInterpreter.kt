@@ -933,6 +933,7 @@ object ShowdownInterpreter {
                 val lang = when (effectID) {
                     "confusion", "perish3" -> return@dispatch GO // Skip
                     "perish2", "perish1", "perish0" -> battleLang("start.perish", pokemon.getName(), effectID.last().digitToInt())
+                    "stockpile1", "stockpile2", "stockpile3" -> battleLang("start.stockpile", pokemon.getName(), effectID.last().digitToInt())
                     "dynamax" -> battleLang("start.${message.effectAt(2)?.id ?: effectID}", pokemon.getName()).yellow()
                     "curse" -> battleLang("start.curse", message.getSourceBattlePokemon(battle)!!.getName(), pokemon.getName())
                     "disable" -> battleLang("start.disable", pokemon.getName(), message.effectAt(2)!!.rawData)

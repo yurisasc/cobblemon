@@ -810,6 +810,7 @@
   "cobblemon.battle.start.conversion2": "Converted type to  %1$s's!",
   "cobblemon.battle.start.doomdesire": "%1$s chose Doom Desire as its destiny!",
   "cobblemon.battle.start.doubleshock": "%1$s used up all of its electricity!",
+  "cobblemon.battle.start.stockpile": "%1$s stockpiled %2$s!",
 
 
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
