@@ -811,6 +811,8 @@
   "cobblemon.battle.start.doomdesire": "%1$s chose Doom Desire as its destiny!",
   "cobblemon.battle.start.doubleshock": "%1$s used up all of its electricity!",
   "cobblemon.battle.start.stockpile": "%1$s stockpiled %2$s!",
+  "cobblemon.battle.start.powertrick": "%1$s switched its Attack and Defense!",
+  "cobblemon.battle.start.powershift": "%1$s swapped its offensive stats with its defensive stats!",
 
 
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
