@@ -836,6 +836,8 @@
 
   "cobblemon.battle.fieldactivate.perishsong": "All Pokémon that heard the song will faint in three turns!",
   "cobblemon.battle.fieldactivate.iondeluge": "A deluge of ions showers the battlefield!",
+  "cobblemon.battle.fieldactivate.fairylock": "No one will be able to run away during the next turn!",
+  "cobblemon.battle.fieldactivate.teatime": "It's teatime! Everyone dug in to their Berries!",
 
   "cobblemon.battle.sidestart.stealthrock": "Polished stones float in the air around %1$s team!",
   "cobblemon.battle.sidestart.spikes": "Spikes were scattered on the ground all around %1$s team!",
@@ -1063,6 +1065,7 @@
   "cobblemon.battle.error.insufficient_pokemon.personal": "You have %1 usable Pokémon but you need %2.",
   "cobblemon.battle.error.pokemon_is_trapped": "[Unavailable choice] Can't switch: The active Pokémon is trapped",
   "cobblemon.battle.immune": "But %1$s is immune!",
+  "cobblemon.battle.invertboost": "%1$s's stat changes were inverted!",
   "cobblemon.battle.missed": "But it missed.",
   "cobblemon.battle.hit_count": "Hit %1$s times!",
   "cobblemon.battle.hit_count_singular": "Hit 1 time!",

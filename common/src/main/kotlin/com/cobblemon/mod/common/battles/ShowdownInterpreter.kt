@@ -105,6 +105,7 @@ object ShowdownInterpreter {
         updateInstructions["|t:|"] = {_, _, _ -> }
         updateInstructions["|pp_update|"] = this::handlePpUpdateInstruction
         updateInstructions["|-immune"] = this::handleImmuneInstruction
+        updateInstructions["|-invertboost|"] = this::handleInvertBoostInstruction
         updateInstructions["|-status|"] = this::handleStatusInstruction
         updateInstructions["|-end|"] = this::handleEndInstruction
         updateInstructions["|-miss|"] = this::handleMissInstruction
@@ -651,6 +652,21 @@ object ShowdownInterpreter {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val name = pokemon.getName()
             battle.broadcastChatMessage(battleLang("immune", name).red())
+            battle.minorBattleActions[pokemon.uuid] = message
+        }
+    }
+
+    /**
+     * Format:
+     * |-invertboost|POKEMON|MOVE
+     *
+     * The POKEMON had its stat changes inverted.
+     */
+    private fun handleInvertBoostInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        battle.dispatchWaiting {
+            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val name = pokemon.getName()
+            battle.broadcastChatMessage(battleLang("invertboost", name))
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
