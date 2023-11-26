@@ -116,6 +116,10 @@ class ClientStorageManager {
         checkSelectedPokemon()
     }
 
+    fun setPokedexStore(storeID: UUID) {
+        myPokedex = pokedexStores[storeID] ?: throw IllegalArgumentException("Was told to set Pokedex store to $storeID but no such store is known!")
+    }
+
     fun removeFromParty(storeID: UUID, pokemonID: UUID) {
         partyStores[storeID]?.remove(pokemonID)
         checkSelectedPokemon()
@@ -154,6 +158,7 @@ class ClientStorageManager {
 
     fun onLogin() {
         myParty = ClientParty(UUID.randomUUID(), 1)
+        myPokedex = ClientPokedex(UUID.randomUUID())
         checkSelectedPokemon()
 
         myPokedex = ClientPokedex(UUID.randomUUID())
