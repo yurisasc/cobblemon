@@ -12,13 +12,8 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.pokedex.Pokedex
-import com.cobblemon.mod.common.client.storage.ClientPokedex
-import com.cobblemon.mod.common.net.messages.PokedexEntryDTO
 import com.cobblemon.mod.common.net.messages.client.ui.PokedexUIPacket
-import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
-import com.cobblemon.mod.common.pokedex.PokedexEntry
 import net.minecraft.client.MinecraftClient
-import java.util.*
 
 object PokedexUIPacketHandler : ClientNetworkPacketHandler<PokedexUIPacket> {
     override fun handle(packet: PokedexUIPacket, client: MinecraftClient) {

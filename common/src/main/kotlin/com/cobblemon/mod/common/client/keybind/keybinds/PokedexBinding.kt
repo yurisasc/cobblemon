@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.client.keybind.keybinds
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.pokedex.Pokedex
-import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinding
 import com.cobblemon.mod.common.client.keybind.KeybindCategories
 import net.minecraft.client.util.InputUtil

@@ -11,9 +11,6 @@ package com.cobblemon.mod.common.client.storage
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
-import com.cobblemon.mod.common.client.gui.pokedex.Pokedex
-import com.cobblemon.mod.common.pokedex.PokedexEntry
-import com.cobblemon.mod.common.pokedex.Progress
 import com.cobblemon.mod.common.pokemon.Pokemon
 import java.util.UUID
 
@@ -147,7 +144,7 @@ class ClientStorageManager {
         pcStores[storeID]?.remove(pokemonID)
     }
 
-    fun createPokedex(mine: Boolean, uuid: UUID, slots: Int){
+    fun createPokedex(mine: Boolean, uuid: UUID){
         val pokedex = ClientPokedex(uuid)
         pokedexStores[uuid] = pokedex
         if (mine) {
