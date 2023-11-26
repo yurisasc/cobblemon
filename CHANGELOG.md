@@ -797,6 +797,7 @@
     - Fixed Magnitude battle messages.
     - Moves that are disabled or out of PP now show transparently in the battle GUI instead of being hidden completely.
     - Statuses like sleep and frozen no longer last forever if it was carried over from a previous battle.
+- Fixed a formatting error that affected Pokemon nicknames when the storage type is JSON.
 
 ### Localization
 - Added species, ability, and move translations for `ko_ko`, `jp_jp`, `fr_fr`, `es_es`, `it_it`, and `zh_cn`.
