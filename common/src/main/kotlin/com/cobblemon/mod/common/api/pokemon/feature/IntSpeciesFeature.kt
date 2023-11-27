@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.api.pokemon.feature
 
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
 import com.cobblemon.mod.common.client.gui.summary.featurerenderers.BarSummarySpeciesFeatureRenderer
@@ -81,7 +83,12 @@ class IntSpeciesFeature(override var name: String) : SynchronizedSpeciesFeature,
     override fun matches(pokemon: Pokemon) = pokemon.getFeature<IntSpeciesFeature>(name)?.value == value
 }
 
-class IntSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<IntSpeciesFeature>, CustomPokemonPropertyType<IntSpeciesFeature> {
+class IntRangeAspects {
+    val range: IntRange = 0..0
+    val aspects: Set<String> = setOf()
+}
+
+class IntSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<IntSpeciesFeature>, CustomPokemonPropertyType<IntSpeciesFeature>, AspectProvider {
     class DisplayData : Encodable, Decodable {
         var name: String = ""
         @SerializedName(value = "colour" /* fuck you we use real english */, alternate = ["color"])
@@ -114,6 +121,7 @@ class IntSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<IntSpeciesF
     var min = 0
     var max = 100
     var display: DisplayData? = null
+    var aspects: List<IntRangeAspects> = emptyList()
 
     override fun fromString(value: String?) = value?.toIntOrNull()?.takeIf { it in min..max }?.let { IntSpeciesFeature(keys.first(), it) }
 
@@ -177,5 +185,15 @@ class IntSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<IntSpeciesF
                 pokemon = pokemon
             )
         }
+    }
+
+    override fun provide(pokemon: Pokemon): Set<String> {
+        val feature = get(pokemon) ?: return emptySet()
+        return aspects.filter { feature.value in it.range }.flatMap { it.aspects }.toSet()
+    }
+
+    override fun provide(properties: PokemonProperties): Set<String> {
+        val feature = properties.customProperties.filterIsInstance<IntSpeciesFeature>().find { it.name in keys } ?: return emptySet()
+        return aspects.filter { feature.value in it.range }.flatMap { it.aspects }.toSet()
     }
 }
