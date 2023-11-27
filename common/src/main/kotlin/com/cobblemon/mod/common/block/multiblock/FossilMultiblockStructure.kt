@@ -176,8 +176,9 @@ class FossilMultiblockStructure (
             if (insertOrganicMaterial(stack, world)) {
                 this.lastInteraction = world.time
                 if (!player.isCreative) {
+                    val returnItem = NaturalMaterials.getReturnItem(stack)
                     stack?.decrement(1)
-                    player.giveOrDropItemStack(ItemStack(Registries.ITEM.get(NaturalMaterials.getReturnItem(stack))), false)
+                    player.giveOrDropItemStack(ItemStack(Registries.ITEM.get(returnItem)), false)
                 }
                 return ActionResult.SUCCESS
             }
