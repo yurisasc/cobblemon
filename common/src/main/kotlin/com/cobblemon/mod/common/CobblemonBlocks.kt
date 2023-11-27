@@ -172,6 +172,14 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val YELLOW_APRICORN = apricornBlock("yellow_apricorn", Apricorn.YELLOW)
 
     @JvmField
+    val GILDED_CHEST = create(
+        "gilded_chest",
+        CobblemonChestBlock(
+            AbstractBlock.Settings.copy(Blocks.CHEST)
+        ) { CobblemonBlockEntities.GILDED_CHEST }
+    )
+
+    @JvmField
     val FOSSIL_MONITOR = create(
         "fossil_monitor",
         FossilMonitorBlock(
