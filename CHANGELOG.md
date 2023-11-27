@@ -41,6 +41,7 @@
 - Mooshtank can now be milked with a bowl for Mushroom Stew.
 - Updated Showdown version to use gen9 battle data
 - Added cries to Beldum, Metang and Metagross.
+- Added /bedrockparticle command.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
