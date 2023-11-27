@@ -122,9 +122,9 @@ object DataKeys {
     // Features
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
-
-    // Variants
-    const val IS_MOOSHTANK = "mooshtank"
+    const val MOOSHTANK_BROWN = "IsBrown"
+    const val MOOSHTANK_LAST_FLOWER_FED = "LastFlowerFed"
+    const val MOOSHTANK = "mooshtank"
 
     // Persistent Data
     const val POKEMON_PERSISTENT_DATA = "PersistentData"
