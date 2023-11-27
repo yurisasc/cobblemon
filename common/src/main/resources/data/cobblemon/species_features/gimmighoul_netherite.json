@@ -10,5 +10,11 @@
     "colour": [78, 72, 77],
     "underlay": "cobblemon:textures/gui/summary/summary_stats_other_bar.png",
     "overlay": "cobblemon:textures/gui/summary/summary_stats_generic_overlay.png"
-  }
+  },
+  "aspects": [
+    {
+      "range": "0-35",
+      "aspects": ["shiny"]
+    }
+  ]
 }
