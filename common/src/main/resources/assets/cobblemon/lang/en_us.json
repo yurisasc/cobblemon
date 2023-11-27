@@ -806,8 +806,7 @@
   "cobblemon.battle.start.mimic": "%1$s learned %2$s!",
   "cobblemon.battle.start.octolock": "%1$s can no longer escape because of Octolock!",
   "cobblemon.battle.start.burnup": "%1$s burned itself out!",
-  "cobblemon.battle.start.conversion": "Converted type to  %1$s's!",
-  "cobblemon.battle.start.conversion2": "Converted type to  %1$s's!",
+  "cobblemon.battle.start.typechange": "%1$s transformed into the %2$s type!",
   "cobblemon.battle.start.doomdesire": "%1$s chose Doom Desire as its destiny!",
   "cobblemon.battle.start.doubleshock": "%1$s used up all of its electricity!",
 
@@ -847,7 +846,9 @@
   "cobblemon.battle.sidestart.lightscreen": "Light Screen made %1$s team stronger against special moves!",
   "cobblemon.battle.sidestart.auroraveil": "Aurora Veil made %1$s team stronger against physical and special moves!",
   "cobblemon.battle.sidestart.tailwind": "The Tailwind blew from behind %1$s team!",
-  "cobblemon.battle.sidestart.safeguard": "%1$s's team cloaked itself in a mystical veil!",
+  "cobblemon.battle.sidestart.safeguard": "%1$s team cloaked itself in a mystical veil!",
+  "cobblemon.battle.sidestart.luckychant": "Lucky Chant shielded %1$s team from critical hits!",
+  "cobblemon.battle.sidestart.mist": "%1$s team became shrouded in mist!",
 
   "cobblemon.battle.sideend.stealthrock": "The pointed stones disappeared from around %1$s team!",
   "cobblemon.battle.sideend.spikes": "The spikes disappeared from the ground around %1$s team!",
@@ -857,7 +858,9 @@
   "cobblemon.battle.sideend.lightscreen": "%1$s team's Light Screen wore off!",
   "cobblemon.battle.sideend.auroraveil": "%1$s team's Aurora Veil wore off!",
   "cobblemon.battle.sideend.tailwind": "%1$s team's Tailwind petered out!",
-  "cobblemon.battle.sideend.safeguard": "%1$s's team is no longer protected by Safeguard!",
+  "cobblemon.battle.sideend.safeguard": "%1$s team is no longer protected by Safeguard!",
+  "cobblemon.battle.sideend.luckychant": "%1$s team's Lucky Chant wore off!",
+  "cobblemon.battle.sideend.mist": "%1$s team is no longer protected by mist!",
 
   "cobblemon.battle.cant.generic": "%1$s can't use %2$s!",
   "cobblemon.battle.cant.truant": "%1$s is loafing around!",
@@ -934,6 +937,7 @@
   "cobblemon.battle.activate.skillswap": "%1$s swapped Abilities with its target!",
   "cobblemon.battle.activate.wideguard": "Wide Guard protected %1$s!",
   "cobblemon.battle.activate.craftyshield": "Crafty Shield protected %1$s!",
+  "cobblemon.battle.activate.tidyup": "Tidying up complete!",
   
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",

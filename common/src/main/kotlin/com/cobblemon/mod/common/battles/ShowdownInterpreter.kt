@@ -936,6 +936,7 @@ object ShowdownInterpreter {
                     "dynamax" -> battleLang("start.${message.effectAt(2)?.id ?: effectID}", pokemon.getName()).yellow()
                     "curse" -> battleLang("start.curse", message.getSourceBattlePokemon(battle)!!.getName(), pokemon.getName())
                     "disable" -> battleLang("start.disable", pokemon.getName(), message.effectAt(2)!!.rawData)
+                    "typechange" -> battleLang("start.typechange", pokemon.getName(), message.effectAt(2)!!.rawData) // Covers generic typechange moves like Conversion, Conversion2, and Camouflage
                     else -> battleLang("start.$effectID", pokemon.getName())
                 }
                 battle.broadcastChatMessage(lang)
