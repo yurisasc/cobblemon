@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.fossil
 
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.net.messages.client.fossil.NaturalMaterialRegistrySyncPacket
 import com.cobblemon.mod.common.registry.ItemTagCondition
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.adapters.ItemLikeConditionAdapter
@@ -38,7 +39,9 @@ object NaturalMaterials : JsonDataRegistry<List<NaturalMaterial>>{
 
     private val itemMap = mutableMapOf<Identifier, NaturalMaterial>()
     private val tagMap = mutableMapOf<ItemTagCondition, NaturalMaterial>()
-    override fun sync(player: ServerPlayerEntity) {}
+    override fun sync(player: ServerPlayerEntity) {
+        NaturalMaterialRegistrySyncPacket(this.itemMap.values.toList() + this.tagMap.values.toList()).sendToPlayer(player)
+    }
 
     override fun reload(data: Map<Identifier, List<NaturalMaterial>>) {
         data.forEach { entry ->
