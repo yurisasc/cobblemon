@@ -813,6 +813,7 @@
   "cobblemon.battle.start.stockpile": "%1$s stockpiled %2$s!",
   "cobblemon.battle.start.powertrick": "%1$s switched its Attack and Defense!",
   "cobblemon.battle.start.powershift": "%1$s swapped its offensive stats with its defensive stats!",
+  "cobblemon.battle.start.substitute": "%1$s put in a substitute!",
 
 
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
