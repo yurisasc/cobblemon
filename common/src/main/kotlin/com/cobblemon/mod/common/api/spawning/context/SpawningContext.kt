@@ -61,6 +61,8 @@ abstract class SpawningContext {
     abstract val position: BlockPos
     /** The light level at this location. */
     abstract val light: Int
+    /** The sky light level at this location. (15 - The distance to the nearest block that would be illuminated by the sun */
+    abstract val skyLight: Int
     /** Whether or not the sky is visible at this location. */
     abstract val canSeeSky: Boolean
     /** A list of [SpawningInfluence]s that apply due to this specific context. */

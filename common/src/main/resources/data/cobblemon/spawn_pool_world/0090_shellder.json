@@ -17,11 +17,11 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_frigid"
+                    "#cobblemon:is_cold_ocean"
                 ]
             }
         },
-		{
+        {
             "id": "shellder-2",
             "pokemon": "shellder",
             "presets": [

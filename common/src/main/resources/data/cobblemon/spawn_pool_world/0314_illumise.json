@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -8,7 +8,7 @@
             "pokemon": "illumise",
             "presets": [
                 "freshwater",
-				"natural",
+                "natural",
                 "treetop"
             ],
             "type": "pokemon",
@@ -27,7 +27,7 @@
             "pokemon": "illumise",
             "presets": [
                 "freshwater",
-				"water_surface"
+                "water_surface"
             ],
             "type": "pokemon",
             "context": "surface",
@@ -40,7 +40,7 @@
                 "isRaining": false
             }
         },
-		{
+        {
             "id": "illumise-3",
             "pokemon": "illumise",
             "type": "pokemon",
@@ -55,15 +55,15 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         },
         {
             "id": "illumise-4",
             "pokemon": "illumise",
             "presets": [
-				"water_surface"
+                "water_surface"
             ],
             "type": "pokemon",
             "context": "surface",
@@ -77,8 +77,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

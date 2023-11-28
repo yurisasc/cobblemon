@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -37,11 +37,17 @@
             "context": "grounded",
             "bucket": "common",
             "level": "33-46",
-            "weight": 0.6,
+            "weight": 1.0,
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
+                "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_nether_overgrowth",
-                    "#cobblemon:is_nether_wasteland"
+                    "#cobblemon:is_volcanic"
                 ]
             }
         },
@@ -55,17 +61,11 @@
             "context": "grounded",
             "bucket": "common",
             "level": "33-46",
-            "weight": 1.0,
-            "weightMultiplier": {
-                "multiplier": 0.25,
-                "condition": {
-                    "timeRange": "night"
-                }
-            },
+            "weight": 0.6,
             "condition": {
-                "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_volcanic"
+                    "#cobblemon:is_nether_overgrowth",
+                    "#cobblemon:is_nether_wasteland"
                 ]
             }
         }

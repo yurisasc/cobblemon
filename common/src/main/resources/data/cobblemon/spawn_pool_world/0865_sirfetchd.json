@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -8,7 +8,7 @@
             "pokemon": "sirfetchd",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -28,7 +28,7 @@
                 ]
             },
             "anticondition": {
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "#minecraft:water"
                 ]
             }

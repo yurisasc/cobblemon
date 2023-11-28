@@ -42,7 +42,7 @@
             }
         },
         {
-            "id": "bellossom-valencian-1",
+            "id": "bellossom-valencian-3",
             "pokemon": "bellossom valencian",
             "presets": [
                 "natural"
@@ -56,7 +56,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_savanna",
-					"#cobblemon:is_tropical_island"
+                    "#cobblemon:is_tropical_island"
                 ],
                 "timeRange": "day"
             }

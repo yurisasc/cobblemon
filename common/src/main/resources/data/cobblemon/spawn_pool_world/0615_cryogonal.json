@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -22,7 +22,7 @@
                 "isRaining": true
             }
         },
-		{
+        {
             "id": "cryogonal-2",
             "pokemon": "cryogonal",
             "presets": [

@@ -1,12 +1,12 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
             "id": "golett-1",
             "pokemon": "golett",
-			"presets": [
+            "presets": [
                 "ancient_city"
             ],
             "type": "pokemon",
@@ -21,10 +21,10 @@
                 ]
             }
         },
-		{
+        {
             "id": "golett-2",
             "pokemon": "golett",
-			"presets": [
+            "presets": [
                 "trail_ruins"
             ],
             "type": "pokemon",
@@ -38,13 +38,13 @@
                 ]
             }
         },
-		{
+        {
             "id": "golett-3",
             "pokemon": "golett",
-			"presets": [
+            "presets": [
                 "natural",
-				"desert_pyramid",
-				"jungle_pyramid"
+                "desert_pyramid",
+                "jungle_pyramid"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -57,7 +57,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "golett-4",
             "pokemon": "golett",
             "type": "pokemon",
@@ -72,8 +72,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

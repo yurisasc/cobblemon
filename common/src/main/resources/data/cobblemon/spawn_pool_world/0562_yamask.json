@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -16,10 +16,10 @@
             "weight": 1.8,
             "condition": {
                 "canSeeSky": false,
-                "minY": 0,
                 "biomes": [
                     "#cobblemon:is_desert"
-                ]
+                ],
+                "minY": 0
             },
             "anticondition": {
                 "biomes": [
@@ -38,7 +38,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "5-30",
-            "weight": 9.0,
+            "weight": 90.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [

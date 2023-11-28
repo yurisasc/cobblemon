@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -16,8 +16,7 @@
             "weight": 0.6,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_basalt",
-                    "#cobblemon:is_nether_wasteland"
+                    "#cobblemon:is_nether_basalt"
                 ]
             }
         },
@@ -75,8 +74,8 @@
                 "biomes": [
                     "#cobblemon:is_volcanic"
                 ],
-				"neededNearbyBlocks": [
-                    "minecraft:lava"
+                "neededNearbyBlocks": [
+                    "#minecraft:lava"
                 ]
             }
         },

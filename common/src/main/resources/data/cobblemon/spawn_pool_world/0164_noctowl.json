@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -18,7 +18,6 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_forest",
                     "#cobblemon:is_forest",
                     "#cobblemon:is_sky",
                     "#cobblemon:is_spooky"
