@@ -820,6 +820,7 @@
   "cobblemon.battle.start.embargo": "%1$s can't use items anymore!",
   "cobblemon.battle.start.typeadd": "%2$s type was added to %1$s!",
   "cobblemon.battle.start.reflecttype": "%1$s's type became the same as %2$s's type!",
+  "cobblemon.battle.start.tarshot": "%1$s became weaker to fire!",
 
 
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
@@ -967,6 +968,9 @@
   "cobblemon.battle.prepare.solarbeam": "%1$s absorbed light!",
 
   "cobblemon.battle.swapboost.generic": "%1$s swapped stat boosts with %2$s!",
+  "cobblemon.battle.swapboost.guardswap": "%1$s switched all changes to its Defense and Sp. Def with its target!",
+  "cobblemon.battle.swapboost.powerswap": "%1$s switched all changes to its Attack and Sp. Atk with its target!",
+  "cobblemon.battle.swapboost.heartswap": "%1$s switched stat changes with its target!",
 
   "cobblemon.battle.copyboost.generic": "%1$s copied %2$s's stat changes!",
 

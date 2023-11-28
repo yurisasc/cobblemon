@@ -1222,7 +1222,14 @@ object ShowdownInterpreter {
             val pokemonName = pokemon.getName()
             val targetPokemon = message.getBattlePokemon(1, battle) ?: return@dispatchWaiting
             val targetPokemonName = targetPokemon.getName()
-            val lang = battleLang("swapboost.generic", pokemonName, targetPokemonName)
+            val effectID = message.effect()?.id ?: return@dispatchWaiting
+            val lang = when (effectID) {
+                "guardswap" -> battleLang("swapboost.guardswap", pokemonName)
+                "powerswap" -> battleLang("swapboost.powerswap", pokemonName)
+                "heartswap" -> battleLang("swapboost.heartswap", pokemonName)
+                else -> battleLang("swapboost.generic", pokemonName, targetPokemonName)
+            }
+
             battle.broadcastChatMessage(lang)
 
             pokemon.contextManager.swap(targetPokemon.contextManager, BattleContext.Type.BOOST)
