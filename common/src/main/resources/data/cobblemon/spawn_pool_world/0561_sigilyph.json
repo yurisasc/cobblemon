@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -8,8 +8,8 @@
             "pokemon": "sigilyph",
             "presets": [
                 "natural",
-				"desert_pyramid",
-				"jungle_pyramid"
+                "desert_pyramid",
+                "jungle_pyramid"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -21,12 +21,12 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-				"structures": [
-					"minecraft:desert_well"
-				]
+                "structures": [
+                    "minecraft:desert_well"
+                ]
             }
         },
-		{
+        {
             "id": "sigilyph-2",
             "pokemon": "sigilyph",
             "presets": [
@@ -44,12 +44,12 @@
                 ]
             }
         },
-		{
+        {
             "id": "sigilyph-3",
             "pokemon": "sigilyph",
             "presets": [
                 "natural",
-				"end_city"
+                "end_city"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -62,7 +62,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "sigilyph-4",
             "pokemon": "sigilyph",
             "type": "pokemon",
@@ -77,8 +77,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

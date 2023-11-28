@@ -8,23 +8,6 @@
     "magicguard",
     "h:friendguard"
   ],
-  "baseStats": {
-    "hp": 50,
-    "attack": 25,
-    "defence": 28,
-    "special_attack": 45,
-    "special_defence": 55,
-    "speed": 15
-  },
-  "catchRate": 150,
-  "maleRatio": 0.25,
-  "shoulderMountable": true,
-  "baseExperienceYield": 44,
-  "experienceGroup": "fast",
-  "eggCycles": 10,
-  "eggGroups": [
-    "undiscovered"
-  ],
   "drops": {
     "amount": 3,
     "entries": [
@@ -42,6 +25,23 @@
       }
     ]
   },
+  "baseStats": {
+    "hp": 50,
+    "attack": 25,
+    "defence": 28,
+    "special_attack": 45,
+    "special_defence": 55,
+    "speed": 15
+  },
+  "catchRate": 150,
+  "maleRatio": 0.25,
+  "shoulderMountable": true,
+  "baseExperienceYield": 44,
+  "experienceGroup": "fast",
+  "eggCycles": 10,
+  "eggGroups": [
+    "undiscovered"
+  ],
   "moves": [
     "1:copycat",
     "1:pound",

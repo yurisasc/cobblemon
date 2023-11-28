@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -23,7 +23,7 @@
                 "isRaining": false
             }
         },
-		{
+        {
             "id": "monferno-2",
             "pokemon": "monferno",
             "presets": [

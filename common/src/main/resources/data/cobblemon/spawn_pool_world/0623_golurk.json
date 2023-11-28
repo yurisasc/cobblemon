@@ -1,12 +1,12 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
             "id": "golurk-1",
             "pokemon": "golurk",
-			"presets": [
+            "presets": [
                 "ancient_city"
             ],
             "type": "pokemon",
@@ -21,10 +21,10 @@
                 ]
             }
         },
-		{
+        {
             "id": "golurk-2",
             "pokemon": "golurk",
-			"presets": [
+            "presets": [
                 "trail_ruins"
             ],
             "type": "pokemon",
@@ -38,13 +38,13 @@
                 ]
             }
         },
-		{
+        {
             "id": "golurk-3",
             "pokemon": "golurk",
-			"presets": [
+            "presets": [
                 "natural",
-				"desert_pyramid",
-				"jungle_pyramid"
+                "desert_pyramid",
+                "jungle_pyramid"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -57,7 +57,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "golurk-4",
             "pokemon": "golurk",
             "type": "pokemon",
@@ -72,8 +72,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

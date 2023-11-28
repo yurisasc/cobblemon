@@ -1,9 +1,9 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
-		{
+        {
             "id": "pignite-1",
             "pokemon": "pignite",
             "presets": [
@@ -21,7 +21,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "pignite-2",
             "pokemon": "pignite",
             "presets": [
@@ -33,11 +33,11 @@
             "level": "17-42",
             "weight": 0.9,
             "condition": {
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_nether_crimson",
-					"#cobblemon:is_nether_overgrowth"
+                    "#cobblemon:is_nether_overgrowth"
                 ]
-			}
+            }
         }
     ]
 }

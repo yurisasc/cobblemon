@@ -197,6 +197,10 @@
   "item.cobblemon.power_bracer": "Power Bracer",
   "item.cobblemon.power_lens": "Power Lens",
   "item.cobblemon.power_weight": "Power Weight",
+  "item.cobblemon.flame_orb": "Flame Orb",
+  "item.cobblemon.light_orb": "Light Orb",
+  "item.cobblemon.smoke_ball": "Smoke Ball",
+  "item.cobblemon.toxic_orb": "Toxic Orb",
 
   "item.cobblemon.poke_ball.tooltip": "1× catch rate",
   "item.cobblemon.slate_ball.tooltip": "1× catch rate",
@@ -806,8 +810,7 @@
   "cobblemon.battle.start.mimic": "%1$s learned %2$s!",
   "cobblemon.battle.start.octolock": "%1$s can no longer escape because of Octolock!",
   "cobblemon.battle.start.burnup": "%1$s burned itself out!",
-  "cobblemon.battle.start.conversion": "Converted type to  %1$s's!",
-  "cobblemon.battle.start.conversion2": "Converted type to  %1$s's!",
+  "cobblemon.battle.start.typechange": "%1$s transformed into the %2$s type!",
   "cobblemon.battle.start.doomdesire": "%1$s chose Doom Desire as its destiny!",
   "cobblemon.battle.start.doubleshock": "%1$s used up all of its electricity!",
   "cobblemon.battle.start.stockpile": "%1$s stockpiled %2$s!",
@@ -851,7 +854,9 @@
   "cobblemon.battle.sidestart.lightscreen": "Light Screen made %1$s team stronger against special moves!",
   "cobblemon.battle.sidestart.auroraveil": "Aurora Veil made %1$s team stronger against physical and special moves!",
   "cobblemon.battle.sidestart.tailwind": "The Tailwind blew from behind %1$s team!",
-  "cobblemon.battle.sidestart.safeguard": "%1$s's team cloaked itself in a mystical veil!",
+  "cobblemon.battle.sidestart.safeguard": "%1$s team cloaked itself in a mystical veil!",
+  "cobblemon.battle.sidestart.luckychant": "Lucky Chant shielded %1$s team from critical hits!",
+  "cobblemon.battle.sidestart.mist": "%1$s team became shrouded in mist!",
 
   "cobblemon.battle.sideend.stealthrock": "The pointed stones disappeared from around %1$s team!",
   "cobblemon.battle.sideend.spikes": "The spikes disappeared from the ground around %1$s team!",
@@ -861,7 +866,9 @@
   "cobblemon.battle.sideend.lightscreen": "%1$s team's Light Screen wore off!",
   "cobblemon.battle.sideend.auroraveil": "%1$s team's Aurora Veil wore off!",
   "cobblemon.battle.sideend.tailwind": "%1$s team's Tailwind petered out!",
-  "cobblemon.battle.sideend.safeguard": "%1$s's team is no longer protected by Safeguard!",
+  "cobblemon.battle.sideend.safeguard": "%1$s team is no longer protected by Safeguard!",
+  "cobblemon.battle.sideend.luckychant": "%1$s team's Lucky Chant wore off!",
+  "cobblemon.battle.sideend.mist": "%1$s team is no longer protected by mist!",
 
   "cobblemon.battle.cant.generic": "%1$s can't use %2$s!",
   "cobblemon.battle.cant.truant": "%1$s is loafing around!",
@@ -938,6 +945,7 @@
   "cobblemon.battle.activate.skillswap": "%1$s swapped Abilities with its target!",
   "cobblemon.battle.activate.wideguard": "Wide Guard protected %1$s!",
   "cobblemon.battle.activate.craftyshield": "Crafty Shield protected %1$s!",
+  "cobblemon.battle.activate.tidyup": "Tidying up complete!",
   
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
@@ -956,6 +964,8 @@
   "cobblemon.battle.prepare.solarbeam": "%1$s absorbed light!",
 
   "cobblemon.battle.swapboost.generic": "%1$s swapped stat boosts with %2$s!",
+
+  "cobblemon.battle.copyboost.generic": "%1$s copied %2$s's stat changes!",
 
   "cobblemon.battle.singleturn.protect": "%1$s protected itself!",
   "cobblemon.battle.singleturn.endure": "%1$s braced itself!",
@@ -1057,6 +1067,8 @@
   "cobblemon.battle.ability.unnerve": "%1$s made the opponent too nervous to eat berries!",
   "cobblemon.battle.ability.anticipation": "%1$s shuddered in anticipation!",
   "cobblemon.battle.ability.airlock": "The effects of the weather disappeared.",
+  "cobblemon.battle.ability.trace": "%1$s traced the opposing %2$s's %3$s!",
+  "cobblemon.battle.ability.receiver": "%1$s's %2$s was taken over!",
   "cobblemon.battle.ability.generic": "%1$s's %2$s activated!",
   "cobblemon.battle.ability.magicbounce": "%1$s bounced the %2$s back!",
 

@@ -1,10 +1,29 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
             "id": "duskull-1",
+            "pokemon": "duskull",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "5-30",
+            "weight": 5.4,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_spooky"
+                ],
+                "timeRange": "night"
+            }
+        },
+        {
+            "id": "duskull-2",
             "pokemon": "duskull",
             "presets": [
                 "natural"
@@ -22,7 +41,7 @@
             }
         },
         {
-            "id": "duskull-2",
+            "id": "duskull-3",
             "pokemon": "duskull",
             "presets": [
                 "natural"
@@ -36,25 +55,6 @@
                 "biomes": [
                     "#cobblemon:is_nether_soul_sand"
                 ]
-            }
-        },
-        {
-            "id": "duskull-3",
-            "pokemon": "duskull",
-            "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "5-30",
-            "weight": 5.4,
-            "condition": {
-                "canSeeSky": true,
-                "biomes": [
-                    "#cobblemon:is_spooky"
-                ],
-                "timeRange": "night"
             }
         }
     ]

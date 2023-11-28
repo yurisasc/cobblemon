@@ -1,29 +1,10 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
             "id": "mabosstiff-1",
-            "pokemon": "mabosstiff",
-            "presets": [
-                "natural",
-                "pillager_outpost"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "30-51",
-            "weight": 10.0,
-            "condition": {
-                "canSeeSky": true,
-                "biomes": [
-                    "#cobblemon:is_overworld"
-                ]
-            }
-        },
-        {
-            "id": "mabosstiff-2",
             "pokemon": "mabosstiff",
             "presets": [
                 "natural",
@@ -39,10 +20,24 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
+            }
+        },
+        {
+            "id": "mabosstiff-2",
+            "pokemon": "mabosstiff",
+            "presets": [
+                "natural",
+                "village"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "30-51",
+            "weight": 0.6,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_overworld"
                 ]
             }
         },
@@ -51,13 +46,13 @@
             "pokemon": "mabosstiff",
             "presets": [
                 "natural",
-				"village"
+                "pillager_outpost"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "30-51",
-            "weight": 0.6,
+            "weight": 10.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

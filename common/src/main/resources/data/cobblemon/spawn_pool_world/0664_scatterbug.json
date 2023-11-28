@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -19,12 +19,12 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_floral",
-					"#cobblemon:is_plains",
-					"#cobblemon:is_savanna"
+                    "#cobblemon:is_plains",
+                    "#cobblemon:is_savanna"
                 ]
             }
         },
-		{
+        {
             "id": "scatterbug-2",
             "pokemon": "scatterbug",
             "type": "pokemon",
@@ -39,8 +39,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

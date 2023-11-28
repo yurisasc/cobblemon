@@ -14,12 +14,12 @@
             "bucket": "common",
             "level": "21-40",
             "weight": 0.9,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "day"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "day"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -27,7 +27,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "gloom-2",
             "pokemon": "gloom",
             "presets": [
@@ -38,12 +38,12 @@
             "bucket": "common",
             "level": "21-40",
             "weight": 0.18,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "day"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "day"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -51,8 +51,8 @@
                 ]
             }
         },
-		{
-            "id": "gloom-valencian-1",
+        {
+            "id": "gloom-valencian-3",
             "pokemon": "gloom valencian",
             "presets": [
                 "natural"
@@ -62,17 +62,17 @@
             "bucket": "common",
             "level": "21-40",
             "weight": 0.18,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "day"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "day"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_savanna",
-					"#cobblemon:is_tropical_island"
+                    "#cobblemon:is_tropical_island"
                 ]
             }
         }

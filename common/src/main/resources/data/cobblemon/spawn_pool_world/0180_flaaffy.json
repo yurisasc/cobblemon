@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -16,15 +16,15 @@
             "weight": 0.9,
             "weightMultipliers": [
                 {
-                    "multiplier": 5.0,
-                    "condition": {
-                        "isThundering": true
-                    }
-                },
-                {
                     "multiplier": 0.25,
                     "condition": {
                         "timeRange": "night"
+                    }
+                },
+                {
+                    "multiplier": 5.0,
+                    "condition": {
+                        "isThundering": true
                     }
                 }
             ],
