@@ -816,6 +816,7 @@
   "cobblemon.battle.start.stockpile": "%1$s stockpiled %2$s!",
   "cobblemon.battle.start.powertrick": "%1$s switched its Attack and Defense!",
   "cobblemon.battle.start.powershift": "%1$s swapped its offensive stats with its defensive stats!",
+  "cobblemon.battle.start.substitute": "%1$s put in a substitute!",
   "cobblemon.battle.start.embargo": "%1$s can't use items anymore!",
   "cobblemon.battle.start.typeadd": "%2$s type was added to %1$s!",
 
