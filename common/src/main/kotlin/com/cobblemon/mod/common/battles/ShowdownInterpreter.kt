@@ -98,6 +98,7 @@ object ShowdownInterpreter {
         updateInstructions["|-singlemove|"] = this::handleSingleMoveInstruction
         updateInstructions["|-prepare|"] = this::handlePrepareInstruction
         updateInstructions["|-swapboost"] = this::handleSwapBoostInstruction
+        updateInstructions["|-copyboost|"] = this::handleCopyBoostInstruction
         updateInstructions["|-swapsideconditions|"] = this::handleSilently
         updateInstructions["|-unboost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, false) }
         updateInstructions["|-boost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, true) }
@@ -667,6 +668,7 @@ object ShowdownInterpreter {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val name = pokemon.getName()
             battle.broadcastChatMessage(battleLang("invertboost", name))
+            pokemon.contextManager.add(getContextFromAction(message, BattleContext.Type.BOOST, battle))
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -1220,6 +1222,27 @@ object ShowdownInterpreter {
 
     /**
      * Format:
+     * |-copyboost|SOURCE|TARGET|&#91from&#93EFFECT
+     *
+     * Copies any stat changes from the TARGET Pokémon to the SOURCE Pokémon due to EFFECT.
+     */
+    private fun handleCopyBoostInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        battle.dispatchWaiting {
+            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemonName = pokemon.getName()
+            val targetPokemon = message.getBattlePokemon(1, battle) ?: return@dispatchWaiting
+            val targetPokemonName = targetPokemon.getName()
+            val lang = battleLang("copyboost.generic", pokemonName, targetPokemonName)
+            battle.broadcastChatMessage(lang)
+
+            pokemon.contextManager.copy(targetPokemon.contextManager, BattleContext.Type.BOOST)
+            pokemon.contextManager.copy(targetPokemon.contextManager, BattleContext.Type.UNBOOST)
+            battle.minorBattleActions[pokemon.uuid] = message
+        }
+    }
+
+    /**
+     * Format:
      * |-end|POKEMON|EFFECT
      *
      * The volatile status from EFFECT inflicted on the POKEMON Pokémon has ended.
@@ -1621,23 +1644,9 @@ object ShowdownInterpreter {
      */
     fun handleEndItemInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         battle.dispatchGo {
-            val moveEffect = message.effect()?.id
+            // All logic regarding broadcasting battle messages is handled in CobblemonHeldItemManager
             val battlePokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
             val itemEffect = message.effectAt(1) ?: return@dispatchGo
-            val itemText = message.argumentAt(1)!!
-            val pokemonName = battlePokemon.getName()
-
-            val lang = when (moveEffect) {
-                "incinerate" -> {
-                    battleLang("enditem.${moveEffect}", pokemonName, itemText.asTranslated())
-                }
-                else -> null
-            }
-
-            if(lang != null) {
-                battle.broadcastChatMessage(lang)
-            }
-
             battlePokemon.heldItemManager.handleEndInstruction(battlePokemon, battle, message)
             battle.minorBattleActions[battlePokemon.uuid] = message
             battlePokemon.contextManager.remove(itemEffect.id, BattleContext.Type.ITEM)
@@ -1767,6 +1776,10 @@ object ShowdownInterpreter {
     private fun handleClearNegativeBoostInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         val battlePokemon = message.getBattlePokemon(0, battle) ?: return
         val pokemonName = battlePokemon.getName()
+        // Checks if instruction is meant to be silent, in which case we do nothing
+        if (message.hasOptionalArgument("silent")) {
+            return
+        }
         battle.dispatchWaiting(1.5F) {
             val lang = when {
                 message.hasOptionalArgument("zeffect") -> battleLang("clearallnegativeboost.zeffect", pokemonName)

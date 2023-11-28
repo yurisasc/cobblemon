@@ -964,6 +964,8 @@
 
   "cobblemon.battle.swapboost.generic": "%1$s swapped stat boosts with %2$s!",
 
+  "cobblemon.battle.copyboost.generic": "%1$s copied %2$s's stat changes!",
+
   "cobblemon.battle.singleturn.protect": "%1$s protected itself!",
   "cobblemon.battle.singleturn.endure": "%1$s braced itself!",
   "cobblemon.battle.singleturn.craftyshield": "Crafty Shield protected %1$s's team!",
