@@ -819,6 +819,7 @@
   "cobblemon.battle.start.substitute": "%1$s put in a substitute!",
   "cobblemon.battle.start.embargo": "%1$s can't use items anymore!",
   "cobblemon.battle.start.typeadd": "%2$s type was added to %1$s!",
+  "cobblemon.battle.start.reflecttype": "%1$s's type became the same as %2$s's type!",
 
 
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",

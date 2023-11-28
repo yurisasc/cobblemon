@@ -924,6 +924,10 @@ object ShowdownInterpreter {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatch GO
             val effectID = message.effectAt(1)?.id ?: return@dispatch GO
 
+            val optionalEffect = message.effect()
+            val optionalPokemon = message.getSourceBattlePokemon(battle)
+            val optionalPokemonName = optionalPokemon?.getName()
+
             // skip adding contexts for every time the perish counter decrements
             if (!effectID.contains("perish")) {
                 // don't need to add unique: showdown won't send -start instruction if volatile status is already present
@@ -932,19 +936,24 @@ object ShowdownInterpreter {
             battle.minorBattleActions[pokemon.uuid] = message
 
             if (!message.hasOptionalArgument("silent")) {
-                val lang = when (effectID) {
-                    "confusion", "perish3" -> return@dispatch GO // Skip
-                    "perish2", "perish1", "perish0" -> battleLang("start.perish", pokemon.getName(), effectID.last().digitToInt())
-                    "stockpile1", "stockpile2", "stockpile3" -> battleLang("start.stockpile", pokemon.getName(), effectID.last().digitToInt())
-                    "dynamax" -> battleLang("start.${message.effectAt(2)?.id ?: effectID}", pokemon.getName()).yellow()
-                    "curse" -> battleLang("start.curse", message.getSourceBattlePokemon(battle)!!.getName(), pokemon.getName())
-                    "disable" -> battleLang("start.disable", pokemon.getName(), message.effectAt(2)!!.rawData)
-                    "typechange" -> battleLang("start.typechange", pokemon.getName(), message.effectAt(2)!!.rawData) // Covers generic typechange moves like Conversion, Conversion2, and Camouflage
-                    "typeadd" -> battleLang("start.typeadd", pokemon.getName(), message.effectAt(2)!!.rawData) // Covers generic typechange moves like Forest's Curse
-                    "mimic" -> battleLang("start.mimic", pokemon.getName(), message.effectAt(2)!!.rawData)
-                    else -> battleLang("start.$effectID", pokemon.getName())
+                val lang = when (optionalEffect?.id) {
+                    "reflecttype" -> optionalPokemonName?.let { battleLang("start.reflecttype", pokemon.getName(), it) }
+                    else -> when (effectID) {
+                        "confusion", "perish3" -> return@dispatch GO // Skip
+                        "perish2", "perish1", "perish0" -> battleLang("start.perish", pokemon.getName(), effectID.last().digitToInt())
+                        "stockpile1", "stockpile2", "stockpile3" -> battleLang("start.stockpile", pokemon.getName(), effectID.last().digitToInt())
+                        "dynamax" -> battleLang("start.${message.effectAt(2)?.id ?: effectID}", pokemon.getName()).yellow()
+                        "curse" -> battleLang("start.curse", message.getSourceBattlePokemon(battle)!!.getName(), pokemon.getName())
+                        "disable" -> battleLang("start.disable", pokemon.getName(), message.effectAt(2)!!.rawData)
+                        "typechange" -> battleLang("start.typechange", pokemon.getName(), message.effectAt(2)!!.rawData) // Covers generic typechange moves like Conversion, Conversion2, and Camouflage
+                        "typeadd" -> battleLang("start.typeadd", pokemon.getName(), message.effectAt(2)!!.rawData) // Covers generic typechange moves like Forest's Curse
+                        "mimic" -> battleLang("start.mimic", pokemon.getName(), message.effectAt(2)!!.rawData)
+                        else -> battleLang("start.$effectID", pokemon.getName())
+                    }
                 }
-                battle.broadcastChatMessage(lang)
+                if (lang != null) {
+                    battle.broadcastChatMessage(lang)
+                }
             }
             WaitDispatch(1F)
         }
