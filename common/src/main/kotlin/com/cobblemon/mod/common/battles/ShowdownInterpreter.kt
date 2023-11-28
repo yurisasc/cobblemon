@@ -940,6 +940,8 @@ object ShowdownInterpreter {
                     "curse" -> battleLang("start.curse", message.getSourceBattlePokemon(battle)!!.getName(), pokemon.getName())
                     "disable" -> battleLang("start.disable", pokemon.getName(), message.effectAt(2)!!.rawData)
                     "typechange" -> battleLang("start.typechange", pokemon.getName(), message.effectAt(2)!!.rawData) // Covers generic typechange moves like Conversion, Conversion2, and Camouflage
+                    "typeadd" -> battleLang("start.typeadd", pokemon.getName(), message.effectAt(2)!!.rawData) // Covers generic typechange moves like Forest's Curse
+                    "mimic" -> battleLang("start.mimic", pokemon.getName(), message.effectAt(2)!!.rawData)
                     else -> battleLang("start.$effectID", pokemon.getName())
                 }
                 battle.broadcastChatMessage(lang)
