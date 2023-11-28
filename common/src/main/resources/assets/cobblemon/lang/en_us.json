@@ -757,6 +757,8 @@
   "cobblemon.battle.turn": "It is now turn %1$s",
   "cobblemon.battle.side_subject.ally": "your",
   "cobblemon.battle.side_subject.opponent": "the opposing",
+  "cobblemon.battle.transform": "%1$s transformed into %2$s",
+  "cobblemon.battle.endability": "%1$s's Ability was suppressed!",
 
   "cobblemon.battle.weather.raindance.start": "It started to rain!",
   "cobblemon.battle.weather.raindance.upkeep": "Rain continues to fall.",

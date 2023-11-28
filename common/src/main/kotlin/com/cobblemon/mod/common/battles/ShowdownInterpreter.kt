@@ -980,17 +980,18 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-transform|POKEMON|MOVE
+     * |-transform|POKEMON|POKEMON
      *
-     * The Pokémon POKEMON used move MOVE which causes a temporary effect lasting the duration of the turn.
+     * The Pokémon POKEMON used Transform to turn into Target Pokemon POKEMON
      */
     private fun handleTransformInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         battle.dispatchWaiting(1.5F) {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
-            val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: return@dispatchWaiting
-            val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
-            val lang = battleLang("singleturn.$effectID", pokemonName, sourceName)
+            val targetPokemon = message.getBattlePokemon(1, battle) ?: return@dispatchWaiting
+            val targetPokemonName = targetPokemon.getName()
+
+            val lang = battleLang("transform", pokemonName, targetPokemonName)
             battle.broadcastChatMessage(lang)
             battle.minorBattleActions[pokemon.uuid] = message
         }
@@ -1015,16 +1016,16 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-endability|POKEMON|MOVE
+     * |-endability|POKEMON
      *
-     * The Pokémon POKEMON used move MOVE which causes a temporary effect lasting the duration of the move.
+     * The Pokémon POKEMON's Ability was surpressed
      */
     private fun handleEndAbilityInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         battle.dispatchWaiting(1.5F) {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
-            val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
-            val lang = battleLang("endability.$effectID", pokemonName)
+
+            val lang = battleLang("endability", pokemonName)
             battle.broadcastChatMessage(lang)
             battle.minorBattleActions[pokemon.uuid] = message
         }
