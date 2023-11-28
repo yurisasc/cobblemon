@@ -89,13 +89,14 @@ object ShowdownInterpreter {
         updateInstructions["|-fieldstart|"] = this::handleFieldStartInstructions
         updateInstructions["|-fieldend|"] = this::handleFieldEndInstructions
         updateInstructions["|-ability|"] = this::handleAbilityInstructions
-        //To-Do updateInstructions["|-endability|"] = this::handleEndAbilityInstruction
+        updateInstructions["|-endability|"] = this::handleEndAbilityInstruction
         updateInstructions["|-nothing"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
         }
         updateInstructions["|-clearallboost"] = this::handleClearAllBoostInstructions
         updateInstructions["|-singleturn|"] = this::handleSingleTurnInstruction
         updateInstructions["|-singlemove|"] = this::handleSingleMoveInstruction
+        updateInstructions["|-transform|"] = this::handleTransformInstruction
         updateInstructions["|-prepare|"] = this::handlePrepareInstruction
         updateInstructions["|-swapboost"] = this::handleSwapBoostInstruction
         updateInstructions["|-copyboost|"] = this::handleCopyBoostInstruction
@@ -979,6 +980,24 @@ object ShowdownInterpreter {
 
     /**
      * Format:
+     * |-transform|POKEMON|MOVE
+     *
+     * The Pokémon POKEMON used move MOVE which causes a temporary effect lasting the duration of the turn.
+     */
+    private fun handleTransformInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        battle.dispatchWaiting(1.5F) {
+            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemonName = pokemon.getName()
+            val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: return@dispatchWaiting
+            val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
+            val lang = battleLang("singleturn.$effectID", pokemonName, sourceName)
+            battle.broadcastChatMessage(lang)
+            battle.minorBattleActions[pokemon.uuid] = message
+        }
+    }
+
+    /**
+     * Format:
      * |-singlemove|POKEMON|MOVE
      *
      * The Pokémon POKEMON used move MOVE which causes a temporary effect lasting the duration of the move.
@@ -989,6 +1008,23 @@ object ShowdownInterpreter {
             val pokemonName = pokemon.getName()
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
             val lang = battleLang("singlemove.$effectID", pokemonName)
+            battle.broadcastChatMessage(lang)
+            battle.minorBattleActions[pokemon.uuid] = message
+        }
+    }
+
+    /**
+     * Format:
+     * |-endability|POKEMON|MOVE
+     *
+     * The Pokémon POKEMON used move MOVE which causes a temporary effect lasting the duration of the move.
+     */
+    private fun handleEndAbilityInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        battle.dispatchWaiting(1.5F) {
+            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemonName = pokemon.getName()
+            val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
+            val lang = battleLang("endability.$effectID", pokemonName)
             battle.broadcastChatMessage(lang)
             battle.minorBattleActions[pokemon.uuid] = message
         }
