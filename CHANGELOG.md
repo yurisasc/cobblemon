@@ -87,6 +87,7 @@
 - Fixed tooltips being appended too late in items.
 - Fixed battles ending background music when battle music is not present.
 - Fixed battles ending background music, instead of pausing, when battle music is played.
+- Fixed a bunch of regionals to actually be obtainable, namely the unmodelled ones
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
