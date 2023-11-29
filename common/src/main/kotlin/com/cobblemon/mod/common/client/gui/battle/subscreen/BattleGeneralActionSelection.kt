@@ -24,6 +24,14 @@ import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
+import org.lwjgl.glfw.GLFW
+import net.minecraft.client.render.GameRenderer
+import net.minecraft.client.render.Tessellator
+import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.VertexFormats
+import com.mojang.blaze3d.systems.RenderSystem
+import net.minecraft.client.render.*
+
 class BattleGeneralActionSelection(
     battleGUI: BattleGUI,
     request: SingleActionRequest
@@ -86,7 +94,46 @@ class BattleGeneralActionSelection(
     }
 
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        for (tile in tiles) {
+        for ((index, tile) in tiles.withIndex()) {
+            if (index == focusedIndex) {
+                // Set the color for the highlight based on the index
+                /*val color = when (index) {
+                    0 -> rgbToARGBColor(176, 78, 79) // Fight - Red
+                    1 -> rgbToARGBColor(71, 167, 66) // Bag - Green
+                    2 -> rgbToARGBColor(187, 159, 48) // Switch - Yellow
+                    3 -> rgbToARGBColor(60, 143, 170) // Run - Blue
+                    else -> rgbToARGBColor(255, 255, 255) // White
+                }*/
+                val color = when (index) {
+                    0 -> Triple((176 / 255).toFloat(), (78 / 255).toFloat(), (79 / 255).toFloat()) // Fight - Red
+                    1 -> Triple((71 / 255).toFloat(), (167 / 255).toFloat(), (66 / 255).toFloat()) // Bag - Green
+                    2 -> Triple((187 / 255).toFloat(), (159 / 255).toFloat(), (48 / 255).toFloat()) // Switch - Yellow
+                    3 -> Triple((60 / 255).toFloat(), (143 / 255).toFloat(), (170 / 255).toFloat()) // Run - Blue
+                    else -> Triple((255 / 255).toFloat(), (255 / 255).toFloat(), (255 / 255).toFloat()) // White
+                }
+
+
+                // Draw a rectangle around the tile as a highlight and adjust the padding or size
+                val padding = 2 // pixels
+                val rectX = tile.x - padding
+                val rectY = tile.y - padding
+                val rectWidth = BattleOptionTile.OPTION_WIDTH + 2 * padding
+                val rectHeight = BattleOptionTile.OPTION_HEIGHT + 2 * padding
+
+                val tessellator = Tessellator.getInstance()
+                val bufferBuilder = tessellator.buffer
+
+                RenderSystem.setShader { GameRenderer.getPositionTexProgram() } // set shader for texture
+                RenderSystem.setShaderTexture(0, BattleGUI.menuHighlightResource) // load menu highlight and set shader for it
+                RenderSystem.setShaderColor(color.first, color.second, color.third, 1F) // Apply the tint color
+
+                bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE)
+                bufferBuilder.vertex(rectX.toDouble(), (rectY + rectHeight).toDouble(), 0.0).texture(0f, 1f).next() // White color here
+                bufferBuilder.vertex((rectX + rectWidth).toDouble(), (rectY + rectHeight).toDouble(), 0.0).texture(0f, 1f).next()
+                bufferBuilder.vertex((rectX + rectWidth).toDouble(), rectY.toDouble(), 0.0).texture(0f, 1f).next()
+                bufferBuilder.vertex(rectX.toDouble(), rectY.toDouble(), 0.0).texture(0f, 1f).next()
+                tessellator.draw()
+            }
             tile.render(context, mouseX, mouseY, delta)
         }
     }
@@ -102,5 +149,44 @@ class BattleGeneralActionSelection(
         soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
+    fun rgbToARGBColor(red: Int, green: Int, blue: Int, alpha: Int = 255): Int {
+        return (alpha shl 24) or (red shl 16) or (green shl 8) or blue
+    }
+
     override fun getType() = Selectable.SelectionType.NONE
+
+    // Battle UI Arrow Key navigation code
+    private var focusedIndex: Int = 0
+    fun changeFocus(keyCode: Int) {
+        val numRows = 2 // 2 rows for now
+        val numColumns = tiles.size / numRows
+
+        val currentRow = focusedIndex / numColumns
+        val currentColumn = focusedIndex % numColumns
+
+        when (keyCode) {
+            GLFW.GLFW_KEY_UP -> {
+                if (currentRow > 0) focusedIndex -= numColumns
+            }
+            GLFW.GLFW_KEY_DOWN -> {
+                if (currentRow < numRows - 1) focusedIndex += numColumns
+            }
+            GLFW.GLFW_KEY_LEFT -> {
+                if (currentColumn > 0) focusedIndex -= 1
+            }
+            GLFW.GLFW_KEY_RIGHT -> {
+                if (currentColumn < numColumns - 1) focusedIndex += 1
+            }
+        }
+
+        // To make sure focusedIndex stays within the bounds of the buttons
+        focusedIndex = focusedIndex.coerceIn(0, tiles.size - 1)
+    }
+
+
+    fun triggerFocusedButton() {
+        tiles.getOrNull(focusedIndex)?.onClick?.invoke()
+    }
+
+
 }

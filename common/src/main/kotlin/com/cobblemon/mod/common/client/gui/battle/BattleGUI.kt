@@ -12,10 +12,7 @@ import com.cobblemon.mod.common.battles.ShowdownActionResponse
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBattleActor
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
-import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleActionSelection
-import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleBackButton
-import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleGeneralActionSelection
-import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleSwitchPokemonSelection
+import com.cobblemon.mod.common.client.gui.battle.subscreen.*
 import com.cobblemon.mod.common.client.gui.battle.widgets.BattleMessagePane
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
@@ -27,6 +24,8 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
+import org.lwjgl.glfw.GLFW
+
 class BattleGUI : Screen(battleLang("gui.title")) {
     companion object {
         const val OPTION_VERTICAL_SPACING = 3
@@ -38,6 +37,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         val bagResource = cobblemonResource("textures/gui/battle/battle_menu_bag.png")
         val switchResource = cobblemonResource("textures/gui/battle/battle_menu_switch.png")
         val runResource = cobblemonResource("textures/gui/battle/battle_menu_run.png")
+        val menuHighlightResource = cobblemonResource("textures/gui/battle/battle_menu_highlight.png")
     }
 
     private lateinit var messagePane: BattleMessagePane
@@ -78,6 +78,31 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             changeActionSelection(null)
             battle.checkForFinishedChoosing()
         }
+    }
+
+
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        val currentSelection = getCurrentActionSelection()
+        when (currentSelection) {
+            is BattleGeneralActionSelection -> {
+                when (keyCode) {
+                    GLFW.GLFW_KEY_UP, GLFW.GLFW_KEY_DOWN, GLFW.GLFW_KEY_LEFT, GLFW.GLFW_KEY_RIGHT ->
+                        currentSelection.changeFocus(keyCode)
+                    GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER ->
+                        currentSelection.triggerFocusedButton()
+                }
+            }
+            is BattleMoveSelection -> {
+                when (keyCode) {
+                    GLFW.GLFW_KEY_UP, GLFW.GLFW_KEY_DOWN, GLFW.GLFW_KEY_LEFT, GLFW.GLFW_KEY_RIGHT ->
+                        currentSelection.changeFocus(keyCode)
+                    GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER ->
+                        currentSelection.triggerFocusedButton()
+                }
+            }
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers)
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
