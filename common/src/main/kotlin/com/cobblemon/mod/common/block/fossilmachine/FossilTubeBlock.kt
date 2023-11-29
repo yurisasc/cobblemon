@@ -130,11 +130,9 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
             return 0
         }
         val tubeEntity = world.getBlockEntity(pos) as MultiblockEntity
-        if(tubeEntity.isRemoved) return 0
-        if (tubeEntity.multiblockStructure != null) {
-            //TODO: add getComparatorOutput to interface to eliminate downcast, may need to parameter in the block type
-            val fossilMultiblockStructure: FossilMultiblockStructure = tubeEntity.multiblockStructure as FossilMultiblockStructure
-            return fossilMultiblockStructure.organicMaterialInside * 15 / FossilMultiblockStructure.MATERIAL_TO_START
+        val multiBlockEntity = tubeEntity.multiblockStructure
+        if(multiBlockEntity != null) {
+            return multiBlockEntity.getComparatorOutput(state, world, pos)
         }
         return 0
     }
@@ -163,9 +161,7 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
         }
         val tubeEntity = world.getBlockEntity(pos) as MultiblockEntity
         if (tubeEntity.multiblockStructure != null) {
-            //TODO: onRedstoneTriggerEvent to interface to eliminate downcast
-            val fossilMultiblockStructure: FossilMultiblockStructure = tubeEntity.multiblockStructure as FossilMultiblockStructure
-            fossilMultiblockStructure.onRedstoneTriggerEvent(world, pos)
+            tubeEntity.multiblockStructure!!.onTriggerEvent(state, world, pos, random)
         }
     }
 

@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
-import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
@@ -62,17 +61,9 @@ class FossilMonitorBlock(properties: Settings) : MultiblockBlock(properties) {
             return 0
         }
         val monitorEntity = world.getBlockEntity(pos) as MultiblockEntity
-        if(monitorEntity.isRemoved) return 0
-        if (monitorEntity.multiblockStructure != null) {
-            //TODO: add getComparatorOutput to interface to eliminate downcast, may need to parameter in the block type
-            val fossilMultiblockStructure: FossilMultiblockStructure = monitorEntity.multiblockStructure as FossilMultiblockStructure
-            if(fossilMultiblockStructure.createdPokemon != null) {
-                return 15
-            }
-            if(!fossilMultiblockStructure.isRunning()) {
-                return 0
-            }
-            return Math.max(15 - fossilMultiblockStructure.timeRemaining * 15 / FossilMultiblockStructure.TIME_TO_TAKE, 1)
+        val multiBlockEntity = monitorEntity.multiblockStructure
+        if(multiBlockEntity != null) {
+            return multiBlockEntity.getComparatorOutput(state, world, pos)
         }
         return 0
     }
