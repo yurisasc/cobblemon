@@ -39,6 +39,8 @@ public abstract class ModelPartMixin implements Bone {
 
     @Override
     public void render(RenderContext context, MatrixStack stack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
+        System.out.println(context.requires(RenderContext.Companion.getSPECIES()) + " -> " + context.requires(RenderContext.Companion.getASPECTS()));
+
         this.render(stack, buffer, packedLight, packedOverlay, r, g, b, a);
     }
 
