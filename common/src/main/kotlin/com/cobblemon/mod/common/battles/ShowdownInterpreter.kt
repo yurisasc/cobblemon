@@ -935,9 +935,12 @@ object ShowdownInterpreter {
             battle.minorBattleActions[pokemon.uuid] = message
 
             if (!message.hasOptionalArgument("silent")) {
-                val lang = when (optionalEffect?.id) {
-                    "reflecttype" -> optionalPokemonName?.let { battleLang("start.reflecttype", pokemon.getName(), it) }
-                    else -> when (effectID) {
+                var lang: MutableText? = null
+                if (optionalEffect?.id == "reflecttype") {
+                    lang = optionalPokemonName?.let { battleLang("start.reflecttype", pokemon.getName(), it) }
+                }
+                else {
+                    when (effectID) {
                         "confusion", "perish3" -> return@dispatch GO // Skip
                         "perish2", "perish1", "perish0" -> battleLang("start.perish", pokemon.getName(), effectID.last().digitToInt())
                         "stockpile1", "stockpile2", "stockpile3" -> battleLang("start.stockpile", pokemon.getName(), effectID.last().digitToInt())
@@ -1082,12 +1085,14 @@ object ShowdownInterpreter {
                 }
                 // Includes revealed move
                 "forewarn" -> {
-                    val moveName = message.moveAt(2)?.displayName ?: run { println(message.argumentAt(2)); "(Unrecognized: ${message.argumentAt(2)})".text() }
-                    battleLang("activate.forewarn", sourceName, moveName)
+                    val moveName = message.moveAt(2)?.displayName
+                    moveName?.let { battleLang("activate.forewarn", sourceName, it) }
+
                 }
                 "grudge" -> {
-                    val moveName = message.moveAt(2)?.displayName ?: run { println(message.argumentAt(2)); "(Unrecognized: ${message.argumentAt(2)})".text() }
-                    battleLang("activate.grudge", pokemonName, moveName)
+                    val moveName = message.moveAt(2)?.displayName
+                    moveName?.let { battleLang("activate.grudge", pokemonName, it) }
+
                 }
                 // Includes held item of the target
                 "poltergeist" -> battleLang("activate.poltergeist", pokemonName, message.argumentAt(2)!!)
@@ -1098,7 +1103,9 @@ object ShowdownInterpreter {
                 "shadowforce", "hyperspacefury", "hyperspacehole" -> battleLang("activate.phantomforce", pokemonName)
                 else -> battleLang("activate.${effect.id}", pokemonName, sourceName)
             }
-            battle.broadcastChatMessage(lang)
+            if (lang != null) {
+                battle.broadcastChatMessage(lang)
+            }
             WaitDispatch(1F)
         }
     }
@@ -1259,9 +1266,7 @@ object ShowdownInterpreter {
             val targetPokemonName = targetPokemon.getName()
             val effectID = message.effect()?.id ?: return@dispatchWaiting
             val lang = when (effectID) {
-                "guardswap" -> battleLang("swapboost.guardswap", pokemonName)
-                "powerswap" -> battleLang("swapboost.powerswap", pokemonName)
-                "heartswap" -> battleLang("swapboost.heartswap", pokemonName)
+                "guardswap", "powerswap", "heartswap" -> battleLang("swapboost$effectID", pokemonName)
                 else -> battleLang("swapboost.generic", pokemonName, targetPokemonName)
             }
 
