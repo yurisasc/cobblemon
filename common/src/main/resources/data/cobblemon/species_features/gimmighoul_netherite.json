@@ -7,7 +7,7 @@
   "visible": true,
   "display": {
     "name": "cobblemon.ui.netherite_hoard",
-    "colour": [100, 72, 63],
+    "colour": [153, 113, 97],
     "underlay": "cobblemon:textures/gui/summary/summary_stats_other_bar.png",
     "overlay": "cobblemon:textures/gui/summary/summary_stats_generic_overlay.png"
   }
