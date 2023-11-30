@@ -17,6 +17,9 @@
     "special_defence": 120,
     "speed": 90
   },
+  "features": [
+    "galar"
+  ],
   "catchRate": 45,
   "maleRatio": 0.5,
   "shoulderMountable": false,

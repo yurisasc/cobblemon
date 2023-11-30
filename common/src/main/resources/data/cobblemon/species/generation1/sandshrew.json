@@ -28,6 +28,9 @@
     "special_defence": 30,
     "speed": 40
   },
+  "features": [
+    "alolan"
+  ],
   "behaviour": {
     "moving": {
       "walk": {

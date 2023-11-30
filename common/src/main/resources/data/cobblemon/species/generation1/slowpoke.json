@@ -30,6 +30,9 @@
     "special_defence": 40,
     "speed": 15
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": false,
