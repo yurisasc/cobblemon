@@ -81,6 +81,7 @@
 - Fixed Shroomish not using its idle.
 - Fixed a possible visual duplication of sent out Pokémon.
 - Fixed battle text for Trace, Receiver, and Power of Alchemy.
+- Fixed battle text for moves that were missing.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
