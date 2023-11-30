@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.block.fossilmachine
 
+import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
-import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -24,7 +24,10 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.Properties
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
@@ -86,6 +89,19 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
         super.onPlaced(world, pos, state, placer, itemStack)
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+        if(state.get(PART) == TubePart.TOP) {
+            // TubeTop isn't reliably up to date on clients, need to look at the bottom half
+            val tubeBottomPos = pos.down()
+            val tubeBottomState = world.getBlockState(tubeBottomPos)
+            if(tubeBottomState.block.equals(CobblemonBlocks.FOSSIL_TUBE.asBlock()) && tubeBottomState.get(PART) == TubePart.BOTTOM) {
+                return super.onUse(tubeBottomState, world, tubeBottomPos, player, hand, hit)
+            }
+        }
+        return super.onUse(state, world, pos, player, hand, hit)
+    }
+
     override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {
         return if (state.get(PART) == TubePart.BOTTOM) {
             FossilTubeBlockEntity(pos, state, FossilMultiblockBuilder(pos))
@@ -130,11 +146,9 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
             return 0
         }
         val tubeEntity = world.getBlockEntity(pos) as MultiblockEntity
-        if(tubeEntity.isRemoved) return 0
-        if (tubeEntity.multiblockStructure != null) {
-            //TODO: add getComparatorOutput to interface to eliminate downcast, may need to parameter in the block type
-            val fossilMultiblockStructure: FossilMultiblockStructure = tubeEntity.multiblockStructure as FossilMultiblockStructure
-            return fossilMultiblockStructure.organicMaterialInside * 15 / FossilMultiblockStructure.MATERIAL_TO_START
+        val multiBlockEntity = tubeEntity.multiblockStructure
+        if(multiBlockEntity != null) {
+            return multiBlockEntity.getComparatorOutput(state, world, pos)
         }
         return 0
     }
@@ -163,9 +177,7 @@ class FossilTubeBlock(properties: Settings) : MultiblockBlock(properties), Inven
         }
         val tubeEntity = world.getBlockEntity(pos) as MultiblockEntity
         if (tubeEntity.multiblockStructure != null) {
-            //TODO: onRedstoneTriggerEvent to interface to eliminate downcast
-            val fossilMultiblockStructure: FossilMultiblockStructure = tubeEntity.multiblockStructure as FossilMultiblockStructure
-            fossilMultiblockStructure.onRedstoneTriggerEvent(world, pos)
+            tubeEntity.multiblockStructure!!.onTriggerEvent(state, world, pos, random)
         }
     }
 

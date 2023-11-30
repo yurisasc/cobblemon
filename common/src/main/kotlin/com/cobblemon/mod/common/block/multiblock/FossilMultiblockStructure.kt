@@ -42,6 +42,7 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.registry.Registries
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -51,6 +52,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import kotlin.math.ceil
 
@@ -253,24 +255,42 @@ class FossilMultiblockStructure (
         return null
     }
 
-    fun onRedstoneTriggerEvent(world: World, pos: BlockPos) {
-        // TODO: Enable additional check once it's possible to hopper in a fossil
-        if (this.createdPokemon != null /* && this.protectionTime < 0 */) {
-            // instantiate the pokemon as a new entity and spawn it at the location of the machine
+    @Deprecated("Deprecated in Java")
+    override fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
+        if(world == null || pos == null) {
+            return 0
+        }
+        if(monitorPos == pos) {
+            if(createdPokemon != null) {
+                return 15
+            }
+            if(!isRunning()) {
+                return 0
+            }
+            return Math.max(15 - timeRemaining * 15 / TIME_TO_TAKE, 1)
+        }
+        if(tubeBasePos == pos || tubeBasePos.up() == pos) {
+            return organicMaterialInside * 15 / MATERIAL_TO_START
+        }
+        return 0
+    }
+    override fun onTriggerEvent(state: BlockState?, world: ServerWorld?, pos: BlockPos?, random: Random?) {
+        // instantiate the pokemon as a new entity and spawn it at the location of the machine
+        if(this.protectionTime <= 0) {
             val wildPokemon: Pokemon = this.createdPokemon ?: return
-            val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
-            val state = world.getBlockState(monitorEntity.pos)
-            val direction = state.get(HorizontalFacingBlock.FACING).getOpposite()
-            val success = this.spawn(world, pos, direction, wildPokemon)
-            if(success) {
-                this.fossilState.growthState = "Taken"
-                this.createdPokemon = null
-                this.fossilOwner = null
-                this.protectionTime = -1
-                world.playSound(null, tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS)
-                this.updateFossilType(world)
-                this.syncToClient(world)
-                this.markDirty(world)
+            val direction = state?.get(HorizontalFacingBlock.FACING)?.opposite
+            if(pos != null && direction != null && world != null) {
+                val success = this.spawn(world, pos, direction, wildPokemon)
+                if(success) {
+                    this.fossilState.growthState = "Taken"
+                    this.createdPokemon = null
+                    this.fossilOwner = null
+                    this.protectionTime = -1
+                    world.playSound(null, tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS)
+                    this.updateFossilType(world)
+                    this.syncToClient(world)
+                    this.markDirty(world)
+                }
             }
         }
     }
@@ -362,8 +382,9 @@ class FossilMultiblockStructure (
             this.resultingFossil?.let {
                 this.createdPokemon = it.result.create()
             }
-
-            protectionTime = PROTECTION_TIME
+            if(this.fossilOwner != null) {
+                protectionTime = PROTECTION_TIME
+            }
 
             this.stopMachine(world)
         }
