@@ -7,8 +7,8 @@
   "visible": true,
   "display": {
     "name": "cobblemon.ui.gold_hoard",
-    "colour": [221, 193, 46],
+    "colour": [250, 214, 74],
     "underlay": "cobblemon:textures/gui/summary/summary_stats_other_bar.png",
-    "overlay": "cobblemon:textures/gui/summary/summary_stats_generic_overlay.png"
+    "overlay": "cobblemon:textures/gui/summary/summary_stats_gimmighoul_overlay.png"
   }
 }

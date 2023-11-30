@@ -198,9 +198,9 @@ class StatWidget(
             width = 124
         )
 
-        val red = 0.92
-        val green: Number = if (pokemon.friendship >= 160) 0.28 else 0.7
-        val blue: Number = if (pokemon.friendship >= 160) 0.4 else 0.28
+        val red = 1
+        val green: Number = if (pokemon.friendship >= 160) 0.28 else 0.56
+        val blue: Number = if (pokemon.friendship >= 160) 0.4 else 0.64
 
         blitk(
             matrixStack = matrices,
