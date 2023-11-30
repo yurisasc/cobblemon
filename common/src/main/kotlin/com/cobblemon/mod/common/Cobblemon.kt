@@ -388,6 +388,7 @@ object Cobblemon {
 
             if (goldHoard != null && GoldMaterials.isGoldMaterial(itemId)) {
                 goldHoard.value += GoldMaterials.getContent(itemId)!!
+                if (goldHoard.value > 999) goldHoard.value = 999
                 if (event.decrement) {
                     event.originalStack.decrement(1)
                 }
@@ -399,6 +400,7 @@ object Cobblemon {
 
             if (netheriteHoard != null && NetheriteMaterials.isNetheriteMaterial(itemId)) {
                 netheriteHoard.value += NetheriteMaterials.getContent(itemId)!!
+                if (netheriteHoard.value > 256) netheriteHoard.value = 256
                 if (event.decrement) {
                     event.originalStack.decrement(1)
                 }

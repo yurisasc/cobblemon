@@ -206,7 +206,7 @@ class StatWidget(
             matrixStack = matrices,
             texture = CobblemonResources.WHITE,
             x = moduleX + 8,
-            y = moduleY + 16,
+            y = moduleY + 18,
             height = 8,
             width = barWidth,
             red = red,
@@ -218,7 +218,7 @@ class StatWidget(
             matrixStack = matrices,
             texture = friendshipOverlayResource,
             x = moduleX / SCALE,
-            y = (moduleY + 14) / SCALE,
+            y = (moduleY + 16) / SCALE,
             height = 20,
             width = 248,
             scale = SCALE

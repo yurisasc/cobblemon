@@ -11,11 +11,13 @@ package com.cobblemon.mod.common.api.storage.party
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.advancement.criterion.PartyCheckContext
+import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
 import com.cobblemon.mod.common.api.pokemon.evolution.PassiveEvolution
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
+import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.isPokemonEntity
@@ -118,6 +120,12 @@ open class PlayerPartyStore(
 
                 // Passive evolutions
                 pokemon.evolutions.filterIsInstance<PassiveEvolution>().forEach { it.attemptEvolution(pokemon) }
+                val removeList = mutableListOf<Evolution>()
+                pokemon.evolutionProxy.server().forEach {
+                    if (!it.test(pokemon) && it is LevelUpEvolution && !it.permanent)
+                        removeList.add(it)
+                }
+                removeList.forEach { pokemon.evolutionProxy.server().remove(it) }
             }
             // Friendship
             // ToDo expand this down the line just a very basic implementation for the first releases

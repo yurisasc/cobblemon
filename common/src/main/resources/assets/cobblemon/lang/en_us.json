@@ -361,6 +361,8 @@
   "block.cobblemon.vivichoke_seeds": "Vivichoke Seeds",
   "block.cobblemon.pep_up_flower": "Pep-Up Flower",
   "block.cobblemon.potted_pep_up_flower": "Potted Pep-Up Flower",
+  "block.cobblemon.gilded_chest": "Gilded Chest",
+  "block.cobblemon.gimmighoul_chest": "Gimmighoul Chest",
 
   "cobblemon.overflow_no_pc": "Your party was full and you don't have a PC!",
   "cobblemon.overflow_no_space": "Your party was full and so was %1$s!",
@@ -741,6 +743,8 @@
   "advancements.cobblemon.own_zangoose_seviper.description": "Have a Zangoose and Seviper in your party at the same time",
   "advancements.cobblemon.obtain_fossil": "Consult the fossil",
   "advancements.cobblemon.obtain_fossil.description": "Discover a fossil buried in ancient ruins",
+  "advancements.cobblemon.evolve_gholdengo_netherite": "Cover thee in Debris",
+  "advancements.cobblemon.evolve_gholdengo_netherite.description": "Evolve a Gimmighoul into a fully netherite-coated Gholdengo",
 
   "cobblemon.battle.crash": "A battle error has occurred. If playing single-player, report this to the mod team. Otherwise, report this to the servers administrator.",
   "cobblemon.battle.damage_dealt": "%1$s took %2$s damage!",

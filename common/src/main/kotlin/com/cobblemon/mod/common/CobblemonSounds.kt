@@ -117,6 +117,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val GIMMIGHOUL_GIVE_ITEM_MEDIUM = this.create("gimmighoul.give_item_medium")
     @JvmField
     val GIMMIGHOUL_GIVE_ITEM_LARGE = this.create("gimmighoul.give_item_large")
+    @JvmField
+    val GIMMIGHOUL_REVEAL = this.create("gimmighoul.reveal")
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }

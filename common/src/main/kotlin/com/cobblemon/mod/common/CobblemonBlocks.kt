@@ -175,7 +175,15 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val GILDED_CHEST = create(
         "gilded_chest",
         CobblemonChestBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST)
+            AbstractBlock.Settings.copy(Blocks.CHEST), false
+        ) { CobblemonBlockEntities.GILDED_CHEST }
+    )
+
+    @JvmField
+    val GIMMIGHOUL_CHEST = create(
+        "gimmighoul_chest",
+        CobblemonChestBlock(
+            AbstractBlock.Settings.copy(Blocks.CHEST), true
         ) { CobblemonBlockEntities.GILDED_CHEST }
     )
 

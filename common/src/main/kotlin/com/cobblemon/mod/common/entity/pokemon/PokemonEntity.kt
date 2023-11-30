@@ -167,6 +167,7 @@ class PokemonEntity(
     internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
     val hideLabel = addEntityProperty(HIDE_LABEL, false)
     val unbattleable = addEntityProperty(UNBATTLEABLE, false)
+    val spawnDirection = addEntityProperty(SPAWN_DIRECTION, 0.0F)
 
     /**
      * 0 is do nothing,
@@ -232,8 +233,10 @@ class PokemonEntity(
         val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        val SPAWN_DIRECTION = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
 
         const val BATTLE_LOCK = "battle"
+        const val ANIMATION_LOCK = "animation"
 
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
@@ -271,6 +274,13 @@ class PokemonEntity(
         ticksLived++
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
+        }
+
+        if (ticksLived <= 20) {
+            clearPositionTarget()
+            setBodyYaw(spawnDirection.get())
+            setRotation(spawnDirection.get(), this.pitch)
+            refreshPositionAndAngles(pos.toBlockPos(), this.yaw, this.pitch)
         }
 
         if (this.tethering != null && !this.tethering!!.box.contains(this.x, this.y, this.z)) {

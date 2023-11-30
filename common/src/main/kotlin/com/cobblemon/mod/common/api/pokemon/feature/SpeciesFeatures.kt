@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.net.messages.client.data.StandardSpeciesFeatureSyncPacket
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
-import com.cobblemon.mod.common.util.adapters.IntRangeAdapter
 import com.cobblemon.mod.common.util.adapters.SpeciesFeatureProviderAdapter
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -56,7 +55,6 @@ object SpeciesFeatures : JsonDataRegistry<SpeciesFeatureProvider<*>> {
         .registerTypeAdapter(SpeciesFeatureProvider::class.java, SpeciesFeatureProviderAdapter)
         .registerTypeAdapter(Vec3d::class.java, Vec3dAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
-        .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
         .create()
     override val typeToken: TypeToken<SpeciesFeatureProvider<*>> = TypeToken.get(SpeciesFeatureProvider::class.java)
     override val resourcePath: String = "species_features"

@@ -129,6 +129,9 @@
   "gimmighoul.give_item_large": {
     "sounds": [ "cobblemon:gimmighoul_give_item_large" ]
   },
+  "gimmighoul.reveal": {
+    "sounds": [ "cobblemon:gimmighoul_reveal" ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },
