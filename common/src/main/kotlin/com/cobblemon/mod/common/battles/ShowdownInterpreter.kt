@@ -667,7 +667,20 @@ object ShowdownInterpreter {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val name = pokemon.getName()
             battle.broadcastChatMessage(battleLang("invertboost", name))
-            pokemon.contextManager.add(getContextFromAction(message, BattleContext.Type.BOOST, battle))
+
+            val newUnboosts = pokemon.contextManager.get(BattleContext.Type.BOOST)?.map {
+                getContextFromAction(message, BattleContext.Type.UNBOOST, battle)
+            }?.toTypedArray()
+            val newBoosts = pokemon.contextManager.get(BattleContext.Type.UNBOOST)?.map {
+                getContextFromAction(message, BattleContext.Type.BOOST, battle)
+            }?.toTypedArray()
+            pokemon.contextManager.clear(BattleContext.Type.BOOST, BattleContext.Type.UNBOOST)
+            newBoosts?.let {
+                pokemon.contextManager.add(*it)
+            }
+            newUnboosts?.let {
+                pokemon.contextManager.add(*it)
+            }
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -940,16 +953,13 @@ object ShowdownInterpreter {
                     lang = optionalPokemonName?.let { battleLang("start.reflecttype", pokemon.getName(), it) }
                 }
                 else {
-                    when (effectID) {
+                    lang = when (effectID) {
                         "confusion", "perish3" -> return@dispatch GO // Skip
-                        "perish2", "perish1", "perish0" -> battleLang("start.perish", pokemon.getName(), effectID.last().digitToInt())
-                        "stockpile1", "stockpile2", "stockpile3" -> battleLang("start.stockpile", pokemon.getName(), effectID.last().digitToInt())
+                        "perish2", "perish1", "perish0",
+                        "stockpile1", "stockpile2", "stockpile3" -> battleLang("start.${effectID.dropLast(1)}", pokemon.getName(), effectID.last().digitToInt())
                         "dynamax" -> battleLang("start.${message.effectAt(2)?.id ?: effectID}", pokemon.getName()).yellow()
                         "curse" -> battleLang("start.curse", message.getSourceBattlePokemon(battle)!!.getName(), pokemon.getName())
-                        "disable" -> battleLang("start.disable", pokemon.getName(), message.effectAt(2)!!.rawData)
-                        "typechange" -> battleLang("start.typechange", pokemon.getName(), message.effectAt(2)!!.rawData) // Covers generic typechange moves like Conversion, Conversion2, and Camouflage
-                        "typeadd" -> battleLang("start.typeadd", pokemon.getName(), message.effectAt(2)!!.rawData) // Covers generic typechange moves like Forest's Curse
-                        "mimic" -> battleLang("start.mimic", pokemon.getName(), message.effectAt(2)!!.rawData)
+                        "disable", "typechange", "typeadd", "mimic" -> battleLang("start.$effectID", pokemon.getName(), message.effectAt(2)!!.rawData)
                         else -> battleLang("start.$effectID", pokemon.getName())
                     }
                 }
@@ -1293,8 +1303,7 @@ object ShowdownInterpreter {
             val lang = battleLang("copyboost.generic", pokemonName, targetPokemonName)
             battle.broadcastChatMessage(lang)
 
-            pokemon.contextManager.copy(targetPokemon.contextManager, BattleContext.Type.BOOST)
-            pokemon.contextManager.copy(targetPokemon.contextManager, BattleContext.Type.UNBOOST)
+            pokemon.contextManager.copy(targetPokemon.contextManager, BattleContext.Type.BOOST, BattleContext.Type.UNBOOST)
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -1834,16 +1843,14 @@ object ShowdownInterpreter {
     private fun handleClearNegativeBoostInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         val battlePokemon = message.getBattlePokemon(0, battle) ?: return
         val pokemonName = battlePokemon.getName()
-        // Checks if instruction is meant to be silent, in which case we do nothing
-        if (message.hasOptionalArgument("silent")) {
-            return
-        }
         battle.dispatchWaiting(1.5F) {
             val lang = when {
                 message.hasOptionalArgument("zeffect") -> battleLang("clearallnegativeboost.zeffect", pokemonName)
                 else -> battleLang("clearallnegativeboost", pokemonName)
             }
-            battle.broadcastChatMessage(lang)
+            if (!message.hasOptionalArgument("silent")) {
+                battle.broadcastChatMessage(lang)
+            }
 
             battlePokemon.contextManager.clear(BattleContext.Type.UNBOOST)
             battle.minorBattleActions[battlePokemon.uuid] = message
