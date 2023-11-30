@@ -457,13 +457,16 @@ class FossilMultiblockStructure (
         if (timeRemaining > 0 || this.organicMaterialInside >= MATERIAL_TO_START || natureValue == null) {
             return false
         }
+
+        if (natureValue < 0 && organicMaterialInside == 0) return false
         val oldFillStage = organicMaterialInside / 8
 
-        // to prevent over filling the tank causing a crash
+        // to prevent over/under filling the tank causing a crash
         if ((organicMaterialInside + natureValue) > MATERIAL_TO_START) {
             organicMaterialInside = MATERIAL_TO_START
-        }
-        else {
+        } else if ((organicMaterialInside + natureValue) < 0) {
+            organicMaterialInside = 0
+        } else {
             organicMaterialInside += natureValue
         }
         if (this.organicMaterialInside >= MATERIAL_TO_START) {
