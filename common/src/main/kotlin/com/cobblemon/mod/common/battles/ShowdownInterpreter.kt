@@ -479,12 +479,10 @@ object ShowdownInterpreter {
     private fun handleTurnInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         if (!battle.started) {
             battle.started = true
-            battle.actors.forEach { actor ->
-                if (actor.uuid.getPlayer() != null) {
-                    val initializePacket = BattleInitializePacket(battle, actor.getSide())
-                    actor.sendUpdate(initializePacket)
-                    actor.sendUpdate(BattleMusicPacket(battle))
-                }
+            battle.actors.filterIsInstance<PlayerBattleActor>().forEach { actor ->
+                val initializePacket = BattleInitializePacket(battle, actor.getSide())
+                actor.sendUpdate(initializePacket)
+                actor.sendUpdate(BattleMusicPacket(actor.battleTheme))
             }
             battle.actors.forEach { actor ->
                 actor.sendUpdate(BattleSetTeamPokemonPacket(actor.pokemonList.map { it.effectedPokemon }))

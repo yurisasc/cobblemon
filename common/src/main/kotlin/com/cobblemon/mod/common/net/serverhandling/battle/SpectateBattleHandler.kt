@@ -12,8 +12,10 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.net.messages.server.battle.SpectateBattlePacket
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
@@ -27,10 +29,12 @@ object SpectateBattleHandler : ServerNetworkPacketHandler<SpectateBattlePacket> 
         player: ServerPlayerEntity
     ) {
         val battle = BattleRegistry.getBattleByParticipatingPlayerId(packet.targetedEntityId)
-        if ((battle != null) and Cobblemon.config.allowSpectating) {
-            battle!!.spectators.add(player.uuid)
+        if (battle != null && Cobblemon.config.allowSpectating) {
+            val target = battle.actors.filterIsInstance<PlayerBattleActor>().firstOrNull { it.uuid == packet.targetedEntityId }
+            battle.spectators.add(player.uuid)
             player.sendPacket(BattleInitializePacket(battle, null))
             player.sendPacket(BattleMessagePacket(battle.chatLog))
+            target?.battleTheme?.let { player.sendPacket(BattleMusicPacket(it)) }
         }
         else {
             LOGGER.error("Battle of player id ${packet.targetedEntityId} not found (${player.uuid} tried spectating)")

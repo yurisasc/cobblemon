@@ -6,10 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.access;
+package com.cobblemon.mod.common.duck;
 
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 public interface SoundManagerDuck {
-    void toggleCategories(SoundCategory... categories);
+
+    void pauseSounds(@Nullable Identifier id, @Nullable SoundCategory category);
+
+    void resumeSounds(@Nullable Identifier id, @Nullable SoundCategory category);
 }

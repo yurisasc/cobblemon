@@ -122,6 +122,10 @@
                     }
                 }
             }
+        },
+        "battleTheme": {
+            "description": "The SoundEvent ID for the theme to play when encountering a wild Pokémon of this species",
+            "type": "string"
         }
     }
   }
