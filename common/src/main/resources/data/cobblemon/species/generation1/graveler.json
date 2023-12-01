@@ -17,6 +17,9 @@
     "special_defence": 45,
     "speed": 35
   },
+  "features": [
+    "alolan"
+  ],
   "catchRate": 120,
   "maleRatio": 0.5,
   "shoulderMountable": false,
