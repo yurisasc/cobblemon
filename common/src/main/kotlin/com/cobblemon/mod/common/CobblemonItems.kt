@@ -195,6 +195,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val HEALING_MACHINE = blockItem("healing_machine", CobblemonBlocks.HEALING_MACHINE)
     @JvmField
     val PC = blockItem("pc", CobblemonBlocks.PC)
+    val TM = blockItem("tm_machine", CobblemonBlocks.TM_MACHINE)
     @JvmField
     val PASTURE = blockItem("pasture", CobblemonBlocks.PASTURE)
 

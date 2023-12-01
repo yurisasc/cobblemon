@@ -129,6 +129,7 @@ object CobblemonItemGroups {
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
         entries.add(CobblemonItems.PC)
+        entries.add(CobblemonItems.TM)
         entries.add(CobblemonItems.HEALING_MACHINE)
         entries.add(CobblemonItems.PASTURE)
         entries.add(CobblemonItems.APRICORN_LOG)

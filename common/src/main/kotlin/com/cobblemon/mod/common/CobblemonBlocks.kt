@@ -194,6 +194,17 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
                 .luminance { if ((it.get(PCBlock.ON) as Boolean) && (it.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 }
         )
     )
+    val TM_MACHINE = create(
+        "tm_machine",
+        TMBlock(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.GREEN)
+                .sounds(BlockSoundGroup.METAL)
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .nonOpaque()
+                .luminance { if ((it.get(TMBlock.ON) as Boolean) && (it.get(TMBlock.PART) == TMBlock.TMPart.TOP)) 10 else 0 }
+        )
+    )
 
     @JvmField
     val RED_MINT = create("red_mint", MintBlock(MintType.RED, AbstractBlock.Settings.create().mapColor(MapColor.RED).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
