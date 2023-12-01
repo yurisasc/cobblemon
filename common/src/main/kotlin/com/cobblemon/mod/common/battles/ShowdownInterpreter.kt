@@ -668,19 +668,18 @@ object ShowdownInterpreter {
             val name = pokemon.getName()
             battle.broadcastChatMessage(battleLang("invertboost", name))
 
+            // update and invert BOOST and UNBOOST contexts
+            val context = getContextFromAction(message, BattleContext.Type.BOOST, battle)
             val newUnboosts = pokemon.contextManager.get(BattleContext.Type.BOOST)?.map {
-                getContextFromAction(message, BattleContext.Type.UNBOOST, battle)
+                BasicContext(it.id, context.turn, BattleContext.Type.UNBOOST, context.origin)
             }?.toTypedArray()
             val newBoosts = pokemon.contextManager.get(BattleContext.Type.UNBOOST)?.map {
-                getContextFromAction(message, BattleContext.Type.BOOST, battle)
+                BasicContext(it.id, context.turn, BattleContext.Type.BOOST, context.origin)
             }?.toTypedArray()
+
             pokemon.contextManager.clear(BattleContext.Type.BOOST, BattleContext.Type.UNBOOST)
-            newBoosts?.let {
-                pokemon.contextManager.add(*it)
-            }
-            newUnboosts?.let {
-                pokemon.contextManager.add(*it)
-            }
+            newBoosts?.let { pokemon.contextManager.add(*it) }
+            newUnboosts?.let { pokemon.contextManager.add(*it) }
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
@@ -939,6 +938,7 @@ object ShowdownInterpreter {
             val optionalEffect = message.effect()
             val optionalPokemon = message.getSourceBattlePokemon(battle)
             val optionalPokemonName = optionalPokemon?.getName()
+            val extraEffect = message.effectAt(2)?.typelessData ?: Text.literal("UNKOWN")
 
             // skip adding contexts for every time the perish counter decrements
             if (!effectID.contains("perish")) {
@@ -948,24 +948,18 @@ object ShowdownInterpreter {
             battle.minorBattleActions[pokemon.uuid] = message
 
             if (!message.hasOptionalArgument("silent")) {
-                var lang: MutableText? = null
-                if (optionalEffect?.id == "reflecttype") {
-                    lang = optionalPokemonName?.let { battleLang("start.reflecttype", pokemon.getName(), it) }
-                }
-                else {
-                    lang = when (effectID) {
+                val lang = if (optionalEffect?.id == "reflecttype" && optionalPokemonName != null)
+                    battleLang("start.reflecttype", pokemon.getName(), optionalPokemonName)
+                else
+                    when (effectID) {
                         "confusion", "perish3" -> return@dispatch GO // Skip
                         "perish2", "perish1", "perish0",
                         "stockpile1", "stockpile2", "stockpile3" -> battleLang("start.${effectID.dropLast(1)}", pokemon.getName(), effectID.last().digitToInt())
                         "dynamax" -> battleLang("start.${message.effectAt(2)?.id ?: effectID}", pokemon.getName()).yellow()
                         "curse" -> battleLang("start.curse", message.getSourceBattlePokemon(battle)!!.getName(), pokemon.getName())
-                        "disable", "typechange", "typeadd", "mimic" -> battleLang("start.$effectID", pokemon.getName(), message.effectAt(2)!!.rawData)
-                        else -> battleLang("start.$effectID", pokemon.getName())
+                        else -> battleLang("start.$effectID", pokemon.getName(), extraEffect)
                     }
-                }
-                if (lang != null) {
-                    battle.broadcastChatMessage(lang)
-                }
+                battle.broadcastChatMessage(lang)
             }
             WaitDispatch(1F)
         }
@@ -981,7 +975,7 @@ object ShowdownInterpreter {
         battle.dispatchWaiting(1.5F) {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
-            val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: return@dispatchWaiting
+            val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKOWN")
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
             val lang = battleLang("singleturn.$effectID", pokemonName, sourceName)
             battle.broadcastChatMessage(lang)
@@ -1046,17 +1040,16 @@ object ShowdownInterpreter {
      * Format:
      * |-block|POKEMON|EFFECT|MOVE|ATTACKER
      *
-     * An effect targeted at POKEMON was blocked by EFFECT. This may optionally specify that the effect was a MOVE from ATTACKER. [of]SOURCE will note the owner of the EFFECT, in the case that it's not EFFECT (for instance, an ally with Aroma Veil.)
+     * An effect targeted at POKEMON was blocked by EFFECT. This may optionally specify that the effect was a MOVE from ATTACKER.
+     *
+     * (of)SOURCE will note the owner of the EFFECT, in the case that it's not EFFECT (for instance, an ally with Aroma Veil.)
      */
     private fun handleBlockInstructions(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         battle.dispatchWaiting(1.5F) {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
-            val lang = when (effectID) {
-                "matblock" -> battleLang("block.matblock", message.effectAt(2)!!.rawData)
-                else -> battleLang("block.$effectID", pokemonName)
-            }
+            val lang = battleLang("block.$effectID", pokemonName)
 
             battle.broadcastChatMessage(lang)
             battle.minorBattleActions[pokemon.uuid] = message
@@ -1074,6 +1067,7 @@ object ShowdownInterpreter {
         val pokemonName = pokemon.getName()
         val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKOWN")
         val effect = message.effectAt(1) ?: return
+        val extraEffect = message.effectAt(2)?.typelessData ?: Text.literal("UNKOWN")
         broadcastOptionalAbility(battle, effect, pokemonName)
 
         battle.dispatch{
@@ -1084,38 +1078,20 @@ object ShowdownInterpreter {
                 // Includes a 3rd argument being the magnitude level as a number
                 "magnitude" -> battleLang("activate.magnitude", message.argumentAt(2)?.toIntOrNull() ?: 1)
                 // Includes spited move and the PP it was reduced by
-                "spite", "eeriespell" -> battleLang("activate.spite", pokemonName, message.argumentAt(2)!!, message.argumentAt(3)!!)
+                "spite", "eeriespell" -> battleLang("activate.spite", pokemonName, extraEffect, message.argumentAt(3)!!)
                 // Don't need additional lang, announced elsewhere
                 "toxicdebris", "shedskin" -> return@dispatch GO
-                "matblock" -> battleLang("activate.matblock", message.effectAt(2)!!.rawData)
                 // Add activation to each Pokemon's history
                 "destinybond" -> {
                     battle.activePokemon.mapNotNull { it.battlePokemon?.uuid }.forEach { battle.minorBattleActions[it] = message }
                     battleLang("activate.destinybond", pokemonName)
                 }
-                // Includes revealed move
-                "forewarn" -> {
-                    val moveName = message.moveAt(2)?.displayName
-                    moveName?.let { battleLang("activate.forewarn", sourceName, it) }
-
-                }
-                "grudge" -> {
-                    val moveName = message.moveAt(2)?.displayName
-                    moveName?.let { battleLang("activate.grudge", pokemonName, it) }
-
-                }
-                // Includes held item of the target
-                "poltergeist" -> battleLang("activate.poltergeist", pokemonName, message.argumentAt(2)!!)
-                // Includes sketched move
-                "sketch" -> battleLang("activate.sketch", pokemonName, message.argumentAt(2)!!)
-                "focussash", "focusband" -> battleLang("activate.focusband", pokemonName, message.effectAt(1)!!.typelessData)
+                "focussash", "focusband" -> battleLang("activate.focusband", pokemonName, effect.typelessData)
                 "maxguard", "protect" -> battleLang("activate.protect", pokemonName)
                 "shadowforce", "hyperspacefury", "hyperspacehole" -> battleLang("activate.phantomforce", pokemonName)
-                else -> battleLang("activate.${effect.id}", pokemonName, sourceName)
+                else -> battleLang("activate.${effect.id}", pokemonName, sourceName, extraEffect)
             }
-            if (lang != null) {
-                battle.broadcastChatMessage(lang)
-            }
+            battle.broadcastChatMessage(lang)
             WaitDispatch(1F)
         }
     }
@@ -1179,7 +1155,7 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-ability|POKEMON|ABILITY|&#91from&#93EFFECT
+     * |-ability|POKEMON|ABILITY|(from)EFFECT
      *
      * The ABILITY of the POKEMON has been changed due to a move/ability EFFECT.
      *
@@ -1276,10 +1252,9 @@ object ShowdownInterpreter {
             val targetPokemonName = targetPokemon.getName()
             val effectID = message.effect()?.id ?: return@dispatchWaiting
             val lang = when (effectID) {
-                "guardswap", "powerswap", "heartswap" -> battleLang("swapboost$effectID", pokemonName)
+                "guardswap", "powerswap", "heartswap" -> battleLang("swapboost.$effectID", pokemonName)
                 else -> battleLang("swapboost.generic", pokemonName, targetPokemonName)
             }
-
             battle.broadcastChatMessage(lang)
 
             pokemon.contextManager.swap(targetPokemon.contextManager, BattleContext.Type.BOOST)
@@ -1677,7 +1652,7 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-item|POKEMON|ITEM|&#91from&#93EFFECT
+     * |-item|POKEMON|ITEM|(from)EFFECT
      *
      * The ITEM held by the POKEMON has been changed or revealed due to a move or ability EFFECT.
      *
@@ -1700,7 +1675,7 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |-enditem|POKEMON|ITEM|&#91from&#93EFFECT
+     * |-enditem|POKEMON|ITEM|(from)EFFECT
      *
      * The ITEM held by POKEMON has been destroyed by a move or ability, and it now holds no item.
      *

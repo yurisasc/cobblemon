@@ -126,12 +126,10 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
             this.take(pokemon, itemID)
             return
         }
-        val source = battleMessage.getSourceBattlePokemon(battle)
-        val sourceName = source?.getName()
+        val sourceName = battleMessage.getSourceBattlePokemon(battle)?.getName() ?: Text.of("UNKNOWN")
         val effect = battleMessage.effect()
         val text = when {
-            effect?.id != null && sourceName != null -> battleLang("enditem.${effect.id}", battlerName, itemName, sourceName) // Moves that have a source, for example: Knock Off
-            effect?.id != null && sourceName == null -> battleLang("enditem.${effect.id}", battlerName, itemName) // Moves that do not have a source, for example: Fling
+            effect?.id != null -> battleLang("enditem.${effect.id}", battlerName, itemName, sourceName)
             else -> when (itemID) {
                 "boosterenergy", "electricseed", "grassyseed", "mistyseed", "psychicseed", "roomservice" -> battleLang("enditem.generic", battlerName, itemName)
                 else -> battleLang("enditem.$itemID", battlerName)
