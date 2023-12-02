@@ -91,6 +91,7 @@
 - Fixed a bunch of regionals to actually be obtainable, namely the unmodelled ones
 - Fixed battle text for moves that were missing.
 - Fixed a formatting error that affected Pokemon nicknames when the storage type is JSON.
+- Fixed a crash that could occur on some servers relating to chunk loading with fastutil.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
