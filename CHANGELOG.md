@@ -90,6 +90,8 @@
 - Fixed battles ending background music, instead of pausing, when battle music is played.
 - Fixed a bunch of regionals to actually be obtainable, namely the unmodelled ones
 - Fixed battle text for moves that were missing.
+- Fixed a formatting error that affected Pokemon nicknames when the storage type is JSON.
+- Fixed a crash that could occur on some servers relating to chunk loading with fastutil.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
@@ -899,10 +901,10 @@
   - Updated the Substitute model and updated its shiny texture to be better for the red-green colorblind.
   - Improved Horsea, Seadra, and Kingdra animations, especially on land.
 - **Battle Fixes**
-  - Fixed an issue with battles where Pokémon had a different max HP causing some desync issues with the health bars.
-  - Fixed Magnitude battle messages.
-  - Moves that are disabled or out of PP now show transparently in the battle GUI instead of being hidden completely.
-  - Statuses like sleep and frozen no longer last forever if it was carried over from a previous battle.
+    - Fixed an issue with battles where Pokémon had a different max HP causing some desync issues with the health bars.
+    - Fixed Magnitude battle messages.
+    - Moves that are disabled or out of PP now show transparently in the battle GUI instead of being hidden completely.
+    - Statuses like sleep and frozen no longer last forever if it was carried over from a previous battle.
 
 ### Localization
 - Added species, ability, and move translations for `ko_ko`, `jp_jp`, `fr_fr`, `es_es`, `it_it`, and `zh_cn`.
