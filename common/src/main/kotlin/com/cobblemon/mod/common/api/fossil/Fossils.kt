@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.net.messages.client.fossil.FossilRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.evolution.adapters.NbtItemPredicateAdapter
 import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
@@ -62,7 +63,7 @@ object Fossils: JsonDataRegistry<Fossil> {
     }
 
     override fun sync(player: ServerPlayerEntity) {
-        // TODO: Implement this
+        FossilRegistrySyncPacket(this.all()).sendToPlayer(player)
     }
 
     /**
