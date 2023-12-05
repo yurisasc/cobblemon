@@ -745,7 +745,7 @@
   "cobblemon.battle.recharge": "%1$s must recharge.",
   "cobblemon.capture.broke_free": "The %1$s broke free!",
   "cobblemon.capture.not_your_turn": "It's not your turn to act.",
-  "cobblemon.capture.attempted_capture": "%1$s threw a %2$s at %3$s!",
+  "cobblemon.capture.attempted_capture": "%1$s threw %4$s %2$s at %3$s!",
   "cobblemon.capture.succeeded": "Gotcha! Caught the %1$s.",
   "cobblemon.capture.not_wild": "That %1$s is not a wild Pokémon.",
   "cobblemon.capture.in_battle": "That %1$s is in a battle and cannot be caught by you.",

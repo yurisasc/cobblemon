@@ -67,6 +67,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import java.util.*
 
 class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
     enum class CaptureState {
@@ -206,12 +207,17 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
                     }
 
                     battle.captureActions.add(BattleCaptureAction(battle, hitBattlePokemon, this).also { it.attach() })
+
+                    val vowels = listOf('a', 'e', 'i', 'o', 'u')
+                    val a = if (vowels.contains(pokeBall.item().name.string.lowercase(Locale.getDefault())[0])) { "an" } else { "a" }
+
                     battle.broadcastChatMessage(
                         lang(
                             "capture.attempted_capture",
                             throwerActor.getName(),
                             pokeBall.item().name,
-                            pokemonEntity.pokemon.species.translatedName
+                            pokemonEntity.pokemon.species.translatedName,
+                            a
                         ).yellow()
                     )
                     battle.sendUpdate(BattleCaptureStartPacket(pokeBall.name, aspects.get(), hitBattlePokemon.getPNX()))

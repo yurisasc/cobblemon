@@ -333,7 +333,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:vivillion_evolutions/ocean"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/ocean"
         }
       ]
     },
@@ -371,7 +371,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:vivillion_evolutions/river"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/river"
         }
       ]
     },
@@ -428,7 +428,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:vivillion_evolutions/sun"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/sun"
         }
       ]
     },
@@ -447,7 +447,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:vivillion_evolutions/tundra"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/tundra"
         }
       ]
     },
