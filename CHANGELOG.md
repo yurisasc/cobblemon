@@ -68,7 +68,7 @@
 - Fixed global influences being applied to TickingSpawners twice.
 - Reverted the default SpawningSelector back to FlatContextWeightedSelector. This fixes multiple weight related issues, including weights with SpawningInfluences.
 - Apricorn Planting advancement should work again.
-- Advancement "Patterned Wings" should now allow High Plains and Icy Snow Vivillon to register.
+- Advancement "Vivillionaire" should now allow High Plains and Icy Snow Vivillon to register.
 - Fixed the last battle critical hits evolution requirement not working.
 - Fixed the damage taken evolution requirement not saving progress.
 - Fixed the defeated Pokémon evolution requirement not saving progress.
@@ -92,6 +92,9 @@
 - Fixed battle text for moves that were missing.
 - Fixed a formatting error that affected Pokemon nicknames when the storage type is JSON.
 - Fixed a crash that could occur on some servers relating to chunk loading with fastutil.
+- Fixed an issue involving Inkay's evolution requirement.
+- Fixed the Vivillionaire advancement requiring an unobtainable variant.
+- Fixed conflicting evolution requirements that would cause the Ocean, River, Sun, and Tundra variants of Vivillion to be unobtainable through evolution.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.

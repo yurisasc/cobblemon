@@ -333,11 +333,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_coast"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_warm_ocean"
+          "biomeCondition": "#cobblemon:vivillion_evolutions/ocean"
         }
       ]
     },
@@ -375,11 +371,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_river"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_swamp"
+          "biomeCondition": "#cobblemon:vivillion_evolutions/river"
         }
       ]
     },
@@ -436,15 +428,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_sky"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_volcano"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "minecraft:sunflower_plains"
+          "biomeCondition": "#cobblemon:vivillion_evolutions/sun"
         }
       ]
     },
@@ -463,15 +447,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_tundra"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_snowy_forest"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_glacial"
+          "biomeCondition": "#cobblemon:vivillion_evolutions/tundra"
         }
       ]
     },
