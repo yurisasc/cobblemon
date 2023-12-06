@@ -290,8 +290,8 @@
           "minLevel": 12
         },
         {
-          "variant": "biome",
-          "biomeCondition": "minecraft:is_void"
+          "variant": "structure",
+          "structureCondition": "#minecraft:village"
         }
       ]
     },
