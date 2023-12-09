@@ -42,6 +42,7 @@
 - Updated Showdown version to use gen9 battle data
 - Added cries to Beldum, Metang and Metagross.
 - Added /bedrockparticle command.
+- Added data for Dipplin, Fezandipiti, Munkidori, Ogerpon, Okidogi, Poltchageist and Sinistcha.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
