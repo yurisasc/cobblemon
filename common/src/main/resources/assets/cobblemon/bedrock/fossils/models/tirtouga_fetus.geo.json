@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "tirtuga_fetus",
+					"name": "tirtouga_fetus",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "tirtuga_fetus",
+					"parent": "tirtouga_fetus",
 					"pivot": [0, 2.5, 0]
 				},
 				{

@@ -25,5 +25,6 @@ class FossilState : PoseableEntityState<Entity>() {
     var growthState = "Embryo"
     override fun updatePartialTicks(partialTicks: Float) {
         this.totalPartialTicks += partialTicks
+        currentPartialTicks += partialTicks
     }
 }
