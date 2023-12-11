@@ -27,7 +27,11 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
-class DisguisedPokemonBlock(settings: Settings, val pokemonArgs: String) : Block(settings) {
+class DisguisedPokemonBlock(
+    settings: Settings,
+    val pokemonArgs: String,
+    val levelRange: IntRange = 1..1
+) : Block(settings) {
 
     init {
         defaultState = this.stateManager.defaultState
@@ -42,7 +46,8 @@ class DisguisedPokemonBlock(settings: Settings, val pokemonArgs: String) : Block
     )
 
     private fun spawnPokemon(world: World, pos: BlockPos, state: BlockState) : ActionResult {
-        val pokemon = PokemonProperties.parse(pokemonArgs)
+        val properties = pokemonArgs + " level=${levelRange.random()}"
+        val pokemon = PokemonProperties.parse(properties)
         val entity = pokemon.createEntity(world)
         entity.refreshPositionAndAngles(pos, entity.yaw, entity.pitch)
         entity.spawnDirection.set(facingToYaw[state[HorizontalFacingBlock.FACING]])

@@ -184,7 +184,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         "gimmighoul_chest",
         DisguisedPokemonBlock(
             AbstractBlock.Settings.copy(Blocks.CHEST),
-            "gimmighoul level=15"
+            "gimmighoul",
+            5..30
         )
     )
 
