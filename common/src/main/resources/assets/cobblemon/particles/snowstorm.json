@@ -1,21 +1,21 @@
 {
   "textures": [
-    "cobblemon:goo",
-    "cobblemon:smoke",
-    "cobblemon:tailflame",
-    "cobblemon:vanilla_smoke",
-    "cobblemon:lava_bubble",
-    "cobblemon:shiny_lava_bubble",
     "cobblemon:bigsparkle",
+    "cobblemon:bubble",
+    "cobblemon:cherry_petal",
+    "cobblemon:confetti",
+    "cobblemon:goo",
+    "cobblemon:lava_bubble",
+    "cobblemon:lightbeam",
+    "cobblemon:obscuringsmoke",
+    "cobblemon:pokeball_smoke",
+    "cobblemon:shiny_lava_bubble",
+    "cobblemon:sleep_zzz",
+    "cobblemon:smoke",
     "cobblemon:sparkle",
     "cobblemon:speedlines",
     "cobblemon:star",
-    "cobblemon:obscuringsmoke",
-    "cobblemon:lava_bubble",
-    "cobblemon:metal_sparks",
-    "cobblemon:sleep_zzz",
-    "cobblemon:bubble",
-    "cobblemon:confetti",
-    "cobblemon:cherry_petal"
+    "cobblemon:tailflame",
+    "cobblemon:vanilla_smoke"
   ]
 }

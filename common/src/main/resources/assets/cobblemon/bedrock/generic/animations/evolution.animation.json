@@ -2,10 +2,10 @@
 	"format_version": "1.8.0",
 	"animations": {
 		"animation.evolution.evolution": {
-			"animation_length": 16,
+			"animation_length": 12,
 			"bones": {
 				"evolution": {
-					"position": [0, 0, 0]
+					"position": [0, 8, 0]
 				},
 				"rotation": {
 					"rotation": {
@@ -16,51 +16,48 @@
 					}
 				}
 			},
-			"sound_effects": {
-				"0.0": {
-					"effect": "evolution.evolve"
-				}
-			},
 			"particle_effects": {
 				"0.0": {
-					"effect": "evosparkles",
+					"effect": "evo_sparkle",
 					"locator": "sparkles"
 				},
-				"2.5": {
-					"effect": "evobuildup",
+				"3.0": {
+					"effect": "evo_buildup",
 					"locator": "sparkles"
 				},
-				"4.0": {
-					"effect": "evosmoke",
-					"locator": "clouds"
-				},
-				"5.0": {
-					"effect": "evoflyingsparks",
+				"4.0": [
+					{
+						"effect": "evo_obscuring",
+						"locator": "clouds"
+					},
+					{
+						"effect": "evo_godrays",
+						"locator": "sparkles"
+					}
+				],
+				"4.5417": {
+					"effect": "evo_flyingsparkles",
 					"locator": "sparkles"
 				},
 				"6.0": {
-					"effect": "bigsparkle",
+					"effect": "evo_bigsparkle",
 					"locator": "sparkles"
 				},
 				"8.6667": {
-					"effect": "evoimplode",
+					"effect": "evo_implode",
 					"locator": "sparkles"
 				},
 				"9.0": [
 					{
-						"effect": "evostarburst",
+						"effect": "evo_sparkleburst",
 						"locator": "sparkles"
 					},
 					{
-						"effect": "evobigsparkleburst",
+						"effect": "evo_smokeburst",
 						"locator": "sparkles"
 					},
 					{
-						"effect": "evosparkleburst",
-						"locator": "sparkles"
-					},
-					{
-						"effect": "evosmokeburst",
+						"effect": "evo_sparklefetti",
 						"locator": "sparkles"
 					}
 				]
