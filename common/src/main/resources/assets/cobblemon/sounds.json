@@ -9,19 +9,24 @@
     "sounds": []
   },
   "healing_machine.active": {
-    "sounds": [ "cobblemon:block/healing_machine_active" ]
+    "sounds": [ "cobblemon:block/healing_machine_active" ],
+    "subtitle": "cobblemon.subtitle.healing_machine.active"
   },
   "mulch.place": {
-    "sounds": [ "cobblemon:block/mulch_place_1", "cobblemon:block/mulch_place_2", "cobblemon:block/mulch_place_3" ]
+    "sounds": [ "cobblemon:block/mulch_place_1", "cobblemon:block/mulch_place_2", "cobblemon:block/mulch_place_3" ],
+    "subtitle": "cobblemon.subtitle.mulch.place"
   },
   "mulch.remove": {
-    "sounds": [ "cobblemon:block/mulch_remove_1", "cobblemon:block/mulch_remove_2", "cobblemon:block/mulch_remove_3" ]
+    "sounds": [ "cobblemon:block/mulch_remove_1", "cobblemon:block/mulch_remove_2", "cobblemon:block/mulch_remove_3" ],
+    "subtitle": "cobblemon.subtitle.mulch.remove"
   },
   "pc.on": {
-    "sounds": [ "cobblemon:pc/pc_on" ]
+    "sounds": [ "cobblemon:pc/pc_on" ],
+    "subtitle": "cobblemon.subtitle.pc.on"
   },
   "pc.off": {
-    "sounds": [ "cobblemon:pc/pc_off" ]
+    "sounds": [ "cobblemon:pc/pc_off" ],
+    "subtitle": "cobblemon.subtitle.pc.off"
   },
   "pc.grab": {
     "sounds": [ "cobblemon:pc/pc_grab" ]
@@ -36,56 +41,70 @@
     "sounds": [ "cobblemon:pc/pc_click" ]
   },
   "poke_ball.capture_started": {
-    "sounds": [ "cobblemon:pokeball/capture_started" ]
+    "sounds": [ "cobblemon:pokeball/capture_started" ],
+    "subtitle": "cobblemon.subtitle.poke_ball.capture_started"
   },
   "poke_ball.capture_succeeded": {
-    "subtitle": "cobblemon.subtitle.capture_succeeded",
-    "sounds": [ "cobblemon:pokeball/capture_succeeded" ]
+    "sounds": [ "cobblemon:pokeball/capture_succeeded" ],
+    "subtitle": "cobblemon.subtitle.poke_ball.capture_succeeded"
   },
   "poke_ball.shake": {
-    "sounds": [ "cobblemon:pokeball/shake_1", "cobblemon:pokeball/shake_2", "cobblemon:pokeball/shake_3", "cobblemon:pokeball/shake_4" ]
+    "sounds": [ "cobblemon:pokeball/shake_1", "cobblemon:pokeball/shake_2", "cobblemon:pokeball/shake_3", "cobblemon:pokeball/shake_4" ],
+    "subtitle": "cobblemon.subtitle.poke_ball.shake"
   },
   "poke_ball.open": {
-    "sounds": [ "cobblemon:pokeball/open" ]
+    "sounds": [ "cobblemon:pokeball/open" ],
+    "subtitle": "cobblemon.subtitle.poke_ball.open"
   },
   "poke_ball.recall": {
-    "sounds": [ "cobblemon:pokeball/recall" ]
+    "sounds": [ "cobblemon:pokeball/recall" ],
+    "subtitle": "cobblemon.subtitle.poke_ball.recall"
   },
   "poke_ball.send_out": {
-    "sounds": [ "cobblemon:pokeball/send_out" ]
+    "sounds": [ "cobblemon:pokeball/send_out" ],
+    "subtitle": "cobblemon.subtitle.poke_ball.send_out"
   },
   "poke_ball.hit": {
-    "sounds": [ "cobblemon:pokeball/hit" ]
+    "sounds": [ "cobblemon:pokeball/hit" ],
+    "subtitle": "cobblemon.subtitle.poke_ball.hit"
   },
   "item.use": {
-    "sounds": [ "cobblemon:use_item" ]
+    "sounds": [ "cobblemon:use_item" ],
+    "subtitle": "cobblemon.subtitle.item.use"
   },
   "pokemon.can_evolve": {
     "sounds": [ "cobblemon:pokemon/evolution_notification"]
   },
   "pokemon.evolving": {
-    "sounds": [ "cobblemon:pokemon/evolving"]
+    "sounds": [ "cobblemon:pokemon/evolving"],
+    "subtitle": "cobblemon.subtitle.pokemon.evolving"
   },
   "gui.click": {
     "sounds": [ "cobblemon:click" ]
   },
   "medicine_herb.use": {
-    "sounds": [ "cobblemon:medicine_herb_use" ]
+    "sounds": [ "cobblemon:medicine_herb_use" ],
+    "subtitle": "cobblemon.subtitle.medicine.use"
   },
   "medicine_liquid.use": {
-    "sounds": [ "cobblemon:medicine_liquid_use" ]
+    "sounds": [ "cobblemon:medicine_liquid_use" ],
+    "subtitle": "cobblemon.subtitle.medicine.use"
   },
   "medicine_pills.use": {
-    "sounds": [ "cobblemon:medicine_pills_use" ]
+    "sounds": [ "cobblemon:medicine_pills_use" ],
+    "subtitle": "cobblemon.subtitle.medicine.use"
   },
   "medicine_spray.use": {
-    "sounds": [ "cobblemon:medicine_spray_use" ]
+    "sounds": [ "cobblemon:medicine_spray_use" ],
+    "subtitle": "cobblemon.subtitle.medicine.use"
   },
   "berry.harvest": {
-    "sounds": [ "cobblemon:block/berry_harvest_1", "cobblemon:block/berry_harvest_2", "cobblemon:block/berry_harvest_3" ]
+    "sounds": [ "cobblemon:block/berry_harvest_1", "cobblemon:block/berry_harvest_2", "cobblemon:block/berry_harvest_3" ],
+    "subtitle": "cobblemon.subtitle.berry.harvest"
   },
   "berry.eat": {
-    "sounds": [ "cobblemon:berry_eat" ]
+    "sounds": [ "cobblemon:berry_eat" ],
+    "subtitle": "cobblemon.subtitle.berry.eat"
   },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
