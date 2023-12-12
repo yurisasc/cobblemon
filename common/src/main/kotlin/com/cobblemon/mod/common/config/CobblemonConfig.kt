@@ -77,6 +77,13 @@ class CobblemonConfig {
     @NodeCategory(Category.Spawning)
     var enableSpawning = true
 
+    /*@NodeCategory(Category.Spawning)
+    var scaleLevelToPlayer = false
+
+    @NodeCategory(Category.Spawning)
+    @IntConstraint(min = 1, max = 100)
+    var scaleLevelFactor = 5*/
+
     @NodeCategory(Category.Spawning)
     var minimumDistanceBetweenEntities = 8.0
 
