@@ -92,6 +92,8 @@
   "item.cobblemon.sun_stone": "Sun Stone",
   "item.cobblemon.thunder_stone": "Thunder Stone",
   "item.cobblemon.water_stone": "Water Stone",
+  "item.cobblemon.technical_machine": "Technical Machine",
+  "item.cobblemon.blank_tm": "Blank TM",
 
   "item.cobblemon.rare_candy": "Rare Candy",
   "item.cobblemon.exp_candy_xs": "Exp. Candy XS",
@@ -328,6 +330,7 @@
   "block.cobblemon.vivichoke_seeds": "Vivichoke Seeds",
   "block.cobblemon.pep_up_flower": "Pep-Up Flower",
   "block.cobblemon.potted_pep_up_flower": "Potted Pep-Up Flower",
+  "block.cobblemon.tm_machine": "TM Machine",
 
   "cobblemon.overflow_no_pc": "Your party was full and you don't have a PC!",
   "cobblemon.overflow_no_space": "Your party was full and so was %1$s!",
