@@ -55,6 +55,7 @@ open class CobblemonStarterHandler : StarterHandler {
 
         val properties = category.pokemon[index]
         val pokemon = properties.create()
+        pokemon.setOriginalTrainer(player.uuid, player.displayName.string)
 
         CobblemonEvents.STARTER_CHOSEN.postThen(StarterChosenEvent(player, properties, pokemon)) {
             Cobblemon.storage.getParty(player).add(

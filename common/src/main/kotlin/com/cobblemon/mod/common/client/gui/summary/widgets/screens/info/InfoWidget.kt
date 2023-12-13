@@ -24,7 +24,6 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.text.TextContent
 
 
 class InfoWidget(
@@ -90,17 +89,14 @@ class InfoWidget(
         )
         typeWidget.render(context, pMouseX, pMouseY, pPartialTicks)
 
-        // OT
-        var displayName: MutableText = MutableText.of(TextContent.EMPTY)
-        if (pokemon.isPlayerOwned() && pokemon.getOwnerPlayer() != null) {
-            displayName = pokemon.getOwnerPlayer()!!.displayName.copy()
-        }
+        // Original Trainer
+        val otName: MutableText = Text.literal(pokemon.originalTrainerDisplayName)
         val otWidget = InfoOneLineWidget(
             pX = x,
             pY = y + 3 * ROW_HEIGHT,
             width = width,
             label = lang("ui.info.original_trainer"),
-            value = displayName // You'll need to provide the value for the Original Trainer
+            value = otName
         )
         otWidget.render(context, pMouseX, pMouseY, pPartialTicks)
 

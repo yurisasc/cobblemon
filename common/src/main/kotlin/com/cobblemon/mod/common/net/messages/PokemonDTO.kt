@@ -74,6 +74,8 @@ class PokemonDTO : Encodable, Decodable {
     var dmaxLevel = 0
     var gmaxFactor = false
     var tradeable = true
+    var originalTrainerUUID: UUID? = null
+    var originalTrainerDisplayName = ""
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
@@ -108,6 +110,8 @@ class PokemonDTO : Encodable, Decodable {
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
+        this.originalTrainerUUID = pokemon.originalTrainerUUID
+        this.originalTrainerDisplayName = pokemon.originalTrainerDisplayName
     }
 
     override fun encode(buffer: PacketByteBuf) {
@@ -145,6 +149,8 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeInt(dmaxLevel)
         buffer.writeBoolean(gmaxFactor)
         buffer.writeBoolean(tradeable)
+        buffer.writeNullable(originalTrainerUUID) { _, v -> buffer.writeUuid(v) }
+        buffer.writeString(originalTrainerDisplayName)
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -183,6 +189,8 @@ class PokemonDTO : Encodable, Decodable {
         dmaxLevel = buffer.readInt()
         gmaxFactor = buffer.readBoolean()
         tradeable = buffer.readBoolean()
+        originalTrainerUUID = buffer.readNullable { buffer.readUuid() }
+        originalTrainerDisplayName = buffer.readString()
     }
 
     fun create(): Pokemon {
@@ -232,6 +240,10 @@ class PokemonDTO : Encodable, Decodable {
             it.dmaxLevel = dmaxLevel
             it.gmaxFactor = gmaxFactor
             it.tradeable = tradeable
+            if (originalTrainerUUID != null)
+                it.setOriginalTrainer(originalTrainerUUID!!, originalTrainerDisplayName)
+            else
+                it.setOriginalTrainer(originalTrainerDisplayName)
         }
     }
 }

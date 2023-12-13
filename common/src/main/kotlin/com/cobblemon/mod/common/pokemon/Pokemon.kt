@@ -71,7 +71,6 @@ import com.mojang.serialization.JsonOps
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
@@ -94,7 +93,6 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
-import kotlin.reflect.jvm.internal.impl.metadata.ProtoBuf.Effect
 
 open class Pokemon : ShowdownIdentifiable {
     var uuid = UUID.randomUUID()
@@ -333,6 +331,27 @@ open class Pokemon : ShowdownIdentifiable {
         set(value) {
             field = value
             _tetheringId.emit(value)
+        }
+
+    /**
+     * The Minecraft UniqueID of the Original Trainer.
+     * If null, the Pokémon is considered to have a Fake Trainer.
+     * If this value is not null, it will attempt to update [originalTrainerDisplayName] in [loadFromNBT].
+     */
+    var originalTrainerUUID: UUID? = null
+        private set(value) {
+            field = value
+            _originalTrainerUUID.emit(value)
+        }
+
+    /**
+     * The name to display as this Pokémon's Original Trainer.
+     * If [originalTrainerUUID] is not null, it will be updated in [loadFromNBT].
+     */
+    var originalTrainerDisplayName: String = "Unknown"
+        private set(value) {
+            field = value
+            _originalTrainerDisplayName.emit(value)
         }
 
 
@@ -701,6 +720,10 @@ open class Pokemon : ShowdownIdentifiable {
         nbt.putInt(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         nbt.putBoolean(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         nbt.putBoolean(DataKeys.POKEMON_TRADEABLE, tradeable)
+        nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME, originalTrainerDisplayName)
+        if (originalTrainerUUID != null) {
+            nbt.putUuid(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID, originalTrainerUUID)
+        }
         return nbt
     }
 
@@ -772,6 +795,15 @@ open class Pokemon : ShowdownIdentifiable {
         this.dmaxLevel = nbt.getInt(DataKeys.POKEMON_DMAX_LEVEL)
         this.gmaxFactor = nbt.getBoolean(DataKeys.POKEMON_GMAX_FACTOR)
         this.tradeable = if (nbt.contains(DataKeys.POKEMON_TRADEABLE)) nbt.getBoolean(DataKeys.POKEMON_TRADEABLE) else true
+        if (nbt.contains(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME)) {
+            this.originalTrainerDisplayName = nbt.getString(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME)
+        }
+        if (nbt.contains(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID)) {
+            this.originalTrainerUUID = nbt.getUuid(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID)
+            val opt = server()?.userCache?.getByUuid(originalTrainerUUID)
+            if (opt != null && opt.isPresent)
+                this.originalTrainerDisplayName = opt.get().name
+        }
         return this
     }
 
@@ -816,6 +848,10 @@ open class Pokemon : ShowdownIdentifiable {
         json.addProperty(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         json.addProperty(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         json.addProperty(DataKeys.POKEMON_TRADEABLE, tradeable)
+        json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME, this.originalTrainerDisplayName)
+        if (originalTrainerUUID != null) {
+            json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID, this.originalTrainerUUID.toString())
+        }
         return json
     }
 
@@ -903,6 +939,14 @@ open class Pokemon : ShowdownIdentifiable {
         }
         if (json.has(DataKeys.POKEMON_TRADEABLE)) {
             this.tradeable = json.get(DataKeys.POKEMON_TRADEABLE).asBoolean
+        }
+        if (json.has(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME))
+        {
+            this.originalTrainerDisplayName = json.get(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME).asString;
+        }
+        if (json.has(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID))
+        {
+            this.originalTrainerUUID = UUID.fromString(json.get(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID).asString)
         }
         return this
     }
@@ -1007,6 +1051,30 @@ open class Pokemon : ShowdownIdentifiable {
      * @return If the value is within legal bounds.
      */
     fun isPossibleFriendship(value: Int) = value >= 0 && value <= Cobblemon.config.maxPokemonFriendship
+
+    /**
+     * Sets the Pokémon's Original Trainer.
+     *
+     * @param playerUUID The Player's UniqueID, used to check for Username updates.
+     * @param playerName The Player's Username to cache and use whilst this Pokémon is loaded.
+     */
+    fun setOriginalTrainer(playerUUID: UUID, playerName: String)
+    {
+        originalTrainerUUID = playerUUID
+        originalTrainerDisplayName = playerName
+    }
+
+    /**
+     * Sets the Pokémon's Original Trainer to be a Fake Trainer.
+     * Fake Trainers skips checking for Username updates.
+     *
+     * @param fakeTrainerName The Fake Trainer's name that will be displayed.
+     */
+    fun setOriginalTrainer(fakeTrainerName: String)
+    {
+        originalTrainerUUID = null
+        originalTrainerDisplayName = fakeTrainerName
+    }
 
     val allAccessibleMoves: Set<MoveTemplate>
         get() = form.moves.getLevelUpMovesUpTo(level) + benchedMoves.map { it.moveTemplate } + form.moves.evolutionMoves
@@ -1395,6 +1463,8 @@ open class Pokemon : ShowdownIdentifiable {
     private val _teraType = registerObservable(SimpleObservable<ElementalType>()) { TeraTypeUpdatePacket({ this }, it) }
     private val _dmaxLevel = registerObservable(SimpleObservable<Int>()) { DmaxLevelUpdatePacket({ this }, it) }
     private val _gmaxFactor = registerObservable(SimpleObservable<Boolean>()) { GmaxFactorUpdatePacket({ this }, it) }
+    private val _originalTrainerUUID = registerObservable(SimpleObservable<UUID?>()) { OriginalTrainerUUIDUpdatePacket({ this }, it) }
+    private val _originalTrainerDisplayName = registerObservable(SimpleObservable<String>()) { OriginalTrainerDisplayNameUpdatePacket({ this }, it) }
 
     private val _features = registerObservable(SimpleObservable<SpeciesFeature>())
 

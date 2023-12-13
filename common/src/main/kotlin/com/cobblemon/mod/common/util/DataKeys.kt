@@ -64,6 +64,9 @@ object DataKeys {
     const val POKEMON_HIDE_LABEL = "HideLabel"
     const val POKEMON_UNBATTLEABLE = "Unbattleable"
 
+    const val POKEMON_ORIGINAL_TRAINER_UUID = "PokemonOriginalTrainerUUID"
+    const val POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME = "PokemonOriginalTrainerDisplayName"
+
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
     const val POKEMON_PENDING_EVOLUTIONS = "Pending"

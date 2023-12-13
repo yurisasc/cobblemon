@@ -339,6 +339,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
                         captureFuture.complete(true)
                         val party = Cobblemon.storage.getParty(player.uuid)
                         pokemon.pokemon.caughtBall = pokeBall
+                        pokemon.pokemon.setOriginalTrainer(player.uuid, player.displayName.string)
                         pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
                         party.add(pokemon.pokemon)
                         CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player, this))
