@@ -26,6 +26,7 @@
 - Added tab completion for statuses to commands
 - Remedies can now be cooked in a Smoker and on a Campfire
 - Removed the "Poké Ball" variant requirement from the Vivillonaire advancement as it is unobtainable.
+- Vertically flipped the Destiny Knot recipe
 
 ### Additions
 - Added battle spectating, can disable in config
