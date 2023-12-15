@@ -1,10 +1,18 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.api.tms
 
 import com.google.gson.annotations.SerializedName
 import net.minecraft.util.Identifier
 
 /**
- * Represents the ingredients necessary to craft a TM in the TM Machine
+ * Represents the ingredients necessary to craft a TM_MACHINE in the TM_MACHINE Machine
  * Maps an item to the number required of the item
  */
 data class TechnicalMachineRecipe(

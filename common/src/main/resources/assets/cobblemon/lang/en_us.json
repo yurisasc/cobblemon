@@ -292,6 +292,7 @@
   "itemGroup.cobblemon.consumables": "Consumables",
   "itemGroup.cobblemon.held_item": "Held Items",
   "itemGroup.cobblemon.evolution_item": "Evolution Items",
+  "itemGroup.cobblemon.technical_machines": "Technical Machines",
 
   "block.cobblemon.apricorn_log": "Apricorn Log",
   "block.cobblemon.stripped_apricorn_log": "Stripped Apricorn Log",
@@ -358,6 +359,11 @@
   "cobblemon.ui.moves": "Moves",
   "cobblemon.ui.moves.switch": "Switch Move",
   "cobblemon.ui.moves.pp": "%1$sPP",
+
+  "cobblemon.tms.unknown_move": "Unknown Move",
+  "cobblemon.tms.already_known": "%1$s already knows %2$s!",
+  "cobblemon.tms.teach_move": "%1$s learned %2$s!",
+  "cobblemon.tms.cannot_learn": "%1$s cannot learn %2$s!",
 
   "cobblemon.ui.stats": "Stats",
   "cobblemon.ui.stats.stat": "Stat",

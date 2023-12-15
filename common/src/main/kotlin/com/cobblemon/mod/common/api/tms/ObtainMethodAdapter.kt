@@ -1,7 +1,5 @@
 package com.cobblemon.mod.common.api.tms
 
-import com.cobblemon.mod.common.api.berry.GrowthFactor
-import com.cobblemon.mod.common.util.adapters.CobblemonGrowthFactorAdapter
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonSerializer
 import net.minecraft.util.Identifier

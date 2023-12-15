@@ -1,0 +1,4 @@
+{
+  "moveName": "psywave",
+  "obtainMethods": [{ "variant": "cobblemon:pokemon_learn" }]
+}
