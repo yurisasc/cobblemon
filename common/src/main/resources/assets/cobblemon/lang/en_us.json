@@ -1136,6 +1136,7 @@
   "cobblemon.battle.heal.raindish": "%1$s restored HP from Rain Dish!",
   "cobblemon.battle.heal.generic": "%1$s restored its HP.",
   "cobblemon.battle.heal.bagitempotion": "It restored %1$s's HP",
+  "cobblemon.battle.heal.poisonheal": "%1$s restored HP from Poison Heal!",
 
   "cobblemon.battle.curestatus.naturalcure": "%1$s is cured by its Natural Cure!",
 

@@ -1758,7 +1758,7 @@ object ShowdownInterpreter {
             // This part is not always present
             val rawStatus = rawHpAndStatus.getOrNull(1) ?: return@dispatchWaiting
             val status = Statuses.getStatus(rawStatus) ?: return@dispatchWaiting
-            if (status is PersistentStatus) {
+            if (status is PersistentStatus && battlePokemon.effectedPokemon.status?.status != status) {
                 battlePokemon.effectedPokemon.applyStatus(status)
                 if (pnx != null) {
                     battle.sendUpdate(BattlePersistentStatusPacket(pnx, status))
