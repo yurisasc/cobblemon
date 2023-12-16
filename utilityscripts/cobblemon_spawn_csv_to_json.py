@@ -19,7 +19,7 @@ from scriptutils import printCobblemonHeader, print_cobblemon_script_footer, pri
 # filter by number ranges (dex range)
 pokemon_numbers = range(0, 2000)
 # filter by type
-included_types = ['basic', 'boss', 'fossil']
+included_types = ['basic', 'boss']
 # filter by context
 known_contexts = ['grounded', 'submerged', 'seafloor', 'lavafloor', 'surface']
 # filter by bucket ['common', 'uncommon', 'rare', 'ultra-rare']
@@ -157,7 +157,7 @@ preset_list = [
 unknown_requirements = []
 unknown_weight_multiplier_identifiers = []
 
-def main(only_update_existing_files=False, ignore_filters=False):
+def main(only_update_existing_files=True, ignore_filters=False):
 
     printCobblemonHeader()
 
