@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.battles.model.ai.BattleAI
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.battles.ai.RandomBattleAI
+import com.cobblemon.mod.common.battles.ai.StrongBattleAI
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
@@ -29,7 +30,8 @@ open class PokemonBattleActor(
     uuid: UUID,
     val pokemon: BattlePokemon,
     override val fleeDistance: Float,
-    artificialDecider: BattleAI = RandomBattleAI()
+    //artificialDecider: BattleAI = RandomBattleAI()
+    artificialDecider: BattleAI = StrongBattleAI()
 ) : AIBattleActor(uuid, listOf(pokemon), artificialDecider), EntityBackedBattleActor<PokemonEntity>, FleeableBattleActor {
     override fun getName() = pokemon.effectedPokemon.species.translatedName
     override fun nameOwned(name: String): MutableText = Text.literal(name)
