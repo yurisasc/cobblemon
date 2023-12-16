@@ -26,6 +26,7 @@
 - Added tab completion for statuses to commands
 - Remedies can now be cooked in a Smoker and on a Campfire
 - Vertically flipped the Destiny Knot recipe
+- Made the EXP. Share recipe cheaper
 
 ### Additions
 - Added battle spectating, can disable in config
