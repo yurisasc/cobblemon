@@ -201,6 +201,7 @@
   "item.cobblemon.light_orb": "Light Orb",
   "item.cobblemon.smoke_ball": "Smoke Ball",
   "item.cobblemon.toxic_orb": "Toxic Orb",
+  "item.cobblemon.life_orb": "Life Orb",
 
   "item.cobblemon.poke_ball.tooltip": "1× catch rate",
   "item.cobblemon.slate_ball.tooltip": "1× catch rate",
@@ -1064,11 +1065,19 @@
   "cobblemon.battle.fail.healblock": "But it failed to affect %1$s!",
   "cobblemon.battle.fail.darkvoid": "But %1$s can't use the move!",
   "cobblemon.battle.fail.teatime": "But nothing happened!",
-  "cobblemon.battle.fail.slp": "But the target is already asleep!",
+  "cobblemon.battle.fail.slp": "But %1$s is already asleep!",
+  "cobblemon.battle.fail.par": "But %1$s is already paralyzed!",
+  "cobblemon.battle.fail.tox": "But %1$s is already poisoned!",
+  "cobblemon.battle.fail.psn": "But %1$s is already poisoned!",
+  "cobblemon.battle.fail.brn": "But %1$s is already burned!",
+  "cobblemon.battle.fail.frz": "But %1$s is already frozen!",
+
   "cobblemon.battle.fail.uproar": "%1$s can't sleep in an uproar!",
   "cobblemon.battle.fail.skydrop": "%1$s is too heavy to be lifted!",
   "cobblemon.battle.fail.heal": "%1$s's HP is full!",
   "cobblemon.battle.fail.grassknot": "%1$s shook its head. It seems like it can't use this move...",
+  "cobblemon.battle.fail.unboost.single": "%1$s's %2$s was not lowered!",
+  "cobblemon.battle.fail.unboost": "%1$s's %2$s stats did not get lowered!",
 
   "cobblemon.battle.sethp.painsplit": "The battlers shared their pain!",
 
@@ -1135,6 +1144,7 @@
   "cobblemon.battle.heal.raindish": "%1$s restored HP from Rain Dish!",
   "cobblemon.battle.heal.generic": "%1$s restored its HP.",
   "cobblemon.battle.heal.bagitempotion": "It restored %1$s's HP",
+  "cobblemon.battle.heal.poisonheal": "%1$s restored HP from Poison Heal!",
 
   "cobblemon.battle.curestatus.naturalcure": "%1$s is cured by its Natural Cure!",
 
