@@ -28,6 +28,9 @@
     "special_defence": 70,
     "speed": 70
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,

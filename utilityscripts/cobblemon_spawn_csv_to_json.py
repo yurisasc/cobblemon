@@ -8,11 +8,14 @@ import requests
 import pandas as pd
 from sqlalchemy import create_engine
 import openpyxl
-from cobblemon_drops_csv_to_json import getDropsDF, parse_drops
+from tqdm import tqdm
+from cobblemon_drops_csv_to_json import get_drops_df, parse_drops
+from scriptutils import printCobblemonHeader, print_cobblemon_script_footer, print_cobblemon_script_description, \
+    print_warning, print_list_filtered
 
 # This script is used to convert the data from the cobblemon spawning spreadsheet into a json format
 
-# Define what pokemons to include, if nothing is specified (empty array), all will be included.
+# Define what kind of pokémon should be included, if nothing is specified (empty array), all will be included.
 # filter by number ranges (dex range)
 pokemon_numbers = range(0, 2000)
 # filter by type
@@ -117,45 +120,53 @@ biome_mapping = {
 ignored_biomes = ['freshwater']
 # List of all currently known presets
 preset_list = [
-  'ancient_city',
-  'derelict',
-  'desert_pyramid',
-  'end_city',
-  'flowers',
-  'foliage',
-  'freshwater',
-  'gemstone',
-  'illager_structures',
-  'jungle_pyramid',
-  'lava_surface',
-  'natural',
-  'nether_fossil',
-  'nether_structures',
-  'ocean_monument',
-  'ocean_ruins',
-  'pillager_outpost',
-  'redstone',
-  'river',
-  'ruined_portal',
-  'shipwreck',
-  'stronghold',
-  'trail_ruins',
-  'treetop',
-  'underlava',
-  'underwater',
-  'urban',
-  'village',
-  'water_surface',
-  'wild',
-  'woodland_mansion'
+    'ancient_city',
+    'derelict',
+    'desert_pyramid',
+    'end_city',
+    'flowers',
+    'foliage',
+    'freshwater',
+    'gemstone',
+    'illager_structures',
+    'jungle_pyramid',
+    'lava_surface',
+    'natural',
+    'nether_fossil',
+    'nether_structures',
+    'ocean_monument',
+    'ocean_ruins',
+    'pillager_outpost',
+    'redstone',
+    'river',
+    'ruined_portal',
+    'shipwreck',
+    'stronghold',
+    'trail_ruins',
+    'treetop',
+    'underlava',
+    'underwater',
+    'urban',
+    'village',
+    'water_surface',
+    'wild',
+    'woodland_mansion'
 ]
 
-def main(only_update_existing_files=True, ignore_filters=False):
-    print("♥ Cobblemon Spawn CSV to JSON ♥")
+# Initialize lists for the report
+unknown_requirements = []
+unknown_weight_multiplier_identifiers = []
 
-    # Download an excel file and convert it into csv format
+def main(only_update_existing_files=True, ignore_filters=False):
+
+    printCobblemonHeader()
+
+    scriptName = "♥ Cobblemon Spawn CSV to JSON Script ♥"
+    scriptDescription = "This script is used to convert the data from the cobblemon spawning spreadsheet into a json format. It also provides a report about any possible issues."
+
+    print_cobblemon_script_description(scriptName, scriptDescription)
+    # Download Excel file and convert it into csv format
     csv_df = download_excel_data(spawn_spreadsheet_excel_url)
-    print(csv_df.head()) # Quick integrity check: Display first 5 rows of the dataframe
 
     # Verify all biome tags are valid
     invalid_biome_tags = verifyBiomeTags()
@@ -167,10 +178,10 @@ def main(only_update_existing_files=True, ignore_filters=False):
     drops_df = load_special_drops_data()
     csv_df = csv_df.merge(drops_df, on='Pokémon', how='left')
 
-    # alter the data in the b column to be a 4 digit number by prepending 0s if necessary
+    # alter the data in the b column to be a 4-digit number by prepending 0s if necessary
     csv_df['No.'] = csv_df['No.'].apply(lambda x: str(x).zfill(4))
 
-    # add a column for the pokemon's id using generateID
+    # add a column for the pokémon's id using generateID
     csv_df['id'] = csv_df.apply(lambda x: generateID(x['Pokémon'], x['Entry']), axis=1)
 
     # alter the data in the Pokémon column by using generateName
@@ -185,19 +196,30 @@ def main(only_update_existing_files=True, ignore_filters=False):
     # Group the data by dex number
     csv_grouped = csv_df.groupby('No.')
 
+    print_warning("Modifying files...")
     # Processing each Pokémon group and converting it to JSON
-    for dex, group in csv_grouped:
-        file_id = dex
-        pokemon_json = transform_pokemon_to_json(group, invalid_biome_tags)
-        # if there are multiple entries that are equal except for biomes, then combine them into one entry
-        #reduced_pokemon_json = reducePokemonJson(pokemon_json) # no longer needed due to update of the spreadsheet
-        save_json_to_file(pokemon_json, file_id, group['Pokémon'].iloc[0], pokemon_data_dir)
+    try:
+        for dex, group in tqdm(csv_grouped, bar_format='\033[92m' + '{l_bar}\033[0m{bar:58}\033[92m{r_bar}\033[0m',
+                               colour='blue'):
+            file_id = dex
+            pokemon_json = transform_pokemon_to_json(group, invalid_biome_tags)
+            save_json_to_file(pokemon_json, file_id, group['Pokémon'].iloc[0], pokemon_data_dir)
+    finally:
+        print_report()
 
     # Save data to SQLite
     # print("Saving data to SQLite")
     # write_to_sqlite(csv_df, sqlite_db_name, sqlite_table_name)
+    print_cobblemon_script_footer("Thanks for using the spawn csv to json script, provided to you by Waldleufer")
 
-    print("♫♪ Execution finished successfully ♪♫")
+
+def print_report():
+    if unknown_weight_multiplier_identifiers:
+        print_warning("The following weight multiplier identifiers are unknown:")
+        print_list_filtered(unknown_weight_multiplier_identifiers)
+    if unknown_requirements:
+        print_warning("The following requirements are unknown:")
+        print_list_filtered(unknown_requirements)
 
 
 def validateAndFilterData(csv_df, only_update_existing_files=False, ignore_filters=False):
@@ -241,222 +263,230 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
     }
 
     for _, row in pokemon_rows.iterrows():
-        spawn_data = {
-            "id": row['id'],
-            "pokemon": row['Pokémon'],
-        }
-        # Conditional fields
-        if pd.notna(row['Preset']):
-            spawn_data['presets'] = [preset.strip().lower() for preset in row['Preset'].split(',')]
+        try:
+            currentPokemon = row['Pokémon']
+            currentID = row['id']
+            spawn_data = {
+                "id": currentID,
+                "pokemon": currentPokemon,
+            }
+            # Conditional fields
+            if pd.notna(row['Preset']):
+                spawn_data['presets'] = [preset.strip().lower() for preset in row['Preset'].split(',')]
 
-        more_spawn_data = {
-            "type": "pokemon",
-            "context": row['Context'],
-            "bucket": row['Bucket'],
-            "level": f"{int(row['Lv. Min'])}-{int(row['Lv. Max'])}",
-            "weight": row['Weight'],
-        }
-        spawn_data.update(more_spawn_data)
+            more_spawn_data = {
+                "type": "pokemon",
+                "context": row['Context'],
+                "bucket": row['Bucket'],
+                "level": f"{int(row['Lv. Min'])}-{int(row['Lv. Max'])}",
+                "weight": row['Weight'],
+            }
+            spawn_data.update(more_spawn_data)
 
-        # Weight Multipliers field
-        weight_multipliers = []
-        if pd.notna(row['Multiplier']):
-            # split weight multipliers row by comma, then split each string by "x" and add it to the weight_multipliers dictionary
-            for string in str(row['Multiplier']).split(','):
-                string = string.strip()
-                items = string.split('x')
-                identifier = items[0].strip()
-                multiplier = float(items[1].strip())
-                # check if the identifier is a weather condition or night, and add it to the weight_multipliers dictionary
-                condition = {}
-                match identifier:
-                    case "Storm":
-                        condition["isThundering"] = True
-                    case "Night":
-                        condition["timeRange"] = "night"
-                    case "Day":
-                        condition["timeRange"] = "day"
-                    case "Twilight":
-                        condition["timeRange"] = "twilight"
-                    case "Beehive":
-                        condition["neededNearbyBlocks"] = ["#minecraft:beehives"]
-                    case _:
-                        print(f"Unknown weight multiplier identifier: {identifier}")
-                weight_multipliers.append({"multiplier": multiplier, "condition": condition})
-            if len(weight_multipliers) == 1:
-                spawn_data['weightMultiplier'] = weight_multipliers[0]
-            elif len(weight_multipliers) > 1:
-                spawn_data['weightMultipliers'] = weight_multipliers
+            # Weight Multipliers field
+            weight_multipliers = []
+            if pd.notna(row['Multiplier']):
+                # split weight multipliers row by comma, then split each string by "x" and add it to the weight_multipliers dictionary
+                for string in str(row['Multiplier']).split(','):
+                    string = string.strip()
+                    if not string: # skip empty strings
+                        continue
+                    items = string.split('x')
+                    identifier = items[0].strip()
+                    multiplier = float(items[1].strip())
+                    # check if the identifier is a weather condition or night, and add it to the weight_multipliers dictionary
+                    condition = {}
+                    match identifier:
+                        case "Storm":
+                            condition["isThundering"] = True
+                        case "Night":
+                            condition["timeRange"] = "night"
+                        case "Day":
+                            condition["timeRange"] = "day"
+                        case "Twilight":
+                            condition["timeRange"] = "twilight"
+                        case "Beehive":
+                            condition["neededNearbyBlocks"] = ["#minecraft:beehives"]
+                        case _:
+                            unknown_weight_multiplier_identifiers.append(f"'{identifier}' ({currentID})")
+                    weight_multipliers.append({"multiplier": multiplier, "condition": condition})
+                if len(weight_multipliers) == 1:
+                    spawn_data['weightMultiplier'] = weight_multipliers[0]
+                elif len(weight_multipliers) > 1:
+                    spawn_data['weightMultipliers'] = weight_multipliers
 
-        # Condition field
-        condition = {}
+            # Condition field
+            condition = {}
 
-        if pd.notna(row['canSeeSky']) and row['canSeeSky'] == 'true':
-            condition['canSeeSky'] = True
-        elif row['canSeeSky'] == 'false':
-            condition['canSeeSky'] = False
+            if pd.notna(row['canSeeSky']) and row['canSeeSky'] == 'true':
+                condition['canSeeSky'] = True
+            elif row['canSeeSky'] == 'false':
+                condition['canSeeSky'] = False
 
-        if pd.notna(row['Biome']):
-            parsed_biomes = parse_biomes(row['Biome'], invalid_biome_tags)
-            if parsed_biomes:
-                condition['biomes'] = parsed_biomes
+            if pd.notna(row['Biome']):
+                parsed_biomes = parse_biomes(row['Biome'], invalid_biome_tags)
+                if parsed_biomes:
+                    condition['biomes'] = parsed_biomes
 
-        # check if Time column is day or night or any
-        if pd.notna(row['Time']):
-            if row['Time'].lower() == 'day':
-                condition['timeRange'] = row['Time'].lower()
-            elif row['Time'].lower() == 'night':
-                condition['timeRange'] = row['Time'].lower()
+            # check if Time column is day or night or any
+            if pd.notna(row['Time']):
+                if row['Time'].lower() == 'day':
+                    condition['timeRange'] = row['Time'].lower()
+                elif row['Time'].lower() == 'night':
+                    condition['timeRange'] = row['Time'].lower()
 
-        # check if Weather column is clear or rain or any
-        if pd.notna(row['Weather']):
-            if row['Weather'].lower() == 'clear':
-                condition['isRaining'] = False
-            elif row['Weather'].lower() == 'rain':
-                condition['isRaining'] = True
+            # check if Weather column is clear or rain or any
+            if pd.notna(row['Weather']):
+                if row['Weather'].lower() == 'clear':
+                    condition['isRaining'] = False
+                elif row['Weather'].lower() == 'rain':
+                    condition['isRaining'] = True
 
-        # Requirements
-        if pd.notna(row['Requirements']):
-            # split by "," and then strip each string
-            strings = str(row['Requirements']).split(',')
-            for string in strings:
-                s = string.strip()
-                # if the string is "Desert Well" then add structure = "minecraft:desert_well" to the condition dictionary
-                if s == "Desert Well":
-                    condition['structures'] = ["minecraft:desert_well"]
-                # if the string contains ":" then use it as is and add it to the condition dictionary under "neededBaseBlocks"
-                elif ":" in s:
+            # Requirements
+            if pd.notna(row['Requirements']):
+                # split by "," and then strip each string
+                strings = str(row['Requirements']).split(',')
+                for string in strings:
+                    s = string.strip()
+                    # if the string is "Desert Well" then add structure = "minecraft:desert_well" to the condition dictionary
+                    if s == "Desert Well":
+                        condition['structures'] = ["minecraft:desert_well"]
+                    # if the string contains ":" then use it as is and add it to the condition dictionary under "neededBaseBlocks"
+                    elif ":" in s:
+                        # split the string by " " and check if the first string is "on"
+                        if s.split(' ')[0] == "on":
+                            if 'neededBaseBlocks' not in condition:
+                                condition['neededBaseBlocks'] = []
+                            condition['neededBaseBlocks'].append(s.split(' ')[1].strip())
+                        else:
+                            if 'neededNearbyBlocks' not in condition:
+                                condition['neededNearbyBlocks'] = []
+                            condition['neededNearbyBlocks'].append(s)
+                    # if the string contains "minY = " then split it and add it to the condition dictionary
+                    elif "minY = " in string:
+                        condition['minY'] = int(string.split('=')[1].strip())
+                    # if the string contains "maxY = " then split it and add it to the condition dictionary
+                    elif "maxY = " in string:
+                        condition['maxY'] = int(string.split('=')[1].strip())
+                    # if the string is "Full Moon" then add moonPhase = 0 to the condition dictionary
+                    elif string == "Full Moon":
+                        condition['moonPhase'] = "0"
+                    # if the string contains "moonPhase =" then split it and look at the next entries in strings that are a number
+                    elif "moonPhase = " in string:
+                        # get the first integer in the string
+                        digitsArray = [int(string.split('=')[1].strip())]
+                        # get the index of the current string
+                        index = strings.index(string)
+                        # get the next strings that are a number and add them to the digitsArray
+                        while index < len(strings) - 1:
+                            index += 1
+                            if strings[index].strip().isdigit():
+                                digitsArray.append(int(strings[index].strip()))
+                            else:
+                                break
+                        # add the digitsArray to the condition dictionary in the format moonPhase = "1,2,4"
+                        condition['moonPhase'] = ','.join(str(x) for x in digitsArray)
+                    # if the string contains "maxLight = " then split it and add it to the condition dictionary
+                    elif "maxLight = " in string:
+                        condition['maxLight'] = int(string.split('=')[1].strip())
+                    # if the string contains "minLight = " then split it and add it to the condition dictionary
+                    elif "minLight = " in string:
+                        condition['minLight'] = int(string.split('=')[1].strip())
+                    # if the string is a digit, pass (was already hanlded by other conditions)
+                    elif string.strip().isdigit():
+                        pass
+                    else:
+                        unknown_requirements.append(f"'{string}' ({currentID})")
+
+            if condition:
+                spawn_data['condition'] = condition
+
+            # Anticondition field
+            anticondition = {}
+
+            if pd.notna(row['Excluded']):
+                parsed_biomes = parse_biomes(row['Excluded'], invalid_biome_tags)
+                if parsed_biomes:
+                    anticondition['biomes'] = parsed_biomes
+
+            # Check Prohibitions column, and add the values to the anticondition field.
+            if pd.notna(row['Prohibitions']):
+                s = str(row['Prohibitions'])
+                if ":" in s:
                     # split the string by " " and check if the first string is "on"
                     if s.split(' ')[0] == "on":
-                        if 'neededBaseBlocks' not in condition:
-                            condition['neededBaseBlocks'] = []
-                        condition['neededBaseBlocks'].append(s.split(' ')[1].strip())
+                        if 'neededBaseBlocks' not in anticondition:
+                            anticondition['neededBaseBlocks'] = []
+                        anticondition['neededBaseBlocks'].append(s.split(' ')[1].strip())
                     else:
-                        if 'neededNearbyBlocks' not in condition:
-                            condition['neededNearbyBlocks'] = []
-                        condition['neededNearbyBlocks'].append(s)
-                # if the string contains "minY = " then split it and add it to the condition dictionary
-                elif "minY = " in string:
-                    condition['minY'] = int(string.split('=')[1].strip())
-                # if the string contains "maxY = " then split it and add it to the condition dictionary
-                elif "maxY = " in string:
-                    condition['maxY'] = int(string.split('=')[1].strip())
-                # if the string is "Full Moon" then add moonPhase = 0 to the condition dictionary
-                elif string == "Full Moon":
-                    condition['moonPhase'] = "0"
-                # if the string contains "moonPhase =" then split it and look at the next entries in strings that are a number
-                elif "moonPhase = " in string:
-                    # get the first integer in the string
-                    digitsArray = [int(string.split('=')[1].strip())]
-                    # get the index of the current string
-                    index = strings.index(string)
-                    # get the next strings that are a number and add them to the digitsArray
-                    while index < len(strings) - 1:
-                        index += 1
-                        if strings[index].strip().isdigit():
-                            digitsArray.append(int(strings[index].strip()))
-                        else:
-                            break
-                    # add the digitsArray to the condition dictionary in the format moonPhase = "1,2,4"
-                    condition['moonPhase'] = ','.join(str(x) for x in digitsArray)
-                # if the string contains "maxLight = " then split it and add it to the condition dictionary
-                elif "maxLight = " in string:
-                    condition['maxLight'] = int(string.split('=')[1].strip())
-                # if the string contains "minLight = " then split it and add it to the condition dictionary
-                elif "minLight = " in string:
-                    condition['minLight'] = int(string.split('=')[1].strip())
-                # if the string is a digit, pass (was already hanlded by other conditions)
-                elif string.strip().isdigit():
-                    pass
+                        if 'neededNearbyBlocks' not in anticondition:
+                            anticondition['neededNearbyBlocks'] = []
+                        anticondition['neededNearbyBlocks'].append(s)
                 else:
-                    print(f"Unknown requirement: {string}")
+                    match s:
+                        case "Sempiternal Sanctum":
+                            anticondition['structures'] = ["#the_bumblezone:sempiternal_sanctums"]
+                        case "Village":
+                            anticondition['structures'] = [f"#minecraft:{row['Prohibitions'].lower()}"]
 
-        if condition:
-            spawn_data['condition'] = condition
+            if anticondition:
+                spawn_data['anticondition'] = anticondition
 
-        # Anticondition field
-        anticondition = {}
+            # Drops field
+            if pd.notna(row['Spawn Specific Drops']):
+                # Split the string by = and strip each string
+                dropcondtion, unprocessedDrops = row['Spawn Specific Drops'].split('=')[0].strip(), \
+                    row['Spawn Specific Drops'].split('=')[1].strip()
+                # Apply the biome mapping to the condition
+                if dropcondtion.lower() in biome_mapping:
+                    dropcondtion = biome_mapping[dropcondtion.lower()]
+                # if the current entry's biome matches with the condition, then add the drops to the json_data
+                if dropcondtion in condition['biomes']:
+                    spawn_data["drops"] = parse_drops(unprocessedDrops)
 
-        if pd.notna(row['Excluded']):
-            parsed_biomes = parse_biomes(row['Excluded'], invalid_biome_tags)
-            if parsed_biomes:
-                anticondition['biomes'] = parsed_biomes
-
-        # Check Prohibitions column, and add the values to the anticondition field.
-        if pd.notna(row['Prohibitions']):
-            s = str(row['Prohibitions'])
-            if ":" in s:
-                # split the string by " " and check if the first string is "on"
-                if s.split(' ')[0] == "on":
-                    if 'neededBaseBlocks' not in anticondition:
-                        anticondition['neededBaseBlocks'] = []
-                    anticondition['neededBaseBlocks'].append(s.split(' ')[1].strip())
+            # Handle Patternkey=value field and Append the spawn_data to the json_data
+            if pd.notna(row['Patternkey=Value']):
+                # if it does not contain = then raise an error
+                if "=" not in str(row['Patternkey=Value']):
+                    print(f"Patternkey=Value: {row['Patternkey=Value']}")
+                    raise ValueError
                 else:
-                    if 'neededNearbyBlocks' not in anticondition:
-                        anticondition['neededNearbyBlocks'] = []
-                    anticondition['neededNearbyBlocks'].append(s)
-            else:
-                match s:
-                    case "Sempiternal Sanctum":
-                        anticondition['structures'] = [f"#the_bumblezone:sempiternal_sanctums"]
-                    case "Village":
-                        anticondition['structures'] = [f"#minecraft:{row['Prohibitions'].lower()}"]
+                    # Initialize an empty array
+                    specialSpawns = []
+                    keyValuePairs = str(row['Patternkey=Value']).split(';')
 
+                    for string in keyValuePairs:
+                        key = string.split('=')[0].strip()
+                        value = string.split('=')[1].strip()
+                        # split the value by "," and strip each string, remove any empty strings
+                        values = [v.strip() for v in value.split(',') if v.strip()]
 
-        if anticondition:
-            spawn_data['anticondition'] = anticondition
-
-        # Drops field
-        if pd.notna(row['Spawn Specific Drops']):
-            # Split the string by = and strip each string
-            dropcondtion, unprocessedDrops = row['Spawn Specific Drops'].split('=')[0].strip(), \
-                row['Spawn Specific Drops'].split('=')[1].strip()
-            # Apply the biome mapping to the condition
-            if dropcondtion.lower() in biome_mapping:
-                dropcondtion = biome_mapping[dropcondtion.lower()]
-            # if the current entry's biome matches with the condition, then add the drops to the json_data
-            if dropcondtion in condition['biomes']:
-                spawn_data["drops"] = parse_drops(unprocessedDrops)
-
-        # Handle Patternkey=value field and Append the spawn_data to the json_data
-        if pd.notna(row['Patternkey=Value']):
-            # if it does not contain = then raise an error
-            if "=" not in str(row['Patternkey=Value']):
-                print(f"Patternkey=Value: {row['Patternkey=Value']}")
-                raise ValueError
-            else:
-                # Initialize an empty array
-                specialSpawns = []
-                keyValuePairs = str(row['Patternkey=Value']).split(';')
-
-                for string in keyValuePairs:
-                    key = string.split('=')[0].strip()
-                    value = string.split('=')[1].strip()
-                    # split the value by "," and strip each string, remove any empty strings
-                    values = [v.strip() for v in value.split(',') if v.strip()]
-
-                    if not specialSpawns:
-                        for val in values:
-                            copy = spawn_data.copy()
-                            # Use val instead of value
-                            copy['id'] = '-'.join([spawn_data["pokemon"],  val, copy['id'].split(spawn_data["pokemon"] + '-')[1]] )
-                            copy['pokemon'] += f" {key}={val}"
-                            specialSpawns.append(copy)
-                    else:
-                        newSpecialSpawns = []
-                        for spawn in specialSpawns:
+                        if not specialSpawns:
                             for val in values:
-                                copy = spawn.copy()
-                                # Only add new key=value if it's not already in the pokemon field
-                                if f"{key}={val}" not in copy['pokemon']:
-                                    copy['pokemon'] += f" {key}={val}"
-                                newSpecialSpawns.append(copy)
-                        specialSpawns = newSpecialSpawns
-                # add the specialSpawns to the json_data
-                if specialSpawns:
-                    json_data["spawns"] += specialSpawns
-        else:
-            json_data["spawns"].append(spawn_data)
+                                copy = spawn_data.copy()
+                                # Use val instead of value
+                                copy['id'] = '-'.join(
+                                    [spawn_data["pokemon"], val, copy['id'].split(spawn_data["pokemon"] + '-')[1]])
+                                copy['pokemon'] += f" {key}={val}"
+                                specialSpawns.append(copy)
+                        else:
+                            newSpecialSpawns = []
+                            for spawn in specialSpawns:
+                                for val in values:
+                                    copy = spawn.copy()
+                                    # Only add new key=value if it's not already in the pokemon field
+                                    if f"{key}={val}" not in copy['pokemon']:
+                                        copy['pokemon'] += f" {key}={val}"
+                                    newSpecialSpawns.append(copy)
+                            specialSpawns = newSpecialSpawns
+                    # add the specialSpawns to the json_data
+                    if specialSpawns:
+                        json_data["spawns"] += specialSpawns
+            else:
+                json_data["spawns"].append(spawn_data)
+        except Exception as e:
+            print_warning(f"Error while processing {currentID}: {e}")
+            raise e
 
     return json_data
 
@@ -520,19 +550,21 @@ def generateName(pokemon_name):
         return f"{sanitize_pokemon(pokemon_name.lower().split(' ')[0])} {pokemon_name.lower().split(' [')[1].split(']')[0]}"
     return sanitize_pokemon(pokemon_name)
 
+
 def sanitize_pokemon(pokemon):
     return pokemon.replace("-", "").replace("♂", "m").replace("♀", "f").replace(".", "").replace("'", "").replace(' ', '').lower()
 
 
 def parse_biomes(biomes_str, invalid_biome_tags):
-# Use the biome_mapping to convert the Biome column to the format used in the spawn json
+    # Use the biome_mapping to convert the Biome column to the format used in the spawn json
     biomes = []
     for biome in biomes_str.split(','):
         biome = biome.lower().strip()
         if biome in biome_mapping:
             # Verify that the biome is not in the invalid_biome_tags list
             if biome_mapping[biome] in invalid_biome_tags:
-                raise ValueError(f"Tried to use invalid biome tag: {biome}\nThe wrong tag specified in biome_mapping is: {biome_mapping[biome]}")
+                raise ValueError(
+                    f"Tried to use invalid biome tag: {biome}\nThe wrong tag specified in biome_mapping is: {biome_mapping[biome]}")
             biomes.append(biome_mapping[biome])
         elif biome in ignored_biomes:
             pass
@@ -591,7 +623,7 @@ def readEnvFile(param):
 
 
 def load_special_drops_data():
-    drops_df, _a, _b, _c = getDropsDF()
+    drops_df, _a, _b, _c = get_drops_df()
     # delete all rows that have a blank "Spawn Specific Drops" column
     drops_df = drops_df[drops_df['Spawn Specific Drops'].notna()]
     # remove all columns except "Pokémon" and "Spawn Specific Drops"
@@ -605,6 +637,8 @@ def verifyBiomeTags():
     # remove the .json from the filenames and prepend "#cobblemon:" to the biome name
     biome_files = [f"#cobblemon:{file[:-5]}" for file in biome_files]
     unknown_biomes = []
+
+    print_warning("The following biome tags can currently not be verified, please make sure they are correct:")
     for biome in biome_mapping.values():
         # if biome starts with #cobblemon: then verify that it is in biome_files
         if biome.startswith("#cobblemon:"):
@@ -623,10 +657,11 @@ def verifyBiomeTags():
             if not is_filepattern_in_jars(biome_file_pattern):
                 unknown_biomes.append(biome)
         else:
-            print(f"Unverified biome tag: {biome}")
+            print(f"  Unverified biome tag: {biome}")
     if unknown_biomes:
-        print("Unknown biomes:")
-        print(unknown_biomes)
+        if unknown_biomes:
+            print_warning("These biome tags are not implemented:")
+            print_list_filtered(unknown_biomes)
         return unknown_biomes
 
 
@@ -639,7 +674,6 @@ def is_filepattern_in_jars(biome_file_pattern):
             for file in jar.namelist():
                 if biome_file_pattern in file:
                     return True
-                    break
     return False
 
 
@@ -649,7 +683,6 @@ spawn_spreadsheet_excel_url = readEnvFile('SPAWN_SPREADSHEET_EXCEL_URL')
 pokemon_data_dir = '../common/src/main/resources/data/cobblemon/spawn_pool_world'
 sqlite_db_name = 'cobblemon_spawn_data.sqlite'
 sqlite_table_name = 'cobblemon_spawns'
-
 
 if __name__ == "__main__":
     main()

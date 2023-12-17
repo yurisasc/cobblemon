@@ -1,13 +1,13 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_shard": {
+    "has_root": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:amethyst_shard"
-            ]
+				"cobblemon:big_root"
+			]
           }
         ]
       },
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cobblemon:pink_bow"
+        "recipe": "cobblemon:remedy_by_smoking"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_shard",
+      "has_root",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "cobblemon:pink_bow"
+      "cobblemon:remedy"
     ]
   }
 }
