@@ -862,6 +862,8 @@ object ShowdownInterpreter {
             val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
             val effectID = message.effectAt(1)?.id
+            val cause = message.effect("from")
+            val of = message.getSourceBattlePokemon(battle)
 
             val lang = when (effectID) {
                 null, "burnup", "doubleshock" -> battleLang("fail") // Moves that use default fail lang. (Null included for moves that fail with no effect, for example: Baton Pass.)
@@ -869,6 +871,15 @@ object ShowdownInterpreter {
                 "hyperspacefury", "aurawheel" -> battleLang("fail.darkvoid", pokemonName) // Moves that can only be used by one species and fail when any others try
                 "corrosivegas" -> battleLang("fail.healblock", pokemonName)
                 "dynamax" -> battleLang("fail.grassknot", pokemonName) // Covers weight moves that fail against dynamaxed Pokémon
+                "unboost" -> {
+                    val statKey = message.argumentAt(2)
+                    val stat = statKey?.let { getStat(it).displayName }
+                    if (stat != null) {
+                        battleLang("fail.$effectID.single", pokemonName, stat)
+                    } else {
+                        battleLang("fail.$effectID", pokemonName)
+                    }
+                }
                 else -> battleLang("fail.$effectID", pokemonName)
             }
             battle.broadcastChatMessage(lang.red())
