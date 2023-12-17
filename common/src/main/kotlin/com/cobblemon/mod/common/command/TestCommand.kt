@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.api.pokemon.breeding.CobblemonBreedingLogic
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -54,9 +55,10 @@ object TestCommand {
         }
 
         try {
+            context.source.player?.let { testBreeding(it) }
 //            readBerryDataFromCSV()
 
-            this.testClosestBattle(context)
+//            this.testClosestBattle(context)
             //testTrade(context.source.player!!)
 //            extractMovesData()
 //            // Player variables
@@ -143,6 +145,11 @@ object TestCommand {
             }
             .iterations(Int.MAX_VALUE)
             .build()
+    }
+
+    private fun testBreeding(playerEntity: ServerPlayerEntity) {
+        CobblemonBreedingLogic().breed(playerEntity.party().get(0)!!, playerEntity.party().get(1)!!)
+            ?.let { playerEntity.party().add(it) }
     }
 
     @Suppress("UNUSED_VARIABLE")

@@ -154,6 +154,22 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     fun getByIdentifier(identifier: Identifier) = this.speciesByIdentifier[identifier]
 
     /**
+     * Finds the first [Species] in an evolution line
+     *
+     * @param species The [Species] evolution line to use
+     * @return The [Species] if existing.
+     */
+    fun getFirstEvolution(species: Species): Species {
+        var returnSpecies = species
+
+        while (returnSpecies.preEvolution != null) {
+            returnSpecies = returnSpecies.preEvolution!!.species
+        }
+
+        return returnSpecies
+    }
+
+    /**
      * Counts the currently loaded species.
      *
      * @return The loaded species amount.

@@ -601,6 +601,14 @@ open class Pokemon : ShowdownIdentifiable {
     fun isUltraBeast() = this.hasLabels(CobblemonPokemonLabels.ULTRA_BEAST)
 
     /**
+     * A utility method that checks if this Pokémon species or form data contains the [CobblemonPokemonLabels.BABY] label.
+     * This is used in Pokémon officially considered babies.
+     *
+     * @return If the Pokémon is a baby.
+     */
+    fun isBaby() = this.hasLabels(CobblemonPokemonLabels.BABY)
+
+    /**
      * Checks if a Pokémon has all the given labels.
      * Tags used by the mod can be found in [CobblemonPokemonLabels].
      *
