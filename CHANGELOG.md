@@ -24,6 +24,7 @@
 - Black Augurite can now be used to craft stone axes and obsidian.
 - Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
 - Added tab completion for statuses to commands
+- Remedies can now be cooked in a Smoker and on a Campfire
 
 ### Additions
 - Added battle spectating, can disable in config
@@ -40,6 +41,7 @@
 - Mooshtank can now be milked with a bowl for Mushroom Stew.
 - Updated Showdown version to use gen9 battle data
 - Added cries to Beldum, Metang and Metagross.
+- Added /bedrockparticle command.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
@@ -84,6 +86,10 @@
 - Fixed a possible visual duplication of sent out Pokémon.
 - Fixed battle text for Trace, Receiver, and Power of Alchemy.
 - Fixed tooltips being appended too late in items.
+- Fixed battles ending background music when battle music is not present.
+- Fixed battles ending background music, instead of pausing, when battle music is played.
+- Fixed a bunch of regionals to actually be obtainable, namely the unmodelled ones
+- Fixed battle text for moves that were missing.
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
@@ -91,9 +97,12 @@
 - Added utility script that can be used to generate all Spawn JSONS for all pokemon from the spawning spreadsheet in 1 click ([cobblemon_spawn_csv_to_json.py](utilityscripts%2Fcobblemon_spawn_csv_to_json.py)).
 - The `HeldItemManager` has a new method `shouldConsumeItem`, this will return false by default to prevent breaking changes, see the documentation and update your implementations as needed.
 - Added and implemented minSkyLight and maxSkyLight as config options for SpawnConditions
+- Player specific battle themes can now be assigned to `PlayerData#battleTheme`.
+- Changed design of `BattleStartedPreEvent`. Will now expose the `PokemonBattle`.
 
 ### Datapack & Resourcepack Creators
 - Added 3 new item tags: `cobblemon:held/consumed_in_npc_battle`, `cobblemon:held/consumed_in_pvp_battle` & `cobblemon:held/consumed_in_wild_battle` these will determine which items get consumed in the implied battle types by Cobblemon, keep in mind the controller for this behaviour can be overriden by 3rd party.
+- Unique wild encounter themes can now be associated with a specific species (or form) by assigning a SoundEvent identifier to the `battleTheme` field in the species' data configuration.
 
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)

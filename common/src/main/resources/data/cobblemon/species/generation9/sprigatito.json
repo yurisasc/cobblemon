@@ -49,8 +49,10 @@
       "depth": "normal",
       "light": "0-4"
     },
-    "walk": {
-      "walkSpeed": 0.2
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
     }
   },
   "moves": [
