@@ -240,6 +240,7 @@ object CobblemonClient {
 
     fun endBattle() {
         battle = null
+        battleOverlay.lastKnownBattle = null
         BattleMusicController.endMusic()
     }
 

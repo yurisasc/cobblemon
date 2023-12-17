@@ -14,13 +14,6 @@
 	},
 	"parent": "cobblemon:first_catch",
 	"criteria": {
-		"poke_ball": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-poke-ball"]
-			}
-		},
 		"archipelago": {
 			"trigger": "cobblemon:aspects_collected",
 			"conditions": {
@@ -177,7 +170,6 @@
 		}
 	},
 	"requirements": [
-		["poke_ball"],
 		["archipelago"],
 		["continental"],
 		["elegant"],

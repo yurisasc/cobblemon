@@ -5,7 +5,6 @@
 - Slightly lowered the volume of all cries
 - Updated Pokeball animations and model.
 - Turtwig can now be put on shoulder.
-- Shuckles can now be milked for Berry Juice using a wooden bowl
 - Updated Zubat line model, texture, and animations.
 - Updated Geodude line models and textures.
 - Added animations for Hitmontop, Tyrogue, and Mightyena.
@@ -25,6 +24,9 @@
 - Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
 - Added tab completion for statuses to commands
 - Remedies can now be cooked in a Smoker and on a Campfire
+- Removed the "Poké Ball" variant requirement from the Vivillonaire advancement as it is unobtainable.
+- Vertically flipped the Destiny Knot recipe
+- Made the EXP. Share recipe cheaper
 
 ### Additions
 - Added battle spectating, can disable in config
@@ -42,6 +44,7 @@
 - Updated Showdown version to use gen9 battle data
 - Added cries to Beldum, Metang and Metagross.
 - Added /bedrockparticle command.
+- Added data for Dipplin, Fezandipiti, Munkidori, Ogerpon, Okidogi, Poltchageist and Sinistcha.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
@@ -68,7 +71,7 @@
 - Fixed global influences being applied to TickingSpawners twice.
 - Reverted the default SpawningSelector back to FlatContextWeightedSelector. This fixes multiple weight related issues, including weights with SpawningInfluences.
 - Apricorn Planting advancement should work again.
-- Advancement "Patterned Wings" should now allow High Plains and Icy Snow Vivillon to register.
+- Advancement "Vivillonaire" should now allow High Plains and Icy Snow Vivillon to register.
 - Fixed the last battle critical hits evolution requirement not working.
 - Fixed the damage taken evolution requirement not saving progress.
 - Fixed the defeated Pokémon evolution requirement not saving progress.
@@ -90,6 +93,12 @@
 - Fixed battles ending background music, instead of pausing, when battle music is played.
 - Fixed a bunch of regionals to actually be obtainable, namely the unmodelled ones
 - Fixed battle text for moves that were missing.
+- Fixed a formatting error that affected Pokemon nicknames when the storage type is JSON.
+- Fixed a crash that could occur on some servers relating to chunk loading with fastutil.
+- Fixed an issue involving Inkay's evolution requirement.
+- Fixed conflicting evolution requirements that would cause the Ocean, River, Sun, and Tundra variants of Vivillon to be unobtainable through evolution.
+- Fixed the Modern variant of Vivillon not being obtainable through evolution.
+- Fixed a grammatical issue when using Poké Balls starting with a vowel. ("an Ultra Ball" instead of "a Ultra Ball")
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
@@ -103,7 +112,7 @@
 ### Datapack & Resourcepack Creators
 - Added 3 new item tags: `cobblemon:held/consumed_in_npc_battle`, `cobblemon:held/consumed_in_pvp_battle` & `cobblemon:held/consumed_in_wild_battle` these will determine which items get consumed in the implied battle types by Cobblemon, keep in mind the controller for this behaviour can be overriden by 3rd party.
 - Unique wild encounter themes can now be associated with a specific species (or form) by assigning a SoundEvent identifier to the `battleTheme` field in the species' data configuration.
-
+- Added a `structure` evolution condition, used to check if a Pokémon is in a given structure.
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions

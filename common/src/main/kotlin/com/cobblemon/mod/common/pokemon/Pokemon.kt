@@ -787,7 +787,7 @@ open class Pokemon : ShowdownIdentifiable {
         json.addProperty(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
-        nickname?.let { json.addProperty(DataKeys.POKEMON_NICKNAME, Text.Serializer.toJson(it)) }
+        nickname?.let { json.add(DataKeys.POKEMON_NICKNAME, Text.Serializer.toJsonTree(it)) }
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.formOnlyShowdownId())
         json.addProperty(DataKeys.POKEMON_EXPERIENCE, experience)
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
@@ -837,7 +837,7 @@ open class Pokemon : ShowdownIdentifiable {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
-        nickname = json.get(DataKeys.POKEMON_NICKNAME)?.asString?.takeIf { it.isNotBlank() }?.let { Text.Serializer.fromJson(it) }
+        nickname = json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
         form = species.forms.find { it.formOnlyShowdownId() == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)

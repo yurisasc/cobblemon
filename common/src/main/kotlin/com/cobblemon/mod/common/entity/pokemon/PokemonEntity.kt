@@ -150,6 +150,8 @@ class PokemonEntity(
 
     var tethering: PokemonPastureBlockEntity.Tethering? = null
 
+    var queuedToDespawn = false
+
     /**
      * The amount of steps this entity has traveled.
      */
@@ -270,6 +272,9 @@ class PokemonEntity(
         super.tick()
         // We will be handling idle logic ourselves thank you
         this.setDespawnCounter(0)
+        if (queuedToDespawn) {
+            return remove(RemovalReason.DISCARDED)
+        }
         entityProperties.forEach { it.checkForUpdate() }
         delegate.tick(this)
         ticksLived++
@@ -1077,18 +1082,17 @@ class PokemonEntity(
             return
         }
 
-        if(this.ownerUuid == player.uuid && tethering == null) {
-            if (player.isDisconnected) {
-                this.remove(RemovalReason.DISCARDED)
-                return
-            }
-
-            val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
-            (world as ServerWorld).chunkManager
-                .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
-            this.goalSelector.tick()
-            if(distanceTo(player.blockPos) > 100) pokemon.recall()
+        if (this.ownerUuid == player.uuid && tethering == null) {
+            queuedToDespawn = true
+            return
         }
+//
+//            val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
+//            (world as ServerWorld).chunkManager
+//                .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
+//            this.goalSelector.tick()
+//            if(distanceTo(player.blockPos) > 100) pokemon.recall()
+//        }
     }
 
     override fun canBeLeashedBy(player: PlayerEntity): Boolean {

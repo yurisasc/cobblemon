@@ -196,6 +196,8 @@ fun drawPortraitPokemon(
     val context = RenderContext()
     PokemonModelRepository.getTextureNoSubstitute(species.resourceIdentifier, aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, species.getForm(aspects).baseScale)
+    context.put(RenderContext.SPECIES, species.resourceIdentifier)
+    context.put(RenderContext.ASPECTS, aspects)
 
     val renderType = model.getLayer(texture)
 
