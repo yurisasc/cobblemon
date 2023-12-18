@@ -26,16 +26,16 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.MathHelper.ceil
 class BattleSwitchPokemonSelection(
-    battleGUI: BattleGUI,
-    request: SingleActionRequest
+        battleGUI: BattleGUI,
+        request: SingleActionRequest
 ) : BattleActionSelection(
-    battleGUI,
-    request,
-    x = 12,
-    y = ceil((MinecraftClient.getInstance().window.scaledHeight / 2) - (((SWITCH_TILE_HEIGHT * 3) + (SWITCH_TILE_VERTICAL_SPACING * 2)) / 2)),
-    width = 250,
-    height = 100,
-    battleLang("switch_pokemon")
+        battleGUI,
+        request,
+        x = 12,
+        y = ceil((MinecraftClient.getInstance().window.scaledHeight / 2) - (((SWITCH_TILE_HEIGHT * 3) + (SWITCH_TILE_VERTICAL_SPACING * 2)) / 2)),
+        width = 250,
+        height = 100,
+        battleLang("switch_pokemon")
 ) {
     companion object {
         const val SWITCH_TILE_WIDTH = BattleOverlay.TILE_WIDTH
@@ -48,11 +48,11 @@ class BattleSwitchPokemonSelection(
     val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F )
 
     class SwitchTile(
-        val selection: BattleSwitchPokemonSelection,
-        val x: Float,
-        val y: Float,
-        val pokemon: Pokemon,
-        val showdownPokemon: ShowdownPokemon
+            val selection: BattleSwitchPokemonSelection,
+            val x: Float,
+            val y: Float,
+            val pokemon: Pokemon,
+            val showdownPokemon: ShowdownPokemon
     ) {
         fun isHovered(mouseX: Double, mouseY: Double) = mouseX in x..(x + SWITCH_TILE_WIDTH) && mouseY in (y..(y + SWITCH_TILE_HEIGHT))
         fun render(context: DrawContext, mouseX: Double, mouseY: Double, deltaTicks: Float) {
@@ -64,23 +64,23 @@ class BattleSwitchPokemonSelection(
                     healthRatioSplits[0].toInt() to pokemon.hp
                 }
                 CobblemonClient.battleOverlay.drawBattleTile(
-                    context = context,
-                    x = x,
-                    y = y,
-                    reversed = false,
-                    species = pokemon.species,
-                    level = pokemon.level,
-                    aspects = pokemon.aspects,
-                    displayName = pokemon.getDisplayName(),
-                    gender = pokemon.gender,
-                    status = pokemon.status?.status,
-                    maxHealth = maxHp,
-                    health = hp.toFloat(),
-                    isFlatHealth = true,
-                    state = null,
-                    colour = null,
-                    opacity = selection.opacity,
-                    partialTicks = deltaTicks
+                        context = context,
+                        x = x,
+                        y = y,
+                        reversed = false,
+                        species = pokemon.species,
+                        level = pokemon.level,
+                        aspects = pokemon.aspects,
+                        displayName = pokemon.getDisplayName(),
+                        gender = pokemon.gender,
+                        status = pokemon.status?.status,
+                        maxHealth = maxHp,
+                        health = hp.toFloat(),
+                        isFlatHealth = true,
+                        state = null,
+                        colour = null,
+                        opacity = selection.opacity,
+                        partialTicks = deltaTicks
                 )
             } catch (exception: Exception) {
                 throw exception
@@ -92,20 +92,20 @@ class BattleSwitchPokemonSelection(
         val pendingActionRequests = CobblemonClient.battle!!.pendingActionRequests
         val switchingInPokemon = pendingActionRequests.mapNotNull { it.response }.filterIsInstance<SwitchActionResponse>().map { it.newPokemonId }
         val showdownPokemonToPokemon = request.side!!.pokemon
-            .mapNotNull { showdownPokemon ->
-                battleGUI.actor!!.pokemon
-                    .find { it.uuid == showdownPokemon.uuid }
-                    ?.let { showdownPokemon to it }
-            }
-            .filter {
-                if (request.side.pokemon[0].reviving) {
-                    "fnt" in it.first.condition
-                } else {
-                    "fnt" !in it.first.condition
+                .mapNotNull { showdownPokemon ->
+                    battleGUI.actor!!.pokemon
+                            .find { it.uuid == showdownPokemon.uuid }
+                            ?.let { showdownPokemon to it }
                 }
-            }
-            .filter { it.second.uuid !in battleGUI.actor!!.activePokemon.map { it.battlePokemon?.uuid } }
-            .filter { it.second.uuid !in switchingInPokemon }
+                .filter {
+                    if (request.side.pokemon[0].reviving) {
+                        "fnt" in it.first.condition
+                    } else {
+                        "fnt" !in it.first.condition
+                    }
+                }
+                .filter { it.second.uuid !in battleGUI.actor!!.activePokemon.map { it.battlePokemon?.uuid } }
+                .filter { it.second.uuid !in switchingInPokemon }
 
         showdownPokemonToPokemon.forEachIndexed { index, (showdownPokemon, pokemon) ->
             val row = index / 2
