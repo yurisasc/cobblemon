@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 
 class DeprecatedInstruction(val message: BattleMessage, val function: (PokemonBattle, BattleMessage, MutableList<String>) -> Unit) : InterpreterInstruction {
+    override val cause: InterpreterInstruction? = null
     override fun invoke(battle: PokemonBattle) {
         function(battle, message, mutableListOf())
     }

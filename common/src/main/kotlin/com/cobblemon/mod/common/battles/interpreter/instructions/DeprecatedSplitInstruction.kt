@@ -11,8 +11,6 @@ package com.cobblemon.mod.common.battles.interpreter.instructions
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
-import com.cobblemon.mod.common.battles.BattleActorErrors
-import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 
 class DeprecatedSplitInstruction(
@@ -21,6 +19,8 @@ class DeprecatedSplitInstruction(
     val privateMessage: BattleMessage,
     val function: (PokemonBattle, BattleActor, BattleMessage, BattleMessage) -> Unit
 ) : InterpreterInstruction {
+
+    override val cause: InterpreterInstruction? = null
     override fun invoke(battle: PokemonBattle) {
         function(battle, battleActor, publicMessage, privateMessage)
     }

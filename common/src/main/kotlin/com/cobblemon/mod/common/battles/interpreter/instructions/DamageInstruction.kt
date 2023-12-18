@@ -14,10 +14,8 @@ import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
-import com.cobblemon.mod.common.battles.dispatch.ChildInstruction
 import com.cobblemon.mod.common.battles.dispatch.GO
-import com.cobblemon.mod.common.battles.dispatch.InstructionSet
-import com.cobblemon.mod.common.battles.dispatch.ParentInstruction
+import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
@@ -27,7 +25,12 @@ import com.cobblemon.mod.common.util.lang
 import kotlin.math.roundToInt
 import net.minecraft.text.Text
 
-class DamageInstruction(parent: ParentInstruction?, val actor: BattleActor, val publicMessage: BattleMessage, val privateMessage: BattleMessage) : ChildInstruction(parent) {
+class DamageInstruction(
+    override val cause: InterpreterInstruction?,
+    val actor: BattleActor,
+    val publicMessage: BattleMessage,
+    val privateMessage: BattleMessage
+) : InterpreterInstruction {
     override fun invoke(battle: PokemonBattle) {
         val battlePokemon = publicMessage.getBattlePokemon(0, battle) ?: return
         if (privateMessage.optionalArgument("from")?.equals("recoil", true) == true) {

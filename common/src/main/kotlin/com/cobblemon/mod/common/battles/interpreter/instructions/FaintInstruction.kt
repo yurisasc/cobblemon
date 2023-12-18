@@ -15,12 +15,11 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFaintedEvent
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
-import com.cobblemon.mod.common.battles.dispatch.ChildInstruction
-import com.cobblemon.mod.common.battles.dispatch.ParentInstruction
+import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.util.battleLang
 
-class FaintInstruction(parent: ParentInstruction?, battle: PokemonBattle, val message: BattleMessage) : ChildInstruction(parent) {
+class FaintInstruction(override val cause: InterpreterInstruction?, battle: PokemonBattle, val message: BattleMessage) : InterpreterInstruction {
     var waitTime = 2.5F
     val faintingPokemon = message.getBattlePokemon(0, battle)!!
 
