@@ -11,11 +11,13 @@
 - Tweaked animations for Dusknoir, Ratatta, Bewear, Exeggutor, and Alolan Exeggutor.
 - Sized Kantonian Exeggutor down. Still big but not TOO BIG.
 - Tweaked cries for Pikachu, Raichu and Alolan Raichu.
+- Fixed Swimming behaviors for Wimpod line, Oshawott line, Quaxly line, and Clodsire
 - Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
 - The config option `consumeHeldItems` has been removed, please see the Datapack & Resourcepack Creators for instructions on the updated method.
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
 - Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
 - The Healing Machine now has a more difficult recipe, placing it later game.
+- Fixed how Weight and Height is calculated for Pokemon before it is sent into Showdown for accurate damage for some moves
 - Heal Powder can now be composted with a 75% chance of adding a layer
 - Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer.
 - Added emissive to Hoothoot and Noctowl.
