@@ -16,6 +16,7 @@
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
 - Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
 - The Healing Machine now has a more difficult recipe, placing it later game.
+- Fixed how Weight and Height is calculated for Pokemon before it is sent into Showdown for accurate damage for some moves
 - Heal Powder can now be composted with a 75% chance of adding a layer
 - Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer.
 - Added emissive to Hoothoot and Noctowl.
