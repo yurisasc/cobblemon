@@ -33,6 +33,7 @@ import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper.floor
+
 class BattleMoveSelection(
     battleGUI: BattleGUI,
     request: SingleActionRequest,
@@ -190,7 +191,6 @@ class BattleMoveSelection(
             it.render(context.matrices, mouseX, mouseY, delta)
         }
     }
-
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         val move = moveTiles.find { it.isHovered(mouseX, mouseY) }
