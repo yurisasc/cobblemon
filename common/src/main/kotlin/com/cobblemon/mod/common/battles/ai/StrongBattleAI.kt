@@ -33,7 +33,7 @@ class ActiveTracker {
     var p2Active: TrackerPokemon = TrackerPokemon()
 
     data class TrackerPokemon(
-            var pokemon: Pokemon? = null
+            var pokemon: Pokemon? = null,
             var species: String? = null,
             var currentHp: Int = 0,
             var currentHpPercent: Double = 0.0,
@@ -139,6 +139,8 @@ class StrongBattleAI(): BattleAI {
 
         // get the current battle and set it as a variable
         val battle = activeBattlePokemon.battle
+        val request = activeBattlePokemon.actor.request!! // todo idk if this is the right way to do it
+
 
         updateActiveTracker(battle)
 
@@ -164,7 +166,7 @@ class StrongBattleAI(): BattleAI {
         val oppSideConditionList = opponent.sideConditions.keys
 
         // Decision-making based on move availability and switch-out condition
-        if (!moveset?.moves?.isNullOrEmpty()!! && !shouldSwitchOut(request)
+        if (!moveset?.moves?.isNullOrEmpty()!! && !shouldSwitchOut(request, battle)
                 || (request.side?.pokemon?.count { getHpFraction(it.condition) != 0.0 } == 1 && mon.currentHpPercent == 1.0)) {
             val nRemainingMons = mon.nRemainingMons
             val nOppRemainingMons = opponent.nRemainingMons
@@ -272,7 +274,7 @@ class StrongBattleAI(): BattleAI {
             }
 
             // Setup moves
-            if (mon.currentHpPercent == 1.0 && estimateMatchup(request) > 0) {
+            if (mon.currentHpPercent == 1.0 && estimateMatchup(request, battle) > 0) {
                 for (move in moveset.moves) {
                     setupMoves[move.id]?.let { statBoosts ->
                         if (statBoosts.any { (stat, boost) -> boost != 0 && (mon.boosts[stat] ?: 0) < 6 }) {
@@ -342,7 +344,7 @@ class StrongBattleAI(): BattleAI {
             // Protect style moves
             for (move in moveset.moves) {
                 val activeOpponent = request.side.foe.pokemon.firstOrNull { it.isActive }
-                if (move.id in listOf("protect", "banefulbunker", "obscruct", "craftyshield", "detect", "quickguard", "spikyshield", "silktrap")) {
+                if (move.id in listOf("protect", "banefulbunker", "obstruct", "craftyshield", "detect", "quickguard", "spikyshield", "silktrap")) {
                     // Stall out side conditions
                     if ((oppSideConditionList.intersect(setOf("tailwind", "lightscreen", "reflect", "trickroom")).isNotEmpty() &&
                                     monSideConditionList.intersect(setOf("tailwind", "lightscreen", "reflect")).isEmpty()) ||
@@ -400,7 +402,7 @@ class StrongBattleAI(): BattleAI {
             }
 
             // switch out
-            if (shouldSwitchOut(request)) {
+            if (shouldSwitchOut(request, battle)) {
                 val availableSwitches = request.side?.pokemon?.filter { !it.active && getHpFraction(it.condition) > 0 }
                 val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, it) }
                 val bestMatchup = availableSwitches?.find { estimateMatchup(request, it) == bestEstimation }
@@ -436,9 +438,9 @@ class StrongBattleAI(): BattleAI {
 
 
 
-    protected fun estimateMatchup(request: ShowdownActionRequest, nonActiveMon: Pokemon? = null): Double {
-        updateActiveTracker(request)
-        val oppTrainer = getCurrentPlayer(request)
+    protected fun estimateMatchup(request: ShowdownActionRequest, battle: PokemonBattle, nonActiveMon: Pokemon? = null): Double {
+        updateActiveTracker(battle)
+        val oppTrainer = getCurrentPlayer(battle)
         var mon = oppTrainer.first.species
         var opponent = oppTrainer.second.species
         nonActiveMon?.let { mon = it }
@@ -489,10 +491,10 @@ class StrongBattleAI(): BattleAI {
         return score
     }
 
-    protected fun shouldDynamax(request: ShowdownActionRequest, canDynamax: Boolean): Boolean {
-        updateActiveTracker(request)
+    protected fun shouldDynamax(request: ShowdownActionRequest, battle: PokemonBattle, canDynamax: Boolean): Boolean {
+        updateActiveTracker(battle)
         if (canDynamax) {
-            val (mon, opponent) = getCurrentPlayer(request)
+            val (mon, opponent) = getCurrentPlayer(battle)
 
             // if active mon is the last full HP mon
             if (request.side?.pokemon?.count { getHpFraction(it.condition) == 1.0 } == 1 && mon.currentHp == 1) {
@@ -500,7 +502,7 @@ class StrongBattleAI(): BattleAI {
             }
 
             // Matchup advantage and full hp on full hp
-            if (estimateMatchup(request) > 0 && mon.currentHpPercent == 1.0 && opponent.currentHpPercent == 1.0) {
+            if (estimateMatchup(request, battle) > 0 && mon.currentHpPercent == 1.0 && opponent.currentHpPercent == 1.0) {
                 return true
             }
 
@@ -512,9 +514,10 @@ class StrongBattleAI(): BattleAI {
         return false
     }
 
-    protected fun shouldSwitchOut(request: ShowdownActionRequest): Boolean {
-        updateActiveTracker(request)
-        val (mon, opponent) = getCurrentPlayer(request)
+    protected fun shouldSwitchOut(request: ShowdownActionRequest, battle: PokemonBattle): Boolean {
+        updateActiveTracker(battle)
+
+        val (mon, opponent) = getCurrentPlayer(battle)
         val availableSwitches = request.side?.pokemon?.filter { !it.active && getHpFraction(it.condition) != 0.0 }
 
         val isTrapped = request.active?.any { it ->
@@ -582,20 +585,20 @@ class StrongBattleAI(): BattleAI {
             }
         }
 
-        fun chooseSwitch(request: ShowdownActionRequest, active: Active?, switches: List<SwitchOption>): Int {
-            updateActiveTracker(request)
+        fun chooseSwitch(request: ShowdownActionRequest, battle: PokemonBattle, active: Active?, switches: List<SwitchOption>): Int {
+            updateActiveTracker(battle)
             val availableSwitches = request.side?.pokemon?.filter { !it.active && getHpFraction(it.condition) > 0 }
             if (availableSwitches!!.isEmpty()) return 1
 
             val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, it) }
             val bestMatchup = availableSwitches.find { estimateMatchup(request, it) == bestEstimation }
-            getCurrentPlayer(request)[0].firstTurn = 1
+            getCurrentPlayer(battle)[0].firstTurn = 1
 
             return bestMatchup?.let { getPokemonPos(request, it) } ?: 1
         }
 
-        fun chooseTeamPreview(request: ShowdownActionRequest, team: List<AnyObject>): String {
-            updateActiveTracker(request)
+        fun chooseTeamPreview(request: ShowdownActionRequest, battle: PokemonBattle, team: List<AnyObject>): String {
+            updateActiveTracker(battle)
 
             // Uncomment the following line to enable the bot to choose the best mon based on the opponent's team
             // return "team 1"
@@ -625,7 +628,7 @@ class StrongBattleAI(): BattleAI {
                 }
             }
 
-            getCurrentPlayer(request)[0].firstTurn = 1
+            getCurrentPlayer(battle)[0].firstTurn = 1
             return "team ${bestMon?.position?.plus(1)}"
         }
 
