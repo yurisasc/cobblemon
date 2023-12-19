@@ -28,6 +28,9 @@
     "special_defence": 70,
     "speed": 70
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -156,6 +159,12 @@
       "willSleepOnBed": false,
       "depth": "normal",
       "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
     }
   },
   "moves": [

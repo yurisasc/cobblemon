@@ -17,10 +17,12 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.pokemon.experience.BattleExperienceSource
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.sound.SoundEvent
 import net.minecraft.text.MutableText
 
 class PlayerBattleActor(
@@ -30,6 +32,14 @@ class PlayerBattleActor(
 
     override val entity: ServerPlayerEntity?
         get() = this.uuid.getPlayer()
+
+    /** The [SoundEvent] to play to the player during a battle. Will start playing as soon as the battle starts. */
+    var battleTheme: SoundEvent? = null
+        set(value) {
+            if (field != value && this.battle.started)
+                this.sendUpdate(BattleMusicPacket(value))
+            field = value
+        }
 
     override fun getName(): MutableText = this.entity?.name?.copy() ?: "Offline Player".red()
     override fun nameOwned(name: String): MutableText = battleLang("owned_pokemon", this.getName(), name)

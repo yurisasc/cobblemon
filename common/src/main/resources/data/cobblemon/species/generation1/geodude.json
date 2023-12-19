@@ -17,6 +17,9 @@
     "special_defence": 30,
     "speed": 20
   },
+  "features": [
+    "alolan"
+  ],
   "catchRate": 255,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -179,7 +182,28 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 4,
+        "entries": [
+          {
+            "item": "minecraft:raw_copper",
+            "quantityRange": "0-1"
+          },
+          {
+            "item": "cobblemon:cell_battery",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:magnet",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:shuca_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 60,
