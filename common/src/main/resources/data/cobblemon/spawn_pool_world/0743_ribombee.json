@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -60,13 +60,13 @@
             "condition": {
                 "biomes": [
                     "the_bumblezone:floral_meadow",
-					"the_bumblezone:polinated_fields"
+                    "the_bumblezone:pollinated_fields"
                 ]
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

@@ -14,12 +14,12 @@
             "bucket": "uncommon",
             "level": "1-21",
             "weight": 1.8,
-			"weightMultiplier": {
-				"multiplier": 5.0,
-				"condition": {
-					"isThundering": true
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 5.0,
+                "condition": {
+                    "isThundering": true
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

@@ -30,6 +30,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeB
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
+import com.cobblemon.mod.common.client.sound.battle.BattleMusicController
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
@@ -109,6 +110,7 @@ object CobblemonClient {
         PlatformEvents.CLIENT_ITEM_TOOLTIP.subscribe { event ->
             val stack = event.stack
             val lines = event.lines
+            val size = lines.size
             @Suppress("DEPRECATION")
             if (stack.item.registryEntry.key.isPresent && stack.item.registryEntry.key.get().value.namespace == Cobblemon.MODID) {
                 if (stack.nbt?.getBoolean(DataKeys.HIDE_TOOLTIP) == true) {
@@ -116,13 +118,14 @@ object CobblemonClient {
                 }
                 val language = Language.getInstance()
                 val key = this.baseLangKeyForItem(stack)
+                val offset = if (size > 1) 1 else 0
                 if (language.hasTranslation(key)) {
-                    lines.add(key.asTranslated().gray())
+                    lines.add(size - offset, key.asTranslated().gray())
                 }
                 var i = 1
                 var listKey = "${key}_$i"
                 while(language.hasTranslation(listKey)) {
-                    lines.add(listKey.asTranslated().gray())
+                    lines.add(size - offset, listKey.asTranslated().gray())
                     listKey = "${key}_${++i}"
                 }
             }
@@ -250,6 +253,8 @@ object CobblemonClient {
 
     fun endBattle() {
         battle = null
+        battleOverlay.lastKnownBattle = null
+        BattleMusicController.endMusic()
     }
 
     private fun baseLangKeyForItem(stack: ItemStack): String {

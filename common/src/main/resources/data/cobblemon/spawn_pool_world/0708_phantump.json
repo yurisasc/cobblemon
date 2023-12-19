@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -8,7 +8,7 @@
             "pokemon": "phantump",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -29,7 +29,27 @@
             "pokemon": "phantump",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "6-31",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_spooky"
+                ],
+                "timeRange": "night"
+            }
+        },
+        {
+            "id": "phantump-3",
+            "pokemon": "phantump",
+            "presets": [
+                "natural",
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -44,28 +64,8 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#minecraft:is_nether"
+                    "#cobblemon:is_nether_desert"
                 ]
-            }
-        },
-        {
-            "id": "phantump-3",
-            "pokemon": "phantump",
-            "presets": [
-                "natural",
-				"wild"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "6-31",
-            "weight": 9.0,
-            "condition": {
-                "canSeeSky": true,
-                "biomes": [
-                    "#cobblemon:is_spooky"
-                ],
-                "timeRange": "night"
             }
         }
     ]

@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -52,13 +52,13 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
-				"maxY": 62,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "#minecraft:water"
-                ]
+                ],
+                "maxY": 62
             },
             "anticondition": {
                 "biomes": [
@@ -79,10 +79,10 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
-				"maxY": 62,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "maxY": 62
             },
             "anticondition": {
                 "biomes": [
@@ -138,7 +138,7 @@
             }
         },
         {
-            "id": "wooper-paldean-1",
+            "id": "wooper-paldean-7",
             "pokemon": "wooper paldean",
             "presets": [
                 "natural"
@@ -156,7 +156,7 @@
             }
         },
         {
-            "id": "wooper-paldean-2",
+            "id": "wooper-paldean-8",
             "pokemon": "wooper paldean",
             "presets": [
                 "underwater"
@@ -174,7 +174,7 @@
             }
         },
         {
-            "id": "wooper-paldean-3",
+            "id": "wooper-paldean-9",
             "pokemon": "wooper paldean",
             "presets": [
                 "natural"
@@ -189,13 +189,13 @@
                 "biomes": [
                     "#cobblemon:is_savanna"
                 ],
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "#minecraft:water"
                 ]
             }
         },
         {
-            "id": "wooper-paldean-4",
+            "id": "wooper-paldean-10",
             "pokemon": "wooper paldean",
             "presets": [
                 "underwater"

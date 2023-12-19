@@ -641,6 +641,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val METAL_POWDER = heldItem("metal_powder")
     @JvmField
+    val LIGHT_POWDER = heldItem("light_powder")
+    @JvmField
     val QUICK_POWDER = heldItem("quick_powder")
     @JvmField
     val DESTINY_KNOT = heldItem("destiny_knot")
@@ -658,6 +660,14 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val POWER_LENS = heldItem("power_lens")
     @JvmField
     val POWER_WEIGHT = heldItem("power_weight")
+    @JvmField
+    val FLAME_ORB = heldItem("flame_orb")
+    @JvmField
+    val LIFE_ORB = heldItem("life_orb")
+    @JvmField
+    val TOXIC_ORB = heldItem("toxic_orb")
+    @JvmField
+    val SMOKE_BALL = heldItem("smoke_ball")
 
     // Mulch
     @JvmField

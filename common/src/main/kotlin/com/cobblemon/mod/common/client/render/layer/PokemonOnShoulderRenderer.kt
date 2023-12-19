@@ -69,7 +69,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             matrixStack.push()
             val uuid = this.extractUuid(compoundTag)
             val cache = this.playerCache.getOrPut(livingEntity.uuid) { ShoulderCache() }
-            val shoulderData: ShoulderData
+            var shoulderData: ShoulderData? = null
             if (pLeftShoulder && cache.lastKnownLeft?.uuid != uuid) {
                 shoulderData = this.extractData(compoundTag, uuid)
                 cache.lastKnownLeft = shoulderData
@@ -78,8 +78,9 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
                 shoulderData = this.extractData(compoundTag, uuid)
                 cache.lastKnownRight = shoulderData
             }
-            else {
-                // should never be null but might as well be safe
+
+            if (shoulderData == null){
+                // Could be null
                 shoulderData = (if (pLeftShoulder) cache.lastKnownLeft else cache.lastKnownRight) ?: return
             }
             val scale = shoulderData.form.baseScale * shoulderData.scaleModifier
@@ -136,13 +137,15 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
         return shoulderNbt.getUuid(DataKeys.SHOULDER_UUID)
     }
 
-    private fun extractData(shoulderNbt: NbtCompound, pokemonUUID: UUID): ShoulderData {
+    private fun extractData(shoulderNbt: NbtCompound, pokemonUUID: UUID): ShoulderData? {
         // To not crash with existing ones, this will still have the aspect issue
         if (!shoulderNbt.contains(DataKeys.SHOULDER_SPECIES)) {
             val pokemon = Pokemon().apply { isClient = true }.loadFromNBT(shoulderNbt.getCompound(DataKeys.POKEMON))
             return ShoulderData(pokemonUUID, pokemon.species, pokemon.form, pokemon.aspects, pokemon.scaleModifier)
         }
-        val species = PokemonSpecies.getByIdentifier(Identifier(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))!!
+        val species = PokemonSpecies.getByIdentifier(Identifier(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))
+            ?: return null
+
         val formName = shoulderNbt.getString(DataKeys.SHOULDER_FORM)
         val form = species.forms.firstOrNull { it.name == formName } ?: species.standardForm
         val aspects = shoulderNbt.getList(DataKeys.SHOULDER_ASPECTS, NbtElement.STRING_TYPE.toInt()).map { it.asString() }.toSet()

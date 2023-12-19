@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -39,7 +39,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "clodsire-3",
             "pokemon": "clodsire",
             "presets": [
@@ -56,11 +56,11 @@
                     "#cobblemon:is_savanna"
                 ],
                 "neededNearbyBlocks": [
-                    "minecraft:water"
+                    "#minecraft:water"
                 ]
             }
         },
-		{
+        {
             "id": "clodsire-4",
             "pokemon": "clodsire",
             "presets": [

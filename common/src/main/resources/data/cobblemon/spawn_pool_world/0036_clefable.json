@@ -43,7 +43,7 @@
         {
             "id": "clefable-3",
             "pokemon": "clefable",
-			"presets": [
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",
@@ -57,13 +57,13 @@
                     "#cobblemon:is_hills"
                 ],
                 "timeRange": "night",
-                "moonPhase": 0
+                "moonPhase": "0"
             }
         },
         {
             "id": "clefable-4",
             "pokemon": "clefable",
-			"presets": [
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",

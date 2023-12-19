@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
+import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
@@ -28,6 +29,7 @@ import java.util.function.Function
  * @author Licious
  * @since December 30th, 2022
  */
+@Suppress("unused")
 object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
 
     /**
@@ -73,8 +75,8 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
     }
 
     override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
-        val consumeHeldItems = Cobblemon.config.consumeHeldItems
         val itemID = battleMessage.effectAt(1)?.id ?: return
+        val consumeHeldItems = this.shouldConsumeItem(pokemon, battle, itemID)
         if (battleMessage.hasOptionalArgument("silent")) {
             if (consumeHeldItems) {
                 this.take(pokemon, itemID)
@@ -124,7 +126,7 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
             this.take(pokemon, itemID)
             return
         }
-        val sourceName = battleMessage.getSourceBattlePokemon(battle)?.getName() ?: return  // there MUST be a source
+        val sourceName = battleMessage.getSourceBattlePokemon(battle)?.getName() ?: Text.of("UNKNOWN")
         val effect = battleMessage.effect()
         val text = when {
             effect?.id != null -> battleLang("enditem.${effect.id}", battlerName, itemName, sourceName)
@@ -135,6 +137,16 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
         }
         this.take(pokemon, itemID)
         battle.broadcastChatMessage(text)
+    }
+
+    override fun shouldConsumeItem(pokemon: BattlePokemon, battle: PokemonBattle, showdownId: String): Boolean {
+        // In 3rd party and the future battles might have multiple types, give it a priority from pvp down to wild.
+        val tag = when {
+            battle.isPvP -> CobblemonItemTags.CONSUMED_IN_PVP_BATTLE
+            battle.isPvN -> CobblemonItemTags.CONSUMED_IN_NPC_BATTLE
+            else -> CobblemonItemTags.CONSUMED_IN_WILD_BATTLE
+        }
+        return pokemon.effectedPokemon.heldItem().isIn(tag)
     }
 
     /**

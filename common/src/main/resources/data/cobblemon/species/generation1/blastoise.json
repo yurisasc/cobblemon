@@ -138,10 +138,8 @@
       "light": "0-4"
     },
     "moving": {
-      "moving": {
-        "walk": {
-          "walkSpeed": 0.3
-        }
+      "walk": {
+        "walkSpeed": 0.3
       },
       "swim": {
         "canSwimInWater": true,

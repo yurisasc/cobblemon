@@ -26,8 +26,8 @@
                 ]
             }
         },
-		{
-            "id": "steelix-nether-1",
+        {
+            "id": "steelix-2",
             "pokemon": "steelix",
             "presets": [
                 "natural"

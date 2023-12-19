@@ -16,12 +16,12 @@
             "weight": 0.1,
             "condition": {
                 "canSeeSky": false,
-				"maxY": 32,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-				"neededNearbyBlocks": [
-                    "minecraft:water"
+                "maxY": 32,
+                "neededNearbyBlocks": [
+                    "#minecraft:water"
                 ]
             }
         },
@@ -29,27 +29,8 @@
             "id": "dragonite-2",
             "pokemon": "dragonite",
             "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "rare",
-            "level": "55-60",
-            "weight": 0.1,
-            "condition": {
-                "canSeeSky": true,
-                "biomes": [
-                    "#cobblemon:is_sky"
-                ],
-                "isRaining": true
-            }
-        },
-        {
-            "id": "dragonite-3",
-            "pokemon": "dragonite",
-            "presets": [
                 "underwater",
-				"ocean_ruins"
+                "ocean_ruins"
             ],
             "type": "pokemon",
             "context": "submerged",
@@ -61,6 +42,25 @@
                 "biomes": [
                     "#cobblemon:is_ocean"
                 ]
+            }
+        },
+        {
+            "id": "dragonite-4",
+            "pokemon": "dragonite",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "rare",
+            "level": "55-60",
+            "weight": 2.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_sky"
+                ],
+                "isRaining": true
             }
         }
     ]

@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -21,7 +21,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "bayleef-2",
             "pokemon": "bayleef",
             "type": "pokemon",
@@ -30,14 +30,15 @@
             "level": "16-41",
             "weight": 0.9,
             "condition": {
+                "canSeeSky": true,
                 "biomes": [
                     "the_bumblezone:floral_meadow"
                 ]
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

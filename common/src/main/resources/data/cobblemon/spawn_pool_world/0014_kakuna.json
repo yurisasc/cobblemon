@@ -28,14 +28,14 @@
                 ]
             }
         },
-		{
+        {
             "id": "kakuna-2",
             "pokemon": "kakuna",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "7-21",
-            "weight": 4.0,
+            "weight": 2.0,
             "condition": {
                 "biomes": [
                     "#the_bumblezone:the_bumblezone"
@@ -43,8 +43,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

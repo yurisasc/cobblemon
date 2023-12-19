@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -25,7 +25,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "pumpkaboo-2",
             "pokemon": "pumpkaboo",
             "presets": [

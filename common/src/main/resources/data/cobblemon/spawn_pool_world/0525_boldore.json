@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -16,18 +16,18 @@
             "weight": 0.9,
             "condition": {
                 "canSeeSky": false,
-                "maxY":0,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "maxY": 0
             },
             "anticondition": {
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_deep_dark"
                 ]
             }
         },
-		{
+        {
             "id": "boldore-2",
             "pokemon": "boldore",
             "presets": [

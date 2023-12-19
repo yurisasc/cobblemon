@@ -8,11 +8,8 @@
 
 package com.cobblemon.mod.common.entity.pokemon
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonEntities
-import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
-import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -57,7 +54,9 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import net.minecraft.block.Blocks
 import net.minecraft.entity.*
+import net.minecraft.block.PlantBlock
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -70,20 +69,25 @@ import net.minecraft.entity.damage.DamageTypes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
+import net.minecraft.item.MinecartItem
+import net.minecraft.item.SuspiciousStewItem
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtString
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
@@ -145,6 +149,8 @@ class PokemonEntity(
     var drops: DropTable? = null
 
     var tethering: PokemonPastureBlockEntity.Tethering? = null
+
+    var queuedToDespawn = false
 
     /**
      * The amount of steps this entity has traveled.
@@ -266,6 +272,9 @@ class PokemonEntity(
         super.tick()
         // We will be handling idle logic ourselves thank you
         this.setDespawnCounter(0)
+        if (queuedToDespawn) {
+            return remove(RemovalReason.DISCARDED)
+        }
         entityProperties.forEach { it.checkForUpdate() }
         delegate.tick(this)
         ticksLived++
@@ -342,8 +351,12 @@ class PokemonEntity(
             owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
             phasingTargetId.set(owner.id)
             beamModeEmitter.set(2)
+            val state = pokemon.state;
             afterOnMain(seconds = SEND_OUT_DURATION) {
-                pokemon.recall()
+                // only recall if the pokemon hasn't been recalled yet for this state
+                if (state == pokemon.state) {
+                    pokemon.recall()
+                }
                 future.complete(pokemon)
             }
         } else {
@@ -553,13 +566,88 @@ class PokemonEntity(
                 return ActionResult.success(world.isClient)
             }
         } else if (itemStack.isOf(Items.BOWL)) {
-            if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.IS_MOOSHTANK) != null) {
+            if (pokemon.aspects.any() {it.contains("mooshtank")}) {
                 player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
-                val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
-                player.setStackInHand(hand, mushroomStew)
+                // if the Mooshtank ate a Flower beforehand
+                if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any() {it.contains("mooshtank-brown")}) {
+                    var effect: StatusEffect? = null
+                    var duration = 0
+
+                    if (pokemon.lastFlowerFed.isOf(Items.ALLIUM)) {
+                        effect = StatusEffect.byRawId(12) // Fire Resistance
+                        duration = 80 // 4 seconds
+                    } else if (pokemon.lastFlowerFed.isOf(Items.AZURE_BLUET)) {
+                        effect = StatusEffect.byRawId(15) // Blindness
+                        duration = 160 // 8 seconds
+                    } else if (pokemon.lastFlowerFed.isOf(Items.BLUE_ORCHID) || pokemon.lastFlowerFed.isOf(Items.DANDELION)) {
+                        effect = StatusEffect.byRawId(23) // Saturation
+                        duration = 7 // .35 seconds
+                    } else if (pokemon.lastFlowerFed.isOf(Items.CORNFLOWER)) {
+                        effect = StatusEffect.byRawId(8) // Jump Boost
+                        duration = 120 // 6 seconds
+                    } else if (pokemon.lastFlowerFed.isOf(Items.LILY_OF_THE_VALLEY)) {
+                        effect = StatusEffect.byRawId(19) // Poison
+                        duration = 240 // 12 seconds
+                    } else if (pokemon.lastFlowerFed.isOf(Items.OXEYE_DAISY)) {
+                        effect = StatusEffect.byRawId(10) // Regeneration
+                        duration = 160 // 8 seconds
+                    } else if (pokemon.lastFlowerFed.isOf(Items.POPPY) || pokemon.lastFlowerFed.isOf(Items.TORCHFLOWER)) {
+                        effect = StatusEffect.byRawId(16) // Night Vision
+                        duration = 100 // 5 seconds
+                    } else if (pokemon.lastFlowerFed.isOf(Items.PINK_TULIP) || pokemon.lastFlowerFed.isOf(Items.RED_TULIP) || pokemon.lastFlowerFed.isOf(Items.WHITE_TULIP) || pokemon.lastFlowerFed.isOf(Items.ORANGE_TULIP)) {
+                        effect = StatusEffect.byRawId(18) // Weakness
+                        duration = 180 // 9 seconds
+                    } else if (pokemon.lastFlowerFed.isOf(Items.WITHER_ROSE)) {
+                        effect = StatusEffect.byRawId(20) // Wither
+                        duration = 160 // 8 seconds
+                    } else if (pokemon.lastFlowerFed.isOf(CobblemonItems.PEP_UP_FLOWER)) {
+                        effect = StatusEffect.byRawId(25) // Levitation
+                        duration = 160 // 8 seconds
+                    }
+
+
+                    // modify the suspicious stew with the effect
+                    val susStewStack = Items.SUSPICIOUS_STEW.defaultStack
+                    SuspiciousStewItem.addEffectToStew(susStewStack, effect, duration)
+                    val susStewEffect = ItemUsage.exchangeStack(itemStack, player, susStewStack)
+                    //give player modified Suspicious Stew
+                    player.setStackInHand(hand, susStewEffect)
+                    // reset the flower fed state
+                    pokemon.lastFlowerFed = ItemStack.EMPTY
+                    return ActionResult.success(world.isClient)
+                }
+
+                else {
+                    val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
+                    player.setStackInHand(hand, mushroomStew)
+                    return ActionResult.success(world.isClient)
+                }
+
+            }
+        }
+        // Flowers used on brown MooshTanks
+        else if (itemStack.isOf(Items.ALLIUM) ||
+                 itemStack.isOf(Items.AZURE_BLUET) ||
+                 itemStack.isOf(Items.BLUE_ORCHID) ||
+                 itemStack.isOf(Items.DANDELION) ||
+                 itemStack.isOf(Items.CORNFLOWER) ||
+                 itemStack.isOf(Items.LILY_OF_THE_VALLEY) ||
+                 itemStack.isOf(Items.OXEYE_DAISY) ||
+                 itemStack.isOf(Items.POPPY) ||
+                 itemStack.isOf(Items.TORCHFLOWER) ||
+                 itemStack.isOf(Items.PINK_TULIP) ||
+                 itemStack.isOf(Items.RED_TULIP) ||
+                 itemStack.isOf(Items.WHITE_TULIP) ||
+                 itemStack.isOf(Items.ORANGE_TULIP) ||
+                 itemStack.isOf(Items.WITHER_ROSE) ||
+                 itemStack.isOf(CobblemonItems.PEP_UP_FLOWER)) {
+            if (pokemon.aspects.any() {it.contains("mooshtank")}) {
+                player.playSound(SoundEvents.ENTITY_MOOSHROOM_EAT, 1.0f, 1.0f)
+                pokemon.lastFlowerFed = itemStack
                 return ActionResult.success(world.isClient)
             }
         }
+
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
@@ -994,21 +1082,23 @@ class PokemonEntity(
             return
         }
 
-        if(this.ownerUuid == player.uuid && tethering == null) {
-            if (player.isDisconnected) {
-                this.remove(RemovalReason.DISCARDED)
-                return
-            }
-
-            val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
-            (world as ServerWorld).chunkManager
-                .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
-            this.goalSelector.tick()
-            if(distanceTo(player.blockPos) > 100) pokemon.recall()
+        if (this.ownerUuid == player.uuid && tethering == null) {
+            queuedToDespawn = true
+            return
         }
+//
+//            val chunkPos = ChunkPos(BlockPos(x.toInt(), y.toInt(), z.toInt()))
+//            (world as ServerWorld).chunkManager
+//                .addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 0, id)
+//            this.goalSelector.tick()
+//            if(distanceTo(player.blockPos) > 100) pokemon.recall()
+//        }
     }
 
     override fun canBeLeashedBy(player: PlayerEntity): Boolean {
         return this.ownerUuid == null || this.ownerUuid == player.uuid
     }
+
+    /** Retrieves the battle theme associated with this Pokemon's Species/Form, or the default PVW theme if not found. */
+    fun getBattleTheme() = Registries.SOUND_EVENT.get(this.form.battleTheme) ?: CobblemonSounds.PVW_BATTLE
 }
