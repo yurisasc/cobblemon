@@ -12,16 +12,19 @@ import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.scheduling.after
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.AncientPokeBallModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.PokeBallModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import kotlin.random.Random
 
+@Suppress("NAME_SHADOWING")
 abstract class PokeBallPoseableState : PoseableEntityState<EmptyPokeBallEntity>() {
     abstract val stateEmitter: SettableObservable<EmptyPokeBallEntity.CaptureState>
     abstract val shakeEmitter: Observable<Unit>
+    private val group = if (this.currentModel is AncientPokeBallModel) "ancient_poke_ball" else "poke_ball"
 
-    fun initSubscriptions() {
+    open fun initSubscriptions() {
         stateEmitter.subscribe { state ->
             when (state) {
                 EmptyPokeBallEntity.CaptureState.HIT -> {
@@ -42,18 +45,29 @@ abstract class PokeBallPoseableState : PoseableEntityState<EmptyPokeBallEntity>(
                         }
                     }
                 }
+
                 EmptyPokeBallEntity.CaptureState.FALL -> {}
                 EmptyPokeBallEntity.CaptureState.SHAKE -> {
-                    doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", "bounce").setPreventsIdle(false)) }
+                    doLater {
+                        setStatefulAnimations(currentModel!!.bedrockStateful(group, "bounce").setPreventsIdle(false))
+                    }
                     shakeEmitter
                         .pipe(Observable.emitWhile { stateEmitter.get() == EmptyPokeBallEntity.CaptureState.SHAKE })
                         .subscribe {
                             val bob = "bob${Random.Default.nextInt(6) + 1}"
-                            doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", bob).setPreventsIdle(false)) }
+                            doLater { setStatefulAnimations(currentModel!!.bedrockStateful(group, bob).setPreventsIdle(false)) }
                         }
                 }
-                EmptyPokeBallEntity.CaptureState.CAPTURED -> doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", "capture").setPreventsIdle(false)) }
-                EmptyPokeBallEntity.CaptureState.CAPTURED_CRITICAL -> doLater { setStatefulAnimations(currentModel!!.bedrockStateful("poke_ball", "critical").setPreventsIdle(false)) }
+                EmptyPokeBallEntity.CaptureState.CAPTURED -> {
+                    doLater {
+                        setStatefulAnimations(currentModel!!.bedrockStateful(group, "capture").setPreventsIdle(false))
+                    }
+                }
+                EmptyPokeBallEntity.CaptureState.CAPTURED_CRITICAL -> {
+                    doLater {
+                        setStatefulAnimations(currentModel!!.bedrockStateful(group, "critical").setPreventsIdle(false))
+                    }
+                }
                 else -> {}
             }
         }

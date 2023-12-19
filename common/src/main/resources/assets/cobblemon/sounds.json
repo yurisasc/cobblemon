@@ -131,6 +131,46 @@
     "subtitle": "cobblemon.subtitle.fossilmachine.unprotected",
     "sounds": [ "cobblemon:fossilmachine/unprotected" ]
   },
+  "tumblestone.break": {
+    "sounds": [
+      "cobblemon:block/tumblestone/tumblestone_break_1",
+      "cobblemon:block/tumblestone/tumblestone_break_2",
+      "cobblemon:block/tumblestone/tumblestone_break_3",
+      "cobblemon:block/tumblestone/tumblestone_break_4"
+    ]
+  },
+  "tumblestone.block_break": {
+    "sounds": [
+      "cobblemon:block/tumblestone/tumblestone_block_break_1",
+      "cobblemon:block/tumblestone/tumblestone_block_break_2",
+      "cobblemon:block/tumblestone/tumblestone_block_break_3",
+      "cobblemon:block/tumblestone/tumblestone_block_break_4"
+    ]
+  },
+  "tumblestone.hit": {
+    "sounds": [
+      "cobblemon:block/tumblestone/tumblestone_hit_1",
+      "cobblemon:block/tumblestone/tumblestone_hit_2",
+      "cobblemon:block/tumblestone/tumblestone_hit_3",
+      "cobblemon:block/tumblestone/tumblestone_hit_4"
+    ]
+  },
+  "tumblestone.place": {
+    "sounds": [
+      "cobblemon:block/tumblestone/tumblestone_place_1",
+      "cobblemon:block/tumblestone/tumblestone_place_2",
+      "cobblemon:block/tumblestone/tumblestone_place_3",
+      "cobblemon:block/tumblestone/tumblestone_place_4"
+    ]
+  },
+  "tumblestone.step": {
+    "sounds": [
+      "cobblemon:block/tumblestone/tumblestone_step_1",
+      "cobblemon:block/tumblestone/tumblestone_step_2",
+      "cobblemon:block/tumblestone/tumblestone_step_3",
+      "cobblemon:block/tumblestone/tumblestone_step_4"
+    ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },

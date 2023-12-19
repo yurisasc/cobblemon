@@ -14,6 +14,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvent
 
 object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Registry<SoundEvent>>, SoundEvent>() {
@@ -111,7 +112,34 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     @JvmField
     val FOSSIL_MACHINE_UNPROTECTED = this.create("fossilmachine.unprotected")
 
+    @JvmField
+    val TUMBLESTONE_BREAK = this.create("tumblestone.break")
+    @JvmField
+    val TUMBLESTONE_BLOCK_BREAK = this.create("tumblestone.block_break")
+    @JvmField
+    val TUMBLESTONE_HIT = this.create("tumblestone.hit")
+    @JvmField
+    val TUMBLESTONE_PLACE = this.create("tumblestone.place")
+    @JvmField
+    val TUMBLESTONE_STEP = this.create("tumblestone.step")
 
+    @JvmField
+    val TUMBLESTONE_SOUNDS = BlockSoundGroup(1f, 1f,
+        TUMBLESTONE_BREAK,
+        TUMBLESTONE_STEP,
+        TUMBLESTONE_PLACE,
+        TUMBLESTONE_HIT,
+        TUMBLESTONE_STEP
+    )
+
+    @JvmField
+    val TUMBLESTONE_BLOCK_SOUNDS = BlockSoundGroup(1f, 1f,
+        TUMBLESTONE_BLOCK_BREAK,
+        TUMBLESTONE_STEP,
+        TUMBLESTONE_PLACE,
+        TUMBLESTONE_HIT,
+        TUMBLESTONE_STEP
+    )
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }
