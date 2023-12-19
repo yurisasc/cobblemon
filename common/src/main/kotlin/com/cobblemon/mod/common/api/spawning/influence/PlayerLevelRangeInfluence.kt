@@ -42,9 +42,9 @@ open class PlayerLevelRangeInfluence(
 
             val party = Cobblemon.storage.getParty(uuid)
             previousRange = if (party.any()) {
-                val minimumLevel = party.minOf { it.level }
+                //val minimumLevel = party.minOf { it.level }
                 val maximumLevel = party.maxOf { it.level }
-                IntRange(max(minimumLevel - variation, 1), min(config.maxPokemonLevel, max(maximumLevel + variation, config.minimumLevelRangeMax)))
+                IntRange(max(maximumLevel - variation, 1), min(config.maxPokemonLevel, max(maximumLevel + variation, config.minimumLevelRangeMax)))
             } else {
                 noPokemonRange
             }
@@ -60,22 +60,13 @@ open class PlayerLevelRangeInfluence(
             val derivedLevelRange = action.detail.getDerivedLevelRange()
             var spawnLevelRange = playerLevelRange.intersection(derivedLevelRange)
             val pokemonRangeWidth = derivedLevelRange.last - derivedLevelRange.first
-            /*if (config.scaleLevelToPlayer) {
-                spawnLevelRange = IntRange(playerLevelRange.last - config.scaleLevelFactor, playerLevelRange.last + config.scaleLevelFactor)
-            }
-            else */if (spawnLevelRange.isEmpty()){
+            if (spawnLevelRange.isEmpty()){
                 spawnLevelRange = if (derivedLevelRange.first > playerLevelRange.last) {
-                    //derivedLevelRange.first..(derivedLevelRange.first + pokemonRangeWidth / 4F).toInt()
-                    derivedLevelRange.first..derivedLevelRange.first
-                } else if (spawnLevelRange.last - spawnLevelRange.first >= 5) {
-                    max(playerLevelRange.last - 5, derivedLevelRange.first)..min(playerLevelRange.last + 5, derivedLevelRange.last)
+                    derivedLevelRange.first..(derivedLevelRange.first + pokemonRangeWidth / 4F).toInt()
                 }
                 else {
                     (derivedLevelRange.first + 3 * pokemonRangeWidth / 4F).toInt()..derivedLevelRange.last
                 }
-            }
-            else if (spawnLevelRange.last - spawnLevelRange.first >= 5) {
-                spawnLevelRange = max(playerLevelRange.last - 5, derivedLevelRange.first)..min(playerLevelRange.last + 5, derivedLevelRange.last)
             }
             action.props.level = spawnLevelRange.random()
         }
