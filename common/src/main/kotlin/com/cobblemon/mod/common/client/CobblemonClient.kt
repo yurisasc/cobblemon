@@ -197,7 +197,19 @@ object CobblemonClient {
             CobblemonBlocks.REVIVAL_HERB,
             *CobblemonBlocks.berries().values.toTypedArray(),
             CobblemonBlocks.POTTED_PEP_UP_FLOWER,
-            CobblemonBlocks.FOSSIL_TUBE
+            CobblemonBlocks.FOSSIL_TUBE,
+            CobblemonBlocks.SMALL_BUDDING_TUMBLESTONE,
+            CobblemonBlocks.MEDIUM_BUDDING_TUMBLESTONE,
+            CobblemonBlocks.LARGE_BUDDING_TUMBLESTONE,
+            CobblemonBlocks.TUMBLESTONE_CLUSTER,
+            CobblemonBlocks.SMALL_BUDDING_BLACK_TUMBLESTONE,
+            CobblemonBlocks.MEDIUM_BUDDING_BLACK_TUMBLESTONE,
+            CobblemonBlocks.LARGE_BUDDING_BLACK_TUMBLESTONE,
+            CobblemonBlocks.BLACK_TUMBLESTONE_CLUSTER,
+            CobblemonBlocks.SMALL_BUDDING_SKY_TUMBLESTONE,
+            CobblemonBlocks.MEDIUM_BUDDING_SKY_TUMBLESTONE,
+            CobblemonBlocks.LARGE_BUDDING_SKY_TUMBLESTONE,
+            CobblemonBlocks.SKY_TUMBLESTONE_CLUSTER,
         )
 
         this.createBoatModelLayers()
