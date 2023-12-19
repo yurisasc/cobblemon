@@ -24,6 +24,7 @@
 - Black Augurite can now be used to craft stone axes and obsidian.
 - Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
 - Added tab completion for statuses to commands
+- Changed the way level scaling works, by default anything with a spawn range of up to 5 either side of the party highest level and everything else will spawn per it's specified ranges.
 
 ### Additions
 - Added battle spectating, can disable in config
