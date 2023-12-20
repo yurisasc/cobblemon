@@ -286,6 +286,9 @@ class PokemonEntity(
             this.tethering = null
             this.pokemon.recall()
         }
+        if (pokemon.breedingCooldown > 0) {
+            pokemon.breedingCooldown--
+        }
     }
 
 

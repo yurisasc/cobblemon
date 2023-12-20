@@ -43,8 +43,11 @@ interface BreedingLogic {
         return BreedingResult(null)
     }
 
-    fun canBreed(mother: Pokemon, father: Pokemon): Boolean {
-        return false
+    fun canBreed(mother: Pokemon?, father: Pokemon?): Boolean {
+        if (mother == null || father == null) {
+            return false
+        }
+        return true
     }
 
     fun calculateForm(mother: Pokemon, father: Pokemon): FormData {

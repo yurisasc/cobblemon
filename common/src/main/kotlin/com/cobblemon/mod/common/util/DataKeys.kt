@@ -64,6 +64,8 @@ object DataKeys {
     const val POKEMON_HIDE_LABEL = "HideLabel"
     const val POKEMON_UNBATTLEABLE = "Unbattleable"
 
+    const val POKEMON_BREEDING_COOLDOWN = "BreedingCooldown"
+
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
     const val POKEMON_PENDING_EVOLUTIONS = "Pending"

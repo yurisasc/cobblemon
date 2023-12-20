@@ -14,14 +14,17 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
+import com.cobblemon.mod.common.api.pokemon.breeding.CobblemonBreedingLogic
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.block.PastureBlock
+import com.cobblemon.mod.common.breeding.SimpleBreedingLogic
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.PokemonPasturedPacket
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler
+import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.lang
@@ -84,9 +87,11 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
             blockEntity.ticksUntilCheck--
             if (blockEntity.ticksUntilCheck <= 0) {
                 blockEntity.checkPokemon()
+                blockEntity.tryBreed()
             }
             blockEntity.togglePastureOn(blockEntity.getInRangeViewerCount(world, blockEntity.pos) > 0)
         }
+        val DITTO_DEX_NUM = 132
     }
 
     var ticksUntilCheck = Cobblemon.config.pastureBlockUpdateTicks
@@ -95,6 +100,8 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
     var maxRoamPos: BlockPos
     var ownerId: UUID? = null
     var ownerName: String = ""
+    //Maps a male pokemon to all of the female pokemon it can breed with
+    val breedingSets: MutableMap<Tethering, MutableSet<Tethering>> = mutableMapOf()
 
     init {
         val radius = Cobblemon.config.pastureMaxWanderDistance
@@ -159,6 +166,20 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                     tetheredPokemon.add(tethering)
                     entity.tethering = tethering
                     tethering.toDTO(player)?.let { player.sendPacket(PokemonPasturedPacket(it)) }
+                    for (t in tetheredPokemon) {
+                        val tetheredMon = t.getPokemon()
+                        val mother =  if (tetheredMon?.gender == Gender.FEMALE ||
+                            tetheredMon?.species?.nationalPokedexNumber == DITTO_DEX_NUM)
+                            t
+                        else tethering
+                        val father = (if (tetheredMon == mother) tethering else t)
+                        if (SimpleBreedingLogic.canBreed(mother.getPokemon(), father.getPokemon())) {
+                            val fatherSet: MutableSet<Tethering> = breedingSets.getOrDefault(father, mutableSetOf())
+                            fatherSet.add(mother)
+                            breedingSets[father] = fatherSet
+                        }
+                    }
+
                     markDirty()
                     CobblemonCriteria.PASTURE_USE.trigger(player, pokemon)
                     return true
@@ -250,6 +271,25 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         deadLinks.forEach(::releasePokemon)
         ticksUntilCheck = Cobblemon.config.pastureBlockUpdateTicks
         markDirty()
+    }
+
+    fun tryBreed() {
+        val bredPokemon = mutableSetOf<Pokemon>()
+        breedingSets.forEach { father, mothers ->
+            if (father.getPokemon()?.breedingCooldown == 0) {
+                mothers.forEach { mother ->
+                    if (mother.getPokemon()?.breedingCooldown == 0) {
+                        println("Father ${father.getPokemon()?.species?.name} and mother ${mother.getPokemon()?.species?.name} can breed")
+                        bredPokemon.add(father.getPokemon()!!)
+                        bredPokemon.add(mother.getPokemon()!!)
+                    }
+                }
+            }
+            bredPokemon.forEach {
+                it.breedingCooldown = 10000
+            }
+        }
+
     }
 
     fun onBroken() {

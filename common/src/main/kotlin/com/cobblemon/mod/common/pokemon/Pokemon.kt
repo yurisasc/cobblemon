@@ -406,6 +406,8 @@ open class Pokemon : ShowdownIdentifiable {
      * The [ItemStack] this Pokémon is holding.
      */
     private var heldItem: ItemStack = ItemStack.EMPTY
+    //Number of ticks before pokemon can breed again
+    var breedingCooldown: Int = 0
 
     init {
         storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) afterOnMain(ticks = 1) { this.tetheringId = null } }
