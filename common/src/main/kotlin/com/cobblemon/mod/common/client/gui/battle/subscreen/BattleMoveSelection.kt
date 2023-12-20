@@ -23,35 +23,28 @@ import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.MoveCategoryIcon
 import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
-import com.cobblemon.mod.common.client.gui.battle.widgets.BattleOptionTile
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
-import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.render.GameRenderer
-import net.minecraft.client.render.Tessellator
-import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper.floor
-import org.lwjgl.glfw.GLFW
 
 class BattleMoveSelection(
-    battleGUI: BattleGUI,
-    request: SingleActionRequest,
+        battleGUI: BattleGUI,
+        request: SingleActionRequest,
 ) : BattleActionSelection(
-    battleGUI = battleGUI,
-    request = request,
-    x = 20,
-    y = MinecraftClient.getInstance().window.scaledHeight - 84,
-    width = 100,
-    height = 100,
-    battleLang("ui.select_move")
+        battleGUI = battleGUI,
+        request = request,
+        x = 20,
+        y = MinecraftClient.getInstance().window.scaledHeight - 84,
+        width = 100,
+        height = 100,
+        battleLang("ui.select_move")
 ) {
     companion object {
         const val MOVE_WIDTH = 92
@@ -84,10 +77,10 @@ class BattleMoveSelection(
     }
 
     open class MoveTile(
-        val moveSelection: BattleMoveSelection,
-        val move: InBattleMove,
-        val x: Float,
-        val y: Float,
+            val moveSelection: BattleMoveSelection,
+            val move: InBattleMove,
+            val x: Float,
+            val y: Float,
     ) {
         var moveTemplate = Moves.getByNameOrDummy(move.id)
         var rgb = moveTemplate.elementalType.hue.toRGB()
@@ -109,54 +102,54 @@ class BattleMoveSelection(
             val selectConditionOpacity = moveSelection.opacity * if (!selectable) 0.5F else 1F
 
             blitk(
-                matrixStack = context.matrices,
-                texture = moveTexture,
-                x = x,
-                y = y,
-                width = MOVE_WIDTH,
-                height = MOVE_HEIGHT,
-                vOffset = if (selectable && isHovered(mouseX.toDouble(), mouseY.toDouble())) MOVE_HEIGHT else 0,
-                textureHeight = MOVE_HEIGHT * 2,
-                red = rgb.first,
-                green = rgb.second,
-                blue = rgb.third,
-                alpha = selectConditionOpacity
+                    matrixStack = context.matrices,
+                    texture = moveTexture,
+                    x = x,
+                    y = y,
+                    width = MOVE_WIDTH,
+                    height = MOVE_HEIGHT,
+                    vOffset = if (selectable && isHovered(mouseX.toDouble(), mouseY.toDouble())) MOVE_HEIGHT else 0,
+                    textureHeight = MOVE_HEIGHT * 2,
+                    red = rgb.first,
+                    green = rgb.second,
+                    blue = rgb.third,
+                    alpha = selectConditionOpacity
             )
 
             blitk(
-                matrixStack = context.matrices,
-                texture = moveOverlayTexture,
-                x = x,
-                y = y,
-                width = MOVE_WIDTH,
-                height = MOVE_HEIGHT,
-                alpha = moveSelection.opacity
+                    matrixStack = context.matrices,
+                    texture = moveOverlayTexture,
+                    x = x,
+                    y = y,
+                    width = MOVE_WIDTH,
+                    height = MOVE_HEIGHT,
+                    alpha = moveSelection.opacity
             )
 
             // Type Icon
             TypeIcon(
-                x = x - 9,
-                y = y + 2,
-                type = moveTemplate.elementalType,
-                opacity = moveSelection.opacity
+                    x = x - 9,
+                    y = y + 2,
+                    type = moveTemplate.elementalType,
+                    opacity = moveSelection.opacity
             ).render(context)
 
             // Move Category
             MoveCategoryIcon(
-                x = x + 48,
-                y = y + 14.5,
-                category = moveTemplate.damageCategory,
-                opacity = moveSelection.opacity
+                    x = x + 48,
+                    y = y + 14.5,
+                    category = moveTemplate.damageCategory,
+                    opacity = moveSelection.opacity
             ).render(context)
 
             drawScaledText(
-                context = context,
-                font = CobblemonResources.DEFAULT_LARGE,
-                text = moveTemplate.displayName.bold(),
-                x = x + 17,
-                y = y + 2,
-                opacity = selectConditionOpacity,
-                shadow = true
+                    context = context,
+                    font = CobblemonResources.DEFAULT_LARGE,
+                    text = moveTemplate.displayName.bold(),
+                    x = x + 17,
+                    y = y + 2,
+                    opacity = selectConditionOpacity,
+                    shadow = true
             )
 
             var movePPText = Text.literal("${move.pp}/${move.maxpp}").bold()
@@ -170,13 +163,13 @@ class BattleMoveSelection(
             }
 
             drawScaledText(
-                context = context,
-                font = CobblemonResources.DEFAULT_LARGE,
-                text = movePPText,
-                x = x + 75,
-                y = y + 14,
-                opacity = moveSelection.opacity,
-                centered = true
+                    context = context,
+                    font = CobblemonResources.DEFAULT_LARGE,
+                    text = movePPText,
+                    x = x + 75,
+                    y = y + 14,
+                    opacity = moveSelection.opacity,
+                    centered = true
             )
         }
 
@@ -190,28 +183,14 @@ class BattleMoveSelection(
     }
 
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        moveTiles.forEachIndexed { index, tile ->
-            if (index == focusedIndex) {
-                drawHighlight(tile.x, tile.y, MOVE_WIDTH, MOVE_HEIGHT, tile.rgb)
-            }
-            tile.render(context, mouseX, mouseY, delta)
-
-        }
-
-
-
-
-        if (focusedIndex == 4) {
-            // Adjust the highlight size for the smaller back button
-            drawHighlight(backButton.x, backButton.y, BattleBackButton.WIDTH, BattleBackButton.HEIGHT, Triple(167.00, 76.00, 76.00))
+        moveTiles.forEach {
+            it.render(context, mouseX, mouseY, delta)
         }
         backButton.render(context.matrices, mouseX, mouseY, delta)
-
         gimmickButtons.forEach {
             it.render(context.matrices, mouseX, mouseY, delta)
         }
     }
-
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         val move = moveTiles.find { it.isHovered(mouseX, mouseY) }
@@ -231,65 +210,5 @@ class BattleMoveSelection(
 
     override fun playDownSound(soundManager: SoundManager) {
         soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
-    }
-
-    // Arrow Key navigation
-    private var focusedIndex: Int = 0
-    fun changeFocus(keyCode: Int) {
-        val numRows = 3 // Including the back button row
-        val numColumns = 2 // Assuming 2 columns for the main buttons
-
-        val currentRow = focusedIndex / numColumns
-        val currentColumn = focusedIndex % numColumns
-
-        when (keyCode) {
-            GLFW.GLFW_KEY_UP -> if (focusedIndex == 4) {
-                focusedIndex = 2 // Bottom left main button
-            } else if (currentRow > 0) {
-                focusedIndex -= numColumns
-            }
-            GLFW.GLFW_KEY_DOWN -> if (focusedIndex in 2..3) {
-                focusedIndex = 4 // Move to the Back button
-            } else if (currentRow < numRows - 1) {
-                focusedIndex += numColumns
-            }
-            GLFW.GLFW_KEY_LEFT, GLFW.GLFW_KEY_RIGHT -> if (focusedIndex < 4) {
-                focusedIndex = (focusedIndex + 1) % numColumns + currentRow * numColumns
-            }
-        }
-
-        focusedIndex = focusedIndex.coerceIn(0, 4)
-    }
-
-    private fun drawHighlight(x: Float, y: Float, width: Int, height: Int, rgb: Triple<Double, Double, Double>) {
-        // Set the color for the button's highlight to be the rgb value of the Type of the move
-        val color = rgbToARGBColor((rgb.first * 255).toInt(),(rgb.second * 255).toInt(),(rgb.third * 255).toInt())
-
-        // Draw a rectangle around the tile as a highlight and adjust the padding or size
-        val padding = 2 // pixels
-        val rectX = x - padding
-        val rectY = y - padding
-        val rectWidth = width + 2 * padding
-        val rectHeight = height + 2 * padding
-
-        val tessellator = Tessellator.getInstance()
-        val bufferBuilder = tessellator.buffer
-
-        RenderSystem.setShader { GameRenderer.getPositionColorProgram() }
-
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR)
-        bufferBuilder.vertex(rectX.toDouble(), (rectY + rectHeight).toDouble(), 0.0).color(color).next()
-        bufferBuilder.vertex((rectX + rectWidth).toDouble(), (rectY + rectHeight).toDouble(), 0.0).color(color).next()
-        bufferBuilder.vertex((rectX + rectWidth).toDouble(), rectY.toDouble(), 0.0).color(color).next()
-        bufferBuilder.vertex(rectX.toDouble(), rectY.toDouble(), 0.0).color(color).next()
-        tessellator.draw()
-    }
-
-    fun rgbToARGBColor(red: Int, green: Int, blue: Int, alpha: Int = 255): Int {
-        return (alpha shl 24) or (red shl 16) or (green shl 8) or blue
-    }
-
-    fun triggerFocusedButton() {
-        moveTiles.getOrNull(focusedIndex)?.onClick()
     }
 }
