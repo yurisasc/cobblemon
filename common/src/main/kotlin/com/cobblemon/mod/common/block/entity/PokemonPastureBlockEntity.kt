@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.block.NestBlock
 import com.cobblemon.mod.common.block.PastureBlock
 import com.cobblemon.mod.common.breeding.BreedingLogicManager
 import com.cobblemon.mod.common.breeding.SimpleBreedingLogic
@@ -27,6 +28,7 @@ import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.blockPositionsAsList
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.block.BlockState
@@ -47,6 +49,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3i
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.World
 import java.util.*
 import kotlin.math.ceil
@@ -275,28 +278,49 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
 
     fun tryBreed() {
         val bredPokemon = mutableSetOf<Pokemon>()
-        breedingSets.forEach { father, mothers ->
-            if (father.getPokemon()?.breedingCooldown == 0) {
-                mothers.forEach { mother ->
-                    if (mother.getPokemon()?.breedingCooldown == 0) {
-                        val motherPoke = mother.getPokemon()!!
-                        val fatherPoke = father.getPokemon()!!
-                        if (BreedingLogicManager.canBreed(motherPoke, fatherPoke)) {
-                            val breedResult = BreedingLogicManager.breed(motherPoke, fatherPoke)
-                            if (breedResult.successful) {
+        val nests = findUnusedNests()
+        if (nests.isNotEmpty()) {
+            breedingSets.forEach { father, mothers ->
+                if (father.getPokemon()?.breedingCooldown == 0) {
+                    mothers.forEach { mother ->
+                        if (mother.getPokemon()?.breedingCooldown == 0) {
+                            val motherPoke = mother.getPokemon()!!
+                            val fatherPoke = father.getPokemon()!!
+                            if (BreedingLogicManager.canBreed(motherPoke, fatherPoke)) {
+                                //val breedResult = BreedingLogicManager.breed(motherPoke, fatherPoke)
+                                /*
+                                if (breedResult.successful) {
+
+                                }
+                                 */
                                 bredPokemon.add(fatherPoke)
                                 bredPokemon.add(motherPoke)
                             }
                         }
-
                     }
                 }
-            }
-            bredPokemon.forEach {
-                it.breedingCooldown = 10000
+                bredPokemon.forEach {
+                    it.breedingCooldown = 10000
+                }
             }
         }
 
+    }
+
+    fun findUnusedNests(): Set<BlockPos> {
+        val res = mutableSetOf<BlockPos>()
+        val cube = VoxelShapes.cuboid(
+            (this.pos.x - 2).toDouble(), (this.pos.y - 1).toDouble(), (this.pos.z - 2).toDouble(),
+            (this.pos.x + 3).toDouble(), (this.pos.y + 3).toDouble(), (this.pos.z + 3).toDouble()
+        )
+        cube.blockPositionsAsList().forEach {
+            val state = world?.getBlockState(it)
+            if (state?.block is NestBlock && !state.get(NestBlock.HAS_EGG)) {
+                //Cobblemon.LOGGER.warn("Nest at ${it.toString()}")
+                res.add(it)
+            }
+        }
+        return res
     }
 
     fun onBroken() {
