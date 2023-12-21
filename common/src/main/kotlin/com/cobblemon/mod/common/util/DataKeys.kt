@@ -63,6 +63,7 @@ object DataKeys {
     const val POKEMON_OWNER_ID = "PokemonOwnerId"
     const val POKEMON_HIDE_LABEL = "HideLabel"
     const val POKEMON_UNBATTLEABLE = "Unbattleable"
+    const val POKEMON_COUNTS_TOWARDS_SPAWN_CAP = "CountsTowardsSpawnCap"
 
     const val POKEMON_BREEDING_COOLDOWN = "BreedingCooldown"
 
@@ -141,4 +142,21 @@ object DataKeys {
     const val SHOULDER_ASPECTS = "shoulder_aspects"
     const val SHOULDER_SCALE_MODIFIER = "shoulder_scale"
 
+    //Multiblock Stuff
+    const val MULTIBLOCK_STORAGE = "MultiblockStore"
+    const val CONTROLLER_BLOCK = "ControllerBlock"
+
+    //FossilMultiblockStructure Serialization
+    const val MONITOR_POS = "MonitorPos"
+    const val TUBE_BASE_POS = "TubeBasePos"
+    const val COMPARTMENT_POS = "CompartmentPos"
+    const val ORGANIC_MATERIAL = "OrganicContent"
+    const val INSERTED_FOSSIL = "InsertedFossil"
+    const val FOSSIL_INVENTORY = "InsertedFossilStacks"
+    const val TUBE_FILL_LEVEL = "TubeFillLevel"
+    const val CONNECTOR_DIRECTION = "ConnectorDirection"
+    const val TIME_LEFT = "TimeLeft"
+    const val FORMED = "Formed"
+    const val CREATED_POKEMON = "CreatedPokemon"
+    const val FOSSIL_STATE = "FossilState"
 }

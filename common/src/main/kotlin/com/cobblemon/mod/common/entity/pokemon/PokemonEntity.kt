@@ -173,6 +173,7 @@ class PokemonEntity(
     internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
     val hideLabel = addEntityProperty(HIDE_LABEL, false)
     val unbattleable = addEntityProperty(UNBATTLEABLE, false)
+    val countsTowardsSpawnCap = addEntityProperty(COUNTS_TOWARDS_SPAWN_CAP, true)
 
     /**
      * 0 is do nothing,
@@ -238,6 +239,7 @@ class PokemonEntity(
         val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         const val BATTLE_LOCK = "battle"
 
@@ -397,6 +399,9 @@ class PokemonEntity(
         if (unbattleable.get()) {
             nbt.putBoolean(DataKeys.POKEMON_UNBATTLEABLE, true)
         }
+        if(!countsTowardsSpawnCap.get()) {
+            nbt.putBoolean(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP, false)
+        }
 
         CobblemonEvents.POKEMON_ENTITY_SAVE.post(PokemonEntitySaveEvent(this, nbt))
 
@@ -458,6 +463,9 @@ class PokemonEntity(
         }
         if (nbt.contains(DataKeys.POKEMON_UNBATTLEABLE)) {
             unbattleable.set(nbt.getBoolean(DataKeys.POKEMON_UNBATTLEABLE))
+        }
+        if(nbt.contains(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP)) {
+            countsTowardsSpawnCap.set(nbt.getBoolean(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP))
         }
 
         CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(
@@ -899,6 +907,7 @@ class PokemonEntity(
     }
 
     fun cry() {
+        if(this.isSilent) return
         val pkt = PokemonCryPacket(id)
         world.getEntitiesByClass(ServerPlayerEntity::class.java, Box.of(pos, 64.0, 64.0, 64.0), { true }).forEach {
             it.sendPacket(pkt)

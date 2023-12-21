@@ -16,6 +16,8 @@ import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.fossil.Fossils
+import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
@@ -28,17 +30,16 @@ import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.SpeciesAdditions
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.ifClient
 import com.cobblemon.mod.common.util.server
-import java.util.UUID
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
+import java.util.UUID
 
 object CobblemonDataProvider : DataProvider {
 
@@ -63,6 +64,8 @@ object CobblemonDataProvider : DataProvider {
         this.register(SpawnDetailPresets)
         this.register(CobblemonMechanics)
         this.register(BagItems)
+        this.register(NaturalMaterials)
+        this.register(Fossils)
 
         CobblemonSpawnPools.load()
         this.register(Berries)
