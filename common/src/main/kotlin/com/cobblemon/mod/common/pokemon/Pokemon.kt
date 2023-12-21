@@ -162,9 +162,10 @@ open class Pokemon : ShowdownIdentifiable {
     }
 
     fun setMove(move: String, moveSlot: Int) {
-        if (moveSlot < this.moveSet.getMoves().size)
-        this.benchedMoves.add(BenchedMove(Moves.getByName(move)!!, 0))
-        this.exchangeMove(this.moveSet[moveSlot]!!.template, Moves.getByName(move)!!)
+        if (moveSlot < this.moveSet.getMoves().size) {
+            this.benchedMoves.add(BenchedMove(Moves.getByName(move)!!, 0))
+            this.exchangeMove(this.moveSet[moveSlot]!!.template, Moves.getByName(move)!!)
+        }
     }
 
     var nickname: MutableText? = null
@@ -1040,6 +1041,22 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
+    fun initialize(): Pokemon {
+        // Force the setter to initialize it
+        species = species
+        checkGender()
+        checkAbility()
+        // This should only be a thing once we have moveset control in properties until then a creation should require a moveset init.
+        /*
+        if (pokemon.moveSet.none { it != null }) {
+            pokemon.initializeMoveset()
+        }
+         */
+        initializeMoveset()
+        return this
+    }
+
+    // overloaded version that has boolean for whether to initialize moves or not
     fun initialize(initializeMoves: Boolean = true): Pokemon {
         // Force the setter to initialize it
         species = species

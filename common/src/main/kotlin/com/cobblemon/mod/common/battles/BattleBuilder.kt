@@ -16,8 +16,12 @@ import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
+import com.cobblemon.mod.common.battles.actor.TrainerBattleActor
+import com.cobblemon.mod.common.battles.ai.RandomBattleAI
+import com.cobblemon.mod.common.battles.ai.StrongBattleAI
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
@@ -135,6 +139,85 @@ object BattleBuilder {
                 )
                 if (!cloneParties) {
                     pokemonEntity.battleId.set(Optional.of(battle.battleId))
+                }
+                return SuccessfulBattleStart(battle)
+            }
+            errors
+        } else {
+            errors
+        }
+    }
+
+    // player versus computer testing
+    @JvmOverloads
+    fun pvc(player: ServerPlayerEntity,
+            battleAI: String,
+            battleLevel: Int = 50,
+            npcParty: MutableList<BattlePokemon> = mutableListOf(),
+            battleFormat: BattleFormat = BattleFormat.GEN_9_SINGLES,
+            cloneParties: Boolean = false,
+            healFirst: Boolean = false,
+            playerParty: PartyStore = player.party()
+    ): BattleStartResult {
+        // choose battleAI AI type
+        val battleAIType = when (battleAI) {
+            "strong" -> StrongBattleAI()
+            else -> RandomBattleAI()
+        }
+
+        val playerTeam = playerParty.toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon = null)
+        val playerActor = PlayerBattleActor(player.uuid, playerTeam)
+
+        if (npcParty.isEmpty()) {
+            repeat(6) {
+                // todo generate random party of 6 BattlePokemon
+                val npcPokemon = Pokemon()
+
+                npcPokemon.uuid = UUID.randomUUID()
+                npcPokemon.level = battleLevel
+                npcPokemon.initialize() // This will generate everything else about the pokemon
+
+                npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+            }
+        }
+
+
+        val npcUUID = UUID.randomUUID()
+        val npcActor = TrainerBattleActor("Master of Crabs", npcUUID, npcParty.toList(), battleAIType)
+
+
+        //val wildActor = PokemonBattleActor(pokemonEntity.pokemon.uuid, BattlePokemon(pokemonEntity.pokemon), fleeDistance)
+        val errors = ErroredBattleStart()
+
+        // todo maybe use this error to check for no pokemon in NPC trainer's team
+        if (playerActor.pokemonList.size < battleFormat.battleType.slotsPerActor) {
+            errors.participantErrors[playerActor] += BattleStartError.insufficientPokemon(
+                    player = player,
+                    requiredCount = battleFormat.battleType.slotsPerActor,
+                    hadCount = playerActor.pokemonList.size
+            )
+        }
+
+        if (BattleRegistry.getBattleByParticipatingPlayer(player) != null) {
+            errors.participantErrors[playerActor] += BattleStartError.alreadyInBattle(playerActor)
+        }
+
+        /*if (pokemonEntity.battleId.get().isPresent) {
+            errors.participantErrors[npcActor] += BattleStartError.alreadyInBattle(npcActor)
+        }*/
+
+        return if (errors.isEmpty) {
+            CobblemonEvents.BATTLE_STARTED_PRE.postThen(
+                    BattleStartedPreEvent(listOf(playerActor, npcActor), battleFormat, false, false, true))
+            {
+                val battle = BattleRegistry.startBattle(
+                        battleFormat = battleFormat,
+                        side1 = BattleSide(playerActor),
+                        side2 = BattleSide(npcActor)
+                )
+                if (!cloneParties) {
+                    // todo I don't think this is needed?
+                    //pokemonEntity.battleId.set(Optional.of(battle.battleId))
                 }
                 return SuccessfulBattleStart(battle)
             }

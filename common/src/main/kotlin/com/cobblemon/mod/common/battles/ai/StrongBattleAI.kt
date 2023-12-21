@@ -390,7 +390,7 @@ class StrongBattleAI() : BattleAI {
         //val (mon, opponent) = getCurrentPlayer(battle)
 
         // sync up the current pokemon that is choosing the moves
-        val (mon, opponent) = if (activeBattlePokemon.battlePokemon!!.entity!!.pokemon.uuid == activeTracker.p1Active.pokemon!!.uuid) {
+        val (mon, opponent) = if (activeBattlePokemon.battlePokemon!!.effectedPokemon.uuid == activeTracker.p1Active.pokemon!!.uuid) {
             Pair(activeTracker.p1Active, activeTracker.p2Active)
         } else {
             Pair(activeTracker.p2Active, activeTracker.p1Active)
@@ -415,9 +415,13 @@ class StrongBattleAI() : BattleAI {
         val monSideConditionList = mon.sideConditions.keys
         val oppSideConditionList = opponent.sideConditions.keys
 
+        // todo Assess Damger level of current pokemon based on current HP and matchup pokemon
+        // todo Try to find a way to store a list of moves each pokemon in the battle has used so that the AI can learn and decide differently over time
+        // todo try to caclulate if it is worth it to use status moves somehow
+
         // Decision-making based on move availability and switch-out condition
-        if (!moveset?.moves?.isNullOrEmpty()!! && !shouldSwitchOut(request, battle)
-                || (request.side?.pokemon?.count { getHpFraction(it.condition) != 0.0 } == 1 && mon.currentHpPercent == 1.0)) {
+        if (!moveset?.moves?.isNullOrEmpty()!! && !shouldSwitchOut(request, battle) ||
+                (request.side?.pokemon?.count { getHpFraction(it.condition) != 0.0 } == 1 && mon.currentHpPercent == 1.0)) {
             val nRemainingMons = mon.nRemainingMons
             val nOppRemainingMons = opponent.nRemainingMons
 
@@ -741,11 +745,11 @@ class StrongBattleAI() : BattleAI {
         // switch out
         if (shouldSwitchOut(request, battle)) {
             val availableSwitches = p1Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
-            val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, battle, it.entity?.pokemon) }
+            val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, battle, it.effectedPokemon) }
             availableSwitches.forEach {
-                estimateMatchup(request, battle, it.entity?.pokemon)
+                estimateMatchup(request, battle, it.effectedPokemon)
             }
-            val bestMatchup = availableSwitches.find { estimateMatchup(request, battle, it.entity?.pokemon) == bestEstimation }
+            val bestMatchup = availableSwitches.find { estimateMatchup(request, battle, it.effectedPokemon) == bestEstimation }
             bestMatchup?.let {
                 return SwitchActionResponse(it.uuid)
                 //Pair("switch ${getPokemonPos(request, it)}", canDynamax)
@@ -1067,7 +1071,7 @@ class StrongBattleAI() : BattleAI {
     private fun updateActiveTracker(battle: PokemonBattle) {
         // I think is the first side pokemon
         val p1 = activeTracker.p1Active
-        val pokemon1 = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.entity!!.pokemon
+        val pokemon1 = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.effectedPokemon
         val p1Boosts = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.statChanges
         // todo find out how to get stats
         //val p1Stats = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.
@@ -1078,15 +1082,22 @@ class StrongBattleAI() : BattleAI {
 
         // opposing pokemon to the first side pokemon
         val p2 = activeTracker.p2Active
-        val pokemon2 = battle.side2.activePokemon.firstOrNull()?.battlePokemon?.entity!!.pokemon
+
+
+        val pokemon2 = battle.side2.activePokemon.firstOrNull()?.battlePokemon?.effectedPokemon
         val p2Boosts = battle.side2.activePokemon.firstOrNull()?.battlePokemon?.statChanges
+
+        // todo make nice function for knowing what is the best switchout
+       /* if (pokemon2) {
+            return SwitchActionResponse(battle.side2.actors)
+        }*/
 
         // convert p2Boosts to a regular Map rather than a MutableMap
         //val p2BoostsMap = p2Boosts?.mapKeys { it.key.toString() } ?: mapOf()
         val p2BoostsMap = p2Boosts?.mapKeys { it.key } ?: mapOf()
 
         p1.pokemon = pokemon1
-        p1.species = pokemon1.species.name
+        p1.species = pokemon1!!.species.name
         p1.currentHp = pokemon1.currentHealth
         p1.currentHpPercent = (pokemon1.currentHealth / pokemon1.hp).toDouble()
         p1.boosts = p1BoostsMap
@@ -1100,7 +1111,7 @@ class StrongBattleAI() : BattleAI {
         //p1.sideConditions = pokemon.sideConditions   //todo what the hell does this mean
 
         p2.pokemon = pokemon2
-        p2.species = pokemon2.species.name
+        p2.species = pokemon2!!.species.name
         p2.currentHp = pokemon2.currentHealth
         p2.currentHpPercent = (pokemon2.currentHealth / pokemon2.hp).toDouble()
         p2.boosts = p2BoostsMap
@@ -1116,14 +1127,13 @@ class StrongBattleAI() : BattleAI {
     }
 
     private fun getCurrentPlayer(battle: PokemonBattle): Pair<Pokemon, Pokemon> {
-        val mon = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.entity!!.pokemon
-        val opponent = battle.side2.activePokemon.firstOrNull()?.battlePokemon?.entity!!.pokemon
+        val mon = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.effectedPokemon
+        val opponent = battle.side2.activePokemon.firstOrNull()?.battlePokemon?.effectedPokemon
 
         //val mon = if (request.side?.id == "p1") activeTracker.p1Active else activeTracker.p2Active
         //val opponent = if (request.side?.id == "p1") activeTracker.p2Active else activeTracker.p1Active
 
-
-        return Pair(mon, opponent)
+        return Pair(mon!!, opponent!!)
     }
 
 

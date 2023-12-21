@@ -46,5 +46,6 @@ object CobblemonCommands {
         ClearPartyCommand.register(dispatcher)
         ClearPCCommand.register(dispatcher)
         PokemonRestartCommand.register(dispatcher)
+        RandomBattleCommand.register(dispatcher)
     }
 }

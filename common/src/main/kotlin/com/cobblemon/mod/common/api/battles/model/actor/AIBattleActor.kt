@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.battles.model.ai.BattleAI
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.battles.PassActionResponse
+import com.cobblemon.mod.common.battles.ai.StrongBattleAI
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.exception.IllegalActionChoiceException
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
@@ -20,7 +21,7 @@ import java.util.UUID
 abstract class AIBattleActor(
     gameId: UUID,
     pokemonList: List<BattlePokemon>,
-    val battleAI: BattleAI
+    val battleAI: BattleAI = StrongBattleAI()
 ) : BattleActor(gameId, pokemonList.toMutableList()) {
     override fun sendUpdate(packet: NetworkPacket<*>) {
         super.sendUpdate(packet)

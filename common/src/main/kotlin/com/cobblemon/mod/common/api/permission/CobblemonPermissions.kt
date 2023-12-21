@@ -67,6 +67,9 @@ object CobblemonPermissions {
     val CLEAR_PARTY = this.create("${COMMAND_PREFIX}clearparty", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
     val CLEAR_PC = this.create("${COMMAND_PREFIX}clearpc", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
+    // Test for starting a random battle with AI Player
+    val RANDOM_BATTLE = this.create("${COMMAND_PREFIX}randombattle", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+
     fun all(): Iterable<Permission> = this.permissions
 
     private fun create(node: String, level: PermissionLevel): Permission {
