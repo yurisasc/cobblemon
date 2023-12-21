@@ -32,7 +32,6 @@ interface BreedingLogic {
         if(!this.canBreed(mother, father)) {
             return BreedingResult()
         }
-
         val form: FormData = this.calculateForm(mother, father)
         val nature: Nature = this.calculateNature(mother, father)
         val ability: Ability = this.calculateAbility(mother, father, form)
@@ -43,10 +42,7 @@ interface BreedingLogic {
         return BreedingResult(null)
     }
 
-    fun canBreed(mother: Pokemon?, father: Pokemon?): Boolean {
-        if (mother == null || father == null) {
-            return false
-        }
+    fun canBreed(mother: Pokemon, father: Pokemon): Boolean {
         return true
     }
 

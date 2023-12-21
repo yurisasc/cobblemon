@@ -14,10 +14,10 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
-import com.cobblemon.mod.common.api.pokemon.breeding.CobblemonBreedingLogic
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.block.PastureBlock
+import com.cobblemon.mod.common.breeding.BreedingLogicManager
 import com.cobblemon.mod.common.breeding.SimpleBreedingLogic
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
@@ -173,7 +173,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                             t
                         else tethering
                         val father = (if (tetheredMon == mother) tethering else t)
-                        if (SimpleBreedingLogic.canBreed(mother.getPokemon(), father.getPokemon())) {
+                        if (SimpleBreedingLogic.canBreed(mother.getPokemon()!!, father.getPokemon()!!)) {
                             val fatherSet: MutableSet<Tethering> = breedingSets.getOrDefault(father, mutableSetOf())
                             fatherSet.add(mother)
                             breedingSets[father] = fatherSet
@@ -279,9 +279,16 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
             if (father.getPokemon()?.breedingCooldown == 0) {
                 mothers.forEach { mother ->
                     if (mother.getPokemon()?.breedingCooldown == 0) {
-                        println("Father ${father.getPokemon()?.species?.name} and mother ${mother.getPokemon()?.species?.name} can breed")
-                        bredPokemon.add(father.getPokemon()!!)
-                        bredPokemon.add(mother.getPokemon()!!)
+                        val motherPoke = mother.getPokemon()!!
+                        val fatherPoke = father.getPokemon()!!
+                        if (BreedingLogicManager.canBreed(motherPoke, fatherPoke)) {
+                            val breedResult = BreedingLogicManager.breed(motherPoke, fatherPoke)
+                            if (breedResult.successful) {
+                                bredPokemon.add(fatherPoke)
+                                bredPokemon.add(motherPoke)
+                            }
+                        }
+
                     }
                 }
             }

@@ -17,6 +17,8 @@ import com.cobblemon.mod.common.api.events.berry.BerryHarvestEvent
 import com.cobblemon.mod.common.api.events.berry.BerryMutationOfferEvent
 import com.cobblemon.mod.common.api.events.berry.BerryMutationResultEvent
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
+import com.cobblemon.mod.common.api.events.breeding.BreedingEligibilityEvent
+import com.cobblemon.mod.common.api.events.breeding.BreedingResultEvent
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
@@ -153,4 +155,10 @@ object CobblemonEvents {
     val LEFTOVERS_CREATED = CancelableObservable<LeftoversCreatedEvent>()
     @JvmField
     val BIG_ROOT_PROPAGATED = CancelableObservable<BigRootPropagatedEvent>()
+
+    //Breeding
+    @JvmField
+    val BREEDING_RESULT = EventObservable<BreedingResultEvent>()
+    @JvmField
+    val BREEDING_ELIGIBLE = EventObservable<BreedingEligibilityEvent>()
 }
