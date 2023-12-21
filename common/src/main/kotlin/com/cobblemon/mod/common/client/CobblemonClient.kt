@@ -185,6 +185,7 @@ object CobblemonClient {
             CobblemonBlocks.PEP_UP_FLOWER,
             CobblemonBlocks.POTTED_PEP_UP_FLOWER,
             CobblemonBlocks.REVIVAL_HERB,
+            CobblemonBlocks.WATER_NEST,
             *CobblemonBlocks.berries().values.toTypedArray()
         )
 

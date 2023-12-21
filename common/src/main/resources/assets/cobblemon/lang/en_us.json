@@ -1278,6 +1278,10 @@
   "block.cobblemon.deepslate_water_stone_ore": "Deepslate Water Stone Ore",
   "block.cobblemon.dripstone_moon_stone_ore": "Dripstone Moon Stone Ore",
   "block.cobblemon.pasture": "Pasture Block",
+  "block.cobblemon.basic_nest": "Nest",
+  "block.cobblemon.cave_nest": "Cave Nest",
+  "block.cobblemon.nether_nest": "Nether Nest",
+  "block.cobblemon.water_nest": "Water Nest",
 
   "gamerule.doPokemonSpawning": "Spawn Pokémon",
   "gamerule.doShinyStarters": "Starters will be shiny",

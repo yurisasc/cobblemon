@@ -1,0 +1,10 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "cobblemon:block/nest",
+        "uvlock": false
+      }
+    }
+  ]
+}

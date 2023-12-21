@@ -315,6 +315,11 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val WIKI_BERRY = this.berryBlock("wiki")
     val YACHE_BERRY = this.berryBlock("yache")
 
+    val BASE_NEST = nestBlock(NestBlock.NestVariant.BASIC)
+    val CAVE_NEST = nestBlock(NestBlock.NestVariant.CAVE)
+    val NETHER_NEST = nestBlock(NestBlock.NestVariant.NETHER)
+    val WATER_NEST = nestBlock(NestBlock.NestVariant.WATER)
+
     init {
         /**
          * Makes all blocks in array flammable by adding them to FireBlock's flammableRegistry.
@@ -341,6 +346,12 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         val block = this.create(identifier.path, BerryBlock(identifier, AbstractBlock.Settings.copy(Blocks.WHEAT).dynamicBounds().sounds(BlockSoundGroup.CROP).strength(0.2F)))
         this.berries[identifier] = block
         return block
+    }
+
+    private fun nestBlock(variant: NestBlock.NestVariant): NestBlock {
+        val identifier = cobblemonResource(variant.asString())
+        val block = NestBlock(variant, AbstractBlock.Settings.create().nonOpaque())
+        return this.create(identifier.path, block)
     }
 
     /**

@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.MintBlock.MintType
+import com.cobblemon.mod.common.block.NestBlock
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.battle.DireHitItem
@@ -308,6 +309,11 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField val ROWAP_BERRY = berryItem("rowap", CobblemonBlocks.ROWAP_BERRY)
 
     @JvmField val BERRY_JUICE = this.create("berry_juice", BerryJuiceItem())
+
+    val BASE_NEST = blockItem(NestBlock.NestVariant.BASIC.asString(), CobblemonBlocks.BASE_NEST)
+    val CAVE_NEST = blockItem(NestBlock.NestVariant.CAVE.asString(), CobblemonBlocks.CAVE_NEST)
+    val NETHER_NEST = blockItem(NestBlock.NestVariant.NETHER.asString(), CobblemonBlocks.NETHER_NEST)
+    val WATER_NEST = blockItem(NestBlock.NestVariant.WATER.asString(), CobblemonBlocks.WATER_NEST)
 
     // Medicine
     @JvmField

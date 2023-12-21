@@ -323,6 +323,17 @@
 			}
 		}
 	],
+	"display": {
+	    "thirdperson_righthand": {
+	        "translation": [ 0, 2.5, 0 ]
+	    },
+	    "firstperson_righthand": {
+	        "translation": [ 0, 2.5, 0 ]
+	    },
+	    "firstperson_lefthand": {
+	        "translation": [ 0, 2.5, 0 ]
+	    }
+    },
 	"groups": [
 		{
 			"name": "nest",
