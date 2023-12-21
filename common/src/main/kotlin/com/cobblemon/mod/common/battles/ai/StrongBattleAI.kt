@@ -611,12 +611,67 @@ class StrongBattleAI() : BattleAI {
             val moveValues = mutableMapOf<InBattleMove, Double>()
             for (move in moveset.moves) {
                 val moveData = Moves.getByName(move.id)
-                var value = moveData!!.power
+                /*var value = moveData!!.power
                 value *= if (moveData.elementalType in mon.pokemon!!.types) 1.5 else 1.0 // STAB
                 value *= if (moveData.damageCategory == DamageCategories.PHYSICAL) physicalRatio else specialRatio
                 //value *= moveData.accuracy // todo look into better way to take accuracy into account
                 value *= expectedHits(Moves.getByName(move.id)!!)
-                value *= moveDamageMultiplier(move.id, opponent.pokemon!!)
+                value *= moveDamageMultiplier(move.id, opponent.pokemon!!)*/
+
+                // Attempt at better estimation
+                val movePower = moveData!!.power
+                val pokemonLevel = mon.pokemon!!.level
+                val statRatio = if (moveData.damageCategory == DamageCategories.PHYSICAL) physicalRatio else specialRatio
+
+                val STAB = when {
+                    moveData.elementalType in mon.pokemon!!.types && mon.pokemon!!.ability.name == "adaptability" -> 2.0
+                    moveData.elementalType in mon.pokemon!!.types -> 1.5
+                    else -> 1.0
+                }
+                val weather = when {
+                    // Sunny Weather
+                    currentWeather == "sunny" && (moveData.elementalType == ElementalTypes.FIRE || moveData.name == "hydrosteam") -> 1.5
+                    currentWeather == "sunny" && moveData.elementalType == ElementalTypes.WATER && moveData.name != "hydrosteam" -> 0.5
+
+                    // Rainy Weather
+                    currentWeather == "raining" && moveData.elementalType == ElementalTypes.WATER-> 1.5
+                    currentWeather == "raining" && moveData.elementalType == ElementalTypes.FIRE-> 0.5
+
+                    // Add other cases below for weather
+
+                    else -> 1.0
+                }
+                val damageTypeMultiplier = moveDamageMultiplier(move.id, opponent.pokemon!!)
+                val burn = when {
+                    opponent.pokemon!!.status?.status?.showdownName == "burn" && moveData.damageCategory == DamageCategories.PHYSICAL -> 0.5
+                    else -> 1.0
+                }
+
+                var damage = (((((2 * pokemonLevel) / 5 ) + 2) * movePower * statRatio) / 50 + 2)
+                damage *= weather
+                damage *= STAB
+                damage *= damageTypeMultiplier
+                damage *= burn
+
+                var value = damage // set value to be the output of damage
+
+
+                // HOW DAMAGE IS ACTUALLY CALCULATED
+                // REFERENCES: https://bulbapedia.bulbagarden.net/wiki/Damage
+                // Damage = (((((2 * pokemon.level) / 5 ) + 2) * move.power * (mon.attackStat / opponent.defenseStat)) / 50 + 2)
+                // Damage *= Targets // 0.75 (0.5 in Battle Royals) if the move has more than one target when the move is executed, and 1 otherwise.
+                // Damage *= PB // 0.25 (0.5 in Generation VI) if the move is the second strike of Parental Bond, and 1 otherwise
+                // Damage *= Weather // 1.5 if a Water-type move is being used during rain or a Fire-type move or Hydro Steam during harsh sunlight, and 0.5 if a Water-type move (besides Hydro Steam) is used during harsh sunlight or a Fire-type move during rain, and 1 otherwise or if any Pokémon on the field have the Ability Cloud Nine or Air Lock.
+                // Damage *= GlaiveRush // 2 if the target used the move Glaive Rush in the previous turn, or 1 otherwise.
+                // Damage *= Critical // 1.5 (2 in Generation V) for a critical hit, and 1 otherwise. Decimals are rounded down to the nearest integer. It is always 1 if the target's Ability is Battle Armor or Shell Armor or if the target is under the effect of Lucky Chant.
+                // Damage *= randomNumber // random number between .85 and 1.00
+                // Damage *= STAB // 1.5 if mon.types is equal to move.type or if it is a combined Pledge move || 2.0 if it has adaptability || Terra gimmick has other rules
+                // Damage *= Type // type damage multipliers || CHeck website for additional rules for some moves
+                // Damage *= Burn // 0.5 if the pokemon is burned, its Ability is not Guts, and the used move is a physical move (other than Facade from Generation VI onward), and 1
+                // Damage *= Other // 1 in most cases, and a different multiplier when specific interactions of moves, Abilities, or items take effect, in this order
+                // Damage *= ZMove // 1 usually OR 0.25 if the move is a Z-Move, Max Move, or G-Max Move being used into a protection move
+                // Damage *= TeraShield // ONLY for Terra raid battles
+
 
                 // Handle special cases
                 if (move.id.equals("fakeout")) {
