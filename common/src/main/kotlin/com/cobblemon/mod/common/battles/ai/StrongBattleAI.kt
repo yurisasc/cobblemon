@@ -383,7 +383,17 @@ class StrongBattleAI() : BattleAI {
         val p1Actor = battle.side1.actors.first()
         val p2Actor = battle.side2.actors.first()
 
+        val playerSide2 = battle.side2.actors.first()
+        // todo make nice function for knowing what is the best switchout
+
         val canDynamax = false
+
+        if (forceSwitch || activeBattlePokemon.isGone()) {
+            val switchTo = activeBattlePokemon.actor.pokemonList.filter { it.canBeSentOut() }.randomOrNull()
+                    ?: return DefaultActionResponse() //throw IllegalStateException("Need to switch but no Pokémon to switch to")
+            switchTo.willBeSwitchedIn = true
+            return SwitchActionResponse(switchTo.uuid)
+        }
 
         updateActiveTracker(battle)
 
@@ -1073,6 +1083,7 @@ class StrongBattleAI() : BattleAI {
         val p1 = activeTracker.p1Active
         val pokemon1 = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.effectedPokemon
         val p1Boosts = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.statChanges
+        val playerSide1 = battle.side1.actors.first()
         // todo find out how to get stats
         //val p1Stats = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.
 
@@ -1086,11 +1097,9 @@ class StrongBattleAI() : BattleAI {
 
         val pokemon2 = battle.side2.activePokemon.firstOrNull()?.battlePokemon?.effectedPokemon
         val p2Boosts = battle.side2.activePokemon.firstOrNull()?.battlePokemon?.statChanges
-
+        val playerSide2 = battle.side2.actors.first()
+        //val nextAvailablePokemon = playerSide2.pokemonList.filter { it.health != 0 }.first().effectedPokemon.uuid
         // todo make nice function for knowing what is the best switchout
-       /* if (pokemon2) {
-            return SwitchActionResponse(battle.side2.actors)
-        }*/
 
         // convert p2Boosts to a regular Map rather than a MutableMap
         //val p2BoostsMap = p2Boosts?.mapKeys { it.key.toString() } ?: mapOf()
