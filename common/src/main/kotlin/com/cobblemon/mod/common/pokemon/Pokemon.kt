@@ -154,6 +154,19 @@ open class Pokemon : ShowdownIdentifiable {
         _evs.emit(evs)
     }
 
+    fun setMoveset(moveset: List<String>) {
+        moveset.forEachIndexed { index, it ->
+            this.benchedMoves.add(BenchedMove(Moves.getByName(it)!!, 0))
+            this.exchangeMove( this.moveSet[index]!!.template, Moves.getByName(it)!!)
+        }
+    }
+
+    fun setMove(move: String, moveSlot: Int) {
+        if (moveSlot < this.moveSet.getMoves().size)
+        this.benchedMoves.add(BenchedMove(Moves.getByName(move)!!, 0))
+        this.exchangeMove(this.moveSet[moveSlot]!!.template, Moves.getByName(move)!!)
+    }
+
     var nickname: MutableText? = null
         set(value) {
             field = value
@@ -1027,7 +1040,7 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
-    fun initialize(): Pokemon {
+    fun initialize(initializeMoves: Boolean = true): Pokemon {
         // Force the setter to initialize it
         species = species
         checkGender()
@@ -1038,7 +1051,8 @@ open class Pokemon : ShowdownIdentifiable {
             pokemon.initializeMoveset()
         }
          */
-        initializeMoveset()
+        if (initializeMoves)
+            initializeMoveset()
         return this
     }
 

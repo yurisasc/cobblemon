@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.pokemon.properties
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.data.DataRegistry
+import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
@@ -141,6 +142,10 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("gmax"), setOf("yes", "no"))
         this.inject(setOf("tera"), ElementalTypes.all().map { it.name })
         this.inject(setOf("tradeable"), setOf("yes", "no"))
+        this.inject(setOf("move1"), Moves.all().map { if (it.name.asIdentifierDefaultingNamespace().namespace == Cobblemon.MODID) it.name.asIdentifierDefaultingNamespace().path else it.name })
+        this.inject(setOf("move2"), Moves.all().map { if (it.name.asIdentifierDefaultingNamespace().namespace == Cobblemon.MODID) it.name.asIdentifierDefaultingNamespace().path else it.name })
+        this.inject(setOf("move3"), Moves.all().map { if (it.name.asIdentifierDefaultingNamespace().namespace == Cobblemon.MODID) it.name.asIdentifierDefaultingNamespace().path else it.name })
+        this.inject(setOf("move4"), Moves.all().map { if (it.name.asIdentifierDefaultingNamespace().namespace == Cobblemon.MODID) it.name.asIdentifierDefaultingNamespace().path else it.name })
 
         Stats.PERMANENT.forEach{ stat ->
             val statName = stat.toString().lowercase()

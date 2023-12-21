@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.Abilities
+import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
@@ -95,6 +96,11 @@ open class PokemonProperties {
             props.dmaxLevel = parseIntProperty(keyPairs, listOf("dmax_level", "dmax"))?.coerceIn(0, Cobblemon.config.maxDynamaxLevel)
             props.gmaxFactor = parseBooleanProperty(keyPairs, listOf("gmax_factor", "gmax"))
             props.tradeable = parseBooleanProperty(keyPairs, listOf("tradeable", "tradable"))
+            props.move1 = parseStringOfRegistry(keyPairs, listOf("move1", "m1")) { Moves.getByName(it)?.name }
+            props.move2 = parseStringOfRegistry(keyPairs, listOf("move2", "m2")) { Moves.getByName(it)?.name }
+            props.move3 = parseStringOfRegistry(keyPairs, listOf("move3", "m3")) { Moves.getByName(it)?.name }
+            props.move4 = parseStringOfRegistry(keyPairs, listOf("move4", "m4")) { Moves.getByName(it)?.name }
+            //props.moves = parseList(keyPairs, listOf("moves", "m"))
 
             val maybeIVs = IVs()
             val maybeEVs = EVs()
@@ -122,6 +128,12 @@ open class PokemonProperties {
             } else {
                 Text.translatable(value)
             }
+        }
+
+        private fun parseList(keyPairs: MutableList<Pair<String, String?>>, labels: Iterable<String>): List<String> {
+            val matched = getMatchedKeyPair(keyPairs, labels) ?: return emptyList()
+            keyPairs.remove(matched)
+            return matched.second?.removeSurrounding("[", "]")?.split(",")?.map { it.trim() } ?: emptyList()
         }
 
         private fun parseIntProperty(keyPairs: MutableList<Pair<String, String?>>, labels: Iterable<String>): Int? {
@@ -260,6 +272,11 @@ open class PokemonProperties {
     var dmaxLevel: Int? = null
     var gmaxFactor: Boolean? = null
     var tradeable: Boolean? = null
+    var move1: String? = null
+    var move2: String? = null
+    var move3: String? = null
+    var move4: String? = null
+    //var moves: List<String> = emptyList()
 
     var ivs: IVs? = null
     var evs: EVs? = null
@@ -313,6 +330,11 @@ open class PokemonProperties {
         dmaxLevel?.let { pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemon.gmaxFactor = it }
         tradeable?.let { pokemon.tradeable = it }
+        move1?.let { pokemon.setMove(it, 0) }
+        move2?.let { pokemon.setMove(it, 1) }
+        move3?.let { pokemon.setMove(it, 2) }
+        move4?.let { pokemon.setMove(it, 3) }
+        //moves?.let { pokemon.setMoveset(moves) }
         pokemon.updateAspects()
     }
 
@@ -353,6 +375,11 @@ open class PokemonProperties {
         dmaxLevel?.let { pokemonEntity.pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemonEntity.pokemon.gmaxFactor = it }
         tradeable?.let { pokemonEntity.pokemon.tradeable = it }
+        move1?.let { pokemonEntity.pokemon.setMove(it, 0) }
+        move2?.let { pokemonEntity.pokemon.setMove(it, 1) }
+        move3?.let { pokemonEntity.pokemon.setMove(it, 2) }
+        move4?.let { pokemonEntity.pokemon.setMove(it, 3) }
+        //moves?.let { pokemonEntity.pokemon.setMoveset(moves) }
         pokemonEntity.pokemon.updateAspects()
     }
 
@@ -391,6 +418,11 @@ open class PokemonProperties {
         dmaxLevel?.takeIf { it != pokemon.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != pokemon.gmaxFactor }?.let { return false }
         tradeable?.takeIf { it != pokemon.tradeable }?.let { return false }
+        move1?.takeIf { move -> pokemon.moveSet.getMoves().none { it.name == move } }?.let { return false }
+        move2?.takeIf { move -> pokemon.moveSet.getMoves().none { it.name == move } }?.let { return false }
+        move3?.takeIf { move -> pokemon.moveSet.getMoves().none { it.name == move } }?.let { return false }
+        move4?.takeIf { move -> pokemon.moveSet.getMoves().none { it.name == move } }?.let { return false }
+        //moves?.takeIf { it != pokemon.moveSet.getMoves() }?.let { return false }
         return customProperties.none { !it.matches(pokemon) }
     }
 
@@ -427,6 +459,11 @@ open class PokemonProperties {
         dmaxLevel?.takeIf { it != pokemonEntity.pokemon.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != pokemonEntity.pokemon.gmaxFactor }?.let { return false }
         tradeable?.takeIf { it != pokemonEntity.pokemon.tradeable }?.let { return false }
+        move1?.takeIf { move -> pokemonEntity.pokemon.moveSet.getMoves().none { it.name == move } }?.let { return false }
+        move2?.takeIf { move -> pokemonEntity.pokemon.moveSet.getMoves().none { it.name == move } }?.let { return false }
+        move3?.takeIf { move -> pokemonEntity.pokemon.moveSet.getMoves().none { it.name == move } }?.let { return false }
+        move4?.takeIf { move -> pokemonEntity.pokemon.moveSet.getMoves().none { it.name == move } }?.let { return false }
+        //moves?.takeIf { it != pokemonEntity.pokemon.moveSet.getMoves() }?.let {return false }
         return customProperties.none { !it.matches(pokemonEntity) }
     }
 
@@ -471,13 +508,20 @@ open class PokemonProperties {
         dmaxLevel?.takeIf { it != properties.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != properties.gmaxFactor }?.let { return false }
         tradeable?.takeIf { it != properties.tradeable }?.let { return false }
+        move1?.takeIf { it != properties.move1 }?.let { return false }
+        move2?.takeIf { it != properties.move2 }?.let { return false }
+        move3?.takeIf { it != properties.move3 }?.let { return false }
+        move4?.takeIf { it != properties.move4 }?.let { return false }
+
+        //moves?.takeIf { it != properties.moves }?.let { return false }
         return true
     }
 
     fun create(): Pokemon {
         val pokemon = Pokemon()
         apply(pokemon)
-        pokemon.initialize()
+        if (move1 == null) //if there is not a move1 or later specific moves stated then initialize
+            pokemon.initialize()
         roll(pokemon)
         return pokemon
     }
@@ -626,6 +670,7 @@ open class PokemonProperties {
         dmaxLevel?.let { pieces.add("dmax_level=$it") }
         gmaxFactor?.let { pieces.add("gmax_factor=$it") }
         tradeable?.let { pieces.add("tradeable=$it") }
+        //moves?.let { pieces.add("moves=$it") }
         customProperties.forEach { pieces.add(it.asString()) }
         return pieces.joinToString(separator)
     }

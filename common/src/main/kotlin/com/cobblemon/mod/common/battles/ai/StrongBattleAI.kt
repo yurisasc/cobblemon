@@ -389,8 +389,15 @@ class StrongBattleAI() : BattleAI {
 
         //val (mon, opponent) = getCurrentPlayer(battle)
 
-        val mon = activeTracker.p1Active
-        val opponent = activeTracker.p2Active
+        // sync up the current pokemon that is choosing the moves
+        val (mon, opponent) = if (activeBattlePokemon.battlePokemon!!.entity!!.pokemon.uuid == activeTracker.p1Active.pokemon!!.uuid) {
+            Pair(activeTracker.p1Active, activeTracker.p2Active)
+        } else {
+            Pair(activeTracker.p2Active, activeTracker.p1Active)
+        }
+
+        //val mon = activeTracker.p1Active
+        //val opponent = activeTracker.p2Active
 
         // Update protect count if it's on cooldown
         if (mon.protectCount > 0) {
@@ -535,8 +542,8 @@ class StrongBattleAI() : BattleAI {
                 val activeOpponent = opponent.pokemon
                 activeOpponent?.let {
                     // Make sure the opponent doesn't already have a status condition
-                    if ((it.volatiles.containsKey("curse") || it.status != null) &&
-                            opponent.currentHpPercent > 0.6 && mon.currentHpPercent > 0.5) {
+                    //if ((it.volatiles.containsKey("curse") || it.status != null) && // todo I removed this because idk why you would need to know if it had curse
+                    if (it.status != null && opponent.currentHpPercent > 0.6 && mon.currentHpPercent > 0.5) { // todo make sure this is the right status to use. It might not be
 
                         when (statusMoves.get(Moves.getByName(move.id))) {
                             "burn" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.FIRE) && getBaseStats(opponent.pokemon!!, "atk") > 80) {
@@ -576,14 +583,14 @@ class StrongBattleAI() : BattleAI {
                 }
             }
 
-            // Accuracy lowering moves
+            // Accuracy lowering moves // todo seems to get stuck here. Try to check if it is an accuracy lowering move first before entering
             for (move in moveset.moves) {
-                if (mon.currentHpPercent == 1.0 && estimateMatchup(request, battle) > 0 &&
+                if (1 == 2 && mon.currentHpPercent == 1.0 && estimateMatchup(request, battle) > 0 &&
                         (opponent.boosts[Stats.ACCURACY] ?: 0) > accuracySwitchThreshold) {
                     return MoveActionResponse(move.id)
                 }
             }
-            PersistentStatusContainer
+            //PersistentStatusContainer
             // Protect style moves
             for (move in moveset.moves) {
                 val activeOpponent = opponent.pokemon
@@ -591,7 +598,8 @@ class StrongBattleAI() : BattleAI {
                     // Stall out side conditions
                     if ((oppSideConditionList.intersect(setOf("tailwind", "lightscreen", "reflect", "trickroom")).isNotEmpty() &&
                                     monSideConditionList.intersect(setOf("tailwind", "lightscreen", "reflect")).isEmpty()) ||
-                            (activeOpponent?.volatiles?.containsKey("curse") == true || (activeOpponent?.status == null)) && // todo I think this is the wrong status
+                            //(activeOpponent?.volatiles?.containsKey("curse") == true || (activeOpponent?.status == null)) && // todo I think this is the wrong status
+                            (activeOpponent?.status == null) && // todo I think this is the wrong status
                             mon.protectCount == 0 && opponent.pokemon!!.ability.name != "unseenfist") {
                         mon.protectCount = 2
                         return MoveActionResponse(move.id)
@@ -600,15 +608,15 @@ class StrongBattleAI() : BattleAI {
             }
 
             // Damage dealing moves
-            val moveValues = mutableMapOf<String, Double>()
+            val moveValues = mutableMapOf<InBattleMove, Double>()
             for (move in moveset.moves) {
-                val moveData = Moves.getByName(move.id)  // todo find equivalent to whatever the hell this is talking about
+                val moveData = Moves.getByName(move.id)
                 var value = moveData!!.power
-                value *= if (moveData.elementalType in mon.pokemon!!.types) 1.5 else 1.0
+                value *= if (moveData.elementalType in mon.pokemon!!.types) 1.5 else 1.0 // STAB
                 value *= if (moveData.damageCategory == DamageCategories.PHYSICAL) physicalRatio else specialRatio
-                value *= moveData.accuracy
-                value *= expectedHits(Moves.getByName(move.move)!!)
-                value *= bestDamageMultiplier(mon.pokemon!!, opponent.pokemon!!)
+                //value *= moveData.accuracy // todo look into better way to take accuracy into account
+                value *= expectedHits(Moves.getByName(move.id)!!)
+                value *= moveDamageMultiplier(move.id, opponent.pokemon!!)
 
                 // Handle special cases
                 if (move.id.equals("fakeout")) {
@@ -616,32 +624,53 @@ class StrongBattleAI() : BattleAI {
                 }
 
                 val opponentAbility = opponent.pokemon!!.ability
-                if ((opponentAbility.equals("lightningrod") && moveData.elementalType == ElementalTypes.ELECTRIC) ||
-                        (opponentAbility.equals("flashfire") && moveData.elementalType == ElementalTypes.FIRE) ||
-                        (opponentAbility.equals("levitate") && moveData.elementalType == ElementalTypes.GROUND) ||
-                        (opponentAbility.equals("sapsipper") && moveData.elementalType == ElementalTypes.GRASS) ||
-                        (opponentAbility.equals("motordrive") && moveData.elementalType == ElementalTypes.ELECTRIC) ||
-                        (opponentAbility.equals("stormdrain") && moveData.elementalType == ElementalTypes.WATER) ||
-                        (opponentAbility.equals("voltabsorb") && moveData.elementalType == ElementalTypes.ELECTRIC) ||
-                        (opponentAbility.equals("waterabsorb") && moveData.elementalType == ElementalTypes.WATER) ||
-                        (opponentAbility.equals("immunity") && moveData.elementalType == ElementalTypes.POISON) ||
-                        (opponentAbility.equals("eartheater") && moveData.elementalType == ElementalTypes.GROUND) ||
-                        (opponentAbility.equals("suctioncup") && moveData.name == "roar" || moveData.name == "whirlwind")
+                if ((opponentAbility.template.name.equals("lightningrod") && moveData.elementalType == ElementalTypes.ELECTRIC) ||
+                        (opponentAbility.template.name.equals("flashfire") && moveData.elementalType == ElementalTypes.FIRE) ||
+                        (opponentAbility.template.name.equals("levitate") && moveData.elementalType == ElementalTypes.GROUND) ||
+                        (opponentAbility.template.name.equals("sapsipper") && moveData.elementalType == ElementalTypes.GRASS) ||
+                        (opponentAbility.template.name.equals("motordrive") && moveData.elementalType == ElementalTypes.ELECTRIC) ||
+                        (opponentAbility.template.name.equals("stormdrain") && moveData.elementalType == ElementalTypes.WATER) ||
+                        (opponentAbility.template.name.equals("voltabsorb") && moveData.elementalType == ElementalTypes.ELECTRIC) ||
+                        (opponentAbility.template.name.equals("waterabsorb") && moveData.elementalType == ElementalTypes.WATER) ||
+                        (opponentAbility.template.name.equals("immunity") && moveData.elementalType == ElementalTypes.POISON) ||
+                        (opponentAbility.template.name.equals("eartheater") && moveData.elementalType == ElementalTypes.GROUND) ||
+                        (opponentAbility.template.name.equals("suctioncup") && moveData.name == "roar" || moveData.name == "whirlwind")
                 ) {
                     value = 0.0
                 }
 
-                moveValues[move.id] = value
+                moveValues[move] = value
             }
 
             // uncommment this and try to get it to behave itself. Wants to return no matter what so deal with it later
             val bestMoveValue = moveValues.maxByOrNull { it.value }?.value ?: 0.0
             val bestMove = moveValues.entries.firstOrNull { it.value == bestMoveValue }?.key
-            if (bestMove != null && "recharge" !in moveValues) {
-                return MoveActionResponse(getMoveSlot(bestMove, allMoves))//, false) //shouldDynamax(request, canDynamax))
-            } else {
-                return MoveActionResponse(allMoves?.first()?.id
-                        ?: Moves.getByName("struggle")!!.name) //, false) //shouldDynamax(request, canDynamax))
+            val target = if (bestMove!!.mustBeUsed()) null else bestMove.target.targetList(activeBattlePokemon)
+            if (allMoves != null) {
+                if (allMoves.none { it.id == "recharge" || it.id == "struggle" }) {  //"recharge" !in moveValues) {
+                    if (target == null) {
+                        return MoveActionResponse(bestMove.id)
+                    }
+                    else {
+                        //return MoveActionResponse(getMoveSlot(bestMove, allMoves))//, false) //shouldDynamax(request, canDynamax))
+                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull()
+                                ?: target.random()
+
+                        return MoveActionResponse(bestMove.id, (chosenTarget as ActiveBattlePokemon).getPNX())
+                    }
+                } else {
+                    if (target == null) {
+                        return MoveActionResponse(allMoves.first().id)
+                    }
+                    else{
+                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull()
+                                ?: target.random()
+
+                        return MoveActionResponse(allMoves.first().id, (chosenTarget as ActiveBattlePokemon).getPNX())
+                    }
+
+                            //?: Moves.getByName("struggle")!!.name) //, false) //shouldDynamax(request, canDynamax))
+                }
             }
 
         }
@@ -892,6 +921,17 @@ class StrongBattleAI() : BattleAI {
         getCurrentPlayer(battle)[0].firstTurn = 1
         return "team ${bestMon?.position?.plus(1)}"
     }*/
+
+    fun moveDamageMultiplier(moveID: String, defender: Pokemon): Double {
+        val move = Moves.getByName(moveID)
+        val defenderTypes = defender.types
+        var multiplier = 1.0
+
+        for (defenderType in defenderTypes)
+            multiplier *= (getDamageMultiplier(move!!.elementalType, defenderType) ?: 1.0)
+
+        return multiplier
+    }
 
     fun bestDamageMultiplier(attacker: Pokemon, defender: Pokemon): Double { // todo copy all to make overload
         //val typeMatchups = JSON.parse(File("../Data/UsefulDatasets/type-chart.json").readText())
