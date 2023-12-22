@@ -316,23 +316,18 @@ class OmniPathNodeMaker : PathNodeMaker() {
         pos: BlockPos,
         type: PathNodeType
     ): PathNodeType {
-        var type = type
-        if (type == PathNodeType.DOOR_WOOD_CLOSED && canOpenDoors && canEnterOpenDoors) {
-            type = PathNodeType.WALKABLE_DOOR
-        }
-        if (type == PathNodeType.DOOR_OPEN && !canEnterOpenDoors) {
-            type = PathNodeType.BLOCKED
-        }
-        if (type == PathNodeType.RAIL && world.getBlockState(pos).block !is AbstractRailBlock && world.getBlockState(pos.down()).block !is AbstractRailBlock) {
-            type = PathNodeType.UNPASSABLE_RAIL
-        }
-        if (type == PathNodeType.LEAVES) {
-            type = PathNodeType.BLOCKED
-        }
-        if(world.getBlockState(pos).block == Blocks.SWEET_BERRY_BUSH){
-            type = PathNodeType.DANGER_OTHER
-        }
-        return type
+        val block = world.getBlockState(pos).block
+        return if (type == PathNodeType.DOOR_WOOD_CLOSED && canOpenDoors && canEnterOpenDoors) {
+            PathNodeType.WALKABLE_DOOR
+        }else if (type == PathNodeType.DOOR_OPEN && !canEnterOpenDoors) {
+            PathNodeType.BLOCKED
+        }else if (type == PathNodeType.RAIL && block !is AbstractRailBlock && world.getBlockState(pos.down()).block !is AbstractRailBlock) {
+            PathNodeType.UNPASSABLE_RAIL
+        }else if (type == PathNodeType.LEAVES) {
+            PathNodeType.BLOCKED
+        }else if(block == Blocks.SWEET_BERRY_BUSH){
+            PathNodeType.DANGER_OTHER
+        }else type
     }
 
     fun canWalk(): Boolean {
