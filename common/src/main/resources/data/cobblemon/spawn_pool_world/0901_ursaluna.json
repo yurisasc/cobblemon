@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -8,7 +8,7 @@
             "pokemon": "ursaluna",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -21,10 +21,10 @@
                     "#cobblemon:is_mountain",
                     "#cobblemon:is_taiga"
                 ],
-                "minY":48
+                "minY": 48
             }
         },
-		{
+        {
             "id": "ursaluna-2",
             "pokemon": "ursaluna",
             "type": "pokemon",
@@ -40,8 +40,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

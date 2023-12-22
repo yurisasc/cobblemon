@@ -6,9 +6,9 @@
         {
             "id": "arcanine-1",
             "pokemon": "arcanine",
-			"presets": [
+            "presets": [
                 "natural",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -24,18 +24,15 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_desert"
-                ],
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
         {
             "id": "arcanine-2",
             "pokemon": "arcanine",
-			"presets": [
+            "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",

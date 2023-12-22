@@ -23,6 +23,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+import net.minecraft.item.Items
 
 class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
     override val bagItem = object : BagItem {
@@ -51,6 +52,11 @@ class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
         player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
         if (!player.isCreative)  {
             stack.decrement(1)
+            val woodenBowlItemStack = ItemStack(Items.BOWL)
+            if (!player.inventory.insertStack(woodenBowlItemStack)) {
+                // Drop the item into the world if the inventory is full
+                player.dropItem(woodenBowlItemStack, false)
+            }
         }
         return TypedActionResult.success(stack)
     }
@@ -58,5 +64,12 @@ class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
     override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
         player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
+        if (!player.isCreative)  {
+            val woodenBowlItemStack = ItemStack(Items.BOWL)
+            if (!player.inventory.insertStack(woodenBowlItemStack)) {
+                // Drop the item into the world if the inventory is full
+                player.dropItem(woodenBowlItemStack, false)
+            }
+        }
     }
 }

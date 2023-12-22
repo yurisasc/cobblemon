@@ -8,7 +8,7 @@
             "pokemon": "drowzee",
             "presets": [
                 "natural",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -18,14 +18,13 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_jungle",
-                    "#cobblemon:is_savanna"
+                    "#cobblemon:is_overworld"
                 ],
                 "timeRange": "night"
             },
             "anticondition": {
-                "structures": [
-                    "#minecraft:village"
+                "biomes": [
+                    "#cobblemon:is_freezing"
                 ]
             }
         },
@@ -34,7 +33,7 @@
             "pokemon": "drowzee",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -44,10 +43,14 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_jungle",
-                    "#cobblemon:is_savanna"
+                    "#cobblemon:is_overworld"
                 ],
                 "timeRange": "night"
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_freezing"
+                ]
             }
         }
     ]

@@ -22,6 +22,8 @@ import net.minecraft.registry.tag.TagKey
 @Suppress("HasPlatformType", "unused")
 object CobblemonBlockTags {
 
+    @JvmField val ALL_HANGING_SIGNS = createTag("all_hanging_signs")
+    @JvmField val ALL_SIGNS = createTag("all_signs")
     @JvmField val APRICORN_LEAVES = createTag("apricorn_leaves")
     @JvmField val APRICORN_LOGS = createTag("apricorn_logs")
     @JvmField val APRICORN_SAPLINGS = createTag("apricorn_saplings")
@@ -29,6 +31,7 @@ object CobblemonBlockTags {
     @JvmField val BERRY_WILD_SOIL = createTag("berry_wild_soil")
     @JvmField val BERRY_SOIL = createTag("berry_soil")
     @JvmField val BERRY_REPLACEABLE = createTag("berry_replaceable")
+    @JvmField val CEILING_HANGING_SIGNS = createTag("ceiling_hanging_signs")
     @JvmField val CROPS = createTag("crops")
     @JvmField val DRIPSTONE_GROWABLE = createTag("dripstone_growable")
     @JvmField val DRIPSTONE_REPLACEABLES = createTag("dripstone_replaceables")
@@ -36,10 +39,15 @@ object CobblemonBlockTags {
     @JvmField val MEDICINAL_LEEK_PLANTABLE = createTag("medicinal_leek_plantable")
     @JvmField val MINTS = createTag("mints")
     @JvmField val ROOTS_SPREADABLE = createTag("roots_spreadable")
+    @JvmField val SIGNS = createTag("signs")
     @JvmField val SMALL_FLOWERS = createTag("small_flowers")
     @JvmField val SEES_SKY = createTag("sees_sky")
     @JvmField val SNOW_BLOCK = createTag("snow_block")
     @JvmField val ROOTS = createTag("roots")
+    @JvmField val STANDING_SIGNS = createTag("standing_signs")
+    @JvmField val WALL_HANGING_SIGNS = createTag("wall_hanging_signs")
+    @JvmField val WALL_SIGNS = createTag("wall_signs")
+
     private fun createTag(name: String) = TagKey.of(RegistryKeys.BLOCK, cobblemonResource(name))
 
 }

@@ -1,12 +1,12 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
             "id": "klink-1",
             "pokemon": "klink",
-			"presets": [
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",

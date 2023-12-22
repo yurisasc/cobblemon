@@ -10,7 +10,6 @@ package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.brewing.BrewingRecipes
 import com.cobblemon.mod.common.integration.adorn.AdornCompatibility
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
@@ -41,6 +40,7 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
@@ -57,7 +57,6 @@ import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
-import net.minecraft.recipe.BrewingRecipeRegistry
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -98,13 +97,6 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonBlockPredicates.touch()
         CobblemonPlacementModifierTypes.touch()
         CobblemonProcessorTypes.touch()
-        BrewingRecipes.registerPotionTypes()
-        BrewingRecipes.getPotionRecipes().forEach { (input, ingredient, output) ->
-            BrewingRecipeRegistry.POTION_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
-        }
-        BrewingRecipes.getItemRecipes().forEach { (input, ingredient, output) ->
-            BrewingRecipeRegistry.ITEM_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
-        }
         EntitySleepEvents.STOP_SLEEPING.register { playerEntity, _ ->
             if (playerEntity !is ServerPlayerEntity) {
                 return@register
@@ -169,8 +161,8 @@ object CobblemonFabric : CobblemonImplementation {
 
             return@register ActionResult.PASS
         }
-        LootTableEvents.MODIFY.register { _, lootManager, id, tableBuilder, _ ->
-            LootInjector.attemptInjection(id, lootManager, tableBuilder::pool)
+        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, _ ->
+            LootInjector.attemptInjection(id, tableBuilder::pool)
         }
 
         CommandRegistrationCallback.EVENT.register(CobblemonCommands::register)
@@ -198,7 +190,6 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonSounds.register { identifier, sound -> Registry.register(CobblemonSounds.registry, identifier, sound) }
     }
 
-    @Suppress("UnstableApiUsage")
     override fun registerItems() {
         CobblemonItems.register { identifier, item -> Registry.register(CobblemonItems.registry, identifier, item) }
         CobblemonItemGroups.register { provider ->
@@ -208,9 +199,11 @@ object CobblemonFabric : CobblemonImplementation {
                 .entries(provider.entryCollector)
                 .build())
         }
-        CobblemonItemGroups.inject { injector ->
-            ItemGroupEvents.modifyEntriesEvent(injector.key).register { content ->
-                injector.entryInjector(content.context).forEach(content::add)
+
+        CobblemonItemGroups.injectorKeys().forEach { key ->
+            ItemGroupEvents.modifyEntriesEvent(key).register { content ->
+                val fabricInjector = FabricItemGroupInjector(content)
+                CobblemonItemGroups.inject(key, fabricInjector)
             }
         }
         CobblemonTradeOffers.tradeOffersForAll().forEach { tradeOffer -> TradeOfferHelper.registerVillagerOffers(tradeOffer.profession, tradeOffer.requiredLevel) { factories -> factories.addAll(tradeOffer.tradeOffers) } }
@@ -351,6 +344,26 @@ object CobblemonFabric : CobblemonImplementation {
         override fun getName(): String = this.reloader.name
 
         override fun getFabricDependencies(): MutableCollection<Identifier> = this.dependencies.toMutableList()
+    }
+
+    @Suppress("UnstableApiUsage")
+    private class FabricItemGroupInjector(private val fabricItemGroupEntries: FabricItemGroupEntries) : CobblemonItemGroups.Injector {
+        override fun putFirst(item: ItemConvertible) {
+            this.fabricItemGroupEntries.prepend(item)
+        }
+
+        override fun putBefore(item: ItemConvertible, target: ItemConvertible) {
+            this.fabricItemGroupEntries.addBefore(target, item)
+        }
+
+        override fun putAfter(item: ItemConvertible, target: ItemConvertible) {
+            this.fabricItemGroupEntries.addAfter(target, item)
+        }
+
+        override fun putLast(item: ItemConvertible) {
+            this.fabricItemGroupEntries.add(item)
+        }
+
     }
 
 }

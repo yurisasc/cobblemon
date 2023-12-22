@@ -8,48 +8,48 @@
             "pokemon": "farfetchd",
             "presets": [
                 "natural",
-				"treetop",
-				"wild"
+                "treetop",
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "13-38",
             "weight": 10.0,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "cobblemon:medicinal_leek"
                 ]
             }
         },
-		{
-            "id": "farfetchd-galarian-1",
+        {
+            "id": "farfetchd-galarian-2",
             "pokemon": "farfetchd galarian",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
             "level": "13-38",
             "weight": 9.0,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -57,7 +57,7 @@
                 ]
             },
             "anticondition": {
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "#minecraft:water"
                 ]
             }

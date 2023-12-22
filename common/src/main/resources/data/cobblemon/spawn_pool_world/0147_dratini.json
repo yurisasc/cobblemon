@@ -10,18 +10,19 @@
                 "water_surface"
             ],
             "type": "pokemon",
+            "context": "surface",
             "bucket": "rare",
             "level": "5-30",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
-				"maxY": 32,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "maxY": 32
             }
         },
-		{
+        {
             "id": "dratini-2",
             "pokemon": "dratini",
             "presets": [
@@ -34,18 +35,18 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
-				"maxY": 32,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "maxY": 32
             }
         },
-		{
+        {
             "id": "dratini-3",
             "pokemon": "dratini",
             "presets": [
                 "underwater",
-				"ocean_ruins"
+                "ocean_ruins"
             ],
             "type": "pokemon",
             "context": "submerged",

@@ -1,30 +1,10 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
             "id": "glimmora-1",
-            "pokemon": "glimmora",
-            "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "35-53",
-            "weight": 0.2,
-            "condition": {
-                "biomes": [
-                    "#cobblemon:is_nether_quartz"
-                ],
-				"neededBaseBlocks": [
-					"minecraft:quartz_block"
-				]
-            }
-        },
-        {
-            "id": "glimmora-2",
             "pokemon": "glimmora",
             "presets": [
                 "natural",
@@ -39,6 +19,26 @@
                 "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            }
+        },
+        {
+            "id": "glimmora-2",
+            "pokemon": "glimmora",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "35-53",
+            "weight": 0.2,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_quartz"
+                ],
+                "neededBaseBlocks": [
+                    "minecraft:quartz_block"
                 ]
             }
         }

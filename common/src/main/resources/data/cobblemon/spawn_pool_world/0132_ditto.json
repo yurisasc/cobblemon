@@ -15,7 +15,7 @@
             "level": "4-29",
             "weight": 2.0,
             "condition": {
-				"canSeeSky": true,
+                "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
@@ -26,7 +26,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "ditto-2",
             "pokemon": "ditto",
             "presets": [
@@ -38,7 +38,7 @@
             "level": "4-29",
             "weight": 10.0,
             "condition": {
-				"canSeeSky": true,
+                "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
@@ -49,7 +49,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "ditto-3",
             "pokemon": "ditto",
             "presets": [
@@ -61,7 +61,7 @@
             "level": "4-29",
             "weight": 10.0,
             "condition": {
-				"canSeeSky": false,
+                "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]

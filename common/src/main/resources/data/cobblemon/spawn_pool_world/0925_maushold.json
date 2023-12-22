@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -8,14 +8,14 @@
             "pokemon": "maushold",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "25-47",
             "weight": 0.2,
-			"weightMultiplier": {
+            "weightMultiplier": {
                 "multiplier": 0.25,
                 "condition": {
                     "timeRange": "day"
@@ -28,19 +28,19 @@
                 ]
             }
         },
-		{
+        {
             "id": "maushold-2",
             "pokemon": "maushold",
             "presets": [
                 "natural",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "25-47",
             "weight": 0.6,
-			"weightMultiplier": {
+            "weightMultiplier": {
                 "multiplier": 0.25,
                 "condition": {
                     "timeRange": "day"
@@ -52,13 +52,10 @@
                     "#cobblemon:is_overworld"
                 ]
             },
-			"anticondition": {
+            "anticondition": {
                 "biomes": [
                     "#cobblemon:is_freezing",
-					"#cobblemon:is_sandy"
-                ],
-                "structures": [
-                    "#minecraft:village"
+                    "#cobblemon:is_sandy"
                 ]
             }
         },
@@ -67,14 +64,14 @@
             "pokemon": "maushold",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "25-47",
             "weight": 0.6,
-			"weightMultiplier": {
+            "weightMultiplier": {
                 "multiplier": 0.25,
                 "condition": {
                     "timeRange": "day"
@@ -86,14 +83,14 @@
                     "#cobblemon:is_overworld"
                 ]
             },
-			"anticondition": {
+            "anticondition": {
                 "biomes": [
                     "#cobblemon:is_freezing",
-					"#cobblemon:is_sandy"
+                    "#cobblemon:is_sandy"
                 ]
             }
         },
-		{
+        {
             "id": "maushold-4",
             "pokemon": "maushold",
             "presets": [

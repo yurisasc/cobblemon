@@ -24,6 +24,7 @@ import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Blocks
+import net.minecraft.block.FarmlandBlock
 import net.minecraft.block.Fertilizable
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.entity.BlockEntity
@@ -186,7 +187,9 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     @Deprecated("Deprecated in Java")
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         val below = world.getBlockState(pos.down())
-        return (state.get(WAS_GENERATED) && below.isIn(CobblemonBlockTags.BERRY_WILD_SOIL)) || below.isIn(CobblemonBlockTags.BERRY_SOIL)
+        return (state.get(WAS_GENERATED) && below.isIn(CobblemonBlockTags.BERRY_WILD_SOIL))
+                || below.isIn(CobblemonBlockTags.BERRY_SOIL)
+                || below.block is FarmlandBlock
     }
 
     @Deprecated("Deprecated in Java")

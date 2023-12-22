@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.pokemon.evolution
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
+import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionTestedEvent
 import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
@@ -69,7 +70,12 @@ interface Evolution : EvolutionLike {
      * @param pokemon The [Pokemon] being queried.
      * @return If the [Evolution] can start.
      */
-    fun test(pokemon: Pokemon) = this.requirements.all { requirement -> requirement.check(pokemon) }
+    fun test(pokemon: Pokemon): Boolean {
+        val result = this.requirements.all { requirement -> requirement.check(pokemon) }
+        val event = EvolutionTestedEvent(pokemon, this, result, result)
+        CobblemonEvents.EVOLUTION_TESTED.post(event)
+        return event.result
+    }
 
     /**
      * Starts this evolution or queues it if [optional] is true.

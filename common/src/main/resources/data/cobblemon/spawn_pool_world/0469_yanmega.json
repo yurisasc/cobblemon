@@ -7,10 +7,11 @@
             "id": "yanmega-1",
             "pokemon": "yanmega",
             "presets": [
-                "water_surface",
-                "freshwater"
+                "freshwater",
+                "water_surface"
             ],
             "type": "pokemon",
+            "context": "surface",
             "bucket": "common",
             "level": "33-52",
             "weight": 0.6,
@@ -20,42 +21,44 @@
                 "isRaining": false
             }
         },
-		{
+        {
             "id": "yanmega-2",
             "pokemon": "yanmega",
             "presets": [
                 "water_surface"
             ],
             "type": "pokemon",
+            "context": "surface",
             "bucket": "common",
             "level": "33-52",
             "weight": 0.2,
             "condition": {
                 "canSeeSky": false,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_lush"
                 ]
             }
         },
-		{
+        {
             "id": "yanmega-3",
             "pokemon": "yanmega",
             "presets": [
                 "water_surface"
             ],
             "type": "pokemon",
+            "context": "surface",
             "bucket": "common",
             "level": "33-52",
             "weight": 0.2,
             "condition": {
-				"biomes": [
+                "biomes": [
                     "#the_bumblezone:the_bumblezone"
                 ]
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

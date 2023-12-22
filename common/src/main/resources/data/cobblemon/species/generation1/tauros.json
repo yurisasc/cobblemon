@@ -16,6 +16,9 @@
     "special_defence": 70,
     "speed": 110
   },
+  "features": [
+    "paldean-breed"
+  ],
   "catchRate": 45,
   "maleRatio": 1,
   "shoulderMountable": false,
