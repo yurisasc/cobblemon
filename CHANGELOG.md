@@ -1,22 +1,41 @@
 # Changelog
 ## [1.4.1](#1-4-1)
 
+### Additions
+- Added battle spectating, can disable in config
+- Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
+- Berries can now be used in recipes from [Farmer's Delight](https://modrinth.com/mod/farmers-delight) and [Farmer's Delight (Fabric)](https://modrinth.com/mod/farmers-delight-fabric), as well as any other mods using the same berry tags.
+- The nature of Pokémon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
+- Giving Pokémon items now plays a sound
+- A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft's equivalent with Apricorn planks as replacements.
+- Added the Cleanse Tag, Flame Orb, Life Orb, Smoke Ball, and Toxic Orb held items.
+- Added Fairy Feather drops to some Pokémon.
+- Added the Inferno, Void, and Forsaken patterns for Vivillon. These can be obtained by evolving a Spewpa in the Nether, End, or Deep Dark respectively.
+- Added the Litwick and Drifloon lines.
+- Bees can now be fed using Pep-Up Flowers.
+- Mooshtank can now be milked with a bowl for Mushroom Stew.
+- Updated Showdown version to use gen9 battle data
+- Added cries to Beldum, Metang and Metagross.
+- Added /bedrockparticle command.
+- Added data for Dipplin, Fezandipiti, Munkidori, Ogerpon, Okidogi, Poltchageist and Sinistcha.
+
 ### Changes
 - Slightly lowered the volume of all cries
 - Updated Pokeball animations and model.
 - Turtwig can now be put on shoulder.
-- Shuckles can now be milked for Berry Juice using a wooden bowl
 - Updated Zubat line model, texture, and animations.
 - Updated Geodude line models and textures.
 - Added animations for Hitmontop, Tyrogue, and Mightyena.
 - Tweaked animations for Dusknoir, Ratatta, Bewear, Exeggutor, and Alolan Exeggutor.
 - Sized Kantonian Exeggutor down. Still big but not TOO BIG.
 - Tweaked cries for Pikachu, Raichu and Alolan Raichu.
+- Fixed Swimming behaviors for Wimpod line, Oshawott line, Quaxly line, and Clodsire
 - Pasture blocks will now also connect their bottom left and right sides to walls, iron bars, glass panes and any other modded block that follows the same connection rules.
 - The config option `consumeHeldItems` has been removed, please see the Datapack & Resourcepack Creators for instructions on the updated method.
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
 - Using a Remedy, Fine Remedy, or Superb Remedy will no longer lower friendship with a Pokémon
 - The Healing Machine now has a more difficult recipe, placing it later game.
+- Fixed how Weight and Height is calculated for Pokemon before it is sent into Showdown for accurate damage for some moves
 - Heal Powder can now be composted with a 75% chance of adding a layer
 - Mental, Power, White, and Mirror Herbs can now be composted with a 100% chance of adding a layer.
 - Added emissive to Hoothoot and Noctowl.
@@ -25,23 +44,10 @@
 - Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
 - Added tab completion for statuses to commands
 - Remedies can now be cooked in a Smoker and on a Campfire
-
-### Additions
-- Added battle spectating, can disable in config
-- Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
-- Berries can now be used in recipes from [Farmer's Delight](https://modrinth.com/mod/farmers-delight) and [Farmer's Delight (Fabric)](https://modrinth.com/mod/farmers-delight-fabric), as well as any other mods using the same berry tags.
-- The nature of cobblemon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
-- Giving Pokémon items now plays a sound
-- A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft's equivalent with Apricorn planks as replacements.
-- Added the Cleanse Tag, Flame Orb, Life Orb, Smoke Ball, and Toxic Orb held items.
-- Added Fairy Feather drops to some Pokemon.
-- Added the Inferno, Void, and Forsaken patterns for Vivillon. These can be obtained by evolving a Spewpa in the Nether, End, or Deep Dark respectively.
-- Added the Litwick and Drifloon lines.
-- Bees can now be fed using Pep-Up Flowers.
-- Mooshtank can now be milked with a bowl for Mushroom Stew.
-- Updated Showdown version to use gen9 battle data
-- Added cries to Beldum, Metang and Metagross.
-- Added /bedrockparticle command.
+- Removed the "Poké Ball" variant requirement from the Vivillonaire advancement as it is unobtainable.
+- Vertically flipped the Destiny Knot recipe
+- Made the EXP. Share recipe cheaper
+- Changed the way level scaling works, by default anything with a spawn range of up to 5 either side of the party highest level and everything else will spawn per it's specified ranges.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
@@ -68,7 +74,7 @@
 - Fixed global influences being applied to TickingSpawners twice.
 - Reverted the default SpawningSelector back to FlatContextWeightedSelector. This fixes multiple weight related issues, including weights with SpawningInfluences.
 - Apricorn Planting advancement should work again.
-- Advancement "Patterned Wings" should now allow High Plains and Icy Snow Vivillon to register.
+- Advancement "Vivillonaire" should now allow High Plains and Icy Snow Vivillon to register.
 - Fixed the last battle critical hits evolution requirement not working.
 - Fixed the damage taken evolution requirement not saving progress.
 - Fixed the defeated Pokémon evolution requirement not saving progress.
@@ -92,6 +98,10 @@
 - Fixed battle text for moves that were missing.
 - Fixed a formatting error that affected Pokemon nicknames when the storage type is JSON.
 - Fixed a crash that could occur on some servers relating to chunk loading with fastutil.
+- Fixed an issue involving Inkay's evolution requirement.
+- Fixed conflicting evolution requirements that would cause the Ocean, River, Sun, and Tundra variants of Vivillon to be unobtainable through evolution.
+- Fixed the Modern variant of Vivillon not being obtainable through evolution.
+- Fixed a grammatical issue when using Poké Balls starting with a vowel. ("an Ultra Ball" instead of "a Ultra Ball")
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
@@ -105,7 +115,24 @@
 ### Datapack & Resourcepack Creators
 - Added 3 new item tags: `cobblemon:held/consumed_in_npc_battle`, `cobblemon:held/consumed_in_pvp_battle` & `cobblemon:held/consumed_in_wild_battle` these will determine which items get consumed in the implied battle types by Cobblemon, keep in mind the controller for this behaviour can be overriden by 3rd party.
 - Unique wild encounter themes can now be associated with a specific species (or form) by assigning a SoundEvent identifier to the `battleTheme` field in the species' data configuration.
+- Added a `structure` evolution condition, used to check if a Pokémon is in a given structure.
 
+### Localization
+- Updated translations for:
+  - French and Canadian French
+  - Simplified and Traditional Chinese
+  - Spanish and Mexican Spanish
+  - Pirate English
+  - German
+  - Thai
+  - Portuguese and Brazilian Portuguese
+  - Polish
+  - Italian
+  - Dutch
+  - Ukrainian
+  - Russian
+  
+Thank you so much to all of our community translators that bring the mod to the rest of the world!
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
