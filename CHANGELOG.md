@@ -44,7 +44,6 @@
 - Using Experience Candies brings up the Party Pokémon Select screen when not targeting a Pokémon.
 - Added tab completion for statuses to commands
 - Remedies can now be cooked in a Smoker and on a Campfire
-- Removed the "Poké Ball" variant requirement from the Vivillonaire advancement as it is unobtainable.
 - Vertically flipped the Destiny Knot recipe
 - Made the EXP. Share recipe cheaper
 - Changed the way level scaling works, by default anything with a spawn range of up to 5 either side of the party highest level and everything else will spawn per it's specified ranges.
