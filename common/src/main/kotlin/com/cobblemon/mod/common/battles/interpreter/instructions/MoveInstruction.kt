@@ -12,14 +12,17 @@ import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
+import com.cobblemon.mod.common.battles.dispatch.CausingInstruction
 import com.cobblemon.mod.common.battles.dispatch.InstructionSet
+import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 
 class MoveInstruction(
-    instructionSet: InstructionSet,
-    message: BattleMessage
-) : ParentInstruction(instructionSet, message) {
+    val instructionSet: InstructionSet,
+    val message: BattleMessage
+) : InterpreterInstruction, CausingInstruction {
+    override val cause: InterpreterInstruction? = instructionSet.currentCause
     override fun invoke(battle: PokemonBattle) {
         val userPokemon = message.getBattlePokemon(0, battle) ?: return
         val targetPokemon = message.getBattlePokemon(2, battle)

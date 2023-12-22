@@ -30,6 +30,7 @@ import com.cobblemon.mod.common.util.battleLang
  * It is now turn NUMBER.
  */
 class TurnInstruction(val message: BattleMessage) : InterpreterInstruction {
+    override val cause = null
     override fun invoke(battle: PokemonBattle) {
         if (!battle.started) {
             battle.started = true

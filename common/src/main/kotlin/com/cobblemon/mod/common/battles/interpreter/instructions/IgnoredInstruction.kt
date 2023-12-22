@@ -12,5 +12,6 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 
 class IgnoredInstruction : InterpreterInstruction {
+    override val cause = null
     override fun invoke(pokemonBattle: PokemonBattle) = Unit
 }

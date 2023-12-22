@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
+import com.cobblemon.mod.common.battles.dispatch.CausingInstruction
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.InstructionSet
@@ -84,10 +85,10 @@ object ShowdownInterpreter {
 
         updateInstructionParser["turn"] = { _, _, message, _ -> TurnInstruction(message) }
         updateInstructionParser["upkeep"] = { _, _, _, _ -> UpkeepInstruction() }
-        updateInstructionParser["faint"] = { battle, instructionSet, message, _ -> FaintInstruction(instructionSet.currentParent, battle, message) }
+        updateInstructionParser["faint"] = { battle, instructionSet, message, _ -> FaintInstruction(instructionSet.currentCause, battle, message) }
         updateInstructionParser["move"] = { _, instructionSet, message, _ -> MoveInstruction(instructionSet, message) }
         splitInstructionParser["-damage"] = { battle, targetActor, instructionSet, publicMessage, privateMessage, _ ->
-            DamageInstruction(instructionSet.currentParent, targetActor, publicMessage, privateMessage)
+            DamageInstruction(instructionSet.currentCause, targetActor, publicMessage, privateMessage)
         }
 
 
@@ -273,14 +274,14 @@ object ShowdownInterpreter {
                     val message = iterator.next()
                     val id = message.id.replace("|", "")
                     if (id in contextResetInstructions) {
-                        instructionSet.currentParent = null
+                        instructionSet.currentCause = null
                     } else {
                         val instruction = updateInstructionParser[id]?.invoke(battle, instructionSet, message, iterator) ?: run {
                             val instructionFn = updateInstructions.entries.find { ins -> message.rawMessage.startsWith(ins.key) }?.value
                             instructionFn?.let { fn -> DeprecatedInstruction(message, fn) } ?: UnknownInstruction(message)
                         }
-                        if (instruction is ParentInstruction) {
-                            instructionSet.currentParent = instruction
+                        if (instruction is CausingInstruction) {
+                            instructionSet.currentCause = instruction
                         }
                         instructionSet.instructions.add(instruction)
                     }
