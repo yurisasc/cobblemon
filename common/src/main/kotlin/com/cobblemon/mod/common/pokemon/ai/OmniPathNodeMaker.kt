@@ -16,6 +16,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
 import java.util.EnumSet
 import net.minecraft.block.AbstractRailBlock
+import net.minecraft.block.Blocks
 import net.minecraft.block.FenceGateBlock
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.ai.pathing.PathNode
@@ -327,6 +328,9 @@ class OmniPathNodeMaker : PathNodeMaker() {
         }
         if (type == PathNodeType.LEAVES) {
             type = PathNodeType.BLOCKED
+        }
+        if(world.getBlockState(pos).block == Blocks.SWEET_BERRY_BUSH){
+            type = PathNodeType.DANGER_OTHER
         }
         return type
     }
