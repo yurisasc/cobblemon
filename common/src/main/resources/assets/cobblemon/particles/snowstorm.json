@@ -16,6 +16,9 @@
     "cobblemon:speedlines",
     "cobblemon:star",
     "cobblemon:tailflame",
-    "cobblemon:vanilla_smoke"
+    "cobblemon:vanilla_smoke",
+    "cobblemon:glowing_dots_cyan",
+    "cobblemon:glowing_smoke_cyan",
+    "cobblemon:glowing_sparkle_yellow"
   ]
 }

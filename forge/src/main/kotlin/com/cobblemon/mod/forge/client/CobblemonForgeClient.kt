@@ -76,7 +76,6 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     private fun onClientSetup(event: FMLClientSetupEvent) {
         event.enqueueWork {
             CobblemonClient.initialize(this)
-            EntityRenderers.register(CobblemonEntities.GENERIC_BEDROCK_ENTITY) { CobblemonClient.registerGenericBedrockRenderer(it) }
         }
         ForgeClientPlatformEventHandler.register()
     }

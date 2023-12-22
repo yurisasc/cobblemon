@@ -5,13 +5,10 @@
 			"identifier": "cobblemon:evo_sparkle",
 			"basic_render_parameters": {
 				"material": "particles_blend",
-				"texture": "textures/particles/sparkle"
+				"texture": "textures/particles/glowing_sparkle_yellow"
 			}
 		},
 		"components": {
-			"minecraft:emitter_initialization": {
-				"creation_expression": "v.entity_radius = 1;"
-			},
 			"minecraft:emitter_rate_steady": {
 				"spawn_rate": "math.clamp(10 * v.entity_radius, 10, 100)",
 				"max_particles": 100

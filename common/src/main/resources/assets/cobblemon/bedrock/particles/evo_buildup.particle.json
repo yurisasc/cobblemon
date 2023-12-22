@@ -5,13 +5,10 @@
 			"identifier": "cobblemon:evo_buildup",
 			"basic_render_parameters": {
 				"material": "particles_blend",
-				"texture": "textures/blocks/wool_colored_white"
+				"texture": "textures/particles/glowing_dots_cyan"
 			}
 		},
 		"components": {
-			"minecraft:emitter_initialization": {
-				"creation_expression": "v.entity_radius = 1;"
-			},
 			"minecraft:emitter_rate_steady": {
 				"spawn_rate": "v.emitter_age * 10",
 				"max_particles": 100

@@ -66,8 +66,6 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
 
         CobblemonFabric.networkManager.registerClientBound()
 
-        EntityRendererRegistry.register(CobblemonEntities.GENERIC_BEDROCK_ENTITY) { CobblemonClient.registerGenericBedrockRenderer(it) }
-
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : IdentifiableResourceReloadListener {
             override fun reload(
                 synchronizer: ResourceReloader.Synchronizer?,

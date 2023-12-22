@@ -5,12 +5,12 @@
 			"identifier": "cobblemon:evo_obscuring",
 			"basic_render_parameters": {
 				"material": "particles_blend",
-				"texture": "textures/particles/speedlines"
+				"texture": "textures/particles/glowing_smoke_cyan"
 			}
 		},
 		"components": {
 			"minecraft:emitter_initialization": {
-				"creation_expression": "v.entity_radius = 1;"
+				"creation_expression": "v.entity_radius = v.entity_radius == 0 ? 1 : v.entity_radius;"
 			},
 			"minecraft:emitter_local_space": {
 				"position": true,

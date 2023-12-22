@@ -225,11 +225,8 @@ object CobblemonClient {
         this.implementation.registerEntityRenderer(CobblemonEntities.BOAT) { ctx -> CobblemonBoatRenderer(ctx, false) }
         LOGGER.info("Registering Boat with Chest renderer")
         this.implementation.registerEntityRenderer(CobblemonEntities.CHEST_BOAT) { ctx -> CobblemonBoatRenderer(ctx, true) }
-    }
-
-    fun registerGenericBedrockRenderer(context: EntityRendererFactory.Context): GenericBedrockRenderer {
         LOGGER.info("Registering Generic Bedrock renderer")
-        return GenericBedrockRenderer(context)
+        this.implementation.registerEntityRenderer(CobblemonEntities.GENERIC_BEDROCK_ENTITY, ::GenericBedrockRenderer)
     }
 
     fun reloadCodedAssets(resourceManager: ResourceManager) {
