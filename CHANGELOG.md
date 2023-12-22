@@ -1,6 +1,24 @@
 # Changelog
 ## [1.4.1](#1-4-1)
 
+### Additions
+- Added battle spectating, can disable in config
+- Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
+- Berries can now be used in recipes from [Farmer's Delight](https://modrinth.com/mod/farmers-delight) and [Farmer's Delight (Fabric)](https://modrinth.com/mod/farmers-delight-fabric), as well as any other mods using the same berry tags.
+- The nature of cobblemon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
+- Giving Pokémon items now plays a sound
+- A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft's equivalent with Apricorn planks as replacements.
+- Added the Cleanse Tag, Flame Orb, Life Orb, Smoke Ball, and Toxic Orb held items.
+- Added Fairy Feather drops to some Pokemon.
+- Added the Inferno, Void, and Forsaken patterns for Vivillon. These can be obtained by evolving a Spewpa in the Nether, End, or Deep Dark respectively.
+- Added the Litwick and Drifloon lines.
+- Bees can now be fed using Pep-Up Flowers.
+- Mooshtank can now be milked with a bowl for Mushroom Stew.
+- Updated Showdown version to use gen9 battle data
+- Added cries to Beldum, Metang and Metagross.
+- Added /bedrockparticle command.
+- Added data for Dipplin, Fezandipiti, Munkidori, Ogerpon, Okidogi, Poltchageist and Sinistcha.
+
 ### Changes
 - Slightly lowered the volume of all cries
 - Updated Pokeball animations and model.
@@ -29,24 +47,6 @@
 - Removed the "Poké Ball" variant requirement from the Vivillonaire advancement as it is unobtainable.
 - Vertically flipped the Destiny Knot recipe
 - Made the EXP. Share recipe cheaper
-
-### Additions
-- Added battle spectating, can disable in config
-- Cobblemon now has compatibility with [Adorn](https://modrinth.com/mod/adorn) allowing you to craft Apricorn wood furniture.
-- Berries can now be used in recipes from [Farmer's Delight](https://modrinth.com/mod/farmers-delight) and [Farmer's Delight (Fabric)](https://modrinth.com/mod/farmers-delight-fabric), as well as any other mods using the same berry tags.
-- The nature of cobblemon will now be displayed italicized when a mint has been applied. Hovering over the nature will display the mint that was applied. This is the intended behaviour, because the original nature and taste of the Cobblemon does not change when a mint is applied.
-- Giving Pokémon items now plays a sound
-- A boat, sign and hanging sign is now craftable with Apricorn wood. The recipes are the same shape as Minecraft's equivalent with Apricorn planks as replacements.
-- Added the Cleanse Tag, Flame Orb, Life Orb, Smoke Ball, and Toxic Orb held items.
-- Added Fairy Feather drops to some Pokemon.
-- Added the Inferno, Void, and Forsaken patterns for Vivillon. These can be obtained by evolving a Spewpa in the Nether, End, or Deep Dark respectively.
-- Added the Litwick and Drifloon lines.
-- Bees can now be fed using Pep-Up Flowers.
-- Mooshtank can now be milked with a bowl for Mushroom Stew.
-- Updated Showdown version to use gen9 battle data
-- Added cries to Beldum, Metang and Metagross.
-- Added /bedrockparticle command.
-- Added data for Dipplin, Fezandipiti, Munkidori, Ogerpon, Okidogi, Poltchageist and Sinistcha.
 
 ### Fixes
 - Fixed various stone related blocks not being valid for Big Roots to spread on the Fabric version.
@@ -115,6 +115,23 @@
 - Added 3 new item tags: `cobblemon:held/consumed_in_npc_battle`, `cobblemon:held/consumed_in_pvp_battle` & `cobblemon:held/consumed_in_wild_battle` these will determine which items get consumed in the implied battle types by Cobblemon, keep in mind the controller for this behaviour can be overriden by 3rd party.
 - Unique wild encounter themes can now be associated with a specific species (or form) by assigning a SoundEvent identifier to the `battleTheme` field in the species' data configuration.
 - Added a `structure` evolution condition, used to check if a Pokémon is in a given structure.
+
+### Localization
+- Updated translations for:
+  - French and Canadian French
+  - Simplified and Traditional Chinese
+  - Spanish and Mexican Spanish
+  - Pirate English
+  - German
+  - Thai
+  - Portuguese and Brazilian Portuguese
+  - Polish
+  - Italian
+  - Dutch
+  - Ukrainian
+  - Russian
+  
+Thank you so much to all of our community translators that bring the mod to the rest of the world!
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
 ### Additions
