@@ -102,6 +102,7 @@
 - Fixed conflicting evolution requirements that would cause the Ocean, River, Sun, and Tundra variants of Vivillon to be unobtainable through evolution.
 - Fixed the Modern variant of Vivillon not being obtainable through evolution.
 - Fixed a grammatical issue when using Poké Balls starting with a vowel. ("an Ultra Ball" instead of "a Ultra Ball")
+- Fixed Pokémon pathing through berry bushes, harming themselves in the process
 
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
