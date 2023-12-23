@@ -549,8 +549,11 @@ class StrongBattleAI() : BattleAI {
                     }
                 }
             }
-
-
+            fun hasMajorStatusImmunity(target: ActiveTracker.TrackerPokemon) : Boolean {
+                // TODO: Need to check for Safeguard and Misty Terrain
+                return listOf("comatose", "purifyingsalt").contains(opponent.pokemon!!.ability.name) &&
+                        (currentWeather == "sunny" && opponent.pokemon!!.ability.name == "leafguard");
+            }
             // Status Inflicting Moves
             for (move in moveset.moves) {
                 val activeOpponent = opponent.pokemon
@@ -560,26 +563,31 @@ class StrongBattleAI() : BattleAI {
                     if (it.status != null && opponent.currentHpPercent > 0.6 && mon.currentHpPercent > 0.5) { // todo make sure this is the right status to use. It might not be
 
                         when (statusMoves.get(Moves.getByName(move.id))) {
-                            "burn" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.FIRE) && getBaseStats(opponent.pokemon!!, "atk") > 80) {
+                            "burn" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.FIRE) && getBaseStats(opponent.pokemon!!, "atk") > 80 &&
+                                    !hasMajorStatusImmunity(opponent) &&
+                                    !listOf("waterbubble", "waterveil", "flareboost", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)) {
                                 MoveActionResponse(move.id)
                             }
 
-                            "paralysis" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.ELECTRIC) && getBaseStats(opponent.pokemon!!, "spe") > getBaseStats(mon.pokemon!!, "spe")) {
+                            "paralysis" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.ELECTRIC) && getBaseStats(opponent.pokemon!!, "spe") > getBaseStats(mon.pokemon!!, "spe") &&
+                                    !hasMajorStatusImmunity(opponent) &&
+                                    !listOf("limber", "guts").contains(opponent.pokemon!!.ability.name)) {
                                 MoveActionResponse(move.id)
                             }
 
                             "sleep" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.GRASS) && (move.id.equals("spore") || move.id.equals("sleeppowder")) &&
+                                    !hasMajorStatusImmunity(opponent) &&
                                     !listOf("insomnia", "sweetveil").contains(opponent.pokemon!!.ability.name)) {
                                 MoveActionResponse(move.id)
                             }
 
-                            "confusion" -> if (!listOf(ElementalTypes.POISON, ElementalTypes.STEEL).any { it in opponent.pokemon!!.types } &&
-                                    !listOf("magicguard", "owntempo", "oblivious").contains(opponent.pokemon!!.ability.name)) {
+                            "confusion" -> if (!listOf("owntempo", "oblivious").contains(opponent.pokemon!!.ability.name)) {
                                 MoveActionResponse(move.id)
                             }
 
                             "poison" -> if (!listOf(ElementalTypes.POISON, ElementalTypes.STEEL).any { it in opponent.pokemon!!.types } &&
-                                    !listOf("immunity", "magicguard").contains(opponent.pokemon!!.ability.name)) {
+                                    !hasMajorStatusImmunity(opponent) &&
+                                    !listOf("immunity", "poisonheal", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)) {
                                 MoveActionResponse(move.id)
                             }
 
@@ -589,7 +597,7 @@ class StrongBattleAI() : BattleAI {
                             }
 
                             "leech" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.GRASS) &&
-                                    opponent.pokemon!!.ability.name != "magicguard") {
+                                    !listOf("liquidooze", "magicguard").contains(opponent.pokemon!!.ability.name)) {
                                 MoveActionResponse(move.id)
                             }
                         }
