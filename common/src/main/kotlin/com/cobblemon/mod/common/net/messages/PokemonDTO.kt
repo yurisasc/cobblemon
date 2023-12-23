@@ -75,7 +75,7 @@ class PokemonDTO : Encodable, Decodable {
     var gmaxFactor = false
     var tradeable = true
     var originalTrainerUUID: UUID? = null
-    var originalTrainerDisplayName = ""
+    var originalTrainerDisplayName: String? = null
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
@@ -110,8 +110,8 @@ class PokemonDTO : Encodable, Decodable {
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
-        this.originalTrainerUUID = pokemon.originalTrainerUUID
-        this.originalTrainerDisplayName = pokemon.originalTrainerDisplayName
+        this.originalTrainerUUID = pokemon.originalTrainer?.first
+        this.originalTrainerDisplayName = pokemon.originalTrainer?.second
     }
 
     override fun encode(buffer: PacketByteBuf) {
@@ -150,7 +150,7 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeBoolean(gmaxFactor)
         buffer.writeBoolean(tradeable)
         buffer.writeNullable(originalTrainerUUID) { _, v -> buffer.writeUuid(v) }
-        buffer.writeString(originalTrainerDisplayName)
+        buffer.writeNullable(originalTrainerDisplayName) { _, v -> buffer.writeString(v) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -190,7 +190,7 @@ class PokemonDTO : Encodable, Decodable {
         gmaxFactor = buffer.readBoolean()
         tradeable = buffer.readBoolean()
         originalTrainerUUID = buffer.readNullable { buffer.readUuid() }
-        originalTrainerDisplayName = buffer.readString()
+        originalTrainerDisplayName = buffer.readNullable { buffer.readString() }
     }
 
     fun create(): Pokemon {
@@ -240,10 +240,13 @@ class PokemonDTO : Encodable, Decodable {
             it.dmaxLevel = dmaxLevel
             it.gmaxFactor = gmaxFactor
             it.tradeable = tradeable
-            if (originalTrainerUUID != null)
-                it.setOriginalTrainer(originalTrainerUUID!!, originalTrainerDisplayName)
-            else
-                it.setOriginalTrainer(originalTrainerDisplayName)
+            if (originalTrainerUUID != null) {
+                it.setOriginalTrainer(originalTrainerUUID!!, originalTrainerDisplayName!!)
+            } else if (originalTrainerDisplayName != null) {
+                it.setOriginalTrainer(originalTrainerDisplayName!!)
+            } else {
+                it.originalTrainer = null
+            }
         }
     }
 }
