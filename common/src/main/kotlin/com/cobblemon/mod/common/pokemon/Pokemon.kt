@@ -1073,6 +1073,33 @@ open class Pokemon : ShowdownIdentifiable {
         return this
     }
 
+    // overloaded version that initializes a pokemon with a certain typing
+    fun initialize(typing: ElementalType): Pokemon {
+        // Force the setter to initialize it
+        species = PokemonSpecies.random(typing)
+
+        // initialize the rest of the pokemon
+        if (PokemonSpecies.getByIdentifier(species.resourceIdentifier) == null) {
+            throw IllegalArgumentException("Cannot set a species that isn't registered")
+        }
+        val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
+        //field = species // todo do I need field? I don't think so
+        val newFeatures = SpeciesFeatures.getFeaturesFor(species).mapNotNull { it.invoke(this) }
+        features.clear()
+        features.addAll(newFeatures)
+        this.evolutionProxy.current().clear()
+        updateAspects()
+        updateForm()
+        checkGender()
+        checkAbility()
+        updateHP(quotient)
+        _species.emit(species)
+        initializeMoveset()
+
+        return this
+    }
+
+
     fun checkGender() {
         var reassess = false
         if (form.maleRatio !in 0F..1F && gender != Gender.GENDERLESS) {

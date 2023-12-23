@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
 import com.cobblemon.mod.common.api.storage.party.PartyStore
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.actor.TrainerBattleActor
@@ -25,12 +26,13 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
-import java.util.Optional
-import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import java.util.*
+import kotlin.collections.HashMap
+import kotlin.math.E
 
 object BattleBuilder {
     @JvmOverloads
@@ -153,9 +155,10 @@ object BattleBuilder {
     fun pvc(player: ServerPlayerEntity,
             battleAI: String,
             battleLevel: Int = 50,
+            teamTyping: String = "random",
+            cloneParties: Boolean = false,
             npcParty: MutableList<BattlePokemon> = mutableListOf(),
             battleFormat: BattleFormat = BattleFormat.GEN_9_SINGLES,
-            cloneParties: Boolean = false,
             healFirst: Boolean = false,
             playerParty: PartyStore = player.party()
     ): BattleStartResult {
@@ -169,20 +172,59 @@ object BattleBuilder {
         val playerActor = PlayerBattleActor(player.uuid, playerTeam)
 
         if (npcParty.isEmpty()) {
-            repeat(6) {
-                // todo generate random party of 6 BattlePokemon
-                val npcPokemon = Pokemon()
+            when (teamTyping) {
+                "random" -> {
+                    repeat(6) {
+                        // todo generate random party of 6 BattlePokemon
+                        val npcPokemon = Pokemon()
 
-                npcPokemon.uuid = UUID.randomUUID()
-                npcPokemon.level = battleLevel
-                npcPokemon.initialize() // This will generate everything else about the pokemon
+                        npcPokemon.uuid = UUID.randomUUID()
+                        npcPokemon.level = battleLevel
+                        npcPokemon.initialize() // This will generate everything else about the pokemon
 
-                npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+                        npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+                    }
+                }
+                else -> {
+                    val typing = when (teamTyping.uppercase()) {
+                        "FIRE" -> ElementalTypes.FIRE
+                        "WATER" -> ElementalTypes.WATER
+                        "ELECTRIC" -> ElementalTypes.ELECTRIC
+                        "GRASS" -> ElementalTypes.GRASS
+                        "GROUND" -> ElementalTypes.GROUND
+                        "ROCK" -> ElementalTypes.ROCK
+                        "PSYCHIC" -> ElementalTypes.PSYCHIC
+                        "FLYING" -> ElementalTypes.FLYING
+                        "FIGHTING" -> ElementalTypes.FIGHTING
+                        "DARK" -> ElementalTypes.DARK
+                        "BUG" -> ElementalTypes.BUG
+                        "ICE" -> ElementalTypes.ICE
+                        "GHOST" -> ElementalTypes.GHOST
+                        "NORMAL" -> ElementalTypes.NORMAL
+                        "STEEL" -> ElementalTypes.STEEL
+                        "POISON" -> ElementalTypes.POISON
+                        "FAIRY" -> ElementalTypes.FAIRY
+                        else -> ElementalTypes.DRAGON
+                    }
+
+                    repeat(6) {
+                        // todo generate random party of 6 BattlePokemon
+                        val npcPokemon = Pokemon()
+
+                        npcPokemon.uuid = UUID.randomUUID()
+                        npcPokemon.level = battleLevel
+                        npcPokemon.initialize(typing) // This will generate everything else about the pokemon
+
+                        npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+                    }
+                }
             }
+
         }
 
 
         val npcUUID = UUID.randomUUID()
+        // create NPC to battle with
         val npcActor = TrainerBattleActor("Master of Crabs", npcUUID, npcParty.toList(), battleAIType)
 
 

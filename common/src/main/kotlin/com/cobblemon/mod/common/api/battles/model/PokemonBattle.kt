@@ -95,6 +95,7 @@ open class PokemonBattle(
     val chatLog = mutableListOf<Text>()
     var started = false
     var ended = false
+    var simulation = false
     // TEMP battle showcase stuff
     var announcingRules = false
     var turn: Int = 1
@@ -204,7 +205,8 @@ open class PokemonBattle(
 
     fun end() {
         ended = true
-        this.actors.forEach { actor ->
+        // award XP if it is not a simulation battle
+        if (simulation == false) this.actors.forEach { actor ->
             val faintedPokemons = actor.pokemonList.filter { it.health <= 0 }
             actor.getSide().getOppositeSide().actors.forEach { opponent ->
                 val opponentNonFaintedPokemons = opponent.pokemonList.filter { it.health > 0 }

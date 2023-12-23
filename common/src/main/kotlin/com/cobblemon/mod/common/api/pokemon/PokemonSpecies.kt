@@ -33,6 +33,7 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.spawning.TimeRange
 import com.cobblemon.mod.common.api.types.ElementalType
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.adapters.ElementalTypeAdapter
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.FormData
@@ -168,6 +169,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
      * @return A randomly selected [Species].
      */
     fun random(): Species = this.implemented.random()
+
+    // overloaded function to give random pokemon species of a certain type
+    fun random(type: ElementalType): Species = this.implemented.filter { it.primaryType == type || it.secondaryType == type }.random()
 
     override fun reload(data: Map<Identifier, Species>) {
         this.speciesByIdentifier.clear()
