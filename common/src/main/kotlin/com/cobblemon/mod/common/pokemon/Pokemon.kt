@@ -41,7 +41,7 @@ import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
@@ -408,7 +408,7 @@ open class Pokemon : ShowdownIdentifiable {
     private var heldItem: ItemStack = ItemStack.EMPTY
 
     init {
-        storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) afterOnMain(ticks = 1) { this.tetheringId = null } }
+        storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) afterOnServer(ticks = 1) { this.tetheringId = null } }
     }
 
     open fun getStat(stat: Stat) = Cobblemon.statProvider.getStatForPokemon(this, stat)
@@ -458,7 +458,7 @@ open class Pokemon : ShowdownIdentifiable {
             it.beamModeEmitter.set(1)
             it.battleId.set(Optional.ofNullable(battleId))
 
-            afterOnMain(seconds = SEND_OUT_DURATION) {
+            it.after(seconds = SEND_OUT_DURATION) {
                 it.phasingTargetId.set(-1)
                 it.beamModeEmitter.set(0)
                 future.complete(it)
@@ -504,7 +504,7 @@ open class Pokemon : ShowdownIdentifiable {
             it.moveControl.moveTo(targetPosition.x, targetPosition.y, targetPosition.z, 1.2)
             it.battleId.set(Optional.ofNullable(battleId))
 
-            afterOnMain(seconds = SEND_OUT_DURATION) {
+            afterOnServer(seconds = SEND_OUT_DURATION) {
                 future.complete(it)
                 CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
                 if (doCry) {
