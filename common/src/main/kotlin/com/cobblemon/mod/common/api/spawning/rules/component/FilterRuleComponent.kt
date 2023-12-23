@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.spawning.rules.component
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.ast.BooleanExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.rules.selector.AllSpawnDetailSelector
@@ -28,7 +29,7 @@ import com.cobblemon.mod.common.util.resolveBoolean
  */
 class FilterRuleComponent : SpawnRuleComponent {
     @Transient
-    val runtime = MoLangRuntime()
+    val runtime = MoLangRuntime().setup()
 
     val spawnSelector: SpawnDetailSelector = AllSpawnDetailSelector
     val contextSelector: SpawningContextSelector = AllSpawningContextSelector
