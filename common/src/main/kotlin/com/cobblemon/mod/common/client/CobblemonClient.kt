@@ -33,6 +33,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeB
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
+import com.cobblemon.mod.common.client.sound.battle.BattleMusicController
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
@@ -245,6 +246,8 @@ object CobblemonClient {
 
     fun endBattle() {
         battle = null
+        battleOverlay.lastKnownBattle = null
+        BattleMusicController.endMusic()
     }
 
     private fun baseLangKeyForItem(stack: ItemStack): String {

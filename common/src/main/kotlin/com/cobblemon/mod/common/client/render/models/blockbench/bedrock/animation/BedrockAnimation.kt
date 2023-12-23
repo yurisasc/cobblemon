@@ -132,7 +132,7 @@ data class BedrockAnimation(
     val boneTimelines: Map<String, BedrockBoneTimeline>
 ) {
     companion object {
-        val functionMappings = mutableMapOf<String, java.util.function.Function<MoParams, Any>>()
+        val functionMappings = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
         val sharedRuntime = MoLangRuntime().also {
             it.environment.structs["query"] = it.environment.structs["variable"]
             it.environment.structs["script"] = QueryStruct(functionMappings)
