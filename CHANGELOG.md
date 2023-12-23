@@ -1,5 +1,5 @@
 # Changelog
-## [1.4.1](#1-4-1)
+## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
 ### Additions
 - Added battle spectating. Press R on a player in a battle and you can spectate and bully them for their tactics.
