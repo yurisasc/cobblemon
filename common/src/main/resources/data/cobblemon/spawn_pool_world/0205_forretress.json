@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -21,12 +21,12 @@
                 ]
             }
         },
-		{
-            "id": "forretress-shulker-1",
+        {
+            "id": "forretress-shulker-2",
             "pokemon": "forretress shulker",
             "presets": [
                 "natural",
-				"end_city"
+                "end_city"
             ],
             "type": "pokemon",
             "context": "grounded",

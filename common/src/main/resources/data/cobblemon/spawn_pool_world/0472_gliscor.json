@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -35,10 +35,10 @@
             "level": "38-51",
             "weight": 0.2,
             "condition": {
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_nether_mountain"
                 ]
-			}
+            }
         }
     ]
 }

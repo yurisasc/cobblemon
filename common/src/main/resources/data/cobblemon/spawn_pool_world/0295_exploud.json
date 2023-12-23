@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -21,7 +21,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "exploud-2",
             "pokemon": "exploud",
             "presets": [
@@ -37,13 +37,13 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-				"maxY": 0
+                "maxY": 0
             },
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_deep_dark"
                 ]
-			}
+            }
         }
     ]
 }

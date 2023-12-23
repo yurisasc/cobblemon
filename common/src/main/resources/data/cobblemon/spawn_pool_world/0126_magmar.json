@@ -20,9 +20,9 @@
                     "#cobblemon:is_hills"
                 ],
                 "isRaining": false,
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "#minecraft:lava",
-					"minecraft:magma_block"
+                    "minecraft:magma_block"
                 ]
             },
             "anticondition": {

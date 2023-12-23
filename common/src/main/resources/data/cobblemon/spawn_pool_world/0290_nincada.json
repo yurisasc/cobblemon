@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -16,11 +16,12 @@
             "weight": 10.0,
             "condition": {
                 "canSeeSky": false,
-                "minY": 32,
                 "biomes": [
                     "#cobblemon:is_forest",
                     "#cobblemon:is_jungle"
-                ]
+                ],
+                "minY": 32,
+                "maxY": 62
             },
             "anticondition": {
                 "biomes": [

@@ -19,6 +19,10 @@ import com.cobblemon.mod.common.mixin.invoker.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.block.BerryBlock
+import com.cobblemon.mod.common.block.sign.CobblemonHangingSignBlock
+import com.cobblemon.mod.common.block.sign.CobblemonSignBlock
+import com.cobblemon.mod.common.block.sign.CobblemonWallHangingSignBlock
+import com.cobblemon.mod.common.block.sign.CobblemonWallSignBlock
 import net.minecraft.block.*
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.entity.effect.StatusEffects
@@ -32,6 +36,8 @@ import net.minecraft.util.math.intprovider.UniformIntProvider
 
 @Suppress("SameParameterValue", "HasPlatformType", "MemberVisibilityCanBePrivate", "unused")
 object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<Block>>, Block>() {
+
+
 
     override val registry: Registry<Block> = Registries.BLOCK
     override val registryKey: RegistryKey<Registry<Block>> = RegistryKeys.BLOCK
@@ -105,9 +111,14 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val APRICORN_BUTTON = this.create("apricorn_button", BlocksInvoker.createWoodenButtonBlock(BlockSetType.OAK))
     @JvmField
     val APRICORN_PRESSURE_PLATE = this.create("apricorn_pressure_plate", PressurePlateBlockInvoker.`cobblemon$create`(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.create().mapColor(APRICORN_PLANKS.defaultMapColor).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), APRICORN_BLOCK_SET_TYPE))
-    // Tag was removed be sure to add it back when implemented
-    //val APRICORN_SIGN = queue("apricorn_sign") { StandingSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE) }
-    //val APRICORN_WALL_SIGN = queue("apricorn_wall_sign") { WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD).dropsLike(APRICORN_SIGN), APRICORN_WOOD_TYPE) }
+    @JvmField
+    val APRICORN_SIGN = this.create("apricorn_sign", CobblemonSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_SIGN), APRICORN_WOOD_TYPE))
+    @JvmField
+    val APRICORN_WALL_SIGN = this.create("apricorn_wall_sign", CobblemonWallSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_WALL_SIGN), APRICORN_WOOD_TYPE))
+    @JvmField
+    val APRICORN_HANGING_SIGN = this.create("apricorn_hanging_sign", CobblemonHangingSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_WALL_HANGING_SIGN), APRICORN_WOOD_TYPE))
+    @JvmField
+    val APRICORN_WALL_HANGING_SIGN = this.create("apricorn_wall_hanging_sign", CobblemonWallHangingSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_HANGING_SIGN), APRICORN_WOOD_TYPE))
     @JvmField
     val APRICORN_SLAB = this.create("apricorn_slab", SlabBlock(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
     @JvmField
@@ -228,6 +239,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         APRICORN_LOG to STRIPPED_APRICORN_LOG
     )
 
+
+
     private fun apricornBlock(name: String, apricorn: Apricorn): ApricornBlock = this.create(name, ApricornBlock(AbstractBlock.Settings.create().mapColor(apricorn.mapColor()).ticksRandomly().strength(Blocks.OAK_LOG.hardness, Blocks.OAK_LOG.blastResistance).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn))
 
     private val berries = mutableMapOf<Identifier, BerryBlock>()
@@ -302,6 +315,25 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val WIKI_BERRY = this.berryBlock("wiki")
     val YACHE_BERRY = this.berryBlock("yache")
 
+    init {
+        /**
+         * Makes all blocks in array flammable by adding them to FireBlock's flammableRegistry.
+         * second value is burn chance and third value is spread chance
+         */
+        arrayOf(
+            Triple(APRICORN_LOG, 5, 5),
+            Triple(STRIPPED_APRICORN_LOG, 5, 5),
+            Triple(APRICORN_WOOD, 5, 5),
+            Triple(STRIPPED_APRICORN_WOOD, 5, 5),
+            Triple(APRICORN_PLANKS, 5, 20),
+            Triple(APRICORN_LEAVES, 30, 60),
+            Triple(APRICORN_FENCE, 5, 20),
+            Triple(APRICORN_FENCE_GATE, 5, 20),
+            Triple(APRICORN_SLAB, 5, 20),
+            Triple(APRICORN_STAIRS, 5, 20)
+        ).onEach{ data -> setFlammable(data.first, data.second, data.third) }
+    }
+
     fun berries() = this.berries.toMap()
 
     private fun berryBlock(name: String): BerryBlock {
@@ -312,12 +344,26 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     }
 
     /**
-     * Helper method for creating logs
-     * copied over from Vanilla
+     * Calls helper method from Vanilla
      */
     private fun log(name: String, arg: MapColor = MapColor.DIRT_BROWN, arg2: MapColor = MapColor.DIRT_BROWN): PillarBlock {
         val block = BlocksInvoker.createLogBlock(arg, arg2)
         return this.create(name, block)
+    }
+
+    /**
+     * Method uses generic E in order to keep the block as the same return type.
+     * If E is not a block then it will not be set as flammable.
+     * Calls Vanilla implementation of registering a flammable block.
+     * Mixins looks cursed but it is java's fault.
+     */
+    private fun <E> setFlammable(block: E, burnChance: Int, spreadChance: Int): E {
+        if(block !is Block) return block
+
+        var fireBlock: FireBlock =  Blocks.FIRE as FireBlock
+        //Cursed Mixin stuff
+        (fireBlock as FireBlockInvoker).registerNewFlammableBlock(block as Block, burnChance, spreadChance)
+        return block
     }
 
     private fun evolutionStoneOre(name: String) = this.create(name, ExperienceDroppingBlock(AbstractBlock.Settings.copy(Blocks.IRON_ORE), UniformIntProvider.create(1, 2)))

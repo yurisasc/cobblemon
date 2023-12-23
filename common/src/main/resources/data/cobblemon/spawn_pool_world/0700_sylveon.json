@@ -27,12 +27,12 @@
                 ]
             }
         },
-		{
+        {
             "id": "sylveon-2",
             "pokemon": "sylveon",
             "presets": [
                 "natural",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -43,11 +43,6 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
@@ -56,7 +51,7 @@
             "pokemon": "sylveon",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -70,7 +65,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "sylveon-4",
             "pokemon": "sylveon",
             "presets": [

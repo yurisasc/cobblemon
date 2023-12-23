@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.pokemon.status
 
+import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.statuses.BurnStatus
 import com.cobblemon.mod.common.pokemon.status.statuses.FrozenStatus
 import com.cobblemon.mod.common.pokemon.status.statuses.ParalysisStatus
@@ -39,4 +40,5 @@ object Statuses {
 
     fun getStatus(name: Identifier) = allStatuses.find { status -> status.name == name }
     fun getStatus(showdownName: String) = allStatuses.find { it.showdownName == showdownName }
+    fun getPersistentStatuses() = allStatuses.filterIsInstance<PersistentStatus>()
 }

@@ -8,7 +8,7 @@
             "pokemon": "poliwhirl",
             "presets": [
                 "natural",
-				"freshwater"
+                "freshwater"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -17,7 +17,10 @@
             "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
-                "isRaining": true
+                "isRaining": true,
+                "neededNearbyBlocks": [
+                    "minecraft:lily_pad"
+                ]
             }
         },
         {
@@ -34,12 +37,12 @@
             "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "minecraft:lily_pad"
                 ]
             }
         },
-		{
+        {
             "id": "poliwhirl-3",
             "pokemon": "poliwhirl",
             "presets": [
@@ -52,7 +55,7 @@
             "weight": 0.18,
             "condition": {
                 "canSeeSky": false,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_lush"
                 ]
             }
@@ -70,7 +73,7 @@
             "weight": 0.54,
             "condition": {
                 "canSeeSky": false,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_lush"
                 ]
             }

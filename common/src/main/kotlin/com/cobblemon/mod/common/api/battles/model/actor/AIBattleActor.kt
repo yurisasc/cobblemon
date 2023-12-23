@@ -26,13 +26,20 @@ abstract class AIBattleActor(
         super.sendUpdate(packet)
 
         if (packet is BattleMakeChoicePacket) {
-            try {
-                setActionResponses(request!!.iterate(this.activePokemon, battleAI::choose))
-            } catch (exception: IllegalActionChoiceException) {
-                LOGGER.error("AI was unable to choose a move, we're going to need to pass!")
-                exception.printStackTrace()
-                setActionResponses(request!!.iterate(this.activePokemon) { _, _, _ -> PassActionResponse })
-            }
+            this.onChoiceRequested()
+        }
+    }
+
+    /**
+     * Called when the AI is requested to make a choice.
+     */
+    open fun onChoiceRequested() {
+        try {
+            setActionResponses(request!!.iterate(this.activePokemon, battleAI::choose))
+        } catch (exception: IllegalActionChoiceException) {
+            LOGGER.error("AI was unable to choose a move, we're going to need to pass!")
+            exception.printStackTrace()
+            setActionResponses(request!!.iterate(this.activePokemon) { _, _, _ -> PassActionResponse })
         }
     }
 }

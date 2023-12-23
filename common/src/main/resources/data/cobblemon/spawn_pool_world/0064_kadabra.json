@@ -28,7 +28,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "kadabra-2",
             "pokemon": "kadabra",
             "presets": [
@@ -47,7 +47,7 @@
                 "timeRange": "night"
             }
         },
-		{
+        {
             "id": "kadabra-3",
             "pokemon": "kadabra",
             "presets": [

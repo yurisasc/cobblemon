@@ -21,8 +21,8 @@
                 ]
             }
         },
-		{
-            "id": "exeggcute-alolan-1",
+        {
+            "id": "exeggcute-alolan-2",
             "pokemon": "exeggcute alolan",
             "presets": [
                 "natural"
@@ -36,7 +36,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_beach",
-					"#cobblemon:is_tropical_island"
+                    "#cobblemon:is_tropical_island"
                 ]
             }
         }
