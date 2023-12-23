@@ -67,6 +67,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import java.util.*
 
 class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
     enum class CaptureState {
@@ -206,6 +207,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
                     }
 
                     battle.captureActions.add(BattleCaptureAction(battle, hitBattlePokemon, this).also { it.attach() })
+
                     battle.broadcastChatMessage(
                         lang(
                             "capture.attempted_capture",

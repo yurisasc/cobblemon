@@ -63,6 +63,7 @@ object DataKeys {
     const val POKEMON_OWNER_ID = "PokemonOwnerId"
     const val POKEMON_HIDE_LABEL = "HideLabel"
     const val POKEMON_UNBATTLEABLE = "Unbattleable"
+    const val POKEMON_COUNTS_TOWARDS_SPAWN_CAP = "CountsTowardsSpawnCap"
 
     const val POKEMON_ORIGINAL_TRAINER_UUID = "PokemonOriginalTrainerUUID"
     const val POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME = "PokemonOriginalTrainerDisplayName"
