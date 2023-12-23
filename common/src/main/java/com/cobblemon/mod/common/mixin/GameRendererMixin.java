@@ -8,20 +8,36 @@
 
 package com.cobblemon.mod.common.mixin;
 
-import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker;
+import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
+    @Unique
+    long lastTime = -1;
+
     @Inject(
             method = "render",
             at = @At(value = "TAIL")
     )
     public void render(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
-            ScheduledTaskTracker.INSTANCE.update();
+        MinecraftClient client = MinecraftClient.getInstance();
+        long newTime = System.currentTimeMillis();
+        // Don't play scheduled animations when the game is paused
+        if (client.isPaused()) {
+            lastTime = newTime;
+            return;
+        }
+
+        if (lastTime != -1) {
+            ClientTaskTracker.INSTANCE.update((newTime - lastTime) / 1000F);
+        }
+        lastTime = newTime;
     }
 }

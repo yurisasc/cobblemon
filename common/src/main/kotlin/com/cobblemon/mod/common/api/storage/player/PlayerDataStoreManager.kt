@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.storage.player
 
 import com.cobblemon.mod.common.api.scheduling.ScheduledTask
+import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.storage.player.factory.JsonPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.storage.player.factory.PlayerDataStoreFactory
 import net.minecraft.entity.player.PlayerEntity
@@ -28,6 +29,7 @@ class PlayerDataStoreManager {
         .delay(30f)
         .interval(120f)
         .infiniteIterations()
+        .tracker(ServerTaskTracker)
         .build()
 
     fun setup(server: MinecraftServer) {

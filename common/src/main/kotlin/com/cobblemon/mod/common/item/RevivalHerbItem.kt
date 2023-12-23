@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.item.PokemonSelectingItem
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.block.RevivalHerbBlock
 import com.cobblemon.mod.common.item.battle.BagItem
@@ -37,7 +38,7 @@ class RevivalHerbItem(block: RevivalHerbBlock) : AliasedBlockItem(block, Setting
         Cobblemon.implementation.registerCompostable(this, .65F)
     }
 
-    private val runtime = MoLangRuntime()
+    private val runtime = MoLangRuntime().setup()
 
     override val bagItem = object : BagItem {
         override val itemName = "item.cobblemon.revival_herb"
