@@ -61,9 +61,9 @@ class LocationRuleCalculator : SpawnRuleComponent {
         reusableContext.value = contextCalculator.name
 
         if (!this::reusableWorldValue.isInitialized) {
-            reusableWorldValue = world.registryManager.get(RegistryKeys.WORLD).getEntry(world).asWorldMoLangValue()
+            reusableWorldValue = world.registryManager.get(RegistryKeys.WORLD).getEntry(world.registryKey).get().asWorldMoLangValue()
         } else {
-            reusableWorldValue.obj = world.registryManager.get(RegistryKeys.WORLD).getEntry(world)
+            reusableWorldValue.obj = world.registryManager.get(RegistryKeys.WORLD).getEntry(world.registryKey).get()
         }
 
         if (!this::reusableDimensionTypeValue.isInitialized) {

@@ -1,4 +1,14 @@
 # Changelog
+## [1.5.0](#1-5-0)
+### Additions
+
+### Changes
+
+### Fixes
+
+### Datapack & Resourcepack Creators
+- Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
+
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
 ### Additions
