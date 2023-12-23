@@ -29,9 +29,12 @@ class KabutoModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("kabuto", "blink").setPreventsIdle(false)}
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("kabuto", "ground_idle")
@@ -41,6 +44,7 @@ class KabutoModel(root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("kabuto", "ground_idle")

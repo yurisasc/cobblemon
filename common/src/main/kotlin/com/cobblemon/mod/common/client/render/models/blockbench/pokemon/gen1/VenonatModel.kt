@@ -19,14 +19,11 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VenonatModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
+class VenonatModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("venonat")
 
-    override val leftLeg = getPart("foot_left")
-    override val rightLeg = getPart("foot_right")
-
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.1, -1.5, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
 
     override val profileScale = 1.1F
     override val profileTranslation = Vec3d(0.0, 0.08, 0.0)
@@ -34,28 +31,45 @@ class VenonatModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("venonat", "blink").setPreventsIdle(false) }
+        val quirk1 = quirk("quirk1") { bedrockStateful("venonat", "quirk1").setPreventsIdle(false) }
+        val quirk2 = quirk("quirk2") { bedrockStateful("venonat", "quirk2").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            quirks = arrayOf(quirk1, quirk2),
+            idleAnimations = arrayOf(bedrock("venonat", "sleep"))
+        )
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, quirk1, quirk2),
             idleAnimations = arrayOf(
                 bedrock("venonat", "ground_idle")
             )
         )
 
-        sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("venonat", "sleep"))
-        )
-
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink, quirk1, quirk2),
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 1F,amplitudeMultiplier = 0.8f),
-                bedrock("venonat", "ground_idle")
-                //bedrock("venonat", "ground_walk")
+                bedrock("venonat", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, quirk1, quirk2),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("venonat", "battle_idle")
             )
         )
     }

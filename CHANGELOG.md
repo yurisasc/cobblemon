@@ -1,4 +1,19 @@
 # Changelog
+
+## [1.5](#1-5)
+
+### Additions
+
+### Pokémon Added
+- Lileep, Cradily, Tirtouga, Carracosta, Arctovish, Dracovish, Arctozolt, Dracozolt, Shieldon, Bastiodon
+
+### Changes
+- Updated models for Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
+
+### Fixes
+- Resized Snorlax 
+
+
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
 ### Additions

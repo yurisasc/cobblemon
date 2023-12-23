@@ -1,0 +1,107 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.arctovish.ground_idle": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [-5, 0, 0],
+					"position": [0, 1, 0]
+				},
+				"torso": {
+					"rotation": [0, 0, 0]
+				},
+				"chest": {
+					"rotation": [0, 0, 0]
+				},
+				"jaw": {
+					"rotation": [-7.5, 0, 0]
+				},
+				"fin_right": {
+					"rotation": [-10.11257, -26.18818, 16.50173]
+				},
+				"fin_right2": {
+					"rotation": [0, 0, -20]
+				},
+				"fin_left": {
+					"rotation": [-5.5926, 27.01088, -11.22856]
+				},
+				"fin_left2": {
+					"rotation": [0, 0, 12.5]
+				},
+				"tail": {
+					"rotation": [4.93204, 1.14104, 0.35577]
+				},
+				"tail2": {
+					"rotation": [7.5, 0, 0]
+				},
+				"tail3": {
+					"rotation": [7.5, 0, 0]
+				},
+				"tail_fin": {
+					"rotation": [2.5, 0, 0]
+				},
+				"tail4": {
+					"rotation": [5, 0, 0]
+				},
+				"tail5": {
+					"rotation": [10, 0, 0]
+				},
+				"leg_left": {
+					"rotation": [0, 0, -7.5]
+				},
+				"leg_left2": {
+					"rotation": [-5, 0, -5]
+				},
+				"leg_right": {
+					"rotation": [0, 0, 10]
+				},
+				"leg_right2": {
+					"rotation": [-5, 0, 5]
+				},
+				"leg_left3": {
+					"rotation": [0, 0, 7.5]
+				},
+				"leg_right3": {
+					"rotation": [0, 0, -7.5]
+				},
+				"head_rotation": {
+					"rotation": [0, 0, 0]
+				}
+			}
+		},
+		"animation.arctovish.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"pupil_left": {
+					"position": {
+						"0.0": [0.1, 0, 0],
+						"0.125": [0.1, 0, 0],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"inner_eyelid_left": {
+					"position": {
+						"0.0": [-0.1, 0, 0],
+						"0.125": [-0.1, 0, 0],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"pupil_right": {
+					"position": {
+						"0.0": [-0.1, 0, 0],
+						"0.125": [-0.1, 0, 0],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"inner_eyelid_right": {
+					"position": {
+						"0.0": [0.1, 0, 0],
+						"0.125": [0.1, 0, 0],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}
