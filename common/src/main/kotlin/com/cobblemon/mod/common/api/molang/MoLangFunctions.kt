@@ -36,10 +36,10 @@ object MoLangFunctions {
     val dimensionTypeFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
     val blockFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
 
-    fun RegistryEntry<Biome>.asBiomeMoLangValue() = asMoLangValue(RegistryKeys.BIOME).addFunctions(biomeFunctions).addStandardFunctions()
-    fun RegistryEntry<World>.asWorldMoLangValue() = asMoLangValue(RegistryKeys.WORLD).addFunctions(worldFunctions).addStandardFunctions()
-    fun RegistryEntry<Block>.asBlockMoLangValue() = asMoLangValue(RegistryKeys.BLOCK).addFunctions(blockFunctions).addStandardFunctions()
-    fun RegistryEntry<DimensionType>.asDimensionTypeMoLangValue() = asMoLangValue(RegistryKeys.DIMENSION_TYPE).addFunctions(dimensionTypeFunctions).addStandardFunctions()
+    fun RegistryEntry<Biome>.asBiomeMoLangValue() = asMoLangValue(RegistryKeys.BIOME).addFunctions(biomeFunctions)
+    fun RegistryEntry<World>.asWorldMoLangValue() = asMoLangValue(RegistryKeys.WORLD).addFunctions(worldFunctions)
+    fun RegistryEntry<Block>.asBlockMoLangValue() = asMoLangValue(RegistryKeys.BLOCK).addFunctions(blockFunctions)
+    fun RegistryEntry<DimensionType>.asDimensionTypeMoLangValue() = asMoLangValue(RegistryKeys.DIMENSION_TYPE).addFunctions(dimensionTypeFunctions)
 
     fun <T> RegistryEntry<T>.asMoLangValue(key: RegistryKey<Registry<T>>): ObjectValue<RegistryEntry<T>> {
         val value = ObjectValue(
