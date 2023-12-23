@@ -830,7 +830,11 @@ open class Pokemon : ShowdownIdentifiable {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
         nickname = if (version == "1.4.0") {
-            json.get(DataKeys.POKEMON_NICKNAME)?.asString?.takeIf { it.isNotBlank() }?.let { Text.Serializer.fromJson(it) }
+            try {
+                json.get(DataKeys.POKEMON_NICKNAME)?.asString?.takeIf { it.isNotBlank() }?.let { Text.Serializer.fromJson(it) }
+            } catch (e: UnsupportedOperationException) {
+                json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
+            }
         } else {
             json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
         }
