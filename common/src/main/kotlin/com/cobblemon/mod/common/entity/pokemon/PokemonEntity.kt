@@ -110,6 +110,7 @@ import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
+import net.minecraft.entity.ai.brain.Activity
 
 @Suppress("unused")
 class PokemonEntity(
@@ -136,6 +137,7 @@ class PokemonEntity(
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         const val BATTLE_LOCK = "battle"
+        val BATTLING_ACTIVITY = Activity.register("pokemon_battling")
 
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
