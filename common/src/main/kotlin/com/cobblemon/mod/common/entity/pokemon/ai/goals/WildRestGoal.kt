@@ -49,7 +49,7 @@ class WildRestGoal(private val pokemonEntity: PokemonEntity) : Goal() {
     }
 
     fun wake() {
-        if (pokemonEntity.battleId.get().isEmpty) {
+        if (pokemonEntity.battleId == null) {
             pokemonEntity.pokemon.status = null
         }
     }

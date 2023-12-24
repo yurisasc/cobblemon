@@ -1,6 +1,5 @@
 # Changelog
-
-## [1.5](#1-5)
+## [1.5.0](#1-5-0)
 
 ### Additions
 
@@ -11,8 +10,13 @@
 - Updated models for Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
 
 ### Fixes
-- Resized Snorlax 
+- Resized Snorlax
 
+### Developer
+- Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
+
+### Datapack & Resourcepack Creators
+- Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 

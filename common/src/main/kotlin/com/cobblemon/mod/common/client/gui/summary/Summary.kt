@@ -14,7 +14,8 @@ import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.api.moves.MoveSet
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.emitWhile
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.Schedulable
+import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.api.text.text
@@ -58,7 +59,7 @@ import net.minecraft.text.Text
  *
  * @param selection The index the [party] will have as the base [selectedPokemon].
  */
-class Summary private constructor(party: Collection<Pokemon?>, private val editable: Boolean, selection: Int): Screen(Text.translatable("cobblemon.ui.summary.title")) {
+class Summary private constructor(party: Collection<Pokemon?>, private val editable: Boolean, selection: Int): Screen(Text.translatable("cobblemon.ui.summary.title")), Schedulable {
 
     companion object {
         const val BASE_WIDTH = 331
@@ -102,6 +103,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             mc.setScreen(screen)
         }
     }
+
+    override val schedulingTracker = SchedulingTracker()
 
     internal var selectedPokemon: Pokemon
     private lateinit var mainScreen: ClickableWidget
@@ -151,7 +154,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
                         buttonWidth = 54,
                         buttonHeight = 15,
                         clickAction = {
-                            after(ticks = 0, serverThread = false) {
+                            momentarily {
                                 displaySideScreen(if (sideScreenIndex == EVOLVE) PARTY else EVOLVE)
                             }
                         },
@@ -407,6 +410,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
 
     override fun render(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         renderBackground(context)
+
+        schedulingTracker.update(pPartialTicks / 20F)
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
