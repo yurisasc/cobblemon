@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
+import com.cobblemon.mod.common.util.party
 import java.util.*
 
 /**
@@ -434,7 +435,7 @@ class StrongBattleAI() : BattleAI {
         // todo try to caclulate if it is worth it to use status moves somehow
 
         // switch out
-        if (shouldSwitchOut(request, battle)) {
+        if (shouldSwitchOut(request, battle, activeBattlePokemon )) {
             val availableSwitches = p1Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
             val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, battle, it.effectedPokemon) }
             availableSwitches.forEach {
@@ -449,7 +450,7 @@ class StrongBattleAI() : BattleAI {
         mon.firstTurn = 0
 
         // Decision-making based on move availability and switch-out condition
-        if (!moveset?.moves?.isNullOrEmpty()!! && !shouldSwitchOut(request, battle) ||
+        if (!moveset?.moves?.isNullOrEmpty()!! && !shouldSwitchOut(request, battle, activeBattlePokemon) ||
                 (request.side?.pokemon?.count { getHpFraction(it.condition) != 0.0 } == 1 && mon.currentHpPercent == 1.0)) {
             val nRemainingMons = mon.nRemainingMons
             val nOppRemainingMons = opponent.nRemainingMons
@@ -782,7 +783,7 @@ class StrongBattleAI() : BattleAI {
         }
 
         // switch out
-        if (shouldSwitchOut(request, battle)) {
+        if (shouldSwitchOut(request, battle, activeBattlePokemon)) {
             val availableSwitches = p1Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
             val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, battle, it.effectedPokemon) }
             availableSwitches.forEach {
@@ -827,8 +828,8 @@ class StrongBattleAI() : BattleAI {
         //var p1NonActiveMon
 
         var score = 1.0
-        score += bestDamageMultiplier(npcPokemon, playerPokemon)
-        score -= bestDamageMultiplier(playerPokemon, npcPokemon)
+        score += bestDamageMultiplier(npcPokemon, playerPokemon) // npcPokemon attacking playerPokemon
+        score -= bestDamageMultiplier(playerPokemon, npcPokemon) // playerPokemon attacking npcPokemon
 
         if (getBaseStats(npcPokemon, "spe") > getBaseStats(playerPokemon, "spe")) {
             score += speedTierCoefficient
@@ -899,37 +900,51 @@ class StrongBattleAI() : BattleAI {
         return false
     }
 
-    fun shouldSwitchOut(request: ShowdownActionRequest, battle: PokemonBattle): Boolean {
+    fun shouldSwitchOut(request: ShowdownActionRequest, battle: PokemonBattle, activeBattlePokemon: ActiveBattlePokemon): Boolean {
         updateActiveTracker(battle)
 
-        //val (mon, opponent) = getCurrentPlayer(battle)
-        val mon = activeTracker.p1Active
-        val opponent = activeTracker.p2Active
+        val p1Actor = battle.side1.actors.first()
+        val p2Actor = battle.side2.actors.first()
 
-        val availableSwitches = request.side?.pokemon?.filter { !it.active && getHpFraction(it.condition) != 0.0 }
+        val (mon, opponent) = if (activeBattlePokemon.battlePokemon!!.effectedPokemon.uuid == activeTracker.p1Active.pokemon!!.uuid) {
+            Pair(activeTracker.p1Active, activeTracker.p2Active)
+        } else {
+            Pair(activeTracker.p2Active, activeTracker.p1Active)
+        }
+
+        //val (mon, opponent) = getCurrentPlayer(battle)
+        val playerActivePokemon = activeTracker.p1Active
+
+        val npcActivePokemon = activeTracker.p2Active
+
+        //val requestActor = request.side?.
+        //val availableSwitches = request.side?.pokemon?.filter { !it.active && getHpFraction(it.condition) != 0.0 }
+        //val playerAvailableSwitches =
+        val availableSwitches = p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
+
 
         val isTrapped = request.active?.any { it ->
             it.trapped ?: false // todo is this the right trapped? Probably not
         }
-
+// maybe use pokemon.species to compare to active pokemon
         // todo add more reasons to switch out
         // If there is a decent switch in and not trapped...
         if (availableSwitches != null) {
             //if (availableSwitches.any { estimateMatchup(request) > 0 } && !request.side?.pokemon.trapped) {
-            if (availableSwitches.any { estimateMatchup(request, battle) > 0 } && !isTrapped!!) {
+            if (availableSwitches.any { estimateMatchup(request, battle, it.effectedPokemon) > 0 } && !isTrapped!!) {
                 // ...and a 'good' reason to switch out
-                if ((mon.boosts[Stats.ACCURACY] ?: 0) <= accuracySwitchThreshold) {
+                if ((playerActivePokemon.boosts[Stats.ACCURACY] ?: 0) <= accuracySwitchThreshold) {
                     return true
                 }
-                if ((mon.boosts[Stats.DEFENCE] ?: 0) <= -3 || (mon.boosts[Stats.SPECIAL_DEFENCE] ?: 0) <= -3) {
+                if ((playerActivePokemon.boosts[Stats.DEFENCE] ?: 0) <= -3 || (playerActivePokemon.boosts[Stats.SPECIAL_DEFENCE] ?: 0) <= -3) {
                     return true
                 }
-                if ((mon.boosts[Stats.ATTACK] ?: 0) <= -3 && (mon.stats[Stats.ATTACK]
-                                ?: 0) >= (mon.stats[Stats.SPECIAL_ATTACK] ?: 0)) {
+                if ((playerActivePokemon.boosts[Stats.ATTACK] ?: 0) <= -3 && (playerActivePokemon.stats[Stats.ATTACK]
+                                ?: 0) >= (playerActivePokemon.stats[Stats.SPECIAL_ATTACK] ?: 0)) {
                     return true
                 }
-                if ((mon.boosts[Stats.SPECIAL_ATTACK] ?: 0) <= -3 && (mon.stats[Stats.ATTACK]
-                                ?: 0) <= (mon.stats[Stats.SPECIAL_ATTACK] ?: 0)) {
+                if ((playerActivePokemon.boosts[Stats.SPECIAL_ATTACK] ?: 0) <= -3 && (playerActivePokemon.stats[Stats.ATTACK]
+                                ?: 0) <= (playerActivePokemon.stats[Stats.SPECIAL_ATTACK] ?: 0)) {
                     return true
                 }
                 if (estimateMatchup(request, battle) < switchOutMatchupThreshold) {
@@ -1034,6 +1049,7 @@ class StrongBattleAI() : BattleAI {
         return multiplier
     }
 
+    // returns the best multiplier to deal with the defending pokemon's typing
     fun bestDamageMultiplier(attacker: Pokemon, defender: Pokemon): Double { // todo copy all to make overload
         //val typeMatchups = JSON.parse(File("../Data/UsefulDatasets/type-chart.json").readText())
         //val atkMoveType = attackMove.type
