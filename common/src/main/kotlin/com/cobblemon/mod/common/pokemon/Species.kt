@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
@@ -127,6 +128,8 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
 
+    var battleTheme: Identifier = CobblemonSounds.PVW_BATTLE.id
+
     fun initialize() {
         Cobblemon.statProvider.provide(this)
         this.forms.forEach { it.initialize(this) }
@@ -190,6 +193,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.moves.encode(buffer)
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
+        buffer.writeIdentifier(this.battleTheme)
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -212,6 +216,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.pokedex += buffer.readList { pb -> pb.readString() }
         this.forms.clear()
         this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
+        this.battleTheme = buffer.readIdentifier()
         this.initialize()
     }
 
@@ -232,6 +237,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
                 || other.forms != this.forms
                 // We only sync level up moves atm
                 || this.moves.shouldSynchronize(other.moves)
+                || other.battleTheme != this.battleTheme
     }
 
     /**

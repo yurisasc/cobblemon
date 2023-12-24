@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -26,7 +26,7 @@
             }
         },
         {
-            "id": "fletchinder-2",
+            "id": "fletchinder-3",
             "pokemon": "fletchinder",
             "presets": [
                 "natural",
@@ -41,6 +41,11 @@
                 "biomes": [
                     "#cobblemon:is_nether_forest",
                     "#cobblemon:is_nether_fungus"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_nether_warped"
                 ]
             }
         }

@@ -30,6 +30,7 @@ open class AreaSpawningContext(
     override val world: ServerWorld,
     override val position: BlockPos,
     override val light: Int,
+    override val skyLight: Int,
     override val canSeeSky: Boolean,
     override val influences: MutableList<SpawningInfluence>,
     /** Space above. */

@@ -28,7 +28,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "abra-2",
             "pokemon": "abra",
             "presets": [
@@ -47,7 +47,7 @@
                 "timeRange": "night"
             }
         },
-		{
+        {
             "id": "abra-3",
             "pokemon": "abra",
             "presets": [

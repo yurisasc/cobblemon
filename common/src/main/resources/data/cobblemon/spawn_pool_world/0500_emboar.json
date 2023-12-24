@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -22,7 +22,7 @@
                 "isRaining": false
             }
         },
-		{
+        {
             "id": "emboar-2",
             "pokemon": "emboar",
             "presets": [
@@ -34,11 +34,11 @@
             "level": "36-53",
             "weight": 0.1,
             "condition": {
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_nether_crimson",
-					"#cobblemon:is_nether_overgrowth"
+                    "#cobblemon:is_nether_overgrowth"
                 ]
-			}
+            }
         }
     ]
 }

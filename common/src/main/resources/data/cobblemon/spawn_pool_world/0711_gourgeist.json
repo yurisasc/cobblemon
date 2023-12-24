@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -20,11 +20,12 @@
                 ],
                 "timeRange": "night",
                 "neededNearbyBlocks": [
+                    "minecraft:pumpkin",
                     "minecraft:carved_pumpkin"
                 ]
             }
         },
-		{
+        {
             "id": "gourgeist-2",
             "pokemon": "gourgeist",
             "presets": [

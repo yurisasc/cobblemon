@@ -3,7 +3,7 @@
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
-		{
+        {
             "id": "magby-1",
             "pokemon": "magby",
             "presets": [
@@ -20,9 +20,9 @@
                     "#cobblemon:is_hills"
                 ],
                 "isRaining": false,
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "#minecraft:lava",
-					"minecraft:magma_block"
+                    "minecraft:magma_block"
                 ]
             },
             "anticondition": {
@@ -30,7 +30,7 @@
                     "#cobblemon:is_volcanic"
                 ]
             }
-		},
+        },
         {
             "id": "magby-2",
             "pokemon": "magby",

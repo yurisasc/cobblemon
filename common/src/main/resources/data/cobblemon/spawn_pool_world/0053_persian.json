@@ -127,8 +127,8 @@
                 ]
             }
         },
-		{
-            "id": "persian-alolan-1",
+        {
+            "id": "persian-alolan-5",
             "pokemon": "persian alolan",
             "presets": [
                 "natural",
@@ -160,7 +160,7 @@
             }
         },
         {
-            "id": "persian-alolan-2",
+            "id": "persian-alolan-6",
             "pokemon": "persian alolan",
             "presets": [
                 "natural",
@@ -186,7 +186,7 @@
             }
         },
         {
-            "id": "persian-alolan-3",
+            "id": "persian-alolan-7",
             "pokemon": "persian alolan",
             "presets": [
                 "illager_structures"
@@ -201,7 +201,7 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-				"minY": 62
+                "minY": 62
             }
         }
     ]

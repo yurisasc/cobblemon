@@ -25,6 +25,7 @@ import com.mongodb.client.model.ReplaceOptions
 import net.minecraft.util.WorldSavePath
 import org.bson.Document
 import java.util.UUID
+import java.util.Date
 
 /**
  * A [FileStoreAdapter] for MongoDB. This allows a [PokemonStore] to be serialized to a MongoDB database.
@@ -45,6 +46,7 @@ open class MongoDBStoreAdapter(
     override fun save(storeClass: Class<out PokemonStore<*>>, uuid: UUID, serialized: JsonObject) {
         val document = Document.parse(this.gson.toJson(serialized))
         document["uuid"] = uuid.toString()
+        document["lastUpdated"] = Date()
         val collection = getCollection(storeClass)
         val filter = Document("uuid", uuid.toString())
         collection.replaceOne(filter, document, ReplaceOptions().upsert(true))
@@ -67,7 +69,11 @@ open class MongoDBStoreAdapter(
 
         if (document != null) {
             val json = this.gson.fromJson(document.toJson(), JsonObject::class.java)
-            val store = storeClass.getConstructor(UUID::class.java).newInstance(uuid)
+            val store = try {
+                storeClass.getConstructor(UUID::class.java, UUID::class.java).newInstance(uuid, uuid)
+            } catch (exception: NoSuchMethodException) {
+                storeClass.getConstructor(UUID::class.java).newInstance(uuid)
+            }
             store.loadFromJSON(json)
             return store
         }

@@ -1,10 +1,10 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "tranquill-1",
+            "id": "tranquill-2",
             "pokemon": "tranquill",
             "presets": [
                 "natural",
@@ -25,9 +25,10 @@
             }
         },
         {
-            "id": "tranquill-2",
+            "id": "tranquill-3",
             "pokemon": "tranquill",
             "presets": [
+                "natural",
                 "urban"
             ],
             "type": "pokemon",
@@ -46,17 +47,15 @@
                 "biomes": [
                     "#cobblemon:is_arid",
                     "#cobblemon:is_tundra"
-                ],
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
         {
-            "id": "tranquill-3",
+            "id": "tranquill-4",
             "pokemon": "tranquill",
             "presets": [
-				"village"
+                "natural",
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -10,14 +10,14 @@ package com.cobblemon.mod.common.client.render.pokeball
 
 import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.PokeBallModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import kotlin.random.Random
 
-abstract class PokeBallPoseableState : PoseableEntityState<EmptyPokeBallEntity>() {
+abstract class PokeBallPoseableState : PoseableEntityState<EmptyPokeBallEntity>(), Schedulable {
     abstract val stateEmitter: SettableObservable<EmptyPokeBallEntity.CaptureState>
     abstract val shakeEmitter: Observable<Unit>
 

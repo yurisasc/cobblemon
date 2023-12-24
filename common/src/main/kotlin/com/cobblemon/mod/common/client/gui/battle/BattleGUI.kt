@@ -13,12 +13,14 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBattleActor
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleActionSelection
+import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleBackButton
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleGeneralActionSelection
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleSwitchPokemonSelection
 import com.cobblemon.mod.common.client.gui.battle.widgets.BattleMessagePane
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.net.messages.server.battle.RemoveSpectatorPacket
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
@@ -41,6 +43,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     private lateinit var messagePane: BattleMessagePane
     var opacity = 0F
     val actor = CobblemonClient.battle?.side1?.actors?.find { it.uuid == MinecraftClient.getInstance().player?.uuid }
+    val specBackButton = BattleBackButton(12f, MinecraftClient.getInstance().window.scaledHeight - 32f)
 
     var queuedActions = mutableListOf<() -> Unit>()
 
@@ -106,6 +109,10 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             }
         }
 
+        if (battle.spectating) {
+            specBackButton.render(context.matrices, mouseX, mouseY, delta)
+        }
+
         val currentSelection = getCurrentActionSelection()
         if (currentSelection == null || currentSelection is BattleGeneralActionSelection ) {
             drawScaledText(
@@ -152,5 +159,14 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             return true
         }
         return super.charTyped(chr, modifiers)
+    }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        val battle = CobblemonClient.battle
+        if (battle?.spectating == true && specBackButton.isHovered(mouseX, mouseY)) {
+            RemoveSpectatorPacket(battle.battleId).sendToServer()
+            CobblemonClient.endBattle()
+        }
+        return super.mouseClicked(mouseX, mouseY, button)
     }
 }

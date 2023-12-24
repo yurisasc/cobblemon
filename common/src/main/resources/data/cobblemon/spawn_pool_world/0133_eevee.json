@@ -23,11 +23,11 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_ocean",
-					"#cobblemon:is_temperate"
+                    "#cobblemon:is_temperate"
                 ]
             }
         },
-		{
+        {
             "id": "eevee-2",
             "pokemon": "eevee",
             "presets": [
@@ -45,12 +45,12 @@
                 ]
             }
         },
-		{
+        {
             "id": "eevee-3",
             "pokemon": "eevee",
             "presets": [
                 "natural",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -61,11 +61,6 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
@@ -74,7 +69,7 @@
             "pokemon": "eevee",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -88,7 +83,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "eevee-5",
             "pokemon": "eevee",
             "presets": [

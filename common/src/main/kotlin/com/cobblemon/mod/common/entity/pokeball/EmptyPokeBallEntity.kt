@@ -21,12 +21,11 @@ import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.ScheduledTask
-import com.cobblemon.mod.common.api.scheduling.after
-import com.cobblemon.mod.common.api.scheduling.afterOnMain
-import com.cobblemon.mod.common.api.scheduling.taskBuilder
+import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleCaptureAction
@@ -70,8 +69,9 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import java.util.*
 
-class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
+class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Schedulable {
     enum class CaptureState {
         NOT,
         HIT,
@@ -96,6 +96,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
 
     val dataTrackerEmitter = SimpleObservable<TrackedData<*>>()
 
+    override val schedulingTracker = SchedulingTracker()
     var capturingPokemon: PokemonEntity? = null
     val captureFuture = CompletableFuture<Boolean>()
     var captureState: CaptureState
@@ -226,6 +227,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
                     }
 
                     battle.captureActions.add(BattleCaptureAction(battle, hitBattlePokemon, this).also { it.attach() })
+
                     battle.broadcastChatMessage(
                         lang(
                             "capture.attempted_capture",
@@ -331,6 +333,8 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
             val diff = hitTargetPosition.subtract(pos)
             yaw = ((MathHelper.atan2(diff.x, diff.z) * 180 / Math.PI).toFloat())
         }
+
+        schedulingTracker.update(1/20F)
     }
 
     private fun shakeBall(task: ScheduledTask, rollsRemaining: Int, captureResult: CaptureContext) {
@@ -352,7 +356,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
                 val pokemon = capturingPokemon ?: return
                 val player = this.owner as? ServerPlayerEntity ?: return
 
-                afterOnMain(seconds = 1F) {
+                after(seconds = 1F) {
                     // Dupes occurred by double-adding Pokémon, this hopefully prevents it triple-condom style
                     if (pokemon.pokemon.isWild() && pokemon.isAlive && !captureFuture.isDone) {
                         pokemon.discard()
@@ -388,7 +392,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
             pokemon.pokemon.status?.takeIf { it.status == Statuses.SLEEP }?.let { pokemon.pokemon.status = null }
         }
 
-        afterOnMain(seconds = 0.25F) {
+        after(seconds = 0.25F) {
             pokemon.busyLocks.remove(this)
             captureFuture.complete(false)
             world.sendParticlesServer(ParticleTypes.CLOUD, pos, 20, Vec3d(0.0, 0.2, 0.0), 0.05)
@@ -410,7 +414,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
         // Bounce backwards away from the hit Pokémon
         velocity = displace.multiply(-1.0, 0.0, -1.0).normalize().rotateY(mul * PI/3).multiply(0.1, 0.0, 0.1).add(0.0, 1.0 / 3, 0.0)
         pokemonEntity.phasingTargetId = this.id
-        afterOnMain(seconds = 0.7F) {
+        after(seconds = 0.7F) {
             // Start beaming them up.
             velocity = Vec3d.ZERO
             setNoGravity(true)
@@ -418,7 +422,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
             pokemonEntity.beamMode = 2
         }
 
-        afterOnMain(seconds = 2.2F) {
+        after(seconds = 2.2F) {
             // Time to begin falling
             pokemonEntity.phasingTargetId = -1
             pokemonEntity.beamMode = 0

@@ -17,15 +17,18 @@ versions:
   fabric-kotlin: 1.9.3+kotlin.1.8.20
   architectury-plugin: 3.4-SNAPSHOT
   flywheelFabric: 0.6.9-1
-  flywheelForge: 0.6.10-7
+  fabric-permissions-api: 0.2-SNAPSHOT
+  adorn-fabric: 5.0.0-fabric
 
   # forge
-  forge: 1.20.1-47.0.50
+  forge: 1.20.1-47.1.0
   kotlinForForge: 4.3.0
+  flywheelForge: 0.6.10-7
+  adorn-forge: 5.0.0-forge
 
   # common
   graal: 22.3.0
-  molang: 1.1.5
+  molang: 1.1.9
 
   # test
   junit: 5.9.0
@@ -34,8 +37,6 @@ versions:
   classgraph: 4.8.153
   jei-api: 15.2.0.25
 
-  #
-  fabric-permissions-api: 0.2-SNAPSHOT
 
 dependencies:
 
@@ -121,6 +122,10 @@ dependencies:
     group: com.jozufozu.flywheel
     name: flywheel-fabric-1.20.1
     version: { ref: flywheelFabric }
+  adornFabric:
+    group: maven.modrinth
+    name: adorn
+    version: { ref: adorn-fabric }
 
   # forge
   forge:
@@ -139,6 +144,10 @@ dependencies:
     group: com.jozufozu.flywheel
     name: flywheel-forge-1.20.1
     version: { ref: flywheelForge }
+  adornForge:
+    group: maven.modrinth
+    name: adorn
+    version: { ref: adorn-forge }
 
   # datastore
   mongoDriverCore:

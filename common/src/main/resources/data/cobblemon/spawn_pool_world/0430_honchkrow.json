@@ -8,7 +8,32 @@
             "pokemon": "honchkrow",
             "presets": [
                 "natural",
-				"treetop"
+                "treetop"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "36-51",
+            "weight": 1.0,
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_spooky"
+                ]
+            }
+        },
+        {
+            "id": "honchkrow-3",
+            "pokemon": "honchkrow",
+            "presets": [
+                "natural",
+                "treetop"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -19,42 +44,17 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_swamp",
-					"#cobblemon:is_taiga"
+                    "#cobblemon:is_taiga"
                 ],
                 "timeRange": "night"
-			}
+            }
         },
-		{
-            "id": "honchkrow-2",
+        {
+            "id": "honchkrow-5",
             "pokemon": "honchkrow",
             "presets": [
                 "natural",
-				"treetop"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "36-51",
-            "weight": 1.0,
-			"weightMultiplier": {
-				"multiplier": 1.5,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
-            "condition": {
-                "canSeeSky": true,
-                "biomes": [
-                    "#cobblemon:is_spooky"
-                ]
-			}
-        },
-		{
-            "id": "honchkrow-3",
-            "pokemon": "honchkrow",
-            "presets": [
-                "natural",
-				"treetop"
+                "treetop"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -67,7 +67,7 @@
                     "#cobblemon:is_sky"
                 ],
                 "timeRange": "night"
-			}
+            }
         }
     ]
 }

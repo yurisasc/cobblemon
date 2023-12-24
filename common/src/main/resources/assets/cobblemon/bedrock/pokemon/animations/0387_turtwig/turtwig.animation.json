@@ -542,7 +542,8 @@
 					"position": [-7, -21, 0]
 				},
 				"body": {
-					"rotation": [-27.42287, 1.91134, 4.62111]
+					"rotation": [-27.42287, 1.91134, 4.62111],
+					"position": [0, -3, 0]
 				},
 				"torso": {
 					"rotation": ["0+math.sin(q.anim_time*90*2)*0.5", 0, 0]
@@ -587,7 +588,8 @@
 					"position": [-7, -21, 0]
 				},
 				"body": {
-					"rotation": [-27.42287, -1.91134, -4.62111]
+					"rotation": [-27.42287, -1.91134, -4.62111],
+					"position": [0, -3, 0]
 				},
 				"torso": {
 					"rotation": ["0+math.sin(q.anim_time*90*2)*0.5", 0, 0]

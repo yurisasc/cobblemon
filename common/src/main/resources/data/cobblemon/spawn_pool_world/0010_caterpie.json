@@ -24,7 +24,7 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_freezing",
-					"#cobblemon:is_spooky"
+                    "#cobblemon:is_spooky"
                 ]
             }
         },
@@ -32,7 +32,7 @@
             "id": "caterpie-2",
             "pokemon": "caterpie",
             "presets": [
-				"natural",
+                "natural",
                 "foliage",
                 "treetop"
             ],
@@ -48,8 +48,8 @@
                 ]
             }
         },
-		{
-            "id": "caterpie-valencian-1",
+        {
+            "id": "caterpie-valencian-3",
             "pokemon": "caterpie valencian",
             "presets": [
                 "natural",
@@ -64,12 +64,12 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_jungle",
-					"#cobblemon:is_tropical_island"
+                    "#cobblemon:is_tropical_island"
                 ]
             }
         },
         {
-            "id": "caterpie-valencian-2",
+            "id": "caterpie-valencian-4",
             "pokemon": "caterpie valencian",
             "type": "pokemon",
             "context": "grounded",
@@ -83,8 +83,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

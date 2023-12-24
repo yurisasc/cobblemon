@@ -10,7 +10,7 @@ package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.brewing.BrewingRecipes
+import com.cobblemon.mod.common.integration.adorn.AdornCompatibility
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
@@ -40,6 +40,7 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
@@ -49,13 +50,13 @@ import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
-import net.minecraft.recipe.BrewingRecipeRegistry
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -65,6 +66,7 @@ import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
@@ -79,6 +81,7 @@ import java.util.concurrent.Executor
 import kotlin.reflect.KClass
 
 object CobblemonFabric : CobblemonImplementation {
+
     override val modAPI = ModAPI.FABRIC
 
     private var server: MinecraftServer? = null
@@ -94,21 +97,6 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonBlockPredicates.touch()
         CobblemonPlacementModifierTypes.touch()
         CobblemonProcessorTypes.touch()
-        BrewingRecipes.registerPotionTypes()
-        BrewingRecipes.getPotionRecipes().forEach { (input, ingredient, output) ->
-            BrewingRecipeRegistry.POTION_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
-        }
-        BrewingRecipes.getItemRecipes().forEach { (input, ingredient, output) ->
-            BrewingRecipeRegistry.ITEM_RECIPES.add(BrewingRecipeRegistry.Recipe(input, ingredient, output))
-        }
-        /*
-        if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
-            Cobblemon.permissionValidator = LuckPermsPermissionValidator()
-        }
-         */
-        if (FabricLoader.getInstance().getModContainer("fabric-permissions-api-v0").isPresent) {
-            Cobblemon.permissionValidator = FabricPermissionValidator()
-        }
         EntitySleepEvents.STOP_SLEEPING.register { playerEntity, _ ->
             if (playerEntity !is ServerPlayerEntity) {
                 return@register
@@ -173,11 +161,13 @@ object CobblemonFabric : CobblemonImplementation {
 
             return@register ActionResult.PASS
         }
-        LootTableEvents.MODIFY.register { _, lootManager, id, tableBuilder, _ ->
-            LootInjector.attemptInjection(id, lootManager, tableBuilder::pool)
+        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, _ ->
+            LootInjector.attemptInjection(id, tableBuilder::pool)
         }
 
         CommandRegistrationCallback.EVENT.register(CobblemonCommands::register)
+
+        this.attemptModCompat()
     }
 
     override fun isModInstalled(id: String) = FabricLoader.getInstance().isModLoaded(id)
@@ -200,7 +190,6 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonSounds.register { identifier, sound -> Registry.register(CobblemonSounds.registry, identifier, sound) }
     }
 
-    @Suppress("UnstableApiUsage")
     override fun registerItems() {
         CobblemonItems.register { identifier, item -> Registry.register(CobblemonItems.registry, identifier, item) }
         CobblemonItemGroups.register { provider ->
@@ -210,9 +199,11 @@ object CobblemonFabric : CobblemonImplementation {
                 .entries(provider.entryCollector)
                 .build())
         }
-        CobblemonItemGroups.inject { injector ->
-            ItemGroupEvents.modifyEntriesEvent(injector.key).register { content ->
-                injector.entryInjector(content.context).forEach(content::add)
+
+        CobblemonItemGroups.injectorKeys().forEach { key ->
+            ItemGroupEvents.modifyEntriesEvent(key).register { content ->
+                val fabricInjector = FabricItemGroupInjector(content)
+                CobblemonItemGroups.inject(key, fabricInjector)
             }
         }
         CobblemonTradeOffers.tradeOffersForAll().forEach { tradeOffer -> TradeOfferHelper.registerVillagerOffers(tradeOffer.profession, tradeOffer.requiredLevel) { factories -> factories.addAll(tradeOffer.tradeOffers) } }
@@ -328,6 +319,22 @@ object CobblemonFabric : CobblemonImplementation {
         CompostingChanceRegistry.INSTANCE.add(item, chance)
     }
 
+    override fun registerBuiltinResourcePack(id: Identifier, title: Text, activationBehaviour: ResourcePackActivationBehaviour) {
+        val mod = FabricLoader.getInstance().getModContainer(Cobblemon.MODID).get()
+        val resourcePackActivationType = when (activationBehaviour) {
+            ResourcePackActivationBehaviour.NORMAL -> ResourcePackActivationType.NORMAL
+            ResourcePackActivationBehaviour.DEFAULT_ENABLED -> ResourcePackActivationType.DEFAULT_ENABLED
+            ResourcePackActivationBehaviour.ALWAYS_ENABLED -> ResourcePackActivationType.ALWAYS_ENABLED
+        }
+        ResourceManagerHelper.registerBuiltinResourcePack(id, mod, title, resourcePackActivationType)
+    }
+
+    private fun attemptModCompat() {
+        if (this.isModInstalled("adorn")) {
+            AdornCompatibility.register()
+        }
+    }
+
     private class CobblemonReloadListener(private val identifier: Identifier, private val reloader: ResourceReloader, private val dependencies: Collection<Identifier>) : IdentifiableResourceReloadListener {
 
         override fun reload(synchronizer: ResourceReloader.Synchronizer, manager: ResourceManager, prepareProfiler: Profiler, applyProfiler: Profiler, prepareExecutor: Executor, applyExecutor: Executor): CompletableFuture<Void> = this.reloader.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor)
@@ -337,6 +344,26 @@ object CobblemonFabric : CobblemonImplementation {
         override fun getName(): String = this.reloader.name
 
         override fun getFabricDependencies(): MutableCollection<Identifier> = this.dependencies.toMutableList()
+    }
+
+    @Suppress("UnstableApiUsage")
+    private class FabricItemGroupInjector(private val fabricItemGroupEntries: FabricItemGroupEntries) : CobblemonItemGroups.Injector {
+        override fun putFirst(item: ItemConvertible) {
+            this.fabricItemGroupEntries.prepend(item)
+        }
+
+        override fun putBefore(item: ItemConvertible, target: ItemConvertible) {
+            this.fabricItemGroupEntries.addBefore(target, item)
+        }
+
+        override fun putAfter(item: ItemConvertible, target: ItemConvertible) {
+            this.fabricItemGroupEntries.addAfter(target, item)
+        }
+
+        override fun putLast(item: ItemConvertible) {
+            this.fabricItemGroupEntries.add(item)
+        }
+
     }
 
 }

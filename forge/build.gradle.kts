@@ -30,6 +30,7 @@ loom {
 repositories {
     maven(url = "${rootProject.projectDir}/deps")
     maven(url = "https://thedarkcolour.github.io/KotlinForForge/")
+    maven(url = "https://api.modrinth.com/maven")
     mavenLocal()
 }
 
@@ -41,6 +42,7 @@ dependencies {
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 //    modImplementation(libs.flywheelForge)
 //    include(libs.flywheelForge)
+    modCompileOnly(libs.adornForge)
 
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false
