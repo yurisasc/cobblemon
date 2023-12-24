@@ -377,16 +377,17 @@ class PokemonEntity(
                 dataTracker.set(PHASING_TARGET_ID,owner.id)
                 dataTracker.set(BEAM_MODE,2)
                 val state = pokemon.state
-            after(seconds = SEND_OUT_DURATION) {
-                // only recall if the pokemon hasn't been recalled yet for this state
-                if (state == pokemon.state) {
-                    pokemon.recall()}
-                    if (owner is NPCEntity) {
-                        afterOnMain(seconds = 0.5F) {
+                after(seconds = SEND_OUT_DURATION) {
+                    // only recall if the pokemon hasn't been recalled yet for this state
+                    if (state == pokemon.state) {
+                        pokemon.recall()
+                        if (owner is NPCEntity) {
+                            owner.after(seconds = 1F) {
+                                future.complete(pokemon)
+                            }
+                        } else {
                             future.complete(pokemon)
                         }
-                    } else {
-                        future.complete(pokemon)
                     }
                 }
             }

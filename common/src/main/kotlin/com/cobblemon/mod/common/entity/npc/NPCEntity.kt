@@ -19,9 +19,9 @@ import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCBehaviourConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
-import com.cobblemon.mod.common.api.scheduling.delayedFuture
+import com.cobblemon.mod.common.api.scheduling.Schedulable
+import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.battles.BattleBuilder
-import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.npc.ai.StayPutInBattleGoal
@@ -36,7 +36,6 @@ import net.minecraft.entity.ai.goal.LookAtEntityGoal
 import net.minecraft.entity.ai.goal.WanderAroundGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
@@ -47,10 +46,10 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc, Poseable, PokemonSender {
+class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc, Poseable, PokemonSender, Schedulable {
+    override val schedulingTracker = SchedulingTracker()
     var npc = NPCClasses.random()
         set(value) {
             dataTracker.set(NPC_CLASS, value.resourceIdentifier)
@@ -132,6 +131,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     override fun tick() {
         super.tick()
         delegate.tick(this)
+        schedulingTracker.update(1/20F)
     }
 
     override fun initGoals() {

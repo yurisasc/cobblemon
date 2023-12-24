@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.storage.party.PartyStore
@@ -24,7 +23,6 @@ import com.cobblemon.mod.common.util.getBattleTheme
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.update
-import java.util.Optional
 import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
@@ -66,6 +64,7 @@ object BattleBuilder {
         }
 
         return if (errors.isEmpty) {
+            var result: BattleStartResult = errors
             BattleRegistry.startBattle(
                 battleFormat = battleFormat,
                 side1 = BattleSide(player1Actor),
@@ -73,8 +72,9 @@ object BattleBuilder {
             ).ifSuccessful {
                 player1Actor.battleTheme = player2.getBattleTheme()
                 player2Actor.battleTheme = player1.getBattleTheme()
+                result = SuccessfulBattleStart(it)
             }
-            errors
+            result
         } else {
             errors
         }
@@ -125,6 +125,7 @@ object BattleBuilder {
         }
 
         return if (errors.isEmpty) {
+            var result: BattleStartResult = errors
             BattleRegistry.startBattle(
                 battleFormat = battleFormat,
                 side1 = BattleSide(playerActor),
@@ -134,8 +135,9 @@ object BattleBuilder {
                     pokemonEntity.battleId = it.battleId
                 }
                 playerActor.battleTheme = pokemonEntity.getBattleTheme()
+                result = SuccessfulBattleStart(it)
             }
-            errors
+            result
         } else {
             errors
         }
@@ -187,18 +189,18 @@ object BattleBuilder {
 //        }
 
         return if (errors.isEmpty) {
-            CobblemonEvents.BATTLE_STARTED_PRE.postThen(
-                BattleStartedPreEvent(listOf(playerActor, npcActor), battleFormat, false, true, false))
-            {
-                val battle = BattleRegistry.startBattle(
-                    battleFormat = battleFormat,
-                    side1 = BattleSide(playerActor),
-                    side2 = BattleSide(npcActor)
-                )
+            var result: BattleStartResult = errors
+            BattleRegistry.startBattle(
+                battleFormat = battleFormat,
+                side1 = BattleSide(playerActor),
+                side2 = BattleSide(npcActor)
+            ).ifSuccessful { battle ->
+                // TODO NPC battle themes
+//                playerActor.battleTheme = pokemonEntity.getBattleTheme()
                 npcEntity.dataTracker.update(NPCEntity.BATTLE_IDS) { it + battle.battleId }
-                SuccessfulBattleStart(battle)
+                result = SuccessfulBattleStart(battle)
             }
-            errors
+            result
         } else {
             errors
         }

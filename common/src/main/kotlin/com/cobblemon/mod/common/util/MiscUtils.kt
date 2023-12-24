@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import java.util.concurrent.CompletableFuture
 import kotlin.math.min
 import kotlin.random.Random
 import net.minecraft.text.Text
@@ -59,4 +60,15 @@ fun Random.nextBetween(min: Double, max: Double): Double {
 
 fun Random.nextBetween(min: Int, max: Int): Int {
     return nextInt(max - min + 1) + min
+}
+
+fun chainFutures(others: Iterator<() -> CompletableFuture<*>>, finalFuture: CompletableFuture<Unit>) {
+    if (!others.hasNext()) {
+        finalFuture.complete(Unit)
+        return
+    }
+
+    others.next().invoke().thenApply {
+        chainFutures(others, finalFuture)
+    }
 }

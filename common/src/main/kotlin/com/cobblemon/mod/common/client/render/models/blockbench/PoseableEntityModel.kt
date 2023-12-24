@@ -626,12 +626,13 @@ abstract class PoseableEntityModel<T : Entity>(
 
     fun blankAnimation() = object : StatelessAnimation<T, ModelFrame>(this) {
         override val targetFrame = ModelFrame::class.java
-        override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {}
+        override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {}
     }
 
     fun blankAnimationStateful(isTransform: Boolean = false, preventsIdle: Boolean = false) = object : StatefulAnimation<T, ModelFrame> {
         override val isTransform = isTransform
-        override val isPosePauser = false
+        override val duration = 0F
+
         override fun run(
             entity: T?,
             model: PoseableEntityModel<T>,
@@ -640,14 +641,9 @@ abstract class PoseableEntityModel<T : Entity>(
             limbSwingAmount: Float,
             ageInTicks: Float,
             headYaw: Float,
-            headPitch: Float
+            headPitch: Float,
+            intensity: Float
         ) = false
-
-        override fun preventsIdle(
-            entity: T?,
-            state: PoseableEntityState<T>,
-            idleAnimation: StatelessAnimation<T, *>
-        ) = preventsIdle
     }
 
     fun quirk(

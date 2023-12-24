@@ -962,16 +962,16 @@ open class Pokemon : ShowdownIdentifiable {
     }
 
     fun getOwnerUUID(): UUID? {
-        storeCoordinates.get().let {
+        storeCoordinates.get()?.let {
             if (!isPlayerOwned()) {
                 return@let
             }
 
-            if (it!!.store is PlayerPartyStore) {
-                return (it.store as PlayerPartyStore).playerUUID
+            if (it.store is PlayerPartyStore) {
+                return it.store.playerUUID
+            } else if (it.store is NPCPartyStore) {
+                return it.store.npc.uuid
             }
-            return (it.store as PlayerPartyStore).playerUUID
-            else if (isNPCOwned()) return (it!!.store as NPCPartyStore).npc.uuid
         }
         return null
     }

@@ -38,7 +38,7 @@ fun taskBuilder() = ScheduledTask.Builder()
 
 fun delayedFuture(seconds: Float): CompletableFuture<Unit> {
     val future = CompletableFuture<Unit>()
-    afterOnMain(seconds = seconds) {
+    afterOnServer(seconds = seconds) {
         future.complete(Unit)
     }
     return future

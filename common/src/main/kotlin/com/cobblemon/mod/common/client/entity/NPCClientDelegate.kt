@@ -10,11 +10,14 @@ package com.cobblemon.mod.common.client.entity
 
 import com.cobblemon.mod.common.api.entity.NPCSideDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.npc.NPCModel
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 
 class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
     lateinit var npcEntity: NPCEntity
+    override val schedulingTracker
+        get() = npcEntity.schedulingTracker
     override fun initialize(entity: NPCEntity) {
         this.npcEntity = entity
         this.age = entity.age
@@ -35,6 +38,6 @@ class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
     override fun playAnimation(animationType: String) {
         val currentModel = this.currentModel as? NPCModel ?: return
         val animation = currentModel.getAnimation(animationType)
-        statefulAnimations.add(animation)
+        addPrimaryAnimation(PrimaryAnimation(animation))
     }
 }

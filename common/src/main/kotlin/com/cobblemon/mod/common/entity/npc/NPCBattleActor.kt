@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.battles.ai.RandomBattleAI
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.chainFutures
 import com.cobblemon.mod.common.util.update
 import java.util.concurrent.CompletableFuture
 
@@ -36,14 +37,18 @@ class NPCBattleActor(
     override fun sendUpdate(packet: NetworkPacket<*>) {
         super.sendUpdate(packet)
         if (packet is BattleEndPacket) {
-            // Do some shit
-            entity.dataTracker.update(NPCEntity.BATTLE_IDS) { it - battle.battleId }
             if (npc.isAlive) {
                 val allEntities = party.mapNotNull { it.entity }.toMutableList()
-                var previousFuture = CompletableFuture.completedFuture(Unit)
-                for (entity in allEntities) {
-                    previousFuture = previousFuture.thenApply { entity.recallWithAnimation() }
+                val finalFuture = CompletableFuture<Unit>()
+                chainFutures(allEntities.map { pokemonEntity -> { pokemonEntity.recallWithAnimation() } }.iterator(), finalFuture)
+                if (allEntities.isEmpty()) {
+                    finalFuture.complete(Unit)
                 }
+                finalFuture.thenApply {
+                    entity.dataTracker.update(NPCEntity.BATTLE_IDS) { it - battle.battleId }
+                }
+            } else {
+                entity.dataTracker.update(NPCEntity.BATTLE_IDS) { it - battle.battleId }
             }
         }
     }
