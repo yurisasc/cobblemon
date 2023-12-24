@@ -14,12 +14,12 @@
             "bucket": "common",
             "level": "38-50",
             "weight": 0.2,
-			"weightMultiplier": {
-				"multiplier": 1.5,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -27,33 +27,28 @@
                 ]
             }
         },
-		{
+        {
             "id": "muk-2",
             "pokemon": "muk",
             "presets": [
                 "water_surface",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "surface",
             "bucket": "common",
             "level": "38-50",
             "weight": 0.6,
-			"weightMultiplier": {
-				"multiplier": 1.5,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
@@ -62,19 +57,19 @@
             "pokemon": "muk",
             "presets": [
                 "water_surface",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "surface",
             "bucket": "common",
             "level": "38-50",
             "weight": 0.6,
-			"weightMultiplier": {
-				"multiplier": 1.5,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -82,7 +77,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "muk-4",
             "pokemon": "muk",
             "presets": [

@@ -21,14 +21,14 @@ versions:
   adorn-fabric: 5.0.0-fabric
 
   # forge
-  forge: 1.20.1-47.0.50
+  forge: 1.20.1-47.1.0
   kotlinForForge: 4.3.0
   flywheelForge: 0.6.10-7
   adorn-forge: 5.0.0-forge
 
   # common
   graal: 22.3.0
-  molang: 1.1.8
+  molang: 1.1.9
 
   # test
   junit: 5.9.0

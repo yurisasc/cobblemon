@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -51,7 +51,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "4-29",
-            "weight": 9,
+            "weight": 9.0,
             "condition": {
                 "biomes": [
                     "#cobblemon:is_nether_fungus"

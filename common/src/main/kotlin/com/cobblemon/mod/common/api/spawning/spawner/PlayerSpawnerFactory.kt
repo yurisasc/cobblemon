@@ -33,7 +33,7 @@ object PlayerSpawnerFactory {
         val influences = influenceBuilders.mapNotNull { it(player) }
         return PlayerSpawner(player, spawns, spawnerManager).also {
             it.influences.addAll(influences)
-            it.influences.addAll(CobblemonSpawnRules.rules.values.flatMap(SpawnRule::components))
+            it.influences.addAll(CobblemonSpawnRules.rules.values.filter(SpawnRule::enabled).flatMap(SpawnRule::components))
         }
     }
 }

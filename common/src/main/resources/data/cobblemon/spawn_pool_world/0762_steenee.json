@@ -18,7 +18,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_jungle",
-					"#cobblemon:is_tropical_island"
+                    "#cobblemon:is_tropical_island"
                 ]
             }
         }

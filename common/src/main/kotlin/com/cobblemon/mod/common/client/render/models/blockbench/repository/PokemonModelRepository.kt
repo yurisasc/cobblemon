@@ -21,7 +21,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
 
 object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPoseableModel>() {
@@ -586,6 +585,11 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("clodsire", ::ClodsireModel)
         inbuilt("teddiursa", ::TeddiursaModel)
         inbuilt("ursaring", ::UrsaringModel)
+        inbuilt("litwick", ::LitwickModel)
+        inbuilt("lampent", ::LampentModel)
+        inbuilt("chandelure", ::ChandelureModel)
+        inbuilt("drifloon", ::DrifloonModel)
+        inbuilt("drifblim", ::DrifblimModel)
     }
 
     override fun loadJsonPoser(json: String): (Bone) -> PokemonPoseableModel {

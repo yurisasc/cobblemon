@@ -16,6 +16,9 @@
     "special_defence": 50,
     "speed": 60
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 190,
   "maleRatio": 0.75,
   "shoulderMountable": false,
@@ -158,6 +161,14 @@
         "percentage": 2.5
       }
     ]
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:ember",

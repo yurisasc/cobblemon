@@ -8,7 +8,7 @@
             "pokemon": "vaporeon",
             "presets": [
                 "natural",
-				"freshwater"
+                "freshwater"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -35,12 +35,12 @@
                 "canSeeSky": true
             }
         },
-		{
+        {
             "id": "vaporeon-3",
             "pokemon": "vaporeon",
             "presets": [
                 "natural",
-				"urban"
+                "urban"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -49,13 +49,8 @@
             "weight": 0.025,
             "condition": {
                 "canSeeSky": true,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_overworld"
-                ]
-            },
-            "anticondition": {
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
@@ -64,7 +59,7 @@
             "pokemon": "vaporeon",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -73,12 +68,12 @@
             "weight": 0.025,
             "condition": {
                 "canSeeSky": true,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_overworld"
                 ]
             }
         },
-		{
+        {
             "id": "vaporeon-5",
             "pokemon": "vaporeon",
             "presets": [
@@ -91,7 +86,7 @@
             "weight": 0.125,
             "condition": {
                 "canSeeSky": false,
-				"biomes": [
+                "biomes": [
                     "#cobblemon:is_overworld"
                 ]
             }

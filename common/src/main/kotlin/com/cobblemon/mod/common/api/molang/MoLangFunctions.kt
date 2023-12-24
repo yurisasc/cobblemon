@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.molang
 
 import com.bedrockk.molang.runtime.MoLangEnvironment
+import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.MoParams
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
@@ -67,5 +68,10 @@ object MoLangFunctions {
         return this
     }
 
-    fun MoLangEnvironment.getQueryStruct(name: String = "query") = structs.getOrPut(name) { QueryStruct(hashMapOf()).addStandardFunctions() } as QueryStruct
+    fun MoLangEnvironment.getQueryStruct(name: String = "query") = structs.getOrPut(name) { QueryStruct(hashMapOf()) } as QueryStruct
+
+    fun MoLangRuntime.setup(): MoLangRuntime {
+        environment.getQueryStruct().addStandardFunctions()
+        return this
+    }
 }

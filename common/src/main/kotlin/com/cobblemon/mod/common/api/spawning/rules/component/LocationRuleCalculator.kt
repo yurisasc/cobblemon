@@ -14,6 +14,7 @@ import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.asDimensionTypeMoLangValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.asWorldMoLangValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.api.spawning.context.calculators.SpawningContextCalculator
@@ -34,7 +35,7 @@ import net.minecraft.world.dimension.DimensionType
  */
 class LocationRuleCalculator : SpawnRuleComponent {
     @Transient
-    val runtime = MoLangRuntime().also { it.environment.getQueryStruct() }
+    val runtime = MoLangRuntime().setup()
     @Transient
     private val reusableX = DoubleValue(0.0)
     @Transient
@@ -61,9 +62,9 @@ class LocationRuleCalculator : SpawnRuleComponent {
         reusableContext.value = contextCalculator.name
 
         if (!this::reusableWorldValue.isInitialized) {
-            reusableWorldValue = world.registryManager.get(RegistryKeys.WORLD).getEntry(world).asWorldMoLangValue()
+            reusableWorldValue = world.registryManager.get(RegistryKeys.WORLD).getEntry(world.registryKey).get().asWorldMoLangValue()
         } else {
-            reusableWorldValue.obj = world.registryManager.get(RegistryKeys.WORLD).getEntry(world)
+            reusableWorldValue.obj = world.registryManager.get(RegistryKeys.WORLD).getEntry(world.registryKey).get()
         }
 
         if (!this::reusableDimensionTypeValue.isInitialized) {

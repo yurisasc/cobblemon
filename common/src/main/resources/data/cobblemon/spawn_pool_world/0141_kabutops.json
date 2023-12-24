@@ -23,7 +23,7 @@
         {
             "id": "kabutops-2",
             "pokemon": "kabutops",
-			"presets": [
+            "presets": [
                 "underwater"
             ],
             "type": "pokemon",

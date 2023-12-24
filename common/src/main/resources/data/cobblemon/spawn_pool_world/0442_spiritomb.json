@@ -1,12 +1,12 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
             "id": "spiritomb-1",
             "pokemon": "spiritomb",
-			"presets": [
+            "presets": [
                 "ancient_city"
             ],
             "type": "pokemon",
@@ -21,10 +21,10 @@
                 ]
             }
         },
-		{
+        {
             "id": "spiritomb-2",
             "pokemon": "spiritomb",
-			"presets": [
+            "presets": [
                 "trail_ruins"
             ],
             "type": "pokemon",
@@ -38,13 +38,13 @@
                 ]
             }
         },
-		{
+        {
             "id": "spiritomb-3",
             "pokemon": "spiritomb",
-			"presets": [
+            "presets": [
                 "natural",
-				"desert_pyramid",
-				"jungle_pyramid"
+                "desert_pyramid",
+                "jungle_pyramid"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -58,7 +58,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "spiritomb-4",
             "pokemon": "spiritomb",
             "type": "pokemon",
@@ -73,8 +73,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

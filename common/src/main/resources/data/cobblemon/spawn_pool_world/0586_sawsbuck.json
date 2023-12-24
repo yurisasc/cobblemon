@@ -8,19 +8,19 @@
             "pokemon": "sawsbuck",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "34-48",
             "weight": 0.2,
-			"weightMultiplier": {
-				"multiplier": 0.25,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -38,7 +38,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "sawsbuck-2",
             "pokemon": "sawsbuck",
             "type": "pokemon",
@@ -53,8 +53,8 @@
             },
             "anticondition": {
                 "structures": [
-					"#the_bumblezone:sempiternal_sanctums"
-				]
+                    "#the_bumblezone:sempiternal_sanctums"
+                ]
             }
         }
     ]

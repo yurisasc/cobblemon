@@ -15,7 +15,7 @@
             "level": "1-22",
             "weight": 9.0,
             "condition": {
-				"canSeeSky": true,
+                "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_dripstone"
                 ],
@@ -56,8 +56,7 @@
                 "biomes": [
                     "#cobblemon:is_hills"
                 ],
-                "timeRange": "night",
-				"moonPhase": 1
+                "timeRange": "night"
             }
         },
         {

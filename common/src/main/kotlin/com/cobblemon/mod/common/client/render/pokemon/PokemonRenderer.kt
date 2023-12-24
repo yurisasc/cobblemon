@@ -68,7 +68,7 @@ class PokemonRenderer(
     }
 
     override fun getTexture(entity: PokemonEntity): Identifier {
-        return PokemonModelRepository.getTexture(entity.pokemon.species.resourceIdentifier, entity.aspects.get(), (entity.delegate as PokemonClientDelegate).animationSeconds)
+        return PokemonModelRepository.getTexture(entity.pokemon.species.resourceIdentifier, entity.aspects, (entity.delegate as PokemonClientDelegate).animationSeconds)
     }
 
     override fun render(
@@ -81,10 +81,10 @@ class PokemonRenderer(
     ) {
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
         DELTA_TICKS = partialTicks // TODO move this somewhere universal // or just fecking remove it
-        model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects.get())
+        model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
 
         val clientDelegate = entity.delegate as PokemonClientDelegate
-        val beamMode = entity.beamModeEmitter.get().toInt()
+        val beamMode = entity.beamMode
         val modelNow = model as PoseableEntityModel<PokemonEntity>
         val s = clientDelegate.secondsSinceBeamEffectStarted
         if (beamMode != 0) {
@@ -109,7 +109,7 @@ class PokemonRenderer(
 
         clientDelegate.updatePartialTicks(partialTicks)
 
-        modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects.get()))
+        modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects))
 
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
 
@@ -165,7 +165,6 @@ class PokemonRenderer(
         val beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
             (beamTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: beamTarget.pos
         } else {
-            beamTarget as LivingEntity
             if (beamTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                 val lookVec = beamTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
                 beamTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))
@@ -296,7 +295,7 @@ class PokemonRenderer(
         if (!super.hasLabel(entity)) {
             return false
         }
-        if (entity.hideLabel.get()) {
+        if (entity.dataTracker.get(PokemonEntity.HIDE_LABEL)) {
             return false
         }
         val player = MinecraftClient.getInstance().player ?: return false

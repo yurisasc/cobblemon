@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -34,7 +34,8 @@
             "weight": 9.0,
             "condition": {
                 "biomes": [
-                    "#minecraft:is_nether"
+                    "#minecraft:is_nether",
+                    "#cobblemon:is_volcanic"
                 ]
             }
         },
@@ -75,25 +76,8 @@
                 "biomes": [
                     "#cobblemon:is_volcanic"
                 ],
-				"neededNearbyBlocks": [
-                    "minecraft:lava"
-                ]
-            }
-        },
-        {
-            "id": "slugma-5",
-            "pokemon": "slugma",
-            "presets": [
-                "lava_surface"
-            ],
-            "type": "pokemon",
-            "context": "surface",
-            "bucket": "common",
-            "level": "1-25",
-            "weight": 9.0,
-            "condition": {
-                "biomes": [
-                    "#cobblemon:is_volcanic"
+                "neededNearbyBlocks": [
+                    "#minecraft:lava"
                 ]
             }
         }

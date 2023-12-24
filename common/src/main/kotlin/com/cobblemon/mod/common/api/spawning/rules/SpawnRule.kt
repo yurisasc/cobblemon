@@ -23,7 +23,7 @@ class SpawnRule {
 
     lateinit var id: Identifier
     val displayName: Text = "Spawn Rule".text()
+    var enabled: Boolean = true
 //    val pool: String? = null Kinda difficult to see how this would get used in practice.
-//    var enabled = true One would expect there to be some kind of persistence if this could be enabled and disabled willy nilly.
     val components: MutableList<SpawnRuleComponent> = mutableListOf()
 }

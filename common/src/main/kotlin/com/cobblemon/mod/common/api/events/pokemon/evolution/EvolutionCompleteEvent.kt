@@ -21,6 +21,6 @@ import com.cobblemon.mod.common.pokemon.Pokemon
  * @since October 2nd, 2022
  */
 data class EvolutionCompleteEvent(
-    val pokemon: Pokemon,
-    val evolution: Evolution
-)
+    override val pokemon: Pokemon,
+    override val evolution: Evolution
+) : EvolutionEvent

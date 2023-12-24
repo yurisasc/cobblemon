@@ -19,7 +19,7 @@ import net.minecraft.client.model.ModelPart
 
 class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(), PokeBallFrame {
     override val rootPart = root.registerChildWithAllChildren("poke_ball")
-    override val base = getPart("base")
+    override val base = getPart("bottom")
     override val lid = getPart("lid")
     override val isForLivingEntityRenderer = false
 
@@ -33,7 +33,7 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
         midair = registerPose(
             poseName = "flying",
             poseTypes = setOf(PoseType.NONE),
-            condition = { it.captureState.get() == EmptyPokeBallEntity.CaptureState.NOT.ordinal.toByte() },
+            condition = { it.captureState == EmptyPokeBallEntity.CaptureState.NOT },
             transformTicks = 0,
             idleAnimations = arrayOf(bedrock("poke_ball", "throw"))
         )
@@ -53,11 +53,11 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
             idleAnimations = arrayOf(
                 bedrock("poke_ball", "open_idle")
             ),
-            transformTicks = 10
+            transformTicks = 0
         )
 
-        shut.transitions[open] = { _, _ -> bedrockStateful("poke_ball", "open").andThen { entity, state -> state.setPose(open.poseName) } }
-        open.transitions[shut] = { _, _ -> bedrockStateful("poke_ball", "shut").andThen { entity, state -> state.setPose(shut.poseName) } }
+        shut.transitions[open] = { _, _ -> bedrockStateful("poke_ball", "open").isTransformAnimation(true) }
+        open.transitions[shut] = { _, _ -> bedrockStateful("poke_ball", "shut").isTransformAnimation(true) }
         midair.transitions[open] = shut.transitions[open]!!
     }
 }

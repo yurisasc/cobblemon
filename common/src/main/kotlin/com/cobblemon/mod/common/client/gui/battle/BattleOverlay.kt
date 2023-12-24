@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.client.gui.battle
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
+import com.cobblemon.mod.common.api.scheduling.Schedulable
+import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonClient
@@ -50,7 +52,7 @@ import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.RotationAxis
 import org.joml.Vector3f
 
-class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
+class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer), Schedulable {
     companion object {
         const val MAX_OPACITY = 1.0
         const val MIN_OPACITY = 0.5
@@ -85,7 +87,10 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
     var lastKnownBattle: UUID? = null
     lateinit var messagePane: BattleMessagePane
 
+    override val schedulingTracker = SchedulingTracker()
+
     override fun render(context: DrawContext, tickDelta: Float) {
+        schedulingTracker.update(tickDelta / 20F)
         passedSeconds += tickDelta / 20
         if (passedSeconds > 100) {
             passedSeconds -= 100

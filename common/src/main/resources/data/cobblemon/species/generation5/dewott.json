@@ -37,6 +37,19 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "swim": {
+      "canSwimInWater": true,
+      "canBreatheUnderwater": true,
+      "canWalkOnWater": true
+    }
+  },
   "moves": [
     "1:soak",
     "1:tackle",

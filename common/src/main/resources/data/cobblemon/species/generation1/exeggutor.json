@@ -19,7 +19,7 @@
   "behaviour": {
     "moving": {
       "walk": {
-        "walkSpeed": 0.35
+        "walkSpeed": 0.25
       }
     },
     "resting": {
@@ -33,7 +33,9 @@
   "maleRatio": 0.5,
   "shoulderMountable": false,
   "forms": [
-    {"name": "base"},
+    {
+      "name": "base"
+    },
     {
       "name": "Alola",
       "primaryType": "grass",
@@ -399,7 +401,7 @@
   ],
   "preEvolution": "exeggcute",
   "evolutions": [],
-  "baseScale": 1.6,
+  "baseScale": 1.0,
   "hitbox": {
     "width": 1.8,
     "height": 3.0,
