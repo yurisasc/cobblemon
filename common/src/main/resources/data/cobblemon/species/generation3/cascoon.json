@@ -15,9 +15,12 @@
   },
   "behaviour": {
     "moving": {
-      "canMove": false,
       "walk": {
         "canWalk": false
+      },
+      "swim": {
+        "canSwimInWater": false,
+        "canSwimInLava": false
       },
       "canLook": false
     }

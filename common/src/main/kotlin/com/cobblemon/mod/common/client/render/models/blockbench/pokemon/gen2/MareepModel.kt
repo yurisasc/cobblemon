@@ -46,7 +46,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         sleep = registerPose(
             poseName = "unsheared_sleep",
             poseType = PoseType.SLEEP,
-            condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+            condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = true)
             ),
@@ -56,7 +56,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         shearedsleep = registerPose(
             poseName = "sheared_sleep",
             poseType = PoseType.SLEEP,
-            condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+            condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = false)
             ),
@@ -68,7 +68,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() && !it.isBattling },
+            condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects && !it.isBattling },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = true)
             ),
@@ -83,7 +83,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+            condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = true)
             ),
@@ -98,7 +98,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() && !it.isBattling},
+            condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects && !it.isBattling},
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = false)
             ),
@@ -112,7 +112,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+            condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = false)
             ),
@@ -142,7 +142,7 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() && it.isBattling },
+            condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects && it.isBattling },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = false)
             ),

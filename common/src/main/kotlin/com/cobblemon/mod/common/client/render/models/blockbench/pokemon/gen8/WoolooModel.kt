@@ -49,7 +49,7 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
                 transformTicks = 0,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
                 transformedParts = arrayOf(
                         wool.createTransformation().withVisibility(visibility = true)
                 ),
@@ -64,7 +64,7 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
                 transformTicks = 0,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
                 transformedParts = arrayOf(
                         wool.createTransformation().withVisibility(visibility = true)
                 ),
@@ -79,7 +79,7 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
                 transformTicks = 0,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
                 transformedParts = arrayOf(
                         wool.createTransformation().withVisibility(visibility = false)
                 ),
@@ -93,7 +93,7 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
                 transformTicks = 0,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
                 transformedParts = arrayOf(
                         wool.createTransformation().withVisibility(visibility = false)
                 ),

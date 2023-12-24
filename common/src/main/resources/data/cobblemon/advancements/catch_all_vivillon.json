@@ -14,13 +14,6 @@
 	},
 	"parent": "cobblemon:first_catch",
 	"criteria": {
-		"poke_ball": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-poke-ball"]
-			}
-		},
 		"archipelago": {
 			"trigger": "cobblemon:aspects_collected",
 			"conditions": {
@@ -174,10 +167,16 @@
 				"pokemon": "cobblemon:vivillon",
 				"aspects": ["vivillon-wings-forsaken"]
 			}
+		},
+		"pokeball": {
+			"trigger": "cobblemon:aspects_collected",
+			"conditions": {
+				"pokemon": "cobblemon:vivillon",
+				"aspects": ["vivillon-wings-poke-ball"]
+			}
 		}
 	},
 	"requirements": [
-		["poke_ball"],
 		["archipelago"],
 		["continental"],
 		["elegant"],
@@ -199,7 +198,8 @@
 		["tundra"],
 		["inferno"],
 		["void"],
-		["forsaken"]
+		["forsaken"],
+		["pokeball"]
 	],
   "rewards": {
     "experience": 100

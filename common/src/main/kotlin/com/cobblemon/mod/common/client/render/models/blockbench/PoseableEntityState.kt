@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.render.MatrixWrapper
@@ -40,7 +41,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
     val poseParticles = mutableListOf<BedrockParticleKeyframe>()
-    val runtime = MoLangRuntime().also {
+    val runtime = MoLangRuntime().setup().also {
         it.environment.structs["query"] = it.environment.structs["variable"]
     }
 
