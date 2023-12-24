@@ -133,6 +133,7 @@ class PokemonEntity(
         @JvmStatic val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         @JvmStatic val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         const val BATTLE_LOCK = "battle"
 
@@ -186,7 +187,7 @@ class PokemonEntity(
      * The amount of steps this entity has traveled.
      */
     var blocksTraveled: Double = 0.0
-    val countsTowardsSpawnCap = addEntityProperty(COUNTS_TOWARDS_SPAWN_CAP, true)
+    var countsTowardsSpawnCap = true
     /**
      * 0 is do nothing,
      * 1 is appearing from a pokeball so needs to be small then grows,
@@ -262,7 +263,6 @@ class PokemonEntity(
         }
     }
 
-    val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
     override fun canWalkOnFluid(state: FluidState): Boolean {
 //        val node = navigation.currentPath?.currentNode
 //        val targetPos = node?.blockPos
@@ -409,7 +409,7 @@ class PokemonEntity(
         if (dataTracker.get(UNBATTLEABLE)) {
             nbt.putBoolean(DataKeys.POKEMON_UNBATTLEABLE, true)
         }
-        if(!countsTowardsSpawnCap.get()) {
+        if (!countsTowardsSpawnCap) {
             nbt.putBoolean(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP, false)
         }
 
@@ -473,8 +473,8 @@ class PokemonEntity(
         if (nbt.contains(DataKeys.POKEMON_UNBATTLEABLE)) {
             dataTracker.set(UNBATTLEABLE, nbt.getBoolean(DataKeys.POKEMON_UNBATTLEABLE))
         }
-        if(nbt.contains(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP)) {
-            countsTowardsSpawnCap.set(nbt.getBoolean(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP))
+        if (nbt.contains(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP)) {
+            countsTowardsSpawnCap = nbt.getBoolean(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP)
         }
 
         CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(

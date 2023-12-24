@@ -128,7 +128,7 @@ object BattleBuilder {
                 side2 = BattleSide(wildActor)
             ).ifSuccessful {
                 if (!cloneParties) {
-                    pokemonEntity.battleId = battle.battleId
+                    pokemonEntity.battleId = it.battleId
                 }
                 playerActor.battleTheme = pokemonEntity.getBattleTheme()
             }
