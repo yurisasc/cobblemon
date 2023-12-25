@@ -67,6 +67,7 @@ object DataKeys {
 
     const val POKEMON_ORIGINAL_TRAINER_UUID = "PokemonOriginalTrainerUUID"
     const val POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME = "PokemonOriginalTrainerDisplayName"
+    const val POKEMON_PROPERTIES_ORIGINAL_TRAINER_DISPLAY_NAME_NPC = "PokemonOriginalTrainerDisplayNameNPC"
 
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"

@@ -27,7 +27,7 @@ class OriginalTrainerUpdatePacket(pokemon: () -> Pokemon, uuidAndUsername: Pair<
         if (value != null) {
             pokemon.setOriginalTrainer(value.first, value.second)
         } else {
-            pokemon.originalTrainer = null
+            pokemon.removeOriginalTrainer()
         }
     }
 

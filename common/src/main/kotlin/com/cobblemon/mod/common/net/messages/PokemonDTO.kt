@@ -245,7 +245,7 @@ class PokemonDTO : Encodable, Decodable {
             } else if (originalTrainerDisplayName != null) {
                 it.setOriginalTrainer(originalTrainerDisplayName!!)
             } else {
-                it.originalTrainer = null
+                it.removeOriginalTrainer()
             }
         }
     }

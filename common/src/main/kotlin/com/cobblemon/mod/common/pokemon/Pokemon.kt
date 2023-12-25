@@ -339,7 +339,7 @@ open class Pokemon : ShowdownIdentifiable {
      * If this UUID is not null, it will attempt to update the String in [loadFromNBT].
      */
     var originalTrainer: Pair<UUID?, String>? = null
-        set(value) {
+        private set(value) {
             field = value
             _originalTrainer.emit(value)
         }
@@ -1074,6 +1074,11 @@ open class Pokemon : ShowdownIdentifiable {
      */
     fun setOriginalTrainer(fakeTrainerName: String) {
         setOriginalTrainer(playerUUID = null, playerName = fakeTrainerName)
+    }
+
+    fun removeOriginalTrainer()
+    {
+        originalTrainer = null
     }
 
     val allAccessibleMoves: Set<MoveTemplate>
