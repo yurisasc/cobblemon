@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.entity.npc
 
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.GenericsCheatClass.createNPCBrain
 import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
@@ -22,20 +23,35 @@ import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.battles.BattleBuilder
+import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.npc.ai.StayPutInBattleGoal
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.DataKeys
+import com.google.common.collect.ImmutableList
+import com.mojang.datafixers.util.Pair
+import com.mojang.serialization.Dynamic
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
+import java.util.function.Predicate
+import net.minecraft.entity.EntityDimensions
+import net.minecraft.entity.EntityPose
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Npc
+import net.minecraft.entity.ai.brain.Activity
+import net.minecraft.entity.ai.brain.Brain
+import net.minecraft.entity.ai.brain.MemoryModuleType
+import net.minecraft.entity.ai.brain.sensor.Sensor
+import net.minecraft.entity.ai.brain.sensor.SensorType
+import net.minecraft.entity.ai.brain.task.LookAroundTask
+import net.minecraft.entity.ai.brain.task.LookAtMobTask
 import net.minecraft.entity.ai.goal.LookAroundGoal
 import net.minecraft.entity.ai.goal.LookAtEntityGoal
 import net.minecraft.entity.ai.goal.WanderAroundGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
@@ -93,6 +109,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     init {
         delegate.initialize(this)
+        calculateDimensions()
     }
 
     // This has to be below constructor and entity tracker fields otherwise initialization order is weird and breaks them syncing
@@ -104,12 +121,30 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         val POSE_TYPE = DataTracker.registerData(NPCEntity::class.java, PoseTypeDataSerializer)
         val BATTLE_IDS = DataTracker.registerData(NPCEntity::class.java, UUIDSetDataSerializer)
 
+        val BATTLING = Activity.register("npc_battling")
+
+        val SENSORS: Collection<SensorType<out Sensor<in NPCEntity>>> = listOf(
+            SensorType.NEAREST_LIVING_ENTITIES,
+            SensorType.HURT_BY,
+            SensorType.NEAREST_PLAYERS,
+        )
+
+        val MEMORY_MODULES: List<MemoryModuleType<*>> = ImmutableList.of(
+            MemoryModuleType.LOOK_TARGET,
+            MemoryModuleType.WALK_TARGET,
+            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+            MemoryModuleType.PATH,
+            MemoryModuleType.IS_PANICKING,
+            MemoryModuleType.VISIBLE_MOBS
+        )
+
         const val SEND_OUT_ANIMATION = "send-out"
         const val RECALL_ANIMATION = "recall"
         const val LOSE_ANIMATION = "lose"
         const val WIN_ANIMATION = "win"
     }
 
+    override fun createBrainProfile() = createNPCBrain(MEMORY_MODULES, SENSORS)
     override fun createChild(world: ServerWorld, entity: PassiveEntity) = null // No lovemaking! Unless...
     override fun getPoseType(): PoseType = this.getDataTracker().get(POSE_TYPE)
 
@@ -120,6 +155,45 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         dataTracker.startTracking(POSE_TYPE, PoseType.STAND)
         dataTracker.startTracking(BATTLE_IDS, setOf())
     }
+
+    override fun deserializeBrain(dynamic: Dynamic<*>): Brain<NPCEntity> {
+        val brain = createBrainProfile().deserialize(dynamic)
+        brain.setTaskList(BATTLING, ImmutableList.of(
+            Pair.of(
+                0,
+                LookAroundTask(45, 90)
+            ),
+            Pair.of(
+                1,
+                // Should improve this to be our own look task which randomizes the target instead of taking closes entity
+                LookAtMobTask.create(
+                    { entity ->
+                        val battles = battleIds.mapNotNull { BattleRegistry.getBattle(it) }
+                        if (entity is PlayerEntity) {
+                            return@create battles.any { entity in it.players }
+                        } else if (entity is PokemonEntity) {
+                            return@create entity.battleId in battleIds
+                        }
+                        return@create false
+                    },
+                    10F
+                )
+            ),
+        ))
+        brain.setTaskList(Activity.IDLE, ImmutableList.of(
+            Pair.of(
+                0,
+                LookAroundTask(45, 90)
+            ),
+            Pair.of(
+                1,
+                LookAtMobTask.create(15F)
+            ),
+        ))
+        return brain
+    }
+
+    override fun getBrain() = super.getBrain() as Brain<NPCEntity>
 
     fun updateAspects() {
         dataTracker.set(ASPECTS, appliedAspects)
@@ -134,12 +208,9 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         schedulingTracker.update(1/20F)
     }
 
-    override fun initGoals() {
-        super.initGoals()
-        goalSelector.add(2, StayPutInBattleGoal(this))
-        goalSelector.add(5, WanderAroundGoal(this, 0.4, 30))
-        goalSelector.add(6, LookAtEntityGoal(this, LivingEntity::class.java, 8F, 0.2F))
-        goalSelector.add(6, LookAroundGoal(this))
+    override fun mobTick() {
+        super.mobTick()
+        getBrain().tick(world as ServerWorld, this)
     }
 
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
@@ -165,6 +236,8 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         }
         updateAspects()
     }
+
+    override fun getDimensions(pose: EntityPose) = npc.hitbox
 
     override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
         if (player is ServerPlayerEntity) {
@@ -195,5 +268,17 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     override fun sendingOut(): CompletableFuture<Unit> {
         playAnimation(SEND_OUT_ANIMATION)
         return delayedFuture(seconds = 1.6F)
+    }
+
+    override fun onTrackedDataSet(data: TrackedData<*>) {
+        super.onTrackedDataSet(data)
+        if (data == BATTLE_IDS && !world.isClient) {
+            val value = dataTracker.get(BATTLE_IDS)
+            if (value.isEmpty()) {
+                brain.resetPossibleActivities(listOf(Activity.IDLE))
+            } else if (!brain.hasActivity(BATTLING)) {
+                brain.resetPossibleActivities(listOf(BATTLING))
+            }
+        }
     }
 }

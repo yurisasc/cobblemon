@@ -30,7 +30,7 @@ class NPCClass {
     @Transient
     lateinit var resourceIdentifier: Identifier
 
-    var hitbox = EntityDimensions(0.6F, 1.8F, true)
+    var hitbox = EntityDimensions(0.6F, 1.8F, false)
     var battleConfiguration = NPCBattleConfiguration()
     var variables = mutableMapOf<String, MoValue>()
 

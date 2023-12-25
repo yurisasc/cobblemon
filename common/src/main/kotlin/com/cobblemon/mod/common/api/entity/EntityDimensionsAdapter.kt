@@ -30,7 +30,7 @@ object EntityDimensionsAdapter : JsonSerializer<EntityDimensions>, JsonDeseriali
     const val HEIGHT = "height"
 
     val templates = mutableMapOf(
-        "player" to { EntityDimensions(0.6F, 0.8F, false) }
+        "player" to { EntityDimensions(0.6F, 1.8F, false) }
     )
 
     override fun serialize(dimensions: EntityDimensions, type: Type, ctx: JsonSerializationContext): JsonElement {
