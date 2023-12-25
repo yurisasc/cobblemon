@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.scheduling
 
+import java.util.concurrent.CompletableFuture
 import kotlin.math.max
 
 /**
@@ -29,6 +30,11 @@ class ScheduledTask(
     /** The number of times this task should iterate. */
     val iterations: Int = 1
 ) {
+    companion object {
+        val BLANK = ScheduledTask({}, delaySeconds = 0F)
+    }
+    val future = CompletableFuture<Unit>()
+    var secondsPassed = 0F
     var currentIteration: Int = 0
         private set
     var secondsRemaining: Float = 0F
@@ -38,12 +44,7 @@ class ScheduledTask(
     var paused = false
         set(value) {
             field = value
-            if (!value) {
-                lastExecutedTime = System.currentTimeMillis()
-            }
         }
-
-    var lastExecutedTime = System.currentTimeMillis()
 
     init {
         if (delaySeconds > 0) {
@@ -55,13 +56,10 @@ class ScheduledTask(
         return identifier?.let { "Task-$it" } ?: super.toString()
     }
 
-    fun update() {
-        val now = System.currentTimeMillis()
-        val passed = now - lastExecutedTime
-        lastExecutedTime = now
-
+    fun update(deltaSeconds: Float) {
         if (!expired && !paused) {
-            secondsRemaining = max(0F, secondsRemaining - passed / 1000F)
+            secondsPassed += deltaSeconds
+            secondsRemaining = max(0F, secondsRemaining - deltaSeconds)
             if (secondsRemaining == 0F) {
                 action(this)
                 currentIteration++
@@ -76,6 +74,7 @@ class ScheduledTask(
 
     fun expire() {
         this.expired = true
+        future.complete(Unit)
     }
 
     class Builder {
@@ -91,7 +90,9 @@ class ScheduledTask(
         private var iterations: Int = 1
         
         private var identifier: String? = null
-        
+
+        private var tracker: SchedulingTracker? = null
+
         fun identifier(identifier: String): Builder {
             this.identifier = identifier
             return this
@@ -156,6 +157,11 @@ class ScheduledTask(
             return iterations(-1)
         }
 
+        fun tracker(schedulingTracker: SchedulingTracker): Builder {
+            this.tracker = schedulingTracker
+            return this
+        }
+
         /**
          * Builds the task using the properties of the task builder.
          * This will add the task to [TaskTickListener].
@@ -172,7 +178,7 @@ class ScheduledTask(
                 intervalSeconds = interval,
                 iterations = iterations
             )
-            ScheduledTaskTracker.addTask(task)
+            (tracker ?: ServerTaskTracker).addTask(task)
             return task
         }
     }

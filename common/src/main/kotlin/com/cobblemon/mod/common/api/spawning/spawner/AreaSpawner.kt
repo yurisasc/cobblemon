@@ -76,8 +76,9 @@ abstract class AreaSpawner(
 
             val numberNearby = constrainedArea.world.getEntitiesByClass(
                 PokemonEntity::class.java,
-                areaBox
-            ) { pokemonEntity -> pokemonEntity.countsTowardsSpawnCap.get() }.size
+                areaBox,
+                PokemonEntity::countsTowardsSpawnCap
+            ).size
 
             val chunksCovered = CHUNK_REACH * CHUNK_REACH
             if (numberNearby.toFloat() / chunksCovered >= Cobblemon.config.pokemonPerChunk) {

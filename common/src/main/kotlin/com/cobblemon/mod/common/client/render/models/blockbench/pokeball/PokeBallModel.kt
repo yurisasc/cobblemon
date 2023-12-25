@@ -33,7 +33,7 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
         midair = registerPose(
             poseName = "flying",
             poseTypes = setOf(PoseType.NONE),
-            condition = { it.captureState.get() == EmptyPokeBallEntity.CaptureState.NOT.ordinal.toByte() },
+            condition = { it.captureState == EmptyPokeBallEntity.CaptureState.NOT },
             transformTicks = 0,
             idleAnimations = arrayOf(bedrock("poke_ball", "throw"))
         )
