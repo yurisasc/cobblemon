@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
-import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnGenericBedrockPacket
@@ -40,9 +39,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
         val SCALE = DataTracker.registerData(GenericBedrockEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
     }
 
-    private val entityProperties = mutableListOf<EntityProperty<*>>()
     var savesToWorld = false
-    var poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
 
     val delegate = if (world.isClient) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
@@ -88,12 +85,13 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
         this.dataTracker.startTracking(CATEGORY, cobblemonResource("generic"))
         this.dataTracker.startTracking(ASPECTS, emptySet())
         this.dataTracker.startTracking(SCALE, 1F)
+        this.dataTracker.startTracking(POSE_TYPE, PoseType.NONE)
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {
         this.category = Identifier(nbt.getString(DataKeys.GENERIC_BEDROCK_CATEGORY))
         this.aspects = nbt.getList(DataKeys.GENERIC_BEDROCK_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
-        this.poseType.set(PoseType.values()[nbt.getByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE).toInt()])
+        this.dataTracker.set(POSE_TYPE, PoseType.values()[nbt.getByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE).toInt()])
         this.scale = nbt.getFloat(DataKeys.GENERIC_BEDROCK_SCALE)
         this.colliderWidth = nbt.getFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_WIDTH)
         this.colliderHeight = nbt.getFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_HEIGHT)
@@ -115,7 +113,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
 
     override fun shouldSave() = super.shouldSave() && this.savesToWorld
     override fun getDimensions(pose: EntityPose) = EntityDimensions.changing(colliderWidth, colliderHeight).scaled(scale)
-    override fun getCurrentPoseType(): PoseType = this.poseType.get()
+    override fun getCurrentPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
 
     override fun createSpawnPacket() = CobblemonNetwork.asVanillaClientBound(
         SpawnGenericBedrockPacket(
@@ -133,15 +131,5 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
     override fun tick() {
         super.tick()
         delegate.tick(this)
-    }
-
-    fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
-        val property = EntityProperty(
-            dataTracker = dataTracker,
-            accessor = accessor,
-            initialValue = initialValue
-        )
-        entityProperties.add(property)
-        return property
     }
 }

@@ -50,7 +50,7 @@ class SpawnGenericBedrockPacket(
     override fun applyData(entity: GenericBedrockEntity) {
         entity.category = this.category
         entity.aspects = this.aspects
-        entity.poseType.set(this.poseType)
+        entity.dataTracker.set(GenericBedrockEntity.POSE_TYPE, this.poseType)
         entity.scale = this.scale
         entity.colliderWidth = this.width
         entity.colliderHeight = this.height
