@@ -6,6 +6,10 @@
 
 ### Fixes
 
+### Developer
+- Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
+
+
 ### Datapack & Resourcepack Creators
 - Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
 

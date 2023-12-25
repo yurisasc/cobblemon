@@ -448,19 +448,21 @@ open class Pokemon : ShowdownIdentifiable {
         mutation: (PokemonEntity) -> Unit = {},
     ): CompletableFuture<PokemonEntity> {
         // Handle special case of shouldered Cobblemon
-        if (this.state is ShoulderedState) return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+        if (this.state is ShoulderedState) {
+            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+        }
 
         // Proceed as normal for non-shouldered Cobblemon
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
             level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.6F)
-            it.phasingTargetId.set(source.id)
-            it.beamModeEmitter.set(1)
-            it.battleId.set(Optional.ofNullable(battleId))
+            it.phasingTargetId = source.id
+            it.beamMode = 1
+            it.battleId = battleId
 
             it.after(seconds = SEND_OUT_DURATION) {
-                it.phasingTargetId.set(-1)
-                it.beamModeEmitter.set(0)
+                it.phasingTargetId = -1
+                it.beamMode = 0
                 future.complete(it)
                 CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
                 if (doCry) {
@@ -502,7 +504,7 @@ open class Pokemon : ShowdownIdentifiable {
 
             // Make the Cobblemon walk to the target Position with haste
             it.moveControl.moveTo(targetPosition.x, targetPosition.y, targetPosition.z, 1.2)
-            it.battleId.set(Optional.ofNullable(battleId))
+            it.battleId = battleId
 
             afterOnServer(seconds = SEND_OUT_DURATION) {
                 future.complete(it)
