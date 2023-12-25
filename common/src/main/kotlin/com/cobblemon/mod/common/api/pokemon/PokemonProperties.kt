@@ -389,9 +389,9 @@ open class PokemonProperties {
         if (originalTrainerUUID != null)
             originalTrainerUUID!!.let { pokemonEntity.pokemon.setOriginalTrainer(it, "") }
         else if (originalTrainerPlayer != null) {
-            // check if uuid
-            var foundUUID = UUID.randomUUID()
-            originalTrainerPlayer!!.let { pokemonEntity.pokemon.setOriginalTrainer(foundUUID, it) }
+            server()?.userCache?.findByName(originalTrainerPlayer)?.get()?.id?.let {
+                pokemonEntity.pokemon.setOriginalTrainer(it, originalTrainerPlayer!!)
+            }
         }
         else if (originalTrainerNPC != null)
             originalTrainerNPC!!.let { pokemonEntity.pokemon.setOriginalTrainer(it) }
