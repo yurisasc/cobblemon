@@ -19,7 +19,6 @@ import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
  * Signals the upkeep phase of the turn where the number of turns left for field conditions are updated.
  */
 class UpkeepInstruction : InterpreterInstruction {
-    override val cause = null
     override fun invoke(battle: PokemonBattle) {
         battle.dispatch {
             battle.actors.forEach { it.upkeep() }

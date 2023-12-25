@@ -20,12 +20,10 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
-import com.cobblemon.mod.common.battles.dispatch.CausingInstruction
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.InstructionSet
@@ -86,10 +84,10 @@ object ShowdownInterpreter {
 
         updateInstructionParser["turn"] = { _, _, message, _ -> TurnInstruction(message) }
         updateInstructionParser["upkeep"] = { _, _, _, _ -> UpkeepInstruction() }
-        updateInstructionParser["faint"] = { battle, instructionSet, message, _ -> FaintInstruction(instructionSet.currentCause, battle, message) }
+        updateInstructionParser["faint"] = { battle, _, message, _ -> FaintInstruction(battle, message) }
         updateInstructionParser["move"] = { _, instructionSet, message, _ -> MoveInstruction(instructionSet, message) }
-        splitInstructionParser["-damage"] = { battle, targetActor, instructionSet, publicMessage, privateMessage, _ ->
-            DamageInstruction(instructionSet.currentCause, targetActor, publicMessage, privateMessage)
+        splitInstructionParser["-damage"] = { _, targetActor, _, publicMessage, privateMessage, _ ->
+            DamageInstruction(targetActor, publicMessage, privateMessage)
         }
 
 
@@ -275,60 +273,21 @@ object ShowdownInterpreter {
                     val message = iterator.next()
                     val id = message.id.replace("|", "")
                     if (id in contextResetInstructions) {
-                        instructionSet.currentCause = null
+                        // TODO some kind of cause tracking reset
                     } else {
                         val instruction = updateInstructionParser[id]?.invoke(battle, instructionSet, message, iterator) ?: run {
                             val instructionFn = updateInstructions.entries.find { ins -> message.rawMessage.startsWith(ins.key) }?.value
                             instructionFn?.let { fn -> DeprecatedInstruction(message, fn) } ?: UnknownInstruction(message)
                         }
-                        if (instruction is CausingInstruction) {
-                            instructionSet.currentCause = instruction
-                        }
+//                        if (instruction is CausingInstruction) {
+//                            instructionSet.currentCause = instruction
+//                        }
                         instructionSet.instructions.add(instruction)
                     }
                 }
 
                 instructionSet.execute(battle)
 
-//                while (lines.isNotEmpty()) {
-//                    val line = lines.removeAt(0)
-//
-//                    // Split blocks have a public and private message below
-//                    if (line.startsWith("|split|")) {
-//                        val showdownId = line.split("|split|")[1]
-//                        val targetActor = battle.getActor(showdownId)
-//
-//                        if (targetActor == null) {
-//                            battle.log("No actor could be found with the showdown id: $showdownId")
-//                            return
-//                        }
-//
-//                        val privateMessage = lines[0]
-//                        val publicMessage = lines[1]
-//
-//                        for (instruction in splitUpdateInstructions.entries) {
-//                            if (lines[0].startsWith(instruction.key)) {
-//                                instruction.value(battle, targetActor, BattleMessage(publicMessage), BattleMessage(privateMessage))
-//                                break
-//                            }
-//                        }
-//
-//                        lines.removeFirst()
-//                        lines.removeFirst()
-//                    } else {
-//                        if (line != "|") {
-//                            val instruction = updateInstructions.entries.find { line.startsWith(it.key) }?.value
-//                            if (instruction != null) {
-//                                instruction(battle, BattleMessage(line), lines)
-//                            } else {
-//                                battle.dispatch {
-//                                    battle.broadcastChatMessage(line.text())
-//                                    GO
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
             } else if (lines[0] == "sideupdate") {
                 val showdownId = lines[1]
                 val targetActor = battle.getActor(showdownId)

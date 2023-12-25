@@ -19,8 +19,6 @@ class DeprecatedSplitInstruction(
     val privateMessage: BattleMessage,
     val function: (PokemonBattle, BattleActor, BattleMessage, BattleMessage) -> Unit
 ) : InterpreterInstruction {
-
-    override val cause: InterpreterInstruction? = null
     override fun invoke(battle: PokemonBattle) {
         function(battle, battleActor, publicMessage, privateMessage)
     }

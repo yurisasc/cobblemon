@@ -11,9 +11,7 @@ package com.cobblemon.mod.common.battles.dispatch
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 
 class InstructionSet {
-    var currentCause: InterpreterInstruction? = null
     val instructions: MutableList<InterpreterInstruction> = mutableListOf()
-
     fun getSubsequentInstructions(instruction: InterpreterInstruction): List<InterpreterInstruction> {
         val index = instructions.indexOf(instruction)
         return instructions.subList(index + 1, instructions.size).toList()

@@ -26,7 +26,6 @@ import kotlin.math.roundToInt
 import net.minecraft.text.Text
 
 class DamageInstruction(
-    override val cause: InterpreterInstruction?,
     val actor: BattleActor,
     val publicMessage: BattleMessage,
     val privateMessage: BattleMessage

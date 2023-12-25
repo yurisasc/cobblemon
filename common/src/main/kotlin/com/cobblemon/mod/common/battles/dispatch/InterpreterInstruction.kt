@@ -11,18 +11,5 @@ package com.cobblemon.mod.common.battles.dispatch
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 
 interface InterpreterInstruction {
-    val cause: InterpreterInstruction?
     operator fun invoke(battle: PokemonBattle)
-
-    fun findCause(predicate: (InterpreterInstruction) -> Boolean): InterpreterInstruction? {
-        return this.cause?.findCause(predicate)
-    }
-
-    fun getRootCause(): InterpreterInstruction {
-        return if (this.cause == null) {
-            this
-        } else {
-            this.cause!!.getRootCause()
-        }
-    }
 }

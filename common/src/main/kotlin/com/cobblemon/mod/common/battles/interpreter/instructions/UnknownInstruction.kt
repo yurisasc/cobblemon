@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 
 class UnknownInstruction(val battleMessage: BattleMessage) : InterpreterInstruction {
-    override val cause = null
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchGo { battle.broadcastChatMessage(battleMessage.rawMessage.red()) }
     }
