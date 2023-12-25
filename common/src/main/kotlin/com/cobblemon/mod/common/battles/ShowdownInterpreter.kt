@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
@@ -496,7 +496,7 @@ object ShowdownInterpreter {
 
             battle.dispatchGo {
                 battle.side1.playCries()
-                after(seconds = 1.0F) { battle.side2.playCries() }
+                afterOnServer(seconds = 1.0F) { battle.side2.playCries() }
             }
         }
 

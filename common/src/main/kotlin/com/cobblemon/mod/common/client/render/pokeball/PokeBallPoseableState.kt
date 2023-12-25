@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.render.pokeball
 
 import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.AncientPokeBallModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.PokeBallModel
@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import kotlin.random.Random
 
 @Suppress("NAME_SHADOWING")
-abstract class PokeBallPoseableState : PoseableEntityState<EmptyPokeBallEntity>() {
+abstract class PokeBallPoseableState : PoseableEntityState<EmptyPokeBallEntity>(), Schedulable {
     abstract val stateEmitter: SettableObservable<EmptyPokeBallEntity.CaptureState>
     abstract val shakeEmitter: Observable<Unit>
     private val group = if (this.currentModel is AncientPokeBallModel) "ancient_poke_ball" else "poke_ball"

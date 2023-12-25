@@ -8,6 +8,9 @@
 
 package com.cobblemon.mod.common.api.spawning.context
 
+import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.condition.BasicSpawningCondition
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
@@ -81,6 +84,9 @@ abstract class SpawningContext {
 
     val biomeName: Identifier
         get() = this.biomeRegistry.getId(biome)!!
+
+    private val struct = VariableStruct()
+    private var structCompiled = false
 
     class StructureChunkCache {
         val missingTags = mutableSetOf<TagKey<Structure>>()
@@ -160,5 +166,22 @@ abstract class SpawningContext {
             weight = influence.affectWeight(detail, this, weight)
         }
         return weight
+    }
+
+    fun getOrSetupStruct(): VariableStruct {
+        if (structCompiled) {
+            return struct
+        }
+
+        struct.setDirectly("light", DoubleValue(light.toDouble()))
+        struct.setDirectly("x", DoubleValue(position.x.toDouble()))
+        struct.setDirectly("y", DoubleValue(position.y.toDouble()))
+        struct.setDirectly("z", DoubleValue(position.z.toDouble()))
+        struct.setDirectly("moon_phase", DoubleValue(moonPhase.toDouble()))
+        struct.setDirectly("world", ObjectValue(world.registryManager.get(RegistryKeys.WORLD).getEntry(world)))
+        struct.setDirectly("biome", ObjectValue(biomeRegistry.getEntry(biome)))
+
+        structCompiled = true
+        return struct
     }
 }
