@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
@@ -95,6 +95,7 @@ interface Evolution : EvolutionLike {
         return true
     }
 
+
     /**
      * Starts this evolution as soon as possible.
      * This will not present a choice to the client regardless of [optional].
@@ -102,12 +103,15 @@ interface Evolution : EvolutionLike {
      * @param pokemon The [Pokemon] being evolved.
      */
     fun forceEvolve(pokemon: Pokemon) {
+        // This is a switch to enable/disable the evolution effect while we get particles improved
+        val useEvolutionEffect = false
+
         if (pokemon.state is ShoulderedState) {
             pokemon.tryRecallWithAnimation()
         }
 
         val pokemonEntity = pokemon.entity
-        if (pokemonEntity == null) {
+        if (pokemonEntity == null || !useEvolutionEffect) {
             evolutionMethod(pokemon)
         } else {
             pokemonEntity.evolutionEntity = pokemon.getOwnerPlayer()?.let { GenericBedrockEntity(world = it.world) }
@@ -121,11 +125,11 @@ interface Evolution : EvolutionLike {
                 setPosition(pokemonEntity.x, pokemonEntity.y + pokemonEntity.height / 2, pokemonEntity.z)
             }
             pokemon.getOwnerPlayer()?.world?.spawnEntity(evolutionEntity)
-            after(seconds = 9F) {
+            afterOnServer(seconds = 9F) {
                 if (!pokemonEntity.isRemoved) {
                     evolutionMethod(pokemon)
-                    after(seconds = 1.5F) { pokemonEntity.cry() }
-                    after(seconds = 3F) {
+                    afterOnServer(seconds = 1.5F) { pokemonEntity.cry() }
+                    afterOnServer(seconds = 3F) {
                         if (evolutionEntity != null) {
                             evolutionEntity.kill()
                             if (!pokemonEntity.isRemoved) {
