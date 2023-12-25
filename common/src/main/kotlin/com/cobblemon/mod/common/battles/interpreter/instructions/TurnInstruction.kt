@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.battles.interpreter.instructions
 
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.text.aqua
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
@@ -51,7 +51,7 @@ class TurnInstruction(val message: BattleMessage) : InterpreterInstruction {
 
             battle.dispatchGo {
                 battle.side1.playCries()
-                after(seconds = 1.0F) { battle.side2.playCries() }
+                afterOnServer(seconds = 1.0F) { battle.side2.playCries() }
             }
         }
 
