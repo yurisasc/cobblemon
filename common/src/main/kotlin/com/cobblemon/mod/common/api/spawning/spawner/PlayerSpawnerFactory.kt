@@ -9,10 +9,12 @@
 package com.cobblemon.mod.common.api.spawning.spawner
 
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
+import com.cobblemon.mod.common.api.spawning.CobblemonSpawnRules
 import com.cobblemon.mod.common.api.spawning.SpawnerManager
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
 import com.cobblemon.mod.common.api.spawning.influence.PlayerLevelRangeInfluence
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
+import com.cobblemon.mod.common.api.spawning.rules.SpawnRule
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
@@ -31,6 +33,7 @@ object PlayerSpawnerFactory {
         val influences = influenceBuilders.mapNotNull { it(player) }
         return PlayerSpawner(player, spawns, spawnerManager).also {
             it.influences.addAll(influences)
+            it.influences.addAll(CobblemonSpawnRules.rules.values.filter(SpawnRule::enabled).flatMap(SpawnRule::components))
         }
     }
 }

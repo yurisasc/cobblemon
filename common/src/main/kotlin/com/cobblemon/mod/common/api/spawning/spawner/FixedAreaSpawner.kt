@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.spawning.SpawnerManager
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
 
 /**
  * A spawner that works within a fixed area, and ticks on its own. The location

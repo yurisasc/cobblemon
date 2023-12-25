@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -55,7 +55,9 @@ object TestCommand {
         }
 
         try {
-//            this.testClosestBattle(context)
+//            readBerryDataFromCSV()
+
+            this.testClosestBattle(context)
             //testTrade(context.source.player!!)
 //            extractMovesData()
 //            // Player variables
@@ -140,6 +142,7 @@ object TestCommand {
 
                 testUpdate()
             }
+            .tracker(ServerTaskTracker)
             .iterations(Int.MAX_VALUE)
             .build()
     }

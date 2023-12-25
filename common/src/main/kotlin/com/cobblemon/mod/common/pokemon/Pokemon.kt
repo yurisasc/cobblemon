@@ -41,7 +41,7 @@ import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
@@ -408,7 +408,7 @@ open class Pokemon : ShowdownIdentifiable {
     private var heldItem: ItemStack = ItemStack.EMPTY
 
     init {
-        storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) afterOnMain(ticks = 1) { this.tetheringId = null } }
+        storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) afterOnServer(ticks = 1) { this.tetheringId = null } }
     }
 
     open fun getStat(stat: Stat) = Cobblemon.statProvider.getStatForPokemon(this, stat)
@@ -448,19 +448,21 @@ open class Pokemon : ShowdownIdentifiable {
         mutation: (PokemonEntity) -> Unit = {},
     ): CompletableFuture<PokemonEntity> {
         // Handle special case of shouldered Cobblemon
-        if (this.state is ShoulderedState) return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+        if (this.state is ShoulderedState) {
+            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+        }
 
         // Proceed as normal for non-shouldered Cobblemon
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
             level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.6F)
-            it.phasingTargetId.set(source.id)
-            it.beamModeEmitter.set(1)
-            it.battleId.set(Optional.ofNullable(battleId))
+            it.phasingTargetId = source.id
+            it.beamMode = 1
+            it.battleId = battleId
 
-            afterOnMain(seconds = SEND_OUT_DURATION) {
-                it.phasingTargetId.set(-1)
-                it.beamModeEmitter.set(0)
+            it.after(seconds = SEND_OUT_DURATION) {
+                it.phasingTargetId = -1
+                it.beamMode = 0
                 future.complete(it)
                 CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
                 if (doCry) {
@@ -502,9 +504,9 @@ open class Pokemon : ShowdownIdentifiable {
 
             // Make the Cobblemon walk to the target Position with haste
             it.moveControl.moveTo(targetPosition.x, targetPosition.y, targetPosition.z, 1.2)
-            it.battleId.set(Optional.ofNullable(battleId))
+            it.battleId = battleId
 
-            afterOnMain(seconds = SEND_OUT_DURATION) {
+            afterOnServer(seconds = SEND_OUT_DURATION) {
                 future.complete(it)
                 CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
                 if (doCry) {
@@ -829,7 +831,15 @@ open class Pokemon : ShowdownIdentifiable {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
-        nickname = json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
+        nickname = if (version == "1.4.0") {
+            try {
+                json.get(DataKeys.POKEMON_NICKNAME)?.asString?.takeIf { it.isNotBlank() }?.let { Text.Serializer.fromJson(it) }
+            } catch (e: UnsupportedOperationException) {
+                json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
+            }
+        } else {
+            json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
+        }
         form = species.forms.find { it.formOnlyShowdownId() == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)

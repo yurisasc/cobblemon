@@ -28,8 +28,9 @@ class SpawnPokemonPacket(
     private val species: Species,
     private val form: FormData,
     private val aspects: Set<String>,
+    private val battleId: UUID?,
     private val phasingTargetId: Int,
-    private val beamModeEmitter: Byte,
+    private val beamMode: Byte,
     private val nickname: MutableText?,
     private val labelLevel: Int,
     private val poseType: PoseType,
@@ -46,13 +47,14 @@ class SpawnPokemonPacket(
         entity.pokemon.species,
         entity.pokemon.form,
         entity.pokemon.aspects,
-        entity.phasingTargetId.get(),
-        entity.beamModeEmitter.get(),
+        entity.battleId,
+        entity.phasingTargetId,
+        entity.beamMode.toByte(),
         entity.pokemon.nickname,
-        if (Cobblemon.config.displayEntityLevelLabel) entity.labelLevel.get() else -1,
-        entity.poseType.get(),
-        entity.unbattleable.get(),
-        entity.hideLabel.get(),
+        if (Cobblemon.config.displayEntityLevelLabel) entity.dataTracker.get(PokemonEntity.LABEL_LEVEL) else -1,
+        entity.getPoseType(),
+        entity.dataTracker.get(PokemonEntity.UNBATTLEABLE),
+        entity.dataTracker.get(PokemonEntity.HIDE_LABEL),
         vanillaSpawnPacket
     )
 
@@ -62,8 +64,9 @@ class SpawnPokemonPacket(
         buffer.writeIdentifier(this.species.resourceIdentifier)
         buffer.writeString(this.form.formOnlyShowdownId())
         buffer.writeCollection(this.aspects) { pb, value -> pb.writeString(value) }
+        buffer.writeNullable(this.battleId) { pb, value -> pb.writeUuid(value) }
         buffer.writeInt(this.phasingTargetId)
-        buffer.writeByte(this.beamModeEmitter.toInt())
+        buffer.writeByte(this.beamMode.toInt())
         buffer.writeNullable(this.nickname) { _, v -> buffer.writeText(v) }
         buffer.writeInt(this.labelLevel)
         buffer.writeEnumConstant(this.poseType)
@@ -80,14 +83,15 @@ class SpawnPokemonPacket(
             aspects = this@SpawnPokemonPacket.aspects
             nickname = this@SpawnPokemonPacket.nickname
         }
-        entity.phasingTargetId.set(this.phasingTargetId)
-        entity.beamModeEmitter.set(this.beamModeEmitter)
-        entity.labelLevel.set(this.labelLevel)
-        entity.species.set(entity.pokemon.species.resourceIdentifier.toString())
-        entity.aspects.set(aspects)
-        entity.poseType.set(poseType)
-        entity.unbattleable.set(unbattlable)
-        entity.hideLabel.set(hideLabel)
+        entity.phasingTargetId = this.phasingTargetId
+        entity.beamMode = this.beamMode.toInt()
+        entity.battleId = this.battleId
+        entity.dataTracker.set(PokemonEntity.LABEL_LEVEL, labelLevel)
+        entity.dataTracker.set(PokemonEntity.SPECIES, entity.pokemon.species.resourceIdentifier.toString())
+        entity.dataTracker.set(PokemonEntity.ASPECTS, aspects)
+        entity.dataTracker.set(PokemonEntity.POSE_TYPE, poseType)
+        entity.dataTracker.set(PokemonEntity.UNBATTLEABLE, unbattlable)
+        entity.dataTracker.set(PokemonEntity.HIDE_LABEL, hideLabel)
     }
 
     override fun checkType(entity: Entity): Boolean = entity is PokemonEntity
@@ -101,6 +105,7 @@ class SpawnPokemonPacket(
             val showdownId = buffer.readString()
             val form = species.forms.firstOrNull { it.formOnlyShowdownId() == showdownId } ?: species.standardForm
             val aspects = buffer.readList(PacketByteBuf::readString).toSet()
+            val battleId = buffer.readNullable { buffer.readUuid() }
             val phasingTargetId = buffer.readInt()
             val beamModeEmitter = buffer.readByte()
             val nickname = buffer.readNullable { buffer.readText().copy() }
@@ -109,7 +114,7 @@ class SpawnPokemonPacket(
             val unbattlable = buffer.readBoolean()
             val hideLabel = buffer.readBoolean()
             val vanillaPacket = decodeVanillaPacket(buffer)
-            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, unbattlable, hideLabel, vanillaPacket)
+            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, battleId, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, unbattlable, hideLabel, vanillaPacket)
         }
     }
 

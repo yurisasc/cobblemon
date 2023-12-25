@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.trade
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferExpiredPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
@@ -20,8 +20,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.lang
+import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
-import java.util.*
 
 object TradeManager {
     class TradeRequest(val tradeOfferId: UUID, val senderId: UUID, val receiverId: UUID)
@@ -43,7 +43,7 @@ object TradeManager {
         } else {
             val request = TradeRequest(UUID.randomUUID(), player.uuid, otherPlayerEntity.uuid)
             requests.add(request)
-            after(seconds = 60F) {
+            afterOnServer(seconds = 60F) {
                 if (requests.remove(request)) {
                     player.sendMessage(lang("trade.request_expired", otherPlayerEntity.name), true)
                 }
