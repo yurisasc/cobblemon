@@ -276,6 +276,7 @@ class ActiveTracker {
     data class TrackerPokemon(
             var pokemon: Pokemon? = null,
             var species: String? = null,
+            var availableSwitches: List<Pokemon>? = null,
             var currentHp: Int = 0,
             var currentHpPercent: Double = 0.0,
             var boosts: Map<Stat, Int> = mapOf(),
@@ -304,10 +305,10 @@ class StrongBattleAI() : BattleAI {
     )
     private val speedTierCoefficient = 0.1
     private val hpFractionCoefficient = 0.4
-    private val switchOutMatchupThreshold = -2
+    private val switchOutMatchupThreshold = -4 // todo change this to get it feeling just right (-7 never switches)
     private val selfKoMoveMatchupThreshold = 0.3
     private val trickRoomThreshold = 85
-    private val recoveryMoveThreshold = 0.4
+    private val recoveryMoveThreshold = 0.3
     private val accuracySwitchThreshold = -3
 
     // create the active pokemon tracker here
@@ -390,16 +391,45 @@ class StrongBattleAI() : BattleAI {
 
         val canDynamax = false
 
+
         if (forceSwitch || activeBattlePokemon.isGone()) {
-            val switchTo = activeBattlePokemon.actor.pokemonList.filter { it.canBeSentOut() }.randomOrNull()
-                    ?: return DefaultActionResponse() //throw IllegalStateException("Need to switch but no Pokémon to switch to")
-            switchTo.willBeSwitchedIn = true
-            return SwitchActionResponse(switchTo.uuid)
+            if ((forceSwitch && battle.turn == 1) || (activeBattlePokemon.isGone() && battle.turn == 1)) {
+                val switchTo = activeBattlePokemon.actor.pokemonList.filter { it.canBeSentOut() }.randomOrNull()
+                        ?: return DefaultActionResponse() //throw IllegalStateException("Need to switch but no Pokémon to switch to")
+                switchTo.willBeSwitchedIn = true
+                return SwitchActionResponse(switchTo.uuid)
+            }
+            else if ((forceSwitch && battle.turn > 1) || (activeBattlePokemon.isGone() && battle.turn > 1)) {
+                val availableSwitches = activeBattlePokemon.actor.pokemonList.filter { it.health > 0 } //it.uuid != mon.pokemon!!.uuid && it.health > 0 }
+
+                // this gets null error after NPC faints
+                val bestEstimation = availableSwitches.maxOfOrNull { estimatePartyMatchup(request, battle, it.effectedPokemon) }
+
+                val switchTo = availableSwitches.find { estimatePartyMatchup(request, battle, it.effectedPokemon) == bestEstimation }
+                        ?: return DefaultActionResponse() //throw IllegalStateException("Need to switch but no Pokémon to switch to")
+
+                switchTo.willBeSwitchedIn = true
+
+                switchTo.let {
+                    return SwitchActionResponse(it.uuid)
+
+                //return SwitchActionResponse(switchTo.uuid)
+
+                /*val availableSwitches = p2Actor.pokemonList.filter { it.health > 0 } //it.uuid != mon.pokemon!!.uuid && it.health > 0 }
+                val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, battle, it.effectedPokemon) }
+                *//*availableSwitches.forEach {
+                    estimateMatchup(request, battle, it.effectedPokemon)
+                }*//*
+                val bestMatchup = availableSwitches.find { estimateMatchup(request, battle, it.effectedPokemon) == bestEstimation }
+                bestMatchup?.let {
+                    return SwitchActionResponse(it.uuid)*/
+                }
+            }
         }
 
-        updateActiveTracker(battle)
-
         //val (mon, opponent) = getCurrentPlayer(battle)
+
+        updateActiveTracker(battle)
 
         // sync up the current pokemon that is choosing the moves
         val (mon, opponent) = if (activeBattlePokemon.battlePokemon!!.effectedPokemon.uuid == activeTracker.p1Active.pokemon!!.uuid) {
@@ -407,6 +437,8 @@ class StrongBattleAI() : BattleAI {
         } else {
             Pair(activeTracker.p2Active, activeTracker.p1Active)
         }
+
+
 
         //val mon = activeTracker.p1Active
         //val opponent = activeTracker.p2Active
@@ -419,6 +451,8 @@ class StrongBattleAI() : BattleAI {
         // todo make sure changes in weather are detected
         val currentWeather = if (battle.contextManager.get(BattleContext.Type.WEATHER).isNullOrEmpty()) null else battle.contextManager.get(BattleContext.Type.WEATHER)?.iterator()?.next()?.id
         val currentTerrain = if (battle.contextManager.get(BattleContext.Type.TERRAIN).isNullOrEmpty()) null else battle.contextManager.get(BattleContext.Type.TERRAIN)?.iterator()?.next()?.id
+        val currentRoom = if (battle.contextManager.get(BattleContext.Type.ROOM).isNullOrEmpty()) null else battle.contextManager.get(BattleContext.Type.ROOM)?.iterator()?.next()?.id
+
         //val currentScreen = if (battle.contextManager.get(BattleContext.Type.SCREEN))
         val allMoves = moveset?.moves?.filterNot { it.pp == 0 || it.disabled }
 
@@ -430,13 +464,27 @@ class StrongBattleAI() : BattleAI {
         val monSideConditionList = mon.sideConditions.keys
         val oppSideConditionList = opponent.sideConditions.keys
 
+        val playerSideTailwindCondition = if (battle.side1.contextManager.get(BattleContext.Type.TAILWIND).isNullOrEmpty()) null else battle.side1.contextManager.get(BattleContext.Type.TAILWIND)?.iterator()?.next()?.id
+        val playerSideScreenCondition = if (battle.side1.contextManager.get(BattleContext.Type.SCREEN).isNullOrEmpty()) null else battle.side1.contextManager.get(BattleContext.Type.SCREEN)?.iterator()?.next()?.id
+        val playerSideHazardCondition = if (battle.side1.contextManager.get(BattleContext.Type.HAZARD).isNullOrEmpty()) null else battle.side1.contextManager.get(BattleContext.Type.HAZARD)?.iterator()?.next()?.id
+
+        val npcSideTailwindCondition = if (battle.side2.contextManager.get(BattleContext.Type.TAILWIND).isNullOrEmpty()) null else battle.side2.contextManager.get(BattleContext.Type.TAILWIND)?.iterator()?.next()?.id
+        val npcSideScreenCondition = if (battle.side2.contextManager.get(BattleContext.Type.SCREEN).isNullOrEmpty()) null else battle.side2.contextManager.get(BattleContext.Type.SCREEN)?.iterator()?.next()?.id
+        val npcSideHazardCondition = if (battle.side2.contextManager.get(BattleContext.Type.HAZARD).isNullOrEmpty()) null else battle.side2.contextManager.get(BattleContext.Type.HAZARD)?.iterator()?.next()?.id
+
+
+
+
+        // todo update side conditions each turn
+        //fun updateSideConditions =
+
         // todo Assess Damger level of current pokemon based on current HP and matchup pokemon
         // todo Try to find a way to store a list of moves each pokemon in the battle has used so that the AI can learn and decide differently over time
         // todo try to caclulate if it is worth it to use status moves somehow
 
         // switch out
         if (shouldSwitchOut(request, battle, activeBattlePokemon )) {
-            val availableSwitches = p1Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
+            val availableSwitches = p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
             val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, battle, it.effectedPokemon) }
             availableSwitches.forEach {
                 estimateMatchup(request, battle, it.effectedPokemon)
@@ -476,7 +524,7 @@ class StrongBattleAI() : BattleAI {
             // Deal with non-weather related field changing effects
             for (move in moveset.moves) {
                 // Tailwind
-                if (move.id == "tailwind" && move.id !in monSideConditionList) {
+                if (move.id == "tailwind" && move.id != npcSideTailwindCondition) {
                     return MoveActionResponse(move.id)
                 }
 
@@ -561,9 +609,9 @@ class StrongBattleAI() : BattleAI {
             // Setup moves
             if (mon.currentHpPercent == 1.0 && estimateMatchup(request, battle) > 0) {
                 for (move in moveset.moves) {
-                    if (setupMoves.contains(move.id) && (getNonZeroStats(move.id).keys.minOfOrNull {
+                    if (setupMoves.contains(move.id) && (getNonZeroStats(move.id).keys.minOfOrNull {// todo this can have a null exception with lvl 50 pidgeot with tailwind
                                 mon.boosts[it] ?: 0
-                            }!! < 6)) {
+                            }!! < 6)) {  // todo something with a lvl 50 pikachu caused this to null exception
                         if (!move.id.equals("curse") || ElementalTypes.GHOST !in mon.pokemon!!.types) {
                             return MoveActionResponse(move.id)
                         }
@@ -689,7 +737,7 @@ class StrongBattleAI() : BattleAI {
                     opponent.pokemon!!.status?.status?.showdownName == "burn" && moveData.damageCategory == DamageCategories.PHYSICAL -> 0.5
                     else -> 1.0
                 }
-                val hitsExpected = expectedHits(Moves.getByName(move.id)!!) // todo fix this as it has null issues
+                //val hitsExpected = expectedHits(Moves.getByName(move.id)!!) // todo fix this as it has null issues
 
                 var damage = (((((2 * pokemonLevel) / 5 ) + 2) * movePower * statRatio) / 50 + 2)
                 damage *= weather
@@ -786,9 +834,9 @@ class StrongBattleAI() : BattleAI {
         if (shouldSwitchOut(request, battle, activeBattlePokemon)) {
             val availableSwitches = p1Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
             val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, battle, it.effectedPokemon) }
-            availableSwitches.forEach {
+            /*availableSwitches.forEach {
                 estimateMatchup(request, battle, it.effectedPokemon)
-            }
+            }*/
             val bestMatchup = availableSwitches.find { estimateMatchup(request, battle, it.effectedPokemon) == bestEstimation }
             bestMatchup?.let {
                 return SwitchActionResponse(it.uuid)
@@ -818,6 +866,40 @@ class StrongBattleAI() : BattleAI {
         }
     }
 
+    // test
+    // to estimate party matchup against opposing active pokemon
+    fun estimatePartyMatchup(request: ShowdownActionRequest, battle: PokemonBattle, nonActiveMon: Pokemon): Double {
+        //updateActiveTracker(battle)
+        // todo get players active pokemon use as playerPokemon
+
+        ////nonActiveMon?.let { npcPokemon = it }
+        val playerPokemon = activeTracker.p1Active.pokemon
+
+        var score = 1.0
+        score += bestDamageMultiplier(nonActiveMon, playerPokemon!!) // npcPokemon attacking playerPokemon
+        score -= bestDamageMultiplier(playerPokemon!!, nonActiveMon) // playerPokemon attacking npcPokemon
+
+        if (getBaseStats(nonActiveMon, "spe") > getBaseStats(playerPokemon, "spe")) {
+            score += speedTierCoefficient
+        } else if (getBaseStats(playerPokemon, "spe") > getBaseStats(nonActiveMon, "spe")) {
+            score -= speedTierCoefficient
+        }
+
+        // todo possibly flip these p1 and p2 around as well since p1 is player I think
+        if (request.side?.id == "p1") {
+            score += if (nonActiveMon != null) nonActiveMon.currentHealth * hpFractionCoefficient
+            else activeTracker.p1Active.currentHp * hpFractionCoefficient
+            score -= activeTracker.p2Active.currentHp * hpFractionCoefficient
+        } else {
+            score += if (nonActiveMon != null) nonActiveMon.currentHealth * hpFractionCoefficient
+            else activeTracker.p2Active.currentHp * hpFractionCoefficient
+            score -= activeTracker.p1Active.currentHp * hpFractionCoefficient
+        }
+
+        score = score // todo remove this after testing
+        return score
+    }
+
     fun estimateMatchup(request: ShowdownActionRequest, battle: PokemonBattle, nonActiveMon: Pokemon? = null): Double {
         updateActiveTracker(battle)
         val battlePokemon = getCurrentPlayer(battle)
@@ -825,7 +907,7 @@ class StrongBattleAI() : BattleAI {
         var npcPokemon = battlePokemon.second
         nonActiveMon?.let { npcPokemon = it }
 
-        //var p1NonActiveMon
+
 
         var score = 1.0
         score += bestDamageMultiplier(npcPokemon, playerPokemon) // npcPokemon attacking playerPokemon
@@ -926,6 +1008,12 @@ class StrongBattleAI() : BattleAI {
         val isTrapped = request.active?.any { it ->
             it.trapped ?: false // todo is this the right trapped? Probably not
         }
+
+        // if slower speed stat than the opposing pokemon and HP is less than 20% don't switch out
+        if (npcActivePokemon.currentHpPercent < .20 && (npcActivePokemon.pokemon!!.species.baseStats[Stats.SPEED]!! < playerActivePokemon.pokemon!!.species.baseStats[Stats.SPEED]!!)) {
+            return false
+        }
+
 // maybe use pokemon.species to compare to active pokemon
         // todo add more reasons to switch out
         // If there is a decent switch in and not trapped...
@@ -1132,6 +1220,7 @@ class StrongBattleAI() : BattleAI {
         val pokemon1 = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.effectedPokemon
         val p1Boosts = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.statChanges
         val playerSide1 = battle.side1.actors.first()
+
         // todo find out how to get stats
         //val p1Stats = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.
 
@@ -1165,6 +1254,7 @@ class StrongBattleAI() : BattleAI {
                 pokemon.health != 0
             }
         }
+        //p1.availableSwitches = playerSide1.pokemonList.filter { it.uuid != p1.pokemon.uuid && it.health > 0 }
         //p1.sideConditions = pokemon.sideConditions   //todo what the hell does this mean
 
         p2.pokemon = pokemon2
