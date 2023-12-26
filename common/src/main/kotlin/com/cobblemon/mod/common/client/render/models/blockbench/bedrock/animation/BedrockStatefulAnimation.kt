@@ -27,7 +27,7 @@ open class BedrockStatefulAnimation<T : Entity>(
 ) : StatefulAnimation<T, ModelFrame> {
     var startedSeconds = -1F
     var isTransformAnimation = false
-    override val duration = if (!animation.shouldLoop) animation.animationLength.toFloat() else -1F
+    override val duration = animation.animationLength.toFloat()
     private var afterAction: (T, PoseableEntityState<T>) -> Unit = { _, _ -> }
 
     override val isTransform: Boolean
