@@ -54,27 +54,11 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import com.google.common.collect.ImmutableList
 import java.util.EnumSet
 import java.util.Optional
+import java.util.UUID
 import java.util.concurrent.CompletableFuture
-import net.minecraft.block.Blocks
 import net.minecraft.entity.*
-import net.minecraft.entity.ai.brain.MemoryModuleType
-import net.minecraft.entity.ai.brain.MemoryModuleType.ANGRY_AT
-import net.minecraft.entity.ai.brain.MemoryModuleType.ATTACK_COOLING_DOWN
-import net.minecraft.entity.ai.brain.MemoryModuleType.ATTACK_TARGET
-import net.minecraft.entity.ai.brain.MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE
-import net.minecraft.entity.ai.brain.MemoryModuleType.HURT_BY_ENTITY
-import net.minecraft.entity.ai.brain.MemoryModuleType.LOOK_TARGET
-import net.minecraft.entity.ai.brain.MemoryModuleType.MOBS
-import net.minecraft.entity.ai.brain.MemoryModuleType.PATH
-import net.minecraft.entity.ai.brain.MemoryModuleType.VISIBLE_MOBS
-import net.minecraft.entity.ai.brain.MemoryModuleType.WALK_TARGET
-import net.minecraft.entity.ai.brain.sensor.Sensor
-import net.minecraft.entity.ai.brain.sensor.SensorType
-import net.minecraft.entity.ai.brain.sensor.SensorType.HURT_BY
-import net.minecraft.block.PlantBlock
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -92,11 +76,9 @@ import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
-import net.minecraft.item.MinecartItem
 import net.minecraft.item.SuspiciousStewItem
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
@@ -108,7 +90,6 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ChunkTicketType
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -119,15 +100,10 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
-import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.EnumSet
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 class PokemonEntity(
