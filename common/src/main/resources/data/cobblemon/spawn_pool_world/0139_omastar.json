@@ -23,7 +23,7 @@
         {
             "id": "omastar-2",
             "pokemon": "omastar",
-			"presets": [
+            "presets": [
                 "underwater"
             ],
             "type": "pokemon",

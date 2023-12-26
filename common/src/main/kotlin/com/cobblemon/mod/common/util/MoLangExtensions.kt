@@ -20,11 +20,12 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.molang.ListExpression
 import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.molang.SingleExpression
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.util.math.Vec3d
 
-val genericRuntime = MoLangRuntime()
+val genericRuntime = MoLangRuntime().setup()
 
 fun MoLangRuntime.resolve(expression: Expression): MoValue = expression.evaluate(MoScope(), environment)
 fun MoLangRuntime.resolveDouble(expression: Expression): Double = resolve(expression).asDouble()

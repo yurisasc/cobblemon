@@ -71,6 +71,7 @@ import com.mojang.serialization.JsonOps
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
@@ -93,6 +94,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import kotlin.reflect.jvm.internal.impl.metadata.ProtoBuf.Effect
 
 open class Pokemon : ShowdownIdentifiable {
     var uuid = UUID.randomUUID()
@@ -446,19 +448,21 @@ open class Pokemon : ShowdownIdentifiable {
         mutation: (PokemonEntity) -> Unit = {},
     ): CompletableFuture<PokemonEntity> {
         // Handle special case of shouldered Cobblemon
-        if (this.state is ShoulderedState) return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+        if (this.state is ShoulderedState) {
+            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+        }
 
         // Proceed as normal for non-shouldered Cobblemon
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
             level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.6F)
-            it.phasingTargetId.set(source.id)
-            it.beamModeEmitter.set(1)
-            it.battleId.set(Optional.ofNullable(battleId))
+            it.phasingTargetId = source.id
+            it.beamMode = 1
+            it.battleId = battleId
 
             it.after(seconds = SEND_OUT_DURATION) {
-                it.phasingTargetId.set(-1)
-                it.beamModeEmitter.set(0)
+                it.phasingTargetId = -1
+                it.beamMode = 0
                 future.complete(it)
                 CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
                 if (doCry) {
@@ -500,7 +504,7 @@ open class Pokemon : ShowdownIdentifiable {
 
             // Make the Cobblemon walk to the target Position with haste
             it.moveControl.moveTo(targetPosition.x, targetPosition.y, targetPosition.z, 1.2)
-            it.battleId.set(Optional.ofNullable(battleId))
+            it.battleId = battleId
 
             afterOnServer(seconds = SEND_OUT_DURATION) {
                 future.complete(it)
@@ -777,7 +781,7 @@ open class Pokemon : ShowdownIdentifiable {
         json.addProperty(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
-        nickname?.let { json.addProperty(DataKeys.POKEMON_NICKNAME, Text.Serializer.toJson(it)) }
+        nickname?.let { json.add(DataKeys.POKEMON_NICKNAME, Text.Serializer.toJsonTree(it)) }
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.formOnlyShowdownId())
         json.addProperty(DataKeys.POKEMON_EXPERIENCE, experience)
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
@@ -827,7 +831,15 @@ open class Pokemon : ShowdownIdentifiable {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
-        nickname = json.get(DataKeys.POKEMON_NICKNAME)?.asString?.takeIf { it.isNotBlank() }?.let { Text.Serializer.fromJson(it) }
+        nickname = if (version == "1.4.0") {
+            try {
+                json.get(DataKeys.POKEMON_NICKNAME)?.asString?.takeIf { it.isNotBlank() }?.let { Text.Serializer.fromJson(it) }
+            } catch (e: UnsupportedOperationException) {
+                json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
+            }
+        } else {
+            json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
+        }
         form = species.forms.find { it.formOnlyShowdownId() == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
@@ -1040,6 +1052,13 @@ open class Pokemon : ShowdownIdentifiable {
          */
         initializeMoveset()
         return this
+    }
+
+    // Last flower fed to a Mooshtank
+    var lastFlowerFed: ItemStack = ItemStack.EMPTY
+
+    fun feedFlower(itemStack: ItemStack) {
+        this.lastFlowerFed = itemStack
     }
 
     fun checkGender() {

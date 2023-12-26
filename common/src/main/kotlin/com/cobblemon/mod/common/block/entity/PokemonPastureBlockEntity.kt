@@ -140,9 +140,9 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
             if (fixedPosition != null) {
                 entity.setPosition(fixedPosition.toCenterPos().subtract(0.0, 0.5, 0.0))
                 val pc = Cobblemon.storage.getPC(player.uuid)
-                entity.beamModeEmitter.set(1)
+                entity.beamMode = 1
                 afterOnServer(seconds = SendOutPokemonHandler.SEND_OUT_DURATION) {
-                    entity.beamModeEmitter.set(0)
+                    entity.beamMode = 0
                 }
                 if (world.spawnEntity(entity)) {
                     val tethering = Tethering(

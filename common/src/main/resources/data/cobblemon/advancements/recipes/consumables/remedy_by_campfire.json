@@ -1,13 +1,13 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_stone": {
+    "has_root": {
       "conditions": {
         "items": [
           {
             "items": [
-              "cobblemon:ice_stone"
-            ]
+				"cobblemon:big_root"
+			]
           }
         ]
       },
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cobblemon:icy_rock"
+        "recipe": "cobblemon:remedy_by_campfire"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_stone",
+      "has_root",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "cobblemon:icy_rock"
+      "cobblemon:remedy"
     ]
   }
 }

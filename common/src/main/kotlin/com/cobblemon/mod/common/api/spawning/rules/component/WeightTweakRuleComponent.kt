@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.spawning.rules.component
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.rules.selector.AllSpawnDetailSelector
@@ -32,7 +33,7 @@ class WeightTweakRuleComponent : SpawnRuleComponent {
     val weight: Expression = "v.weight".asExpression()
 
     @Transient
-    val runtime = MoLangRuntime()
+    val runtime = MoLangRuntime().setup()
 
     override fun affectWeight(detail: SpawnDetail, ctx: SpawningContext, weight: Float): Float {
         return if (spawnSelector.selects(detail) && contextSelector.selects(ctx)) {

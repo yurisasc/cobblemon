@@ -19,6 +19,8 @@ import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity.CaptureState
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity.CaptureState.NOT
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import net.minecraft.entity.data.TrackedData
 
 class EmptyPokeBallClientDelegate : PokeBallPoseableState(), EntitySideDelegate<EmptyPokeBallEntity> {
     override val stateEmitter: SettableObservable<CaptureState> = SettableObservable(NOT)
@@ -38,10 +40,6 @@ class EmptyPokeBallClientDelegate : PokeBallPoseableState(), EntitySideDelegate<
         this.currentEntity = entity
         age = entity.age
         initSubscriptions()
-        entity.captureState.subscribe {
-            stateEmitter.set(CaptureState.values()[it.toInt()])
-        }
-        entity.shakeEmitter.subscribe { shakeEmitter.emit(Unit) }
         this.runtime.environment.getQueryStruct().addFunctions(mapOf(
             "pokeball_type" to java.util.function.Function {
                 return@Function DoubleValue(currentEntity.pokeBall.name.toString())
@@ -53,5 +51,13 @@ class EmptyPokeBallClientDelegate : PokeBallPoseableState(), EntitySideDelegate<
         super.tick(entity)
         updateLocatorPosition(entity.pos)
         incrementAge(entity)
+    }
+
+    override fun onTrackedDataSet(data: TrackedData<*>) {
+        super.onTrackedDataSet(data)
+        when (data) {
+            EmptyPokeBallEntity.CAPTURE_STATE -> stateEmitter.set(currentEntity.captureState)
+            EmptyPokeBallEntity.SHAKE -> shakeEmitter.emit(Unit)
+        }
     }
 }

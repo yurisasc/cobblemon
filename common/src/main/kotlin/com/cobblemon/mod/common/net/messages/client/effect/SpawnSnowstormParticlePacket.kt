@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -23,29 +24,23 @@ import net.minecraft.util.math.Vec3d
  * @since January 21st, 2022
  */
 class SpawnSnowstormParticlePacket(
-    val effect: BedrockParticleEffect,
+    val effectId: Identifier,
     val position: Vec3d,
-    val yawDegrees: Float,
-    val pitchDegrees: Float
 ) : NetworkPacket<SpawnSnowstormParticlePacket> {
     override val id = ID
     companion object {
         val ID = cobblemonResource("spawn_snowstorm_particle")
         fun decode(buffer: PacketByteBuf): SpawnSnowstormParticlePacket {
             return SpawnSnowstormParticlePacket(
-                effect = BedrockParticleEffect().also { it.readFromBuffer(buffer) },
-                position = Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble()),
-                yawDegrees = buffer.readFloat(),
-                pitchDegrees = buffer.readFloat()
+                effectId = buffer.readIdentifier(),
+                position = Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble())
             )
         }
     }
     override fun encode(buffer: PacketByteBuf) {
-        effect.writeToBuffer(buffer)
+        buffer.writeIdentifier(effectId)
         buffer.writeDouble(position.x)
         buffer.writeDouble(position.y)
         buffer.writeDouble(position.z)
-        buffer.writeFloat(yawDegrees)
-        buffer.writeFloat(pitchDegrees)
     }
 }

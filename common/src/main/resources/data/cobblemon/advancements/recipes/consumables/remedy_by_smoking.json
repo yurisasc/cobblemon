@@ -1,13 +1,13 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_stone": {
+    "has_root": {
       "conditions": {
         "items": [
           {
             "items": [
-              "cobblemon:water_stone"
-            ]
+				"cobblemon:big_root"
+			]
           }
         ]
       },
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cobblemon:damp_rock"
+        "recipe": "cobblemon:remedy_by_smoking"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_stone",
+      "has_root",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "cobblemon:damp_rock"
+      "cobblemon:remedy"
     ]
   }
 }

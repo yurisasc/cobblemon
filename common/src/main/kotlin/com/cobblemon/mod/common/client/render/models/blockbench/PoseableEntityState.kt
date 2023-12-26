@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.render.MatrixWrapper
@@ -64,7 +65,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
     val poseParticles = mutableListOf<BedrockParticleKeyframe>()
-    val runtime = MoLangRuntime().also { runtime ->
+    val runtime = MoLangRuntime().setup().also { runtime ->
         val reusableAnimTime = DoubleValue(0.0) // This gets called 500 million times so use a mutable value for runtime
         runtime.environment.getQueryStruct().addFunctions(mapOf(
             "anim_time" to java.util.function.Function { return@Function reusableAnimTime.also { it.value = animationSeconds.toDouble() } },
