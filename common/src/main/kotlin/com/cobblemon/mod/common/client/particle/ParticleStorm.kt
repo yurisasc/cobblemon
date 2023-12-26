@@ -145,8 +145,8 @@ class ParticleStorm(
 
         val center = transformPosition(effect.emitter.shape.getCenter(runtime, entity))
         val newPosition = transformPosition(effect.emitter.shape.getNewParticlePosition(runtime, entity))
-        val initialVelocity = effect.particle.motion.getInitialVelocity(runtime, particlePos = newPosition, emitterPos = center)
-        val velocity = (if (effect.space.localPosition) transformDirection(initialVelocity) else initialVelocity)
+        val initialVelocity = effect.particle.motion.getInitialVelocity(runtime, storm = this, particlePos = newPosition, emitterPos = center)
+        val velocity = initialVelocity
             .multiply(1 / 20.0)
             .add(if (effect.space.localVelocity) sourceVelocity() else Vec3d.ZERO)
 

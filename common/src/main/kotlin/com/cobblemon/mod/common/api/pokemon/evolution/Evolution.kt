@@ -104,7 +104,7 @@ interface Evolution : EvolutionLike {
      */
     fun forceEvolve(pokemon: Pokemon) {
         // This is a switch to enable/disable the evolution effect while we get particles improved
-        val useEvolutionEffect = false
+        val useEvolutionEffect = true
 
         if (pokemon.state is ShoulderedState) {
             pokemon.tryRecallWithAnimation()
@@ -122,7 +122,7 @@ interface Evolution : EvolutionLike {
                 colliderWidth = pokemonEntity.width
                 scale = pokemonEntity.scaleFactor
                 syncAge = true // Otherwise particle animation will be starting from zero even if you come along partway through
-                setPosition(pokemonEntity.x, pokemonEntity.y + pokemonEntity.height / 2, pokemonEntity.z)
+                setPosition(pokemonEntity.x, pokemonEntity.y, pokemonEntity.z)
             }
             pokemon.getOwnerPlayer()?.world?.spawnEntity(evolutionEntity)
             afterOnServer(seconds = 9F) {

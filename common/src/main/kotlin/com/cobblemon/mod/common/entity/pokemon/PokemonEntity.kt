@@ -297,7 +297,7 @@ class PokemonEntity(
             return remove(RemovalReason.DISCARDED)
         }
         if (evolutionEntity != null) {
-            evolutionEntity!!.setPosition(pokemon.entity!!.x, pokemon.entity!!.y + pokemon.entity!!.height / 2, pokemon.entity!!.z)
+            evolutionEntity!!.setPosition(pokemon.entity!!.x, pokemon.entity!!.y, pokemon.entity!!.z)
             pokemon.entity!!.navigation.stop()
         }
         delegate.tick(this)
