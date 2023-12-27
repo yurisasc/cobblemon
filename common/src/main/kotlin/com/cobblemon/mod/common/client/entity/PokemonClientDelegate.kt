@@ -65,7 +65,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                 if (isDying) {
                     val model = (currentModel ?: return) as PokemonPoseableModel
                     val animation = try {
-                        model.getAnimation(this, "faint", runtime) ?: null
+                        model.getAnimation(this, "faint", runtime)
                     } catch (e: Exception) {
                         e.printStackTrace()
                         null

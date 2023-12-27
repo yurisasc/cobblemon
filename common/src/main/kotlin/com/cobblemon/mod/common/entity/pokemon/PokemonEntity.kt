@@ -59,6 +59,7 @@ import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
+import net.minecraft.entity.ai.brain.Activity
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -104,11 +105,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.EnumSet
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import net.minecraft.entity.ai.brain.Activity
 
 @Suppress("unused")
 class PokemonEntity(
