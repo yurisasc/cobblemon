@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Camerupt",
   "nationalPokedexNumber": 323,
@@ -75,7 +75,6 @@
       ],
       "height": 25,
       "weight": 3205,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

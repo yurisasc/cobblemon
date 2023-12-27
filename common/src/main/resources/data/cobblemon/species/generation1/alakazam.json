@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Alakazam",
   "nationalPokedexNumber": 65,
@@ -68,7 +68,6 @@
       ],
       "height": 12,
       "weight": 480,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

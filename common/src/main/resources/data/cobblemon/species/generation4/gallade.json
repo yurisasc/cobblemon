@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Gallade",
   "nationalPokedexNumber": 475,
@@ -62,7 +62,6 @@
       ],
       "height": 16,
       "weight": 564,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Braviary",
   "nationalPokedexNumber": 628,
   "primaryType": "normal",
@@ -153,7 +153,6 @@
       "height": 17,
       "weight": 434,
       "preEvolution": "rufflet",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

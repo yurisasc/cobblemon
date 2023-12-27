@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Calyrex",
   "nationalPokedexNumber": 898,
   "primaryType": "psychic",
@@ -182,7 +182,6 @@
       ],
       "height": 24,
       "weight": 8091,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -342,7 +341,6 @@
       ],
       "height": 24,
       "weight": 536,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

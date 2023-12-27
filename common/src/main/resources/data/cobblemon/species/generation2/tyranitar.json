@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Tyranitar",
   "nationalPokedexNumber": 248,
   "primaryType": "rock",
@@ -61,7 +61,6 @@
       ],
       "height": 25,
       "weight": 2550,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
