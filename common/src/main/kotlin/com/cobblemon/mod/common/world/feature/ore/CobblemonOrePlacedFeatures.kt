@@ -38,6 +38,7 @@ object CobblemonOrePlacedFeatures {
     val FIRE_STONE_LOWER = of("fire_stone_lower", CobblemonBiomeTags.HAS_FIRE_STONE_ORE)
     val FIRE_STONE_UPPER_RARE = of("fire_stone_upper_rare", CobblemonBiomeTags.HAS_FIRE_STONE_ORE_RARE)
     val FIRE_STONE_LOWER_RARE = of("fire_stone_lower_rare", CobblemonBiomeTags.HAS_FIRE_STONE_ORE_RARE)
+    val FIRE_STONE_NETHERRACK = of("fire_stone_netherrack", CobblemonBiomeTags.HAS_FIRE_STONE_ORE_RARE)
 
     // Ice Stone
     val ICE_STONE_UPPER = of("ice_stone_upper", CobblemonBiomeTags.HAS_ICE_STONE_ORE)

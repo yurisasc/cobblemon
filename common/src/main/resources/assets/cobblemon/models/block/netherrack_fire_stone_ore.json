@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "cobblemon:block/netherrack_fire_stone_ore"
+  }
+}

@@ -1,8 +1,10 @@
 # Changelog
 ## [1.5.0](#1-5-0)
 ### Additions
+- Added Netherrack Fire Stone Ore block.
 
 ### Changes
+- Added more held items to the held item tag, and Metal Coat to the held item tab.
 
 ### Fixes
 
