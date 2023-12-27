@@ -1,4 +1,8 @@
 # Changelog
+
+- Added Original Trainer functionality. To edit the OT through commands, you must specify originaltrainertype=<Player/NPC>, and originaltrainer=<Username or UUID/NPC Name>
+
+
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
 ### Additions
