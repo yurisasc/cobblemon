@@ -305,7 +305,7 @@ class StrongBattleAI() : BattleAI {
     )
     private val speedTierCoefficient = 0.1
     private val hpFractionCoefficient = 0.4
-    private val switchOutMatchupThreshold = -4 // todo change this to get it feeling just right (-7 never switches)
+    private val switchOutMatchupThreshold = -6 // todo change this to get it feeling just right (-7 never switches)
     private val selfKoMoveMatchupThreshold = 0.3
     private val trickRoomThreshold = 85
     private val recoveryMoveThreshold = 0.3
@@ -391,7 +391,6 @@ class StrongBattleAI() : BattleAI {
 
         val canDynamax = false
 
-
         if (forceSwitch || activeBattlePokemon.isGone()) {
             if ((forceSwitch && battle.turn == 1) || (activeBattlePokemon.isGone() && battle.turn == 1)) {
                 val switchTo = activeBattlePokemon.actor.pokemonList.filter { it.canBeSentOut() }.randomOrNull()
@@ -472,9 +471,6 @@ class StrongBattleAI() : BattleAI {
         val npcSideScreenCondition = if (battle.side2.contextManager.get(BattleContext.Type.SCREEN).isNullOrEmpty()) null else battle.side2.contextManager.get(BattleContext.Type.SCREEN)?.iterator()?.next()?.id
         val npcSideHazardCondition = if (battle.side2.contextManager.get(BattleContext.Type.HAZARD).isNullOrEmpty()) null else battle.side2.contextManager.get(BattleContext.Type.HAZARD)?.iterator()?.next()?.id
 
-
-
-
         // todo update side conditions each turn
         //fun updateSideConditions =
 
@@ -529,30 +525,34 @@ class StrongBattleAI() : BattleAI {
                 }
 
                 // Trick room
-                if (move.id == "trickroom" && move.id !in monSideConditionList
+                if (move.id == "trickroom" && move.id != currentRoom
                         && request.side?.pokemon?.count { statEstimation(mon, Stats.SPEED) <= trickRoomThreshold }!! >= 3) {
                     return MoveActionResponse(move.id)
                 }
 
+                // todo find a way to get list of active screens
                 // Aurora veil
-                if (move.id == "auroraveil" && move.id !in monSideConditionList
+                if (move.id == "auroraveil" && move.id != npcSideScreenCondition
                         && currentWeather in listOf("Hail", "Snow")) {
                     return MoveActionResponse(move.id)
                 }
 
+                // todo find a way to get list of active screens
                 // Light Screen
-                if (move.id == "lightscreen" && move.id !in monSideConditionList
+                if (move.id == "lightscreen" && move.id != npcSideScreenCondition
                         && getBaseStats(opponent.pokemon!!, "spa") > getBaseStats(opponent.pokemon!!, "atk")) {
                     return MoveActionResponse(move.id)
                 }
 
+                // todo find a way to get list of active screens
                 // Reflect
-                if (move.id == "reflect" && move.id !in monSideConditionList
+                if (move.id == "reflect" && move.id != npcSideScreenCondition
                         && getBaseStats(opponent.pokemon!!, "atk") > getBaseStats(opponent.pokemon!!, "spa")) {
                     return MoveActionResponse(move.id)
                 }
             }
 
+            // todo find a way to get list of active hazards
             // Entry hazard setup and removal
             for (move in moveset.moves) {
                 // Setup
@@ -870,14 +870,19 @@ class StrongBattleAI() : BattleAI {
     // to estimate party matchup against opposing active pokemon
     fun estimatePartyMatchup(request: ShowdownActionRequest, battle: PokemonBattle, nonActiveMon: Pokemon): Double {
         //updateActiveTracker(battle)
-        // todo get players active pokemon use as playerPokemon
 
         ////nonActiveMon?.let { npcPokemon = it }
         val playerPokemon = activeTracker.p1Active.pokemon
 
         var score = 1.0
-        score += bestDamageMultiplier(nonActiveMon, playerPokemon!!) // npcPokemon attacking playerPokemon
-        score -= bestDamageMultiplier(playerPokemon!!, nonActiveMon) // playerPokemon attacking npcPokemon
+        score += bestDamageMultiplier(nonActiveMon, playerPokemon!!) * (1 + typeMatchup(nonActiveMon, playerPokemon)) // npcPokemon attacking playerPokemon
+        score -= bestDamageMultiplier(playerPokemon, nonActiveMon) * (1 + typeMatchup(playerPokemon, nonActiveMon)) // playerPokemon attacking npcPokemon
+
+        // todo make function that determines matchup for attacker type vs defender type to have higher weight to not switch into bad type matchups
+        //score *= typeMatchup(nonActiveMon, playerPokemon)
+        //score -= typeMatchup(playerPokemon, nonActiveMon)
+
+        // todo consider base stat ratios for switchouts
 
         if (getBaseStats(nonActiveMon, "spe") > getBaseStats(playerPokemon, "spe")) {
             score += speedTierCoefficient
@@ -896,7 +901,6 @@ class StrongBattleAI() : BattleAI {
             score -= activeTracker.p1Active.currentHp * hpFractionCoefficient
         }
 
-        score = score // todo remove this after testing
         return score
     }
 
@@ -907,11 +911,11 @@ class StrongBattleAI() : BattleAI {
         var npcPokemon = battlePokemon.second
         nonActiveMon?.let { npcPokemon = it }
 
-
-
         var score = 1.0
-        score += bestDamageMultiplier(npcPokemon, playerPokemon) // npcPokemon attacking playerPokemon
-        score -= bestDamageMultiplier(playerPokemon, npcPokemon) // playerPokemon attacking npcPokemon
+        score += bestDamageMultiplier(npcPokemon, playerPokemon) * (1 + typeMatchup(npcPokemon, playerPokemon)) // npcPokemon attacking playerPokemon
+        score -= bestDamageMultiplier(playerPokemon, npcPokemon) * (1 + typeMatchup(playerPokemon, npcPokemon)) // playerPokemon attacking npcPokemon
+
+        //score *= typeMatchup(nonActiveMon, playerPokemon)
 
         if (getBaseStats(npcPokemon, "spe") > getBaseStats(playerPokemon, "spe")) {
             score += speedTierCoefficient
@@ -919,7 +923,6 @@ class StrongBattleAI() : BattleAI {
             score -= speedTierCoefficient
         }
 
-        // todo possibly flip these p1 and p2 around as well since p1 is player I think
         if (request.side?.id == "p1") {
             score += if (nonActiveMon != null) nonActiveMon.currentHealth * hpFractionCoefficient
             else activeTracker.p1Active.currentHp * hpFractionCoefficient
@@ -930,7 +933,6 @@ class StrongBattleAI() : BattleAI {
             score -= activeTracker.p1Active.currentHp * hpFractionCoefficient
         }
 
-        score = score // todo remove this after testing
         return score
     }
 
@@ -1137,7 +1139,7 @@ class StrongBattleAI() : BattleAI {
         return multiplier
     }
 
-    // returns the best multiplier to deal with the defending pokemon's typing
+    // returns the best multiplier of an attacking move in the attacking pokemon's move list to deal with the defending pokemon's typing
     fun bestDamageMultiplier(attacker: Pokemon, defender: Pokemon): Double { // todo copy all to make overload
         //val typeMatchups = JSON.parse(File("../Data/UsefulDatasets/type-chart.json").readText())
         //val atkMoveType = attackMove.type
@@ -1161,6 +1163,28 @@ class StrongBattleAI() : BattleAI {
         }
 
         return bestMultiplier
+    }
+
+    fun typeMatchup (attackingPokemon: Pokemon, defendingPokemon: Pokemon): Double {
+        val attackerTypes = attackingPokemon.types
+        val defenderTypes = defendingPokemon.types
+
+        var multiplier = 1.0
+        var bestTypeMultiplier = 1.0
+
+        for (atkType in attackerTypes) {
+            for (defType in defenderTypes) {
+                multiplier *= (getDamageMultiplier(atkType, defType) ?: 1.0)
+            }
+
+            if (multiplier > bestTypeMultiplier) {
+                bestTypeMultiplier = multiplier
+            }
+
+            multiplier = 1.0
+        }
+
+        return bestTypeMultiplier
     }
 
     // The move options provided by the simulator have been converted from the name
