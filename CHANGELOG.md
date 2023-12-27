@@ -7,6 +7,7 @@
 - Added more held items to the held item tag, and Metal Coat to the held item tab.
 
 ### Fixes
+- Re-added the recipe for the Iron Vitamin.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
