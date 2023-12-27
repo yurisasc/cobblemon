@@ -63,7 +63,7 @@ open class PokemonBattle(
     val side2: BattleSide
 ) {
     /** Whether logging will be silenced for this battle. */
-    var mute = false
+    var mute = true
 
     init {
         side1.battle = this
