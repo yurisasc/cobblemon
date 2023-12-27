@@ -47,5 +47,6 @@ object CobblemonCommands {
         ClearPCCommand.register(dispatcher)
         PokemonRestartCommand.register(dispatcher)
         RandomBattleCommand.register(dispatcher)
+        BedrockParticleCommand.register(dispatcher)
     }
 }

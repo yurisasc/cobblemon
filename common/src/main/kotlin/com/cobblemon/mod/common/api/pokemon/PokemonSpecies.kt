@@ -62,6 +62,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.structure.Structure
 
 object PokemonSpecies : JsonDataRegistry<Species> {
 
@@ -94,6 +95,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Item::class.java).type, ItemLikeConditionAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Structure::class.java).type, StructureLikeConditionAdapter)
         .registerTypeAdapter(EggGroup::class.java, EggGroupAdapter)
         .registerTypeAdapter(StatusEffect::class.java, RegistryElementAdapter<StatusEffect> { Registries.STATUS_EFFECT })
         .registerTypeAdapter(NbtItemPredicate::class.java, NbtItemPredicateAdapter)

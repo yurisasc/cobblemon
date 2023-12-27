@@ -9,10 +9,9 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
@@ -24,6 +23,7 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.getBattleTheme
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
 import net.minecraft.entity.Entity
@@ -69,18 +69,14 @@ object BattleBuilder {
         }
 
         return if (errors.isEmpty) {
-            CobblemonEvents.BATTLE_STARTED_PRE.postThen(
-                    BattleStartedPreEvent(listOf(player1Actor, player2Actor), battleFormat, true, false, false))
-            {
-                return SuccessfulBattleStart(
-                        BattleRegistry.startBattle(
-                                battleFormat = battleFormat,
-                                side1 = BattleSide(player1Actor),
-                                side2 = BattleSide(player2Actor)
-                        )
-                )
+            BattleRegistry.startBattle(
+                battleFormat = battleFormat,
+                side1 = BattleSide(player1Actor),
+                side2 = BattleSide(player2Actor)
+            ).ifSuccessful {
+                player1Actor.battleTheme = player2.getBattleTheme()
+                player2Actor.battleTheme = player1.getBattleTheme()
             }
-            errors
         } else {
             errors
         }
@@ -131,20 +127,16 @@ object BattleBuilder {
         }
 
         return if (errors.isEmpty) {
-            CobblemonEvents.BATTLE_STARTED_PRE.postThen(
-                    BattleStartedPreEvent(listOf(playerActor, wildActor), battleFormat, false, false, true))
-            {
-                val battle = BattleRegistry.startBattle(
-                        battleFormat = battleFormat,
-                        side1 = BattleSide(playerActor),
-                        side2 = BattleSide(wildActor)
-                )
+            BattleRegistry.startBattle(
+                battleFormat = battleFormat,
+                side1 = BattleSide(playerActor),
+                side2 = BattleSide(wildActor)
+            ).ifSuccessful {
                 if (!cloneParties) {
-                    pokemonEntity.battleId.set(Optional.of(battle.battleId))
+                    pokemonEntity.battleId.set(Optional.of(it.battleId))
                 }
-                return SuccessfulBattleStart(battle)
+                playerActor.battleTheme = pokemonEntity.getBattleTheme()
             }
-            errors
         } else {
             errors
         }
@@ -303,12 +295,21 @@ interface BattleStartError {
             requiredCount: Int,
             hadCount: Int
         ) = InsufficientPokemonError(player, requiredCount, hadCount)
+
+        fun canceledByEvent(reason: MutableText?) = CanceledError(reason)
     }
 }
 
 enum class CommonBattleStartError : BattleStartError {
 
 }
+
+class CanceledError(
+    val reason: MutableText?
+): BattleStartError {
+    override fun getMessageFor(entity: Entity) = reason ?: battleLang("error.canceled")
+}
+
 class InsufficientPokemonError(
     val player: ServerPlayerEntity,
     val requiredCount: Int,
