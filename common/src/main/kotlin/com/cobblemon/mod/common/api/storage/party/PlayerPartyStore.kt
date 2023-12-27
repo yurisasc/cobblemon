@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.advancement.criterion.PartyCheckContext
 import com.cobblemon.mod.common.api.pokemon.evolution.PassiveEvolution
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.pokemon.OriginalTrainerType
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.util.*
@@ -52,11 +53,10 @@ open class PlayerPartyStore(
     }
 
     override fun add(pokemon: Pokemon): Boolean {
-        if (pokemon.originalTrainer?.first != null) {
-            server()?.userCache?.getByUuid(pokemon.originalTrainer?.first)?.orElse(null)?.name?.let {
-                pokemon.setOriginalTrainer(pokemon.originalTrainer!!.first, it)
-            }
+        if (pokemon.originalTrainerType == OriginalTrainerType.NONE) {
+            pokemon.setOriginalTrainer(playerUUID)
         }
+        pokemon.refreshOriginalTrainer()
 
         return if (super.add(pokemon)) {
             pokemon.getOwnerPlayer()?.let { CobblemonCriteria.PARTY_CHECK.trigger(it, PartyCheckContext(this)) }

@@ -94,6 +94,11 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
+enum class OriginalTrainerType
+{
+    NONE, PLAYER, NPC
+}
+
 open class Pokemon : ShowdownIdentifiable {
     var uuid = UUID.randomUUID()
     var species = PokemonSpecies.random()
@@ -333,15 +338,25 @@ open class Pokemon : ShowdownIdentifiable {
             _tetheringId.emit(value)
         }
 
+    var originalTrainerType: OriginalTrainerType = OriginalTrainerType.NONE
+        private set
+
     /**
-     * The Minecraft UniqueID of the Original Trainer paired to the last username.
-     * If null, the Pokémon is considered to have a Fake Trainer.
-     * If this UUID is not null, it will attempt to update the String in [loadFromNBT].
+     * Either:
+     * - The Minecraft UniqueID of a Player
+     * - A display name for a Fake OT
+     * - Null
      */
-    var originalTrainer: Pair<UUID?, String>? = null
-        private set(value) {
+    var originalTrainer: String? = null
+        private set
+
+    /**
+     * The cached Display Name of the Original Trainer
+     */
+    var originalTrainerName: String? = null
+        set(value) {
             field = value
-            _originalTrainer.emit(value)
+            _originalTrainerName.emit(value)
         }
 
 
@@ -711,12 +726,10 @@ open class Pokemon : ShowdownIdentifiable {
         nbt.putBoolean(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         nbt.putBoolean(DataKeys.POKEMON_TRADEABLE, tradeable)
 
-        originalTrainer?.let { (uuid, ot) ->
-            nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME, ot)
-            if (uuid != null) {
-                nbt.putUuid(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID, uuid)
-            }
+        if (originalTrainer != null) {
+            nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER, originalTrainer)
         }
+        nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, originalTrainerType.name)
         return nbt
     }
 
@@ -788,15 +801,10 @@ open class Pokemon : ShowdownIdentifiable {
         this.dmaxLevel = nbt.getInt(DataKeys.POKEMON_DMAX_LEVEL)
         this.gmaxFactor = nbt.getBoolean(DataKeys.POKEMON_GMAX_FACTOR)
         this.tradeable = if (nbt.contains(DataKeys.POKEMON_TRADEABLE)) nbt.getBoolean(DataKeys.POKEMON_TRADEABLE) else true
-        if (nbt.contains(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME)) {
-            val uuid = if (nbt.containsUuid(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID)) nbt.getUuid(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID) else null
-            var name = nbt.getString(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME)
-            if (uuid != null) {
-                server()?.userCache?.getByUuid(uuid)?.orElse(null)?.name?.let { name = it }
-            }
+        originalTrainerType = OriginalTrainerType.valueOf(nbt.getString(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE).ifEmpty { OriginalTrainerType.NONE.name })
+        originalTrainer = if (nbt.contains(DataKeys.POKEMON_ORIGINAL_TRAINER)) nbt.getString(DataKeys.POKEMON_ORIGINAL_TRAINER) else null
+        refreshOriginalTrainer()
 
-            this.originalTrainer = uuid to name
-        }
         return this
     }
 
@@ -841,12 +849,8 @@ open class Pokemon : ShowdownIdentifiable {
         json.addProperty(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         json.addProperty(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         json.addProperty(DataKeys.POKEMON_TRADEABLE, tradeable)
-        originalTrainer?.let { (uuid, ot) ->
-            json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME, ot)
-            if (uuid != null) {
-                json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID, uuid.toString())
-            }
-        }
+        json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, originalTrainerType.name)
+        if (originalTrainer != null) json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER, originalTrainer)
         return json
     }
 
@@ -943,15 +947,13 @@ open class Pokemon : ShowdownIdentifiable {
         if (json.has(DataKeys.POKEMON_TRADEABLE)) {
             this.tradeable = json.get(DataKeys.POKEMON_TRADEABLE).asBoolean
         }
-        if (json.has(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME)) {
-            val uuid = if (json.has(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID)) UUID.fromString(json.get(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID).asString) else null
-            var name = json.get(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME).asString
-            if (uuid != null) {
-                server()?.userCache?.getByUuid(uuid)?.orElse(null)?.name?.let { name = it }
-            }
-
-            this.originalTrainer = uuid to name
+        if (json.has(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE)) {
+            this.originalTrainerType = OriginalTrainerType.valueOf(json.get(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE).asString)
         }
+        if (json.has(DataKeys.POKEMON_ORIGINAL_TRAINER)) {
+            this.originalTrainer = json.get(DataKeys.POKEMON_ORIGINAL_TRAINER).asString
+        }
+        refreshOriginalTrainer()
         return this
     }
 
@@ -1062,23 +1064,47 @@ open class Pokemon : ShowdownIdentifiable {
      * @param playerUUID The Player's UniqueID, used to check for Username updates.
      * @param playerName The Player's Username to cache and use whilst this Pokémon is loaded.
      */
-    fun setOriginalTrainer(playerUUID: UUID?, playerName: String) {
-        originalTrainer = playerUUID to playerName
+    fun setOriginalTrainer(playerUUID: UUID) {
+        originalTrainerType = OriginalTrainerType.PLAYER
+        originalTrainer = playerUUID.toString()
     }
 
     /**
      * Sets the Pokémon's Original Trainer to be a Fake Trainer.
-     * Fake Trainers skips checking for Username updates.
+     * Fake Trainers skips checking for Username updates and use this value directly.
      *
      * @param fakeTrainerName The Fake Trainer's name that will be displayed.
      */
     fun setOriginalTrainer(fakeTrainerName: String) {
-        setOriginalTrainer(playerUUID = null, playerName = fakeTrainerName)
+        originalTrainerType = OriginalTrainerType.NPC
+        originalTrainer = fakeTrainerName
+    }
+
+    fun refreshOriginalTrainer()
+    {
+        when (originalTrainerType)
+        {
+            OriginalTrainerType.PLAYER -> {
+                UUID.fromString(originalTrainer)?.let { uuid ->
+                    server()?.userCache?.getByUuid(uuid)?.orElse(null)?.name?.let {
+                        originalTrainerName = it
+                    }
+                }
+            }
+            OriginalTrainerType.NPC -> {
+                originalTrainerName = originalTrainer
+            }
+            OriginalTrainerType.NONE -> {
+                originalTrainerName = null
+            }
+        }
     }
 
     fun removeOriginalTrainer()
     {
         originalTrainer = null
+        originalTrainerType = OriginalTrainerType.NONE
+        originalTrainerName = null
     }
 
     val allAccessibleMoves: Set<MoveTemplate>
@@ -1468,7 +1494,7 @@ open class Pokemon : ShowdownIdentifiable {
     private val _teraType = registerObservable(SimpleObservable<ElementalType>()) { TeraTypeUpdatePacket({ this }, it) }
     private val _dmaxLevel = registerObservable(SimpleObservable<Int>()) { DmaxLevelUpdatePacket({ this }, it) }
     private val _gmaxFactor = registerObservable(SimpleObservable<Boolean>()) { GmaxFactorUpdatePacket({ this }, it) }
-    private val _originalTrainer = registerObservable(SimpleObservable<Pair<UUID?, String>?>()) { OriginalTrainerUpdatePacket({ this }, it) }
+    private val _originalTrainerName = registerObservable(SimpleObservable<String?>()) { OriginalTrainerUpdatePacket({ this }, it) }
 
     private val _features = registerObservable(SimpleObservable<SpeciesFeature>())
 

@@ -67,7 +67,6 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import java.util.*
 
 class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
     enum class CaptureState {
@@ -341,7 +340,6 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier {
                         captureFuture.complete(true)
                         val party = Cobblemon.storage.getParty(player.uuid)
                         pokemon.pokemon.caughtBall = pokeBall
-                        pokemon.pokemon.setOriginalTrainer(player.uuid, player.displayName.string)
                         pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
                         party.add(pokemon.pokemon)
                         CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player, this))

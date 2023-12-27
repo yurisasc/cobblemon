@@ -90,7 +90,7 @@ class InfoWidget(
         typeWidget.render(context, pMouseX, pMouseY, pPartialTicks)
 
         // Original Trainer
-        val otName: MutableText = Text.literal(pokemon.originalTrainer?.second ?: "")
+        val otName: MutableText = Text.literal(pokemon.originalTrainerName ?: "")
         val otWidget = InfoOneLineWidget(
             pX = x,
             pY = y + 3 * ROW_HEIGHT,

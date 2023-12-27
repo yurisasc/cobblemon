@@ -17,11 +17,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.pokemon.EVs
-import com.cobblemon.mod.common.pokemon.Gender
-import com.cobblemon.mod.common.pokemon.IVs
-import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.RenderablePokemon
+import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.*
 import com.google.gson.JsonArray
@@ -36,7 +32,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.world.World
-import java.util.*
+import java.util.UUID
 
 /**
  * A grouping of typical, selectable properties for a Pokémon. This is serializable
@@ -93,9 +89,8 @@ open class PokemonProperties {
             props.dmaxLevel = parseIntProperty(keyPairs, listOf("dmax_level", "dmax"))?.coerceIn(0, Cobblemon.config.maxDynamaxLevel)
             props.gmaxFactor = parseBooleanProperty(keyPairs, listOf("gmax_factor", "gmax"))
             props.tradeable = parseBooleanProperty(keyPairs, listOf("tradeable", "tradable"))
-            props.originalTrainerUUID = parseUUIDProperty(keyPairs, listOf("originaltrainer_uuid", "ot_uuid"))
-            props.originalTrainerPlayer = parseStringProperty(keyPairs, listOf("originaltrainer", "ot"))
-            props.originalTrainerNPC = parseStringProperty(keyPairs, listOf("originaltrainer_npc", "ot_npc"))
+            props.originalTrainerType = OriginalTrainerType.values().toList().parsePropertyOfCollection(keyPairs, listOf("originaltrainertype", "ottype"), labelsOptional = true) { it.name.lowercase() }
+            props.originalTrainer = parsePlayerProperty(keyPairs, listOf("originaltrainer", "ot"))
 
             val maybeIVs = IVs()
             val maybeEVs = EVs()
@@ -214,20 +209,19 @@ open class PokemonProperties {
             }
         }
 
-        private fun parseUUIDProperty(keyPairs: MutableList<Pair<String, String?>>, labels: Iterable<String>): UUID? {
+        /**
+         * Try and parse a Player reference, either as a Username (3 <= length <= 16) or a UUID (length == 36)
+         */
+        private fun parsePlayerProperty(keyPairs: MutableList<Pair<String, String?>>, labels: Iterable<String>): String? {
             val matchingKeyPair = getMatchedKeyPair(keyPairs, labels) ?: return null
             keyPairs.remove(matchingKeyPair)
 
-            // If the pair was a UUID string, return the UUID
-            return UUID.fromString(matchingKeyPair.second)
-        }
+            if (matchingKeyPair.second == null)
+                return null
 
-        private fun parseStringProperty(keyPairs: MutableList<Pair<String, String?>>, labels: Iterable<String>): String?
-        {
-            val matchingKeyPair = getMatchedKeyPair(keyPairs, labels) ?: return null
-            keyPairs.remove(matchingKeyPair)
+            val string = matchingKeyPair.second!!
 
-            return matchingKeyPair.second
+            return if (string.length in 3..16 || (string.length == 36 && isUuid(string)) ) string else null
         }
 
         private fun <T> Iterable<T>.parsePropertyOfCollection(
@@ -277,12 +271,8 @@ open class PokemonProperties {
     var dmaxLevel: Int? = null
     var gmaxFactor: Boolean? = null
     var tradeable: Boolean? = null
-    // Original Trainer by UUID (for a permanent solution)
-    var originalTrainerUUID: UUID? = null
-    // Original Trainer by Username (looks it up, will not work if Username changes)
-    var originalTrainerPlayer: String? = null
-    // Fake Original Trainer
-    var originalTrainerNPC: String? = null
+    var originalTrainerType: OriginalTrainerType? = null
+    var originalTrainer: String? = null // Original Trainer by Username or UUID
 
     var ivs: IVs? = null
     var evs: EVs? = null
@@ -336,16 +326,28 @@ open class PokemonProperties {
         dmaxLevel?.let { pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemon.gmaxFactor = it }
         tradeable?.let { pokemon.tradeable = it }
-        if (originalTrainerUUID != null)
-            originalTrainerUUID!!.let { pokemon.setOriginalTrainer(it, "") }
-        else if (originalTrainerPlayer != null) {
-            server()?.userCache?.findByName(originalTrainerPlayer)?.get()?.id?.let {
-                pokemon.setOriginalTrainer(it, originalTrainerPlayer!!)
+        // If it has been explicitly set to NONE, clear the stored information, including the originalTrainer property
+        originalTrainerType?.let {
+            if (it == OriginalTrainerType.NONE) {
+                pokemon.removeOriginalTrainer()
+                originalTrainer = null
             }
         }
-        else if (originalTrainerNPC != null)
-            originalTrainerNPC!!.let { pokemon.setOriginalTrainer(it) }
-
+        originalTrainer?.let { ot ->
+            val type = originalTrainerType ?: pokemon.originalTrainerType
+            when (type) {
+                OriginalTrainerType.PLAYER -> {
+                    when (ot.length) {
+                        in 3..16 -> server()?.userCache?.findByName(ot)?.get()?.id // OT is a Username
+                        36 -> UUID.fromString(ot) // OT is a UUID
+                        else -> null // OT is invalid
+                    }?.let { uuid -> pokemon.setOriginalTrainer(uuid) }
+                }
+                OriginalTrainerType.NPC -> pokemon.setOriginalTrainer(ot)
+                else -> {}
+            }
+            pokemon.refreshOriginalTrainer()
+        }
         pokemon.updateAspects()
     }
 
@@ -386,15 +388,28 @@ open class PokemonProperties {
         dmaxLevel?.let { pokemonEntity.pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemonEntity.pokemon.gmaxFactor = it }
         tradeable?.let { pokemonEntity.pokemon.tradeable = it }
-        if (originalTrainerUUID != null)
-            originalTrainerUUID!!.let { pokemonEntity.pokemon.setOriginalTrainer(it, "") }
-        else if (originalTrainerPlayer != null) {
-            server()?.userCache?.findByName(originalTrainerPlayer)?.get()?.id?.let {
-                pokemonEntity.pokemon.setOriginalTrainer(it, originalTrainerPlayer!!)
+        // If it has been explicitly set to NONE, clear the stored information, including the originalTrainer property
+        originalTrainerType?.let {
+            if (it == OriginalTrainerType.NONE) {
+                pokemonEntity.pokemon.removeOriginalTrainer()
+                originalTrainer = null
             }
         }
-        else if (originalTrainerNPC != null)
-            originalTrainerNPC!!.let { pokemonEntity.pokemon.setOriginalTrainer(it) }
+        originalTrainer?.let { ot ->
+            val type = originalTrainerType ?: pokemonEntity.pokemon.originalTrainerType
+            when (type) {
+                OriginalTrainerType.PLAYER -> {
+                    when (ot.length) {
+                        in 3..16 -> server()?.userCache?.findByName(ot)?.get()?.id // OT is a Username
+                        36 -> UUID.fromString(ot) // OT is a UUID
+                        else -> null // OT is invalid
+                    }?.let { uuid -> pokemonEntity.pokemon.setOriginalTrainer(uuid) }
+                }
+                OriginalTrainerType.NPC -> pokemonEntity.pokemon.setOriginalTrainer(ot)
+                else -> {}
+            }
+            pokemonEntity.pokemon.refreshOriginalTrainer()
+        }
         pokemonEntity.pokemon.updateAspects()
     }
 
@@ -433,9 +448,8 @@ open class PokemonProperties {
         dmaxLevel?.takeIf { it != pokemon.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != pokemon.gmaxFactor }?.let { return false }
         tradeable?.takeIf { it != pokemon.tradeable }?.let { return false }
-        originalTrainerUUID?.takeIf { pokemon.originalTrainer != null && it != pokemon.originalTrainer!!.first }?.let{ return false }
-        originalTrainerPlayer?.takeIf { pokemon.originalTrainer != null && it != pokemon.originalTrainer!!.second }?.let{ return false }
-        originalTrainerNPC?.takeIf { pokemon.originalTrainer != null && it != pokemon.originalTrainer!!.second }?.let{ return false }
+        originalTrainer?.takeIf { it != pokemon.originalTrainer }?.let{ return false }
+        originalTrainerType?.takeIf { it != pokemon.originalTrainerType }?.let{ return false }
         return customProperties.none { !it.matches(pokemon) }
     }
 
@@ -472,9 +486,8 @@ open class PokemonProperties {
         dmaxLevel?.takeIf { it != pokemonEntity.pokemon.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != pokemonEntity.pokemon.gmaxFactor }?.let { return false }
         tradeable?.takeIf { it != pokemonEntity.pokemon.tradeable }?.let { return false }
-        originalTrainerUUID?.takeIf { pokemonEntity.pokemon.originalTrainer != null && it != pokemonEntity.pokemon.originalTrainer!!.first }?.let{ return false }
-        originalTrainerPlayer?.takeIf { pokemonEntity.pokemon.originalTrainer != null && it != pokemonEntity.pokemon.originalTrainer!!.second }?.let{ return false }
-        originalTrainerNPC?.takeIf { pokemonEntity.pokemon.originalTrainer != null && it != pokemonEntity.pokemon.originalTrainer!!.second }?.let{ return false }
+        originalTrainer?.takeIf { it != pokemonEntity.pokemon.originalTrainer }?.let{ return false }
+        originalTrainerType?.takeIf { it != pokemonEntity.pokemon.originalTrainerType }?.let{ return false }
         return customProperties.none { !it.matches(pokemonEntity) }
     }
 
@@ -519,9 +532,8 @@ open class PokemonProperties {
         dmaxLevel?.takeIf { it != properties.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != properties.gmaxFactor }?.let { return false }
         tradeable?.takeIf { it != properties.tradeable }?.let { return false }
-        originalTrainerUUID?.takeIf { it != properties.originalTrainerUUID }?.let{ return false }
-        originalTrainerPlayer?.takeIf { it != properties.originalTrainerPlayer }?.let{ return false }
-        originalTrainerNPC?.takeIf { it != properties.originalTrainerNPC }?.let{ return false }
+        originalTrainer?.takeIf { it != properties.originalTrainer }?.let{ return false }
+        originalTrainerType?.takeIf { it != properties.originalTrainerType }?.let{ return false }
         return true
     }
 
@@ -569,9 +581,8 @@ open class PokemonProperties {
         dmaxLevel?.let { nbt.putInt(DataKeys.POKEMON_DMAX_LEVEL, it) }
         gmaxFactor?.let { nbt.putBoolean(DataKeys.POKEMON_GMAX_FACTOR, it) }
         tradeable?.let { nbt.putBoolean(DataKeys.POKEMON_TRADEABLE, it) }
-        originalTrainerUUID?.let { nbt.putUuid(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID, it) }
-        originalTrainerPlayer?.let { nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME, it) }
-        originalTrainerNPC?.let { nbt.putString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TRAINER_DISPLAY_NAME_NPC, it) }
+        originalTrainerType?.let { nbt.putInt(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, it.ordinal) }
+        originalTrainer?.let { nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER, it) }
         val custom = NbtList()
         customProperties.map { NbtString.of(it.asString()) }.forEach { custom.add(it) }
         nbt.put(DataKeys.POKEMON_PROPERTIES_CUSTOM, custom)
@@ -597,9 +608,8 @@ open class PokemonProperties {
         dmaxLevel = if (tag.contains(DataKeys.POKEMON_DMAX_LEVEL)) tag.getInt(DataKeys.POKEMON_DMAX_LEVEL) else null
         gmaxFactor = if (tag.contains(DataKeys.POKEMON_GMAX_FACTOR)) tag.getBoolean(DataKeys.POKEMON_GMAX_FACTOR) else null
         tradeable = if (tag.contains(DataKeys.POKEMON_TRADEABLE)) tag.getBoolean(DataKeys.POKEMON_TRADEABLE) else null
-        originalTrainerUUID = if (tag.contains(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID)) tag.getUuid(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID) else null
-        originalTrainerPlayer = if (tag.contains(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME)) tag.getString(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME) else null
-        originalTrainerNPC = if (tag.contains(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TRAINER_DISPLAY_NAME_NPC)) tag.getString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TRAINER_DISPLAY_NAME_NPC) else null
+        originalTrainerType = if (tag.contains(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE)) OriginalTrainerType.valueOf(tag.getString(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE)) else null
+        originalTrainer = if (tag.contains(DataKeys.POKEMON_ORIGINAL_TRAINER)) tag.getString(DataKeys.POKEMON_ORIGINAL_TRAINER) else null
         val custom = tag.getList(DataKeys.POKEMON_PROPERTIES_CUSTOM, NbtElement.STRING_TYPE.toInt())
         // This is kinda gross
         custom.forEach { customProperties.addAll(parse(it.asString()).customProperties) }
@@ -627,9 +637,8 @@ open class PokemonProperties {
         dmaxLevel?.let { json.addProperty(DataKeys.POKEMON_DMAX_LEVEL, it) }
         gmaxFactor?.let { json.addProperty(DataKeys.POKEMON_GMAX_FACTOR, it) }
         tradeable?.let { json.addProperty(DataKeys.POKEMON_TRADEABLE, it) }
-        originalTrainerUUID?.let { json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID, it.toString()) }
-        originalTrainerPlayer?.let { json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME, it) }
-        originalTrainerNPC?.let { json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME, it) }
+        originalTrainerType?.let { json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, it.name) }
+        originalTrainer?.let { json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER, it) }
         val custom = JsonArray()
         customProperties.map { it.asString() }.forEach { custom.add(it) }
         json.add(DataKeys.POKEMON_PROPERTIES_CUSTOM, custom)
@@ -656,9 +665,8 @@ open class PokemonProperties {
         dmaxLevel = json.get(DataKeys.POKEMON_DMAX_LEVEL)?.asInt
         gmaxFactor = json.get(DataKeys.POKEMON_GMAX_FACTOR)?.asBoolean
         tradeable = json.get(DataKeys.POKEMON_TRADEABLE)?.asBoolean
-        originalTrainerUUID = json.get(DataKeys.POKEMON_ORIGINAL_TRAINER_UUID)?.asString?.let { UUID.fromString(it) }
-        originalTrainerPlayer = json.get(DataKeys.POKEMON_ORIGINAL_TRAINER_DISPLAY_NAME)?.asString
-        originalTrainerNPC = json.get(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TRAINER_DISPLAY_NAME_NPC)?.asString
+        originalTrainerType = json.get(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE)?.asString?.let { OriginalTrainerType.valueOf(it) }
+        originalTrainer = json.get(DataKeys.POKEMON_ORIGINAL_TRAINER)?.asString
         val custom = json.get(DataKeys.POKEMON_PROPERTIES_CUSTOM)?.asJsonArray
         // This is still kinda gross
         custom?.forEach { customProperties.addAll(parse(it.asString).customProperties) }
@@ -689,9 +697,8 @@ open class PokemonProperties {
         dmaxLevel?.let { pieces.add("dmax_level=$it") }
         gmaxFactor?.let { pieces.add("gmax_factor=$it") }
         tradeable?.let { pieces.add("tradeable=$it") }
-        originalTrainerUUID?.let { pieces.add("originaltrainer_uuid=$it") }
-        originalTrainerPlayer?.let { pieces.add("originaltrainer_player=$it") }
-        originalTrainerNPC?.let { pieces.add("originaltrainer_npc=$it") }
+        originalTrainerType?.let { pieces.add("originaltrainertype=${it.name}") }
+        originalTrainer?.let { pieces.add("originaltrainer=$it") }
         customProperties.forEach { pieces.add(it.asString()) }
         return pieces.joinToString(separator)
     }

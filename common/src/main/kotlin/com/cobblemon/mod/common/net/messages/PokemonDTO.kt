@@ -19,10 +19,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.pokemon.EVs
-import com.cobblemon.mod.common.pokemon.Gender
-import com.cobblemon.mod.common.pokemon.IVs
-import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
@@ -74,8 +71,9 @@ class PokemonDTO : Encodable, Decodable {
     var dmaxLevel = 0
     var gmaxFactor = false
     var tradeable = true
-    var originalTrainerUUID: UUID? = null
-    var originalTrainerDisplayName: String? = null
+    var originalTrainerType: OriginalTrainerType = OriginalTrainerType.NONE
+    var originalTrainer: String? = null
+    var originalTrainerName: String? = null
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
@@ -110,8 +108,9 @@ class PokemonDTO : Encodable, Decodable {
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
-        this.originalTrainerUUID = pokemon.originalTrainer?.first
-        this.originalTrainerDisplayName = pokemon.originalTrainer?.second
+        this.originalTrainerType = pokemon.originalTrainerType
+        this.originalTrainer = pokemon.originalTrainer
+        this.originalTrainerName = pokemon.originalTrainerName
     }
 
     override fun encode(buffer: PacketByteBuf) {
@@ -149,8 +148,9 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeInt(dmaxLevel)
         buffer.writeBoolean(gmaxFactor)
         buffer.writeBoolean(tradeable)
-        buffer.writeNullable(originalTrainerUUID) { _, v -> buffer.writeUuid(v) }
-        buffer.writeNullable(originalTrainerDisplayName) { _, v -> buffer.writeString(v) }
+        buffer.writeString(originalTrainerType.name)
+        buffer.writeNullable(originalTrainer) { _, v -> buffer.writeString(v) }
+        buffer.writeNullable(originalTrainerName) { _, v -> buffer.writeString(v) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -189,8 +189,9 @@ class PokemonDTO : Encodable, Decodable {
         dmaxLevel = buffer.readInt()
         gmaxFactor = buffer.readBoolean()
         tradeable = buffer.readBoolean()
-        originalTrainerUUID = buffer.readNullable { buffer.readUuid() }
-        originalTrainerDisplayName = buffer.readNullable { buffer.readString() }
+        originalTrainerType = OriginalTrainerType.valueOf(buffer.readString())
+        originalTrainer = buffer.readNullable { buffer.readString() }
+        originalTrainerName = buffer.readNullable { buffer.readString() }
     }
 
     fun create(): Pokemon {
@@ -240,13 +241,26 @@ class PokemonDTO : Encodable, Decodable {
             it.dmaxLevel = dmaxLevel
             it.gmaxFactor = gmaxFactor
             it.tradeable = tradeable
-            if (originalTrainerUUID != null) {
-                it.setOriginalTrainer(originalTrainerUUID!!, originalTrainerDisplayName!!)
-            } else if (originalTrainerDisplayName != null) {
-                it.setOriginalTrainer(originalTrainerDisplayName!!)
-            } else {
-                it.removeOriginalTrainer()
+            when (originalTrainerType)
+            {
+                OriginalTrainerType.NONE -> {
+                    it.removeOriginalTrainer()
+                }
+                OriginalTrainerType.PLAYER -> {
+                    originalTrainer?.let { ot ->
+                        UUID.fromString(ot)?.let { uuid ->
+                            it.setOriginalTrainer(uuid)
+                        }
+                    }
+                }
+                OriginalTrainerType.NPC ->
+                {
+                    originalTrainer?.let { ot ->
+                        it.setOriginalTrainer(ot)
+                    }
+                }
             }
+            it.originalTrainerName = originalTrainerName
         }
     }
 }

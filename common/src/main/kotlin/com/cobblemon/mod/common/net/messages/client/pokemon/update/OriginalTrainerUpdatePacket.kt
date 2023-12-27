@@ -11,35 +11,23 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import java.util.*
 
-class OriginalTrainerUpdatePacket(pokemon: () -> Pokemon, uuidAndUsername: Pair<UUID?, String>?) : SingleUpdatePacket<Pair<UUID?, String>?, OriginalTrainerUpdatePacket>(pokemon, uuidAndUsername) {
+class OriginalTrainerUpdatePacket(pokemon: () -> Pokemon, username: String?) : SingleUpdatePacket<String?, OriginalTrainerUpdatePacket>(pokemon, username) {
     override val id = ID
 
     override fun encodeValue(buffer: PacketByteBuf) {
-        buffer.writeNullable(this.value) { _, v ->
-            buffer.writeNullable(v.first) { _, uuid -> buffer.writeUuid(uuid) }
-            buffer.writeString(v.second)
-        }
+        buffer.writeNullable(this.value) { _, v -> buffer.writeString(v) }
     }
 
-    override fun set(pokemon: Pokemon, value: Pair<UUID?, String>?) {
-        if (value != null) {
-            pokemon.setOriginalTrainer(value.first, value.second)
-        } else {
-            pokemon.removeOriginalTrainer()
-        }
+    override fun set(pokemon: Pokemon, value: String?) {
+        pokemon.originalTrainerName = value
     }
 
     companion object {
         val ID = cobblemonResource("original_trainer_update")
         fun decode(buffer: PacketByteBuf): OriginalTrainerUpdatePacket {
             val pokemon = decodePokemon(buffer)
-            val originalTrainer = buffer.readNullable {
-                val uuid = buffer.readNullable { buffer.readUuid() }
-                val username = buffer.readString()
-                uuid to username
-            }
+            val originalTrainer = buffer.readNullable { buffer.readString() }
             return OriginalTrainerUpdatePacket(pokemon, originalTrainer)
         }
     }
