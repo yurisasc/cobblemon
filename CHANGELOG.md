@@ -3,6 +3,7 @@
 ### Additions
 
 ### Changes
+- Pokémon now transition more smoothly between different poses.
 - Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
 
 ### Fixes
@@ -11,10 +12,12 @@
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
-
+- Rebuilt the scheduling API to more clearly force side choices and allow more local temporal frames of reference for tasks.
 
 ### Datapack & Resourcepack Creators
 - Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
+- Fixed an issue with transformed parts in posers causing whacky positional issues.
+- Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 

@@ -21,14 +21,13 @@ import net.minecraft.text.MutableText
  * @author Hiroku
  * @since May 22nd, 2022
  */
-class BattleFaintPacket(val pnx: String, val message: MutableText) : NetworkPacket<BattleFaintPacket> {
+class BattleFaintPacket(val pnx: String) : NetworkPacket<BattleFaintPacket> {
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(pnx)
-        buffer.writeText(message)
     }
     companion object {
         val ID = cobblemonResource("battle_faint")
-        fun decode(buffer: PacketByteBuf) = BattleFaintPacket(buffer.readString(), buffer.readText().copy())
+        fun decode(buffer: PacketByteBuf) = BattleFaintPacket(buffer.readString())
     }
 }
