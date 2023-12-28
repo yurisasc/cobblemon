@@ -494,13 +494,13 @@ class StrongBattleAI() : BattleAI {
         mon.firstTurn = 0
 
         // Decision-making based on move availability and switch-out condition
-        if (!moveset?.moves?.isNullOrEmpty()!! && !shouldSwitchOut(request, battle, activeBattlePokemon) ||
-                (request.side?.pokemon?.count { getHpFraction(it.condition) != 0.0 } == 1 && mon.currentHpPercent == 1.0)) {
+        if (!moveset?.moves?.isEmpty()!! && !shouldSwitchOut(request, battle, activeBattlePokemon) ||
+                (request.side?.pokemon?.count { getHpFraction(it.condition) != 0.0 } == 1 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0)) {
             val nRemainingMons = mon.nRemainingMons
             val nOppRemainingMons = opponent.nRemainingMons
 
             // Fake Out
-            allMoves?.firstOrNull { it.id == "fakeout" && mon.firstTurn == 1 && !opponent.pokemon?.types?.contains(ElementalTypes.GHOST)!! }?.let {
+            allMoves?.firstOrNull { it.pp > 0 && it.id == "fakeout" && mon.firstTurn == 1 && !opponent.pokemon?.types?.contains(ElementalTypes.GHOST)!! }?.let {
                 mon.firstTurn = 0
                 return MoveActionResponse(it.id)
             }
@@ -510,9 +510,10 @@ class StrongBattleAI() : BattleAI {
             // Explosion/Self destruct
             allMoves?.firstOrNull {
                 (it.id.equals("explosion") || it.id.equals("selfdestruct"))
-                        && mon.currentHpPercent < selfKoMoveMatchupThreshold
-                        && opponent.currentHpPercent > 0.5
+                        && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < selfKoMoveMatchupThreshold
+                        && (opponent.currentHp.toDouble() / opponent.pokemon!!.hp.toDouble()) > 0.5
                         && ElementalTypes.GHOST !in opponent.pokemon!!.types
+                        && it.pp > 0
             }?.let {
                 MoveActionResponse(it.id)
             }
@@ -520,34 +521,36 @@ class StrongBattleAI() : BattleAI {
             // Deal with non-weather related field changing effects
             for (move in moveset.moves) {
                 // Tailwind
-                if (move.id == "tailwind" && move.id != npcSideTailwindCondition) {
+                if (move.pp > 0 && move.id == "tailwind" && move.id != npcSideTailwindCondition && p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }.size > 2) {
                     return MoveActionResponse(move.id)
                 }
 
                 // Trick room
-                if (move.id == "trickroom" && move.id != currentRoom
+                if (move.pp > 0 && move.id == "trickroom" && move.id != currentRoom
                         && request.side?.pokemon?.count { statEstimation(mon, Stats.SPEED) <= trickRoomThreshold }!! >= 3) {
                     return MoveActionResponse(move.id)
                 }
 
                 // todo find a way to get list of active screens
                 // Aurora veil
-                if (move.id == "auroraveil" && move.id != npcSideScreenCondition
+                if (move.pp > 0 && move.id == "auroraveil" && move.id != npcSideScreenCondition
                         && currentWeather in listOf("Hail", "Snow")) {
                     return MoveActionResponse(move.id)
                 }
 
                 // todo find a way to get list of active screens
                 // Light Screen
-                if (move.id == "lightscreen" && move.id != npcSideScreenCondition
-                        && getBaseStats(opponent.pokemon!!, "spa") > getBaseStats(opponent.pokemon!!, "atk")) {
+                if (move.pp > 0 && move.id == "lightscreen" && move.id != npcSideScreenCondition
+                        && getBaseStats(opponent.pokemon!!, "spa") > getBaseStats(opponent.pokemon!!, "atk")
+                        && p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }.size > 1) {
                     return MoveActionResponse(move.id)
                 }
 
                 // todo find a way to get list of active screens
                 // Reflect
-                if (move.id == "reflect" && move.id != npcSideScreenCondition
-                        && getBaseStats(opponent.pokemon!!, "atk") > getBaseStats(opponent.pokemon!!, "spa")) {
+                if (move.pp > 0 && move.id == "reflect" && move.id != npcSideScreenCondition
+                        && getBaseStats(opponent.pokemon!!, "atk") > getBaseStats(opponent.pokemon!!, "spa")
+                        && p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }.size > 1) {
                     return MoveActionResponse(move.id)
                 }
             }
@@ -556,13 +559,13 @@ class StrongBattleAI() : BattleAI {
             // Entry hazard setup and removal
             for (move in moveset.moves) {
                 // Setup
-                if (nOppRemainingMons >= 3 && move.id in entryHazards
+                if (move.pp > 0 && nOppRemainingMons >= 3 && move.id in entryHazards
                         && entryHazards.none { it in oppSideConditionList }) {
                     return MoveActionResponse(move.id)
                 }
 
                 // Removal
-                if (nRemainingMons >= 2 && move.id in antiHazardsMoves
+                if (move.pp > 0 && nRemainingMons >= 2 && move.id in antiHazardsMoves
                         && entryHazards.any { it in monSideConditionList }) {
                     return MoveActionResponse(move.id)
                 }
@@ -570,7 +573,7 @@ class StrongBattleAI() : BattleAI {
 
             // Court Change
             for (move in moveset.moves) {
-                if (move.id == "courtchange"
+                if (move.pp > 0 && move.id == "courtchange"
                         && (!entryHazards.none { it in monSideConditionList }
                                 || setOf("tailwind", "lightscreen", "reflect").any { it in oppSideConditionList })
                         && setOf("tailwind", "lightscreen", "reflect").none { it in monSideConditionList }
@@ -579,17 +582,19 @@ class StrongBattleAI() : BattleAI {
                 }
             }
 
+            // todo Check why the hell they still spam heal moves
             // Self recovery moves
             for (move in moveset.moves) {
-                if (move.id in selfRecoveryMoves && mon.currentHpPercent < recoveryMoveThreshold) {
+                if (move.id in selfRecoveryMoves && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < recoveryMoveThreshold && move.pp > 0) {
                     return MoveActionResponse(move.id)
                 }
             }
 
             // Strength Sap
             for (move in moveset.moves) {
-                if (move.id == "strengthsap" && mon.currentHpPercent < 0.5
-                        && getBaseStats(opponent.pokemon!!, "atk") > 80) {
+                if (move.id == "strengthsap" && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < 0.5
+                        && getBaseStats(opponent.pokemon!!, "atk") > 80
+                        && move.pp > 0) {
                     return MoveActionResponse(move.id)
                 }
             }
@@ -598,7 +603,7 @@ class StrongBattleAI() : BattleAI {
             // Weather setup moves
             for (move in moveset.moves) {
                 weatherSetupMoves[move.id]?.let { requiredWeather ->
-                    if (currentWeather != requiredWeather.lowercase() &&
+                    if (move.pp > 0 && currentWeather != requiredWeather.lowercase() &&
                             !(currentWeather == "PrimordialSea" && requiredWeather == "RainDance") &&
                             !(currentWeather == "DesolateLand" && requiredWeather == "SunnyDay")) {
                         return MoveActionResponse(move.id)
@@ -607,9 +612,9 @@ class StrongBattleAI() : BattleAI {
             }
 
             // Setup moves
-            if (mon.currentHpPercent == 1.0 && estimateMatchup(request, battle) > 0) {
+            if ((mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0 && estimateMatchup(request, battle) > 0) {
                 for (move in moveset.moves) {
-                    if (setupMoves.contains(move.id) && (getNonZeroStats(move.id).keys.minOfOrNull {// todo this can have a null exception with lvl 50 pidgeot with tailwind
+                    if (move.pp > 0 && setupMoves.contains(move.id) && (getNonZeroStats(move.id).keys.minOfOrNull {// todo this can have a null exception with lvl 50 pidgeot with tailwind
                                 mon.boosts[it] ?: 0
                             }!! < 6)) {  // todo something with a lvl 50 pikachu caused this to null exception
                         if (!move.id.equals("curse") || ElementalTypes.GHOST !in mon.pokemon!!.types) {
@@ -629,7 +634,7 @@ class StrongBattleAI() : BattleAI {
                 activeOpponent?.let {
                     // Make sure the opponent doesn't already have a status condition
                     //if ((it.volatiles.containsKey("curse") || it.status != null) && // todo I removed this because idk why you would need to know if it had curse
-                    if (it.status != null && opponent.currentHpPercent > 0.6 && mon.currentHpPercent > 0.5) { // todo make sure this is the right status to use. It might not be
+                    if (it.status != null && (opponent.currentHp.toDouble() / opponent.pokemon!!.hp.toDouble()) > 0.6 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) > 0.5) { // todo make sure this is the right status to use. It might not be
 
                         when (statusMoves.get(Moves.getByName(move.id))) {
                             "burn" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.FIRE) && getBaseStats(opponent.pokemon!!, "atk") > 80 &&
@@ -676,7 +681,7 @@ class StrongBattleAI() : BattleAI {
 
             // Accuracy lowering moves // todo seems to get stuck here. Try to check if it is an accuracy lowering move first before entering
             for (move in moveset.moves) {
-                if (1 == 2 && mon.currentHpPercent == 1.0 && estimateMatchup(request, battle) > 0 &&
+                if (move.pp > 0 && 1 == 2 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0 && estimateMatchup(request, battle) > 0 &&
                         (opponent.boosts[Stats.ACCURACY] ?: 0) > accuracySwitchThreshold) {
                     return MoveActionResponse(move.id)
                 }
@@ -685,7 +690,7 @@ class StrongBattleAI() : BattleAI {
             // Protect style moves
             for (move in moveset.moves) {
                 val activeOpponent = opponent.pokemon
-                if (move.id in listOf("protect", "banefulbunker", "obstruct", "craftyshield", "detect", "quickguard", "spikyshield", "silktrap")) {
+                if (move.pp > 0 && move.id in listOf("protect", "banefulbunker", "obstruct", "craftyshield", "detect", "quickguard", "spikyshield", "silktrap")) {
                     // Stall out side conditions
                     if ((oppSideConditionList.intersect(setOf("tailwind", "lightscreen", "reflect", "trickroom")).isNotEmpty() &&
                                     monSideConditionList.intersect(setOf("tailwind", "lightscreen", "reflect")).isEmpty()) ||
@@ -771,6 +776,21 @@ class StrongBattleAI() : BattleAI {
                     value = 0.0
                 }
 
+                if (move.id.equals("synchronoise")
+                        && !(mon.pokemon!!.types.any { it in opponent.pokemon!!.types })) {
+                    value = 0.0
+                }
+
+                // todo last resort: only does damage if all other moves have been used at least once (switchout resets this)
+
+                // todo focus punch
+
+                // todo if PP gets lowered to zero does it still try to use it?
+
+                // todo slack off
+
+                // todo stealth rock. Make list of all active hazards to get referenced
+
                 val opponentAbility = opponent.pokemon!!.ability
                 if ((opponentAbility.template.name.equals("lightningrod") && moveData.elementalType == ElementalTypes.ELECTRIC) ||
                         (opponentAbility.template.name.equals("flashfire") && moveData.elementalType == ElementalTypes.FIRE) ||
@@ -786,6 +806,9 @@ class StrongBattleAI() : BattleAI {
                 ) {
                     value = 0.0
                 }
+
+                if (move.pp == 0)
+                    value = 0.0
 
                 moveValues[move] = value
             }
@@ -825,7 +848,7 @@ class StrongBattleAI() : BattleAI {
 
         // healing wish (dealing with it here because you'd only use it if you should switch out anyway)
         for (move in moveset.moves) {
-            if (move.id.equals("healingwish") && mon.currentHpPercent < selfKoMoveMatchupThreshold) {
+            if (move.id.equals("healingwish") && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < selfKoMoveMatchupThreshold) {
                 return MoveActionResponse(move.id)
             }
         }
@@ -967,17 +990,17 @@ class StrongBattleAI() : BattleAI {
             val opponent = activeTracker.p2Active
 
             // if active mon is the last full HP mon
-            if (request.side?.pokemon?.count { getHpFraction(it.condition) == 1.0 } == 1 && mon.currentHp == 1) {
+            if (request.side?.pokemon?.count { getHpFraction(it.condition) == 1.0 } == 1 /*&& mon.currentHp == 1*/) {
                 return true
             }
 
             // Matchup advantage and full hp on full hp
-            if (estimateMatchup(request, battle) > 0 && mon.currentHpPercent == 1.0 && opponent.currentHpPercent == 1.0) {
+            if (estimateMatchup(request, battle) > 0 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0 && (opponent.currentHp.toDouble() / opponent.pokemon!!.hp.toDouble()) == 1.0) {
                 return true
             }
 
             // last pokemon
-            if (request.side?.pokemon?.count { getHpFraction(it.condition) != 0.0 } == 1 && mon.currentHpPercent == 1.0) {
+            if (request.side?.pokemon?.count { getHpFraction(it.condition) != 0.0 } == 1 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0) {
                 return true
             }
         }
@@ -1012,7 +1035,7 @@ class StrongBattleAI() : BattleAI {
         }
 
         // if slower speed stat than the opposing pokemon and HP is less than 20% don't switch out
-        if (npcActivePokemon.currentHpPercent < .20 && (npcActivePokemon.pokemon!!.species.baseStats[Stats.SPEED]!! < playerActivePokemon.pokemon!!.species.baseStats[Stats.SPEED]!!)) {
+        if ((npcActivePokemon.currentHp.toDouble() / npcActivePokemon.pokemon!!.hp.toDouble()) < .20 && (npcActivePokemon.pokemon!!.species.baseStats[Stats.SPEED]!! < playerActivePokemon.pokemon!!.species.baseStats[Stats.SPEED]!!)) {
             return false
         }
 
@@ -1269,7 +1292,7 @@ class StrongBattleAI() : BattleAI {
         p1.pokemon = pokemon1
         p1.species = pokemon1!!.species.name
         p1.currentHp = pokemon1.currentHealth
-        p1.currentHpPercent = (pokemon1.currentHealth / pokemon1.hp).toDouble()
+        p1.currentHpPercent = (pokemon1.currentHealth.toDouble() / pokemon1.hp.toDouble()) // todo this is not syncing. Possibly needs syncActivePokemon called later
         p1.boosts = p1BoostsMap
         //mon.stats = pokemon.stats
         p1.moves = pokemon1.moveSet.getMoves()
@@ -1284,7 +1307,7 @@ class StrongBattleAI() : BattleAI {
         p2.pokemon = pokemon2
         p2.species = pokemon2!!.species.name
         p2.currentHp = pokemon2.currentHealth
-        p2.currentHpPercent = (pokemon2.currentHealth / pokemon2.hp).toDouble()
+        p2.currentHpPercent = (pokemon2.currentHealth.toDouble() / pokemon2.hp.toDouble()) // todo this is not syncing. Possibly needs syncActivePokemon called later
         p2.boosts = p2BoostsMap
         //mon.stats = pokemon.stats
         p2.moves = pokemon2.moveSet.getMoves()

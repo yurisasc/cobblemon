@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.command
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.util.permission
@@ -24,57 +23,115 @@ import net.minecraft.server.command.ServerCommandSource
 
 object RandomBattleCommand {
 
+    // todo add param before number or type for AI subtypes
+
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(
                 literal("randombattle")
                         .permission(CobblemonPermissions.RANDOM_BATTLE)
                         .then(
                                 argument("player", EntityArgumentType.player())
-                                        .executes { execute(it, 50, "random") } // Defaults when neither integer nor string is provided
                                         .then(
-                                                argument("number", IntegerArgumentType.integer())
-                                                        .executes { execute(it, "random") } // Default string when only number is provided
+                                                argument("aiType", StringArgumentType.string())
+                                                        .then(
+                                                                argument("number", IntegerArgumentType.integer())
+                                                                        .executes { executeNumber(it, 50, "random") } // If only number is provided after aiType
+                                                                        .then(
+                                                                                argument("type", StringArgumentType.string())
+                                                                                        .executes { executeWithNumberType(it) } // If number and type are provided after aiType
+                                                                        )
+                                                        )
                                                         .then(
                                                                 argument("type", StringArgumentType.string())
-                                                                        .executes { execute(it) }
+                                                                        .executes { executeType(it, "random", 50) } // If only type is provided after aiType
+                                                                        .then(
+                                                                                argument("number", IntegerArgumentType.integer())
+                                                                                        .executes { executeWithTypeNumber(it) } // If type and number are provided after aiType
+                                                                        )
                                                         )
+                                                        .executes { executeAITypeDefault(it, 50, "random") } // Default if neither number nor type is provided after aiType
                                         )
+                                        .executes { executeDefault(it, "random", 50, "random") } // Default if aiType is not provided
                         )
         )
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>): Int {
+    // NUMBER and TYPE
+    private fun executeWithNumberType(context: CommandContext<ServerCommandSource>): Int {
         val player = EntityArgumentType.getPlayer(context, "player")
+        val aiType = StringArgumentType.getString(context,"aiType").lowercase()
         val number = IntegerArgumentType.getInteger(context, "number")
         val type = StringArgumentType.getString(context, "type")
 
         // Your command logic here using 'player', 'number', and 'stringArg'
-        BattleBuilder.pvc(player,"strong", number, type, true)
+        BattleBuilder.pvc(player, aiType, number, type, true)
         return SINGLE_SUCCESS
     }
 
-    // if no type is given to the command after the integer for level
-    private fun execute(context: CommandContext<ServerCommandSource>, defaultString: String): Int {
+    // TYPE and NUMBER
+    private fun executeWithTypeNumber(context: CommandContext<ServerCommandSource>): Int {
         val player = EntityArgumentType.getPlayer(context, "player")
+        val aiType = StringArgumentType.getString(context,"aiType").lowercase()
+        val number = IntegerArgumentType.getInteger(context, "number")
+        val type = StringArgumentType.getString(context, "type")
+
+        // Your command logic here using 'player', 'number', and 'stringArg'
+        BattleBuilder.pvc(player,aiType, number, type, true)
+        return SINGLE_SUCCESS
+    }
+
+    // if no type is given to the command after the integer for level NUMBER
+    private fun executeNumber(context: CommandContext<ServerCommandSource>, defaultNumber: Int, defaultString: String): Int {
+        val player = EntityArgumentType.getPlayer(context, "player")
+        val aiType = StringArgumentType.getString(context,"aiType").lowercase()
         val number = IntegerArgumentType.getInteger(context, "number")
 
         // Use default string
         val type = defaultString
 
         // Your command logic here using 'player', 'number', and 'stringArg'
-        BattleBuilder.pvc(player,"strong", number, type, true)
+        BattleBuilder.pvc(player, aiType, number, type, true)
 
         return SINGLE_SUCCESS
     }
 
-    // if no additional arguments are provided after player
-    private fun execute(context: CommandContext<ServerCommandSource>, defaultNumber: Int, defaultString: String): Int {
+    // if no type is given to the command after the integer for level NUMBER
+    private fun executeType(context: CommandContext<ServerCommandSource>, defaultString: String, defaultNumber: Int): Int {
         val player = EntityArgumentType.getPlayer(context, "player")
+        val aiType = StringArgumentType.getString(context,"aiType").lowercase()
+        val type = StringArgumentType.getString(context, "type")
+
+        // Use default string
+        val number = defaultNumber
+
+        // Your command logic here using 'player', 'number', and 'stringArg'
+        BattleBuilder.pvc(player, aiType, number, type, true)
+
+        return SINGLE_SUCCESS
+    }
+
+    // if no additional arguments are provided after player DEFAULT
+    private fun executeDefault(context: CommandContext<ServerCommandSource>, defaultAIType: String, defaultNumber: Int, defaultString: String): Int {
+        val player = EntityArgumentType.getPlayer(context, "player")
+        val aiType = defaultAIType
         val number = defaultNumber
         val type = defaultString
 
         // Your command logic here using 'player', 'number', and 'stringArg'
-        BattleBuilder.pvc(player,"strong", number, type, true)
+        BattleBuilder.pvc(player, aiType, number, type, true)
+
+        return SINGLE_SUCCESS
+    }
+
+    // DEFAULT WITH AI Type
+    private fun executeAITypeDefault(context: CommandContext<ServerCommandSource>, defaultNumber: Int, defaultString: String): Int {
+        val player = EntityArgumentType.getPlayer(context, "player")
+        val aiType = StringArgumentType.getString(context,"aiType").lowercase()
+        val number = defaultNumber
+        val type = defaultString
+
+        // Your command logic here using 'player', 'number', and 'stringArg'
+        BattleBuilder.pvc(player, aiType, number, type, true)
 
         return SINGLE_SUCCESS
     }

@@ -9,9 +9,19 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.abilities.Abilities
+import com.cobblemon.mod.common.api.abilities.Ability
+import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
+import com.cobblemon.mod.common.api.pokemon.Natures
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
@@ -27,6 +37,7 @@ import com.cobblemon.mod.common.util.getBattleTheme
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
 import net.minecraft.entity.Entity
+import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
@@ -177,27 +188,155 @@ object BattleBuilder {
                         npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
                     }
                 }
+                "Cynthia" -> {
+                    // Spiritomb
+                    var npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("spiritomb")!!
+                    npcPokemon.nature = Natures.getNature("jolly")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.SPECIAL_ATTACK,252)
+                    npcPokemon.setEV(Stats.SPEED,6)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.SITRUS_BERRY), false) //sitrus berry
+                    npcPokemon.ability = Abilities.get("pressure")!!.create()
+                    npcPokemon.setMoveset(listOf("darkpulse", "shadowball", "willowisp", "suckerpunch"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    //PokemonProperties.parse() // todo try to use this for smaller code later
+
+                    // Porygon-Z
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("porygonz")!!
+                    npcPokemon.nature = Natures.getNature("timid")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,6)
+                    npcPokemon.setEV(Stats.SPECIAL_ATTACK,252)
+                    npcPokemon.setEV(Stats.SPEED,252)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false)  //expert belt
+                    npcPokemon.ability = Abilities.get("adaptability")!!.create()
+                    npcPokemon.setMoveset(listOf("hyperbeam", "shadowball", "icebeam", "thunderbolt"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Togekiss
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("togekiss")!!
+                    npcPokemon.nature = Natures.getNature("timid")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,6)
+                    npcPokemon.setEV(Stats.SPECIAL_ATTACK,252)
+                    npcPokemon.setEV(Stats.SPEED,252)
+                    npcPokemon.level = battleLevel
+                    //npcPokemon.item  leftovers
+                    npcPokemon.ability = Abilities.get("serenegrace")!!.create()
+                    npcPokemon.setMoveset(listOf("airslash", "dazzlinggleam", "aurasphere", "thunderwave"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Lucario
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("lucario")!!
+                    npcPokemon.nature = Natures.getNature("jolly")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,6)
+                    npcPokemon.setEV(Stats.ATTACK,252)
+                    npcPokemon.setEV(Stats.SPEED,252)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false)  //focus sash
+                    npcPokemon.ability = Abilities.get("innerfocus")!!.create()
+                    npcPokemon.setMoveset(listOf("closecombat", "meteormash", "earthquake", "extremespeed"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Milotic
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("milotic")!!
+                    npcPokemon.nature = Natures.getNature("bold")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.DEFENCE,252)
+                    npcPokemon.setEV(Stats.SPECIAL_ATTACK,6)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.FLAME_ORB), false) //  focus sash
+                    npcPokemon.ability = Abilities.get("marvelscale")!!.create()
+                    npcPokemon.setMoveset(listOf("recover", "mirrorcoat", "icebeam", "scald"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Garchomp
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("garchomp")!!
+                    npcPokemon.nature = Natures.getNature("jolly")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,6)
+                    npcPokemon.setEV(Stats.ATTACK,252)
+                    npcPokemon.setEV(Stats.SPEED,252)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.YACHE_BERRY), false)  //focus sash
+                    npcPokemon.ability = Abilities.get("roughskin")!!.create()
+                    npcPokemon.setMoveset(listOf("dragonclaw", "earthquake", "swordsdance", "poisonjab"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+                }
                 else -> {
-                    val typing = when (teamTyping.uppercase()) {
-                        "FIRE" -> ElementalTypes.FIRE
-                        "WATER" -> ElementalTypes.WATER
-                        "ELECTRIC" -> ElementalTypes.ELECTRIC
-                        "GRASS" -> ElementalTypes.GRASS
-                        "GROUND" -> ElementalTypes.GROUND
-                        "ROCK" -> ElementalTypes.ROCK
-                        "PSYCHIC" -> ElementalTypes.PSYCHIC
-                        "FLYING" -> ElementalTypes.FLYING
-                        "FIGHTING" -> ElementalTypes.FIGHTING
-                        "DARK" -> ElementalTypes.DARK
-                        "BUG" -> ElementalTypes.BUG
-                        "ICE" -> ElementalTypes.ICE
-                        "GHOST" -> ElementalTypes.GHOST
-                        "NORMAL" -> ElementalTypes.NORMAL
-                        "STEEL" -> ElementalTypes.STEEL
-                        "POISON" -> ElementalTypes.POISON
-                        "FAIRY" -> ElementalTypes.FAIRY
-                        else -> ElementalTypes.DRAGON
-                    }
+                    val typing = ElementalTypes.get(teamTyping.lowercase())
 
                     repeat(6) {
                         // todo generate random party of 6 BattlePokemon
@@ -205,7 +344,7 @@ object BattleBuilder {
 
                         npcPokemon.uuid = UUID.randomUUID()
                         npcPokemon.level = battleLevel
-                        npcPokemon.initialize(typing) // This will generate everything else about the pokemon
+                        npcPokemon.initialize(typing!!) // This will generate everything else about the pokemon
 
                         npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
                     }
@@ -216,9 +355,11 @@ object BattleBuilder {
 
 
         val npcUUID = UUID.randomUUID()
-        // create NPC to battle with
-        val npcActor = TrainerBattleActor("Master of Crabs", npcUUID, npcParty.toList(), battleAIType)
 
+        val npcActor = when (teamTyping.lowercase()) {
+            "cynthia" -> TrainerBattleActor("Cynthia", npcUUID, npcParty.toList(), battleAIType)
+            else -> TrainerBattleActor("Master of Crabs", npcUUID, npcParty.toList(), battleAIType)
+        }
 
         //val wildActor = PokemonBattleActor(pokemonEntity.pokemon.uuid, BattlePokemon(pokemonEntity.pokemon), fleeDistance)
         val errors = ErroredBattleStart()
@@ -241,21 +382,18 @@ object BattleBuilder {
         }*/
 
         return if (errors.isEmpty) {
-            CobblemonEvents.BATTLE_STARTED_PRE.postThen(
-                    BattleStartedPreEvent(listOf(playerActor, npcActor), battleFormat, false, false, true))
-            {
-                val battle = BattleRegistry.startBattle(
-                        battleFormat = battleFormat,
-                        side1 = BattleSide(playerActor),
-                        side2 = BattleSide(npcActor)
-                )
+            BattleRegistry.startBattle(
+                    battleFormat = battleFormat,
+                    side1 = BattleSide(playerActor),
+                    side2 = BattleSide(npcActor)
+            ).ifSuccessful {
                 if (!cloneParties) {
-                    // todo I don't think this is needed?
-                    //pokemonEntity.battleId.set(Optional.of(battle.battleId))
+                    // todo I don't think I need this
+                    //pokemonEntity.battleId.set(Optional.of(it.battleId))
                 }
-                return SuccessfulBattleStart(battle)
+                // todo set the NPC trainer battle music
+                //playerActor.battleTheme = pokemonEntity.getBattleTheme()
             }
-            errors
         } else {
             errors
         }
