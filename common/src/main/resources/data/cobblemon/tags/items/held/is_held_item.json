@@ -15,7 +15,6 @@
     "cobblemon:dragon_fang",
     "cobblemon:fairy_feather",
     "cobblemon:focus_band",
-    "cobblemon:fairy_feather",
     "cobblemon:hard_stone",
     "cobblemon:heavy_duty_boots",
     "cobblemon:leftovers",
@@ -49,6 +48,12 @@
     "cobblemon:power_belt",
     "cobblemon:power_bracer",
     "cobblemon:power_lens",
-    "cobblemon:power_weight"
+    "cobblemon:power_weight",
+    "cobblemon:mental_herb",
+    "cobblemon:mirror_herb",
+    "cobblemon:power_herb",
+    "cobblemon:life_orb",
+    "cobblemon:toxic_orb",
+    "cobblemon:flame_orb"
   ]
 }
