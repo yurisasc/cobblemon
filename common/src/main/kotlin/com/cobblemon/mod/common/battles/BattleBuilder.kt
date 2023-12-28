@@ -175,7 +175,7 @@ object BattleBuilder {
         val playerActor = PlayerBattleActor(player.uuid, playerTeam)
 
         if (npcParty.isEmpty()) {
-            when (teamTyping) {
+            when (teamTyping.lowercase()) {
                 "random" -> {
                     repeat(6) {
                         // todo generate random party of 6 BattlePokemon
@@ -188,7 +188,7 @@ object BattleBuilder {
                         npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
                     }
                 }
-                "Cynthia" -> {
+                "cynthia" -> {
                     // Spiritomb
                     var npcPokemon = Pokemon()
                     npcPokemon.uuid = UUID.randomUUID()
