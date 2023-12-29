@@ -361,7 +361,6 @@ object BattleBuilder {
             else -> TrainerBattleActor("Master of Crabs", npcUUID, npcParty.toList(), battleAIType)
         }
 
-        //val wildActor = PokemonBattleActor(pokemonEntity.pokemon.uuid, BattlePokemon(pokemonEntity.pokemon), fleeDistance)
         val errors = ErroredBattleStart()
 
         // todo maybe use this error to check for no pokemon in NPC trainer's team
@@ -377,9 +376,10 @@ object BattleBuilder {
             errors.participantErrors[playerActor] += BattleStartError.alreadyInBattle(playerActor)
         }
 
-        /*if (pokemonEntity.battleId.get().isPresent) {
-            errors.participantErrors[npcActor] += BattleStartError.alreadyInBattle(npcActor)
-        }*/
+        // make sure the pokemon on the AI team are all healed
+        npcActor.pokemonList.forEach {
+            it.effectedPokemon.heal()
+        }
 
         return if (errors.isEmpty) {
             BattleRegistry.startBattle(

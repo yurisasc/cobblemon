@@ -1039,6 +1039,10 @@ class StrongBattleAI() : BattleAI {
             return false
         }
 
+        // if the npc pokemon was given Truant then switch it out if it is not it's base ability
+        if (!npcActivePokemon.pokemon!!.species.abilities.any { it.template == Abilities.get("truant") } /*.contains(Abilities.get("truant")) */&& request.side?.pokemon!!.first().ability == "truant")
+            return true
+
 // maybe use pokemon.species to compare to active pokemon
         // todo add more reasons to switch out
         // If there is a decent switch in and not trapped...
