@@ -1029,6 +1029,7 @@ class StrongBattleAI() : BattleAI {
         //val playerAvailableSwitches =
         val availableSwitches = p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
 
+        val currentNPCAbility = request.side?.pokemon!!.first().ability
 
         val isTrapped = request.active?.any { it ->
             it.trapped ?: false // todo is this the right trapped? Probably not
@@ -1040,7 +1041,7 @@ class StrongBattleAI() : BattleAI {
         }
 
         // if the npc pokemon was given Truant then switch it out if it is not it's base ability
-        if (!npcActivePokemon.pokemon!!.species.abilities.any { it.template == Abilities.get("truant") } /*.contains(Abilities.get("truant")) */&& request.side?.pokemon!!.first().ability == "truant")
+        if ((!npcActivePokemon.pokemon!!.species.abilities.any { it.template == Abilities.get("truant") } && (currentNPCAbility == "truant")) || (!npcActivePokemon.pokemon!!.species.abilities.any { it.template == Abilities.get("slowstart") } && currentNPCAbility == "slowstart"))
             return true
 
 // maybe use pokemon.species to compare to active pokemon
