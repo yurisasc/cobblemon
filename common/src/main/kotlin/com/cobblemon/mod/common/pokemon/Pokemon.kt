@@ -734,9 +734,9 @@ open class Pokemon : ShowdownIdentifiable {
         experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE).takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
         friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt().coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonFriendship)
         gender = Gender.valueOf(nbt.getString(DataKeys.POKEMON_GENDER).takeIf { it.isNotBlank() } ?: Gender.MALE.name)
-        currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
         evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
+        currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         moveSet.loadFromNBT(nbt)
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: NbtCompound()
@@ -856,10 +856,10 @@ open class Pokemon : ShowdownIdentifiable {
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
         friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt.coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonFriendship)
-        currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
         gender = Gender.valueOf(json.get(DataKeys.POKEMON_GENDER)?.asString ?: "male")
         ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
         evs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_EVS))
+        currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
         moveSet.loadFromJSON(json.get(DataKeys.POKEMON_MOVESET).asJsonObject)
         scaleModifier = json.get(DataKeys.POKEMON_SCALE_MODIFIER).asFloat
         val abilityJSON = json.get(DataKeys.POKEMON_ABILITY)?.asJsonObject ?: JsonObject()
