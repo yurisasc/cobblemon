@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -52,7 +51,7 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             transformedParts = arrayOf(
-                stick.asTransformed().withVisibility(visibility = false)
+                stick.createTransformation().withVisibility(visibility = false)
             ),
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
@@ -67,7 +66,7 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             transformedParts = arrayOf(
-                stick.asTransformed().withVisibility(visibility = false)
+                stick.createTransformation().withVisibility(visibility = false)
             ),
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
@@ -82,7 +81,7 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseTypes = STATIONARY_POSES,
             transformTicks = 10,
             transformedParts = arrayOf(
-                stick.asTransformed().withVisibility(visibility = true)
+                stick.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
             condition = { it.isBattling },

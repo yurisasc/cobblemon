@@ -9,8 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.util.adapters.LocatorBoneAdapter
-import com.cobblemon.mod.common.util.math.fromEulerXYZ
-import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import net.minecraft.client.model.Dilation
@@ -19,12 +17,7 @@ import net.minecraft.client.model.ModelPartBuilder
 import net.minecraft.client.model.ModelPartData
 import net.minecraft.client.model.ModelTransform
 import net.minecraft.client.model.TexturedModelData
-import net.minecraft.client.texture.SpriteAtlasHolder
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.Identifier
-import org.joml.Quaternionf
-import org.joml.Vector2i
-import org.joml.Vector3f
 
 class TexturedModel {
     @SerializedName("format_version")
