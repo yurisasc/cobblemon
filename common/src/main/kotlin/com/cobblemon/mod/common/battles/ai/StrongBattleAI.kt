@@ -471,6 +471,11 @@ class StrongBattleAI() : BattleAI {
         val npcSideScreenCondition = if (battle.side2.contextManager.get(BattleContext.Type.SCREEN).isNullOrEmpty()) null else battle.side2.contextManager.get(BattleContext.Type.SCREEN)?.iterator()?.next()?.id
         val npcSideHazardCondition = if (battle.side2.contextManager.get(BattleContext.Type.HAZARD).isNullOrEmpty()) null else battle.side2.contextManager.get(BattleContext.Type.HAZARD)?.iterator()?.next()?.id
 
+        // if a move must be used (like recharge) is in moves list then do that since you have to
+        for (move in moveset!!.moves)
+            if (move.mustBeUsed())
+                return MoveActionResponse(move.id)
+
         // todo update side conditions each turn
         //fun updateSideConditions =
 

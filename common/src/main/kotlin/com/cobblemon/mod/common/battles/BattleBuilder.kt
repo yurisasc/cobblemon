@@ -376,6 +376,7 @@ object BattleBuilder {
             errors.participantErrors[playerActor] += BattleStartError.alreadyInBattle(playerActor)
         }
 
+        // todo check if it is okay to remove this later
         // make sure the pokemon on the AI team are all healed
         npcActor.pokemonList.forEach {
             it.effectedPokemon.heal()
