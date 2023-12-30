@@ -303,9 +303,10 @@ class StrongBattleAI() : BattleAI {
             "snowscape" to "Snow",
             "sunnyday" to "SunnyDay"
     )
-    private val speedTierCoefficient = 0.1
+    private val speedTierCoefficient = 11.0 //todo set back to 6 to how it was
+    private var trickRoomCoefficient = 1.0
     private val hpFractionCoefficient = 0.4
-    private val switchOutMatchupThreshold = -4 // todo change this to get it feeling just right (-7 never switches)
+    private val switchOutMatchupThreshold = 0 // todo change this to get it feeling just right (-7 never switches)
     private val selfKoMoveMatchupThreshold = 0.3
     private val trickRoomThreshold = 85
     private val recoveryMoveThreshold = 0.45
@@ -453,12 +454,18 @@ class StrongBattleAI() : BattleAI {
         val currentTerrain = if (battle.contextManager.get(BattleContext.Type.TERRAIN).isNullOrEmpty()) null else battle.contextManager.get(BattleContext.Type.TERRAIN)?.iterator()?.next()?.id
         val currentRoom = if (battle.contextManager.get(BattleContext.Type.ROOM).isNullOrEmpty()) null else battle.contextManager.get(BattleContext.Type.ROOM)?.iterator()?.next()?.id
 
+        // change trickRoomCoefficient according to the current room
+        if (currentRoom == "trickroom") // todo ALSO consider how many turns of Trick Room are left. If last turn then do not switch out
+            trickRoomCoefficient = -1.0
+        else
+            trickRoomCoefficient = 1.0
+
         //val currentScreen = if (battle.contextManager.get(BattleContext.Type.SCREEN))
         val allMoves = moveset?.moves?.filterNot { it.pp == 0 || it.disabled }
 
         // Rough estimation of damage ratio
-        val physicalRatio = statEstimation(mon, Stats.ATTACK) / statEstimation(opponent, Stats.DEFENCE)
-        val specialRatio = statEstimation(mon, Stats.SPECIAL_ATTACK) / statEstimation(opponent, Stats.SPECIAL_DEFENCE)
+        val physicalRatio = statEstimationActive(mon, Stats.ATTACK) / statEstimationActive(opponent, Stats.DEFENCE)
+        val specialRatio = statEstimationActive(mon, Stats.SPECIAL_ATTACK) / statEstimationActive(opponent, Stats.SPECIAL_DEFENCE)
 
         // List of all side conditions on each player's side
         val monSideConditionList = mon.sideConditions.keys
@@ -526,14 +533,17 @@ class StrongBattleAI() : BattleAI {
 
             // Deal with non-weather related field changing effects
             for (move in moveset.moves.filter { !it.disabled }) {
+                val availableSwitches = p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
+                
                 // Tailwind
                 if (move.pp > 0 && move.id == "tailwind" && move.id != npcSideTailwindCondition && p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }.size > 2) {
                     return MoveActionResponse(move.id)
                 }
 
+                // todo why the FUCK doesn't this count correctly
                 // Trick room
                 if (move.pp > 0 && move.id == "trickroom" && move.id != currentRoom
-                        && request.side?.pokemon?.count { statEstimation(mon, Stats.SPEED) <= trickRoomThreshold }!! >= 3) {
+                        && availableSwitches.count { statEstimation(it.effectedPokemon, Stats.SPEED) <= trickRoomThreshold } >= 2) {
                     return MoveActionResponse(move.id)
                 }
 
@@ -617,18 +627,19 @@ class StrongBattleAI() : BattleAI {
                 }
             }
 
-            // Setup moves
+            // todo GET THIS WORKING AS IT PROBABLY SHOULDN'T BE COMMENTED OUT
+            /*// Setup moves
             if ((mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0 && estimateMatchup(request, battle) > 0) {
                 for (move in moveset.moves.filter { !it.disabled }) {
-                    if (move.pp > 0 && setupMoves.contains(move.id) && (getNonZeroStats(move.id).keys.minOfOrNull {// todo this can have a null exception with lvl 50 pidgeot with tailwind
+                    if (move.pp > 0 && setupMoves.contains(move.id) && (getNonZeroStats(move.id).keys.minOf {// todo this can have a null exception with lvl 50 pidgeot with tailwind
                                 mon.boosts[it] ?: 0
-                            }!! < 6)) {  // todo something with a lvl 50 pikachu caused this to null exception
+                            } < 6)) {  // todo something with a lvl 50 pikachu caused this to null exception
                         if (!move.id.equals("curse") || ElementalTypes.GHOST !in mon.pokemon!!.types) {
                             return MoveActionResponse(move.id)
                         }
                     }
                 }
-            }
+            }*/
             fun hasMajorStatusImmunity(target: ActiveTracker.TrackerPokemon) : Boolean {
                 // TODO: Need to check for Safeguard and Misty Terrain
                 return listOf("comatose", "purifyingsalt").contains(opponent.pokemon!!.ability.name) &&
@@ -916,9 +927,9 @@ class StrongBattleAI() : BattleAI {
         // todo consider base stat ratios for switchouts
 
         if (getBaseStats(nonActiveMon, "spe") > getBaseStats(playerPokemon, "spe")) {
-            score += speedTierCoefficient
+            score += speedTierCoefficient * trickRoomCoefficient
         } else if (getBaseStats(playerPokemon, "spe") > getBaseStats(nonActiveMon, "spe")) {
-            score -= speedTierCoefficient
+            score -= speedTierCoefficient * trickRoomCoefficient
         }
 
         // todo possibly flip these p1 and p2 around as well since p1 is player I think
@@ -942,16 +953,21 @@ class StrongBattleAI() : BattleAI {
         var npcPokemon = battlePokemon.second
         nonActiveMon?.let { npcPokemon = it }
 
+        // todo get count of moves on player side that are PHYSICAL
+        // todo get count of moves on player side that are SPECIAL
+        // todo Determine if it is a special or physical attacker
+        // todo Determine value of matchup based on that attack type against the Defensive stats of the pokemon
+
         var score = 1.0
-        score += bestDamageMultiplier(npcPokemon, playerPokemon) * (1 + typeMatchup(npcPokemon, playerPokemon)) // npcPokemon attacking playerPokemon
-        score -= bestDamageMultiplier(playerPokemon, npcPokemon) * (1 + typeMatchup(playerPokemon, npcPokemon)) // playerPokemon attacking npcPokemon
+        score += bestDamageMultiplier(npcPokemon, playerPokemon) * (1.0 + typeMatchup(npcPokemon, playerPokemon)) // npcPokemon attacking playerPokemon
+        score -= bestDamageMultiplier(playerPokemon, npcPokemon) * (1.0 + typeMatchup(playerPokemon, npcPokemon)) // playerPokemon attacking npcPokemon
 
         //score *= typeMatchup(nonActiveMon, playerPokemon)
 
         if (getBaseStats(npcPokemon, "spe") > getBaseStats(playerPokemon, "spe")) {
-            score += speedTierCoefficient
+            score += speedTierCoefficient * trickRoomCoefficient
         } else if (getBaseStats(playerPokemon, "spe") > getBaseStats(npcPokemon, "spe")) {
-            score -= speedTierCoefficient
+            score -= speedTierCoefficient * trickRoomCoefficient
         }
 
         if (request.side?.id == "p1") {
@@ -1058,6 +1074,7 @@ class StrongBattleAI() : BattleAI {
         if (availableSwitches != null) {
             //if (availableSwitches.any { estimateMatchup(request) > 0 } && !request.side?.pokemon.trapped) {
             if (availableSwitches.any { estimateMatchup(request, battle, it.effectedPokemon) > 0 } && !isTrapped!!) {
+            //if (availableSwitches.any { estimateMatchup(request, battle, it.effectedPokemon) > 0 } && !isTrapped!!) {
                 // ...and a 'good' reason to switch out
                 if ((playerActivePokemon.boosts[Stats.ACCURACY] ?: 0) <= accuracySwitchThreshold) {
                     return true
@@ -1081,7 +1098,7 @@ class StrongBattleAI() : BattleAI {
         return false
     }
 
-    fun statEstimation(mon: ActiveTracker.TrackerPokemon, stat: Stat): Double {
+    fun statEstimationActive(mon: ActiveTracker.TrackerPokemon, stat: Stat): Double {
         val boost = mon.boosts[stat] ?: 0
 
         val actualBoost = if (boost > 1) {
@@ -1092,6 +1109,12 @@ class StrongBattleAI() : BattleAI {
 
         val baseStat = getBaseStats(mon.pokemon!!, stat.showdownId) ?: 0
         return ((2 * baseStat + 31) + 5) * actualBoost
+    }
+
+    fun statEstimation(mon: Pokemon, stat: Stat): Double {
+        //val baseStat = getBaseStats(mon, stat.showdownId) ?: 0
+        //val speedStat = ((2.0 * baseStat + 31.0) + 5.0)
+        return getBaseStats(mon, stat.showdownId).toDouble() ?: 0.0
     }
 
     // gets the slot number of the passed-in move
