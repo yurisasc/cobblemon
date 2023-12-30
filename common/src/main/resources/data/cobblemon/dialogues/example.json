@@ -1,0 +1,198 @@
+{
+  "escapeAction": "q.dialogue.set_page('quitter')",
+  "pages": [
+    {
+      "id": "intro",
+      "name": "The Voice of Hiro",
+      "lines": [
+        "Welcome to the world of dialogues!",
+        "Do you want to continue?"
+      ],
+      "input": {
+        "type": "option",
+        "vertical": false,
+        "options": [
+          {
+            "text": "Yes",
+            "value": "yes",
+            "action": "q.dialogue.set_page('page1')"
+          },
+          {
+            "text": "No",
+            "value": "no",
+            "action": "q.dialogue.set_page('quitter')"
+          },
+          {
+            "text": "Sword!",
+            "value": "sword",
+            "isVisible": "q.player.main_held_item.is_of('minecraft:iron_sword')",
+            "isSelectable": "q.player.data.scared_npc != true;",
+            "action": "q.dialogue.set_page('sword')"
+          },
+          {
+            "text": "Sword again!",
+            "value": "sword2",
+            "isVisible": "q.player.main_held_item.is_of('minecraft:iron_sword')",
+            "isSelectable": "q.player.data.scared_npc == true;",
+            "action": "q.dialogue.set_page('sword-again')"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page1",
+      "name": "The Voice of Hiro",
+      "lines": [
+        "Well you see, this is a dialogue.",
+        "You can have multiple pages, and each page can have multiple lines."
+      ]
+    },
+    {
+      "id": "page2",
+      "name": "The Voice of Hiro",
+      "lines": [
+        "On an unrelated note, did you know that I'm deeply afraid of iron swords? Anyway, cya!"
+      ],
+      "input": {
+        "type": "auto-continue",
+        "delay": 5,
+        "allowSkip": true,
+        "action": "q.dialogue.close();"
+      }
+    },
+    {
+      "id": "quitter",
+      "name": "The Voice of Hiro",
+      "lines": ["Fine. Be that way."],
+      "input": "q.dialogue.close();",
+      "escapeAction": "q.dialogue.close();"
+    },
+    {
+      "id": "sword",
+      "name": "The Voice of Hiro",
+      "lines": ["Oh god no, please don't hurt me!"],
+      "escapeAction": "q.dialogue.input('');",
+      "input": [
+        "t.data = q.player.data();",
+        "t.data.scared_npc = true;",
+        "q.player.save_data();",
+        "q.dialogue.close();"
+      ]
+    },
+    {
+      "id": "sword-again",
+      "name": "The Voice of Hiro",
+      "lines": ["I'm ready for you this time. Time to die!"],
+      "escapeAction": "0",
+      "input": {
+        "type": "option",
+        "vertical": true,
+        "timeout": {
+          "delay": 6,
+          "action": "q.dialogue.input('stand');"
+        },
+        "options": [
+          {
+            "text": "Parry his attack.",
+            "value": "parry",
+            "action": [
+              "v.reaction = 'parry';",
+              "q.dialogue.set_page('sword-again-decided');"
+            ]
+          },
+          {
+            "text": "Stand perfectly still.",
+            "value": "stand",
+            "action": [
+              "v.reaction = 'stand still';",
+              "q.dialogue.set_page('sword-again-decided');"
+            ]
+          },
+          {
+            "text": "Drop your sword.",
+            "value": "drop",
+            "action": [
+              "v.reaction = 'drop your sword';",
+              "q.dialogue.set_page('sword-again-decided');"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "sword-again-decided",
+      "lines": [
+        {
+          "type": "expression",
+          "expression": "v.reaction == 'parry' ? 'You parry his attack and kill him.' : (v.reaction == 'stand still' ? 'He kills you.' : 'You drop your sword and he kills you.')"
+        }
+      ],
+      "input": {
+        "type": "auto-continue",
+        "delay": 3,
+        "allowSkip": false,
+        "showTimer": false,
+        "action": "q.dialogue.set_page('sword-again-reaction');"
+      }
+    },
+    {
+      "id": "sword-again-reaction",
+      "name": "The Voice of Hiro",
+      "lines": [
+        {
+          "type": "expression",
+          "expression": "'Nah, I\\'m just kidding. Interesting that you chose to ' + v.reaction + ' though.'"
+        }
+      ]
+    },
+    {
+      "id": "name-question",
+      "name": "The Voice of Hiro",
+      "lines": [ "Here's a puzzle though... What is my name? Lowercase only."],
+      "input": {
+        "type": "text",
+        "timeout": {
+          "delay": 10,
+          "action": "q.dialogue.set_page('too-slow');"
+        },
+        "action": [
+          "q.dialogue.set_page('name-guess');",
+          "t.data = q.player.data();",
+          "t.data.name = v.selected_option;"
+        ]
+      }
+    },
+    {
+      "id": "name-guess",
+      "name": "The Voice of Hiro",
+      "lines": [
+        {
+          "type": "expression",
+          "expression": "v.selected_option == 'hiroku' ? 'Correct! You know things that you shouldn\\'t...' : ('Wrong! I\\'m not \"' + v.selected_option + '\". Whoever that is.')"
+        }
+      ],
+      "input": {
+        "type": "auto-continue",
+        "delay": 5,
+        "allowSkip": true,
+        "action": "q.dialogue.set_page('farewell');"
+      }
+    },
+    {
+      "id": "farewell",
+      "name": "The Voice of Hiro",
+      "lines": [
+        "Anyway, I'm done with this dialogue. Bye!"
+      ],
+      "input": "q.dialogue.close();"
+    },
+    {
+      "id": "too-slow",
+      "name": "The Voice of Hiro",
+      "lines": [
+          "Don't know? Sad. Well I don't know your name either, so I guess we're even."
+      ],
+      "input": "q.dialogue.close()"
+    }
+  ]
+}
