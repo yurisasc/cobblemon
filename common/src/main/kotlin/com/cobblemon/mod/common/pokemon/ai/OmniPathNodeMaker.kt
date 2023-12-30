@@ -253,6 +253,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
             PathNodeType.FENCE
         } else if (PathNodeType.UNPASSABLE_RAIL in set) {
             PathNodeType.UNPASSABLE_RAIL
+        } else if (PathNodeType.DAMAGE_OTHER in set) {
+            PathNodeType.DAMAGE_OTHER
         } else {
             var pathNodeType2: PathNodeType? = PathNodeType.BLOCKED
             val nearbyTypeIterator = set.iterator()

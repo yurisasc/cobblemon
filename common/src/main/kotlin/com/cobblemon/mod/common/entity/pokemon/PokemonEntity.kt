@@ -158,6 +158,7 @@ class PokemonEntity(
         set(value) {
             field = value
             delegate.changePokemon(value)
+            stepHeight = behaviour.moving.stepHeight
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
             this.updateEyeHeight()
         }
@@ -368,7 +369,7 @@ class PokemonEntity(
             owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
             dataTracker.set(PHASING_TARGET_ID, owner.id)
             dataTracker.set(BEAM_MODE, 2)
-            val state = pokemon.state;
+            val state = pokemon.state
             after(seconds = SEND_OUT_DURATION) {
                 // only recall if the pokemon hasn't been recalled yet for this state
                 if (state == pokemon.state) {

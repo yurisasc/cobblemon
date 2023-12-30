@@ -7,6 +7,7 @@
 - Lileep, Cradily, Tirtouga, Carracosta, Arctovish, Dracovish, Arctozolt, Dracozolt, Shieldon, Bastiodon
 
 ### Changes
+- Pokémon now transition more smoothly between different poses.
 - Updated models for Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
 
 ### Fixes
@@ -14,9 +15,12 @@
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
+- Rebuilt the scheduling API to more clearly force side choices and allow more local temporal frames of reference for tasks.
 
 ### Datapack & Resourcepack Creators
 - Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
+- Fixed an issue with transformed parts in posers causing whacky positional issues.
+- Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
@@ -119,6 +123,7 @@
 ### Developer
 - Fixed the `SpawnEvent` not respecting usage of `Cancelable#cancel`.
 - Added the `EvolutionTestedEvent`, this allows listening and overriding the final result of evolution requirement tests.
+- Rebuilt the scheduling API to more clearly force side choices and allow more local temporal frames of reference for tasks. 
 - Added utility script that can be used to generate all Spawn JSONS for all pokemon from the spawning spreadsheet in 1 click ([cobblemon_spawn_csv_to_json.py](utilityscripts%2Fcobblemon_spawn_csv_to_json.py)).
 - The `HeldItemManager` has a new method `shouldConsumeItem`, this will return false by default to prevent breaking changes, see the documentation and update your implementations as needed.
 - Added and implemented minSkyLight and maxSkyLight as config options for SpawnConditions
