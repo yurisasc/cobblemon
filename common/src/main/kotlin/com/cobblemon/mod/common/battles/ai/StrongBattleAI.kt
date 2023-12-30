@@ -305,11 +305,12 @@ class StrongBattleAI() : BattleAI {
     )
     private val speedTierCoefficient = 0.1
     private val hpFractionCoefficient = 0.4
-    private val switchOutMatchupThreshold = -6 // todo change this to get it feeling just right (-7 never switches)
+    private val switchOutMatchupThreshold = -4 // todo change this to get it feeling just right (-7 never switches)
     private val selfKoMoveMatchupThreshold = 0.3
     private val trickRoomThreshold = 85
-    private val recoveryMoveThreshold = 0.3
+    private val recoveryMoveThreshold = 0.45
     private val accuracySwitchThreshold = -3
+    private val hpSwitchOutThreshold = .3 // percent of HP needed to be considered for switchout
 
     // create the active pokemon tracker here
     private val activeTracker = ActiveTracker()
@@ -524,7 +525,7 @@ class StrongBattleAI() : BattleAI {
             }
 
             // Deal with non-weather related field changing effects
-            for (move in moveset.moves) {
+            for (move in moveset.moves.filter { !it.disabled }) {
                 // Tailwind
                 if (move.pp > 0 && move.id == "tailwind" && move.id != npcSideTailwindCondition && p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }.size > 2) {
                     return MoveActionResponse(move.id)
@@ -562,7 +563,7 @@ class StrongBattleAI() : BattleAI {
 
             // todo find a way to get list of active hazards
             // Entry hazard setup and removal
-            for (move in moveset.moves) {
+            for (move in moveset.moves.filter { !it.disabled }) {
                 // Setup
                 if (move.pp > 0 && nOppRemainingMons >= 3 && move.id in entryHazards
                         && entryHazards.none { it in oppSideConditionList }) {
@@ -577,7 +578,7 @@ class StrongBattleAI() : BattleAI {
             }
 
             // Court Change
-            for (move in moveset.moves) {
+            for (move in moveset.moves.filter { !it.disabled }) {
                 if (move.pp > 0 && move.id == "courtchange"
                         && (!entryHazards.none { it in monSideConditionList }
                                 || setOf("tailwind", "lightscreen", "reflect").any { it in oppSideConditionList })
@@ -589,14 +590,14 @@ class StrongBattleAI() : BattleAI {
 
             // todo Check why the hell they still spam heal moves
             // Self recovery moves
-            for (move in moveset.moves) {
+            for (move in moveset.moves.filter { !it.disabled }) {
                 if (move.id in selfRecoveryMoves && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < recoveryMoveThreshold && move.pp > 0) {
                     return MoveActionResponse(move.id)
                 }
             }
 
             // Strength Sap
-            for (move in moveset.moves) {
+            for (move in moveset.moves.filter { !it.disabled }) {
                 if (move.id == "strengthsap" && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < 0.5
                         && getBaseStats(opponent.pokemon!!, "atk") > 80
                         && move.pp > 0) {
@@ -606,7 +607,7 @@ class StrongBattleAI() : BattleAI {
 
             // todo have it not do this unless it is actually helpful for the team
             // Weather setup moves
-            for (move in moveset.moves) {
+            for (move in moveset.moves.filter { !it.disabled }) {
                 weatherSetupMoves[move.id]?.let { requiredWeather ->
                     if (move.pp > 0 && currentWeather != requiredWeather.lowercase() &&
                             !(currentWeather == "PrimordialSea" && requiredWeather == "RainDance") &&
@@ -618,7 +619,7 @@ class StrongBattleAI() : BattleAI {
 
             // Setup moves
             if ((mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0 && estimateMatchup(request, battle) > 0) {
-                for (move in moveset.moves) {
+                for (move in moveset.moves.filter { !it.disabled }) {
                     if (move.pp > 0 && setupMoves.contains(move.id) && (getNonZeroStats(move.id).keys.minOfOrNull {// todo this can have a null exception with lvl 50 pidgeot with tailwind
                                 mon.boosts[it] ?: 0
                             }!! < 6)) {  // todo something with a lvl 50 pikachu caused this to null exception
@@ -634,7 +635,7 @@ class StrongBattleAI() : BattleAI {
                         (currentWeather == "sunny" && opponent.pokemon!!.ability.name == "leafguard");
             }
             // Status Inflicting Moves
-            for (move in moveset.moves) {
+            for (move in moveset.moves.filter { !it.disabled }) {
                 val activeOpponent = opponent.pokemon
                 activeOpponent?.let {
                     // Make sure the opponent doesn't already have a status condition
@@ -685,7 +686,7 @@ class StrongBattleAI() : BattleAI {
             }
 
             // Accuracy lowering moves // todo seems to get stuck here. Try to check if it is an accuracy lowering move first before entering
-            for (move in moveset.moves) {
+            for (move in moveset.moves.filter { !it.disabled }) {
                 if (move.pp > 0 && 1 == 2 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0 && estimateMatchup(request, battle) > 0 &&
                         (opponent.boosts[Stats.ACCURACY] ?: 0) > accuracySwitchThreshold) {
                     return MoveActionResponse(move.id)
@@ -693,7 +694,7 @@ class StrongBattleAI() : BattleAI {
             }
 
             // Protect style moves
-            for (move in moveset.moves) {
+            for (move in moveset.moves.filter { !it.disabled }) {
                 val activeOpponent = opponent.pokemon
                 if (move.pp > 0 && move.id in listOf("protect", "banefulbunker", "obstruct", "craftyshield", "detect", "quickguard", "spikyshield", "silktrap")) {
                     // Stall out side conditions
@@ -710,7 +711,7 @@ class StrongBattleAI() : BattleAI {
 
             // Damage dealing moves
             val moveValues = mutableMapOf<InBattleMove, Double>()
-            for (move in moveset.moves) {
+            for (move in moveset.moves.filter { !it.disabled }) {
                 val moveData = Moves.getByName(move.id)
                 /*var value = moveData!!.power
                 value *= if (moveData.elementalType in mon.pokemon!!.types) 1.5 else 1.0 // STAB
@@ -794,6 +795,8 @@ class StrongBattleAI() : BattleAI {
 
                 // todo slack off
 
+                // todo soak
+
                 // todo stealth rock. Make list of all active hazards to get referenced
 
                 val opponentAbility = opponent.pokemon!!.ability
@@ -852,7 +855,7 @@ class StrongBattleAI() : BattleAI {
         }
 
         // healing wish (dealing with it here because you'd only use it if you should switch out anyway)
-        for (move in moveset.moves) {
+        for (move in moveset.moves.filter { !it.disabled }) {
             if (move.id.equals("healingwish") && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < selfKoMoveMatchupThreshold) {
                 return MoveActionResponse(move.id)
             }
@@ -952,13 +955,13 @@ class StrongBattleAI() : BattleAI {
         }
 
         if (request.side?.id == "p1") {
-            score += if (nonActiveMon != null) nonActiveMon.currentHealth * hpFractionCoefficient
-            else activeTracker.p1Active.currentHp * hpFractionCoefficient
-            score -= activeTracker.p2Active.currentHp * hpFractionCoefficient
+            score += if (nonActiveMon != null) nonActiveMon.hp * hpFractionCoefficient
+            else activeTracker.p1Active.pokemon!!.hp * hpFractionCoefficient
+            score -= activeTracker.p2Active.pokemon!!.hp * hpFractionCoefficient
         } else {
-            score += if (nonActiveMon != null) nonActiveMon.currentHealth * hpFractionCoefficient
-            else activeTracker.p2Active.currentHp * hpFractionCoefficient
-            score -= activeTracker.p1Active.currentHp * hpFractionCoefficient
+            score += if (nonActiveMon != null) nonActiveMon.hp * hpFractionCoefficient
+            else activeTracker.p2Active.pokemon!!.hp * hpFractionCoefficient
+            score -= activeTracker.p1Active.pokemon!!.hp * hpFractionCoefficient
         }
 
         return score
@@ -1041,7 +1044,7 @@ class StrongBattleAI() : BattleAI {
         }
 
         // if slower speed stat than the opposing pokemon and HP is less than 20% don't switch out
-        if ((npcActivePokemon.currentHp.toDouble() / npcActivePokemon.pokemon!!.hp.toDouble()) < .20 && (npcActivePokemon.pokemon!!.species.baseStats[Stats.SPEED]!! < playerActivePokemon.pokemon!!.species.baseStats[Stats.SPEED]!!)) {
+        if ((npcActivePokemon.currentHp.toDouble() / npcActivePokemon.pokemon!!.hp.toDouble()) < hpSwitchOutThreshold && (npcActivePokemon.pokemon!!.species.baseStats[Stats.SPEED]!! < playerActivePokemon.pokemon!!.species.baseStats[Stats.SPEED]!!)) {
             return false
         }
 
@@ -1070,7 +1073,7 @@ class StrongBattleAI() : BattleAI {
                                 ?: 0) <= (playerActivePokemon.stats[Stats.SPECIAL_ATTACK] ?: 0)) {
                     return true
                 }
-                if (estimateMatchup(request, battle) < switchOutMatchupThreshold) {
+                if ((estimateMatchup(request, battle) < switchOutMatchupThreshold) && (npcActivePokemon.currentHp.toDouble() / npcActivePokemon.pokemon!!.hp.toDouble()) > hpSwitchOutThreshold) {
                     return true
                 }
             }
