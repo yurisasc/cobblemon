@@ -166,9 +166,6 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                         entityId = entity.id
                     )
                     pokemon.tetheringId = tethering.tetheringId
-                    tetheredPokemon.add(tethering)
-                    entity.tethering = tethering
-                    tethering.toDTO(player)?.let { player.sendPacket(PokemonPasturedPacket(it)) }
                     for (t in tetheredPokemon) {
                         val tetheredMon = t.getPokemon()
                         val mother =  if (tetheredMon?.gender == Gender.FEMALE ||
@@ -182,7 +179,9 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                             breedingSets[father] = fatherSet
                         }
                     }
-
+                    tetheredPokemon.add(tethering)
+                    entity.tethering = tethering
+                    tethering.toDTO(player)?.let { player.sendPacket(PokemonPasturedPacket(it)) }
                     markDirty()
                     CobblemonCriteria.PASTURE_USE.trigger(player, pokemon)
                     return true
@@ -278,6 +277,8 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
 
     fun tryBreed() {
         val bredPokemon = mutableSetOf<Pokemon>()
+        //We should probably find a way to minimize how often this gets called
+        //Maybe cache the result and update it infrequently?
         val nests = findUnusedNests()
         if (nests.isNotEmpty()) {
             breedingSets.forEach { father, mothers ->
@@ -287,14 +288,17 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                             val motherPoke = mother.getPokemon()!!
                             val fatherPoke = father.getPokemon()!!
                             if (BreedingLogicManager.canBreed(motherPoke, fatherPoke)) {
-                                //val breedResult = BreedingLogicManager.breed(motherPoke, fatherPoke)
-                                /*
-                                if (breedResult.successful) {
+                                val breedResult = BreedingLogicManager.breed(motherPoke, fatherPoke)
 
+                                if (breedResult.successful) {
+                                    println(breedResult.pokemon)
+                                    val nestTaken = nests.random()
+                                    val nestState = world?.getBlockState(nestTaken)
+                                    world?.setBlockState(nestTaken, nestState?.with(NestBlock.HAS_EGG, true))
+                                    bredPokemon.add(fatherPoke)
+                                    bredPokemon.add(motherPoke)
                                 }
-                                 */
-                                bredPokemon.add(fatherPoke)
-                                bredPokemon.add(motherPoke)
+
                             }
                         }
                     }

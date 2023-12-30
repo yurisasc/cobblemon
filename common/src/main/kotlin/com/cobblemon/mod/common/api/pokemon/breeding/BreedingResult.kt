@@ -12,5 +12,5 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 
 data class BreedingResult(
     val pokemon: Pokemon? = null,
-    val successful: Boolean = false
+    val successful: Boolean = pokemon != null
 )

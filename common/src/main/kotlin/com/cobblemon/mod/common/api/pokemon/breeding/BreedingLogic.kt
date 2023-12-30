@@ -11,15 +11,18 @@ package com.cobblemon.mod.common.api.pokemon.breeding
 import com.cobblemon.mod.common.api.abilities.Ability
 import com.cobblemon.mod.common.api.moves.MoveSet
 import com.cobblemon.mod.common.api.pokemon.Natures
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.species
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.FormData
+import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbilityType
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
@@ -38,12 +41,41 @@ interface BreedingLogic {
         val moveset: MoveSet = this.calculateMoveset(mother, father)
         val ivs: IVs = this.calculateIVs(mother, father)
         val pokeball: PokeBall = this.calculatePokeball(mother, father)
+        val gender = calculateGender(mother, father, form)
 
-        return BreedingResult(null)
+        val newPoke = Pokemon()
+        newPoke.form = form
+        newPoke.nature = nature
+        newPoke.ability = ability
+        newPoke.moveSet.clear()
+        newPoke.moveSet.copyFrom(moveset)
+        newPoke.ivs.forEach {
+            if (ivs[it.key] != null) {
+                newPoke.ivs[it.key] = ivs[it.key]!!
+            }
+        }
+        newPoke.caughtBall = pokeball
+        newPoke.gender = gender
+        newPoke.species = form.species
+
+        return BreedingResult(newPoke)
     }
 
     fun canBreed(mother: Pokemon, father: Pokemon): Boolean {
         return true
+    }
+
+    fun calculateGender(mother: Pokemon, father: Pokemon, form: FormData): Gender {
+        val maleRatio = form.maleRatio
+        if (maleRatio.toDouble() == -1.0) {
+            return Gender.GENDERLESS
+        }
+        val rand = Random.nextDouble(0.0, 1.0)
+        return if (rand < maleRatio) {
+            Gender.MALE
+        } else {
+            Gender.FEMALE
+        }
     }
 
     fun calculateForm(mother: Pokemon, father: Pokemon): FormData {
@@ -76,7 +108,7 @@ interface BreedingLogic {
          *
          * TODO - Handle this via form data parameters?
          */
-        return FormData()
+        return mother.form
     }
 
     fun calculateNature(mother: Pokemon, father: Pokemon): Nature {
