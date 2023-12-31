@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.fossil
 
+import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import net.minecraft.entity.Entity
 
@@ -27,4 +28,6 @@ class FossilState : PoseableEntityState<Entity>() {
         this.totalPartialTicks += partialTicks
         currentPartialTicks += partialTicks
     }
+
+    override val schedulingTracker = SchedulingTracker()
 }
