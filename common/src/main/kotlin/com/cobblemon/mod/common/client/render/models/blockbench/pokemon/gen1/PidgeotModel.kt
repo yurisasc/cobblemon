@@ -16,8 +16,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -95,7 +94,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )

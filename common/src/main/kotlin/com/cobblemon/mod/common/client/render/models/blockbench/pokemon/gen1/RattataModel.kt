@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedF
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Z_AXIS
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.math.geometry.toRadians
@@ -57,7 +57,7 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT, PoseType.SHOULDER_LEFT, PoseType.SHOULDER_RIGHT),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.isMoving.get() },
+            condition = { !it.dataTracker.get(PokemonEntity.MOVING) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("rattata", "ground_idle")
@@ -68,7 +68,7 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isMoving.get() },
+            condition = { it.dataTracker.get(PokemonEntity.MOVING) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("rattata", "ground_walk")
