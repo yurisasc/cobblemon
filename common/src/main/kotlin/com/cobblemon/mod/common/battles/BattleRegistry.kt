@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeExpiredPacket
@@ -44,6 +45,7 @@ object BattleRegistry {
         .registerTypeAdapter(ShowdownMoveset::class.java, ShowdownMovesetAdapter)
         .create()
     private val battleMap = ConcurrentHashMap<UUID, PokemonBattle>()
+    private val partyMap = ConcurrentHashMap<UUID, List<PartyStore>>()
     // Challenger to challenge
     val pvpChallenges = mutableMapOf<UUID, BattleChallenge>()
 
@@ -201,10 +203,11 @@ object BattleRegistry {
     }
 
     fun startBattle(
-        battleFormat: BattleFormat,
-        side1: BattleSide,
-        side2: BattleSide,
-        silent: Boolean = false
+            battleFormat: BattleFormat,
+            side1: BattleSide,
+            side2: BattleSide,
+            silent: Boolean = false,
+            clonePartyStores: List<PartyStore>? = null // used for cloned team battles
     ): BattleStartResult {
         val battle = PokemonBattle(battleFormat, side1, side2)
         if (silent) return SuccessfulBattleStart(battle)
@@ -212,6 +215,9 @@ object BattleRegistry {
         val preBattleEvent = BattleStartedPreEvent(battle)
         CobblemonEvents.BATTLE_STARTED_PRE.postThen(preBattleEvent) {
             battleMap[battle.battleId] = battle
+            if(clonePartyStores != null) {
+                partyMap[battle.battleId] = clonePartyStores
+            }
             startShowdown(battle)
             CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedPostEvent(battle))
             return SuccessfulBattleStart(battle)
@@ -221,6 +227,7 @@ object BattleRegistry {
 
     fun closeBattle(battle: PokemonBattle) {
         battleMap.remove(battle.battleId)
+        partyMap.remove(battle.battleId)
     }
 
     fun getBattle(id: UUID) : PokemonBattle? {

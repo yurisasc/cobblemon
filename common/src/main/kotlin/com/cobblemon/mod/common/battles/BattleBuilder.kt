@@ -10,19 +10,14 @@ package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.Abilities
-import com.cobblemon.mod.common.api.abilities.Ability
-import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
 import com.cobblemon.mod.common.api.pokemon.Natures
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.storage.party.PartyStore
+import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
@@ -43,9 +38,8 @@ import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import java.util.*
 import kotlin.collections.HashMap
-import kotlin.math.E
-
 object BattleBuilder {
+
     @JvmOverloads
     fun pvp1v1(
         player1: ServerPlayerEntity,
@@ -172,6 +166,12 @@ object BattleBuilder {
         }
 
         val playerTeam = playerParty.toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon = null)
+        val playerClonedPartyStore: PlayerPartyStore = PlayerPartyStore(player.uuid)
+        if(cloneParties) {
+            playerTeam.forEachIndexed { index, it ->
+                playerClonedPartyStore.set(index, it.effectedPokemon)
+            }
+        }
         val playerActor = PlayerBattleActor(player.uuid, playerTeam)
 
         if (npcParty.isEmpty()) {
@@ -989,7 +989,8 @@ object BattleBuilder {
             BattleRegistry.startBattle(
                     battleFormat = battleFormat,
                     side1 = BattleSide(playerActor),
-                    side2 = BattleSide(npcActor)
+                    side2 = BattleSide(npcActor),
+                    clonePartyStores = if(cloneParties) listOf(playerClonedPartyStore) else null
             ).ifSuccessful {
                 if (!cloneParties) {
                     // todo I don't think I need this
