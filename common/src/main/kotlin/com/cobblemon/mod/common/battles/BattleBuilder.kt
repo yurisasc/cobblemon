@@ -994,6 +994,8 @@ object BattleBuilder {
                 if (!cloneParties) {
                     // todo I don't think I need this
                     //pokemonEntity.battleId.set(Optional.of(it.battleId))
+                } else {
+                    it.simulation = true
                 }
                 // todo set the NPC trainer battle music
                 //playerActor.battleTheme = pokemonEntity.getBattleTheme()
