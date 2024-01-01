@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "type": "paletted_permutations",
+      "textures": [
+        "trims/models/armor/coast",
+        "trims/models/armor/coast_leggings",
+        "trims/models/armor/sentry",
+        "trims/models/armor/sentry_leggings",
+        "trims/models/armor/dune",
+        "trims/models/armor/dune_leggings",
+        "trims/models/armor/wild",
+        "trims/models/armor/wild_leggings",
+        "trims/models/armor/ward",
+        "trims/models/armor/ward_leggings",
+        "trims/models/armor/eye",
+        "trims/models/armor/eye_leggings",
+        "trims/models/armor/vex",
+        "trims/models/armor/vex_leggings",
+        "trims/models/armor/tide",
+        "trims/models/armor/tide_leggings",
+        "trims/models/armor/snout",
+        "trims/models/armor/snout_leggings",
+        "trims/models/armor/rib",
+        "trims/models/armor/rib_leggings",
+        "trims/models/armor/silence",
+        "trims/models/armor/silence_leggings",
+        "trims/models/armor/spire",
+        "trims/models/armor/spire_leggings"
+      ],
+      "palette_key": "trims/color_palettes/trim_palette",
+      "permutations": {
+        "fire_stone": "cobblemon:trims/color_palettes/fire_stone",
+        "water_stone": "cobblemon:trims/color_palettes/water_stone",
+        "thunder_stone": "cobblemon:trims/color_palettes/thunder_stone",
+        "leaf_stone": "cobblemon:trims/color_palettes/leaf_stone",
+        "moon_stone": "cobblemon:trims/color_palettes/moon_stone",
+        "sun_stone": "cobblemon:trims/color_palettes/sun_stone",
+        "shiny_stone": "cobblemon:trims/color_palettes/shiny_stone",
+	"dusk_stone": "cobblemon:trims/color_palettes/dusk_stone",
+	"dawn_stone": "cobblemon:trims/color_palettes/dawn_stone",
+	"ice_stone": "cobblemon:trims/color_palettes/ice_stone",
+	"tumblestone": "cobblemon:trims/color_palettes/tumblestone",
+	"black_tumblestone": "cobblemon:trims/color_palettes/black_tumblestone",
+	"sky_tumblestone": "cobblemon:trims/color_palettes/sky_tumblestone"
+      }
+    }
+  ]
+}

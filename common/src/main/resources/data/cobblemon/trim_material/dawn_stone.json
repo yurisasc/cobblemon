@@ -1,0 +1,10 @@
+{
+  "asset_name": "dawn_stone",
+  "description": {
+    "translate": "trim_material.cobblemon.dawn_stone",
+    "fallback": "Dawn Stone",
+    "color": "#9BFFFF"
+  },
+  "ingredient": "cobblemon:dawn_stone",
+  "item_model_index": 0.2630
+}

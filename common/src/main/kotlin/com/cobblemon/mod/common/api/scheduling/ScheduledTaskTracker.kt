@@ -8,23 +8,10 @@
 
 package com.cobblemon.mod.common.api.scheduling
 
-object ScheduledTaskTracker {
-    private val tasks = mutableListOf<ScheduledTask>()
+object ServerTaskTracker: Schedulable, SchedulingTracker() {
+    override val schedulingTracker = this
+}
 
-    fun clear() {
-        tasks.clear()
-    }
-
-    fun update() {
-        for (task in tasks.toList()) {
-            task.update()
-            if (task.expired) {
-                tasks.remove(task)
-            }
-        }
-    }
-
-    fun addTask(task: ScheduledTask) {
-        tasks.add(task)
-    }
+object ClientTaskTracker : Schedulable, SchedulingTracker() {
+    override val schedulingTracker = this
 }

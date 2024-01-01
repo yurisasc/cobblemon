@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -48,8 +48,8 @@ class DrizzileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                tongue.asTransformed().withVisibility(visibility = false),
-                bomb.asTransformed().withVisibility(visibility = false),
+                tongue.createTransformation().withVisibility(visibility = false),
+                bomb.createTransformation().withVisibility(visibility = false),
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -62,8 +62,8 @@ class DrizzileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                tongue.asTransformed().withVisibility(visibility = false),
-                bomb.asTransformed().withVisibility(visibility = false),
+                tongue.createTransformation().withVisibility(visibility = false),
+                bomb.createTransformation().withVisibility(visibility = false),
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),

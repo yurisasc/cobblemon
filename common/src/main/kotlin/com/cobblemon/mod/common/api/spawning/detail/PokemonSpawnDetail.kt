@@ -69,7 +69,7 @@ class PokemonSpawnDetail : SpawnDetail() {
     }
 
     override fun autoLabel() {
-        super.autoLabel()
+        val pokemonStruct = pokemon.asStruct()
         if (pokemon.species != null) {
             val species = PokemonSpecies.getByIdentifier(pokemon.species!!.asIdentifierDefaultingNamespace())
             if (species != null) {
@@ -87,6 +87,9 @@ class PokemonSpawnDetail : SpawnDetail() {
                 }
             }
         }
+
+        struct.setDirectly("pokemon", pokemonStruct)
+        super.autoLabel()
     }
 
     fun getDerivedLevelRange() = levelRange.let { levelRange ->

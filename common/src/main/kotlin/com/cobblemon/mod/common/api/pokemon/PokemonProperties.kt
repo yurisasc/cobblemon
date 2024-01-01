@@ -8,6 +8,9 @@
 
 package com.cobblemon.mod.common.api.pokemon
 
+import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
@@ -701,6 +704,17 @@ open class PokemonProperties {
         originalTrainer?.let { pieces.add("originaltrainer=$it") }
         customProperties.forEach { pieces.add(it.asString()) }
         return pieces.joinToString(separator)
+    }
+
+    fun asStruct(): VariableStruct {
+        val struct = VariableStruct()
+        species?.let { struct.setDirectly("species", StringValue(it)) }
+        level?.let { struct.setDirectly("level", DoubleValue(it)) }
+        shiny?.let { struct.setDirectly("shiny", DoubleValue(it)) }
+        // add more of the optional properties to the struct as doubles or strings
+        gender?.let { struct.setDirectly("gender", StringValue(it.name)) }
+        friendship?.let { struct.setDirectly("friendship", DoubleValue(it)) }
+        return struct
     }
 
     fun updateAspects() {

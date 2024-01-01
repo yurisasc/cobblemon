@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -50,16 +50,17 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charizard", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("charizard", "blink").setPreventsIdle(false)}
+        val blink = quirk("blink") { bedrockStateful("charizard", "blink").setPreventsIdle(false)}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("charizard", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
-//            quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "ground_idle")
@@ -69,7 +70,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
-//            quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "ground_idle"),
@@ -80,23 +81,23 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         flyIdle = registerPose(
             poseName = "hover",
             poseType = PoseType.HOVER,
-//            quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "air_idle")
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -2F))
+            transformedParts = arrayOf(rootPart.createTransformation().addPosition(Y_AXIS, -2F))
         )
 
         fly = registerPose(
             poseName = "fly",
             poseType = PoseType.FLY,
-//            quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "air_fly")
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, 6F))
+            transformedParts = arrayOf(rootPart.createTransformation().addPosition(Y_AXIS, 6F))
         )
     }
 
