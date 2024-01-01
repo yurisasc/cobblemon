@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Sinistcha",
   "nationalPokedexNumber": 1013,
   "primaryType": "grass",
@@ -171,7 +171,6 @@
       "height": 2,
       "weight": 22,
       "preEvolution": "poltchageist form=artisan",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

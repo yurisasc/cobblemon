@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Persian",
   "nationalPokedexNumber": 53,
@@ -214,7 +214,6 @@
       "height": 11,
       "weight": 330,
       "preEvolution": "meowth alolan",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false,
       "drops": {

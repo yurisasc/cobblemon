@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Slowking",
   "nationalPokedexNumber": 199,
@@ -206,7 +206,6 @@
       "height": 18,
       "weight": 795,
       "preEvolution": "slowpoke form=galar",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false,
       "drops": {

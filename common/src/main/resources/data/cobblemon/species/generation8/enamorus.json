@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Enamorus",
   "nationalPokedexNumber": 905,
   "primaryType": "fairy",
@@ -193,7 +193,6 @@
       ],
       "height": 16,
       "weight": 480,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

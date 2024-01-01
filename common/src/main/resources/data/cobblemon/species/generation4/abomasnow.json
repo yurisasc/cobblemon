@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Abomasnow",
   "nationalPokedexNumber": 460,
   "primaryType": "grass",
@@ -78,7 +78,6 @@
       ],
       "height": 27,
       "weight": 1850,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

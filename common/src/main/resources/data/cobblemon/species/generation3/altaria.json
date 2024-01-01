@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Altaria",
   "nationalPokedexNumber": 334,
   "primaryType": "dragon",
@@ -61,7 +61,6 @@
       ],
       "height": 15,
       "weight": 206,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
