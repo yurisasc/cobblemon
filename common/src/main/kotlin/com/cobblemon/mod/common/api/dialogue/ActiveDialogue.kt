@@ -86,7 +86,7 @@ class ActiveDialogue(var playerEntity: ServerPlayerEntity, var dialogueReference
                 }
             }
         }
-        playerEntity.sendPacket(DialogueOpenedPacket(this))
+        playerEntity.sendPacket(DialogueOpenedPacket(this, false))
     }
 
     fun setPage(index: Int) {

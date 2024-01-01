@@ -20,7 +20,7 @@ class DialogueOpenedPacket(val dialogueDTO: DialogueDTO) : NetworkPacket<Dialogu
         fun decode(buffer: PacketByteBuf) = DialogueOpenedPacket(DialogueDTO().apply { decode(buffer) })
     }
 
-    constructor(activeDialogue: ActiveDialogue) : this(DialogueDTO(activeDialogue))
+    constructor(activeDialogue: ActiveDialogue, includeFaces: Boolean) : this(DialogueDTO(activeDialogue, includeFaces))
 
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {

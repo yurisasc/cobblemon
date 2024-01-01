@@ -206,7 +206,7 @@ class PokemonEntity(
 
     // properties like the above are synced and can be subscribed to for changes on either side
 
-    val delegate = if (world.isClient) {
+    override val delegate = if (world.isClient) {
         PokemonClientDelegate()
     } else {
         PokemonServerDelegate()

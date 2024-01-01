@@ -208,10 +208,12 @@ fun drawPortraitPokemon(
     if (state == null) {
         model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
     } else {
+        val originalPose = state.currentPose
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
         state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+        originalPose?.let { state.setPose(it) }
     }
 
     matrixStack.push()

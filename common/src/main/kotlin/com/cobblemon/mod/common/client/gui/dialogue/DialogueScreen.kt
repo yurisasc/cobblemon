@@ -10,27 +10,49 @@ package com.cobblemon.mod.common.client.gui.dialogue
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.MoParams
+import com.cobblemon.mod.common.api.dialogue.ArtificialDialogueFaceProvider
+import com.cobblemon.mod.common.api.dialogue.PlayerDialogueFaceProvider
+import com.cobblemon.mod.common.api.dialogue.ReferenceDialogueFaceProvider
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueBox
+import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueFaceWidget
 import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueNameWidget
 import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueOptionWidget
 import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueTextInputWidget
 import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueTimerWidget
+import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueDTO
 import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueInputDTO
 import com.cobblemon.mod.common.net.messages.server.dialogue.EscapeDialoguePacket
 import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.asExpressions
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.resolve
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 
 class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTranslated()) {
+    val speakers = dialogueDTO.speakers?.mapNotNull { (key, value) ->
+        val name = value.name
+        when (val face = value.face) {
+            is ArtificialDialogueFaceProvider -> key to DialogueRenderableSpeaker(name, ArtificialRenderableFace(face.modelType, face.identifier, face.aspects))
+            is PlayerDialogueFaceProvider -> key to DialogueRenderableSpeaker(name, PlayerRenderableFace(face.playerId))
+            is ReferenceDialogueFaceProvider -> {
+                key to DialogueRenderableSpeaker(
+                    name = name,
+                    face = ReferenceRenderableFace(MinecraftClient.getInstance().world?.getEntityById(face.entityId) as? Poseable ?: return@mapNotNull null)
+                )
+            }
+            else -> key to DialogueRenderableSpeaker(name, null)
+        }
+    }?.toMap() ?: emptyMap()
     val runtime = MoLangRuntime().setup().setupClient()
 
     // After they do something, the GUI will wait for the server to update the dialogue in some way
@@ -43,6 +65,7 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
     lateinit var dialogueBox: DialogueBox
     lateinit var dialogueOptionWidgets: List<DialogueOptionWidget>
     lateinit var dialogueNameWidget: DialogueNameWidget
+    lateinit var dialogueFaceWidget: DialogueFaceWidget
 
     val scaledWidth
         get() = this.client!!.window.scaledWidth
@@ -69,8 +92,16 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
         private const val OPTION_HORIZONTAL_SPACING = 12
         private const val OPTION_VERTICAL_SPACING = 1
 
+        private const val FACE_WIDTH = 38
+        private const val FACE_HEIGHT = 36
+
         val dialogueMolangFunctions = mutableListOf<(DialogueScreen) -> HashMap<String, java.util.function.Function<MoParams, Any>>>(
-            // idk something maybe, stuff for accessing the current 'face' to modify it?
+            { dialogueScreen ->
+                return@mutableListOf hashMapOf(
+                    "face" to java.util.function.Function { Unit },
+                )
+            }
+        // idk something maybe, stuff for accessing the current 'face' to modify it?
         )
     }
 
@@ -111,12 +142,20 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
             frameWidth = BOX_WIDTH,
             height = BOX_HEIGHT
         )
+        val name = speakers[dialogueDTO.currentPageDTO.speaker]?.name
         dialogueNameWidget = DialogueNameWidget(
             x = (centerX - BOX_WIDTH / 2F).toInt(),
             y = (boxMinY - NAME_HEIGHT).toInt(),
             width = NAME_WIDTH,
             height = NAME_HEIGHT,
-            text = dialogueDTO.currentPageDTO.name
+            text = name
+        )
+        dialogueFaceWidget = DialogueFaceWidget(
+            dialogueScreen = this,
+            x = (centerX - BOX_WIDTH / 2F - FACE_WIDTH).toInt(),
+            y = boxMinY.toInt(),
+            width = FACE_WIDTH,
+            height = FACE_HEIGHT
         )
 
         val optionCount = dialogueDTO.dialogueInput.options.size
@@ -158,10 +197,13 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
         addDrawableChild(dialogueBox)
         dialogueOptionWidgets.forEach { addDrawableChild(it) }
         addDrawable(dialogueNameWidget)
+        addDrawable(dialogueFaceWidget)
 
         if (dialogueDTO.dialogueInput.inputType == DialogueInputDTO.InputType.TEXT) {
             focusOn(dialogueTextInputWidget)
         }
+
+        dialogueDTO.currentPageDTO.clientActions.flatMap(String::asExpressions).resolve(runtime)
     }
 
     override fun render(drawContext: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {

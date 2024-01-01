@@ -106,7 +106,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         get() = dataTracker.get(ASPECTS)
         set(value) { dataTracker.set(ASPECTS, value) }
 
-    val delegate = if (world.isClient) {
+    override val delegate = if (world.isClient) {
         EmptyPokeBallClientDelegate()
     } else {
         EmptyPokeBallServerDelegate()

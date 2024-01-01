@@ -17,27 +17,27 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 
 class DialoguePageDTO : Encodable, Decodable {
-    var name: MutableText = "".text()
+    var speaker: String? = null
     var lines: MutableList<MutableText> = mutableListOf()
     // Later can include some face data probably
     var clientActions = mutableListOf<String>()
 
     constructor()
     constructor(dialoguePage: DialoguePage, activeDialogue: ActiveDialogue) {
-        this.name = dialoguePage.name(activeDialogue)
+        this.speaker = dialoguePage.speaker
         this.lines = dialoguePage.lines.map { it(activeDialogue) }.toMutableList()
         this.clientActions = dialoguePage.clientActions.map { it.originalString }.toMutableList()
     }
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeText(name)
+        buffer.writeNullable(speaker) { _, value -> buffer.writeString(value)}
         buffer.writeCollection(lines) { _, value -> buffer.writeText(value) }
         buffer.writeInt(clientActions.size)
         clientActions.forEach { buffer.writeString(it) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        name = buffer.readText().copy()
+        speaker = buffer.readNullable { buffer.readString() }
         lines = buffer.readList { it.readText().copy() }.toMutableList()
         val clientActionsSize = buffer.readInt()
         for (i in 0 until clientActionsSize) {

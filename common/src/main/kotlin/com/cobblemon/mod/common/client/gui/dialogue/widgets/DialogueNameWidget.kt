@@ -21,7 +21,7 @@ class DialogueNameWidget(
     val y: Int,
     val width: Int,
     val height: Int,
-    val text: MutableText
+    val text: MutableText?
 ) : Drawable, Element {
     companion object {
         val nameResource = cobblemonResource("textures/gui/dialogue/dialogue_name.png")
@@ -31,7 +31,7 @@ class DialogueNameWidget(
     override fun setFocused(focused: Boolean) {}
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        if (text.string.isEmpty()) {
+        if (text == null || text.string.isEmpty()) {
             return
         }
 

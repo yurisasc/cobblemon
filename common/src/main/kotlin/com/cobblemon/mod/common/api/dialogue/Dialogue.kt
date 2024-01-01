@@ -18,26 +18,31 @@ import com.cobblemon.mod.common.api.molang.ExpressionLike
  */
 class Dialogue(
     val pages: List<DialoguePage> = mutableListOf(),
-    val escapeAction: DialogueAction = FunctionDialogueAction { dialogue, _ -> dialogue.close() }
+    val escapeAction: DialogueAction = FunctionDialogueAction { dialogue, _ -> dialogue.close() },
+    val speakers: Map<String, DialogueSpeaker> = emptyMap()
 ) {
     companion object {
         fun of(
             pages: Iterable<DialoguePage>,
-            escapeAction: ExpressionLike
+            escapeAction: ExpressionLike,
+            speakers: Map<String, DialogueSpeaker>
         ): Dialogue {
             return Dialogue(
                 pages = pages.toList(),
-                escapeAction = ExpressionLikeDialogueAction(escapeAction)
+                escapeAction = ExpressionLikeDialogueAction(escapeAction),
+                speakers = speakers
             )
         }
 
         fun of(
             pages: Iterable<DialoguePage>,
-            escapeAction: (ActiveDialogue) -> Unit
+            escapeAction: (ActiveDialogue) -> Unit,
+            speakers: Map<String, DialogueSpeaker>
         ): Dialogue {
             val dialogue = Dialogue(
                 pages = pages.toList(),
-                escapeAction = FunctionDialogueAction { activeDialogue, _ -> escapeAction(activeDialogue) }
+                escapeAction = FunctionDialogueAction { activeDialogue, _ -> escapeAction(activeDialogue) },
+                speakers = speakers
             )
             return dialogue
         }

@@ -26,7 +26,7 @@ import net.minecraft.text.MutableText
  */
 class DialoguePage(
     var id: String = "",
-    var name: DialogueText = WrappedDialogueText(),
+    var speaker: String? = null,
     var lines: MutableList<DialogueText> = mutableListOf(),
     var input: DialogueInput = DialogueNoInput(),
     var clientActions: MutableList<Expression> = mutableListOf(),
@@ -37,7 +37,7 @@ class DialoguePage(
         fun of(
             /** The ID is optional, but if you want to be able to jump to this page from other pages then you probably want to set this. */
             id: String = "",
-            name: MutableText,
+            speaker: String? = null,
             lines: Iterable<MutableText>,
             input: DialogueInput = DialogueNoInput(),
             clientActions: Iterable<Expression> = emptyList(),
@@ -46,7 +46,7 @@ class DialoguePage(
         ): DialoguePage {
             return DialoguePage(
                 id = id,
-                name = WrappedDialogueText(name),
+                speaker = speaker,
                 lines = lines.map { WrappedDialogueText(it) }.toMutableList(),
                 input = input,
                 clientActions = clientActions.toMutableList(),
@@ -59,7 +59,6 @@ class DialoguePage(
         return QueryStruct(
             hashMapOf(
                 "id" to java.util.function.Function { _ -> StringValue(id) },
-                "name" to java.util.function.Function { _ -> StringValue(name(activeDialogue).string) },
                 "input" to java.util.function.Function { _ -> activeDialogue.activeInput.struct },
                 "lines" to java.util.function.Function { _ ->
                     val array = JsonArray()
