@@ -44,7 +44,6 @@
 - Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
 - Fixed an issue with transformed parts in posers causing whacky positional issues.
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
->>>>>>> CHANGELOG.md
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
