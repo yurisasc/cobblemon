@@ -36,30 +36,35 @@ sealed interface RenderableFace {
 class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
     override fun render(drawContext: DrawContext, partialTicks: Float) {
         val entity = MinecraftClient.getInstance().world?.getPlayerByUuid(playerId) ?: return
+        // All of the maths below is shamelessly stolen from InventoryScreen.drawEntity.
+        // the -20 and 5 divided by 40 are for configuring the yaw and pitch tilt of the body and head respectively.
+        // For more information, pray for divine inspiration or something idk.
         val f = atan((-20 / 40.0f).toDouble()).toFloat()
         val g = atan((5 / 40.0f).toDouble()).toFloat()
         val quaternionf = Quaternionf().rotateZ(Math.PI.toFloat())
         val quaternionf2 = Quaternionf().rotateX(g * 20.0f * (Math.PI.toFloat() / 180))
         quaternionf.mul(quaternionf2)
-        val h: Float = entity.bodyYaw
-        val i: Float = entity.getYaw()
-        val j: Float = entity.getPitch()
-        val k: Float = entity.prevHeadYaw
-        val l: Float = entity.headYaw
-        drawContext.matrices.push()
-        drawContext.matrices.translate(0.0, 0.0, 0.0)
+        val oldBodyYaw = entity.bodyYaw
+        val oldEntityYaw = entity.yaw
+        val oldPitch = entity.pitch
+        val oldPrevHeadYaw = entity.prevHeadYaw
+        val oldHeadYaw = entity.headYaw
+        // Modifies the entity for rendering based on our f and g values
         entity.bodyYaw = 180.0f + f * 20.0f
         entity.setYaw(180.0f + f * 40.0f)
         entity.setPitch(-g * 20.0f)
-        entity.headYaw = entity.getYaw()
-        entity.prevHeadYaw = entity.getYaw()
-        InventoryScreen.drawEntity(drawContext, 0, 75, 37, quaternionf, quaternionf2, entity)
-        entity.bodyYaw = h
-        entity.setYaw(i)
-        entity.setPitch(j)
-        entity.prevHeadYaw = k
-        entity.headYaw = l
-        drawContext.matrices.pop()
+        entity.headYaw = entity.yaw
+        entity.prevHeadYaw = entity.yaw
+        val size = 37
+        val xOffset = 0
+        val yOffset = 75
+        InventoryScreen.drawEntity(drawContext, xOffset, yOffset, size, quaternionf, quaternionf2, entity)
+        // Resets the entity
+        entity.bodyYaw = oldBodyYaw
+        entity.setYaw(oldEntityYaw)
+        entity.setPitch(oldPitch)
+        entity.prevHeadYaw = oldPrevHeadYaw
+        entity.headYaw = oldHeadYaw
     }
 }
 
