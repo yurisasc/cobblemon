@@ -1,0 +1,10 @@
+{
+  "asset_name": "water_stone",
+  "description": {
+    "translate": "trim_material.cobblemon.water_stone",
+    "fallback": "Water Stone",
+    "color": "#54A2F0"
+  },
+  "ingredient": "cobblemon:water_stone",
+  "item_model_index": 0.2623
+}

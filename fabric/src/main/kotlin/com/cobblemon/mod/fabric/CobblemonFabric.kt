@@ -161,6 +161,7 @@ object CobblemonFabric : CobblemonImplementation {
 
             return@register ActionResult.PASS
         }
+
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, _ ->
             LootInjector.attemptInjection(id, tableBuilder::pool)
         }
