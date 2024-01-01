@@ -309,6 +309,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.BLACK_BELT)
         entries.add(CobblemonItems.BLACK_GLASSES)
         entries.add(CobblemonItems.BLACK_SLUDGE)
+        entries.add(CobblemonItems.BLUNDER_POLICY)
         entries.add(CobblemonItems.BRIGHT_POWDER)
         entries.add(CobblemonItems.CHARCOAL)
         entries.add(CobblemonItems.CHOICE_BAND)

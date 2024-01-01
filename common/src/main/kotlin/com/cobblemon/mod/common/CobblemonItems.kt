@@ -574,6 +574,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val BLACK_SLUDGE = heldItem("black_sludge")
     @JvmField
+    val BLUNDER_POLICY = heldItem("blunder_policy")
+    @JvmField
     val CHARCOAL = heldItem("charcoal_stick", remappedName = "charcoal")
     @JvmField
     val CHOICE_BAND = heldItem("choice_band")
