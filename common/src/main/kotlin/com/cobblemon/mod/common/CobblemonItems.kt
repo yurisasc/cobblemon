@@ -536,8 +536,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val DRIPSTONE_MOON_STONE_ORE = blockItem("dripstone_moon_stone_ore", CobblemonBlocks.DRIPSTONE_MOON_STONE_ORE)
     @JvmField
-    val NETHERRACK_FIRE_STONE_ORE = blockItem("netherrack_fire_stone_ore", CobblemonBlocks.NETHERRACK_FIRE_STONE_ORE)
-    @JvmField
     val DAWN_STONE = noSettingsItem("dawn_stone")
     @JvmField
     val DUSK_STONE = noSettingsItem("dusk_stone")

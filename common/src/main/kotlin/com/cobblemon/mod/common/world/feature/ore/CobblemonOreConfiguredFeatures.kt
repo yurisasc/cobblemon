@@ -18,7 +18,6 @@ object CobblemonOreConfiguredFeatures {
     val ORE_DAWN_STONE = of("dawn_stone")
     val ORE_DUSK_STONE = of("dusk_stone")
     val ORE_FIRE_STONE = of("fire_stone")
-    val ORE_FIRE_STONE_NETHERRACK = of("netherrack_fire_stone")
     val ORE_ICE_STONE = of("ice_stone")
     val ORE_LEAF_STONE = of("leaf_stone")
     val ORE_MOON_STONE = of("moon_stone")

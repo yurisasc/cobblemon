@@ -1,7 +1,6 @@
 # Changelog
 ## [1.5.0](#1-5-0)
 ### Additions
-- Added Netherrack Fire Stone Ore block.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
