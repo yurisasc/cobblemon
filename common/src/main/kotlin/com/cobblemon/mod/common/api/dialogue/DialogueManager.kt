@@ -29,7 +29,7 @@ object DialogueManager {
     fun startDialogue(playerEntity: ServerPlayerEntity, dialogue: Dialogue) {
         val activeDialogue = ActiveDialogue(playerEntity, dialogue)
         activeDialogues[playerEntity.uuid] = activeDialogue
-        val packet = DialogueOpenedPacket(activeDialogue)
+        val packet = DialogueOpenedPacket(activeDialogue, includeFaces = true)
         playerEntity.sendPacket(packet)
     }
 

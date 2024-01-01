@@ -1,13 +1,49 @@
 {
   "escapeAction": "q.dialogue.set_page('quitter')",
+  "speakers": {
+    "pikachu": {
+      "name": "The Voice of Hiro",
+      "face": {
+        "type": "artificial",
+        "modelType": "pokemon",
+        "identifier": "cobblemon:pikachu",
+        "aspects": [
+          "shiny"
+        ]
+      }
+    },
+    "player": {
+      "face": "q.player.face();",
+      "name": {
+        "type": "expression",
+        "expression": "q.player.username"
+      }
+    }
+  },
   "pages": [
     {
-      "id": "intro",
-      "name": "The Voice of Hiro",
+      "id": "player-chat",
+      "speaker": "player",
       "lines": [
-        "Welcome to the world of dialogues!",
-        "Do you want to continue?"
-      ],
+        {
+          "type": "expression",
+          "expression": "'Hello, I\\'m ' + q.player.username + '!'"
+        }
+      ]
+    },
+    {
+      "speaker": "pikachu",
+      "lines": [
+        {
+          "type": "expression",
+          "expression": "'Nice to meet you, ' + q.player.username + '! Welcome to the world of dialogues!'"
+        }
+      ]
+    },
+    {
+      "id": "intro",
+      "speaker": "pikachu",
+      "lines": [ "Do you want to learn more?"],
       "input": {
         "type": "option",
         "vertical": false,
@@ -15,33 +51,60 @@
           {
             "text": "Yes",
             "value": "yes",
-            "action": "q.dialogue.set_page('page1')"
+            "action": [
+              "v.player_response = 'That sounds great!';",
+              "v.next_page = 'page1';",
+              "q.dialogue.set_page('player-surrogate');"
+            ]
           },
           {
             "text": "No",
             "value": "no",
-            "action": "q.dialogue.set_page('quitter')"
+            "action": [
+              "v.player_response = 'No, I really don\\'t care.';",
+              "v.next_page = 'quitter';",
+              "q.dialogue.set_page('player-surrogate');"
+            ]
           },
           {
             "text": "Sword!",
             "value": "sword",
             "isVisible": "q.player.main_held_item.is_of('minecraft:iron_sword')",
             "isSelectable": "q.player.data.scared_npc != true;",
-            "action": "q.dialogue.set_page('sword')"
+            "action": [
+              "v.player_response = 'How about you die! Muahahaha!';",
+              "v.next_page = 'sword';",
+              "q.dialogue.set_page('player-surrogate');"
+            ]
           },
           {
             "text": "Sword again!",
             "value": "sword2",
             "isVisible": "q.player.main_held_item.is_of('minecraft:iron_sword')",
             "isSelectable": "q.player.data.scared_npc == true;",
-            "action": "q.dialogue.set_page('sword-again')"
+            "action": [
+              "v.player_response = 'How about you die... again! Muahahaha!';",
+              "v.next_page = 'sword-again';",
+              "q.dialogue.set_page('player-surrogate');"
+            ]
           }
         ]
       }
     },
     {
+      "id": "player-surrogate",
+      "speaker": "player",
+      "lines": [
+        {
+          "type": "expression",
+          "expression": "v.player_response;"
+        }
+      ],
+      "input": "q.dialogue.set_page(v.next_page);"
+    },
+    {
       "id": "page1",
-      "name": "The Voice of Hiro",
+      "speaker": "pikachu",
       "lines": [
         "Well you see, this is a dialogue.",
         "You can have multiple pages, and each page can have multiple lines."
@@ -49,10 +112,8 @@
     },
     {
       "id": "page2",
-      "name": "The Voice of Hiro",
-      "lines": [
-        "On an unrelated note, did you know that I'm deeply afraid of iron swords? Anyway, cya!"
-      ],
+      "speaker": "pikachu",
+      "lines": ["On an unrelated note, did you know that I'm deeply afraid of iron swords? Anyway, cya!"],
       "input": {
         "type": "auto-continue",
         "delay": 5,
@@ -62,14 +123,14 @@
     },
     {
       "id": "quitter",
-      "name": "The Voice of Hiro",
+      "speaker": "pikachu",
       "lines": ["Fine. Be that way."],
       "input": "q.dialogue.close();",
       "escapeAction": "q.dialogue.close();"
     },
     {
       "id": "sword",
-      "name": "The Voice of Hiro",
+      "speaker": "pikachu",
       "lines": ["Oh god no, please don't hurt me!"],
       "escapeAction": "q.dialogue.input('');",
       "input": [
@@ -81,8 +142,8 @@
     },
     {
       "id": "sword-again",
-      "name": "The Voice of Hiro",
-      "lines": ["I'm ready for you this time. Time to die!"],
+      "speaker": "pikachu",
+      "lines": ["I'm ready for you this time. YOU will die today!"],
       "escapeAction": "0",
       "input": {
         "type": "option",
@@ -137,7 +198,7 @@
     },
     {
       "id": "sword-again-reaction",
-      "name": "The Voice of Hiro",
+      "speaker": "pikachu",
       "lines": [
         {
           "type": "expression",
@@ -147,7 +208,7 @@
     },
     {
       "id": "name-question",
-      "name": "The Voice of Hiro",
+      "speaker": "pikachu",
       "lines": [ "Here's a puzzle though... What is my name? Lowercase only."],
       "input": {
         "type": "text",
@@ -156,15 +217,25 @@
           "action": "q.dialogue.set_page('too-slow');"
         },
         "action": [
-          "q.dialogue.set_page('name-guess');",
-          "t.data = q.player.data();",
-          "t.data.name = v.selected_option;"
+          "q.dialogue.set_page('name-speak');",
+          "t.data = q.player.data();"
         ]
       }
     },
     {
+      "id": "name-speak",
+      "speaker": "player",
+      "lines": [
+        {
+          "type": "expression",
+          "expression": "'Your name is ' + v.selected_option + ', right?'"
+        }
+      ],
+      "input": "q.dialogue.set_page('name-guess');"
+    },
+    {
       "id": "name-guess",
-      "name": "The Voice of Hiro",
+      "speaker": "pikachu",
       "lines": [
         {
           "type": "expression",
@@ -180,18 +251,14 @@
     },
     {
       "id": "farewell",
-      "name": "The Voice of Hiro",
-      "lines": [
-        "Anyway, I'm done with this dialogue. Bye!"
-      ],
+      "speaker": "pikachu",
+      "lines": ["Anyway, I'm done with this dialogue. Bye!"],
       "input": "q.dialogue.close();"
     },
     {
       "id": "too-slow",
-      "name": "The Voice of Hiro",
-      "lines": [
-          "Don't know? Sad. Well I don't know your name either, so I guess we're even."
-      ],
+      "speaker": "pikachu",
+      "lines": ["Don't know? Sad. Well I don't know your name either, so I guess we're even."],
       "input": "q.dialogue.close()"
     }
   ]

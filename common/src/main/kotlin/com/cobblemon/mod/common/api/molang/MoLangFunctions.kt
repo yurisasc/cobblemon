@@ -18,6 +18,7 @@ import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.dialogue.PlayerDialogueFaceProvider
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
 import com.cobblemon.mod.common.util.isInt
 import com.cobblemon.mod.common.util.itemRegistry
@@ -65,6 +66,7 @@ object MoLangFunctions {
                 "save_data" to java.util.function.Function { _ -> Cobblemon.molangData.save(player.uuid) },
                 "main_held_item" to java.util.function.Function { _ -> player.world.itemRegistry.getEntry(player.mainHandStack.item).asMoLangValue(RegistryKeys.ITEM) },
                 "off_held_item" to java.util.function.Function { _ -> player.world.itemRegistry.getEntry(player.offHandStack.item).asMoLangValue(RegistryKeys.ITEM) },
+                "face" to java.util.function.Function { _ -> ObjectValue(PlayerDialogueFaceProvider(player.uuid)) }
             )
         }
     )
