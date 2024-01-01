@@ -3,11 +3,11 @@
     "pattern": [
         " WW",
         " PW",
-		"S  "
+        "S  "
     ],
     "key": {
         "W": {
-            "item": "minecraft:minecraft:red_wool"
+            "item": "minecraft:red_wool"
         },
         "P": {
             "item": "minecraft:phantom_membrane"
