@@ -566,6 +566,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val BIG_ROOT = blockItem("big_root", CobblemonBlocks.BIG_ROOT)
     @JvmField
+    val BINDING_BAND = heldItem("binding_band")
+    @JvmField
     val BLACK_BELT = heldItem("black_belt")
     @JvmField
     val BLACK_GLASSES = heldItem("black_glasses")

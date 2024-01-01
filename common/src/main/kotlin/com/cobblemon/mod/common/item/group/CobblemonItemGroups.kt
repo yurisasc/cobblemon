@@ -305,6 +305,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.AIR_BALLOON)
         entries.add(CobblemonItems.ASSAULT_VEST)
         entries.add(CobblemonItems.BIG_ROOT)
+        entries.add(CobblemonItems.BINDING_BAND)
         entries.add(CobblemonItems.BLACK_BELT)
         entries.add(CobblemonItems.BLACK_GLASSES)
         entries.add(CobblemonItems.BLACK_SLUDGE)
