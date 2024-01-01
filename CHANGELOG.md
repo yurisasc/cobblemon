@@ -9,6 +9,7 @@
 - Added Ancient Poké Balls, which are aesthetic variants crafted from Tumblestones.
 - Added the Ancient Feather, Wing, and Jet Balls, which fly further than regular Poké Balls.
 - Added the Ancient Heavy, Leaden, and Gigaton Balls, which are heavier and don't fly as far as regular Poké Balls. These will recieve more functionality in a future update.
+- Added Original Trainer functionality. To edit the OT through commands, you must specify originaltrainertype=<Player/NPC>, and originaltrainer=<Username or UUID/NPC Name>
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
@@ -40,6 +41,7 @@
 - Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
 - Fixed an issue with transformed parts in posers causing whacky positional issues.
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
+>>>>>>> CHANGELOG.md
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
