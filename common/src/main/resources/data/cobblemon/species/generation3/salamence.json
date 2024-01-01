@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Salamence",
   "nationalPokedexNumber": 373,
   "primaryType": "dragon",
@@ -61,7 +61,6 @@
       ],
       "height": 18,
       "weight": 1126,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

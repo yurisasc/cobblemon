@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Sableye",
   "nationalPokedexNumber": 302,
@@ -62,7 +62,6 @@
       ],
       "height": 5,
       "weight": 1610,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

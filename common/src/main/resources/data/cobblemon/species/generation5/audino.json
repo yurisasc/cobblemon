@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Audino",
   "nationalPokedexNumber": 531,
   "primaryType": "normal",
@@ -73,7 +73,6 @@
       ],
       "height": 15,
       "weight": 320,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

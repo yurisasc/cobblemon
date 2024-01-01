@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Coalossal",
   "nationalPokedexNumber": 839,
   "primaryType": "rock",
@@ -63,7 +63,6 @@
       ],
       "height": 420,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Houndoom",
   "nationalPokedexNumber": 229,
   "primaryType": "dark",
@@ -61,7 +61,6 @@
       ],
       "height": 19,
       "weight": 495,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

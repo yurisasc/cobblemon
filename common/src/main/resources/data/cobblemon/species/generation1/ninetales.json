@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Ninetales",
   "nationalPokedexNumber": 38,
@@ -182,7 +182,6 @@
       "height": 11,
       "weight": 199,
       "preEvolution": "vulpix form=alola",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false,
       "drops": {

@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Dialga",
   "nationalPokedexNumber": 483,
   "primaryType": "steel",
@@ -61,7 +61,6 @@
       ],
       "height": 70,
       "weight": 8500,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
