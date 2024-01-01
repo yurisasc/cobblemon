@@ -1,17 +1,46 @@
 # Changelog
 ## [1.5.0](#1-5-0)
 ### Additions
+- Added over (number here) ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
+- Added (number here) fossil structures, where you can brush Suspicious Sand/Gravel for Fossils.
+- Added the Data Monitor, Fossil Compartment, and Restoration Tube. Placed in the correct formation, you can use these to create a Restoration Machine where you can bring fossils back to life.
+- Added 3 variants of Tumblestones, which can be planted near Lava or Magma to grow harvestable Tumblestone Clusters.
+- Added Tumblestone Blocks, a storage block crafted from 9 Tumblestones.
+- Added Ancient Poké Balls, which are aesthetic variants crafted from Tumblestones.
+- Added the Ancient Feather, Wing, and Jet Balls, which fly further than regular Poké Balls.
+- Added the Ancient Heavy, Leaden, and Gigaton Balls, which are heavier and don't fly as far as regular Poké Balls. These will recieve more functionality in a future update.
+- Added Original Trainer functionality. To edit the OT through commands, you must specify originaltrainertype=<Player/NPC>, and originaltrainer=<Username or UUID/NPC Name>
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
+- Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
 
 ### Fixes
+- Fixed Exeggcute not being able to evolve.
+- Fixed Cubone not being able to evolve into Alolan Marowak.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
 - Rebuilt the scheduling API to more clearly force side choices and allow more local temporal frames of reference for tasks.
 
 ### Datapack & Resourcepack Creators
+- The maximum amount of fossils that can fit in the Fossil Compartment can be adjusted in the config.
+- Custom fossils can be defined using a list of items and the resulting Pokémon. An example of `aerodactyl.json`:
+```JSON
+{
+  "result": "aerodactyl",
+  "fossils": [
+    "cobblemon:old_amber_fossil"
+  ]
+}
+```
+- Fetus models can be defined in `bedrock/fossils`.
+- Fetus textures can be defined in `textures/fossils`.
+- Fuel for the Restoration Machine is registered inside the `natural_materials` folder. To register more fuels, create a JSON file containing an array of objects. Each object supports the following fields:
+  - `content`: Integer containing the amount of fuel to add.
+  - `item` OR `tag`: Identifier of the item or item tag to be inserted.
+  - `returnItem`: Identifier of an item to return to the player after consumption.
+- Added 3 new item tags: `ancient_poke_balls`, `fossils`, and `tumblestones`.
 - Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
 - Fixed an issue with transformed parts in posers causing whacky positional issues.
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.

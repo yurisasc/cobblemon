@@ -1,0 +1,10 @@
+{
+  "asset_name": "thunder_stone",
+  "description": {
+    "translate": "trim_material.cobblemon.thunder_stone",
+    "fallback": "Thunder Stone",
+    "color": "#D5FF87"
+  },
+  "ingredient": "cobblemon:thunder_stone",
+  "item_model_index": 0.2624
+}

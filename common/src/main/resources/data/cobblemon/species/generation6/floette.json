@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Floette",
   "nationalPokedexNumber": 670,
   "primaryType": "fairy",
@@ -113,7 +113,6 @@
       ],
       "height": 2,
       "weight": 9,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false,
       "drops": {

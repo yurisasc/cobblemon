@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Blastoise",
   "nationalPokedexNumber": 9,
@@ -60,7 +60,6 @@
       ],
       "height": 16,
       "weight": 1011,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     },
@@ -106,7 +105,6 @@
       ],
       "height": 16,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Palkia",
   "nationalPokedexNumber": 484,
   "primaryType": "water",
@@ -61,7 +61,6 @@
       ],
       "height": 63,
       "weight": 6600,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

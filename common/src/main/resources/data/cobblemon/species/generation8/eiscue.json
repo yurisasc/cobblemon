@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Eiscue",
   "nationalPokedexNumber": 875,
@@ -195,7 +195,6 @@
       ],
       "height": 14,
       "weight": 890,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

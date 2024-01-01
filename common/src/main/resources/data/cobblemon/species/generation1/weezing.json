@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Weezing",
   "nationalPokedexNumber": 110,
@@ -133,7 +133,6 @@
       "height": 30,
       "weight": 160,
       "preEvolution": "koffing",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false,
       "drops": {
