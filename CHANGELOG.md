@@ -5,7 +5,7 @@
 ### Changes
 - Pokémon now transition more smoothly between different poses.
 - Added more held items to the held item tag, and Metal Coat to the held item tab.
-- Added all ores to the modloader ore tags, and added tags for each ore type to the mod.
+- Added all ores to the modloader ore tags, and added tags for each ore type to the mod (both blocks and items).
 - Changed the Destiny Knot to be crafted with a Ghast Tear, rather than a diamond.
 
 ### Fixes
