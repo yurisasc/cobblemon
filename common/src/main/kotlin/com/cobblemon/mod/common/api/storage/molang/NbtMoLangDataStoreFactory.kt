@@ -18,7 +18,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtIo
 import net.minecraft.util.WorldSavePath
 
-object FlatfileMoLangDataStoreFactory : MoLangDataStoreFactory {
+object NbtMoLangDataStoreFactory : MoLangDataStoreFactory {
     lateinit var savePath: Path
     val cache = mutableMapOf<UUID, VariableStruct>()
     val dirty = mutableListOf<UUID>()
