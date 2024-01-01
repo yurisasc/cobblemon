@@ -586,11 +586,17 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val CLEANSE_TAG = heldItem("cleanse_tag")
     @JvmField
+    val DESTINY_KNOT = heldItem("destiny_knot")
+    @JvmField
     val DRAGON_FANG = heldItem("dragon_fang")
+    @JvmField
+    val EVERSTONE = heldItem("everstone")
     @JvmField
     val EXP_SHARE = heldItem("exp_share")
     @JvmField
     val FAIRY_FEATHER = heldItem("fairy_feather")
+    @JvmField
+    val FLAME_ORB = heldItem("flame_orb")
     @JvmField
     val FOCUS_BAND = heldItem("focus_band")
     @JvmField
@@ -601,6 +607,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val HEAVY_DUTY_BOOTS = heldItem("heavy_duty_boots")
     @JvmField
     val LEFTOVERS = heldItem("leftovers")
+    @JvmField
+    val LIFE_ORB = heldItem("life_orb")
     @JvmField
     val LIGHT_CLAY = heldItem("light_clay")
     @JvmField
@@ -618,6 +626,18 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val POISON_BARB = heldItem("poison_barb")
     @JvmField
+    val POWER_ANKLET = heldItem("power_anklet")
+    @JvmField
+    val POWER_BAND = heldItem("power_band")
+    @JvmField
+    val POWER_BELT = heldItem("power_belt")
+    @JvmField
+    val POWER_BRACER = heldItem("power_bracer")
+    @JvmField
+    val POWER_LENS = heldItem("power_lens")
+    @JvmField
+    val POWER_WEIGHT = heldItem("power_weight")
+    @JvmField
     val QUICK_CLAW = heldItem("quick_claw")
     @JvmField
     val ROCKY_HELMET = heldItem("rocky_helmet")
@@ -633,6 +653,10 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val SOFT_SAND = heldItem("soft_sand")
     @JvmField
     val SPELL_TAG = heldItem("spell_tag")
+    @JvmField
+    val SMOKE_BALL = heldItem("smoke_ball")
+    @JvmField
+    val TOXIC_ORB = heldItem("toxic_orb")
     @JvmField
     val TWISTED_SPOON = heldItem("twisted_spoon")
     @JvmField
@@ -651,30 +675,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val METAL_POWDER = heldItem("metal_powder")
     @JvmField
     val QUICK_POWDER = heldItem("quick_powder")
-    @JvmField
-    val DESTINY_KNOT = heldItem("destiny_knot")
-    @JvmField
-    val EVERSTONE = heldItem("everstone")
-    @JvmField
-    val POWER_ANKLET = heldItem("power_anklet")
-    @JvmField
-    val POWER_BAND = heldItem("power_band")
-    @JvmField
-    val POWER_BELT = heldItem("power_belt")
-    @JvmField
-    val POWER_BRACER = heldItem("power_bracer")
-    @JvmField
-    val POWER_LENS = heldItem("power_lens")
-    @JvmField
-    val POWER_WEIGHT = heldItem("power_weight")
-    @JvmField
-    val FLAME_ORB = heldItem("flame_orb")
-    @JvmField
-    val LIFE_ORB = heldItem("life_orb")
-    @JvmField
-    val TOXIC_ORB = heldItem("toxic_orb")
-    @JvmField
-    val SMOKE_BALL = heldItem("smoke_ball")
 
     // Mulch
     @JvmField
