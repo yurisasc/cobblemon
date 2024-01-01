@@ -25,7 +25,7 @@ import net.minecraft.util.Identifier
 class DialogueArgumentType : ArgumentType<Identifier> {
 
     companion object {
-        val EXAMPLES: List<String> = listOf("cobblemon:example2")
+        val EXAMPLES: List<String> = listOf("cobblemon:example")
         val INVALID_DIALOGUE = "cobblemon.command.dialogue.invalid-dialogue".asTranslated()
 
         fun dialogue() = DialogueArgumentType()
