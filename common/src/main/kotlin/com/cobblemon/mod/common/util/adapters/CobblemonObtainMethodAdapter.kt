@@ -3,7 +3,7 @@ package com.cobblemon.mod.common.util.adapters
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.tms.ObtainMethod
 import com.cobblemon.mod.common.api.tms.ObtainMethodAdapter
-import com.cobblemon.mod.common.tms.PokemonLearnObtainMethod
+import com.cobblemon.mod.common.tms.PokemonHasMoveObtainMethod
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
 import com.google.gson.JsonSerializationContext
@@ -16,7 +16,7 @@ object CobblemonObtainMethodAdapter : ObtainMethodAdapter {
     private val types = hashMapOf<String, KClass<out ObtainMethod>>()
 
     init {
-        this.register(PokemonLearnObtainMethod::class, PokemonLearnObtainMethod.ID)
+        this.register(PokemonHasMoveObtainMethod::class, PokemonHasMoveObtainMethod.ID)
     }
 
     override fun register(type: KClass<out ObtainMethod>, identifier: Identifier) {

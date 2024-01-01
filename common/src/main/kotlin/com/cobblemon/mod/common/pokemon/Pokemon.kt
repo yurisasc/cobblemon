@@ -46,8 +46,6 @@ import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
-import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
-import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.config.CobblemonConfig
@@ -95,7 +93,6 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
-import kotlin.text.Typography.tm
 
 open class Pokemon : ShowdownIdentifiable {
     var uuid = UUID.randomUUID()
@@ -1239,18 +1236,18 @@ open class Pokemon : ShowdownIdentifiable {
 
         val newLevelUpMoves = form.moves.getLevelUpMovesUpTo(newLevel)
         val differences = (newLevelUpMoves - previousLevelUpMoves).filter { this.moveSet.none { move -> move.template == it } }.toMutableSet()
-        differences.forEach {
-            TechnicalMachines.tmsToCheckOnLevelUp.entries.filter { entry ->
-                entry.value.moveName == it.name
-            }.forEach { entry ->
-                val player = this.getOwnerPlayer() as PlayerEntity
-                Cobblemon.playerData.get(player).tmSet.add(entry.key)
-                player.sendMessage(Text.of("§c§lYou unlocked the ${entry.value.moveName} TM"))
-            }
-            if (moveSet.hasSpace()) {
-                moveSet.add(it.create())
-            }
-        }
+//        differences.forEach {
+//            TechnicalMachines.tmsToCheckOnLevelUp.entries.filter { entry ->
+//                entry.value.moveName == it.name
+//            }.forEach { entry ->
+//                val player = this.getOwnerPlayer() as PlayerEntity
+//                Cobblemon.playerData.get(player).tmSet.add(entry.key)
+//                player.sendMessage(lang("tms.unlock_tm", lang("move." + entry.value.moveName)))
+//            }
+//            if (moveSet.hasSpace()) {
+//                moveSet.add(it.create())
+//            }
+//        }
 
         CobblemonEvents.EXPERIENCE_GAINED_EVENT_POST.post(
             ExperienceGainedPostEvent(this, source, appliedXP, oldLevel, newLevel, differences),

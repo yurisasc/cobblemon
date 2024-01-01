@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.api.tms
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.tms.PokemonLearnObtainMethod
 import com.cobblemon.mod.common.util.adapters.CobblemonObtainMethodAdapter
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -32,16 +32,19 @@ object TechnicalMachines : JsonDataRegistry<TechnicalMachine> {
     override val observable = SimpleObservable<TechnicalMachines>()
 
     val tmMap = mutableMapOf<Identifier, TechnicalMachine>()
-    val tmsToCheckOnLevelUp = mutableMapOf<Identifier, TechnicalMachine>()
+    val passiveTms = mutableMapOf<Identifier, TechnicalMachine>()
     override fun reload(data: Map<Identifier, TechnicalMachine>) {
         data.forEach {id, tm ->
             tmMap[id] = tm
-            if (tm.obtainMethods.any { it is PokemonLearnObtainMethod }) {
-                tmsToCheckOnLevelUp[id] = tm
-            }
+            if (tm.obtainMethods.any { it.passive }) passiveTms.put(id, tm)
         }
     }
     override fun sync(player: ServerPlayerEntity) { }
 
-
+    fun checkPassives(player: ServerPlayerEntity) {
+        val playerTms = Cobblemon.playerData.get(player).tmSet
+        passiveTms.forEach { (id, tm) ->
+            if (tm.obtainMethods.all { it.matches(player) } && !playerTms.contains(id)) tm.unlock(player)
+        }
+    }
 }

@@ -364,6 +364,7 @@
   "cobblemon.tms.already_known": "%1$s already knows %2$s!",
   "cobblemon.tms.teach_move": "%1$s learned %2$s!",
   "cobblemon.tms.cannot_learn": "%1$s cannot learn %2$s!",
+  "cobblemon.tms.unlock_tm": "You unlocked the %1$s TM!",
 
   "cobblemon.ui.stats": "Stats",
   "cobblemon.ui.stats.stat": "Stat",

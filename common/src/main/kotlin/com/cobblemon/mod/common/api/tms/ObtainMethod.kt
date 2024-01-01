@@ -8,7 +8,19 @@
 
 package com.cobblemon.mod.common.api.tms
 
-//TODO Implement this
-interface ObtainMethod {
+import net.minecraft.server.network.ServerPlayerEntity
 
+interface ObtainMethod {
+    /**
+     * Whether to check this [ObtainMethod] once every second.
+     */
+    val passive: Boolean
+
+    /**
+     * Checks if the [ObtainMethod] condition is true.
+     *
+     * @param player The player to use when checking.
+     * @return Whether the check succeeded.
+     */
+    fun matches(player: ServerPlayerEntity): Boolean
 }
