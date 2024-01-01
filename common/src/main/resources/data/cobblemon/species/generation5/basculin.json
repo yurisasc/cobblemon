@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Basculin",
   "nationalPokedexNumber": 550,
@@ -220,7 +220,6 @@
       ],
       "height": 10,
       "weight": 180,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },

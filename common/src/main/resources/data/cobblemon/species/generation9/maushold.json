@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Maushold",
   "nationalPokedexNumber": 925,
@@ -227,7 +227,6 @@
       "height": 3,
       "weight": 28,
       "preEvolution": "tandemaus",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

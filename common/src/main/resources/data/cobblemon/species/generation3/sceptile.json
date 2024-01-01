@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Sceptile",
   "nationalPokedexNumber": 254,
@@ -61,7 +61,6 @@
       ],
       "height": 19,
       "weight": 552,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
