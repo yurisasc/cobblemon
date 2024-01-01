@@ -65,6 +65,9 @@ object DataKeys {
     const val POKEMON_UNBATTLEABLE = "Unbattleable"
     const val POKEMON_COUNTS_TOWARDS_SPAWN_CAP = "CountsTowardsSpawnCap"
 
+    const val POKEMON_ORIGINAL_TRAINER = "PokemonOriginalTrainer"
+    const val POKEMON_ORIGINAL_TRAINER_TYPE = "PokemonOriginalTrainerType"
+
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
     const val POKEMON_PENDING_EVOLUTIONS = "Pending"
