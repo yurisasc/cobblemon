@@ -438,6 +438,7 @@
   "cobblemon.command.clearparty.nonethere": "There are no Pokémon in %1$s's party.",
   "cobblemon.command.clearparty.cleared": "Cleared %1$s's party.",
   "cobblemon.command.clearpc.cleared": "Cleared %1$s's PC.",
+  "cobblemon.command.dialogue.invalid-dialogue": "Invalid dialogue identifier",
 
   "cobblemon.ui.generic.yes": "Yes",
   "cobblemon.ui.generic.no": "No",
