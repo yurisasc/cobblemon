@@ -301,6 +301,8 @@ object CobblemonItemGroups {
     }
 
     private fun heldItemEntries(displayContext: DisplayContext, entries: Entries) {
+        entries.add(CobblemonItems.ABILITY_SHIELD)
+        entries.add(CobblemonItems.AIR_BALLOON)
         entries.add(CobblemonItems.ASSAULT_VEST)
         entries.add(CobblemonItems.BIG_ROOT)
         entries.add(CobblemonItems.BLACK_BELT)
@@ -321,6 +323,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.FAIRY_FEATHER)
         entries.add(CobblemonItems.FLAME_ORB)
         entries.add(CobblemonItems.FOCUS_BAND)
+        entries.add(CobblemonItems.FOCUS_SASH)
         entries.add(CobblemonItems.HARD_STONE)
         entries.add(CobblemonItems.HEAVY_DUTY_BOOTS)
         entries.add(CobblemonItems.KINGS_ROCK)

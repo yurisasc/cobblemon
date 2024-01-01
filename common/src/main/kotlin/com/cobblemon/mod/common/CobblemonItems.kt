@@ -558,6 +558,10 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     // Held Items
     @JvmField
+    val ABILITY_SHIELD = heldItem("ability_shield")
+    @JvmField
+    val AIR_BALLOON = heldItem("air_balloon")
+    @JvmField
     val ASSAULT_VEST = heldItem("assault_vest")
     @JvmField
     val BIG_ROOT = blockItem("big_root", CobblemonBlocks.BIG_ROOT)
@@ -585,6 +589,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val FAIRY_FEATHER = heldItem("fairy_feather")
     @JvmField
     val FOCUS_BAND = heldItem("focus_band")
+    @JvmField
+    val FOCUS_SASH = heldItem("focus_sash")
     @JvmField
     val HARD_STONE = heldItem("hard_stone")
     @JvmField
