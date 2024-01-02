@@ -333,7 +333,7 @@ class Cube {
     val size: List<Float>? = null
     val pivot: List<Float>? = null
     val rotation: List<Float>? = null
-    val uv: List<Int>? = null
+    val uv: ArrayList<Int>? = null
     val inflate: Float? = null
     val mirror: Boolean = false
 }
