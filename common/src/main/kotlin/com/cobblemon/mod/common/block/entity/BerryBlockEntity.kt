@@ -42,7 +42,7 @@ import net.minecraft.world.event.GameEvent
 class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.BERRY, pos, state) {
     lateinit var berryIdentifier: Identifier
     private val ticksPerMinute = 1200
-    var renderState: RenderState? = null
+    var renderState: BlockEntityRenderState? = null
     //The time left for the tree to grow to stage 5
     var growthTimer: Int = 72000
         set(value) {
@@ -313,11 +313,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos)
         resetGrowTimers(pos, newState)
         return
-    }
-
-    //Using a similar approach to ComputerCraft, implement this client side
-    interface RenderState : AutoCloseable {
-        var needsRebuild: Boolean
     }
 
     companion object {

@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.block
 
-import com.cobblemon.mod.common.block.entity.BerryBlockEntity
+import com.cobblemon.mod.common.block.entity.BlockEntityRenderState
 import net.minecraft.client.gl.VertexBuffer
 
-class BerryBlockEntityRenderState : BerryBlockEntity.RenderState {
+class BasicBlockEntityRenderState : BlockEntityRenderState {
     val lastRenderFrame = -1
     override var needsRebuild = true
     val vbo: VertexBuffer = VertexBuffer(VertexBuffer.Usage.STATIC)

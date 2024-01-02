@@ -10,8 +10,6 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
-import com.cobblemon.mod.common.client.render.block.BerryBlockEntityRenderState
-import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
 import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.setPosition
@@ -19,20 +17,15 @@ import com.cobblemon.mod.common.util.math.geometry.Axis
 import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gl.ShaderProgram
 import net.minecraft.client.gl.VertexBuffer
 import net.minecraft.client.render.GameRenderer
-import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
-import org.joml.Matrix4f
 
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
@@ -50,13 +43,13 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             return
         }
         if (entity.renderState == null) {
-            entity.renderState = BerryBlockEntityRenderState()
+            entity.renderState = BasicBlockEntityRenderState()
         }
-        val renderState = entity.renderState as BerryBlockEntityRenderState
+        val renderState = entity.renderState as BasicBlockEntityRenderState
         if (renderState.needsRebuild || renderState.vboLightLevel != light) {
             renderToBuffer(entity, light, overlay, renderState.vbo)
             renderState.vboLightLevel = light
-            (entity.renderState as BerryBlockEntityRenderState).needsRebuild = false
+            (entity.renderState as BasicBlockEntityRenderState).needsRebuild = false
         }
         matrices.push()
         CobblemonRenderLayers.BERRY_LAYER.startDrawing()

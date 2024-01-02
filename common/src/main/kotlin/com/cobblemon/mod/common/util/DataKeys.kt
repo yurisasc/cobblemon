@@ -162,4 +162,13 @@ object DataKeys {
     const val FORMED = "Formed"
     const val CREATED_POKEMON = "CreatedPokemon"
     const val FOSSIL_STATE = "FossilState"
+
+    //Egg stuff
+    const val HATCHED_POKEMON = "HatchedPokemon"
+    const val EGG_PATTERN = "EggPattern"
+    const val PRIMARY_COLOR = "PrimaryColor"
+    const val SECONDARY_COLOR = "SecondaryColor"
+
+    //Nest block
+    const val EGG = "Egg"
 }

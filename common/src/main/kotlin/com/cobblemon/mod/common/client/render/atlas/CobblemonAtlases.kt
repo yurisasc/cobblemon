@@ -17,6 +17,7 @@ object CobblemonAtlases {
     val atlases = mutableSetOf<SpriteAtlasHolder>()
 
     val BERRY_SPRITE_ATLAS = register("textures/atlas/berries.png", "berries")
+    val EGG_PATTERN_ATLAS = register("textures/atlas/egg_patterns.png", "egg_patterns")
     fun register(atlasId: String, sourcePath: String): SpriteAtlasHolder {
         val atlas = CobblemonAtlas(
             MinecraftClient.getInstance().textureManager,
