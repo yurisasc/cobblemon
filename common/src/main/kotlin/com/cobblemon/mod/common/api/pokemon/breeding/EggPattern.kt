@@ -1,4 +1,7 @@
 package com.cobblemon.mod.common.api.pokemon.breeding
 
-class EggPattern {
-}
+import net.minecraft.util.Identifier
+
+data class EggPattern (
+    val texturePath: Identifier
+)

@@ -155,6 +155,8 @@ interface BreedingLogic {
     }
 
     fun calculateMoveset(mother: Pokemon, father: Pokemon): MoveSet {
+        val momMoveSet = mother.moveSet
+        val dadMoveSet = father.moveSet
         return mother.moveSet
     }
 

@@ -20,12 +20,14 @@ import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
 import com.cobblemon.mod.common.client.render.block.FossilCompartmentRenderer
 import com.cobblemon.mod.common.client.render.block.FossilTubeRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
+import com.cobblemon.mod.common.client.render.block.NestBlockRenderer
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.EggModelRepo
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
@@ -237,6 +239,7 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.SIGN, ::SignBlockEntityRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.NEST, ::NestBlockRenderer)
     }
 
     private fun registerEntityRenderers() {
@@ -261,6 +264,7 @@ object CobblemonClient {
         PokeBallModelRepository.reload(resourceManager)
         BerryModelRepository.reload(resourceManager)
         FossilModelRepository.reload(resourceManager)
+        EggModelRepo.reload(resourceManager)
         LOGGER.info("Loaded assets")
     }
 

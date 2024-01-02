@@ -69,5 +69,10 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
     val NEST: BlockEntityType<NestBlockEntity> = this.create("nest",
         BlockEntityType.Builder.create({ pos, state ->
             NestBlockEntity(pos, state)
-        }).build(null))
+        },
+        CobblemonBlocks.NETHER_NEST,
+        CobblemonBlocks.WATER_NEST,
+        CobblemonBlocks.CAVE_NEST,
+        CobblemonBlocks.BASE_NEST
+        ).build(null))
 }
