@@ -67,6 +67,9 @@ object DataKeys {
 
     const val POKEMON_BREEDING_COOLDOWN = "BreedingCooldown"
 
+    const val POKEMON_ORIGINAL_TRAINER = "PokemonOriginalTrainer"
+    const val POKEMON_ORIGINAL_TRAINER_TYPE = "PokemonOriginalTrainerType"
+
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
     const val POKEMON_PENDING_EVOLUTIONS = "Pending"

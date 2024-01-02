@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Heracross",
   "nationalPokedexNumber": 214,
   "primaryType": "bug",
@@ -61,7 +61,6 @@
       ],
       "height": 17,
       "weight": 625,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

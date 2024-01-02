@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
+import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 
@@ -26,6 +27,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
  */
 class PokemonFloatingState : PoseableEntityState<PokemonEntity>() {
     override fun getEntity() = null
+    override val schedulingTracker = ClientTaskTracker
     override fun updatePartialTicks(partialTicks: Float) {
         this.currentPartialTicks += partialTicks
     }

@@ -11,8 +11,6 @@ package com.cobblemon.mod.common.api.spawning.condition
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.spawning.MoonPhaseRange
 import com.cobblemon.mod.common.api.spawning.TimeRange
-import com.cobblemon.mod.common.api.spawning.condition.ListCheckMode.ALL
-import com.cobblemon.mod.common.api.spawning.condition.ListCheckMode.ANY
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.util.Merger
@@ -57,8 +55,6 @@ abstract class SpawningCondition<T : SpawningContext> {
     var isRaining: Boolean? = null
     var isThundering: Boolean? = null
     var timeRange: TimeRange? = null
-    var labels: MutableList<String>? = null
-    var labelMode = ANY
     var structures: MutableList<Either<Identifier, TagKey<Structure>>>? = null
 
     @Transient
@@ -67,15 +63,15 @@ abstract class SpawningCondition<T : SpawningContext> {
     abstract fun contextClass(): Class<out T>
     fun contextMatches(ctx: SpawningContext) = contextClass().isAssignableFrom(ctx::class.java)
 
-    fun isSatisfiedBy(ctx: SpawningContext, detail: SpawnDetail): Boolean {
+    fun isSatisfiedBy(ctx: SpawningContext): Boolean {
         return if (contextMatches(ctx)) {
-            fits(ctx as T, detail)
+            fits(ctx as T)
         } else {
             false
         }
     }
 
-    protected open fun fits(ctx: T, detail: SpawnDetail): Boolean {
+    protected open fun fits(ctx: T): Boolean {
         if (ctx.position.x < minX.orMin() || ctx.position.x > maxX.orMax()) {
             return false
         } else if (ctx.position.y < minY.orMin() || ctx.position.y > maxY.orMax()) {
@@ -100,14 +96,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (isThundering != null && ctx.world.isThundering != isThundering!!) {
             return false
-        } else if (labels != null && labels!!.isNotEmpty() &&
-            (
-                (labelMode == ANY && labels!!.none { it in detail.labels }) ||
-                (labelMode == ALL && labels!!.any { it !in detail.labels })
-            )
-        ) {
-            return false
-        } else if (appendages.any { !it.fits(ctx, detail) }) {
+        } else if (appendages.any { !it.fits(ctx) }) {
             return false
         } else if (structures != null && structures!!.isNotEmpty() &&
             structures!!.let { structures ->
@@ -127,7 +116,6 @@ abstract class SpawningCondition<T : SpawningContext> {
     open fun copyFrom(other: SpawningCondition<*>, merger: Merger) {
         dimensions = merger.merge(dimensions, other.dimensions)?.toMutableList()
         biomes = merger.merge(biomes, other.biomes)?.toMutableSet()
-        labels = merger.merge(labels, other.labels)?.toMutableList()
         moonPhase = merger.mergeSingle(moonPhase, other.moonPhase)
         canSeeSky = merger.mergeSingle(canSeeSky, other.canSeeSky)
         minX = merger.mergeSingle(minX, other.minX)

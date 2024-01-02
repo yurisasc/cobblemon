@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Squawkabilly",
   "nationalPokedexNumber": 931,
@@ -166,7 +166,6 @@
       ],
       "height": 6,
       "weight": 24,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -212,7 +211,6 @@
       ],
       "height": 6,
       "weight": 24,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -258,7 +256,6 @@
       ],
       "height": 6,
       "weight": 24,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

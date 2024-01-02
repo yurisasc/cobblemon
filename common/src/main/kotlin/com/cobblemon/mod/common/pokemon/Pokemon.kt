@@ -41,7 +41,7 @@ import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
@@ -71,7 +71,6 @@ import com.mojang.serialization.JsonOps
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
@@ -94,7 +93,11 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
-import kotlin.reflect.jvm.internal.impl.metadata.ProtoBuf.Effect
+
+enum class OriginalTrainerType
+{
+    NONE, PLAYER, NPC
+}
 
 open class Pokemon : ShowdownIdentifiable {
     var uuid = UUID.randomUUID()
@@ -335,6 +338,27 @@ open class Pokemon : ShowdownIdentifiable {
             _tetheringId.emit(value)
         }
 
+    var originalTrainerType: OriginalTrainerType = OriginalTrainerType.NONE
+        private set
+
+    /**
+     * Either:
+     * - The Minecraft UniqueID of a Player
+     * - A display name for a Fake OT
+     * - Null
+     */
+    var originalTrainer: String? = null
+        private set
+
+    /**
+     * The cached Display Name of the Original Trainer
+     */
+    var originalTrainerName: String? = null
+        set(value) {
+            field = value
+            _originalTrainerName.emit(value)
+        }
+
 
     /**
      * All moves that the Pokémon has, at some point, known. This is to allow players to
@@ -410,7 +434,7 @@ open class Pokemon : ShowdownIdentifiable {
     var breedingCooldown: Int = 0
 
     init {
-        storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) afterOnMain(ticks = 1) { this.tetheringId = null } }
+        storeCoordinates.subscribe { if (it != null && it.store !is PCStore && this.tetheringId != null) afterOnServer(ticks = 1) { this.tetheringId = null } }
     }
 
     open fun getStat(stat: Stat) = Cobblemon.statProvider.getStatForPokemon(this, stat)
@@ -450,19 +474,21 @@ open class Pokemon : ShowdownIdentifiable {
         mutation: (PokemonEntity) -> Unit = {},
     ): CompletableFuture<PokemonEntity> {
         // Handle special case of shouldered Cobblemon
-        if (this.state is ShoulderedState) return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+        if (this.state is ShoulderedState) {
+            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+        }
 
         // Proceed as normal for non-shouldered Cobblemon
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
             level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.6F)
-            it.phasingTargetId.set(source.id)
-            it.beamModeEmitter.set(1)
-            it.battleId.set(Optional.ofNullable(battleId))
+            it.phasingTargetId = source.id
+            it.beamMode = 1
+            it.battleId = battleId
 
-            afterOnMain(seconds = SEND_OUT_DURATION) {
-                it.phasingTargetId.set(-1)
-                it.beamModeEmitter.set(0)
+            it.after(seconds = SEND_OUT_DURATION) {
+                it.phasingTargetId = -1
+                it.beamMode = 0
                 future.complete(it)
                 CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
                 if (doCry) {
@@ -504,9 +530,9 @@ open class Pokemon : ShowdownIdentifiable {
 
             // Make the Cobblemon walk to the target Position with haste
             it.moveControl.moveTo(targetPosition.x, targetPosition.y, targetPosition.z, 1.2)
-            it.battleId.set(Optional.ofNullable(battleId))
+            it.battleId = battleId
 
-            afterOnMain(seconds = SEND_OUT_DURATION) {
+            afterOnServer(seconds = SEND_OUT_DURATION) {
                 future.complete(it)
                 CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
                 if (doCry) {
@@ -711,6 +737,11 @@ open class Pokemon : ShowdownIdentifiable {
         nbt.putInt(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         nbt.putBoolean(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         nbt.putBoolean(DataKeys.POKEMON_TRADEABLE, tradeable)
+
+        if (originalTrainer != null) {
+            nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER, originalTrainer)
+        }
+        nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, originalTrainerType.name)
         return nbt
     }
 
@@ -782,6 +813,10 @@ open class Pokemon : ShowdownIdentifiable {
         this.dmaxLevel = nbt.getInt(DataKeys.POKEMON_DMAX_LEVEL)
         this.gmaxFactor = nbt.getBoolean(DataKeys.POKEMON_GMAX_FACTOR)
         this.tradeable = if (nbt.contains(DataKeys.POKEMON_TRADEABLE)) nbt.getBoolean(DataKeys.POKEMON_TRADEABLE) else true
+        originalTrainerType = OriginalTrainerType.valueOf(nbt.getString(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE).ifEmpty { OriginalTrainerType.NONE.name })
+        originalTrainer = if (nbt.contains(DataKeys.POKEMON_ORIGINAL_TRAINER)) nbt.getString(DataKeys.POKEMON_ORIGINAL_TRAINER) else null
+        refreshOriginalTrainer()
+
         return this
     }
 
@@ -826,6 +861,8 @@ open class Pokemon : ShowdownIdentifiable {
         json.addProperty(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         json.addProperty(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         json.addProperty(DataKeys.POKEMON_TRADEABLE, tradeable)
+        json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, originalTrainerType.name)
+        if (originalTrainer != null) json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER, originalTrainer)
         return json
     }
 
@@ -839,7 +876,15 @@ open class Pokemon : ShowdownIdentifiable {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
-        nickname = json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
+        nickname = if (version == "1.4.0") {
+            try {
+                json.get(DataKeys.POKEMON_NICKNAME)?.asString?.takeIf { it.isNotBlank() }?.let { Text.Serializer.fromJson(it) }
+            } catch (e: UnsupportedOperationException) {
+                json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
+            }
+        } else {
+            json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serializer.fromJson(it) }
+        }
         form = species.forms.find { it.formOnlyShowdownId() == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
@@ -914,6 +959,13 @@ open class Pokemon : ShowdownIdentifiable {
         if (json.has(DataKeys.POKEMON_TRADEABLE)) {
             this.tradeable = json.get(DataKeys.POKEMON_TRADEABLE).asBoolean
         }
+        if (json.has(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE)) {
+            this.originalTrainerType = OriginalTrainerType.valueOf(json.get(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE).asString)
+        }
+        if (json.has(DataKeys.POKEMON_ORIGINAL_TRAINER)) {
+            this.originalTrainer = json.get(DataKeys.POKEMON_ORIGINAL_TRAINER).asString
+        }
+        refreshOriginalTrainer()
         return this
     }
 
@@ -1017,6 +1069,55 @@ open class Pokemon : ShowdownIdentifiable {
      * @return If the value is within legal bounds.
      */
     fun isPossibleFriendship(value: Int) = value >= 0 && value <= Cobblemon.config.maxPokemonFriendship
+
+    /**
+     * Sets the Pokémon's Original Trainer.
+     *
+     * @param playerUUID The Player's UniqueID, used to check for Username updates.
+     * @param playerName The Player's Username to cache and use whilst this Pokémon is loaded.
+     */
+    fun setOriginalTrainer(playerUUID: UUID) {
+        originalTrainerType = OriginalTrainerType.PLAYER
+        originalTrainer = playerUUID.toString()
+    }
+
+    /**
+     * Sets the Pokémon's Original Trainer to be a Fake Trainer.
+     * Fake Trainers skips checking for Username updates and use this value directly.
+     *
+     * @param fakeTrainerName The Fake Trainer's name that will be displayed.
+     */
+    fun setOriginalTrainer(fakeTrainerName: String) {
+        originalTrainerType = OriginalTrainerType.NPC
+        originalTrainer = fakeTrainerName
+    }
+
+    fun refreshOriginalTrainer()
+    {
+        when (originalTrainerType)
+        {
+            OriginalTrainerType.PLAYER -> {
+                UUID.fromString(originalTrainer)?.let { uuid ->
+                    server()?.userCache?.getByUuid(uuid)?.orElse(null)?.name?.let {
+                        originalTrainerName = it
+                    }
+                }
+            }
+            OriginalTrainerType.NPC -> {
+                originalTrainerName = originalTrainer
+            }
+            OriginalTrainerType.NONE -> {
+                originalTrainerName = null
+            }
+        }
+    }
+
+    fun removeOriginalTrainer()
+    {
+        originalTrainer = null
+        originalTrainerType = OriginalTrainerType.NONE
+        originalTrainerName = null
+    }
 
     val allAccessibleMoves: Set<MoveTemplate>
         get() = form.moves.getLevelUpMovesUpTo(level) + benchedMoves.map { it.moveTemplate } + form.moves.evolutionMoves
@@ -1405,6 +1506,7 @@ open class Pokemon : ShowdownIdentifiable {
     private val _teraType = registerObservable(SimpleObservable<ElementalType>()) { TeraTypeUpdatePacket({ this }, it) }
     private val _dmaxLevel = registerObservable(SimpleObservable<Int>()) { DmaxLevelUpdatePacket({ this }, it) }
     private val _gmaxFactor = registerObservable(SimpleObservable<Boolean>()) { GmaxFactorUpdatePacket({ this }, it) }
+    private val _originalTrainerName = registerObservable(SimpleObservable<String?>()) { OriginalTrainerUpdatePacket({ this }, it) }
 
     private val _features = registerObservable(SimpleObservable<SpeciesFeature>())
 

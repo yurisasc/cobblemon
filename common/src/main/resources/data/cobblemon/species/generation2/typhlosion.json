@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Typhlosion",
   "nationalPokedexNumber": 157,
@@ -140,7 +140,6 @@
       "height": 16,
       "weight": 698,
       "preEvolution": "quilava",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

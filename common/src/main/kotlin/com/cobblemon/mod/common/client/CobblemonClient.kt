@@ -8,9 +8,14 @@
 
 package com.cobblemon.mod.common.client
 
-import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
+import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonClientImplementation
+import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
@@ -83,7 +88,7 @@ object CobblemonClient {
         storage.onLogout()
         battle = null
         battleOverlay.onLogout()
-        ScheduledTaskTracker.clear()
+        ClientTaskTracker.clear()
         checkedStarterScreen = false
         CobblemonDataProvider.canReload = true
     }
@@ -94,11 +99,6 @@ object CobblemonClient {
 
         PlatformEvents.CLIENT_PLAYER_LOGIN.subscribe { onLogin() }
         PlatformEvents.CLIENT_PLAYER_LOGOUT.subscribe { onLogout() }
-
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_TUBE, ::FossilTubeRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_COMPARTMENT, ::FossilCompartmentRenderer)
 
         this.registerBlockEntityRenderers()
         registerBlockRenderTypes()
@@ -219,6 +219,7 @@ object CobblemonClient {
     }
 
     fun beforeChatRender(context: DrawContext, partialDeltaTicks: Float) {
+//        ClientTaskTracker.update(partialDeltaTicks / 20f)
         if (battle == null) {
             overlay.render(context, partialDeltaTicks)
         } else {

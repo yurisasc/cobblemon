@@ -167,6 +167,13 @@
 				"pokemon": "cobblemon:vivillon",
 				"aspects": ["vivillon-wings-forsaken"]
 			}
+		},
+		"pokeball": {
+			"trigger": "cobblemon:aspects_collected",
+			"conditions": {
+				"pokemon": "cobblemon:vivillon",
+				"aspects": ["vivillon-wings-poke-ball"]
+			}
 		}
 	},
 	"requirements": [
@@ -191,7 +198,8 @@
 		["tundra"],
 		["inferno"],
 		["void"],
-		["forsaken"]
+		["forsaken"],
+		["pokeball"]
 	],
   "rewards": {
     "experience": 100
