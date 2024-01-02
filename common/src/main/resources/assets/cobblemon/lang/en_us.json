@@ -296,6 +296,9 @@
   "item.cobblemon.sail_fossil": "Sail Fossil",
   "item.cobblemon.skull_fossil": "Skull Fossil",
 
+  "item.cobblemon.relic_coin": "Relic Coin",
+  "item.cobblemon.relic_coin_pouch": "Relic Coin Pouch",
+
   "cobblemon.fossil.armor": "Armor",
   "cobblemon.fossil.bird": "Bird",
   "cobblemon.fossil.claw": "Claw",
@@ -405,8 +408,8 @@
   "cobblemon.ui.stats.sp_def": "Sp.Def",
   "cobblemon.ui.stats.speed": "Speed",
 
-  "cobblemon.ui.gold_hoard": "Gold Hoard",
-  "cobblemon.ui.netherite_hoard": "Netherite Hoard",
+  "cobblemon.ui.gold_hoard": "Coin Stash",
+  "cobblemon.ui.netherite_hoard": "Scrap Stash",
 
   "cobblemon.ui.info": "Info",
   "cobblemon.ui.info.pokedex_number": "Dex No.",

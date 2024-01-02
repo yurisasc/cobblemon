@@ -718,6 +718,10 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     // Misc
     @JvmField
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
+    @JvmField
+    val RELIC_COIN = noSettingsItem("relic_coin")
+    @JvmField
+    val RELIC_COIN_POUCH = noSettingsItem("relic_coin_pouch")
 
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 

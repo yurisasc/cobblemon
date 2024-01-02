@@ -123,12 +123,6 @@
   "gimmighoul.give_item_small": {
     "sounds": [ "cobblemon:gimmighoul_give_item_small" ]
   },
-  "gimmighoul.give_item_medium": {
-    "sounds": [ "cobblemon:gimmighoul_give_item_medium" ]
-  },
-  "gimmighoul.give_item_large": {
-    "sounds": [ "cobblemon:gimmighoul_give_item_large" ]
-  },
   "gimmighoul.reveal": {
     "sounds": [ "cobblemon:gimmighoul_reveal" ]
   },

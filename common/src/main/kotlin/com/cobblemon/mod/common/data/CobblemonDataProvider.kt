@@ -18,8 +18,6 @@ import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
-import com.cobblemon.mod.common.api.materials.GoldMaterials
-import com.cobblemon.mod.common.api.materials.NetheriteMaterials
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
@@ -68,8 +66,6 @@ object CobblemonDataProvider : DataProvider {
         this.register(BagItems)
         this.register(NaturalMaterials)
         this.register(Fossils)
-        this.register(GoldMaterials)
-        this.register(NetheriteMaterials)
 
         CobblemonSpawnPools.load()
         this.register(Berries)

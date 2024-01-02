@@ -23,8 +23,6 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.HELD_ITEM_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.LEVEL_UP_EVENT
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.TRADE_COMPLETED
-import com.cobblemon.mod.common.api.materials.GoldMaterials
-import com.cobblemon.mod.common.api.materials.NetheriteMaterials
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
@@ -79,7 +77,6 @@ import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
 import com.cobblemon.mod.common.item.PokeBallItem
@@ -126,7 +123,6 @@ import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.item.Items
 import net.minecraft.item.NameTagItem
-import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.WorldSavePath
@@ -237,16 +233,6 @@ object Cobblemon {
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
 
         HeldItemProvider.register(CobblemonHeldItemManager, Priority.LOWEST)
-    }
-
-    private fun pocketItemSound(pokemon: PokemonEntity, content: Int) {
-        return if (content > 5) {
-            pokemon.world.playSound(null, pokemon.blockPos, CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_LARGE, SoundCategory.PLAYERS)
-        } else if (content > 1) {
-            pokemon.world.playSound(null, pokemon.blockPos, CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_MEDIUM, SoundCategory.PLAYERS)
-        } else {
-            pokemon.world.playSound(null, pokemon.blockPos, CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, SoundCategory.PLAYERS)
-        }
     }
 
     fun initialize() {
@@ -382,30 +368,34 @@ object Cobblemon {
         TRADE_COMPLETED.subscribe { AdvancementHandler.onTradeCompleted(it) }
 
         HELD_ITEM_UPDATED.subscribe { event ->
-            val itemId = Registries.ITEM.getId(event.newItem.item)
+            val player = event.cause ?: return@subscribe
             val goldHoard = event.pokemon.getFeature<IntSpeciesFeature>("gimmighoul_coins")
             val netheriteHoard = event.pokemon.getFeature<IntSpeciesFeature>("gimmighoul_netherite")
 
-            if (goldHoard != null && GoldMaterials.isGoldMaterial(itemId)) {
-                goldHoard.value += GoldMaterials.getContent(itemId)!!
-                if (goldHoard.value > 999) goldHoard.value = 999
-                if (event.decrement) {
-                    event.originalStack.decrement(1)
+            if (goldHoard != null && goldHoard.value < 999) {
+                val increase = when (event.newItem.item) {
+                    CobblemonItems.RELIC_COIN -> 1
+                    CobblemonItems.RELIC_COIN_POUCH -> 9
+                    else -> 0
                 }
-                // Features need to be marked dirty to update the client + trigger storage saving
-                if (event.pokemon.entity != null) pocketItemSound(event.pokemon.entity!!, GoldMaterials.getContent(itemId)!!)
-                event.pokemon.markFeatureDirty(goldHoard)
-                event.cancel()
+
+                if (increase != 0) {
+                    goldHoard.value += increase
+                    if (goldHoard.value > 999) goldHoard.value = 999
+                    if (event.decrement) event.originalStack.decrement(1)
+                    if (event.pokemon.entity != null) player.world.playSound(null, player.blockPos, CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, SoundCategory.PLAYERS)
+                    // Features need to be marked dirty to update the client + trigger storage saving
+                    event.pokemon.markFeatureDirty(goldHoard)
+                    event.cancel()
+                }
             }
 
-            if (netheriteHoard != null && NetheriteMaterials.isNetheriteMaterial(itemId)) {
-                netheriteHoard.value += NetheriteMaterials.getContent(itemId)!!
+            if (netheriteHoard != null && netheriteHoard.value < 256 && event.newItem.isOf(Items.NETHERITE_SCRAP)) {
+                netheriteHoard.value++
                 if (netheriteHoard.value > 256) netheriteHoard.value = 256
-                if (event.decrement) {
-                    event.originalStack.decrement(1)
-                }
+                if (event.decrement) event.originalStack.decrement(1)
+                if (event.pokemon.entity != null) player.world.playSound(null, player.blockPos, CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, SoundCategory.PLAYERS)
                 // Features need to be marked dirty to update the client + trigger storage saving
-                if (event.pokemon.entity != null) pocketItemSound(event.pokemon.entity!!, NetheriteMaterials.getContent(itemId)!!)
                 event.pokemon.markFeatureDirty(netheriteHoard)
                 event.cancel()
             }
