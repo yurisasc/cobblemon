@@ -20,6 +20,7 @@ import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
+import net.minecraft.state.property.DirectionProperty
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
@@ -30,14 +31,17 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class TMBlock(properties: Settings): Block(properties), Waterloggable {
+class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterloggable {
     companion object {
         val WATERLOGGED = BooleanProperty.of("waterlogged")
+        val ON = BooleanProperty.of("on")
     }
 
     init {
-        defaultState = this.stateManager.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
+        defaultState = this.stateManager.defaultState.with(FACING, Direction.NORTH)
             .with(WATERLOGGED, false)
+            .with(FACING, Direction.SOUTH)
+            .with(ON, false)
     }
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
@@ -45,8 +49,9 @@ class TMBlock(properties: Settings): Block(properties), Waterloggable {
         val world = blockPlaceContext.world
         if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
             return defaultState
-                .with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
+                .with(FACING, blockPlaceContext.horizontalPlayerFacing)
                 .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
+                .with(ON, false)
         }
 
         return null
@@ -56,17 +61,18 @@ class TMBlock(properties: Settings): Block(properties), Waterloggable {
     override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType) = false
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(HorizontalFacingBlock.FACING)
+        builder.add(FACING)
         builder.add(WATERLOGGED)
+        builder.add(ON)
     }
 
     @Deprecated("Deprecated in Java")
     override fun rotate(blockState: BlockState, rotation: BlockRotation) =
-        blockState.with(HorizontalFacingBlock.FACING, rotation.rotate(blockState.get(HorizontalFacingBlock.FACING)))
+        blockState.with(FACING, rotation.rotate(blockState.get(FACING)))
 
     @Deprecated("Deprecated in Java")
     override fun mirror(blockState: BlockState, mirror: BlockMirror): BlockState {
-        return blockState.rotate(mirror.getRotation(blockState.get(HorizontalFacingBlock.FACING)))
+        return blockState.rotate(mirror.getRotation(blockState.get(FACING)))
     }
 
     @Deprecated("Deprecated in Java")

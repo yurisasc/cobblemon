@@ -1,63 +1,33 @@
 {
   "variants": {
-    "facing=south,part=top,on=false": {
-      "model": "cobblemon:block/pc_top"
+    "facing=south,on=false": {
+      "model": "cobblemon:block/tm_machine"
     },
-    "facing=west,part=top,on=false": {
-      "model": "cobblemon:block/pc_top",
+    "facing=west,on=false": {
+      "model": "cobblemon:block/tm_machine",
       "y": 90
     },
-    "facing=north,part=top,on=false": {
-      "model": "cobblemon:block/pc_top",
+    "facing=north,on=false": {
+      "model": "cobblemon:block/tm_machine",
       "y": 180
     },
-    "facing=east,part=top,on=false": {
-      "model": "cobblemon:block/pc_top",
+    "facing=east,on=false": {
+      "model": "cobblemon:block/tm_machine",
       "y": 270
     },
-    "facing=south,part=top,on=true": {
-      "model": "cobblemon:block/pc_top_on"
+    "facing=south,on=true": {
+      "model": "cobblemon:block/tm_machine_on"
     },
-    "facing=west,part=top,on=true": {
-      "model": "cobblemon:block/pc_top_on",
+    "facing=west,on=true": {
+      "model": "cobblemon:block/tm_machine_on",
       "y": 90
     },
-    "facing=north,part=top,on=true": {
-      "model": "cobblemon:block/pc_top_on",
+    "facing=north,on=true": {
+      "model": "cobblemon:block/tm_machine_on",
       "y": 180
     },
-    "facing=east,part=top,on=true": {
-      "model": "cobblemon:block/pc_top_on",
-      "y": 270
-    },
-    "facing=south,part=bottom,on=false": {
-      "model": "cobblemon:block/pc_bottom"
-    },
-    "facing=west,part=bottom,on=false": {
-      "model": "cobblemon:block/pc_bottom",
-      "y": 90
-    },
-    "facing=north,part=bottom,on=false": {
-      "model": "cobblemon:block/pc_bottom",
-      "y": 180
-    },
-    "facing=east,part=bottom,on=false": {
-      "model": "cobblemon:block/pc_bottom",
-      "y": 270
-    },
-    "facing=south,part=bottom,on=true": {
-      "model": "cobblemon:block/pc_bottom"
-    },
-    "facing=west,part=bottom,on=true": {
-      "model": "cobblemon:block/pc_bottom",
-      "y": 90
-    },
-    "facing=north,part=bottom,on=true": {
-      "model": "cobblemon:block/pc_bottom",
-      "y": 180
-    },
-    "facing=east,part=bottom,on=true": {
-      "model": "cobblemon:block/pc_bottom",
+    "facing=east,on=true": {
+      "model": "cobblemon:block/tm_machine_on",
       "y": 270
     }
   }
