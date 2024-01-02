@@ -71,7 +71,6 @@ import com.mojang.serialization.JsonOps
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
@@ -94,7 +93,6 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
-import kotlin.reflect.jvm.internal.impl.metadata.ProtoBuf.Effect
 
 open class Pokemon : ShowdownIdentifiable {
     var uuid = UUID.randomUUID()
@@ -1347,6 +1345,14 @@ open class Pokemon : ShowdownIdentifiable {
             move.raisedPpStages = benchedNewMove.ppRaisedStages
             move.currentPp = move.maxPp
             moveSet.add(move)
+            // Inserts the new move in the old move's position and pushes the other move's down a postion
+            val srcIdx = moveSet.indexOf(moveSet.find { it.template == oldMove })
+            val dstIdx = moveSet.indexOf(moveSet.find { it.template == newMove })
+            var currIdx = srcIdx + 1
+            while(currIdx <= dstIdx) {
+                moveSet.swapMove(srcIdx, currIdx)
+                currIdx++
+            }
             return true
         }
 
