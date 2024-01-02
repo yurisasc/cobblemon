@@ -151,5 +151,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:rindo_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/rindo.png"
+  "fruitTexture": "cobblemon:flower"
 }

@@ -168,5 +168,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:sitrus_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/sitrus.png"
+  "fruitTexture": "cobblemon:flower"
 }

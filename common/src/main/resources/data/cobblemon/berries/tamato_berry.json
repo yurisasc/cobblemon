@@ -165,5 +165,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:tamato_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/tamato.png"
+  "fruitTexture": "cobblemon:flower"
 }

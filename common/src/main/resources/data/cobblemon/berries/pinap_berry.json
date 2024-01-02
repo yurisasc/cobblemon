@@ -171,5 +171,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:pinap_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/pinap.png"
+  "fruitTexture": "cobblemon:flower"
 }

@@ -95,5 +95,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:leppa_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/leppa.png"
+  "fruitTexture": "cobblemon:flower"
 }

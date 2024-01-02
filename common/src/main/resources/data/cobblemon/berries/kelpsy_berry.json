@@ -167,5 +167,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:kelpsy_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/kelpsy.png"
+  "fruitTexture": "cobblemon:flower"
 }

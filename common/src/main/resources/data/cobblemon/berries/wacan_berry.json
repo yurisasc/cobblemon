@@ -163,5 +163,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:wacan_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/wacan.png"
+  "fruitTexture": "cobblemon:flower"
 }

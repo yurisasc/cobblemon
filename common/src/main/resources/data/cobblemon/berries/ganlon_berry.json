@@ -103,5 +103,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:ganlon_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/ganlon.png"
+  "fruitTexture": "cobblemon:flower"
 }

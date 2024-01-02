@@ -106,5 +106,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:maranga_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/maranga.png"
+  "fruitTexture": "cobblemon:flower"
 }

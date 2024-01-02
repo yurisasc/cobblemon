@@ -116,5 +116,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:payapa_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/payapa.png"
+  "fruitTexture": "cobblemon:flower"
 }

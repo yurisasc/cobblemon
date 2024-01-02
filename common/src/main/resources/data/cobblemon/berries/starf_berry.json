@@ -117,5 +117,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:starf_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/starf.png"
+  "fruitTexture": "cobblemon:flower"
 }

@@ -151,5 +151,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:occa_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/occa.png"
+  "fruitTexture": "cobblemon:flower"
 }

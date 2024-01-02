@@ -130,5 +130,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:magost_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/magost.png"
+  "fruitTexture": "cobblemon:flower"
 }

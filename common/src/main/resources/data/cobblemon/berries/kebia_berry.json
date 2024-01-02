@@ -139,5 +139,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:kebia_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/kebia.png"
+  "fruitTexture": "cobblemon:flower"
 }

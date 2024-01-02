@@ -91,5 +91,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:rowap_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/rowap.png"
+  "fruitTexture": "cobblemon:flower"
 }

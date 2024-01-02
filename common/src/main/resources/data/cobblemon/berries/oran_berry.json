@@ -181,7 +181,7 @@
   "weight": 25.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/flower.png",
+  "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:oran_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/oran.png"
+  "fruitTexture": "cobblemon:flower"
 }

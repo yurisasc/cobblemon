@@ -145,5 +145,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:roseli_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/roseli.png"
+  "fruitTexture": "cobblemon:flower"
 }

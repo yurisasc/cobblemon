@@ -116,5 +116,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:kasib_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/kasib.png"
+  "fruitTexture": "cobblemon:flower"
 }

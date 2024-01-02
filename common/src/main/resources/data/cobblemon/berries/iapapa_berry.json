@@ -164,5 +164,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:iapapa_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/iapapa.png"
+  "fruitTexture": "cobblemon:flower"
 }

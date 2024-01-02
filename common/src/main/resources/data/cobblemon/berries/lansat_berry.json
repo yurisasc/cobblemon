@@ -166,5 +166,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:lansat_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/lansat.png"
+  "fruitTexture": "cobblemon:flower"
 }

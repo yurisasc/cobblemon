@@ -117,5 +117,5 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:textures/berries/flower.png",
   "fruitModel": "cobblemon:rabuta_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/rabuta.png"
+  "fruitTexture": "cobblemon:flower"
 }
