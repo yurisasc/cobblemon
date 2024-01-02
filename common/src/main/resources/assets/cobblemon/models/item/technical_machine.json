@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cobblemon:item/tm",
-    "layer1": "cobblemon:item/tm_overlay"
+    "layer0": "cobblemon:item/tms/tm",
+    "layer1": "cobblemon:item/tms/tm_overlay"
   }
 }

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.text.gray
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
@@ -144,7 +145,13 @@ object CobblemonClient {
 
         this.implementation.registerItemColors(ItemColorProvider { stack, tint ->
             val tm = stack.item as TechnicalMachineItem
-            return@ItemColorProvider tm.getColorNbt(stack, tint)
+            val nbt = tm.getMoveNbt(stack) ?: return@ItemColorProvider ElementalTypes.NORMAL.primaryColor
+
+            if (nbt.primaryColor != null && tint == 0) return@ItemColorProvider nbt.primaryColor
+            if (nbt.secondaryColor != null && tint != 0) return@ItemColorProvider nbt.secondaryColor
+
+            val type = ElementalTypes.getOrException(nbt.type)
+            if (tint == 0) return@ItemColorProvider type.primaryColor else return@ItemColorProvider type.secondaryColor
         }, CobblemonItems.TECHNICAL_MACHINE)
     }
 

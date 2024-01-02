@@ -81,9 +81,7 @@ object CobblemonItemGroups {
         for (tm in TechnicalMachines.tmMap) {
             val item = CobblemonItems.TECHNICAL_MACHINE.setNbt(
                 CobblemonItems.TECHNICAL_MACHINE.defaultStack,
-                tm.key.toString(),
-                tm.value.primaryColor,
-                tm.value.secondaryColor)
+                tm.key.toString())
             entries.add(item)
         }
     }
@@ -376,6 +374,25 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.TWISTED_SPOON)
         entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
+
+        entries.add(CobblemonItems.NORMAL_TYPE_GEM)
+        entries.add(CobblemonItems.FIRE_TYPE_GEM)
+        entries.add(CobblemonItems.WATER_TYPE_GEM)
+        entries.add(CobblemonItems.GRASS_TYPE_GEM)
+        entries.add(CobblemonItems.ELECTRIC_TYPE_GEM)
+        entries.add(CobblemonItems.ICE_TYPE_GEM)
+        entries.add(CobblemonItems.FIGHTING_TYPE_GEM)
+        entries.add(CobblemonItems.POISON_TYPE_GEM)
+        entries.add(CobblemonItems.GROUND_TYPE_GEM)
+        entries.add(CobblemonItems.FLYING_TYPE_GEM)
+        entries.add(CobblemonItems.PSYCHIC_TYPE_GEM)
+        entries.add(CobblemonItems.BUG_TYPE_GEM)
+        entries.add(CobblemonItems.ROCK_TYPE_GEM)
+        entries.add(CobblemonItems.GHOST_TYPE_GEM)
+        entries.add(CobblemonItems.DRAGON_TYPE_GEM)
+        entries.add(CobblemonItems.DARK_TYPE_GEM)
+        entries.add(CobblemonItems.STEEL_TYPE_GEM)
+        entries.add(CobblemonItems.FAIRY_TYPE_GEM)
     }
 
     private fun pokeballentries(displayContext: DisplayContext, entries: Entries) {

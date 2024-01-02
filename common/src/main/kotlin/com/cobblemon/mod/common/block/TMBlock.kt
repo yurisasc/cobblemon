@@ -8,11 +8,7 @@
 
 package com.cobblemon.mod.common.block
 
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.block.Waterloggable
+import net.minecraft.block.*
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
@@ -20,7 +16,6 @@ import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.DirectionProperty
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
@@ -28,6 +23,8 @@ import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
@@ -35,12 +32,36 @@ class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterlog
     companion object {
         val WATERLOGGED = BooleanProperty.of("waterlogged")
         val ON = BooleanProperty.of("on")
+
+        private var NORTH_OUTLINE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.3125, 0.9375),
+            VoxelShapes.cuboid(0.0, 0.3125, 0.75, 1.0, 0.9375, 0.9375),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
+        )
+
+        private var SOUTH_OUTLINE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.0, 0.0, 0.0625, 1.0, 0.3125, 1.0),
+            VoxelShapes.cuboid(0.0, 0.3125, 0.0625, 1.0, 0.9375, 0.25),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
+        )
+
+        private var WEST_OUTLINE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.0, 0.0, 0.0, 0.9375, 0.3125, 1.0),
+            VoxelShapes.cuboid(0.75, 0.3125, 0.0, 0.9375, 0.9375, 1.0),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
+        )
+
+        private var EAST_OUTLINE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.0625, 0.0, 0.0, 1.0, 0.3125, 1.0),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.0, 0.25, 0.9375, 1.0),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
+        )
+
     }
 
     init {
         defaultState = this.stateManager.defaultState.with(FACING, Direction.NORTH)
             .with(WATERLOGGED, false)
-            .with(FACING, Direction.SOUTH)
             .with(ON, false)
     }
 
@@ -101,5 +122,19 @@ class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterlog
         return if (state.get(WATERLOGGED)) {
             Fluids.WATER.getStill(false)
         } else super.getFluidState(state)
+    }
+
+    override fun getOutlineShape(
+        state: BlockState,
+        world: BlockView,
+        pos: BlockPos,
+        context: ShapeContext
+    ): VoxelShape {
+        return when (state.get(FACING)) {
+            Direction.NORTH -> NORTH_OUTLINE
+            Direction.SOUTH -> SOUTH_OUTLINE
+            Direction.WEST -> WEST_OUTLINE
+            else -> EAST_OUTLINE
+        }
     }
 }

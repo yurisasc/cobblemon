@@ -17,8 +17,9 @@ class TechnicalMachine(
     val moveName: String,
     val recipe: TechnicalMachineRecipe,
     val obtainMethods: List<ObtainMethod> = emptyList(),
-    val primaryColor: Int = 0xFFFFFF,
-    val secondaryColor: Int = 0xFFFFFF
+    val type: String,
+    val primaryColor: Int?,
+    val secondaryColor: Int?
 ) {
 
     /**

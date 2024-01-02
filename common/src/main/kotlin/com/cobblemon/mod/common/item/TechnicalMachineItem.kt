@@ -8,20 +8,24 @@
 
 package com.cobblemon.mod.common.item
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.moves.BenchedMove
+import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtInt
+import net.minecraft.item.ItemUsageContext
 import net.minecraft.nbt.NbtString
+import net.minecraft.registry.Registries
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
@@ -33,8 +37,6 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
 
     companion object {
         val STORED_MOVE_KEY = "StoredMove"
-        val PRIMARY_COLOR = "PrimaryColor"
-        val SECONDARY_COLOR = "SecondaryColor"
     }
 
     override fun hasGlint(stack: ItemStack?) = false
@@ -45,15 +47,8 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         return TechnicalMachines.tmMap[Identifier.tryParse(nbtCompound.getString(STORED_MOVE_KEY))]
     }
 
-    fun getColorNbt(stack: ItemStack, tint: Int): Int {
-        return if (tint == 0) stack.nbt?.getInt(PRIMARY_COLOR) ?: 0xFFFFFF
-            else stack.nbt?.getInt(SECONDARY_COLOR) ?: 0xFFFFFF
-    }
-
-    fun setNbt(stack: ItemStack, id: String, primary: Int, secondary: Int): ItemStack {
+    fun setNbt(stack: ItemStack, id: String): ItemStack {
         stack.getOrCreateNbt().put(STORED_MOVE_KEY, NbtString.of(id))
-        stack.getOrCreateNbt().put(PRIMARY_COLOR, NbtInt.of(primary))
-        stack.getOrCreateNbt().put(SECONDARY_COLOR, NbtInt.of(secondary))
         return stack
     }
 
@@ -81,7 +76,15 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         val translatedName = lang("move." + tm.moveName)
         val pokemon = entity.pokemon
 
-        if (!pokemon.species.moves.tmMoves.contains(move)) {
+        val tmLearnableMoves = mutableListOf<MoveTemplate>()
+
+        tmLearnableMoves.addAll(pokemon.species.moves.tmMoves)
+        tmLearnableMoves.addAll(pokemon.species.moves.tutorMoves)
+        tmLearnableMoves.addAll(pokemon.species.moves.eggMoves)
+        tmLearnableMoves.addAll(pokemon.species.moves.evolutionMoves)
+        tmLearnableMoves.addAll(pokemon.species.moves.getLevelUpMovesUpTo(Cobblemon.config.maxPokemonLevel))
+
+        if (!tmLearnableMoves.contains(move)) {
             user.sendMessage(lang("tms.cannot_learn", pokemon.getDisplayName(), translatedName))
             return ActionResult.FAIL
         }
@@ -91,8 +94,16 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         }
 
         if (!user.isCreative) stack.decrement(1)
-        pokemon.benchedMoves.add(BenchedMove(move, 0))
+        if (pokemon.moveSet.hasSpace()) { pokemon.moveSet.add(move.create()) }
+            else { pokemon.benchedMoves.add(BenchedMove(move, 0)) }
+
         user.sendMessage(lang("tms.teach_move", pokemon.getDisplayName(), translatedName).green())
         return ActionResult.CONSUME
+    }
+
+    override fun useOnBlock(context: ItemUsageContext): ActionResult {
+        val type = ElementalTypes.getOrException(getMoveNbt(context.stack)!!.type)
+        context.player!!.giveItemStack(Registries.ITEM.get(type.typeGem).defaultStack)
+        return super.useOnBlock(context)
     }
 }
