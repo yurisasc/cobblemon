@@ -1071,6 +1071,153 @@ object BattleBuilder {
                     // add to party
                     npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
                 }
+                "sandster" -> {
+                    // Excadrill
+                    var npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("excadrill")!!
+                    npcPokemon.nature = Natures.getNature("jolly")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.ATTACK,252)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
+                    npcPokemon.setEV(Stats.SPEED,252)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LEFTOVERS), false)
+                    npcPokemon.ability = Abilities.get("sandrush")!!.create()
+                    npcPokemon.setMoveset(listOf("earthquake", "ironhead", "rapidspin", "stealthrock"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    //PokemonProperties.parse() // todo try to use this for smaller code later
+
+                    // Hippowdon stall
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("hippowdon")!!
+                    npcPokemon.nature = Natures.getNature("careful")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,248)
+                    npcPokemon.setEV(Stats.ATTACK,8)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,252)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LEFTOVERS), false)
+                    npcPokemon.ability = Abilities.get("sandstream")!!.create()
+                    npcPokemon.setMoveset(listOf("toxic", "icefang", "earthquake", "stealthrock"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Tyranitar
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("tyranitar")!!
+                    npcPokemon.nature = Natures.getNature("adamant")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.ATTACK,252)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
+                    npcPokemon.setEV(Stats.SPEED,252)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.ASSAULT_VEST), false)  //expert belt
+                    npcPokemon.ability = Abilities.get("sandstream")!!.create()
+                    npcPokemon.setMoveset(listOf("stoneedge", "crunch", "firepunch", "earthquake"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Cradilly
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("cradily")!!
+                    npcPokemon.nature = Natures.getNature("calm")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.SPECIAL_ATTACK,4)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,252)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LEFTOVERS), false)  //focus sash
+                    npcPokemon.ability = Abilities.get("stormdrain")!!.create()
+                    npcPokemon.setMoveset(listOf("recover", "toxic", "protect", "gigadrain"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Garchomp
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("garchomp")!!
+                    npcPokemon.nature = Natures.getNature("jolly")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.ATTACK,252)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
+                    npcPokemon.setEV(Stats.SPEED,252)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false) //  focus sash
+                    npcPokemon.ability = Abilities.get("sandforce")!!.create()
+                    npcPokemon.setMoveset(listOf("stoneedge", "poisonjab", "earthquake", "outrage"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Reuiniculus
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("reuniclus")!!
+                    npcPokemon.nature = Natures.getNature("calm")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 0)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.SPECIAL_ATTACK,4)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,252)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LEFTOVERS), false)
+                    npcPokemon.ability = Abilities.get("magicguard")!!.create()
+                    npcPokemon.setMoveset(listOf("recover", "thunderwave", "shadowball", "focusblast"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+                }
                 /*"ghetsis" -> {
 
                 }*/
@@ -1109,6 +1256,7 @@ object BattleBuilder {
             "evice" -> TrainerBattleActor("Evice", npcUUID, npcParty.toList(), battleAIType)
             "cynthia" -> TrainerBattleActor("Cynthia", npcUUID, npcParty.toList(), battleAIType)
             "trickster" -> TrainerBattleActor("Trickster", npcUUID, npcParty.toList(), battleAIType)
+            "sandster" -> TrainerBattleActor("Sandster", npcUUID, npcParty.toList(), battleAIType)
             else -> TrainerBattleActor("Master of Crabs", npcUUID, npcParty.toList(), battleAIType)
         }
 
