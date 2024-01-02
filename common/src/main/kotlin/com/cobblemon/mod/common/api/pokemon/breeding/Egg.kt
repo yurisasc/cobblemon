@@ -4,7 +4,7 @@ import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 
-data class Egg (
+data class Egg(
     val hatchedPokemon: EggPokemon,
     val patternId: Identifier,
     val primaryColor: String,

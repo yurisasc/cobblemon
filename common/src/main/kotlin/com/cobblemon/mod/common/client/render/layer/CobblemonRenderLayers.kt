@@ -38,8 +38,7 @@ object CobblemonRenderLayers {
     val EGG_LAYER = run {
         val multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
         .lightmap(ENABLE_LIGHTMAP)
-        .overlay(ENABLE_OVERLAY_COLOR)
-        .program(ENTITY_CUTOUT_PROGRAM)
+        .program(CUTOUT_PROGRAM)
         .texture(Texture(
             cobblemonResource("textures/atlas/egg_patterns.png"),
             false,
@@ -49,7 +48,7 @@ object CobblemonRenderLayers {
         .build(true)
         RenderLayer.of(
             "egg_patterns",
-            VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
+            VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL,
             VertexFormat.DrawMode.QUADS,
             512,
             true,

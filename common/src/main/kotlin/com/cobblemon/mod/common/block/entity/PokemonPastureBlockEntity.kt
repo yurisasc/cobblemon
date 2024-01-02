@@ -303,8 +303,12 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                                         blockEntity.egg = Egg(
                                             breedResult.pokemon,
                                             cobblemonResource("test_pattern"),
-                                            "#FFFFFF",
-                                            null
+                                            Integer.toHexString(breedResult.pokemon.species.primaryType.hue),
+                                            breedResult.pokemon.species.secondaryType?.hue?.let {
+                                                Integer.toHexString(
+                                                    it
+                                                )
+                                            }
                                         )
                                         blockEntity.markDirty()
                                         world?.updateListeners(nestTaken, world?.getBlockState(nestTaken), world?.getBlockState(nestTaken), Block.NOTIFY_LISTENERS)
