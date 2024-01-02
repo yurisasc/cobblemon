@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles.ai
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.battles.interpreter.BattleContext
@@ -32,6 +33,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.party
+import net.minecraft.item.ItemStack
 import java.util.*
 
 /**
@@ -303,9 +305,12 @@ class StrongBattleAI() : BattleAI {
             "snowscape" to "Snow",
             "sunnyday" to "SunnyDay"
     )
-    private val speedTierCoefficient = 11.0 //todo set back to 6 to how it was
+    private val speedTierCoefficient = 4.0 //todo set back to 6 to how it was
     private var trickRoomCoefficient = 1.0
-    private val hpFractionCoefficient = 0.4
+    private val typeMatchupWeightConsideration = 2.5 // value of a good or bad type matchup
+    private val moveDamageWeightConsideration = 0.8 // value of a good or bad move matchup
+    private val hpWeightConsideration = 0.25 // how much HP difference is a consideration for switchins
+    private val hpFractionCoefficient = 0.4 // how much HP differences should be taken into account for switch ins
     private val switchOutMatchupThreshold = 0 // todo change this to get it feeling just right (-7 never switches)
     private val selfKoMoveMatchupThreshold = 0.3
     private val trickRoomThreshold = 85
@@ -388,8 +393,69 @@ class StrongBattleAI() : BattleAI {
         val p1Actor = battle.side1.actors.first()
         val p2Actor = battle.side2.actors.first()
 
-        val playerSide2 = battle.side2.actors.first()
-        // todo make nice function for knowing what is the best switchout
+        val activePlayerBattlePokemon = p1Actor.activePokemon[0].battlePokemon
+        val activeNPCBattlePokemon = p2Actor.activePokemon[0].battlePokemon
+
+        val activePlayerBattlePokemonPosBoosts = activePlayerBattlePokemon?.contextManager?.get(BattleContext.Type.BOOST)
+        val activeNPCBattlePokemonPosBoosts = activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.BOOST)
+        val activePlayerBattlePokemonNegBoosts = activePlayerBattlePokemon?.contextManager?.get(BattleContext.Type.UNBOOST)
+        val activeNPCBattlePokemonNegBoosts = activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.UNBOOST)
+
+        // positive boosts
+        val playerATKPosBoosts = activePlayerBattlePokemonPosBoosts?.count { it.id == "atk" } ?: 0
+        val playerDEFPosBoosts = activePlayerBattlePokemonPosBoosts?.count { it.id == "def" } ?: 0
+        val playerSPAPosBoosts = activePlayerBattlePokemonPosBoosts?.count { it.id == "spa" } ?: 0
+        val playerSPDPosBoosts = activePlayerBattlePokemonPosBoosts?.count { it.id == "spd" } ?: 0
+        val playerSPEPosBoosts = activePlayerBattlePokemonPosBoosts?.count { it.id == "spe" } ?: 0
+
+        val npcATKPosBoosts = activeNPCBattlePokemonPosBoosts?.count { it.id == "atk" } ?: 0
+        val npcDEFPosBoosts = activeNPCBattlePokemonPosBoosts?.count { it.id == "def" } ?: 0
+        val npcSPAPosBoosts = activeNPCBattlePokemonPosBoosts?.count { it.id == "spa" } ?: 0
+        val npcSPDPosBoosts = activeNPCBattlePokemonPosBoosts?.count { it.id == "spd" } ?: 0
+        val npcSPEPosBoosts = activeNPCBattlePokemonPosBoosts?.count { it.id == "spe" } ?: 0
+
+        // negative boosts
+        val playerATKNegBoosts = activePlayerBattlePokemonNegBoosts?.count { it.id == "atk" } ?: 0
+        val playerDEFNegBoosts = activePlayerBattlePokemonNegBoosts?.count { it.id == "def" } ?: 0
+        val playerSPANegBoosts = activePlayerBattlePokemonNegBoosts?.count { it.id == "spa" } ?: 0
+        val playerSPDNegBoosts = activePlayerBattlePokemonNegBoosts?.count { it.id == "spd" } ?: 0
+        val playerSPENegBoosts = activePlayerBattlePokemonNegBoosts?.count { it.id == "spe" } ?: 0
+
+        val npcATKNegBoosts = activeNPCBattlePokemonNegBoosts?.count { it.id == "atk" } ?: 0
+        val npcDEFNegBoosts = activeNPCBattlePokemonNegBoosts?.count { it.id == "def" } ?: 0
+        val npcSPANegBoosts = activeNPCBattlePokemonNegBoosts?.count { it.id == "spa" } ?: 0
+        val npcSPDNegBoosts = activeNPCBattlePokemonNegBoosts?.count { it.id == "spd" } ?: 0
+        val npcSPENegBoosts = activeNPCBattlePokemonNegBoosts?.count { it.id == "spe" } ?: 0
+
+        // Total Boosts
+        val playerATKBoosts = playerATKPosBoosts.minus((playerATKNegBoosts ?: 0)) ?: 0
+        val playerDEFBoosts = playerDEFPosBoosts.minus((playerDEFNegBoosts ?: 0)) ?: 0
+        val playerSPABoosts = playerSPAPosBoosts.minus((playerSPANegBoosts ?: 0)) ?: 0
+        val playerSPDBoosts = playerSPDPosBoosts.minus((playerSPDNegBoosts ?: 0)) ?: 0
+        val playerSPEBoosts = playerSPEPosBoosts.minus((playerSPENegBoosts ?: 0)) ?: 0
+
+        val npcATKBoosts = npcATKPosBoosts.minus((npcATKNegBoosts ?: 0))
+        val npcDEFBoosts = npcDEFPosBoosts.minus((npcDEFNegBoosts ?: 0))
+        val npcSPABoosts = npcSPAPosBoosts.minus((npcSPANegBoosts ?: 0))
+        val npcSPDBoosts = npcSPDPosBoosts.minus((npcSPDNegBoosts ?: 0))
+        val npcSPEBoosts = npcSPEPosBoosts.minus((npcSPENegBoosts ?: 0))
+
+        // Statuses of the pokemon
+        //val activePlayerPokemonStatus = activePlayerBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)
+        //val activeNPCPokemonStatus = activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)
+        val activePlayerPokemonStatus = activePlayerBattlePokemon?.originalPokemon?.status?.status?.name
+        val activeNPCPokemonStatus = activeNPCBattlePokemon?.originalPokemon?.status?.status?.name
+
+        // Hazards on both sides of the field
+        var playerSideHazardsList: MutableList<String> = mutableListOf()
+        battle.side1.contextManager.get(BattleContext.Type.HAZARD)?.forEach { playerSideHazardsList.add(it.id) }
+
+        val npcSideHazardsList: MutableList<String> = mutableListOf()
+        battle.side2.contextManager.get(BattleContext.Type.HAZARD)?.forEach { npcSideHazardsList.add(it.id) }
+
+        // translate to List
+        val playerSideHazards = playerSideHazardsList.toList()
+        val npcSideHazards = npcSideHazardsList.toList()
 
         val canDynamax = false
 
@@ -495,9 +561,9 @@ class StrongBattleAI() : BattleAI {
         if (shouldSwitchOut(request, battle, activeBattlePokemon )) {
             val availableSwitches = p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
             val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, battle, it.effectedPokemon) }
-            availableSwitches.forEach {
+            /*availableSwitches.forEach {
                 estimateMatchup(request, battle, it.effectedPokemon)
-            }
+            }*/
             val bestMatchup = availableSwitches.find { estimateMatchup(request, battle, it.effectedPokemon) == bestEstimation }
             bestMatchup?.let {
                 return SwitchActionResponse(it.uuid)
@@ -540,7 +606,6 @@ class StrongBattleAI() : BattleAI {
                     return MoveActionResponse(move.id)
                 }
 
-                // todo why the FUCK doesn't this count correctly
                 // Trick room
                 if (move.pp > 0 && move.id == "trickroom" && move.id != currentRoom
                         && availableSwitches.count { statEstimation(it.effectedPokemon, Stats.SPEED) <= trickRoomThreshold } >= 2) {
@@ -571,21 +636,24 @@ class StrongBattleAI() : BattleAI {
                 }
             }
 
-            // todo find a way to get list of active hazards
             // Entry hazard setup and removal
             for (move in moveset.moves.filter { !it.disabled }) {
                 // Setup
                 if (move.pp > 0 && nOppRemainingMons >= 3 && move.id in entryHazards
-                        && entryHazards.none { it in oppSideConditionList }) {
+                        && playerSideHazards.contains(move.id) != true ) {
+                        //&& entryHazards.none { it in oppSideConditionList }) {
                     return MoveActionResponse(move.id)
                 }
 
                 // Removal
                 if (move.pp > 0 && nRemainingMons >= 2 && move.id in antiHazardsMoves
-                        && entryHazards.any { it in monSideConditionList }) {
+                        && npcSideHazards.isNotEmpty()) {
+                        //&& entryHazards.any { it in monSideConditionList }) {
                     return MoveActionResponse(move.id)
                 }
             }
+
+            // todo stat clearing moves like haze
 
             // Court Change
             for (move in moveset.moves.filter { !it.disabled }) {
@@ -610,6 +678,27 @@ class StrongBattleAI() : BattleAI {
             for (move in moveset.moves.filter { !it.disabled }) {
                 if (move.id == "strengthsap" && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < 0.5
                         && getBaseStats(opponent.pokemon!!, "atk") > 80
+                        && move.pp > 0) {
+                    return MoveActionResponse(move.id)
+                }
+            }
+
+            //val contextBoost = battle.contextManager.get(BattleContext.Type.BOOST)
+
+
+
+
+            //val pokemonBoost =
+
+            //battle.contextManager.get(BattleContext.Type.WEATHER).isNullOrEmpty()
+
+            // Belly Drum
+            for (move in moveset.moves.filter { !it.disabled }) {
+                if (move.id == "bellydrum"
+                        && ((mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) > 0.6
+                                && mon.pokemon!!.heldItem().item == CobblemonItems.SITRUS_BERRY
+                        || (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) > 0.8)
+                        && npcATKBoosts < 1 // todo Why does Belly Drum only show up as a single boost to Atk stat
                         && move.pp > 0) {
                     return MoveActionResponse(move.id)
                 }
@@ -645,13 +734,14 @@ class StrongBattleAI() : BattleAI {
                 return listOf("comatose", "purifyingsalt").contains(opponent.pokemon!!.ability.name) &&
                         (currentWeather == "sunny" && opponent.pokemon!!.ability.name == "leafguard");
             }
+
             // Status Inflicting Moves
             for (move in moveset.moves.filter { !it.disabled }) {
-                val activeOpponent = opponent.pokemon
-                activeOpponent?.let {
+                //val activeOpponent = opponent.pokemon
+                //activeOpponent?.let {
                     // Make sure the opponent doesn't already have a status condition
                     //if ((it.volatiles.containsKey("curse") || it.status != null) && // todo I removed this because idk why you would need to know if it had curse
-                    if (it.status != null && (opponent.currentHp.toDouble() / opponent.pokemon!!.hp.toDouble()) > 0.6 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) > 0.5) { // todo make sure this is the right status to use. It might not be
+                    if (activePlayerPokemonStatus == null && (opponent.currentHp.toDouble() / opponent.pokemon!!.hp.toDouble()) > 0.6 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) > 0.5) { // todo make sure this is the right status to use. It might not be
 
                         when (statusMoves.get(Moves.getByName(move.id))) {
                             "burn" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.FIRE) && getBaseStats(opponent.pokemon!!, "atk") > 80 &&
@@ -693,7 +783,7 @@ class StrongBattleAI() : BattleAI {
                             }
                         }
                     }
-                }
+                //}
             }
 
             // Accuracy lowering moves // todo seems to get stuck here. Try to check if it is an accuracy lowering move first before entering
@@ -909,7 +999,7 @@ class StrongBattleAI() : BattleAI {
     }
 
     // test
-    // to estimate party matchup against opposing active pokemon
+    // to estimate party matchup against opposing active pokemon after FAINT
     fun estimatePartyMatchup(request: ShowdownActionRequest, battle: PokemonBattle, nonActiveMon: Pokemon): Double {
         //updateActiveTracker(battle)
 
@@ -917,8 +1007,12 @@ class StrongBattleAI() : BattleAI {
         val playerPokemon = activeTracker.p1Active.pokemon
 
         var score = 1.0
-        score += bestDamageMultiplier(nonActiveMon, playerPokemon!!) * (1 + typeMatchup(nonActiveMon, playerPokemon)) // npcPokemon attacking playerPokemon
-        score -= bestDamageMultiplier(playerPokemon, nonActiveMon) * (1 + typeMatchup(playerPokemon, nonActiveMon)) // playerPokemon attacking npcPokemon
+        //score += bestDamageMultiplier(nonActiveMon, playerPokemon!!) * (1 + typeMatchup(nonActiveMon, playerPokemon) * typeMatchupWeightConsideration) // npcPokemon attacking playerPokemon
+        //score -= bestDamageMultiplier(playerPokemon, nonActiveMon) * (1 + typeMatchup(playerPokemon, nonActiveMon) * typeMatchupWeightConsideration) // playerPokemon attacking npcPokemon
+
+        score += (bestDamageMultiplier(nonActiveMon, playerPokemon!!) * moveDamageWeightConsideration) + (typeMatchup(nonActiveMon, playerPokemon) * typeMatchupWeightConsideration) // npcPokemon attacking playerPokemon
+        score -= (bestDamageMultiplier(playerPokemon, nonActiveMon) * moveDamageWeightConsideration) + (typeMatchup(playerPokemon, nonActiveMon) * typeMatchupWeightConsideration) // playerPokemon attacking npcPokemon
+
 
         // todo make function that determines matchup for attacker type vs defender type to have higher weight to not switch into bad type matchups
         //score *= typeMatchup(nonActiveMon, playerPokemon)
@@ -934,18 +1028,19 @@ class StrongBattleAI() : BattleAI {
 
         // todo possibly flip these p1 and p2 around as well since p1 is player I think
         if (request.side?.id == "p1") {
-            score += if (nonActiveMon != null) nonActiveMon.currentHealth * hpFractionCoefficient
-            else activeTracker.p1Active.currentHp * hpFractionCoefficient
-            score -= activeTracker.p2Active.currentHp * hpFractionCoefficient
+            score += if (nonActiveMon != null) (nonActiveMon.currentHealth * hpFractionCoefficient) * hpWeightConsideration
+            else (activeTracker.p1Active.currentHp * hpFractionCoefficient) * hpWeightConsideration
+            score -= (activeTracker.p2Active.currentHp * hpFractionCoefficient) * hpWeightConsideration
         } else {
-            score += if (nonActiveMon != null) nonActiveMon.currentHealth * hpFractionCoefficient
-            else activeTracker.p2Active.currentHp * hpFractionCoefficient
-            score -= activeTracker.p1Active.currentHp * hpFractionCoefficient
+            score += if (nonActiveMon != null) (nonActiveMon.currentHealth * hpFractionCoefficient) * hpWeightConsideration
+            else (activeTracker.p2Active.currentHp * hpFractionCoefficient) * hpWeightConsideration
+            score -= (activeTracker.p1Active.currentHp * hpFractionCoefficient) * hpWeightConsideration
         }
 
         return score
     }
 
+    // estimate mid-battle switch in value
     fun estimateMatchup(request: ShowdownActionRequest, battle: PokemonBattle, nonActiveMon: Pokemon? = null): Double {
         updateActiveTracker(battle)
         val battlePokemon = getCurrentPlayer(battle)
@@ -959,8 +1054,12 @@ class StrongBattleAI() : BattleAI {
         // todo Determine value of matchup based on that attack type against the Defensive stats of the pokemon
 
         var score = 1.0
-        score += bestDamageMultiplier(npcPokemon, playerPokemon) * (1.0 + typeMatchup(npcPokemon, playerPokemon)) // npcPokemon attacking playerPokemon
-        score -= bestDamageMultiplier(playerPokemon, npcPokemon) * (1.0 + typeMatchup(playerPokemon, npcPokemon)) // playerPokemon attacking npcPokemon
+        score += (bestDamageMultiplier(npcPokemon, playerPokemon) * moveDamageWeightConsideration) + (typeMatchup(npcPokemon, playerPokemon) * typeMatchupWeightConsideration) // npcPokemon attacking playerPokemon
+        score -= (bestDamageMultiplier(playerPokemon, npcPokemon) * moveDamageWeightConsideration) + (typeMatchup(playerPokemon, npcPokemon) * typeMatchupWeightConsideration) // playerPokemon attacking npcPokemon
+
+        //score += bestDamageMultiplier(npcPokemon, playerPokemon) * (1.0 + typeMatchup(npcPokemon, playerPokemon) * typeMatchupWeightConsideration) // npcPokemon attacking playerPokemon
+        //score -= bestDamageMultiplier(playerPokemon, npcPokemon) * (1.0 + typeMatchup(playerPokemon, npcPokemon) * typeMatchupWeightConsideration) // playerPokemon attacking npcPokemon
+
 
         //score *= typeMatchup(nonActiveMon, playerPokemon)
 
@@ -970,14 +1069,15 @@ class StrongBattleAI() : BattleAI {
             score -= speedTierCoefficient * trickRoomCoefficient
         }
 
+        // HP comparisons
         if (request.side?.id == "p1") {
-            score += if (nonActiveMon != null) nonActiveMon.hp * hpFractionCoefficient
-            else activeTracker.p1Active.pokemon!!.hp * hpFractionCoefficient
-            score -= activeTracker.p2Active.pokemon!!.hp * hpFractionCoefficient
+            score += if (nonActiveMon != null) (nonActiveMon.hp * hpFractionCoefficient) * hpWeightConsideration
+            else (activeTracker.p1Active.pokemon!!.hp * hpFractionCoefficient) * hpWeightConsideration
+            score -= (activeTracker.p2Active.pokemon!!.hp * hpFractionCoefficient) * hpWeightConsideration
         } else {
-            score += if (nonActiveMon != null) nonActiveMon.hp * hpFractionCoefficient
-            else activeTracker.p2Active.pokemon!!.hp * hpFractionCoefficient
-            score -= activeTracker.p1Active.pokemon!!.hp * hpFractionCoefficient
+            score += if (nonActiveMon != null) (nonActiveMon.hp * hpFractionCoefficient) * hpWeightConsideration
+            else (activeTracker.p2Active.pokemon!!.hp * hpFractionCoefficient) * hpWeightConsideration
+            score -= (activeTracker.p1Active.pokemon!!.hp * hpFractionCoefficient) * hpWeightConsideration
         }
 
         return score
@@ -1229,9 +1329,15 @@ class StrongBattleAI() : BattleAI {
         val defenderTypes = defendingPokemon.types
 
         var multiplier = 1.0
-        var bestTypeMultiplier = 1.0
+        //var bestTypeMultiplier = 1.0
 
         for (atkType in attackerTypes) {
+            for (defType in defenderTypes) {
+                multiplier *= (getDamageMultiplier(atkType, defType) ?: 1.0)
+            }
+        }
+
+        /*for (atkType in attackerTypes) {
             for (defType in defenderTypes) {
                 multiplier *= (getDamageMultiplier(atkType, defType) ?: 1.0)
             }
@@ -1241,9 +1347,11 @@ class StrongBattleAI() : BattleAI {
             }
 
             multiplier = 1.0
-        }
+        }*/
 
-        return bestTypeMultiplier
+        //return bestTypeMultiplier
+
+        return multiplier
     }
 
     // The move options provided by the simulator have been converted from the name

@@ -675,7 +675,7 @@ object BattleBuilder {
                     npcPokemon.level = battleLevel
                     npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LEFTOVERS), false)
                     npcPokemon.ability = Abilities.get("waterabsorb")!!.create()
-                    npcPokemon.setMoveset(listOf("surf", "icebeam", "rest", "sleeptalk"))
+                    npcPokemon.setMoveset(listOf("rest", "sleeptalk", "surf", "icebeam")) // todo WHY WHYYYYY are the first two not working
 
                     // add to party
                     npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
@@ -924,6 +924,153 @@ object BattleBuilder {
                     // add to party
                     npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
                 }
+                "trickster" -> {
+                    // Bronzong
+                    var npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("bronzong")!!
+                    npcPokemon.nature = Natures.getNature("sassy")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 0)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.DEFENCE,252)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LEFTOVERS), false)
+                    npcPokemon.ability = Abilities.get("levitate")!!.create()
+                    npcPokemon.setMoveset(listOf("trickroom", "selfdestruct", "psychic", "flashcannon"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    //PokemonProperties.parse() // todo try to use this for smaller code later
+
+                    // Drifblim
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("drifblim")!!
+                    npcPokemon.nature = Natures.getNature("relaxed")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 0)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.DEFENCE,80)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,176)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.SITRUS_BERRY), false)
+                    npcPokemon.ability = Abilities.get("aftermath")!!.create()
+                    npcPokemon.setMoveset(listOf("explosion", "trickroom", "clearsmog", "shadowball"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Hatterene
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("hatterene")!!
+                    npcPokemon.nature = Natures.getNature("adamant")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 0)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.SPECIAL_ATTACK,252)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false)  //expert belt
+                    npcPokemon.ability = Abilities.get("magicbounce")!!.create()
+                    npcPokemon.setMoveset(listOf("trickroom", "dazzlinggleam", "psychic", "shadowball"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Rhperior
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("rhyperior")!!
+                    npcPokemon.nature = Natures.getNature("relaxed")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 0)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.ATTACK,252)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.ASSAULT_VEST), false)  //focus sash
+                    npcPokemon.ability = Abilities.get("solidrock")!!.create()
+                    npcPokemon.setMoveset(listOf("highhorsepower", "megahorn", "ironhead", "stoneedge"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Ursaluna
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("ursaluna")!!
+                    npcPokemon.nature = Natures.getNature("brave")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 0)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.ATTACK,252)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.FLAME_ORB), false) //  focus sash
+                    npcPokemon.ability = Abilities.get("guts")!!.create()
+                    npcPokemon.setMoveset(listOf("facade", "crunch", "seedbomb", "headlongrush"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+
+                    // Gholdengo
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("gholdengo")!!
+                    npcPokemon.nature = Natures.getNature("quiet")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 0)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.SPECIAL_ATTACK,252)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.WISE_GLASSES), false)
+                    npcPokemon.ability = Abilities.get("goodasgold")!!.create()
+                    npcPokemon.setMoveset(listOf("makeitrain", "focusblast", "thunderbolt", "shadowball"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
+                }
                 /*"ghetsis" -> {
 
                 }*/
@@ -961,6 +1108,7 @@ object BattleBuilder {
             "blue" -> TrainerBattleActor("Blue", npcUUID, npcParty.toList(), battleAIType)
             "evice" -> TrainerBattleActor("Evice", npcUUID, npcParty.toList(), battleAIType)
             "cynthia" -> TrainerBattleActor("Cynthia", npcUUID, npcParty.toList(), battleAIType)
+            "trickster" -> TrainerBattleActor("Trickster", npcUUID, npcParty.toList(), battleAIType)
             else -> TrainerBattleActor("Master of Crabs", npcUUID, npcParty.toList(), battleAIType)
         }
 
