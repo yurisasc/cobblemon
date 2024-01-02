@@ -13,9 +13,13 @@
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
-- Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
+- Added more held items to the held item tag, and Metal Coat to the held item tab.
+- Added all ores to the modloader ore tags, and added tags for each ore type to the mod (both blocks and items).
+- Changed the Destiny Knot to be crafted with a Ghast Tear, rather than a diamond.
 
 ### Fixes
+- Re-added the recipe for the Iron Vitamin.
+- Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
 - Fixed Exeggcute not being able to evolve.
 - Fixed Cubone not being able to evolve into Alolan Marowak.
 
