@@ -31,14 +31,14 @@ import net.minecraft.util.math.Vec3d
  * @author Hiroku
  * @since July 24th, 2022
  */
-class ItemDropEntry : DropEntry {
+open class ItemDropEntry : DropEntry {
     override val percentage = 100F
     override val quantity = 1
-    val quantityRange: IntRange? = null
+    open val quantityRange: IntRange? = null
     override val maxSelectableTimes = 1
-    val dropMethod: ItemDropMethod? = null
-    val item = Identifier("minecraft:fish")
-    val nbt: NbtCompound? = null
+    open val dropMethod: ItemDropMethod? = null
+    open val item = Identifier("minecraft:fish")
+    open val nbt: NbtCompound? = null
 
     override fun drop(entity: LivingEntity?, world: ServerWorld, pos: Vec3d, player: ServerPlayerEntity?) {
         val item = world.registryManager.get(RegistryKeys.ITEM).get(item) ?: return LOGGER.error("Unable to load drop item: $item")
