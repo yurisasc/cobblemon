@@ -40,17 +40,17 @@ class EggPokemon(
     companion object {
         // I heard you like casts so I put some casts in your casts
         fun fromNBT(nbt: NbtCompound): EggPokemon {
-            val species = PokemonSpecies.getByIdentifier(Identifier.tryParse(DataKeys.POKEMON_SPECIES_IDENTIFIER)!!)!!
+            val species = PokemonSpecies.getByIdentifier(Identifier.tryParse(nbt.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER))!!)!!
             val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: NbtCompound()
             val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "runaway"
             val moveSet = MoveSet()
             return EggPokemon(
                 IVs().loadFromNBT(nbt.get(DataKeys.POKEMON_IVS) as NbtCompound) as IVs,
-                Natures.getNature(nbt.getString(DataKeys.POKEMON_NATURE))!!,
+                Natures.getNature(Identifier.tryParse(nbt.getString(DataKeys.POKEMON_NATURE))!!)!!,
                 species,
-                species.forms.first { it.formOnlyShowdownId() == nbt.getString(DataKeys.POKEMON_FORM_ID) },
+                species.forms.firstOrNull { it.formOnlyShowdownId() == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm,
                 Abilities.getOrException(abilityName).create(abilityNBT),
-                moveSet.loadFromNBT(nbt.get(DataKeys.POKEMON_MOVESET) as NbtCompound),
+                moveSet.loadFromNBT(nbt),
                 nbt.getBoolean(DataKeys.POKEMON_SHINY)
             )
         }

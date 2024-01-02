@@ -307,7 +307,6 @@ class PokemonEntity(
         if (pokemon.breedingCooldown > 0) {
             pokemon.breedingCooldown--
         }
-    }
 
         schedulingTracker.update(1/20F)
     }

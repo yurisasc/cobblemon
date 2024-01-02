@@ -58,7 +58,7 @@ class NestBlockRenderer(private val context: BlockEntityRendererFactory.Context)
             renderState.vbo.draw(
                 matrices.peek().positionMatrix.mul(RenderSystem.getModelViewMatrix()),
                 RenderSystem.getProjectionMatrix(),
-                GameRenderer.getRenderTypeCutoutProgram()
+                GameRenderer.getRenderTypeEntityCutoutProgram()
             )
             VertexBuffer.unbind()
             CobblemonRenderLayers.EGG_LAYER.endDrawing()
@@ -75,17 +75,23 @@ class NestBlockRenderer(private val context: BlockEntityRendererFactory.Context)
                 CobblemonRenderLayers.EGG_LAYER.vertexFormat
             )
             val model = EggModelRepo.eggModels[cobblemonResource("egg")]
-            val pattern = EggPatterns.patternMap[egg?.patternId]!!
+            val pattern = EggPatterns.patternMap[egg.patternId]!!
+            val baseTexture = cobblemonResource("base")
+            val baseAtlasedTexture = CobblemonAtlases.EGG_PATTERN_ATLAS.getSprite(baseTexture)
             val primaryTexture = pattern.primaryTexturePath
-            val secondaryTexture = pattern.secondaryTexturePath
             val primaryAtlasedTexture = CobblemonAtlases.EGG_PATTERN_ATLAS.getSprite(primaryTexture)
-            val secondaryAtlasedTexture =
-                CobblemonAtlases.EGG_PATTERN_ATLAS.getSprite(secondaryTexture)
-            val primaryColor = Color.decode(egg?.primaryColor)
-            val secondaryColor = Color.decode(egg?.secondaryColor)
+
+            val primaryColor = Color.decode(egg.primaryColor)
 
             //Patching uvs so we can use atlases
-            val baseModel = model?.create(false)?.createModel()
+            val baseModel = model?.createWithUvOverride(
+                false,
+                baseAtlasedTexture.x,
+                baseAtlasedTexture.y,
+                CobblemonAtlases.EGG_PATTERN_ATLAS.atlas.width,
+                CobblemonAtlases.EGG_PATTERN_ATLAS.atlas.height
+            )?.createModel()
+            baseModel?.setRotation(Axis.Z_AXIS.ordinal, Math.toRadians(180.0).toFloat())
             val primaryTextureModel = model?.createWithUvOverride(
                 false,
                 primaryAtlasedTexture.x,
@@ -93,32 +99,38 @@ class NestBlockRenderer(private val context: BlockEntityRendererFactory.Context)
                 CobblemonAtlases.EGG_PATTERN_ATLAS.atlas.width,
                 CobblemonAtlases.EGG_PATTERN_ATLAS.atlas.height
             )?.createModel()
-            val secondaryTextureModel = model?.createWithUvOverride(
-                false,
-                secondaryAtlasedTexture.x,
-                secondaryAtlasedTexture.y,
-                CobblemonAtlases.EGG_PATTERN_ATLAS.atlas.width,
-                CobblemonAtlases.EGG_PATTERN_ATLAS.atlas.height
-            )?.createModel()
+            primaryTextureModel?.setRotation(Axis.Z_AXIS.ordinal, Math.toRadians(180.0).toFloat())
 
             baseModel?.render(MatrixStack(), bufferBuilder, light, overlay)
-            primaryTextureModel?.render(
-                MatrixStack(),
-                bufferBuilder,
-                light,
-                ColorHelper.Argb.getArgb(1, primaryColor.red, primaryColor.green, primaryColor.blue)
-            )
-            secondaryTextureModel?.render(
-                MatrixStack(),
-                bufferBuilder,
-                light,
-                ColorHelper.Argb.getArgb(
-                    1,
-                    secondaryColor.red,
-                    secondaryColor.green,
-                    secondaryColor.blue
-                )
-            )
+
+
+            pattern.secondaryTexturePath?.let {
+                val secondaryAtlasedTexture = CobblemonAtlases.EGG_PATTERN_ATLAS.getSprite(it)
+                val secondaryColor = Color.decode(egg.secondaryColor)
+                if (secondaryColor != null) {
+                    val secondaryTextureModel = model?.createWithUvOverride(
+                        false,
+                        secondaryAtlasedTexture.x,
+                        secondaryAtlasedTexture.y,
+                        CobblemonAtlases.EGG_PATTERN_ATLAS.atlas.width,
+                        CobblemonAtlases.EGG_PATTERN_ATLAS.atlas.height
+                    )?.createModel()
+                    secondaryTextureModel?.setRotation(Axis.Z_AXIS.ordinal, Math.toRadians(180.0).toFloat())
+                    secondaryTextureModel?.render(
+                        MatrixStack(),
+                        bufferBuilder,
+                        light,
+                        ColorHelper.Argb.getArgb(
+                            1,
+                            secondaryColor.red,
+                            secondaryColor.green,
+                            secondaryColor.blue
+                        )
+                    )
+                }
+
+            }
+
 
 
             val bufferBuilderFinal = bufferBuilder.end()

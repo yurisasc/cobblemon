@@ -43,20 +43,15 @@ interface BreedingLogic {
         val pokeball: PokeBall = this.calculatePokeball(mother, father)
         val gender = calculateGender(mother, father, form)
 
-        val newPoke = Pokemon()
-        newPoke.form = form
-        newPoke.nature = nature
-        newPoke.ability = ability
-        newPoke.moveSet.clear()
-        newPoke.moveSet.copyFrom(moveset)
-        newPoke.ivs.forEach {
-            if (ivs[it.key] != null) {
-                newPoke.ivs[it.key] = ivs[it.key]!!
-            }
-        }
-        newPoke.caughtBall = pokeball
-        newPoke.gender = gender
-        newPoke.species = form.species
+        val newPoke = EggPokemon(
+            ivs,
+            nature,
+            form.species,
+            form,
+            ability,
+            moveset,
+            false
+        )
 
         return BreedingResult(newPoke)
     }

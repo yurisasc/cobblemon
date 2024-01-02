@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
+import com.cobblemon.mod.common.api.pokemon.breeding.Egg
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.block.NestBlock
@@ -29,8 +30,10 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.blockPositionsAsList
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toVec3d
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
@@ -294,9 +297,22 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                                     println(breedResult.pokemon)
                                     val nestTaken = nests.random()
                                     val nestState = world?.getBlockState(nestTaken)
-                                    world?.setBlockState(nestTaken, nestState?.with(NestBlock.HAS_EGG, true))
-                                    bredPokemon.add(fatherPoke)
-                                    bredPokemon.add(motherPoke)
+                                    val blockEntity = world?.getBlockEntity(nestTaken) as? NestBlockEntity
+                                    if (blockEntity != null && breedResult.pokemon != null) {
+                                        //Most params here need to be gotten from the form when implemented properly
+                                        blockEntity.egg = Egg(
+                                            breedResult.pokemon,
+                                            cobblemonResource("test_pattern"),
+                                            "#FFFFFF",
+                                            null
+                                        )
+                                        blockEntity.markDirty()
+                                        world?.updateListeners(nestTaken, world?.getBlockState(nestTaken), world?.getBlockState(nestTaken), Block.NOTIFY_LISTENERS)
+                                        bredPokemon.add(fatherPoke)
+                                        bredPokemon.add(motherPoke)
+                                    }
+
+
                                 }
 
                             }
@@ -304,7 +320,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                     }
                 }
                 bredPokemon.forEach {
-                    it.breedingCooldown = 10000
+                    it.breedingCooldown = 20
                 }
             }
         }

@@ -11,6 +11,6 @@ package com.cobblemon.mod.common.api.pokemon.breeding
 import com.cobblemon.mod.common.pokemon.Pokemon
 
 data class BreedingResult(
-    val pokemon: Pokemon? = null,
+    val pokemon: EggPokemon? = null,
     val successful: Boolean = pokemon != null
 )

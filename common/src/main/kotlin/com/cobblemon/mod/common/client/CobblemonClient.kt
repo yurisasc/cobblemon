@@ -219,6 +219,12 @@ object CobblemonClient {
             CobblemonBlocks.SKY_TUMBLESTONE_CLUSTER,
         )
 
+        this.implementation.registerBlockRenderType(
+            RenderLayer.getTranslucent(),
+            CobblemonBlocks.TUMBLESTONE_BLOCK
+        )
+
+
         this.createBoatModelLayers()
     }
 
