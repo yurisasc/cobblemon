@@ -117,7 +117,7 @@
   "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/flower.png",
+  "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:lum_berry.geo",
-  "fruitTexture": "cobblemon:flower"
+  "fruitTexture": "cobblemon:lum"
 }
