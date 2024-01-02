@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
-import com.cobblemon.mod.common.block.entity.BerryBlockEntityRenderState
+import com.cobblemon.mod.common.client.render.block.BerryBlockEntityRenderState
 import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
 import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository

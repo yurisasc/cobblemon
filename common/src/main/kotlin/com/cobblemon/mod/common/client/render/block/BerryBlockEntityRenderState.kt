@@ -6,11 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.block.entity
+package com.cobblemon.mod.common.client.render.block
 
+import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import net.minecraft.client.gl.VertexBuffer
 
-class BerryBlockEntityRenderState : BerryBlockEntity.RenderState{
+class BerryBlockEntityRenderState : BerryBlockEntity.RenderState {
     val lastRenderFrame = -1
     override var needsRebuild = true
     val vbo: VertexBuffer = VertexBuffer(VertexBuffer.Usage.STATIC)
