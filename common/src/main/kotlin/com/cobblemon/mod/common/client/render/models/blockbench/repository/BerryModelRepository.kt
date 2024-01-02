@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench.repository
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.client.render.CobblemonAtlases
 import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.endsWith
@@ -56,6 +55,7 @@ object BerryModelRepository : JsonDataRegistry<TexturedModel> {
             //These are for when flywheel isn't available, e.g. with shaders
             this.vanillaModels[identifier] = model.create(false).createModel()
         }
+        observable.emit(this)
         Cobblemon.LOGGER.info("Loaded {} berry models", /*this.flywheelModels.size*/this.vanillaModels.size)
     }
 //    fun flywheelModelOf(identifier: Identifier) = this.flywheelModels[identifier]

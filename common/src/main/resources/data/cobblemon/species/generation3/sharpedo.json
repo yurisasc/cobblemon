@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Sharpedo",
   "nationalPokedexNumber": 319,
@@ -74,7 +74,6 @@
       ],
       "height": 25,
       "weight": 1303,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

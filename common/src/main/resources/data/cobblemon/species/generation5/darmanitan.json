@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Darmanitan",
   "nationalPokedexNumber": 555,
   "primaryType": "fire",
@@ -210,7 +210,6 @@
       ],
       "height": 13,
       "weight": 929,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     },
@@ -331,7 +330,6 @@
       "height": 17,
       "weight": 1200,
       "preEvolution": "darumaka form=galar",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false,
       "drops": {
@@ -389,7 +387,6 @@
       ],
       "height": 17,
       "weight": 1200,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Meloetta",
   "nationalPokedexNumber": 648,
   "primaryType": "normal",
@@ -220,7 +220,6 @@
       ],
       "height": 6,
       "weight": 65,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

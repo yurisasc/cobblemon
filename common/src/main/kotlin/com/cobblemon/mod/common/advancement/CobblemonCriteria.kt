@@ -99,6 +99,13 @@ object CobblemonCriteria {
         )
     )
 
+    val RESURRECT_POKEMON = this.create(
+        SimpleCriterionTrigger(
+            cobblemonResource("resurrect_pokemon"),
+            PickStarterCriterionCondition::class.java
+        )
+    )
+
     val TRADE_POKEMON = this.create(
         SimpleCriterionTrigger(
             cobblemonResource("trade_pokemon"),

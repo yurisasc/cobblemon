@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Venusaur",
   "nationalPokedexNumber": 3,
@@ -74,7 +74,6 @@
       ],
       "height": 24,
       "weight": 1555,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     },
@@ -121,7 +120,6 @@
       ],
       "height": 20,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

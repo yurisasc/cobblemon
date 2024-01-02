@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Thundurus",
   "nationalPokedexNumber": 642,
   "primaryType": "electric",
@@ -214,7 +214,6 @@
       ],
       "height": 30,
       "weight": 610,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
