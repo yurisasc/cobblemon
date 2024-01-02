@@ -8,11 +8,14 @@
 
 package com.cobblemon.mod.common.block
 
+import com.cobblemon.mod.common.block.entity.NestBlockEntity
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Waterloggable
+import net.minecraft.block.entity.BlockEntity
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
@@ -24,7 +27,7 @@ import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockView
 
-class NestBlock(val variant: NestVariant, settings: Settings) : Block(settings), Waterloggable {
+class NestBlock(val variant: NestVariant, settings: Settings) : BlockWithEntity(settings), Waterloggable {
 
     init {
         defaultState = stateManager.defaultState
@@ -46,6 +49,10 @@ class NestBlock(val variant: NestVariant, settings: Settings) : Block(settings),
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>?) {
         builder?.add(HAS_EGG)
         builder?.add(Properties.WATERLOGGED)
+    }
+
+    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
+        return NestBlockEntity(pos, state)
     }
 
     override fun canFillWithFluid(
