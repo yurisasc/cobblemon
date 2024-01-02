@@ -152,6 +152,8 @@ object CobblemonClient {
 
         this.implementation.registerBlockRenderType(RenderLayer.getCutoutMipped(), CobblemonBlocks.APRICORN_LEAVES)
 
+        this.implementation.registerBlockRenderType(RenderLayer.getTranslucent(), CobblemonBlocks.TM_MACHINE)
+
         this.implementation.registerBlockRenderType(
             RenderLayer.getCutout(),
             CobblemonBlocks.APRICORN_DOOR,
