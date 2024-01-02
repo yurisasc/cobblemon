@@ -1,0 +1,10 @@
+{
+  "moveName": "shadowball",
+  "obtainMethods": [
+    {
+      "variant": "cobblemon:impossible"
+    }
+  ],
+  "primaryColor": 9342207,
+  "secondaryColor": 15246847
+}

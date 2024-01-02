@@ -35,7 +35,7 @@ object CobblemonItemGroups {
     @JvmStatic val CONSUMABLES_KEY = this.create("consumables", this::consumableEntries) { ItemStack(CobblemonItems.ROASTED_LEEK) }
     @JvmStatic val HELD_ITEMS_KEY = this.create("held_item", this::heldItemEntries) { ItemStack(CobblemonItems.EXP_SHARE) }
     @JvmStatic val EVOLUTION_ITEMS_KEY = this.create("evolution_item", this::evolutionItemEntries) { ItemStack(CobblemonItems.BLACK_AUGURITE) }
-    @JvmStatic val TECHNICAL_MACHINES_KEY = this.create("technical_machines", this::technicalMachineEntries) { ItemStack(CobblemonItems.TECHNICAL_MACHINE) }
+    @JvmStatic val TECHNICAL_MACHINES_KEY = this.create("technical_machines", this::technicalMachineEntries) { ItemStack(CobblemonItems.BLANK_TM) }
 
     @JvmStatic val BLOCKS get() = Registries.ITEM_GROUP.get(BLOCKS_KEY)
     @JvmStatic val POKEBALLS get() = Registries.ITEM_GROUP.get(POKEBALLS_KEY)
@@ -79,9 +79,12 @@ object CobblemonItemGroups {
     private fun technicalMachineEntries(displayContext: DisplayContext, entries: Entries) {
         entries.add(CobblemonItems.BLANK_TM)
         for (tm in TechnicalMachines.tmMap) {
-            val item = CobblemonItems.TECHNICAL_MACHINE
-            val stack = item.setMoveNbt(item.defaultStack, tm.key.toString())
-            entries.add(stack)
+            val item = CobblemonItems.TECHNICAL_MACHINE.setNbt(
+                CobblemonItems.TECHNICAL_MACHINE.defaultStack,
+                tm.key.toString(),
+                tm.value.primaryColor,
+                tm.value.secondaryColor)
+            entries.add(item)
         }
     }
 

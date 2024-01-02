@@ -1,0 +1,10 @@
+{
+  "moveName": "toxic",
+  "obtainMethods": [
+    {
+      "variant": "cobblemon:impossible"
+    }
+  ],
+  "primaryColor": 5914495,
+  "secondaryColor": 15574527
+}

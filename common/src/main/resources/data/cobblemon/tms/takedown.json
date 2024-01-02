@@ -1,0 +1,10 @@
+{
+	"moveName": "takedown",
+	"obtainMethods": [
+		{
+			"variant": "cobblemon:impossible"
+		}
+	],
+	"primaryColor": 11908531,
+	"secondaryColor": 16383996
+}

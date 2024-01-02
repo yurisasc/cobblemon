@@ -3,6 +3,7 @@ package com.cobblemon.mod.common.util.adapters
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.tms.ObtainMethod
 import com.cobblemon.mod.common.api.tms.ObtainMethodAdapter
+import com.cobblemon.mod.common.tms.ImpossibleObtainMethod
 import com.cobblemon.mod.common.tms.PokemonHasMoveObtainMethod
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
@@ -17,6 +18,7 @@ object CobblemonObtainMethodAdapter : ObtainMethodAdapter {
 
     init {
         this.register(PokemonHasMoveObtainMethod::class, PokemonHasMoveObtainMethod.ID)
+        this.register(ImpossibleObtainMethod::class, ImpossibleObtainMethod.ID)
     }
 
     override fun register(type: KClass<out ObtainMethod>, identifier: Identifier) {

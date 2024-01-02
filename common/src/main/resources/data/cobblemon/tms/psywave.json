@@ -2,8 +2,9 @@
   "moveName": "psywave",
   "obtainMethods": [
     {
-      "variant": "cobblemon:pokemon_knows",
-      "move": "thunderbolt"
+      "variant": "cobblemon:impossible"
     }
-  ]
+  ],
+  "primaryColor": 14978303,
+  "secondaryColor": 16760820
 }

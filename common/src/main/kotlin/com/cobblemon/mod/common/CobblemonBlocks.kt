@@ -202,7 +202,6 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
                 .sounds(BlockSoundGroup.METAL)
                 .pistonBehavior(PistonBehavior.BLOCK)
                 .nonOpaque()
-                .luminance { if ((it.get(TMBlock.ON) as Boolean) && (it.get(TMBlock.PART) == TMBlock.TMPart.TOP)) 10 else 0 }
         )
     )
 

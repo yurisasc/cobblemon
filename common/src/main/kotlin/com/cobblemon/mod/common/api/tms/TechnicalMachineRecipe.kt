@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName
 import net.minecraft.util.Identifier
 
 /**
- * Represents the ingredients necessary to craft a TM_MACHINE in the TM_MACHINE Machine
+ * Represents the ingredients necessary to craft a [TechnicalMachine] in the [TMBlock]
  * Maps an item to the number required of the item
  */
 data class TechnicalMachineRecipe(

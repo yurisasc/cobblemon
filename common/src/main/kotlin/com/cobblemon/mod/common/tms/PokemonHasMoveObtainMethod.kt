@@ -15,6 +15,11 @@ import com.cobblemon.mod.common.util.party
 import com.google.gson.annotations.SerializedName
 import net.minecraft.server.network.ServerPlayerEntity
 
+/**
+ * An [ObtainMethod] that triggers when a [Pokemon] in the player's party knows a certain [Move]
+ *
+ * @author whatsy
+ */
 class PokemonHasMoveObtainMethod : ObtainMethod {
 
     companion object {

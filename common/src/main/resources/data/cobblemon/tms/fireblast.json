@@ -1,0 +1,10 @@
+{
+  "moveName": "fireblast",
+  "obtainMethods": [
+    {
+      "variant": "cobblemon:impossible"
+    }
+  ],
+  "primaryColor": 16745343,
+  "secondaryColor": 16766105
+}

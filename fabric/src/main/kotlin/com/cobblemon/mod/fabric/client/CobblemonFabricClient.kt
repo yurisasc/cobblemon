@@ -66,7 +66,6 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
 
         CobblemonFabric.networkManager.registerClientBound()
 
-
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : IdentifiableResourceReloadListener {
             override fun reload(
                 synchronizer: ResourceReloader.Synchronizer?,

@@ -20,6 +20,7 @@ import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtInt
 import net.minecraft.nbt.NbtString
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
@@ -32,9 +33,11 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
 
     companion object {
         val STORED_MOVE_KEY = "StoredMove"
+        val PRIMARY_COLOR = "PrimaryColor"
+        val SECONDARY_COLOR = "SecondaryColor"
     }
 
-    override fun hasGlint(stack: ItemStack?) = true
+    override fun hasGlint(stack: ItemStack?) = false
 
     fun getMoveNbt(stack: ItemStack): TechnicalMachine? {
         val nbtCompound = stack.nbt ?: return null
@@ -42,8 +45,15 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         return TechnicalMachines.tmMap[Identifier.tryParse(nbtCompound.getString(STORED_MOVE_KEY))]
     }
 
-    fun setMoveNbt(stack: ItemStack, id: String): ItemStack {
+    fun getColorNbt(stack: ItemStack, tint: Int): Int {
+        return if (tint == 0) stack.nbt?.getInt(PRIMARY_COLOR) ?: 0xFFFFFF
+            else stack.nbt?.getInt(SECONDARY_COLOR) ?: 0xFFFFFF
+    }
+
+    fun setNbt(stack: ItemStack, id: String, primary: Int, secondary: Int): ItemStack {
         stack.getOrCreateNbt().put(STORED_MOVE_KEY, NbtString.of(id))
+        stack.getOrCreateNbt().put(PRIMARY_COLOR, NbtInt.of(primary))
+        stack.getOrCreateNbt().put(SECONDARY_COLOR, NbtInt.of(secondary))
         return stack
     }
 

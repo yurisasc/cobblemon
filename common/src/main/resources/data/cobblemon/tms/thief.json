@@ -1,0 +1,10 @@
+{
+  "moveName": "thief",
+  "obtainMethods": [
+    {
+      "variant": "cobblemon:impossible"
+    }
+  ],
+  "primaryColor": 4147839,
+  "secondaryColor": 10859007
+}

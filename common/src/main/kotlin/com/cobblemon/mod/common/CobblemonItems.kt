@@ -688,7 +688,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
     @JvmField
-    val TECHNICAL_MACHINE = this.create("technical_machine", TechnicalMachineItem(Item.Settings().maxCount(1)))
+    val TECHNICAL_MACHINE = this.create("technical_machine", TechnicalMachineItem(Item.Settings()))
     @JvmField
     val BLANK_TM = this.create("blank_tm", CobblemonItem(Item.Settings()))
 

@@ -34,9 +34,12 @@ import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
+import com.cobblemon.mod.common.item.TechnicalMachineItem
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
+import net.minecraft.client.color.block.BlockColorProvider
+import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer
@@ -90,7 +93,7 @@ object CobblemonClient {
 
         this.registerBlockEntityRenderers()
         registerBlockRenderTypes()
-        //registerColors()
+        registerColors()
         registerFlywheelRenderers()
         this.registerEntityRenderers()
 
@@ -130,16 +133,20 @@ object CobblemonClient {
 //            .apply()
     }
 
-    /*
     fun registerColors() {
         this.implementation.registerBlockColors(BlockColorProvider { _, _, _, _ ->
             return@BlockColorProvider 0xE0A33A
         }, CobblemonBlocks.APRICORN_LEAVES)
-        this.implementation.registerItemColors(ItemColorProvider { _, _ ->
+
+        this.implementation.registerItemColors(ItemColorProvider { stack, tint ->
             return@ItemColorProvider 0xE0A33A
-        }, CobblemonItems.APRICORN_LEAVES)
+        }, CobblemonItems.TECHNICAL_MACHINE)
+
+        this.implementation.registerItemColors(ItemColorProvider { stack, tint ->
+            val tm = stack.item as TechnicalMachineItem
+            return@ItemColorProvider tm.getColorNbt(stack, tint)
+        }, CobblemonItems.TECHNICAL_MACHINE)
     }
-    */
 
     private fun registerBlockRenderTypes() {
 
