@@ -747,7 +747,7 @@ object BattleBuilder {
                     npcPokemon.level = battleLevel
                     npcPokemon.swapHeldItem(ItemStack(CobblemonItems.WACAN_BERRY), false) //  focus sash
                     npcPokemon.ability = Abilities.get("torrent")!!.create()
-                    npcPokemon.setMoveset(listOf("hydrocannon", "flashcannon", "darkpulse", "earthquake"))
+                    npcPokemon.setMoveset(listOf("hydrocannon", "flashcannon", "darkpulse", "rapidspin"))
 
                     // add to party
                     npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))

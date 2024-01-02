@@ -443,8 +443,8 @@ class StrongBattleAI() : BattleAI {
         // Statuses of the pokemon
         //val activePlayerPokemonStatus = activePlayerBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)
         //val activeNPCPokemonStatus = activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)
-        val activePlayerPokemonStatus = activePlayerBattlePokemon?.originalPokemon?.status?.status?.name
-        val activeNPCPokemonStatus = activeNPCBattlePokemon?.originalPokemon?.status?.status?.name
+        val activePlayerPokemonStatus = activePlayerBattlePokemon?.originalPokemon?.status?.status?.name ?: activePlayerBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)?.last()?.id
+        val activeNPCPokemonStatus = activeNPCBattlePokemon?.originalPokemon?.status?.status?.name ?: activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)?.last()?.id
 
         // Hazards on both sides of the field
         var playerSideHazardsList: MutableList<String> = mutableListOf()
@@ -586,6 +586,14 @@ class StrongBattleAI() : BattleAI {
 
             mon.firstTurn = 0
 
+            // Sleep Talk when asleep
+            if (activeNPCPokemonStatus == "slp")
+                for (move in moveset.moves.filter { !it.disabled }) {
+                    if (move.id == "sleeptalk")
+                        return MoveActionResponse(move.id)
+                }
+
+
             // Explosion/Self destruct
             allMoves?.firstOrNull {
                 (it.id.equals("explosion") || it.id.equals("selfdestruct"))
@@ -649,7 +657,13 @@ class StrongBattleAI() : BattleAI {
                 if (move.pp > 0 && nRemainingMons >= 2 && move.id in antiHazardsMoves
                         && npcSideHazards.isNotEmpty()) {
                         //&& entryHazards.any { it in monSideConditionList }) {
-                    return MoveActionResponse(move.id)
+                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
+                    if (target == null)
+                        return MoveActionResponse(move.id) // TODO find out why Red's Blastoise isn't using rapid spin
+                    else {
+                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
+                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
+                    }
                 }
             }
 
