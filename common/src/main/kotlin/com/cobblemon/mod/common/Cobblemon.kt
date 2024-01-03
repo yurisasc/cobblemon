@@ -41,6 +41,7 @@ import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
+import com.cobblemon.mod.common.api.scheduling.ServerRealTimeTaskTracker
 import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
@@ -265,7 +266,13 @@ object Cobblemon {
             isDedicatedServer = true
         }
 
-        PlatformEvents.SERVER_TICK_POST.subscribe { ServerTaskTracker.update(1/20F) }
+        PlatformEvents.SERVER_TICK_POST.subscribe {
+            ServerTaskTracker.update(1/20F)
+            ServerRealTimeTaskTracker.update()
+        }
+        PlatformEvents.SERVER_TICK_PRE.subscribe {
+            ServerRealTimeTaskTracker.update()
+        }
         PlatformEvents.SERVER_STARTING.subscribe { event ->
             val server = event.server
             playerData = PlayerDataStoreManager().also { it.setup(server) }
