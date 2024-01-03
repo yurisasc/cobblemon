@@ -402,6 +402,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.MENTAL_HERB)
         entries.add(CobblemonItems.METAL_COAT)
         entries.add(CobblemonItems.METAL_POWDER)
+        entries.add(CobblemonItems.METRONOME)
         entries.add(CobblemonItems.MIRACLE_SEED)
         entries.add(CobblemonItems.MIRROR_HERB)
         entries.add(CobblemonItems.MUSCLE_BAND)
