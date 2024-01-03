@@ -9,8 +9,13 @@
 package com.cobblemon.mod.common.api.tms
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.moves.Moves
+import com.cobblemon.mod.common.api.types.ElementalType
+import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 class TechnicalMachine(
@@ -21,6 +26,54 @@ class TechnicalMachine(
     val primaryColor: Int?,
     val secondaryColor: Int?
 ) {
+
+    companion object {
+        /**
+         * Filters all available [TechnicalMachines] based on three optional arguments
+         *
+         * @param search A [String] to check against move names
+         * @param type An [ElementalType] to check for
+         * @param pokemon A [Pokemon] to check the [Learnset] of
+         * @return A [MutableSet] of [TechnicalMachine] that passed the filter
+         * @author whatsy
+         */
+        fun filterTms(search: String?, type: ElementalType?, pokemon: Pokemon?): MutableSet<TechnicalMachine> {
+            val tms = TechnicalMachines.tmMap.values.toMutableSet()
+
+            type?.let {
+                val iterator = tms.iterator()
+                while (iterator.hasNext()) {
+                    val tm = iterator.next()
+                    if (ElementalTypes.get(tm.type) != type) {
+                        iterator.remove()
+                    }
+                }
+            }
+
+            pokemon?.let {
+                val iterator = tms.iterator()
+                while (iterator.hasNext()) {
+                    val tm = iterator.next()
+                    val move = Moves.getByName(tm.moveName)
+                    if (!pokemon.species.moves.tmLearnableMoves().contains(move)) {
+                        iterator.remove()
+                    }
+                }
+            }
+
+            search?.let {
+                val iterator = tms.iterator()
+                while (iterator.hasNext()) {
+                    val tm = iterator.next()
+                    if (!tm.translatedMoveName().toString().contains(search, true)) {
+                        iterator.remove()
+                    }
+                }
+            }
+
+            return tms
+        }
+    }
 
     /**
      * Gets the [Identifier] of this [TechnicalMachine]
@@ -47,5 +100,15 @@ class TechnicalMachine(
         Cobblemon.playerData.get(player).tmSet.add(id()!!)
         player.sendMessage(lang("tms.unlock_tm", lang("move.$moveName")))
         return true
+    }
+
+    /**
+     * Returns a [Text] of the translated move name of this [TechnicalMachine]
+     *
+     * @return This [TechnicalMachine]'s move name, translated
+     * @author whatsy
+     */
+    fun translatedMoveName(): Text {
+        return lang("move." + this.moveName)
     }
 }

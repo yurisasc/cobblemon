@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.pokemon.moves
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
@@ -92,6 +93,20 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
         .sortedBy { it.key }
         .flatMap { it.value }
         .toSet()
+
+    fun tmLearnableMoves(): MutableList<MoveTemplate> {
+        val moves = mutableListOf<MoveTemplate>()
+
+        moves.addAll(tmMoves)
+        moves.addAll(tutorMoves)
+        moves.addAll(eggMoves)
+        moves.addAll(getLevelUpMovesUpTo(Cobblemon.config.maxPokemonLevel))
+        moves.addAll(evolutionMoves)
+        moves.addAll(formChangeMoves)
+
+        return moves
+    }
+
 
     // We only sync level up moves atm
     override fun shouldSynchronize(other: Learnset) = other.levelUpMoves != this.levelUpMoves

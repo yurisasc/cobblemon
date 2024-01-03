@@ -8,10 +8,8 @@
 
 package com.cobblemon.mod.common.item
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.moves.BenchedMove
-import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.api.text.green
@@ -39,15 +37,15 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
 
     companion object {
         val STORED_MOVE_KEY = "StoredMove"
+
+        fun getMoveNbt(stack: ItemStack): TechnicalMachine? {
+            val nbtCompound = stack.nbt ?: return null
+
+            return TechnicalMachines.tmMap[Identifier.tryParse(nbtCompound.getString(STORED_MOVE_KEY))]
+        }
     }
 
     override fun hasGlint(stack: ItemStack?) = false
-
-    fun getMoveNbt(stack: ItemStack): TechnicalMachine? {
-        val nbtCompound = stack.nbt ?: return null
-
-        return TechnicalMachines.tmMap[Identifier.tryParse(nbtCompound.getString(STORED_MOVE_KEY))]
-    }
 
     fun setNbt(stack: ItemStack, id: String): ItemStack {
         stack.getOrCreateNbt().put(STORED_MOVE_KEY, NbtString.of(id))
@@ -73,25 +71,18 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         if (user.world.isClient) return ActionResult.FAIL
         if (entity !is PokemonEntity) return ActionResult.FAIL
 
-        val tm = this.getMoveNbt(stack) ?: return ActionResult.FAIL
+        val tm = getMoveNbt(stack) ?: return ActionResult.FAIL
         val move = Moves.getByName(tm.moveName) ?: return ActionResult.FAIL
-        val translatedName = lang("move." + tm.moveName)
         val pokemon = entity.pokemon
 
-        val tmLearnableMoves = mutableListOf<MoveTemplate>()
-
-        tmLearnableMoves.addAll(pokemon.species.moves.tmMoves)
-        tmLearnableMoves.addAll(pokemon.species.moves.tutorMoves)
-        tmLearnableMoves.addAll(pokemon.species.moves.eggMoves)
-        tmLearnableMoves.addAll(pokemon.species.moves.evolutionMoves)
-        tmLearnableMoves.addAll(pokemon.species.moves.getLevelUpMovesUpTo(Cobblemon.config.maxPokemonLevel))
+        val tmLearnableMoves = pokemon.species.moves.tmLearnableMoves()
 
         if (!tmLearnableMoves.contains(move)) {
-            user.sendMessage(lang("tms.cannot_learn", pokemon.getDisplayName(), translatedName))
+            user.sendMessage(lang("tms.cannot_learn", pokemon.getDisplayName(), tm.translatedMoveName()))
             return ActionResult.FAIL
         }
         if (pokemon.allAccessibleMoves.contains(move)) {
-            user.sendMessage(lang("tms.already_known", pokemon.getDisplayName(), translatedName))
+            user.sendMessage(lang("tms.already_known", pokemon.getDisplayName(), tm.translatedMoveName()))
             return ActionResult.FAIL
         }
 
@@ -99,7 +90,7 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         if (pokemon.moveSet.hasSpace()) { pokemon.moveSet.add(move.create()) }
             else { pokemon.benchedMoves.add(BenchedMove(move, 0)) }
 
-        user.sendMessage(lang("tms.teach_move", pokemon.getDisplayName(), translatedName).green())
+        user.sendMessage(lang("tms.teach_move", pokemon.getDisplayName(), tm.translatedMoveName()).green())
         user.playSound(CobblemonSounds.TM_USE, SoundCategory.PLAYERS, 1.0f, 1.0f)
         entity.cry()
         return ActionResult.CONSUME

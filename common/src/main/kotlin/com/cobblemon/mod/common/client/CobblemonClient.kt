@@ -144,8 +144,7 @@ object CobblemonClient {
         }, CobblemonItems.TECHNICAL_MACHINE)
 
         this.implementation.registerItemColors(ItemColorProvider { stack, tint ->
-            val tm = stack.item as TechnicalMachineItem
-            val nbt = tm.getMoveNbt(stack) ?: return@ItemColorProvider ElementalTypes.NORMAL.primaryColor
+            val nbt = TechnicalMachineItem.getMoveNbt(stack) ?: return@ItemColorProvider ElementalTypes.NORMAL.primaryColor
 
             if (nbt.primaryColor != null && tint == 0) return@ItemColorProvider nbt.primaryColor
             if (nbt.secondaryColor != null && tint != 0) return@ItemColorProvider nbt.secondaryColor

@@ -12,6 +12,8 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
+import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
@@ -57,9 +59,10 @@ object TestCommand {
         }
 
         try {
+            filter(context)
 //            readBerryDataFromCSV()
 
-            this.testClosestBattle(context)
+//            this.testClosestBattle(context)
             //testTrade(context.source.player!!)
 //            testParticles(context)
 //            extractMovesData()
@@ -103,6 +106,12 @@ object TestCommand {
 
     var trade: ActiveTrade? = null
     var lastDebugId = 0
+
+    private fun filter(context: CommandContext<ServerCommandSource>) {
+        val tms = TechnicalMachine.filterTms("fire", null, null)
+        println(context.source.playerOrThrow.party().get(1)?.getDisplayName())
+        tms.forEach { context.source.playerOrThrow.sendMessage(it.moveName.text()) }
+    }
 
     private fun testClosestBattle(context: CommandContext<ServerCommandSource>) {
         val player = context.source.playerOrThrow
