@@ -38,6 +38,13 @@ class MoveSet : Iterable<Move> {
         return moves.filterNotNull()
     }
 
+    fun hasMove(move: MoveTemplate): Boolean {
+        getMoves().forEach {
+            if (it.template == move) return true
+        }
+        return false
+    }
+
     fun hasSpace() = moves.any { it == null }
 
     /**

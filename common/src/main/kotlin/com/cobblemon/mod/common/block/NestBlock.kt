@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.block.entity.NestBlockEntity
+import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
@@ -17,6 +18,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Waterloggable
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
@@ -24,9 +26,13 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockView
+import net.minecraft.world.World
 
 class NestBlock(val variant: NestVariant, settings: Settings) : BlockWithEntity(settings), Waterloggable {
 

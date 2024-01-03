@@ -96,6 +96,8 @@ object CobblemonItemTags {
     val CONSUMED_IN_PVP_BATTLE = create("held/consumed_in_pvp_battle")
     @JvmField
     val CONSUMED_IN_WILD_BATTLE = create("held/consumed_in_wild_battle")
+    @JvmField
+    val DEFAULTING_POKE_BALLS = create("defaulting_poke_balls")
 
     private fun create(path: String) = TagKey.of(RegistryKeys.ITEM, cobblemonResource(path))
 

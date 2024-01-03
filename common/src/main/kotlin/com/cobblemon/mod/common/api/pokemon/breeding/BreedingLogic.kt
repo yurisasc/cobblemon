@@ -10,8 +10,8 @@ package com.cobblemon.mod.common.api.pokemon.breeding
 
 import com.cobblemon.mod.common.api.abilities.Ability
 import com.cobblemon.mod.common.api.moves.MoveSet
+import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.species
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
@@ -22,7 +22,6 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbilityType
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
@@ -31,6 +30,14 @@ import kotlin.random.Random
 
 interface BreedingLogic {
 
+    /**
+     * Takes two [Pokemon] and returns a [BreedingResult].
+     *
+     * @param mother The mother [Pokemon]
+     * @param father The father [Pokemon]
+     * @return The [BreedingResult] of the two [Pokemon]
+     * @author Apion, Nick, whatsy
+     */
     fun breed(mother: Pokemon, father: Pokemon) : BreedingResult {
         if(!this.canBreed(mother, father)) {
             return BreedingResult()
@@ -40,8 +47,8 @@ interface BreedingLogic {
         val ability: Ability = this.calculateAbility(mother, father, form)
         val moveset: MoveSet = this.calculateMoveset(mother, father)
         val ivs: IVs = this.calculateIVs(mother, father)
-        val pokeball: PokeBall = this.calculatePokeball(mother, father)
         val gender = calculateGender(mother, father, form)
+        val pokeball: PokeBall = this.calculatePokeball(mother, father)
 
         val newPoke = EggPokemon(
             ivs,
@@ -50,16 +57,35 @@ interface BreedingLogic {
             form,
             ability,
             moveset,
-            false
+            false,
+            gender,
+            pokeball
         )
 
         return BreedingResult(newPoke)
     }
 
+    /**
+     * Determines if two [Pokemon] can breed.
+     *
+     * @param mother The mother [Pokemon]
+     * @param father The father [Pokemon]
+     * @return Whether the two [Pokemon] can breed
+     * @author Apion, whatsy
+     */
     fun canBreed(mother: Pokemon, father: Pokemon): Boolean {
         return true
     }
 
+    /**
+     * Determines the [Gender] of a child
+     *
+     * @param mother The mother [Pokemon]
+     * @param father The father [Pokemon]
+     * @param form The [FormData] of the child
+     * @return The [Gender] of the child
+     * @author Apion, whatsy
+     */
     fun calculateGender(mother: Pokemon, father: Pokemon, form: FormData): Gender {
         val maleRatio = form.maleRatio
         if (maleRatio.toDouble() == -1.0) {
@@ -73,6 +99,14 @@ interface BreedingLogic {
         }
     }
 
+    /**
+     * Determines the [FormData] of a child
+     *
+     * @param mother The mother [Pokemon]
+     * @param father The father [Pokemon]
+     * @return The [FormData] of the child
+     * @author Nick, Apion, whatsy
+     */
     fun calculateForm(mother: Pokemon, father: Pokemon): FormData {
         /*
          * In most cases, if a hatched species has multiple forms (not dependent on in-battle conditions), it will
@@ -86,8 +120,8 @@ interface BreedingLogic {
          *
          * - Rotom will always hatch into its normal form, but can be changed afterwards.
          * - Vivillon's pattern depends on the real-world, geographic area of the save file it originated from, regardless of its parent's pattern.
-         *  - The form that Scatterbug will evolve into is predetermined when the Egg is first obtained, not when hatched or evolved.
-         *  - Scatterbug hatched in Scarlet and Violet will only evolve into Fancy Pattern Vivillon.
+         * - The form that Scatterbug will evolve into is predetermined when the Egg is first obtained, not when hatched or evolved.
+         * - Scatterbug hatched in Scarlet and Violet will only evolve into Fancy Pattern Vivillon.
          * - Furfrou, whose trims are temporary, always hatch in its Natural Form.
          * - Sinistea will always hatch as a Phony Form, even if its parent is an Antique Form.
          *
@@ -103,9 +137,17 @@ interface BreedingLogic {
          *
          * TODO - Handle this via form data parameters?
          */
-        return mother.form
+        return nonDittoPreferMother(mother, father).form
     }
 
+    /**
+     * Determines the [Nature] of a child
+     *
+     * @param mother The mother [Pokemon]
+     * @param father The father [Pokemon]
+     * @return The [Nature] of the child
+     * @author Nick, whatsy
+     */
     fun calculateNature(mother: Pokemon, father: Pokemon): Nature {
         val mom = mother.heldItemNoCopy().item?.let { Registries.ITEM.getEntry(it) }?.isIn(CobblemonItemTags.EVERSTONE) ?: false
         val dad = father.heldItemNoCopy().item?.let { Registries.ITEM.getEntry(it) }?.isIn(CobblemonItemTags.EVERSTONE) ?: false
@@ -125,6 +167,15 @@ interface BreedingLogic {
         }
     }
 
+    /**
+     * Determines the [Ability] of a child
+     *
+     * @param mother The mother [Pokemon]
+     * @param father The father [Pokemon]
+     * @param child The [FormData] of the child
+     * @return The [Ability] of the child
+     * @author Nick, whatsy
+     */
     fun calculateAbility(mother: Pokemon, father: Pokemon, child: FormData): Ability {
         val parent = this.nonDittoPreferMother(mother, father)
         val hidden = parent.form.abilities.filter { it.type == HiddenAbilityType }
@@ -149,12 +200,29 @@ interface BreedingLogic {
         }
     }
 
+    /**
+     * Determines the [MoveSet] of a child
+     *
+     * @param mother The mother [Pokemon]
+     * @param father The father [Pokemon]
+     * @return The [MoveSet] of the child
+     * @author Nick, Apion, whatsy
+     */
+    // TODO: This, based off of https://pokemondb.net/mechanics/breeding
     fun calculateMoveset(mother: Pokemon, father: Pokemon): MoveSet {
         val momMoveSet = mother.moveSet
         val dadMoveSet = father.moveSet
         return mother.moveSet
     }
 
+    /**
+     * Determines the [IVs] of a child
+     *
+     * @param mother The mother [Pokemon]
+     * @param father The father [Pokemon]
+     * @return The [IVs] of the child
+     * @author Nick, whatsy
+     */
     fun calculateIVs(mother: Pokemon, father: Pokemon): IVs {
         val motherItem = mother.heldItemNoCopy().item?.let { Registries.ITEM.getEntry(it) }
         val fatherItem = father.heldItemNoCopy().item?.let { Registries.ITEM.getEntry(it) }
@@ -206,29 +274,51 @@ interface BreedingLogic {
         return IVs.createRandomIVs()
     }
 
+    /**
+     * Determines the [PokeBall] of a child
+     *
+     * @param mother The mother [Pokemon]
+     * @param father The father [Pokemon]
+     * @return The [PokeBall] of the child
+     * @author Nick, whatsy
+     */
     fun calculatePokeball(mother: Pokemon, father: Pokemon): PokeBall {
-        val anyDitto = listOf(mother, father).any { it.form.eggGroups.contains(EggGroup.DITTO) }
-
-        val ball: PokeBall = if(anyDitto) {
-            this.nonDittoPreferMother(mother, father).caughtBall
-        } else if(mother.species.resourceIdentifier == father.species.resourceIdentifier) {
-            if(Random.nextInt(100) < 50) {
-                mother.caughtBall
-            } else {
-                father.caughtBall
-            }
-        } else {
-            mother.caughtBall
-        }
-
         /*
          * The Master Ball, Cherish Ball, and Strange Ball cannot be inherited via breeding; instead, the game treats
          *  any parent obtained in those balls as if they were in a standard Poké Ball for the purposes of inheritance.
+         *  To add Poké Balls to this list, add to the defaulting_poke_balls.json item tag.
          */
-        // TODO - Item Tag for defaulting balls?
+        val anyDitto = listOf(mother, father).any { it.form.eggGroups.contains(EggGroup.DITTO) }
+
+        val motherBallItem = mother.caughtBall.item().let { Registries.ITEM.getEntry(it) }
+        val fatherBallItem = father.caughtBall.item().let { Registries.ITEM.getEntry(it) }
+        println(motherBallItem.isIn(CobblemonItemTags.DEFAULTING_POKE_BALLS))
+        val motherBall = if (motherBallItem.isIn(CobblemonItemTags.DEFAULTING_POKE_BALLS)) PokeBalls.POKE_BALL else mother.caughtBall
+        val fatherBall = if (fatherBallItem.isIn(CobblemonItemTags.DEFAULTING_POKE_BALLS)) PokeBalls.POKE_BALL else father.caughtBall
+
+        val ball: PokeBall = if(anyDitto) {
+            if (nonDittoPreferMother(mother, father) == mother) motherBall else fatherBall
+        } else if(mother.species.resourceIdentifier == father.species.resourceIdentifier) {
+            if(Random.nextInt(100) < 50) {
+                motherBall
+            } else {
+                fatherBall
+            }
+        } else {
+            motherBall
+        }
+
         return ball
     }
 
+    /**
+     * If the mother is a Ditto, returns the father.
+     * Otherwise, returns the mother.
+     *
+     * @param mother The mother [Pokemon]
+     * @param father The father [Pokemon]
+     * @author Nick
+     */
     fun nonDittoPreferMother(mother: Pokemon, father: Pokemon): Pokemon {
         return if(mother.form.eggGroups.contains(EggGroup.DITTO)) father else mother
     }
