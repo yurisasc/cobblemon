@@ -54,9 +54,8 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import net.minecraft.block.Blocks
 import net.minecraft.entity.*
-import net.minecraft.block.PlantBlock
+import net.minecraft.entity.ai.brain.Activity
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -74,11 +73,9 @@ import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
-import net.minecraft.item.MinecartItem
 import net.minecraft.item.SuspiciousStewItem
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
@@ -86,11 +83,12 @@ import net.minecraft.nbt.NbtString
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ChunkTicketType
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -101,19 +99,17 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
-import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.sql.Timestamp
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
-import net.minecraft.entity.ai.brain.Activity
-import net.minecraft.network.packet.s2c.play.ParticleS2CPacket
-import net.minecraft.particle.ParticleTypes
-import net.minecraft.util.math.random.Random
 
 @Suppress("unused")
 class PokemonEntity(
@@ -184,7 +180,10 @@ class PokemonEntity(
         get() = dataTracker.get(BATTLE_ID).isPresent
 
     var drops: DropTable? = null
-    var lastTimeWhenHeadpatted: Long = 0L
+    var lastHeadpat: Long = 0L
+    var lastFriendshipHeadpat: Long = 0L
+    var lastHeadpatTimestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    var friendshipHeadpatTimestamp: Timestamp = Timestamp(System.currentTimeMillis())
     var tethering: PokemonPastureBlockEntity.Tethering? = null
 
     var queuedToDespawn = false
@@ -669,7 +668,7 @@ class PokemonEntity(
             }
         }
 
-        onHeadpatCobblemon(hand, pokemon, player)
+        onHeadpat(hand, pokemon, player)
 
         return super.interactMob(player, hand)
     }
@@ -1116,32 +1115,39 @@ class PokemonEntity(
     /** Retrieves the battle theme associated with this Pokemon's Species/Form, or the default PVW theme if not found. */
     fun getBattleTheme() = Registries.SOUND_EVENT.get(this.form.battleTheme) ?: CobblemonSounds.PVW_BATTLE
 
-    fun onHeadpatCobblemon(hand: Hand, pokemon: Pokemon, player: PlayerEntity){
+    fun onHeadpat(hand: Hand, pokemon: Pokemon, player: PlayerEntity){
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity) {
             var timeWhenHeadpatted = world.time
-            var eyePos = pokemon.entity?.eyePos
+            lastHeadpatTimestamp = Timestamp(System.currentTimeMillis())
+            val eyePos = pokemon.entity?.eyePos
             if(pokemon.getOwnerPlayer() == player){
-                if(timeWhenHeadpatted - 30 < lastTimeWhenHeadpatted){
+                if(timeWhenHeadpatted - 30 < lastHeadpat){
                     return
                 }
                 this.cry()
-                lastTimeWhenHeadpatted = timeWhenHeadpatted
-                var newX = (eyePos?.x ?: 0.0) + (Random.create().nextDouble() * 0.5)
-                var newY = (eyePos?.y ?: 0.0) + (Random.create().nextDouble() * 0.5)
-                var newZ = (eyePos?.z ?: 0.0) + (Random.create().nextDouble() * 0.5)
-                for (i in 0..2) {
-                    ParticleS2CPacket(
-                        ParticleTypes.HEART, true, newX, newY, newZ , .2f, .2f, .2f, .2f, 1
-                    ).also {
-                        (this.world as ServerWorld).server.playerManager.sendToAround(
-                            null,
-                            (eyePos?.x ?: 0.0),
-                            (eyePos?.y ?: 0.0),
-                            (eyePos?.z ?: 0.0),
-                            64.0,
-                            this.world.registryKey,
-                            it
-                        )
+                player.swingHand(Hand.MAIN_HAND, true)
+                val friendshipHeadpat: Instant = friendshipHeadpatTimestamp.toInstant()
+                if(lastFriendshipHeadpat == 0L || lastHeadpatTimestamp.after(Timestamp.from(friendshipHeadpat.plus(20, ChronoUnit.MINUTES)))){
+                    friendshipHeadpatTimestamp = Timestamp(System.currentTimeMillis())
+                    lastFriendshipHeadpat = world.time
+                    pokemon.incrementFriendship(2)
+                    val newX = (eyePos?.x ?: 0.0) + (world.random.nextDouble() * 0.5)
+                    val newY = (eyePos?.y ?: 0.0) + (world.random.nextDouble() * 0.5)
+                    val newZ = (eyePos?.z ?: 0.0) + (world.random.nextDouble() * 0.5)
+                    for(i in 0 .. 2){
+                        ParticleS2CPacket(
+                            ParticleTypes.HEART, true, newX, newY, newZ , Math.PI.toFloat() * Math.cos(i.toDouble()).toFloat() * 0.1f, Math.PI.toFloat() * 0.1f, Math.PI.toFloat() * Math.sin(i.toDouble()).toFloat() * 0.1f, .2f, 1
+                        ).also {
+                            (this.world as ServerWorld).server.playerManager.sendToAround(
+                                null,
+                                (eyePos?.x ?: 0.0),
+                                (eyePos?.y ?: 0.0),
+                                (eyePos?.z ?: 0.0),
+                                64.0,
+                                this.world.registryKey,
+                                it
+                            )
+                        }
                     }
                 }
             }
