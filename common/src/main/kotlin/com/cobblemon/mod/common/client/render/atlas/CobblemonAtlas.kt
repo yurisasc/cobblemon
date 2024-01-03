@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.client.render
+package com.cobblemon.mod.common.client.render.atlas
 
 import net.minecraft.client.texture.SpriteAtlasHolder
 import net.minecraft.client.texture.TextureManager
@@ -21,4 +21,5 @@ class CobblemonAtlas(
     atlasId,
     sourcePath
 ) {
+
 }
