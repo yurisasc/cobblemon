@@ -12,7 +12,8 @@ import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
-import com.cobblemon.mod.common.client.render.CobblemonAtlases
+import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
 import com.cobblemon.mod.common.platform.events.ClientPlayerEvent
@@ -76,14 +77,12 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
                 prepareExecutor: Executor?,
                 applyExecutor: Executor?
             ): CompletableFuture<Void> {
-                //Atlases must be loaded before we reloadCodedAssets, BerryModelRepository needs the berry atlas
                 val atlasFutures = mutableListOf<CompletableFuture<Void>>()
                 CobblemonAtlases.atlases.forEach {
                     atlasFutures.add(it.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor))
                 }
-                val result = CompletableFuture.allOf(*atlasFutures.toTypedArray()).thenRun {
-                    reloadCodedAssets(manager!!)
-                }
+                val codedAssetFuture = CompletableFuture.runAsync { reloadCodedAssets(manager!!) }
+                val result = CompletableFuture.allOf(*atlasFutures.toTypedArray(), codedAssetFuture)
                 return result
             }
 
