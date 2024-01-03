@@ -640,7 +640,11 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val EVERSTONE = heldItem("everstone")
     @JvmField
+    val EVIOLITE = heldItem("eviolite")
+    @JvmField
     val EXP_SHARE = heldItem("exp_share")
+    @JvmField
+    val EXPERT_BELT = heldItem("expert_belt")
     @JvmField
     val FAIRY_FEATHER = heldItem("fairy_feather")
     @JvmField

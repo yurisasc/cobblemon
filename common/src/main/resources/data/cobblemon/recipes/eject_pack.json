@@ -1,25 +1,25 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "WWW",
-        "WEW",
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"WWW",
+		"WEW",
 		"LRL"
-    ],
-    "key": {
-        "W": {
-            "item": "minecraft:white_wool"
-        },
-        "E": {
-            "item": "cobblemon:eject_button"
-        }
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "L": {
-            "item": "minecraft:leather"
-        }
-    },
-    "result": {
-        "item": "cobblemon:eject_pack"
-    }
+	],
+	"key": {
+		"W": {
+			"item": "minecraft:white_wool"
+		},
+		"E": {
+			"item": "cobblemon:eject_button"
+		},
+		"R": {
+			"item": "minecraft:redstone"
+		},
+		"L": {
+			"item": "minecraft:leather"
+		}
+	},
+	"result": {
+		"item": "cobblemon:eject_pack"
+	}
 }

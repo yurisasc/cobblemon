@@ -20,7 +20,7 @@
         },
         "P": {
             "item": "minecraft:piston"
-        },
+        }
     },
     "result": {
         "item": "cobblemon:eject_button"
