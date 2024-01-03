@@ -376,6 +376,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.CHOICE_SPECS)
         entries.add(CobblemonItems.CLEANSE_TAG)
         entries.add(CobblemonItems.CLEAR_AMULET)
+        entries.add(CobblemonItems.COVERT_CLOAK)
         entries.add(CobblemonItems.DEEP_SEA_SCALE)
         entries.add(CobblemonItems.DEEP_SEA_TOOTH)
         entries.add(CobblemonItems.DESTINY_KNOT)

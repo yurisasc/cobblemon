@@ -628,6 +628,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val CLEAR_AMULET = heldItem("clear_amulet")
     @JvmField
+    val COVERT_CLOAK = heldItem("covert_cloak")
+    @JvmField
     val DESTINY_KNOT = heldItem("destiny_knot")
     @JvmField
     val DRAGON_FANG = heldItem("dragon_fang")
