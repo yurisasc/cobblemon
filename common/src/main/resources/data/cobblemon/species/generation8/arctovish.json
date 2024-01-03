@@ -77,23 +77,7 @@
     "tutor:meteorbeam",
     "tutor:powdersnow",
     "tutor:protect",
-    "tutor:psychicfangs",
-    "tutor:raindance",
-    "tutor:rest",
-    "tutor:rockblast",
-    "tutor:rockslide",
-    "tutor:rocktomb",
-    "tutor:round",
-    "tutor:sleeptalk",
-    "tutor:snore",
-    "tutor:stoneedge",
-    "tutor:substitute",
-    "tutor:superfang",
-    "tutor:surf",
-    "tutor:waterfall",
-    "tutor:watergun",
-    "tutor:whirlpool",
-    "tutor:zenheadbutt"
+    "tutor:watergun"
   ],
   "labels": [
     "gen8"

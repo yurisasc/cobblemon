@@ -37,13 +37,7 @@
     "tm:pounce",
     "tm:terablast",
     "tutor:dracometeor",
-    "tutor:grassyglide",
-    "tutor:pounce",
-    "tutor:recycle",
-    "tutor:rollout",
-    "tutor:suckerpunch",
-    "tutor:terablast",
-    "tutor:withdraw"
+    "tutor:grassyglide"
   ],
   "labels": [
     "gen8"
