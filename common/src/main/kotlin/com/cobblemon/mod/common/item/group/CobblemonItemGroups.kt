@@ -426,6 +426,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.ROCKY_HELMET)
         entries.add(CobblemonItems.ROOM_SERVICE)
         entries.add(CobblemonItems.SAFETY_GOGGLES)
+        entries.add(CobblemonItems.SCOPE_LENS)
         entries.add(CobblemonItems.SHARP_BEAK)
         entries.add(CobblemonItems.SHELL_BELL)
         entries.add(CobblemonItems.SILK_SCARF)

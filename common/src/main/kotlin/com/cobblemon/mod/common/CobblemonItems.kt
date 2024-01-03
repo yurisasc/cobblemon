@@ -706,6 +706,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val SAFETY_GOGGLES = heldItem("safety_goggles")
     @JvmField
+    val SCOPE_LENS = heldItem("scope_lens")
+    @JvmField
     val SHARP_BEAK = heldItem("sharp_beak")
     @JvmField
     val SHELL_BELL = heldItem("shell_bell")
