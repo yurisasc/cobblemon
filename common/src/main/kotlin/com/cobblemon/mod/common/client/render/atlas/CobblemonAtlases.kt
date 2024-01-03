@@ -6,8 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.client.render
+package com.cobblemon.mod.common.client.render.atlas
 
+import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlas
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.texture.SpriteAtlasHolder
@@ -25,4 +26,5 @@ object CobblemonAtlases {
         atlases.add(atlas)
         return atlas
     }
+
 }
