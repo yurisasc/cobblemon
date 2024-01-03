@@ -111,6 +111,9 @@ import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.ai.brain.Activity
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket
+import net.minecraft.particle.ParticleTypes
+import net.minecraft.util.math.random.Random
 
 @Suppress("unused")
 class PokemonEntity(
@@ -181,7 +184,7 @@ class PokemonEntity(
         get() = dataTracker.get(BATTLE_ID).isPresent
 
     var drops: DropTable? = null
-
+    var lastTimeWhenHeadpatted: Long = 0L
     var tethering: PokemonPastureBlockEntity.Tethering? = null
 
     var queuedToDespawn = false
@@ -666,6 +669,8 @@ class PokemonEntity(
             }
         }
 
+        onHeadpatCobblemon(hand, pokemon, player)
+
         return super.interactMob(player, hand)
     }
 
@@ -1110,4 +1115,39 @@ class PokemonEntity(
 
     /** Retrieves the battle theme associated with this Pokemon's Species/Form, or the default PVW theme if not found. */
     fun getBattleTheme() = Registries.SOUND_EVENT.get(this.form.battleTheme) ?: CobblemonSounds.PVW_BATTLE
+
+    fun onHeadpatCobblemon(hand: Hand, pokemon: Pokemon, player: PlayerEntity){
+        if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity) {
+            var timeWhenHeadpatted = world.time
+            var eyePos = pokemon.entity?.eyePos
+            if(pokemon.getOwnerPlayer() == player){
+                if(timeWhenHeadpatted - 30 < lastTimeWhenHeadpatted){
+                    return
+                }
+                this.cry()
+                lastTimeWhenHeadpatted = timeWhenHeadpatted
+                var newX = (eyePos?.x ?: 0.0) + (Random.create().nextDouble() * 0.5)
+                var newY = (eyePos?.y ?: 0.0) + (Random.create().nextDouble() * 0.5)
+                var newZ = (eyePos?.z ?: 0.0) + (Random.create().nextDouble() * 0.5)
+                for (i in 0..2) {
+                    ParticleS2CPacket(
+                        ParticleTypes.HEART, true, newX, newY, newZ , .2f, .2f, .2f, .2f, 1
+                    ).also {
+                        (this.world as ServerWorld).server.playerManager.sendToAround(
+                            null,
+                            (eyePos?.x ?: 0.0),
+                            (eyePos?.y ?: 0.0),
+                            (eyePos?.z ?: 0.0),
+                            64.0,
+                            this.world.registryKey,
+                            it
+                        )
+                    }
+                }
+            }
+            else{
+                this.cry()
+            }
+        }
+    }
 }
