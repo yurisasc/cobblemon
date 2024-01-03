@@ -8,12 +8,15 @@
 
 package com.cobblemon.mod.common.block
 
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.net.messages.client.ui.OpenTMMPacket
 import net.minecraft.block.*
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.util.ActionResult
@@ -110,6 +113,11 @@ class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterlog
         interactionHand: Hand,
         blockHitResult: BlockHitResult
     ): ActionResult {
+        if (world.isClient) {
+            return ActionResult.SUCCESS
+        }
+        val serverPlayer = player as ServerPlayerEntity
+        serverPlayer.sendPacket(OpenTMMPacket())
         return ActionResult.SUCCESS
     }
 
