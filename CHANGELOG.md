@@ -26,6 +26,7 @@
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
 - Rebuilt the scheduling API to more clearly force side choices and allow more local temporal frames of reference for tasks.
+- Opened up the ItemDropEntry class to allow for it to be extended.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Compartment can be adjusted in the config.
