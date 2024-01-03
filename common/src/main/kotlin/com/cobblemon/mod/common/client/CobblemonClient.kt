@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
+import com.cobblemon.mod.common.client.gui.tm.TMMHandledScreen
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
@@ -34,6 +35,7 @@ import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
+import com.cobblemon.mod.common.gui.CobblemonScreenHandlers
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.TechnicalMachineItem
 import com.cobblemon.mod.common.platform.events.PlatformEvents
@@ -42,6 +44,7 @@ import com.cobblemon.mod.common.util.asTranslated
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.screen.ingame.HandledScreens
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer
@@ -97,6 +100,7 @@ object CobblemonClient {
         registerColors()
         registerFlywheelRenderers()
         this.registerEntityRenderers()
+        registerHandledScreens()
 
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
@@ -269,6 +273,13 @@ object CobblemonClient {
             this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, false), BoatEntityModel::getTexturedModelData)
             this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, true), ChestBoatEntityModel::getTexturedModelData)
         }
+    }
+
+    private fun registerHandledScreens() {
+        HandledScreens.register(
+            CobblemonScreenHandlers.TMM_SCREEN,
+            ::TMMHandledScreen
+        )
     }
 
 }

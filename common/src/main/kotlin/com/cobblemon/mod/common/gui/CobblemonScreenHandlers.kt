@@ -12,9 +12,10 @@ import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.util.Identifier
 
 object CobblemonScreenHandlers {
-    val TMM_SCREEN = ScreenHandlerTypeInvoker.`cobblemon$create`(::TMMScreenHandler, FeatureFlags.VANILLA_FEATURES)
+    val TMM_SCREEN = register(cobblemonResource("tmm_screen"), ::TMMScreenHandler)
 
     fun <T : ScreenHandler> register(identifier: Identifier, factory: Factory<T>): ScreenHandlerType<T> {
+
         val result = ScreenHandlerTypeInvoker.`cobblemon$create`(factory, FeatureFlags.VANILLA_FEATURES)
         Cobblemon.implementation.registerScreenHandlerType(identifier, result)
         return result
