@@ -634,6 +634,10 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val DRAGON_FANG = heldItem("dragon_fang")
     @JvmField
+    val EJECT_BUTTON = heldItem("eject_button")
+    @JvmField
+    val EJECT_PACK = heldItem("eject_pack")
+    @JvmField
     val EVERSTONE = heldItem("everstone")
     @JvmField
     val EXP_SHARE = heldItem("exp_share")
