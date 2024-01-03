@@ -12,7 +12,9 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.interaction.InteractionGUICreationEvent
 import com.cobblemon.mod.common.client.CobblemonClient
+import com.cobblemon.mod.common.net.messages.client.PlayerInteractOptionsPacket
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
+import com.cobblemon.mod.common.net.messages.server.battle.SpectateBattlePacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPacket
 import com.cobblemon.mod.common.net.messages.server.trade.OfferTradePacket
@@ -54,15 +56,15 @@ fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean): Intera
     return InteractWheelGUI(options, Text.translatable("cobblemon.ui.interact.pokemon"))
 }
 
-fun createPlayerInteractGui(targetPlayer: PlayerEntity, pokemon: Pokemon): InteractWheelGUI {
+fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): InteractWheelGUI {
     val trade = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_trade.png"),
-        colour = { if (CobblemonClient.requests.tradeOffers.any { it.traderId == targetPlayer.uuid }) Vector3f(0F, 0.6F, 0F) else null },
+        colour = { if (CobblemonClient.requests.tradeOffers.any { it.traderId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
         tooltipText = "cobblemon.ui.interact.trade",
         onPress = {
-            val tradeOffer = CobblemonClient.requests.tradeOffers.find { it.traderId == targetPlayer.uuid }
+            val tradeOffer = CobblemonClient.requests.tradeOffers.find { it.traderId == optionsPacket.targetId }
             if (tradeOffer == null) {
-                CobblemonNetwork.sendToServer(OfferTradePacket(targetPlayer.uuid))
+                CobblemonNetwork.sendToServer(OfferTradePacket(optionsPacket.targetId))
             } else {
                 CobblemonClient.requests.tradeOffers -= tradeOffer
                 CobblemonNetwork.sendToServer(AcceptTradeRequestPacket(tradeOffer.tradeOfferId))
@@ -72,17 +74,36 @@ fun createPlayerInteractGui(targetPlayer: PlayerEntity, pokemon: Pokemon): Inter
     )
     val battle = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"),
-        colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == targetPlayer.uuid }) Vector3f(0F, 0.6F, 0F) else null },
+        colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
         tooltipText = "cobblemon.ui.interact.battle",
         onPress = {
-            val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == targetPlayer.uuid }
+            val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == optionsPacket.targetId }
             // This can be improved in future with more detailed battle challenge data.
-            BattleChallengePacket(targetPlayer.id, pokemon.uuid).sendToServer()
+            BattleChallengePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId).sendToServer()
             closeGUI()
         }
     )
-    val options: Multimap<Orientation, InteractWheelOption> = ArrayListMultimap.create()
-    options.put(Orientation.TOP_RIGHT, battle)
+    val spectate = InteractWheelOption(
+        iconResource = cobblemonResource("textures/gui/interact/icon_spectate_battle.png"),
+        colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
+        onPress = {
+            SpectateBattlePacket(optionsPacket.targetId).sendToServer()
+            closeGUI()
+        }
+    )
+    val options = mutableMapOf<Orientation, InteractWheelOption>()
+    //The way things are positioned should probably be more thought out if more options are added
+    optionsPacket.options.map {
+        if (it.equals(PlayerInteractOptionsPacket.Options.TRADE)) {
+            options[Orientation.TOP_LEFT] = trade
+        }
+        if (it.equals(PlayerInteractOptionsPacket.Options.BATTLE)) {
+            options[Orientation.TOP_RIGHT] = battle
+        }
+        if (it.equals(PlayerInteractOptionsPacket.Options.SPECTATE_BATTLE)) {
+            options[Orientation.TOP_RIGHT] = spectate
+        }
+    }
     return InteractWheelGUI(options, Text.translatable("cobblemon.ui.interact.player"))
 }
 

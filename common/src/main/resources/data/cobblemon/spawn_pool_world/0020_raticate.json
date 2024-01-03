@@ -27,7 +27,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "raticate-2",
             "pokemon": "raticate",
             "presets": [
@@ -40,10 +40,10 @@
             "weight": 1.0,
             "condition": {
                 "canSeeSky": false,
-				"minY": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "minY": 0
             },
             "anticondition": {
                 "biomes": [
@@ -51,7 +51,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "raticate-3",
             "pokemon": "raticate",
             "presets": [
@@ -64,10 +64,10 @@
             "weight": 1.0,
             "condition": {
                 "canSeeSky": false,
-				"minY": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "minY": 0
             },
             "anticondition": {
                 "biomes": [
@@ -76,7 +76,7 @@
             }
         },
         {
-            "id": "raticate-alolan-1",
+            "id": "raticate-alolan-4",
             "pokemon": "raticate alolan",
             "presets": [
                 "natural"
@@ -88,10 +88,10 @@
             "weight": 1.0,
             "condition": {
                 "canSeeSky": false,
-				"maxY": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "maxY": 0
             },
             "anticondition": {
                 "biomes": [
@@ -99,8 +99,8 @@
                 ]
             }
         },
-		{
-            "id": "raticate-alolan-2",
+        {
+            "id": "raticate-alolan-5",
             "pokemon": "raticate alolan",
             "presets": [
                 "derelict"
@@ -112,10 +112,10 @@
             "weight": 1.0,
             "condition": {
                 "canSeeSky": false,
-				"maxY": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "maxY": 0
             },
             "anticondition": {
                 "biomes": [
@@ -124,7 +124,7 @@
             }
         },
         {
-            "id": "raticate-alolan-3",
+            "id": "raticate-alolan-6",
             "pokemon": "raticate alolan",
             "presets": [
                 "natural"
@@ -142,8 +142,8 @@
                 "timeRange": "night"
             }
         },
-		{
-            "id": "raticate-alolan-4",
+        {
+            "id": "raticate-alolan-7",
             "pokemon": "raticate alolan",
             "presets": [
                 "derelict"

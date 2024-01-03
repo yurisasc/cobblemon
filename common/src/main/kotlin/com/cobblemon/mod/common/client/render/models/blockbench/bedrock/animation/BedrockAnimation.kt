@@ -70,13 +70,10 @@ class BedrockParticleKeyframe(
     override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
         val world = entity.world as? ClientWorld ?: return
         val matrixWrapper = state.locatorStates[locator] ?: state.locatorStates["root"]!!
-        val effect = effect
 
         if (this in state.poseParticles) {
             return
         }
-
-        state.poseParticles.add(this)
 
         val storm = ParticleStorm(
             effect = effect,
@@ -85,9 +82,11 @@ class BedrockParticleKeyframe(
             sourceVelocity = { entity.velocity },
             sourceAlive = { !entity.isRemoved && this in state.poseParticles },
             sourceVisible = { !entity.isInvisible },
+            entity = entity,
             onDespawn = { state.poseParticles.remove(this) }
         )
 
+        state.poseParticles.add(this)
         storm.runtime.execute(this.scripts)
         storm.spawn()
     }
@@ -132,7 +131,7 @@ data class BedrockAnimation(
     val boneTimelines: Map<String, BedrockBoneTimeline>
 ) {
     companion object {
-        val functionMappings = mutableMapOf<String, java.util.function.Function<MoParams, Any>>()
+        val functionMappings = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
         val sharedRuntime = MoLangRuntime().also {
             it.environment.structs["query"] = it.environment.structs["variable"]
             it.environment.structs["script"] = QueryStruct(functionMappings)

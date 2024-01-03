@@ -9,18 +9,21 @@
 package com.cobblemon.mod.common.api.pokemon.evolution
 
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
+import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionTestedEvent
 import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
@@ -67,7 +70,12 @@ interface Evolution : EvolutionLike {
      * @param pokemon The [Pokemon] being queried.
      * @return If the [Evolution] can start.
      */
-    fun test(pokemon: Pokemon) = this.requirements.all { requirement -> requirement.check(pokemon) }
+    fun test(pokemon: Pokemon): Boolean {
+        val result = this.requirements.all { requirement -> requirement.check(pokemon) }
+        val event = EvolutionTestedEvent(pokemon, this, result, result)
+        CobblemonEvents.EVOLUTION_TESTED.post(event)
+        return event.result
+    }
 
     /**
      * Starts this evolution or queues it if [optional] is true.
@@ -87,6 +95,7 @@ interface Evolution : EvolutionLike {
         return true
     }
 
+
     /**
      * Starts this evolution as soon as possible.
      * This will not present a choice to the client regardless of [optional].
@@ -94,25 +103,57 @@ interface Evolution : EvolutionLike {
      * @param pokemon The [Pokemon] being evolved.
      */
     fun forceEvolve(pokemon: Pokemon) {
+        // This is a switch to enable/disable the evolution effect while we get particles improved
+        val useEvolutionEffect = true
+
         if (pokemon.state is ShoulderedState) {
             pokemon.tryRecallWithAnimation()
         }
-        // ToDo Once implemented queue evolution for a pokemon state that is not in battle, start animation instead of instantly doing all of this
+
+        val pokemonEntity = pokemon.entity
+        if (pokemonEntity == null || !useEvolutionEffect) {
+            evolutionMethod(pokemon)
+        } else {
+            pokemonEntity.evolutionEntity = pokemon.getOwnerPlayer()?.let { GenericBedrockEntity(world = it.world) }
+            val evolutionEntity = pokemon.entity!!.evolutionEntity
+            evolutionEntity?.apply {
+                category = cobblemonResource("evolution")
+                colliderHeight = pokemonEntity.height
+                colliderWidth = pokemonEntity.width
+                scale = pokemonEntity.scaleFactor
+                syncAge = true // Otherwise particle animation will be starting from zero even if you come along partway through
+                setPosition(pokemonEntity.x, pokemonEntity.y, pokemonEntity.z)
+            }
+            pokemon.getOwnerPlayer()?.world?.spawnEntity(evolutionEntity)
+            afterOnServer(seconds = 9F) {
+                if (!pokemonEntity.isRemoved) {
+                    evolutionMethod(pokemon)
+                    afterOnServer(seconds = 1.5F) { pokemonEntity.cry() }
+                    afterOnServer(seconds = 3F) {
+                        if (evolutionEntity != null) {
+                            evolutionEntity.kill()
+                            if (!pokemonEntity.isRemoved) {
+                                pokemonEntity.evolutionEntity = null
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun evolutionMethod(pokemon: Pokemon) {
         this.result.apply(pokemon)
         this.learnableMoves.forEach { move ->
             if (pokemon.moveSet.hasSpace()) {
                 pokemon.moveSet.add(move.create())
-            }
-            else {
+            } else {
                 pokemon.benchedMoves.add(BenchedMove(move, 0))
             }
             pokemon.getOwnerPlayer()?.sendMessage(lang("experience.learned_move", pokemon.getDisplayName(), move.displayName))
         }
         // we want to instantly tick for example you might only evolve your Bulbasaur at level 34 so Venusaur should be immediately available
-        pokemon.evolutions.filterIsInstance<PassiveEvolution>()
-            .forEach { evolution ->
-                evolution.attemptEvolution(pokemon)
-            }
+        pokemon.evolutions.filterIsInstance<PassiveEvolution>().forEach { evolution -> evolution.attemptEvolution(pokemon) }
         pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
         CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
     }

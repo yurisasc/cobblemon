@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.types.ElementalTypes
@@ -146,6 +147,8 @@ internal object PropertiesCompletionProvider : DataRegistry {
             this.inject(setOf("${statName}_iv"), setOf("0", IVs.MAX_VALUE.toString()))
             this.inject(setOf("${statName}_ev"), setOf("0", EVs.MAX_STAT_VALUE.toString()))
         }
+
+        this.inject(setOf("status"), Statuses.getPersistentStatuses().map { if (it.name.namespace == Cobblemon.MODID) it.name.path else it.name.toString() })
     }
 
     private fun addCustom() {

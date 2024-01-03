@@ -55,7 +55,7 @@ class SpawnPokemonPacket(
         entity.beamMode.toByte(),
         entity.pokemon.nickname,
         if (Cobblemon.config.displayEntityLevelLabel) entity.dataTracker.get(PokemonEntity.LABEL_LEVEL) else -1,
-        entity.getPoseType(),
+        entity.dataTracker.get(PokemonEntity.POSE_TYPE),
         entity.dataTracker.get(PokemonEntity.UNBATTLEABLE),
         entity.dataTracker.get(PokemonEntity.HIDE_LABEL),
         entity.pokemon.caughtBall.name,

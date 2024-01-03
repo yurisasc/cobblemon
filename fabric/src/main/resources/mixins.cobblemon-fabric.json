@@ -9,6 +9,8 @@
     "pokeball.ModelLoaderMixin"
   ],
   "mixins": [
-    "BrewingRecipeRegistryMixin"
+    "BrewingRecipeRegistryMixin",
+    "BrewingStandBlockEntityMixin",
+    "PotionSlotMixin"
   ]
 }

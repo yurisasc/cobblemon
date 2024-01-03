@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -16,10 +16,10 @@
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
-                "maxY": 48,
                 "biomes": [
                     "#cobblemon:is_deep_ocean"
-                ]
+                ],
+                "maxY": 48
             }
         },
         {

@@ -65,6 +65,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val CAN_EVOLVE = this.create("pokemon.can_evolve")
     @JvmField
     val EVOLVING = this.create("pokemon.evolving")
+    @JvmField
+    val EVOLVE = this.create("evolution.evolve")
 
     @JvmField
     val PVN_BATTLE = this.create("battle.pvn.default")

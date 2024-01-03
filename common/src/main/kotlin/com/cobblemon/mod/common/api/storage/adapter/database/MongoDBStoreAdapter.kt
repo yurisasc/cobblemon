@@ -25,6 +25,7 @@ import com.mongodb.client.model.ReplaceOptions
 import net.minecraft.util.WorldSavePath
 import org.bson.Document
 import java.util.UUID
+import java.util.Date
 
 /**
  * A [FileStoreAdapter] for MongoDB. This allows a [PokemonStore] to be serialized to a MongoDB database.
@@ -32,29 +33,20 @@ import java.util.UUID
  * @author Pebbles
  * @since August 23rd, 2023
  */
+@Suppress("MemberVisibilityCanBePrivate")
 open class MongoDBStoreAdapter(
-    private val mongoClient: MongoClient,
-    private val databaseName: String,
+    protected val mongoClient: MongoClient,
+    protected val databaseName: String,
 ) : CobblemonAdapterParent<JsonObject>(), FileStoreAdapter<JsonObject> {
-    private fun getCollection(storeClass: Class<out PokemonStore<*>>): MongoCollection<Document> {
-        val collectionName = when (storeClass) {
-            PlayerPartyStore::class.java -> "PlayerPartyCollection"
-            PCStore::class.java -> "PCCollection"
-            else -> "OtherCollection"
-        }
-        return mongoClient.getDatabase(databaseName).getCollection(collectionName)
-    }
 
-    private val gson: Gson = Gson()
+    protected val gson: Gson = this.createGson()
 
-    override fun <E : StorePosition, T : PokemonStore<E>> serialize(store: T): JsonObject {
-        return store.saveToJSON(JsonObject())
-    }
+    override fun <E : StorePosition, T : PokemonStore<E>> serialize(store: T): JsonObject = store.saveToJSON(JsonObject())
 
     override fun save(storeClass: Class<out PokemonStore<*>>, uuid: UUID, serialized: JsonObject) {
-        val document = Document.parse(gson.toJson(serialized))
-        document.put("uuid", uuid.toString())
-
+        val document = Document.parse(this.gson.toJson(serialized))
+        document["uuid"] = uuid.toString()
+        document["lastUpdated"] = Date()
         val collection = getCollection(storeClass)
         val filter = Document("uuid", uuid.toString())
         collection.replaceOne(filter, document, ReplaceOptions().upsert(true))
@@ -76,8 +68,12 @@ open class MongoDBStoreAdapter(
         val document = collection.find(filter).first()
 
         if (document != null) {
-            val json = gson.fromJson(document.toJson(), JsonObject::class.java)
-            val store = storeClass.getConstructor(UUID::class.java).newInstance(uuid)
+            val json = this.gson.fromJson(document.toJson(), JsonObject::class.java)
+            val store = try {
+                storeClass.getConstructor(UUID::class.java, UUID::class.java).newInstance(uuid, uuid)
+            } catch (exception: NoSuchMethodException) {
+                storeClass.getConstructor(UUID::class.java).newInstance(uuid)
+            }
             store.loadFromJSON(json)
             return store
         }
@@ -96,6 +92,17 @@ open class MongoDBStoreAdapter(
         }
 
         return null
+    }
+
+    protected open fun createGson(): Gson = Gson()
+
+    protected open fun getCollection(storeClass: Class<out PokemonStore<*>>): MongoCollection<Document> {
+        val collectionName = when (storeClass) {
+            PlayerPartyStore::class.java -> "PlayerPartyCollection"
+            PCStore::class.java -> "PCCollection"
+            else -> "OtherCollection"
+        }
+        return this.mongoClient.getDatabase(this.databaseName).getCollection(collectionName)
     }
 
 }

@@ -14,12 +14,12 @@
             "bucket": "common",
             "level": "16-27",
             "weight": 0.9,
-			"weightMultiplier": {
-				"multiplier": 1.5,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -27,7 +27,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "jigglypuff-2",
             "pokemon": "jigglypuff",
             "presets": [
@@ -38,12 +38,12 @@
             "bucket": "common",
             "level": "16-27",
             "weight": 0.18,
-			"weightMultiplier": {
-				"multiplier": 1.5,
-				"condition": {
-					"timeRange": "night"
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

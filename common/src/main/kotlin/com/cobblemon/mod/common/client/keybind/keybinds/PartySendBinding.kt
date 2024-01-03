@@ -11,15 +11,14 @@ package com.cobblemon.mod.common.client.keybind.keybinds
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToServer
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
-import com.cobblemon.mod.common.client.gui.interact.wheel.createPlayerInteractGui
 import com.cobblemon.mod.common.client.keybind.CobblemonBlockingKeyBinding
 import com.cobblemon.mod.common.client.keybind.KeybindCategories
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
+import com.cobblemon.mod.common.net.messages.server.RequestPlayerInteractionsPacket
 import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
-import javax.swing.plaf.basic.BasicSliderUI.ScrollListener
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.util.InputUtil
@@ -90,7 +89,9 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
     private fun processEntityTarget(player: ClientPlayerEntity, pokemon: Pokemon, entity: LivingEntity) {
         when (entity) {
             is PlayerEntity -> {
-                MinecraftClient.getInstance().setScreen(createPlayerInteractGui(entity, pokemon))
+                //This sends a packet to the server with the id of the player
+                //The server sends a packet back that opens the player interaction menu with the proper options
+                sendPacketToServer(RequestPlayerInteractionsPacket(entity.uuid, entity.id, pokemon.uuid))
             }
             is PokemonEntity -> {
                 if (!entity.canBattle(player)) return

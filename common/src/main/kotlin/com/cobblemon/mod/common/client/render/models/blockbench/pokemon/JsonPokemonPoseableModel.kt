@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
+import com.cobblemon.mod.common.client.render.models.blockbench.JsonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.JsonPoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
@@ -16,7 +18,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.withPosition
-import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
 import com.google.gson.*
@@ -40,7 +41,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .registerTypeAdapter(Vec3d::class.java, Vec3dAdapter)
-            .setExclusionStrategies(JsonModelExclusion)
+            .setExclusionStrategies(JsonPoseableEntityModel.JsonModelExclusion)
             .registerTypeAdapter(
                 TypeToken.getParameterized(
                     Supplier::class.java,
@@ -50,7 +51,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
                         ModelFrame::class.java
                     ).type
                 ).type,
-                StatefulAnimationAdapter
+                JsonPoseableEntityModel.StatefulAnimationAdapter { JsonPokemonPoseableModelAdapter.model!! }
             )
             .registerTypeAdapter(Pose::class.java, PoseAdapter)
             .registerTypeAdapter(JsonPokemonPoseableModel::class.java, JsonPokemonPoseableModelAdapter)
@@ -138,15 +139,9 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
         override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Pose<PokemonEntity, ModelFrame> {
             val model = JsonPokemonPoseableModelAdapter.model!!
             val obj = json as JsonObject
-            val poseName = obj.get("poseName").asString
-            val poseTypes = (obj.get("poseTypes")?.asJsonArray?.map { name ->
-                PoseType.values().find { it.name.lowercase() == name.asString.lowercase() }
-                    ?: throw IllegalArgumentException("Unknown pose type ${name.asString}")
-            } ?: emptyList()) + if (obj.get("allPoseTypes")?.asBoolean == true) PoseType.values().toList() else emptyList()
-            val transformTicks = obj.get("transformTicks")?.asInt ?: 10
+            val pose = JsonPose(model, obj)
 
             val conditionsList = mutableListOf<(PokemonEntity) -> Boolean>()
-
             val mustBeInBattle = json.get("isBattle")?.asBoolean
             if (mustBeInBattle != null) {
                 conditionsList.add { mustBeInBattle == it.isBattling }
@@ -216,13 +211,13 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             }
 
             return Pose(
-                poseName = poseName,
-                poseTypes = poseTypes.toSet(),
+                poseName = pose.poseName,
+                poseTypes = pose.poseTypes.toSet(),
                 condition = poseCondition,
-                transformTicks =  transformTicks,
-                idleAnimations = idleAnimations,
-                transformedParts = transformedParts,
-                quirks = quirks.toTypedArray()
+                transformTicks = pose.transformTicks,
+                idleAnimations = pose.idleAnimations,
+                transformedParts = pose.transformedParts,
+                quirks = pose.quirks.toTypedArray()
             )
         }
     }

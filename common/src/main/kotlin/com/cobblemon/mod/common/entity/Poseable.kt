@@ -9,5 +9,5 @@
 package com.cobblemon.mod.common.entity
 
 interface Poseable {
-    fun getPoseType(): PoseType
+    fun getCurrentPoseType(): PoseType
 }

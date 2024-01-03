@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -38,7 +40,7 @@ abstract class PoseableEntityState<T : Entity> {
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     val poseParticles = mutableListOf<BedrockParticleKeyframe>()
-    val runtime = MoLangRuntime().also {
+    val runtime = MoLangRuntime().setup().also {
         it.environment.structs["query"] = it.environment.structs["variable"]
     }
 

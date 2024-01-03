@@ -38,10 +38,14 @@ import kotlin.random.Random
  */
 open class PlayerPartyStore(
     /** The UUID of the player this store is for. */
-    val playerUUID: UUID
-) : PartyStore(playerUUID) {
+    val playerUUID: UUID,
+    /** The UUID of the store. This is the same as [playerUUID] by default, but can be changed to allow for multiple parties. */
+    storageUUID: UUID = playerUUID
+) : PartyStore(storageUUID) {
 
     private var secondsSinceFriendshipUpdate = 0
+
+    constructor(playerUUID: UUID): this(playerUUID, playerUUID)
 
     override fun initialize() {
         super.initialize()

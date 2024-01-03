@@ -48,7 +48,11 @@ open class JSONStoreAdapter(
             val br = BufferedReader(FileReader(file))
             val json = gson.fromJson<JsonObject>(br)
             br.close()
-            val store = storeClass.getConstructor(UUID::class.java).newInstance(uuid)
+            val store = try {
+                storeClass.getConstructor(UUID::class.java, UUID::class.java).newInstance(uuid, uuid)
+            } catch (exception: NoSuchMethodException) {
+                storeClass.getConstructor(UUID::class.java).newInstance(uuid)
+            }
             store.loadFromJSON(json)
             store
         } catch (e: Exception) {

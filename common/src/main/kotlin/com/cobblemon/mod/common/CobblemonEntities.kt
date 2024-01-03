@@ -9,6 +9,9 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.entity.boat.CobblemonBoatEntity
+import com.cobblemon.mod.common.entity.boat.CobblemonChestBoatEntity
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.platform.PlatformRegistry
@@ -43,6 +46,33 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
         EMPTY_POKEBALL_KEY.path,
         EntityType.Builder.create({ _, world -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, world) }, SpawnGroup.MISC)
             .build(EMPTY_POKEBALL_KEY.toString())
+    )
+
+    @JvmField
+    val BOAT_KEY = cobblemonResource("boat")
+    @JvmField
+    val BOAT: EntityType<CobblemonBoatEntity> = this.create(
+        BOAT_KEY.path,
+        EntityType.Builder.create(::CobblemonBoatEntity, SpawnGroup.MISC).setDimensions(1.375F, 0.5625F).maxTrackingRange(10)
+            .build(BOAT_KEY.toString())
+    )
+
+    @JvmField
+    val CHEST_BOAT_KEY = cobblemonResource("chest_boat")
+    @JvmField
+    val CHEST_BOAT: EntityType<CobblemonChestBoatEntity> = this.create(
+        CHEST_BOAT_KEY.path,
+        EntityType.Builder.create(::CobblemonChestBoatEntity, SpawnGroup.MISC).setDimensions(1.375F, 0.5625F).maxTrackingRange(10)
+            .build(CHEST_BOAT_KEY.toString())
+    )
+
+    @JvmField
+    val GENERIC_BEDROCK_ENTITY_KEY = cobblemonResource("generic_bedrock")
+    @JvmField
+    val GENERIC_BEDROCK_ENTITY: EntityType<GenericBedrockEntity> = this.create(
+        GENERIC_BEDROCK_ENTITY_KEY.path,
+        EntityType.Builder.create({ _, world -> GenericBedrockEntity(world) }, SpawnGroup.MISC)
+            .build(GENERIC_BEDROCK_ENTITY_KEY.toString())
     )
 
     fun registerAttributes(consumer: (EntityType<out LivingEntity>, DefaultAttributeContainer.Builder) -> Unit) {

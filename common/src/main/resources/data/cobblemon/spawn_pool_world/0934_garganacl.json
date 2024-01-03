@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -8,7 +8,7 @@
             "pokemon": "garganacl",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -22,12 +22,12 @@
                 ]
             }
         },
-		{
+        {
             "id": "garganacl-2",
             "pokemon": "garganacl",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -40,12 +40,12 @@
                 ]
             }
         },
-		{
-            "id": "garganacl-quartz-1",
+        {
+            "id": "garganacl-3",
             "pokemon": "garganacl",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -56,9 +56,9 @@
                 "biomes": [
                     "#cobblemon:is_nether_quartz"
                 ],
-				"neededBaseBlocks": [
-					"minecraft:quartz_block"
-				]
+                "neededBaseBlocks": [
+                    "minecraft:quartz_block"
+                ]
             }
         }
     ]

@@ -16,14 +16,20 @@ import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.MoScope
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.MoValue
+import java.lang.IllegalArgumentException
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.util.math.Vec3d
 
-val genericRuntime = MoLangRuntime()
+val genericRuntime = MoLangRuntime().setup()
 
-fun MoLangRuntime.resolve(expression: Expression): MoValue = expression.evaluate(MoScope(), environment)
+fun MoLangRuntime.resolve(expression: Expression): MoValue = try {
+    expression.evaluate(MoScope(), environment)
+} catch (e: Exception) {
+    throw IllegalArgumentException("Unable to parse expression: ${expression.getString()}", e)
+}
 fun MoLangRuntime.resolveDouble(expression: Expression): Double = resolve(expression).asDouble()
 fun MoLangRuntime.resolveFloat(expression: Expression): Float = resolve(expression).asDouble().toFloat()
 fun MoLangRuntime.resolveInt(expression: Expression): Int = resolveDouble(expression).toInt()

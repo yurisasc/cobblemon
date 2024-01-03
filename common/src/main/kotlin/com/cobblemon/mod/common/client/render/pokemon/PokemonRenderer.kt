@@ -33,8 +33,17 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
+import net.minecraft.client.gl.GlUniform
+import net.minecraft.client.gl.ShaderProgram
+import net.minecraft.client.gl.Uniform
+import net.minecraft.client.render.GameRenderer
+import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderPhase
+import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -57,6 +66,10 @@ import org.joml.Vector3f
 import org.joml.Vector4f
 import kotlin.math.*
 import kotlin.properties.Delegates
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.sin
+import kotlin.math.tan
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
@@ -174,6 +187,19 @@ class PokemonRenderer(
 
         modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects))
 
+
+        // TODO: Need a way to get a shader from a render layer, and need a way to get the renderlayer for the pokemon's main model
+        // TODO: Need packet to sync evo time from server to client
+        val shader: ShaderProgram? = RenderSystem.getShader()
+        shader?.let { shader ->
+            if(shader == GameRenderer.getRenderTypeEntityCutoutProgram() ||
+                shader == GameRenderer.getRenderTypeEntityTranslucentProgram() ||
+                shader == GameRenderer.getRenderTypeEntityTranslucentEmissiveProgram()){
+                val progressUniform = shader.getUniform("u_evo_progress")
+                // TODO: set this to the actual progress, 0->1->0
+                progressUniform?.set((sin(entity.ticksLived/20f) + 1f)/2f)
+            }
+        }
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
 
         modelNow.green = 1F
@@ -205,6 +231,7 @@ class PokemonRenderer(
         if (this.shouldRenderLabel(entity)) {
             this.renderLabelIfPresent(entity, entity.displayName, poseMatrix, buffer, packedLight)
         }
+//        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
     }
 
     override fun scale(pEntity: PokemonEntity, pMatrixStack: MatrixStack, pPartialTickTime: Float) {
@@ -228,7 +255,6 @@ class PokemonRenderer(
         var beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
             (beamTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: beamTarget.pos
         } else {
-            beamTarget as PlayerEntity
             if (beamTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                 val lookVec = beamTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
                 beamTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))

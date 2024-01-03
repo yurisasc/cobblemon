@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.api.spawning
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.config
-import com.cobblemon.mod.common.api.spawning.mixins.CachedOnlyChunkAccessor
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
 import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.api.spawning.spawner.SpawningArea
@@ -21,6 +20,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.ChunkSectionPos.getSectionCoord
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.LightType
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.ChunkStatus
 
@@ -70,7 +70,7 @@ object CobblemonSpawningProspector : SpawningProspector {
             .map { it.pos }
 
         val defaultState = Blocks.STONE.defaultState
-        val defaultBlockData = WorldSlice.BlockData(defaultState, 0)
+        val defaultBlockData = WorldSlice.BlockData(defaultState, 0, 0)
 
         val blocks = Array(area.length) { Array(height) { Array(area.width) { defaultBlockData } } }
         val skyLevel = Array(area.length) { Array(area.width) { world.topY } }
@@ -78,25 +78,25 @@ object CobblemonSpawningProspector : SpawningProspector {
 
         val chunks = mutableMapOf<Pair<Int, Int>, Chunk?>()
         val yRange = (baseY until baseY + height).reversed()
+        val lightingProvider = world.lightingProvider
         for (x in area.baseX until area.baseX + area.length) {
             for (z in area.baseZ until area.baseZ + area.width) {
                 val query = chunks.computeIfAbsent(Pair(getSectionCoord(x), getSectionCoord(z))) {
-                    val manager = world.chunkManager as CachedOnlyChunkAccessor
-                    manager.`cobblemon$request`(it.first, it.second, ChunkStatus.FULL)
+                    world.getChunk(it.first, it.second, ChunkStatus.FULL, false)
                 } ?: continue
 
                 var canSeeSky = world.isSkyVisibleAllowingSea(pos.set(x, yRange.first, z))
                 for (y in yRange) {
+                    val skyLight = lightingProvider.get(LightType.SKY).getLightLevel(pos.set(x, y, z))
                     val state = query.getBlockState(pos.set(x, y, z))
                     blocks[x - area.baseX][y - baseY][z - area.baseZ] = WorldSlice.BlockData(
                         state = state,
-                        light = world.getLightLevel(pos)
+                        light = world.getLightLevel(pos),
+                        skyLight = skyLight
                     )
-
                     if (canSeeSky) {
                         skyLevel[x - area.baseX][z - area.baseZ] = y
                     }
-
                     if (state.fluidState.isEmpty && !state.isIn(CobblemonBlockTags.SEES_SKY)) {
                         canSeeSky = false
                     }

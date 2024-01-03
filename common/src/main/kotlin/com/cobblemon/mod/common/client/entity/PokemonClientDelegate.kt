@@ -9,10 +9,12 @@
 package com.cobblemon.mod.common.client.entity
 
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
-import com.cobblemon.mod.common.api.scheduling.after
-import com.cobblemon.mod.common.api.scheduling.lerp
+import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
+import com.cobblemon.mod.common.api.scheduling.afterOnClient
+import com.cobblemon.mod.common.api.scheduling.lerpOnClient
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.EarBounceAdditive
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation

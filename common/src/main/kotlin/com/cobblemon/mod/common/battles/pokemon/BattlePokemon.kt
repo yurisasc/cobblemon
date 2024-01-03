@@ -65,11 +65,6 @@ open class BattlePokemon(
     val facedOpponents = mutableSetOf<BattlePokemon>()
 
     /**
-     * A counter of critical hits during this battle, this is used for an evolution requirement.
-     */
-    var criticalHits: Int = 0
-
-    /**
      * The [HeldItemManager] backing this [BattlePokemon].
      */
     val heldItemManager: HeldItemManager by lazy { HeldItemProvider.provide(this) }
@@ -89,7 +84,12 @@ open class BattlePokemon(
     }
 
     fun isSentOut() = actor.battle.activePokemon.any { it.battlePokemon == this }
-    fun canBeSentOut() = !isSentOut() && !willBeSwitchedIn && health > 0
+    fun canBeSentOut() =
+            if (actor.request?.side?.pokemon?.get(0)?.reviving == true) {
+                !isSentOut() && !willBeSwitchedIn && health <= 0
+            } else {
+                !isSentOut() && !willBeSwitchedIn && health > 0
+            }
 
     fun writeVariables(struct: VariableStruct) {
         effectedPokemon.writeVariables(struct)

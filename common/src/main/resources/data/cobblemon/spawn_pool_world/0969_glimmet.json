@@ -1,30 +1,10 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
             "id": "glimmet-1",
-            "pokemon": "glimmet",
-            "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "10-35",
-            "weight": 1.8,
-            "condition": {
-                "biomes": [
-                    "#cobblemon:is_nether_quartz"
-                ],
-				"neededBaseBlocks": [
-					"minecraft:quartz_block"
-				]
-            }
-        },
-        {
-            "id": "glimmet-2",
             "pokemon": "glimmet",
             "presets": [
                 "natural",
@@ -39,6 +19,26 @@
                 "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            }
+        },
+        {
+            "id": "glimmet-2",
+            "pokemon": "glimmet",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "10-35",
+            "weight": 1.8,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_quartz"
+                ],
+                "neededBaseBlocks": [
+                    "minecraft:quartz_block"
                 ]
             }
         }

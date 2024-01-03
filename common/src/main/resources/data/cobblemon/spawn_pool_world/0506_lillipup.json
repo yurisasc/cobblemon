@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -24,9 +24,6 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_desert"
-                ],
-                "structures": [
-                    "#minecraft:village"
                 ]
             }
         },
@@ -35,7 +32,7 @@
             "pokemon": "lillipup",
             "presets": [
                 "natural",
-				"village"
+                "village"
             ],
             "type": "pokemon",
             "context": "grounded",

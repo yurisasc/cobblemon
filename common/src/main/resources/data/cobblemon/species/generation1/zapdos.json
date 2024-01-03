@@ -31,6 +31,9 @@
     "special_defence": 90,
     "speed": 100
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 3,
   "maleRatio": -1,
   "shoulderMountable": false,
@@ -151,7 +154,22 @@
       "weight": 582,
       "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 6,
+        "entries": [
+          {
+            "item": "minecraft:feather",
+            "quantityRange": "2-4"
+          },
+          {
+            "item": "minecraft:chicken"
+          },
+          {
+            "item": "cobblemon:razor_claw"
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 290,

@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -67,10 +67,10 @@
             "weight": 5.4,
             "condition": {
                 "canSeeSky": false,
-				"minY": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "minY": 0
             },
             "anticondition": {
                 "biomes": [
@@ -112,7 +112,7 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "minecraft:cobweb"
                 ]
             }

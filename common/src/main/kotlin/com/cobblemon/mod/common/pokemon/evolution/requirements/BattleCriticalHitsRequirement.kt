@@ -9,9 +9,8 @@
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
-import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.pokemon.Pokemon
-import kotlin.jvm.optionals.getOrNull
+import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHitsEvolutionProgress
 
 /**
  * An [EvolutionRequirement] for a certain amount of critical hits in a single battle.
@@ -21,6 +20,7 @@ import kotlin.jvm.optionals.getOrNull
  * @author Licious
  * @since October 2nd, 2022
  */
+@Suppress("unused", "CanBePrimaryConstructorProperty")
 class BattleCriticalHitsRequirement(amount: Int) : EvolutionRequirement {
 
     constructor() : this(0)
@@ -30,20 +30,10 @@ class BattleCriticalHitsRequirement(amount: Int) : EvolutionRequirement {
      */
     val amount = amount
 
-    @OptIn(ExperimentalStdlibApi::class)
-    override fun check(pokemon: Pokemon): Boolean {
-        val pokemonEntity = pokemon.entity ?: return false
-        val battleId = pokemonEntity.battleId ?: return false
-        val battle = BattleRegistry.getBattle(battleId) ?: return false
-        battle.actors.forEach { actor ->
-            actor.pokemonList.forEach { battlePokemon ->
-                if (battlePokemon.effectedPokemon.uuid == pokemon.uuid) {
-                    return battlePokemon.criticalHits >= this.amount
-                }
-            }
-        }
-        return false
-    }
+    override fun check(pokemon: Pokemon): Boolean = pokemon.evolutionProxy.current()
+        .progress()
+        .filterIsInstance<LastBattleCriticalHitsEvolutionProgress>()
+        .any { progress -> progress.currentProgress().amount >= this.amount }
 
     companion object {
         const val ADAPTER_VARIANT = "battle_critical_hits"

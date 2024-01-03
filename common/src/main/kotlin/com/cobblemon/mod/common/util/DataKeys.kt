@@ -63,6 +63,7 @@ object DataKeys {
     const val POKEMON_OWNER_ID = "PokemonOwnerId"
     const val POKEMON_HIDE_LABEL = "HideLabel"
     const val POKEMON_UNBATTLEABLE = "Unbattleable"
+    const val POKEMON_COUNTS_TOWARDS_SPAWN_CAP = "CountsTowardsSpawnCap"
 
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
@@ -123,12 +124,14 @@ object DataKeys {
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
 
+    // Variants
+    const val IS_MOOSHTANK = "mooshtank"
+
     // Persistent Data
     const val POKEMON_PERSISTENT_DATA = "PersistentData"
 
     // Item Tooltips
     const val HIDE_TOOLTIP = "HideTooltip"
-
 
     // Shoulder Mount
     const val SHOULDER_UUID = "shoulder_uuid"
@@ -136,5 +139,15 @@ object DataKeys {
     const val SHOULDER_FORM = "shoulder_form"
     const val SHOULDER_ASPECTS = "shoulder_aspects"
     const val SHOULDER_SCALE_MODIFIER = "shoulder_scale"
+
+
+    /* Generic Bedrock Entity */
+    const val GENERIC_BEDROCK_CATEGORY = "Category"
+    const val GENERIC_BEDROCK_ASPECTS = "Aspects"
+    const val GENERIC_BEDROCK_POSE_TYPE = "PoseType"
+    const val GENERIC_BEDROCK_SCALE = "Scale"
+    const val GENERIC_BEDROCK_COLLIDER_WIDTH = "Width"
+    const val GENERIC_BEDROCK_COLLIDER_HEIGHT = "Height"
+    const val GENERIC_BEDROCK_SYNC_AGE = "SyncAge"
 
 }

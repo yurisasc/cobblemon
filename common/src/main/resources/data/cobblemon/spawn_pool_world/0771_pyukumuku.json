@@ -34,10 +34,10 @@
             "weight": 2.0,
             "condition": {
                 "canSeeSky": true,
-                "minY": 48,
                 "biomes": [
                     "#cobblemon:is_ocean"
-                ]
+                ],
+                "minY": 48
             },
             "anticondition": {
                 "biomes": [
