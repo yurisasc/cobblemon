@@ -64,6 +64,7 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
+import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -251,6 +252,13 @@ object CobblemonFabric : CobblemonImplementation {
 
     override fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>) {
         ResourceManagerHelper.get(type).registerReloadListener(CobblemonReloadListener(identifier, reloader, dependencies))
+    }
+
+    override fun registerScreenHandlerType(
+        identifier: Identifier,
+        screenHandlerType: ScreenHandlerType<*>
+    ) {
+        Registry.register(Registries.SCREEN_HANDLER, identifier, screenHandlerType)
     }
 
     override fun server(): MinecraftServer? = if (this.environment() == Environment.CLIENT) MinecraftClient.getInstance().server else this.server

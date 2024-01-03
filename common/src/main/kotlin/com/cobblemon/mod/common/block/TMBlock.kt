@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.gui.TMMScreenHandler
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.net.messages.client.ui.OpenTMMPacket
 import net.minecraft.block.*
@@ -17,10 +18,13 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.screen.NamedScreenHandlerFactory
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
@@ -110,7 +114,7 @@ class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterlog
     override fun onUse(
         blockState: BlockState,
         world: World,
-        blockPos: BlockPos,
+        pos: BlockPos,
         player: PlayerEntity,
         interactionHand: Hand,
         blockHitResult: BlockHitResult
@@ -120,8 +124,16 @@ class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterlog
         }
         player.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
         val serverPlayer = player as ServerPlayerEntity
-        serverPlayer.sendPacket(OpenTMMPacket())
+        serverPlayer.openHandledScreen(blockState.createScreenHandlerFactory(world, pos))
         return ActionResult.SUCCESS
+    }
+
+    override fun createScreenHandlerFactory(
+        state: BlockState?,
+        world: World?,
+        pos: BlockPos?
+    ): NamedScreenHandlerFactory {
+        return SimpleNamedScreenHandlerFactory(::TMMScreenHandler, Text.of("TM Machine"))
     }
 
     @Deprecated("Deprecated in Java")

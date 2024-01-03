@@ -35,11 +35,14 @@ import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.*
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.*
 import net.minecraft.resource.ResourcePackProfile.PackFactory
+import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -291,6 +294,13 @@ class CobblemonForge : CobblemonImplementation {
         else {
             CobblemonForgeClient.registerResourceReloader(reloader)
         }
+    }
+
+    override fun registerScreenHandlerType(
+        identifier: Identifier,
+        screenHandlerType: ScreenHandlerType<*>
+    ) {
+        Registry.register(Registries.SCREEN_HANDLER, identifier, screenHandlerType)
     }
 
     private fun onReload(e: AddReloadListenerEvent) {

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(ScreenHandlerType.class)
 public interface ScreenHandlerTypeInvoker {
     @Invoker("<init>")
-    static<T extends ScreenHandler> ScreenHandlerType<T> cobblemon$create(Factory<T> factory, FeatureSet requiredFeatures) {
+    static <T extends ScreenHandler> ScreenHandlerType<T> cobblemon$create(Factory<T> factory, FeatureSet requiredFeatures) {
         throw new UnsupportedOperationException();
     }
 }
