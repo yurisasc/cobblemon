@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
-import com.cobblemon.mod.common.api.scheduling.afterOnServer
+import com.cobblemon.mod.common.api.scheduling.ServerRealTimeTaskTracker
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueOpenedPacket
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
@@ -80,7 +80,7 @@ class ActiveDialogue(var playerEntity: ServerPlayerEntity, var dialogueReference
         val deadline = currentPage.input.timeout?.duration
         val inputId = activeInput.inputId
         if (deadline != null && deadline > 0) {
-            afterOnServer(seconds = deadline) {
+            ServerRealTimeTaskTracker.after(seconds = deadline) {
                 if (inputId == activeInput.inputId && isActive()) {
                     activeInput.dialogueInput.timeout?.action?.invoke(this, null)
                 }
