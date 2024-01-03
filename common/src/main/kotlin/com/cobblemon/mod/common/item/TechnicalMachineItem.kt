@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
@@ -26,6 +27,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.nbt.NbtString
 import net.minecraft.registry.Registries
+import net.minecraft.sound.SoundCategory
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
@@ -98,6 +100,8 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
             else { pokemon.benchedMoves.add(BenchedMove(move, 0)) }
 
         user.sendMessage(lang("tms.teach_move", pokemon.getDisplayName(), translatedName).green())
+        user.playSound(CobblemonSounds.TM_USE, SoundCategory.PLAYERS, 1.0f, 1.0f)
+        entity.cry()
         return ActionResult.CONSUME
     }
 
