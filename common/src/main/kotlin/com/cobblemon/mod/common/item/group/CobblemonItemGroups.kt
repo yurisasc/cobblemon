@@ -416,6 +416,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.POWER_LENS)
         entries.add(CobblemonItems.POWER_WEIGHT)
         entries.add(CobblemonItems.POWER_HERB)
+        entries.add(CobblemonItems.PROTECTIVE_PADS)
         entries.add(CobblemonItems.QUICK_CLAW)
         entries.add(CobblemonItems.QUICK_POWDER)
         entries.add(CobblemonItems.RAZOR_CLAW)
