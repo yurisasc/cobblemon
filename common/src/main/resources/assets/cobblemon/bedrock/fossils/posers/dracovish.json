@@ -1,0 +1,9 @@
+{
+  "maxScale": 0.8,
+  "yTranslation": 0.05,
+
+
+  "animations": [
+    "bedrock(dracovish_fetus, sleep)"
+  ]
+}
