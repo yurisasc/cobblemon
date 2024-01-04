@@ -146,7 +146,7 @@
   "weight": 2.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/flower.png",
+  "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:babiri_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/babiri.png"
+  "fruitTexture": "cobblemon:babiri"
 }

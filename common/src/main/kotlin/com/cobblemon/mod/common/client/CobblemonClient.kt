@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonClientImplementation
@@ -103,6 +104,9 @@ object CobblemonClient {
         //registerColors()
         registerFlywheelRenderers()
         this.registerEntityRenderers()
+        Berries.observable.subscribe {
+            BerryModelRepository.patchModels()
+        }
 
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
@@ -237,6 +241,8 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.SIGN, ::SignBlockEntityRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_COMPARTMENT, ::FossilCompartmentRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_TUBE, ::FossilTubeRenderer)
     }
 
     private fun registerEntityRenderers() {

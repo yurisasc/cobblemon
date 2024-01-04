@@ -10,7 +10,10 @@ package com.cobblemon.mod.common.util
 
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
+import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
@@ -20,6 +23,7 @@ import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.biome.Biome
 
 fun World.playSoundServer(
     position: Vec3d,
@@ -115,3 +119,8 @@ fun Entity.canFit(vec: Vec3d): Boolean {
     val box = boundingBox.offset(vec.subtract(this.pos))
     return world.isSpaceEmpty(box)
 }
+
+val World.itemRegistry: Registry<Item>
+    get() = registryManager.get(RegistryKeys.ITEM)
+val World.biomeRegistry: Registry<Biome>
+    get() = registryManager.get(RegistryKeys.BIOME)
