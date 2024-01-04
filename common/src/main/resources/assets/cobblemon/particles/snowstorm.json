@@ -15,7 +15,7 @@
     "cobblemon:confetti",
     "cobblemon:cherry_petal",
     "cobblemon:capturesparks",
-    "cobblemon:capturestar"
+    "cobblemon:capturestar",
     "cobblemon:smoke",
     "cobblemon:sparkle",
     "cobblemon:speedlines",
@@ -24,6 +24,11 @@
     "cobblemon:vanilla_smoke",
     "cobblemon:glowing_dots_cyan",
     "cobblemon:glowing_smoke_cyan",
-    "cobblemon:glowing_sparkle_yellow"
+    "cobblemon:glowing_sparkle_yellow",
+    "cobblemon:balls/pokeball/battle/ballsparks",
+    "cobblemon:balls/pokeball/battle/sendflash",
+    "cobblemon:balls/pokeball/casual/ballsparkscasual",
+    "cobblemon:balls/pokeball/casual/sendcasual",
+    "cobblemon:balls/ballsparkle"
   ]
 }

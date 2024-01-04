@@ -18,12 +18,10 @@ import com.cobblemon.mod.common.net.messages.server.battle.SpectateBattlePacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPacket
 import com.cobblemon.mod.common.net.messages.server.trade.OfferTradePacket
-import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.Multimap
 import net.minecraft.client.MinecraftClient
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import java.util.*
 import org.joml.Vector3f
@@ -89,19 +87,20 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
         onPress = {
             SpectateBattlePacket(optionsPacket.targetId).sendToServer()
             closeGUI()
-        }
-    )
-    val options = mutableMapOf<Orientation, InteractWheelOption>()
+        },
+        tooltipText = "cobblemon.ui.interact.spectate"
+        )
+    val options: Multimap<Orientation, InteractWheelOption> = ArrayListMultimap.create()
     //The way things are positioned should probably be more thought out if more options are added
     optionsPacket.options.map {
         if (it.equals(PlayerInteractOptionsPacket.Options.TRADE)) {
-            options[Orientation.TOP_LEFT] = trade
+            options.put(Orientation.TOP_LEFT, trade)
         }
         if (it.equals(PlayerInteractOptionsPacket.Options.BATTLE)) {
-            options[Orientation.TOP_RIGHT] = battle
+            options.put(Orientation.TOP_RIGHT, battle)
         }
         if (it.equals(PlayerInteractOptionsPacket.Options.SPECTATE_BATTLE)) {
-            options[Orientation.TOP_RIGHT] = spectate
+            options.put(Orientation.TOP_RIGHT, spectate)
         }
     }
     return InteractWheelGUI(options, Text.translatable("cobblemon.ui.interact.player"))

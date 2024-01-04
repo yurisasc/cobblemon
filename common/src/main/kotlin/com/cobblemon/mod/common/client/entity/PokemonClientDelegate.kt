@@ -15,6 +15,10 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.api.scheduling.lerpOnClient
+import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
+import com.cobblemon.mod.common.client.particle.ParticleStorm
+import com.cobblemon.mod.common.client.render.MatrixWrapper
+import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.additives.EarBounceAdditive
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -23,7 +27,9 @@ import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer.Companion.
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.MovingSoundInstance
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.util.math.MatrixStack
 import java.lang.Float.min
 import kotlin.math.abs
 import net.minecraft.entity.Entity
@@ -124,9 +130,9 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                             client.soundManager.play(sound)
                             playedThrowingSound = true
                         }
-                        lerp(POKEBALL_AIR_TIME) { ballOffset = it }
+                        lerpOnClient(POKEBALL_AIR_TIME) { ballOffset = it }
                         ballRotOffset = ((Math.random()) * currentEntity.world.random.nextBetween(-15, 15)).toFloat()
-                        after(seconds = POKEBALL_AIR_TIME){
+                        afterOnClient(seconds = POKEBALL_AIR_TIME){
                             beamStartTime = System.currentTimeMillis()
                             ballDone = true
                             if (client.soundManager.get(CobblemonSounds.POKE_BALL_OPEN.id) != null && !playedSendOutSound) {
@@ -136,17 +142,39 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                                     /// create end rod particles in a 0.1 radius around the soundPos with a count of 50 and a random velocity of 0.1
                                     sendOutPosition?.let{
                                         val newPos = it.add(sendOutOffset)
-                                        for(i in 0..50) {
-                                            client.particleManager.addParticle(ParticleTypes.END_ROD, newPos!!.x + (Math.random() * 0.1) - 0.05, newPos!!.y + (Math.random() * 0.1) - 0.05, newPos!!.z + (Math.random() * 0.1) - 0.05,
-                                                Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2)
+                                        val ballType = currentEntity.pokemon.caughtBall.name.path.toLowerCase().replace("_","")
+                                        val sendflash = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/casual/sendcasual"))
+                                        sendflash?.let { effect ->
+                                            val wrapper = MatrixWrapper()
+                                            val matrix = MatrixStack()
+                                            matrix.translate(newPos.x, newPos.y, newPos.z)
+                                            wrapper.updateMatrix(matrix.peek().positionMatrix)
+                                            val world = MinecraftClient.getInstance().world ?: return@let
+                                            ParticleStorm(effect, wrapper, world).spawn()
+                                            val ballsparks = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/casual/ballsparkscasual"))
+                                            val ballsendsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/casual/ballsendsparklecasual"))
+                                            afterOnClient(seconds = 0.01667f) {
+                                                ballsparks?.let { effect ->
+                                                    ParticleStorm(effect, wrapper, world).spawn()
+                                                }
+                                                ballsendsparkle?.let { effect ->
+                                                    ParticleStorm(effect, wrapper, world).spawn()
+                                                }
+                                                afterOnClient(seconds = 0.08333f) {
+                                                    val ballsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("ballsparkle"))
+                                                    ballsparkle?.let { effect ->
+                                                        ParticleStorm(effect, wrapper, world).spawn()
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
                             }
-                            after(seconds = BEAM_EXTEND_TIME) {
-                                lerp(BEAM_SHRINK_TIME) { entityScaleModifier = it }
+                            afterOnClient(seconds = BEAM_EXTEND_TIME) {
+                                lerpOnClient(BEAM_SHRINK_TIME) { entityScaleModifier = it }
                                 currentEntity.isInvisible = false
-                                after(seconds = POKEBALL_AIR_TIME*2){
+                                afterOnClient(seconds = POKEBALL_AIR_TIME*2){
                                     ballOffset = 0f
                                     ballRotOffset = 0f
                                     sendOutPosition = null
@@ -161,8 +189,8 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                         ballOffset = 0f
                         ballRotOffset = 0f
                         sendOutPosition = null
-                        after(seconds = BEAM_EXTEND_TIME) {
-                            lerp(BEAM_SHRINK_TIME) {
+                        afterOnClient(seconds = BEAM_EXTEND_TIME) {
+                            lerpOnClient(BEAM_SHRINK_TIME) {
                                 entityScaleModifier = (1 - it)
                             }
                         }

@@ -190,16 +190,16 @@ class PokemonRenderer(
 
         // TODO: Need a way to get a shader from a render layer, and need a way to get the renderlayer for the pokemon's main model
         // TODO: Need packet to sync evo time from server to client
-        val shader: ShaderProgram? = RenderSystem.getShader()
-        shader?.let { shader ->
-            if(shader == GameRenderer.getRenderTypeEntityCutoutProgram() ||
-                shader == GameRenderer.getRenderTypeEntityTranslucentProgram() ||
-                shader == GameRenderer.getRenderTypeEntityTranslucentEmissiveProgram()){
-                val progressUniform = shader.getUniform("u_evo_progress")
-                // TODO: set this to the actual progress, 0->1->0
-                progressUniform?.set((sin(entity.ticksLived/20f) + 1f)/2f)
-            }
-        }
+//        val shader: ShaderProgram? = RenderSystem.getShader()
+//        shader?.let { shader ->
+//            if(shader == GameRenderer.getRenderTypeEntityCutoutProgram() ||
+//                shader == GameRenderer.getRenderTypeEntityTranslucentProgram() ||
+//                shader == GameRenderer.getRenderTypeEntityTranslucentEmissiveProgram()){
+//                val progressUniform = shader.getUniform("u_evo_progress")
+//                // TODO: set this to the actual progress, 0->1->0
+//                progressUniform?.set((sin(entity.ticksLived/20f) + 1f)/2f)
+//            }
+//        }
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
 
         modelNow.green = 1F

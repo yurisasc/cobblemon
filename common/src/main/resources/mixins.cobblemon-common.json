@@ -24,8 +24,6 @@
     "MinecraftDedicatedServerMixin",
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
-    "PotionSlotMixin",
-    "ServerChunkManagerMixin",
     "ShearsDispenserBehaviorMixin",
     "StructurePoolAccessor",
     "StructurePoolGeneratorMixin",

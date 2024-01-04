@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.mixin;
 
-import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker;
 import com.cobblemon.mod.common.client.render.shader.CobblemonShaders;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.gl.ShaderProgram;
