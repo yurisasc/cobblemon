@@ -728,6 +728,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val TWISTED_SPOON = heldItem("twisted_spoon")
     @JvmField
+    val UTILITY_UMBRELLA = heldItem("utility_umbrella")
+    @JvmField
     val WISE_GLASSES = heldItem("wise_glasses")
     @JvmField
     val MENTAL_HERB = compostableHeldItem("mental_herb", null, 1F)

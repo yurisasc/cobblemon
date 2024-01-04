@@ -437,6 +437,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.TERRAIN_EXTENDER)
         entries.add(CobblemonItems.TOXIC_ORB)
         entries.add(CobblemonItems.TWISTED_SPOON)
+        entries.add(CobblemonItems.UTILITY_UMBRELLA)
         entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
     }
