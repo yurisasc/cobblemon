@@ -530,11 +530,11 @@ class StrongBattleAI() : BattleAI {
         }*/
 
         val activeNPCPokemonUUID = activeBattlePokemon.battlePokemon!!.effectedPokemon.uuid
-        val activePlayerPokemonUUID = battle.side2.activePokemon[0].battlePokemon?.uuid
+        val activePlayerPokemonUUID = battle.side1.activePokemon[0].battlePokemon?.uuid
 
-        val matchedActiveNPCPokemon = activeTracker.p1Active.party.find {
+        val matchedActiveNPCPokemon = activeTracker.p2Active.party.find {
             it.pokemon?.uuid == activeNPCPokemonUUID }
-        val matchedActivePlayerPokemon = activeTracker.p2Active.party.find {
+        val matchedActivePlayerPokemon = activeTracker.p1Active.party.find {
             it.pokemon?.uuid == activePlayerPokemonUUID }
 
         // todo get to become equal the activeTrackerPokemon set above which for some reason
@@ -1570,6 +1570,7 @@ class StrongBattleAI() : BattleAI {
         //val p2BoostsMap = p2Boosts?.mapKeys { it.key.toString() } ?: mapOf()
         val p2BoostsMap = p2Boosts?.mapKeys { it.key } ?: mapOf()
 
+        p1.activePokemon = ActiveTracker.TrackerPokemon()
         p1.activePokemon.pokemon = pokemon1
         p1.activePokemon.species = pokemon1!!.species.name
         p1.activePokemon.currentHp = pokemon1.currentHealth
@@ -1595,6 +1596,7 @@ class StrongBattleAI() : BattleAI {
         //p1.availableSwitches = playerSide1.pokemonList.filter { it.uuid != p1.pokemon.uuid && it.health > 0 }
         //p1.sideConditions = pokemon.sideConditions   //todo what the hell does this mean
 
+        p2.activePokemon = ActiveTracker.TrackerPokemon()
         p2.activePokemon.pokemon = pokemon2
         p2.activePokemon.species = pokemon2!!.species.name
         p2.activePokemon.currentHp = pokemon2.currentHealth
