@@ -747,6 +747,14 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val METAL_POWDER = heldItem("metal_powder")
     @JvmField
     val QUICK_POWDER = heldItem("quick_powder")
+    @JvmField
+    val DAMP_ROCK = heldItem("damp_rock")
+    @JvmField
+    val HEAT_ROCK = heldItem("heat_rock")
+    @JvmField
+    val SMOOTH_ROCK = heldItem("smooth_rock")
+    @JvmField
+    val ICY_ROCK = heldItem("icy_rock")
 
     // Mulch
     @JvmField

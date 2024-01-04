@@ -441,6 +441,10 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.WEAKNESS_POLICY)
         entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
+        entries.add(CobblemonItems.DAMP_ROCK)
+        entries.add(CobblemonItems.HEAT_ROCK)
+        entries.add(CobblemonItems.SMOOTH_ROCK)
+        entries.add(CobblemonItems.ICY_ROCK)
     }
 
     private fun pokeballentries(displayContext: DisplayContext, entries: Entries) {
