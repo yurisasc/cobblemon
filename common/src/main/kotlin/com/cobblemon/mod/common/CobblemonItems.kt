@@ -732,7 +732,11 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val WEAKNESS_POLICY = heldItem("weakness_policy")
     @JvmField
+    val WIDE_LENS = heldItem("wide_lens")
+    @JvmField
     val WISE_GLASSES = heldItem("wise_glasses")
+    @JvmField
+    val ZOOM_LENS = heldItem("zoom_lens")
     @JvmField
     val MENTAL_HERB = compostableHeldItem("mental_herb", null, 1F)
     @JvmField
