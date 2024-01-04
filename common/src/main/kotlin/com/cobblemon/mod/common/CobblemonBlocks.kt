@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.mixin.invoker.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.block.BerryBlock
+import com.cobblemon.mod.common.block.chest.GildedChestBlock
 import com.cobblemon.mod.common.block.sign.CobblemonHangingSignBlock
 import com.cobblemon.mod.common.block.sign.CobblemonSignBlock
 import com.cobblemon.mod.common.block.sign.CobblemonWallHangingSignBlock
@@ -184,8 +185,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val GILDED_CHEST = create(
         "gilded_chest",
-        CobblemonChestBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST)
+        GildedChestBlock(
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque()
         )
     )
 

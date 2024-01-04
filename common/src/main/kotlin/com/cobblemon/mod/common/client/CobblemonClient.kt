@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
 import com.cobblemon.mod.common.client.render.block.FossilCompartmentRenderer
 import com.cobblemon.mod.common.client.render.block.FossilTubeRenderer
+import com.cobblemon.mod.common.client.render.block.GildedChestBlockRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
@@ -26,6 +27,7 @@ import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.BlockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
@@ -96,6 +98,7 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_TUBE, ::FossilTubeRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_COMPARTMENT, ::FossilCompartmentRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.GILDED_CHEST, ::GildedChestBlockRenderer)
 
         this.registerBlockEntityRenderers()
         registerBlockRenderTypes()
@@ -154,6 +157,7 @@ object CobblemonClient {
 
         this.implementation.registerBlockRenderType(
             RenderLayer.getCutout(),
+            CobblemonBlocks.GILDED_CHEST,
             CobblemonBlocks.FOSSIL_COMPARTMENT,
             CobblemonBlocks.APRICORN_DOOR,
             CobblemonBlocks.APRICORN_TRAPDOOR,
@@ -239,12 +243,13 @@ object CobblemonClient {
         BedrockParticleEffectRepository.loadEffects(resourceManager)
         BedrockAnimationRepository.loadAnimations(
             resourceManager = resourceManager,
-            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + FossilModelRepository.animationDirectories
+            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + FossilModelRepository.animationDirectories + BlockEntityModelRepository.animationDirectories
         )
         PokemonModelRepository.reload(resourceManager)
         PokeBallModelRepository.reload(resourceManager)
         BerryModelRepository.reload(resourceManager)
         FossilModelRepository.reload(resourceManager)
+        BlockEntityModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
     }
 
