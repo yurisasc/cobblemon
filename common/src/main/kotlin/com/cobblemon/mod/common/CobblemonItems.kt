@@ -666,6 +666,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val LIGHT_CLAY = heldItem("light_clay")
     @JvmField
+    val LOADED_DICE = heldItem("loaded_dice")
+    @JvmField
     val LUCKY_EGG = heldItem("lucky_egg")
     @JvmField
     val MAGNET = heldItem("magnet")
