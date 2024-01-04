@@ -22,6 +22,7 @@
 - Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
 - Fixed Exeggcute not being able to evolve.
 - Fixed Cubone not being able to evolve into Alolan Marowak.
+- Fixed Squawkabilly forms not being recognized.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
