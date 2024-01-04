@@ -401,6 +401,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.LAGGING_TAIL)
         entries.add(CobblemonItems.LEFTOVERS)
         entries.add(CobblemonItems.LIFE_ORB)
+        entries.add(CobblemonItems.LIGHT_BALL)
         entries.add(CobblemonItems.LIGHT_CLAY)
         entries.add(CobblemonItems.LOADED_DICE)
         entries.add(CobblemonItems.LUCKY_EGG)
