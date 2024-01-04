@@ -393,6 +393,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.FLOAT_STONE)
         entries.add(CobblemonItems.FOCUS_BAND)
         entries.add(CobblemonItems.FOCUS_SASH)
+        entries.add(CobblemonItems.GRIP_CLAW)
         entries.add(CobblemonItems.HARD_STONE)
         entries.add(CobblemonItems.HEAVY_DUTY_BOOTS)
         entries.add(CobblemonItems.IRON_BALL)
