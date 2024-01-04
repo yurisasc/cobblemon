@@ -393,6 +393,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.FOCUS_SASH)
         entries.add(CobblemonItems.HARD_STONE)
         entries.add(CobblemonItems.HEAVY_DUTY_BOOTS)
+        entries.add(CobblemonItems.IRON_BALL)
         entries.add(CobblemonItems.KINGS_ROCK)
         entries.add(CobblemonItems.LEFTOVERS)
         entries.add(CobblemonItems.LIFE_ORB)
