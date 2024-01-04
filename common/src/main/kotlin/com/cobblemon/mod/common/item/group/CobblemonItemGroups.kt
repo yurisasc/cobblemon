@@ -400,6 +400,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.LIGHT_CLAY)
         entries.add(CobblemonItems.LOADED_DICE)
         entries.add(CobblemonItems.LUCKY_EGG)
+        entries.add(CobblemonItems.LUMINOUS_MOSS)
         entries.add(CobblemonItems.MAGNET)
         entries.add(CobblemonItems.MENTAL_HERB)
         entries.add(CobblemonItems.METAL_COAT)
