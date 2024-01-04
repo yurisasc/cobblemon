@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cobblemon:giant_relic_coin_pouch"
+          "name": "cobblemon:relic_coin_sack"
         }
       ],
       "conditions": [

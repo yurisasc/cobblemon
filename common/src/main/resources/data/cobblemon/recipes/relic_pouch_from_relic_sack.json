@@ -2,16 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "#": {
-      "item": "cobblemon:relic_coin_pouch"
+      "item": "cobblemon:relic_coin_sack"
     }
   },
   "pattern": [
-    "###",
-    "###",
-    "###"
+    "#"
   ],
   "result": {
-    "item": "cobblemon:giant_relic_coin_pouch"
+    "item": "cobblemon:relic_coin_pouch",
+    "count": 9
   },
   "show_notification": true
 }

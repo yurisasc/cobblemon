@@ -3,7 +3,7 @@
   "rewards": {
     "recipes": [
       "cobblemon:relic_pouch_from_coin",
-      "cobblemon:relic_pouch_from_giant_pouch"
+      "cobblemon:relic_pouch_from_relic_sack"
     ]
   },
   "criteria": {

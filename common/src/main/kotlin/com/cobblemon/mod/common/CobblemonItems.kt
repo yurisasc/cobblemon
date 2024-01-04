@@ -721,9 +721,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val RELIC_COIN = noSettingsItem("relic_coin")
     @JvmField
-    val RELIC_COIN_POUCH = noSettingsItem("relic_coin_pouch")
+    val RELIC_COIN_POUCH = blockItem("relic_coin_pouch", CobblemonBlocks.RELIC_COIN_POUCH)
     @JvmField
-    val GIANT_RELIC_COIN_POUCH = blockItem("giant_relic_coin_pouch", CobblemonBlocks.GIANT_RELIC_COIN_POUCH)
+    val RELIC_COIN_SACK = blockItem("relic_coin_sack", CobblemonBlocks.RELIC_COIN_SACK)
 
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 

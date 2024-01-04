@@ -89,6 +89,7 @@ import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cobblemon.mod.common.pokemon.feature.TagSeasonResolver
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
+import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
@@ -366,40 +367,7 @@ object Cobblemon {
         }
         LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
         TRADE_COMPLETED.subscribe { AdvancementHandler.onTradeCompleted(it) }
-
-        HELD_ITEM_UPDATED.subscribe { event ->
-            val player = event.cause ?: return@subscribe
-            val goldHoard = event.pokemon.getFeature<IntSpeciesFeature>("gimmighoul_coins")
-            val netheriteHoard = event.pokemon.getFeature<IntSpeciesFeature>("gimmighoul_netherite")
-
-            if (goldHoard != null && goldHoard.value < 999) {
-                val increase = when (event.newItem.item) {
-                    CobblemonItems.RELIC_COIN -> 1
-                    CobblemonItems.RELIC_COIN_POUCH -> 9
-                    else -> 0
-                }
-
-                if (increase != 0) {
-                    goldHoard.value += increase
-                    if (goldHoard.value > 999) goldHoard.value = 999
-                    if (event.decrement) event.originalStack.decrement(1)
-                    if (event.pokemon.entity != null) player.world.playSound(null, player.blockPos, CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, SoundCategory.PLAYERS)
-                    // Features need to be marked dirty to update the client + trigger storage saving
-                    event.pokemon.markFeatureDirty(goldHoard)
-                    event.cancel()
-                }
-            }
-
-            if (netheriteHoard != null && netheriteHoard.value < 256 && event.newItem.isOf(Items.NETHERITE_SCRAP)) {
-                netheriteHoard.value++
-                if (netheriteHoard.value > 256) netheriteHoard.value = 256
-                if (event.decrement) event.originalStack.decrement(1)
-                if (event.pokemon.entity != null) player.world.playSound(null, player.blockPos, CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, SoundCategory.PLAYERS)
-                // Features need to be marked dirty to update the client + trigger storage saving
-                event.pokemon.markFeatureDirty(netheriteHoard)
-                event.cancel()
-            }
-        }
+        HELD_ITEM_UPDATED.subscribe { GimmighoulStashHandler.giveHeldItem(it)}
 
         BagItems.observable.subscribe {
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
