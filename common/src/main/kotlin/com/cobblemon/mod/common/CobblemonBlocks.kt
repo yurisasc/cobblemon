@@ -176,7 +176,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         "gilded_chest",
         CobblemonChestBlock(
             AbstractBlock.Settings.copy(Blocks.CHEST)
-        ) { CobblemonBlockEntities.GILDED_CHEST }
+        )
     )
 
     @JvmField
