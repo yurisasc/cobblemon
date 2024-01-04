@@ -700,6 +700,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val PROTECTIVE_PADS = heldItem("protective_pads")
     @JvmField
+    val PUNCHING_GLOVE = heldItem("punching_glove")
+    @JvmField
     val QUICK_CLAW = heldItem("quick_claw")
     @JvmField
     val RED_CARD = heldItem("red_card")
