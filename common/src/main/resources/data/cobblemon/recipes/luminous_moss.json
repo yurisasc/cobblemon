@@ -1,22 +1,21 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "MG",
-        "BM"
-    ],
-    "key": {
-        "M": {
-            "item": "minecraft:moss_block"
-        },
-        "G": {
-            "item": "minecraft:glow_berry"
-        },
-        "B": {
-            "item": "minecraft:bowl"
-        }
-    },
-    "result":
-    {
-        "item": "cobblemon:luminous_moss"
-    }
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"MG",
+		"BM"
+	],
+	"key": {
+		"M": {
+			"item": "minecraft:moss_block"
+		},
+		"G": {
+			"item": "minecraft:glow_berries"
+		},
+		"B": {
+			"item": "minecraft:bowl"
+		}
+	},
+	"result": {
+		"item": "cobblemon:luminous_moss"
+	}
 }

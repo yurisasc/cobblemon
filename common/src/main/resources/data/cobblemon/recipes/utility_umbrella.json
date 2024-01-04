@@ -1,22 +1,22 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "WWW",
-        " I ",
-		" B  "
-    ],
-    "key": {
-        "W": {
-            "item": "minecraft:black_wool"
-        },
-        "I": {
-            "item": "minecraft:iron_bars"
-        },
-        "B": {
-            "item": "minecraft:blackstone"
-        }
-    },
-    "result": {
-        "item": "cobblemon:utility_umbrella"
-    }
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"WWW",
+		" I ",
+		" B "
+	],
+	"key": {
+		"W": {
+			"item": "minecraft:black_wool"
+		},
+		"I": {
+			"item": "minecraft:iron_bars"
+		},
+		"B": {
+			"item": "minecraft:blackstone"
+		}
+	},
+	"result": {
+		"item": "cobblemon:utility_umbrella"
+	}
 }
