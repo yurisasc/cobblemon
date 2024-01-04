@@ -2,9 +2,7 @@
   "parent": "cobblemon:recipes/root",
   "rewards": {
     "recipes": [
-      "cobblemon:relic_coin_from_pouch",
-      "cobblemon:gold_nugget_from_blasting_coin",
-      "cobblemon:gold_nugget_from_smelting_coin"
+      "cobblemon:giant_relic_coin_pouch"
     ]
   },
   "criteria": {
@@ -23,7 +21,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "cobblemon:relic_coin_pouch"
+        "recipe": "cobblemon:giant_relic_coin_pouch"
       }
     }
   },

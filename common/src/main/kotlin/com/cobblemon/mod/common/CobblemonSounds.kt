@@ -14,6 +14,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvent
 
 object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Registry<SoundEvent>>, SoundEvent>() {
@@ -112,9 +113,27 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val FOSSIL_MACHINE_UNPROTECTED = this.create("fossilmachine.unprotected")
 
     @JvmField
+    val COIN_POUCH_BREAK = this.create("coin_pouch.break")
+    @JvmField
+    val COIN_POUCH_HIT = this.create("coin_pouch.hit")
+    @JvmField
+    val COIN_POUCH_STEP = this.create("coin_pouch.step")
+    @JvmField
+    val COIN_POUCH_PLACE = this.create("coin_pouch.place")
+
+    @JvmField
     val GIMMIGHOUL_GIVE_ITEM_SMALL = this.create("gimmighoul.give_item_small")
     @JvmField
     val GIMMIGHOUL_REVEAL = this.create("gimmighoul.reveal")
+
+    @JvmField
+    val COIN_POUCH_SOUNDS = BlockSoundGroup(1f, 1f,
+        COIN_POUCH_BREAK,
+        COIN_POUCH_STEP,
+        COIN_POUCH_PLACE,
+        COIN_POUCH_HIT,
+        COIN_POUCH_STEP
+    )
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }

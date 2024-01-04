@@ -172,6 +172,16 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val YELLOW_APRICORN = apricornBlock("yellow_apricorn", Apricorn.YELLOW)
 
     @JvmField
+    val GIANT_RELIC_COIN_POUCH = create(
+        "giant_relic_coin_pouch",
+        Block(
+            AbstractBlock.Settings.create()
+                .sounds(CobblemonSounds.COIN_POUCH_SOUNDS)
+                .pistonBehavior(PistonBehavior.DESTROY)
+                .strength(0.4f)
+        ))
+
+    @JvmField
     val GILDED_CHEST = create(
         "gilded_chest",
         CobblemonChestBlock(

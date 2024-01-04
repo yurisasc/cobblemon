@@ -126,6 +126,38 @@
   "gimmighoul.reveal": {
     "sounds": [ "cobblemon:gimmighoul_reveal" ]
   },
+  "coin_pouch.break": {
+    "sounds": [
+      "cobblemon:block/coin_pouch/coin_pouch_block_break_1",
+      "cobblemon:block/coin_pouch/coin_pouch_block_break_2",
+      "cobblemon:block/coin_pouch/coin_pouch_block_break_3",
+      "cobblemon:block/coin_pouch/coin_pouch_block_break_4"
+    ]
+  },
+  "coin_pouch.hit": {
+    "sounds": [
+      "cobblemon:block/coin_pouch/coin_pouch_block_hit_1",
+      "cobblemon:block/coin_pouch/coin_pouch_block_hit_2",
+      "cobblemon:block/coin_pouch/coin_pouch_block_hit_3",
+      "cobblemon:block/coin_pouch/coin_pouch_block_hit_4"
+    ]
+  },
+  "coin_pouch.place": {
+    "sounds": [
+      "cobblemon:block/coin_pouch/coin_pouch_block_place_1",
+      "cobblemon:block/coin_pouch/coin_pouch_block_place_2",
+      "cobblemon:block/coin_pouch/coin_pouch_block_place_3",
+      "cobblemon:block/coin_pouch/coin_pouch_block_place_4"
+    ]
+  },
+  "coin_pouch.step": {
+    "sounds": [
+      "cobblemon:block/coin_pouch/coin_pouch_block_step_1",
+      "cobblemon:block/coin_pouch/coin_pouch_block_step_2",
+      "cobblemon:block/coin_pouch/coin_pouch_block_step_3",
+      "cobblemon:block/coin_pouch/coin_pouch_block_step_4"
+    ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },

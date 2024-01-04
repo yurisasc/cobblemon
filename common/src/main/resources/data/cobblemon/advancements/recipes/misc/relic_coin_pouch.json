@@ -2,7 +2,8 @@
   "parent": "cobblemon:recipes/root",
   "rewards": {
     "recipes": [
-      "cobblemon:relic_pouch_from_coin"
+      "cobblemon:relic_pouch_from_coin",
+      "cobblemon:relic_pouch_from_giant_pouch"
     ]
   },
   "criteria": {
