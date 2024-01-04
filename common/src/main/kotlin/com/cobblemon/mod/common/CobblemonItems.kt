@@ -652,6 +652,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val FLAME_ORB = heldItem("flame_orb")
     @JvmField
+    val FLOAT_STONE = heldItem("float_stone")
+    @JvmField
     val FOCUS_BAND = heldItem("focus_band")
     @JvmField
     val FOCUS_SASH = heldItem("focus_sash")

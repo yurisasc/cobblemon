@@ -390,6 +390,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.EXPERT_BELT)
         entries.add(CobblemonItems.FAIRY_FEATHER)
         entries.add(CobblemonItems.FLAME_ORB)
+        entries.add(CobblemonItems.FLOAT_STONE)
         entries.add(CobblemonItems.FOCUS_BAND)
         entries.add(CobblemonItems.FOCUS_SASH)
         entries.add(CobblemonItems.HARD_STONE)
