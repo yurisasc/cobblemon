@@ -26,8 +26,8 @@ class TMMHandledScreen(
         blitk(
             matrixStack = context.matrices,
             texture = TYPE_BASE_TEXTURE,
-            x = x + 0, // horizontal placement of GUI  + 47 for / 1.5 scale
-            y = y - 33, // vertical placement of GUI    + 47 for / 1.5 scale
+            x = x, // horizontal placement of GUI
+            y = y, // vertical placement of GUI
 
             width = TEXTURE_WIDTH, // scale of the GUI width
             height = TEXTURE_HEIGHT // scale of the GUI height
@@ -49,8 +49,8 @@ class TMMHandledScreen(
     }
 
     companion object {
-        val TEXTURE_HEIGHT = 285
-        val TEXTURE_WIDTH = 280
-        val TYPE_BASE_TEXTURE = cobblemonResource("textures/gui/tm/type_selection_base.png")
+        val TEXTURE_HEIGHT = 222
+        val TEXTURE_WIDTH = 254
+        val TYPE_BASE_TEXTURE = cobblemonResource("textures/gui/tm/tmm_type_selection_base.png")
     }
 }

@@ -18,8 +18,8 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
         playerEntity = player
     }
     constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId) {
-        val startX = 0 - 2
-        val startY = 111
+        val startX = 0 - 9
+        val startY = 112
         val xLen = 18 // 18 is standard
         val yLen = 18 // 18 is standard
         this.playerInventory = playerInventory
@@ -33,7 +33,10 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
             this.addSlot(Slot(playerInventory, column, startX + (xLen * column), startY + 58))
         }
 
-        this.addSlot(Slot(tmInventory, 36, startX + 173, startY - 54))
+        this.addSlot(Slot(tmInventory, 36, startX + 122, startY - 22)) // output slot
+        this.addSlot(Slot(tmInventory, 37, startX + 167, startY + 9))  // material input slot 1
+        this.addSlot(Slot(tmInventory, 38, startX + 185, startY + 9))  // material input slot 2
+        this.addSlot(Slot(tmInventory, 39, startX + 203, startY + 9))  // material input slot 3
 
     }
     override fun quickMove(player: PlayerEntity, slot: Int): ItemStack {
@@ -45,7 +48,7 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
     }
 
     companion object {
-        val SLOT_COUNT = 37
+        val SLOT_COUNT = 40
     }
 
 }
