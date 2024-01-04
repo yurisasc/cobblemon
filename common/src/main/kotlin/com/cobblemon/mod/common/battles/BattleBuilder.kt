@@ -1146,7 +1146,7 @@ object BattleBuilder {
                     // add to party
                     npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
 
-                    // Cradilly
+                    /*// Cradilly
                     npcPokemon = Pokemon()
                     npcPokemon.uuid = UUID.randomUUID()
                     npcPokemon.species = PokemonSpecies.getByName("cradily")!!
@@ -1166,6 +1166,30 @@ object BattleBuilder {
                     npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LEFTOVERS), false)  //focus sash
                     npcPokemon.ability = Abilities.get("stormdrain")!!.create()
                     npcPokemon.setMoveset(listOf("recover", "toxic", "protect", "gigadrain"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))*/
+
+                    // Pyukumuku
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("pyukumuku")!!
+                    npcPokemon.nature = Natures.getNature("bold")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 31)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.DEFENCE,252)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LEFTOVERS), false)  //focus sash
+                    npcPokemon.ability = Abilities.get("unaware")!!.create()
+                    npcPokemon.setMoveset(listOf("recover", "toxic", "soak", "protect"))
 
                     // add to party
                     npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
