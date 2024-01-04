@@ -115,7 +115,7 @@ object ElementalTypes {
         hue = 0xD86AD6,
         textureXMultiplier = 10,
         primaryColor = 0xE48CFF,
-        secondaryColor = 0xFFBFF4
+        secondaryColor = 0xFFCCF6
     )
 
     val BUG = register(
