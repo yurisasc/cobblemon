@@ -29,16 +29,29 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
         val renderLayer = RenderLayer.getEntityCutout(TEXTURE_ID)
         val model = BlockEntityModelRepository.getPoser(POSER_ID, emptySet())
         //state.setPose(pose.poseName)
-        state.timeEnteredPose = 0F
         matrices.push()
 
         if (state.currentPose == null) {
-            model.moveToPose(null, state, model.poses.values.last())
+            state.setPose(model.poses.values.first().poseName)
+            state.timeEnteredPose = 0F
+        }
+        if (state.currentPose == model.poses.values.first().poseName) {
+            state.timeEnteredPose = 0F
+            state.setPose(model.poses.values.last().poseName)
         }
 
         //Why is this necessary? The world may never know (prob model issues)
         matrices.translate(0.5F, 0F, 0.5F)
         matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180f))
+        model.setupAnimStateful(
+            entity = null,
+            state = state,
+            headYaw = 0F,
+            headPitch = 0F,
+            limbSwing = 0F,
+            limbSwingAmount = 0F,
+            ageInTicks = state.animationSeconds * 20
+        )
         model.render(matrices, vertexConsumers.getBuffer(renderLayer), light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
         //model.render(matrices, vertexConsumers.getBuffer(renderLayer), LightmapTextureManager.MAX_LIGHT_COORDINATE, overlay)
         matrices.pop()

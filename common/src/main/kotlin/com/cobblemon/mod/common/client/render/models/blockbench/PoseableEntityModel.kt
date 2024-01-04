@@ -485,7 +485,7 @@ abstract class PoseableEntityModel<T : Entity>(
         setupAnimStateful(entity, getState(entity), limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
 
-    fun moveToPose(entity: T, state: PoseableEntityState<T>, desirablePose: Pose<T, out ModelFrame>) {
+    fun moveToPose(entity: T?, state: PoseableEntityState<T>, desirablePose: Pose<T, out ModelFrame>) {
         val previousPose = state.getPose()?.let { getPose(it) } ?: run {
             return state.setPose(desirablePose.poseName)
         }
@@ -504,7 +504,7 @@ abstract class PoseableEntityModel<T : Entity>(
                 )
             } else if (transition != null) {
                 state.statefulAnimations.add(transition(previousPose, desirablePose))
-            } else {
+            } else if (entity != null){
                 getState(entity).setPose(poses.values.first { desirablePoseType in it.poseTypes && it.condition(entity) }.poseName)
             }
         }
