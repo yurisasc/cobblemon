@@ -26,14 +26,18 @@ class TMMHandledScreen(
         blitk(
             matrixStack = context.matrices,
             texture = TYPE_BASE_TEXTURE,
-            x = x+3, y = y,
-            width = TEXTURE_WIDTH,
-            height = TEXTURE_HEIGHT
+            x = x + 0, // horizontal placement of GUI  + 47 for / 1.5 scale
+            y = y - 33, // vertical placement of GUI    + 47 for / 1.5 scale
+
+            width = TEXTURE_WIDTH, // scale of the GUI width
+            height = TEXTURE_HEIGHT // scale of the GUI height
         )
     }
 
     override fun drawForeground(context: DrawContext?, mouseX: Int, mouseY: Int) {
         //Text is usually drawn here, we dont want that
+        this.drawMouseoverTooltip(context, mouseX - 158, mouseY - 28)
+        //this.renderWithTooltip(context, mouseX, mouseY, 1F)
     }
 
     override fun onSlotUpdate(handler: ScreenHandler?, slotId: Int, stack: ItemStack?) {

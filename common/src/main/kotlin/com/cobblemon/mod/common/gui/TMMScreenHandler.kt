@@ -18,10 +18,10 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
         playerEntity = player
     }
     constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId) {
-        val startX = 1
-        val startY = 143
-        val xLen = 18
-        val yLen = 18
+        val startX = 0 - 2
+        val startY = 111
+        val xLen = 18 // 18 is standard
+        val yLen = 18 // 18 is standard
         this.playerInventory = playerInventory
         val tmInventory = CraftingInventory(this, TMMHandledScreen.TEXTURE_WIDTH, TMMHandledScreen.TEXTURE_HEIGHT)
         for (row in 0..2) {
