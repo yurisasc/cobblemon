@@ -398,6 +398,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.HEAVY_DUTY_BOOTS)
         entries.add(CobblemonItems.IRON_BALL)
         entries.add(CobblemonItems.KINGS_ROCK)
+        entries.add(CobblemonItems.LAGGING_TAIL)
         entries.add(CobblemonItems.LEFTOVERS)
         entries.add(CobblemonItems.LIFE_ORB)
         entries.add(CobblemonItems.LIGHT_CLAY)
