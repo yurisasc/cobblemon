@@ -434,6 +434,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.SMOKE_BALL)
         entries.add(CobblemonItems.SOFT_SAND)
         entries.add(CobblemonItems.SPELL_TAG)
+        entries.add(CobblemonItems.TERRAIN_EXTENDER)
         entries.add(CobblemonItems.TOXIC_ORB)
         entries.add(CobblemonItems.TWISTED_SPOON)
         entries.add(CobblemonItems.WHITE_HERB)
