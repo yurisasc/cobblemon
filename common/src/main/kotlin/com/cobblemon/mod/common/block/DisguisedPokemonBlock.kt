@@ -29,6 +29,7 @@ import net.minecraft.world.World
 
 class DisguisedPokemonBlock(
     settings: Settings,
+    //Should probably be a [PokemonProperties] or maybe a PokemonProperties.parse string
     val pokemonArgs: String,
     val levelRange: IntRange = 1..1
 ) : Block(settings) {
