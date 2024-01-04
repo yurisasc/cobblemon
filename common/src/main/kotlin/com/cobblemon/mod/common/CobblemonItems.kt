@@ -730,6 +730,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val TERRAIN_EXTENDER = heldItem("terrain_extender")
     @JvmField
+    val THROAT_SPRAY = heldItem("throat_spray")
+    @JvmField
     val TOXIC_ORB = heldItem("toxic_orb")
     @JvmField
     val TWISTED_SPOON = heldItem("twisted_spoon")
