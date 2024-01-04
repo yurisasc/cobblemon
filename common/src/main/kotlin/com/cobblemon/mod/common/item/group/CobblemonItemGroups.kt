@@ -360,6 +360,7 @@ object CobblemonItemGroups {
 
     private fun heldItemEntries(displayContext: DisplayContext, entries: Entries) {
         entries.add(CobblemonItems.ABILITY_SHIELD)
+        entries.add(CobblemonItems.ABSORB_BULB)
         entries.add(CobblemonItems.AIR_BALLOON)
         entries.add(CobblemonItems.ASSAULT_VEST)
         entries.add(CobblemonItems.BIG_ROOT)

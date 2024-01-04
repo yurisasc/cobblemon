@@ -598,6 +598,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val ABILITY_SHIELD = heldItem("ability_shield")
     @JvmField
+    val ABSORB_BULB = heldItem("absorb_bulb")
+    @JvmField
     val AIR_BALLOON = heldItem("air_balloon")
     @JvmField
     val ASSAULT_VEST = heldItem("assault_vest")
