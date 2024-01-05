@@ -135,7 +135,9 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
     }
 
     override fun onBlockBreakStart(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity) {
-        super.onBlockBreakStart(state, world, pos, player)
+        if (state.get(AGE) != MAX_AGE) {
+            return super.onBlockBreakStart(state, world, pos, player)
+        }
 
         doHarvest(world, state, pos, player)
     }
