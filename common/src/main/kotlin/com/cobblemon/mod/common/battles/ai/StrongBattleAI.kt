@@ -331,10 +331,11 @@ class StrongBattleAI() : BattleAI {
     private val antiBoostWeightConsideration = 25 // value of a mon with moves that remove stat boosts
     private val hpWeightConsideration = 0.25 // how much HP difference is a consideration for switchins
     private val hpFractionCoefficient = 0.4 // how much HP differences should be taken into account for switch ins
+    private val boostWeightCoefficient = 1 // the amount of boosts considered a baseline to be removed
     private val switchOutMatchupThreshold = 0 // todo change this to get it feeling just right (-7 never switches)
     private val selfKoMoveMatchupThreshold = 0.3
     private val trickRoomThreshold = 85
-    private val recoveryMoveThreshold = 0.45
+    private val recoveryMoveThreshold = 0.50
     private val accuracySwitchThreshold = -3
     private val hpSwitchOutThreshold = .3 // percent of HP needed to be considered for switchout
     private val randomProtectChance = 0.3 // percent chance of a protect move being used with 1 turn in between
@@ -462,10 +463,20 @@ class StrongBattleAI() : BattleAI {
         val npcSPEBoosts = npcSPEPosBoosts.minus((npcSPENegBoosts ?: 0))
 
         // Statuses of the pokemon
-        //val activePlayerPokemonStatus = activePlayerBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)
-        //val activeNPCPokemonStatus = activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)
-        val activePlayerPokemonStatus = activePlayerBattlePokemon?.originalPokemon?.status?.status?.name ?: (activePlayerBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)?.last()?.id ?: "")
-        val activeNPCPokemonStatus = activeNPCBattlePokemon?.originalPokemon?.status?.status?.name ?: (activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)?.last()?.id ?: "")
+
+        val activePlayerPokemonStatus = activePlayerBattlePokemon?.originalPokemon?.status?.status?.name ?: try {
+            activePlayerBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)?.last()?.id
+        } catch (e: Exception) {
+            ""
+        } ?: ""
+
+        val activeNPCPokemonStatus = activeNPCBattlePokemon?.originalPokemon?.status?.status?.name ?: try {
+            activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)?.last()?.id
+        } catch (e: Exception) {
+            ""
+        } ?: ""
+
+        //val activeNPCPokemonStatus = activeNPCBattlePokemon?.originalPokemon?.status?.status?.name ?: if (activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS).isNullOrEmpty()) "" else activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)?.last()?.id ?: ""
 
         // Hazards on both sides of the field
         var playerSideHazardsList: MutableList<String> = mutableListOf()
@@ -654,7 +665,14 @@ class StrongBattleAI() : BattleAI {
                         && ElementalTypes.GHOST !in opponent.pokemon!!.types
                         && it.pp > 0
             }?.let {
-                MoveActionResponse(it.id)
+                return MoveActionResponse(it.id)
+            }
+
+            // Self recovery moves
+            for (move in moveset.moves.filter { !it.disabled }) {
+                if (move.id in selfRecoveryMoves && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < recoveryMoveThreshold && move.pp > 0) {
+                    return MoveActionResponse(move.id)
+                }
             }
 
             // Deal with non-weather related field changing effects
@@ -719,7 +737,12 @@ class StrongBattleAI() : BattleAI {
                 }
             }
 
-            // todo stat clearing moves like haze
+            // todo stat clearing moves like haze and clearsmog
+            for (move in moveset.moves.filter { !it.disabled }) {
+                if (move.id in antiBoostMoves && isBoosted(opponent) && move.pp > 0) {
+                    return MoveActionResponse(move.id)
+                }
+            }
 
             // Court Change
             for (move in moveset.moves.filter { !it.disabled }) {
@@ -733,12 +756,6 @@ class StrongBattleAI() : BattleAI {
             }
 
             // todo Check why the hell they still spam heal moves
-            // Self recovery moves
-            for (move in moveset.moves.filter { !it.disabled }) {
-                if (move.id in selfRecoveryMoves && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < recoveryMoveThreshold && move.pp > 0) {
-                    return MoveActionResponse(move.id)
-                }
-            }
 
             // Strength Sap
             for (move in moveset.moves.filter { !it.disabled }) {
@@ -750,8 +767,6 @@ class StrongBattleAI() : BattleAI {
             }
 
             //val contextBoost = battle.contextManager.get(BattleContext.Type.BOOST)
-
-
 
 
             //val pokemonBoost =
@@ -807,45 +822,117 @@ class StrongBattleAI() : BattleAI {
                 //activeOpponent?.let {
                     // Make sure the opponent doesn't already have a status condition
                     //if ((it.volatiles.containsKey("curse") || it.status != null) && // todo I removed this because idk why you would need to know if it had curse
-                    if (activePlayerPokemonStatus == null && (opponent.currentHp.toDouble() / opponent.pokemon!!.hp.toDouble()) > 0.6 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) > 0.5) { // todo make sure this is the right status to use. It might not be
+                    if (activePlayerPokemonStatus == "" && (opponent.currentHp.toDouble() / opponent.pokemon!!.hp.toDouble()) > 0.3 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) > 0.5) { // todo make sure this is the right status to use. It might not be
 
-                        when (statusMoves.get(Moves.getByName(move.id))) {
-                            "burn" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.FIRE) && getBaseStats(opponent.pokemon!!, "atk") > 80 &&
-                                    !hasMajorStatusImmunity(opponent) &&
-                                    !listOf("waterbubble", "waterveil", "flareboost", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)) {
-                                MoveActionResponse(move.id)
+                        val status = (statusMoves.get(Moves.getByName(move.id)))
+                        when (status) {
+                            "brn" -> {
+                                val typing = (!opponent.pokemon!!.types.contains(ElementalTypes.FIRE)
+                                        || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else  (activeTracker.p1Active.activePokemon.currentPrimaryType != "fire"))
+                                val stats = getBaseStats(opponent.pokemon!!, "atk") > 80
+                                val notImmune = !hasMajorStatusImmunity(opponent)
+                                val notAbility = !listOf("waterbubble", "waterveil", "flareboost", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)
+
+                                if (typing && stats && notImmune && notAbility) {
+                                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
+                                    if (target == null)
+                                        return MoveActionResponse(move.id)
+                                    else {
+                                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
+                                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
+                                    }
+                                }
                             }
 
-                            "paralysis" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.ELECTRIC) && getBaseStats(opponent.pokemon!!, "spe") > getBaseStats(mon.pokemon!!, "spe") &&
-                                    !hasMajorStatusImmunity(opponent) &&
-                                    !listOf("limber", "guts").contains(opponent.pokemon!!.ability.name)) {
-                                MoveActionResponse(move.id)
+                            "par" -> {
+                                val typing = (!opponent.pokemon!!.types.contains(ElementalTypes.ELECTRIC)
+                                        || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else (activeTracker.p1Active.activePokemon.currentPrimaryType != "electric"))
+                                val stats = getBaseStats(opponent.pokemon!!, "spe") > getBaseStats(mon.pokemon!!, "spe")
+                                val notImmune = !hasMajorStatusImmunity(opponent)
+                                val notAbility = !listOf("limber", "guts").contains(opponent.pokemon!!.ability.name)
+
+                                if (typing && stats && notImmune && notAbility) {
+                                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
+                                    if (target == null)
+                                        return MoveActionResponse(move.id)
+                                    else {
+                                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
+                                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
+                                    }
+                                }
                             }
 
-                            "sleep" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.GRASS) && (move.id.equals("spore") || move.id.equals("sleeppowder")) &&
-                                    !hasMajorStatusImmunity(opponent) &&
-                                    !listOf("insomnia", "sweetveil").contains(opponent.pokemon!!.ability.name)) {
-                                MoveActionResponse(move.id)
+                            "slp" -> {
+                                val typing = (!opponent.pokemon!!.types.contains(ElementalTypes.GRASS)
+                                        || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else (activeTracker.p1Active.activePokemon.currentPrimaryType != "grass"))
+                                val moveID = (move.id.equals("spore") || move.id.equals("sleeppowder"))
+                                val notImmune = !hasMajorStatusImmunity(opponent)
+                                val notAbility = !listOf("insomnia", "sweetveil").contains(opponent.pokemon!!.ability.name)
+
+                                if (typing && moveID && notImmune && notAbility) {
+                                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
+                                    if (target == null)
+                                        return MoveActionResponse(move.id)
+                                    else {
+                                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
+                                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
+                                    }
+                                }
                             }
 
                             "confusion" -> if (!listOf("owntempo", "oblivious").contains(opponent.pokemon!!.ability.name)) {
-                                MoveActionResponse(move.id)
+                                return MoveActionResponse(move.id)
                             }
 
-                            "poison" -> if (!listOf(ElementalTypes.POISON, ElementalTypes.STEEL).any { it in opponent.pokemon!!.types } &&
-                                    !hasMajorStatusImmunity(opponent) &&
-                                    !listOf("immunity", "poisonheal", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)) {
-                                MoveActionResponse(move.id)
+                            "psn" -> {
+                                val typing = ((!listOf(ElementalTypes.POISON, ElementalTypes.STEEL).any { it in opponent.pokemon!!.types })
+                                        || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else (activeTracker.p1Active.activePokemon.currentPrimaryType != "poison" && activeTracker.p1Active.activePokemon.currentPrimaryType != "steel"))
+                                val notImmune = !hasMajorStatusImmunity(opponent)
+                                val notAbility = !listOf("immunity", "poisonheal", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)
+
+                                if (typing && notImmune && notAbility) {
+                                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
+                                    if (target == null)
+                                        return MoveActionResponse(move.id)
+                                    else {
+                                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
+                                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
+                                    }
+                                }
                             }
 
-                            "cursed" -> if (ElementalTypes.GHOST in mon.pokemon!!.types &&
+                            "tox" -> { // todo need access to baseType and currentType to go further with this for type changing teams
+                                val typing = (!listOf(ElementalTypes.POISON, ElementalTypes.STEEL).any { it in opponent.pokemon!!.types }
+                                        || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else (activeTracker.p1Active.activePokemon.currentPrimaryType != "poison" && activeTracker.p1Active.activePokemon.currentPrimaryType != "steel"))
+                                val notImmune = !hasMajorStatusImmunity(opponent)
+                                val notAbility = !listOf("immunity", "poisonheal", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)
+
+                                if (typing && notImmune && notAbility) {
+                                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
+                                    if (target == null)
+                                        return MoveActionResponse(move.id)
+                                    else {
+                                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
+                                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
+                                    }
+                                }
+                                    //return MoveActionResponse(move.id)
+                            }
+
+                            "cursed" -> if (((ElementalTypes.GHOST in mon.pokemon!!.types)
+                                    || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else (activeTracker.p1Active.activePokemon.currentPrimaryType != "ghost")) &&
                                     !opponent.pokemon!!.ability.name.equals("magicguard")) {
-                                MoveActionResponse(move.id)
+                                return MoveActionResponse(move.id)
                             }
 
-                            "leech" -> if (!opponent.pokemon!!.types.contains(ElementalTypes.GRASS) &&
+                            "leech" -> if ((!opponent.pokemon!!.types.contains(ElementalTypes.GRASS)
+                                    || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false
+                                        else (activeTracker.p1Active.activePokemon.currentPrimaryType != "grass")) &&
                                     !listOf("liquidooze", "magicguard").contains(opponent.pokemon!!.ability.name)) {
-                                MoveActionResponse(move.id)
+                                return MoveActionResponse(move.id)
+                            }
+                            else -> {
+                                val test = status
                             }
                         }
                     }
@@ -964,7 +1051,7 @@ class StrongBattleAI() : BattleAI {
 
                 // todo soak
 
-                if (move.id.equals("soak") && (opponent.pokemon!!.types.any { it == ElementalTypes.POISON || it == ElementalTypes.STEEL })) {
+                if (move.id.equals("soak") && activeTracker.p1Active.activePokemon.currentPrimaryType != "water" && (opponent.pokemon!!.types.any { it == ElementalTypes.POISON || it == ElementalTypes.STEEL })) {
                     value = 200.0 // change this to not be so hardcoded but valued for different circumstances
                 }
 
@@ -1074,8 +1161,9 @@ class StrongBattleAI() : BattleAI {
         //updateActiveTracker(battle)
 
         ////nonActiveMon?.let { npcPokemon = it }
-        val npcPokemon = activeTracker.p1Active.activePokemon.pokemon
-        val playerPokemon = activeTracker.p2Active.activePokemon.pokemon
+        val playerPokemon = activeTracker.p1Active.activePokemon.pokemon
+        val npcPokemon = activeTracker.p2Active.activePokemon.pokemon
+
 
         var score = 1.0
         //score += bestDamageMultiplier(nonActiveMon, playerPokemon!!) * (1 + typeMatchup(nonActiveMon, playerPokemon) * typeMatchupWeightConsideration) // npcPokemon attacking playerPokemon
@@ -1451,6 +1539,17 @@ class StrongBattleAI() : BattleAI {
         }
     }*/
 
+    fun isBoosted(trackerPokemon: ActiveTracker.TrackerPokemon): Boolean {
+        if (trackerPokemon.atkBoost > boostWeightCoefficient
+                || trackerPokemon.defBoost > boostWeightCoefficient
+                || trackerPokemon.spaBoost > boostWeightCoefficient
+                || trackerPokemon.spdBoost > boostWeightCoefficient
+                || trackerPokemon.speBoost > boostWeightCoefficient)
+            return true
+        else
+            return false
+    }
+
     // returns an approximate number of hits for a given move for estimation purposes
     fun expectedHits(move: MoveTemplate): Int {
         val minMaxHits = multiHitMoves[move.name]
@@ -1494,7 +1593,7 @@ class StrongBattleAI() : BattleAI {
         val playerPosBoostContext = battle.side1.actors.first().activePokemon[0].battlePokemon?.contextManager?.get(BattleContext.Type.BOOST)
         val playerNegBoostContext = battle.side1.actors.first().activePokemon[0].battlePokemon?.contextManager?.get(BattleContext.Type.UNBOOST)
 
-        // I think is the first side pokemon
+        // I think is the first side pokemon (player)
         val p1 = activeTracker.p1Active
         val pokemon1 = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.effectedPokemon
 
@@ -1515,10 +1614,10 @@ class StrongBattleAI() : BattleAI {
         val numPlayerPokemon = playerSide1.pokemonList.count()
 
 
-        val lastMajorBattleMessage = if (battle.majorBattleActions.entries.isNotEmpty()) battle.majorBattleActions?.entries?.last()?.value?.rawMessage else ""
+        /*val lastMajorBattleMessage = if (battle.majorBattleActions.entries.isNotEmpty()) battle.majorBattleActions?.entries?.last()?.value?.rawMessage else ""
         val lastMinorBattleMessage = if (battle.minorBattleActions.entries.isNotEmpty()) battle.minorBattleActions?.entries?.last()?.value?.rawMessage else ""
         val lastBattleState = battle.battleLog
-
+        var currentType: String? = p1.activePokemon.currentPrimaryType
         // test parsing of the Type change
         val typeChangeIndex = lastMinorBattleMessage?.indexOf("typechange|")
 
@@ -1535,17 +1634,13 @@ class StrongBattleAI() : BattleAI {
                 val result = lastMinorBattleMessage.substring(startIndex, endIndex)
 
                 // grab and store the type change
-                p1.activePokemon.currentPrimaryType = ElementalTypes.get(result.lowercase())?.name
+                currentType = ElementalTypes.get(result.lowercase())?.name
+                //p1.activePokemon.currentPrimaryType
             }
-        }
-
+        }*/
         // todo parse the battle message and grab the elemental typing after the |
-        if (lastMinorBattleMessage != null) {
-            if ("typechange" in lastMinorBattleMessage) {
-                // store the new type into the active pokemon
-                val Type = 2
-            }
-        }
+
+
 
         // todo find out how to get stats
         //val p1Stats = battle.side1.activePokemon.firstOrNull()?.battlePokemon?.
@@ -1570,7 +1665,7 @@ class StrongBattleAI() : BattleAI {
         //val p2BoostsMap = p2Boosts?.mapKeys { it.key.toString() } ?: mapOf()
         val p2BoostsMap = p2Boosts?.mapKeys { it.key } ?: mapOf()
 
-        p1.activePokemon = ActiveTracker.TrackerPokemon()
+        p1.activePokemon = getActiveTrackerPokemon(p1, pokemon1?.uuid)
         p1.activePokemon.pokemon = pokemon1
         p1.activePokemon.species = pokemon1!!.species.name
         p1.activePokemon.currentHp = pokemon1.currentHealth
@@ -1581,6 +1676,7 @@ class StrongBattleAI() : BattleAI {
         p1.activePokemon.spaBoost = playerSPAPosBoosts - playerSPANegBoosts
         p1.activePokemon.spdBoost = playerSPDPosBoosts - playerSPDNegBoosts
         p1.activePokemon.speBoost = playerSPEPosBoosts - playerSPENegBoosts
+        //p1.activePokemon.currentPrimaryType = // todo get a way for the current type to be readable
         //mon.stats = pokemon.stats
         p1.activePokemon.moves = pokemon1.moveSet.getMoves()
         p1.nRemainingMons = battle.side1.actors.sumOf { actor ->
@@ -1592,11 +1688,15 @@ class StrongBattleAI() : BattleAI {
         // if the active pokemon isn't already part of the p1.party then add it to it
         if (p1.party.find { it.pokemon?.uuid == p1.activePokemon.pokemon?.uuid } == null)
             p1.party.add(p1.activePokemon)
+        else {
+            var partyPokemonIndex = p1.party.indexOfFirst { it.pokemon?.uuid == p1.activePokemon.pokemon?.uuid }
+            p1.party[partyPokemonIndex] = p1.activePokemon
+        }
 
         //p1.availableSwitches = playerSide1.pokemonList.filter { it.uuid != p1.pokemon.uuid && it.health > 0 }
         //p1.sideConditions = pokemon.sideConditions   //todo what the hell does this mean
 
-        p2.activePokemon = ActiveTracker.TrackerPokemon()
+        p2.activePokemon = getActiveTrackerPokemon(p2, pokemon2?.uuid)
         p2.activePokemon.pokemon = pokemon2
         p2.activePokemon.species = pokemon2!!.species.name
         p2.activePokemon.currentHp = pokemon2.currentHealth
@@ -1612,9 +1712,21 @@ class StrongBattleAI() : BattleAI {
         // if the active pokemon isn't already part of the p2.party then add it to it
         if (p2.party.find { it.pokemon?.uuid == p2.activePokemon.pokemon?.uuid } == null)
             p2.party.add(p2.activePokemon)
+        else {
+            var partyPokemonIndex = p2.party.indexOfFirst { it.pokemon?.uuid == p2.activePokemon.pokemon?.uuid }
+            p2.party[partyPokemonIndex] = p2.activePokemon
+        }
 
         //p2.sideConditions = pokemon.sideConditions   //todo what the hell does this mean
 
+    }
+
+    private fun getActiveTrackerPokemon(actor: ActiveTracker.TrackerActor, pokemonUUID: UUID?): ActiveTracker.TrackerPokemon {
+        var trackerPokemon = actor.party.find { it.pokemon!!.uuid == pokemonUUID }
+        if (trackerPokemon != null)
+            return trackerPokemon
+        else
+            return ActiveTracker.TrackerPokemon()
     }
 
     private fun getCurrentPlayer(battle: PokemonBattle): Pair<Pokemon, Pokemon> {

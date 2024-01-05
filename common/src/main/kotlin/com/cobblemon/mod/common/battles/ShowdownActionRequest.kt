@@ -387,6 +387,8 @@ class ShowdownPokemon {
     lateinit var baseAbility: String
     lateinit var pokeball: String
     lateinit var ability: String
+    var baseTypes = listOf<String>()
+    var types = mutableListOf<String>()
     var reviving: Boolean = false
 
     val uuid: UUID by lazy { UUID.fromString(details.split(",")[1].trim()) }
