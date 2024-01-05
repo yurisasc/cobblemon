@@ -75,7 +75,7 @@ class DynamicParticleMotion(
     }
 
     override fun getInitialVelocity(runtime: MoLangRuntime, storm: ParticleStorm, particlePos: Vec3d, emitterPos: Vec3d): Vec3d {
-        return direction.getDirectionVector(runtime, storm, emitterPos, particlePos).multiply(runtime.resolveDouble(speed))
+        return direction.getDirectionVector(runtime, storm, emitterPos, particlePos).normalize().multiply(runtime.resolveDouble(speed))
     }
 
     override fun getAcceleration(runtime: MoLangRuntime, velocity: Vec3d): Vec3d {
@@ -83,7 +83,7 @@ class DynamicParticleMotion(
             runtime.resolveDouble(acceleration.first),
             runtime.resolveDouble(acceleration.second),
             runtime.resolveDouble(acceleration.third)
-        ).subtract(velocity.multiply(runtime.resolveDouble(drag) /*/ 20*/))
+        ).subtract(velocity.multiply(runtime.resolveDouble(drag)))
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
