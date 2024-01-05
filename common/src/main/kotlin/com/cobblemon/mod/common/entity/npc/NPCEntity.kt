@@ -73,7 +73,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         }
 
     val appliedAspects = mutableSetOf<String>()
-    val delegate = if (world.isClient) {
+    override val delegate = if (world.isClient) {
         com.cobblemon.mod.common.client.entity.NPCClientDelegate()
     } else {
         NPCServerDelegate()
@@ -158,38 +158,38 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     override fun deserializeBrain(dynamic: Dynamic<*>): Brain<NPCEntity> {
         val brain = createBrainProfile().deserialize(dynamic)
-        brain.setTaskList(BATTLING, ImmutableList.of(
-            Pair.of(
-                0,
-                LookAroundTask(45, 90)
-            ),
-            Pair.of(
-                1,
-                // Should improve this to be our own look task which randomizes the target instead of taking closes entity
-                LookAtMobTask.create(
-                    { entity ->
-                        val battles = battleIds.mapNotNull { BattleRegistry.getBattle(it) }
-                        if (entity is PlayerEntity) {
-                            return@create battles.any { entity in it.players }
-                        } else if (entity is PokemonEntity) {
-                            return@create entity.battleId in battleIds
-                        }
-                        return@create false
-                    },
-                    10F
-                )
-            ),
-        ))
-        brain.setTaskList(Activity.IDLE, ImmutableList.of(
-            Pair.of(
-                0,
-                LookAroundTask(45, 90)
-            ),
-            Pair.of(
-                1,
-                LookAtMobTask.create(15F)
-            ),
-        ))
+//        brain.setTaskList(BATTLING, ImmutableList.of(
+//            Pair.of(
+//                0,
+//                LookAroundTask(45, 90)
+//            ),
+//            Pair.of(
+//                1,
+//                // Should improve this to be our own look task which randomizes the target instead of taking closes entity
+//                LookAtMobTask.create(
+//                    { entity ->
+//                        val battles = battleIds.mapNotNull { BattleRegistry.getBattle(it) }
+//                        if (entity is PlayerEntity) {
+//                            return@create battles.any { entity in it.players }
+//                        } else if (entity is PokemonEntity) {
+//                            return@create entity.battleId in battleIds
+//                        }
+//                        return@create false
+//                    },
+//                    10F
+//                )
+//            ),
+//        ))
+//        brain.setTaskList(Activity.IDLE, ImmutableList.of(
+//            Pair.of(
+//                0,
+//                LookAroundTask(45, 90)
+//            ),
+//            Pair.of(
+//                1,
+//                LookAtMobTask.create(15F)
+//            ),
+//        ))
         return brain
     }
 
