@@ -8,10 +8,23 @@
 
 package com.cobblemon.mod.common.entity.npc
 
+import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.MoValue
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.GenericsCheatClass.createNPCBrain
+import com.cobblemon.mod.common.api.dialogue.ActiveDialogue
+import com.cobblemon.mod.common.api.dialogue.DialogueManager
+import com.cobblemon.mod.common.api.dialogue.Dialogues
+import com.cobblemon.mod.common.api.dialogue.ReferenceDialogueFaceProvider
 import com.cobblemon.mod.common.api.entity.PokemonSender
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
+import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
@@ -24,11 +37,17 @@ import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.battles.BattleStartResult
+import com.cobblemon.mod.common.battles.SuccessfulBattleStart
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.npc.ai.StayPutInBattleGoal
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.resolve
 import com.google.common.collect.ImmutableList
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Dynamic
@@ -66,6 +85,46 @@ import net.minecraft.world.World
 
 class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc, Poseable, PokemonSender, Schedulable {
     override val schedulingTracker = SchedulingTracker()
+
+    val runtime = MoLangRuntime().setup().also {
+        it.environment.getQueryStruct().addFunctions(
+            mapOf(
+                "npc" to java.util.function.Function { npcStruct },
+                "run_dialogue" to java.util.function.Function { params ->
+                    val player = params.get<ObjectValue<ServerPlayerEntity>>(0).obj
+                    val dialogue = Dialogues.dialogues[params.getString(1).asIdentifierDefaultingNamespace()]!!
+                    DialogueManager.startDialogue(
+                        ActiveDialogue(player, dialogue).also {
+                            it.runtime.environment.getQueryStruct().addFunction("npc") { npcStruct }
+                        }
+                    )
+                }
+            )
+        )
+    }
+
+    val npcStruct = QueryStruct(hashMapOf(
+        "class" to java.util.function.Function { StringValue(npc.resourceIdentifier.toString()) },
+        "face" to java.util.function.Function { ObjectValue(ReferenceDialogueFaceProvider(id)) },
+        "name" to java.util.function.Function { StringValue(name.string) },
+        "battle" to java.util.function.Function { params ->
+            val opponentValue = params.get<MoValue>(0)
+            val opponent = if (opponentValue is ObjectValue<*>) {
+                opponentValue.obj as ServerPlayerEntity
+            } else {
+                opponentValue.asString().let { server!!.playerManager.getPlayer(it)!! }
+            }
+            val battleStartResult = BattleBuilder.pvn(
+                player = opponent,
+                npcEntity = this
+            )
+
+            var returnValue: MoValue = DoubleValue(false)
+            battleStartResult.ifSuccessful { returnValue = DoubleValue(true) }
+            return@Function returnValue
+        }
+    ))
+
     var npc = NPCClasses.random()
         set(value) {
             dataTracker.set(NPC_CLASS, value.resourceIdentifier)
@@ -84,6 +143,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     var behaviour: NPCBehaviourConfiguration? = null
 
     var variables = VariableStruct()
+
 
 
     val aspects: Set<String>
@@ -241,17 +301,20 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
         if (player is ServerPlayerEntity) {
-            val battle = getBattleConfiguration()
-            if (battle.canChallenge) {
-                val provider = battle.party
-                if (provider != null) {
-                    val party = provider.provide(this, listOf(player))
-                    val result = BattleBuilder.pvn(
-                        player = player,
-                        npcEntity = this
-                    )
-                }
-            }
+            runtime.environment.getQueryStruct().addFunction("player") { ObjectValue(player) }
+            val expr = "q.run_dialogue(q.player, 'cobblemon:npc-example');".asExpression()
+            runtime.resolve(expr)
+//            val battle = getBattleConfiguration()
+//            if (battle.canChallenge) {
+//                val provider = battle.party
+//                if (provider != null) {
+//                    val party = provider.provide(this, listOf(player))
+//                    val result = BattleBuilder.pvn(
+//                        player = player,
+//                        npcEntity = this
+//                    )
+//                }
+//            }
         }
         return super.interactMob(player, hand)
     }

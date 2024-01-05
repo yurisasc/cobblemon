@@ -10,9 +10,12 @@ package com.cobblemon.mod.common.api.gui
 
 import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.VaryingModelRepository
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Species
@@ -29,6 +32,7 @@ import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.entity.Entity
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.text.Text
@@ -181,22 +185,24 @@ fun drawString(
     context.drawText(textRenderer, comp, x.toInt(), y.toInt(), colour, shadow)
 }
 
-fun drawPortraitPokemon(
-    species: Species,
+fun <T : Entity, M : PoseableEntityModel<T>> drawPoseablePortrait(
+    identifier: Identifier,
     aspects: Set<String>,
     matrixStack: MatrixStack,
     scale: Float = 13F,
+    contextScale: Float = 1F,
     reversed: Boolean = false,
-    state: PoseableEntityState<PokemonEntity>? = null,
+    state: PoseableEntityState<T>? = null,
+    repository: VaryingModelRepository<T, M>,
     partialTicks: Float
 ) {
-    val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
-    val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state?.animationSeconds ?: 0F)
+    val model = repository.getPoser(identifier, aspects)
+    val texture = repository.getTexture(identifier, aspects, state?.animationSeconds ?: 0F)
 
     val context = RenderContext()
-    PokemonModelRepository.getTextureNoSubstitute(species.resourceIdentifier, aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
-    context.put(RenderContext.SCALE, species.getForm(aspects).baseScale)
-    context.put(RenderContext.SPECIES, species.resourceIdentifier)
+    repository.getTextureNoSubstitute(identifier, aspects, 0f).let { context.put(RenderContext.TEXTURE, it) }
+    context.put(RenderContext.SCALE, contextScale)
+    context.put(RenderContext.SPECIES, identifier)
     context.put(RenderContext.ASPECTS, aspects)
 
     val renderType = model.getLayer(texture)
@@ -234,7 +240,7 @@ fun drawPortraitPokemon(
     val buffer = immediate.getBuffer(renderType)
     val packedLight = LightmapTextureManager.pack(11, 7)
 
-    model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
+    model.withLayerContext(immediate, state, repository.getLayers(identifier, aspects)) {
         model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         immediate.draw()
     }

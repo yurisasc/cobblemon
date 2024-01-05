@@ -9,11 +9,15 @@
 package com.cobblemon.mod.common.client.gui.dialogue
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
+import com.cobblemon.mod.common.api.gui.drawPoseablePortrait
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.client.entity.NPCClientDelegate
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.npc.NPCFloatingState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.entity.Poseable
 import java.util.UUID
 import kotlin.math.atan
@@ -73,9 +77,20 @@ class ReferenceRenderableFace(entity: Poseable): RenderableFace {
     override fun render(drawContext: DrawContext, partialTicks: Float) {
         val state = this.state
         if (state is PokemonClientDelegate) {
-            drawPortraitPokemon(
-                species = state.currentEntity.pokemon.species,
+            drawPoseablePortrait(
+                identifier = state.currentEntity.pokemon.species.resourceIdentifier,
                 aspects = state.currentEntity.pokemon.aspects,
+                repository = PokemonModelRepository,
+                contextScale = state.currentEntity.pokemon.form.baseScale,
+                matrixStack = drawContext.matrices,
+                state = state,
+                partialTicks = 0F // It's already being rendered potentially so we don't need to tick the state.
+            )
+        } else if (state is NPCClientDelegate) {
+            drawPoseablePortrait(
+                identifier = state.npcEntity.npc.resourceIdentifier,
+                aspects = state.npcEntity.aspects,
+                repository = NPCModelRepository,
                 matrixStack = drawContext.matrices,
                 state = state,
                 partialTicks = 0F // It's already being rendered potentially so we don't need to tick the state.
@@ -89,12 +104,10 @@ class ArtificialRenderableFace(
     val identifier: Identifier,
     val aspects: Set<String>
 ): RenderableFace {
-    val species = PokemonSpecies.getByIdentifier(identifier) ?: run {
-        Cobblemon.LOGGER.error("Unable to find species for $identifier for a dialogue face. Defaulting to first species.")
-        PokemonSpecies.species.first()
-    }
     val state: PoseableEntityState<*> = if (modelType == "pokemon") {
         PokemonFloatingState()
+    } else if (modelType == "npc") {
+        NPCFloatingState()
     } else {
         throw IllegalArgumentException("Unknown model type: $modelType")
     }
@@ -102,11 +115,26 @@ class ArtificialRenderableFace(
     override fun render(drawContext: DrawContext, partialTicks: Float) {
         val state = this.state
         if (state is PokemonFloatingState) {
-            drawPortraitPokemon(
-                species = species,
+            val species = PokemonSpecies.getByIdentifier(identifier) ?: run {
+                Cobblemon.LOGGER.error("Unable to find species for $identifier for a dialogue face. Defaulting to first species.")
+                PokemonSpecies.species.first()
+            }
+            drawPoseablePortrait(
+                identifier = species.resourceIdentifier,
+                aspects = aspects,
+                matrixStack = drawContext.matrices,
+                contextScale = species.getForm(aspects).baseScale,
+                state = state,
+                repository = PokemonModelRepository,
+                partialTicks = partialTicks
+            )
+        } else if (state is NPCFloatingState) {
+            drawPoseablePortrait(
+                identifier = identifier,
                 aspects = aspects,
                 matrixStack = drawContext.matrices,
                 state = state,
+                repository = NPCModelRepository,
                 partialTicks = partialTicks
             )
         }

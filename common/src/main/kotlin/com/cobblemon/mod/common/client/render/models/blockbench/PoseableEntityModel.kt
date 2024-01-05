@@ -47,6 +47,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
+import net.minecraft.util.math.Vec3d
 
 /**
  * A model that can be posed and animated using [StatelessAnimation]s and [StatefulAnimation]s. This
@@ -71,6 +72,16 @@ abstract class PoseableEntityModel<T : Entity>(
     var green = 1F
     var blue = 1F
     var alpha = 1F
+
+    @Transient
+    open val portraitScale: Float = 1F
+    @Transient
+    open val portraitTranslation: Vec3d = Vec3d.ZERO
+
+    @Transient
+    open val profileScale: Float = 1F
+    @Transient
+    open val profileTranslation: Vec3d = Vec3d.ZERO
 
     @Transient
     var currentLayers: Iterable<ModelLayer> = listOf()
