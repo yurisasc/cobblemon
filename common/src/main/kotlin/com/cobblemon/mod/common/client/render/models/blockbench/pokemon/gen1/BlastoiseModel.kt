@@ -24,17 +24,13 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, EaredFrame {
+class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("blastoise")
     override val head = getPart("head_ai")
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
-    private val rightEar = getPart("ear_right")
-    private val leftEar = getPart("ear_left")
-    override val leftEarJoint = EarJoint(leftEar, ModelPartTransformation.Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
-    override val rightEarJoint = EarJoint(rightEar, ModelPartTransformation.Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
     override val portraitScale = 1.7F
     override val portraitTranslation = Vec3d(-0.5, 1.4, 0.0)

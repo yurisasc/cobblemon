@@ -73,12 +73,12 @@ class YanmegaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 wingFrame2.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
                     timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
                 //bedrock("yanmega", "ground_walk")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, -4)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -4)
             )
         )
 
@@ -91,7 +91,7 @@ class YanmegaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 wingFrame1.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
                     timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 ),
                 wingFrame2.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),

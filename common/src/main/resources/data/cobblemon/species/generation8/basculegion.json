@@ -1,4 +1,5 @@
 ﻿{
+  "implemented": true,
   "name": "Basculegion",
   "nationalPokedexNumber": 902,
   "primaryType": "water",
@@ -17,7 +18,7 @@
     "speed": 78
   },
   "catchRate": 135,
-  "maleRatio": 1,
+  "maleRatio": 0.5,
   "shoulderMountable": false,
   "baseExperienceYield": 265,
   "baseFriendship": 0,
@@ -100,6 +101,9 @@
   "evolutions": [],
   "forms": [
     {
+      "name": "base"
+    },
+    {
       "name": "F",
       "primaryType": "water",
       "secondaryType": "ghost",
@@ -117,7 +121,6 @@
         "speed": 78
       },
       "catchRate": 135,
-      "maleRatio": 0,
       "baseExperienceYield": 265,
       "baseFriendship": 0,
       "evYield": {
@@ -191,7 +194,7 @@
         "gen8"
       ],
       "aspects": [
-        "f"
+        "female"
       ],
       "height": 30,
       "weight": 1100,

@@ -26,17 +26,13 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, EaredFrame {
+class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("wartortle")
     override val head = getPart("head_ai")
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
-    private val rightEar = getPart("ear_right")
-    private val leftEar = getPart("ear_left")
-    override val leftEarJoint = EarJoint(leftEar, ModelPartTransformation.Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
-    override val rightEarJoint = EarJoint(rightEar, ModelPartTransformation.Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
     override val portraitScale = 2.0F
     override val portraitTranslation = Vec3d(-0.3, 0.44, 0.0)
@@ -49,6 +45,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
     lateinit var swimIdle: PokemonPose
     lateinit var swim: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wartortle", "cry").setPreventsIdle(false) }
 
@@ -64,10 +61,11 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("wartortle", "ground_idle")
+                bedrock("wartortle", "battle_idle")
             )
         )
 
@@ -97,6 +95,18 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("wartortle", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling && !it.isTouchingWater },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("wartortle", "battle_idle")
             )
         )
     }
