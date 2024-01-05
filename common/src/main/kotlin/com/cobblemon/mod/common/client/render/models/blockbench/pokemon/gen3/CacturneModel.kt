@@ -79,6 +79,6 @@ class CacturneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("cacturne", "faint") else null
 }

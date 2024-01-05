@@ -44,6 +44,6 @@ class CarnivineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame{
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("carnivine", "faint") else null
 }

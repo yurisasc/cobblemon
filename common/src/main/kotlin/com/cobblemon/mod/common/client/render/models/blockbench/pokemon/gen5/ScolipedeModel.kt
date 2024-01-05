@@ -75,6 +75,6 @@ class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
 
 //    override fun getFaintAnimation(
 //            pokemonEntity: PokemonEntity,
-//            state: PoseableEntityState<PokemonEntity>
+//            state: PosableState<PokemonEntity>
 //    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("scolipede", "faint") else null
 }

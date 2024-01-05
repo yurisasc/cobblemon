@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokeball
 
 import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.PokeBallFrame
@@ -17,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.client.model.ModelPart
 
-open class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(), PokeBallFrame {
+open class PokeBallModel(root: ModelPart) : PosableModel<EmptyPokeBallEntity>(), PokeBallFrame {
     override val rootPart = root.registerChildWithAllChildren("poke_ball")
     override val base = getPart("bottom")
     override val lid = getPart("lid")
@@ -61,5 +62,3 @@ open class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEnt
         midair.transitions[open] = shut.transitions[open]!!
     }
 }
-
-typealias PokeBallPose = Pose<EmptyPokeBallEntity, ModelFrame>

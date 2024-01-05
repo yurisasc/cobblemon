@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.gui
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
@@ -29,7 +28,7 @@ fun drawProfilePokemon(
     renderablePokemon: RenderablePokemon,
     matrixStack: MatrixStack,
     rotation: Quaternionf,
-    state: PoseableEntityState<PokemonEntity>?,
+    state: PosableState,
     partialTicks: Float,
     scale: Float = 20F
 ) = drawProfilePokemon(
@@ -47,7 +46,7 @@ fun drawProfilePokemon(
     aspects: Set<String>,
     matrixStack: MatrixStack,
     rotation: Quaternionf,
-    state: PoseableEntityState<PokemonEntity>?,
+    state: PosableState,
     partialTicks: Float,
     scale: Float = 20F
 ) {

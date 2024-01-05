@@ -65,6 +65,6 @@ class BunearyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("buneary", "faint") else null
 }

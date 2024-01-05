@@ -8,39 +8,34 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pose
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
-import net.minecraft.entity.Entity
 
 /**
  * A pose for a model.
  */
-class Pose<T : Entity, F : ModelFrame>(
+class Pose(
     val poseName: String,
     val poseTypes: Set<PoseType>,
-    val condition: ((T) -> Boolean)?,
-    val onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
+    val condition: ((RenderContext) -> Boolean)?,
+    val onTransitionedInto: (PosableState) -> Unit = {},
     val transformTicks: Int,
-    val idleAnimations: Array<StatelessAnimation<T, out F>>,
+    val idleAnimations: Array<StatelessAnimation>,
     val transformedParts: Array<ModelPartTransformation>,
-    val quirks: Array<ModelQuirk<T, *>>
+    val quirks: Array<ModelQuirk<*>>
 ) {
-    fun isSuitable(entity: T) = condition?.invoke(entity) ?: true
+    fun isSuitable(context: RenderContext) = condition?.invoke(context) ?: true
 
-    val transitions = mutableMapOf<Pose<T, F>, (Pose<T, out ModelFrame>, Pose<T, out ModelFrame>) -> StatefulAnimation<T, ModelFrame>>()
+    val transitions = mutableMapOf<Pose, (Pose, Pose) -> StatefulAnimation>()
 
-    fun idleStateless(model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, ageInTicks: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, intensity: Float) {
-        idleAnimations.forEach { it.apply(null, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity) }
-    }
-
-    fun idleStateful(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+    fun idleStateful(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         idleAnimations.filter { state.shouldIdleRun(it, 0F) }.forEach { idleAnimation ->
-            idleAnimation.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity * state.getIdleIntensity(idleAnimation))
+            idleAnimation.apply(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity * state.getIdleIntensity(idleAnimation))
         }
     }
 }

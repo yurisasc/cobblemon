@@ -18,8 +18,8 @@ import com.bedrockk.molang.runtime.value.MoValue
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.particle.ParticleStorm
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
@@ -45,7 +45,7 @@ data class BedrockAnimationGroup(
 )
 
 abstract class BedrockEffectKeyframe(val seconds: Float) {
-    abstract fun <T : Entity> run(entity: T, state: PoseableEntityState<T>)
+    abstract fun run(context: RenderContext, state: PosableState)
 }
 
 class BedrockParticleKeyframe(
@@ -68,7 +68,8 @@ class BedrockParticleKeyframe(
         }
     }
 
-    override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
+    override fun run(context: RenderContext, state: PosableState) {
+        val entity = context.request(RenderContext.ENTITY) ?: return
         val world = entity.world as? ClientWorld ?: return
         val matrixWrapper = state.locatorStates[locator] ?: state.locatorStates["root"]!!
         val effect = effect
@@ -98,21 +99,26 @@ class BedrockSoundKeyframe(
     seconds: Float,
     val sound: Identifier
 ): BedrockEffectKeyframe(seconds) {
-    override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
+    override fun run(context: RenderContext, state: PosableState) {
+        val entity = context.request(RenderContext.ENTITY)
         val soundEvent = SoundEvent.of(sound) // Means we don't need to setup a sound registry entry for every single thing
         if (soundEvent != null) {
-            MinecraftClient.getInstance().soundManager.play(
-                PositionedSoundInstance(
-                    soundEvent,
-                    SoundCategory.NEUTRAL,
-                    1F,
-                    1F,
-                    entity.world.random,
-                    entity.x,
-                    entity.y,
-                    entity.z
+            if (entity != null) {
+                MinecraftClient.getInstance().soundManager.play(
+                    PositionedSoundInstance(
+                        soundEvent,
+                        SoundCategory.NEUTRAL,
+                        1F,
+                        1F,
+                        entity.world.random,
+                        entity.x,
+                        entity.y,
+                        entity.z
+                    )
                 )
-            )
+            } else {
+                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1F))
+            }
         }
     }
 }
@@ -121,7 +127,8 @@ class BedrockInstructionKeyframe(
     seconds: Float,
     val expressions: List<Expression>
 ): BedrockEffectKeyframe(seconds) {
-    override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
+    override fun run(context: RenderContext, state: PosableState) {
+        val entity = context.request(RenderContext.ENTITY) ?: return
         expressions.forEach { expression -> BedrockAnimation.runInstruction(entity, state, expression) }
     }
 }
@@ -141,11 +148,11 @@ data class BedrockAnimation(
 
         var context: InstructionContext? = null
 
-        inline fun <reified T : Entity> registerInstruction(name: String, crossinline function: (entity: T, state: PoseableEntityState<T>, params: MoParams) -> Any) {
+        inline fun <reified T : Entity> registerInstruction(name: String, crossinline function: (entity: T, state: PosableState, params: MoParams) -> Any) {
             functionMappings[name] = java.util.function.Function { args ->
                 val ctx = context ?: return@Function Unit
                 if (ctx.entity is T) {
-                    val ret = function(ctx.entity, ctx.state as PoseableEntityState<T>, args)
+                    val ret = function(ctx.entity, ctx.state, args)
                     if (ret is Unit) {
                         return@Function 0.0
                     } else {
@@ -156,9 +163,9 @@ data class BedrockAnimation(
             }
         }
 
-        class InstructionContext(val entity: Entity, val state: PoseableEntityState<*>)
+        class InstructionContext(val entity: Entity, val state: PosableState)
 
-        fun <T : Entity> runInstruction(entity: T, state: PoseableEntityState<T>, expression: Expression) {
+        fun <T : Entity> runInstruction(entity: T, state: PosableState, expression: Expression) {
             val ctx = InstructionContext(entity, state)
             context = ctx
             expression.evaluate(MoScope(), sharedRuntime.environment)
@@ -194,7 +201,7 @@ data class BedrockAnimation(
         }
     }
 
-    fun run(model: PoseableEntityModel<*>, state: PoseableEntityState<*>?, animationSeconds: Float, intensity: Float): Boolean {
+    fun run(context: RenderContext, model: PosableModel, state: PosableState, animationSeconds: Float, intensity: Float): Boolean {
         var animationSeconds = animationSeconds
         if (shouldLoop) {
             animationSeconds %= animationLength.toFloat()
@@ -248,7 +255,7 @@ data class BedrockAnimation(
         return true
     }
 
-    fun <T : Entity> applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {
+    fun applyEffects(context: RenderContext, state: PosableState, previousSeconds: Float, newSeconds: Float) {
         val effectCondition: (effectKeyframe: BedrockEffectKeyframe) -> Boolean =
             if (previousSeconds > newSeconds) {
                 { it.seconds >= previousSeconds || it.seconds <= newSeconds }
@@ -256,7 +263,7 @@ data class BedrockAnimation(
                 { it.seconds in previousSeconds..newSeconds }
             }
 
-        effects.filter(effectCondition).forEach { it.run(entity, state) }
+        effects.filter(effectCondition).forEach { it.run(context, state) }
     }
 }
 

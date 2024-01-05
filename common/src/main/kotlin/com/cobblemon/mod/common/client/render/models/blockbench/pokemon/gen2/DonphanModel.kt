@@ -58,6 +58,6 @@ class DonphanModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("donphan", "faint") else null
 }

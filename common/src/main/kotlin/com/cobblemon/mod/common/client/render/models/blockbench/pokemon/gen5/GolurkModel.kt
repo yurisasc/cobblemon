@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
@@ -68,8 +67,8 @@ class GolurkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ): StatefulAnimation<PokemonEntity, ModelFrame>? {
+        state: PosableState<PokemonEntity>
+    ): StatefulAnimation? {
         return if (state.isNotPosedIn(sleep)) bedrockStateful("golurk", "faint") else null
     }
 }

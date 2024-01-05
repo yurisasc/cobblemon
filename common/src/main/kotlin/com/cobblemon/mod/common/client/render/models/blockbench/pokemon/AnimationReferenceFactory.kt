@@ -19,7 +19,7 @@ import net.minecraft.entity.Entity
  * look like "bedrock(pokemon_name, animation_name)" which searches an animation registry for data.
  */
 interface AnimationReferenceFactory {
-    fun <T : Entity> stateless(model: PoseableEntityModel<T>, animString: String): StatelessAnimation<T, ModelFrame>
+    fun <T : Entity> stateless(model: PosableModel, animString: String): StatelessAnimation
 
-    fun <T : Entity> stateful(model: PoseableEntityModel<T>, animString: String): StatefulAnimation<T, ModelFrame>
+    fun <T : Entity> stateful(model: PosableModel, animString: String): StatefulAnimation
 }

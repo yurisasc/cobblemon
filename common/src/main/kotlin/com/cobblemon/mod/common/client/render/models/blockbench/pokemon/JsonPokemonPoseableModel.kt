@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -93,10 +92,10 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
 
 
-    val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
-    val cry: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
+    val faint: Supplier<StatefulAnimation>? = null
+    val cry: Supplier<StatefulAnimation>? = null
 
-    override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint?.get()
+    override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PosableState<PokemonEntity>) = faint?.get()
     override val cryAnimation = CryProvider { _, _ -> cry?.get()?.also { if (it is BedrockStatefulAnimation) it.setPreventsIdle(false) } }
 
     object JsonModelExclusion: ExclusionStrategy {
@@ -114,9 +113,9 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
     }
 
-    object StatefulAnimationAdapter : JsonDeserializer<Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>> {
+    object StatefulAnimationAdapter : JsonDeserializer<Supplier<StatefulAnimation>> {
         var preventsIdleDefault = true
-        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Supplier<StatefulAnimation<PokemonEntity, ModelFrame>> {
+        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Supplier<StatefulAnimation> {
             json as JsonPrimitive
             val animString = json.asString
             val format = animString.substringBefore("(")
@@ -134,8 +133,8 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             }
         }
     }
-    object PoseAdapter : JsonDeserializer<Pose<PokemonEntity, ModelFrame>> {
-        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Pose<PokemonEntity, ModelFrame> {
+    object PoseAdapter : JsonDeserializer<Pose> {
+        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Pose {
             val model = JsonPokemonPoseableModelAdapter.model!!
             val obj = json as JsonObject
             val poseName = obj.get("poseName").asString
@@ -186,7 +185,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             val quirks = (obj.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
                 json as JsonObject
                 val name = json.get("name").asString
-                val animations: (state: PoseableEntityState<PokemonEntity>) -> List<StatefulAnimation<PokemonEntity, *>> = { _ ->
+                val animations: (state: PosableState<PokemonEntity>) -> List<StatefulAnimation<PokemonEntity, *>> = { _ ->
                     (json.get("animations")?.asJsonArray ?: JsonArray()).map { animJson ->
                         val animString = animJson.asString
 

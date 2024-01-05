@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.animation
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.addRotation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
@@ -17,12 +16,12 @@ import net.minecraft.entity.Entity
 class WingFlapIdleAnimation<T : Entity>(
     frame: BiWingedFrame,
     val flapFunction: WaveFunction,
-    val timeVariable: (state: PoseableEntityState<T>?, limbSwing: Float, ageInTicks: Float) -> Float?,
+    val timeVariable: (state: PosableState?, limbSwing: Float, ageInTicks: Float) -> Float?,
     val axis: Int
-) : StatelessAnimation<T, BiWingedFrame>(frame) {
+) : StatelessAnimation(frame) {
     override val targetFrame = BiWingedFrame::class.java
 
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+    override fun setAngles(entity: T?, model: PosableModel, state: PosableState?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val time = timeVariable(state, limbSwing, ageInTicks) ?: 0F
         frame.leftWing.addRotation(axis, flapFunction(time) * intensity)
         frame.rightWing.addRotation(axis, -flapFunction(time) * intensity)

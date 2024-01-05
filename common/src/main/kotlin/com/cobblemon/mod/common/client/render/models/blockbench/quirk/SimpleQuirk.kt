@@ -8,25 +8,26 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.quirk
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.util.math.random
 import kotlin.random.Random
-import net.minecraft.entity.Entity
-class SimpleQuirk<T : Entity>(
+
+class SimpleQuirk(
     name: String,
     private val secondsBetweenOccurrences: Pair<Float, Float>,
-    val condition: (state: PoseableEntityState<T>) -> Boolean = { true },
+    val condition: (context: RenderContext) -> Boolean = { true },
     val loopTimes: IntRange = 1..1,
-    val animations: (state: PoseableEntityState<T>) -> Iterable<StatefulAnimation<T, *>>
-) : ModelQuirk<T, SimpleQuirkData<T>>(name) {
-    override fun createData(): SimpleQuirkData<T> = SimpleQuirkData(name)
-    override fun tick(state: PoseableEntityState<T>, data: SimpleQuirkData<T>) {
+    val animations: (state: PosableState) -> Iterable<StatefulAnimation>
+) : ModelQuirk<SimpleQuirkData>(name) {
+    override fun createData(): SimpleQuirkData = SimpleQuirkData(name)
+    override fun tick(context: RenderContext, state: PosableState, data: SimpleQuirkData) {
         if (data.animations.isNotEmpty()) {
             return
         }
 
-        if (!condition(state)) {
+        if (!condition(context)) {
             return
         }
 

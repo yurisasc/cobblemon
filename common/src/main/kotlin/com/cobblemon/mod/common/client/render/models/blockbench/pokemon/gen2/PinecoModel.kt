@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -60,6 +59,6 @@ class PinecoModel(root: ModelPart) : PokemonPoseableModel() {
 
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
-            state: PoseableEntityState<PokemonEntity>
+            state: PosableState<PokemonEntity>
     ) = if (state.isNotPosedIn(sleep)) bedrockStateful("pineco", "faint") else null
 }

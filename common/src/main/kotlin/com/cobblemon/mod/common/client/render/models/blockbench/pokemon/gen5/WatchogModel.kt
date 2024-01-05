@@ -63,7 +63,7 @@ class WatchogModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ): StatefulAnimation<PokemonEntity, ModelFrame>? {
 //        return if (state.isNotPosedIn(sleep, standing, walk)) bedrockStateful("watchog", "faint") else null
 //    }

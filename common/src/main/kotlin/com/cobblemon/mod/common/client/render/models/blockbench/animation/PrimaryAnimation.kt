@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.animation
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
-import net.minecraft.entity.Entity
 
 /**
  * An animation that plays to the exclusion of other primary animations. This can control
@@ -21,8 +21,8 @@ import net.minecraft.entity.Entity
  * @author Hiroku
  * @since November 20th, 2023
  */
-class PrimaryAnimation<T : Entity>(
-    val animation: StatefulAnimation<T, *>,
+class PrimaryAnimation(
+    val animation: StatefulAnimation,
     var curve: WaveFunction = { t ->
 //        parabolaFunction(0.5F, 0.5F, 0.5F)
           if (t < 0.1) {
@@ -39,9 +39,9 @@ class PrimaryAnimation<T : Entity>(
     var started = -1F
 
     fun run(
-        entity: T?,
-        model: PoseableEntityModel<T>,
-        state: PoseableEntityState<T>,
+        context: RenderContext,
+        model: PosableModel,
+        state: PosableState,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,
@@ -49,8 +49,8 @@ class PrimaryAnimation<T : Entity>(
         headPitch: Float,
         severity: Float
     ): Boolean {
-        return animation.run(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, severity)
+        return animation.run(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, severity)
     }
 
-    fun prevents(idleAnimation: StatelessAnimation<T, *>) = idleAnimation.labels.intersect(excludedLabels).isEmpty() && "all" !in excludedLabels
+    fun prevents(idleAnimation: StatelessAnimation) = idleAnimation.labels.intersect(excludedLabels).isEmpty() && "all" !in excludedLabels
 }

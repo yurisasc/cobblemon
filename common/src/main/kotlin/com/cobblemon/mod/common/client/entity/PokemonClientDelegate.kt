@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.api.scheduling.lerpOnClient
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -23,7 +22,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.util.Identifier
 
-class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
+class PokemonClientDelegate : PosableState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
         const val BEAM_SHRINK_TIME = 0.8F
         const val BEAM_EXTEND_TIME = 0.2F
@@ -47,7 +46,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     val secondsSinceBeamEffectStarted: Float
         get() = (System.currentTimeMillis() - beamStartTime) / 1000F
 
-    private var cryAnimation: StatefulAnimation<PokemonEntity, *>? = null
+    private var cryAnimation: StatefulAnimation? = null
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
         super.onTrackedDataSet(data)

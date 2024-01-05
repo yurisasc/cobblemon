@@ -62,6 +62,6 @@ class MinunModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("minun", "faint") else null
 }

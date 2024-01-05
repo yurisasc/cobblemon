@@ -8,12 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
-import net.minecraft.entity.Entity
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 
 /**
  * A stateful animation that runs a [BedrockAnimation]. It is completed when the underlying
@@ -22,11 +21,11 @@ import net.minecraft.entity.Entity
  * @author Hiroku
  * @since July 16th, 2022
  */
-open class BedrockStatefulAnimation<T : Entity>(
+open class BedrockStatefulAnimation(
     val animation: BedrockAnimation,
-    var preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean
-) : StatefulAnimation<T, ModelFrame> {
-    fun setPreventsIdle(preventsIdle: Boolean): BedrockStatefulAnimation<T> {
+    var preventsIdleCheck: (RenderContext, PosableState, StatelessAnimation) -> Boolean
+) : StatefulAnimation {
+    fun setPreventsIdle(preventsIdle: Boolean): BedrockStatefulAnimation {
         this.preventsIdleCheck = { _, _, _ -> preventsIdle }
         return this
     }
@@ -34,7 +33,7 @@ open class BedrockStatefulAnimation<T : Entity>(
     var startedSeconds = -1F
     var isTransformAnimation = false
     override val duration = animation.animationLength.toFloat()
-    private var afterAction: (T, PoseableEntityState<T>) -> Unit = { _, _ -> }
+    private var afterAction: (RenderContext, PosableState) -> Unit = { _, _ -> }
 
     override val isTransform: Boolean
         get() = isTransformAnimation
@@ -43,14 +42,14 @@ open class BedrockStatefulAnimation<T : Entity>(
         it.isTransformAnimation = value
     }
 
-    fun andThen(action: (entity: T, PoseableEntityState<T>) -> Unit) = this.also {
+    fun andThen(action: (RenderContext, PosableState) -> Unit) = this.also {
         it.afterAction = action
     }
 
     override fun run(
-        entity: T?,
-        model: PoseableEntityModel<T>,
-        state: PoseableEntityState<T>,
+        context: RenderContext,
+        model: PosableModel,
+        state: PosableState,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,
@@ -62,16 +61,16 @@ open class BedrockStatefulAnimation<T : Entity>(
             startedSeconds = state.animationSeconds
         }
 
-        return animation.run(model, state, state.animationSeconds - startedSeconds, intensity).also {
-            if (!it && entity != null) {
-                afterAction(entity, state)
+        return animation.run(context, model, state, state.animationSeconds - startedSeconds, intensity).also {
+            if (!it) {
+                afterAction(context, state)
             }
         }
     }
 
-    override fun applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {
+    override fun applyEffects(context: RenderContext, state: PosableState, previousSeconds: Float, newSeconds: Float) {
         val previousSecondsOffset = previousSeconds - startedSeconds
         val currentSecondsOffset = newSeconds - startedSeconds
-        animation.applyEffects(entity, state, previousSecondsOffset, currentSecondsOffset)
+        animation.applyEffects(context, state, previousSecondsOffset, currentSecondsOffset)
     }
 }

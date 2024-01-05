@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.api.gui
 
 import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
@@ -187,7 +186,7 @@ fun drawPortraitPokemon(
     matrixStack: MatrixStack,
     scale: Float = 13F,
     reversed: Boolean = false,
-    state: PoseableEntityState<PokemonEntity>? = null,
+    state: PosableState = null,
     partialTicks: Float
 ) {
     val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)

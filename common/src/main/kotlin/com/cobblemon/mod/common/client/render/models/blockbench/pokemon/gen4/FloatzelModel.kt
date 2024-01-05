@@ -71,6 +71,6 @@ class FloatzelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     }
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walking, sleep)) bedrockStateful("floatzel", "faint") else null
 }

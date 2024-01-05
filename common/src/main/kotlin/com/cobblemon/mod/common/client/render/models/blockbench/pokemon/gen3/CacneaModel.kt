@@ -77,6 +77,6 @@ class CacneaModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame, Bip
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("cacnea", "faint") else null
 }

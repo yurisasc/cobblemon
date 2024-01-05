@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.animation
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.addRotation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
@@ -25,10 +24,10 @@ import net.minecraft.entity.Entity
  * @author Hiroku
  * @since December 5th, 2021
  */
-class SingleBoneLookAnimation<T : Entity>(frame: HeadedFrame, val invertX: Boolean, val invertY: Boolean, val disableX: Boolean, val disableY: Boolean) : StatelessAnimation<T, HeadedFrame>(frame) {
+class SingleBoneLookAnimation<T : Entity>(frame: HeadedFrame, val invertX: Boolean, val invertY: Boolean, val disableX: Boolean, val disableY: Boolean) : StatelessAnimation(frame) {
     override val targetFrame: Class<HeadedFrame> = HeadedFrame::class.java
     override var labels = setOf("look")
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+    override fun setAngles(entity: T?, model: PosableModel, state: PosableState?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val pitch = (if (invertX) -1 else 1) * headPitch.coerceIn(-45F, 70F)
         val yaw = (if (invertY) -1 else 1) * headYaw.coerceIn(-45F, 45F)
 

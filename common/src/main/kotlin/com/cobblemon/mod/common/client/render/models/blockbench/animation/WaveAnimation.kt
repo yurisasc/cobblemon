@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.animation
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.addPosition
 import com.cobblemon.mod.common.client.render.models.blockbench.addRotation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
@@ -51,10 +50,10 @@ class WaveAnimation<T : Entity>(
     val motionAxis: Int,
     val basedOnLimbSwing: Boolean = false,
     val segments: Array<WaveSegment>
-): StatelessAnimation<T, ModelFrame>(frame) {
+): StatelessAnimation(frame) {
     override val targetFrame = ModelFrame::class.java
 
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+    override fun setAngles(entity: T?, model: PosableModel, state: PosableState?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val t = if (basedOnLimbSwing) {
             limbSwing
         } else {

@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
 import com.cobblemon.mod.common.entity.Poseable
 import java.util.UUID
@@ -69,7 +68,7 @@ class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
 }
 
 class ReferenceRenderableFace(entity: Poseable): RenderableFace {
-    val state = entity.delegate as PoseableEntityState<*>
+    val state = entity.delegate as PosableState<*>
     override fun render(drawContext: DrawContext, partialTicks: Float) {
         val state = this.state
         if (state is PokemonClientDelegate) {
@@ -93,7 +92,7 @@ class ArtificialRenderableFace(
         Cobblemon.LOGGER.error("Unable to find species for $identifier for a dialogue face. Defaulting to first species.")
         PokemonSpecies.species.first()
     }
-    val state: PoseableEntityState<*> = if (modelType == "pokemon") {
+    val state: PosableState<*> = if (modelType == "pokemon") {
         PokemonFloatingState()
     } else {
         throw IllegalArgumentException("Unknown model type: $modelType")

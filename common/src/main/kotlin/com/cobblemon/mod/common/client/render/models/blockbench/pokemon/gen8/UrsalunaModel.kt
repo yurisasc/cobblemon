@@ -73,6 +73,6 @@ class UrsalunaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("ursaluna", "faint") else null
 }

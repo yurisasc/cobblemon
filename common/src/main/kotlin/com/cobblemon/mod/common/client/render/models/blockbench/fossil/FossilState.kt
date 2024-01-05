@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.fossil
 
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import net.minecraft.entity.Entity
 
 /**
@@ -18,7 +17,7 @@ import net.minecraft.entity.Entity
  * @author Hiroku
  * @since October 30th, 2023
  */
-class FossilState : PoseableEntityState<Entity>() {
+class FossilState : PosableState<Entity>() {
     var totalPartialTicks = 0F
     override fun getEntity() = null
 

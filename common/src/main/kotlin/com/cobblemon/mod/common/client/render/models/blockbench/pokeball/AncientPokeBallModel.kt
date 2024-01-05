@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokeball
 
 import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.PokeBallFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
@@ -22,9 +21,9 @@ class AncientPokeBallModel(root: ModelPart) : PokeBallModel(root), PokeBallFrame
     override val lid = getPart("lid")
     override val isForLivingEntityRenderer = false
 
-    override lateinit var shut: AncientPokeBallPose
-    override lateinit var open: AncientPokeBallPose
-    override lateinit var midair: AncientPokeBallPose
+    override lateinit var shut: Pose
+    override lateinit var open: Pose
+    override lateinit var midair: Pose
 
     override fun getState(entity: EmptyPokeBallEntity) = entity.delegate as EmptyPokeBallClientDelegate
 
@@ -60,5 +59,3 @@ class AncientPokeBallModel(root: ModelPart) : PokeBallModel(root), PokeBallFrame
         midair.transitions[open] = shut.transitions[open]!!
     }
 }
-
-typealias AncientPokeBallPose = Pose<EmptyPokeBallEntity, ModelFrame>

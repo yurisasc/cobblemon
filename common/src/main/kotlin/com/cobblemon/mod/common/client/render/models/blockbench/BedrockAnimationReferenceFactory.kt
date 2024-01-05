@@ -26,12 +26,12 @@ import net.minecraft.entity.Entity
  * @since June 28th, 2023
  */
 object BedrockAnimationReferenceFactory : AnimationReferenceFactory {
-    override fun <T : Entity> stateless(model: PoseableEntityModel<T>, animString: String): StatelessAnimation<T, ModelFrame> {
+    override fun <T : Entity> stateless(model: PosableModel, animString: String): StatelessAnimation {
         val split = animString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)
         return model.bedrock(animationGroup = split[0], animation = split[1])
     }
 
-    override fun <T : Entity> stateful(model: PoseableEntityModel<T>, animString: String, ): StatefulAnimation<T, ModelFrame> {
+    override fun <T : Entity> stateful(model: PosableModel, animString: String, ): StatefulAnimation {
         val split = animString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)
         return model.bedrockStateful(
             animationGroup = split[0],

@@ -68,6 +68,6 @@ class WhimsicottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("whimsicott", "faint") else null
 }

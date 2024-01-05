@@ -68,5 +68,5 @@ class PoliwagModel(root: ModelPart) : PokemonPoseableModel() {
 //    override fun getFaintAnimation(
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("poliwag", "faint") else null
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 }

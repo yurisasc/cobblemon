@@ -94,6 +94,6 @@ class ZapdosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWing
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("zapdos", "faint") else null
 }

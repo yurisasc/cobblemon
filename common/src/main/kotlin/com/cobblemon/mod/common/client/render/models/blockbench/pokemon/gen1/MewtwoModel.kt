@@ -86,6 +86,6 @@ class MewtwoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bimanu
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("mewtwo", "faint") else null
 }

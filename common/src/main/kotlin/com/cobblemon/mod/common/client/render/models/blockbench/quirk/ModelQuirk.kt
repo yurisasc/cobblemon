@@ -8,19 +8,19 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.quirk
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import net.minecraft.entity.Entity
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 
-abstract class ModelQuirk<T : Entity, D : QuirkData<T>>(val name: String) {
+abstract class ModelQuirk<D : QuirkData>(val name: String) {
     abstract fun createData(): D
-    protected abstract fun tick(state: PoseableEntityState<T>, data: D)
-    fun tick(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+    protected abstract fun tick(context: RenderContext, state: PosableState, data: D)
+    fun tick(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val data = getOrCreateData(state)
-        tick(state, data)
-        data.run(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity)
+        tick(context, state, data)
+        data.run(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity)
     }
-    fun getOrCreateData(state: PoseableEntityState<T>): D {
+    fun getOrCreateData(state: PosableState): D {
         return state.quirks.getOrPut(this, this::createData) as D
     }
 }

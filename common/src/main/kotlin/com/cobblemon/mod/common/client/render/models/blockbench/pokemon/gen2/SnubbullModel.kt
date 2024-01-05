@@ -81,6 +81,6 @@ class SnubbullModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     }
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("snubbull", "faint") else null
 }

@@ -75,6 +75,6 @@ class WhirlipedeModel (root: ModelPart) : PokemonPoseableModel() {
 
 //    override fun getFaintAnimation(
 //            pokemonEntity: PokemonEntity,
-//            state: PoseableEntityState<PokemonEntity>
+//            state: PosableState<PokemonEntity>
 //    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("whirlipede", "faint") else null
 }

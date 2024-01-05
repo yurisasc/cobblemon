@@ -65,6 +65,6 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFr
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("rapidash_galar", "faint") else null
 }

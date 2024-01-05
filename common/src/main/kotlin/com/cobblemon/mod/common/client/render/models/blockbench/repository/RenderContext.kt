@@ -128,6 +128,11 @@ class RenderContext {
         val ASPECTS: Key<Set<String>> = key("species".asResource())
 
         /**
+         * Key to access whether or not quirks are enabled for this context.
+         */
+        val DO_QUIRKS: Key<Boolean> = key("do_quirks".asResource())
+
+        /**
          * Key to access the rendering state, indicating the active rendering mode.
          */
         val RENDER_STATE: Key<RenderState> = key("state".asResource())

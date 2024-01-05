@@ -23,7 +23,6 @@ import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.getDepletableRedGreen
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -196,7 +195,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         displayName: MutableText,
         gender: Gender,
         status: PersistentStatus?,
-        state: PoseableEntityState<PokemonEntity>?,
+        state: PosableState,
         colour: Triple<Float, Float, Float>?,
         opacity: Float,
         ballState: ClientBallDisplay? = null,

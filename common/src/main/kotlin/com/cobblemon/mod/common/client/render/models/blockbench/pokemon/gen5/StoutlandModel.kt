@@ -65,6 +65,6 @@ class StoutlandModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qu
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("stoutland", "faint") else null
 }

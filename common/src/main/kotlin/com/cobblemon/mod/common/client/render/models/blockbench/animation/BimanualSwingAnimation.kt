@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.animation
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import net.minecraft.entity.Entity
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.util.math.MathHelper
 
 /**
@@ -21,15 +21,14 @@ import net.minecraft.util.math.MathHelper
  * @author Deltric
  * @since December 21st, 2021
  */
-class BimanualSwingAnimation<T : Entity>(
-    frame: BimanualFrame,
+class BimanualSwingAnimation(
     /** The multiplier to apply to the cosine movement of the arms. The smaller this value, the quicker the arms move. */
     val swingPeriodMultiplier: Float = 0.6662F,
     /** The multiplier to apply to the swing of the entity. The larger this is, the further the arms move. */
     val amplitudeMultiplier: Float = 1F
-) : StatelessAnimation<T, BimanualFrame>(frame) {
-    override val targetFrame: Class<BimanualFrame> = BimanualFrame::class.java
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+) : StatelessAnimation() {
+    override fun setAngles(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+        val frame = model as? BimanualFrame ?: return
         // Movement swing
         frame.rightArm.yaw += MathHelper.cos(limbSwing * swingPeriodMultiplier) * limbSwingAmount * amplitudeMultiplier * intensity
         frame.leftArm.yaw += MathHelper.cos(limbSwing * swingPeriodMultiplier) * limbSwingAmount * amplitudeMultiplier * intensity

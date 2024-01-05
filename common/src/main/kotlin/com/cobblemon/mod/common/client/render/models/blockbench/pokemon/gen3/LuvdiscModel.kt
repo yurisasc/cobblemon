@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -76,7 +75,7 @@ class LuvdiscModel (root: ModelPart) : PokemonPoseableModel() {
     }
         override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
-            state: PoseableEntityState<PokemonEntity>
+            state: PosableState<PokemonEntity>
         ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("luvdisc", "ground_faint") else null
 
 }

@@ -61,6 +61,6 @@ class ElekidModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanua
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("elekid", "faint") else null
 }

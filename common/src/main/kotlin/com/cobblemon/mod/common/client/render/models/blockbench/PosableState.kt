@@ -1,16 +1,7 @@
-/*
- * Copyright (C) 2023 Cobblemon Contributors
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
- */
-
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
@@ -23,29 +14,20 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
 import java.util.concurrent.ConcurrentLinkedQueue
-import net.minecraft.entity.Entity
 import net.minecraft.util.math.Vec3d
 
-/**
- * Represents the entity-specific state for a poseable model. The implementation is responsible for
- * handling all the state for an entity's model, and needs to be conscious of the fact that the
- * model may change without this state changing.
- *
- * @author Hiroku
- * @since December 5th, 2021
- */
-abstract class PoseableEntityState<T : Entity> : Schedulable {
-    var currentModel: PoseableEntityModel<T>? = null
+abstract class PosableState : Schedulable {
+    var currentModel: PosableModel? = null
     var currentPose: String? = null
-    var primaryAnimation: PrimaryAnimation<T>? = null
-    val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
-    val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
+    var primaryAnimation: PrimaryAnimation? = null
+    val statefulAnimations: MutableList<StatefulAnimation> = mutableListOf()
+    val quirks = mutableMapOf<ModelQuirk<*>, QuirkData>()
     val poseParticles = mutableListOf<BedrockParticleKeyframe>()
     val runtime = MoLangRuntime().setup().also {
         it.environment.structs["query"] = it.environment.structs["variable"]
     }
 
-    val allStatefulAnimations: List<StatefulAnimation<T, *>> get() = statefulAnimations + quirks.flatMap { it.value.animations }
+    val allStatefulAnimations: List<StatefulAnimation> get() = statefulAnimations + quirks.flatMap { it.value.animations }
 
     protected var age = 0
     protected var currentPartialTicks = 0F
@@ -77,8 +59,8 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
 
     val renderQueue = ConcurrentLinkedQueue<() -> Unit>()
 
-    fun isPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.any { it.poseName == currentPose }
-    fun isNotPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.none { it.poseName == currentPose }
+    fun isPosedIn(vararg poses: Pose) = poses.any { it.poseName == currentPose }
+    fun isNotPosedIn(vararg poses: Pose) = poses.none { it.poseName == currentPose }
 
     fun preRender() {
         while (renderQueue.peek() != null) {
@@ -114,7 +96,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         }
     }
 
-    fun setStatefulAnimations(vararg animations: StatefulAnimation<T, out ModelFrame>) {
+    fun setStatefulAnimations(vararg animations: StatefulAnimation) {
         statefulAnimations.clear()
         statefulAnimations.addAll(animations)
     }
@@ -123,7 +105,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         locatorStates.values.toList().forEach { it.updatePosition(position) }
     }
 
-    fun addStatefulAnimation(animation: StatefulAnimation<T, *>, whenComplete: (state: PoseableEntityState<T>) -> Unit = {}) {
+    fun addStatefulAnimation(animation: StatefulAnimation<T, *>, whenComplete: (state: PosableState) -> Unit = {}) {
         this.statefulAnimations.add(animation)
         val duration = animation.duration
         if (duration > 0F) {
@@ -153,7 +135,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         }
     }
 
-    fun shouldIdleRun(idleAnimation: StatelessAnimation<T, *>, requiredIntensity: Float): Boolean {
+    fun shouldIdleRun(idleAnimation: StatelessAnimation, requiredIntensity: Float): Boolean {
         val primaryAnimation = primaryAnimation
         return if (primaryAnimation != null) {
             !primaryAnimation.prevents(idleAnimation) && this.primaryOverridePortion >= requiredIntensity
@@ -162,7 +144,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         }
     }
 
-    fun getIdleIntensity(idleAnimation: StatelessAnimation<T, *>): Float {
+    fun getIdleIntensity(idleAnimation: StatelessAnimation): Float {
         val primaryAnimation = primaryAnimation
         return if (primaryAnimation != null && primaryAnimation.prevents(idleAnimation)) {
             this.primaryOverridePortion

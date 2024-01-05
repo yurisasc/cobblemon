@@ -93,6 +93,6 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(hover, fly, sleep, standing, walk, battleidle)) bedrockStateful("dusknoir", "faint") else null
 }

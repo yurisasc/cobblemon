@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.animation
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
-import net.minecraft.entity.Entity
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 
 /**
  * An animation that requires entity state. It is able to prevent some idle
@@ -21,14 +21,14 @@ import net.minecraft.entity.Entity
  * @author Hiroku
  * @since December 5th, 2021
  */
-interface StatefulAnimation<T : Entity, F : ModelFrame> {
+interface StatefulAnimation {
     val isTransform: Boolean
     val duration: Float
     /** Runs the animation. You can check that the model fits a particular frame. Returns true if the animation should continue. */
     fun run(
-        entity: T?,
-        model: PoseableEntityModel<T>,
-        state: PoseableEntityState<T>,
+        context: RenderContext,
+        model: PosableModel,
+        state: PosableState,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,
@@ -37,5 +37,5 @@ interface StatefulAnimation<T : Entity, F : ModelFrame> {
         intensity: Float
     ): Boolean
 
-    fun applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {}
+    fun applyEffects(context: RenderContext, state: PosableState, previousSeconds: Float, newSeconds: Float) {}
 }
