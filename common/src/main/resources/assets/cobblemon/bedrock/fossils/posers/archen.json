@@ -5,5 +5,34 @@
 
   "animations": [
     "bedrock(archen_fetus, sleep)"
+  ],
+  "quirks": [
+    {
+      "name": "quirk",
+      "animations": [
+        "bedrock(archen_fetus, quirk1)"
+      ],
+      "loopTimes": 1,
+      "minSeconds": 12,
+      "maxSeconds": 20
+    },
+    {
+      "name": "quirk",
+      "animations": [
+        "bedrock(archen_fetus, quirk2)"
+      ],
+      "loopTimes": 1,
+      "minSeconds": 5,
+      "maxSeconds": 20
+    },
+    {
+      "name": "quirk",
+      "animations": [
+        "bedrock(archen_fetus, quirk3)"
+      ],
+      "loopTimes": 1,
+      "minSeconds": 5,
+      "maxSeconds": 20
+    }
   ]
 }

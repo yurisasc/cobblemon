@@ -1,7 +1,18 @@
 {
-  "maxScale": 0.7,
-  "yTranslation": 0.2,
+  "maxScale": 1.0,
+  "yTranslation": 0,
   "animations": [
     "bedrock(cranidos_fetus, sleep)"
+  ],
+  "quirks": [
+    {
+      "name": "quirk",
+      "animations": [
+        "bedrock(cranidos_fetus, quirk)"
+      ],
+      "loopTimes": 1,
+      "minSeconds": 12,
+      "maxSeconds": 20
+    }
   ]
 }

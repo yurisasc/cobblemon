@@ -25,8 +25,7 @@ class FossilState : PoseableEntityState<Entity>() {
     // for dictating growth state of the Fossil Embryo
     var growthState = "Embryo"
     override fun updatePartialTicks(partialTicks: Float) {
-        this.totalPartialTicks += partialTicks
-        currentPartialTicks += partialTicks
+        currentPartialTicks += partialTicks / 2
     }
 
     override val schedulingTracker = SchedulingTracker()

@@ -3,5 +3,16 @@
   "yTranslation": 0.5,
   "animations": [
     "bedrock(aerodactyl_fetus, sleep)"
+  ],
+  "quirks": [
+    {
+      "name": "quirk",
+      "animations": [
+        "bedrock(shieldon_fetus, quirk)"
+      ],
+      "loopTimes": 1,
+      "minSeconds": 12,
+      "maxSeconds": 20
+    }
   ]
 }
