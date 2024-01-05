@@ -41,6 +41,7 @@ import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
+import com.cobblemon.mod.common.api.scheduling.ServerRealTimeTaskTracker
 import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
@@ -54,6 +55,7 @@ import com.cobblemon.mod.common.api.storage.adapter.flatfile.FileStoreAdapter
 import com.cobblemon.mod.common.api.storage.adapter.flatfile.JSONStoreAdapter
 import com.cobblemon.mod.common.api.storage.adapter.flatfile.NBTStoreAdapter
 import com.cobblemon.mod.common.api.storage.factory.FileBackedPokemonStoreFactory
+import com.cobblemon.mod.common.api.storage.molang.NbtMoLangDataStoreFactory
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
@@ -67,6 +69,7 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.command.argument.DialogueArgumentType
 import com.cobblemon.mod.common.command.argument.MoveArgumentType
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
 import com.cobblemon.mod.common.command.argument.PokemonArgumentType
@@ -153,6 +156,7 @@ object Cobblemon {
     val bestSpawner = BestSpawner
     val battleRegistry = BattleRegistry
     var storage = PokemonStoreManager()
+    var molangData = NbtMoLangDataStoreFactory
     lateinit var playerData: PlayerDataStoreManager
     lateinit var starterConfig: StarterConfig
     val dataProvider: DataProvider = CobblemonDataProvider
@@ -262,7 +266,13 @@ object Cobblemon {
             isDedicatedServer = true
         }
 
-        PlatformEvents.SERVER_TICK_POST.subscribe { ServerTaskTracker.update(1/20F) }
+        PlatformEvents.SERVER_TICK_POST.subscribe {
+            ServerTaskTracker.update(1/20F)
+            ServerRealTimeTaskTracker.update()
+        }
+        PlatformEvents.SERVER_TICK_PRE.subscribe {
+            ServerRealTimeTaskTracker.update()
+        }
         PlatformEvents.SERVER_STARTING.subscribe { event ->
             val server = event.server
             playerData = PlayerDataStoreManager().also { it.setup(server) }
@@ -478,6 +488,7 @@ object Cobblemon {
         this.implementation.registerCommandArgument(cobblemonResource("move"), MoveArgumentType::class, ConstantArgumentSerializer.of(MoveArgumentType::move))
         this.implementation.registerCommandArgument(cobblemonResource("party_slot"), PartySlotArgumentType::class, ConstantArgumentSerializer.of(PartySlotArgumentType::partySlot))
         this.implementation.registerCommandArgument(cobblemonResource("pokemon_store"), PokemonStoreArgumentType::class, ConstantArgumentSerializer.of(PokemonStoreArgumentType::pokemonStore))
+        this.implementation.registerCommandArgument(cobblemonResource("dialogue"), DialogueArgumentType::class, ConstantArgumentSerializer.of(DialogueArgumentType::dialogue))
     }
 
 }

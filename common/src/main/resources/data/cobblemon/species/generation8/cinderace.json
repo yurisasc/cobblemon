@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Cinderace",
   "nationalPokedexNumber": 815,
@@ -61,7 +61,6 @@
       ],
       "height": 30,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

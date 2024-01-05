@@ -23,13 +23,15 @@ import net.minecraft.entity.Entity
 class Pose<T : Entity, F : ModelFrame>(
     val poseName: String,
     val poseTypes: Set<PoseType>,
-    val condition: (T) -> Boolean,
+    val condition: ((T) -> Boolean)?,
     val onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
     val transformTicks: Int,
     val idleAnimations: Array<StatelessAnimation<T, out F>>,
     val transformedParts: Array<ModelPartTransformation>,
     val quirks: Array<ModelQuirk<T, *>>
 ) {
+    fun isSuitable(entity: T) = condition?.invoke(entity) ?: true
+
     val transitions = mutableMapOf<Pose<T, F>, (Pose<T, out ModelFrame>, Pose<T, out ModelFrame>) -> StatefulAnimation<T, ModelFrame>>()
 
     fun idleStateless(model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, ageInTicks: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, intensity: Float) {

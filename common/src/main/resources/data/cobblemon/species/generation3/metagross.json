@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Metagross",
   "nationalPokedexNumber": 376,
@@ -71,7 +71,6 @@
       ],
       "height": 25,
       "weight": 9429,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

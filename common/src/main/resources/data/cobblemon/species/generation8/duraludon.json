@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Duraludon",
   "nationalPokedexNumber": 884,
   "primaryType": "steel",
@@ -64,7 +64,6 @@
       ],
       "height": 430,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
