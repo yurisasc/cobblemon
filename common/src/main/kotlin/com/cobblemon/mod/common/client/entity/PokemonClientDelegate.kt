@@ -143,7 +143,8 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                                     sendOutPosition?.let{
                                         val newPos = it.add(sendOutOffset)
                                         val ballType = currentEntity.pokemon.caughtBall.name.path.toLowerCase().replace("_","")
-                                        val sendflash = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/casual/sendcasual"))
+                                        val mode = if(currentEntity.isBattling) "battle" else "casual"
+                                        val sendflash = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/sendflash"))
                                         sendflash?.let { effect ->
                                             val wrapper = MatrixWrapper()
                                             val matrix = MatrixStack()
@@ -151,8 +152,8 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                                             wrapper.updateMatrix(matrix.peek().positionMatrix)
                                             val world = MinecraftClient.getInstance().world ?: return@let
                                             ParticleStorm(effect, wrapper, world).spawn()
-                                            val ballsparks = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/casual/ballsparkscasual"))
-                                            val ballsendsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/casual/ballsendsparklecasual"))
+                                            val ballsparks = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsparks"))
+                                            val ballsendsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsendsparkle"))
                                             afterOnClient(seconds = 0.01667f) {
                                                 ballsparks?.let { effect ->
                                                     ParticleStorm(effect, wrapper, world).spawn()
@@ -160,8 +161,8 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                                                 ballsendsparkle?.let { effect ->
                                                     ParticleStorm(effect, wrapper, world).spawn()
                                                 }
-                                                afterOnClient(seconds = 0.08333f) {
-                                                    val ballsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("ballsparkle"))
+                                                afterOnClient(seconds = 0.4f) {
+                                                    val ballsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
                                                     ballsparkle?.let { effect ->
                                                         ParticleStorm(effect, wrapper, world).spawn()
                                                     }
