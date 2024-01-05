@@ -180,8 +180,8 @@ class SnowstormParticle(
             viewDirection = viewDirection
         )
 
-        val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat()// / 2
-        val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat()// / 2
+        val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat()
+        val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat()
 
         val particleVertices = arrayOf(
             Vector3f(-xSize, -ySize, 0.0f),

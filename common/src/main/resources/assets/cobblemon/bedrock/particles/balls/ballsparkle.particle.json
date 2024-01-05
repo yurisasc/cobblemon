@@ -5,7 +5,7 @@
 			"identifier": "cobblemon:ballsparkle",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/balls/ballsparkle"
+				"texture": "textures/particles/balls/ballsparkle"
 			}
 		},
 		"components": {
@@ -37,7 +37,8 @@
 						"base_UV": [0, 0],
 						"size_UV": [9, 9],
 						"step_UV": [9, 0],
-						"frames_per_second": 12
+						"frames_per_second": 12,
+						"max_frame": 4
 					}
 				}
 			}

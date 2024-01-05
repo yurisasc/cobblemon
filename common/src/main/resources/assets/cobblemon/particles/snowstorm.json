@@ -25,10 +25,9 @@
     "cobblemon:glowing_dots_cyan",
     "cobblemon:glowing_smoke_cyan",
     "cobblemon:glowing_sparkle_yellow",
-    "cobblemon:balls/pokeball/battle/ballsparks",
     "cobblemon:balls/pokeball/battle/sendflash",
-    "cobblemon:balls/pokeball/casual/ballsparkscasual",
     "cobblemon:balls/pokeball/casual/sendcasual",
-    "cobblemon:balls/ballsparkle"
+    "cobblemon:balls/ballsparkle",
+    "cobblemon:balls/ballsparks"
   ]
 }
