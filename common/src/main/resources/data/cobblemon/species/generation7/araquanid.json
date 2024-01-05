@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Araquanid",
   "nationalPokedexNumber": 752,
   "primaryType": "water",
@@ -133,7 +133,6 @@
       ],
       "height": 31,
       "weight": 2175,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

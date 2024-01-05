@@ -8,27 +8,21 @@
 
 package com.cobblemon.mod.common.util.adapters
 
-import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.MoValue
-import com.bedrockk.molang.runtime.value.StringValue
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
-object MoValueAdapter : JsonDeserializer<MoValue> {
-    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): MoValue {
-        return if (json.isJsonPrimitive) {
-            val prim = json.asJsonPrimitive
-            if (prim.isBoolean) {
-                DoubleValue(prim.asBoolean)
-            } else if (prim.isNumber) {
-                DoubleValue(prim.asNumber.toDouble())
-            } else {
-                StringValue(prim.asString)
-            }
-        } else {
-            throw IllegalArgumentException("Value $json is not a valid MoValue")
-        }
+object MoValueAdapter : JsonSerializer<MoValue>, JsonDeserializer<MoValue> {
+    override fun serialize(src: MoValue, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
+        return MoValue.writeToJson(src) ?: JsonObject()
+    }
+
+    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): MoValue {
+        return MoValue.of(json)
     }
 }

@@ -69,7 +69,6 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import java.util.*
 
 class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Schedulable {
     enum class CaptureState {
@@ -106,7 +105,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         get() = dataTracker.get(ASPECTS)
         set(value) { dataTracker.set(ASPECTS, value) }
 
-    val delegate = if (world.isClient) {
+    override val delegate = if (world.isClient) {
         EmptyPokeBallClientDelegate()
     } else {
         EmptyPokeBallServerDelegate()

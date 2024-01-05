@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Raichu",
   "nationalPokedexNumber": 26,
@@ -227,7 +227,6 @@
       "height": 7,
       "weight": 210,
       "preEvolution": "pikachu alolan",
-      "evolutions": [],
       "baseScale": 0.75,
       "hitbox": {
         "width": 0.8,
