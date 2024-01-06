@@ -38,6 +38,6 @@ class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
     override fun playAnimation(animationType: String) {
         val currentModel = this.currentModel as? NPCModel ?: return
         val animation = currentModel.getAnimation(animationType)
-        addPrimaryAnimation(PrimaryAnimation(animation))
+        addPrimaryAnimation(PrimaryAnimation(animation, curve = { 1F }))
     }
 }

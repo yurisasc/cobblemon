@@ -41,6 +41,7 @@ import net.minecraft.util.math.RotationAxis
 import org.joml.Matrix4f
 import org.joml.Vector3f
 
+@JvmOverloads
 fun blitk(
     matrixStack: MatrixStack,
     texture: Identifier? = null,
@@ -104,6 +105,7 @@ fun drawRectangle(
     BufferRenderer.drawWithGlobalProgram(bufferbuilder.end())
 }
 
+@JvmOverloads
 fun drawCenteredText(
     context: DrawContext,
     font: Identifier? = null,
@@ -118,6 +120,7 @@ fun drawCenteredText(
     context.drawText(textRenderer, comp, x.toInt() - textRenderer.getWidth(comp) / 2, y.toInt(), colour, shadow)
 }
 
+@JvmOverloads
 fun drawText(
     context: DrawContext,
     font: Identifier? = null,
@@ -149,6 +152,7 @@ fun drawText(
     return isHovered
 }
 
+@JvmOverloads
 fun drawText(
     context: DrawContext,
     text: OrderedText,
@@ -167,6 +171,7 @@ fun drawText(
     context.drawText(textRenderer, text, tweakedX.toInt(), y.toInt(), colour, shadow)
 }
 
+@JvmOverloads
 fun drawString(
     context: DrawContext,
     text: String,
@@ -185,6 +190,7 @@ fun drawString(
     context.drawText(textRenderer, comp, x.toInt(), y.toInt(), colour, shadow)
 }
 
+@JvmOverloads
 fun <T : Entity, M : PoseableEntityModel<T>> drawPoseablePortrait(
     identifier: Identifier,
     aspects: Set<String>,
@@ -194,7 +200,12 @@ fun <T : Entity, M : PoseableEntityModel<T>> drawPoseablePortrait(
     reversed: Boolean = false,
     state: PoseableEntityState<T>? = null,
     repository: VaryingModelRepository<T, M>,
-    partialTicks: Float
+    partialTicks: Float,
+    limbSwing: Float = 0F,
+    limbSwingAmount: Float = 0F,
+    ageInTicks: Float = 0F,
+    headYaw: Float = 0F,
+    headPitch: Float = 0F
 ) {
     val model = repository.getPoser(identifier, aspects)
     val texture = repository.getTexture(identifier, aspects, state?.animationSeconds ?: 0F)
@@ -218,7 +229,7 @@ fun <T : Entity, M : PoseableEntityModel<T>> drawPoseablePortrait(
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
         state.updatePartialTicks(partialTicks)
-        model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+        model.setupAnimStateful(null, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         originalPose?.let { state.setPose(it) }
     }
 

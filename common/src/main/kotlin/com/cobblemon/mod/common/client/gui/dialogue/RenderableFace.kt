@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonF
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import java.util.UUID
 import kotlin.math.atan
 import net.minecraft.client.MinecraftClient
@@ -43,8 +44,8 @@ class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
         // All of the maths below is shamelessly stolen from InventoryScreen.drawEntity.
         // the -20 and 5 divided by 40 are for configuring the yaw and pitch tilt of the body and head respectively.
         // For more information, pray for divine inspiration or something idk.
-        val f = atan((-20 / 40.0f).toDouble()).toFloat()
-        val g = atan((5 / 40.0f).toDouble()).toFloat()
+        val f = atan((-40 / 40.0f).toDouble()).toFloat()
+        val g = atan((-10 / 40.0f).toDouble()).toFloat()
         val quaternionf = Quaternionf().rotateZ(Math.PI.toFloat())
         val quaternionf2 = Quaternionf().rotateX(g * 20.0f * (Math.PI.toFloat() / 180))
         quaternionf.mul(quaternionf2)
@@ -54,14 +55,14 @@ class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
         val oldPrevHeadYaw = entity.prevHeadYaw
         val oldHeadYaw = entity.headYaw
         // Modifies the entity for rendering based on our f and g values
-        entity.bodyYaw = 180.0f + f * 20.0f
-        entity.setYaw(180.0f + f * 40.0f)
-        entity.setPitch(-g * 20.0f)
+        entity.bodyYaw = 180.0F + f * 20.0F
+        entity.setYaw(180.0F + f * 40.0F)
+        entity.setPitch(0F)
         entity.headYaw = entity.yaw
         entity.prevHeadYaw = entity.yaw
-        val size = 37
+        val size = 34
         val xOffset = 0
-        val yOffset = 75
+        val yOffset = 72
         InventoryScreen.drawEntity(drawContext, xOffset, yOffset, size, quaternionf, quaternionf2, entity)
         // Resets the entity
         entity.bodyYaw = oldBodyYaw
@@ -72,7 +73,7 @@ class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
     }
 }
 
-class ReferenceRenderableFace(entity: Poseable): RenderableFace {
+class ReferenceRenderableFace(val entity: Poseable): RenderableFace {
     val state = entity.delegate as PoseableEntityState<*>
     override fun render(drawContext: DrawContext, partialTicks: Float) {
         val state = this.state
@@ -87,13 +88,20 @@ class ReferenceRenderableFace(entity: Poseable): RenderableFace {
                 partialTicks = 0F // It's already being rendered potentially so we don't need to tick the state.
             )
         } else if (state is NPCClientDelegate) {
+
+            entity as NPCEntity
+            val limbSwing = entity.limbAnimator.getPos(partialTicks)
+            val limbSwingAmount = entity.limbAnimator.getSpeed(partialTicks)
             drawPoseablePortrait(
                 identifier = state.npcEntity.npc.resourceIdentifier,
                 aspects = state.npcEntity.aspects,
                 repository = NPCModelRepository,
                 matrixStack = drawContext.matrices,
                 state = state,
-                partialTicks = 0F // It's already being rendered potentially so we don't need to tick the state.
+                partialTicks = 0F, // It's already being rendered potentially so we don't need to tick the state.
+                limbSwing = limbSwing,
+                limbSwingAmount = limbSwingAmount,
+                ageInTicks = entity.age.toFloat(),
             )
         }
     }

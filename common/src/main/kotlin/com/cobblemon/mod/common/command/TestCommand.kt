@@ -20,19 +20,15 @@ import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.npc.NPCEntity
-import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toPokemon
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import java.io.File
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
@@ -58,7 +54,7 @@ object TestCommand {
         try {
             val p = context.source.playerOrThrow
             val entity = NPCEntity(p.world)
-            entity.setPos(p.pos.x, p.pos.y + 0.1, p.pos.z)
+            entity.setPosition(p.pos.x, p.pos.y + 0.1, p.pos.z)
             p.world.spawnEntity(entity)
 //            this.testClosestBattle(context)
             //testTrade(context.source.player!!)
