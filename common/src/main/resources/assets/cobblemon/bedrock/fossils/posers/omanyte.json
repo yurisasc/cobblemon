@@ -1,5 +1,5 @@
 {
-  "maxScale": 1.0,
+  "maxScale": 0.9,
   "yTranslation": 0.1,
   "animations": [
     "bedrock(omanyte_fetus, sleep)"

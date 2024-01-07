@@ -20,16 +20,17 @@ import net.minecraft.entity.Entity
  */
 class FossilState : PoseableEntityState<Entity>() {
     var totalPartialTicks = 0F
-    val fetusAnimPhaseOffect = 200F * Math.random()
+//    val fetusAnimPhaseOffect = 200F * Math.random()
     override fun getEntity() = null
 
     // for dictating growth state of the Fossil Embryo
     var growthState = "Embryo"
     override fun updatePartialTicks(partialTicks: Float) {
-        if(fetusAnimPhaseOffect > currentPartialTicks) {
-            currentPartialTicks = fetusAnimPhaseOffect.toFloat();
-        }
+//        if(fetusAnimPhaseOffect > currentPartialTicks) {
+//            currentPartialTicks = fetusAnimPhaseOffect.toFloat();
+//        }
         currentPartialTicks += partialTicks / 2
+        totalPartialTicks += partialTicks / 2
     }
 
     override val schedulingTracker = SchedulingTracker()

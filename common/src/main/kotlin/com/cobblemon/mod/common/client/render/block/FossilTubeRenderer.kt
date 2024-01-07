@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.client.CobblemonBakingOverrides
+import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.client.render.OverlayTexture
@@ -20,6 +21,7 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
 
@@ -100,8 +102,31 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         val state = struc.fossilState
         state.updatePartialTicks(tickDelta)
 
-        val model = FossilModelRepository.getPoser(fossil.identifier, aspects)
-        val texture = FossilModelRepository.getTexture(fossil.identifier, aspects, state.animationSeconds)
+        val completionPercentage = 1 - timeRemaining / FossilMultiblockStructure.TIME_TO_TAKE.toFloat()
+        val fossilFetusModel = FossilModelRepository.getPoser(fossil.identifier, aspects)
+        val model: FossilModel
+        val texture: Identifier?
+        var bodyOffsetY = 0f
+        // Currently a jank solution that just hotswaps the models out
+        // End goal is to have each model grow out of the previous
+        if(completionPercentage < embryoThreshold1) {
+            model = FossilModelRepository.getPoser(embryoIdentifier1,aspects)
+            texture = FossilModelRepository.getTexture(embryoIdentifier1, aspects, state.animationSeconds)
+            bodyOffsetY = fossilFetusModel.maxScale*fossilFetusModel.bodyBoneOffsetY + (1f/16f)*(1-completionPercentage)
+        } else if(completionPercentage < embryoThreshold2) {
+            model = FossilModelRepository.getPoser(embryoIdentifier2,aspects)
+            texture = FossilModelRepository.getTexture(embryoIdentifier2, aspects, state.animationSeconds)
+            bodyOffsetY = fossilFetusModel.maxScale*fossilFetusModel.bodyBoneOffsetY + (3f/32f)*(1-completionPercentage)
+        } else if(completionPercentage < embryoThreshold3) {
+            model = FossilModelRepository.getPoser(embryoIdentifier3,aspects)
+            texture = FossilModelRepository.getTexture(embryoIdentifier3, aspects, state.animationSeconds)
+            bodyOffsetY = fossilFetusModel.maxScale*fossilFetusModel.bodyBoneOffsetY + (5f/32f)*(1-completionPercentage)
+        } else {
+            model = fossilFetusModel
+            texture = FossilModelRepository.getTexture(fossil.identifier, aspects, state.animationSeconds)
+            bodyOffsetY = fossilFetusModel.maxScale*fossilFetusModel.bodyBoneOffsetY*(1-completionPercentage)
+        }
+
         val vertexConsumer = vertexConsumers.getBuffer(model.getLayer(texture))
         val pose = model.poses.values.first()
         state.currentModel = model
@@ -111,11 +136,11 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         val scale: Float = if (timeRemaining == 0) {
             model.maxScale
         } else {
-            (1 - (timeRemaining / FossilMultiblockStructure.TIME_TO_TAKE.toFloat())) * model.maxScale
+            completionPercentage * model.maxScale
         }
 
         matrices.push()
-        matrices.translate(0.5, 0.5 + model.yTranslation, 0.5);
+        matrices.translate(0.5, 0.5 + fossilFetusModel.yTranslation + bodyOffsetY,  0.5);
         matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180F))
         if(tankDirection.rotateCounterclockwise(Direction.Axis.Y) == connectionDir) {
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90F))
@@ -161,5 +186,14 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         )
 
         val CONNECTOR_MODEL = CobblemonBakingOverrides.RESTORATION_TANK_CONNECTOR.getModel()
+
+        val embryoIdentifier1 = Identifier("cobblemon", "embryo_stage1")
+        val embryoIdentifier2 = Identifier("cobblemon", "embryo_stage2")
+        val embryoIdentifier3 = Identifier("cobblemon", "embryo_stage3")
+
+        val embryoThreshold1 = 0.2
+        val embryoThreshold2 = 0.4
+        val embryoThreshold3 = 0.6
+
     }
 }

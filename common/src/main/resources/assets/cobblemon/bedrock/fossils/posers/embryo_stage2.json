@@ -1,0 +1,7 @@
+{
+  "maxScale": 1.0,
+  "yTranslation": 0.2,
+  "animations": [
+    "bedrock(embryo_stage2, gooping)"
+  ]
+}
