@@ -15,6 +15,8 @@ import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.CobblemonMemories
+import com.cobblemon.mod.common.CobblemonSensors
 import com.cobblemon.mod.common.GenericsCheatClass.createNPCBrain
 import com.cobblemon.mod.common.api.dialogue.ActiveDialogue
 import com.cobblemon.mod.common.api.dialogue.DialogueManager
@@ -41,6 +43,10 @@ import com.cobblemon.mod.common.battles.BattleStartResult
 import com.cobblemon.mod.common.battles.SuccessfulBattleStart
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.ai.FollowPathTask
+import com.cobblemon.mod.common.entity.npc.ai.ChooseWanderTargetTask
+import com.cobblemon.mod.common.entity.npc.ai.LookAtBattlingPokemonTask
+import com.cobblemon.mod.common.entity.npc.ai.MoveToTargetTask
 import com.cobblemon.mod.common.entity.npc.ai.StayPutInBattleGoal
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.DataKeys
@@ -65,6 +71,7 @@ import net.minecraft.entity.ai.brain.sensor.Sensor
 import net.minecraft.entity.ai.brain.sensor.SensorType
 import net.minecraft.entity.ai.brain.task.LookAroundTask
 import net.minecraft.entity.ai.brain.task.LookAtMobTask
+import net.minecraft.entity.ai.brain.task.WanderAroundTask
 import net.minecraft.entity.ai.goal.LookAroundGoal
 import net.minecraft.entity.ai.goal.LookAtEntityGoal
 import net.minecraft.entity.ai.goal.WanderAroundGoal
@@ -187,6 +194,8 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
             SensorType.NEAREST_LIVING_ENTITIES,
             SensorType.HURT_BY,
             SensorType.NEAREST_PLAYERS,
+            CobblemonSensors.BATTLING_POKEMON,
+            CobblemonSensors.NPC_BATTLING
         )
 
         val MEMORY_MODULES: List<MemoryModuleType<*>> = ImmutableList.of(
@@ -195,7 +204,9 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
             MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
             MemoryModuleType.PATH,
             MemoryModuleType.IS_PANICKING,
-            MemoryModuleType.VISIBLE_MOBS
+            MemoryModuleType.VISIBLE_MOBS,
+            CobblemonMemories.NPC_BATTLING,
+            CobblemonMemories.BATTLING_POKEMON
         )
 
         const val SEND_OUT_ANIMATION = "send-out"
@@ -218,39 +229,22 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     override fun deserializeBrain(dynamic: Dynamic<*>): Brain<NPCEntity> {
         val brain = createBrainProfile().deserialize(dynamic)
-//        brain.setTaskList(BATTLING, ImmutableList.of(
-//            Pair.of(
-//                0,
-//                LookAroundTask(45, 90)
-//            ),
-//            Pair.of(
-//                1,
-//                // Should improve this to be our own look task which randomizes the target instead of taking closes entity
-//                LookAtMobTask.create(
-//                    { entity ->
-//                        val battles = battleIds.mapNotNull { BattleRegistry.getBattle(it) }
-//                        if (entity is PlayerEntity) {
-//                            return@create battles.any { entity in it.players }
-//                        } else if (entity is PokemonEntity) {
-//                            return@create entity.battleId in battleIds
-//                        }
-//                        return@create false
-//                    },
-//                    10F
-//                )
-//            ),
-//        ))
-//        brain.setTaskList(Activity.IDLE, ImmutableList.of(
-//            Pair.of(
-//                0,
-//                LookAroundTask(45, 90)
-//            ),
-//            Pair.of(
-//                1,
-//                LookAtMobTask.create(15F)
-//            ),
-//        ))
+        brain.setTaskList(BATTLING, ImmutableList.of(
+            Pair.of(0, LookAroundTask(45, 90)),
+            Pair.of(1, LookAtBattlingPokemonTask.create()),
+        ))
+        brain.setTaskList(Activity.IDLE, ImmutableList.of(
+            Pair.of(1, LookAroundTask(45, 90)),
+            Pair.of(1, LookAtMobTask.create(15F)),
+            Pair.of(1, ChooseWanderTargetTask.create(horizontalRange = 10, verticalRange = 5, walkSpeed = 1F, completionRange = 1)),
+            Pair.of(1, MoveToTargetTask.create()),
+            Pair.of(1, FollowPathTask.create())
+        ))
         return brain
+    }
+
+    override fun onFinishPathfinding() {
+        brain.forget(MemoryModuleType.PATH)
     }
 
     override fun getBrain() = super.getBrain() as Brain<NPCEntity>
