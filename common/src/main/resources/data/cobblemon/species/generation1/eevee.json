@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Eevee",
   "nationalPokedexNumber": 133,
@@ -117,7 +117,6 @@
       ],
       "height": 3,
       "weight": 65,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -163,7 +162,6 @@
       ],
       "height": 180,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

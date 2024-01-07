@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityMo
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.addRotation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.entity.Entity
 
@@ -27,11 +27,12 @@ import net.minecraft.entity.Entity
  */
 class SingleBoneLookAnimation<T : Entity>(frame: HeadedFrame, val invertX: Boolean, val invertY: Boolean, val disableX: Boolean, val disableY: Boolean) : StatelessAnimation<T, HeadedFrame>(frame) {
     override val targetFrame: Class<HeadedFrame> = HeadedFrame::class.java
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override var labels = setOf("look")
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val pitch = (if (invertX) -1 else 1) * headPitch.coerceIn(-45F, 70F)
         val yaw = (if (invertY) -1 else 1) * headYaw.coerceIn(-45F, 45F)
 
-        (if (!disableX) frame.head.addRotation(X_AXIS, pitch.toRadians()))
-        (if (!disableY) frame.head.addRotation(Y_AXIS, yaw.toRadians()))
+        (if (!disableX) frame.head.addRotation(X_AXIS, pitch.toRadians() * intensity))
+        (if (!disableY) frame.head.addRotation(Y_AXIS, yaw.toRadians() * intensity))
     }
 }

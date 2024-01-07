@@ -1,0 +1,22 @@
+{
+  "type": "botanypots:crop",
+  "seed": {
+    "item": "cobblemon:medicinal_leek"
+  },
+  "categories": [
+    "water"
+  ],
+  "growthTicks": 1200,
+  "display": {
+    "type": "botanypots:aging",
+    "block": "cobblemon:medicinal_leek"
+  },
+  "drops": [
+    {
+      "chance": 1.00,
+      "output": {
+        "item": "cobblemon:medicinal_leek"
+      }
+    }
+  ]
+}

@@ -149,7 +149,7 @@
   "weight": 2.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/flower.png",
+  "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:occa_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/occa.png"
+  "fruitTexture": "cobblemon:occa"
 }

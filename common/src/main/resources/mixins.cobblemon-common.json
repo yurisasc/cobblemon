@@ -15,7 +15,8 @@
     "SoundSystemMixin",
     "accessor.KeyBindingAccessor",
     "invoker.ClientPlayNetworkHandlerInvoker",
-    "pokeball.ItemRendererMixin"
+    "pokeball.ItemRendererMixin",
+    "ModelLoaderMixin"
   ],
   "mixins": [
     "EntityVillagerMixin",

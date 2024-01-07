@@ -1,0 +1,23 @@
+{
+  "type": "botanypots:crop",
+  "seed": {
+    "item": "cobblemon:pinap_berry"
+  },
+  "categories": [
+    "dirt",
+	"farmland"
+  ],
+  "growthTicks": 1200,
+  "display": {
+    "type": "botanypots:aging",
+    "block": "cobblemon:pinap_berry"
+  },
+  "drops": [
+    {
+      "chance": 1.00,
+      "output": {
+        "item": "cobblemon:pinap_berry"
+      }
+    }
+  ]
+}

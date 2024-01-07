@@ -121,6 +121,38 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val MASTER_BALL = pokeBallItem(PokeBalls.MASTER_BALL)
     @JvmField
     val CHERISH_BALL = pokeBallItem(PokeBalls.CHERISH_BALL)
+    @JvmField
+    val ANCIENT_POKE_BALL = pokeBallItem(PokeBalls.ANCIENT_POKE_BALL)
+    @JvmField
+    val ANCIENT_CITRINE_BALL = pokeBallItem(PokeBalls.ANCIENT_CITRINE_BALL)
+    @JvmField
+    val ANCIENT_VERDANT_BALL = pokeBallItem(PokeBalls.ANCIENT_VERDANT_BALL)
+    @JvmField
+    val ANCIENT_AZURE_BALL = pokeBallItem(PokeBalls.ANCIENT_AZURE_BALL)
+    @JvmField
+    val ANCIENT_ROSEATE_BALL = pokeBallItem(PokeBalls.ANCIENT_ROSEATE_BALL)
+    @JvmField
+    val ANCIENT_SLATE_BALL = pokeBallItem(PokeBalls.ANCIENT_SLATE_BALL)
+    @JvmField
+    val ANCIENT_IVORY_BALL = pokeBallItem(PokeBalls.ANCIENT_IVORY_BALL)
+    @JvmField
+    val ANCIENT_GREAT_BALL = pokeBallItem(PokeBalls.ANCIENT_GREAT_BALL)
+    @JvmField
+    val ANCIENT_ULTRA_BALL = pokeBallItem(PokeBalls.ANCIENT_ULTRA_BALL)
+    @JvmField
+    val ANCIENT_FEATHER_BALL = pokeBallItem(PokeBalls.ANCIENT_FEATHER_BALL)
+    @JvmField
+    val ANCIENT_WING_BALL = pokeBallItem(PokeBalls.ANCIENT_WING_BALL)
+    @JvmField
+    val ANCIENT_JET_BALL = pokeBallItem(PokeBalls.ANCIENT_JET_BALL)
+    @JvmField
+    val ANCIENT_HEAVY_BALL = pokeBallItem(PokeBalls.ANCIENT_HEAVY_BALL)
+    @JvmField
+    val ANCIENT_LEADEN_BALL = pokeBallItem(PokeBalls.ANCIENT_LEADEN_BALL)
+    @JvmField
+    val ANCIENT_GIGATON_BALL = pokeBallItem(PokeBalls.ANCIENT_GIGATON_BALL)
+    @JvmField
+    val ANCIENT_ORIGIN_BALL = pokeBallItem(PokeBalls.ANCIENT_ORIGIN_BALL)
 
     @JvmField
     val VIVICHOKE = compostableItem("vivichoke")
@@ -196,6 +228,12 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val APRICORN_HANGING_SIGN = this.create("apricorn_hanging_sign", HangingSignItem(CobblemonBlocks.APRICORN_HANGING_SIGN, CobblemonBlocks.APRICORN_WALL_HANGING_SIGN, Item.Settings().maxCount(16)))
 
+    @JvmField
+    val FOSSIL_TUBE = blockItem("fossil_tube", CobblemonBlocks.FOSSIL_TUBE)
+    @JvmField
+    val FOSSIL_COMPARTMENT = blockItem("fossil_compartment", CobblemonBlocks.FOSSIL_COMPARTMENT)
+    @JvmField
+    val FOSSIL_MONITOR = blockItem("fossil_monitor", CobblemonBlocks.FOSSIL_MONITOR)
     @JvmField
     val HEALING_MACHINE = blockItem("healing_machine", CobblemonBlocks.HEALING_MACHINE)
     @JvmField
@@ -685,6 +723,90 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val SANDY_MULCH = mulchItem("sandy_mulch", MulchVariant.SANDY)
     @JvmField
     val SURPRISE_MULCH = mulchItem("surprise_mulch", MulchVariant.SURPRISE)
+
+    // Archaeology
+    @JvmField
+    val ARMOR_FOSSIL = noSettingsItem("armor_fossil")
+    @JvmField
+    val BIRD_FOSSIL = noSettingsItem("bird_fossil")
+    @JvmField
+    val CLAW_FOSSIL = noSettingsItem("claw_fossil")
+    @JvmField
+    val COVER_FOSSIL = noSettingsItem("cover_fossil")
+    @JvmField
+    val DINO_FOSSIL = noSettingsItem("dino_fossil")
+    @JvmField
+    val DOME_FOSSIL = noSettingsItem("dome_fossil")
+    @JvmField
+    val DRAKE_FOSSIL = noSettingsItem("drake_fossil")
+    @JvmField
+    val FISH_FOSSIL = noSettingsItem("fish_fossil")
+    @JvmField
+    val HELIX_FOSSIL = noSettingsItem("helix_fossil")
+    @JvmField
+    val JAW_FOSSIL = noSettingsItem("jaw_fossil")
+    @JvmField
+    val OLD_AMBER_FOSSIL = noSettingsItem("old_amber_fossil")
+    @JvmField
+    val PLUME_FOSSIL = noSettingsItem("plume_fossil")
+    @JvmField
+    val ROOT_FOSSIL = noSettingsItem("root_fossil")
+    @JvmField
+    val SAIL_FOSSIL = noSettingsItem("sail_fossil")
+    @JvmField
+    val SKULL_FOSSIL = noSettingsItem("skull_fossil")
+
+    @JvmField
+    val BYGONE_SHERD = noSettingsItem("bygone_sherd")
+    @JvmField
+    val CAPTURE_SHERD = noSettingsItem("capture_sherd")
+    @JvmField
+    val DOME_SHERD = noSettingsItem("dome_sherd")
+    @JvmField
+    val HELIX_SHERD = noSettingsItem("helix_sherd")
+    @JvmField
+    val NOSTALGIC_SHERD = noSettingsItem("nostalgic_sherd")
+
+    @JvmField
+    val TUMBLESTONE = this.create("tumblestone", TumblestoneItem(Item.Settings(), CobblemonBlocks.SMALL_BUDDING_TUMBLESTONE))
+    @JvmField
+    val BLACK_TUMBLESTONE = this.create("black_tumblestone", TumblestoneItem(Item.Settings(), CobblemonBlocks.SMALL_BUDDING_BLACK_TUMBLESTONE))
+    @JvmField
+    val SKY_TUMBLESTONE = this.create("sky_tumblestone", TumblestoneItem(Item.Settings(), CobblemonBlocks.SMALL_BUDDING_SKY_TUMBLESTONE))
+
+    @JvmField
+    val SMALL_BUDDING_TUMBLESTONE = blockItem("small_budding_tumblestone", CobblemonBlocks.SMALL_BUDDING_TUMBLESTONE)
+    @JvmField
+    val MEDIUM_BUDDING_TUMBLESTONE = blockItem("medium_budding_tumblestone", CobblemonBlocks.MEDIUM_BUDDING_TUMBLESTONE)
+    @JvmField
+    val LARGE_BUDDING_TUMBLESTONE = blockItem("large_budding_tumblestone", CobblemonBlocks.LARGE_BUDDING_TUMBLESTONE)
+    @JvmField
+    val TUMBLESTONE_CLUSTER = blockItem("tumblestone_cluster", CobblemonBlocks.TUMBLESTONE_CLUSTER)
+
+    @JvmField
+    val SMALL_BUDDING_SKY_TUMBLESTONE = blockItem("small_budding_sky_tumblestone", CobblemonBlocks.SMALL_BUDDING_SKY_TUMBLESTONE)
+    @JvmField
+    val MEDIUM_BUDDING_SKY_TUMBLESTONE = blockItem("medium_budding_sky_tumblestone", CobblemonBlocks.MEDIUM_BUDDING_SKY_TUMBLESTONE)
+    @JvmField
+    val LARGE_BUDDING_SKY_TUMBLESTONE = blockItem("large_budding_sky_tumblestone", CobblemonBlocks.LARGE_BUDDING_SKY_TUMBLESTONE)
+    @JvmField
+    val SKY_TUMBLESTONE_CLUSTER = blockItem("sky_tumblestone_cluster", CobblemonBlocks.SKY_TUMBLESTONE_CLUSTER)
+
+    @JvmField
+    val SMALL_BUDDING_BLACK_TUMBLESTONE = blockItem("small_budding_black_tumblestone", CobblemonBlocks.SMALL_BUDDING_BLACK_TUMBLESTONE)
+    @JvmField
+    val MEDIUM_BUDDING_BLACK_TUMBLESTONE = blockItem("medium_budding_black_tumblestone", CobblemonBlocks.MEDIUM_BUDDING_BLACK_TUMBLESTONE)
+    @JvmField
+    val LARGE_BUDDING_BLACK_TUMBLESTONE = blockItem("large_budding_black_tumblestone", CobblemonBlocks.LARGE_BUDDING_BLACK_TUMBLESTONE)
+    @JvmField
+    val BLACK_TUMBLESTONE_CLUSTER = blockItem("black_tumblestone_cluster", CobblemonBlocks.BLACK_TUMBLESTONE_CLUSTER)
+
+    @JvmField
+    val TUMBLESTONE_BLOCK = blockItem("tumblestone_block", CobblemonBlocks.TUMBLESTONE_BLOCK)
+    @JvmField
+    val SKY_TUMBLESTONE_BLOCK = blockItem("sky_tumblestone_block", CobblemonBlocks.SKY_TUMBLESTONE_BLOCK)
+    @JvmField
+    val BLACK_TUMBLESTONE_BLOCK = blockItem("black_tumblestone_block", CobblemonBlocks.BLACK_TUMBLESTONE_BLOCK)
 
     // Misc
     @JvmField

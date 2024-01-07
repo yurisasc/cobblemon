@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonClientImplementation
@@ -25,6 +26,8 @@ import com.cobblemon.mod.common.client.gui.interact.wheel.InteractWheelOption
 import com.cobblemon.mod.common.client.gui.interact.wheel.Orientation
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
+import com.cobblemon.mod.common.client.render.block.FossilCompartmentRenderer
+import com.cobblemon.mod.common.client.render.block.FossilTubeRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.generic.GenericBedrockRenderer
@@ -45,6 +48,7 @@ import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
@@ -66,6 +70,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Language
 
 object CobblemonClient {
+
     lateinit var implementation: CobblemonClientImplementation
     val storage = ClientStorageManager()
     var trade: ClientTrade? = null
@@ -107,6 +112,9 @@ object CobblemonClient {
         //registerColors()
         registerFlywheelRenderers()
         this.registerEntityRenderers()
+        Berries.observable.subscribe {
+            BerryModelRepository.patchModels()
+        }
 
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
@@ -161,6 +169,7 @@ object CobblemonClient {
 
         this.implementation.registerBlockRenderType(
             RenderLayer.getCutout(),
+            CobblemonBlocks.FOSSIL_COMPARTMENT,
             CobblemonBlocks.APRICORN_DOOR,
             CobblemonBlocks.APRICORN_TRAPDOOR,
             CobblemonBlocks.APRICORN_SIGN,
@@ -198,7 +207,21 @@ object CobblemonClient {
             CobblemonBlocks.PEP_UP_FLOWER,
             CobblemonBlocks.POTTED_PEP_UP_FLOWER,
             CobblemonBlocks.REVIVAL_HERB,
-            *CobblemonBlocks.berries().values.toTypedArray()
+            *CobblemonBlocks.berries().values.toTypedArray(),
+            CobblemonBlocks.POTTED_PEP_UP_FLOWER,
+            CobblemonBlocks.FOSSIL_TUBE,
+            CobblemonBlocks.SMALL_BUDDING_TUMBLESTONE,
+            CobblemonBlocks.MEDIUM_BUDDING_TUMBLESTONE,
+            CobblemonBlocks.LARGE_BUDDING_TUMBLESTONE,
+            CobblemonBlocks.TUMBLESTONE_CLUSTER,
+            CobblemonBlocks.SMALL_BUDDING_BLACK_TUMBLESTONE,
+            CobblemonBlocks.MEDIUM_BUDDING_BLACK_TUMBLESTONE,
+            CobblemonBlocks.LARGE_BUDDING_BLACK_TUMBLESTONE,
+            CobblemonBlocks.BLACK_TUMBLESTONE_CLUSTER,
+            CobblemonBlocks.SMALL_BUDDING_SKY_TUMBLESTONE,
+            CobblemonBlocks.MEDIUM_BUDDING_SKY_TUMBLESTONE,
+            CobblemonBlocks.LARGE_BUDDING_SKY_TUMBLESTONE,
+            CobblemonBlocks.SKY_TUMBLESTONE_CLUSTER,
         )
 
         this.createBoatModelLayers()
@@ -226,6 +249,8 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.SIGN, ::SignBlockEntityRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_COMPARTMENT, ::FossilCompartmentRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_TUBE, ::FossilTubeRenderer)
     }
 
     private fun registerEntityRenderers() {
@@ -246,11 +271,12 @@ object CobblemonClient {
         BedrockParticleEffectRepository.loadEffects(resourceManager)
         BedrockAnimationRepository.loadAnimations(
             resourceManager = resourceManager,
-            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + GenericBedrockModelRepository.animationDirectories
+            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + GenericBedrockModelRepository.animationDirectories + FossilModelRepository.animationDirectories
         )
         PokemonModelRepository.reload(resourceManager)
         PokeBallModelRepository.reload(resourceManager)
         BerryModelRepository.reload(resourceManager)
+        FossilModelRepository.reload(resourceManager)
         GenericBedrockModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
     }

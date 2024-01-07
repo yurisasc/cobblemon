@@ -8,26 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.EarJoint
-import com.cobblemon.mod.common.client.render.models.blockbench.RangeOfMotion
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.ALL_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.SHOULDER_POSES
-import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
-import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.Vec3d
 
 class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
@@ -59,8 +46,8 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformedParts = arrayOf(
-                wings_folded.asTransformed().withVisibility(visibility = false),
-                wings_open.asTransformed().withVisibility(visibility = true),
+                wings_folded.createTransformation().withVisibility(visibility = false),
+                wings_open.createTransformation().withVisibility(visibility = true),
             ),
             quirks = arrayOf(twitch),
             idleAnimations = arrayOf(bedrock("zubat", "sleep"))
@@ -70,8 +57,8 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
             transformedParts = arrayOf(
-                wings_folded.asTransformed().withVisibility(visibility = false),
-                wings_open.asTransformed().withVisibility(visibility = true),
+                wings_folded.createTransformation().withVisibility(visibility = false),
+                wings_open.createTransformation().withVisibility(visibility = true),
             ),
             transformTicks = 10,
             quirks = arrayOf(twitch),
@@ -84,8 +71,8 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformedParts = arrayOf(
-                wings_folded.asTransformed().withVisibility(visibility = false),
-                wings_open.asTransformed().withVisibility(visibility = true),
+                wings_folded.createTransformation().withVisibility(visibility = false),
+                wings_open.createTransformation().withVisibility(visibility = true),
             ),
             transformTicks = 10,
             quirks = arrayOf(twitch),
@@ -98,8 +85,8 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "hover",
             poseType = PoseType.HOVER,
             transformedParts = arrayOf(
-                wings_folded.asTransformed().withVisibility(visibility = false),
-                wings_open.asTransformed().withVisibility(visibility = true),
+                wings_folded.createTransformation().withVisibility(visibility = false),
+                wings_open.createTransformation().withVisibility(visibility = true),
             ),
             transformTicks = 10,
             quirks = arrayOf(twitch),
@@ -112,8 +99,8 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "fly",
             poseType = PoseType.FLY,
             transformedParts = arrayOf(
-                wings_folded.asTransformed().withVisibility(visibility = false),
-                wings_open.asTransformed().withVisibility(visibility = true),
+                wings_folded.createTransformation().withVisibility(visibility = false),
+                wings_open.createTransformation().withVisibility(visibility = true),
             ),
             quirks = arrayOf(twitch),
             transformTicks = 10,
@@ -128,7 +115,7 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
                 bedrock("zubat", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(X_AXIS, shoulderOffset)
             )
         )
 
@@ -138,7 +125,7 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
                 bedrock("zubat", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(X_AXIS, -shoulderOffset)
             )
         )
     }

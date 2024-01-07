@@ -31,9 +31,9 @@ class CascadeAnimation<T : Entity>(
 
     override val targetFrame = ModelFrame::class.java
 
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         segments.forEachIndexed { index, modelPart ->
-            modelPart.yaw = rootFunction(ageInTicks) * amplitudeFunction(index+1)
+            modelPart.yaw += rootFunction(ageInTicks) * amplitudeFunction(index+1) * intensity
         }
     }
 
