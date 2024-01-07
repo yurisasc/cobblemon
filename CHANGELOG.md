@@ -10,12 +10,14 @@
 - Added the Ancient Feather, Wing, and Jet Balls, which fly further than regular Poké Balls.
 - Added the Ancient Heavy, Leaden, and Gigaton Balls, which are heavier and don't fly as far as regular Poké Balls. These will recieve more functionality in a future update.
 - Added Original Trainer functionality. To edit the OT through commands, you must specify originaltrainertype=<Player/NPC>, and originaltrainer=<Username or UUID/NPC Name>
+- Added support for planting Apricorn trees, berries, and mints in [Botany Pots](https://modrinth.com/mod/botany-pots)
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
 - Added more held items to the held item tag, and Metal Coat to the held item tab.
 - Added all ores to the modloader ore tags, and added tags for each ore type to the mod (both blocks and items).
 - Changed the Destiny Knot to be crafted with a Ghast Tear, rather than a diamond.
+- You can now punch grown apricorns to harvest them.
 
 ### Fixes
 - Re-added the recipe for the Iron Vitamin.
