@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Basculegion",
   "nationalPokedexNumber": 902,
   "primaryType": "water",
@@ -196,7 +196,6 @@
       "height": 30,
       "weight": 1100,
       "preEvolution": "basculin form=whitestriped",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

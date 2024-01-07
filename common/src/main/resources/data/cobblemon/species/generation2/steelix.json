@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Steelix",
   "nationalPokedexNumber": 208,
@@ -62,7 +62,6 @@
       ],
       "height": 105,
       "weight": 7400,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

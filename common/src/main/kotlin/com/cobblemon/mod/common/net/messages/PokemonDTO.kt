@@ -23,10 +23,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.SpeciesFeatureUpdatePacket
-import com.cobblemon.mod.common.pokemon.EVs
-import com.cobblemon.mod.common.pokemon.Gender
-import com.cobblemon.mod.common.pokemon.IVs
-import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
@@ -80,6 +77,9 @@ class PokemonDTO : Encodable, Decodable {
     var tradeable = true
 //    var features: List<SynchronizedSpeciesFeature> = emptyList()
     lateinit var featuresBuffer: PacketByteBuf
+    var originalTrainerType: OriginalTrainerType = OriginalTrainerType.NONE
+    var originalTrainer: String? = null
+    var originalTrainerName: String? = null
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
@@ -120,6 +120,9 @@ class PokemonDTO : Encodable, Decodable {
             value.encode(featuresBuffer)
         }
 
+        this.originalTrainerType = pokemon.originalTrainerType
+        this.originalTrainer = pokemon.originalTrainer
+        this.originalTrainerName = pokemon.originalTrainerName
     }
 
     override fun encode(buffer: PacketByteBuf) {
@@ -161,6 +164,9 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeSizedInt(IntSize.U_SHORT, featureByteCount)
         buffer.writeBytes(featuresBuffer)
         featuresBuffer.release()
+        buffer.writeString(originalTrainerType.name)
+        buffer.writeNullable(originalTrainer) { _, v -> buffer.writeString(v) }
+        buffer.writeNullable(originalTrainerName) { _, v -> buffer.writeString(v) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -202,6 +208,9 @@ class PokemonDTO : Encodable, Decodable {
 
         val featureBytesToRead = buffer.readSizedInt(IntSize.U_SHORT)
         featuresBuffer = PacketByteBuf(buffer.readBytes(featureBytesToRead))
+        originalTrainerType = OriginalTrainerType.valueOf(buffer.readString())
+        originalTrainer = buffer.readNullable { buffer.readString() }
+        originalTrainerName = buffer.readNullable { buffer.readString() }
     }
 
     fun create(): Pokemon {
@@ -262,6 +271,26 @@ class PokemonDTO : Encodable, Decodable {
                 it.features.removeIf { it.name == feature.name }
                 it.features.add(feature)
             }
+            when (originalTrainerType)
+            {
+                OriginalTrainerType.NONE -> {
+                    it.removeOriginalTrainer()
+                }
+                OriginalTrainerType.PLAYER -> {
+                    originalTrainer?.let { ot ->
+                        UUID.fromString(ot)?.let { uuid ->
+                            it.setOriginalTrainer(uuid)
+                        }
+                    }
+                }
+                OriginalTrainerType.NPC ->
+                {
+                    originalTrainer?.let { ot ->
+                        it.setOriginalTrainer(ot)
+                    }
+                }
+            }
+            it.originalTrainerName = originalTrainerName
         }
     }
 }

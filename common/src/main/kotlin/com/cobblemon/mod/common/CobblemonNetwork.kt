@@ -37,6 +37,8 @@ import com.cobblemon.mod.common.client.net.callback.party.OpenPartyCallbackHandl
 import com.cobblemon.mod.common.client.net.callback.partymove.OpenPartyMoveCallbackHandler
 import com.cobblemon.mod.common.client.net.data.DataRegistrySyncPacketHandler
 import com.cobblemon.mod.common.client.net.data.UnlockReloadPacketHandler
+import com.cobblemon.mod.common.client.net.dialogue.DialogueClosedHandler
+import com.cobblemon.mod.common.client.net.dialogue.DialogueOpenedHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
@@ -84,7 +86,11 @@ import com.cobblemon.mod.common.net.messages.client.data.SpeciesFeatureAssignmen
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.StandardSpeciesFeatureSyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
+import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueClosedPacket
+import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueOpenedPacket
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
+import com.cobblemon.mod.common.net.messages.client.fossil.FossilRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.fossil.NaturalMaterialRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.PokemonPasturedPacket
@@ -132,6 +138,8 @@ import com.cobblemon.mod.common.net.messages.server.callback.party.PartyPokemonS
 import com.cobblemon.mod.common.net.messages.server.callback.party.PartySelectCancelledPacket
 import com.cobblemon.mod.common.net.messages.server.callback.partymove.PartyMoveSelectCancelledPacket
 import com.cobblemon.mod.common.net.messages.server.callback.partymove.PartyPokemonMoveSelectedPacket
+import com.cobblemon.mod.common.net.messages.server.dialogue.EscapeDialoguePacket
+import com.cobblemon.mod.common.net.messages.server.dialogue.InputToDialoguePacket
 import com.cobblemon.mod.common.net.messages.server.pasture.PasturePokemonPacket
 import com.cobblemon.mod.common.net.messages.server.pasture.UnpastureAllPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.pasture.UnpasturePokemonPacket
@@ -165,6 +173,8 @@ import com.cobblemon.mod.common.net.serverhandling.callback.party.PartyPokemonSe
 import com.cobblemon.mod.common.net.serverhandling.callback.party.PartySelectCancelledHandler
 import com.cobblemon.mod.common.net.serverhandling.callback.partymove.PartyMoveSelectCancelledHandler
 import com.cobblemon.mod.common.net.serverhandling.callback.partymove.PartyPokemonMoveSelectedHandler
+import com.cobblemon.mod.common.net.serverhandling.dialogue.EscapeDialogueHandler
+import com.cobblemon.mod.common.net.serverhandling.dialogue.InputToDialogueHandler
 import com.cobblemon.mod.common.net.serverhandling.evolution.AcceptEvolutionHandler
 import com.cobblemon.mod.common.net.serverhandling.pasture.PasturePokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.pasture.UnpastureAllPokemonHandler
@@ -237,6 +247,7 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(TetheringUpdatePacket.ID, TetheringUpdatePacket::decode, PokemonUpdatePacketHandler())
         this.createClientBound(TradeableUpdatePacket.ID, TradeableUpdatePacket::decode, PokemonUpdatePacketHandler())
         this.createClientBound(SpeciesFeatureUpdatePacket.ID, SpeciesFeatureUpdatePacket::decode, PokemonUpdatePacketHandler())
+        this.createClientBound(OriginalTrainerUpdatePacket.ID, OriginalTrainerUpdatePacket::decode, PokemonUpdatePacketHandler())
 
         // Evolution start
         this.createClientBound(AddEvolutionPacket.ID, AddEvolutionPacket::decode, PokemonUpdatePacketHandler())
@@ -305,6 +316,8 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(StandardSpeciesFeatureSyncPacket.ID, StandardSpeciesFeatureSyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(GlobalSpeciesFeatureSyncPacket.ID, GlobalSpeciesFeatureSyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(SpeciesFeatureAssignmentSyncPacket.ID, SpeciesFeatureAssignmentSyncPacket::decode, DataRegistrySyncPacketHandler())
+        this.createClientBound(NaturalMaterialRegistrySyncPacket.ID, NaturalMaterialRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
+        this.createClientBound(FossilRegistrySyncPacket.ID, FossilRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
 
         // Effects
         this.createClientBound(SpawnSnowstormParticlePacket.ID, SpawnSnowstormParticlePacket::decode, SpawnSnowstormParticleHandler)
@@ -341,6 +354,10 @@ object CobblemonNetwork : NetworkManager {
 
         // Party move select packets
         this.createClientBound(OpenPartyMoveCallbackPacket.ID, OpenPartyMoveCallbackPacket::decode, OpenPartyMoveCallbackHandler)
+
+        // Dialogue packets
+        this.createClientBound(DialogueClosedPacket.ID, DialogueClosedPacket::decode, DialogueClosedHandler)
+        this.createClientBound(DialogueOpenedPacket.ID, DialogueOpenedPacket::decode, DialogueOpenedHandler)
     }
 
     override fun registerServerBound() {
@@ -406,6 +423,10 @@ object CobblemonNetwork : NetworkManager {
         // Party move select packets
         this.createServerBound(PartyPokemonMoveSelectedPacket.ID, PartyPokemonMoveSelectedPacket::decode, PartyPokemonMoveSelectedHandler)
         this.createServerBound(PartyMoveSelectCancelledPacket.ID, PartyMoveSelectCancelledPacket::decode, PartyMoveSelectCancelledHandler)
+
+        // Dialogue packets
+        this.createServerBound(EscapeDialoguePacket.ID, EscapeDialoguePacket::decode, EscapeDialogueHandler)
+        this.createServerBound(InputToDialoguePacket.ID, InputToDialoguePacket::decode, InputToDialogueHandler)
     }
 
     private inline fun <reified T : NetworkPacket<T>> createClientBound(identifier: Identifier, noinline decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>) {

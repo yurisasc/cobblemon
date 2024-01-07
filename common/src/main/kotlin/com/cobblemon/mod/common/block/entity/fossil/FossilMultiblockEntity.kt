@@ -32,12 +32,14 @@ open class FossilMultiblockEntity(
     override var multiblockStructure: MultiblockStructure? = null
         set(structure) {
             field = structure
-            masterBlockPos = structure?.controllerBlockPos
+            if (structure != null) {
+                masterBlockPos = structure.controllerBlockPos
+            }
         }
         get() {
             return if (field != null) {
                 field
-            } else if (masterBlockPos != null && world != null) {
+            } else if (masterBlockPos != null && masterBlockPos != pos && world?.getBlockEntity(masterBlockPos) != null) {
                 field = (world?.getBlockEntity(masterBlockPos) as FossilMultiblockEntity).multiblockStructure
                 field
             } else {

@@ -63,6 +63,10 @@ object DataKeys {
     const val POKEMON_OWNER_ID = "PokemonOwnerId"
     const val POKEMON_HIDE_LABEL = "HideLabel"
     const val POKEMON_UNBATTLEABLE = "Unbattleable"
+    const val POKEMON_COUNTS_TOWARDS_SPAWN_CAP = "CountsTowardsSpawnCap"
+
+    const val POKEMON_ORIGINAL_TRAINER = "PokemonOriginalTrainer"
+    const val POKEMON_ORIGINAL_TRAINER_TYPE = "PokemonOriginalTrainerType"
 
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
@@ -149,10 +153,11 @@ object DataKeys {
     const val COMPARTMENT_POS = "CompartmentPos"
     const val ORGANIC_MATERIAL = "OrganicContent"
     const val INSERTED_FOSSIL = "InsertedFossil"
-    const val INSERTED_FOSSIL_STACKS = "InsertedFossilStacks"
+    const val FOSSIL_INVENTORY = "InsertedFossilStacks"
     const val TUBE_FILL_LEVEL = "TubeFillLevel"
-    const val DIRECTION = "Direction"
+    const val CONNECTOR_DIRECTION = "ConnectorDirection"
     const val TIME_LEFT = "TimeLeft"
     const val FORMED = "Formed"
     const val CREATED_POKEMON = "CreatedPokemon"
+    const val FOSSIL_STATE = "FossilState"
 }

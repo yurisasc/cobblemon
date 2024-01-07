@@ -8,7 +8,7 @@
             "pokemon": "seel",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -26,8 +26,8 @@
                 ]
             }
         },
-		{
-            "id": "onix-nether-1",
+        {
+            "id": "onix-2",
             "pokemon": "onix",
             "presets": [
                 "natural"

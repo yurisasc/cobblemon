@@ -1,0 +1,10 @@
+{
+  "asset_name": "tumblestone",
+  "description": {
+    "translate": "trim_material.cobblemon.tumblestone",
+    "fallback": "Tumblestone",
+    "color": "#ED9C62"
+  },
+  "ingredient": "cobblemon:tumblestone",
+  "item_model_index": 0.2632
+}

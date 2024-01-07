@@ -35,6 +35,7 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 
 class FormData(
     name: String = "Normal",
@@ -98,7 +99,9 @@ class FormData(
      * The [MoveTemplate] of the signature attack of the G-Max form.
      * This is always null on any form aside G-Max.
      */
-    val gigantamaxMove: MoveTemplate? = null
+    val gigantamaxMove: MoveTemplate? = null,
+    @SerializedName("battleTheme")
+    private var _battleTheme: Identifier? = null
 ) : Decodable, Encodable, ShowdownIdentifiable {
     @SerializedName("name")
     var name: String = name
@@ -185,6 +188,9 @@ class FormData(
      */
     val evolutions: MutableSet<Evolution>
         get() = _evolutions ?: mutableSetOf()
+
+    val battleTheme: Identifier
+        get() = _battleTheme ?: species.battleTheme
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)

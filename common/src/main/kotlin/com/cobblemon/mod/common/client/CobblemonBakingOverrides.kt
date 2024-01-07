@@ -53,6 +53,10 @@ object CobblemonBakingOverrides {
         cobblemonResource("block/fossil/fossil_fluid_chunked_7"),
         cobblemonModel("fossil_fluid_chunked", "7")
     )
+    val FOSSIL_FLUID_CHUNKED_8 = registerOverride(
+        cobblemonResource("block/fossil/fossil_fluid_chunked_8"),
+        cobblemonModel("fossil_fluid_chunked", "8")
+    )
     val RESTORATION_TANK_CONNECTOR = registerOverride(
         cobblemonResource("block/fossil/restoration_tank_connector"),
         cobblemonModel("restoration_tank_connector", "none")

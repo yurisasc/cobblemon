@@ -7,12 +7,12 @@
  */
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -73,7 +73,7 @@ class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
                 bedrock("comfey", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset),
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset),
             )
         )
 
@@ -84,7 +84,7 @@ class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
                 bedrock("comfey", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset),
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset),
             )
         )
     }

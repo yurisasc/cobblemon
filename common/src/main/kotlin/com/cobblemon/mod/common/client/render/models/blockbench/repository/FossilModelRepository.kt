@@ -8,12 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.fromJson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.entity.Entity
 
@@ -51,6 +54,41 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
                     null
                 }
             }.toTypedArray()
+
+            // borrowed code from JsonPokemonPoseableModel's PoseAdapter Deserializer
+            val tankQuirks = (jsonObject.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
+                json as JsonObject
+                val name = json.get("name").asString
+                val quirkAnimations: (state: PoseableEntityState<Entity>) -> List<StatefulAnimation<Entity, *>> = { _ ->
+                    (json.get("animations")?.asJsonArray ?: JsonArray()).mapNotNull { animJson ->
+                        val animString = animJson.asString
+
+                        val anim = animString.substringBefore("(")
+
+                        JsonPokemonPoseableModel.StatefulAnimationAdapter.preventsIdleDefault = false
+                        val animation = if (JsonPokemonPoseableModel.ANIMATION_FACTORIES.contains(anim)) {
+                            JsonPokemonPoseableModel.ANIMATION_FACTORIES[anim]?.stateful(model, animString)
+                        } else {
+                            null
+                        }
+                        JsonPokemonPoseableModel.StatefulAnimationAdapter.preventsIdleDefault = true
+                        animation
+                    }
+                }
+                val loopTimes = json.get("loopTimes")?.asInt ?: 1
+                val minSeconds = json.get("minSecondsBetweenOccurrences")?.asFloat ?: 8F
+                val maxSeconds = json.get("maxSecondsBetweenOccurrences")?.asFloat ?: 30F
+
+                model.quirkMultiple(
+                    name = name,
+                    secondsBetweenOccurrences = minSeconds to maxSeconds,
+                    condition = { true },
+                    loopTimes = 1..loopTimes,
+                    animations = quirkAnimations
+                )
+            }
+            model.tankQuirks = tankQuirks.toTypedArray()
+
             model
         }
     }

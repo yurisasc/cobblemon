@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Tauros",
   "nationalPokedexNumber": 128,
@@ -16,6 +16,9 @@
     "special_defence": 70,
     "speed": 110
   },
+  "features": [
+    "paldean-breed"
+  ],
   "catchRate": 45,
   "maleRatio": 1,
   "shoulderMountable": false,
@@ -115,7 +118,6 @@
       ],
       "height": 14,
       "weight": 884,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -221,7 +223,6 @@
       ],
       "height": 14,
       "weight": 884,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -324,7 +325,6 @@
       ],
       "height": 14,
       "weight": 884,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

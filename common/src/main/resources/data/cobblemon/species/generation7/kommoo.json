@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Kommo-o",
   "nationalPokedexNumber": 784,
   "primaryType": "dragon",
@@ -153,7 +153,6 @@
       ],
       "height": 24,
       "weight": 2075,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -311,5 +310,26 @@
   "height": 16,
   "weight": 782,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:dragon_scale",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

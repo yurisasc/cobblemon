@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.block.multiblock
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
@@ -66,31 +67,69 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
     override fun form(world: ServerWorld) {
         //We want to create a MultiblockStructure here and pass a reference to it in every constituent block's entity
         val blocks = boundingBox.blockPositionsAsList()
-        val fossilMonitorPositions = blocks.filter {
+        val dirsToCheck = listOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
+        /*
+        The process of identifying the constituent blocks is a bit of a clusterfuck so here's an explanation
+
+        1. We find all of the monitors in the boundingBox
+        2. We map those positions to a new list representing valid compartment positions
+        (This is where it starts getting complicated) We want valid compartment positions, but we
+        need to remember the index in the monitor position list that each compartment is valid for.
+        So basically we take the monitor positions, check if they have a compartment underneath.
+        If they do, set the element in the NEW list to be the position of the compartment.
+        If they dont, set the element in the new list to be null
+        3. Do a similar process for tubes.
+        (Make a copy of the compartment positions, set them to the tube position if theres a tube, null if not)
+
+        What this ends up doing is giving us a list at the end filled with either nulls or BlockPositions
+        of tubes that have a valid structure. The index of any tube in the list corresponds to the index
+        of the Monitor/Compartment in their respective lists. So if you have a fossilTubePositions list of
+        [null BlockPos null], the fossilCompartment BlockPos is fossilCompPositions[1] and the monitor BlockPos
+        is fossilMonitorPositions[1]
+
+            - Apion
+         */
+        var fossilMonitorPositions = blocks.filter {
             FOSSIL_MONITOR_PRED.test(world, it)
         }
-        val fossilCompPositions = blocks.filter { FOSSIL_COMPARTMENT_PRED.test(world, it) }
-        val fossilTubePositions = blocks.filter { FOSSIL_TUBE_PRED.test(world, it) }
-        /*
-        if (fossilMonitorPositions.count() > 1 || fossilCompPositions.count() > 1 || fossilTubePositions.count() > 1) {
-            Cobblemon.LOGGER.warn("There are multiple potential formations for the resurrection machine, failing to form")
+
+        var fossilCompPositions = fossilMonitorPositions.map {
+            if (FOSSIL_COMPARTMENT_PRED.test(world, it.down())) it.down()
+            else null
+        }
+
+        var fossilTubePositions = fossilCompPositions.map { compPosition ->
+            if (compPosition == null) {
+                return@map null
+            }
+            dirsToCheck.forEach {
+                if (FOSSIL_TUBE_PRED.test(world, compPosition.offset(it))) {
+                    return@map compPosition.offset(it)
+                }
+            }
+            return@map null
+        }
+
+        val fossilTubeIndex = fossilTubePositions.indexOfFirst {
+            it != null
+        }
+        if (fossilTubeIndex == -1) {
+            Cobblemon.LOGGER.error("FossilMultiblockBuilder form called on invalid structure! This should never happen!")
             return
         }
-        */
-        val fossilMonitorPos = fossilMonitorPositions.random()
-        val fossilCompPos = fossilCompPositions.random()
-        val fossilTubePos = fossilTubePositions.random()
+        val fossilMonitorPos = fossilMonitorPositions[fossilTubeIndex]
+        val fossilCompPos = fossilCompPositions[fossilTubeIndex]!!
+        val fossilTubePos = fossilTubePositions[fossilTubeIndex]!!
         val monitorEntity = world.getBlockEntity(fossilMonitorPos) as MultiblockEntity
-        val compEntity = world.getBlockEntity(fossilCompPos) as FossilCompartmentBlockEntity
-        val tubeBaseEntity = world.getBlockEntity(fossilTubePos) as FossilTubeBlockEntity
+        val compEntity = world.getBlockEntity(fossilCompPos) as MultiblockEntity
+        val tubeBaseEntity = world.getBlockEntity(fossilTubePos) as MultiblockEntity
         val tubeTopEntity = world.getBlockEntity(fossilTubePos.up()) as MultiblockEntity
         val structure = FossilMultiblockStructure(fossilMonitorPos, fossilCompPos, fossilTubePos)
-        val dirsToCheck = listOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
 
-        tubeBaseEntity.connectorPosition = dirsToCheck.filter {
-            val adjState = world.getBlockState(fossilTubePos.offset(it))
-            return@filter adjState.block is FossilCompartmentBlock
-        }.random()
+        structure.tubeConnectorDirection = dirsToCheck.filter {
+            val adjPos = fossilTubePos.offset(it)
+            return@filter adjPos == fossilCompPos
+        }.first()
 
         compEntity.multiblockStructure = structure
         tubeBaseEntity.multiblockStructure = structure

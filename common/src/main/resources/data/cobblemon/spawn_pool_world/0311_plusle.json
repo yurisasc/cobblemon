@@ -14,12 +14,12 @@
             "bucket": "uncommon",
             "level": "16-41",
             "weight": 1.0,
-			"weightMultiplier": {
-				"multiplier": 5.0,
-				"condition": {
-					"isThundering": true
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 5.0,
+                "condition": {
+                    "isThundering": true
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -27,7 +27,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "plusle-2",
             "pokemon": "plusle",
             "type": "pokemon",
@@ -35,18 +35,18 @@
             "bucket": "uncommon",
             "level": "16-41",
             "weight": 3.0,
-			"weightMultiplier": {
-				"multiplier": 5.0,
-				"condition": {
-					"isThundering": true
-				}
-			},
+            "weightMultiplier": {
+                "multiplier": 5.0,
+                "condition": {
+                    "isThundering": true
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_plains"
                 ],
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "minecraft:lightning_rod"
                 ]
             }

@@ -15,8 +15,10 @@ import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import net.minecraft.block.Block
+import net.minecraft.inventory.SidedInventory
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.block.InventoryProvider
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
@@ -26,8 +28,9 @@ import net.minecraft.state.property.BooleanProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
 
-class FossilCompartmentBlock(properties: Settings) : MultiblockBlock(properties){
+class FossilCompartmentBlock(properties: Settings) : MultiblockBlock(properties), InventoryProvider {
     init {
         defaultState = defaultState
             .with(HorizontalFacingBlock.FACING, Direction.NORTH)
@@ -46,6 +49,16 @@ class FossilCompartmentBlock(properties: Settings) : MultiblockBlock(properties)
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
         return defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
+    }
+
+    override fun getInventory(
+            state: BlockState,
+            world: WorldAccess,
+            pos: BlockPos
+    ): SidedInventory {
+        val compartmentEntity = world.getBlockEntity(pos) as FossilCompartmentBlockEntity
+
+        return compartmentEntity.inv
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {

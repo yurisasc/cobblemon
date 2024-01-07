@@ -120,6 +120,16 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val COIN_POUCH_STEP = this.create("coin_pouch.step")
     @JvmField
     val COIN_POUCH_PLACE = this.create("coin_pouch.place")
+    @JvmField
+    val TUMBLESTONE_BREAK = this.create("tumblestone.break")
+    @JvmField
+    val TUMBLESTONE_BLOCK_BREAK = this.create("tumblestone.block_break")
+    @JvmField
+    val TUMBLESTONE_HIT = this.create("tumblestone.hit")
+    @JvmField
+    val TUMBLESTONE_PLACE = this.create("tumblestone.place")
+    @JvmField
+    val TUMBLESTONE_STEP = this.create("tumblestone.step")
 
     @JvmField
     val GIMMIGHOUL_GIVE_ITEM_SMALL = this.create("gimmighoul.give_item_small")
@@ -133,6 +143,23 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
         COIN_POUCH_PLACE,
         COIN_POUCH_HIT,
         COIN_POUCH_STEP
+    )
+    @JvmField
+    val TUMBLESTONE_SOUNDS = BlockSoundGroup(1f, 1f,
+        TUMBLESTONE_BREAK,
+        TUMBLESTONE_STEP,
+        TUMBLESTONE_PLACE,
+        TUMBLESTONE_HIT,
+        TUMBLESTONE_STEP
+    )
+
+    @JvmField
+    val TUMBLESTONE_BLOCK_SOUNDS = BlockSoundGroup(1f, 1f,
+        TUMBLESTONE_BLOCK_BREAK,
+        TUMBLESTONE_STEP,
+        TUMBLESTONE_PLACE,
+        TUMBLESTONE_HIT,
+        TUMBLESTONE_STEP
     )
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))

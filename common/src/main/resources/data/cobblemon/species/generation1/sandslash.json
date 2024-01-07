@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Sandslash",
   "nationalPokedexNumber": 28,
@@ -28,6 +28,9 @@
     "special_defence": 55,
     "speed": 65
   },
+  "features": [
+    "alolan"
+  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -201,9 +204,21 @@
       "height": 12,
       "weight": 550,
       "preEvolution": "sandshrew form=alola",
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:quick_claw",
+            "percentage": 5.0
+          },
+          {
+            "item": "cobblemon:chople_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 158,

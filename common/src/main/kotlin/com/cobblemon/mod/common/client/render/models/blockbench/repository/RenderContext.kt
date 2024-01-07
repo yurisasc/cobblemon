@@ -105,22 +105,32 @@ class RenderContext {
         /**
          * Key to access the currently rendered entity.
          */
-        val ENTITY: Key<Entity> = key("entity".asResource(), Entity::class.java)
+        val ENTITY: Key<Entity> = key("entity".asResource())
 
         /**
          * Key to access the identifier of the texture being rendered.
          */
-        val TEXTURE: Key<Identifier> = key("texture".asResource(), Identifier::class.java)
+        val TEXTURE: Key<Identifier> = key("texture".asResource())
 
         /**
          * Key to access the base scaling factor of the current species.
          */
-        val SCALE: Key<Float> = key("scale".asResource(), Float::class.java)
+        val SCALE: Key<Float> = key("scale".asResource())
+
+        /**
+         * Key to access the identifier of the current species.
+         */
+        val SPECIES: Key<Identifier> = key("species".asResource())
+
+        /**
+         * Key to access the aspects of the current entity.
+         */
+        val ASPECTS: Key<Set<String>> = key("species".asResource())
 
         /**
          * Key to access the rendering state, indicating the active rendering mode.
          */
-        val RENDER_STATE: Key<RenderState> = key("state".asResource(), RenderState::class.java)
+        val RENDER_STATE: Key<RenderState> = key("state".asResource())
 
         /**
          * Creates a new Key instance with the provided identifier and TypeToken.
@@ -142,7 +152,7 @@ class RenderContext {
          *
          * @since 1.4.0
          */
-        fun <T : Any> key(id: Identifier, clazz: Class<T>): Key<T> = key(id, TypeToken.get(clazz))
+        inline fun <reified T : Any> key(id: Identifier): Key<T> = key(id, TypeToken.get(T::class.java))
     }
 }
 

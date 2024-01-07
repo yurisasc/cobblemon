@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Raichu",
   "nationalPokedexNumber": 26,
@@ -53,15 +53,6 @@
       "abilities": [
         "surgesurfer"
       ],
-      "drops": {
-        "amount": 1,
-        "entries": [
-          {
-            "item": "cobblemon:oran_berry",
-            "percentage": 10
-          }
-        ]
-      },
       "baseStats": {
         "hp": 60,
         "attack": 85,
@@ -236,7 +227,6 @@
       "height": 7,
       "weight": 210,
       "preEvolution": "pikachu alolan",
-      "evolutions": [],
       "baseScale": 0.75,
       "hitbox": {
         "width": 0.8,

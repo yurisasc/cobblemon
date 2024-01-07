@@ -10,90 +10,85 @@ package com.cobblemon.mod.common.block.entity.fossil
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
-import com.cobblemon.mod.common.util.DataKeys
-import net.minecraft.block.Block
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import net.minecraft.block.BlockState
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 
 class FossilCompartmentBlockEntity(
     pos: BlockPos, state: BlockState,
     multiblockBuilder: MultiblockStructureBuilder
 ): FossilMultiblockEntity(pos, state, multiblockBuilder, CobblemonBlockEntities.FOSSIL_COMPARTMENT) {
-    private var insertedFossilStacks = mutableListOf<ItemStack>()
 
-    override fun toUpdatePacket(): Packet<ClientPlayPacketListener>? {
-        return BlockEntityUpdateS2CPacket.create(this)
-    }
+    val inv = FossilCompartmentInventory(this)
 
-    override fun toInitialChunkDataNbt(): NbtCompound {
-        return createNbt()
-    }
-
-    override fun writeNbt(nbt: NbtCompound) {
-        super.writeNbt(nbt)
-
-        if (this.insertedFossilStacks.isNotEmpty()) {
-            val fossilStacks = NbtCompound()
-            for (i in this.insertedFossilStacks.indices) {
-                fossilStacks.put(i.toString(), this.insertedFossilStacks[i].writeNbt(NbtCompound()))
-            }
-            nbt.put(DataKeys.INSERTED_FOSSIL_STACKS, fossilStacks)
+    class FossilCompartmentInventory(val compartmentEntity: FossilCompartmentBlockEntity) : SidedInventory {
+        override fun clear() {
+            TODO("Not yet implemented")
         }
-    }
 
-    override fun readNbt(nbt: NbtCompound) {
-        super.readNbt(nbt)
-
-        this.insertedFossilStacks.clear()
-
-        if (nbt.contains(DataKeys.INSERTED_FOSSIL_STACKS)) {
-            val fossilStacks = nbt.getCompound(DataKeys.INSERTED_FOSSIL_STACKS)
-            for (key in fossilStacks.keys) {
-                val fossilStack = ItemStack.fromNbt(fossilStacks.getCompound(key))
-                this.insertedFossilStacks.add(fossilStack)
-            }
+        override fun size(): Int {
+            TODO("Not yet implemented")
         }
-    }
 
-    fun getInsertedFossilStacks(): List<ItemStack> {
-        return this.insertedFossilStacks
-    }
-
-    fun isFull(): Boolean {
-        return this.insertedFossilStacks.size >= Cobblemon.config.maxInsertedFossilItems
-    }
-
-    fun isEmpty(): Boolean {
-        return this.insertedFossilStacks.isEmpty()
-    }
-
-    fun clear() {
-        this.insertedFossilStacks.clear()
-    }
-
-    fun insertFossilStack(fossilStack: ItemStack) {
-        if (this.isFull()) {
-            return
+        override fun isEmpty(): Boolean {
+            return false
         }
-        this.insertedFossilStacks.add(fossilStack)
 
-        this.world?.updateListeners(this.pos, this.cachedState, this.cachedState, Block.NOTIFY_LISTENERS)
-        this.markDirty()
-    }
-
-    fun withdrawLastFossilStack(): ItemStack {
-        if (this.insertedFossilStacks.isEmpty()) {
+        override fun getStack(slot: Int): ItemStack {
             return ItemStack.EMPTY
         }
-        val last = this.insertedFossilStacks.removeLast()
-        this.world?.updateListeners(this.pos, this.cachedState, this.cachedState, Block.NOTIFY_LISTENERS)
-        this.markDirty()
-        return last
+
+        override fun removeStack(slot: Int, amount: Int): ItemStack {
+            return ItemStack.EMPTY
+        }
+
+        override fun removeStack(slot: Int): ItemStack {
+            return ItemStack.EMPTY
+        }
+
+        override fun setStack(slot: Int, stack: ItemStack) {
+            if (compartmentEntity.multiblockStructure != null) {
+                val struct = compartmentEntity.multiblockStructure as FossilMultiblockStructure
+                compartmentEntity.world?.let {
+                    struct.insertFossil(stack, it)
+                }
+            }
+        }
+
+        override fun markDirty() {
+            if (compartmentEntity.world != null) {
+                compartmentEntity.multiblockStructure?.markDirty(compartmentEntity.world!!)
+            }
+        }
+
+        override fun canPlayerUse(player: PlayerEntity?): Boolean {
+            return false
+        }
+
+        override fun getAvailableSlots(side: Direction?): IntArray {
+            return IntArray(1)
+        }
+
+        override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
+            if (compartmentEntity.multiblockStructure is FossilMultiblockStructure) {
+                val structure = compartmentEntity.multiblockStructure as FossilMultiblockStructure
+                return stack?.let { Fossils.isFossilIngredient(it) } == true
+                        && structure.fossilInventory.size < Cobblemon.config.maxInsertedFossilItems
+                        && structure.isRunning() == false && structure.resultingFossil == null
+                        && Fossils.getSubFossilByItemStacks( structure.fossilInventory + mutableListOf(stack) ) != null
+            }
+            return false
+        }
+
+        override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
+            return false
+        }
+
     }
 }

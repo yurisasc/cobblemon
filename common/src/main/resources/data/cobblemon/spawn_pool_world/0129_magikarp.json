@@ -19,7 +19,7 @@
                 "canSeeSky": true
             }
         },
-		{
+        {
             "id": "magikarp-2",
             "pokemon": "magikarp",
             "presets": [

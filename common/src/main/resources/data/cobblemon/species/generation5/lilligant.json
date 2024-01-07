@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Lilligant",
   "nationalPokedexNumber": 549,
   "primaryType": "grass",
@@ -32,6 +32,9 @@
     "special_defence": 75,
     "speed": 90
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 75,
   "maleRatio": 0,
   "shoulderMountable": false,
@@ -142,7 +145,6 @@
       "height": 12,
       "weight": 192,
       "preEvolution": "petilil",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

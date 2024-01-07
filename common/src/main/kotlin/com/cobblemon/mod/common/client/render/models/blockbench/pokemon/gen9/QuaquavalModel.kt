@@ -8,16 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -57,7 +54,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             transformTicks = 10,
             condition = { !it.isBattling && !it.isTouchingWaterOrRain},
             transformedParts = arrayOf(
-                water_feathers.asTransformed().withVisibility(visibility = false)
+                water_feathers.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -72,7 +69,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             transformTicks = 10,
             condition = { !it.isBattling && it.isTouchingWaterOrRain},
             transformedParts = arrayOf(
-                water_feathers.asTransformed().withVisibility(visibility = false)
+                water_feathers.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -86,7 +83,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             transformedParts = arrayOf(
-                water_feathers.asTransformed().withVisibility(visibility = false)
+                water_feathers.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -101,7 +98,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             transformTicks = 10,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                water_feathers.asTransformed().withVisibility(visibility = true)
+                water_feathers.createTransformation().withVisibility(visibility = true)
             ),
             condition = { it.isBattling },
             idleAnimations = arrayOf(

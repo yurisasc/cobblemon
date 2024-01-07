@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation
 
 import com.bedrockk.molang.runtime.MoLangRuntime
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Z_AXIS
 import kotlin.math.floor
 import net.minecraft.util.math.Vec3d
 import org.joml.Vector3d
@@ -20,9 +22,9 @@ import org.joml.Vector3d
  */
 fun catmullromLerp(frameA: BedrockAnimationKeyFrame?, frameB: BedrockAnimationKeyFrame, frameC: BedrockAnimationKeyFrame, frameD: BedrockAnimationKeyFrame?, time: Double, runtime: MoLangRuntime): Vec3d {
     return Vec3d(
-            catmullromLerp(frameA, frameB, frameC, frameD, TransformedModelPart.X_AXIS, time, runtime),
-            catmullromLerp(frameA, frameB, frameC, frameD, TransformedModelPart.Y_AXIS, time, runtime),
-            catmullromLerp(frameA, frameB, frameC, frameD, TransformedModelPart.Z_AXIS, time, runtime)
+            catmullromLerp(frameA, frameB, frameC, frameD, X_AXIS, time, runtime),
+            catmullromLerp(frameA, frameB, frameC, frameD, Y_AXIS, time, runtime),
+            catmullromLerp(frameA, frameB, frameC, frameD, Z_AXIS, time, runtime)
     )
 }
 
@@ -89,9 +91,9 @@ private fun catmullrom(t: Double, p0: Double, p1: Double, p2: Double, p3: Double
 
 private fun Vector3d.get(axis: Int) : Double {
     return when (axis) {
-        TransformedModelPart.X_AXIS -> this.x
-        TransformedModelPart.Y_AXIS -> this.y
-        TransformedModelPart.Z_AXIS -> this.z
+        X_AXIS -> this.x
+        Y_AXIS -> this.y
+        Z_AXIS -> this.z
         else -> throw IllegalStateException()
     }
 }

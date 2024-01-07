@@ -33,11 +33,45 @@
             "level": "36-50",
             "weight": 0.1,
             "condition": {
+                "biomes": [
+                    "#minecraft:is_nether"
+                ]
+            },
+            "drops": {
+                "amount": 3,
+                "entries": [
+                    {
+                        "item": "cobblemon:spell_tag",
+                        "percentage": 10.0
+                    },
+                    {
+                        "item": "cobblemon:payapa_berry",
+                        "percentage": 10.0
+                    },
+                    {
+                        "item": "minecraft:ghast_tear",
+                        "percentage": 10.0
+                    }
+                ]
+            }
+        },
+        {
+            "id": "gengar-3",
+            "pokemon": "gengar",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "36-50",
+            "weight": 0.1,
+            "condition": {
                 "canSeeSky": false,
-				"maxLight": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "maxLight": 0
             },
             "anticondition": {
                 "biomes": [
@@ -45,8 +79,8 @@
                 ]
             }
         },
-		{
-            "id": "gengar-3",
+        {
+            "id": "gengar-4",
             "pokemon": "gengar",
             "presets": [
                 "derelict"
@@ -69,25 +103,6 @@
             }
         },
         {
-            "id": "gengar-4",
-            "pokemon": "gengar",
-            "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "36-50",
-            "weight": 0.1,
-            "condition": {
-                "canSeeSky": true,
-				"maxLight": 0,
-                "biomes": [
-                    "#cobblemon:is_spooky"
-                ]
-            }
-        },
-        {
             "id": "gengar-5",
             "pokemon": "gengar",
             "presets": [
@@ -99,19 +114,12 @@
             "level": "36-50",
             "weight": 0.1,
             "condition": {
+                "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_nether"
-                ]
-            },
-			"drops": {
-				"amount": "1",
-				"entries": [
-					{
-					"item": "minecraft:ghast_tear",
-					"percentage": 10
-					}
-				]
-			}
+                    "#cobblemon:is_spooky"
+                ],
+                "maxLight": 0
+            }
         }
     ]
 }

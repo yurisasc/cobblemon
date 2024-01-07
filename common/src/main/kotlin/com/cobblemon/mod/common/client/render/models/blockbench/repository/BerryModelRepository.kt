@@ -9,15 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.client.render.CobblemonAtlases
+import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
 import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.endsWith
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import net.minecraft.client.model.ModelPart
+
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -34,32 +35,44 @@ object BerryModelRepository : JsonDataRegistry<TexturedModel> {
     override val gson: Gson = TexturedModel.GSON
     override val typeToken: TypeToken<TexturedModel> = TypeToken.get(TexturedModel::class.java)
     override val resourcePath = "bedrock/berries"
-//    private val flywheelModels = hashMapOf<Identifier, Model>()
-    private val vanillaModels = hashMapOf<Identifier, ModelPart>()
+    private val rawModels = hashMapOf<Identifier, TexturedModel>()
+    private val processedModels = hashMapOf<Identifier, ModelPart>()
 
     override fun sync(player: ServerPlayerEntity) {}
 
     override fun reload(data: Map<Identifier, TexturedModel>) {
-//        this.flywheelModels.clear()
         data.forEach { (identifier, model) ->
-            var textureName = "cobblemon:flower"
-            if (identifier.endsWith("berry.geo")) {
-                textureName = identifier.toString()
-                    .substring(0, identifier.toString().length - "_berry.geo".length)
-            }
-//            val atlas = CobblemonAtlases.BERRY_SPRITE_ATLAS
-//            this.flywheelModels[identifier] = model.createFlywheelModel(
-//                atlas,
-//                Identifier.tryParse(textureName)!!,
-//                identifier.toString()
-//            )
-            //These are for when flywheel isn't available, e.g. with shaders
-            this.vanillaModels[identifier] = model.create(false).createModel()
+            this.rawModels[identifier] = model
         }
         observable.emit(this)
-        Cobblemon.LOGGER.info("Loaded {} berry models", /*this.flywheelModels.size*/this.vanillaModels.size)
+        Cobblemon.LOGGER.info("Loaded {} berry models",this.rawModels.size)
     }
-//    fun flywheelModelOf(identifier: Identifier) = this.flywheelModels[identifier]
 
-    fun modelOf(identifier: Identifier) = this.vanillaModels[identifier]
+    //This runs after the berry atlas + berry registry has been created, hotfixes models to use the u-v vals of the atlas
+    fun patchModels() {
+        Berries.all().forEach {
+            val fruitModel = rawModels[it.fruitModelIdentifier]
+            val flowerModel = rawModels[it.flowerModelIdentifier]
+            val fruitTexId = it.fruitTexture
+            val flowerTexId = it.flowerTexture
+            val fruitTex = CobblemonAtlases.BERRY_SPRITE_ATLAS.getSprite(fruitTexId)
+            val flowerTex = CobblemonAtlases.BERRY_SPRITE_ATLAS.getSprite(flowerTexId)
+            processedModels[it.fruitModelIdentifier] = fruitModel?.createWithUvOverride(
+                false,
+                fruitTex.x,
+                fruitTex.y,
+                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.width,
+                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.height
+            )?.createModel()!!
+            processedModels[it.flowerModelIdentifier] = flowerModel?.createWithUvOverride(
+                false,
+                flowerTex.x,
+                flowerTex.y,
+                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.width,
+                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.height
+            )?.createModel()!!
+        }
+    }
+
+    fun modelOf(identifier: Identifier) = this.processedModels[identifier]
 }

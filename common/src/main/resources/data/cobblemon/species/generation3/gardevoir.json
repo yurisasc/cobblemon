@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Gardevoir",
   "nationalPokedexNumber": 282,
@@ -83,7 +83,6 @@
       ],
       "height": 16,
       "weight": 484,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

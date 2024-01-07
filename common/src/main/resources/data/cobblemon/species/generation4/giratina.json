@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Giratina",
   "nationalPokedexNumber": 487,
   "primaryType": "ghost",
@@ -229,7 +229,6 @@
       ],
       "height": 69,
       "weight": 6500,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

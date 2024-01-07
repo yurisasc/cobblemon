@@ -11,10 +11,12 @@ package com.cobblemon.mod.common.api.multiblock
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 
 interface MultiblockStructure {
@@ -37,4 +39,8 @@ interface MultiblockStructure {
 
     fun markDirty(world: World)
     fun writeToNbt(): NbtCompound
+    fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
+        return 0
+    }
+    fun onTriggerEvent(state: BlockState?, world: ServerWorld?, pos: BlockPos?, random: Random?)
 }

@@ -296,5 +296,14 @@
     "width": 1,
     "height": 1,
     "fixed": false
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:gold_nugget",
+        "quantityRange": "1-3"
+      }
+    ]
   }
 }

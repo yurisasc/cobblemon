@@ -8,16 +8,17 @@
     "EntityRenderDispatcherMixin",
     "GameRendererMixin",
     "ModelPartMixin",
+    "MusicTrackerMixin",
     "PartyScrollMixin",
     "SoundManagerMixin",
     "SoundSystemMixin",
     "accessor.KeyBindingAccessor",
-    "accessor.MusicTrackerAccessor",
     "invoker.ClientPlayNetworkHandlerInvoker",
     "pokeball.ItemRendererMixin",
     "ModelLoaderMixin"
   ],
   "mixins": [
+    "EntityVillagerMixin",
     "ExplosionMixin",
     "LivingEntityMixin",
     "MinecraftDedicatedServerMixin",

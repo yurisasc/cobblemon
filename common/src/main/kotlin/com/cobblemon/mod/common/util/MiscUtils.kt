@@ -66,6 +66,10 @@ fun Random.nextBetween(min: Int, max: Int): Int {
     return nextInt(max - min + 1) + min
 }
 
+fun isUuid(string: String) : Boolean {
+    return Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\$").matches(string)
+}
+
 fun VoxelShape.blockPositionsAsList(): List<BlockPos> {
     val result = mutableListOf<BlockPos>()
     forEachBox { minX, minY, minZ, maxX, maxY, maxZ ->

@@ -10,7 +10,7 @@
       "translate": "advancements.cobblemon.obtain_fossil.description"
     }
   },
-  "parent": "cobblemon:root",
+  "parent": "cobblemon:healing_machine",
   "criteria": {
     "check_inv": {
       "trigger": "minecraft:inventory_changed",

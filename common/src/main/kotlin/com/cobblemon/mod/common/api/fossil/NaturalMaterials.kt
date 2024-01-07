@@ -10,11 +10,16 @@ package com.cobblemon.mod.common.api.fossil
 
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.net.messages.client.fossil.NaturalMaterialRegistrySyncPacket
+import com.cobblemon.mod.common.registry.ItemTagCondition
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
+import com.cobblemon.mod.common.util.adapters.ItemLikeConditionAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -29,35 +34,57 @@ object NaturalMaterials : JsonDataRegistry<List<NaturalMaterial>>{
     override val gson: Gson = GsonBuilder()
         .setPrettyPrinting()
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+        .registerTypeAdapter(ItemTagCondition::class.java, ItemLikeConditionAdapter)
         .create()
 
-    private val resourceData = mutableMapOf<Identifier, NaturalMaterial>()
-    override fun sync(player: ServerPlayerEntity) {}
+    private val itemMap = mutableMapOf<Identifier, NaturalMaterial>()
+    private val tagMap = mutableMapOf<ItemTagCondition, NaturalMaterial>()
+    override fun sync(player: ServerPlayerEntity) {
+        NaturalMaterialRegistrySyncPacket(this.itemMap.values.toList() + this.tagMap.values.toList()).sendToPlayer(player)
+    }
 
     override fun reload(data: Map<Identifier, List<NaturalMaterial>>) {
         data.forEach { entry ->
             entry.value.forEach {
-                resourceData.remove(it.item)
+                itemMap.remove(it.item)
                 if (it.item != null) {
-                    registerFromData(it.item, it.content, it.returnItem)
+                    itemMap[it.item] = it
+                }
+                if (it.tag != null) {
+                    tagMap[it.tag] = it
                 }
             }
         }
     }
 
-    private fun registerFromData(identifier: Identifier, value: Int, returnItem: Identifier?) {
-        resourceData[identifier] = NaturalMaterial(value, identifier, returnItem)
+    fun isNaturalMaterial(item: ItemStack): Boolean {
+        val itemId = Registries.ITEM.getId(item.item)
+        return itemId in itemMap.keys || tagMap.keys.any {
+            it.fits(item.item, Registries.ITEM)
+        }
     }
 
-    fun isNaturalMaterial(item: Identifier): Boolean {
-        return item in resourceData.keys
+    fun getContent(item: ItemStack): Int? {
+        val itemId = Registries.ITEM.getId(item.item)
+        if (itemId in itemMap.keys) {
+            return itemMap[itemId]?.content
+        }
+        val tag = tagMap.keys.firstOrNull { it.fits(item.item, Registries.ITEM) }
+        if (tag != null) {
+            return tagMap[tag]?.content
+        }
+        return null
     }
 
-    fun getContent(item: Identifier): Int? {
-        return resourceData[item]?.content
-    }
-
-    fun getReturnItem(item: Identifier): Identifier? {
-        return resourceData[item]?.returnItem
+    fun getReturnItem(item: ItemStack): Identifier? {
+        val itemId = Registries.ITEM.getId(item.item)
+        if (itemId in itemMap.keys) {
+            return itemMap[itemId]?.returnItem
+        }
+        val tag = tagMap.keys.firstOrNull { it.fits(item.item, Registries.ITEM) }
+        if (tag != null) {
+            return tagMap[tag]?.returnItem
+        }
+        return null
     }
 }

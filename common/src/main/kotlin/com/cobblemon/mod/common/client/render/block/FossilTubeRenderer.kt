@@ -8,10 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.block
 
+import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.client.CobblemonBakingOverrides
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
+import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
@@ -30,7 +32,11 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         light: Int,
         overlay: Int
     ) {
-        val connectionDir = entity.connectorPosition
+        if (entity.multiblockStructure == null) {
+            return
+        }
+        val struct = entity.multiblockStructure as FossilMultiblockStructure
+        val connectionDir = struct.tubeConnectorDirection
         // FYI, rendering models this way ignores the pivots set in the model, so set the pivots manually
         when (connectionDir) {
             Direction.NORTH -> matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(0f), 0.5f, 0f, 0.5f)
@@ -48,17 +54,19 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
             }
             matrices.pop()
         }
-        val fillLevel = entity.fillLevel
-        if (fillLevel == 0) {
+        val fillLevel = struct.fillLevel
+        if (fillLevel == 0 && struct.createdPokemon == null) {
             return
         }
 
-        if (fillLevel == 8) renderBaby(entity, tickDelta, matrices, vertexConsumers, light, overlay)
+        if (struct.isRunning() or (struct.createdPokemon != null)) renderBaby(entity, tickDelta, matrices, vertexConsumers, light, overlay)
 
         matrices.push()
         val transparentBuffer = vertexConsumers.getBuffer(RenderLayer.getTranslucent())
 
-        val fluidModel = FLUID_MODELS[fillLevel-1]
+        val fluidModel = if (struct.isRunning()) FLUID_MODELS[8]
+        else if (struct.createdPokemon != null) FLUID_MODELS[7]
+        else FLUID_MODELS[fillLevel-1]
         fluidModel.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
             transparentBuffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
         }
@@ -79,15 +87,24 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         val fossil = struc.resultingFossil ?: return
         val timeRemaining = struc.timeRemaining
 
+        val tankBlockState = entity.world?.getBlockState(entity.pos) ?: return
+        if(tankBlockState.block != CobblemonBlocks.FOSSIL_TUBE) {
+            // Block has been destroyed/replaced
+            return
+        }
+        val tankDirection = tankBlockState.get(HorizontalFacingBlock.FACING)
+        val struct = entity.multiblockStructure as FossilMultiblockStructure
+        val connectionDir = struct.tubeConnectorDirection
+
         val aspects = emptySet<String>()
-        val state = entity.state
+        val state = struc.fossilState
         state.updatePartialTicks(tickDelta)
 
         val model = FossilModelRepository.getPoser(fossil.identifier, aspects)
         val texture = FossilModelRepository.getTexture(fossil.identifier, aspects, state.animationSeconds)
         val vertexConsumer = vertexConsumers.getBuffer(model.getLayer(texture))
-
         val pose = model.poses.values.first()
+        state.currentModel = model
         state.setPose(pose.poseName)
         state.timeEnteredPose = 0F
 
@@ -98,9 +115,17 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         }
 
         matrices.push()
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90F))
-        matrices.scale(1F, -1F, -1F)
-        matrices.translate(0.5, -0.5 + model.yTranslation, 0.5)
+        matrices.translate(0.5, 0.5 + model.yTranslation, 0.5);
+        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180F))
+        if(tankDirection.rotateCounterclockwise(Direction.Axis.Y) == connectionDir) {
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90F))
+        } else if(tankDirection == connectionDir) {
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180F))
+        } else if(tankDirection.opposite != connectionDir) {
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90F))
+        }
+
+        matrices.push()
         matrices.scale(scale, scale, scale)
 
         model.setupAnimStateful(
@@ -118,6 +143,8 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         }
         model.setDefault()
         matrices.pop()
+        matrices.pop()
+
     }
 
     companion object {
@@ -129,6 +156,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
             CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_5.getModel(),
             CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_6.getModel(),
             CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_7.getModel(),
+            CobblemonBakingOverrides.FOSSIL_FLUID_CHUNKED_8.getModel(),
             CobblemonBakingOverrides.FOSSIL_FLUID_BUBBLING.getModel()
         )
 

@@ -46,9 +46,9 @@ import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import java.io.File
 import java.util.UUID
-import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
+import java.util.concurrent.ConcurrentLinkedDeque
 
 /**
  * Individual battle instance
@@ -69,6 +69,7 @@ open class PokemonBattle(
         side1.battle = this
         side2.battle = this
         this.actors.forEach { actor ->
+            actor.battle = this
             actor.pokemonList.forEach { battlePokemon ->
                 battlePokemon.effectedPokemon.evolutionProxy.current().progress()
                     .filterIsInstance<LastBattleCriticalHitsEvolutionProgress>()
@@ -102,7 +103,7 @@ open class PokemonBattle(
 
 
     var dispatchResult = GO
-    val dispatches = ConcurrentLinkedQueue<BattleDispatch>()
+    val dispatches = ConcurrentLinkedDeque<BattleDispatch>()
     val afterDispatches = mutableListOf<() -> Unit>()
 
     val captureActions = mutableListOf<BattleCaptureAction>()
@@ -252,7 +253,6 @@ open class PokemonBattle(
             }
         }
         sendUpdate(BattleEndPacket())
-        sendUpdate(BattleMusicPacket(null))
         BattleRegistry.closeBattle(this)
     }
 
@@ -319,6 +319,12 @@ open class PokemonBattle(
 
     fun dispatch(dispatcher: () -> DispatchResult) {
         dispatches.add(BattleDispatch { dispatcher() })
+
+    }
+
+    fun dispatchToFront(dispatcher: () -> DispatchResult) {
+        dispatches.addFirst(BattleDispatch { dispatcher() })
+
     }
 
     fun dispatchGo(dispatcher: () -> Unit) {
@@ -348,6 +354,10 @@ open class PokemonBattle(
 
     fun dispatch(dispatcher: BattleDispatch) {
         dispatches.add(dispatcher)
+    }
+
+    fun dispatchToFront(dispatcher: BattleDispatch) {
+        dispatches.addFirst(dispatcher)
     }
 
     fun doWhenClear(action: () -> Unit) {

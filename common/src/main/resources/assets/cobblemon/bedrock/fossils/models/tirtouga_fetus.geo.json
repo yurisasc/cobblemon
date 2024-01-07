@@ -6,18 +6,18 @@
 				"identifier": "geometry.tirtouga_fetus",
 				"texture_width": 64,
 				"texture_height": 32,
-				"visible_bounds_width": 2,
-				"visible_bounds_height": 2.5,
-				"visible_bounds_offset": [0, 0.75, 0]
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 1.5,
+				"visible_bounds_offset": [0, 0.25, 0]
 			},
 			"bones": [
 				{
-					"name": "tirtuga_fetus",
+					"name": "tirtouga_fetus",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "tirtuga_fetus",
+					"parent": "tirtouga_fetus",
 					"pivot": [0, 2.5, 0]
 				},
 				{

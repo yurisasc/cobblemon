@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Arcanine",
   "nationalPokedexNumber": 59,
@@ -16,6 +16,9 @@
     "special_defence": 80,
     "speed": 95
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 75,
   "maleRatio": 0.75,
   "shoulderMountable": false,
@@ -132,7 +135,6 @@
       "height": 20,
       "weight": 1680,
       "preEvolution": "growlithe form=hisui",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

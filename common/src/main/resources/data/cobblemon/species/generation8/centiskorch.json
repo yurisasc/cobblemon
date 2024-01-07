@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Centiskorch",
   "nationalPokedexNumber": 851,
@@ -64,7 +64,6 @@
       ],
       "height": 750,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -88,11 +87,11 @@
     "entries": [
       {
         "item": "minecraft:blaze_powder",
-        "percentage": 5
+        "percentage": 5.0
       },
       {
         "item": "cobblemon:charti_berry",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },

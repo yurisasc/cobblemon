@@ -8,7 +8,7 @@
             "pokemon": "nidorino",
             "presets": [
                 "natural",
-				"wild"
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",

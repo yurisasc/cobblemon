@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.net.messages.client.fossil.FossilRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.evolution.adapters.NbtItemPredicateAdapter
 import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
@@ -62,7 +63,7 @@ object Fossils: JsonDataRegistry<Fossil> {
     }
 
     override fun sync(player: ServerPlayerEntity) {
-        // TODO: Implement this
+        FossilRegistrySyncPacket(this.all()).sendToPlayer(player)
     }
 
     /**
@@ -86,6 +87,14 @@ object Fossils: JsonDataRegistry<Fossil> {
         return this.all().firstOrNull { it.matchesIngredients(fossilStacks) }
     }
 
+    /**
+     * Looks for a [Fossil] that is a superset of [ItemStack].
+     * @param fossilStacks The fossil [ItemStack]'s.
+     * @return The [Fossil] if found to be a superset, otherwise null.
+     */
+    fun getSubFossilByItemStacks(fossilStacks: List<ItemStack>): Fossil? {
+        return this.all().firstOrNull { it.matchesIngredientsSubSet(fossilStacks) }
+    }
     /**
      * Checks if a [ItemStack] is a fossil ingredient.
      * @param itemStack The ingredient [ItemStack].

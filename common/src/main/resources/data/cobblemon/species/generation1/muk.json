@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Muk",
   "nationalPokedexNumber": 89,
@@ -16,6 +16,9 @@
     "special_defence": 100,
     "speed": 50
   },
+  "features": [
+    "alolan"
+  ],
   "catchRate": 75,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -197,7 +200,6 @@
       "height": 10,
       "weight": 520,
       "preEvolution": "grimer form=alola",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

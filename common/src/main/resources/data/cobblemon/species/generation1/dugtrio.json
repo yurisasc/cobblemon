@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Dugtrio",
   "nationalPokedexNumber": 51,
@@ -16,6 +16,9 @@
     "special_defence": 70,
     "speed": 120
   },
+  "features": [
+    "alolan"
+  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -189,7 +192,6 @@
       "height": 7,
       "weight": 666,
       "preEvolution": "diglett form=alola",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
