@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.scheduling.Schedulable
+import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnGenericBedrockPacket
@@ -31,7 +33,7 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
-class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDROCK_ENTITY, world), Poseable {
+class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDROCK_ENTITY, world), Poseable, Schedulable {
     companion object {
         val CATEGORY = DataTracker.registerData(GenericBedrockEntity::class.java, IdentifierDataSerializer)
         val ASPECTS = DataTracker.registerData(GenericBedrockEntity::class.java, StringSetDataSerializer)
@@ -40,8 +42,8 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
     }
 
     var savesToWorld = false
-
-    val delegate = if (world.isClient) {
+    override val schedulingTracker = SchedulingTracker()
+    override val delegate = if (world.isClient) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
         com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate()
     } else {
@@ -131,5 +133,6 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
     override fun tick() {
         super.tick()
         delegate.tick(this)
+        schedulingTracker.update(1/20F)
     }
 }

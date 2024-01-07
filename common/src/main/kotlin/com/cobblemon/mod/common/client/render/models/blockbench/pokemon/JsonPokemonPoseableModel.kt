@@ -18,8 +18,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
-import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.withPosition
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
 import com.google.gson.*

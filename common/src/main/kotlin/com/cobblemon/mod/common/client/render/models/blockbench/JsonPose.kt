@@ -26,7 +26,7 @@ class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
     val transformedParts = json.get("transformedParts")?.asJsonArray?.map {
         it as JsonObject
         val partName = it.get("part").asString
-        val part = model.getPart(partName)
+        val part = model.getPart(partName).createTransformation()
         val rotation = it.get("rotation")?.asJsonArray?.let { Vec3d(it[0].asDouble, it[1].asDouble, it[2].asDouble) } ?: Vec3d.ZERO
         val position = it.get("position")?.asJsonArray?.let { Vec3d(it[0].asDouble, it[1].asDouble, it[2].asDouble) } ?: Vec3d.ZERO
         val isVisible = it.get("isVisible")?.asBoolean ?: true

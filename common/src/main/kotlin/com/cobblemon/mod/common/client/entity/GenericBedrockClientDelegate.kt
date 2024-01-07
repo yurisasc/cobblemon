@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.entity
 
 import com.cobblemon.mod.common.api.entity.EntitySideDelegate
+import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
@@ -16,6 +17,8 @@ import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 
 class GenericBedrockClientDelegate : EntitySideDelegate<GenericBedrockEntity>, PoseableEntityState<GenericBedrockEntity>() {
     lateinit var currentEntity: GenericBedrockEntity
+    override val schedulingTracker
+        get() = getEntity().schedulingTracker
     override fun getEntity() = currentEntity
 
     override fun initialize(entity: GenericBedrockEntity) {
@@ -30,7 +33,7 @@ class GenericBedrockClientDelegate : EntitySideDelegate<GenericBedrockEntity>, P
         updateLocatorPosition(entity.pos)
 
         val currentPoseType = entity.getCurrentPoseType()
-        val pose = this.currentModel!!.poses.values.firstOrNull { currentPoseType in it.poseTypes && it.condition(entity) }
+        val pose = this.currentModel!!.poses.values.firstOrNull { currentPoseType in it.poseTypes && (it.condition == null || it.condition.invoke(entity)) }
         if (pose != null) {
             doLater { setPose(pose.poseName) }
         }

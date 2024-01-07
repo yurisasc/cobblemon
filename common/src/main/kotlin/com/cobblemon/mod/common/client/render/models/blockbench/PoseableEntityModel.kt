@@ -230,8 +230,8 @@ abstract class PoseableEntityModel<T : Entity>(
         locatorAccess = LocatorAccess.resolve(rootPart) ?: LocatorAccess(rootPart)
     }
 
-    fun getPart(name: String) = relevantPartsByName[name]!!.modelPart
-    fun getPartFallback(vararg names: String) = names.firstNotNullOfOrNull { relevantPartsByName[it]?.modelPart } ?: rootPart
+    fun getPart(name: String) = relevantPartsByName[name]!!
+    fun getPartFallback(vararg names: String) = names.firstNotNullOfOrNull { relevantPartsByName[it] } ?: rootPart
 
     private fun loadSpecificNamedChildren(modelPart: ModelPart, nameList: Iterable<String>) {
         for ((name, child) in modelPart.children.entries) {
