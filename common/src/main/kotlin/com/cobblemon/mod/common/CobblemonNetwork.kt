@@ -38,6 +38,8 @@ import com.cobblemon.mod.common.client.net.callback.partymove.OpenPartyMoveCallb
 import com.cobblemon.mod.common.client.net.data.DataRegistrySyncPacketHandler
 import com.cobblemon.mod.common.client.net.data.UnlockReloadPacketHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
+import com.cobblemon.mod.common.client.net.gui.CraftBlankTMPacketHandler
+import com.cobblemon.mod.common.client.net.gui.CraftTMPacketHandler
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
 import com.cobblemon.mod.common.client.net.pasture.ClosePastureHandler
@@ -117,6 +119,8 @@ import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferExpiredPacke
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeUpdatedPacket
+import com.cobblemon.mod.common.net.messages.client.ui.CraftBlankTMPacket
+import com.cobblemon.mod.common.net.messages.client.ui.CraftTMPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
 import com.cobblemon.mod.common.net.messages.server.*
@@ -399,6 +403,10 @@ object CobblemonNetwork : NetworkManager {
         // Party move select packets
         this.createServerBound(PartyPokemonMoveSelectedPacket.ID, PartyPokemonMoveSelectedPacket::decode, PartyPokemonMoveSelectedHandler)
         this.createServerBound(PartyMoveSelectCancelledPacket.ID, PartyMoveSelectCancelledPacket::decode, PartyMoveSelectCancelledHandler)
+
+        // TM Machine packets
+        this.createServerBound(CraftTMPacket.ID, CraftTMPacket::decode, CraftTMPacketHandler)
+        this.createServerBound(CraftBlankTMPacket.ID, CraftBlankTMPacket::decode, CraftBlankTMPacketHandler)
     }
 
     private inline fun <reified T : NetworkPacket<T>> createClientBound(identifier: Identifier, noinline decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>) {

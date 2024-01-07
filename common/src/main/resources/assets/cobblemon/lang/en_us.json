@@ -385,6 +385,9 @@
   "cobblemon.tms.cannot_learn": "%1$s cannot learn %2$s!",
   "cobblemon.tms.unlock_tm": "You unlocked the %1$s TM!",
 
+  "cobblemon.ui.tms.material_cost": "Material Cost",
+  "cobblemon.ui.tms.blank_tm_desc": "A blank disc used for crafting Technical Machines.",
+
   "cobblemon.ui.stats": "Stats",
   "cobblemon.ui.stats.stat": "Stat",
   "cobblemon.ui.stats.base": "Base",
@@ -419,6 +422,8 @@
   "cobblemon.ui.party": "Party",
   "cobblemon.ui.power": "Power",
   "cobblemon.ui.accuracy": "Accuracy",
+  "cobblemon.ui.accuracy_short": "Acc.",
+  "cobblemon.ui.pp": "PP",
   "cobblemon.ui.effect": "Effect",
   "cobblemon.ui.pokemon": "Pokémon",
   "cobblemon.ui.exit": "Exit",

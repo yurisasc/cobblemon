@@ -14,13 +14,17 @@ import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.lang
+import net.minecraft.item.Item
+import net.minecraft.item.Items
+import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 class TechnicalMachine(
     val moveName: String,
-    val recipe: TechnicalMachineRecipe,
+    val recipe: TechnicalMachineRecipe?,
     val obtainMethods: List<ObtainMethod> = emptyList(),
     val type: String,
     val primaryColor: Int?,
@@ -103,12 +107,12 @@ class TechnicalMachine(
     }
 
     /**
-     * Returns a [Text] of the translated move name of this [TechnicalMachine]
+     * Returns a [MutableText] of the translated move name of this [TechnicalMachine]
      *
      * @return This [TechnicalMachine]'s move name, translated
      * @author whatsy
      */
-    fun translatedMoveName(): Text {
+    fun translatedMoveName(): MutableText {
         return lang("move." + this.moveName)
     }
 }

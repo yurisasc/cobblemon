@@ -5,5 +5,9 @@
       "variant": "cobblemon:impossible"
     }
   ],
+  "recipe": {
+    "item": "minecraft:coal",
+    "count": 4
+  },
   "type": "electric"
 }
