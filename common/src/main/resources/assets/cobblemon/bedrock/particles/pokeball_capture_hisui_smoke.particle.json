@@ -5,7 +5,7 @@
 			"identifier": "cobblemon:pokeball_capture_hisui_smoke",
 			"basic_render_parameters": {
 				"material": "particles_blend",
-				"texture": "cobblemon:particle/smoke"
+				"texture": "textures/particles/smoke"
 			}
 		},
 		"components": {

@@ -22,7 +22,8 @@ import kotlin.random.Random
 abstract class PokeBallPoseableState : PoseableEntityState<EmptyPokeBallEntity>(), Schedulable {
     abstract val stateEmitter: SettableObservable<EmptyPokeBallEntity.CaptureState>
     abstract val shakeEmitter: Observable<Unit>
-    private val group = if (this.currentModel is AncientPokeBallModel) "ancient_poke_ball" else "poke_ball"
+    private val group: String
+        get() = if (this.currentModel is AncientPokeBallModel) "ancient_poke_ball" else "poke_ball"
 
     open fun initSubscriptions() {
         stateEmitter.subscribe { state ->

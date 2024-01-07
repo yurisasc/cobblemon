@@ -5,7 +5,7 @@
 			"identifier": "cobblemon:pokeball_capture_hisui_firework_small_sparkles",
 			"basic_render_parameters": {
 				"material": "particles_blend",
-				"texture": "cobblemon:textures/particle/sparkle"
+				"texture": "textures/particles/sparkle"
 			}
 		},
 		"components": {
