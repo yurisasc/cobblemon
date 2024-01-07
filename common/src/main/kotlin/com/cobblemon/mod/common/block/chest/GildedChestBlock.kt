@@ -32,6 +32,7 @@ class GildedChestBlock(settings: AbstractBlock.Settings) : BlockWithEntity(setti
     ): ActionResult {
         val entity = world.getBlockEntity(pos) as? GildedChestBlockEntity ?: return ActionResult.FAIL
         player.openHandledScreen(entity)
+        entity.poseableState.setPose("OPEN")
         return ActionResult.SUCCESS
     }
 

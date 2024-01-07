@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -51,7 +52,7 @@ class DisguisedPokemonBlock(
         val pokemon = PokemonProperties.parse(properties)
         val entity = pokemon.createEntity(world)
         entity.refreshPositionAndAngles(pos, entity.yaw, entity.pitch)
-        entity.spawnDirection.set(facingToYaw[state[HorizontalFacingBlock.FACING]])
+        entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, facingToYaw[state[HorizontalFacingBlock.FACING]])
         world.spawnEntity(entity)
         world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundCategory.BLOCKS)
 

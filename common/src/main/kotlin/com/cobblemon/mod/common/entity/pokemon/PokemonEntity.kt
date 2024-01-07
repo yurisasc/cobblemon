@@ -129,6 +129,7 @@ class PokemonEntity(
         @JvmStatic val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        @JvmStatic val SPAWN_DIRECTION = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
 
         const val BATTLE_LOCK = "battle"
 
@@ -230,6 +231,7 @@ class PokemonEntity(
         dataTracker.startTracking(LABEL_LEVEL, 1)
         dataTracker.startTracking(HIDE_LABEL, false)
         dataTracker.startTracking(UNBATTLEABLE, false)
+        dataTracker.startTracking(SPAWN_DIRECTION, 0.0F)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -295,8 +297,9 @@ class PokemonEntity(
 
         if (ticksLived <= 20) {
             clearPositionTarget()
-            setBodyYaw(spawnDirection.get())
-            setRotation(spawnDirection.get(), this.pitch)
+            val spawnDirection = dataTracker.get(SPAWN_DIRECTION)
+            setBodyYaw(spawnDirection)
+            setRotation(spawnDirection, this.pitch)
             refreshPositionAndAngles(pos.toBlockPos(), this.yaw, this.pitch)
         }
 

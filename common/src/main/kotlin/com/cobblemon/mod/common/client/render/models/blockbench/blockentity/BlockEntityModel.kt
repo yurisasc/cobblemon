@@ -15,11 +15,11 @@ class BlockEntityModel(override val rootPart: Bone) : PoseableEntityModel<Entity
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.NONE,
-            idleAnimations = animations
+            idleAnimations = arrayOf(bedrock("gilded_chest", "closing"))
         )
         registerPose(
             poseType = PoseType.OPEN,
-            idleAnimations = animations
+            idleAnimations = arrayOf(bedrock("gilded_chest", "opening"))
         )
 
     }

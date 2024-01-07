@@ -104,6 +104,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         val texture = FossilModelRepository.getTexture(fossil.identifier, aspects, state.animationSeconds)
         val vertexConsumer = vertexConsumers.getBuffer(model.getLayer(texture))
         val pose = model.poses.values.first()
+        model.bufferProvider = vertexConsumers
         state.currentModel = model
         state.setPose(pose.poseName)
         state.timeEnteredPose = 0F
