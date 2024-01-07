@@ -298,9 +298,7 @@ class ActiveTracker {
             var spdBoost: Int = 0,
             var speBoost: Int = 0,
             var currentAbiltiy: String? = null,
-            var currentPrimaryType: String? = null,
-            var currentSecondaryType: String? = null,
-            var currentTertiaryType: String? = null,
+            var currentTypes: MutableList<String>? = null,
             var stats: Map<Stat, Int> = mapOf(),
             var moves: List<Move> = listOf(),
             var sideConditions: Map<String, Any> = mapOf(),
@@ -314,6 +312,7 @@ class StrongBattleAI() : BattleAI {
     private val entryHazards = listOf("spikes", "stealthrock", "stickyweb", "toxicspikes")
     private val antiHazardsMoves = listOf("rapidspin", "defog", "tidyup")
     private val antiBoostMoves = listOf("slearsmog","haze")
+    private val pivotMoves = listOf("uturn","flipturn", "partingshot", "batonpass", "chillyreception","shedtail", "voltswitch", "teleport")
     private val setupMoves = setOf("tailwind", "trickroom", "auroraveil", "lightscreen", "reflect")
     private val selfRecoveryMoves = listOf("healorder", "milkdrink", "recover", "rest", "roost", "slackoff", "softboiled")
     private val weatherSetupMoves = mapOf(
@@ -491,9 +490,6 @@ class StrongBattleAI() : BattleAI {
 
         val canDynamax = false
 
-        // changes to typings for soak
-        val activePlayerBattlePokemonTyping = activePlayerBattlePokemon?.contextManager?.get(BattleContext.Type.HAZARD)
-
         if (forceSwitch || activeBattlePokemon.isGone()) {
             if ((forceSwitch && battle.turn == 1) || (activeBattlePokemon.isGone() && battle.turn == 1)) {
                 val switchTo = activeBattlePokemon.actor.pokemonList.filter { it.canBeSentOut() }.randomOrNull()
@@ -531,7 +527,7 @@ class StrongBattleAI() : BattleAI {
 
         //val (mon, opponent) = getCurrentPlayer(battle)
 
-        updateActiveTracker(battle)
+        updateActiveTracker(activeBattlePokemon, request, battle)
 
         // sync up the current pokemon that is choosing the moves
         /*val (mon, opponent) = if (activeBattlePokemon.battlePokemon!!.effectedPokemon.uuid == activeTracker.p1Active.party.indexOf(pokemon!!.uuid)) {
@@ -623,11 +619,26 @@ class StrongBattleAI() : BattleAI {
         // switch out
         if (shouldSwitchOut(request, battle, activeBattlePokemon )) {
             val availableSwitches = p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
-            val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, battle, it.effectedPokemon) }
+            val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(activeBattlePokemon, request, battle, it.effectedPokemon) }
             /*availableSwitches.forEach {
                 estimateMatchup(request, battle, it.effectedPokemon)
             }*/
-            val bestMatchup = availableSwitches.find { estimateMatchup(request, battle, it.effectedPokemon) == bestEstimation }
+
+            // todo Pivot switches decided here if it wants to switchout anyways
+            for (move in moveset!!.moves.filter { !it.disabled }) {
+                if (move.pp > 0 && move.id in pivotMoves) {
+                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
+                    if (target == null)
+                        return MoveActionResponse(move.id) // TODO find out why Red's Blastoise isn't using rapid spin
+                    else {
+                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull()
+                                ?: target.random()
+                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
+                    }
+                }
+            }
+
+            val bestMatchup = availableSwitches.find { estimateMatchup(activeBattlePokemon, request, battle, it.effectedPokemon) == bestEstimation }
             bestMatchup?.let {
                 return SwitchActionResponse(it.uuid)
                 //Pair("switch ${getPokemonPos(request, it)}", canDynamax)
@@ -639,7 +650,7 @@ class StrongBattleAI() : BattleAI {
         if (!moveset?.moves?.isEmpty()!! && !shouldSwitchOut(request, battle, activeBattlePokemon) ||
                 (request.side?.pokemon?.count { getHpFraction(it.condition) != 0.0 } == 1 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0)) {
             val nRemainingMons = activeTracker.p2Active.nRemainingMons
-            val nOppRemainingMons = activeTracker.p2Active.nRemainingMons
+            val nOppRemainingMons = activeTracker.p1Active.nRemainingMons
 
             // Fake Out
             allMoves?.firstOrNull { it.pp > 0 && it.id == "fakeout" && mon.firstTurn == 1 && !opponent.pokemon?.types?.contains(ElementalTypes.GHOST)!! }?.let {
@@ -827,8 +838,7 @@ class StrongBattleAI() : BattleAI {
                         val status = (statusMoves.get(Moves.getByName(move.id)))
                         when (status) {
                             "brn" -> {
-                                val typing = (!opponent.pokemon!!.types.contains(ElementalTypes.FIRE)
-                                        || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else  (activeTracker.p1Active.activePokemon.currentPrimaryType != "fire"))
+                                val typing = (activeTracker.p1Active.activePokemon.currentTypes?.contains("Fire") != true)
                                 val stats = getBaseStats(opponent.pokemon!!, "atk") > 80
                                 val notImmune = !hasMajorStatusImmunity(opponent)
                                 val notAbility = !listOf("waterbubble", "waterveil", "flareboost", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)
@@ -845,8 +855,7 @@ class StrongBattleAI() : BattleAI {
                             }
 
                             "par" -> {
-                                val typing = (!opponent.pokemon!!.types.contains(ElementalTypes.ELECTRIC)
-                                        || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else (activeTracker.p1Active.activePokemon.currentPrimaryType != "electric"))
+                                val typing = activeTracker.p1Active.activePokemon.currentTypes?.contains("Electric") != true
                                 val stats = getBaseStats(opponent.pokemon!!, "spe") > getBaseStats(mon.pokemon!!, "spe")
                                 val notImmune = !hasMajorStatusImmunity(opponent)
                                 val notAbility = !listOf("limber", "guts").contains(opponent.pokemon!!.ability.name)
@@ -863,8 +872,7 @@ class StrongBattleAI() : BattleAI {
                             }
 
                             "slp" -> {
-                                val typing = (!opponent.pokemon!!.types.contains(ElementalTypes.GRASS)
-                                        || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else (activeTracker.p1Active.activePokemon.currentPrimaryType != "grass"))
+                                val typing = activeTracker.p1Active.activePokemon.currentTypes?.contains("Grass") != true
                                 val moveID = (move.id.equals("spore") || move.id.equals("sleeppowder"))
                                 val notImmune = !hasMajorStatusImmunity(opponent)
                                 val notAbility = !listOf("insomnia", "sweetveil").contains(opponent.pokemon!!.ability.name)
@@ -885,8 +893,7 @@ class StrongBattleAI() : BattleAI {
                             }
 
                             "psn" -> {
-                                val typing = ((!listOf(ElementalTypes.POISON, ElementalTypes.STEEL).any { it in opponent.pokemon!!.types })
-                                        || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else (activeTracker.p1Active.activePokemon.currentPrimaryType != "poison" && activeTracker.p1Active.activePokemon.currentPrimaryType != "steel"))
+                                val typing = activeTracker.p1Active.activePokemon.currentTypes?.contains("Poison") != true && activeTracker.p1Active.activePokemon.currentTypes?.contains("Steel") != true
                                 val notImmune = !hasMajorStatusImmunity(opponent)
                                 val notAbility = !listOf("immunity", "poisonheal", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)
 
@@ -902,8 +909,7 @@ class StrongBattleAI() : BattleAI {
                             }
 
                             "tox" -> { // todo need access to baseType and currentType to go further with this for type changing teams
-                                val typing = (!listOf(ElementalTypes.POISON, ElementalTypes.STEEL).any { it in opponent.pokemon!!.types }
-                                        || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else (activeTracker.p1Active.activePokemon.currentPrimaryType != "poison" && activeTracker.p1Active.activePokemon.currentPrimaryType != "steel"))
+                                val typing = activeTracker.p1Active.activePokemon.currentTypes?.contains("Poison") != true && activeTracker.p1Active.activePokemon.currentTypes?.contains("Steel") != true
                                 val notImmune = !hasMajorStatusImmunity(opponent)
                                 val notAbility = !listOf("immunity", "poisonheal", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)
 
@@ -919,20 +925,14 @@ class StrongBattleAI() : BattleAI {
                                     //return MoveActionResponse(move.id)
                             }
 
-                            "cursed" -> if (((ElementalTypes.GHOST in mon.pokemon!!.types)
-                                    || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false else (activeTracker.p1Active.activePokemon.currentPrimaryType != "ghost")) &&
-                                    !opponent.pokemon!!.ability.name.equals("magicguard")) {
+                            "cursed" -> if (activeTracker.p1Active.activePokemon.currentTypes?.contains("Ghost") != true
+                                    && !opponent.pokemon!!.ability.name.equals("magicguard")) {
                                 return MoveActionResponse(move.id)
                             }
 
-                            "leech" -> if ((!opponent.pokemon!!.types.contains(ElementalTypes.GRASS)
-                                    || if (activeTracker.p1Active.activePokemon.currentPrimaryType == null) false
-                                        else (activeTracker.p1Active.activePokemon.currentPrimaryType != "grass")) &&
-                                    !listOf("liquidooze", "magicguard").contains(opponent.pokemon!!.ability.name)) {
+                            "leech" -> if (activeTracker.p1Active.activePokemon.currentTypes?.contains("Grass") != true
+                                    && !listOf("liquidooze", "magicguard").contains(opponent.pokemon!!.ability.name)) {
                                 return MoveActionResponse(move.id)
-                            }
-                            else -> {
-                                val test = status
                             }
                         }
                     }
@@ -941,7 +941,7 @@ class StrongBattleAI() : BattleAI {
 
             // Accuracy lowering moves // todo seems to get stuck here. Try to check if it is an accuracy lowering move first before entering
             for (move in moveset.moves.filter { !it.disabled }) {
-                if (move.pp > 0 && 1 == 2 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0 && estimateMatchup(request, battle) > 0 &&
+                if (move.pp > 0 && 1 == 2 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0 && estimateMatchup(activeBattlePokemon, request, battle) > 0 &&
                         (opponent.boosts[Stats.ACCURACY] ?: 0) > accuracySwitchThreshold) {
                     return MoveActionResponse(move.id)
                 }
@@ -1051,9 +1051,12 @@ class StrongBattleAI() : BattleAI {
 
                 // todo soak
 
-                if (move.id.equals("soak") && activeTracker.p1Active.activePokemon.currentPrimaryType != "water" && (opponent.pokemon!!.types.any { it == ElementalTypes.POISON || it == ElementalTypes.STEEL })) {
-                    value = 200.0 // change this to not be so hardcoded but valued for different circumstances
-                }
+                if (move.id.equals("soak"))
+                    // if opposing pokemon is steel type or poison type value this higher
+                    if (activeTracker.p1Active.activePokemon.currentTypes?.contains("Steel") == true && activeTracker.p1Active.activePokemon.currentTypes?.contains("Poison") == true)
+                        value = 200.0 // change this to not be so hardcoded but valued for different circumstances
+
+
 
                 // todo stealth rock. Make list of all active hazards to get referenced
 
@@ -1072,6 +1075,10 @@ class StrongBattleAI() : BattleAI {
                 ) {
                     value = 0.0
                 }
+
+                // reduce value of Pivot moves if user doesn't want to switchout anyways todo unless maybe it was the only damaging move and needs to
+                if(move.id in pivotMoves && !shouldSwitchOut(request, battle, activeBattlePokemon ))
+                    value = 0.0
 
                 if (move.pp == 0)
                     value = 0.0
@@ -1122,11 +1129,11 @@ class StrongBattleAI() : BattleAI {
         // switch out
         if (shouldSwitchOut(request, battle, activeBattlePokemon)) {
             val availableSwitches = p1Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
-            val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(request, battle, it.effectedPokemon) }
+            val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(activeBattlePokemon, request, battle, it.effectedPokemon) }
             /*availableSwitches.forEach {
                 estimateMatchup(request, battle, it.effectedPokemon)
             }*/
-            val bestMatchup = availableSwitches.find { estimateMatchup(request, battle, it.effectedPokemon) == bestEstimation }
+            val bestMatchup = availableSwitches.find { estimateMatchup(activeBattlePokemon, request, battle, it.effectedPokemon) == bestEstimation }
             bestMatchup?.let {
                 return SwitchActionResponse(it.uuid)
                 //Pair("switch ${getPokemonPos(request, it)}", canDynamax)
@@ -1206,8 +1213,8 @@ class StrongBattleAI() : BattleAI {
     }
 
     // estimate mid-battle switch in value
-    fun estimateMatchup(request: ShowdownActionRequest, battle: PokemonBattle, nonActiveMon: Pokemon? = null): Double {
-        updateActiveTracker(battle)
+    fun estimateMatchup(activeBattlePokemon: ActiveBattlePokemon, request: ShowdownActionRequest, battle: PokemonBattle, nonActiveMon: Pokemon? = null): Double {
+        updateActiveTracker(activeBattlePokemon, request, battle)
         val battlePokemon = getCurrentPlayer(battle)
         var playerPokemon = battlePokemon.first
         var npcPokemon = battlePokemon.second
@@ -1276,8 +1283,8 @@ class StrongBattleAI() : BattleAI {
         return score
     }*/
 
-    fun shouldDynamax(request: ShowdownActionRequest, battle: PokemonBattle, canDynamax: Boolean): Boolean {
-        updateActiveTracker(battle)
+    fun shouldDynamax(activeBattlePokemon: ActiveBattlePokemon, request: ShowdownActionRequest, battle: PokemonBattle, canDynamax: Boolean): Boolean {
+        updateActiveTracker(activeBattlePokemon, request, battle)
         if (canDynamax) {
             //val (mon, opponent) = getCurrentPlayer(battle)
 
@@ -1290,7 +1297,7 @@ class StrongBattleAI() : BattleAI {
             }
 
             // Matchup advantage and full hp on full hp
-            if (estimateMatchup(request, battle) > 0 && (mon.activePokemon.currentHp.toDouble() / mon.activePokemon.pokemon!!.hp.toDouble()) == 1.0 && (opponent.activePokemon.currentHp.toDouble() / opponent.activePokemon.pokemon!!.hp.toDouble()) == 1.0) {
+            if (estimateMatchup(activeBattlePokemon, request, battle) > 0 && (mon.activePokemon.currentHp.toDouble() / mon.activePokemon.pokemon!!.hp.toDouble()) == 1.0 && (opponent.activePokemon.currentHp.toDouble() / opponent.activePokemon.pokemon!!.hp.toDouble()) == 1.0) {
                 return true
             }
 
@@ -1303,7 +1310,7 @@ class StrongBattleAI() : BattleAI {
     }
 
     fun shouldSwitchOut(request: ShowdownActionRequest, battle: PokemonBattle, activeBattlePokemon: ActiveBattlePokemon): Boolean {
-        updateActiveTracker(battle)
+        updateActiveTracker(activeBattlePokemon, request, battle)
 
         val p1Actor = battle.side1.actors.first()
         val p2Actor = battle.side2.actors.first()
@@ -1346,7 +1353,7 @@ class StrongBattleAI() : BattleAI {
         // If there is a decent switch in and not trapped...
         if (availableSwitches != null) {
             //if (availableSwitches.any { estimateMatchup(request) > 0 } && !request.side?.pokemon.trapped) {
-            if (availableSwitches.any { estimateMatchup(request, battle, it.effectedPokemon) > 0 } && !isTrapped!!) {
+            if (availableSwitches.any { estimateMatchup(activeBattlePokemon, request, battle, it.effectedPokemon) > 0 } && !isTrapped!!) {
             //if (availableSwitches.any { estimateMatchup(request, battle, it.effectedPokemon) > 0 } && !isTrapped!!) {
                 // ...and a 'good' reason to switch out
                 if ((playerActivePokemon.activePokemon.boosts[Stats.ACCURACY] ?: 0) <= accuracySwitchThreshold) {
@@ -1363,7 +1370,7 @@ class StrongBattleAI() : BattleAI {
                                 ?: 0) <= (playerActivePokemon.activePokemon.stats[Stats.SPECIAL_ATTACK] ?: 0)) {
                     return true
                 }
-                if ((estimateMatchup(request, battle) < switchOutMatchupThreshold) && (npcActivePokemon.activePokemon.currentHp.toDouble() / npcActivePokemon.activePokemon.pokemon!!.hp.toDouble()) > hpSwitchOutThreshold) {
+                if ((estimateMatchup(activeBattlePokemon, request, battle) < switchOutMatchupThreshold) && (npcActivePokemon.activePokemon.currentHp.toDouble() / npcActivePokemon.activePokemon.pokemon!!.hp.toDouble()) > hpSwitchOutThreshold) {
                     return true
                 }
             }
@@ -1589,7 +1596,10 @@ class StrongBattleAI() : BattleAI {
         //boostFromMoves.filterKeys { it == name }.filter { return it.value ?: emptyMap() }
     }
 
-    private fun updateActiveTracker(battle: PokemonBattle) {
+    private fun updateActiveTracker(activeBattlePokemon: ActiveBattlePokemon, request: ShowdownActionRequest, battle: PokemonBattle) {
+        val playerActor = activeBattlePokemon.battle.side1.actors.get(0)
+        val npcActor = activeBattlePokemon.battle.side2.actors.get(0)
+
         val playerPosBoostContext = battle.side1.actors.first().activePokemon[0].battlePokemon?.contextManager?.get(BattleContext.Type.BOOST)
         val playerNegBoostContext = battle.side1.actors.first().activePokemon[0].battlePokemon?.contextManager?.get(BattleContext.Type.UNBOOST)
 
@@ -1676,7 +1686,7 @@ class StrongBattleAI() : BattleAI {
         p1.activePokemon.spaBoost = playerSPAPosBoosts - playerSPANegBoosts
         p1.activePokemon.spdBoost = playerSPDPosBoosts - playerSPDNegBoosts
         p1.activePokemon.speBoost = playerSPEPosBoosts - playerSPENegBoosts
-        //p1.activePokemon.currentPrimaryType = // todo get a way for the current type to be readable
+        p1.activePokemon.currentTypes = playerActor.request?.side?.pokemon?.get(0)?.types  //battle.side1.activePokemon.get(0).battlePokemon.  // todo get a way for the current type to be readable
         //mon.stats = pokemon.stats
         p1.activePokemon.moves = pokemon1.moveSet.getMoves()
         p1.nRemainingMons = battle.side1.actors.sumOf { actor ->
@@ -1702,6 +1712,7 @@ class StrongBattleAI() : BattleAI {
         p2.activePokemon.currentHp = pokemon2.currentHealth
         p2.activePokemon.currentHpPercent = (pokemon2.currentHealth.toDouble() / pokemon2.hp.toDouble()) // todo this is not syncing. Possibly needs syncActivePokemon called later
         p2.activePokemon.boosts = p2BoostsMap
+        p2.activePokemon.currentTypes = npcActor.request?.side?.pokemon?.get(0)?.types
         //mon.stats = pokemon.stats
         p2.activePokemon.moves = pokemon2.moveSet.getMoves()
         p2.nRemainingMons = battle.side2.actors.sumOf { actor ->

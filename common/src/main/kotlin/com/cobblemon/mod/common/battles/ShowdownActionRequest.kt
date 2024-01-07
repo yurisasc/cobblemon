@@ -387,7 +387,7 @@ class ShowdownPokemon {
     lateinit var baseAbility: String
     lateinit var pokeball: String
     lateinit var ability: String
-    var baseTypes = listOf<String>()
+    var baseTypes = mutableListOf<String>()
     var types = mutableListOf<String>()
     var reviving: Boolean = false
 
@@ -403,6 +403,11 @@ class ShowdownPokemon {
         buffer.writeString(baseAbility)
         buffer.writeString(pokeball)
         buffer.writeString(ability)
+        buffer.writeSizedInt(IntSize.U_BYTE, baseTypes.size)
+        baseTypes.forEach(buffer::writeString)
+        buffer.writeSizedInt(IntSize.U_BYTE, types.size)
+        types.forEach(buffer::writeString)
+
 
     }
     fun loadFromBuffer(buffer: PacketByteBuf): ShowdownPokemon {
@@ -417,6 +422,12 @@ class ShowdownPokemon {
         baseAbility = buffer.readString()
         pokeball = buffer.readString()
         ability = buffer.readString()
+        repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
+            baseTypes.add(buffer.readString())
+        }
+        repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
+            types.add(buffer.readString())
+        }
         return this
     }
 }
