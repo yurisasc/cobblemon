@@ -469,8 +469,20 @@ class StrongBattleAI() : BattleAI {
             ""
         } ?: ""
 
+        val activePlayerPokemonVolatile = try {
+            activePlayerBattlePokemon?.contextManager?.get(BattleContext.Type.VOLATILE)?.last()?.id
+        } catch (e: Exception) {
+            ""
+        } ?: ""
+
         val activeNPCPokemonStatus = activeNPCBattlePokemon?.originalPokemon?.status?.status?.name ?: try {
             activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.STATUS)?.last()?.id
+        } catch (e: Exception) {
+            ""
+        } ?: ""
+
+        val activeNPCPokemonVolatile = try {
+            activeNPCBattlePokemon?.contextManager?.get(BattleContext.Type.VOLATILE)?.last()?.id
         } catch (e: Exception) {
             ""
         } ?: ""
@@ -558,6 +570,7 @@ class StrongBattleAI() : BattleAI {
         val mon = matchedActiveNPCPokemon!!
         val opponent = matchedActivePlayerPokemon!!
 
+        // todo WHY WHY WHY does protect fire off twice sometimes still?
         // Update protect count if it's on cooldown and implement a random reduction to the count to not be predictable
         if (mon.protectCount > 0) {
             if (Random.nextDouble() < randomProtectChance) {
@@ -607,7 +620,7 @@ class StrongBattleAI() : BattleAI {
         // if a move must be used (like recharge) is in moves list then do that since you have to
         for (move in moveset!!.moves)
             if (move.mustBeUsed())
-                return MoveActionResponse(move.id)
+                return chooseMove(move, activeBattlePokemon)
 
         // todo update side conditions each turn
         //fun updateSideConditions =
@@ -627,14 +640,7 @@ class StrongBattleAI() : BattleAI {
             // todo Pivot switches decided here if it wants to switchout anyways
             for (move in moveset!!.moves.filter { !it.disabled }) {
                 if (move.pp > 0 && move.id in pivotMoves) {
-                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
-                    if (target == null)
-                        return MoveActionResponse(move.id) // TODO find out why Red's Blastoise isn't using rapid spin
-                    else {
-                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull()
-                                ?: target.random()
-                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
-                    }
+                    return chooseMove(move, activeBattlePokemon)
                 }
             }
 
@@ -655,7 +661,7 @@ class StrongBattleAI() : BattleAI {
             // Fake Out
             allMoves?.firstOrNull { it.pp > 0 && it.id == "fakeout" && mon.firstTurn == 1 && !opponent.pokemon?.types?.contains(ElementalTypes.GHOST)!! }?.let {
                 mon.firstTurn = 0
-                return MoveActionResponse(it.id)
+                return chooseMove(it, activeBattlePokemon)
             }
 
             mon.firstTurn = 0
@@ -664,7 +670,7 @@ class StrongBattleAI() : BattleAI {
             if (activeNPCPokemonStatus == "slp")
                 for (move in moveset.moves.filter { !it.disabled }) {
                     if (move.id == "sleeptalk")
-                        return MoveActionResponse(move.id)
+                        return chooseMove(move, activeBattlePokemon)
                 }
 
 
@@ -676,13 +682,13 @@ class StrongBattleAI() : BattleAI {
                         && ElementalTypes.GHOST !in opponent.pokemon!!.types
                         && it.pp > 0
             }?.let {
-                return MoveActionResponse(it.id)
+                return chooseMove(it, activeBattlePokemon)
             }
 
             // Self recovery moves
             for (move in moveset.moves.filter { !it.disabled }) {
                 if (move.id in selfRecoveryMoves && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < recoveryMoveThreshold && move.pp > 0) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
             }
 
@@ -692,20 +698,20 @@ class StrongBattleAI() : BattleAI {
                 
                 // Tailwind
                 if (move.pp > 0 && move.id == "tailwind" && move.id != npcSideTailwindCondition && p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }.size > 2) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
 
                 // Trick room
                 if (move.pp > 0 && move.id == "trickroom" && move.id != currentRoom
                         && availableSwitches.count { statEstimation(it.effectedPokemon, Stats.SPEED) <= trickRoomThreshold } >= 2) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
 
                 // todo find a way to get list of active screens
                 // Aurora veil
                 if (move.pp > 0 && move.id == "auroraveil" && move.id != npcSideScreenCondition
                         && currentWeather in listOf("Hail", "Snow")) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
 
                 // todo find a way to get list of active screens
@@ -713,7 +719,7 @@ class StrongBattleAI() : BattleAI {
                 if (move.pp > 0 && move.id == "lightscreen" && move.id != npcSideScreenCondition
                         && getBaseStats(opponent.pokemon!!, "spa") > getBaseStats(opponent.pokemon!!, "atk")
                         && p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }.size > 1) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
 
                 // todo find a way to get list of active screens
@@ -721,7 +727,7 @@ class StrongBattleAI() : BattleAI {
                 if (move.pp > 0 && move.id == "reflect" && move.id != npcSideScreenCondition
                         && getBaseStats(opponent.pokemon!!, "atk") > getBaseStats(opponent.pokemon!!, "spa")
                         && p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }.size > 1) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
             }
 
@@ -731,27 +737,21 @@ class StrongBattleAI() : BattleAI {
                 if (move.pp > 0 && nOppRemainingMons >= 3 && move.id in entryHazards
                         && playerSideHazards.contains(move.id) != true ) {
                         //&& entryHazards.none { it in oppSideConditionList }) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
 
                 // Removal
                 if (move.pp > 0 && nRemainingMons >= 2 && move.id in antiHazardsMoves
                         && npcSideHazards.isNotEmpty()) {
                         //&& entryHazards.any { it in monSideConditionList }) {
-                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
-                    if (target == null)
-                        return MoveActionResponse(move.id) // TODO find out why Red's Blastoise isn't using rapid spin
-                    else {
-                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
-                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
-                    }
+                    return chooseMove(move, activeBattlePokemon)
                 }
             }
 
             // todo stat clearing moves like haze and clearsmog
             for (move in moveset.moves.filter { !it.disabled }) {
                 if (move.id in antiBoostMoves && isBoosted(opponent) && move.pp > 0) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
             }
 
@@ -762,7 +762,7 @@ class StrongBattleAI() : BattleAI {
                                 || setOf("tailwind", "lightscreen", "reflect").any { it in oppSideConditionList })
                         && setOf("tailwind", "lightscreen", "reflect").none { it in monSideConditionList }
                         && entryHazards.none { it in oppSideConditionList }) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
             }
 
@@ -773,7 +773,7 @@ class StrongBattleAI() : BattleAI {
                 if (move.id == "strengthsap" && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < 0.5
                         && getBaseStats(opponent.pokemon!!, "atk") > 80
                         && move.pp > 0) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
             }
 
@@ -792,7 +792,7 @@ class StrongBattleAI() : BattleAI {
                         || (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) > 0.8)
                         && npcATKBoosts < 1 // todo Why does Belly Drum only show up as a single boost to Atk stat
                         && move.pp > 0) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
             }
 
@@ -803,7 +803,7 @@ class StrongBattleAI() : BattleAI {
                     if (move.pp > 0 && currentWeather != requiredWeather.lowercase() &&
                             !(currentWeather == "PrimordialSea" && requiredWeather == "RainDance") &&
                             !(currentWeather == "DesolateLand" && requiredWeather == "SunnyDay")) {
-                        return MoveActionResponse(move.id)
+                        return chooseMove(move, activeBattlePokemon)
                     }
                 }
             }
@@ -844,13 +844,7 @@ class StrongBattleAI() : BattleAI {
                                 val notAbility = !listOf("waterbubble", "waterveil", "flareboost", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)
 
                                 if (typing && stats && notImmune && notAbility) {
-                                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
-                                    if (target == null)
-                                        return MoveActionResponse(move.id)
-                                    else {
-                                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
-                                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
-                                    }
+                                    return chooseMove(move, activeBattlePokemon)
                                 }
                             }
 
@@ -861,13 +855,7 @@ class StrongBattleAI() : BattleAI {
                                 val notAbility = !listOf("limber", "guts").contains(opponent.pokemon!!.ability.name)
 
                                 if (typing && stats && notImmune && notAbility) {
-                                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
-                                    if (target == null)
-                                        return MoveActionResponse(move.id)
-                                    else {
-                                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
-                                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
-                                    }
+                                    return chooseMove(move, activeBattlePokemon)
                                 }
                             }
 
@@ -878,18 +866,13 @@ class StrongBattleAI() : BattleAI {
                                 val notAbility = !listOf("insomnia", "sweetveil").contains(opponent.pokemon!!.ability.name)
 
                                 if (typing && moveID && notImmune && notAbility) {
-                                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
-                                    if (target == null)
-                                        return MoveActionResponse(move.id)
-                                    else {
-                                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
-                                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
-                                    }
+                                    return chooseMove(move, activeBattlePokemon)
                                 }
                             }
 
-                            "confusion" -> if (!listOf("owntempo", "oblivious").contains(opponent.pokemon!!.ability.name)) {
-                                return MoveActionResponse(move.id)
+                            // todo weight the choice of doing this a bit lesser than the others maybe
+                            "confusion" -> if (activePlayerPokemonVolatile != "confusion" && !listOf("owntempo", "oblivious").contains(opponent.pokemon!!.ability.name)) {
+                                return chooseMove(move, activeBattlePokemon)
                             }
 
                             "psn" -> {
@@ -898,13 +881,7 @@ class StrongBattleAI() : BattleAI {
                                 val notAbility = !listOf("immunity", "poisonheal", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)
 
                                 if (typing && notImmune && notAbility) {
-                                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
-                                    if (target == null)
-                                        return MoveActionResponse(move.id)
-                                    else {
-                                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
-                                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
-                                    }
+                                    return chooseMove(move, activeBattlePokemon)
                                 }
                             }
 
@@ -914,25 +891,18 @@ class StrongBattleAI() : BattleAI {
                                 val notAbility = !listOf("immunity", "poisonheal", "guts", "magicguard").contains(opponent.pokemon!!.ability.name)
 
                                 if (typing && notImmune && notAbility) {
-                                    val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
-                                    if (target == null)
-                                        return MoveActionResponse(move.id)
-                                    else {
-                                        val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
-                                        return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
-                                    }
+                                    return chooseMove(move, activeBattlePokemon)
                                 }
-                                    //return MoveActionResponse(move.id)
                             }
 
-                            "cursed" -> if (activeTracker.p1Active.activePokemon.currentTypes?.contains("Ghost") != true
+                            "cursed" -> if (activeNPCPokemonVolatile != "cursed" && activeTracker.p1Active.activePokemon.currentTypes?.contains("Ghost") != true
                                     && !opponent.pokemon!!.ability.name.equals("magicguard")) {
-                                return MoveActionResponse(move.id)
+                                return chooseMove(move, activeBattlePokemon)
                             }
 
-                            "leech" -> if (activeTracker.p1Active.activePokemon.currentTypes?.contains("Grass") != true
+                            "leech" -> if (activeNPCPokemonVolatile != "leech" && activeTracker.p1Active.activePokemon.currentTypes?.contains("Grass") != true
                                     && !listOf("liquidooze", "magicguard").contains(opponent.pokemon!!.ability.name)) {
-                                return MoveActionResponse(move.id)
+                                return chooseMove(move, activeBattlePokemon)
                             }
                         }
                     }
@@ -943,7 +913,7 @@ class StrongBattleAI() : BattleAI {
             for (move in moveset.moves.filter { !it.disabled }) {
                 if (move.pp > 0 && 1 == 2 && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) == 1.0 && estimateMatchup(activeBattlePokemon, request, battle) > 0 &&
                         (opponent.boosts[Stats.ACCURACY] ?: 0) > accuracySwitchThreshold) {
-                    return MoveActionResponse(move.id)
+                    return chooseMove(move, activeBattlePokemon)
                 }
             }
 
@@ -958,7 +928,7 @@ class StrongBattleAI() : BattleAI {
                             (activeOpponent?.status == null) && // todo I think this is the wrong status
                             mon.protectCount == 0 && opponent.pokemon!!.ability.name != "unseenfist") {
                         mon.protectCount = 3
-                        return MoveActionResponse(move.id)
+                        return chooseMove(move, activeBattlePokemon)
                     }
                 }
             }
@@ -997,7 +967,7 @@ class StrongBattleAI() : BattleAI {
 
                     else -> 1.0
                 }
-                val damageTypeMultiplier = moveDamageMultiplier(move.id, opponent.pokemon!!)
+                val damageTypeMultiplier = moveDamageMultiplier(move.id, opponent)
                 val burn = when {
                     opponent.pokemon!!.status?.status?.showdownName == "burn" && moveData.damageCategory == DamageCategories.PHYSICAL -> 0.5
                     else -> 1.0
@@ -1122,7 +1092,7 @@ class StrongBattleAI() : BattleAI {
         // healing wish (dealing with it here because you'd only use it if you should switch out anyway)
         for (move in moveset.moves.filter { !it.disabled }) {
             if (move.id.equals("healingwish") && (mon.currentHp.toDouble() / mon.pokemon!!.hp.toDouble()) < selfKoMoveMatchupThreshold) {
-                return MoveActionResponse(move.id)
+                return chooseMove(move, activeBattlePokemon)
             }
         }
 
@@ -1152,14 +1122,15 @@ class StrongBattleAI() : BattleAI {
                 .randomOrNull()
                 ?: return MoveActionResponse("struggle")
 
-        val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
+        return chooseMove(move, activeBattlePokemon)
+        /*val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
         return if (target == null) {
             MoveActionResponse(move.id)
         } else {
             // prioritize opponents rather than allies
             val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
             MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
-        }
+        }*/
     }
 
     // test
@@ -1467,9 +1438,18 @@ class StrongBattleAI() : BattleAI {
         return "team ${bestMon?.position?.plus(1)}"
     }*/
 
-    fun moveDamageMultiplier(moveID: String, defender: Pokemon): Double {
+    // moveID: the move used as a string
+    // defender: the activeTracker Pokemon that the move is being used on
+    fun moveDamageMultiplier(moveID: String, defender: ActiveTracker.TrackerPokemon): Double {
         val move = Moves.getByName(moveID)
-        val defenderTypes = defender.types
+        // repeat the list building for each entry in the list
+        var typeList = mutableListOf<ElementalType>()
+
+        defender.currentTypes?.forEach {
+            ElementalTypes.get(it.lowercase())?.let { it1 -> typeList.add(it1) }
+        }
+
+        val defenderTypes = typeList // set the type list of the current defender
         var multiplier = 1.0
 
         for (defenderType in defenderTypes)
@@ -1730,6 +1710,16 @@ class StrongBattleAI() : BattleAI {
 
         //p2.sideConditions = pokemon.sideConditions   //todo what the hell does this mean
 
+    }
+
+    private fun chooseMove(move: InBattleMove, activeBattlePokemon: ActiveBattlePokemon): MoveActionResponse {
+        val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
+        if (target == null)
+            return MoveActionResponse(move.id)
+        else {
+            val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
+            return MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
+        }
     }
 
     private fun getActiveTrackerPokemon(actor: ActiveTracker.TrackerActor, pokemonUUID: UUID?): ActiveTracker.TrackerPokemon {
