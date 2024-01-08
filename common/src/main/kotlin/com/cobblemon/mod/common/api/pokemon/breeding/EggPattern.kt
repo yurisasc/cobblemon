@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier
  * @since January 2nd, 2024
  */
 data class EggPattern (
-    val primaryTexturePath: Identifier,
-    val secondaryTexturePath: Identifier?
+    val model: Identifier,
+    val baseTexturePath: Identifier,
+    val overlayTexturePath: Identifier?
 )

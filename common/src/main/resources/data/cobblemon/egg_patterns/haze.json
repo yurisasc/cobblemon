@@ -1,0 +1,5 @@
+{
+  "model": "cobblemon:egg",
+  "baseTexturePath": "cobblemon:base",
+  "overlayTexturePath": "cobblemon:pattern_haze"
+}

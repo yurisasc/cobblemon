@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
 import com.cobblemon.mod.common.api.pokemon.breeding.Egg
+import com.cobblemon.mod.common.api.pokemon.breeding.EggPatterns
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.block.NestBlock
@@ -302,13 +303,9 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                                         //Most params here need to be gotten from the form when implemented properly
                                         blockEntity.egg = Egg(
                                             breedResult.pokemon,
-                                            cobblemonResource("test_pattern"),
-                                            Integer.toHexString(breedResult.pokemon.species.primaryType.hue),
-                                            breedResult.pokemon.species.secondaryType?.hue?.let {
-                                                Integer.toHexString(
-                                                    it
-                                                )
-                                            }
+                                            EggPatterns.patternMap.keys.random(),
+                                            "FFFFFF",
+                                            Integer.toHexString(breedResult.pokemon.species.primaryType.hue)
                                         )
                                         blockEntity.markDirty()
                                         world?.updateListeners(nestTaken, world?.getBlockState(nestTaken), world?.getBlockState(nestTaken), Block.NOTIFY_LISTENERS)
@@ -339,9 +336,13 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         )
         cube.blockPositionsAsList().forEach {
             val state = world?.getBlockState(it)
-            if (state?.block is NestBlock && !state.get(NestBlock.HAS_EGG)) {
+            if (state?.block is NestBlock) {
+                val entity = world?.getBlockEntity(it) as NestBlockEntity
                 //Cobblemon.LOGGER.warn("Nest at ${it.toString()}")
-                res.add(it)
+                if (entity.egg == null) {
+                    res.add(it)
+                }
+
             }
         }
         return res

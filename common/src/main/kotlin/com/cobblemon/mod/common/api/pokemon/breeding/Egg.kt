@@ -7,15 +7,15 @@ import net.minecraft.util.Identifier
 data class Egg(
     val hatchedPokemon: EggPokemon,
     val patternId: Identifier,
-    val primaryColor: String,
-    val secondaryColor: String?
+    val baseColor: String,
+    val overlayColor: String?
 ) {
     fun toNbt(): NbtCompound {
         val result = NbtCompound()
         result.put(DataKeys.HATCHED_POKEMON, hatchedPokemon.toNbt())
         result.putString(DataKeys.EGG_PATTERN, patternId.toString())
-        result.putString(DataKeys.PRIMARY_COLOR, primaryColor)
-        secondaryColor?.let { result.putString(DataKeys.SECONDARY_COLOR, it) }
+        result.putString(DataKeys.PRIMARY_COLOR, baseColor)
+        overlayColor?.let { result.putString(DataKeys.SECONDARY_COLOR, it) }
         return result
     }
 
