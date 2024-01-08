@@ -5,12 +5,14 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import net.minecraft.entity.Entity
 
 class GildedState : PoseableEntityState<Entity>() {
-    var totalPartialTicks = 0F
     override fun getEntity() = null
 
+    init {
+        setPose("CLOSED")
+    }
+
     override fun updatePartialTicks(partialTicks: Float) {
-        this.totalPartialTicks += partialTicks
-        currentPartialTicks += partialTicks
+        this.currentPartialTicks += partialTicks
     }
 
     override val schedulingTracker = SchedulingTracker()

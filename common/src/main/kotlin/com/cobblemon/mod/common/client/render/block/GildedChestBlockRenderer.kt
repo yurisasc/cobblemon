@@ -1,24 +1,14 @@
 package com.cobblemon.mod.common.client.render.block
 
-import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
-import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BlockEntityModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import com.cobblemon.mod.common.client.render.models.blockbench.setRotation
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.math.geometry.Axis
-import com.cobblemon.mod.common.util.math.geometry.toRadians
-import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.Direction
+import net.minecraft.state.property.Properties
 import net.minecraft.util.math.RotationAxis
 
 class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<GildedChestBlockEntity> {
@@ -42,7 +32,8 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
 
         matrices.push()
         matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180f))
-        matrices.translate(-0.5, 0.0, 0.5);
+        matrices.translate(-0.5, 0.0, 0.5)
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.cachedState.get(Properties.HORIZONTAL_FACING).asRotation()))
 
         model.setupAnimStateful(
             entity = null,

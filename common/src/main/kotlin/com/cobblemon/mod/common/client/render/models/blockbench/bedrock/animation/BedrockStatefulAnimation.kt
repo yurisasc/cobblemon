@@ -34,7 +34,7 @@ open class BedrockStatefulAnimation<T : Entity>(
     var startedSeconds = -1F
     var isTransformAnimation = false
     override val duration = animation.animationLength.toFloat()
-    private var afterAction: (T, PoseableEntityState<T>) -> Unit = { _, _ -> }
+    private var afterAction: (T?, PoseableEntityState<T>) -> Unit = { _, _ -> }
 
     override val isTransform: Boolean
         get() = isTransformAnimation
@@ -43,7 +43,7 @@ open class BedrockStatefulAnimation<T : Entity>(
         it.isTransformAnimation = value
     }
 
-    fun andThen(action: (entity: T, PoseableEntityState<T>) -> Unit) = this.also {
+    fun andThen(action: (entity: T?, PoseableEntityState<T>) -> Unit) = this.also {
         it.afterAction = action
     }
 
@@ -63,7 +63,7 @@ open class BedrockStatefulAnimation<T : Entity>(
         }
 
         return animation.run(model, state, state.animationSeconds - startedSeconds, intensity).also {
-            if (!it && entity != null) {
+            if (!it) {
                 afterAction(entity, state)
             }
         }
