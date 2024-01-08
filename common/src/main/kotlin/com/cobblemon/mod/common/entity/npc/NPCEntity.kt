@@ -245,6 +245,8 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     override fun onFinishPathfinding() {
         brain.forget(MemoryModuleType.PATH)
+        brain.forget(MemoryModuleType.WALK_TARGET)
+        brain.forget(MemoryModuleType.LOOK_TARGET)
     }
 
     override fun getBrain() = super.getBrain() as Brain<NPCEntity>
