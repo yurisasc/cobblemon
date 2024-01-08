@@ -9,6 +9,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.EggMo
 import com.cobblemon.mod.common.client.render.models.blockbench.setRotation
 import com.cobblemon.mod.common.util.math.geometry.Axis
 import com.mojang.blaze3d.systems.RenderSystem
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.VertexBuffer
 import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.render.Tessellator
@@ -16,9 +17,13 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.Vec3d
 import java.awt.Color
 
 class NestBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<NestBlockEntity> {
+    override fun getRenderDistance(): Int {
+        return MinecraftClient.getInstance().options.viewDistance.value * 16
+    }
     override fun render(
         entity: NestBlockEntity,
         tickDelta: Float,

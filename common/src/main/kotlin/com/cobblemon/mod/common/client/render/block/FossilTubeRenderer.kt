@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.client.CobblemonBakingOverrides
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
 import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
@@ -24,6 +25,9 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
 
 class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<FossilTubeBlockEntity> {
+    override fun getRenderDistance(): Int {
+        return MinecraftClient.getInstance().options.viewDistance.value * 16
+    }
     override fun render(
         entity: FossilTubeBlockEntity,
         tickDelta: Float,

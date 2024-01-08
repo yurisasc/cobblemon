@@ -23,6 +23,9 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
 
 class FossilCompartmentRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<FossilCompartmentBlockEntity> {
+    override fun getRenderDistance(): Int {
+        return MinecraftClient.getInstance().options.viewDistance.value * 16
+    }
 
     override fun render(
         entity: FossilCompartmentBlockEntity,

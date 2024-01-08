@@ -29,6 +29,9 @@ import net.minecraft.util.math.Vec3d
 
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
+    override fun getRenderDistance(): Int {
+        return MinecraftClient.getInstance().options.viewDistance.value * 16
+    }
 
     override fun isInRenderDistance(blockEntity: BerryBlockEntity, pos: Vec3d): Boolean {
         return super.isInRenderDistance(blockEntity, pos)
