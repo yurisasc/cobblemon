@@ -250,7 +250,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val GIMMIGHOUL_CHEST = create(
         "gimmighoul_chest",
         DisguisedPokemonBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST),
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque(),
             "gimmighoul",
             5..30
         )

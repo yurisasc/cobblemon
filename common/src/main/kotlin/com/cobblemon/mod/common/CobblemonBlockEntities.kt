@@ -68,4 +68,10 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
             CobblemonBlocks.FOSSIL_COMPARTMENT
         ).build(null)
     )
+
+    val DISGUISED_BLOCK: BlockEntityType<DisguisedBlockBlockEntity> = this.create("disguised_block",
+        BlockEntityType.Builder.create({ pos, state -> DisguisedBlockBlockEntity(pos, state) },
+            CobblemonBlocks.GIMMIGHOUL_CHEST
+        ).build(null)
+        )
 }

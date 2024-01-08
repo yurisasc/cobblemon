@@ -10,11 +10,14 @@ package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.block.entity.DisguisedBlockBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.SoundCategory
@@ -33,7 +36,7 @@ class DisguisedPokemonBlock(
     //Should probably be a [PokemonProperties] or maybe a PokemonProperties.parse string
     val pokemonArgs: String,
     val levelRange: IntRange = 1..1
-) : Block(settings) {
+) : BlockWithEntity(settings) {
 
     init {
         defaultState = this.stateManager.defaultState
@@ -72,6 +75,10 @@ class DisguisedPokemonBlock(
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
+    }
+
+    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
+        return DisguisedBlockBlockEntity(pos, state)
     }
 
     override fun rotate(blockState: BlockState, rotation: BlockRotation): BlockState {

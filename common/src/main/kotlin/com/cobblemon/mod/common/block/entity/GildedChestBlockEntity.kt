@@ -17,7 +17,9 @@ import net.minecraft.block.entity.ViewerCountManager
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.DoubleInventory
+import net.minecraft.inventory.Inventories
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.GenericContainerScreenHandler
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -126,5 +128,21 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState) : LootableContain
     fun onViewerCountUpdate(world: World, pos: BlockPos, state: BlockState, oldViewerCount: Int, newViewerCount: Int) {
         val block = state.block
         world.addSyncedBlockEvent(pos, block, 1, newViewerCount)
+    }
+    override fun writeNbt(nbt: NbtCompound?) {
+        super.writeNbt(nbt)
+        if (!serializeLootTable(nbt)) {
+            Inventories.writeNbt(nbt, inventoryContents)
+        }
+    }
+
+    override fun readNbt(nbt: NbtCompound?) {
+        super.readNbt(nbt)
+        inventoryContents= DefaultedList.ofSize(
+            size(), ItemStack.EMPTY
+        )
+        if (!deserializeLootTable(nbt)) {
+            Inventories.readNbt(nbt, inventoryContents)
+        }
     }
 }
