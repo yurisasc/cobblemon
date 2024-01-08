@@ -117,7 +117,7 @@ class SnowstormParticle(
         maxAge = (storm.runtime.resolveDouble(storm.effect.particle.maxAge) * 20).toInt()
         storm.particles.add(this)
         gravityStrength = 0F
-        particleTextureSheet = if(invisible) NO_RENDER else PARTICLE_SHEET_LIT
+        particleTextureSheet = if (invisible) NO_RENDER else PARTICLE_SHEET_TRANSLUCENT
 //            when (storm.effect.particle.material) {
 //            ParticleMaterial.ALPHA -> ParticleMaterials.ALPHA
 //            ParticleMaterial.OPAQUE -> ParticleMaterials.OPAQUE
