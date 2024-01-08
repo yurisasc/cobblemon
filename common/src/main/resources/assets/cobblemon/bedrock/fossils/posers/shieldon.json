@@ -1,6 +1,7 @@
 {
   "maxScale": 1.0,
   "yTranslation": -0.2,
+  "yGrowthPoint": 0.5625,
   "animations": [
     "bedrock(shieldon_fetus, sleep)"
   ],

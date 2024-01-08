@@ -1,7 +1,7 @@
 {
   "maxScale": 0.85,
   "yTranslation": -0.3,
-
+  "yGrowthPoint": 0.75,
 
   "animations": [
     "bedrock(arctovish_fetus, sleep)"

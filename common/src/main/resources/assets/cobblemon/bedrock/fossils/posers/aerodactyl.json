@@ -1,6 +1,7 @@
 {
   "maxScale": 0.9,
   "yTranslation": 0.5,
+  "yGrowthPoint": 0.6875,
   "animations": [
     "bedrock(aerodactyl_fetus, sleep)"
   ],

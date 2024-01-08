@@ -1,6 +1,7 @@
 {
   "maxScale": 0.85,
   "yTranslation": -0.1,
+  "yGrowthPoint": 0.625,
 
 
   "animations": [

@@ -73,7 +73,6 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
             transparentBuffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
         }
 
-
         matrices.pop()
     }
 
@@ -102,74 +101,84 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         val state = struc.fossilState
         state.updatePartialTicks(tickDelta)
 
-        val completionPercentage = 1 - timeRemaining / FossilMultiblockStructure.TIME_TO_TAKE.toFloat()
+        val completionPercentage = Math.min( 1 - timeRemaining / FossilMultiblockStructure.TIME_TO_TAKE.toFloat(), 1.0f)
         val fossilFetusModel = FossilModelRepository.getPoser(fossil.identifier, aspects)
-        val model: FossilModel
-        val texture: Identifier?
-        var bodyOffsetY = 0f
-        // Currently a jank solution that just hotswaps the models out
-        // End goal is to have each model grow out of the previous
-        if(completionPercentage < embryoThreshold1) {
-            model = FossilModelRepository.getPoser(embryoIdentifier1,aspects)
-            texture = FossilModelRepository.getTexture(embryoIdentifier1, aspects, state.animationSeconds)
-            bodyOffsetY = fossilFetusModel.maxScale*fossilFetusModel.bodyBoneOffsetY + (1f/16f)*(1-completionPercentage)
-        } else if(completionPercentage < embryoThreshold2) {
-            model = FossilModelRepository.getPoser(embryoIdentifier2,aspects)
-            texture = FossilModelRepository.getTexture(embryoIdentifier2, aspects, state.animationSeconds)
-            bodyOffsetY = fossilFetusModel.maxScale*fossilFetusModel.bodyBoneOffsetY + (3f/32f)*(1-completionPercentage)
-        } else if(completionPercentage < embryoThreshold3) {
-            model = FossilModelRepository.getPoser(embryoIdentifier3,aspects)
-            texture = FossilModelRepository.getTexture(embryoIdentifier3, aspects, state.animationSeconds)
-            bodyOffsetY = fossilFetusModel.maxScale*fossilFetusModel.bodyBoneOffsetY + (5f/32f)*(1-completionPercentage)
-        } else {
-            model = fossilFetusModel
-            texture = FossilModelRepository.getTexture(fossil.identifier, aspects, state.animationSeconds)
-            bodyOffsetY = fossilFetusModel.maxScale*fossilFetusModel.bodyBoneOffsetY*(1-completionPercentage)
+
+        val modelList = mutableListOf<FossilModel>()
+        val textureList = mutableListOf<Identifier>()
+        val bodyOffsetYList = mutableListOf<Float>() // a*x + b
+        val scaleBoundsList =  mutableListOf<Pair<Float, Float>>() // minScale, maxScale
+        val thresholdsList =  mutableListOf<Pair<Float, Float>>() // minTime, maxTime
+
+        EMBRYO_THRESHOLDS.forEachIndexed { idx, bounds ->
+            if(completionPercentage >= bounds.first && completionPercentage <= bounds.second) {
+                scaleBoundsList.add(EMBRYO_SCALE_BOUNDS[idx])
+                thresholdsList.add(EMBRYO_THRESHOLDS[idx])
+                if(idx < EMBRYO_IDENTIFIERS.size) {
+                    // embryo models
+                    val tempModel = FossilModelRepository.getPoser(EMBRYO_IDENTIFIERS[idx],aspects)
+                    modelList.add(tempModel)
+                    textureList.add(FossilModelRepository.getTexture(EMBRYO_IDENTIFIERS[idx], aspects, state.animationSeconds))
+                    bodyOffsetYList.add(tempModel.yGrowthPoint)
+                } else {
+                    // fossil fetus model
+                    modelList.add(fossilFetusModel)
+                    textureList.add(FossilModelRepository.getTexture(fossil.identifier, aspects, state.animationSeconds))
+                    bodyOffsetYList.add(fossilFetusModel.yGrowthPoint)
+                }
+            }
         }
 
-        val vertexConsumer = vertexConsumers.getBuffer(model.getLayer(texture))
-        val pose = model.poses.values.first()
-        state.currentModel = model
-        state.setPose(pose.poseName)
-        state.timeEnteredPose = 0F
+        modelList.forEachIndexed() { idx, model ->
+            val vertexConsumer = vertexConsumers.getBuffer(model.getLayer(textureList[idx]))
+            val pose = model.poses.values.first()
+            state.currentModel = model
+            state.setPose(pose.poseName)
+            state.timeEnteredPose = 0F
 
-        val scale: Float = if (timeRemaining == 0) {
-            model.maxScale
-        } else {
-            completionPercentage * model.maxScale
+            val scale: Float = if (timeRemaining == 0) {
+                model.maxScale
+            } else {
+                //TODO: DRY + Needs to be able to shrink models back down instead of disappearing when reaching max scale
+                val minScale = scaleBoundsList[idx].first
+                val maxScale = scaleBoundsList[idx].second
+                val minTime = thresholdsList[idx].first
+                val maxTime = thresholdsList[idx].second
+                ((completionPercentage - minTime) / (maxTime - minTime) * (maxScale - minScale) + minScale) * fossilFetusModel.maxScale
+            }
+
+            matrices.push()
+            matrices.translate(0.5, 1.0 + fossilFetusModel.yTranslation,  0.5);
+            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180F))
+            if(tankDirection.rotateCounterclockwise(Direction.Axis.Y) == connectionDir) {
+                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90F))
+            } else if(tankDirection == connectionDir) {
+                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180F))
+            } else if(tankDirection.opposite != connectionDir) {
+                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90F))
+            }
+
+            matrices.push()
+            matrices.scale(scale, scale, scale)
+            matrices.translate(0.0, bodyOffsetYList[idx].toDouble(), 0.0)
+            model.setupAnimStateful(
+                    entity = null,
+                    state = state,
+                    headYaw = 0F,
+                    headPitch = 0F,
+                    limbSwing = 0F,
+                    limbSwingAmount = 0F,
+                    ageInTicks = state.animationSeconds * 20
+            )
+            model.render(matrices, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
+            model.withLayerContext(vertexConsumers, state, FossilModelRepository.getLayers(fossil.identifier, aspects)) {
+                model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+            }
+            model.setDefault()
+            matrices.pop()
+            matrices.pop()
+
         }
-
-        matrices.push()
-        matrices.translate(0.5, 0.5 + fossilFetusModel.yTranslation + bodyOffsetY,  0.5);
-        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180F))
-        if(tankDirection.rotateCounterclockwise(Direction.Axis.Y) == connectionDir) {
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90F))
-        } else if(tankDirection == connectionDir) {
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180F))
-        } else if(tankDirection.opposite != connectionDir) {
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90F))
-        }
-
-        matrices.push()
-        matrices.scale(scale, scale, scale)
-
-        model.setupAnimStateful(
-            entity = null,
-            state = state,
-            headYaw = 0F,
-            headPitch = 0F,
-            limbSwing = 0F,
-            limbSwingAmount = 0F,
-            ageInTicks = state.animationSeconds * 20
-        )
-        model.render(matrices, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
-        model.withLayerContext(vertexConsumers, state, FossilModelRepository.getLayers(fossil.identifier, aspects)) {
-            model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
-        }
-        model.setDefault()
-        matrices.pop()
-        matrices.pop()
-
     }
 
     companion object {
@@ -186,14 +195,11 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         )
 
         val CONNECTOR_MODEL = CobblemonBakingOverrides.RESTORATION_TANK_CONNECTOR.getModel()
-
-        val embryoIdentifier1 = Identifier("cobblemon", "embryo_stage1")
-        val embryoIdentifier2 = Identifier("cobblemon", "embryo_stage2")
-        val embryoIdentifier3 = Identifier("cobblemon", "embryo_stage3")
-
-        val embryoThreshold1 = 0.2
-        val embryoThreshold2 = 0.4
-        val embryoThreshold3 = 0.6
-
+        val EMBRYO_IDENTIFIERS = listOf<Identifier>(Identifier("cobblemon", "embryo_stage1"),
+                Identifier("cobblemon", "embryo_stage2"),
+                Identifier("cobblemon", "embryo_stage3"))
+        //TODO: Is this something that should be configurable per fossil?
+        val EMBRYO_THRESHOLDS = listOf(Pair(0f, 0.2f), Pair(0f, 0.3f), Pair(0.15f, 0.8f), Pair(0.4f, 1.0f))
+        val EMBRYO_SCALE_BOUNDS = listOf(Pair(0.2f, 0.3f), Pair(0f, 0.4f), Pair(0.1f, 0.6f), Pair(0.0f, 1.0f))
     }
 }
