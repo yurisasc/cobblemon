@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Hoopa",
   "nationalPokedexNumber": 720,
   "primaryType": "psychic",
@@ -60,7 +60,6 @@
       ],
       "height": 65,
       "weight": 4900,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.ListExpression
 import com.cobblemon.mod.common.api.molang.SingleExpression
 import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asExpressions
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -29,7 +30,7 @@ object ExpressionLikeAdapter : JsonDeserializer<ExpressionLike> {
         return if (json.isJsonPrimitive) {
             SingleExpression(json.asString.asExpression())
         } else if (json.isJsonArray) {
-            ListExpression(json.asJsonArray.map { it.asString.asExpression() })
+            ListExpression(json.asJsonArray.flatMap { it.asString.asExpressions() })
         } else {
             throw IllegalArgumentException("Invalid expression JSON: $json")
         }

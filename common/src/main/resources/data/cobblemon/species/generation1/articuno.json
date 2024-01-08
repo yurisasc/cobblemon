@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Articuno",
   "nationalPokedexNumber": 144,
@@ -150,7 +150,6 @@
       ],
       "height": 17,
       "weight": 509,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false,
       "drops": {

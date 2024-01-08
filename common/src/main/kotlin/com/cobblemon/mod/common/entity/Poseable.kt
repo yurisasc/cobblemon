@@ -9,8 +9,9 @@
 package com.cobblemon.mod.common.entity
 
 import com.cobblemon.mod.common.api.entity.EntitySideDelegate
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 
 interface Poseable {
     fun getPoseType(): PoseType
-    fun getSideDelegate(): EntitySideDelegate<*>?
+    val delegate: EntitySideDelegate<*>
 }

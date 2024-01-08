@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Sandslash",
   "nationalPokedexNumber": 28,
@@ -204,7 +204,6 @@
       "height": 12,
       "weight": 550,
       "preEvolution": "sandshrew form=alola",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false,
       "drops": {

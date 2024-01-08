@@ -17,15 +17,15 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.client.model.ModelPart
 
-class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(), PokeBallFrame {
+open class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(), PokeBallFrame {
     override val rootPart = root.registerChildWithAllChildren("poke_ball")
     override val base = getPart("bottom")
     override val lid = getPart("lid")
     override val isForLivingEntityRenderer = false
 
-    lateinit var shut: PokeBallPose
-    lateinit var open: PokeBallPose
-    lateinit var midair: PokeBallPose
+    open lateinit var shut: PokeBallPose
+    open lateinit var open: PokeBallPose
+    open lateinit var midair: PokeBallPose
 
     override fun getState(entity: EmptyPokeBallEntity) = entity.delegate as EmptyPokeBallClientDelegate
 

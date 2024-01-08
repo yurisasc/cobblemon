@@ -172,7 +172,7 @@ abstract class PoseableEntityModel<T : Entity>(
      */
     fun <F : ModelFrame> registerPose(
         poseType: PoseType,
-        condition: (T) -> Boolean = { true },
+        condition: ((T) -> Boolean)? = null,
         transformTicks: Int = 10,
         animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
@@ -198,7 +198,7 @@ abstract class PoseableEntityModel<T : Entity>(
     fun <F : ModelFrame> registerPose(
         poseName: String,
         poseTypes: Set<PoseType>,
-        condition: (T) -> Boolean = { true },
+        condition: ((T) -> Boolean)? = null,
         transformTicks: Int = 10,
         animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
@@ -224,7 +224,7 @@ abstract class PoseableEntityModel<T : Entity>(
     fun <F : ModelFrame> registerPose(
         poseName: String,
         poseType: PoseType,
-        condition: (T) -> Boolean = { true },
+        condition: ((T) -> Boolean)? = null,
         transformTicks: Int = 10,
         animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
@@ -464,11 +464,11 @@ abstract class PoseableEntityModel<T : Entity>(
         var pose = poseName?.let { getPose(it) }
         val entityPoseType = if (entity is Poseable) entity.getPoseType() else null
 
-        if (entity != null && (poseName == null || pose == null || !pose.condition(entity) || entityPoseType !in pose.poseTypes)) {
+        if (entity != null && (poseName == null || pose == null || !pose.isSuitable(entity) || entityPoseType !in pose.poseTypes)) {
             val desirablePose = poses.values.firstOrNull {
-                (entityPoseType == null || entityPoseType in it.poseTypes) && it.condition(entity)
+                (entityPoseType == null || entityPoseType in it.poseTypes) && it.isSuitable(entity)
             }
-                ?: Pose("none", setOf(PoseType.NONE), { true }, {}, 0, mutableMapOf(), emptyArray(), emptyArray(), emptyArray())
+                ?: Pose("none", setOf(PoseType.NONE), null, {}, 0, mutableMapOf(), emptyArray(), emptyArray(), emptyArray())
 
             // If this condition matches then it just no longer fits this pose
             if (pose != null && poseName != null) {
@@ -528,7 +528,7 @@ abstract class PoseableEntityModel<T : Entity>(
         setupAnimStateful(entity, getState(entity), limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
 
-    fun moveToPose(entity: T, state: PoseableEntityState<T>, desirablePose: Pose<T, out ModelFrame>) {
+    fun moveToPose(entity: T?, state: PoseableEntityState<T>, desirablePose: Pose<T, out ModelFrame>) {
         val previousPose = state.getPose()?.let { getPose(it) } ?: run {
             return state.setPose(desirablePose.poseName)
         }
@@ -561,7 +561,7 @@ abstract class PoseableEntityModel<T : Entity>(
                     state.setPose(desirablePose.poseName)
                 }
             } else {
-                getState(entity).setPose(poses.values.first { desirablePoseType in it.poseTypes && it.condition(entity) }.poseName)
+                state.setPose(poses.values.first { desirablePoseType in it.poseTypes && (it.condition == null || (entity != null && it.condition.invoke(entity))) }.poseName)
             }
         }
     }

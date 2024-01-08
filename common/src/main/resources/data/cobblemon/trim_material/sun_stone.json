@@ -1,0 +1,10 @@
+{
+  "asset_name": "sun_stone",
+  "description": {
+    "translate": "trim_material.cobblemon.sun_stone",
+    "fallback": "Sun Stone",
+    "color": "#D58252"
+  },
+  "ingredient": "cobblemon:sun_stone",
+  "item_model_index": 0.2627
+}

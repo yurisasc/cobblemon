@@ -105,6 +105,10 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.util.EnumSet
+import java.util.Optional
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 class PokemonEntity(
@@ -131,7 +135,6 @@ class PokemonEntity(
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         const val BATTLE_LOCK = "battle"
-        val BATTLING_ACTIVITY = Activity.register("pokemon_battling")
 
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
@@ -200,7 +203,7 @@ class PokemonEntity(
 
     // properties like the above are synced and can be subscribed to for changes on either side
 
-    val delegate = if (world.isClient) {
+    override val delegate = if (world.isClient) {
         PokemonClientDelegate()
     } else {
         PokemonServerDelegate()

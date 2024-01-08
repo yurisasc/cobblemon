@@ -65,7 +65,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             ANIMATION_FACTORIES[id] = factory
         }
 
-        private val ANIMATION_FACTORIES = mutableMapOf<String, AnimationReferenceFactory>()
+        val ANIMATION_FACTORIES = mutableMapOf<String, AnimationReferenceFactory>()
     }
 
     override fun registerPoses() {}
@@ -167,7 +167,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
                 conditionsList.add { mustBeTouchingWater == it.isTouchingWater }
             }
 
-            val poseCondition: (PokemonEntity) -> Boolean = if (conditionsList.isEmpty()) { { true } } else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
+            val poseCondition: ((PokemonEntity) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
 
             val transformedParts = obj.get("transformedParts")?.asJsonArray?.map {
                 it as JsonObject

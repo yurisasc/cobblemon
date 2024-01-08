@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Dudunsparce",
   "nationalPokedexNumber": 982,
   "primaryType": "normal",
@@ -162,7 +162,6 @@
       "height": 45,
       "weight": 474,
       "preEvolution": "dunsparce",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

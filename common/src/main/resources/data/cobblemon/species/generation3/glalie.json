@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Glalie",
   "nationalPokedexNumber": 362,
   "primaryType": "ice",
@@ -60,7 +60,6 @@
       ],
       "height": 21,
       "weight": 3502,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
