@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.drop
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents.LOOT_DROPPED
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -88,6 +89,8 @@ class DropTable {
         amount: IntRange = this.amount
     ) {
         val drops = getDrops(amount).toMutableList()
+        val heldItem = (entity as PokemonEntity).pokemon.heldItemNoCopy()
+        if (!heldItem.isEmpty) entity.dropItem(heldItem.item)
         LOOT_DROPPED.postThen(
             event = LootDroppedEvent(this, player, entity, drops),
             ifSucceeded = { it.drops.forEach { it.drop(entity, world, pos, player) } }
