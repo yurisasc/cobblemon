@@ -273,7 +273,6 @@ open class Pokemon : ShowdownIdentifiable {
         set(value) {
             field = value
         }
-        get() = field
 
     var teraType = primaryType
         set(value) {
