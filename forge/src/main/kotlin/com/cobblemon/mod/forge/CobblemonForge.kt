@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.integration.adorn.AdornCompatibility
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.world.CobblemonStructures
@@ -76,6 +77,8 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.ExecutionException
 import kotlin.reflect.KClass
+import net.minecraft.entity.ai.brain.Activity
+import net.minecraftforge.registries.ForgeRegistries
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
@@ -153,6 +156,12 @@ class CobblemonForge : CobblemonImplementation {
 
         event.register(RegistryKeys.STRUCTURE_PROCESSOR) {
             CobblemonProcessorTypes.touch()
+        }
+
+        event.register(RegistryKeys.ACTIVITY) {
+            CobblemonActivities.activities.forEach {
+                ForgeRegistries.ACTIVITIES.register(cobblemonResource(it.id), it)
+            }
         }
     }
 
