@@ -16,6 +16,7 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.SoundEvents
 
 object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Registry<SoundEvent>>, SoundEvent>() {
 
@@ -137,6 +138,39 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val GIMMIGHOUL_REVEAL = this.create("gimmighoul.reveal")
 
     @JvmField
+    val BERRY_BUSH_BREAK = this.create("berry_bush.break")
+    @JvmField
+    val BERRY_BUSH_PLACE = this.create("berry_bush.place")
+
+    @JvmField
+    val BIG_ROOT_BREAK = this.create("big_root.break")
+    @JvmField
+    val ENERGY_ROOT_PLACE = this.create("energy_root.place")
+
+    @JvmField
+    val MINT_BREAK = this.create("mint.break")
+    @JvmField
+    val MINT_PLACE = this.create("mint.place")
+
+    @JvmField
+    val MEDICINAL_LEEK_BREAK = this.create("medicinal_leek.break")
+    @JvmField
+    val MEDICINAL_LEEK_PLACE = this.create("medicinal_leek.plant")
+
+    @JvmField
+    val GILDED_CHEST_OPEN = this.create("gilded_chest.open")
+    @JvmField
+    val GILDED_CHEST_CLOSE = this.create("gilded_chest.close")
+    @JvmField
+    val GILDED_CHEST_STEP = this.create("gilded_chest.step")
+    @JvmField
+    val GILDED_CHEST_HIT = this.create("gilded_chest.hit")
+    @JvmField
+    val GILDED_CHEST_BREAK = this.create("gilded_chest.break")
+    @JvmField
+    val GILDED_CHEST_PLACE = this.create("gilded_chest.place")
+
+    @JvmField
     val COIN_POUCH_SOUNDS = BlockSoundGroup(1f, 1f,
         COIN_POUCH_BREAK,
         COIN_POUCH_STEP,
@@ -160,6 +194,60 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
         TUMBLESTONE_PLACE,
         TUMBLESTONE_HIT,
         TUMBLESTONE_STEP
+    )
+
+    @JvmField
+    val BERRY_BUSH_SOUNDS = BlockSoundGroup(1f, 1f,
+        BERRY_BUSH_BREAK,
+        SoundEvents.BLOCK_GRASS_STEP,
+        BERRY_BUSH_PLACE,
+        SoundEvents.BLOCK_GRASS_HIT,
+        SoundEvents.BLOCK_GRASS_STEP
+    )
+
+    @JvmField
+    val BIG_ROOT_SOUNDS = BlockSoundGroup(1f, 1f,
+        BIG_ROOT_BREAK,
+        SoundEvents.BLOCK_ROOTS_STEP,
+        SoundEvents.BLOCK_ROOTS_PLACE,
+        SoundEvents.BLOCK_ROOTS_HIT,
+        SoundEvents.BLOCK_ROOTS_FALL
+    )
+
+    @JvmField
+    val ENERGY_ROOT_SOUNDS = BlockSoundGroup(1f, 1f,
+        SoundEvents.BLOCK_ROOTS_BREAK,
+        SoundEvents.BLOCK_ROOTS_STEP,
+        ENERGY_ROOT_PLACE,
+        SoundEvents.BLOCK_ROOTS_HIT,
+        SoundEvents.BLOCK_ROOTS_FALL
+    )
+
+    @JvmField
+    val MEDICINAL_LEEK_SOUNDS = BlockSoundGroup(1f, 1f,
+        MEDICINAL_LEEK_BREAK,
+        SoundEvents.BLOCK_GRASS_STEP,
+        MEDICINAL_LEEK_PLACE,
+        SoundEvents.BLOCK_GRASS_HIT,
+        SoundEvents.BLOCK_GRASS_FALL
+    )
+
+    @JvmField
+    val MINT_SOUNDS = BlockSoundGroup(1f, 1f,
+        MINT_BREAK,
+        SoundEvents.BLOCK_GRASS_STEP,
+        MINT_PLACE,
+        SoundEvents.BLOCK_GRASS_HIT,
+        SoundEvents.BLOCK_GRASS_FALL
+    )
+
+    @JvmField
+    val GILDED_CHEST_SOUNDS = BlockSoundGroup(1f, 1f,
+        GILDED_CHEST_BREAK,
+        GILDED_CHEST_STEP,
+        GILDED_CHEST_PLACE,
+        GILDED_CHEST_HIT,
+        GILDED_CHEST_STEP
     )
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))

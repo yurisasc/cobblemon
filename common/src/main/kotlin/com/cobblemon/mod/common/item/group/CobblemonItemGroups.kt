@@ -175,6 +175,12 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DOME_SHERD)
         entries.add(CobblemonItems.HELIX_SHERD)
         entries.add(CobblemonItems.NOSTALGIC_SHERD)
+
+        entries.add(CobblemonItems.RELIC_COIN)
+        entries.add(CobblemonItems.RELIC_COIN_POUCH)
+        entries.add(CobblemonItems.RELIC_COIN_SACK)
+        entries.add(CobblemonItems.GILDED_CHEST)
+        entries.add(CobblemonItems.GIMMIGHOUL_CHEST)
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
@@ -184,6 +190,8 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.PC)
         entries.add(CobblemonItems.HEALING_MACHINE)
         entries.add(CobblemonItems.PASTURE)
+        entries.add(CobblemonItems.GILDED_CHEST)
+        entries.add(CobblemonItems.GIMMIGHOUL_CHEST)
         entries.add(CobblemonItems.APRICORN_LOG)
         entries.add(CobblemonItems.APRICORN_WOOD)
         entries.add(CobblemonItems.STRIPPED_APRICORN_LOG)

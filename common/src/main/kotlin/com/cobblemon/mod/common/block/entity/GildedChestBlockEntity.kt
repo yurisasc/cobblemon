@@ -9,8 +9,12 @@
 package com.cobblemon.mod.common.block.entity
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.block.chest.GildedState
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.block.BlockState
+import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.block.entity.LootableContainerBlockEntity
 import net.minecraft.block.entity.ViewerCountManager
@@ -25,21 +29,24 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
+import net.minecraft.util.ActionResult
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import java.util.Random
 
-class GildedChestBlockEntity(pos: BlockPos, state: BlockState) : LootableContainerBlockEntity(CobblemonBlockEntities.GILDED_CHEST, pos, state) {
+class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val fake: Boolean = false) : LootableContainerBlockEntity(CobblemonBlockEntities.GILDED_CHEST, pos, state) {
     var inventoryContents: DefaultedList<ItemStack> = DefaultedList.ofSize(NUM_SLOTS, ItemStack.EMPTY)
     val poseableState: GildedState = GildedState()
 
     private val stateManager: ViewerCountManager = object : ViewerCountManager() {
         override fun onContainerOpen(world: World, pos: BlockPos, state: BlockState) {
-            playSound(world, pos, state, SoundEvents.BLOCK_CHEST_OPEN)
+            playSound(world, pos, state, CobblemonSounds.GILDED_CHEST_OPEN)
         }
 
         override fun onContainerClose(world: World, pos: BlockPos, state: BlockState) {
-            playSound(world, pos, state, SoundEvents.BLOCK_CHEST_CLOSE)
+            playSound(world, pos, state, CobblemonSounds.GILDED_CHEST_CLOSE)
         }
 
         override fun onViewerCountUpdate(
@@ -66,12 +73,12 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState) : LootableContain
     override fun getType(): BlockEntityType<*> = CobblemonBlockEntities.GILDED_CHEST
     override fun size() = NUM_SLOTS
 
-    override fun getContainerName() = Text.of("Gilded Chest")
+    override fun getContainerName() = Text.translatable("block.cobblemon.gilded_chest")
     override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory?) =
         GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this);
 
     override fun onOpen(player: PlayerEntity) {
-        if (!this.removed && !player.isSpectator) {
+        if (!this.removed && !player.isSpectator && !fake) {
             stateManager.openContainer(player, this.getWorld(), this.getPos(), this.cachedState)
         }
     }
