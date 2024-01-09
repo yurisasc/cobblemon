@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.block.chest
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
+import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.block.*
 import net.minecraft.entity.player.PlayerEntity
@@ -102,7 +103,7 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
         world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundCategory.NEUTRAL)
 
         world.removeBlock(pos, false)
-        entity.forceBattle(player)
+        if (!CobblemonClient.storage.myParty.isEmpty()) entity.forceBattle(player)
         return ActionResult.SUCCESS
     }
 

@@ -1038,6 +1038,7 @@ class PokemonEntity(
      */
     fun forceBattle(player: PlayerEntity): Boolean {
         if (!canBattle(player)) return false
+        if (CobblemonClient.storage.myParty.isEmpty()) return false
         val selectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot) ?: return false
         sendPacketToServer(BattleChallengePacket(this.id, selectedPokemon.uuid))
         return true
