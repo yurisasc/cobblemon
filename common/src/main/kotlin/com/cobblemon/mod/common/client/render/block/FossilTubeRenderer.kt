@@ -107,11 +107,11 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         val modelList = mutableListOf<FossilModel>()
         val textureList = mutableListOf<Identifier>()
         val bodyOffsetYList = mutableListOf<Float>() // a*x + b
-        val scaleBoundsList =  mutableListOf<Pair<Float, Float>>() // minScale, maxScale
-        val thresholdsList =  mutableListOf<Pair<Float, Float>>() // minTime, maxTime
+        val scaleBoundsList =  mutableListOf<Triple<Float, Float, Float>>() // minScale, maxScale
+        val thresholdsList =  mutableListOf<Triple<Float, Float, Float>>() // minTime, maxTime
 
         EMBRYO_THRESHOLDS.forEachIndexed { idx, bounds ->
-            if(completionPercentage >= bounds.first && completionPercentage <= bounds.second) {
+            if(completionPercentage >= bounds.first && completionPercentage <= bounds.third) {
                 scaleBoundsList.add(EMBRYO_SCALE_BOUNDS[idx])
                 thresholdsList.add(EMBRYO_THRESHOLDS[idx])
                 if(idx < EMBRYO_IDENTIFIERS.size) {
@@ -140,11 +140,20 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
                 model.maxScale
             } else {
                 //TODO: DRY + Needs to be able to shrink models back down instead of disappearing when reaching max scale
-                val minScale = scaleBoundsList[idx].first
+                val startScale = scaleBoundsList[idx].first
                 val maxScale = scaleBoundsList[idx].second
+                val endScale = scaleBoundsList[idx].third
+
                 val minTime = thresholdsList[idx].first
-                val maxTime = thresholdsList[idx].second
-                ((completionPercentage - minTime) / (maxTime - minTime) * (maxScale - minScale) + minScale) * fossilFetusModel.maxScale
+                val peakTime = thresholdsList[idx].second
+                val endTime = thresholdsList[idx].third
+
+                if(completionPercentage <= peakTime) {
+                    ((completionPercentage - minTime) / (peakTime - minTime) * (maxScale - startScale) + startScale) * fossilFetusModel.maxScale
+                } else {
+                    (-1f * (completionPercentage - peakTime) / (endTime - peakTime) * (maxScale - endScale) + maxScale) * fossilFetusModel.maxScale
+                }
+
             }
 
             matrices.push()
@@ -199,7 +208,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
                 Identifier("cobblemon", "embryo_stage2"),
                 Identifier("cobblemon", "embryo_stage3"))
         //TODO: Is this something that should be configurable per fossil?
-        val EMBRYO_THRESHOLDS = listOf(Pair(0f, 0.2f), Pair(0f, 0.3f), Pair(0.15f, 0.8f), Pair(0.4f, 1.0f))
-        val EMBRYO_SCALE_BOUNDS = listOf(Pair(0.2f, 0.3f), Pair(0f, 0.4f), Pair(0.1f, 0.6f), Pair(0.0f, 1.0f))
+        val EMBRYO_THRESHOLDS = listOf(Triple(0f, 0.1f, 0.2f), Triple(0f,  0.2f,0.55f), Triple(0.1f, 0.6f, 0.85f), Triple(0.4f, 1.0f, 1.0f))
+        val EMBRYO_SCALE_BOUNDS = listOf(Triple(0.2f, 0.5f, 0.0f), Triple(0f, 0.9f, 0.2f), Triple(0.1f, 1.1f, 0.0f), Triple(0.2f, 1.0f, 1.0f))
     }
 }
