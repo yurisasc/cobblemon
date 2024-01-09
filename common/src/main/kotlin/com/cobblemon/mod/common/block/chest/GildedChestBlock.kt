@@ -5,10 +5,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.block.*
-import net.minecraft.block.entity.ChestBlockEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.DoubleInventory
-import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
@@ -82,13 +79,13 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
         if (fake) {
-            spawnPokemon(world, pos, state)
+            spawnPokemon(world, pos, state, player)
             world.setBlockState(pos, Blocks.AIR.defaultState)
         } else super.onBreak(world, pos, state, player)
     }
 
-    private fun spawnPokemon(world: World, pos: BlockPos, state: BlockState) : ActionResult {
-        val properties = "${POKEMON_ARGS} lvl=${LEVEL_RANGE.random()}"
+    private fun spawnPokemon(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) : ActionResult {
+        val properties = "$POKEMON_ARGS lvl=${LEVEL_RANGE.random()}"
         val pokemon = PokemonProperties.parse(properties)
         val entity = pokemon.createEntity(world)
         entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, facingToYaw[state[HorizontalFacingBlock.FACING]])
@@ -97,6 +94,7 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
         world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundCategory.NEUTRAL)
 
         world.removeBlock(pos, false)
+        entity.forceBattle(player)
         return ActionResult.SUCCESS
     }
 
@@ -108,7 +106,7 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
         hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
-        if (fake) return spawnPokemon(world, pos, state)
+        if (fake) return spawnPokemon(world, pos, state, player)
         val entity = world.getBlockEntity(pos) as? GildedChestBlockEntity ?: return ActionResult.FAIL
         player.openHandledScreen(entity)
         val state = entity.poseableState
