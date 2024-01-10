@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.data.DataRegistry
+import com.cobblemon.mod.common.api.dialogue.Dialogues
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
@@ -66,6 +67,7 @@ object CobblemonDataProvider : DataProvider {
         this.register(CobblemonSpawnRules)
         this.register(CobblemonMechanics)
         this.register(BagItems)
+        this.register(Dialogues)
         this.register(NaturalMaterials)
         this.register(Fossils)
 

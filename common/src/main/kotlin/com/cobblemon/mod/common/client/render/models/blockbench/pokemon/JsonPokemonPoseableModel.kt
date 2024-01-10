@@ -156,7 +156,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
                 conditionsList.add { mustBeTouchingWater == it.isTouchingWater }
             }
 
-            val poseCondition: (PokemonEntity) -> Boolean = if (conditionsList.isEmpty()) { { true } } else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
+            val poseCondition: ((PokemonEntity) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
 
             val transformedParts = obj.get("transformedParts")?.asJsonArray?.map {
                 it as JsonObject
