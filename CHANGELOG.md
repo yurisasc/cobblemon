@@ -11,6 +11,8 @@
 - Added the Ancient Feather, Wing, and Jet Balls, which fly further than regular Poké Balls.
 - Added the Ancient Heavy, Leaden, and Gigaton Balls, which are heavier and don't fly as far as regular Poké Balls. These will recieve more functionality in a future update.
 - Added Original Trainer functionality. To edit the OT through commands, you must specify originaltrainertype=<Player/NPC>, and originaltrainer=<Username or UUID/NPC Name>
+- Added the hidden "True Vivillionaire" advancement.
+- The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
 
 ### Pokémon Added
 - Lileep, Cradily, Tirtouga, Carracosta, Arctovish, Dracovish, Arctozolt, Dracozolt, Shieldon, Bastiodon
@@ -21,6 +23,9 @@
 - Added more held items to the held item tag, and Metal Coat to the held item tab.
 - Added all ores to the modloader ore tags, and added tags for each ore type to the mod (both blocks and items).
 - Changed the Destiny Knot to be crafted with a Ghast Tear, rather than a diamond.
+- You can now punch grown apricorns to harvest them.
+- Renamed the "Vivillionaire" advancement to "Aspiring Vivillionaire"
+- Removed the Inferno, Forsaken, Poké Ball, and Void patterns from the Aspiring Vivillionaire advancement.
 
 ### Fixes
 - Resized Snorlax
@@ -29,12 +34,15 @@
 - Fixed Exeggcute not being able to evolve.
 - Fixed Cubone not being able to evolve into Alolan Marowak.
 - Fixed Squawkabilly forms not being recognized.
+- Fixed an issue with transformed parts in posers causing whacky positional issues.
+- Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
 - Rebuilt the scheduling API to more clearly force side choices and allow more local temporal frames of reference for tasks.
 - Added dialogue API.
 - Opened up the ItemDropEntry class to allow for it to be extended.
+- Added a new "advancement" evolution variant that takes an advancement identifier and succeeds if the player has the advancement.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Compartment can be adjusted in the config.
@@ -55,8 +63,6 @@
   - `returnItem`: Identifier of an item to return to the player after consumption.
 - Added 3 new item tags: `ancient_poke_balls`, `fossils`, and `tumblestones`.
 - Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
-- Fixed an issue with transformed parts in posers causing whacky positional issues.
-- Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
 - Added dialogue datapack folder and /opendialogue command.
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
