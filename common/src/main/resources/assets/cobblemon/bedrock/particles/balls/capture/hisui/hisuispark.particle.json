@@ -32,7 +32,7 @@
 						"size_UV": [32, 32],
 						"step_UV": [32, 0],
 						"frames_per_second": 24,
-						"max_frame": 10
+						"max_frame": 9
 					}
 				}
 			}

@@ -32,7 +32,7 @@
 				"size": ["0.05+variable.funny", "0.05+variable.funny"],
 				"facing_camera_mode": "rotate_xyz",
 				"uv": {
-					"texture_width": 18,
+					"texture_width": 20,
 					"texture_height": 5,
 					"flipbook": {
 						"base_UV": [0, 0],

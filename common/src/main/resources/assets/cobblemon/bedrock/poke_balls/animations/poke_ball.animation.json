@@ -694,7 +694,7 @@
 				}
 			},
 			"particle_effects": {
-				"0.0417": [
+				"0.0": [
 					{
 						"effect": "capturesparks",
 						"locator": "bottom_particles"
