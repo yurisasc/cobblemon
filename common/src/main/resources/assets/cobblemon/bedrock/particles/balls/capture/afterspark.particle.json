@@ -13,8 +13,8 @@
 				"creation_expression": "variable.funny = math.random(0.03,0.06);"
 			},
 			"minecraft:emitter_rate_steady": {
-				"spawn_rate": 25,
-				"max_particles": 15
+				"spawn_rate": 20,
+				"max_particles": 7
 			},
 			"minecraft:emitter_lifetime_once": {
 				"active_time": 1
