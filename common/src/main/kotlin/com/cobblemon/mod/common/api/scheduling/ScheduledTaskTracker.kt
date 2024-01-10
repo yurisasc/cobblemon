@@ -8,23 +8,28 @@
 
 package com.cobblemon.mod.common.api.scheduling
 
-object ScheduledTaskTracker {
-    private val tasks = mutableListOf<ScheduledTask>()
-
-    fun clear() {
-        tasks.clear()
-    }
+/**
+ * More precise than the [ServerTaskTracker], still runs on the server, and uses epoch time deltas for
+ * the scheduling delta so that it is working by real time and not by ticks. This is useful for some
+ * applications but is generally not what you want.
+ */
+object ServerRealTimeTaskTracker : Schedulable, SchedulingTracker() {
+    override val schedulingTracker = this
+    var lastTicked = System.currentTimeMillis()
 
     fun update() {
-        for (task in tasks.toList()) {
-            task.update()
-            if (task.expired) {
-                tasks.remove(task)
-            }
-        }
+        val now = System.currentTimeMillis()
+        val delta = now - lastTicked
+        lastTicked = now
+        update(delta / 1000F)
     }
+}
 
-    fun addTask(task: ScheduledTask) {
-        tasks.add(task)
-    }
+
+object ServerTaskTracker: Schedulable, SchedulingTracker() {
+    override val schedulingTracker = this
+}
+
+object ClientTaskTracker : Schedulable, SchedulingTracker() {
+    override val schedulingTracker = this
 }

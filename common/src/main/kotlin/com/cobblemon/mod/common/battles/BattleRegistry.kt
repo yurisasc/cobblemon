@@ -185,7 +185,7 @@ object BattleRegistry {
                 actor.activePokemon.add(ActiveBattlePokemon(actor))
             }
             val entities = actor.pokemonList.mapNotNull { it.entity }
-            entities.forEach { it.battleId.set(Optional.of(battle.battleId)) }
+            entities.forEach { it.battleId = battle.battleId }
         }
 
         // -> Add the players and team

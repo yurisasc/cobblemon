@@ -1,0 +1,80 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.anorith_fetus.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [15, 0, 0],
+					"position": [0, 10, 3.5]
+				},
+				"mandible_arm_left": {
+					"rotation": [-35, -70, 0]
+				},
+				"mandible_arm_left2": {
+					"rotation": [70, 0, 0],
+					"position": [0, 0, 0]
+				},
+				"mandible_arm_right": {
+					"rotation": [-35, 70, 0],
+					"position": [0, 0, 0]
+				},
+				"mandible_arm_right2": {
+					"rotation": [70, 0, 0],
+					"position": [0, 0, 0]
+				},
+				"eye_stem_right": {
+					"rotation": [0, -10, 0]
+				},
+				"eye_stem_left": {
+					"rotation": [0, 10, 0]
+				},
+				"abdomen": {
+					"rotation": [0, 0, 0]
+				},
+				"wing_right": {
+					"rotation": [0, 0, -10]
+				},
+				"wing_left": {
+					"rotation": [0, 0, 10]
+				},
+				"abdomen2": {
+					"rotation": [-70, 0, 0]
+				},
+				"wing_right2": {
+					"rotation": [-10, -2, -15]
+				},
+				"wing_left2": {
+					"rotation": [-10, 2, 15]
+				},
+				"abdomen3": {
+					"rotation": [-35, 0, 0]
+				},
+				"wing_right3": {
+					"rotation": [0, 5, -15]
+				},
+				"wing_left3": {
+					"rotation": [0, -5, 15]
+				},
+				"abdomen4": {
+					"rotation": [-20, 0, 0]
+				},
+				"wing_right4": {
+					"rotation": [0, 10, -15]
+				},
+				"wing_left4": {
+					"rotation": [0, -10, 15]
+				},
+				"tail": {
+					"rotation": [-37, 0, 0]
+				},
+				"right_tail_fin": {
+					"rotation": [0, 0, 30]
+				},
+				"left_tail_fin": {
+					"rotation": [0, 0, -30]
+				}
+			}
+		}
+	}
+}

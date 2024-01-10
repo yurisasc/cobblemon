@@ -23,6 +23,24 @@
       "cobblemon:deepslate_water_stone_ore",
       "cobblemon:dripstone_moon_stone_ore",
       "cobblemon:healing_machine",
-      "cobblemon:pc"
+      "cobblemon:pc",
+      "cobblemon:fossil_monitor",
+      "cobblemon:fossil_compartment",
+      "cobblemon:fossil_tube",
+      "cobblemon:tumblestone_block",
+      "cobblemon:black_tumblestone_block",
+      "cobblemon:sky_tumblestone_block",
+      "cobblemon:small_budding_tumblestone",
+      "cobblemon:medium_budding_tumblestone",
+      "cobblemon:large_budding_tumblestone",
+      "cobblemon:tumblestone_cluster",
+      "cobblemon:small_budding_black_tumblestone",
+      "cobblemon:medium_budding_black_tumblestone",
+      "cobblemon:large_budding_black_tumblestone",
+      "cobblemon:black_tumblestone_cluster",
+      "cobblemon:small_budding_sky_tumblestone",
+      "cobblemon:medium_budding_sky_tumblestone",
+      "cobblemon:large_budding_sky_tumblestone",
+      "cobblemon:sky_tumblestone_cluster"
     ]
 }

@@ -21,9 +21,6 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "base"
-    },
-    {
       "name": "Alolan",
       "maleRatio": 0.5,
       "labels": [

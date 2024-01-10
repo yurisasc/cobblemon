@@ -26,8 +26,8 @@ abstract class SurfaceTypeSpawningCondition<T : SurfaceSpawningContext> : AreaTy
     var maxDepth: Int? = null
     var fluid: RegistryLikeCondition<Fluid>? = null
 
-    override fun fits(ctx: T, detail: SpawnDetail): Boolean {
-        return if (!super.fits(ctx, detail)) {
+    override fun fits(ctx: T): Boolean {
+        return if (!super.fits(ctx)) {
             false
         } else if (minDepth != null && ctx.depth < minDepth!!) {
             false

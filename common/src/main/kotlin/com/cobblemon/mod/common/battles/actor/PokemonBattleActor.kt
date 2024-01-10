@@ -54,7 +54,7 @@ open class PokemonBattleActor(
         if (packet is BattleEndPacket) {
             // Do some shit
             val entity = entity ?: return
-            entity.battleId.set(Optional.empty())
+            entity.battleId = null
         }
     }
 

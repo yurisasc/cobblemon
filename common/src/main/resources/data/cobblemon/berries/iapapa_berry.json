@@ -162,7 +162,7 @@
   "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/flower.png",
+  "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:iapapa_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/iapapa.png"
+  "fruitTexture": "cobblemon:iapapa"
 }

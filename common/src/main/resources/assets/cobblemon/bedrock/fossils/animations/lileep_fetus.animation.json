@@ -1,0 +1,76 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.lileep_fetus.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [-50, 0, 0],
+					"position": [0, 3.3, 0]
+				},
+				"torso": {
+					"rotation": [0, 0, 0]
+				},
+				"neck": {
+					"rotation": [14, 0, 0]
+				},
+				"neck2": {
+					"rotation": [28, 0, 0]
+				},
+				"neck3": {
+					"rotation": [28, 0, 0]
+				},
+				"neck4": {
+					"rotation": [30, 0, 0]
+				},
+				"head": {
+					"rotation": [18, 0, 0]
+				},
+				"front_right_petal": {
+					"rotation": [35, 45, 0]
+				},
+				"front_right_middle_petal": {
+					"rotation": [20, -30, -45]
+				},
+				"back_right_middle_petal": {
+					"rotation": [-20, 30, -45]
+				},
+				"back_right_petal": {
+					"rotation": [-35, -45, 0]
+				},
+				"front_left_petal": {
+					"rotation": [35, -45, 0]
+				},
+				"front_left_middle_petal": {
+					"rotation": [20, 35, 45]
+				},
+				"back_left_middle_petal": {
+					"rotation": [-20, -30, 45]
+				},
+				"back_left_petal": {
+					"rotation": [-35, 45, 0]
+				},
+				"leg_left": {
+					"rotation": [20, -50, 0]
+				},
+				"leg_right": {
+					"rotation": [20, 50, 0]
+				},
+				"back_leg_right": {
+					"rotation": [-30, -50, 0]
+				},
+				"back_leg_left": {
+					"rotation": [-30, 50, 0]
+				}
+			}
+		},
+		"animation.lileep_fetus.new": {
+			"loop": true,
+			"bones": {
+				"lileep_fetus": {
+					"position": [0, -2, 0]
+				}
+			}
+		}
+	}
+}

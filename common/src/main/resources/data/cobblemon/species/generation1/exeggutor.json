@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Exeggutor",
   "nationalPokedexNumber": 103,
@@ -218,7 +218,6 @@
       "height": 109,
       "weight": 4156,
       "preEvolution": "exeggcute",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Blaziken",
   "nationalPokedexNumber": 257,
@@ -61,7 +61,6 @@
       ],
       "height": 19,
       "weight": 520,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

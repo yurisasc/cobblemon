@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Xerneas",
   "nationalPokedexNumber": 716,
@@ -58,7 +58,6 @@
       ],
       "height": 30,
       "weight": 2150,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

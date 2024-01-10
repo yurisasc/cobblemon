@@ -82,6 +82,7 @@ object BattleBuilder {
                 player1Actor.battleTheme = player2.getBattleTheme()
                 player2Actor.battleTheme = player1.getBattleTheme()
             }
+            errors
         } else {
             errors
         }
@@ -127,7 +128,7 @@ object BattleBuilder {
             errors.participantErrors[playerActor] += BattleStartError.alreadyInBattle(playerActor)
         }
 
-        if (pokemonEntity.battleId.get().isPresent) {
+        if (pokemonEntity.battleId != null) {
             errors.participantErrors[wildActor] += BattleStartError.alreadyInBattle(wildActor)
         }
 
@@ -138,10 +139,11 @@ object BattleBuilder {
                 side2 = BattleSide(wildActor)
             ).ifSuccessful {
                 if (!cloneParties) {
-                    pokemonEntity.battleId.set(Optional.of(it.battleId))
+                    pokemonEntity.battleId = it.battleId
                 }
                 playerActor.battleTheme = pokemonEntity.getBattleTheme()
             }
+            errors
         } else {
             errors
         }

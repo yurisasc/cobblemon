@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveDouble
 import java.util.SortedMap
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.model.ModelPart
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
@@ -132,7 +133,7 @@ data class BedrockAnimation(
     val boneTimelines: Map<String, BedrockBoneTimeline>
 ) {
     companion object {
-        val functionMappings = mutableMapOf<String, java.util.function.Function<MoParams, Any>>()
+        val functionMappings = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
         val sharedRuntime = MoLangRuntime().also {
             it.environment.structs["query"] = it.environment.structs["variable"]
             it.environment.structs["script"] = QueryStruct(functionMappings)
@@ -193,7 +194,7 @@ data class BedrockAnimation(
         }
     }
 
-    fun run(model: PoseableEntityModel<*>, state: PoseableEntityState<*>?, animationSeconds: Float): Boolean {
+    fun run(model: PoseableEntityModel<*>, state: PoseableEntityState<*>?, animationSeconds: Float, intensity: Float): Boolean {
         var animationSeconds = animationSeconds
         if (shouldLoop) {
             animationSeconds %= animationLength.toFloat()
@@ -202,11 +203,11 @@ data class BedrockAnimation(
         }
 
         boneTimelines.forEach { (boneName, timeline) ->
-            val part = model.relevantPartsByName[boneName]
-            if (part != null) {
+            val part = model.relevantPartsByName[boneName] ?: if (boneName == "root_part") (model.rootPart as ModelPart) else null
+            if (part !== null) {
                 if (!timeline.position.isEmpty()) {
-                    val position = timeline.position.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime).multiply(model.getChangeFactor(part.modelPart).toDouble())
-                    part.modelPart.apply {
+                    val position = timeline.position.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime).multiply(intensity.toDouble())
+                    part.apply {
                         pivotX += position.x.toFloat()
                         pivotY += position.y.toFloat()
                         pivotZ += position.z.toFloat()
@@ -215,8 +216,8 @@ data class BedrockAnimation(
 
                 if (!timeline.rotation.isEmpty()) {
                     try {
-                        val rotation = timeline.rotation.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime).multiply(model.getChangeFactor(part.modelPart).toDouble())
-                        part.modelPart.apply {
+                        val rotation = timeline.rotation.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime).multiply(intensity.toDouble())
+                        part.apply {
                             pitch += rotation.x.toFloat().toRadians()
                             yaw += rotation.y.toFloat().toRadians()
                             roll += rotation.z.toFloat().toRadians()
@@ -236,12 +237,11 @@ data class BedrockAnimation(
 
                 if (!timeline.scale.isEmpty()) {
                     var scale = timeline.scale.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime)
-                    val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0).multiply(model.getChangeFactor(part.modelPart).toDouble())
+                    val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0).multiply(intensity.toDouble())
                     scale = deviation.subtract(1.0, 1.0, 1.0).multiply(-1.0)
-                    val mp = part.modelPart
-                    mp.xScale *= scale.x.toFloat()
-                    mp.yScale *= scale.y.toFloat()
-                    mp.zScale *= scale.z.toFloat()
+                    part.xScale *= scale.x.toFloat()
+                    part.yScale *= scale.y.toFloat()
+                    part.zScale *= scale.z.toFloat()
                 }
             }
         }

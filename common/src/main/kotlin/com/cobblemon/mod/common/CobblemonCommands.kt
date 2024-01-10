@@ -48,5 +48,6 @@ object CobblemonCommands {
         PokemonRestartCommand.register(dispatcher)
         RandomBattleCommand.register(dispatcher)
         BedrockParticleCommand.register(dispatcher)
+        OpenDialogueCommand.register(dispatcher)
     }
 }
