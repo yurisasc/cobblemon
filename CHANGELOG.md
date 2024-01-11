@@ -29,6 +29,7 @@
 - Fixed battle lang for Poison Touch Ability
 - Fixed Cubone not being able to evolve into Alolan Marowak.
 - Fixed Squawkabilly forms not being recognized.
+- Note blocks now play the correct sound on the Apricorn Plank based blocks.
 - Fixed an issue with transformed parts in posers causing whacky positional issues.
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
 
