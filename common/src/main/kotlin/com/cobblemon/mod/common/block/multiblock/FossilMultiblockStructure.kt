@@ -24,15 +24,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilSta
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.giveOrDropItemStack
-import com.cobblemon.mod.common.util.lang
-import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.*
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.entity.BlockEntityTicker
-import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -335,8 +331,6 @@ class FossilMultiblockStructure (
 
         }
 
-        MinecraftClient.getInstance().soundManager.stopSounds(CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id, SoundCategory.BLOCKS)
-
         this.updateFossilType(world)
         this.stopMachine(world)
         this.syncToClient(world)
@@ -376,7 +370,6 @@ class FossilMultiblockStructure (
 
         if (this.timeRemaining == 0) {
             world.playSound(null, tubeBasePos, CobblemonSounds.FOSSIL_MACHINE_FINISHED, SoundCategory.BLOCKS)
-            MinecraftClient.getInstance().soundManager.stopSounds(CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id, SoundCategory.BLOCKS)
             fossilInventory.clear()
 
             this.resultingFossil?.let {
