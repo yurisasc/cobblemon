@@ -26,6 +26,7 @@
 - Re-added the recipe for the Iron Vitamin.
 - Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
 - Fixed Exeggcute not being able to evolve.
+- Fixed battle lang for Poison Touch Ability
 - Fixed Cubone not being able to evolve into Alolan Marowak.
 - Fixed Squawkabilly forms not being recognized.
 - Fixed an issue with transformed parts in posers causing whacky positional issues.
