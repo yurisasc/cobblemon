@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.ancient_poke_ball.open": {
+		"animation.model.open": {
 			"animation_length": 0.5,
 			"bones": {
 				"bottom": {
@@ -49,7 +49,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.open_idle": {
+		"animation.model.open_idle": {
 			"loop": true,
 			"bones": {
 				"bottom": {
@@ -67,7 +67,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.shut": {
+		"animation.model.shut": {
 			"animation_length": 0.5,
 			"bones": {
 				"bottom": {
@@ -154,7 +154,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.shut_idle": {
+		"animation.model.shut_idle": {
 			"loop": true,
 			"bones": {
 				"bottom": {
@@ -165,7 +165,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.bounce": {
+		"animation.model.bounce": {
 			"animation_length": 1,
 			"bones": {
 				"bottom": {
@@ -282,7 +282,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.bob1": {
+		"animation.model.bob1": {
 			"animation_length": 1,
 			"bones": {
 				"bottom": {
@@ -294,7 +294,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.bob2": {
+		"animation.model.bob2": {
 			"animation_length": 1,
 			"bones": {
 				"bottom": {
@@ -306,7 +306,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.bob3": {
+		"animation.model.bob3": {
 			"animation_length": 1,
 			"bones": {
 				"bottom": {
@@ -324,7 +324,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.bob4": {
+		"animation.model.bob4": {
 			"animation_length": 1,
 			"bones": {
 				"bottom": {
@@ -342,7 +342,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.bob5": {
+		"animation.model.bob5": {
 			"animation_length": 1,
 			"bones": {
 				"bottom": {
@@ -419,7 +419,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.bob6": {
+		"animation.model.bob6": {
 			"animation_length": 1,
 			"bones": {
 				"bottom": {
@@ -506,7 +506,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.critical": {
+		"animation.model.critical": {
 			"animation_length": 1,
 			"bones": {
 				"bottom": {
@@ -524,7 +524,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.throw": {
+		"animation.model.throw": {
 			"loop": true,
 			"animation_length": 4,
 			"bones": {
@@ -537,7 +537,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.throw_horizontal": {
+		"animation.model.throw_horizontal": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
@@ -550,7 +550,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.throw_beast": {
+		"animation.model.throw_beast": {
 			"loop": true,
 			"animation_length": 4,
 			"bones": {
@@ -564,7 +564,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.throw_ace": {
+		"animation.model.throw_ace": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
@@ -578,7 +578,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.break": {
+		"animation.model.break": {
 			"animation_length": 1,
 			"bones": {
 				"ball": {
@@ -700,7 +700,7 @@
 				}
 			}
 		},
-		"animation.ancient_poke_ball.capture": {
+		"animation.model.capture": {
 			"animation_length": 1.25,
 			"bones": {
 				"bottom": {
