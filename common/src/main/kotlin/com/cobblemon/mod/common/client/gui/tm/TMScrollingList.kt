@@ -29,6 +29,8 @@ class TMScrollingList(
         const val SCALE = 0.5f
     }
 
+    private var scrolling = false
+
     override fun getRowWidth() = SLOT_WIDTH
 
     init {
@@ -76,6 +78,35 @@ class TMScrollingList(
     fun isHovered(mouseX: Double, mouseY: Double): Boolean {
         println(mouseX.toFloat() in (x.toFloat()..(x.toFloat() + WIDTH)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + HEIGHT)))
         return mouseX.toFloat() in (x.toFloat()..(x.toFloat() + WIDTH)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + HEIGHT))
+    }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        updateScrollingState(mouseX, mouseY)
+        if (scrolling) {
+            focused = getEntryAtPosition(mouseX, mouseY)
+            isDragging = true
+        }
+        return super.mouseClicked(mouseX, mouseY, button)
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
+        if (scrolling) {
+            if (mouseY < top) {
+                scrollAmount = 0.0
+            } else if (mouseY > bottom) {
+                scrollAmount = maxScroll.toDouble()
+            } else {
+                scrollAmount += deltaY
+            }
+        }
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
+    }
+
+    private fun updateScrollingState(mouseX: Double, mouseY: Double) {
+        scrolling = mouseX >= this.scrollbarPositionX.toDouble()
+                && mouseX < (this.scrollbarPositionX + 3).toDouble()
+                && mouseY >= top
+                && mouseY < bottom
     }
 
     class TMScrollingListEntry(val tm: TechnicalMachine, private val parent: TMMHandledScreen) : Entry<TMScrollingListEntry>() {
