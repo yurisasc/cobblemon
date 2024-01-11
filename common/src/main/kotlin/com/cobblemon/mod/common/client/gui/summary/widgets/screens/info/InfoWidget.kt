@@ -89,17 +89,6 @@ class InfoWidget(
         )
         typeWidget.render(context, pMouseX, pMouseY, pPartialTicks)
 
-        // Original Trainer
-        val otName: MutableText = Text.literal(pokemon.originalTrainerName ?: "")
-        val otWidget = InfoOneLineWidget(
-            pX = x,
-            pY = y + 3 * ROW_HEIGHT,
-            width = width,
-            label = lang("ui.info.original_trainer"),
-            value = otName
-        )
-        otWidget.render(context, pMouseX, pMouseY, pPartialTicks)
-
 
         // Nature
         // Get the name of the MintItem used to mint the Pokémon's nature

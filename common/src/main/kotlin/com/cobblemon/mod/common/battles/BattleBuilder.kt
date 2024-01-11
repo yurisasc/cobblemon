@@ -282,7 +282,7 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.ATTACK,252)
                     npcPokemon.setEV(Stats.SPEED,252)
                     npcPokemon.level = battleLevel
-                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false)  //focus sash
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.FOCUS_SASH), false)  //focus sash
                     npcPokemon.ability = Abilities.get("innerfocus")!!.create()
                     npcPokemon.setMoveset(listOf("closecombat", "meteormash", "earthquake", "extremespeed"))
 
@@ -405,7 +405,7 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.SPECIAL_ATTACK,252)
                     npcPokemon.setEV(Stats.SPEED,252)
                     npcPokemon.level = battleLevel
-                    //npcPokemon.item  leftovers
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LEFTOVERS), false)
                     npcPokemon.ability = Abilities.get("serenegrace")!!.create()
                     npcPokemon.setMoveset(listOf("airslash", "calmmind", "extrasensory", "moonblast"))
 
@@ -429,7 +429,7 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.ATTACK,252)
                     npcPokemon.setEV(Stats.SPEED,252)
                     npcPokemon.level = battleLevel
-                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false)  //focus sash
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.FOCUS_SASH), false)  //focus sash
                     npcPokemon.ability = Abilities.get("innerfocus")!!.create()
                     npcPokemon.setMoveset(listOf("closecombat", "crunch", "bulkup", "bulletpunch"))
 
@@ -528,7 +528,7 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
                     npcPokemon.setEV(Stats.SPEED,252)
                     npcPokemon.level = battleLevel
-                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false)  //expert belt
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.EXPERT_BELT), false)  //expert belt
                     npcPokemon.ability = Abilities.get("technician")!!.create()
                     npcPokemon.setMoveset(listOf("metalclaw", "xscissor", "batonpass", "swordsdance"))
 
@@ -649,7 +649,7 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
                     npcPokemon.setEV(Stats.SPEED,252)
                     npcPokemon.level = battleLevel
-                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false) //todo LIGHT BALL
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIGHT_BALL), false)
                     npcPokemon.ability = Abilities.get("static")!!.create()
                     npcPokemon.setMoveset(listOf("volttackle", "irontail", "quickattack", "brickbreak"))
 
@@ -796,7 +796,7 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.DEFENCE,8)
                     npcPokemon.setEV(Stats.SPECIAL_ATTACK,252)
                     npcPokemon.level = battleLevel
-                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false)
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.TERRAIN_EXTENDER), false)
                     npcPokemon.ability = Abilities.get("chlorophyll")!!.create()
                     npcPokemon.setMoveset(listOf("leafstorm", "psychic", "explosion", "trickroom"))
 
@@ -895,7 +895,7 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
                     npcPokemon.setEV(Stats.SPEED,252)
                     npcPokemon.level = battleLevel
-                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.CHOPLE_BERRY), false) //  focus sash
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false) //  focus sash
                     npcPokemon.ability = Abilities.get("unnerve")!!.create()
                     npcPokemon.setMoveset(listOf("earthquake", "crunch", "icefang", "rockslide"))
 
@@ -919,7 +919,7 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.SPECIAL_ATTACK,252)
                     npcPokemon.setEV(Stats.SPEED,252)
                     npcPokemon.level = battleLevel
-                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false)
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.FOCUS_SASH), false)
                     npcPokemon.ability = Abilities.get("magicguard")!!.create()
                     npcPokemon.setMoveset(listOf("dazzlinggleam", "psychic", "shadowball", "recover"))
 
@@ -944,7 +944,7 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.DEFENCE,252)
                     npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
                     npcPokemon.level = battleLevel
-                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LEFTOVERS), false)
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.TERRAIN_EXTENDER), false)
                     npcPokemon.ability = Abilities.get("levitate")!!.create()
                     npcPokemon.setMoveset(listOf("trickroom", "selfdestruct", "psychic", "flashcannon"))
 
@@ -953,7 +953,7 @@ object BattleBuilder {
 
                     //PokemonProperties.parse() // todo try to use this for smaller code later
 
-                    // Drifblim
+                    /*// Drifblim
                     npcPokemon = Pokemon()
                     npcPokemon.uuid = UUID.randomUUID()
                     npcPokemon.species = PokemonSpecies.getByName("drifblim")!!
@@ -970,9 +970,33 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.DEFENCE,80)
                     npcPokemon.setEV(Stats.SPECIAL_DEFENCE,176)
                     npcPokemon.level = battleLevel
-                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.SITRUS_BERRY), false)
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.TERRAIN_EXTENDER), false)
                     npcPokemon.ability = Abilities.get("aftermath")!!.create()
                     npcPokemon.setMoveset(listOf("explosion", "trickroom", "clearsmog", "shadowball"))
+
+                    // add to party
+                    npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))*/
+
+                    // Dusclops
+                    npcPokemon = Pokemon()
+                    npcPokemon.uuid = UUID.randomUUID()
+                    npcPokemon.species = PokemonSpecies.getByName("dusclops")!!
+                    npcPokemon.nature = Natures.getNature("bold")!!
+                    // IVs
+                    npcPokemon.setIV(Stats.HP, 31)
+                    npcPokemon.setIV(Stats.ATTACK, 31)
+                    npcPokemon.setIV(Stats.DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_ATTACK, 31)
+                    npcPokemon.setIV(Stats.SPECIAL_DEFENCE, 31)
+                    npcPokemon.setIV(Stats.SPEED, 0)
+                    // EVs
+                    npcPokemon.setEV(Stats.HP,252)
+                    npcPokemon.setEV(Stats.DEFENCE,252)
+                    npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
+                    npcPokemon.level = battleLevel
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.EVIOLITE), false)
+                    npcPokemon.ability = Abilities.get("pressure")!!.create()
+                    npcPokemon.setMoveset(listOf("willowisp", "haze", "trickroom", "painsplit"))
 
                     // add to party
                     npcParty.add(BattlePokemon.safeCopyOf(npcPokemon))
@@ -994,7 +1018,7 @@ object BattleBuilder {
                     npcPokemon.setEV(Stats.SPECIAL_ATTACK,252)
                     npcPokemon.setEV(Stats.SPECIAL_DEFENCE,4)
                     npcPokemon.level = battleLevel
-                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.LIFE_ORB), false)  //expert belt
+                    npcPokemon.swapHeldItem(ItemStack(CobblemonItems.TERRAIN_EXTENDER), false)  //expert belt
                     npcPokemon.ability = Abilities.get("magicbounce")!!.create()
                     npcPokemon.setMoveset(listOf("trickroom", "dazzlinggleam", "psychic", "shadowball"))
 
