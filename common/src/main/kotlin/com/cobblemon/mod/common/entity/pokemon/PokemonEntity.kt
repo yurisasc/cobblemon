@@ -59,7 +59,6 @@ import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
-import net.minecraft.entity.ai.brain.Activity
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -105,10 +104,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.EnumSet
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 class PokemonEntity(
@@ -1013,7 +1008,6 @@ class PokemonEntity(
     fun isFalling() = this.fallDistance > 0 && this.world.getBlockState(this.blockPos.down()).isAir && !this.isFlying()
     fun getIsSubmerged() = isInLava || isSubmergedInWater
     override fun getPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
-    override fun getSideDelegate() = delegate
 
     /**
      * Returns the [Species.translatedName] of the backing [pokemon].

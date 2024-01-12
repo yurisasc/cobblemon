@@ -19,10 +19,8 @@ import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.dialogue.PlayerDialogueFaceProvider
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
 import com.cobblemon.mod.common.util.isInt
 import com.cobblemon.mod.common.util.itemRegistry
-import com.cobblemon.mod.common.Cobblemon
 import net.minecraft.block.Block
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtDouble

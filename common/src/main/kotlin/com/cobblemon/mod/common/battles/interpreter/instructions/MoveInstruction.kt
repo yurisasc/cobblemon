@@ -8,12 +8,20 @@
 
 package com.cobblemon.mod.common.battles.interpreter.instructions
 
+import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.moves.Moves
+import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
+import com.cobblemon.mod.common.api.moves.animations.TargetsProvider
+import com.cobblemon.mod.common.api.moves.animations.UsersProvider
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
+import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.InstructionSet
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
+import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 
@@ -31,7 +39,7 @@ class MoveInstruction(
         ShowdownInterpreter.broadcastOptionalAbility(battle, optionalEffect, pokemonName)
 
 
-        battle.dispatchGo {
+        battle.dispatch {
             ShowdownInterpreter.lastCauser[battle.battleId] = message
 
             userPokemon.effectedPokemon.let { pokemon ->
@@ -50,8 +58,24 @@ class MoveInstruction(
                     battleLang("used_move", pokemonName, move.displayName)
             }
             battle.broadcastChatMessage(lang)
-
             battle.majorBattleActions[userPokemon.uuid] = message
+
+            val providers = mutableListOf<Any>(battle)
+            userPokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            targetPokemon?.effectedPokemon?.entity?.let { TargetsProvider(it) }?.let(providers::add)
+            val runtime = MoLangRuntime().also {
+                battle.addQueryFunctions(it.environment.getQueryStruct()).addStandardFunctions()
+            }
+
+            val actionEffect = move.actionEffect ?: return@dispatch GO
+            val context = ActionEffectContext(
+                actionEffect = actionEffect,
+                flags = setOf(),
+                runtime = runtime,
+                providers = providers
+            )
+            val future = actionEffect.run(context)
+            return@dispatch UntilDispatch { future.isDone }
         }
     }
 }

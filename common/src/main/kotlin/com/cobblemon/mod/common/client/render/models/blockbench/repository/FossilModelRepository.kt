@@ -45,7 +45,7 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
             model.yTranslation = yTranslation
             // Refactor this bullshit to not mention pokemon at all, it should be common to anything using animation factories.
             // Even better: move to molang functions, this is ass
-            model.animations = animations.mapNotNull {
+            model.tankAnimations = animations.mapNotNull {
                 val animString = it.asString
                 val anim = animString.substringBefore("(")
                 if (JsonPokemonPoseableModel.ANIMATION_FACTORIES.contains(anim)) {
@@ -65,13 +65,11 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
 
                         val anim = animString.substringBefore("(")
 
-                        JsonPokemonPoseableModel.StatefulAnimationAdapter.preventsIdleDefault = false
                         val animation = if (JsonPokemonPoseableModel.ANIMATION_FACTORIES.contains(anim)) {
                             JsonPokemonPoseableModel.ANIMATION_FACTORIES[anim]?.stateful(model, animString)
                         } else {
                             null
                         }
-                        JsonPokemonPoseableModel.StatefulAnimationAdapter.preventsIdleDefault = true
                         animation
                     }
                 }
