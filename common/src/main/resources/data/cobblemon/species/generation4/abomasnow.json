@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "Abomasnow",
   "nationalPokedexNumber": 460,
   "primaryType": "grass",
@@ -125,6 +125,8 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
@@ -140,7 +142,9 @@
     "tm:gigadrain",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:hail",
+    "tm:hardpress",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
