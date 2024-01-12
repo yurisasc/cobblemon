@@ -22,14 +22,17 @@ import net.minecraft.network.PacketByteBuf
 abstract class SpeciesFeatureSyncPacket(
     speciesFeatureProviders: Map<String, SpeciesFeatureProvider<*>>
 ) : DataRegistrySyncPacket<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>, SpeciesFeatureSyncPacket>(
-    speciesFeatureProviders.entries.filterIsInstance<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>>().filter { !it.value.visible }
+    speciesFeatureProviders.entries.filterIsInstance<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>>().filter { it.value.visible }
 ) {
     override fun encodeEntry(buffer: PacketByteBuf, entry: Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>) {
+
         val typeName = SpeciesFeatures.types.entries.find { it.value.isInstance(entry.value) }?.key
         val value = entry.value
         if (typeName == null) {
             buffer.writeBoolean(false)
             return
+        } else {
+            buffer.writeBoolean(true)
         }
         buffer.writeString(entry.key)
         buffer.writeString(typeName)
@@ -45,7 +48,7 @@ abstract class SpeciesFeatureSyncPacket(
         val typeClass = SpeciesFeatures.types[typeName]
             ?: throw IllegalStateException(
                 """
-                    A custom species feature provider with encoding implementations was registered on the server and 
+                    A custom species feature provider, $typeName with encoding implementations was registered on the server and 
                     not the client, and therefore cannot be synced. Remove the implementation or install it 
                     on the client.
                 """.trimIndent()

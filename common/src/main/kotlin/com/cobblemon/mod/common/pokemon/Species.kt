@@ -194,6 +194,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
         buffer.writeIdentifier(this.battleTheme)
+        buffer.writeCollection(this.features) { pb, feature -> pb.writeString(feature) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -217,6 +218,8 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.forms.clear()
         this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
         this.battleTheme = buffer.readIdentifier()
+        this.features.clear()
+        this.features += buffer.readList { pb -> pb.readString() }
         this.initialize()
     }
 
@@ -238,6 +241,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
                 // We only sync level up moves atm
                 || this.moves.shouldSynchronize(other.moves)
                 || other.battleTheme != this.battleTheme
+                || other.features != this.features
     }
 
     /**
