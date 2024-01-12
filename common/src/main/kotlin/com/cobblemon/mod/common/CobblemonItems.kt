@@ -829,7 +829,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     private fun pokerodItem(name: String): PokerodItem {
         var settings = Item.Settings()
-        val item = create("pokerod", PokerodItem(settings))
+        val item = create(name, PokerodItem(settings))
         return item
     }
 
