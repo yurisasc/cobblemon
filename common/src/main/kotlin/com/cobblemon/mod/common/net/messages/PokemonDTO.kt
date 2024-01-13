@@ -115,7 +115,10 @@ class PokemonDTO : Encodable, Decodable {
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
         this.featuresBuffer = PacketByteBuf(Unpooled.buffer())
-        featuresBuffer.writeCollection(pokemon.features.filterIsInstance<SynchronizedSpeciesFeature>()) { _, value ->
+        val visibleFeatures = pokemon.features
+            .filterIsInstance<SynchronizedSpeciesFeature>()
+            .filter { (SpeciesFeatures.getFeature(it.name)!! as SynchronizedSpeciesFeatureProvider<*>).visible }
+        featuresBuffer.writeCollection(visibleFeatures) { _, value ->
             featuresBuffer.writeString(value.name)
             value.encode(featuresBuffer)
         }
