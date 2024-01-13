@@ -34,6 +34,7 @@
 - Note blocks now play the correct sound on the Apricorn Plank based blocks.
 - Fixed an issue with transformed parts in posers causing whacky positional issues.
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
+- Adds a translation string name to the Empty Pokeball entity.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
