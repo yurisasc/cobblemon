@@ -91,8 +91,8 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
             pokeBobber.setVelocity(velocity.x, velocity.y, velocity.z)
             //pokeBobber.use(ItemStack(CobblemonItems.POKEROD))
             world.spawnEntity(pokeBobber)
-            pokeBobber.use(ItemStack(Items.FISHING_ROD))
-            /*pokeBobber.use(itemStack)*/
+            //pokeBobber.use(ItemStack(Items.FISHING_ROD))
+            pokeBobber.use(itemStack)
 
         }
         return TypedActionResult.success(player.getStackInHand(hand))
