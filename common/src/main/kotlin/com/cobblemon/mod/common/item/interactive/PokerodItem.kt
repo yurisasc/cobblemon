@@ -24,7 +24,7 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
 class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
-    /*override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
         val i: Int
         if (user.fishHook != null) { // if the bobber is out yet
@@ -39,13 +39,13 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
             if (!world.isClient) {
                 i = EnchantmentHelper.getLure(itemStack)
                 val j = EnchantmentHelper.getLuckOfTheSea(itemStack)
-                world.spawnEntity(FishingBobberEntity(user, world, j, i))
+                world.spawnEntity(PokeRodFishingBobberEntity(user, world, j, i))
             }
             user.incrementStat(Stats.USED.getOrCreateStat(this))
             user.emitGameEvent(GameEvent.ITEM_INTERACT_START)
         }
         return TypedActionResult.success(itemStack, world.isClient())
-    }*/
+    }
 
     // todo Round 2
     /*override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
@@ -69,8 +69,8 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
         return TypedActionResult.success(itemStack, world.isClient())
     }*/
 
-    // todo Round 3
-    override fun use(world: World, player: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+    // todo Round 3 Best so far
+    /*override fun use(world: World, player: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         if (!world.isClient) {
             val itemStack = player.getStackInHand(hand)
 
@@ -96,7 +96,7 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
 
         }
         return TypedActionResult.success(player.getStackInHand(hand))
-    }
+    }*/
 
     override fun getEnchantability(): Int {
         return 1
