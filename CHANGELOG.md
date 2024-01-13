@@ -42,6 +42,8 @@
 - Added dialogue API.
 - Opened up the ItemDropEntry class to allow for it to be extended.
 - Added a new "advancement" evolution variant that takes an advancement identifier and succeeds if the player has the advancement.
+- Made spawning API capable of non-entity spawning
+- Made PokemonProperties.parse more interoperable with Java.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Compartment can be adjusted in the config.
