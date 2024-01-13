@@ -14,15 +14,27 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
-class CoinPouchBlock(settings: Settings) : HorizontalFacingBlock(settings) {
+class CoinPouchBlock(settings: Settings, val small: Boolean) : HorizontalFacingBlock(settings) {
 
     init {
         this.defaultState = this.stateManager.defaultState
             .with(NATURAL, false)
             .with(FACING, Direction.SOUTH)
     }
+
+    override fun getOutlineShape(
+        state: BlockState?,
+        world: BlockView?,
+        pos: BlockPos?,
+        context: ShapeContext?
+    ) = if (!small) super.getOutlineShape(state, world, pos, context) else {
+            VoxelShapes.cuboid(0.3125, 0.0, 0.3125, 0.6875, 0.3125, 0.6875)
+        }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         var blockState = defaultState

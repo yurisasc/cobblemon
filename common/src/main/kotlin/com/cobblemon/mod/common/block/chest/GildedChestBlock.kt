@@ -103,7 +103,7 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
         world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundCategory.NEUTRAL)
 
         world.removeBlock(pos, false)
-        if (!CobblemonClient.storage.myParty.isEmpty()) entity.forceBattle(player)
+        if (!CobblemonClient.storage.myParty.isEmpty() && !player.isCreative) entity.forceBattle(player)
         return ActionResult.SUCCESS
     }
 

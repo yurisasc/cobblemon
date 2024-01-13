@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=south": {
+      "model": "cobblemon:block/relic_coin_sack"
+    },
+    "facing=west": {
+      "model": "cobblemon:block/relic_coin_sack",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "cobblemon:block/relic_coin_sack",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "cobblemon:block/relic_coin_sack",
+      "y": 270
+    }
+  }
+}

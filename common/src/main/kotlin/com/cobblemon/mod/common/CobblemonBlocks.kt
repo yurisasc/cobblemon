@@ -226,6 +226,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
                 .sounds(CobblemonSounds.COIN_POUCH_SOUNDS)
                 .pistonBehavior(PistonBehavior.DESTROY)
                 .strength(0.4f)
+                .nonOpaque(), true
         )
     )
     @JvmField
@@ -235,7 +236,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
             AbstractBlock.Settings.create()
                 .sounds(CobblemonSounds.COIN_POUCH_SOUNDS)
                 .pistonBehavior(PistonBehavior.DESTROY)
-                .strength(0.4f)
+                .strength(0.4f), false
         ))
 
     @JvmField

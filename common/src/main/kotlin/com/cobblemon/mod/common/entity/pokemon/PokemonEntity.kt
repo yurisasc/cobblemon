@@ -302,7 +302,6 @@ class PokemonEntity(
             val spawnDirection = dataTracker.get(SPAWN_DIRECTION)
             setBodyYaw(spawnDirection)
             setRotation(spawnDirection, this.pitch)
-            refreshPositionAndAngles(pos.toBlockPos(), this.yaw, this.pitch)
         }
 
         if (this.tethering != null && !this.tethering!!.box.contains(this.x, this.y, this.z)) {
