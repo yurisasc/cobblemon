@@ -17,9 +17,9 @@ import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockStructure
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
-import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
-import com.cobblemon.mod.common.block.fossilmachine.FossilAnalyzerBlock
-import com.cobblemon.mod.common.block.fossilmachine.MonitorBlock
+import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.FossilAnalyzerBlock
+import com.cobblemon.mod.common.block.MonitorBlock
 import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilState
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.PokeBallItem

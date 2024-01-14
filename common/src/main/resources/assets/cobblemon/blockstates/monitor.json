@@ -1,153 +1,153 @@
 {
   "variants": {
     "facing=south,progress=0": {
-      "model": "cobblemon:block/fossil/monitor"
+      "model": "cobblemon:block/monitor"
     },
     "facing=west,progress=0": {
-      "model": "cobblemon:block/fossil/monitor",
+      "model": "cobblemon:block/monitor",
       "y": 90
     },
     "facing=north,progress=0": {
-      "model": "cobblemon:block/fossil/monitor",
+      "model": "cobblemon:block/monitor",
       "y": 180
     },
     "facing=east,progress=0": {
-      "model": "cobblemon:block/fossil/monitor",
+      "model": "cobblemon:block/monitor",
       "y": 270
     },
     "facing=south,progress=1": {
-      "model": "cobblemon:block/fossil/monitor_scanning_0"
+      "model": "cobblemon:block/monitor_scanning_0"
     },
     "facing=west,progress=1": {
-      "model": "cobblemon:block/fossil/monitor_scanning_0",
+      "model": "cobblemon:block/monitor_scanning_0",
       "y": 90
     },
     "facing=north,progress=1": {
-      "model": "cobblemon:block/fossil/monitor_scanning_0",
+      "model": "cobblemon:block/monitor_scanning_0",
       "y": 180
     },
     "facing=east,progress=1": {
-      "model": "cobblemon:block/fossil/monitor_scanning_0",
+      "model": "cobblemon:block/monitor_scanning_0",
       "y": 270
     },
     "facing=south,progress=2": {
-      "model": "cobblemon:block/fossil/monitor_scanning_1"
+      "model": "cobblemon:block/monitor_scanning_1"
     },
     "facing=west,progress=2": {
-      "model": "cobblemon:block/fossil/monitor_scanning_1",
+      "model": "cobblemon:block/monitor_scanning_1",
       "y": 90
     },
     "facing=north,progress=2": {
-      "model": "cobblemon:block/fossil/monitor_scanning_1",
+      "model": "cobblemon:block/monitor_scanning_1",
       "y": 180
     },
     "facing=east,progress=2": {
-      "model": "cobblemon:block/fossil/monitor_scanning_1",
+      "model": "cobblemon:block/monitor_scanning_1",
       "y": 270
     },
     "facing=south,progress=3": {
-      "model": "cobblemon:block/fossil/monitor_scanning_2"
+      "model": "cobblemon:block/monitor_scanning_2"
     },
     "facing=west,progress=3": {
-      "model": "cobblemon:block/fossil/monitor_scanning_2",
+      "model": "cobblemon:block/monitor_scanning_2",
       "y": 90
     },
     "facing=north,progress=3": {
-      "model": "cobblemon:block/fossil/monitor_scanning_2",
+      "model": "cobblemon:block/monitor_scanning_2",
       "y": 180
     },
     "facing=east,progress=3": {
-      "model": "cobblemon:block/fossil/monitor_scanning_2",
+      "model": "cobblemon:block/monitor_scanning_2",
       "y": 270
     },
     "facing=south,progress=4": {
-      "model": "cobblemon:block/fossil/monitor_scanning_3"
+      "model": "cobblemon:block/monitor_scanning_3"
     },
     "facing=west,progress=4": {
-      "model": "cobblemon:block/fossil/monitor_scanning_3",
+      "model": "cobblemon:block/monitor_scanning_3",
       "y": 90
     },
     "facing=north,progress=4": {
-      "model": "cobblemon:block/fossil/monitor_scanning_3",
+      "model": "cobblemon:block/monitor_scanning_3",
       "y": 180
     },
     "facing=east,progress=4": {
-      "model": "cobblemon:block/fossil/monitor_scanning_3",
+      "model": "cobblemon:block/monitor_scanning_3",
       "y": 270
     },
     "facing=south,progress=5": {
-      "model": "cobblemon:block/fossil/monitor_scanning_4"
+      "model": "cobblemon:block/monitor_scanning_4"
     },
     "facing=west,progress=5": {
-      "model": "cobblemon:block/fossil/monitor_scanning_4",
+      "model": "cobblemon:block/monitor_scanning_4",
       "y": 90
     },
     "facing=north,progress=5": {
-      "model": "cobblemon:block/fossil/monitor_scanning_4",
+      "model": "cobblemon:block/monitor_scanning_4",
       "y": 180
     },
     "facing=east,progress=5": {
-      "model": "cobblemon:block/fossil/monitor_scanning_4",
+      "model": "cobblemon:block/monitor_scanning_4",
       "y": 270
     },
     "facing=south,progress=6": {
-      "model": "cobblemon:block/fossil/monitor_scanning_5"
+      "model": "cobblemon:block/monitor_scanning_5"
     },
     "facing=west,progress=6": {
-      "model": "cobblemon:block/fossil/monitor_scanning_5",
+      "model": "cobblemon:block/monitor_scanning_5",
       "y": 90
     },
     "facing=north,progress=6": {
-      "model": "cobblemon:block/fossil/monitor_scanning_5",
+      "model": "cobblemon:block/monitor_scanning_5",
       "y": 180
     },
     "facing=east,progress=6": {
-      "model": "cobblemon:block/fossil/monitor_scanning_5",
+      "model": "cobblemon:block/monitor_scanning_5",
       "y": 270
     },
     "facing=south,progress=7": {
-      "model": "cobblemon:block/fossil/monitor_scanning_6"
+      "model": "cobblemon:block/monitor_scanning_6"
     },
     "facing=west,progress=7": {
-      "model": "cobblemon:block/fossil/monitor_scanning_6",
+      "model": "cobblemon:block/monitor_scanning_6",
       "y": 90
     },
     "facing=north,progress=7": {
-      "model": "cobblemon:block/fossil/monitor_scanning_6",
+      "model": "cobblemon:block/monitor_scanning_6",
       "y": 180
     },
     "facing=east,progress=7": {
-      "model": "cobblemon:block/fossil/monitor_scanning_6",
+      "model": "cobblemon:block/monitor_scanning_6",
       "y": 270
     },
     "facing=south,progress=8": {
-      "model": "cobblemon:block/fossil/monitor_scanning_7"
+      "model": "cobblemon:block/monitor_scanning_7"
     },
     "facing=west,progress=8": {
-      "model": "cobblemon:block/fossil/monitor_scanning_7",
+      "model": "cobblemon:block/monitor_scanning_7",
       "y": 90
     },
     "facing=north,progress=8": {
-      "model": "cobblemon:block/fossil/monitor_scanning_7",
+      "model": "cobblemon:block/monitor_scanning_7",
       "y": 180
     },
     "facing=east,progress=8": {
-      "model": "cobblemon:block/fossil/monitor_scanning_7",
+      "model": "cobblemon:block/monitor_scanning_7",
       "y": 270
     },
     "facing=south,progress=9": {
-      "model": "cobblemon:block/fossil/monitor_scanning_8"
+      "model": "cobblemon:block/monitor_scanning_8"
     },
     "facing=west,progress=9": {
-      "model": "cobblemon:block/fossil/monitor_scanning_8",
+      "model": "cobblemon:block/monitor_scanning_8",
       "y": 90
     },
     "facing=north,progress=9": {
-      "model": "cobblemon:block/fossil/monitor_scanning_8",
+      "model": "cobblemon:block/monitor_scanning_8",
       "y": 180
     },
     "facing=east,progress=9": {
-      "model": "cobblemon:block/fossil/monitor_scanning_8",
+      "model": "cobblemon:block/monitor_scanning_8",
       "y": 270
     }
   }

@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.block.entity.fossil.FossilAnalyzerBlockEntity
+import com.cobblemon.mod.common.block.entity.FossilAnalyzerBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock

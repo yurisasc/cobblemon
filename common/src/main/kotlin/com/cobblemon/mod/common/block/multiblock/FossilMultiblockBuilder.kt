@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
-import com.cobblemon.mod.common.block.fossilmachine.RestorationTankBlock
+import com.cobblemon.mod.common.block.RestorationTankBlock
 import com.cobblemon.mod.common.api.multiblock.condition.BlockRelativeCondition
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.blockPositionsAsList

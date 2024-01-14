@@ -6,10 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.block.entity.fossil
+package com.cobblemon.mod.common.block.entity
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
-import com.cobblemon.mod.common.api.fossil.NaturalMaterials
+import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import net.minecraft.block.BlockState
@@ -19,13 +20,14 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 
-class RestorationTankBlockEntity(
+class FossilAnalyzerBlockEntity(
     pos: BlockPos, state: BlockState,
     multiblockBuilder: MultiblockStructureBuilder
-) : FossilMultiblockEntity(pos, state, multiblockBuilder, CobblemonBlockEntities.RESTORATION_TANK) {
-    val inv = RestorationTankInventory(this)
+): FossilMultiblockEntity(pos, state, multiblockBuilder, CobblemonBlockEntities.FOSSIL_ANALYZER) {
 
-    class RestorationTankInventory(val tankEntity: RestorationTankBlockEntity) : SidedInventory {
+    val inv = FossilAnalyzerInventory(this)
+
+    class FossilAnalyzerInventory(val analyzerEntity: FossilAnalyzerBlockEntity) : SidedInventory {
         override fun clear() {
             TODO("Not yet implemented")
         }
@@ -51,17 +53,17 @@ class RestorationTankBlockEntity(
         }
 
         override fun setStack(slot: Int, stack: ItemStack) {
-            if (tankEntity.multiblockStructure != null) {
-                val struct = tankEntity.multiblockStructure as FossilMultiblockStructure
-                tankEntity.world?.let {
-                    struct.insertOrganicMaterial(stack, it)
+            if (analyzerEntity.multiblockStructure != null) {
+                val struct = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+                analyzerEntity.world?.let {
+                    struct.insertFossil(stack, it)
                 }
             }
         }
 
         override fun markDirty() {
-            if (tankEntity.world != null) {
-                tankEntity.multiblockStructure?.markDirty(tankEntity.world!!)
+            if (analyzerEntity.world != null) {
+                analyzerEntity.multiblockStructure?.markDirty(analyzerEntity.world!!)
             }
         }
 
@@ -74,11 +76,12 @@ class RestorationTankBlockEntity(
         }
 
         override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
-            if (tankEntity.multiblockStructure is FossilMultiblockStructure) {
-                val structure = tankEntity.multiblockStructure as FossilMultiblockStructure
-                return stack?.let { NaturalMaterials.isNaturalMaterial(it) } == true
-                        && structure.organicMaterialInside < FossilMultiblockStructure.MATERIAL_TO_START
-                        && structure.createdPokemon == null
+            if (analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
+                val structure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+                return stack?.let { Fossils.isFossilIngredient(it) } == true
+                        && structure.fossilInventory.size < Cobblemon.config.maxInsertedFossilItems
+                        && structure.isRunning() == false && structure.resultingFossil == null
+                        && Fossils.getSubFossilByItemStacks( structure.fossilInventory + mutableListOf(stack) ) != null
             }
             return false
         }

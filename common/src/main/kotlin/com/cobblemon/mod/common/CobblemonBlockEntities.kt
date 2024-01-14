@@ -12,9 +12,9 @@ import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.block.entity.PCBlockEntity
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
-import com.cobblemon.mod.common.block.entity.fossil.FossilAnalyzerBlockEntity
-import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
-import com.cobblemon.mod.common.block.entity.fossil.RestorationTankBlockEntity
+import com.cobblemon.mod.common.block.entity.FossilAnalyzerBlockEntity
+import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.cobblemon.mod.common.block.entity.*
 import com.cobblemon.mod.common.platform.PlatformRegistry

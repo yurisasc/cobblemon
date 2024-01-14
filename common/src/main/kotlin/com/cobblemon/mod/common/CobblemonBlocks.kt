@@ -11,9 +11,9 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.block.*
 import com.cobblemon.mod.common.block.MintBlock.MintType
-import com.cobblemon.mod.common.block.fossilmachine.FossilAnalyzerBlock
-import com.cobblemon.mod.common.block.fossilmachine.MonitorBlock
-import com.cobblemon.mod.common.block.fossilmachine.RestorationTankBlock
+import com.cobblemon.mod.common.block.FossilAnalyzerBlock
+import com.cobblemon.mod.common.block.MonitorBlock
+import com.cobblemon.mod.common.block.RestorationTankBlock
 import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker
 import com.cobblemon.mod.common.mixin.invoker.StairsBlockInvoker
