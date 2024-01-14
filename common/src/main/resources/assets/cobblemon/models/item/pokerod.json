@@ -2,5 +2,13 @@
     "parent": "minecraft:item/generated",
     "textures": {
         "layer0": "cobblemon:item/fishing/pokerod"
-    }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "cast": 1
+            },
+            "model": "cobblemon:item/fishing/pokerod_cast"
+        }
+    ]
 }
