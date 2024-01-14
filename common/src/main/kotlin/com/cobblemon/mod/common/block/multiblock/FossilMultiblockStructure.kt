@@ -297,7 +297,7 @@ class FossilMultiblockStructure (
         val analyzerEntity = world.getBlockEntity(analyzerPos) as MultiblockEntity
         val tankBaseEntity = world.getBlockEntity(tankBasePos) as MultiblockEntity
         val tankTopEntity = world.getBlockEntity(tankBasePos.up()) as MultiblockEntity
-        val state = world.getBlockState(monitorEntity.pos)
+        val state = world.getBlockState(tankBaseEntity.pos)
         val direction = state.get(HorizontalFacingBlock.FACING).getOpposite()
         val wildPokemon: Pokemon? = this.createdPokemon
 
@@ -343,6 +343,9 @@ class FossilMultiblockStructure (
         if (protectionTime == 0) {
             protectionTime = -1
             this.fossilOwner = null
+            this.updateProgress(world)
+            this.syncToClient(world)
+            this.markDirty(world)
             world.playSound(null, tankBasePos, CobblemonSounds.FOSSIL_MACHINE_UNPROTECTED, SoundCategory.BLOCKS)
         }
 
@@ -385,14 +388,16 @@ class FossilMultiblockStructure (
     }
 
     override fun syncToClient(world: World) {
-        //TODO: I got a null pointer exception here once from these downcasts -Jazz
-        val tankBaseEntity = world.getBlockEntity(tankBasePos) as MultiblockEntity
-        val analyzerEntity = world.getBlockEntity(controllerBlockPos) as MultiblockEntity
-        val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
+        val tankBaseEntity = world.getBlockEntity(tankBasePos) as? MultiblockEntity
+        val analyzerEntity = world.getBlockEntity(controllerBlockPos) as? MultiblockEntity
+        val monitorEntity = world.getBlockEntity(monitorPos) as? MultiblockEntity
 
-        world.updateListeners(tankBasePos, tankBaseEntity.cachedState, tankBaseEntity.cachedState, Block.NOTIFY_LISTENERS)
-        world.updateListeners(analyzerPos, analyzerEntity.cachedState, analyzerEntity.cachedState, Block.NOTIFY_LISTENERS)
-        world.updateListeners(monitorPos, monitorEntity.cachedState, monitorEntity.cachedState, Block.NOTIFY_LISTENERS)
+        if(tankBaseEntity != null)
+            world.updateListeners(tankBasePos, tankBaseEntity.cachedState, tankBaseEntity.cachedState, Block.NOTIFY_LISTENERS)
+        if(analyzerEntity != null)
+            world.updateListeners(analyzerPos, analyzerEntity.cachedState, analyzerEntity.cachedState, Block.NOTIFY_LISTENERS)
+        if(monitorEntity != null)
+            world.updateListeners(monitorPos, monitorEntity.cachedState, monitorEntity.cachedState, Block.NOTIFY_LISTENERS)
     }
 
     override fun markDirty(world: World) {
@@ -444,7 +449,8 @@ class FossilMultiblockStructure (
     fun updateProgress(world: World) {
         val progress = if (timeRemaining <= 0) 0 else ((TIME_TO_TAKE - timeRemaining) / TIME_PER_STAGE) + 1
         val monitorState = world.getBlockState(monitorPos)
-        world.setBlockState(monitorPos, monitorState.with(MonitorBlock.PROGRESS, progress))
+        val locked = protectionTime > 0
+        world.setBlockState(monitorPos, monitorState.with(MonitorBlock.PROGRESS, progress).with(MonitorBlock.LOCKED, locked))
     }
 
     /**

@@ -18,6 +18,7 @@ import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -29,6 +30,7 @@ import net.minecraft.world.World
 class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
     init {
         defaultState = defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
+                .with(LOCKED, false)
     }
 
     override fun createMultiBlockEntity(
@@ -47,6 +49,7 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
         builder.add(PROGRESS)
+        builder.add(LOCKED)
     }
 
     @Deprecated("Deprecated in Java")
@@ -87,5 +90,6 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
             VoxelShapes.cuboid(0.1875, 0.375, 0.125, 0.8125, 0.875, 0.9375),
             VoxelShapes.cuboid(0.0625, 0.375, 0.0625, 0.1875, 0.875, 0.9375)
         )
+        val LOCKED = BooleanProperty.of("locked")
     }
 }
