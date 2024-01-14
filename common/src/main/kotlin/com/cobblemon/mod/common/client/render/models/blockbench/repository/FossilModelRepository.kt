@@ -21,7 +21,7 @@ import com.google.gson.JsonObject
 import net.minecraft.entity.Entity
 
 /**
- * Repository for models referenced by fossils, to render in the tube.
+ * Repository for models referenced by fossils, to render in the tank.
  */
 object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
     override val title = "Fossil Pokémon"

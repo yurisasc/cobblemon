@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"2": "cobblemon:block/fossil_tube",
-		"particle": "cobblemon:block/fossil_tube_particle"
+		"2": "cobblemon:block/restoration_tank",
+		"particle": "cobblemon:block/restoration_tank_particle"
 	},
 	"elements": [
 		{
@@ -166,13 +166,13 @@
     },
 	"groups": [
 		{
-			"name": "fossil_tube",
+			"name": "restoration_tank",
 			"origin": [0, 0, 0],
 			"color": 0,
 			"children": [0, 1, 2, 3, 4]
 		},
 		{
-			"name": "fossil_tube",
+			"name": "restoration_tank",
 			"origin": [0, 0, 0],
 			"color": 0,
 			"children": [5, 6, 7, 8, 9]
