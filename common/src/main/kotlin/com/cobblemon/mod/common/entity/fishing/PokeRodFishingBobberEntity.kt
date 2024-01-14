@@ -51,6 +51,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var state = State.FLYING
     private val luckOfTheSeaLevel = 0
     private val lureLevel = 0
+    private var typeCaught= "ITEM"
+    private var rarityCaught = "COMMON"
+    private val pokemonSpawnChance = 70 // chance a Pokemon will be fished up % out of 100
+    private val commonSpawnChance = 60  // chance a COMMON Pokemon will be fished up % out of 100
+    private val uncommonSpawnChance = 30  // chance an UNCOMMON Pokemon will be fished up % out of 100
 
     constructor(thrower: PlayerEntity, world: World, luckOfTheSeaLevel: Int, lureLevel: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         // Copy pasta a LOT
@@ -182,7 +187,37 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 val m = this.y + 0.5
                 serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
                 serverWorld.spawnParticles(ParticleTypes.FISHING, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
-                this.hookCountdown = MathHelper.nextInt(random, 20, 40)
+
+                // TODO find a way to make luck of the sea environment increase odds of getting better rarity rates
+                if (MathHelper.nextInt(random, 0, 100) < this.pokemonSpawnChance) {
+                    // todo do another chance check for rarity and then set typeCaught
+                    this.typeCaught = "POKEMON"
+                    if (MathHelper.nextInt(random, 0, 100) < this.commonSpawnChance) {
+                        // todo set common spawn
+                        this.hookCountdown = MathHelper.nextInt(random, 20, 40)
+                        this.rarityCaught = "COMMON"
+                    }
+                    else {
+                        if (MathHelper.nextInt(random, 0, 100 - this.commonSpawnChance) < this.uncommonSpawnChance) {
+                            // todo set uncommon spawn
+                            this.hookCountdown = MathHelper.nextInt(random, 20, 35)
+                            this.rarityCaught = "UNCOMMON"
+                        }
+                        else {
+                            // todo set rare spawn chance
+                            this.hookCountdown = MathHelper.nextInt(random, 20, 30)
+                            this.rarityCaught = "RARE"
+                        }
+                    }
+                }
+                else {
+                    // todo caught item
+                    this.typeCaught = "ITEM"
+                    this.hookCountdown = MathHelper.nextInt(random, 20, 40)
+
+                }
+
+                //this.hookCountdown = MathHelper.nextInt(random, 20, 40)
                 //getDataTracker().set(CAUGHT_FISH, true)
                 this.CAUGHT_FISH = true
             }
@@ -336,26 +371,36 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 world.sendEntityStatus(this, 31.toByte())
                 i = if (this.hookedEntity is ItemEntity) 3 else 5
             } else if (this.hookCountdown > 0) {
-                val lootContextParameterSet = LootContextParameterSet.Builder(world as ServerWorld).add(LootContextParameters.ORIGIN, pos).add(LootContextParameters.TOOL, usedItem).add(LootContextParameters.THIS_ENTITY, this).luck(this.luckOfTheSeaLevel.toFloat() + playerEntity.luck).build(LootContextTypes.FISHING)
-                val lootTable = world.server!!.lootManager.getLootTable(LootTables.FISHING_GAMEPLAY)
-                val list: List<ItemStack> = lootTable.generateLoot(lootContextParameterSet)
-                Criteria.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayerEntity?, usedItem, this, list)
-                val var7: Iterator<*> = list.iterator()
-                while (var7.hasNext()) {
-                    val itemStack = var7.next() as ItemStack
-                    val itemEntity = ItemEntity(world, this.x, this.y, this.z, itemStack)
-                    val d = playerEntity.getX() - this.x
-                    val e = playerEntity.getY() - this.y
-                    val f = playerEntity.getZ() - this.z
-                    val g = 0.1
-                    itemEntity.setVelocity(d * 0.1, e * 0.1 + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08, f * 0.1)
-                    world.spawnEntity(itemEntity)
-                    playerEntity.getWorld().spawnEntity(ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, random.nextInt(6) + 1))
-                    if (itemStack.isIn(ItemTags.FISHES)) {
-                        playerEntity.increaseStat(Stats.FISH_CAUGHT, 1)
+                // check if thing caught was an item
+                if (this.typeCaught == "ITEM") {
+                    val lootContextParameterSet = LootContextParameterSet.Builder(world as ServerWorld).add(LootContextParameters.ORIGIN, pos).add(LootContextParameters.TOOL, usedItem).add(LootContextParameters.THIS_ENTITY, this).luck(this.luckOfTheSeaLevel.toFloat() + playerEntity.luck).build(LootContextTypes.FISHING)
+                    val lootTable = world.server!!.lootManager.getLootTable(LootTables.FISHING_GAMEPLAY)
+                    val list: List<ItemStack> = lootTable.generateLoot(lootContextParameterSet)
+                    Criteria.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayerEntity?, usedItem, this, list)
+                    val var7: Iterator<*> = list.iterator()
+                    while (var7.hasNext()) {
+                        val itemStack = var7.next() as ItemStack
+                        val itemEntity = ItemEntity(world, this.x, this.y, this.z, itemStack)
+                        val d = playerEntity.getX() - this.x
+                        val e = playerEntity.getY() - this.y
+                        val f = playerEntity.getZ() - this.z
+                        val g = 0.1
+                        itemEntity.setVelocity(d * 0.1, e * 0.1 + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08, f * 0.1)
+                        world.spawnEntity(itemEntity)
+                        playerEntity.getWorld().spawnEntity(ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, random.nextInt(6) + 1))
+                        if (itemStack.isIn(ItemTags.FISHES)) {
+                            playerEntity.increaseStat(Stats.FISH_CAUGHT, 1)
+                        }
+                    }
+                    i = 1
+                }
+                else { // todo make logic for spawning Pokemon using rarity
+                    when (this.rarityCaught) {
+                        "COMMON" ->  return 0 // TODO SPAWN COMMON POKEMON
+                        "UNCOMMON" ->  return 1 // TODO SPAWN UNCOMMON POKEMON
+                        "RARE" ->  return 2 // TODO SPAWN RARE POKEMON
                     }
                 }
-                i = 1
             }
             if (this.isOnGround) {
                 i = 2
