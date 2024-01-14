@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.FossilAnalyzerBlock
 import com.cobblemon.mod.common.block.MonitorBlock
+import com.cobblemon.mod.common.block.RestorationTankBlock
 import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilState
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.PokeBallItem
@@ -433,8 +434,11 @@ class FossilMultiblockStructure (
     }
 
     fun updateOnStatus(world: World) {
-        val compartmentState = world.getBlockState(analyzerPos)
-        world.setBlockState(analyzerPos, compartmentState.with(FossilAnalyzerBlock.ON, timeRemaining >= 0))
+        val upperTankPos = tankBasePos.up()
+        val analyzerState = world.getBlockState(analyzerPos)
+        val tankState = world.getBlockState(tankBasePos.up())
+        world.setBlockState(analyzerPos, analyzerState.with(FossilAnalyzerBlock.ON, timeRemaining >= 0))
+        world.setBlockState(upperTankPos, tankState.with(RestorationTankBlock.ON, timeRemaining >= 0))
     }
 
     fun updateProgress(world: World) {

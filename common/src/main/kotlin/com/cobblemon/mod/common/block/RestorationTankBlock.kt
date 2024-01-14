@@ -22,6 +22,7 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.util.ActionResult
@@ -46,6 +47,7 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
             .with(HorizontalFacingBlock.FACING, Direction.NORTH)
             .with(PART, TankPart.BOTTOM)
             .with(TRIGGERED, false)
+            .with(ON, false)
     }
 
 
@@ -132,7 +134,7 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         builder.add(HorizontalFacingBlock.FACING)
         builder.add(PART)
         builder.add(TRIGGERED)
-
+        builder.add(ON)
     }
 
     @Deprecated("Deprecated in Java")
@@ -219,5 +221,6 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
     companion object {
         val PART = EnumProperty.of("part", TankPart::class.java)
         val TRIGGERED = Properties.TRIGGERED
+        val ON = BooleanProperty.of("on")
     }
 }
