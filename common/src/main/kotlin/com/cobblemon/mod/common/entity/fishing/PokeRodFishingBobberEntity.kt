@@ -2,20 +2,24 @@ package com.cobblemon.mod.common.entity.fishing
 
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonItems
-import com.mojang.logging.LogUtils
+import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.MovementType
-import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.entity.*
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.FishingBobberEntity
 import net.minecraft.entity.projectile.ProjectileUtil
+import net.minecraft.item.ItemStack
+import net.minecraft.loot.LootTables
+import net.minecraft.loot.context.LootContextParameterSet
+import net.minecraft.loot.context.LootContextParameters
+import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.tag.FluidTags
+import net.minecraft.registry.tag.ItemTags
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
+import net.minecraft.stat.Stats
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -28,9 +32,15 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private val caughtFish = false
     private var outOfOpenWaterTicks = 0
     private val field_30665 = 10
-    //private val HOOK_ENTITY_ID = DataTracker.registerData(FishingBobberEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
-    val HOOK_ENTITY_ID = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
-    private val CAUGHT_FISH = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+
+    // todo is this needed?
+    //val HOOK_ENTITY_ID = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+    //private val CAUGHT_FISH = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+
+    // todo if so replace these later
+    var HOOK_ENTITY_ID = 0
+    var CAUGHT_FISH = false
+
     private var removalTimer = 0
     private var hookCountdown = 0
     private var waitCountdown = 0
@@ -144,7 +154,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             if (this.hookCountdown <= 0) {
                 this.waitCountdown = 0
                 this.fishTravelCountdown = 0
-                getDataTracker().set(CAUGHT_FISH, false)
+                this.CAUGHT_FISH = false
+                //getDataTracker().set(CAUGHT_FISH, false)
             }
         } else if (this.fishTravelCountdown > 0) {
             this.fishTravelCountdown -= i
@@ -172,7 +183,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
                 serverWorld.spawnParticles(ParticleTypes.FISHING, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
                 this.hookCountdown = MathHelper.nextInt(random, 20, 40)
-                getDataTracker().set(CAUGHT_FISH, true)
+                //getDataTracker().set(CAUGHT_FISH, true)
+                this.CAUGHT_FISH = true
             }
         } else if (this.waitCountdown > 0) {
             this.waitCountdown -= i
@@ -224,7 +236,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     private fun updateHookedEntityId(entity: Entity?) {
         this.hookedEntity = entity
-        getDataTracker().set(HOOK_ENTITY_ID, if (entity == null) 0 else entity.id + 1)
+        //getDataTracker().set(HOOK_ENTITY_ID, if (entity == null) 0 else entity.id + 1)
+        this.HOOK_ENTITY_ID = if (entity == null) 0 else entity.id + 1
     }
 
     override fun tick() {
@@ -310,6 +323,47 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             val e = 0.92 // air friction??
             velocity = velocity.multiply(0.92)
             refreshPosition()
+        }
+    }
+
+    override fun use(usedItem: ItemStack): Int {
+        val playerEntity = this.playerOwner
+        return if (!world.isClient && playerEntity != null && !removeIfInvalid(playerEntity)) {
+            var i = 0
+            if (this.hookedEntity != null) {
+                pullHookedEntity(this.hookedEntity)
+                Criteria.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayerEntity?, usedItem, this, emptyList())
+                world.sendEntityStatus(this, 31.toByte())
+                i = if (this.hookedEntity is ItemEntity) 3 else 5
+            } else if (this.hookCountdown > 0) {
+                val lootContextParameterSet = LootContextParameterSet.Builder(world as ServerWorld).add(LootContextParameters.ORIGIN, pos).add(LootContextParameters.TOOL, usedItem).add(LootContextParameters.THIS_ENTITY, this).luck(this.luckOfTheSeaLevel.toFloat() + playerEntity.luck).build(LootContextTypes.FISHING)
+                val lootTable = world.server!!.lootManager.getLootTable(LootTables.FISHING_GAMEPLAY)
+                val list: List<ItemStack> = lootTable.generateLoot(lootContextParameterSet)
+                Criteria.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayerEntity?, usedItem, this, list)
+                val var7: Iterator<*> = list.iterator()
+                while (var7.hasNext()) {
+                    val itemStack = var7.next() as ItemStack
+                    val itemEntity = ItemEntity(world, this.x, this.y, this.z, itemStack)
+                    val d = playerEntity.getX() - this.x
+                    val e = playerEntity.getY() - this.y
+                    val f = playerEntity.getZ() - this.z
+                    val g = 0.1
+                    itemEntity.setVelocity(d * 0.1, e * 0.1 + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08, f * 0.1)
+                    world.spawnEntity(itemEntity)
+                    playerEntity.getWorld().spawnEntity(ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, random.nextInt(6) + 1))
+                    if (itemStack.isIn(ItemTags.FISHES)) {
+                        playerEntity.increaseStat(Stats.FISH_CAUGHT, 1)
+                    }
+                }
+                i = 1
+            }
+            if (this.isOnGround) {
+                i = 2
+            }
+            discard()
+            i
+        } else {
+            0
         }
     }
 
