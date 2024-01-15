@@ -91,12 +91,12 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
     }*/
 
     override fun getTexture(fishingBobberEntity: FishingBobberEntity): Identifier {
-        return PokeBobberEntityRenderer.Companion.TEXTURE
+        return TEXTURE
     }
 
     companion object {
         private val TEXTURE = Identifier("textures/item/fishing/pokeball_bobber.png")
-        private val LAYER = RenderLayer.getEntityCutout(PokeBobberEntityRenderer.Companion.TEXTURE)
+        private val LAYER = RenderLayer.getEntityCutout(TEXTURE)
         private const val field_33632 = 960.0
         private fun percentage(value: Int, max: Int): Float {
             return value.toFloat() / max.toFloat()

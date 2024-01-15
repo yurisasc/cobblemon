@@ -1,7 +1,30 @@
 package com.cobblemon.mod.common.entity.fishing
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.spawning.*
+import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnAction
+import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
+import com.cobblemon.mod.common.api.spawning.influence.PlayerLevelRangeInfluence
+import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
+import com.cobblemon.mod.common.api.spawning.rules.SpawnRule
+import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawner
+import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory
+import com.cobblemon.mod.common.api.spawning.spawner.Spawner
+import com.cobblemon.mod.common.api.spawning.spawner.SpawningArea
+import com.cobblemon.mod.common.api.text.green
+import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.battles.BattleBuilder
+import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimation.Companion.context
+import com.cobblemon.mod.common.command.SpawnPokemonFromPool
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
+import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.commandLang
+import com.cobblemon.mod.common.util.isServerSide
+import com.cobblemon.mod.common.util.party
+import com.mongodb.internal.connection.Server
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
 import net.minecraft.entity.*
@@ -25,6 +48,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
+import java.util.*
 
 class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity>, world: World) : FishingBobberEntity(type, world) {
 
@@ -54,8 +78,10 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var typeCaught= "ITEM"
     private var rarityCaught = "COMMON"
     private val pokemonSpawnChance = 70 // chance a Pokemon will be fished up % out of 100
-    private val commonSpawnChance = 60  // chance a COMMON Pokemon will be fished up % out of 100
-    private val uncommonSpawnChance = 30  // chance an UNCOMMON Pokemon will be fished up % out of 100
+    private val commonSpawnChance = Cobblemon.bestSpawner.config.buckets[0].weight.toDouble()  // chance a COMMON Pokemon will be fished up % out of 100
+    private val uncommonSpawnChance = Cobblemon.bestSpawner.config.buckets[1].weight.toDouble()  // chance an UNCOMMON Pokemon will be fished up % out of 100
+    private val rareSpawnChance = Cobblemon.bestSpawner.config.buckets[2].weight.toDouble() // chance an RARE Pokemon will be fished up % out of 100
+    // Ultra-Rare Spawn will be whatever is left out of 100
 
     constructor(thrower: PlayerEntity, world: World, luckOfTheSeaLevel: Int, lureLevel: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         // Copy pasta a LOT
@@ -192,21 +218,32 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 if (MathHelper.nextInt(random, 0, 100) < this.pokemonSpawnChance) {
                     // todo do another chance check for rarity and then set typeCaught
                     this.typeCaught = "POKEMON"
-                    if (MathHelper.nextInt(random, 0, 100) < this.commonSpawnChance) {
+                    if (MathHelper.nextDouble(random, 0.0, 100.0) < this.commonSpawnChance) {
                         // todo set common spawn
                         this.hookCountdown = MathHelper.nextInt(random, 20, 40)
                         this.rarityCaught = "COMMON"
+                        System.out.println("Player hooked a Common Pokemon");
                     }
                     else {
-                        if (MathHelper.nextInt(random, 0, 100 - this.commonSpawnChance) < this.uncommonSpawnChance) {
+                        if (MathHelper.nextDouble(random, 0.0, 100.0 - this.commonSpawnChance) < this.uncommonSpawnChance) {
                             // todo set uncommon spawn
                             this.hookCountdown = MathHelper.nextInt(random, 20, 35)
                             this.rarityCaught = "UNCOMMON"
+                            System.out.println("Player hooked a Uncommon Pokemon");
                         }
                         else {
-                            // todo set rare spawn chance
-                            this.hookCountdown = MathHelper.nextInt(random, 20, 30)
-                            this.rarityCaught = "RARE"
+                            if (MathHelper.nextDouble(random, 0.0, 100.0 - this.commonSpawnChance - this.uncommonSpawnChance) < this.rareSpawnChance) {
+                                // todo set rare spawn
+                                this.hookCountdown = MathHelper.nextInt(random, 20, 30)
+                                this.rarityCaught = "RARE"
+                                System.out.println("Player hooked a Rare Pokemon");
+                            }
+                            else {
+                                // todo set ultra-rare spawn chance
+                                this.hookCountdown = MathHelper.nextInt(random, 20, 25)
+                                this.rarityCaught = "ULTRA-RARE"
+                                System.out.println("Player hooked an Ultra-Rare Pokemon");
+                            }
                         }
                     }
                 }
@@ -396,9 +433,367 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 }
                 else { // todo make logic for spawning Pokemon using rarity
                     when (this.rarityCaught) {
-                        "COMMON" ->  return 0 // TODO SPAWN COMMON POKEMON
-                        "UNCOMMON" ->  return 1 // TODO SPAWN UNCOMMON POKEMON
-                        "RARE" ->  return 2 // TODO SPAWN RARE POKEMON
+                        "COMMON" -> {
+                            System.out.println("Player reeled in a Common Pokemon!")
+
+                            // TODO SPAWN COMMON POKEMON
+                            // todo find out what mon should spawn based off the biome the bobber is in
+                            //var pokemon = Pokemon()
+                            var hookedEntityID: Int? = null
+                            var hookedEntity: Entity? = null
+
+                            val bobberOwner = playerOwner as ServerPlayerEntity
+
+                            val spawner = CobblemonWorldSpawnerManager.spawnersForPlayers.getValue(bobberOwner.uuid)
+
+                            // stealing a ton of stuff from the SpawnFromPool Command
+
+                            //val spawnCause = SpawnCause(spawner = spawner, bucket = spawner.chooseBucket(), entity = spawner.getCauseEntity())
+                            val spawnCause = SpawnCause(spawner = spawner, bucket = Cobblemon.bestSpawner.config.buckets[0], entity = spawner.getCauseEntity())
+
+                            // try to set the area of the new Fishing Spawner equal to that of the PokeBobber area
+                            val area = SpawningArea(
+                                    cause = spawnCause,
+                                    world = bobberOwner.world as ServerWorld,
+                                    baseX = this.pos.x.toInt(),
+                                    baseY = this.pos.y.toInt(),
+                                    baseZ = this.pos.z.toInt(),
+                                    length = 2,
+                                    height = 3,
+                                    width = 2
+                            ) //spawner.getArea(spawnCause) ?: return 0 // todo this needs to be addressed later
+                            val slice = spawner.prospector.prospect(spawner, area)
+                            val contexts = spawner.resolver.resolve(spawner, spawner.contextCalculators, slice)
+
+                            // This has a chance to fail, if you get a "slice" that has no associated contexts.
+                            //   but as it was selected at random by the Prospector, it could just be a miss which
+                            //   means two attempts to spawn in the same location can have differing results (which is expected for
+                            //   randomness).
+                            if (contexts.isEmpty()) {
+                                bobberOwner.sendMessage("Unable to Spawn Pokemon".red())
+                            }
+
+                            val result = spawner.getSpawningSelector().select(spawner, contexts)
+                            if (result == null) {
+                                bobberOwner.sendMessage("Unable to Spawn Pokemon".red())
+                            }
+
+                            val spawnAction = result?.second?.doSpawn(ctx = result.first)
+
+                            if (spawnAction != null) {
+                                spawnAction.entity.subscribe {
+                                    bobberOwner.sendMessage(commandLang("spawnpokemonfrompool", it.displayName).green())
+                                    //pokemon.uuid = it.uuid
+                                    hookedEntityID = it.id
+                                }
+
+                                spawner.performSpawn(spawnAction)
+
+                                hookedEntity = world.getEntityById(hookedEntityID!!)
+
+                                val spawnedPokemon = spawnAction.entity
+                            }
+
+                            val serverWorld = world as ServerWorld
+
+                            val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
+                            val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
+                            val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
+                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 2 + random.nextInt(2), 0.1, 0.0, 0.1, 0.0)
+
+
+//                            // steal some stuff from PlayerSpawnFactory
+//                            var spawns: SpawnPool = CobblemonSpawnPools.WORLD_SPAWN_POOL
+//                            var influenceBuilders = mutableListOf<(bobberOwner: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5)})
+
+                            val bobberBiome = world.getBiome(this.blockPos) // biome of the bobber
+
+//                            CobblemonSpawnRules.rules
+//                            CobblemonSpawnPools.WORLD_SPAWN_POOL
+                            // CobblemonSpawnRules.rules.values.filter(SpawnRule::enabled).flatMap(SpawnRule::components)
+                            //spawnAction.entity.subscribe { it. }
+
+
+
+                            //val entity = PokemonEntity(world, pokemon = pokemon)
+//                            if (spawnAction != null) {
+//                                spawnAction.entity //.setPosition(this.pos)
+//                            } // set pokemon pos equal to the bobber pos
+
+//                            world.spawnEntity(entity) // spawn the entity
+
+                            // initiate battle with player
+                            //BattleBuilder.pve(bobberOwner, entity).ifErrored { it.sendTo(bobberOwner) { it.red() } }
+                        }
+
+                        "UNCOMMON" -> {
+                            System.out.println("Player reeled in an Uncommon Pokemon!")
+                            // TODO SPAWN UNCOMMON POKEMON
+                            var hookedEntityID: Int? = null
+                            var hookedEntity: Entity? = null
+
+                            val bobberOwner = playerOwner as ServerPlayerEntity
+
+                            val spawner = CobblemonWorldSpawnerManager.spawnersForPlayers.getValue(bobberOwner.uuid)
+
+                            // stealing a ton of stuff from the SpawnFromPool Command
+
+                            //val spawnCause = SpawnCause(spawner = spawner, bucket = spawner.chooseBucket(), entity = spawner.getCauseEntity())
+                            val spawnCause = SpawnCause(spawner = spawner, bucket = Cobblemon.bestSpawner.config.buckets[1], entity = spawner.getCauseEntity())
+
+                            // try to set the area of the new Fishing Spawner equal to that of the PokeBobber area
+                            val area = SpawningArea(
+                                    cause = spawnCause,
+                                    world = bobberOwner.world as ServerWorld,
+                                    baseX = this.pos.x.toInt(),
+                                    baseY = this.pos.y.toInt(),
+                                    baseZ = this.pos.z.toInt(),
+                                    length = 2,
+                                    height = 3,
+                                    width = 2
+                            ) //spawner.getArea(spawnCause) ?: return 0 // todo this needs to be addressed later
+                            val slice = spawner.prospector.prospect(spawner, area)
+                            val contexts = spawner.resolver.resolve(spawner, spawner.contextCalculators, slice)
+
+                            // This has a chance to fail, if you get a "slice" that has no associated contexts.
+                            //   but as it was selected at random by the Prospector, it could just be a miss which
+                            //   means two attempts to spawn in the same location can have differing results (which is expected for
+                            //   randomness).
+                            if (contexts.isEmpty()) {
+                                bobberOwner.sendMessage("Unable to Spawn Pokemon".red())
+                            }
+
+                            val result = spawner.getSpawningSelector().select(spawner, contexts)
+                            if (result == null) {
+                                bobberOwner.sendMessage("Unable to Spawn Pokemon".red())
+                            }
+
+                            val spawnAction = result?.second?.doSpawn(ctx = result.first)
+
+                            if (spawnAction != null) {
+                                spawnAction.entity.subscribe {
+                                    bobberOwner.sendMessage(commandLang("spawnpokemonfrompool", it.displayName).green())
+                                    //pokemon.uuid = it.uuid
+                                    hookedEntityID = it.id
+                                }
+
+                                spawner.performSpawn(spawnAction)
+
+                                hookedEntity = world.getEntityById(hookedEntityID!!)
+
+                                val spawnedPokemon = spawnAction.entity
+                            }
+
+                            val serverWorld = world as ServerWorld
+
+                            val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
+                            val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
+                            val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
+                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 4 + random.nextInt(4), 0.1, 0.0, 0.1, 0.0)
+
+
+//                            // steal some stuff from PlayerSpawnFactory
+//                            var spawns: SpawnPool = CobblemonSpawnPools.WORLD_SPAWN_POOL
+//                            var influenceBuilders = mutableListOf<(bobberOwner: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5)})
+
+                            val bobberBiome = world.getBiome(this.blockPos) // biome of the bobber
+
+//                            CobblemonSpawnRules.rules
+//                            CobblemonSpawnPools.WORLD_SPAWN_POOL
+                            // CobblemonSpawnRules.rules.values.filter(SpawnRule::enabled).flatMap(SpawnRule::components)
+                            //spawnAction.entity.subscribe { it. }
+
+
+
+                            //val entity = PokemonEntity(world, pokemon = pokemon)
+//                            if (spawnAction != null) {
+//                                spawnAction.entity //.setPosition(this.pos)
+//                            } // set pokemon pos equal to the bobber pos
+
+//                            world.spawnEntity(entity) // spawn the entity
+
+                            // initiate battle with player
+                            //BattleBuilder.pve(bobberOwner, entity).ifErrored { it.sendTo(bobberOwner) { it.red() } }
+                        }
+
+                        "RARE" ->  {
+                            System.out.println("Player reeled in a Rare Pokemon!")
+                            // TODO SPAWN RARE POKEMON
+                            var hookedEntityID: Int? = null
+                            var hookedEntity: Entity? = null
+
+                            val bobberOwner = playerOwner as ServerPlayerEntity
+
+                            val spawner = CobblemonWorldSpawnerManager.spawnersForPlayers.getValue(bobberOwner.uuid)
+
+                            // stealing a ton of stuff from the SpawnFromPool Command
+
+                            //val spawnCause = SpawnCause(spawner = spawner, bucket = spawner.chooseBucket(), entity = spawner.getCauseEntity())
+                            val spawnCause = SpawnCause(spawner = spawner, bucket = Cobblemon.bestSpawner.config.buckets[2], entity = spawner.getCauseEntity())
+
+                            // try to set the area of the new Fishing Spawner equal to that of the PokeBobber area
+                            val area = SpawningArea(
+                                    cause = spawnCause,
+                                    world = bobberOwner.world as ServerWorld,
+                                    baseX = this.pos.x.toInt(),
+                                    baseY = this.pos.y.toInt(),
+                                    baseZ = this.pos.z.toInt(),
+                                    length = 2,
+                                    height = 3,
+                                    width = 2
+                            ) //spawner.getArea(spawnCause) ?: return 0 // todo this needs to be addressed later
+                            val slice = spawner.prospector.prospect(spawner, area)
+                            val contexts = spawner.resolver.resolve(spawner, spawner.contextCalculators, slice)
+
+                            // This has a chance to fail, if you get a "slice" that has no associated contexts.
+                            //   but as it was selected at random by the Prospector, it could just be a miss which
+                            //   means two attempts to spawn in the same location can have differing results (which is expected for
+                            //   randomness).
+                            if (contexts.isEmpty()) {
+                                bobberOwner.sendMessage("Unable to Spawn Pokemon".red())
+                            }
+
+                            val result = spawner.getSpawningSelector().select(spawner, contexts)
+                            if (result == null) {
+                                bobberOwner.sendMessage("Unable to Spawn Pokemon".red())
+                            }
+
+                            val spawnAction = result?.second?.doSpawn(ctx = result.first)
+
+                            if (spawnAction != null) {
+                                spawnAction.entity.subscribe {
+                                    bobberOwner.sendMessage(commandLang("spawnpokemonfrompool", it.displayName).green())
+                                    //pokemon.uuid = it.uuid
+                                    hookedEntityID = it.id
+                                }
+
+                                spawner.performSpawn(spawnAction)
+
+                                hookedEntity = world.getEntityById(hookedEntityID!!)
+
+                                val spawnedPokemon = spawnAction.entity
+                            }
+
+                            val serverWorld = world as ServerWorld
+
+                            val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
+                            val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
+                            val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
+                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 6 + random.nextInt(6), 0.1, 0.0, 0.1, 0.0)
+
+
+//                            // steal some stuff from PlayerSpawnFactory
+//                            var spawns: SpawnPool = CobblemonSpawnPools.WORLD_SPAWN_POOL
+//                            var influenceBuilders = mutableListOf<(bobberOwner: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5)})
+
+                            val bobberBiome = world.getBiome(this.blockPos) // biome of the bobber
+
+//                            CobblemonSpawnRules.rules
+//                            CobblemonSpawnPools.WORLD_SPAWN_POOL
+                            // CobblemonSpawnRules.rules.values.filter(SpawnRule::enabled).flatMap(SpawnRule::components)
+                            //spawnAction.entity.subscribe { it. }
+
+
+
+                            //val entity = PokemonEntity(world, pokemon = pokemon)
+//                            if (spawnAction != null) {
+//                                spawnAction.entity //.setPosition(this.pos)
+//                            } // set pokemon pos equal to the bobber pos
+
+//                            world.spawnEntity(entity) // spawn the entity
+
+                            // initiate battle with player
+                            //BattleBuilder.pve(bobberOwner, entity).ifErrored { it.sendTo(bobberOwner) { it.red() } }
+                        }
+                        "ULTRA-RARE" ->  {
+                            System.out.println("Player reeled in a Rare Pokemon!")
+                            // TODO SPAWN RARE POKEMON
+                            var hookedEntityID: Int? = null
+                            var hookedEntity: Entity? = null
+
+                            val bobberOwner = playerOwner as ServerPlayerEntity
+
+                            val spawner = CobblemonWorldSpawnerManager.spawnersForPlayers.getValue(bobberOwner.uuid)
+
+                            // stealing a ton of stuff from the SpawnFromPool Command
+
+                            //val spawnCause = SpawnCause(spawner = spawner, bucket = spawner.chooseBucket(), entity = spawner.getCauseEntity())
+                            val spawnCause = SpawnCause(spawner = spawner, bucket = Cobblemon.bestSpawner.config.buckets[3], entity = spawner.getCauseEntity())
+
+                            // try to set the area of the new Fishing Spawner equal to that of the PokeBobber area
+                            val area = SpawningArea(
+                                    cause = spawnCause,
+                                    world = bobberOwner.world as ServerWorld,
+                                    baseX = this.pos.x.toInt(),
+                                    baseY = this.pos.y.toInt(),
+                                    baseZ = this.pos.z.toInt(),
+                                    length = 2,
+                                    height = 3,
+                                    width = 2
+                            ) //spawner.getArea(spawnCause) ?: return 0 // todo this needs to be addressed later
+                            val slice = spawner.prospector.prospect(spawner, area)
+                            val contexts = spawner.resolver.resolve(spawner, spawner.contextCalculators, slice)
+
+                            // This has a chance to fail, if you get a "slice" that has no associated contexts.
+                            //   but as it was selected at random by the Prospector, it could just be a miss which
+                            //   means two attempts to spawn in the same location can have differing results (which is expected for
+                            //   randomness).
+                            if (contexts.isEmpty()) {
+                                bobberOwner.sendMessage("Unable to Spawn Pokemon".red())
+                            }
+
+                            val result = spawner.getSpawningSelector().select(spawner, contexts)
+                            if (result == null) {
+                                bobberOwner.sendMessage("Unable to Spawn Pokemon".red())
+                            }
+
+                            val spawnAction = result?.second?.doSpawn(ctx = result.first)
+
+                            if (spawnAction != null) {
+                                spawnAction.entity.subscribe {
+                                    bobberOwner.sendMessage(commandLang("spawnpokemonfrompool", it.displayName).green())
+                                    //pokemon.uuid = it.uuid
+                                    hookedEntityID = it.id
+                                }
+
+                                spawner.performSpawn(spawnAction)
+
+                                hookedEntity = world.getEntityById(hookedEntityID!!)
+
+                                val spawnedPokemon = spawnAction.entity
+                            }
+
+                            val serverWorld = world as ServerWorld
+
+                            val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
+                            val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
+                            val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
+                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 8 + random.nextInt(8), 0.1, 0.0, 0.1, 0.0)
+
+
+//                            // steal some stuff from PlayerSpawnFactory
+//                            var spawns: SpawnPool = CobblemonSpawnPools.WORLD_SPAWN_POOL
+//                            var influenceBuilders = mutableListOf<(bobberOwner: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5)})
+
+                            val bobberBiome = world.getBiome(this.blockPos) // biome of the bobber
+
+//                            CobblemonSpawnRules.rules
+//                            CobblemonSpawnPools.WORLD_SPAWN_POOL
+                            // CobblemonSpawnRules.rules.values.filter(SpawnRule::enabled).flatMap(SpawnRule::components)
+                            //spawnAction.entity.subscribe { it. }
+
+
+
+                            //val entity = PokemonEntity(world, pokemon = pokemon)
+//                            if (spawnAction != null) {
+//                                spawnAction.entity //.setPosition(this.pos)
+//                            } // set pokemon pos equal to the bobber pos
+
+//                            world.spawnEntity(entity) // spawn the entity
+
+                            // initiate battle with player
+                            //BattleBuilder.pve(bobberOwner, entity).ifErrored { it.sendTo(bobberOwner) { it.red() } }
+                        }
                     }
                 }
             }
