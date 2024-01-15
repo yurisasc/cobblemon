@@ -56,7 +56,9 @@ import kotlin.math.ceil
 class FossilMultiblockStructure (
     val monitorPos: BlockPos,
     val analyzerPos: BlockPos,
-    val tankBasePos: BlockPos
+    val tankBasePos: BlockPos,
+        animAge: Int = -1,
+        animPartialTicks: Float = 0F
 ) : MultiblockStructure {
 
     override val controllerBlockPos = analyzerPos
@@ -76,7 +78,7 @@ class FossilMultiblockStructure (
     private var machineStartTime: Long = 0
     private var protectionTime: Int = -1
     private var fossilOwner: PlayerEntity? = null
-    val fossilState = FossilState()
+    val fossilState = FossilState(animAge, animPartialTicks)
     var fossilInventory: MutableList<ItemStack> = mutableListOf<ItemStack>()
     var tankConnectorDirection: Direction? = null
 
@@ -566,12 +568,12 @@ class FossilMultiblockStructure (
         const val TIME_PER_STAGE = TIME_TO_TAKE / 8
         const val PROTECTION_TIME = 6000
 
-        fun fromNbt(nbt: NbtCompound): FossilMultiblockStructure {
+        fun fromNbt(nbt: NbtCompound, animAge: Int = -1, partialTicks: Float = 0f): FossilMultiblockStructure {
             val monitorPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.MONITOR_POS))
             val compartmentPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.ANALYZER_POS))
             val tankBasePos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.TANK_BASE_POS))
 
-            val result = FossilMultiblockStructure(monitorPos, compartmentPos, tankBasePos)
+            val result = FossilMultiblockStructure(monitorPos, compartmentPos, tankBasePos, animAge, partialTicks)
             result.organicMaterialInside = nbt.getInt(DataKeys.ORGANIC_MATERIAL)
             result.timeRemaining = nbt.getInt(DataKeys.TIME_LEFT)
 

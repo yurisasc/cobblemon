@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.fossil
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import net.minecraft.entity.Entity
+import kotlin.math.floor
 
 /**
  * Floating state for a fossil Pokémon in the resurrection machine.
@@ -18,17 +19,22 @@ import net.minecraft.entity.Entity
  * @author Hiroku
  * @since October 30th, 2023
  */
-class FossilState : PoseableEntityState<Entity>() {
+class FossilState(startAge: Int = -1, startPartialTicks: Float = 0F) : PoseableEntityState<Entity>() {
     var totalPartialTicks = 0F
-//    val fetusAnimPhaseOffect = 200F * Math.random()
+    init {
+        // generate phase offset if new
+        age = if (startAge >= 0) startAge else (200F * Math.random()).toInt()
+        currentPartialTicks = if(startAge > 0f) startPartialTicks else 0F
+    }
     override fun getEntity() = null
+
+    fun peekAge() : Int { // Need to find a way to do this with getAge that's not protected
+        return this.age
+    }
 
     // for dictating growth state of the Fossil Embryo
     var growthState = "Embryo"
     override fun updatePartialTicks(partialTicks: Float) {
-//        if(fetusAnimPhaseOffect > currentPartialTicks) {
-//            currentPartialTicks = fetusAnimPhaseOffect.toFloat();
-//        }
         currentPartialTicks += partialTicks / 2
         totalPartialTicks += partialTicks / 2
     }
