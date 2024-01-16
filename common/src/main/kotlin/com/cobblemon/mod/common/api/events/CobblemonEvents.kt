@@ -30,6 +30,7 @@ import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEv
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionDisplayEvent
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
+import com.cobblemon.mod.common.api.events.riding.RegisterRidingControllerAdapterEvent
 import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.events.storage.ReleasePokemonEvent
 import com.cobblemon.mod.common.api.events.world.BigRootPropagatedEvent
@@ -141,4 +142,12 @@ object CobblemonEvents {
     val LEFTOVERS_CREATED = CancelableObservable<LeftoversCreatedEvent>()
     @JvmField
     val BIG_ROOT_PROPAGATED = CancelableObservable<BigRootPropagatedEvent>()
+
+    // -------------------------------------------------------------------------------------
+    //
+    // Riding
+    //
+    // -------------------------------------------------------------------------------------
+    @JvmField
+    val REGISTER_RIDING_CONTROLLER_ADAPTER = EventObservable<RegisterRidingControllerAdapterEvent>()
 }

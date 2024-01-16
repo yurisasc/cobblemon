@@ -6,13 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.riding.attributes
+package com.cobblemon.mod.common.util
 
-import com.cobblemon.mod.common.util.cobblemonResource
+import com.google.gson.JsonElement
 import net.minecraft.util.Identifier
 
-data class AccelerationAttribute(val value: Float) : RidingAttribute {
+val JsonElement.asIdentifier : Identifier
+    get() = Identifier(this.asString)
 
-    override val identifier: Identifier = cobblemonResource("acceleration")
-
-}
+val JsonElement.asCobblemonIdentifier: Identifier
+    get() = cobblemonResource(this.asString)

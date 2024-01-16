@@ -19,11 +19,9 @@ import net.minecraft.entity.JumpingMount
 interface Rideable : JumpingMount {
 
     /**
-     * A set of properties denoting how a rideable entity is meant to behave under certain conditions
-     *
-     * @since 1.5.0
+     * Denotes the manager responsible for handling any instance of riding taking place on an entity
      */
-    val properties: RidingProperties
+    val riding: RidingManager
 
     /**
      * Specifies a list of stateful seats which are capable of tracking an occupant.

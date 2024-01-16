@@ -6,44 +6,45 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.util.adapters
+package com.cobblemon.mod.common.util.adapters.riding
 
 import com.cobblemon.mod.common.api.riding.RidingProperties
+import com.cobblemon.mod.common.api.riding.capability.RidingCapability
+import com.cobblemon.mod.common.api.riding.controller.RideControllerPropertyDeserializer
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 import com.cobblemon.mod.common.pokemon.riding.CobblemonRidingProperties
-import com.google.gson.JsonArray
+import com.cobblemon.mod.common.pokemon.riding.RidingModule
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
-object RidingPropertiesAdapter : JsonDeserializer<RidingProperties>, JsonSerializer<RidingProperties> {
+object RidingPropertiesAdapter : JsonDeserializer<RidingProperties> {
+
+    init {
+        RidingModule.configure()
+    }
 
     override fun deserialize(element: JsonElement, type: Type, context: JsonDeserializationContext): RidingProperties {
         val root = element.asJsonObject
         val seats = root.getAsJsonArray("seats")
+        val capabilities = root.getAsJsonObject("capabilities")
+            .asMap()
+            .map {
+                val key = cobblemonResource(it.key)
+                val data: JsonElement = it.value
+
+                val properties = RideControllerPropertyDeserializer.deserialize(key, data)
+                RidingCapability.create(key, properties)
+            }
+
 
         return CobblemonRidingProperties(
             seats.map { context.deserialize(it, SeatProperties::class.java) },
-            listOf()
+            emptyList(),
+            capabilities
         )
-    }
-
-    override fun serialize(properties: RidingProperties, type: Type, context: JsonSerializationContext): JsonElement {
-        val content = JsonObject()
-        content.add("seats", writeArray(properties.seats().map { context.serialize(it) }))
-
-        return content
-    }
-
-    private fun writeArray(elements: List<JsonElement>): JsonArray {
-        val array = JsonArray()
-        elements.forEach { array.add(it) }
-
-        return array
     }
 
 }

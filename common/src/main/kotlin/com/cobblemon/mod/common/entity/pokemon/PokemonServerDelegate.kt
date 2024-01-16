@@ -156,7 +156,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
                 entity.isMoving.set(false)
             }
 
-            entity.updatePoseType()
+            updatePoseType()
         }
     }
 
@@ -193,4 +193,26 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.remove(Entity.RemovalReason.KILLED)
         }
     }
+
+    private fun updatePoseType() {
+        val isSleeping = entity.pokemon.status?.status == Statuses.SLEEP && entity.behaviour.resting.canSleep
+        val isMoving = entity.isMoving.get()
+        val isUnderwater = entity.getIsSubmerged()
+        val isFlying = entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
+
+        val poseType = when {
+            isSleeping -> PoseType.SLEEP
+            isMoving && isUnderwater  -> PoseType.SWIM
+            isUnderwater -> PoseType.FLOAT
+            isMoving && isFlying -> PoseType.FLY
+            isFlying -> PoseType.HOVER
+            isMoving -> PoseType.WALK
+            else -> PoseType.STAND
+        }
+
+        if (poseType != entity.poseType.get()) {
+            entity.poseType.set(poseType)
+        }
+    }
+
 }

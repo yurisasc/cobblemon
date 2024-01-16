@@ -103,7 +103,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var forms = mutableListOf<FormData>()
         private set
 
-    var riding: RidingProperties = CobblemonRidingProperties.simple()
+    var riding: RidingProperties = CobblemonRidingProperties.unsupported()
         private set
 
     val standardForm by lazy { FormData(_evolutions = this.evolutions).initialize(this) }

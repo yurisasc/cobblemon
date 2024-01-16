@@ -11,8 +11,11 @@ package com.cobblemon.mod.common.api.riding.seats
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatDTO
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.MinecraftServer
 
 /**
  * Represents a particular seat that is available to a pokemon capable of being ridden. The two main properties

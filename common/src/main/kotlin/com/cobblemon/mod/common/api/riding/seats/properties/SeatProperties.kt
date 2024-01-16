@@ -11,6 +11,10 @@ package com.cobblemon.mod.common.api.riding.seats.properties
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.seats.Seat
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.codec.VECTOR3F_CODEC
+import com.cobblemon.mod.common.util.toVec3d
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Vec3d
 

@@ -35,7 +35,6 @@ import com.cobblemon.mod.common.api.riding.RidingProperties
 import com.cobblemon.mod.common.api.spawning.TimeRange
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.adapters.ElementalTypeAdapter
-import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
@@ -43,9 +42,9 @@ import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonPreEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonRequirementAdapter
-import com.cobblemon.mod.common.pokemon.helditem.CobblemonEmptyHeldItemManager
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.adapters.*
+import com.cobblemon.mod.common.util.adapters.riding.RidingPropertiesAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.common.collect.HashBasedTable
 import com.google.gson.Gson

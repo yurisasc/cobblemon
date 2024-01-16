@@ -196,13 +196,11 @@
   "riding": {
     "capabilities": {
       "land": {
-        "speed": 2,
-        "acceleration": 3,
-        "weight": 3
-      },
-      "water": {
-        "trait": "boat",
-        "speed": 1
+        "controller": "cobblemon:land_generic",
+        "properties": {
+          "speed": 0.4,
+          "acceleration": 0.2
+        }
       }
     },
     "seats": [

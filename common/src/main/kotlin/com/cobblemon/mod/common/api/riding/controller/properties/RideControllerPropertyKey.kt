@@ -6,12 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.riding.attributes
+package com.cobblemon.mod.common.api.riding.controller.properties
 
 import net.minecraft.util.Identifier
 
-interface RidingAttribute {
+data class RideControllerPropertyKey<T : Any>(
+    val identifier: Identifier,
+    val transformer: ((T) -> T)? = null
+) {
 
-    val identifier: Identifier
+    fun transform(input: T) : T {
+        return this.transformer?.invoke(input) ?: input
+    }
 
 }

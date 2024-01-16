@@ -6,13 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.riding.attributes
+package com.cobblemon.mod.common.api.riding.context.state
 
-import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.util.Identifier
 
-data class SpeedAttribute(val value: Float) : RidingAttribute {
-
-    override val identifier: Identifier = cobblemonResource("speed")
-
-}
+data class RidingStateKey<T : Any>(val key: Identifier)

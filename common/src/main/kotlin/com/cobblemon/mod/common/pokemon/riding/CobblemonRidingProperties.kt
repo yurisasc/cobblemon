@@ -12,41 +12,32 @@ import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
 import com.cobblemon.mod.common.api.riding.RidingProperties
-import com.cobblemon.mod.common.api.riding.capabilities.RidingCapability
+import com.cobblemon.mod.common.api.riding.capability.RidingCapability
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 import com.google.gson.annotations.SerializedName
 import net.minecraft.network.PacketByteBuf
 
 data class CobblemonRidingProperties(
     @SerializedName("seats")
-    private val _seats: List<SeatProperties>? = null,
+    override val seats: List<SeatProperties>,
 
     @SerializedName("conditions")
-    private val _conditions: List<RidingCondition>? = null,
+    override val conditions: List<RidingCondition>,
+
+    @SerializedName("capabilities")
+    override val capabilities: List<RidingCapability>
 ): RidingProperties, Encodable, Decodable {
 
     companion object {
-        fun simple() : CobblemonRidingProperties = CobblemonRidingProperties()
+        fun unsupported() : CobblemonRidingProperties = CobblemonRidingProperties(emptyList(), emptyList(), emptyList())
     }
 
     override fun supported(): Boolean {
-        return this._seats?.isNotEmpty() ?: false
-    }
-
-    override fun seats(): List<SeatProperties> {
-        return this._seats ?: listOf()
-    }
-
-    override fun conditions(): List<RidingCondition> {
-        return this._conditions ?: listOf()
-    }
-
-    override fun capabilities(): List<RidingCapability> {
-        TODO("Not yet implemented")
+        return this.seats.isNotEmpty()
     }
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeNullable(this._seats) { _, seats -> buffer.writeCollection(seats) { _, seat -> seat.encode(buffer) } }
+        buffer.writeNullable(this.seats) { _, seats -> buffer.writeCollection(seats) { _, seat -> seat.encode(buffer) } }
     }
 
     override fun decode(buffer: PacketByteBuf) {

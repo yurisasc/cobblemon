@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.entity
 
-import java.util.EnumSet
+import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.util.Identifier
+import java.util.*
 
 /**
  * The type of a pose. Used for normalizing pose swapping for all models.
@@ -44,5 +46,11 @@ enum class PoseType {
         val UI_POSES = EnumSet.of(PROFILE, PORTRAIT)
         val MOVING_POSES = EnumSet.of(WALK, SWIM, FLY)
         val STATIONARY_POSES = EnumSet.of(STAND, FLOAT, HOVER)
+
+        fun identified() : List<Identifier> {
+            return ALL_POSES.stream()
+                .map { cobblemonResource(it.name.lowercase(Locale.getDefault())) }
+                .toList()
+        }
     }
 }

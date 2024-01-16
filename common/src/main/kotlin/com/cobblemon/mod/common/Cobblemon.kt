@@ -323,8 +323,6 @@ object Cobblemon {
                 BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
             ).apply { mute = true }
         }
-
-        throw RuntimeException()
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {

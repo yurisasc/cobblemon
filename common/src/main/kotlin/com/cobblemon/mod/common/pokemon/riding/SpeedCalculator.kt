@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.pokemon.riding
 
-import net.minecraft.util.math.Vec3d
 import kotlin.math.min
 
 /**
@@ -40,7 +39,7 @@ object SpeedCalculator {
     private const val min = 0.2F
     private const val max = 2.2F
 
-    fun calculate(tick: Int, input: Vec3d, speed: Float, acceleration: Float, weight: Float): Float {
+    fun calculate(tick: Int, speed: Float, acceleration: Float, weight: Float): Float {
         val time = min(tick, 100)
         val s = ((this.max.coerceAtMost(this.min.coerceAtLeast((this.max - this.min) / 4 * speed - 0.3F))))
         val a = (((1 - (weight / 500)) * 4) + 1) * (acceleration.coerceIn(1.0F, 5.0F) / 5)

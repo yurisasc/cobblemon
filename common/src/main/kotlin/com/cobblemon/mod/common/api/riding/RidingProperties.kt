@@ -8,18 +8,18 @@
 
 package com.cobblemon.mod.common.api.riding
 
-import com.cobblemon.mod.common.api.riding.capabilities.RidingCapability
+import com.cobblemon.mod.common.api.riding.capability.RidingCapability
 import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 
 interface RidingProperties {
 
+    val seats: List<SeatProperties>
+
+    val conditions: List<RidingCondition>
+
+    val capabilities: List<RidingCapability>
+
     fun supported(): Boolean
-
-    fun seats(): List<SeatProperties>
-
-    fun conditions(): List<RidingCondition>
-
-    fun capabilities(): List<RidingCapability>
 
 }

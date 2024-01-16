@@ -6,14 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.riding.properties
+package com.cobblemon.mod.common.api.reference
 
-enum class MountLocation {
-
-    IN_WATER,
-    UNDER_WATER,
-    UNDER_FLOWING_WATER,
-    ON_LAND,
-    IN_AIR
-
-}
+data class Reference<T : Any>(val reference: T)
